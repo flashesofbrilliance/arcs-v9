@@ -74,6 +74,13 @@
   @media(max-width:560px){.pv .kv{grid-template-columns:1fr;gap:2px 0;}}
   .pv .kv .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);padding-top:2px;}
   .pv .kv .v{font-size:12.5px;line-height:1.55;color:var(--fg2);} .pv .kv .v b{color:var(--fg1);}
+  /* advancement gate: the eval a stage must pass before the next one runs (ADR-068 print schedule) */
+  .pv .gate{display:flex;gap:11px;align-items:flex-start;margin-top:16px;padding:11px 13px;
+    border:1px solid var(--border2);border-left:2px solid var(--green);border-radius:0 9px 9px 0;
+    background:linear-gradient(100deg,rgba(0,255,157,.055),transparent 70%);}
+  .pv .gate .gk{flex:none;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.11em;color:var(--green);padding-top:2px;white-space:nowrap;}
+  .pv .gate .gv{font-size:11.5px;line-height:1.5;color:var(--fg2);} .pv .gate .gv b{color:var(--fg1);font-weight:600;}
+  @media(max-width:560px){.pv .gate{flex-direction:column;gap:5px;}}
 
   /* evidence table */
   .grade-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 14px;}
@@ -128,7 +135,7 @@
       <span class="chip">every claim graded</span>
       <span class="chip"><b>4</b> claims cut</span>
       <span class="chip">built with <a href="https://resume-tailor.arcs.care" style="color:var(--cyan);text-decoration:none;"><b>resume-tailor</b></a> · MIT</span>
-      <span class="chip">forged in <b id="oelapsed">&hellip;</b> from the call</span>
+      <span class="chip">v0 forged in <b>1h 22m</b> from the call</span>
     </div>
   </div>
 </header>
@@ -156,6 +163,7 @@
             <div class="k">Record of record</div><div class="v">LinkedIn data export (positions, dates, education) reconciled line by line</div>
             <div class="k">Receipts</div><div class="v">Public GitHub, a live commit trail, and open-source tools that let a claim read as a fact</div>
           </div>
+          <div class="gate"><span class="gk">GATE &rarr; GRADE</span><span class="gv">Titles, dates, and credentials reconciled line by line against the LinkedIn export. Nothing advances that could contradict a background check.</span></div>
         </div>
 
         <div class="pv" data-i="1">
@@ -174,6 +182,7 @@
             <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">35% release-cycle reduction<small>stated as mine; method ready to explain</small></div><div class="tag self">self-reported</div></div>
             <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">$850K year-one partnerships; &lt;120ms scoring (WTA)<small>consistent with role and era</small></div><div class="tag self">self-reported</div></div>
           </div>
+          <div class="gate"><span class="gk">GATE &rarr; STRESS-TEST</span><span class="gv">Every claim carries an evidence grade. A claim with no grade cannot pass to the page.</span></div>
         </div>
 
         <div class="pv" data-i="2">
@@ -182,6 +191,7 @@
           <div class="cut"><span class="x">&#10005;</span><div><div class="t">A second MIT certificate</div><div class="w">Export verifies one course, not two. Only the verified one stays.</div></div></div>
           <div class="cut"><span class="x">&#10005;</span><div><div class="t">&ldquo;~60% decision-noise reduction &middot; 3&ndash;5&times; time-to-insight&rdquo;</div><div class="w">Internal estimates with no external check. The softest numbers, so the first to go.</div></div></div>
           <div class="cut"><span class="x">&#10005;</span><div><div class="t">A degree program named from memory</div><div class="w">Not in the education record, so it never became a credential. Held as personal color only.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; ORDER</span><span class="gv">Every claim that fails the evidence bar is removed to the defend-or-drop list before ordering begins.</span></div>
         </div>
 
         <div class="pv" data-i="3">
@@ -191,6 +201,7 @@
             <div class="k">Then</div><div class="v">0&rarr;1 product engineering &middot; bilingual bridge &middot; production ownership</div>
             <div class="k">Framing</div><div class="v">Domain range mapped to the customer verticals a CI company actually serves: fintech, AI-native infra, media</div>
           </div>
+          <div class="gate"><span class="gk">GATE &rarr; BUILD</span><span class="gv">The lead is the single most checkable and most differentiated claim. Only then does anything get built.</span></div>
         </div>
 
         <div class="pv" data-i="4">
@@ -200,6 +211,7 @@
             <div class="k">Cover letter</div><div class="v">Plain language, no filler, a real point of view on the business</div>
             <div class="k">ATS copy</div><div class="v">Plain text so a parser reads every line correctly</div>
           </div>
+          <div class="gate"><span class="gk">GATE &rarr; RED-TEAM</span><span class="gv">Rendered pixels verified in CI: Playwright, zero horizontal overflow at four widths, and the PDF is reachable. Page-count is not a pass.</span></div>
         </div>
 
         <div class="pv" data-i="5">
@@ -207,6 +219,7 @@
           <div class="rt"><span class="h">&#9670;</span><div><div class="t">The court caught a leak.</div><div class="w">A recruiter name had slipped onto a public page, next to an overclaimed count. Both fixed; the air-gap held everywhere else.</div></div></div>
           <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;Reads too advisory, not enough engineer.&rdquo;</div><div class="w">Fixed by leading with the code and the stack, and by using the candidate's own line, verbatim: <b>&ldquo;I don't just write the deck. I'm in the code reviews, sprint planning, and incident response.&rdquo;</b></div></div></div>
           <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;Numbers without a source.&rdquo;</div><div class="w">Every self-reported figure moved to a defend-or-drop list, so each one has a ready answer instead of a soft claim.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; SHIP</span><span class="gv">CI green or no merge: ESLint + <span style="font-family:var(--mono)">next build</span>, the air-gap leak-check run as a test, and a security scan on every PR. A bad production deploy auto-rolls-back. Seven workflows in all.</span></div>
         </div>
 
       </div>
@@ -285,13 +298,6 @@
     else if(/^https?:/.test(h)) label='out_other';
     if(label) track(label);
   }, true);
-  (function(){
-    var t0 = new Date('2026-09-02T12:40:00-04:00'), el = document.getElementById('oelapsed');
-    function u(){ if(!el) return; var ms = Date.now()-t0; if(ms<0){el.textContent='0m';return;}
-      var h=Math.floor(ms/3600000), m=Math.floor(ms/60000)%60, d=Math.floor(h/24);
-      el.textContent = d>0 ? (d+'d '+(h%24)+'h') : (h>0 ? (h+'h '+m+'m') : (m+'m')); }
-    u(); setInterval(u, 30000);
-  })();
 </script>
 </body>
 </html>

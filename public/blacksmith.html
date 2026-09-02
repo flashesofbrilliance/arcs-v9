@@ -164,8 +164,8 @@
     </div>
     <div class="ticker">
       <span class="pulse"></span>
-      <span class="tk-lbl">LIVE</span>
-      <span class="tk-val">Forged in <b class="js-elapsed">&hellip;</b> &middot; first call to this page, commit by commit.</span>
+      <span class="tk-lbl">SHIPPED</span>
+      <span class="tk-val">First call to <b>v0</b>, live: <b>1h 22m</b>. Polished in the open since, commit by commit.</span>
     </div>
   </div>
 </header>
@@ -222,7 +222,7 @@
   </div>
   <div class="prov">&#9670; Built in the open. Every r&eacute;sum&eacute; claim is evidence-graded and red-teamed: see exactly how, and what got cut, in <a href="/forge">the Forge</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
     <div class="attrib">&#9670; This role reached me through <b>Amy at RecruitHaus</b>. The introduction, and the credit, are hers: no going around the front door.</div>
-    <div class="clock">&#9670; From Amy's call (12:40pm ET, Sep 2) to this page: <b class="js-elapsed">&hellip;</b> and counting. Built in the open, commit by commit at status.arcs.care.</div>
+    <div class="clock">&#9670; From Amy's call (12:40pm ET, Sep 2) to v0, live: 1h 22m. Polished in the open since, commit by commit at status.arcs.care.</div>
 </footer>
 <script>
   // External links (and the cross-page /resume, /forge) open in a new tab
@@ -264,16 +264,6 @@
     else if(/^https?:/.test(h)) label='out_other';
     if(label) track(label);
   }, true);
-</script>
-<script>
-  (function(){
-    var t0 = new Date('2026-09-02T12:40:00-04:00');
-    function fmt(el){ if(!el) return; var ms = Date.now() - t0; if(ms < 0){ el.textContent = '0m'; return; }
-      var h = Math.floor(ms/3600000), m = Math.floor(ms/60000)%60, d = Math.floor(h/24);
-      el.textContent = d>0 ? (d+'d '+(h%24)+'h') : (h>0 ? (h+'h '+m+'m') : (m+'m')); }
-    function u(){ document.querySelectorAll('.js-elapsed').forEach(fmt); }
-    u(); setInterval(u, 30000);
-  })();
 </script>
 </body>
 </html>
