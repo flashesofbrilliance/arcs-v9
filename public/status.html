@@ -1674,8 +1674,16 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   // the pulse payload lacks a shipped count (older cache / API hiccup) so the bar
   // never renders empty.
   var SHIP_FALLBACK = 25;
+  // Curated floor, matching the static cards below. The live GitHub-Issues bucketing
+  // is label-dependent and unreliable while the repo is private: if it reports 0
+  // shipped alongside 100+ open issues, the categorization is degraded. In that case
+  // keep the curated floor rather than render a false "0 shipped" over a full board,
+  // and label the stamp honestly (curated, not "live … as of [time]").
+  var CURATED = { shipped: 25, ip: 6, bl: 8, nx: 11 };
   function applyIssues(shipped, ip, bl, nx, truncated) {
-    shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var degraded = (!shipped) && (truncated || (!ip && !bl && (nx || 0) <= 1));
+    if (degraded) { shipped = CURATED.shipped; ip = CURATED.ip; bl = CURATED.bl; nx = CURATED.nx; truncated = true; }
+    else { shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0; }
     var total = shipped + ip + bl + nx;
     set("su-lead-ship", shipped); set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
     set("su-lab-ship", shipped); set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
@@ -1683,7 +1691,9 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
     seg("su-bar-ship", shipped); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
     var floor = truncated ? " · 100+ issues (floor)" : "";
-    set("su-stamp", "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString());
+    set("su-stamp", (degraded
+      ? "Whole board · curated tracker" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next"
+      : "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString()));
   }
   async function loadCommits() {
     try {

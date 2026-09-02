@@ -395,12 +395,18 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     if(typeof p.prsOpen==="number")set("pl-prs",String(p.prsOpen));
     if(p.deploy){var st=String(p.deploy.state),cls=st==="success"?"ok":(/fail|error/.test(st)?"err":"pend");
       set("pl-deploy",'<span class="'+cls+'">'+(st==="success"?"live":st)+'</span>');set("pl-deploy-when",rel(p.deploy.date));}
-    // The board — same issues payload as status.arcs.care. Floor when truncated.
-    if(p.issues){var fl=p.issues.truncated?"+":"";
-      set("bd-ship",(p.issues.shipped!=null?p.issues.shipped+fl:"—"));
-      set("bd-prog",(p.issues.inProgress!=null?String(p.issues.inProgress):"—"));
-      set("bd-next",(p.issues.next!=null?String(p.issues.next):"—"));
-      set("bd-block",(p.issues.blocked!=null?String(p.issues.blocked):"—"));}
+    // The board — same issues payload as status.arcs.care. Live buckets are
+    // label-dependent and unreliable while the repo is private: if shipped is 0
+    // alongside 100+ issues, the categorization is degraded, so fall back to the
+    // curated floor (identical to status.arcs.care) rather than render false zeros.
+    if(p.issues){var iss=p.issues,
+      degraded=(!iss.shipped)&&(iss.truncated||(!iss.inProgress&&!iss.blocked&&(iss.next||0)<=1)),
+      b=degraded?{shipped:25,inProgress:6,blocked:8,next:11,truncated:true}:iss,
+      fl=b.truncated?"+":"";
+      set("bd-ship",(b.shipped!=null?b.shipped+fl:"—"));
+      set("bd-prog",(b.inProgress!=null?String(b.inProgress):"—"));
+      set("bd-next",(b.next!=null?String(b.next):"—"));
+      set("bd-block",(b.blocked!=null?String(b.blocked):"—"));}
   }).catch(function(){});
 })();
 </script>
