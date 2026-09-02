@@ -69,48 +69,6 @@
 
   .body p{font-size:14px;line-height:1.65;color:var(--ink2);} .body p b{color:var(--ink);font-weight:600;} .body p+p{margin-top:11px;}
 
-  /* comp box */
-  .comp{background:var(--goldbg);border:1px solid #ecdcae;border-radius:12px;padding:14px 18px;}
-  .comp .ct{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
-  .comp p{font-size:14px;line-height:1.6;color:#5a4a1e;} .comp p b{color:#3f3312;font-weight:700;}
-
-  /* objection-handling ammo */
-  .ammo{display:flex;flex-direction:column;gap:8px;}
-  .amrow{border:1px solid var(--line);border-radius:11px;overflow:hidden;}
-  .amrow .obj{background:#faf6f1;padding:10px 15px;font-size:12.5px;color:var(--ink3);border-bottom:1px solid var(--line);}
-  .amrow .obj b{font-family:var(--mono);color:var(--ink2);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--gold);}
-  .amrow .obj i{font-style:italic;color:var(--ink2);}
-  .amrow .reb{padding:11px 15px;font-size:13.5px;line-height:1.55;color:var(--ink2);}
-  .amrow .reb .ar{color:var(--accent);font-weight:800;} .reb b{color:var(--ink);font-weight:600;}
-  /* nested 2nd / 3rd-order objection handling */
-  .nest{margin:9px 15px 0;border-top:1px dashed var(--line);padding-top:9px;}
-  .nest summary{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink3);cursor:pointer;list-style:none;line-height:1.45;}
-  .nest summary::-webkit-details-marker{display:none;}
-  .nest summary::before{content:"\25B8 ";color:var(--accent);font-weight:700;}
-  .nest[open]>summary::before{content:"\25BE ";}
-  .nest summary i{font-style:normal;color:var(--ink2);}
-  .nest .reb{padding:8px 0 0 14px;border-left:2px solid var(--line);margin-top:8px;font-size:13px;}
-  .nest .nest{margin-left:12px;margin-right:0;}
-  .ordtag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;}
-  .lens{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px;}
-
-  /* best / base / worst scenario spread */
-  .scen{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-  @media(max-width:600px){.scen{grid-template-columns:1fr;}}
-  .scol{border:1px solid var(--line);border-radius:11px;padding:13px 14px;}
-  .scol .sl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
-  .scol.best{background:#edfaf3;border-color:#bfe6d2;} .scol.best .sl{color:var(--green);}
-  .scol.base{background:#f2f7fb;border-color:#cfe0ec;} .scol.base .sl{color:var(--accent);}
-  .scol.worst{background:#fbf4f1;border-color:#eccfc6;} .scol.worst .sl{color:#b5573c;}
-  .scol p{font-size:12.5px;line-height:1.5;color:var(--ink2);}
-
-  /* ARCS circuit breakers */
-  .cb{display:flex;flex-direction:column;gap:8px;}
-  .cbrow{display:grid;grid-template-columns:20px 1fr;gap:11px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#f5fafb;align-items:start;}
-  .cbrow .ci{color:var(--accent);font-weight:800;line-height:1.5;}
-  .cbrow .cd{font-size:13px;line-height:1.55;color:var(--ink2);} .cbrow .cd b{color:var(--ink);font-weight:600;}
-  .cbnote{font-size:13px;line-height:1.6;color:var(--ink2);margin-top:11px;font-style:italic;}
-
   /* soundbites */
   .bites{background:var(--dark);color:#eaf0f5;border-radius:12px;padding:18px 22px;}
   .bites .bt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyanlt);margin-bottom:14px;}
