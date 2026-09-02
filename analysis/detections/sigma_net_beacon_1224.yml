@@ -1,0 +1,21 @@
+title: Contagious Interview C2 Beacon (port 1224)
+id: 8f1c2b7a-0d4e-4c1a-9a2b-ci1224beacon01
+status: experimental
+description: Detects network connections to the BeaverTail C2 IP or the recurring port-1224 campaign signature.
+references:
+  - https://attack.mitre.org/groups/G1052/
+  - https://attack.mitre.org/software/S1246/
+logsource:
+  category: network_connection
+detection:
+  sel_ip:
+    DestinationIp: '91.121.235.127'
+  sel_port:
+    DestinationPort: 1224
+  condition: sel_ip or sel_port
+falsepositives:
+  - 'Rare; port 1224 is not a common service port'
+level: high
+tags:
+  - attack.command_and_control
+  - attack.t1071.001

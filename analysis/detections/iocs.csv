@@ -1,0 +1,14 @@
+type,value,severity,note
+repo,github.com/Cryptense-Eco/Jackpot,critical,trojanized "coding-test" delivery container
+email_committer,hiringtecjreview@outlook.com,high,git author "jackpot_mvp"
+email_recruiter,richardstein692@gmail.com,medium,social-engineering lure sender
+ipv4,91.121.235.127,critical,BeaverTail C2
+port,1224,critical,recurring Contagious Interview C2 signature
+url,http://91.121.235.127:1224/api/checkStatus,critical,C2 beacon; eval()s server response
+url,https://vscode-check-mo4-ten.vercel.app/api/settings/mac,critical,InvisibleFerret stage-2 loader (macOS)
+url,https://vscode-check-mo4-ten.vercel.app/api/settings/linux,critical,InvisibleFerret stage-2 loader (Linux)
+url,https://vscode-check-mo4-ten.vercel.app/api/settings/windows,critical,InvisibleFerret stage-2 loader (Windows)
+host,vscode-check-mo4-ten.vercel.app,critical,stage-2 host
+file_pattern,.vscode/tasks.json runOn:folderOpen,high,PTV-01 zero-click trigger
+file_pattern,package.json scripts.prepare,high,PTV-02 install-time trigger
+file_pattern,routes/api/auth.js,medium,PTV-06 obfuscated payload appended here
