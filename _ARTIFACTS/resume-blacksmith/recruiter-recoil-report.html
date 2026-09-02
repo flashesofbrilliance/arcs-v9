@@ -52,6 +52,26 @@
   .oneline{background:linear-gradient(150deg,#0f1c26,#0a141c);border:1px solid var(--border2);border-radius:14px;padding:22px 24px;margin-top:8px;}
   .oneline .ol{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
   .oneline p{font-size:16px;line-height:1.55;color:var(--fg1);} .oneline p .q{color:var(--fg2);font-style:italic;}
+
+  /* call-arc sparkline */
+  .arc{margin:26px 0 4px;padding:16px 18px 12px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.2));}
+  .arc-h{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);margin-bottom:4px;}
+  .arc-sub{font-family:var(--mono);font-size:9.5px;color:var(--fg4);letter-spacing:.03em;margin-bottom:14px;}
+  .arc-wrap{position:relative;}
+  #spark{width:100%;height:auto;display:block;overflow:visible;}
+  #spark .curve{fill:none;stroke:url(#arcgrad);stroke-width:1.6;opacity:.55;}
+  #spark .dot{cursor:pointer;transition:r .12s ease;}
+  #spark .dot:hover{r:8;}
+  #spark .base{stroke:var(--border);stroke-width:1;stroke-dasharray:2 4;}
+  #spark .flip{stroke:var(--fg4);stroke-width:1;stroke-dasharray:3 3;opacity:.5;}
+  .tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transform:translate(-50%,-10px);transition:opacity .12s ease;
+    width:max-content;max-width:270px;background:#0a1420;border:1px solid var(--border2);border-radius:9px;padding:9px 11px;box-shadow:0 16px 38px -14px rgba(0,0,0,.85);}
+  .tip.on{opacity:1;}
+  .tip .tw{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+  .tip .tq{font-size:12.5px;line-height:1.45;color:var(--fg1);font-style:italic;} .tip .tl{color:var(--fg4);font-style:normal;display:block;margin-top:5px;font-family:var(--mono);font-size:9.5px;}
+  .arc-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--fg4);margin-top:9px;letter-spacing:.04em;}
+  .arc-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.03em;}
+  .arc-legend span{display:inline-flex;align-items:center;gap:6px;} .arc-legend i{width:8px;height:8px;border-radius:50%;}
 </style>
 </head>
 <body>
@@ -66,6 +86,69 @@
 </header>
 
 <div class="wrap">
+  <div class="arc">
+    <div class="arc-h">The call arc</div>
+    <div class="arc-sub">resonance shape across ~40 min &middot; interpretive placement, quotes verbatim &middot; hover a beat</div>
+    <div class="arc-wrap">
+      <svg id="spark" viewBox="0 0 700 150" role="img" aria-label="Resonance sparkline of the call; hover each beat for the verbatim quote">
+        <defs><linearGradient id="arcgrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#31d4e6"/><stop offset="0.5" stop-color="#e6b23c"/><stop offset="1" stop-color="#31d4e6"/>
+        </linearGradient></defs>
+      </svg>
+      <div id="tip" class="tip"></div>
+    </div>
+    <div class="arc-axis"><span>call start</span><span>&#8593; ~min 20 &middot; the flip</span><span>close</span></div>
+    <div class="arc-legend">
+      <span><i style="background:var(--gold)"></i> peak resonance</span>
+      <span><i style="background:var(--green)"></i> constructive interference</span>
+      <span><i style="background:var(--violet)"></i> productive discord</span>
+      <span><i style="background:var(--cyan)"></i> timing</span>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var C={peak:'#e6b23c',con:'#00d98a',dis:'#a996f5',kai:'#31d4e6'};
+    var LB={peak:'peak resonance',con:'constructive interference',dis:'productive discord',kai:'timing'};
+    // t = approx minute (interpretive), a = amplitude 0-100, verbatim quotes from the recoil
+    var B=[
+      {t:6, a:60, k:'peak', who:'Amy', q:'it’s so fun to listen to you talk like this.', l:'origin story lands'},
+      {t:14,a:70, k:'con',  who:'Amy', q:'Exactly. Exactly. It’s incredibly detrimental.', l:'cautious-capital thread'},
+      {t:20,a:98, k:'peak', who:'Amy', q:'that’s a really hard and rare find, Zach.', l:'“you’re the unicorn” · the flip'},
+      {t:24,a:80, k:'peak', who:'Amy', q:'you have a good story. You do.', l:'army of one'},
+      {t:27,a:52, k:'dis',  who:'Amy', q:'it definitely wasn’t a PM situation. I don’t get that feeling.', l:'PM framing corrected'},
+      {t:32,a:90, k:'peak', who:'Amy', q:'We’re not going to undersell you. We are not.', l:'the comp turn'},
+      {t:35,a:76, k:'kai',  who:'Amy', q:'I’m on your timeline now.', l:'the 1:30 commitment'},
+      {t:39,a:84, k:'kai',  who:'Amy', q:'a fantastic candidate no matter where we sent you.', l:'closing'}
+    ];
+    var svg=document.getElementById('spark'),tip=document.getElementById('tip'),wrap=svg.parentNode;
+    var W=700,H=150,P=16,T=40,NS='http://www.w3.org/2000/svg';
+    function px(t){return P+(t/T)*(W-2*P);}
+    function py(a){return P+(1-a/100)*(H-2*P);}
+    function el(n,at){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);return e;}
+    // baseline + flip marker
+    svg.appendChild(el('line',{x1:P,y1:H-P,x2:W-P,y2:H-P,'class':'base'}));
+    svg.appendChild(el('line',{x1:px(20),y1:P-6,x2:px(20),y2:H-P,'class':'flip'}));
+    // smooth-ish curve through the points
+    var pts=B.map(function(b){return px(b.t)+','+py(b.a);}).join(' ');
+    svg.appendChild(el('polyline',{points:pts,'class':'curve'}));
+    // dots
+    B.forEach(function(b){
+      var c=el('circle',{cx:px(b.t),cy:py(b.a),r:5,'class':'dot',fill:C[b.k],stroke:'#050a10','stroke-width':2});
+      function show(){
+        tip.innerHTML='<div class="tw" style="color:'+C[b.k]+'">'+LB[b.k]+'</div><div class="tq">“'+b.q+'”<span class="tl">'+b.who+' · '+b.l+'</span></div>';
+        var r=c.getBoundingClientRect(),w=wrap.getBoundingClientRect();
+        tip.style.left=(r.left-w.left+r.width/2)+'px';
+        tip.style.top=(r.top-w.top)+'px';
+        tip.classList.add('on');
+      }
+      function hide(){tip.classList.remove('on');}
+      c.addEventListener('mouseenter',show);c.addEventListener('mouseleave',hide);
+      c.addEventListener('focus',show);c.addEventListener('blur',hide);
+      c.setAttribute('tabindex','0');
+      svg.appendChild(c);
+    });
+  })();
+  </script>
   <section>
     <div class="sh"><span class="ic ic-peak"></span><h2>Punctuated peak resonance</h2><span class="sd">highest amplitude</span></div>
     <p class="lead">The beats where the signal spiked &mdash; the load-bearing anchors to re-invoke later.</p>
