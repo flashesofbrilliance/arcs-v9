@@ -19,11 +19,17 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "scott-cut.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
     ];
   },
   async rewrites() {
     return {
       beforeFiles: [
+        { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*_vercel).*)", destination: "/blacksmith.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
@@ -100,6 +106,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
+        { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!blog).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },

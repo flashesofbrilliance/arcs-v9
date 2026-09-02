@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Director's Cut · how this resume was built</title>
+<title>The Forge · how this resume was forged</title>
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="/blacksmith-favicon.png">
 <meta name="description" content="Instant replay of an honest, agentic resume build. The machinery, not the marketing.">
@@ -120,14 +120,15 @@
 <header>
   <div class="wrap hero">
     <a class="backtop" href="/">&#9664; back to the bundle</a>
-    <span class="kick"><span class="dot"></span>blacksmith.arcs.care · observatory</span>
-    <h1>The <span class="g">Director's Cut</span></h1>
-    <p class="lede">Instant replay of how this resume was actually built: an <b>honest, agentic pipeline</b>. The machinery, not the marketing. Every claim graded by how checkable it is, and everything it <b>refused</b> to say, shown on purpose.</p>
+    <span class="kick"><span class="dot"></span>blacksmith.arcs.care · the forge</span>
+    <h1>The <span class="g">Forge</span></h1>
+    <p class="lede">Instant replay of how this resume was actually forged: an <b>honest, agentic pipeline</b>. The machinery, not the marketing. Every claim graded by how checkable it is, and everything it <b>refused</b> to say, shown on purpose.</p>
     <div class="metastrip">
       <span class="chip"><b>6</b> pipeline stages</span>
       <span class="chip">every claim graded</span>
       <span class="chip"><b>4</b> claims cut</span>
-      <span class="chip">built with <b>resume-tailor</b> · MIT</span>
+      <span class="chip">built with <a href="https://resume-tailor.arcs.care" style="color:var(--cyan);text-decoration:none;"><b>resume-tailor</b></a> · MIT</span>
+      <span class="chip">forged in <b id="oelapsed">&hellip;</b> from the call</span>
     </div>
   </div>
 </header>
@@ -202,7 +203,8 @@
         </div>
 
         <div class="pv" data-i="5">
-          <p><b>A mock hiring panel picks the draft apart.</b> Every hit is checked against the evidence, and only the true ones change a word. Subtractive, never puffed. The two that landed:</p>
+          <p><b>Not one gauntlet, several.</b> The draft went through an honest-grade pass, an independent constitutional court (air-gap and overclaim), a founder-persona gauntlet, and a responsive sweep at 27 width combinations. Every hit is checked against the evidence; only true ones change a word. Subtractive, never puffed.</p>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">The court caught a leak.</div><div class="w">A recruiter name had slipped onto a public page, next to an overclaimed count. Both fixed; the air-gap held everywhere else.</div></div></div>
           <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;Reads too advisory, not enough engineer.&rdquo;</div><div class="w">Fixed by leading with the code and the stack, and by using the candidate's own line, verbatim: <b>&ldquo;I don't just write the deck. I'm in the code reviews, sprint planning, and incident response.&rdquo;</b></div></div></div>
           <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;Numbers without a source.&rdquo;</div><div class="w">Every self-reported figure moved to a defend-or-drop list, so each one has a ready answer instead of a soft claim.</div></div></div>
         </div>
@@ -283,6 +285,13 @@
     else if(/^https?:/.test(h)) label='out_other';
     if(label) track(label);
   }, true);
+  (function(){
+    var t0 = new Date('2026-09-02T12:40:00-04:00'), el = document.getElementById('oelapsed');
+    function u(){ if(!el) return; var ms = Date.now()-t0; if(ms<0){el.textContent='0m';return;}
+      var h=Math.floor(ms/3600000), m=Math.floor(ms/60000)%60, d=Math.floor(h/24);
+      el.textContent = d>0 ? (d+'d '+(h%24)+'h') : (h>0 ? (h+'h '+m+'m') : (m+'m')); }
+    u(); setInterval(u, 30000);
+  })();
 </script>
 </body>
 </html>
