@@ -6,6 +6,8 @@
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="/blacksmith-favicon.png">
 <meta name="description" content="Staff Product Engineer for the code-validation era. Built for a developer I already am.">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jbmono.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
   @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
@@ -114,6 +116,7 @@
   .prov a{color:var(--fg3);} .prov a:hover{color:var(--cyan);}
   .attrib{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);}
   .attrib b{color:var(--fg2);font-weight:600;}
+  .clock{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);} .clock b{color:var(--green);font-weight:700;}
 </style>
 </head>
 <body>
@@ -130,7 +133,7 @@
       <a href="https://github.com/flashesofbrilliance">github</a>
       <a class="hidemob" href="https://www.zachharris.xyz">zachharris.xyz</a>
       <a href="/resume">r&eacute;sum&eacute;</a>
-      <a class="dc" href="/observatory">&#9670; Director's Cut</a>
+      <a class="dc" href="/forge">&#9670; The Forge</a>
     </div>
   </div>
 </nav>
@@ -142,7 +145,7 @@
     <p class="tag"><span class="g">Ships in days. Builds in public.</span></p>
     <p class="lede">I build the agent tooling I'd want to use: a power user of coding agents who delegates to Claude at scale. Two decades shipping 0&rarr;1 across the exact verticals Blacksmith serves. Not a deck-writer: in the code reviews, sprint planning, and incident response.</p>
     <div class="cta">
-      <a class="btn p" href="/observatory">&#9670; See how this was built</a>
+      <a class="btn p" href="/forge">&#9670; See how it was forged</a>
       <a class="btn s" href="#kitchen">The proof &darr;</a>
     </div>
   </div>
@@ -186,9 +189,9 @@
 <section style="border-bottom:none;">
   <div class="wrap">
     <div class="dccard">
-      <h3>The <span class="g">Director's Cut</span></h3>
+      <h3>The <span class="g">Forge</span></h3>
       <p>Curious how this page was built? An <b>honest, agentic pipeline</b> ingested the role, graded every claim by how checkable it is, red-teamed the draft, and shows you <b>everything it refused to say</b>. The machinery, not the marketing. It also happens to be a working demo of the exact skill you're hiring.</p>
-      <div class="cta"><a class="btn p" href="/observatory">&#9670; Open the Observatory</a></div>
+      <div class="cta"><a class="btn p" href="/forge">&#9670; Open the Forge</a></div>
     </div>
   </div>
 </section>
@@ -196,13 +199,14 @@
 <footer>
   <div class="wrap foot">
     <span>prepared for Blacksmith &middot; staff product engineer</span>
-    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/observatory">director's cut</a></span>
+    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/forge">director's cut</a></span>
   </div>
-  <div class="prov">&#9670; Built in the open. Every r&eacute;sum&eacute; claim is evidence-graded and red-teamed: see exactly how, and what got cut, in the <a href="/observatory">Director's Cut</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
+  <div class="prov">&#9670; Built in the open. Every r&eacute;sum&eacute; claim is evidence-graded and red-teamed: see exactly how, and what got cut, in <a href="/forge">the Forge</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
     <div class="attrib">&#9670; This role reached me through <b>Amy at RecruitHaus</b>. The introduction, and the credit, are hers: no going around the front door.</div>
+    <div class="clock">&#9670; From Amy's call (12:40pm ET, Sep 2) to this page: <b id="elapsed">&hellip;</b> and counting. Built in the open, commit by commit at status.arcs.care.</div>
 </footer>
 <script>
-  // External links (and the cross-page /resume, /observatory) open in a new tab
+  // External links (and the cross-page /resume, /forge) open in a new tab
   // so the bundle stays open behind them: none of those pages navigate back here.
   document.querySelectorAll('a[href]').forEach(function(a){
     var h = a.getAttribute('href') || '';
@@ -227,7 +231,7 @@
     if(el.classList && el.classList.contains('stg')){ var st=el.querySelector('.st'); track('stage:'+(st?st.textContent.trim().toLowerCase():el.getAttribute('data-i'))); return; }
     var h = el.getAttribute('href')||'', label='';
     if(h==='/') label='back_to_bundle';
-    else if(h==='/observatory') label='open_directors_cut';
+    else if(h==='/forge') label='open_forge';
     else if(h==='/resume') label='open_resume';
     else if(/blacksmith-resume\.pdf/.test(h)) label='download_resume_pdf';
     else if(/blacksmith-cover\.pdf/.test(h)) label='download_cover';
@@ -241,6 +245,16 @@
     else if(/^https?:/.test(h)) label='out_other';
     if(label) track(label);
   }, true);
+</script>
+<script>
+  (function(){
+    var t0 = new Date('2026-09-02T12:40:00-04:00');
+    function fmt(el){ if(!el) return; var ms = Date.now() - t0; if(ms < 0){ el.textContent = '0m'; return; }
+      var h = Math.floor(ms/3600000), m = Math.floor(ms/60000)%60, d = Math.floor(h/24);
+      el.textContent = d>0 ? (d+'d '+(h%24)+'h') : (h>0 ? (h+'h '+m+'m') : (m+'m')); }
+    function u(){ fmt(document.getElementById('elapsed')); }
+    u(); setInterval(u, 30000);
+  })();
 </script>
 </body>
 </html>
