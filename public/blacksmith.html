@@ -17,6 +17,7 @@
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  html{overflow-x:clip;}
   body{overflow-x:hidden;}
   ::selection{background:var(--cyan);color:#001014;}
   a{color:inherit;text-decoration:none;}
@@ -38,12 +39,19 @@
   .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
   .ext::after{content:"\2197";font-family:var(--mono);font-size:.7em;font-weight:700;margin-left:3px;opacity:.6;vertical-align:top;}
   .navlinks a.dc.ext::after{opacity:.75;}
+  .navdrop{display:none;}
   @media(max-width:600px){
-    .burger{display:block;}
-    .navlinks{position:absolute;top:calc(100% + 1px);left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:2px;padding:8px 14px 12px;background:rgba(2,4,8,.98);border-bottom:1px solid var(--border);display:none;}
-    .navin.open .navlinks{display:flex;}
-    .navlinks a{padding:11px 9px;font-size:12.5px;border-radius:7px;}
-    .navlinks a.dc{text-align:center;margin-top:5px;}
+    .burger{display:block;position:relative;z-index:62;}
+    .navdrop{display:block;position:fixed;inset:0;z-index:58;background:rgba(2,4,8,.55);opacity:0;pointer-events:none;transition:opacity .24s ease;}
+    .navin.open .navdrop{opacity:1;pointer-events:auto;}
+    .navlinks{position:fixed;top:0;right:0;height:100dvh;width:min(74%,300px);z-index:60;
+      flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;
+      padding:62px 16px 22px;background:rgba(4,7,13,.99);border-left:1px solid var(--border2);
+      box-shadow:-24px 0 60px -24px rgba(0,0,0,.75);
+      transform:translateX(105%);transition:transform .24s ease;display:flex;overflow-y:auto;}
+    .navin.open .navlinks{transform:translateX(0);}
+    .navlinks a{padding:12px 12px;font-size:13.5px;border-radius:8px;}
+    .navlinks a.dc{text-align:center;margin-top:8px;}
   }
 
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
@@ -110,6 +118,7 @@
   <div class="navin">
     <span class="brand"><span class="g">&#9670;</span> Zach Harris</span>
     <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <div class="navdrop" aria-hidden="true"></div>
     <div class="navlinks">
       <a class="hidemob" href="https://build.arcs.care">build</a>
       <a class="hidemob" href="https://good.arcs.care">good</a>
@@ -193,11 +202,14 @@
     var h = a.getAttribute('href') || '';
     if (/^https?:\/\//.test(h) || h === '/observatory') { a.target = '_blank'; a.rel = 'noopener noreferrer'; a.classList.add('ext'); }
   });
-  // hamburger menu on small viewports
-  var burger = document.querySelector('.burger'), navin = document.querySelector('.navin');
+  // right-side drawer menu on small viewports
+  var burger = document.querySelector('.burger'), navin = document.querySelector('.navin'), drop = document.querySelector('.navdrop');
+  function setMenu(open){ navin.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); burger.innerHTML = open ? '✕' : '☰'; }
   if (burger && navin) {
-    burger.addEventListener('click', function(){ var open = navin.classList.toggle('open'); burger.setAttribute('aria-expanded', open); });
-    document.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ navin.classList.remove('open'); burger.setAttribute('aria-expanded', false); }); });
+    burger.addEventListener('click', function(){ setMenu(!navin.classList.contains('open')); });
+    if (drop) drop.addEventListener('click', function(){ setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+    document.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
   }
 </script>
 </body>
