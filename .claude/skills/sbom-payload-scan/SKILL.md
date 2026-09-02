@@ -39,6 +39,10 @@ Interpret the exit code as a CI gate:
 - `1` — HIGH/MEDIUM. Review each finding; some install hooks are legitimate, so read them.
 - `0` — clean at the chosen floor. Means "no known pattern fired," not "provably safe."
 
+In CI, fail the build on **any non-zero exit (1 or 2), never on `exit == 2` alone** — a plain
+install hook is exit 1, and keying the gate on 2 would let it through. `--min-severity` changes only
+what is *printed*; the exit code always reflects the worst finding, so it is the honest gate signal.
+
 Extend the known-bad indicator list with `--iocs <file>` (one indicator per line, `#` comments ok).
 
 ## What it checks
