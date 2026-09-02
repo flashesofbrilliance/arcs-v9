@@ -4,11 +4,11 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zach Harris · for Blacksmith</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%2300F0FF'/%3E%3Cstop%20offset='1'%20stop-color='%2300FF9D'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23020408'/%3E%3Cpath%20d='M16%205l11%2011-11%2011L5%2016z'%20fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/blacksmith-favicon.png">
 <meta name="description" content="Staff Product Engineer for the code-validation era. Built for a developer I already am.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
   :root{
     --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
     --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
@@ -26,7 +26,9 @@
   /* sticky nav */
   .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     background:rgba(2,4,8,.78);border-bottom:1px solid var(--border);}
-  .navin{max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .burger{display:none;background:var(--elev);border:1px solid var(--border2);border-radius:7px;color:var(--fg1);font-size:15px;line-height:1;padding:7px 11px;cursor:pointer;}
+  .burger:hover{border-color:var(--cyan);color:var(--cyan);}
   .brand{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--fg1);white-space:nowrap;}
   .brand .g{color:var(--cyan);}
   .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
@@ -34,7 +36,15 @@
   .navlinks a:hover{color:var(--cyan);background:var(--elev);}
   .navlinks a.dc{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);font-weight:700;}
   .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
-  @media(max-width:640px){.navlinks a.hidemob{display:none;}}
+  .ext::after{content:"\2197";font-family:var(--mono);font-size:.7em;font-weight:700;margin-left:3px;opacity:.6;vertical-align:top;}
+  .navlinks a.dc.ext::after{opacity:.75;}
+  @media(max-width:600px){
+    .burger{display:block;}
+    .navlinks{position:absolute;top:calc(100% + 1px);left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:2px;padding:8px 14px 12px;background:rgba(2,4,8,.98);border-bottom:1px solid var(--border);display:none;}
+    .navin.open .navlinks{display:flex;}
+    .navlinks a{padding:11px 9px;font-size:12.5px;border-radius:7px;}
+    .navlinks a.dc{text-align:center;margin-top:5px;}
+  }
 
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
     background:radial-gradient(900px 480px at 16% -12%,rgba(0,240,255,.11),transparent 60%),radial-gradient(760px 420px at 94% -6%,rgba(0,255,157,.07),transparent 55%);}
@@ -86,7 +96,7 @@
     background:radial-gradient(600px 300px at 12% 0,rgba(0,240,255,.10),transparent 60%),linear-gradient(168deg,#0c1219,#080d13);}
   .dccard h3{font-size:23px;font-weight:800;letter-spacing:-.02em;}
   .dccard h3 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .dccard p{font-size:15px;line-height:1.6;color:var(--fg2);margin-top:12px;max-width:640px;} .dccard p b{color:var(--fg1);}
+  .dccard p{font-size:15px;line-height:1.6;color:var(--fg2);margin-top:12px;max-width:620px;text-wrap:pretty;} .dccard p b{color:var(--fg1);}
   .dccard .cta{margin-top:20px;}
 
   footer{padding:32px 0 50px;}
@@ -99,13 +109,14 @@
 <nav class="nav">
   <div class="navin">
     <span class="brand"><span class="g">&#9670;</span> Zach Harris</span>
+    <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
     <div class="navlinks">
       <a class="hidemob" href="https://build.arcs.care">build</a>
       <a class="hidemob" href="https://good.arcs.care">good</a>
       <a class="hidemob" href="https://status.arcs.care">status</a>
       <a href="https://github.com/flashesofbrilliance">github</a>
       <a class="hidemob" href="https://www.zachharris.xyz">zachharris.xyz</a>
-      <a href="/blacksmith-resume.pdf" download="Zach-Harris-Resume.pdf">r&eacute;sum&eacute; &#8595;</a>
+      <a href="/resume">r&eacute;sum&eacute;</a>
       <a class="dc" href="/observatory">&#9670; Director's Cut</a>
     </div>
   </div>
@@ -180,8 +191,14 @@
   // so the bundle stays open behind them: none of those pages navigate back here.
   document.querySelectorAll('a[href]').forEach(function(a){
     var h = a.getAttribute('href') || '';
-    if (/^https?:\/\//.test(h) || h === '/resume' || h === '/observatory') { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+    if (/^https?:\/\//.test(h) || h === '/observatory') { a.target = '_blank'; a.rel = 'noopener noreferrer'; a.classList.add('ext'); }
   });
+  // hamburger menu on small viewports
+  var burger = document.querySelector('.burger'), navin = document.querySelector('.navin');
+  if (burger && navin) {
+    burger.addEventListener('click', function(){ var open = navin.classList.toggle('open'); burger.setAttribute('aria-expanded', open); });
+    document.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ navin.classList.remove('open'); burger.setAttribute('aria-expanded', false); }); });
+  }
 </script>
 </body>
 </html>
