@@ -39,11 +39,21 @@ pre-feature bulk. The lever was never *deploy* (SAGE was deployed) — it's **la
    context). A backfill (re-derive from stored `rawResponse`) is a separate, low-value decision.
 
 ## The deep core (separate, bigger — a product change, not an ops fix)
-Even at 100% firing, **fidelity stays proxy.** SAGE *derives* somatic from `(stakes, horizon)`
-(`arcs_api.sage_score`), it does not elicit the user's felt sense — the compass sends no gut-feel field.
-So **0/247 decisions carry user-grounded evidence**, and no amount of reliable firing changes that.
-Evidence-grade fidelity requires **eliciting the 6 somatic dimensions from the user at decision time** —
-a compass UX change. This is the real constraint on the instrument ever producing trust, not proxy.
+Even at 100% firing, **fidelity stays proxy — and worse than proxy.** SAGE's somatic/axioms output is
+not just derived, it is **DEGENERATE**: across all 45 fired traces there is **exactly 1 distinct value**
+for somatic AND for axioms (every receipt: axioms `YES/YES/YES/YES`; somatic byte-identical
+`{phase_tuning:0.72, surge_detection:False, feels_right:True, that_vibes:True, locked_in:True,
+expected_vs_actual:0.72}`). Present-but-constant = **zero per-decision information** — an inlier that
+passed every per-row presence check; only a corpus-level distinct-value pass caught it. So informative
+somatic/axioms coverage is **0/247**, not 45. (Symptom triangulated; mechanism — pipeline stub vs
+input-insensitivity in `arcs_api.sage_score` → operators — NOT yet confirmed; needs reading the SAGE
+pipeline. Do not claim the cause.)
+
+Therefore: **0/247 decisions carry user-grounded evidence, and 0/247 carry even informative derived
+signal.** No amount of reliable firing changes that. Evidence-grade fidelity requires **eliciting the 6
+somatic dimensions from the user at decision time** (a compass UX change) AND fixing SAGE to emit
+per-decision (non-constant) somatic/axioms. This is the real constraint on the instrument ever producing
+trust — the ops fixes (latency/422/gating) only restore *coverage of a signal that is currently empty.*
 
 ## Verify (the third loop-half — future, on measurement not assertion)
 After 1–3 ship: re-run `run_real_receipts` on a fresh export; forward success-rate should climb 63% → ~100%

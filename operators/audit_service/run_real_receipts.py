@@ -270,6 +270,34 @@ def run(path: str) -> Dict[str, Any]:
     n = len(receipts)
     unweighted = (sum(compute_csm(p) for p in all_pairs) / len(all_pairs)) if all_pairs else 0.0
 
+    # Corpus-level DEGENERACY check (inlier detection): a signal that is present but
+    # CONSTANT across the corpus carries zero per-decision information — an inlier that
+    # no per-row presence check can see. Count distinct value-tuples among receipts where
+    # the signal was sourced from SAGE (axioms_real marks a fired trace).
+    def _distinct_tuples(field, keys):
+        seen_r, tuples = set(), set()
+        for p in all_pairs:
+            rid = p.get("traceId")
+            if rid in seen_r or not p.get("_provenance", {}).get("axioms_real"):
+                continue
+            seen_r.add(rid)
+            blk = p["primitives"].get(field) or {}
+            tuples.add(tuple(str(blk.get(k)) for k in keys))
+        return len(tuples), len(seen_r)
+    ax_distinct, ax_present = _distinct_tuples("axioms",
+        ("clarity_before_curvature", "agency_over_automation", "minimum_steps_to_coherence", "kairos_over_neuroticism"))
+    som_distinct, _ = _distinct_tuples("somatic",
+        ("phase_tuning", "surge_detection", "feels_right", "that_vibes", "locked_in", "expected_vs_actual"))
+    degeneracy = {
+        "axioms_present": ax_present,
+        "axioms_distinct_values": ax_distinct,
+        "somatic_distinct_values": som_distinct,
+        "axioms_degenerate": ax_present > 1 and ax_distinct <= 1,
+        "somatic_degenerate": ax_present > 1 and som_distinct <= 1,
+    }
+    # A degenerate signal is present-but-contentless → informative coverage is 0, not `present`.
+    axioms_informative = 0 if degeneracy["axioms_degenerate"] else axioms_real
+
     # Confidence tiers per RECEIPT (honesty: null = no trustworthy signal yet).
     #   EVIDENCE = real somatic AND real axioms · PARTIAL = one real · NONE = neither.
     tiers = {"EVIDENCE": 0, "PARTIAL": 0, "NONE": 0}
@@ -307,6 +335,8 @@ def run(path: str) -> Dict[str, Any]:
         "who_was_right": who or None,
         "adjudicated_receipts": adjudicated,
         "unadjudicated_receipts": n - adjudicated,
+        "degeneracy": degeneracy,
+        "axioms_informative": axioms_informative,
     }
 
 
@@ -331,6 +361,12 @@ def _print_board(b: Dict[str, Any]) -> None:
     fc = b["fidelity_coverage"]
     print(f"   somatic real {fc['somatic_real']}/{b['receipts']} ({fc['somatic_pct']}%) · "
           f"axioms real {fc['axioms_real']}/{b['receipts']} ({fc['axioms_pct']}%)")
+    d = b["degeneracy"]
+    if d["axioms_degenerate"] or d["somatic_degenerate"]:
+        print(f"   ⚠ INLIER: SAGE signal is DEGENERATE across the {d['axioms_present']} present — "
+              f"axioms {d['axioms_distinct_values']} distinct value(s), somatic {d['somatic_distinct_values']}.")
+        print(f"   → present but CONSTANT = zero per-decision information. Informative axioms coverage: "
+              f"{b['axioms_informative']}, not {fc['axioms_real']}.")
     print("-" * 68)
     print(f" WHO-WAS-RIGHT : {_nz(b['who_was_right'])}")
     print(f"   ({b['adjudicated_receipts']} adjudicated, {b['unadjudicated_receipts']} null/unproven)")
