@@ -8,6 +8,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'chris-intro':  '/chris-intro.html',
   'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
+  'recruithaus':  '/recruithaus.html',
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
@@ -32,7 +33,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
   // /brief = operational, /full = surgical. Firehose is opt-in, one click deeper.
-  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3-full.html', '/blog/nftt/post-3': '/blog-nftt-post-3-full.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4-full.html', '/blog/nftt/post-4': '/blog-nftt-post-4-full.html', '/blog/nftt/take-home-trap': '/blog-nftt-take-home-trap-full.html', '/blog/nftt/take-home-trap/full': '/blog-nftt-take-home-trap-full.html', '/blog/nftt/take-home-trap/dossier': '/blog-nftt-take-home-trap-dossier.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
+  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3-full.html', '/blog/nftt/post-3': '/blog-nftt-post-3-full.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4-full.html', '/blog/nftt/post-4': '/blog-nftt-post-4-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
 }
 
 export default function proxy(request: NextRequest) {
@@ -71,6 +72,7 @@ export default function proxy(request: NextRequest) {
     if (
       pathname.startsWith(dest) ||
       pathname.startsWith('/_next') ||
+      pathname.startsWith('/_vercel') ||
       pathname.startsWith('/api')
     ) {
       return NextResponse.next()

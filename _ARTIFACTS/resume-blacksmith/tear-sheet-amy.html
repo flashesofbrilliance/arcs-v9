@@ -5,50 +5,55 @@
 <meta name="robots" content="noindex">
 <title>Candidate Positioning Brief · Zach Harris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ARCS design system, light-mode deliverable variant (matches blacksmith-cover.html tokens) */
   :root{
-    --paper:#fbfaf7; --card:#ffffff; --ink:#141b24; --ink2:#3c4a58; --ink3:#697887; --line:#e5e2da;
-    --accent:#0a6f80; --accent2:#0089a8; --gold:#9a7218; --goldbg:#fbf3df; --tealbg:#eef6f7;
-    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    --serif:'Newsreader',Georgia,'Times New Roman',serif;
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8;               /* ARCS cyan, darkened for light ground */
+    --green:#0a8f5e;                                    /* ARCS green, darkened for readability */
+    --gold:#9a7218; --goldbg:#fbf3df;                  /* ARCS gold family */
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;/* ARCS dark for inverted sections */
+    --cyanlt:#00F0FF; --greenlt:#00FF9D;               /* bright ARCS accents on dark */
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
   body{padding:34px 18px 70px;}
   .sheet{max-width:820px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;
     box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
-  .pad{padding:38px 44px;}
+  .pad{padding:26px 40px;}
   @media(max-width:600px){.pad{padding:26px 22px;}}
 
   /* header */
-  header{background:linear-gradient(150deg,#101922,#18242f);color:#f4f7fa;padding:34px 44px 30px;}
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 44px 22px;}
   @media(max-width:600px){header{padding:26px 22px;}}
-  .eyebrow{display:flex;align-items:center;gap:9px;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#7fd7e4;}
-  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#39c2d6;box-shadow:0 0 10px #39c2d6;}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyanlt);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:var(--greenlt);box-shadow:0 0 10px var(--greenlt);}
   h1{font-size:clamp(30px,5.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:14px;}
   .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
   .who b{color:#e6ecf2;font-weight:600;}
-  .lead{font-family:var(--serif);font-size:clamp(17px,2.6vw,21px);line-height:1.5;color:#dbe4ec;margin-top:18px;max-width:640px;}
-  .lead b{color:#fff;font-weight:500;font-style:italic;}
+  .lead{font-family:var(--sans);font-size:clamp(15.5px,2.4vw,18px);line-height:1.5;color:#dbe4ec;margin-top:14px;max-width:640px;}
+  .lead b{color:#fff;font-weight:600;}
 
   /* the big claim band */
-  .band{background:var(--tealbg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 44px;
+  .band{background:var(--tealbg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 40px;
     display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;}
   @media(max-width:600px){.band{padding:18px 22px;}}
   .band .big{font-size:clamp(21px,3.4vw,27px);font-weight:800;letter-spacing:-.02em;color:var(--accent);}
   .band .sm{font-size:13.5px;color:var(--ink2);line-height:1.5;flex:1;min-width:240px;}
 
-  h2{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;
-    padding-bottom:8px;border-bottom:1px solid var(--line);}
-  .sec+.sec{margin-top:30px;}
+  h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:11px;
+    padding-bottom:6px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:20px;}
 
   /* three roles */
-  .roles{display:flex;flex-direction:column;gap:11px;}
-  .role{display:grid;grid-template-columns:150px 1fr;gap:6px 18px;padding:14px 16px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
+  .roles{display:flex;flex-direction:column;gap:8px;}
+  .role{display:grid;grid-template-columns:150px 1fr;gap:5px 18px;padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
   @media(max-width:560px){.role{grid-template-columns:1fr;gap:3px;}}
   .role .rt{font-weight:700;font-size:14px;color:var(--ink);}
-  .role .rt small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent2);margin-top:3px;}
+  .role .rt small{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,137,168,.34);border-radius:999px;padding:3px 9px;margin-top:7px;background:rgba(0,137,168,.06);white-space:nowrap;}
   .role .rd{font-size:13.5px;line-height:1.55;color:var(--ink2);}
   .role .rd em{color:var(--gold);font-style:normal;font-weight:600;}
 
@@ -58,29 +63,66 @@
   .vcol{border:1px solid var(--line);border-radius:11px;padding:16px;}
   .vcol.them{background:#faf9f7;}
   .vcol.you{background:var(--tealbg);border-color:#bfe0e4;}
-  .vcol .vh{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px;}
+  .vcol .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px;}
   .vcol.them .vh{color:var(--ink3);} .vcol.you .vh{color:var(--accent);}
   .vcol p{font-size:13px;line-height:1.55;color:var(--ink2);} .vcol.you p b{color:var(--ink);font-weight:600;}
 
   .body p{font-size:14px;line-height:1.65;color:var(--ink2);} .body p b{color:var(--ink);font-weight:600;} .body p+p{margin-top:11px;}
 
   /* comp box */
-  .comp{background:var(--goldbg);border:1px solid #ecdcae;border-radius:12px;padding:18px 20px;}
-  .comp .ct{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .comp{background:var(--goldbg);border:1px solid #ecdcae;border-radius:12px;padding:14px 18px;}
+  .comp .ct{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
   .comp p{font-size:14px;line-height:1.6;color:#5a4a1e;} .comp p b{color:#3f3312;font-weight:700;}
 
+  /* objection-handling ammo */
+  .ammo{display:flex;flex-direction:column;gap:8px;}
+  .amrow{border:1px solid var(--line);border-radius:11px;overflow:hidden;}
+  .amrow .obj{background:#faf6f1;padding:10px 15px;font-size:12.5px;color:var(--ink3);border-bottom:1px solid var(--line);}
+  .amrow .obj b{font-family:var(--mono);color:var(--ink2);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--gold);}
+  .amrow .obj i{font-style:italic;color:var(--ink2);}
+  .amrow .reb{padding:11px 15px;font-size:13.5px;line-height:1.55;color:var(--ink2);}
+  .amrow .reb .ar{color:var(--accent);font-weight:800;} .reb b{color:var(--ink);font-weight:600;}
+  /* nested 2nd / 3rd-order objection handling */
+  .nest{margin:9px 15px 0;border-top:1px dashed var(--line);padding-top:9px;}
+  .nest summary{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink3);cursor:pointer;list-style:none;line-height:1.45;}
+  .nest summary::-webkit-details-marker{display:none;}
+  .nest summary::before{content:"\25B8 ";color:var(--accent);font-weight:700;}
+  .nest[open]>summary::before{content:"\25BE ";}
+  .nest summary i{font-style:normal;color:var(--ink2);}
+  .nest .reb{padding:8px 0 0 14px;border-left:2px solid var(--line);margin-top:8px;font-size:13px;}
+  .nest .nest{margin-left:12px;margin-right:0;}
+  .ordtag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;}
+  .lens{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px;}
+
+  /* best / base / worst scenario spread */
+  .scen{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  @media(max-width:600px){.scen{grid-template-columns:1fr;}}
+  .scol{border:1px solid var(--line);border-radius:11px;padding:13px 14px;}
+  .scol .sl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+  .scol.best{background:#edfaf3;border-color:#bfe6d2;} .scol.best .sl{color:var(--green);}
+  .scol.base{background:#f2f7fb;border-color:#cfe0ec;} .scol.base .sl{color:var(--accent);}
+  .scol.worst{background:#fbf4f1;border-color:#eccfc6;} .scol.worst .sl{color:#b5573c;}
+  .scol p{font-size:12.5px;line-height:1.5;color:var(--ink2);}
+
+  /* ARCS circuit breakers */
+  .cb{display:flex;flex-direction:column;gap:8px;}
+  .cbrow{display:grid;grid-template-columns:20px 1fr;gap:11px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#f5fafb;align-items:start;}
+  .cbrow .ci{color:var(--accent);font-weight:800;line-height:1.5;}
+  .cbrow .cd{font-size:13px;line-height:1.55;color:var(--ink2);} .cbrow .cd b{color:var(--ink);font-weight:600;}
+  .cbnote{font-size:13px;line-height:1.6;color:var(--ink2);margin-top:11px;font-style:italic;}
+
   /* soundbites */
-  .bites{background:#101922;color:#eaf0f5;border-radius:12px;padding:22px 24px;}
-  .bites .bt{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#7fd7e4;margin-bottom:14px;}
-  .bites ul{list-style:none;display:flex;flex-direction:column;gap:11px;}
-  .bites li{font-family:var(--serif);font-size:16px;line-height:1.4;padding-left:18px;position:relative;color:#f2f6f9;}
-  .bites li::before{content:"“";position:absolute;left:0;top:-2px;color:#39c2d6;font-size:22px;font-family:var(--serif);}
+  .bites{background:var(--dark);color:#eaf0f5;border-radius:12px;padding:18px 22px;}
+  .bites .bt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyanlt);margin-bottom:14px;}
+  .bites ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .bites li{font-family:var(--sans);font-size:14.5px;line-height:1.4;padding-left:18px;position:relative;color:#f2f6f9;}
+  .bites li::before{content:"“";position:absolute;left:0;top:-2px;color:var(--greenlt);font-size:22px;font-family:var(--sans);}
 
   footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
-  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-size:12.5px;}
+  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
-  .fine{font-size:11px;color:var(--ink3);margin-top:12px;line-height:1.6;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
 
   @media print{ body{padding:0;background:#fff;} .sheet{border:none;box-shadow:none;border-radius:0;max-width:none;} }
 </style>
@@ -91,7 +133,7 @@
       <div class="eyebrow"><span class="mk"></span>Candidate positioning brief · for RecruitHaus</div>
       <h1>Zach Harris</h1>
       <div class="who">For the <b>Blacksmith Staff Product Engineer</b> search &middot; a one-page brief to carry to the team, and to price the offer.</div>
-      <p class="lead">The short version: you are not putting forward a specialist. You are putting forward <b>the connective tissue</b> &mdash; one hire who does the work of three.</p>
+      <p class="lead">The short version: you are not putting forward a specialist. You are putting forward <b>the connective tissue</b>, one hire who does the work of three.</p>
     </header>
 
     <div class="band">
@@ -105,7 +147,7 @@
         <div class="roles">
           <div class="role">
             <div class="rt">Ships with your customers<small>forward-deployed engineer</small></div>
-            <div class="rd">Sits with the customer or founder, co-designs the thing, and ships it in the field &mdash; not from behind a spec. <em>Usually a dedicated hire.</em></div>
+            <div class="rd">Sits with the customer or founder, co-designs the thing, and ships it in the field, not from behind a spec. <em>Usually a dedicated hire.</em></div>
           </div>
           <div class="role">
             <div class="rt">Builds your AI<small>applied-AI engineer</small></div>
@@ -113,52 +155,118 @@
           </div>
           <div class="role">
             <div class="rt">Owns the product<small>product engineer</small></div>
-            <div class="rd">Owns the product end to end, not just the code &mdash; makes the hard call under the surface instead of routing it. <em>Usually a product manager plus an engineer.</em></div>
+            <div class="rd">Owns the product end to end, not just the code, makes the hard call under the surface instead of routing it. <em>Usually a product manager plus an engineer.</em></div>
           </div>
         </div>
         <p class="body" style="margin-top:13px;"><b>One senior hire covers all three.</b> That is rare, and it is the exact shape this role is asking for.</p>
       </div>
 
       <div class="sec">
-        <h2>Why this beats a deeper specialist &mdash; for this role</h2>
+        <h2>Why this beats a deeper specialist, for this role</h2>
         <div class="vs">
           <div class="vcol them">
             <div class="vh">A single-threaded specialist</div>
-            <p>Goes very deep in one lane (say, pure infrastructure, or pure machine learning). Excellent &mdash; but needs two more people around them to cover the product and the customer, plus the coordination between all three.</p>
+            <p>Goes very deep in one lane (say, pure infrastructure, or pure machine learning). Excellent, but needs two more people around them to cover the product and the customer, plus the coordination between all three.</p>
           </div>
           <div class="vcol you">
             <div class="vh">Zach, multi-threaded</div>
-            <p>Fluent across product, AI, and customer at once. For a company <b>productizing coding agents, the job is the seam between those three</b> &mdash; so the cross-lane person is the fit, not the compromise.</p>
+            <p>Fluent across product, AI, and customer at once. For a company <b>productizing coding agents, the job is the seam between those three</b>, so the cross-lane person is the fit, not the compromise. A <b>high-signal sleeper by design</b>: small-batch craft over big-company scale, so the signal is in the work, not the résumé brand.</p>
           </div>
         </div>
       </div>
 
       <div class="sec body">
         <h2>The part that compounds</h2>
-        <p>He does not just close his own tickets. He brings the <b>agent-native way of working</b> &mdash; delegating to coding agents at scale, with the guardrail discipline to keep it safe &mdash; which is exactly the capability Blacksmith is building for its own customers.</p>
-        <p>So the first 90 days are not one person's output. He <b>sets the pattern the team compounds on</b> and jumpstarts their internal applied-AI effort. You are buying a force multiplier, not a seat filled.</p>
+        <p>He does not just close his own tickets. He brings the <b>agent-native way of working</b> (delegating to coding agents at scale, with the guardrail discipline to keep it safe), the same capability Blacksmith is building for its customers. In the first 90 days he <b>sets the pattern the team compounds on</b> and accelerates their internal applied-AI effort. A force multiplier, not a seat filled.</p>
       </div>
 
       <div class="sec">
         <h2>How to price it</h2>
         <div class="comp">
           <div class="ct">The comp logic, for the offer conversation</div>
-          <p>If one hire covers what would otherwise be <b>two specialized roles</b>, then a premium on a single salary is a <b>discount</b> &mdash; against two loaded salaries plus the coordination tax between them. Price him at the top of the band, not the middle. The ROI math is on one-covers-two, and every claim behind it is verifiable before the offer.</p>
+          <p>If one hire covers what would otherwise be <b>two specialized roles</b>, then a premium on a single salary is a <b>discount</b>, against two loaded salaries plus the coordination tax between them. Price him at the top of the band, not the middle. The ROI math is on one-covers-two, and every claim behind it is verifiable before the offer.</p>
         </div>
       </div>
 
       <div class="sec body">
         <h2>Why this is a low-risk bet</h2>
-        <p>You said it best on our call: bet on the right person and the upside compounds; bet wrong and it can trigger a spiral. Zach is the <b>low-variance, high-upside</b> version of that bet &mdash; because you can <b>verify it before you place it.</b> The work is public: a live commit trail, an evidence-graded résumé, and a build that shows exactly how it was made and what it refused to claim.</p>
+        <p>This was our shared read on the call: bet on the right person and the upside compounds; bet wrong and, at this stage, it can spiral. Zach is the <b>low-variance, high-upside</b> version of that bet, because you can <b>verify it before you place it</b>: a live commit trail, an evidence-graded résumé, and a build that shows exactly what it refused to claim.</p>
+      </div>
+
+      <div class="sec">
+        <h2>When they push back: the three lenses</h2>
+        <p class="body" style="margin-bottom:14px;color:var(--ink3);font-size:12.5px;">The team reads through three lenses. Each raises a different objection; each has a first answer, and a deeper one if they keep pushing. <b style="color:var(--ink2);">These are inferred from public profiles, not from the room</b>, use them as filters, not scripts.</p>
+        <div class="ammo">
+          <div class="amrow">
+            <div class="obj"><span class="lens">Lens 1 &middot; Product + business (the CEO seat)</span><i>&ldquo;Is this real product instinct, or a nice personal project? Where's the market pull?&rdquo;</i></div>
+            <div class="reb"><span class="ar">&rarr;</span> He took an ambiguous, no-spec problem to a <b>running, opinionated system</b>, solo. That is the 0-to-1 instinct the seat needs, and he leads with market humility: ask what he'd cut from his own build if a user showed up tomorrow. He has the list.</div>
+            <details class="nest"><summary><span class="ordtag">2nd order</span> If they push: <i>&ldquo;but there are no external users yet.&rdquo;</i></summary>
+              <div class="reb"><span class="ar">&rarr;</span> The zero-to-revenue rep is in the client and advisory work; the personal build proves he takes vague to shipped with no spec to hide behind. Both, not one.</div>
+              <details class="nest"><summary><span class="ordtag">3rd order</span> Still skeptical: <i>&ldquo;will he build what the market wants, not what he likes?&rdquo;</i></summary>
+                <div class="reb"><span class="ar">&rarr;</span> He reads his own work adversarially, that is what the evidence-graded résumé and the cut-list are. He designs for the arriving user, not his own taste.</div>
+              </details>
+            </details>
+          </div>
+          <div class="amrow">
+            <div class="obj"><span class="lens">Lens 2 &middot; Skeptical systems (co-CTO)</span><i>&ldquo;Has he actually written systems code? Isn't agent-driven speed a corruption risk here?&rdquo;</i></div>
+            <div class="reb"><span class="ar">&rarr;</span> Concede the systems ramp is real, weeks not zero. But agent-safety is his <b>edge</b>, not his risk: a year as the adversarial power-user of coding agents, the exact surface you're productizing, with the reflex to never merge on a plausible green.</div>
+            <details class="nest"><summary><span class="ordtag">2nd order</span> If they push: <i>&ldquo;concretely, will HE ship a corruption bug moving fast?&rdquo;</i></summary>
+              <div class="reb"><span class="ar">&rarr;</span> His velocity is fenced by mechanical gates, lint, build, leak-checks, tests, auto-rollback, all in CI on every change. He treats agent output as false until a test draws blood. The failure mode they fear is the one he's spent a year instrumenting against.</div>
+              <details class="nest"><summary><span class="ordtag">3rd order</span> Still skeptical: <i>&ldquo;prove the depth.&rdquo;</i></summary>
+                <div class="reb"><span class="ar">&rarr;</span> Don't take it on faith, test it live: hand him the gnarliest recent incident in the first screen and watch him reason, not bluff. He closes depth gaps fast and never fakes understanding.</div>
+              </details>
+            </details>
+          </div>
+          <div class="amrow">
+            <div class="obj"><span class="lens">Lens 3 &middot; Rigor + gates (co-CTO)</span><i>&ldquo;Can a solo builder hold a bar on a team? Will quality survive his speed?&rdquo;</i></div>
+            <div class="reb"><span class="ar">&rarr;</span> His instinct is to <b>encode the standard so it enforces itself</b>, the same pattern as a good check suite. Speed and rigor aren't opposed for him; the gates are what let him move fast safely.</div>
+            <details class="nest"><summary><span class="ordtag">2nd order</span> If they push: <i>&ldquo;solo isn't team leadership.&rdquo;</i></summary>
+              <div class="reb"><span class="ar">&rarr;</span> The highest technical leadership is the guardrail that keeps everyone safe without you in the room. He came up standing up practices in regulated teams, that is the rep.</div>
+              <details class="nest"><summary><span class="ordtag">3rd order</span> Still skeptical: <i>&ldquo;where does he actually fit?&rdquo;</i></summary>
+                <div class="reb"><span class="ar">&rarr;</span> Near your platform and applied-AI work, where the standard he encodes accelerates everyone. His verification discipline is your culture, not a foreign body.</div>
+              </details>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>Best / base / worst case</h2>
+        <div class="scen">
+          <div class="scol best">
+            <div class="sl">Best case</div>
+            <p>The connective tissue within a quarter: ships product fast, accelerates the internal applied-AI effort, and lifts the whole team's agent-workflow discipline. The force-multiplier outcome.</p>
+          </div>
+          <div class="scol base">
+            <div class="sl">Base case</div>
+            <p>A strong senior product engineer who ships in days, ramps on systems depth over the first months, and quietly raises the bar on how the team uses coding agents. Clear net-positive.</p>
+          </div>
+          <div class="scol worst">
+            <div class="sl">Worst case</div>
+            <p>The systems-depth ramp is slower than hoped, or the breadth doesn't convert to the one depth they most need. Contained, because the guardrails below make it recoverable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>De-risk it: ARCS circuit breakers</h2>
+        <div class="cb">
+          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Scoped paid trial first.</b> A two-to-four-week real project before a full commit. Verify the bet with work, not interviews.</div></div>
+          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>30/60/90 milestone gate.</b> Pre-agreed, shipped-artifact success criteria at each mark. No vibes, checkable.</div></div>
+          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Week-one shipped PR.</b> His ship-speed makes a real first-week artifact cheap; you see the pattern immediately.</div></div>
+          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Incident pairing in the loop.</b> Hand him a live incident in a screen; the ramp risk is visible before the offer, not after.</div></div>
+          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Public reference-checkability.</b> The commit trail, graded résumé, and the Forge mean the downside is bounded by evidence you can read today.</div></div>
+        </div>
+        <p class="cbnote">Each turns the worst case from a loss into a lesson you catch early. That is the ARCS move, and the same instinct he'd bring to your infra decisions: never optimize grip strength on a no-rope route, add the rope.</p>
       </div>
 
       <div class="sec">
         <div class="bites">
           <div class="bt">Lines you can repeat</div>
           <ul>
-            <li>Not another specialist &mdash; the connective tissue.</li>
+            <li>Not another specialist, the connective tissue.</li>
             <li>Two hires in one: he ships product, builds the AI, and owns the outcome.</li>
-            <li>He jumpstarts your applied-AI effort, he doesn't just staff a seat.</li>
+            <li>He accelerates your applied-AI effort, he doesn't just staff a seat.</li>
             <li>You can verify the bet before you place it.</li>
           </ul>
         </div>
@@ -171,8 +279,22 @@
         <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>
         <a href="https://status.arcs.care">status.arcs.care</a>
       </div>
-      <div class="fine">Everything above is checkable, not adjective. Prepared for Amy at RecruitHaus, whose introduction and credit this is. Positioning brief &mdash; for your use with the team.</div>
+      <div class="fine">Everything above is checkable, not adjective. Prepared for Amy at RecruitHaus, whose introduction and credit this is. Positioning brief, for your use with the team.</div>
     </footer>
   </div>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+  function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+  // which objections Amy actually explores (2nd/3rd order opens) + outbound clicks
+  document.querySelectorAll('details.nest').forEach(function(d){
+    d.addEventListener('toggle', function(){ if(d.open) track('objection_open'); });
+  });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="http"]'); if(!a) return;
+    var h = a.getAttribute('href')||'';
+    track(/blacksmith\.arcs\.care/.test(h) ? 'out_bundle' : /github/.test(h) ? 'out_github' : /status\./.test(h) ? 'out_status' : 'out_other');
+  }, true);
+</script>
 </body>
 </html>

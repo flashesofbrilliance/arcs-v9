@@ -32,7 +32,7 @@ The moments of honest challenge that strengthened trust rather than eroding it.
 - **The ACL disclosure.** Zach surfaced the surgery honestly and early ("one not-so-small asterisk"). Discord (a real logistics friction) handled as strength: she took ownership of pre-framing it ("I'll let them know on the front end so they're not like, you didn't tell us"). Honesty converted a liability into a trust deposit.
 - **On-site expectation.** She probed 5-day on-site; he countered "ideally hybrid, wouldn't be a deal-breaker." Mild, resolved. She assumes it lands hybrid.
 
-## Kairos moments (the opportune, pivotal timing beats)
+## Timing that mattered (the opportune, pivotal beats)
 Where the window opened and a move mattered.
 
 - **~Minute 20: the flip.** The unicorn line is the hinge. Before it, she's screening; after it, she's selling. Everything you want her to carry to Blacksmith should be seeded AFTER this point (it was).
