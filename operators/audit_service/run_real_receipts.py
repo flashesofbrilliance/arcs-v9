@@ -86,10 +86,13 @@ def receipt_to_primitives(row: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str
 
     prov = {"somatic_real": False, "axioms_real": False}
 
-    # --- axioms: real if the raw compass response carried them; else default ---
+    # --- axioms: real if a SAGE trace carried them (the actual source), else the
+    #     raw compass response, else default. (SAGE signal is where axioms live.) ---
     raw = _j(row, "rawResponse", {}) or {}
     axioms = None
-    if isinstance(raw, dict):
+    if isinstance(sage_signal, dict) and isinstance(sage_signal.get("axioms"), dict):
+        axioms = sage_signal["axioms"]
+    elif isinstance(raw, dict):
         axioms = raw.get("axioms") or (raw.get("reasoning", {}) or {}).get("axioms")
     if axioms and isinstance(axioms, dict):
         prov["axioms_real"] = True
