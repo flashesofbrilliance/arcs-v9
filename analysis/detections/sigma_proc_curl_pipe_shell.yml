@@ -1,0 +1,36 @@
+title: Dev-tool Spawns Remote Pipe-to-Shell (npm/VSCode)
+id: 3a9d5e21-7b6c-4f88-8e10-cicurlpipesh01
+status: experimental
+description: >
+  Detects a developer tool (node, npm, VS Code) spawning a shell that fetches and
+  executes remote code - the Contagious Interview folderOpen / install-hook loader.
+references:
+  - https://opensourcemalware.com/blog/contagious-interview-vscode
+logsource:
+  category: process_creation
+detection:
+  parent:
+    ParentImage|endswith:
+      - '\node.exe'
+      - '\npm'
+      - '\Code.exe'
+      - '/node'
+      - '/Code'
+  child_shell:
+    Image|endswith:
+      - '\bash'
+      - '\sh'
+      - '\cmd.exe'
+      - '\powershell.exe'
+  remote_fetch:
+    CommandLine|contains|all:
+      - 'curl'
+      - '|'
+  condition: parent and (child_shell or remote_fetch)
+falsepositives:
+  - 'Legitimate postinstall scripts - tune to your build hosts'
+level: high
+tags:
+  - attack.execution
+  - attack.t1059
+  - attack.t1546
