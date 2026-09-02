@@ -74,11 +74,25 @@
   .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
   .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
 
+  /* hero ship-clock: the live proof of velocity, surfaced as a cockpit readout */
+  .ticker{display:inline-flex;align-items:center;gap:11px;margin-top:26px;max-width:100%;
+    padding:11px 16px;border:1px solid var(--border2);border-radius:11px;
+    background:linear-gradient(100deg,rgba(0,255,157,.07),rgba(0,240,255,.045));
+    font-family:var(--mono);font-size:12.5px;line-height:1.35;color:var(--fg2);}
+  .ticker .pulse{flex:none;width:8px;height:8px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-out infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,157,.55);}70%{box-shadow:0 0 0 8px rgba(0,255,157,0);}100%{box-shadow:0 0 0 0 rgba(0,255,157,0);}}
+  .ticker .tk-lbl{flex:none;font-weight:700;letter-spacing:.16em;font-size:10px;color:var(--green);}
+  .ticker .tk-val b{color:var(--fg1);font-weight:700;}
+  @media(max-width:520px){.ticker{font-size:11.5px;gap:9px;padding:10px 13px;}}
+  @media(prefers-reduced-motion:reduce){.ticker .pulse{animation:none;}}
+
   section{padding:48px 0;border-bottom:1px solid var(--border);}
   .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
   .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
   .sec-lbl h2{font-size:23px;font-weight:700;letter-spacing:-.01em;text-wrap:balance;}
   .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  @media(max-width:560px){.sec-lbl .sub{display:none;}}
 
   .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
   @media(max-width:720px){.pillars{grid-template-columns:1fr;}}
@@ -148,6 +162,11 @@
       <a class="btn p" href="/forge">&#9670; See how it was forged</a>
       <a class="btn s" href="#kitchen">The proof &darr;</a>
     </div>
+    <div class="ticker">
+      <span class="pulse"></span>
+      <span class="tk-lbl">LIVE</span>
+      <span class="tk-val">Forged in <b class="js-elapsed">&hellip;</b> &middot; first call to this page, commit by commit.</span>
+    </div>
   </div>
 </header>
 
@@ -199,11 +218,11 @@
 <footer>
   <div class="wrap foot">
     <span>prepared for Blacksmith &middot; staff product engineer</span>
-    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/forge">director's cut</a></span>
+    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/forge">the forge</a></span>
   </div>
   <div class="prov">&#9670; Built in the open. Every r&eacute;sum&eacute; claim is evidence-graded and red-teamed: see exactly how, and what got cut, in <a href="/forge">the Forge</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
     <div class="attrib">&#9670; This role reached me through <b>Amy at RecruitHaus</b>. The introduction, and the credit, are hers: no going around the front door.</div>
-    <div class="clock">&#9670; From Amy's call (12:40pm ET, Sep 2) to this page: <b id="elapsed">&hellip;</b> and counting. Built in the open, commit by commit at status.arcs.care.</div>
+    <div class="clock">&#9670; From Amy's call (12:40pm ET, Sep 2) to this page: <b class="js-elapsed">&hellip;</b> and counting. Built in the open, commit by commit at status.arcs.care.</div>
 </footer>
 <script>
   // External links (and the cross-page /resume, /forge) open in a new tab
@@ -252,7 +271,7 @@
     function fmt(el){ if(!el) return; var ms = Date.now() - t0; if(ms < 0){ el.textContent = '0m'; return; }
       var h = Math.floor(ms/3600000), m = Math.floor(ms/60000)%60, d = Math.floor(h/24);
       el.textContent = d>0 ? (d+'d '+(h%24)+'h') : (h>0 ? (h+'h '+m+'m') : (m+'m')); }
-    function u(){ fmt(document.getElementById('elapsed')); }
+    function u(){ document.querySelectorAll('.js-elapsed').forEach(fmt); }
     u(); setInterval(u, 30000);
   })();
 </script>
