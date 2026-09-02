@@ -13,7 +13,7 @@ SAGE fired on **45 of 247** decisions (18%). The real-receipt scorecard is there
 
 | Candidate pathogen | Verdict | Evidence |
 |---|---|---|
-| SAGE_URL unset / not deployed | **RULED OUT** | 0 "unset" failures; 45 fired at avg 131ms — service was deployed & reachable |
+| SAGE_URL unset / not deployed | **RULED OUT** | 0 "unset" failures; 45 fired at avg 131ms — service was **reachable from the compass route in a window** (Jun 21–Aug 11). NB: "reachable" ≠ "robustly deployed" — the 22 timeouts suggest a *fragile/dev* endpoint, not prod-grade infra. Deploy *quality* is un-verified. |
 | Selective / manual on critical (80/20) | **RULED OUT** | fire-rate flat across door class (one-way 20.5% vs two-way 17.0%); fired on MORE two-way (27) than one-way (18) in absolute count |
 | Latency / timeout | **CONFIRMED** | 22 aborts at avg 3005ms (the 3s `AbortSignal.timeout`), window Jun 21–Jul 1 |
 | Contract / validation | **CONFIRMED** | 4× `non-200:422`, Jun 30–Jul 19 |
