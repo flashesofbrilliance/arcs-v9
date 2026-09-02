@@ -56,6 +56,13 @@ somatic/axioms. Across the 247, `dewyVector` (the D/E/W/Y state vector) is **nul
 the *outputs* (trueNorth, nci, fated, court) but not the *state vector* they encode. "Unexpressed gene,"
 not "absent from the genome" — but for the audit's purposes, currently unavailable either way.
 
+**Deepest floor — ≈ zero discriminating power (measured, 120-receipt sample).** Because the primitives
+are mostly degenerate/null, the runner's per-receipt CSM sits in a **0.035-wide band (0.347–0.382,
+stdev 0.0075)** — 65 distinct values, but all within ±2% of 0.36 — and is **uncorrelated with nci_score
+(rho = −0.08)**. Not circular, but near-constant: the scorecard currently **cannot discriminate one
+decision from another.** It is code-seaworthy (runs, honest about nulls) but function-unseaworthy on the
+data that exists. (Sample 120/247 for speed; the near-flatness is robust to that.)
+
 Therefore: **0/247 decisions carry user-grounded evidence, and 0/247 carry even informative derived
 signal.** No amount of reliable firing changes that. Evidence-grade fidelity requires **eliciting the 6
 somatic dimensions from the user at decision time** (a compass UX change) AND fixing SAGE to emit
