@@ -159,9 +159,16 @@ def receipt_to_primitives(row: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str
         "pci_score": max(0.0, min(1.0, _num(row.get("coherencePct"), 0.0) / 100.0)),
         "irreversibility": irreversibility,
         "onPurpose": bool(row.get("onPurpose")) if row.get("onPurpose") is not None else True,
-        "phaseId": row.get("surface") or "ORIENT",
+        "phaseId": row.get("surface") or "ORIENT",  # decision surface, NOT sage_signal.phase_id (SAGE's internal stage)
         "nextAction": row.get("nextAction") or "",
-        "signalClassification": _classify(row),
+        # Same-shape fix as axioms: read the REAL value from sage_signal when present
+        # (even if degenerate — the corpus-degeneracy pass flags it), else derive/default.
+        "signalClassification": (
+            sage_signal["signal_classification"]
+            if isinstance(sage_signal, dict)
+            and sage_signal.get("signal_classification") in ("strong_signal", "noise", "mixed", "decelerating")
+            else _classify(row)
+        ),
     }
     fidelity = {"somatic": somatic_src, "hci": "proxy", "axioms": axioms_src}
     return primitives, fidelity, prov
