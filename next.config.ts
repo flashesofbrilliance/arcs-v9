@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
-        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png).*)", destination: "/blacksmith.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf).*)", destination: "/blacksmith.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path((?!.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
