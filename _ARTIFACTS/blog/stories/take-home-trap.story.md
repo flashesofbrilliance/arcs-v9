@@ -10,6 +10,7 @@
   ],
   "arc": {"caption":"the arc of one week in the trenches", "stops":[
     {"label":"a recruiter's take-home", "thread":"red"},
+    {"label":"no one was home", "thread":"red"},
     {"label":"is any of this ours?", "thread":"cyan"},
     {"label":"the opposite-sign echo", "thread":"cyan"},
     {"label":"ship the control", "thread":"green"},
@@ -22,7 +23,7 @@
 
 ## The recruiter's repo, and the question that made it ours
 
-*A North Korean crew ships malware disguised as a job interview. We wrote the defensive dossier, and then asked the question that actually mattered: is any of this ours? Three threads run through what happened next. Red is the exploit, the recruiter's repo that runs the instant you open it. Cyan is the echo, the move that found something a threat report cannot hold. Green is the ship, a finding that ended as a running control instead of a paragraph.*
+*A North Korean crew ships malware disguised as a job interview. I know, because I took the call. We wrote the defensive dossier, then asked the question that actually mattered: is any of this ours? Three threads run through what happened next. Red is the exploit, the recruiter's repo that runs the instant you open it, and the tell that gave it away before the code ever loaded. Cyan is the echo, the move that found something a threat report cannot hold. Green is the ship, a finding that ended as a running control instead of a paragraph.*
 
 ## The take-home is the trap
 
@@ -35,6 +36,20 @@ The lure is a job. A recruiter reaches out, the vibe is real, and there is a cod
 The mechanics are ugly and clever. A beacon ships your entire environment to a server and then runs whatever the server sends back. Your secrets are the prize, and the machine is now someone else's.
 
 [[ARC]]
+
+## No one was home
+
+I took the call. And the first thing I knew, before the repo, before any analysis, was that no one was home.
+
+The recruiter had the shape of a person and none of the presence. He looped "can you hear me, hello, hello" after I had answered three times. A simple aside, "was it robotic?", broke him: "what do you mean?" When I asked an unscripted question, "what part of France?", there was a beat and a stumble before the recited answer arrived. He plowed his script and never yielded, and every so often a second voice prompted him from off mic. His camera stayed off the whole time.
+
+— *Red: the felt absence of a living presence is the leading tell. It fires before the verbal analysis, and it is the hardest layer for this fraud to fake, because a handler plus a translation layer plus a non-native operator cannot manufacture spontaneity in real time.*
+
+*In plain terms: vox animus is the animating voice, the sign that a living presence is actually behind the words. The scam had the form of a conversation with the life force removed.*
+
+That afternoon I took a second recruiter call, a real one. The contrast was total. She interrupted and got interrupted, digressed and doubled back, admitted in real time that a detail was escaping her and went to check it. She named her client up front and gave numbers I could verify, and she asked me to run nothing. Three axes separate the two calls: animacy, provenance, execution. A living voice, provenance offered freely, and no push to execute. The scam inverted all three, and the animacy was the one I felt first.
+
+>> The scam had the shape of a decision and no animating voice. That absence is the first thing to trust.
 
 ## Is any of this ours?
 

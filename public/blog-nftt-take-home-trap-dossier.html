@@ -624,6 +624,20 @@ grep -REn <span class="str">':1224|checkStatus'</span> .</pre>
 python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span class="str">"blocked"</span></pre>
     </div>
     <div class="note signal"><b>Proven, not asserted.</b> The scanner is validated against a synthetic fixture pair: it fires on a malicious repo (all seven vectors + the pinned IOCs, exit&nbsp;2) and stays silent on a benign one (exit&nbsp;0, a bare <span class="mono">process.env.PORT</span> does not false-positive, because PTV-05 requires network co-location). Heuristic and static by design: a clean result means "no known pattern fired," not "safe."</div>
+
+    <h3>Call-stage tells: the lure before the repo</h3>
+    <p>The scanner covers the payload. The stage before it is the recruiter call that tries to get you to clone. Read a suspicious call on three axes, in the order the body actually reads them.</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Axis</th><th>Scam signal</th><th>Legit signal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Animacy</strong> (vox animus)<br><span class="chip crit">fires first</span></td><td>Puppet-relay: looped "can you hear me" after you answered, off-script questions break them, a handler prompts in the background, no yielding. Camera kept off; possibly a real-time AI voice or translation layer.</td><td>Living turn-taking: overlaps, digresses, admits real-time knowledge gaps.</td></tr>
+          <tr><td><strong>Provenance</strong></td><td>Hidden: "not a contributor," vague company, buzzword product.</td><td>Offered up front: client named, checkable numbers, real identity.</td></tr>
+          <tr><td><strong>Execution</strong></td><td>Clone or open now, on the call. The tell within the tell: <em>"you don't need to run it"</em> (opening the folder is the trigger).</td><td>Asks you to run nothing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note signal"><b>The leading indicator is somatic.</b> The felt absence of a living presence fires before the verbal analysis does. In the field pair this dossier draws on, the scam call had the shape of a decision with no animating voice; the legitimate call was all friction and presence. Trust the animacy read first, then confirm with provenance and execution.</div>
   </section>
 
   <!-- 05 IR RUNBOOK -->

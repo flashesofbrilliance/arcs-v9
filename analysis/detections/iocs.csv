@@ -12,3 +12,11 @@ host,vscode-check-mo4-ten.vercel.app,critical,stage-2 host
 file_pattern,.vscode/tasks.json runOn:folderOpen,high,PTV-01 zero-click trigger
 file_pattern,package.json scripts.prepare,high,PTV-02 install-time trigger
 file_pattern,routes/api/auth.js,medium,PTV-06 obfuscated payload appended here
+persona,Richard Stein,high,scam recruiter alias; posed as Cryptis hiring manager (richardstein692@gmail.com)
+company_alias,Cryptis,medium,fake blockchain-gaming / DeFi / NFT company used as the lure cover
+tool_lure,Koso/Kaso AI tools,medium,pushed a custom AI IDE to induce cloning/opening the repo in-editor
+behavior,camera-off request,medium,operator hides own face and asks candidate to disable camera (identity concealment)
+behavior,you-dont-need-to-run-it,high,lie: opening/cloning in the editor triggers the folderOpen payload without an explicit run
+behavior,relay/vox-animus cadence,medium,"scripted latency, non-responsive hello-loops, handler prompting; no living turn-taking"
+behavior,single-squash-commit,medium,freshly planted repo with no real history
+behavior,share-entire-screen (repeated),low,recon plus wanting to watch the clone happen live
