@@ -160,11 +160,14 @@ def receipt_to_primitives(row: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str
 
 
 def _classify(row: Dict[str, Any]) -> str:
+    # Valid schema literals: strong_signal | noise | mixed | decelerating.
+    # Real receipts carry no gradient column, so this defaults to the neutral
+    # 'mixed' — an honest "no directional signal", not a fabricated verdict.
     g = row.get("gradientMagnitude")
     if g is None:
-        return "stable"
+        return "mixed"
     gv = _num(g, 0.5)
-    return "strong_signal" if gv >= 0.6 else ("decelerating" if gv <= 0.4 else "stable")
+    return "strong_signal" if gv >= 0.6 else ("decelerating" if gv <= 0.4 else "mixed")
 
 
 def receipt_to_llm_output(row: Dict[str, Any]) -> Dict[str, Any]:
@@ -258,43 +261,71 @@ def run(path: str) -> Dict[str, Any]:
 
     n = len(receipts)
     unweighted = (sum(compute_csm(p) for p in all_pairs) / len(all_pairs)) if all_pairs else 0.0
+
+    # Confidence tiers per RECEIPT (honesty: null = no trustworthy signal yet).
+    #   EVIDENCE = real somatic AND real axioms · PARTIAL = one real · NONE = neither.
+    tiers = {"EVIDENCE": 0, "PARTIAL": 0, "NONE": 0}
+    # who-was-right: only where an Outcome adjudication exists; else null (never guessed).
     who: Dict[str, int] = {}
+    seen_receipts = set()
     for p in all_pairs:
+        rid = p.get("traceId")
+        if rid not in seen_receipts:
+            seen_receipts.add(rid)
+            prov = p.get("_provenance", {})
+            real = int(bool(prov.get("somatic_real"))) + int(bool(prov.get("axioms_real")))
+            tiers["EVIDENCE" if real == 2 else "PARTIAL" if real == 1 else "NONE"] += 1
         adj = p.get("adjudication")
         if adj:
             who[adj["who_was_right"]] = who.get(adj["who_was_right"], 0) + 1
 
+    # A headline score is only trustworthy if SOME receipt carries evidence.
+    trustworthy = (tiers["EVIDENCE"] + tiers["PARTIAL"]) > 0
+
     return {
         "receipts": n,
         "pairs": len(all_pairs),
-        "unweighted_csm": round(unweighted, 4),
-        "weighted_csm": round(weighted_csm(all_pairs), 4),
-        "weighted_by_operator": {k: round(v, 4) for k, v in weighted_csm_by_operator(all_pairs).items()},
+        # null, not a number, when nothing carries trustworthy signal:
+        "weighted_csm": round(weighted_csm(all_pairs), 4) if trustworthy else None,
+        "unweighted_csm": round(unweighted, 4),  # kept for reference; unweighted ignores fidelity
+        "weighted_by_operator": {k: round(v, 4) for k, v in weighted_csm_by_operator(all_pairs).items()} if trustworthy else None,
+        "confidence_tiers": tiers,
         "fidelity_coverage": {
             "somatic_real": somatic_real, "somatic_pct": round(100 * somatic_real / n, 1) if n else 0.0,
             "axioms_real": axioms_real, "axioms_pct": round(100 * axioms_real / n, 1) if n else 0.0,
             "mean_fidelity_weight": round(sum(fidelity_weight(p) for p in all_pairs) / len(all_pairs), 4) if all_pairs else 0.0,
         },
-        "who_was_right": who or {"UNADJUDICATED": n},
+        # explicit null when unadjudicated — not a fake "UNADJUDICATED" bucket masquerading as a result:
+        "who_was_right": who or None,
         "adjudicated_receipts": adjudicated,
+        "unadjudicated_receipts": n - adjudicated,
     }
 
 
+def _nz(v: Any) -> str:
+    """Render null explicitly as 'null (no trustworthy signal yet)'."""
+    return "null (no trustworthy signal yet)" if v is None else str(v)
+
+
 def _print_board(b: Dict[str, Any]) -> None:
+    t = b["confidence_tiers"]
     print("=" * 68)
     print(f" REAL-RECEIPT AUDIT BOARD — {b['receipts']} receipts, {b['pairs']} pairs")
     print("=" * 68)
-    print(f" CSM unweighted : {b['unweighted_csm']}")
-    print(f" CSM weighted   : {b['weighted_csm']}   (fidelity-weighted; Task 18)")
-    print(" per operator   : " + ", ".join(f"{k}={v}" for k, v in b["weighted_by_operator"].items()))
+    print(f" TRUST SCORE (fidelity-weighted) : {_nz(b['weighted_csm'])}")
+    print(f"   per operator                  : {_nz(b['weighted_by_operator'])}")
+    print(f"   (raw, ignores fidelity)       : {b['unweighted_csm']}")
+    print("-" * 68)
+    print(" CONFIDENCE PER DECISION:")
+    print(f"   evidence-backed : {t['EVIDENCE']}")
+    print(f"   partial         : {t['PARTIAL']}")
+    print(f"   null (no signal): {t['NONE']}   ← scored low-confidence, never faked")
     fc = b["fidelity_coverage"]
+    print(f"   somatic real {fc['somatic_real']}/{b['receipts']} ({fc['somatic_pct']}%) · "
+          f"axioms real {fc['axioms_real']}/{b['receipts']} ({fc['axioms_pct']}%)")
     print("-" * 68)
-    print(f" FIDELITY COVERAGE (honesty): mean weight {fc['mean_fidelity_weight']}")
-    print(f"   somatic real: {fc['somatic_real']}/{b['receipts']} ({fc['somatic_pct']}%)  "
-          f"axioms real: {fc['axioms_real']}/{b['receipts']} ({fc['axioms_pct']}%)")
-    print(f"   → receipts lacking real somatic/axioms are DOWN-WEIGHTED, not dropped.")
-    print("-" * 68)
-    print(f" WHO-WAS-RIGHT ({b['adjudicated_receipts']} adjudicated): {b['who_was_right']}")
+    print(f" WHO-WAS-RIGHT : {_nz(b['who_was_right'])}")
+    print(f"   ({b['adjudicated_receipts']} adjudicated, {b['unadjudicated_receipts']} null/unproven)")
     print("=" * 68)
 
 
