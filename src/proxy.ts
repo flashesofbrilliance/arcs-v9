@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'token':        '/token.html',
@@ -8,7 +9,8 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'chris-intro':  '/chris-intro.html',
   'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
-  'recruithaus':  '/recruithaus.html',
+  // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
+  // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
@@ -36,8 +38,28 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3-full.html', '/blog/nftt/post-3': '/blog-nftt-post-3-full.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4-full.html', '/blog/nftt/post-4': '/blog-nftt-post-4-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
 }
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // --- Recruiter ammo-tier gate (host-independent) ---------------------------
+  // Any /recruithaus-ammo* asset (the gated viewer + PDFs holding comp logic and
+  // the founder-lens objection-handling battle cards) requires the unlock cookie
+  // on EVERY host. This is deliberate: the recruithaus subdomain rewrite alone is
+  // not a gate, because a public/ file is directly fetchable via app.arcs.care/<file>.
+  // Checking the cookie here, before host routing, closes that bypass. The gate
+  // page itself (/recruithaus-gate.html) uses a different prefix, so it stays open.
+  if (pathname.startsWith('/recruithaus-ammo')) {
+    const ok = await ammoUnlocked(
+      request.cookies.get(AMMO_COOKIE)?.value,
+      process.env.RECRUITHAUS_AMMO_PASSWORD,
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/recruithaus-gate.html'
+      return NextResponse.rewrite(url)
+    }
+    return NextResponse.next()
+  }
 
   // Recoil identity gate is now enforced per-route via Auth.js session +
   // ADMIN_EMAILS (src/lib/admin.ts) on every /recoil surface:
@@ -62,6 +84,36 @@ export default function proxy(request: NextRequest) {
     }
     const url = request.nextUrl.clone()
     url.pathname = dest
+    return NextResponse.rewrite(url)
+  }
+
+  // --- recruithaus.arcs.care ------------------------------------------------
+  // Root = the open candidate-positioning pitch (recruithaus.html). /ammo = the
+  // gated tier: unlocked -> the ammo viewer; locked -> the passcode gate page.
+  // Everything else on the host collapses to the pitch. Asset files under
+  // /recruithaus-ammo* are already gated by the host-independent check above.
+  if (sub === 'recruithaus') {
+    if (
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/_vercel') ||
+      pathname.startsWith('/api')
+    ) {
+      return NextResponse.next()
+    }
+    if (pathname === '/ammo' || pathname === '/ammo/') {
+      const ok = await ammoUnlocked(
+        request.cookies.get(AMMO_COOKIE)?.value,
+        process.env.RECRUITHAUS_AMMO_PASSWORD,
+      )
+      const url = request.nextUrl.clone()
+      url.pathname = ok ? '/recruithaus-ammo.html' : '/recruithaus-gate.html'
+      return NextResponse.rewrite(url)
+    }
+    if (pathname.startsWith('/recruithaus-gate.html') || pathname.startsWith('/recruithaus.html')) {
+      return NextResponse.next()
+    }
+    const url = request.nextUrl.clone()
+    url.pathname = '/recruithaus.html'
     return NextResponse.rewrite(url)
   }
 
