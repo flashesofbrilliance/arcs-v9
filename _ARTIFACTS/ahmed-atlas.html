@@ -29,7 +29,7 @@ h1{font-size:28px;margin:0 0 6px;font-weight:600;letter-spacing:-0.01em}
 @media (max-width:700px){.pre b{display:block;min-width:0}.jump{margin:0 -20px 20px}}
 </style></head><body><div class="page">
 <h1>One relationship, serialized</h1>
-<p class="sub">2026-09-03 · for Ahmed · 19 artifacts · 6 tiers</p>
+<p class="sub">2026-09-03 · for Ahmed · 21 artifacts · 6 tiers</p>
 <div class="pre">
 <p><b>What you are looking at</b> Every artifact from one relationship, stacked by how far it sits from the raw signal. Six tiers, nineteen artifacts, one file underneath all of them.</p>
 <p><b>Why it exists</b> You standardize context so an AI can act on it. This is the same move for a decision: one account record, every question answered from it. The receipt table is to a relationship what the activity table is to a customer.</p>
@@ -151,6 +151,11 @@ h1{font-size:28px;margin:0 0 6px;font-weight:600;letter-spacing:-0.01em}
 <div class="prov">_ARTIFACTS/blog/stories/by-hand-or-automation.story.md</div>
 <div class="links">connects to: <a href="#n-cli-commands">cli-commands</a></div>
 </div>
+<div class="card" id="n-cold-reader-gate"><h3><span>The legibility gate, wired</span><span class="st" style="color:#999">BUILT</span></h3>
+<p>Seven mechanical checks on the rendered page: verdict above the fold, first screen under 250 words, depth behind a disclosure, one figure per step, a read-time stamp, zero em-dashes, an action cue. Calibrated against your verdicts: the old report page fails, the Saul page fails. Today&#x27;s pages fail too, which is why you have not received them.</p>
+<div class="prov">scripts/cold_reader_gate.py; calibration run 2026-09-03</div>
+<div class="links">connects to: <a href="#n-gauntlet">gauntlet</a>, <a href="#n-legibility-adr">legibility-adr</a></div>
+</div>
 </div></section>
 <div class="arrow" aria-hidden="true">serialized into ↓</div>
 <section class="tier" id="tier-5" aria-labelledby="tl-5">
@@ -166,6 +171,11 @@ h1{font-size:28px;margin:0 0 6px;font-weight:600;letter-spacing:-0.01em}
 <p>You said the human does the review, not the execution. Here the bet is filed before, the transcript is filed as it happens, the score is computed, and the human reads the score. A decision made downstream updates the record upstream in the same file. Neither of us set out to copy the other.</p>
 <div class="prov">call transcript, your words; the Receipt Loop family</div>
 <div class="links">connects to: <a href="#n-receipt-loop">receipt-loop</a>, <a href="#n-context-thesis">context-thesis</a></div>
+</div>
+<div class="card" id="n-legibility-adr"><h3><span>Pull, not push, made a rule</span><span class="st" style="color:#999">BUILT</span></h3>
+<p>Three people said the same thing from outside, in their own words, months apart. It was written down as a note about each of them, never as a rule about readers. Now it is a rule: verdict first, depth pulled, and a gate that can stop a page. Your live A/B is the acceptance test.</p>
+<div class="prov">ADR-075; DEWY 2026-09-03-legibility-gate; apex spine; witness 14:29:34</div>
+<div class="links">connects to: <a href="#n-cold-reader-gate">cold-reader-gate</a>, <a href="#n-context-thesis">context-thesis</a>, <a href="#n-stateful">stateful</a></div>
 </div>
 </div></section>
 </div>

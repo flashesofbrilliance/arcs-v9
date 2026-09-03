@@ -264,6 +264,31 @@
         "receipt-loop",
         "context-thesis"
       ]
+    },
+    {
+      "id": "cold-reader-gate",
+      "tier": 4,
+      "title": "The legibility gate, wired",
+      "status": "BUILT",
+      "claim": "Seven mechanical checks on the rendered page: verdict above the fold, first screen under 250 words, depth behind a disclosure, one figure per step, a read-time stamp, zero em-dashes, an action cue. Calibrated against your verdicts: the old report page fails, the Saul page fails. Today's pages fail too, which is why you have not received them.",
+      "provenance": "scripts/cold_reader_gate.py; calibration run 2026-09-03",
+      "links": [
+        "gauntlet",
+        "legibility-adr"
+      ]
+    },
+    {
+      "id": "legibility-adr",
+      "tier": 5,
+      "title": "Pull, not push, made a rule",
+      "status": "BUILT",
+      "claim": "Three people said the same thing from outside, in their own words, months apart. It was written down as a note about each of them, never as a rule about readers. Now it is a rule: verdict first, depth pulled, and a gate that can stop a page. Your live A/B is the acceptance test.",
+      "provenance": "ADR-075; DEWY 2026-09-03-legibility-gate; apex spine; witness 14:29:34",
+      "links": [
+        "cold-reader-gate",
+        "context-thesis",
+        "stateful"
+      ]
     }
   ]
 }
