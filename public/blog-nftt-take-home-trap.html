@@ -1,5 +1,4 @@
 <title>With Life, and Without It</title>
-<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +113,11 @@
   ::selection{background:rgba(0,240,255,.22)}
   :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
 </style>
 
 <div class="wrap">
