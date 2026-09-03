@@ -610,5 +610,14 @@
     "stability": null,
     "gate": "see content",
     "file": "ADR-058-CALIBRATE-IDEA-Construction.md"
+  },
+  {
+    "id": "ADR-074",
+    "title": "ADR-074 — PRL Sugar custom-code collision surface: chatbot lead path is clear; attribution rides W-Systems hooks",
+    "status": "DRAFT",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-074-prl-sugar-custom-code-collision-surface.md"
   }
 ]
