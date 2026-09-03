@@ -75,8 +75,9 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
 Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
-rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
-from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
+rewrite). The full interactive Next.js page IS committed on main at `src/app/observatory/page.tsx`
+(landed 2026-06-23, ~1.2k LOC); the old "never pushed" note was stale (Atlas audit 2026-09-03).
+Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -181,7 +182,7 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
   ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
 
 ## Open (next session)
-1. **Nightly canon-propagation cron — still HELD.** Arm after merge: `cp scripts/launchd/care.arcs.canon-propagation.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/care.arcs.canon-propagation.plist`.
+1. **Nightly canon-propagation cron — ARMED** (plist installed at `~/Library/LaunchAgents/care.arcs.canon-propagation.plist`; confirmed live 2026-09-03. The "still HELD / arm after merge" note was stale, per the Atlas audit).
 2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
 3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
 4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
