@@ -9,6 +9,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'chris-intro':  '/chris-intro.html',
   'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
+  'saul':         '/saul.html',   // saul.arcs.care — two-minute interview prep (2026-09-03)
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }

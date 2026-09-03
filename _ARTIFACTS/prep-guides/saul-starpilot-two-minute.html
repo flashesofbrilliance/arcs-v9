@@ -1,0 +1,156 @@
+<title>Saul × Starpilot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F4F6F2; --paper:#FFFFFF; --ink:#1A2129; --ink-2:#4B5560; --ink-3:#7A848E;
+  --rule:#D9DED8; --accent:#D8552B; --accent-soft:#FBE9E1; --depth:#2E6F6A; --depth-soft:#E3F0EE;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --measure:640px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#12171C; --paper:#1A2028; --ink:#E9ECEA; --ink-2:#B4BCC3; --ink-3:#7F8A94;
+  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230;}}
+:root[data-theme="dark"]{
+  --ground:#12171C; --paper:#1A2028; --ink:#E9ECEA; --ink-2:#B4BCC3; --ink-3:#7F8A94;
+  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+main{max-width:720px;margin:0 auto;padding:40px 20px 72px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow b{color:var(--accent);font-weight:500}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,46px);line-height:1.05;margin:26px 0 8px;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--depth)}
+.thesis{font-size:18px;color:var(--ink-2);max-width:var(--measure);margin:0 0 30px}
+.stage{display:grid;grid-template-columns:64px 1fr;gap:0 18px;padding:22px 0;border-top:1px solid var(--rule)}
+.stage:last-of-type{border-bottom:1px solid var(--rule)}
+.clock{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:3px;font-variant-numeric:tabular-nums}
+.clock small{display:block;color:var(--ink-3);font-size:11px;margin-top:2px}
+h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;color:var(--ink)}
+.stage p{margin:0 0 10px;max-width:var(--measure)}
+.stage p:last-child{margin-bottom:0}
+ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+li{display:grid;grid-template-columns:22px 1fr;gap:10px;max-width:var(--measure)}
+li .n{font-family:var(--mono);font-size:12px;color:var(--depth);padding-top:4px}
+li b{font-weight:600}
+.term{font-family:var(--mono);font-size:.92em;background:var(--depth-soft);color:var(--depth);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.mirror{background:var(--paper);border:1px solid var(--rule);padding:16px 18px;margin-top:14px}
+.mirror .eyebrow{margin-bottom:8px}
+.mirror q{font-family:var(--serif);font-size:20px;line-height:1.3;quotes:"“" "”"}
+.pick{display:grid;gap:8px}
+.pick li{grid-template-columns:1fr;background:var(--paper);border:1px solid var(--rule);padding:10px 14px;border-left:3px solid var(--accent)}
+.watch li .n{color:var(--accent)}
+.close{margin-top:32px;padding:22px 0 0}
+.close p{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0;max-width:var(--measure);text-wrap:balance}
+.close .eyebrow{margin-bottom:8px}
+.rails{margin-top:28px;padding-top:22px;border-top:1px solid var(--rule)}
+.rails h2{margin-top:6px}
+.pm{color:var(--ink-2);max-width:var(--measure);margin:0 0 16px}
+.rail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rail{background:var(--paper);border:1px solid var(--rule);padding:14px 16px;border-top:3px solid var(--depth)}
+.rail-sometimes{border-top-color:var(--ink-3)} .rail-never{border-top-color:var(--accent)}
+.rail h3{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono);font-weight:500}
+.rail-always h3{color:var(--depth)} .rail-never h3{color:var(--accent)}
+.rail ul{gap:8px} .rail li{grid-template-columns:1fr;font-size:14.5px;line-height:1.4}
+@media (max-width:640px){.rail-grid{grid-template-columns:1fr}}
+footer{margin-top:44px;font-family:var(--mono);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer a{color:inherit}
+@media (max-width:480px){.stage{grid-template-columns:1fr;gap:6px}.clock{display:flex;gap:8px;align-items:baseline}.clock small{margin:0}}
+</style>
+<main id="app"></main>
+<script>
+// Page data. Every number and quoted line carries its source: [LI] = Saul's LinkedIn profile, [site] = starpilot.ai as read 2026-09-03. Anything else is a question, not a claim.
+const PREP = {
+  who: "Saul Miller", role: "VP Data Operations", org: "Starpilot",
+  orgUrl: "https://www.starpilot.ai", verified: "starpilot.ai read 2026-09-03 · LinkedIn profile 2026-09-03 · re-grounded after a Saul-vs-Saul read, 7 lines changed",
+  headline: ["Same delivery problem you ran at Sama.", "Harder physics."],
+  thesis: "Starpilot sources expert real-world datasets and maps human execution onto a customer's robot. That is the Sama delivery problem, moved into the physical world. You have run the people half of it for ten years.",
+  mirror: { who: "Your own LinkedIn line", text: "Good with AI. Better with people." },
+  terms: ["episodes","trajectories","embodiment","retarget","ground truth"],
+  stages: [
+    { seconds: 0, title: "What they say they are", body: [
+      "Ground truth for physical autonomy. Multi-camera + depth, tactile sensing, sub-millimeter motion tracking, LiDAR. Engine: Source \u2192 Retarget \u2192 Evaluate \u2192 Refine. \u201cPowered by global PhD-led teams.\u201d",
+      "Three supply channels: robotics teams request data, businesses become data partners, individuals record (marked coming soon). San Francisco address. Stage, headcount, and customers are not on the site."
+    ]},
+    { seconds: 20, title: "Your fit in one breath", body: [
+      "Ten years scaling AI data operations at Sama. Teams across 4 continents, 25+ concurrent client engagements, 95%+ retention against contracted SLAs. Owned 3D LiDAR annotation as a product. Ran the functions that drove company profitability, not just volume. All of it is on your profile; say it the same way."
+    ]},
+    { seconds: 45, title: "Three things to land", list: [
+      ["Physical data ops is harder than annotation ops.", "Sensors, calibration, retargeting, real-world evaluation. Failures show up late and cost more. Name the gap yourself so they hear you see it."],
+      ["Three supply channels need one quality bar.", "PhD teams, data partners, individuals. Ask how QA is standardized across them today. Then tell the one story: delivery governance across 25+ concurrent engagements."],
+      ["Margin, not just throughput.", "Ask how cost per usable episode trends as retargeting improves. Profitability is a story you can tell with numbers."]
+    ]},
+    { seconds: 80, title: "Ask two", pick: [
+      "What share of collected episodes reach a customer-usable dataset, and where do the rest fall out?",
+      "When retargeting fails on a customer's embodiment, who owns quality: ops, research, or the customer?",
+      "How much of your supply do you expect the individual channel to carry once it launches?",
+      "What does this role own at 12 months that it does not own today?"
+    ]},
+    { seconds: 105, title: "Watch-outs", watch: [
+      ["Mirror their words.", "Episodes, trajectories, embodiment, retarget. Not annotations and tasks."],
+      ["Expect the one-company question.", "Ten years at Sama will come up. Answer with Change Machine: post-launch SaaS scaling, small team, no safety net."],
+      ["Public information is limited.", "Ask stage, headcount, customers, funding. Do not guess any of it out loud."]
+    ]}
+  ],
+  premortem: "Most likely ways this interview goes wrong: you sound like a services vendor selling annotation; you tell a five-minute Sama story where they wanted a number; you get asked something about sensors or embodiments and bluff; you read as a process person to founders who want speed.",
+  guardrails: {
+    always: [
+      "Number first, then the story. Cut every story at 60 seconds.",
+      "Use their words: episodes, trajectories, embodiment, retarget.",
+      "Name the gap between annotation ops and physical ops before they do.",
+      "Answer a hardware question you cannot answer with \u201cI don\u2019t know that yet. Here is how I would find out in week one.\u201d",
+      "Pair every process you mention with the speed or margin outcome it bought."
+    ],
+    sometimes: [
+      "Name Fortune 50 clients. Only when asked about scale, and only ones already public on Sama\u2019s site.",
+      "Go deep on 3D LiDAR product work. Only if the interviewer is technical.",
+      "Bring up the social-impact side of Sama. Only if they open the door on mission.",
+      "Talk hiring plans. Only after you know current headcount."
+    ],
+    never: [
+      "Call their business annotation, labeling, or data services.",
+      "State a Starpilot fact that is not on their site.",
+      "Criticize Sama or explain the exit at length. One sentence, forward-looking.",
+      "Open comp, title, or remote before they do.",
+      "Fill silence. Let the question land and answer the question asked."
+    ]
+  },
+  close: "Physical data ops is a people-and-sensors business. You have run the people half at scale. Let them see that in the first five minutes."
+};
+
+const fmt = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const withTerms = s => PREP.terms.reduce((t,w)=>t.replace(new RegExp(`\\b${w}\\b`,"i"),m=>`<span class="term">${m}</span>`),esc(s));
+const stage = st => `
+  <section class="stage">
+    <div class="clock">${fmt(st.seconds)}<small>${st.title.toLowerCase()}</small></div>
+    <div>
+      <h2>${esc(st.title)}</h2>
+      ${(st.body||[]).map(p=>`<p>${withTerms(p)}</p>`).join("")}
+      ${st.list?`<ul>${st.list.map(([h,d],i)=>`<li><span class="n">${i+1}</span><span><b>${esc(h)}</b> ${withTerms(d)}</span></li>`).join("")}</ul>`:""}
+      ${st.pick?`<ul class="pick">${st.pick.map(q=>`<li>${withTerms(q)}</li>`).join("")}</ul>`:""}
+      ${st.watch?`<ul class="watch">${st.watch.map(([h,d])=>`<li><span class="n">!</span><span><b>${esc(h)}</b> ${esc(d)}</span></li>`).join("")}</ul>`:""}
+    </div>
+  </section>`;
+document.getElementById("app").innerHTML = `
+  <header>
+    <span class="eyebrow">${esc(PREP.who)} · <b>${esc(PREP.role)}</b> · ${esc(PREP.org)}</span>
+    <span class="eyebrow">two-minute read</span>
+  </header>
+  <h1>${esc(PREP.headline[0])}<br><em>${esc(PREP.headline[1])}</em></h1>
+  <p class="thesis">${esc(PREP.thesis)}</p>
+  ${PREP.stages.map(stage).join("")}
+  <section class="rails">
+    <div class="eyebrow">2:00 · after the read</div>
+    <h2>Guardrails</h2>
+    <p class="pm">${esc(PREP.premortem)}</p>
+    <div class="rail-grid">
+      ${[["always","Always"],["sometimes","Sometimes"],["never","Never"]].map(([k,l])=>`<div class="rail rail-${k}"><h3>${l}</h3><ul>${PREP.guardrails[k].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}
+    </div>
+  </section>
+  <div class="mirror"><div class="eyebrow">${esc(PREP.mirror.who)}</div><q>${esc(PREP.mirror.text)}</q></div>
+  <div class="close"><div class="eyebrow">walk in with</div><p>${esc(PREP.close)}</p></div>
+  <footer><span>${esc(PREP.verified)} · <a href="${PREP.orgUrl}">${PREP.orgUrl.replace(/^https?:\/\//,"")}</a></span><span>for Saul only</span></footer>`;
+</script>
