@@ -115,7 +115,10 @@
   }
   @media(prefers-reduced-motion:reduce){nav.sections ul, .nav-toggle .bars span{transition:none}}
 
-  .wrap{max-width:940px; margin:0 auto; padding:0 20px}
+  /* container inner width == the reading measure (--maxw 660 + 2x20 padding),
+     so top-level prose and the full-width boxes/tables all align to one column.
+     Was 940px, which left 660px prose ragged inside a wider shell on desktop. */
+  .wrap{max-width:700px; margin:0 auto; padding:0 20px}
 
   /* ---- hero ---- */
   header.hero{padding:56px 0 40px; border-bottom:1px solid var(--border)}
