@@ -158,7 +158,10 @@
   .chronolegend{display:flex;align-items:baseline;gap:12px;font-family:var(--serif);font-size:.95rem;color:var(--fg1);line-height:1}
   .chronolegend span{opacity:calc(.38 + .62*var(--f));filter:blur(calc((1 - var(--f))*2.6px));letter-spacing:calc((1 - var(--f))*.03em);font-weight:calc(300 + 300*var(--f));display:inline-block}
   @media (prefers-reduced-motion:no-preference){.chronolegend .nascent{animation:wobble 5.5s ease-in-out infinite}}
-  @media (max-width:700px){#transport .legend,#speed,#rev,#fwd{display:none}.track{padding:4px 8px}#platter{height:96px}}
+  @media (max-width:700px){#transport .legend,#speed,#rev,#fwd{display:none}#platter{height:96px}
+    #tonearm{display:grid;grid-template-columns:auto 1fr auto;align-items:center}
+    #tracks{grid-column:1/-1;grid-row:1;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}#tracks::-webkit-scrollbar{display:none}
+    .track{padding:5px 9px;flex:none}.side{justify-self:end}}
   @media (prefers-reduced-motion:no-preference){#scene.enter{animation:enter .38s ease-out}}
   @keyframes enter{from{transform:translateY(8px)}to{transform:none}}
   .sr{position:absolute;left:-9999px}
