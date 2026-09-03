@@ -74,6 +74,10 @@ CONTAINER_SELECTOR_RE = re.compile(
     re.IGNORECASE,
 )
 MAXW_LITERAL_RE = re.compile(r"max-width\s*:\s*(\d+(?:\.\d+)?)(px|rem)\b", re.IGNORECASE)
+# a rule that frees an element to full width (overrides a narrower cap on the same class)
+MAXW_FREE_RE = re.compile(r"max-width\s*:\s*(?:none|100%)\b", re.IGNORECASE)
+# class tokens in a selector, e.g. ".hero .lede" -> ["hero", "lede"]
+CLASS_TOKEN_RE = re.compile(r"\.([\w-]+)")
 
 
 def _to_px(value, unit):
@@ -144,6 +148,13 @@ def _measure_container_mismatch(html):
     """
     findings = []
 
+    # Opt-out for a DELIBERATE two-width layout (a reading-measure body column beside wider
+    # data/grids, e.g. a teardown). The gate cannot statically tell that apart from a broken
+    # document column (which the dossier was), so a page whose author has confirmed the
+    # two-width design is intentional carries `wrap-lint-allow: measure-mismatch` in a comment.
+    if re.search(r"wrap-lint-allow:\s*measure-mismatch", html, re.IGNORECASE):
+        return findings
+
     # Concatenate <style> bodies, remembering each block's start offset in the original file
     # so a match offset can be translated back to a real line number.
     styles = [(m.start(1), _strip_css_comments(m.group(1))) for m in STYLE_BLOCK_RE.finditer(html)]
@@ -152,6 +163,8 @@ def _measure_container_mismatch(html):
 
     var_defs = {}
     prose_measures = {}
+    literal_leaf = {}        # label -> leaf class token (for override suppression)
+    unbounded_classes = set()  # classes set to max-width:none by some (often more-specific) rule
     widest = None  # (px, selector, original_offset)
 
     for base, css in styles:
@@ -167,6 +180,11 @@ def _measure_container_mismatch(html):
     for base, css in styles:
         for m in CSS_BLOCK_RE.finditer(css):
             selector, body = m.group(1), m.group(2)
+            # a `max-width:none` (or 100%) on any text selector frees that class — record its
+            # classes so a narrower cap on the same class elsewhere is treated as overridden,
+            # not as a binding measure (e.g. `.hero .lede{max-width:none}` vs `.lede{...660px}`).
+            if MAXW_FREE_RE.search(body) and TEXT_SELECTOR_RE.search(selector):
+                unbounded_classes.update(CLASS_TOKEN_RE.findall(selector))
             lit = MAXW_LITERAL_RE.search(body)
             if not lit:
                 continue
@@ -174,14 +192,21 @@ def _measure_container_mismatch(html):
             # 1b. literal cap on an unambiguous text selector → a prose measure.
             if TEXT_SELECTOR_RE.search(selector) and PROSE_BAND_PX[0] <= px <= PROSE_BAND_PX[1]:
                 label = "`%s`" % " ".join(selector.split())[:24]
+                classes = CLASS_TOKEN_RE.findall(selector)
                 if label not in prose_measures or px < prose_measures[label]:
                     prose_measures[label] = px
+                    literal_leaf[label] = classes[-1] if classes else None
             # 2. widest layout-container cap.
             if CONTAINER_SELECTOR_RE.search(selector) and (widest is None or px > widest[0]):
                 widest = (px, " ".join(selector.split())[:40], base + m.start(2) + lit.start())
 
+    # Suppress a literal text-cap whose class is freed to full-width by a more-specific rule.
+    for label, leaf in list(literal_leaf.items()):
+        if leaf and leaf in unbounded_classes:
+            prose_measures.pop(label, None)
+
     if not prose_measures:
-        return findings  # no measure-capped prose → this mode does not apply
+        return findings  # no (binding) measure-capped prose → this mode does not apply
     tightest_name = min(prose_measures, key=prose_measures.get)
     measure_px = prose_measures[tightest_name]
 
