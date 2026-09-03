@@ -22,21 +22,22 @@
   @media (max-width:640px){.lab{letter-spacing:.08em}}
 
   /* ── frame ── */
-  #frame{display:grid;grid-template-rows:auto 1fr auto;height:100%;min-height:0}
+  #frame{display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:minmax(0,1fr);height:100%;min-height:0;max-width:100vw}
   #hud{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:12px clamp(14px,3vw,36px);border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(2,4,8,.96),rgba(2,4,8,.85))}
-  #hud .room{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:-.005em;color:#fff;white-space:nowrap}
+  #hud .room{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:-.005em;color:#fff}
   #hud .face{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--border-hi);border-radius:999px;color:var(--fg2);white-space:nowrap}
   #hud .face.private{border-color:var(--gold);color:var(--gold)}
   #hud .theta{font-family:var(--mono);font-size:.74rem;color:var(--fg3);font-variant-numeric:tabular-nums;white-space:nowrap;margin-left:auto}
   #hud .keys{font-family:var(--mono);font-size:.64rem;color:var(--fg4);white-space:nowrap}
+  @media (max-width:900px),(hover:none){#hud .keys{display:none}}
   #hud kbd{font:inherit;border:1px solid var(--border-hi);border-radius:3px;padding:0 5px;color:var(--fg2)}
 
-  #scene{overflow:auto;padding:26px clamp(14px,3vw,36px) 40px;min-height:0;scrollbar-color:var(--border) var(--bg)}
+  #scene{overflow-y:auto;overflow-x:hidden;padding:26px clamp(14px,3vw,36px) 40px;min-height:0;scrollbar-color:var(--border) var(--bg)}
   .room-title{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,5vw,3.6rem);line-height:.98;letter-spacing:-.015em;color:#fff;text-shadow:0 0 42px rgba(0,240,255,.12)}
   .room-title em{font-style:italic;font-weight:500;color:var(--cyan)}
   .lede{font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--fg2);margin:10px 0 0;max-width:36ch}
   .lede b{color:var(--gold);font-style:normal;font-weight:500}
-  .cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:24px;align-items:start}
+  .cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin-top:24px;align-items:start}
   .panel{border:1px solid var(--border);border-radius:6px;background:rgba(13,17,23,.92);padding:16px 18px;min-width:0}
   .panel h3{font-family:var(--serif);font-weight:600;font-size:1.3rem;color:#fff;margin-bottom:8px}
   .panel p{color:var(--fg2);font-size:.92rem;margin:0 0 .6em}
@@ -152,12 +153,12 @@
   .tb.on{border-color:var(--gold);color:var(--gold)}
   #speed{min-width:4.5ch;color:var(--fg2);font-variant-numeric:tabular-nums}
   #transport .now{color:var(--gold);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
-  #transport .cnt{color:var(--fg4);white-space:nowrap}
+  #transport .cnt{color:var(--fg4)}
   #transport .legend{margin-left:auto}
   .chronolegend{display:flex;align-items:baseline;gap:12px;font-family:var(--serif);font-size:.95rem;color:var(--fg1);line-height:1}
   .chronolegend span{opacity:calc(.38 + .62*var(--f));filter:blur(calc((1 - var(--f))*2.6px));letter-spacing:calc((1 - var(--f))*.03em);font-weight:calc(300 + 300*var(--f));display:inline-block}
   @media (prefers-reduced-motion:no-preference){.chronolegend .nascent{animation:wobble 5.5s ease-in-out infinite}}
-  @media (max-width:700px){#transport .legend{display:none}.track{padding:4px 8px}}
+  @media (max-width:700px){#transport .legend,#speed,#rev,#fwd{display:none}.track{padding:4px 8px}#platter{height:96px}}
   @media (prefers-reduced-motion:no-preference){#scene.enter{animation:enter .38s ease-out}}
   @keyframes enter{from{transform:translateY(8px)}to{transform:none}}
   .sr{position:absolute;left:-9999px}
@@ -224,7 +225,7 @@ function chronos(date,sound){ if(!date) return {f:Math.max(.55,sound??.6),unborn
   return {f:Math.max(.08,Math.min(1,f)),unborn:false,nascent:f<.5}; }
 function applyChronos(root){ let unborn=0,total=0; (root||document).querySelectorAll('[data-date]').forEach(el=>{ total++; const c=chronos(el.dataset.date||null,el.dataset.sound?+el.dataset.sound:undefined); el.style.setProperty('--f',c.f.toFixed(3)); el.classList.toggle('unborn',c.unborn); el.classList.toggle('nascent',c.nascent); if(c.unborn) unborn++; });
   (root||document).querySelectorAll('.rows').forEach(g=>{ const rows=[...g.querySelectorAll(':scope > .row')]; g.classList.toggle('void',rows.length>0&&rows.every(r=>r.classList.contains('unborn'))); });
-  const u=document.getElementById('tunborn'); if(u) u.textContent=total===0?'nothing dated in this room':unborn?`${unborn} of ${total} not yet in existence`:`all ${total} dated things exist`; }
+  const u=document.getElementById('tunborn'); if(u) u.textContent=total===0?'':unborn?`${unborn} not yet born`:`all ${total} exist`; }
 const fog = ()=>'';
 const byDate = (a,b)=>(a.date||'').localeCompare(b.date||'');
 function md(src){ // tiny markdown: headings, tables, blockquotes, paragraphs, inline bold/italic/code/links
@@ -524,7 +525,7 @@ const PL=(()=>{
     if(u>0){ band(0,u); ctx.strokeStyle='rgba(255,215,0,.28)'; ctx.lineWidth=18; ctx.stroke(); }
     ticks.forEach(t=>{ const p=lem(t.u,w,h); ctx.globalAlpha=t.u<=u?.95:.28; ctx.fillStyle=KC[t.kind]||'#7d8fa3'; ctx.fillRect(p.x-.6,p.y-6,1.2,12); }); ctx.globalAlpha=1;
     const n=lem(u,w,h); ctx.beginPath(); ctx.arc(n.x,n.y,7,0,Math.PI*2); ctx.fillStyle='#FFD700'; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.fillStyle='rgba(100,116,139,.95)'; ctx.font='8.5px JetBrains Mono, ui-monospace, monospace'; ctx.textAlign='left'; ctx.fillText(tr?tr[0]:'',4,h-5); ctx.textAlign='right'; ctx.fillText(tr?tr[1]:'',w-4,h-5); ctx.textAlign='center'; ctx.fillText('the groove is every dated receipt, decision and witness · drag to scrub · release to coast · the crossing is the half-twist',w/2,h-5);
+    ctx.fillStyle='rgba(100,116,139,.95)'; ctx.font='8.5px JetBrains Mono, ui-monospace, monospace'; ctx.textAlign='left'; ctx.fillText(tr?tr[0]:'',4,h-5); ctx.textAlign='right'; ctx.fillText(tr?tr[1]:'',w-4,h-5); if(w>=760){ ctx.textAlign='center'; ctx.fillText('the groove is every dated receipt, decision and witness · drag to scrub · release to coast',w/2,h-5); }
     requestAnimationFrame(draw); }
   function bind(){
     cv.addEventListener('pointerdown',e=>{ cv.setPointerCapture(e.pointerId); drag={x:e.clientX,id:e.pointerId}; vel=0; playing=false; hist=[[performance.now(),u]]; cv.classList.add('drag'); });
