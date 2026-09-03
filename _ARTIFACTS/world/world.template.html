@@ -98,6 +98,24 @@
   .pollen{margin-top:26px;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--fg2);max-width:var(--measure)}
   .pollen small{font-family:var(--mono);font-style:normal;font-size:.64rem;color:var(--fg4);letter-spacing:.08em;margin-left:8px}
 
+  /* mini-apps: prep scaffold, identifier */
+  .app{display:grid;gap:12px}
+  .fld{display:grid;gap:5px}
+  .fld label{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg4)}
+  .fld input[type=text],.fld textarea{width:100%;background:var(--elevated);border:1px solid var(--border-hi);border-radius:5px;color:var(--fg1);font:.95rem/1.45 var(--sans);padding:9px 11px;outline:none}
+  .fld textarea{min-height:64px;resize:vertical}
+  .fld input:focus,.fld textarea:focus{border-color:var(--cyan)}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{appearance:none;border:1px solid var(--border-hi);background:transparent;color:var(--fg2);font:600 .7rem var(--mono);letter-spacing:.06em;border-radius:999px;padding:6px 11px;cursor:pointer}
+  .seg button:hover{color:var(--fg1)}
+  .seg button.on{border-color:var(--cyan);color:var(--cyan)}
+  .seg.gold button.on{border-color:var(--gold);color:var(--gold)}
+  .app .out{border:1px solid var(--border);border-radius:5px;background:#05080e;padding:10px 12px;font-family:var(--mono);font-size:.72rem;line-height:1.5;color:var(--fg2);overflow-x:auto;white-space:pre;max-height:320px}
+  .app .out b{color:var(--gold);font-weight:500}
+  .app .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .app .bar .lab{margin-left:auto}
+  .ident .res{font-family:var(--serif);font-size:1.15rem;color:var(--fg1)}
+  .ident .res em{color:var(--cyan)}
   /* explorer */
   #exwrap{position:relative;border:1px solid var(--border);border-radius:6px;background:radial-gradient(600px 400px at 50% 40%,rgba(0,240,255,.05),transparent 70%),#05080e;overflow:hidden;min-height:420px;height:min(66vh,640px);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
   #ex{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
@@ -406,6 +424,66 @@ const EX=(()=>{
   };
 })();
 
+/* ───────────── mini-app: the prep scaffold (five fields → an ex-ante DEWY stub, printed locally, nothing sent) ───────────── */
+const PREP={q:'',stakes:'',horizon:'',protecting:[],confidence:0,entity:'',against:''};
+try{ Object.assign(PREP, JSON.parse(localStorage.getItem('arcs-world-prep')||'{}')); }catch(e){}
+const STAKES=['LOW','MEDIUM','HIGH'], HORIZON=['TODAY','THIS_WEEK','THIS_QUARTER','ONE_TO_THREE_YEARS'], PROTECT=['cash','time','reputation','relationships','optionality','health'];
+function prepStub(){
+  const p=PREP; const c=p.confidence; const pol=!c?'SCRATCH':c<=2?'SCRATCH':c===3?'YELLOW':'GREEN'; const conv=!c?'LOW':c<=2?'LOW':c===3?'MEDIUM':'HIGH';
+  const slug=(p.q||'untitled').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48);
+  const ts=new Date().toISOString().slice(0,10);
+  return {receipt_id:`${ts}-prep-${slug||'untitled'}`,surface:'arcs-world / compass prep scaffold',version:'ex-ante-stub-v1',session_ts:ts,
+    sharp_question:p.q||null,dewy_vector:{D:p.q||null,E:p.entity||null,W:p.horizon||null,Y:{polarity:pol,conviction:conv,stability:'SHIFTING'}},
+    stakes:p.stakes||null,horizon:p.horizon||null,mode:p.stakes==='HIGH'?'COURT':'SIMPLE',clarity_mode:'SIMPLE',
+    loki:{strongest_case_against_instinct:p.against||null,source:'operator-declared'},bar:{protecting:p.protecting},
+    y_gate_score:null,nci_score:null,true_north:null,why:null,render_resolution:pol==='GREEN'?'SHARP':pol==='YELLOW'?'DEGRADED':'GRAIN',
+    validation_state:'EX_ANTE_STUB · compass not run',fidelity_header:'Printed in the browser from five operator-declared fields. No server write. Y is mapped from declared confidence and listed as inferred; every null is a field the compass computes, not this scaffold.',
+    inferred_fields:['dewy_vector.Y','render_resolution','mode'],collision_fields:[],drift_state:null,prep_session_id:null,parent_receipt_id:null};
+}
+function prepApp(){
+  const seg=(name,opts,val,gold)=>`<div class="seg${gold?' gold':''}" data-seg="${name}">${opts.map(o=>`<button type="button" data-v="${o}" class="${(Array.isArray(val)?val.includes(o):val===o)?'on':''}">${o.replace(/_/g,' ').toLowerCase()}</button>`).join('')}</div>`;
+  return `<div class="panel wide app" id="prep"><p class="lab au">prep · the calibration instrument · five fields, two minutes · prints an ex-ante receipt here, sends nothing</p>
+    <div class="fld"><label>the real fork (D)</label><textarea data-f="q" placeholder="What are you actually deciding? One sentence.">${esc(PREP.q)}</textarea></div>
+    <div class="cols" style="margin-top:0">
+      <div class="fld"><label>stakes</label>${seg('stakes',STAKES,PREP.stakes)}</div>
+      <div class="fld"><label>window (W)</label>${seg('horizon',HORIZON,PREP.horizon)}</div>
+      <div class="fld"><label>what you are protecting</label>${seg('protecting',PROTECT,PREP.protecting,true)}</div>
+      <div class="fld"><label>how certain you already are · 1 lost → 5 just need confirmation</label>${seg('confidence',['1','2','3','4','5'],String(PREP.confidence||''))}</div>
+    </div>
+    <div class="cols" style="margin-top:0">
+      <div class="fld"><label>who else is in the terrain (E)</label><input type="text" data-f="entity" value="${esc(PREP.entity)}" placeholder="a person, an org, a market"></div>
+      <div class="fld"><label>the strongest case against your instinct (Loki)</label><input type="text" data-f="against" value="${esc(PREP.against)}" placeholder="the argument you least want to be true"></div>
+    </div>
+    <div class="bar"><button class="drill go" data-prep="print">print the ex-ante receipt ▸</button><button class="drill" data-prep="copy">copy JSON</button><button class="drill" data-prep="clear">clear</button><span class="lab">draft stays in this browser only</span></div>
+    <pre class="out" id="prepout" hidden></pre></div>`;
+}
+function bindPrep(root){
+  const host=root.querySelector('#prep'); if(!host) return;
+  const save=()=>{ try{localStorage.setItem('arcs-world-prep',JSON.stringify(PREP));}catch(e){} };
+  host.querySelectorAll('[data-f]').forEach(el=>el.addEventListener('input',()=>{ PREP[el.dataset.f]=el.value; save(); }));
+  host.querySelectorAll('.seg').forEach(seg=>seg.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; const k=seg.dataset.seg, v=b.dataset.v;
+    if(k==='protecting'){ const i=PREP.protecting.indexOf(v); i>=0?PREP.protecting.splice(i,1):PREP.protecting.push(v); b.classList.toggle('on'); }
+    else if(k==='confidence'){ PREP.confidence=+v; seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); }
+    else { PREP[k]=PREP[k]===v?'':v; seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b&&PREP[k]===v)); }
+    save(); }));
+  const out=host.querySelector('#prepout');
+  const print=()=>{ const s=prepStub(); out.hidden=false; out.innerHTML=esc(JSON.stringify(s,null,2)).replace(/"(EX_ANTE_STUB[^"]*)"/,'"<b>$1</b>"'); };
+  host.querySelector('[data-prep="print"]').addEventListener('click',print);
+  host.querySelector('[data-prep="copy"]').addEventListener('click',async()=>{ const txt=JSON.stringify(prepStub(),null,2); out.hidden=false; out.textContent=txt; try{ await navigator.clipboard.writeText(txt); host.querySelector('[data-prep="copy"]').textContent='copied'; }catch(e){ const r=document.createRange(); r.selectNodeContents(out); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); host.querySelector('[data-prep="copy"]').textContent='selected · press copy'; } });
+  host.querySelector('[data-prep="clear"]').addEventListener('click',()=>{ Object.assign(PREP,{q:'',stakes:'',horizon:'',protecting:[],confidence:0,entity:'',against:''}); save(); render(); });
+}
+
+/* ───────────── mini-app: the identifier (the field guide's key, ported from corpus_prospector.py — path rules only) ───────────── */
+const CLASS_RULES=[['ADR',/^_DECISIONS\/ADR-\d+/],['COLLISION',/^_DECISIONS\/CANON-COLLISION/],['DECISION',/^_DECISIONS\//],['DEWY',/\.dewy\.json$|session-decisions/],['APEX',/^_CANON\/apex-/],['PROVERB',/^_CANON\/tao-proverbs\.jsonl$/],['MOMENT',/^_CANON\/great-moments\.jsonl$/],['CANON',/^_CANON\//],['WITNESS',/^_STATE\/witness\//],['KINTSUGI',/kintsugi/],['HANDOFF',/^_ARCHIVE\/handoffs\.md$|^_STATE\/handoff-|^CLAUDE\.md$/],['MEMORY',/^_MEMORY\/|^MEMORY\.md$|^_ARCHIVE\/memory-archive\.md$/],['SEED',/^_SEEDS\//],['PATTERN',/^_PATTERNS\//],['QUEUE',/^_QUEUE\//],['SCRATCH',/^_INBOX\/|\/tmp\/|\/scratch\/|-backup-|DRAFT|\.tmp$|~$/],['RECOIL',/^runtime\/recoil\//],['WARROOM',/^runtime\/warroom\//],['SPEC',/^runtime\/specs\/|^_SPECS\/|^runtime\/flows\//],['RUNTIME',/^runtime\//],['ARTIFACT',/^_ARTIFACTS\/|^analysis\/|^archive\/|^docs\//],['STATE',/^_STATE\//],['SKILL',/^\.claude\/skills\//],['COMMAND',/^\.claude\/commands\//],['AGENT',/^\.claude\/agents\//],['SCRIPT',/^scripts\//],['OPERATOR',/^operators\//],['WORLD',/^WORLD\.md$|^AGENTS\.md$|^\.claude\/arcs-canon\.md$/]];
+const KINGDOM={ADR:'flora · heartwood',COLLISION:'pathogen · resolved',DECISION:'flora',DEWY:'flora · the receipt',APEX:'flora · canon',PROVERB:'flora · pollen',MOMENT:'flora · a moment',CANON:'flora · old growth',WITNESS:'flora · a witness stub',KINTSUGI:'mycelium · the immune ledger',HANDOFF:'flora · leaf litter',MEMORY:'mycelium',SEED:'flora · a seed (never GC)',PATTERN:'flora · lichen',QUEUE:'mycelium · open work',SCRATCH:'ore or cruft · index before you judge',RECOIL:'flora · a receipt ledger',WARROOM:'flora · a bloom',SPEC:'flora · canon-adjacent',RUNTIME:'flora',ARTIFACT:'flora · a bloom (most-orphaned kingdom)',STATE:'flora · state',SKILL:'fauna · instrument',COMMAND:'fauna · instrument',AGENT:'fauna · pack hunter',SCRIPT:'fauna · instrument',OPERATOR:'fauna · operator',WORLD:'flora · the physics'};
+function identApp(){ return `<div class="panel wide app ident" id="ident"><p class="lab au">the identifier · paste a repo path · the field guide's key answers</p><div class="fld"><input type="text" id="identin" placeholder="_STATE/2026-09-01-session-decisions.dewy.json" autocomplete="off" spellcheck="false"></div><p class="res" id="identres">What is this? Paste a path and the key will place it.</p><p class="lab" id="identrule"></p></div>`; }
+function bindIdent(root){ const i=root.querySelector('#identin'); if(!i) return; const res=root.querySelector('#identres'), rule=root.querySelector('#identrule');
+  i.addEventListener('input',()=>{ const p=i.value.trim().replace(/^\.\//,''); if(!p){ res.innerHTML='What is this? Paste a path and the key will place it.'; rule.textContent=''; return; }
+    const hit=CLASS_RULES.find(([c,rx])=>rx.test(p)); const base=p.split('/').pop(); const dated=/20\d{2}-\d{2}-\d{2}/.test(p);
+    if(!hit){ res.innerHTML='Not addressable by the key. Source under <em>src/</em> is not corpus; anything else is unclassed and worth a rule.'; rule.textContent=''; return; }
+    res.innerHTML=`<em>${esc(hit[0])}</em> · ${esc(KINGDOM[hit[0]]||'')}${dated?' · dated':' · undated (one signal short)'}${/^(README|index)\./.test(base)?' · landmark, never an orphan':''}`;
+    rule.textContent='rule: '+hit[1].source+' · grade needs the file: provenance · referenced · well-formed'; }); }
+
 /* ───────────── scenes ───────────── */
 const S={};
 S.threshold = face=>{
@@ -425,7 +503,7 @@ S.threshold = face=>{
 };
 S.compass = face=>{
   if(face==='public'){ const tc=W.covenant.trust.sections.find(s=>s.h.startsWith('7'))||{body:''};
-    return `<div class="cols">
+    return `<div class="cols">${prepApp()}
     <div class="panel"><h3>L0 → L5</h3><div class="rows">${[['L0','raw input','receive the question exactly as given'],['L1','parse & validate','HOLD / REJECT gate; Kintsugi scan'],['L2','decompose','extract D, E, W; infer the opening Y'],['L3','Bayesian update','prior receipts, domain context'],['L4','triune classify','NULL / OM / UNDEFINED per dimension'],['L5','receipt emit','the frozen DEWY coordinate + Y state']].map(x=>row(x[0],esc(x[1]),'',x[2])).join('')}</div></div>
     <div class="panel"><h3>The Y gate</h3><div class="rows">${[['SCRATCH','no coherent position yet · orient only'],['YELLOW','contested · Y gate active'],['PARADOX','options non-separable · Court auto-invoked'],['FORK','two live paths · skintrack choice'],['DELTA','conviction collapsed · watch for phase change'],['GREEN','high conviction · lock what you earned'],['LOCKED','post-Court · superionic']].map(x=>row(x[0],esc(x[1]),'')).join('')}</div></div>
     <div class="panel wide"><h3>Your autonomy is the point</h3><div class="md">${md(tc.body)}</div></div></div>`; }
@@ -469,7 +547,7 @@ S.covenant = face=>{
 };
 S.guide = face=>{
   const f=W.flora;
-  if(face==='public') return `<div class="cols">${f.kingdoms.map(k=>`<div class="panel"><p class="lab">plate ${esc(k.n)}</p><h3>${esc(k.name)}</h3><div class="rows">${k.organisms.map(o=>`<div class="row" style="grid-template-columns:1fr auto"><span class="t"><em style="font-family:var(--serif);font-size:1.05rem">${esc(o.binomial)}</em></span><span class="d">${esc(o.name)}</span></div>`).join('')}</div></div>`).join('')}<div class="panel wide"><p class="lab">${esc(f.file)} · the interactive plates live in _ARTIFACTS/flora-and-fauna/surface.html</p></div></div>`;
+  if(face==='public') return `<div class="cols">${identApp()}${f.kingdoms.map(k=>`<div class="panel"><p class="lab">plate ${esc(k.n)}</p><h3>${esc(k.name)}</h3><div class="rows">${k.organisms.map(o=>`<div class="row" style="grid-template-columns:1fr auto"><span class="t"><em style="font-family:var(--serif);font-size:1.05rem">${esc(o.binomial)}</em></span><span class="d">${esc(o.name)}</span></div>`).join('')}</div></div>`).join('')}<div class="panel wide"><p class="lab">${esc(f.file)} · the interactive plates live in _ARTIFACTS/flora-and-fauna/surface.html</p></div></div>`;
   if(!PRIVATE) return gated('The prospecting survey and the ore ledger');
   const s=W.survey||{};
   return `<div class="cols"><div class="panel"><h3>Ore and dormancy</h3><p>${s.orphans} files nothing points at, ${((s.orphan_bytes||0)/1048576).toFixed(1)} MB. Staleness is not death; dormancy is a claim that must be earned. Never delete before the bundle exists.</p><p class="lab">harvest cycle · index ✓ · catalog · organize · bundle</p></div><div class="panel"><h3>Grades</h3><div class="rows">${['A','B','C','D'].map(g=>row(g,String(s.grades?.[g]??'—'),'',{A:'dated · provenance · referenced · well-formed',B:'three of four',C:'two of four',D:'one or none, or a secret hit'}[g])).join('')}</div></div></div>`;
@@ -489,7 +567,7 @@ function render(){
   $('#hud-theta').textContent=`θ ${pos*DEG}°`;
   const sc=$('#scene'); sc.classList.remove('enter'); void sc.offsetWidth;
   sc.innerHTML=`<p class="lab cy">room ${pos%N+1} of ${N} · ${face} face · ${pos*DEG}° of 720°</p><h1 class="room-title">${esc(room.name).replace(/^The /,'The <em>')}${room.name.startsWith('The ')?'</em>':''}</h1><p class="lede">${room.lede}</p>${S[room.id](face)}${doorsHtml(room)}${pollen(ASPECT[room.id])}`;
-  sc.classList.add('enter'); sc.scrollTop=0; applyChronos(sc);
+  sc.classList.add('enter'); sc.scrollTop=0; applyChronos(sc); bindPrep(sc); bindIdent(sc);
   sc.querySelectorAll('.row[data-depth]').forEach(r=>{ if(r.dataset.depth==='0') return;
     const set=l=>{ r.dataset.lvl=String(l); r.classList.toggle('open',l>0); r.classList.toggle('deep',l>1); };
     r.addEventListener('click',e=>{ const b=e.target.closest('.drill'); if(b){ e.stopPropagation(); set(+b.dataset.go); return; } if(e.target.closest('a')) return; if(r.dataset.lvl==='0') set(1); });
