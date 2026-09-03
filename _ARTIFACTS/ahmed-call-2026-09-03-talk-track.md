@@ -31,11 +31,11 @@ That is the whole chart.
 
 ## The two applications to anchor on (both came from HIM on July 22)
 
-**1. Recoil Report on a customer's sales-call series.** His words: "that is really really cool." His
+**1. Recoil Report on a customer's sales-call series.** His words: "I think this is a lot really really cool but I think I need like a little demo." His
 idea: don't run it one call at a time, run it across all the calls with one customer, from discovery
 to close or loss. Output: where belief rose, where it fell, which phrases were hedges. Who buys it:
-his customers who are already doing sales analytics. His pitch line, verbatim: "if you want a deeper
-analysis on these calls and transcripts."
+his customers who are already doing sales analytics. His pitch line, verbatim: "you might want to do a deeper analysis on these calls and these
+transcripts and these meeting notes and emails and like do a bigger thing."
 
 **2. ICP pressure test for a new sales rep.** Input: the rep's stated hypothesis about who buys and
 why. Output: a falsifiable test of that hypothesis before the outreach goes out, so the first 20
@@ -48,8 +48,10 @@ Skip everything else. No forge, no polymorphism, no operating system. On July 22
 
 - **Peak 1:** his "the gold rush is context, not content" thesis. You said that is what ARCS does for
   a person. He lit up. Reopen here.
-- **Peak 2:** "human on the bike" matched his "the human reviews, the AI executes." Same idea, his
-  words. Use HIS phrasing.
+- **Peak 2:** "human on the bike" matched his "the human being is often doing the review, not the
+  execution." Same idea, his words. Use HIS phrasing. (Note: on the raw transcript he said this
+  BEFORE you said "human on the bike"; his reply to yours was "all right that makes sense." It matched
+  his idea; it did not land as a peak. Downgraded.)
 - **Peak 3:** "our data is less interesting, our customers' needs are way more interesting." He
   designed the channel himself: free first report per company, then talk to Zach.
 - **The drop:** the ARCS-as-system explanation and the pricing answer. Both meandered. Don't retry
