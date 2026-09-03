@@ -89,6 +89,30 @@
     color:var(--muted); text-decoration:none; padding:6px 11px; border-radius:6px; white-space:nowrap;
   }
   nav.sections a:hover{color:var(--text); background:var(--surface-2)}
+  .nav-toggle{display:none}
+  @media(max-width:640px){
+    nav.sections{overflow:visible}
+    .nav-toggle{display:flex; align-items:center; gap:11px; width:100%; margin:0; cursor:pointer;
+      background:transparent; border:none; padding:11px 16px; text-align:left;
+      font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+    .nav-toggle .bars{display:inline-flex; flex-direction:column; gap:3px; width:18px}
+    .nav-toggle .bars span{height:2px; background:currentColor; border-radius:2px; transition:transform .2s, opacity .2s}
+    .nav-toggle[aria-expanded="true"]{color:var(--signal)}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(2){opacity:0}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+    nav.sections ul{
+      position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; min-width:0;
+      background:var(--surface); border-bottom:1px solid var(--border);
+      padding:6px 8px 10px; max-height:76vh; overflow-y:auto;
+      opacity:0; visibility:hidden; transform:translateY(-6px);
+      transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    nav.sections ul.open{opacity:1; visibility:visible; transform:none}
+    nav.sections li{width:100%}
+    nav.sections a{display:block; padding:11px 12px; font-size:13px; border-radius:8px}
+  }
+  @media(prefers-reduced-motion:reduce){nav.sections ul, .nav-toggle .bars span{transition:none}}
 
   .wrap{max-width:940px; margin:0 auto; padding:0 20px}
 
@@ -289,7 +313,11 @@
 </div>
 
 <nav class="sections" aria-label="Sections">
-  <ul>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navList" aria-label="Toggle sections menu">
+    <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span>Jump to section</span>
+  </button>
+  <ul id="navList">
     <li data-alt="0"><a href="#brief">00 · Brief</a></li>
     <li data-alt="1"><a href="#attribution">01 · Attribution</a></li>
     <li data-alt="1"><a href="#killchain">02 · Kill Chain</a></li>
@@ -854,6 +882,20 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
   });
   var d2='2'; try{var sd=localStorage.getItem('ci-depth'); if(sd)d2=sd;}catch(e){}
   setDepth(d2);
+
+  // mobile section-nav hamburger
+  var navT=document.getElementById('navToggle'), navL=document.getElementById('navList');
+  if(navT&&navL){
+    function closeNav(){navL.classList.remove('open'); navT.setAttribute('aria-expanded','false');}
+    navT.addEventListener('click',function(e){
+      e.stopPropagation();
+      var open=navL.classList.toggle('open');
+      navT.setAttribute('aria-expanded',open?'true':'false');
+    });
+    navL.addEventListener('click',function(e){ if(e.target.closest('a')) closeNav(); });
+    document.addEventListener('click',function(e){ if(!navL.contains(e.target)&&!navT.contains(e.target)) closeNav(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeNav(); });
+  }
 
   // copy buttons
   document.querySelectorAll('.copy').forEach(function(b){
