@@ -5,20 +5,20 @@ Rule pre-registered in `_STATE/2026-09-03-gone-in-30s-preregistration.md` before
 | Measure | Value |
 |---|---|
 | Calls coded | 125 |
-| Transcript fetch failed | 82 |
-| In scope (artifact or ARCS explained) | 25 |
-| In-scope calls with >= 1 hit | 6 |
-| Hit rate (hit calls / in scope) | 0.24 |
-| In-scope calls with an UNPROMPTED hit | 4 |
+| Transcript fetch failed | 77 |
+| In scope (artifact or ARCS explained) | 28 |
+| In-scope calls with >= 1 hit | 7 |
+| Hit rate (hit calls / in scope) | 0.25 |
+| In-scope calls with an UNPROMPTED hit | 5 |
 | In-scope calls with a miss (M1/M2) | 4 |
 | Out-of-scope calls that still produced a hit | 1 |
-| **Pre-registered verdict** | **H0 (< 0.25)** |
+| **Pre-registered verdict** | **INCONCLUSIVE (0.25 to 0.50)** |
 
 ## Tag distribution (in scope)
 
 | Tag | Meaning | Count |
 |---|---|---|
-| C1 | legibility complaint | 8 |
+| C1 | legibility complaint | 9 |
 | C2 | verdict-first demand | 3 |
 | C3 | depth-on-pull | 2 |
 | C4 | receptivity-as-state | 0 |
@@ -27,6 +27,10 @@ Rule pre-registered in `_STATE/2026-09-03-gone-in-30s-preregistration.md` before
 | M2 | asked for more detail up front | 2 |
 
 ## Every hit, verbatim (in scope)
+
+### Apr 20, 2026 3:00 PM EDT · Peter x Zach
+_Artifact: live ARCS demo (perplexity space, screen share)_
+- **C1** (unprompted): "there's really something where the front end needs to be. A little different, I think, for this to, to kind of have high impact. Right? Because right now it shows a little bit like conceives an overlay on, on. The LLMs."
 
 ### Aug 28, 2026 10:45 AM EDT · Dean x Zach // 1-1
 _Artifact: personal site copy + ARCS decision receipts explanation_
@@ -66,10 +70,12 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Aug 5, 2026 1:00 PM EDT · Zach Harris and Robin Daniels · ARCS recoil-report screen share (front-of-house read + back-of-house tabs) · M2: "How does it do this if I can ask?"
 - Feb 10, 2026 10:30 AM EST · Eunika x Zach · ARCS explanation 
 - Jul 13, 2026 1:00 PM EDT · Interview with AssemblyAI · ARCS decision intelligence method explained verbally 
+- Jul 16, 2026 1:45 PM EDT · Zach Jalaja - intro Zoom Meeting · tear-down page / ARCS explanation 
 - Jul 16, 2026 2:30 PM EDT · Interview with Prophet · ARCS explained at length (decision OS, ex-ante receipts) · M2: "I'd love to go a little deeper on arcs. I was digging in a little bit. I want to go. I don't want to go and... dig in more, but I'd love to know from your perspective, like, what are... the top few... the biggest challenges..."
 - Jul 20, 2026 10:00 AM EDT · Todd x Zach // 1-1 · chatbot proposal + marketing site teardown 
 - Jul 22, 2026 3:30 PM EDT · 30 Minute Call with Joe - Zach Harris and Joe Kim · ARCS / question compass + serialized call transcripts deck 
 - Jul 23, 2026 11:00 AM EDT · Eric x Zach // 1-1 · verbal explanation of ARCS/decision receipts (no screen share) · M1: "Right? Yeah. Yeah. Yeah. Yeah. Yeah. Yeah. I mean, I guess it's like because, you know, anything, anything of any value will have will be tokenized... Our minds are, you know, the way we think and our, I guess. It's going to be tokenized at some point."
+- Jul 23, 2026 3:30 PM EDT · Boardy Intro: Zach + Mitch · ARCS explanation (verbal, no screen share) 
 - Jun 11, 2026 12:30 PM EDT · Zach Harris and Elizabeth O'Brien · ARCS decision intelligence method explained verbally 
 - Jun 15, 2026 3:57 PM EDT · Deloitte Actual Demo · take-home demo presentation 
 - Jun 17, 2026 11:30 AM EDT · 30 mins w/ Chris G (Zach Harris) · verbal explanation of ARCS / cognitive OS parallels · M1: "Not only do I think it, not only do I think it's interesting, I've actually built very, very similar things myself, probably not to the depth that you have, but... I've tried to make a portable, I call it a cognitive OS."
@@ -91,6 +97,8 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Apr 1, 2026 10:30 AM EDT · ARCS Demo: "I think taking Scott's feedback as the front end way to pitch or to sell to each of those four opportunities."
 - Apr 1, 2026 10:30 AM EDT · ARCS Demo: "I think people care about how it's relevant to them, not necessarily how it works, right?"
 - Apr 15, 2026 11:00 AM EDT · Dean and Marcia Mock Interviews: "I think arcs has been really, really helpful here, but I don't think, unless they ask about it, I really wouldn't bring it up"
+- Apr 20, 2026 3:00 PM EDT · Peter x Zach: "just going to be a farewell on my end."
+- Apr 20, 2026 3:00 PM EDT · Peter x Zach: "my goal is to try to make this as like low cognitive load as possible. I think like demos often overcomplicate."
 - Aug 14, 2026 2:00 PM EDT · Kam x Zach // Catch up: "Like if you're an executive and you want like headlines only, I don't need any double clicks further down."
 - Aug 14, 2026 2:00 PM EDT · Kam x Zach // Catch up: "So it's not just like in finance speak with all the financial terminology and pain points. The idea is that it translates to a different functional member and a different functional level of the org."
 - Aug 14, 2026 2:00 PM EDT · Kam x Zach // Catch up: "I think it'll look clearer and maybe snap in your mindset a little bit crisper."
@@ -104,6 +112,9 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Jul 13, 2026 2:00 PM EDT · Christopher x Zach // 1-1: "Do I feel like this 30 minutes was time well spent? Am I getting a positive ROI or negative ROI? And then how can I take that, that pattern and, and maximize it or minimize it?"
 - Jul 13, 2026 2:00 PM EDT · Christopher x Zach // 1-1: "The first product surface is called question compass, and it's really like a starting point of how do I ask a question"
 - Jul 13, 2026 2:00 PM EDT · Christopher x Zach // 1-1: "And what I did is I created this, this thing called the lossless translation engine"
+- Jul 16, 2026 1:45 PM EDT · Zach Jalaja - intro Zoom Meeting: "it's just my two cents from the cheap seats. It's not a prescription. It's not, it's just like an instrument read."
+- Jul 16, 2026 1:45 PM EDT · Zach Jalaja - intro Zoom Meeting: "So that's, I guess the tldr there."
+- Jul 16, 2026 1:45 PM EDT · Zach Jalaja - intro Zoom Meeting: "maybe even getting some responses to the tear down page that I shared with you would be a good place to start."
 - Jul 16, 2026 2:30 PM EDT · Interview with Prophet: "showing is often better than telling"
 - Jul 16, 2026 2:30 PM EDT · Interview with Prophet: "figuring out what that sort of Rosetta stone equivalent looks like is critical"
 - Jul 16, 2026 2:30 PM EDT · Interview with Prophet: "translating something in a in a language and native register that makes sense to, you know, consultants is, I think important"
@@ -193,11 +204,9 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - May 5, 2026 1:30 PM EDT · Zach Harris x Harry Connect · a6f973b7-d0f4-4428-a604-d7d7caf2ae5b
 - Apr 13, 2026 12:06 PM EDT · Jack and Jill Call  · 86683161-2e9e-4507-8e3f-5e91f1bcbdb3
 - Mar 23, 2026 11:32 AM EDT · Ryan x Zach  · 5faf7451-6b79-4455-b5c1-d15b80cbffd8
-- Feb 8, 2026 2:38 PM EST · Hila Mock Interview · 61de2b0a-8162-4d51-96c5-43ee47b0def8
 - Jan 30, 2026 1:30 PM EST · Zach and Cooper // 1-1 · 80b541e6-caa0-4910-831b-6e16cc7f3e82
 - Aug 11, 2026 3:00 PM EDT · Polymer Resources/SugarAI · 31391f0b-3ce6-4fa1-8f40-62bd7387c057
 - Jul 30, 2026 1:00 PM EDT · Zach Harris / Rayan Saleh - 30min Meeting · 158df8e5-803e-4b6f-948a-35f41634c1ab
-- Jul 16, 2026 1:45 PM EDT · Zach Jalaja - intro Zoom Meeting · 4868175b-2d19-4db7-b9a5-62029b0bc8c1
 - Jul 9, 2026 10:30 AM EDT · Part 2: ARCS / Tallin Follow-up · 80b3fe8e-8447-48c0-893c-095cdb26f1a1
 - Jun 25, 2026 3:00 PM EDT · Growth Execs (Zach Harris) · 93d760c4-afa4-45f1-9c51-923b998203ed
 - May 28, 2026 11:00 AM EDT · Zach Harris - Recruiting Screen · a6153aa9-ec2d-40e5-b348-7939d5b7d515
@@ -208,14 +217,11 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Feb 5, 2026 3:59 PM EST · Hila and Zach // Mock Chase Interview  · ced361d0-7d97-492c-bc10-6f7f7218e913
 - Jan 23, 2026 1:30 PM EST · [HM 1:1] Head of Job Outcomes: Zach Harris <> Joanna Patterson · 62181d6b-7a07-4ded-82bd-7c0773f0d978
 - Aug 10, 2026 4:03 PM EDT · Todd x Zach  · 40dbf5af-1077-49cb-ac0c-4a9fb403159f
-- Jul 23, 2026 3:30 PM EDT · Boardy Intro: Zach + Mitch · 74444812-7478-4ebf-a11d-bde2801a886d
 - Jul 16, 2026 1:00 PM EDT · DQ x ZH // 1-1 · d8b2265f-b46c-40b5-9795-0e11dc584a16
 - Jul 8, 2026 3:30 PM EDT · Interview with Tribe AI · 6870c86c-4c64-4ea5-9f20-96d0290a93fe
 - Jun 23, 2026 3:09 PM EDT · Call with Jonny RE Tribe.ai Referral · 4478fba1-4f96-4c1e-8c9c-2c30392c6be0
 - May 19, 2026 11:32 AM EDT · Dan x Zach // 1-1 · 4e9ff3d4-2385-4324-9401-3831b21950e4
-- Apr 20, 2026 3:00 PM EDT · Peter x Zach · e34290c8-a098-49f8-8d73-92472a64a369
 - Apr 9, 2026 10:00 AM EDT · 1-1 with Zach (Matt Paddock) · 84847493-7e9a-4c01-8095-8874b48808f7
 - Mar 17, 2026 10:00 AM EDT · Jeben x Zach · b9fe2956-57a2-4484-8f38-99060d75544e
-- Mar 2, 2026 5:28 PM EST · Zach and Hila Prep 2 · cae56c21-fb12-4cc1-8e66-59fbff7acd8f
 - Feb 4, 2026 4:00 PM EST · Meet with Dan (Zach Harris ) · 89febb99-de23-4968-b3bb-c5abd3d367bf
 - Jan 22, 2026 10:30 AM EST · Zach Harris and Zachary Drossman · ad14e70d-c65e-4fa4-a577-09c1c15c6fe7
