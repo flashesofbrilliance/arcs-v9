@@ -4,169 +4,232 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Two-minute prep for Saul Miller: VP Data Operations at Starpilot.">
 <title>Saul × Starpilot</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 html{color-scheme:light dark}
-img{max-width:100%}
 :root{
   --ground:#F4F6F2; --paper:#FFFFFF; --ink:#1A2129; --ink-2:#4B5560; --ink-3:#7A848E;
-  --rule:#D9DED8; --accent:#D8552B; --accent-soft:#FBE9E1; --depth:#2E6F6A; --depth-soft:#E3F0EE;
+  --rule:#D9DED8; --accent:#D8552B; --accent-soft:#FBE9E1; --depth:#2E6F6A; --depth-soft:#E3F0EE; --gold:#B8860B;
   --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
   --sans:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
   --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
-  --measure:640px;
+  --measure:660px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --ground:#12171C; --paper:#1A2028; --ink:#E9ECEA; --ink-2:#B4BCC3; --ink-3:#7F8A94;
-  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230;}}
+  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230; --gold:#D4A63A;}}
 :root[data-theme="dark"]{
   --ground:#12171C; --paper:#1A2028; --ink:#E9ECEA; --ink-2:#B4BCC3; --ink-3:#7F8A94;
-  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230;}
+  --rule:#2C343C; --accent:#F0774C; --accent-soft:#3A2119; --depth:#5FB3AB; --depth-soft:#173230; --gold:#D4A63A;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-main{max-width:720px;margin:0 auto;padding:40px 20px 72px}
+main{max-width:760px;margin:0 auto;padding:40px 20px 72px}
 header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:14px}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .eyebrow b{color:var(--accent);font-weight:500}
 h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,46px);line-height:1.05;margin:26px 0 8px;text-wrap:balance;letter-spacing:-.01em}
 h1 em{font-style:italic;color:var(--depth)}
 .thesis{font-size:18px;color:var(--ink-2);max-width:var(--measure);margin:0 0 30px}
-.stage{display:grid;grid-template-columns:64px 1fr;gap:0 18px;padding:22px 0;border-top:1px solid var(--rule)}
-.stage:last-of-type{border-bottom:1px solid var(--rule)}
-.clock{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:3px;font-variant-numeric:tabular-nums}
-.clock small{display:block;color:var(--ink-3);font-size:11px;margin-top:2px}
-h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;color:var(--ink)}
-.stage p{margin:0 0 10px;max-width:var(--measure)}
-.stage p:last-child{margin-bottom:0}
+section{padding:24px 0;border-top:1px solid var(--rule)}
+h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px;color:var(--ink)}
+.lede{color:var(--ink-2);margin:0 0 16px;max-width:var(--measure)}
+p{max-width:var(--measure)}
 ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-li{display:grid;grid-template-columns:22px 1fr;gap:10px;max-width:var(--measure)}
-li .n{font-family:var(--mono);font-size:12px;color:var(--depth);padding-top:4px}
-li b{font-weight:600}
-.term{font-family:var(--mono);font-size:.92em;background:var(--depth-soft);color:var(--depth);padding:1px 6px;border-radius:3px;white-space:nowrap}
-.mirror{background:var(--paper);border:1px solid var(--rule);padding:16px 18px;margin-top:14px}
-.mirror .eyebrow{margin-bottom:8px}
-.mirror q{font-family:var(--serif);font-size:20px;line-height:1.3;quotes:"“" "”"}
-.pick{display:grid;gap:8px}
-.pick li{display:block;background:var(--paper);border:1px solid var(--rule);padding:10px 14px;border-left:3px solid var(--accent)}
-.watch li .n{color:var(--accent)}
-.close{margin-top:32px;padding:22px 0 0}
-.close p{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0;max-width:var(--measure);text-wrap:balance}
-.close .eyebrow{margin-bottom:8px}
-.rails{margin-top:28px;padding-top:22px;border-top:1px solid var(--rule)}
-.rails h2{margin-top:6px}
-.pm{color:var(--ink-2);max-width:var(--measure);margin:0 0 16px}
+li{max-width:var(--measure)}
+b{font-weight:600}
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;margin:18px 0 0;font-family:var(--mono);font-size:12px}
+.nav a{color:var(--ink-3);text-decoration:none;border-bottom:1px solid var(--rule)}
+.nav a:hover,.nav a:focus{color:var(--accent);border-color:var(--accent)}
+/* truth strip */
+.truth{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.truth div{background:var(--paper);border:1px solid var(--rule);padding:12px 14px}
+.truth .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.truth .v{font-size:15px;margin-top:4px;font-weight:500}
+/* mapping table */
+.map{width:100%;border-collapse:collapse;font-size:14.5px}
+.map th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:6px 8px;border-bottom:1px solid var(--rule);font-weight:500}
+.map td{padding:10px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+.map td:first-child{width:34%;font-weight:500}
+.fit{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.fit-strong{background:var(--depth-soft);color:var(--depth)} .fit-partial{background:#F3E9C9;color:#7A5A00} .fit-gap{background:var(--accent-soft);color:var(--accent)}
+:root[data-theme="dark"] .fit-partial,:root:not([data-theme="light"]) .fit-partial{background:#3A2F12;color:#E0B95A}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .fit-partial{background:#F3E9C9;color:#7A5A00}}
+.wrap{overflow-x:auto}
+/* battle cards */
+.cards{display:grid;gap:12px}
+.card{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px}
+.card .obj{font-family:var(--serif);font-size:20px;line-height:1.25;margin:0 0 8px}
+.card .row{display:grid;grid-template-columns:76px 1fr;gap:8px;font-size:14.5px;margin-top:6px}
+.card .row .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding-top:3px}
+/* interference */
+.wave{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wave > div{background:var(--paper);border:1px solid var(--rule);padding:14px 16px}
+.wave h3{margin:0 0 10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.wave .c h3{color:var(--depth)} .wave .d h3{color:var(--accent)}
+.wave li{font-size:14.5px;line-height:1.45}
+.wave li b{display:block}
+/* constitution */
 .rail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .rail{background:var(--paper);border:1px solid var(--rule);padding:14px 16px;border-top:3px solid var(--depth)}
-.rail-sometimes{border-top-color:var(--ink-3)} .rail-never{border-top-color:var(--accent)}
+.rail-sometimes{border-top-color:var(--gold)} .rail-never{border-top-color:var(--accent)}
 .rail h3{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono);font-weight:500}
-.rail-always h3{color:var(--depth)} .rail-never h3{color:var(--accent)}
-.rail ul{gap:8px} .rail li{grid-template-columns:1fr;font-size:14.5px;line-height:1.4}
-@media (max-width:640px){.rail-grid{grid-template-columns:1fr}}
+.rail-always h3{color:var(--depth)} .rail-sometimes h3{color:var(--gold)} .rail-never h3{color:var(--accent)}
+.rail ul{gap:8px} .rail li{font-size:14.5px;line-height:1.4}
+/* questions */
+.pick{display:grid;gap:8px}
+.pick li{display:block;background:var(--paper);border:1px solid var(--rule);padding:10px 14px;border-left:3px solid var(--accent)}
+.mirror{background:var(--paper);border:1px solid var(--rule);padding:16px 18px;margin-top:8px}
+.mirror q{font-family:var(--serif);font-size:20px;line-height:1.3;quotes:"“" "”"}
+.close p{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0;text-wrap:balance}
 footer{margin-top:44px;font-family:var(--mono);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 footer a{color:inherit}
-@media (max-width:480px){.stage{grid-template-columns:1fr;gap:6px}.clock{display:flex;gap:8px;align-items:baseline}.clock small{margin:0}}
+@media (max-width:640px){.truth,.wave,.rail-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main id="app"></main>
 <script>
-// Page data. Every number and quoted line carries its source: [LI] = Saul's LinkedIn profile, [site] = starpilot.ai as read 2026-09-03. Anything else is a question, not a claim.
+// Sources: [JD] Starpilot's Global VP of Data Operations posting (Notion, read 2026-09-03) · [LI-S] Saul's LinkedIn · [LI-J] John Chirikjian's LinkedIn · [site] starpilot.ai + launch post. Anything not tagged is a question or a judgment, and says so.
 const PREP = {
-  who: "Saul Miller", role: "VP Data Operations", org: "Starpilot",
-  orgUrl: "https://www.starpilot.ai", verified: "sources: starpilot.ai + launch post (2026-06-11) + FELT paper (arXiv 2607.20683) + f4.fund + LinkedIn, all read 2026-09-03 · re-grounded after a Saul-vs-Saul read",
-  headline: ["Same delivery problem you ran at Sama.", "Harder physics."],
-  thesis: "Starpilot sources expert real-world datasets and maps human execution onto a customer's robot. That is the Sama delivery problem, moved into the physical world. You have run the people half of it for ten years.",
-  mirror: { who: "Your own LinkedIn line", text: "Good with AI. Better with people." },
-  terms: ["episodes","trajectories","embodiment","retarget","ground truth"],
-  stages: [
-    { seconds: 0, title: "What they say they are", body: [
-      "Ground truth for physical autonomy. Multi-camera + depth, tactile sensing, sub-millimeter motion tracking, LiDAR. Engine: Source \u2192 Retarget \u2192 Evaluate \u2192 Refine. \u201cPowered by global PhD-led teams.\u201d",
-      "Founded 2026, seed stage, about nine people. Public launch post June 11, 2026: handheld grippers and optical trackers capture human hands, retargeted to any arm, re-staged with NVIDIA Cosmos. CEO John Chirikjian, twice a YC founder. Hisham Bedri, MIT Media Lab, 3D sensing. Research paper with USC and Columbia on tactile data.",
-      "Three supply channels on the site: instrumented cells with PhD-led teams, business data partners, individuals recording (coming soon). Only the first looks operational. No funding amount, customers, or job posting found publicly. Their pitch is precision; rivals like Micro1 and Mecka pitch volume."
-    ]},
-    { seconds: 20, title: "Your fit in one breath", body: [
-      "Ten years scaling AI data operations at Sama. Teams across 4 continents, 25+ concurrent client engagements, 95%+ retention against contracted SLAs. Owned 3D LiDAR annotation as a product. Ran the functions that drove company profitability, not just volume. All of it is on your profile; say it the same way."
-    ]},
-    { seconds: 45, title: "Three things to land", list: [
-      ["Physical data ops is harder than annotation ops.", "Sensors, calibration, retargeting, real-world evaluation. Failures show up late and cost more. Name the gap yourself so they hear you see it."],
-      ["Three supply channels need one quality bar.", "PhD teams, data partners, individuals. Ask how QA is standardized across them today. Then tell the one story: delivery governance across 25+ concurrent engagements."],
-      ["Margin, not just throughput.", "Ask how cost per usable episode trends as retargeting improves. Profitability is a story you can tell with numbers."]
-    ]},
-    { seconds: 80, title: "Ask two", pick: [
-      "What share of collected episodes reach a customer-usable dataset, and where do the rest fall out?",
-      "When retargeting fails on a customer's embodiment, who owns quality: ops, research, or the customer?",
-      "How many capture cells are running today, and how many demos per week come out of them?",
-      "What is the runway, and what does this role need to prove before the next round?",
-      "What does this role own at 12 months that it does not own today?"
-    ]},
-    { seconds: 105, title: "Watch-outs", watch: [
-      ["Mirror their words.", "Episodes, trajectories, embodiment, retarget. Not annotations and tasks."],
-      ["Expect the one-company question.", "Ten years at Sama will come up. Answer with Change Machine: post-launch SaaS scaling, small team, no safety net."],
-      ["At nine people, you are the data ops function.", "There is no team to inherit. Talk about building the first SOPs, QA, and partner onboarding, not managing a floor."],
-      ["Funding is not public.", "Assume capital is tight. Ask about runway; do not guess any number out loud."]
-    ]}
+  who:"Saul Miller", role:"Global VP of Data Operations", org:"Starpilot", orgUrl:"https://www.starpilot.ai",
+  headline:["You have run the delivery machine.","This one is built in the field, from zero."],
+  thesis:"The posting is not a lab-ops seat. It is a country-launch machine: field teams in Vietnam, the Philippines, and Egypt wearing cameras and holding grippers, Turkey and Pakistan next, scaling to a million captured hours a month. It reports to a two-time YC CTO, now in his first CEO seat, who built logistics software in Cairo and already runs a Cairo data factory. Your Sama record is the closest thing to this that exists. The gaps are real, nameable, and each gets a date.",
+  truth:[
+    ["Seat","Brooklyn, in person. 25 to 40 percent travel to SE Asia, Middle East, South Asia. Reports to CEO. [JD]"],
+    ["Goal","Usable hours per month, cost per usable hour, quality rate, task diversity. All countries. [JD]"],
+    ["Comp","$180k to $250k base, equity, bonus tied to global hours, cost per hour, quality. [JD]"],
+    ["Live today","Vietnam, Philippines, Egypt. Next: Turkey, Pakistan. Target one million hours a month. A Cairo data factory already claims 100,000+ hours. [JD, LinkedIn]"],
+    ["Who they want","“Ambitious and hungry.” Ex-founders and operators who launched countries or built field ops from zero. [JD]"],
+    ["The CEO","John Chirikjian. Yale CS. CTO of Ayez (YC W18, Cairo logistics software) and Backlot (YC S20, pivoted from 3D previz to AI advertising, now inactive). Microsoft TPM. JHU robotics research. Posts for rapid iteration and against bureaucracy. [LI-J, X]"],
+    ["The team","About nine people. Head of Operations Hamed Elhessy. Hisham Bedri, MIT Media Lab, is the technical voice and has published the precision failure mode: about 1 cm error under occlusion, with frame-by-frame human review. [RocketReach, launch post]"],
+    ["The field","Rivals hold 5 to 100 times the cash and headcount: XDOF $70M, Mecka $60M, Tacta $75M, Micro1 at 160k hours a month, Scale with Meta behind it. Starpilot’s claim is precision, not volume. Your plan has to be capital-light. [press]"],
+    ["To apply","They ask for the largest physical operation you launched or scaled, the hardest problem, and the number that proves you fixed it. [JD]"]
   ],
-  premortem: "Most likely ways this interview goes wrong: you sound like a services vendor selling annotation; you tell a five-minute Sama story where they wanted a number; you get asked something about sensors or embodiments and bluff; you read as a process person to two technical founders who want speed and precision.",
-  guardrails: {
-    always: [
-      "Number first, then the story. Cut every story at 60 seconds.",
-      "Use their words: episodes, trajectories, embodiment, retarget.",
-      "Name the gap between annotation ops and physical ops before they do.",
-      "Answer a hardware question you cannot answer with \u201cI don\u2019t know that yet. Here is how I would find out in week one.\u201d",
-      "Pair every process you mention with the speed or margin outcome it bought."
+  mapping:[
+    ["Global output: hours, cost per hour, quality, diversity","strong","Led Project Operations, BI, and Technical Training; delivery governance and operational reporting across 4 continents and 25+ concurrent engagements. [LI-S]"],
+    ["Country GMs: hire, coach, replace","strong","Seven years managing delivery and product leaders across Sama’s global centers, 2018 to 2026. Name the regions yourself; they are not on your profile. [LI-S]"],
+    ["Distributed workforce through local leaders","strong","Sama’s model is local workforces run by local leadership. You ran the delivery side of it. Use Sama’s scale as context, not as your personal number. [LI-S]"],
+    ["Numbers: build the dashboards, know unit economics cold","strong","Owned the BI function; drove company profitability; 95%+ retention and SLA attainment. [LI-S]"],
+    ["Launch a country from zero: entity, first hires, first sites","partial","You scaled and governed existing operations. The from-zero proof is Change Machine: beta to public launch, then onboarding, support, and engagement built after launch. Bring the team size and the months. [LI-S]"],
+    ["Hardware logistics: customs, inventory, turnaround","gap","No record. Do not bluff. Week one: hire a logistics lead, one tracked flow. Day 30: turnaround time per site."],
+    ["Legal, privacy, labor compliance for recording workers","partial","Fortune 50 client delivery implies compliance exposure. Confirm the specifics you can speak to. Local counsel is the play for entity law."],
+    ["Localized comp design","partial","You owned P&L levers, not market pay design. Frame it as a known playbook you have run adjacent to, not a new skill."],
+    ["Technical: SQL, scripting, pipelines","partial","Salesforce Certified Admin, VP Product on a data platform, BI owner. One honest sentence on where your SQL is today, used everywhere on this page. [LI-S]"],
+    ["Travel weeks at a time; in person Brooklyn","open","Only you can answer this. Decide before the call, not during it."]
+  ],
+  cards:[
+    {obj:"You ran a big company’s machine. Can you build one from nothing?",
+     src:"Change Machine: SaaS platform from beta to public launch, then onboarding, support, and engagement processes built post-launch. [LI-S]",
+     bridge:"At Sama the machine existed and I made it bigger. At Change Machine there was no machine. Fill in: team of __, __ months from beta to launch, and one post-launch number.",
+     num:"Team size, months to launch, one post-launch number. Without those three this card is empty."},
+    {obj:"You have never shipped cameras through customs.",
+     src:"No record. Do not invent one.",
+     bridge:"I have not. Week one I hire a logistics lead and set up one tracked flow for shipments, repairs, and returns. By day 30 you get turnaround time per site, and we decide together what to fix first.",
+     num:"Turnaround time per site, by day 30."},
+    {obj:"This is a founder-hungry seat. You have been at one company for ten years.",
+     src:"Seven roles in ten years at Sama, Senior PM to VP twice, across delivery, product, and operations. [LI-S]",
+     bridge:"The scope kept doubling, so I stayed. In 2020 I moved from running delivery to running product because the platform was the constraint. I would rather build the next machine than manage the one I know.",
+     num:"Seven roles. Two VP seats. Have the 2020 lateral move ready in one sentence."},
+    {obj:"Sama is a large services company. We need cheap, fast, and precise, with nine people.",
+     src:"Drove operational excellence and company profitability; SLA owner across 25+ engagements. [LI-S]",
+     bridge:"Local workforce at local pay with real retention is how you get cheap hours that stay high quality. Retention is the unit-cost lever. Bring one real Sama unit-cost or retention number, or skip the number and ask for theirs.",
+     num:"One real Sama number, or none. Ask their cost per usable hour."},
+    {obj:"Can you work directly with engineers?",
+     src:"VP Product on the annotation platform; hired PMs, product ops, technical writers; Salesforce Admin. [LI-S]",
+     bridge:"I ran product for the platform engineers built. My SQL is [your true level]. I will own my own dashboards by day 30 without pulling an engineer.",
+     num:"Name one dashboard you built and the decision it changed."},
+    {obj:"Precision is our moat and human review is our bottleneck. What would you do?",
+     src:"Bedri’s launch post: about 1 cm error under fast or occluded motion; every clip reviewed frame by frame. [launch post]",
+     bridge:"Keep the precision, remove the bottleneck: calibration regimes per site, tracker-health checks before capture, auto-reject rules, and sampled audit instead of full review. That is the QA architecture I ran at Sama, applied to sensors.",
+     num:"Ask the retargeting acceptance rate and hours delivered versus hours captured."}
+  ],
+  constructive:[
+    ["Emerging-market operations","He built logistics software in Cairo and runs a Cairo data factory now. You ran delivery across Sama’s global centers. Neither of you needs the other to explain what a field team is."],
+    ["Egypt is live","Ask once what Cairo taught him. Then say what your regions taught you. Shared language, not a tactic."],
+    ["Numbers as the shared surface","He is a CTO by trade. You own BI. Dashboards are where trust gets built. Bring one."],
+    ["Builder respect","He has founded four companies and pivoted hard. You built Change Machine from beta. Talk build, not manage."],
+    ["Quality and cost in one sentence","The posting asks for honesty about the tradeoff. Your SLA-plus-profitability record is that sentence."]
+  ],
+  discord:[
+    ["Speed versus systems","Backlot pivoted once and he posts against bureaucracy. Your instinct is to systematize. Productive if you frame process as instrumentation that makes the next pivot cheap. Costly if it sounds like governance."],
+    ["CTO-turned-CEO, senior ops VP","He has been the CTO under other CEOs. You will be the most senior operator he has managed. Propose the operating rhythm in the first month: what you decide alone, what comes to him, how often."],
+    ["Impact register versus cost register","Lead with margin. Mention mission only if he does, and only attached to a number."],
+    ["Technical depth","He and Bedri may test SQL or pipeline knowledge directly. Answer at your true level, then say how you get the rest. Bluffing a CTO is the one unrecoverable move."],
+    ["Presence","He is in Brooklyn and wants you on the ground for each launch. A conditional answer on travel or in-person will read as hedging. Decide first."],
+    ["Capital","Rivals have far more cash. He may want a million hours on a fraction of their budget. Push back with a capital-light plan, not with a bigger budget ask."]
+  ],
+  constitution:{
+    always:[
+      "Lead every answer with the number, then the story, under 60 seconds.",
+      "Use their units: usable hours, cost per usable hour, quality rate, task diversity.",
+      "Name your gaps before he does: customs, entity setup, market pay design.",
+      "Turn each gap into a day-30 deliverable with a number attached.",
+      "Frame process as instrumentation, never as governance.",
+      "Agree the operating rhythm: what you decide, what he decides, how often you meet."
     ],
-    sometimes: [
-      "Name Fortune 50 clients. Only when asked about scale, and only ones already public on Sama\u2019s site. Nine people will not be impressed by scale alone.",
-      "Go deep on 3D LiDAR product work. Only if the interviewer is technical.",
-      "Bring up the social-impact side of Sama. Only if they open the door on mission.",
-      "Talk hiring plans. Only after you hear runway and cell count."
+    sometimes:[
+      "Mention Sama’s mission. Only when it explains margin or retention.",
+      "Name Fortune 50 clients. Only if asked about scale, and only public ones.",
+      "Go deep on the annotation platform. Only if he pulls the thread.",
+      "Discuss equity and bonus mechanics. After the second conversation, not the first.",
+      "Offer Turkey or Pakistan launch ideas. Only after hearing why those two."
     ],
-    never: [
+    never:[
       "Call their business annotation, labeling, or data services.",
-      "State a Starpilot fact that is not on their site.",
-      "Criticize Sama or explain the exit at length. One sentence, forward-looking.",
-      "Open comp, title, or remote before they do.",
-      "Fill silence. Let the question land and answer the question asked."
+      "Claim hardware logistics or entity-setup experience you do not have.",
+      "Say a Starpilot number you did not hear from them.",
+      "Explain leaving Sama in more than one sentence.",
+      "Hedge on travel and in-person. Decide before the call.",
+      "Tell him what is or is not hard in his own business. Ask instead."
     ]
   },
-  close: "Physical data ops is a people-and-sensors business. You have run the people half at scale. Let them see that in the first five minutes."
+  questions:[
+    "What is cost per usable hour today in Vietnam versus Egypt?",
+    "What share of captured hours are rejected, and who decides?",
+    "What is the retargeting acceptance rate, and how many hours are delivered to customers versus captured?",
+    "Why Turkey and Pakistan over the alternatives?",
+    "In six months, what decision do you want to stop being in the room for?"
+  ],
+  mirror:{who:"Your own line",text:"Good with AI. Better with people."},
+  close:"They are hiring a machine builder who can stand in a field in Vietnam and read a dashboard in Brooklyn. Show the machine you ran, name the three parts you have not built, and give each a date."
 };
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const fitLabel={strong:"Strong",partial:"Partial",gap:"Gap",open:"Your call"};
+const fitCls={strong:"fit-strong",partial:"fit-partial",gap:"fit-gap",open:"fit-partial"};
+document.getElementById("app").innerHTML=`
+<header><span class="eyebrow">${esc(PREP.who)} · <b>${esc(PREP.role)}</b> · ${esc(PREP.org)}</span><span class="eyebrow">read: 7 min · use: the whole process</span></header>
+<h1>${esc(PREP.headline[0])}<br><em>${esc(PREP.headline[1])}</em></h1>
+<p class="thesis">${esc(PREP.thesis)}</p>
+<nav class="nav"><a href="#truth">the posting</a><a href="#map">fit map</a><a href="#cards">battle cards</a><a href="#wave">interference</a><a href="#const">always · sometimes · never</a><a href="#ask">ask</a><a href="/followup">follow-up →</a><a href="/resume">resume bundle →</a></nav>
 
-const fmt = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
-const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-const withTerms = s => PREP.terms.reduce((t,w)=>t.replace(new RegExp(`\\b${w}\\b`,"i"),m=>`<span class="term">${m}</span>`),esc(s));
-const stage = st => `
-  <section class="stage">
-    <div class="clock">${fmt(st.seconds)}<small>${st.title.toLowerCase()}</small></div>
-    <div>
-      <h2>${esc(st.title)}</h2>
-      ${(st.body||[]).map(p=>`<p>${withTerms(p)}</p>`).join("")}
-      ${st.list?`<ul>${st.list.map(([h,d],i)=>`<li><span class="n">${i+1}</span><span><b>${esc(h)}</b> ${withTerms(d)}</span></li>`).join("")}</ul>`:""}
-      ${st.pick?`<ul class="pick">${st.pick.map(q=>`<li>${withTerms(q)}</li>`).join("")}</ul>`:""}
-      ${st.watch?`<ul class="watch">${st.watch.map(([h,d])=>`<li><span class="n">!</span><span><b>${esc(h)}</b> ${esc(d)}</span></li>`).join("")}</ul>`:""}
-    </div>
-  </section>`;
-document.getElementById("app").innerHTML = `
-  <header>
-    <span class="eyebrow">${esc(PREP.who)} · <b>${esc(PREP.role)}</b> · ${esc(PREP.org)}</span>
-    <span class="eyebrow">two-minute read</span>
-  </header>
-  <h1>${esc(PREP.headline[0])}<br><em>${esc(PREP.headline[1])}</em></h1>
-  <p class="thesis">${esc(PREP.thesis)}</p>
-  ${PREP.stages.map(stage).join("")}
-  <section class="rails">
-    <div class="eyebrow">2:00 · after the read</div>
-    <h2>Guardrails</h2>
-    <p class="pm">${esc(PREP.premortem)}</p>
-    <div class="rail-grid">
-      ${[["always","Always"],["sometimes","Sometimes"],["never","Never"]].map(([k,l])=>`<div class="rail rail-${k}"><h3>${l}</h3><ul>${PREP.guardrails[k].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}
-    </div>
-  </section>
-  <div class="mirror"><div class="eyebrow">${esc(PREP.mirror.who)}</div><q>${esc(PREP.mirror.text)}</q></div>
-  <div class="close"><div class="eyebrow">walk in with</div><p>${esc(PREP.close)}</p></div>
-  <footer><span>${esc(PREP.verified)} · <a href="${PREP.orgUrl}">${PREP.orgUrl.replace(/^https?:\/\//,"")}</a></span><span>for Saul only</span></footer>`;
+<section id="truth"><h2>What the posting actually says</h2><p class="lede">Read it as written. Each cell names its source. Press and directory facts are secondary sources; confirm in the room.</p>
+<div class="truth">${PREP.truth.map(([k,v])=>`<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div></section>
+
+<section id="map"><h2>Fit map: their requirement, your evidence</h2><p class="lede">Strong is provable from your profile. Partial has a bridge. Gap has no record and gets a plan, not a claim.</p>
+<div class="wrap"><table class="map"><thead><tr><th>They own / require</th><th>Fit</th><th>Your evidence or bridge</th></tr></thead><tbody>
+${PREP.mapping.map(([r,f,e])=>`<tr><td>${esc(r)}</td><td><span class="fit ${fitCls[f]}">${fitLabel[f]}</span></td><td>${esc(e)}</td></tr>`).join("")}
+</tbody></table></div></section>
+
+<section id="cards"><h2>Battle cards: the objection, your source, the bridge</h2><p class="lede">Each card is an objection he is likely to hold, the fact from your record that answers it, the line in your voice, and the number to leave behind.</p>
+<div class="cards">${PREP.cards.map(c=>`<div class="card"><p class="obj">${esc(c.obj)}</p>
+<div class="row"><span class="k">source</span><span>${esc(c.src)}</span></div>
+<div class="row"><span class="k">bridge</span><span>${esc(c.bridge)}</span></div>
+<div class="row"><span class="k">number</span><span><b>${esc(c.num)}</b></span></div></div>`).join("")}</div></section>
+
+<section id="wave"><h2>Where the two of you will interfere</h2><p class="lede">Constructive: where your signal and his add up. Discord: where they will clash, and how to make the clash productive instead of costly.</p>
+<div class="wave"><div class="c"><h3>Constructive interference</h3><ul>${PREP.constructive.map(([h,d])=>`<li><b>${esc(h)}</b>${esc(d)}</li>`).join("")}</ul></div>
+<div class="d"><h3>Productive discord</h3><ul>${PREP.discord.map(([h,d])=>`<li><b>${esc(h)}</b>${esc(d)}</li>`).join("")}</ul></div></div></section>
+
+<section id="const"><h2>Always · Sometimes · Never</h2><p class="lede">The operating constitution for the conversation and, if it lands, for the partnership.</p>
+<div class="rail-grid">${[["always","Always"],["sometimes","Sometimes"],["never","Never"]].map(([k,l])=>`<div class="rail rail-${k}"><h3>${l}</h3><ul>${PREP.constitution[k].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div></section>
+
+<section id="ask"><h2>Ask</h2><p class="lede">Pick two. Each one is answerable only by him, and each answer changes what you would do first.</p>
+<ul class="pick">${PREP.questions.map(q=>`<li>${esc(q)}</li>`).join("")}</ul>
+<div class="mirror"><div class="eyebrow">${esc(PREP.mirror.who)}</div><q>${esc(PREP.mirror.text)}</q></div></section>
+
+<section class="close"><div class="eyebrow">walk in with</div><p>${esc(PREP.close)}</p></section>
+<footer><span>sources: the posting · your LinkedIn · the CEO's LinkedIn and posts · starpilot.ai and launch post · press on rivals · all read 2026-09-03 · re-grounded after a Saul-vs-Saul and a CEO-lens read</span><span>for Saul only</span></footer>`;
 </script>
 </body>
 </html>
