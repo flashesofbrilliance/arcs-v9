@@ -17,6 +17,15 @@ Pull everything available on the counterpart, in parallel where possible:
 - **Gamma** (`get_gammas` by name, `read_gamma`) — decks you built for or about them.
 - **Profile PDF / LinkedIn** — bio, background, the orthogonal-echo hooks.
 
+## Step 1.5 — the pre-prep gate (ADR-075 amendment A; blocking)
+Before filling anything, write the `pre_prep` block into the SSOT from the RAW sources gathered in
+Step 1 and run `python3 scripts/pre_prep_gate.py runtime/recoil/generated/<id>.json`. It refuses on:
+no verbatim transcript/thread on disk · no enumerated verbatim asks · reader or Receipt Loop stage
+undeclared · artifact about the reader without the reader asking · no format spec from their words
+(or explicit none) · no arriving-state quote · read budget over a tenth of build budget. **Do not
+proceed to Step 2 on a FAIL.** The block is the ex-ante receipt for the artifact itself; /recoil-close
+scores it. Summaries (`query_granola_meetings`) never satisfy the raw-source check.
+
 ## Step 2 — fill the SSOT (internal)
 Into `runtime/recoil/generated/<id>.json`:
 - **Pre-Call tab**: True North (one-sentence posture), Context (date / register / their goal / predicted
@@ -38,6 +47,7 @@ with the non-guessable internal password. Commit on the main worktree, push, ver
 ## Guardrails
 - Everything here is `audience: internal`. Reads about the counterpart are war-room only.
 - **Fact-check discipline**: quotes must be faithful to the source ([[fact-check-final-pass-vs-transcript]]).
+- **Clean room, two ends** ([[pull-not-push-pre-render-legibility-gate]]): `pre_prep_gate.py` on the way in (Step 1.5), `cold_reader_gate.py` on every rendered page on the way out (/recoil-ship).
 - **Active listening > magical thinking** ([[active-listening-over-magical-thinking]]): if the gathered
   record contains a disqualifying signal, log it now; don't build a pursuit that ignores it.
 

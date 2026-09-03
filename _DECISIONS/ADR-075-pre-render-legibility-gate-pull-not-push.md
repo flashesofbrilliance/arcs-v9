@@ -111,6 +111,25 @@ gates the ORDER and the DISCLOSURE, not the total depth available.
 - Memories merged: design-for-arriving-cognitive-state, adaptive-altitude-lineage,
   feedback_takeaway_first_delivery_grammar → `pull-not-push-pre-render-legibility-gate` (class).
 
+## Amendment A (2026-09-03, same day): one gate doctrine, two ends
+
+The render gate catches a wall on the way out. It cannot catch building the wrong thing well: wrong
+reader, wrong Receipt Loop stage, the reader in the subject slot, their stated format ignored, their
+explicit asks unanswered. Every one of those was decided before the first line of the Ahmed pages was
+written, and every one was answerable from the raw inputs. So the doctrine has two ends:
+
+- **Input end, `scripts/pre_prep_gate.py`** (P0 to P7): a `pre_prep` block in the account SSOT, filed
+  before the build, from raw sources on disk. Checks: filed-before · verbatim transcript/thread on disk
+  · asks enumerated verbatim · reader + stage declared · subject slot consistent (about = for, or the
+  reader asked) · format spec in their words or explicit none · arriving state with quote · read budget
+  ≤ build/10. Wired as Step 1.5 of /recoil-prep, blocking. The block is the ex-ante receipt for the
+  artifact; /recoil-close scores it.
+- **Output end, `scripts/cold_reader_gate.py`** (R1 to R7): unchanged. Wired into /recoil-ship.
+
+Retroactive contract: the Ahmed SSOT as of 2026-09-03 FAILS the input gate (no block). A block filled
+honestly from the July 22 transcript would have failed P4 (about the reader, reader did not ask) and
+flagged asks 7 and 9 as unanswered. Zach, 2026-09-03: "sure one gate doctrine two ends it is."
+
 ## Lineage
 
 witness 2026-09-03T14:29:34-04:00 (GREEN) → this ADR (oracle next-free 75) → DEWY

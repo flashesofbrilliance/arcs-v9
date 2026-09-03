@@ -63,3 +63,8 @@ it at the `-ext` link; tie it to the provenance ("every read traces to a line yo
 ## Guardrails
 - Sending is the user's action, always. Deploying ≠ sending.
 - The safety scan is a hard gate. A page that leaks a read-about-them can damage the relationship.
+
+## Render gate (ADR-075; blocking)
+Before deploy, every external page runs `python3 scripts/cold_reader_gate.py <page.html>` alongside
+`leak_check.sh`. A FAIL blocks the ship. Fix the page's order and disclosure, not the gate; if the gate
+disagrees with a counterpart's stated verdict, amend the gate via ADR-075's calibration set.
