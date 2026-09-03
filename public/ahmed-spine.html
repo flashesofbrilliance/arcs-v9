@@ -1,0 +1,101 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Recoil Report, as rows</title>
+<style>
+:root{--measure:640px;--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+.page{max-width:880px;margin:0 auto;padding:40px 22px 90px}
+.nav{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:34px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.nav a{color:var(--dimmed);text-decoration:none}.nav a:hover{color:var(--cyan)}.nav a.here{color:var(--cyan)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:clamp(30px,5.4vw,46px);line-height:1.05;margin:10px 0 12px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:16px;max-width:var(--measure);text-wrap:pretty;margin:0}
+.sub b{color:var(--text);font-weight:500}
+.rule{height:1px;background:var(--border);margin:32px 0}
+h2{font-size:13px;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--dimmed);margin:0 0 14px;display:flex;align-items:center;gap:12px}
+h2::after{content:"";flex:1;height:1px;background:var(--border)}
+.lead{color:var(--muted);font-size:15px;max-width:var(--measure);text-wrap:pretty;margin:0 0 18px}
+/* the spine */
+.spine{display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface)}
+.hd,.row{display:grid;grid-template-columns:56px 74px 1fr 1fr 1.6fr;gap:14px;align-items:start;padding:12px 16px}
+.hd{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);border-bottom:1px solid var(--border);background:var(--surface2)}
+.row{border-bottom:1px solid var(--border);font-size:13.5px}.row:last-child{border-bottom:none}
+.row .t{font-family:var(--mono);font-size:11.5px;color:var(--dimmed)}
+.row .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 6px;border:1px solid currentColor;line-height:1;white-space:nowrap;justify-self:start}
+.k.prior{color:var(--dimmed)}.k.update{color:var(--green)}.k.corr{color:var(--red)}.k.close{color:var(--gold)}
+.row .b{color:var(--text)}.row .b small{display:block;color:var(--dimmed);font-family:var(--mono);font-size:11px;margin-top:3px}
+.row .v{font-family:var(--mono);font-size:12.5px;color:var(--muted)}.row .v .up{color:var(--green)}.row .v .dn{color:var(--red)}
+.row .q{color:var(--muted);font-size:13px}.row .q em{color:var(--text);font-style:normal}
+@media(max-width:640px){.hd{display:none}.row{grid-template-columns:1fr;gap:6px}.row .t::before{content:"t · ";color:var(--dimmed)}}
+.readdown{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);text-align:center;padding:10px;border:1px dashed var(--border);border-top:none;background:var(--surface2)}
+/* reads */
+.reads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.reads{grid-template-columns:1fr}}
+.read{border:1px solid var(--border);background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.read .rt{font-size:15px;font-weight:500;color:var(--text)}.read .rv{font-family:var(--mono);font-size:12px}.read .rr{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--dimmed)}
+/* receipt */
+.receipt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.receipt{grid-template-columns:1fr}}
+.rc{border:1px solid var(--border);background:var(--surface);padding:16px 18px}
+.rc .rk{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+.rc p{margin:0;color:var(--muted);font-size:13.5px}.rc p b{color:var(--text);font-weight:500}
+/* pilot */
+.pilot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+@media(max-width:640px){.pilot{grid-template-columns:1fr 1fr}}
+.ps{border:1px solid var(--border);background:var(--surface);padding:12px 14px;font-size:13px;color:var(--muted)}
+.ps b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dimmed);margin-bottom:6px;font-weight:400}
+.terms{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}
+.terms .g{color:var(--gold)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--dimmed);line-height:1.8}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+<nav class="nav"><a href="/report">Recoil Report</a><a class="here" href="/spine">As rows</a><a href="/evening">How it scales</a><a href="/seed">The bet</a></nav>
+
+<div class="eyebrow">Same report · one row-type · read top to bottom</div>
+<h1>Recoil Report, as rows</h1>
+<p class="sub">You said the last version had lots of information but was hard to follow. Fair. It is also the exact thing your Activity Schema exists to fix. So this is the same call, <b>one row per belief-shift</b>, in call order, with nothing that cannot be traced to a line you said. Read it once, top to bottom.</p>
+
+<div class="rule"></div>
+
+<h2>The spine · 6 rows · our call, Jul 22 · 5 segments</h2>
+<p class="lead">One row-type. A belief, what it was, what it became, and the exact words that moved it. Priors were filed in writing before we spoke, so the drops are checkable, not stories.</p>
+<div class="spine">
+  <div class="hd"><span>t</span><span>kind</span><span>belief · whose</span><span>from → to</span><span>moved by · verbatim</span></div>
+  <div class="row"><span class="t">T0</span><span class="k prior">prior</span><span class="b">Our customers overlap<small>mine · filed before the call</small></span><span class="v">0.6</span><span class="q">Pre-call receipt. Written down first so the update below can be scored.</span></div>
+  <div class="row"><span class="t">T0</span><span class="k prior">prior</span><span class="b">The media pitch is his focus<small>mine · filed before the call</small></span><span class="v">0.7</span><span class="q">Pre-call receipt. This one turns out to be wrong. Kept on purpose.</span></div>
+  <div class="row"><span class="t">&lt;S4</span><span class="k update">update</span><span class="b">Our customers overlap<small>your words</small></span><span class="v">0.6 <span class="up">→ 0.9</span></span><span class="q"><em>“we're targeting a very similar set of customers and a very similar set of problems”</em></span></div>
+  <div class="row"><span class="t">&lt;S4</span><span class="k update">update</span><span class="b">Overlap · sharpened to its real shape<small>your words</small></span><span class="v"><span class="up">settled 0.9</span></span><span class="q"><em>“our data is less interesting but our customers' need is probably way more interesting.”</em></span></div>
+  <div class="row"><span class="t">S4</span><span class="k corr">correction</span><span class="b">The media pitch is his focus<small>your words · my miss</small></span><span class="v">0.7 <span class="dn">→ 0.25</span></span><span class="q"><em>“the media company pitch is a separate side project, the main company I run is Polyform.”</em> Booked as an update, not edited out.</span></div>
+  <div class="row"><span class="t">T-end</span><span class="k close">close</span><span class="b">Both beliefs scored<small>expected vs actual, joined on time</small></span><span class="v">overlap <span class="up">hit</span> · media <span class="dn">miss</span></span><span class="q">The miss is the highest-information row in the log. That is the point of keeping it.</span></div>
+  <div class="readdown">that is the whole report · everything below is derived from these six rows</div>
+</div>
+
+<div class="rule"></div>
+
+<h2>Derived reads · queries over the spine, never new facts</h2>
+<p class="lead">Each read carries the rows it comes from. Pull any of them and you land on your own words.</p>
+<div class="reads">
+  <div class="read"><span class="rt">Where conviction settled</span><span class="rv" style="color:var(--green)">overlap · 0.9</span><span class="rr">from rows 3–4</span></div>
+  <div class="read"><span class="rt">Where a belief broke</span><span class="rv" style="color:var(--red)">media pitch · 0.7 → 0.25 at S4</span><span class="rr">from row 5 · the correction</span></div>
+  <div class="read"><span class="rt">The load-bearing line</span><span class="rv" style="color:var(--gold)">“…a very similar set of customers…”</span><span class="rr">from row 3</span></div>
+</div>
+<p class="lead" style="margin-top:14px">Two things the rows surfaced, one layer up: <b style="color:var(--text);font-weight:500">context, not content</b>: you standardize the context AI acts on, I standardize the decision a human commits to; and <b style="color:var(--text);font-weight:500">the open loop</b>: a decision made downstream leaves the context stale upstream, and both our systems exist because that loop is open.</p>
+
+<div class="rule"></div>
+
+<h2>The receipt · written before, scored after</h2>
+<div class="receipt">
+  <div class="rc"><div class="rk" style="color:var(--cyan)">Ex-ante · before we spoke</div><p><b>Filed:</b> “media pitch is his focus” at 0.7, in writing. That prior is what makes the S4 drop checkable instead of a story.</p></div>
+  <div class="rc"><div class="rk" style="color:var(--green)">Close-loop · after</div><p><b>Scored:</b> miss, booked at 0.25 on your correction. Overlap: hit at 0.9. Every report gets graded this way, so the track record is checkable, not claimed.</p></div>
+</div>
+
+<div class="rule"></div>
+
+<h2>The pilot · same rows, pointed at one of your customers</h2>
+<div class="pilot">
+  <div class="ps"><b>1</b>Pick one customer with a lot of sales calls.</div>
+  <div class="ps"><b>2</b>We run this on their existing customer-journey timeline.</div>
+  <div class="ps"><b>3</b>One sponsored report comes back with your name on it.</div>
+  <div class="ps"><b>4</b>If it lands, a repeatable add-on across your book, per customer or aggregated.</div>
+</div>
+<div class="terms"><span>Existing export · no new integration</span><span>The first report is on me</span><span>Then a fixed per-customer fee, <span class="g">named the day we pick who</span></span></div>
+
+<p class="foot">Compiled from our 35-minute call · 2026-07-22 · every read traces to your words. The prose version, with the chart, is still at <a href="/report" style="color:var(--cyan)">/report</a>.</p>
+</div></body></html>

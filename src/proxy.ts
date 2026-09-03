@@ -28,7 +28,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
-  'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
+  'ahmed-ext': { '/report': '/ahmed-ext.html', '/spine': '/ahmed-spine.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
   'prl':       { '/status/catchup': '/prl-status-catchup.html', '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).

@@ -90,6 +90,7 @@ const nextConfig: NextConfig = {
         { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        { source: "/spine", destination: "/ahmed-spine.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/:path((?!.*ahmed).*)", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/debrief", destination: "/warroom/jeben-debrief", has: [{ type: "host", value: "jeben.arcs.care" }] },
         { source: "/:path((?!.*debrief).*)", destination: "/warroom/jeben", has: [{ type: "host", value: "jeben.arcs.care" }] },
