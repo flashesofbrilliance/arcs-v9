@@ -1,171 +1,172 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>One relationship, serialized</title>
-<meta name="description" content="Every artifact from one relationship, stacked by how far it sits from the raw signal. The bottom tier is the recording. Each tier above is a serialization of the tier below it, and nothing higher up can say something the tier below does not contain.">
+<meta name="description" content="Every artifact from one relationship, stacked by how far it sits from the raw signal. Six tiers, nineteen artifacts, one file underneath all of them.">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#ffffff;color:#1a1a1a;font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+:root{--measure:660px}*{box-sizing:border-box}body{margin:0;background:#ffffff;color:#1a1a1a;font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;text-wrap:pretty}
+a:focus-visible,.card:focus-visible{outline:2px solid #1a1a1a;outline-offset:2px}h1,h2,h3{text-wrap:balance}
 .page{max-width:960px;margin:0 auto;padding:36px 20px 80px}
-h1{font-size:28px;margin:0 0 6px;font-weight:600}
-.sub{color:#666;margin:0 0 22px}
-.pre{border:1px solid #e5e5e5;border-radius:8px;padding:16px 18px;background:#fafafa;margin:0 0 30px}
+h1{font-size:28px;margin:0 0 6px;font-weight:600;letter-spacing:-0.01em}
+.sub{color:#5f6368;margin:0 0 22px;max-width:var(--measure)}
+.pre{border:1px solid #e5e5e5;border-radius:8px;padding:16px 18px;background:#fafafa;margin:0 0 30px;max-width:var(--measure)}
 .pre p{margin:0 0 8px}.pre p:last-child{margin:0}.pre b{display:inline-block;min-width:150px}
-.key{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#666;margin:0 0 26px}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#5f6368;margin:0 0 26px}
 .key span i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
 .zig{display:flex;flex-direction:column;align-items:center;gap:14px}
-.tier{border:1px solid #e5e5e5;border-radius:10px;padding:14px 16px 6px;background:#ffffff;transition:width .2s}
-.tier h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#666;margin:0 0 2px;font-weight:600}
-.tier .gloss{font-size:14px;color:#666;margin:0 0 12px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:10px}
+.tier{border:1px solid #e5e5e5;border-radius:10px;padding:16px 16px 6px;background:#ffffff;width:100%}
+.tier h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#5f6368;margin:0 0 2px;font-weight:600}.tier h2 em{font-style:normal;color:#1a1a1a;margin-left:6px;text-transform:none;letter-spacing:0;font-size:16px}
+.tier .gloss{font-size:14px;color:#5f6368;margin:0 0 14px;max-width:var(--measure)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-bottom:10px}
 .card{border:1px solid #e5e5e5;border-radius:8px;padding:12px 13px;background:#fafafa;font-size:14px;scroll-margin-top:16px}
 .card h3{font-size:15px;margin:0 0 6px;font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .card .st{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap}
 .card p{margin:0 0 8px}
-.card .prov{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#666;word-break:break-word}
-.card .links{font-size:12px;color:#666;margin-top:6px}.card .links a{color:inherit;text-decoration:underline dotted}
-.arrow{font-size:12px;color:#999;letter-spacing:.1em;text-transform:uppercase}
+.card .prov{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#5f6368;word-break:break-word}
+.card .links{font-size:12px;color:#5f6368;margin-top:6px}.card .links a{color:inherit;text-decoration:underline dotted}
+.arrow{font-size:12px;color:#6b7280;letter-spacing:.1em;text-transform:uppercase}
 .jump{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(6px);border-bottom:1px solid #e5e5e5;margin:0 -20px 26px;padding:10px 20px;display:flex;gap:6px;flex-wrap:wrap;font-size:12px}
-.jump a{color:#666;text-decoration:none;border:1px solid #e5e5e5;border-radius:999px;padding:4px 10px}.jump a b{color:#1a1a1a;font-weight:600;margin-right:4px}
-@media (max-width:700px){.tier{width:100%!important}.pre b{display:block;min-width:0}}
+.jump a{color:#5f6368;text-decoration:none;border:1px solid #e5e5e5;border-radius:999px;padding:4px 10px}.jump a b{color:#1a1a1a;font-weight:600;margin-right:4px}
+@media (max-width:700px){.pre b{display:block;min-width:0}.jump{margin:0 -20px 20px}}
 </style></head><body><div class="page">
 <h1>One relationship, serialized</h1>
 <p class="sub">2026-09-03 · for Ahmed · 19 artifacts · 6 tiers</p>
 <div class="pre">
-<p><b>What you are looking at</b> Every artifact from one relationship, stacked by how far it sits from the raw signal. The bottom tier is the recording. Each tier above is a serialization of the tier below it, and nothing higher up can say something the tier below does not contain.</p>
+<p><b>What you are looking at</b> Every artifact from one relationship, stacked by how far it sits from the raw signal. Six tiers, nineteen artifacts, one file underneath all of them.</p>
 <p><b>Why it exists</b> You standardize context so an AI can act on it. This is the same move for a decision: one account record, every question answered from it. The receipt table is to a relationship what the activity table is to a customer.</p>
-<p><b>How to read it</b> Read from the bottom up. Each card names the file it lives in and the tier it was serialized from. Statuses are honest: LIVE means you have seen it, HELD means it exists but was never sent, INTERNAL means it exists and you will never see it, by policy.</p>
+<p><b>How to read it</b> Read in order, top to bottom. Tier 0 is the recording. Each tier is built only from the tier before it, and nothing higher up can say something the tier below does not contain. Every card names the file it lives in. Statuses are honest: LIVE means you have seen it, HELD means it exists but was never sent, INTERNAL means it exists and you will never see it, by policy.</p>
 </div>
-<nav class="jump" aria-label="Jump to tier"><a href="#tier-5"><b>05</b>Thesis</a><a href="#tier-4"><b>04</b>Process</a><a href="#tier-3"><b>03</b>Surfaces</a><a href="#tier-2"><b>02</b>Receipts</a><a href="#tier-1"><b>01</b>Record</a><a href="#tier-0"><b>00</b>Signal</a></nav>
+<nav class="jump" aria-label="Jump to tier"><a href="#tier-0"><b>00</b>Signal</a><a href="#tier-1"><b>01</b>Record</a><a href="#tier-2"><b>02</b>Receipts</a><a href="#tier-3"><b>03</b>Surfaces</a><a href="#tier-4"><b>04</b>Process</a><a href="#tier-5"><b>05</b>Thesis</a></nav>
 <div class="key"><span><i style="background:#067647"></i>LIVE</span><span><i style="background:#b54708"></i>HELD</span><span><i style="background:#6b7280"></i>INTERNAL</span></div>
 <div class="zig">
-<div class="tier" style="width:60%" id="tier-5">
-<h2>Tier 5 · Thesis</h2>
-<p class="gloss">where your context bet and this receipt bet are the same bet</p>
-<div class="cards">
-<div class="card" id="n-context-thesis"><h3><span>Context, not content</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Your line: the future gold rush is context, not content. One activity table, ten years of questions answered from it. This stack is the same bet one layer up: one receipt table per relationship, every surface a projection, every projection filtered by an audience flag. Same architecture, from opposite ends.</p>
-<div class="prov">call transcript, your words; account record, insights block</div>
-<div class="links">serialized from / into: <a href="#n-account-record">account-record</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
-</div>
-<div class="card" id="n-stateful"><h3><span>Statefulness, closed loop</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>You said the human does the review, not the execution. Here the bet is filed before, the transcript is filed as it happens, the score is computed, and the human reads the score. A decision made downstream updates the record upstream in the same file. Neither of us set out to copy the other.</p>
-<div class="prov">call transcript, your words; the Receipt Loop family</div>
-<div class="links">serialized from / into: <a href="#n-receipt-loop">receipt-loop</a>, <a href="#n-context-thesis">context-thesis</a></div>
-</div>
-</div></div>
-<div class="arrow">serialized from ↓</div>
-<div class="tier" style="width:68%" id="tier-4">
-<h2>Tier 4 · Process</h2>
-<p class="gloss">the commands and gates that produced every tier below, so it repeats</p>
-<div class="cards">
-<div class="card" id="n-receipt-loop"><h3><span>The Receipt Loop, as a named family of commands</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Before: recoil-prep writes the bet. During: the recorder captures the transcript. After: recoil-close scores it. Share: the gauntlet, then the page. Compounds: the record gets one row longer. Each stage&#x27;s output is the next stage&#x27;s input.</p>
-<div class="prov">runtime/specs/tool-catalog.md, family block; 141 tools catalogued</div>
-<div class="links">serialized from / into: <a href="#n-cli-commands">cli-commands</a>, <a href="#n-gauntlet">gauntlet</a></div>
-</div>
-<div class="card" id="n-cli-commands"><h3><span>By hand or with automation: the answer</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Three commands with pass-through arguments. Render the record for one audience. Score the bet against the recoil. Stamp the page from a template. A human reviews once, at the end, and sends by hand. Your customer&#x27;s export would go through the same three with different arguments.</p>
-<div class="prov">scripts/recoil_brief.py, gen_receipt_close.py, forge_counterpart.py</div>
-<div class="links">serialized from / into: <a href="#n-receipt-loop">receipt-loop</a>, <a href="#n-nftt-post">nftt-post</a></div>
-</div>
-<div class="card" id="n-gauntlet"><h3><span>The gates before anything ships</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Leak check for internal markers on external pages. Quote check against the raw transcript. Adversarial counterpart simulation before send. Today the quote check caught four paraphrases in quotation marks and the policy check caught two internal-only rows. Both fixed before you saw them.</p>
-<div class="prov">scripts/leak_check.sh; counterpart-gauntlet workflow; fact-check pass 2026-09-03</div>
-<div class="links">serialized from / into: <a href="#n-receipt-loop">receipt-loop</a></div>
-</div>
-<div class="card" id="n-nftt-post"><h3><span>The write-up, in public</span><span class="st" style="color:#b54708">HELD</span></h3>
-<p>A Notes-from-the-Trenches post that owes you the answer to one question and gives it with the commands inline. Unnamed. Held on one gate: script filenames on a public page.</p>
-<div class="prov">_ARTIFACTS/blog/stories/by-hand-or-automation.story.md</div>
-<div class="links">serialized from / into: <a href="#n-cli-commands">cli-commands</a></div>
-</div>
-</div></div>
-<div class="arrow">serialized from ↓</div>
-<div class="tier" style="width:76%" id="tier-3">
-<h2>Tier 3 · Surfaces</h2>
-<p class="gloss">projections of the record for one audience each; the audience flag decides what crosses</p>
-<div class="cards">
-<div class="card" id="n-ext-report"><h3><span>Recoil Report page</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>The first thing you saw. Belief curves, a ledger, later a 60-second read. Honest, and in my format instead of yours. Sent three times.</p>
-<div class="prov">ahmed-ext.arcs.care, /evening, /seed; public/ahmed-ext.html</div>
-<div class="links">serialized from / into: <a href="#n-account-record">account-record</a>, <a href="#n-one-table">one-table</a></div>
-</div>
-<div class="card" id="n-war-room"><h3><span>The internal war room</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
-<p>Same record, internal audience: strategy tabs, conviction, the ex-ante gates. Returns a 404 to anyone who is not me. Exists so the external page can be honest about what it leaves out.</p>
-<div class="prov">runtime/warroom/ahmed.html behind admin auth</div>
-<div class="links">serialized from / into: <a href="#n-redaction-policy">redaction-policy</a></div>
-</div>
-<div class="card" id="n-one-table"><h3><span>One table, three rows</span><span class="st" style="color:#b54708">HELD</span></h3>
-<p>The same receipts as rows: expected, said, confidence before and after, so what. Your format: per entity, over time. Built today, held for your call.</p>
-<div class="prov">_ARTIFACTS/ahmed-one-table.html</div>
-<div class="links">serialized from / into: <a href="#n-receipt-close">receipt-close</a>, <a href="#n-loop-page">loop-page</a></div>
-</div>
-<div class="card" id="n-loop-page"><h3><span>The four-stop page</span><span class="st" style="color:#b54708">HELD</span></h3>
-<p>Before, During, After, Trend as the navigation. During is the transcript, not nothing. One screen per stop.</p>
-<div class="prov">_ARTIFACTS/ahmed-loop.html</div>
-<div class="links">serialized from / into: <a href="#n-one-table">one-table</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
-</div>
-<div class="card" id="n-wishlist-map"><h3><span>Your eleven asks, verbatim</span><span class="st" style="color:#b54708">HELD</span></h3>
-<p>Every explicit ask from the call and the thread, in your order, mapped to the one thing it gets. Two were never answered until today: by hand or automation, and time series per customer.</p>
-<div class="prov">_ARTIFACTS/ahmed-wishlist-map-2026-09-03.md</div>
-<div class="links">serialized from / into: <a href="#n-email-thread">email-thread</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
-</div>
-<div class="card" id="n-rob-blurb"><h3><span>The two-line blurb for Rob</span><span class="st" style="color:#b54708">HELD</span></h3>
-<p>You asked for it Sep 2. Ready to forward. Sent by hand, never automatically.</p>
-<div class="prov">talk track, Rob blurb section</div>
-<div class="links">serialized from / into: <a href="#n-email-thread">email-thread</a></div>
-</div>
-</div></div>
-<div class="arrow">serialized from ↓</div>
-<div class="tier" style="width:84%" id="tier-2">
-<h2>Tier 2 · Receipts</h2>
-<p class="gloss">the bet scored against the record; before-number, after-number, the line that moved it</p>
-<div class="cards">
-<div class="card" id="n-ex-ante-jul-22"><h3><span>The bet before the call</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Four beliefs with a number each, filed before we spoke. Two are about my read of the overlap and your focus; those you have seen. Two are strategy about you; those stay internal by the policy above.</p>
-<div class="prov">account record, beliefs P1 to P6, filed 2026-07-22 pre-call</div>
-<div class="links">serialized from / into: <a href="#n-account-record">account-record</a>, <a href="#n-receipt-close">receipt-close</a></div>
-</div>
-<div class="card" id="n-receipt-close"><h3><span>The bet scored</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>70% to 25%: your media proposal was your focus. Wrong. 60% to 90%: our customers overlap. Right, and stronger than filed. Each move is anchored to the minute and the line.</p>
-<div class="prov">kinematic_series, five measured points per belief, grounding quotes verbatim</div>
-<div class="links">serialized from / into: <a href="#n-ex-ante-jul-22">ex-ante-jul-22</a>, <a href="#n-one-table">one-table</a></div>
-</div>
-<div class="card" id="n-ex-ante-aug-26"><h3><span>The bet on my own email, scored</span><span class="st" style="color:#067647">LIVE</span></h3>
-<p>Filed Aug 26 before the re-open note went out: 30% you would reply without repeating the objection. You replied Sep 2 and repeated it. Scored wrong, kept.</p>
-<div class="prov">account record, ex_ante_reopen_2026_08_26; Gmail Sep 2</div>
-<div class="links">serialized from / into: <a href="#n-email-thread">email-thread</a>, <a href="#n-wishlist-map">wishlist-map</a></div>
-</div>
-</div></div>
-<div class="arrow">serialized from ↓</div>
-<div class="tier" style="width:92%" id="tier-1">
-<h2>Tier 1 · Record</h2>
-<p class="gloss">one JSON per account: the bet, the beliefs, every update with its quote</p>
-<div class="cards">
-<div class="card" id="n-account-record"><h3><span>The account record</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
-<p>One JSON. Sections: meta, beliefs, kinematic series, insights, next steps, redaction policy, page. New calls append; nothing is retyped. This is the single table.</p>
-<div class="prov">runtime/recoil/generated/DATE-ACCOUNT.json</div>
-<div class="links">serialized from / into: <a href="#n-granola-transcript">granola-transcript</a>, <a href="#n-redaction-policy">redaction-policy</a></div>
-</div>
-<div class="card" id="n-redaction-policy"><h3><span>The redaction policy, inside the record</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
-<p>Three rules written into the file itself: method can cross, subject-about-them cannot; show my own belief updates, never your intent scores; architecture crosses, weights do not. Every surface above is filtered by these rules before it renders.</p>
-<div class="prov">account record, redaction_policy block</div>
-<div class="links">serialized from / into: <a href="#n-ext-report">ext-report</a>, <a href="#n-war-room">war-room</a></div>
-</div>
-</div></div>
-<div class="arrow">serialized from ↓</div>
-<div class="tier" style="width:100%" id="tier-0">
-<h2>Tier 0 · Signal</h2>
+<section class="tier" id="tier-0" aria-labelledby="tl-0">
+<h2 id="tl-0">Tier 0<em>Signal</em></h2>
 <p class="gloss">what was actually said, with a clock on it</p>
 <div class="cards">
 <div class="card" id="n-granola-transcript"><h3><span>The July 22 call, recorded</span><span class="st" style="color:#067647">LIVE</span></h3>
 <p>35 minutes, time-stamped, speaker-labeled. Every quotation mark in every tier above traces to a line in this file.</p>
 <div class="prov">Granola recording e8648395, pulled as raw transcript, not summary, on Sep 3</div>
-<div class="links">serialized from / into: <a href="#n-account-record">account-record</a></div>
+<div class="links">connects to: <a href="#n-account-record">account-record</a></div>
 </div>
 <div class="card" id="n-email-thread"><h3><span>The email thread, Jul 22 to Sep 2</span><span class="st" style="color:#067647">LIVE</span></h3>
 <p>Ten messages. Two of yours are load-bearing: &#x27;hard to follow&#x27; (Jul 28) and &#x27;still so lost in your offering and the page&#x27; (Sep 2).</p>
 <div class="prov">Gmail thread, exported to PDF Sep 3</div>
-<div class="links">serialized from / into: <a href="#n-ex-ante-aug-26">ex-ante-aug-26</a>, <a href="#n-wishlist-map">wishlist-map</a></div>
+<div class="links">connects to: <a href="#n-ex-ante-aug-26">ex-ante-aug-26</a>, <a href="#n-wishlist-map">wishlist-map</a></div>
 </div>
-</div></div>
+</div></section>
+<div class="arrow" aria-hidden="true">serialized into ↓</div>
+<section class="tier" id="tier-1" aria-labelledby="tl-1">
+<h2 id="tl-1">Tier 1<em>Record</em></h2>
+<p class="gloss">one JSON per account: the bet, the beliefs, every update with its quote</p>
+<div class="cards">
+<div class="card" id="n-account-record"><h3><span>The account record</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
+<p>One JSON. Sections: meta, beliefs, kinematic series, insights, next steps, redaction policy, page. New calls append; nothing is retyped. This is the single table.</p>
+<div class="prov">runtime/recoil/generated/DATE-ACCOUNT.json</div>
+<div class="links">connects to: <a href="#n-granola-transcript">granola-transcript</a>, <a href="#n-redaction-policy">redaction-policy</a></div>
+</div>
+<div class="card" id="n-redaction-policy"><h3><span>The redaction policy, inside the record</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
+<p>Three rules written into the file itself: method can cross, subject-about-them cannot; show my own belief updates, never your intent scores; architecture crosses, weights do not. Every surface above is filtered by these rules before it renders.</p>
+<div class="prov">account record, redaction_policy block</div>
+<div class="links">connects to: <a href="#n-ext-report">ext-report</a>, <a href="#n-war-room">war-room</a></div>
+</div>
+</div></section>
+<div class="arrow" aria-hidden="true">serialized into ↓</div>
+<section class="tier" id="tier-2" aria-labelledby="tl-2">
+<h2 id="tl-2">Tier 2<em>Receipts</em></h2>
+<p class="gloss">the bet scored against the record; before-number, after-number, the line that moved it</p>
+<div class="cards">
+<div class="card" id="n-ex-ante-jul-22"><h3><span>The bet before the call</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Four beliefs with a number each, filed before we spoke. Two are about my read of the overlap and your focus; those you have seen. Two are strategy about you; those stay internal by the policy above.</p>
+<div class="prov">account record, beliefs P1 to P6, filed 2026-07-22 pre-call</div>
+<div class="links">connects to: <a href="#n-account-record">account-record</a>, <a href="#n-receipt-close">receipt-close</a></div>
+</div>
+<div class="card" id="n-receipt-close"><h3><span>The bet scored</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>70% to 25%: your media proposal was your focus. Wrong. 60% to 90%: our customers overlap. Right, and stronger than filed. Each move is anchored to the minute and the line.</p>
+<div class="prov">kinematic_series, five measured points per belief, grounding quotes verbatim</div>
+<div class="links">connects to: <a href="#n-ex-ante-jul-22">ex-ante-jul-22</a>, <a href="#n-one-table">one-table</a></div>
+</div>
+<div class="card" id="n-ex-ante-aug-26"><h3><span>The bet on my own email, scored</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Filed Aug 26 before the re-open note went out: 30% you would reply without repeating the objection. You replied Sep 2 and repeated it. Scored wrong, kept.</p>
+<div class="prov">account record, ex_ante_reopen_2026_08_26; Gmail Sep 2</div>
+<div class="links">connects to: <a href="#n-email-thread">email-thread</a>, <a href="#n-wishlist-map">wishlist-map</a></div>
+</div>
+</div></section>
+<div class="arrow" aria-hidden="true">serialized into ↓</div>
+<section class="tier" id="tier-3" aria-labelledby="tl-3">
+<h2 id="tl-3">Tier 3<em>Surfaces</em></h2>
+<p class="gloss">projections of the record for one audience each; the audience flag decides what crosses</p>
+<div class="cards">
+<div class="card" id="n-ext-report"><h3><span>Recoil Report page</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>The first thing you saw. Belief curves, a ledger, later a 60-second read. Honest, and in my format instead of yours. Sent three times.</p>
+<div class="prov">ahmed-ext.arcs.care, /evening, /seed; public/ahmed-ext.html</div>
+<div class="links">connects to: <a href="#n-account-record">account-record</a>, <a href="#n-one-table">one-table</a></div>
+</div>
+<div class="card" id="n-war-room"><h3><span>The internal war room</span><span class="st" style="color:#6b7280">INTERNAL</span></h3>
+<p>Same record, internal audience: my strategy notes, my internal scoring, the pre-send gates. Returns a 404 to anyone who is not me. Exists so the external page can be honest about what it leaves out.</p>
+<div class="prov">runtime/warroom/ahmed.html behind admin auth</div>
+<div class="links">connects to: <a href="#n-redaction-policy">redaction-policy</a></div>
+</div>
+<div class="card" id="n-one-table"><h3><span>One table, three rows</span><span class="st" style="color:#b54708">HELD</span></h3>
+<p>The same receipts as rows: expected, said, confidence before and after, so what. Your format: per entity, over time. Built today, held for your call.</p>
+<div class="prov">_ARTIFACTS/ahmed-one-table.html</div>
+<div class="links">connects to: <a href="#n-receipt-close">receipt-close</a>, <a href="#n-loop-page">loop-page</a></div>
+</div>
+<div class="card" id="n-loop-page"><h3><span>The four-stop page</span><span class="st" style="color:#b54708">HELD</span></h3>
+<p>Before, During, After, Trend as the navigation. During is the transcript, not nothing. One screen per stop.</p>
+<div class="prov">_ARTIFACTS/ahmed-loop.html</div>
+<div class="links">connects to: <a href="#n-one-table">one-table</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
+</div>
+<div class="card" id="n-wishlist-map"><h3><span>Your eleven asks, verbatim</span><span class="st" style="color:#b54708">HELD</span></h3>
+<p>Every explicit ask from the call and the thread, in your order, mapped to the one thing it gets. Two were never answered until today: by hand or automation, and time series per customer.</p>
+<div class="prov">_ARTIFACTS/ahmed-wishlist-map-2026-09-03.md</div>
+<div class="links">connects to: <a href="#n-email-thread">email-thread</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
+</div>
+<div class="card" id="n-rob-blurb"><h3><span>The two-line blurb for Rob</span><span class="st" style="color:#b54708">HELD</span></h3>
+<p>You asked for it Sep 2. Ready to forward. Sent by hand, never automatically.</p>
+<div class="prov">talk track, Rob blurb section</div>
+<div class="links">connects to: <a href="#n-email-thread">email-thread</a></div>
+</div>
+</div></section>
+<div class="arrow" aria-hidden="true">serialized into ↓</div>
+<section class="tier" id="tier-4" aria-labelledby="tl-4">
+<h2 id="tl-4">Tier 4<em>Process</em></h2>
+<p class="gloss">the commands and gates that produced every tier below, so it repeats</p>
+<div class="cards">
+<div class="card" id="n-receipt-loop"><h3><span>The Receipt Loop, as a named family of commands</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Before: recoil-prep writes the bet. During: the recorder captures the transcript. After: recoil-close scores it. Share: the gauntlet, then the page. Compounds: the record gets one row longer. Each stage&#x27;s output is the next stage&#x27;s input.</p>
+<div class="prov">runtime/specs/tool-catalog.md, family block; 141 tools catalogued</div>
+<div class="links">connects to: <a href="#n-cli-commands">cli-commands</a>, <a href="#n-gauntlet">gauntlet</a></div>
+</div>
+<div class="card" id="n-cli-commands"><h3><span>By hand or with automation: the answer</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Three commands with pass-through arguments. Render the record for one audience. Score the bet against the recoil. Stamp the page from a template. A human reviews once, at the end, and sends by hand. Your customer&#x27;s export would go through the same three with different arguments.</p>
+<div class="prov">scripts/recoil_brief.py, gen_receipt_close.py, forge_counterpart.py</div>
+<div class="links">connects to: <a href="#n-receipt-loop">receipt-loop</a>, <a href="#n-nftt-post">nftt-post</a></div>
+</div>
+<div class="card" id="n-gauntlet"><h3><span>The gates before anything ships</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Leak check for internal markers on external pages. Quote check against the raw transcript. Adversarial counterpart simulation before send. Today the quote check caught four paraphrases in quotation marks and the policy check caught two internal-only rows. Both fixed before you saw them.</p>
+<div class="prov">scripts/leak_check.sh; counterpart-gauntlet workflow; fact-check pass 2026-09-03</div>
+<div class="links">connects to: <a href="#n-receipt-loop">receipt-loop</a></div>
+</div>
+<div class="card" id="n-nftt-post"><h3><span>The write-up, in public</span><span class="st" style="color:#b54708">HELD</span></h3>
+<p>A Notes-from-the-Trenches post that owes you the answer to one question and gives it with the commands inline. Unnamed. Held on one gate: script filenames on a public page.</p>
+<div class="prov">_ARTIFACTS/blog/stories/by-hand-or-automation.story.md</div>
+<div class="links">connects to: <a href="#n-cli-commands">cli-commands</a></div>
+</div>
+</div></section>
+<div class="arrow" aria-hidden="true">serialized into ↓</div>
+<section class="tier" id="tier-5" aria-labelledby="tl-5">
+<h2 id="tl-5">Tier 5<em>Thesis</em></h2>
+<p class="gloss">where your context bet and this receipt bet are the same bet</p>
+<div class="cards">
+<div class="card" id="n-context-thesis"><h3><span>Context, not content</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>Your line: the future gold rush is context, not content. One activity table, ten years of questions answered from it. This stack is the same bet one layer up: one receipt table per relationship, every surface a projection, every projection filtered by an audience flag. Same architecture, from opposite ends.</p>
+<div class="prov">call transcript, your words; account record, insights block</div>
+<div class="links">connects to: <a href="#n-account-record">account-record</a>, <a href="#n-receipt-loop">receipt-loop</a></div>
+</div>
+<div class="card" id="n-stateful"><h3><span>Statefulness, closed loop</span><span class="st" style="color:#067647">LIVE</span></h3>
+<p>You said the human does the review, not the execution. Here the bet is filed before, the transcript is filed as it happens, the score is computed, and the human reads the score. A decision made downstream updates the record upstream in the same file. Neither of us set out to copy the other.</p>
+<div class="prov">call transcript, your words; the Receipt Loop family</div>
+<div class="links">connects to: <a href="#n-receipt-loop">receipt-loop</a>, <a href="#n-context-thesis">context-thesis</a></div>
+</div>
+</div></section>
 </div>
 </div></body></html>

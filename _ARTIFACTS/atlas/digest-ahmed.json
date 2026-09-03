@@ -5,80 +5,265 @@
   "audience": "external",
   "reader": "Ahmed",
   "preframe": {
-    "what": "Every artifact from one relationship, stacked by how far it sits from the raw signal. The bottom tier is the recording. Each tier above is a serialization of the tier below it, and nothing higher up can say something the tier below does not contain.",
+    "what": "Every artifact from one relationship, stacked by how far it sits from the raw signal. Six tiers, nineteen artifacts, one file underneath all of them.",
     "why": "You standardize context so an AI can act on it. This is the same move for a decision: one account record, every question answered from it. The receipt table is to a relationship what the activity table is to a customer.",
-    "how": "Read from the bottom up. Each card names the file it lives in and the tier it was serialized from. Statuses are honest: LIVE means you have seen it, HELD means it exists but was never sent, INTERNAL means it exists and you will never see it, by policy."
+    "how": "Read in order, top to bottom. Tier 0 is the recording. Each tier is built only from the tier before it, and nothing higher up can say something the tier below does not contain. Every card names the file it lives in. Statuses are honest: LIVE means you have seen it, HELD means it exists but was never sent, INTERNAL means it exists and you will never see it, by policy."
   },
   "tiers": [
-    {"n": 0, "label": "Signal", "gloss": "what was actually said, with a clock on it"},
-    {"n": 1, "label": "Record", "gloss": "one JSON per account: the bet, the beliefs, every update with its quote"},
-    {"n": 2, "label": "Receipts", "gloss": "the bet scored against the record; before-number, after-number, the line that moved it"},
-    {"n": 3, "label": "Surfaces", "gloss": "projections of the record for one audience each; the audience flag decides what crosses"},
-    {"n": 4, "label": "Process", "gloss": "the commands and gates that produced every tier below, so it repeats"},
-    {"n": 5, "label": "Thesis", "gloss": "where your context bet and this receipt bet are the same bet"}
+    {
+      "n": 0,
+      "label": "Signal",
+      "gloss": "what was actually said, with a clock on it"
+    },
+    {
+      "n": 1,
+      "label": "Record",
+      "gloss": "one JSON per account: the bet, the beliefs, every update with its quote"
+    },
+    {
+      "n": 2,
+      "label": "Receipts",
+      "gloss": "the bet scored against the record; before-number, after-number, the line that moved it"
+    },
+    {
+      "n": 3,
+      "label": "Surfaces",
+      "gloss": "projections of the record for one audience each; the audience flag decides what crosses"
+    },
+    {
+      "n": 4,
+      "label": "Process",
+      "gloss": "the commands and gates that produced every tier below, so it repeats"
+    },
+    {
+      "n": 5,
+      "label": "Thesis",
+      "gloss": "where your context bet and this receipt bet are the same bet"
+    }
   ],
   "nodes": [
-    {"id": "granola-transcript", "tier": 0, "title": "The July 22 call, recorded", "status": "LIVE",
-     "claim": "35 minutes, time-stamped, speaker-labeled. Every quotation mark in every tier above traces to a line in this file.",
-     "provenance": "Granola recording e8648395, pulled as raw transcript, not summary, on Sep 3", "links": ["account-record"]},
-    {"id": "email-thread", "tier": 0, "title": "The email thread, Jul 22 to Sep 2", "status": "LIVE",
-     "claim": "Ten messages. Two of yours are load-bearing: 'hard to follow' (Jul 28) and 'still so lost in your offering and the page' (Sep 2).",
-     "provenance": "Gmail thread, exported to PDF Sep 3", "links": ["ex-ante-aug-26", "wishlist-map"]},
-
-    {"id": "account-record", "tier": 1, "title": "The account record", "status": "INTERNAL",
-     "claim": "One JSON. Sections: meta, beliefs, kinematic series, insights, next steps, redaction policy, page. New calls append; nothing is retyped. This is the single table.",
-     "provenance": "runtime/recoil/generated/DATE-ACCOUNT.json", "links": ["granola-transcript", "redaction-policy"]},
-    {"id": "redaction-policy", "tier": 1, "title": "The redaction policy, inside the record", "status": "INTERNAL",
-     "claim": "Three rules written into the file itself: method can cross, subject-about-them cannot; show my own belief updates, never your intent scores; architecture crosses, weights do not. Every surface above is filtered by these rules before it renders.",
-     "provenance": "account record, redaction_policy block", "links": ["ext-report", "war-room"]},
-
-    {"id": "ex-ante-jul-22", "tier": 2, "title": "The bet before the call", "status": "LIVE",
-     "claim": "Four beliefs with a number each, filed before we spoke. Two are about my read of the overlap and your focus; those you have seen. Two are strategy about you; those stay internal by the policy above.",
-     "provenance": "account record, beliefs P1 to P6, filed 2026-07-22 pre-call", "links": ["account-record", "receipt-close"]},
-    {"id": "receipt-close", "tier": 2, "title": "The bet scored", "status": "LIVE",
-     "claim": "70% to 25%: your media proposal was your focus. Wrong. 60% to 90%: our customers overlap. Right, and stronger than filed. Each move is anchored to the minute and the line.",
-     "provenance": "kinematic_series, five measured points per belief, grounding quotes verbatim", "links": ["ex-ante-jul-22", "one-table"]},
-    {"id": "ex-ante-aug-26", "tier": 2, "title": "The bet on my own email, scored", "status": "LIVE",
-     "claim": "Filed Aug 26 before the re-open note went out: 30% you would reply without repeating the objection. You replied Sep 2 and repeated it. Scored wrong, kept.",
-     "provenance": "account record, ex_ante_reopen_2026_08_26; Gmail Sep 2", "links": ["email-thread", "wishlist-map"]},
-
-    {"id": "ext-report", "tier": 3, "title": "Recoil Report page", "status": "LIVE",
-     "claim": "The first thing you saw. Belief curves, a ledger, later a 60-second read. Honest, and in my format instead of yours. Sent three times.",
-     "provenance": "ahmed-ext.arcs.care, /evening, /seed; public/ahmed-ext.html", "links": ["account-record", "one-table"]},
-    {"id": "war-room", "tier": 3, "title": "The internal war room", "status": "INTERNAL",
-     "claim": "Same record, internal audience: strategy tabs, conviction, the ex-ante gates. Returns a 404 to anyone who is not me. Exists so the external page can be honest about what it leaves out.",
-     "provenance": "runtime/warroom/ahmed.html behind admin auth", "links": ["redaction-policy"]},
-    {"id": "one-table", "tier": 3, "title": "One table, three rows", "status": "HELD",
-     "claim": "The same receipts as rows: expected, said, confidence before and after, so what. Your format: per entity, over time. Built today, held for your call.",
-     "provenance": "_ARTIFACTS/ahmed-one-table.html", "links": ["receipt-close", "loop-page"]},
-    {"id": "loop-page", "tier": 3, "title": "The four-stop page", "status": "HELD",
-     "claim": "Before, During, After, Trend as the navigation. During is the transcript, not nothing. One screen per stop.",
-     "provenance": "_ARTIFACTS/ahmed-loop.html", "links": ["one-table", "receipt-loop"]},
-    {"id": "wishlist-map", "tier": 3, "title": "Your eleven asks, verbatim", "status": "HELD",
-     "claim": "Every explicit ask from the call and the thread, in your order, mapped to the one thing it gets. Two were never answered until today: by hand or automation, and time series per customer.",
-     "provenance": "_ARTIFACTS/ahmed-wishlist-map-2026-09-03.md", "links": ["email-thread", "receipt-loop"]},
-    {"id": "rob-blurb", "tier": 3, "title": "The two-line blurb for Rob", "status": "HELD",
-     "claim": "You asked for it Sep 2. Ready to forward. Sent by hand, never automatically.",
-     "provenance": "talk track, Rob blurb section", "links": ["email-thread"]},
-
-    {"id": "receipt-loop", "tier": 4, "title": "The Receipt Loop, as a named family of commands", "status": "LIVE",
-     "claim": "Before: recoil-prep writes the bet. During: the recorder captures the transcript. After: recoil-close scores it. Share: the gauntlet, then the page. Compounds: the record gets one row longer. Each stage's output is the next stage's input.",
-     "provenance": "runtime/specs/tool-catalog.md, family block; 141 tools catalogued", "links": ["cli-commands", "gauntlet"]},
-    {"id": "cli-commands", "tier": 4, "title": "By hand or with automation: the answer", "status": "LIVE",
-     "claim": "Three commands with pass-through arguments. Render the record for one audience. Score the bet against the recoil. Stamp the page from a template. A human reviews once, at the end, and sends by hand. Your customer's export would go through the same three with different arguments.",
-     "provenance": "scripts/recoil_brief.py, gen_receipt_close.py, forge_counterpart.py", "links": ["receipt-loop", "nftt-post"]},
-    {"id": "gauntlet", "tier": 4, "title": "The gates before anything ships", "status": "LIVE",
-     "claim": "Leak check for internal markers on external pages. Quote check against the raw transcript. Adversarial counterpart simulation before send. Today the quote check caught four paraphrases in quotation marks and the policy check caught two internal-only rows. Both fixed before you saw them.",
-     "provenance": "scripts/leak_check.sh; counterpart-gauntlet workflow; fact-check pass 2026-09-03", "links": ["receipt-loop"]},
-    {"id": "nftt-post", "tier": 4, "title": "The write-up, in public", "status": "HELD",
-     "claim": "A Notes-from-the-Trenches post that owes you the answer to one question and gives it with the commands inline. Unnamed. Held on one gate: script filenames on a public page.",
-     "provenance": "_ARTIFACTS/blog/stories/by-hand-or-automation.story.md", "links": ["cli-commands"]},
-
-    {"id": "context-thesis", "tier": 5, "title": "Context, not content", "status": "LIVE",
-     "claim": "Your line: the future gold rush is context, not content. One activity table, ten years of questions answered from it. This stack is the same bet one layer up: one receipt table per relationship, every surface a projection, every projection filtered by an audience flag. Same architecture, from opposite ends.",
-     "provenance": "call transcript, your words; account record, insights block", "links": ["account-record", "receipt-loop"]},
-    {"id": "stateful", "tier": 5, "title": "Statefulness, closed loop", "status": "LIVE",
-     "claim": "You said the human does the review, not the execution. Here the bet is filed before, the transcript is filed as it happens, the score is computed, and the human reads the score. A decision made downstream updates the record upstream in the same file. Neither of us set out to copy the other.",
-     "provenance": "call transcript, your words; the Receipt Loop family", "links": ["receipt-loop", "context-thesis"]}
+    {
+      "id": "granola-transcript",
+      "tier": 0,
+      "title": "The July 22 call, recorded",
+      "status": "LIVE",
+      "claim": "35 minutes, time-stamped, speaker-labeled. Every quotation mark in every tier above traces to a line in this file.",
+      "provenance": "Granola recording e8648395, pulled as raw transcript, not summary, on Sep 3",
+      "links": [
+        "account-record"
+      ]
+    },
+    {
+      "id": "email-thread",
+      "tier": 0,
+      "title": "The email thread, Jul 22 to Sep 2",
+      "status": "LIVE",
+      "claim": "Ten messages. Two of yours are load-bearing: 'hard to follow' (Jul 28) and 'still so lost in your offering and the page' (Sep 2).",
+      "provenance": "Gmail thread, exported to PDF Sep 3",
+      "links": [
+        "ex-ante-aug-26",
+        "wishlist-map"
+      ]
+    },
+    {
+      "id": "account-record",
+      "tier": 1,
+      "title": "The account record",
+      "status": "INTERNAL",
+      "claim": "One JSON. Sections: meta, beliefs, kinematic series, insights, next steps, redaction policy, page. New calls append; nothing is retyped. This is the single table.",
+      "provenance": "runtime/recoil/generated/DATE-ACCOUNT.json",
+      "links": [
+        "granola-transcript",
+        "redaction-policy"
+      ]
+    },
+    {
+      "id": "redaction-policy",
+      "tier": 1,
+      "title": "The redaction policy, inside the record",
+      "status": "INTERNAL",
+      "claim": "Three rules written into the file itself: method can cross, subject-about-them cannot; show my own belief updates, never your intent scores; architecture crosses, weights do not. Every surface above is filtered by these rules before it renders.",
+      "provenance": "account record, redaction_policy block",
+      "links": [
+        "ext-report",
+        "war-room"
+      ]
+    },
+    {
+      "id": "ex-ante-jul-22",
+      "tier": 2,
+      "title": "The bet before the call",
+      "status": "LIVE",
+      "claim": "Four beliefs with a number each, filed before we spoke. Two are about my read of the overlap and your focus; those you have seen. Two are strategy about you; those stay internal by the policy above.",
+      "provenance": "account record, beliefs P1 to P6, filed 2026-07-22 pre-call",
+      "links": [
+        "account-record",
+        "receipt-close"
+      ]
+    },
+    {
+      "id": "receipt-close",
+      "tier": 2,
+      "title": "The bet scored",
+      "status": "LIVE",
+      "claim": "70% to 25%: your media proposal was your focus. Wrong. 60% to 90%: our customers overlap. Right, and stronger than filed. Each move is anchored to the minute and the line.",
+      "provenance": "kinematic_series, five measured points per belief, grounding quotes verbatim",
+      "links": [
+        "ex-ante-jul-22",
+        "one-table"
+      ]
+    },
+    {
+      "id": "ex-ante-aug-26",
+      "tier": 2,
+      "title": "The bet on my own email, scored",
+      "status": "LIVE",
+      "claim": "Filed Aug 26 before the re-open note went out: 30% you would reply without repeating the objection. You replied Sep 2 and repeated it. Scored wrong, kept.",
+      "provenance": "account record, ex_ante_reopen_2026_08_26; Gmail Sep 2",
+      "links": [
+        "email-thread",
+        "wishlist-map"
+      ]
+    },
+    {
+      "id": "ext-report",
+      "tier": 3,
+      "title": "Recoil Report page",
+      "status": "LIVE",
+      "claim": "The first thing you saw. Belief curves, a ledger, later a 60-second read. Honest, and in my format instead of yours. Sent three times.",
+      "provenance": "ahmed-ext.arcs.care, /evening, /seed; public/ahmed-ext.html",
+      "links": [
+        "account-record",
+        "one-table"
+      ]
+    },
+    {
+      "id": "war-room",
+      "tier": 3,
+      "title": "The internal war room",
+      "status": "INTERNAL",
+      "claim": "Same record, internal audience: my strategy notes, my internal scoring, the pre-send gates. Returns a 404 to anyone who is not me. Exists so the external page can be honest about what it leaves out.",
+      "provenance": "runtime/warroom/ahmed.html behind admin auth",
+      "links": [
+        "redaction-policy"
+      ]
+    },
+    {
+      "id": "one-table",
+      "tier": 3,
+      "title": "One table, three rows",
+      "status": "HELD",
+      "claim": "The same receipts as rows: expected, said, confidence before and after, so what. Your format: per entity, over time. Built today, held for your call.",
+      "provenance": "_ARTIFACTS/ahmed-one-table.html",
+      "links": [
+        "receipt-close",
+        "loop-page"
+      ]
+    },
+    {
+      "id": "loop-page",
+      "tier": 3,
+      "title": "The four-stop page",
+      "status": "HELD",
+      "claim": "Before, During, After, Trend as the navigation. During is the transcript, not nothing. One screen per stop.",
+      "provenance": "_ARTIFACTS/ahmed-loop.html",
+      "links": [
+        "one-table",
+        "receipt-loop"
+      ]
+    },
+    {
+      "id": "wishlist-map",
+      "tier": 3,
+      "title": "Your eleven asks, verbatim",
+      "status": "HELD",
+      "claim": "Every explicit ask from the call and the thread, in your order, mapped to the one thing it gets. Two were never answered until today: by hand or automation, and time series per customer.",
+      "provenance": "_ARTIFACTS/ahmed-wishlist-map-2026-09-03.md",
+      "links": [
+        "email-thread",
+        "receipt-loop"
+      ]
+    },
+    {
+      "id": "rob-blurb",
+      "tier": 3,
+      "title": "The two-line blurb for Rob",
+      "status": "HELD",
+      "claim": "You asked for it Sep 2. Ready to forward. Sent by hand, never automatically.",
+      "provenance": "talk track, Rob blurb section",
+      "links": [
+        "email-thread"
+      ]
+    },
+    {
+      "id": "receipt-loop",
+      "tier": 4,
+      "title": "The Receipt Loop, as a named family of commands",
+      "status": "LIVE",
+      "claim": "Before: recoil-prep writes the bet. During: the recorder captures the transcript. After: recoil-close scores it. Share: the gauntlet, then the page. Compounds: the record gets one row longer. Each stage's output is the next stage's input.",
+      "provenance": "runtime/specs/tool-catalog.md, family block; 141 tools catalogued",
+      "links": [
+        "cli-commands",
+        "gauntlet"
+      ]
+    },
+    {
+      "id": "cli-commands",
+      "tier": 4,
+      "title": "By hand or with automation: the answer",
+      "status": "LIVE",
+      "claim": "Three commands with pass-through arguments. Render the record for one audience. Score the bet against the recoil. Stamp the page from a template. A human reviews once, at the end, and sends by hand. Your customer's export would go through the same three with different arguments.",
+      "provenance": "scripts/recoil_brief.py, gen_receipt_close.py, forge_counterpart.py",
+      "links": [
+        "receipt-loop",
+        "nftt-post"
+      ]
+    },
+    {
+      "id": "gauntlet",
+      "tier": 4,
+      "title": "The gates before anything ships",
+      "status": "LIVE",
+      "claim": "Leak check for internal markers on external pages. Quote check against the raw transcript. Adversarial counterpart simulation before send. Today the quote check caught four paraphrases in quotation marks and the policy check caught two internal-only rows. Both fixed before you saw them.",
+      "provenance": "scripts/leak_check.sh; counterpart-gauntlet workflow; fact-check pass 2026-09-03",
+      "links": [
+        "receipt-loop"
+      ]
+    },
+    {
+      "id": "nftt-post",
+      "tier": 4,
+      "title": "The write-up, in public",
+      "status": "HELD",
+      "claim": "A Notes-from-the-Trenches post that owes you the answer to one question and gives it with the commands inline. Unnamed. Held on one gate: script filenames on a public page.",
+      "provenance": "_ARTIFACTS/blog/stories/by-hand-or-automation.story.md",
+      "links": [
+        "cli-commands"
+      ]
+    },
+    {
+      "id": "context-thesis",
+      "tier": 5,
+      "title": "Context, not content",
+      "status": "LIVE",
+      "claim": "Your line: the future gold rush is context, not content. One activity table, ten years of questions answered from it. This stack is the same bet one layer up: one receipt table per relationship, every surface a projection, every projection filtered by an audience flag. Same architecture, from opposite ends.",
+      "provenance": "call transcript, your words; account record, insights block",
+      "links": [
+        "account-record",
+        "receipt-loop"
+      ]
+    },
+    {
+      "id": "stateful",
+      "tier": 5,
+      "title": "Statefulness, closed loop",
+      "status": "LIVE",
+      "claim": "You said the human does the review, not the execution. Here the bet is filed before, the transcript is filed as it happens, the score is computed, and the human reads the score. A decision made downstream updates the record upstream in the same file. Neither of us set out to copy the other.",
+      "provenance": "call transcript, your words; the Receipt Loop family",
+      "links": [
+        "receipt-loop",
+        "context-thesis"
+      ]
+    }
   ]
 }
