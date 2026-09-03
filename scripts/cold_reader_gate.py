@@ -5,7 +5,9 @@ Scores a RENDERED counterpart page (the HTML a cold reader actually sees) agains
 Ahmed Elsamadisi calibrated on 2026-09-03 after two "hard to follow" strikes, and that Jeben
 (re Harry Wilson, Apr 2026) and Robin (Aug 2026) had already named from outside:
 
-  R1 verdict-first     : a one-sentence verdict exists above the fold (first ~1200 chars of body text)
+  R1 verdict-first     : a one-sentence verdict AND an instance from the reader's world (a quotation, or a
+                         figure with a unit) exist above the fold (first ~1200 chars of body text). Amended
+                         2026-09-03 after the corpus read: "show me" outnumbered "too dense" 9 to 3.
   R2 first-screen budget: text before the first disclosure/section break <= 250 words
   R3 depth is pulled   : evidence lives behind <details> (or is absent); no more than 1 open figure
                          (table/svg/img) before the first <details>
@@ -13,6 +15,8 @@ Ahmed Elsamadisi calibrated on 2026-09-03 after two "hard to follow" strikes, an
   R5 read-time stamp   : page declares its read time (e.g. "90 seconds", "N minutes", "Read time")
   R6 no em-dashes      : plain-language rule (WORLD/PRODUCT)
   R7 fold has an action: an imperative/task cue appears above the fold ("pick", "bring", "ask", "do", ...)
+  R0 input validity   : the file has readable static text; a script-rendered page (near-empty static body)
+                         FAILS with a note to score the rendered DOM instead. Source is not what the reader sees.
 
 Each rule is a grep or a DOM count; no judgment. The judgment half is the cold-reader facet in
 counterpart-gauntlet (what / why / do from the first screen only). This script is a TRIPWIRE, not a
@@ -32,6 +36,8 @@ VERDICT_CUES = re.compile(r"(if (you|i) (read|know) (only )?(one thing|nothing)|
 ACTION_CUES = re.compile(r"\b(pick|bring|ask|open|read this first|do this|your task|before the call|next step|reply|choose)\b", re.I)
 READTIME = re.compile(r"(\b(\d+|one|two|three|four|five|ten|ninety)\s*(seconds?|secs?|minutes?|mins?)\b|read time)", re.I)
 FIG = re.compile(r"<(table|svg|img)\b", re.I)
+# an INSTANCE above the fold: a quotation, or a figure with a unit/percent/currency, i.e. something from the reader's world
+INSTANCE = re.compile(r'("[^"]{12,}"|“[^”]{12,}”|\$\s?\d|\d+(\.\d+)?\s?(%|percent|hours?|days?|weeks?|months?|years?|k\b|m\b|x\b|customers?|deals?|calls?))', re.I)
 
 
 def text_of(fragment: str) -> str:
@@ -44,6 +50,7 @@ def score(path: str, fold_chars: int = 1200) -> dict:
     raw = open(path, encoding="utf-8", errors="replace").read()
     body = re.search(r"<body\b[^>]*>(.*)</body>", raw, flags=re.S | re.I)
     body = body.group(1) if body else raw
+    body = re.sub(r"<(script|style)\b.*?</\1>", " ", body, flags=re.S | re.I)  # never cut inside a script
     # first screen = everything before the first <details> or the second <h2>/<section>, whichever first
     cut_points = [m.start() for m in re.finditer(r"<details\b", body, flags=re.I)]
     h2s = [m.start() for m in re.finditer(r"<(h2|section)\b", body, flags=re.I)]
@@ -56,8 +63,11 @@ def score(path: str, fold_chars: int = 1200) -> dict:
     figs_before_details = len(FIG.findall(first_screen_html))
     figs_per_details = [len(FIG.findall(d)) for d in details]
     total_figs = len(FIG.findall(body))
+    static_words = len(text_of(body).split())
+    script_rendered = static_words < 50 and bool(re.search(r"<script\b", raw, re.I))
     checks = {
-        "R1_verdict_first": bool(VERDICT_CUES.search(fold_text)),
+        "R0_static_or_rendered_input": not script_rendered,
+        "R1_verdict_first": bool(VERDICT_CUES.search(fold_text)) and bool(INSTANCE.search(fold_text)),
         "R2_first_screen_le_250_words": len(first_text.split()) <= 250,
         "R3_depth_pulled": (len(details) > 0 or total_figs <= 1) and figs_before_details <= 1,
         "R4_one_figure_per_step": all(n <= 1 for n in figs_per_details),
@@ -73,6 +83,8 @@ def score(path: str, fold_chars: int = 1200) -> dict:
         "details_blocks": len(details),
         "figures_total": total_figs,
         "figures_before_first_disclosure": figs_before_details,
+        "static_words": static_words,
+        "note": ("page is script-rendered; score a saved rendered DOM (browser 'save page' or get_page_text), not the source" if script_rendered else ""),
     }
 
 
@@ -90,6 +102,8 @@ def main(argv):
         for r in results:
             failed = [k for k, v in r["checks"].items() if not v]
             print(f"{'PASS' if r['pass'] else 'FAIL'}  {r['page']}  words@first-screen={r['first_screen_words']} details={r['details_blocks']} figs={r['figures_total']}" + (f"  failed: {', '.join(failed)}" if failed else ""))
+            if r.get("note"):
+                print(f"       note: {r['note']}")
     return 0 if all(r["pass"] for r in results) else 1
 
 

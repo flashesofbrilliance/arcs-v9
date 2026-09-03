@@ -130,6 +130,16 @@ Retroactive contract: the Ahmed SSOT as of 2026-09-03 FAILS the input gate (no b
 honestly from the July 22 transcript would have failed P4 (about the reader, reader did not ask) and
 flagged asks 7 and 9 as unanswered. Zach, 2026-09-03: "sure one gate doctrine two ends it is."
 
+## Amendment B (2026-09-03, evening): instance-first, and the rubric made literal
+
+Corpus read (50 of 125 calls): "show me an example" cues outnumbered "too dense" cues 9 to 3, and four
+counterparts asked for more. So R1 now requires a verdict cue AND an instance from the reader's world (a
+quotation, or a figure with a unit) above the fold. Depth is unchanged; order and anchor are what the gate
+governs. Ahmed's feedback is now a literal 13-item rubric, cross-referenced to published standards (Minto,
+BLUF, NN/g, Knaflic, Few, Tufte, Duarte, Butterick, WCAG, Krug) with two items the standards add (action
+titles, contrast): `_SPECS/cold-reader-rubric-v1.md` + `_SPECS/cold-reader-rubric-sources.md`. Live Saul
+scorecard: passes craft (A9, A11, A12), fails order and disclosure (A1 to A8, A10, A13).
+
 ## Lineage
 
 witness 2026-09-03T14:29:34-04:00 (GREEN) → this ADR (oracle next-free 75) → DEWY
