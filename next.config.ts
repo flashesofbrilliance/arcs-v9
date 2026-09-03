@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
         { source: "/forge", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/observatory", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/resume", destination: "/growth-ai-resume-viewer.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
-        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*_vercel).*)", destination: "/growth-ai.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
+        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*\\.ico|.*_vercel).*)", destination: "/growth-ai.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path((?!.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
