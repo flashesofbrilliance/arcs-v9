@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Receipt Loop, on our call</title>
+<style>
+:root{--ink:#1a1a1a;--mute:#666;--line:#e5e5e5;--bg:#fff;--soft:#fafafa;--red:#b42318;--green:#067647;--amber:#b54708}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.step{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.step ol{list-style:none;margin:0 auto;padding:0 24px;max-width:820px;display:flex;gap:0;counter-reset:s}
+.step li{flex:1;position:relative}
+.step a{display:block;padding:14px 6px 12px;text-decoration:none;color:var(--mute);font-size:13px;letter-spacing:.02em;border-bottom:3px solid transparent;text-align:center}
+.step a b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#999}
+.step a.here{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+.step a.here b{color:var(--ink)}
+.page{max-width:820px;margin:0 auto;padding:0 24px 80px}
+section{padding:56px 0 24px;border-bottom:1px solid var(--line);scroll-margin-top:72px}
+section:last-of-type{border-bottom:0}
+.where{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#999;margin:0 0 6px}
+h1{font-size:28px;margin:0 0 8px;font-weight:600}
+h2{font-size:22px;margin:0 0 10px;font-weight:600}
+.lede{color:#444;font-size:17px;margin:0 0 20px}
+.pre{border:1px solid #ddd;border-radius:8px;padding:16px 18px;background:var(--soft);margin:0 0 20px}
+.pre p{margin:0 0 8px}.pre p:last-child{margin:0}.pre b{display:inline-block;min-width:150px}
+table{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px}
+th,td{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);background:#f5f5f5;font-weight:600}
+td.v{white-space:nowrap;font-weight:600}.wrong{color:var(--red)}.right{color:var(--green)}.partial{color:var(--amber)}
+.q{color:#444;font-style:italic}
+.note{color:var(--mute);font-size:14px;margin:12px 0 0}
+.next{display:inline-block;margin-top:22px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);font-size:15px}
+.ask{border-left:3px solid var(--ink);padding:4px 0 4px 16px;margin:24px 0 0;font-size:17px}
+.trend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.trend div{border:1px solid var(--line);border-radius:8px;padding:14px}
+.trend b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:6px}
+@media (max-width:640px){.pre b{display:block;min-width:0}.trend{grid-template-columns:1fr}.step a{font-size:12px;padding:12px 4px 10px}th,td{padding:8px 6px;font-size:14px}}
+</style></head><body>
+
+<nav class="step" aria-label="Where you are"><ol>
+<li><a href="#before" data-s="before"><b>1 · Before</b>The bet</a></li>
+<li><a href="#during" data-s="during"><b>2 · During</b>The call</a></li>
+<li><a href="#after" data-s="after"><b>3 · After</b>The score</a></li>
+<li><a href="#trend" data-s="trend"><b>4 · Trend</b>What compounds</a></li>
+</ol></nav>
+
+<div class="page">
+
+<section id="before">
+<p class="where">You are at 1 of 4</p>
+<h1>The Receipt Loop, run on our call</h1>
+<p class="lede">Four stops. Each one is one screen. The bar at the top always shows where you are.</p>
+<div class="pre">
+<p><b>What you are looking at</b> A scorecard for a meeting. Before we spoke on July 22 I wrote down what I expected you to say. After, I checked each line against what you actually said.</p>
+<p><b>Why it exists</b> Written down before, it is a bet. Written down after, it is a story. Only a bet can be scored.</p>
+<p><b>How to read it</b> Stop 1 is the bet. Stop 3 is the score. Stop 4 is why it gets better every time.</p>
+</div>
+<h2>What I wrote down before the call</h2>
+<table>
+<tr><th style="width:60%">I expected</th><th>How sure I was</th></tr>
+<tr><td>Your media proposal was the thing you wanted to work on.</td><td>70%</td></tr>
+<tr><td>Some overlap in who we serve.</td><td>60%</td></tr>
+<tr><td>You were scoping me as something to place, not something to buy.</td><td>65%</td></tr>
+<tr><td>A warm peer catch-up, not business.</td><td>50%</td></tr>
+</table>
+<p class="note">Filed before the call, where I could not quietly edit it afterward. That is the only rule.</p>
+<a class="next" href="#during">Next: what happens during the call</a>
+</section>
+
+<section id="during">
+<p class="where">You are at 2 of 4</p>
+<h2>During: nothing</h2>
+<p class="lede">No bot in the room. No notes app talking. You take the meeting, the way you already do.</p>
+<p>The only thing that changes is that the bet already exists. So when you say something that surprises me, it lands against a number instead of against a vague feeling. That is the whole mechanism, and it is why the next screen can be honest.</p>
+<a class="next" href="#after">Next: the score</a>
+</section>
+
+<section id="after">
+<p class="where">You are at 3 of 4</p>
+<h2>After: the bet, scored against what you said</h2>
+<p class="lede">Left to right: what I expected, what you said, whether I was right, what I do about it. Red is wrong. The wrong rows are the useful ones.</p>
+<table>
+<tr><th style="width:24%">I expected</th><th style="width:30%">You said</th><th style="width:12%">Score</th><th>So what</th></tr>
+<tr><td>Media proposal was your focus.</td><td class="q">"The media pitch is a separate side project, the main company is Polyform."</td><td class="v wrong">Wrong</td><td>Dropped it. The heat was your customers, not your project.</td></tr>
+<tr><td>Some overlap.</td><td class="q">"Targeting a very similar set of customers and problems." Then: "our data is less interesting but our customers' need is way more interesting."</td><td class="v right">Right, stronger</td><td>The overlap is the customer. One report per customer, your name on it.</td></tr>
+<tr><td>Placing me, not buying.</td><td class="q">Asked pricing unprompted. Designed the funnel: free once per company, then talk to Zach.</td><td class="v partial">Half wrong</td><td>Run the funnel you designed, as written.</td></tr>
+<tr><td>Peer catch-up, not business.</td><td class="q">Warm, and business in both directions.</td><td class="v partial">Half wrong</td><td>It is a deal with a friend. Deals need a next step.</td></tr>
+<tr><td><i>Aug 26, before my last email:</i> 30% you would reply without saying "hard to follow" again.</td><td class="q">"I honestly think I am still so lost in your offering and the page."</td><td class="v wrong">Wrong</td><td>Two page rebuilds fixed the wrong thing. This page is the correction: your format, not mine.</td></tr>
+</table>
+<p class="note">Every quote is a line you said, on the call or in email. Nothing paraphrased is in quotes.</p>
+<a class="next" href="#trend">Next: why this compounds</a>
+</section>
+
+<section id="trend">
+<p class="where">You are at 4 of 4</p>
+<h2>Trend: what your customer would get</h2>
+<p class="lede">One receipt is a note. Five on the same account is a track record of how well a rep reads that buyer.</p>
+<div class="trend">
+<div><b>Per call</b>Rows like "champion has budget" or "will renew this quarter," scored against what the buyer actually said.</div>
+<div><b>Per deal</b>The same rows across every call with that account. Where confidence rose, where it fell, the line that turned it.</div>
+<div><b>Per book</b>Which three deals are quietly turning this week. The one objection that keeps costing the team.</div>
+</div>
+<p style="margin-top:18px">What they do with it Monday: step into those three deals knowing which line to address. Built from the calls they already record. Nothing to integrate.</p>
+<div class="ask">Pick one customer with a lot of sales calls. First report is on me. If it lands, a fixed per-customer fee, named the day we pick who.</div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.step a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function set(id){links.forEach(function(a){a.classList.toggle('here',a.getAttribute('href')==='#'+id)})}
+  set('before');
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting)set(e.target.id)});
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(function(s){io.observe(s)});
+})();
+</script>
+</body></html>
