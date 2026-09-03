@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# prepare-commit-msg — flow-ledger trailers (arcs.trajectory.v1 · "Deliverable B").
+#
+# Why: 0/132 commits on this repo carried a session id as of 2026-09-03, so commits could not be
+# grouped into sessions and no turn:output:commit ratio was computable. This hook records the
+# three facts at the source, in the commit, instead of reconstructing them later:
+#   Claude-Session: <session url>   groups commits -> sessions
+#   Flow-Turns:     <int>           conversation turns spent in that session so far
+#   Span:           <YYYY-MM-DD>/<session id>   the ledger key joining git <-> trajectory
+# Read back with: python3 scripts/flow_ledger_emit.py
+#
+# Sources (first wins): env ARCS_SESSION_URL / ARCS_FLOW_TURNS, else _STATE/flow/session.env
+# (gitignored; copy session.env.example). Never blocks a commit. Never duplicates a trailer that
+# is already present (harness-added Claude-Session lines are kept as-is). Skips merge commits.
+set -u
+MSG="$1"; SRC="${2:-}"
+[ "$SRC" = "merge" ] && exit 0
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+ENVF="$ROOT/_STATE/flow/session.env"
+# shellcheck disable=SC1090
+[ -f "$ENVF" ] && . "$ENVF"
+SES="${ARCS_SESSION_URL:-}"; TURNS="${ARCS_FLOW_TURNS:-}"
+[ -z "$SES" ] && exit 0
+SID=$(basename "$SES"); DAY=$(date +%Y-%m-%d)
+grep -qE '^Claude-Session:' "$MSG" || printf '\nClaude-Session: %s\n' "$SES" >> "$MSG"
+if [ -n "$TURNS" ]; then grep -qE '^Flow-Turns:' "$MSG" || printf 'Flow-Turns: %s\n' "$TURNS" >> "$MSG"; fi
+grep -qE '^Span:' "$MSG" || printf 'Span: %s/%s\n' "$DAY" "$SID" >> "$MSG"
+exit 0

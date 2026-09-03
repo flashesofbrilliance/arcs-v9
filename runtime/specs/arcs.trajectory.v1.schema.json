@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcs.trajectory.v1",
+  "title": "ARCS Trajectory — composable span-to-render schema",
+  "description": "One serialization for any bounded span of work (a day, a session, a git range, an arc). Drives the Daily Trajectory / Flow Ledger render. Atlas-compatible: `span.frame` is the sovereign zero (WORLD.md Field Geometry, Tao V); every metric is honest-null until instrumented; `fidelity` binds render resolution to earned certainty (WORLD.md Render Scale).",
+  "type": "object",
+  "required": ["schema_version", "span", "zones"],
+  "properties": {
+    "schema_version": { "const": "arcs.trajectory.v1" },
+    "span": {
+      "type": "object",
+      "required": ["id", "kind", "frame", "start", "end", "fidelity"],
+      "properties": {
+        "id":    { "type": "string", "examples": ["2026-09-03", "session_01BDFhs7mV", "8de9e73..fd57144"] },
+        "kind":  { "enum": ["day", "session", "git-range", "arc"], "description": "What unit this span serializes. Same schema, different granularity — this is the composability claim." },
+        "frame": { "type": "string", "description": "The sovereign zero this span is projected from (IANA tz for a day; repo@branch for a git-range). No frame is canonical; the frame is declared, per Tao V.", "examples": ["America/New_York", "arcs-v9@main"] },
+        "start": { "type": "string", "format": "date-time" },
+        "end":   { "type": "string", "format": "date-time" },
+        "provenance": {
+          "type": "array",
+          "description": "Every source that fed this span, each with a confidence. An empty array is itself an honest signal.",
+          "items": {
+            "type": "object",
+            "required": ["source", "confidence"],
+            "properties": {
+              "source":     { "enum": ["google-calendar", "granola", "fathom", "git", "handoff", "manual", "witness"] },
+              "confidence": { "enum": ["high", "medium", "low", "unverified"] }
+            }
+          }
+        },
+        "fidelity": { "enum": ["GRAIN", "DEGRADED", "SHARP", "MOIRE"], "description": "Render resolution the data has EARNED. GRAIN = sparse/unverified; SHARP = fully sourced. The render must never exceed this." }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "The flow ledger. Every field is nullable ON PURPOSE — null means 'not instrumented', never 0. Fabricating a number here is the one forbidden move.",
+      "properties": {
+        "turns":        { "type": ["integer", "null"], "description": "Conversation turns in the span. Requires session instrumentation; null until then." },
+        "output_units": { "type": ["integer", "null"], "description": "Discrete artifacts/edits produced." },
+        "commits":      { "type": ["integer", "null"], "description": "Sealed commits. Available from git today." },
+        "flow_ratio":   { "type": ["number", "null"], "description": "commits / turns (or output / turn). The peak-flow signal. Null until turns are logged." },
+        "nci":          { "type": ["integer", "null"], "minimum": 0, "maximum": 100, "description": "Quality gate. Null when the span's commits are [NCI:SKIP]." }
+      }
+    },
+    "zones": {
+      "type": "array",
+      "description": "Ordered phase-zones the span descends through (WORLD.md four-zone model).",
+      "items": {
+        "type": "object",
+        "required": ["idx", "title", "accent", "nodes"],
+        "properties": {
+          "idx":    { "type": "integer" },
+          "title":  { "type": "string", "examples": ["Morning Ascent", "The Pressure Band", "Open Terrain", "The Return"] },
+          "accent": { "enum": ["cyan", "green", "gold", "coral", "slate"] },
+          "start":  { "type": "string", "format": "date-time" },
+          "end":    { "type": "string", "format": "date-time" },
+          "note":   { "type": "string" },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["t", "title", "category"],
+              "properties": {
+                "t":        { "type": "string", "description": "Local clock label, e.g. 05:30" },
+                "dur_min":  { "type": ["integer", "null"] },
+                "title":    { "type": "string" },
+                "category": { "enum": ["anchor", "build", "call", "family", "open", "self"] },
+                "detail":   { "type": "string" },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "source":   { "type": "string" },
+                    "recorded": { "type": "boolean", "description": "True only if a transcript/recording actually exists. The Ahmed call is recorded:false — scheduled, not transcribed." }
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "description": "Insight/receipt tags attached live. See the tagging protocol.",
+                  "items": { "enum": ["witness", "receipt", "peak-flow", "drift", "one-way-door", "carrier-signal"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "receipts": {
+      "type": "array",
+      "description": "DEWY receipts and witness stubs linked to this span. The compounding ledger.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id":        { "type": "string" },
+          "kind":      { "enum": ["dewy", "witness", "adr"] },
+          "ts":        { "type": "string", "format": "date-time" },
+          "verbatim":  { "type": "string", "description": "For a witness stub: the sound the tree made, not a summary of it." }
+        }
+      }
+    }
+  }
+}

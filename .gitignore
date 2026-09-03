@@ -88,3 +88,6 @@ operators/_torch_distillation_artifacts/
 supabase/
 test-results/
 .claude/skills/sbom-payload-scan-workspace/
+
+# flow-ledger per-session env (local only)
+_STATE/flow/session.env
