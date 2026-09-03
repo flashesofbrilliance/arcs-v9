@@ -37,7 +37,7 @@ ACTION_CUES = re.compile(r"\b(pick|bring|ask|open|read this first|do this|your t
 READTIME = re.compile(r"(\b(\d+|one|two|three|four|five|ten|ninety)\s*(seconds?|secs?|minutes?|mins?)\b|read time)", re.I)
 FIG = re.compile(r"<(table|svg|img)\b", re.I)
 # an INSTANCE above the fold: a quotation, or a figure with a unit/percent/currency, i.e. something from the reader's world
-INSTANCE = re.compile(r'("[^"]{12,}"|“[^”]{12,}”|\$\s?\d|\d+(\.\d+)?\s?(%|percent|hours?|days?|weeks?|months?|years?|k\b|m\b|x\b|customers?|deals?|calls?))', re.I)
+INSTANCE = re.compile(r'("[^"]{12,}"|“[^”]{12,}”|\$\s?\d|\b(\d[\d,]*(\.\d+)?|a million|one million|a thousand)\s?(million|thousand|k\b|m\b|x\b)?\s?(\w+\s)?(%|percent|hours?|days?|weeks?|months?|years?|customers?|deals?|calls?|countries|people|rows?|sites?)\b)', re.I)
 
 
 def text_of(fragment: str) -> str:

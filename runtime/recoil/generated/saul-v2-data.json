@@ -1,0 +1,413 @@
+{
+ "meta": {
+  "who": "Saul Miller",
+  "role": "Global VP of Data Operations",
+  "org": "Starpilot",
+  "orgUrl": "https://www.starpilot.ai",
+  "for": "Saul only",
+  "date": "2026-09-03",
+  "read_minutes": 2,
+  "sources": "the posting · your LinkedIn · the CEO's LinkedIn and posts · starpilot.ai and launch post · press on rivals · all read 2026-09-03"
+ },
+ "verdict": {
+  "instance": "They want a million captured hours a month across five countries, with nine people and a fraction of their rivals' cash.",
+  "line": "You have run the delivery machine. This one is built in the field, from zero.",
+  "next_step": "Bring three proofs, decide travel before the call, pick two questions."
+ },
+ "reasons": [
+  {
+   "h": "It is a country-launch seat, not lab ops",
+   "t": "Field teams in Vietnam, the Philippines, and Egypt wearing cameras. Turkey and Pakistan next. Reports to a first-time CEO who already runs a Cairo data factory."
+  },
+  {
+   "h": "Your Sama record is the closest thing that exists",
+   "t": "Delivery governance across 4 continents and 25+ concurrent engagements, local workforces run by local leaders, the BI function owned. Four of ten requirements are provably strong."
+  },
+  {
+   "h": "The gaps are three, nameable, and each gets a date",
+   "t": "From-zero launch (bridge: Change Machine), hardware logistics (no record, day-30 plan), localized comp (adjacent, not new). Name them before he does."
+  }
+ ],
+ "questions": [
+  {
+   "q": "Can I show I build from nothing, not just scale?",
+   "a": "Change Machine: beta to public launch, then onboarding, support, and engagement built after. Bring team size, months, one post-launch number. Without those three the card is empty."
+  },
+  {
+   "q": "What do I say about customs and camera logistics?",
+   "a": "\"I have not. Week one I hire a logistics lead and set up one tracked flow. By day 30 you get turnaround time per site.\" Do not bluff a CTO."
+  },
+  {
+   "q": "Will he test my SQL?",
+   "a": "He or Bedri may. Answer at your true level, then how you get the rest: \"I will own my own dashboards by day 30 without pulling an engineer.\""
+  }
+ ],
+ "tasks": [
+  "Bring three proofs: Change Machine team size and months to launch; one real Sama unit-cost or retention number, or ask for theirs; one dashboard you built and the decision it changed.",
+  "Decide travel and Brooklyn in-person before the call. A conditional answer reads as hedging.",
+  "Pick two questions from the Ask list. Each is answerable only by him and changes what you would do first."
+ ],
+ "blocks": [
+  {
+   "title": "The posting, as written",
+   "open": "Nine facts, each with its source. Press and directory facts are secondary; confirm in the room.",
+   "figure": {
+    "type": "table",
+    "head": [
+     "Fact",
+     "What the record says"
+    ],
+    "rows": [
+     [
+      "Seat",
+      "Brooklyn, in person. 25 to 40 percent travel to SE Asia, Middle East, South Asia. Reports to CEO. [JD]"
+     ],
+     [
+      "Goal",
+      "Usable hours per month, cost per usable hour, quality rate, task diversity. All countries. [JD]"
+     ],
+     [
+      "Comp",
+      "$180k to $250k base, equity, bonus tied to global hours, cost per hour, quality. [JD]"
+     ],
+     [
+      "Live today",
+      "Vietnam, Philippines, Egypt. Next: Turkey, Pakistan. Target one million hours a month. A Cairo data factory already claims 100,000+ hours. [JD, LinkedIn]"
+     ],
+     [
+      "Who they want",
+      "“Ambitious and hungry.” Ex-founders and operators who launched countries or built field ops from zero. [JD]"
+     ],
+     [
+      "The CEO",
+      "John Chirikjian. Yale CS. CTO of Ayez (YC W18, Cairo logistics software) and Backlot (YC S20, pivoted from 3D previz to AI advertising, now inactive). Microsoft TPM. JHU robotics research. Posts for rapid iteration and against bureaucracy. [LI-J, X]"
+     ],
+     [
+      "The team",
+      "About nine people. Head of Operations Hamed Elhessy. Hisham Bedri, MIT Media Lab, is the technical voice and has published the precision failure mode: about 1 cm error under occlusion, with frame-by-frame human review. [RocketReach, launch post]"
+     ],
+     [
+      "The field",
+      "Rivals hold 5 to 100 times the cash and headcount: XDOF $70M, Mecka $60M, Tacta $75M, Micro1 at 160k hours a month, Scale with Meta behind it. Starpilot’s claim is precision, not volume. Your plan has to be capital-light. [press]"
+     ],
+     [
+      "To apply",
+      "They ask for the largest physical operation you launched or scaled, the hardest problem, and the number that proves you fixed it. [JD]"
+     ]
+    ]
+   },
+   "close": "The CEO is a two-time YC CTO in his first CEO seat. Talk build, not manage."
+  },
+  {
+   "title": "Fit map: the three gaps first, then the four strengths",
+   "open": "Strong is provable from your profile. Partial has a bridge. Gap has no record and gets a plan, not a claim.",
+   "figure": {
+    "type": "table",
+    "head": [
+     "They require",
+     "Fit",
+     "Your evidence or bridge"
+    ],
+    "rows": [
+     [
+      "Launch a country from zero: entity, first hires, first sites",
+      "Partial",
+      "You scaled and governed existing operations. The from-zero proof is Change Machine: beta to public launch, then onboarding, support, and engagement built after launch. Bring the team size and the months. [LI-S]"
+     ],
+     [
+      "Hardware logistics: customs, inventory, turnaround",
+      "Gap",
+      "No record. Do not bluff. Week one: hire a logistics lead, one tracked flow. Day 30: turnaround time per site."
+     ],
+     [
+      "Legal, privacy, labor compliance for recording workers",
+      "Partial",
+      "Fortune 50 client delivery implies compliance exposure. Confirm the specifics you can speak to. Local counsel is the play for entity law."
+     ],
+     [
+      "Localized comp design",
+      "Partial",
+      "You owned P&L levers, not market pay design. Frame it as a known playbook you have run adjacent to, not a new skill."
+     ],
+     [
+      "Technical: SQL, scripting, pipelines",
+      "Partial",
+      "Salesforce Certified Admin, VP Product on a data platform, BI owner. One honest sentence on where your SQL is today, used everywhere on this page. [LI-S]"
+     ],
+     [
+      "Travel weeks at a time; in person Brooklyn",
+      "Open",
+      "Only you can answer this. Decide before the call, not during it."
+     ],
+     [
+      "Global output: hours, cost per hour, quality, diversity",
+      "Strong",
+      "Led Project Operations, BI, and Technical Training; delivery governance and operational reporting across 4 continents and 25+ concurrent engagements. [LI-S]"
+     ],
+     [
+      "Country GMs: hire, coach, replace",
+      "Strong",
+      "Seven years managing delivery and product leaders across Sama’s global centers, 2018 to 2026. Name the regions yourself; they are not on your profile. [LI-S]"
+     ],
+     [
+      "Distributed workforce through local leaders",
+      "Strong",
+      "Sama’s model is local workforces run by local leadership. You ran the delivery side of it. Use Sama’s scale as context, not as your personal number. [LI-S]"
+     ],
+     [
+      "Numbers: build the dashboards, know unit economics cold",
+      "Strong",
+      "Owned the BI function; drove company profitability; 95%+ retention and SLA attainment. [LI-S]"
+     ]
+    ]
+   },
+   "close": "Travel and in-person is the one row only you can fill. Decide first."
+  },
+  {
+   "title": "Six objections he is likely to hold",
+   "open": "Each card: the objection, the fact from your record, the line in your voice, the number to leave behind.",
+   "figure": {
+    "type": "cards",
+    "items": [
+     {
+      "h": "You ran a big company’s machine. Can you build one from nothing?",
+      "rows": [
+       [
+        "Source",
+        "Change Machine: SaaS platform from beta to public launch, then onboarding, support, and engagement processes built post-launch. [LI-S]"
+       ],
+       [
+        "Bridge",
+        "At Sama the machine existed and I made it bigger. At Change Machine there was no machine. Fill in: team of __, __ months from beta to launch, and one post-launch number."
+       ],
+       [
+        "Number",
+        "Team size, months to launch, one post-launch number. Without those three this card is empty."
+       ]
+      ]
+     },
+     {
+      "h": "You have never shipped cameras through customs.",
+      "rows": [
+       [
+        "Source",
+        "No record. Do not invent one."
+       ],
+       [
+        "Bridge",
+        "I have not. Week one I hire a logistics lead and set up one tracked flow for shipments, repairs, and returns. By day 30 you get turnaround time per site, and we decide together what to fix first."
+       ],
+       [
+        "Number",
+        "Turnaround time per site, by day 30."
+       ]
+      ]
+     },
+     {
+      "h": "This is a founder-hungry seat. You have been at one company for ten years.",
+      "rows": [
+       [
+        "Source",
+        "Seven roles in ten years at Sama, Senior PM to VP twice, across delivery, product, and operations. [LI-S]"
+       ],
+       [
+        "Bridge",
+        "The scope kept doubling, so I stayed. In 2020 I moved from running delivery to running product because the platform was the constraint. I would rather build the next machine than manage the one I know."
+       ],
+       [
+        "Number",
+        "Seven roles. Two VP seats. Have the 2020 lateral move ready in one sentence."
+       ]
+      ]
+     },
+     {
+      "h": "Sama is a large services company. We need cheap, fast, and precise, with nine people.",
+      "rows": [
+       [
+        "Source",
+        "Drove operational excellence and company profitability; SLA owner across 25+ engagements. [LI-S]"
+       ],
+       [
+        "Bridge",
+        "Local workforce at local pay with real retention is how you get cheap hours that stay high quality. Retention is the unit-cost lever. Bring one real Sama unit-cost or retention number, or skip the number and ask for theirs."
+       ],
+       [
+        "Number",
+        "One real Sama number, or none. Ask their cost per usable hour."
+       ]
+      ]
+     },
+     {
+      "h": "Can you work directly with engineers?",
+      "rows": [
+       [
+        "Source",
+        "VP Product on the annotation platform; hired PMs, product ops, technical writers; Salesforce Admin. [LI-S]"
+       ],
+       [
+        "Bridge",
+        "I ran product for the platform engineers built. My SQL is [your true level]. I will own my own dashboards by day 30 without pulling an engineer."
+       ],
+       [
+        "Number",
+        "Name one dashboard you built and the decision it changed."
+       ]
+      ]
+     },
+     {
+      "h": "Precision is our moat and human review is our bottleneck. What would you do?",
+      "rows": [
+       [
+        "Source",
+        "Bedri’s launch post: about 1 cm error under fast or occluded motion; every clip reviewed frame by frame. [launch post]"
+       ],
+       [
+        "Bridge",
+        "Keep the precision, remove the bottleneck: calibration regimes per site, tracker-health checks before capture, auto-reject rules, and sampled audit instead of full review. That is the QA architecture I ran at Sama, applied to sensors."
+       ],
+       [
+        "Number",
+        "Ask the retargeting acceptance rate and hours delivered versus hours captured."
+       ]
+      ]
+     }
+    ]
+   },
+   "close": "Bluffing a CTO is the one unrecoverable move. Every card has a true-level answer."
+  },
+  {
+   "title": "Where the two of you will interfere",
+   "open": "Constructive where your signal and his add up. Discord where they clash, and how to make it productive.",
+   "figure": {
+    "type": "table",
+    "head": [
+     "Kind",
+     "Where",
+     "How to play it"
+    ],
+    "rows": [
+     [
+      "Constructive",
+      "Emerging-market operations",
+      "He built logistics software in Cairo and runs a Cairo data factory now. You ran delivery across Sama’s global centers. Neither of you needs the other to explain what a field team is."
+     ],
+     [
+      "Constructive",
+      "Egypt is live",
+      "Ask once what Cairo taught him. Then say what your regions taught you. Shared language, not a tactic."
+     ],
+     [
+      "Constructive",
+      "Numbers as the shared surface",
+      "He is a CTO by trade. You own BI. Dashboards are where trust gets built. Bring one."
+     ],
+     [
+      "Constructive",
+      "Builder respect",
+      "He has founded four companies and pivoted hard. You built Change Machine from beta. Talk build, not manage."
+     ],
+     [
+      "Constructive",
+      "Quality and cost in one sentence",
+      "The posting asks for honesty about the tradeoff. Your SLA-plus-profitability record is that sentence."
+     ],
+     [
+      "Discord",
+      "Speed versus systems",
+      "Backlot pivoted once and he posts against bureaucracy. Your instinct is to systematize. Productive if you frame process as instrumentation that makes the next pivot cheap. Costly if it sounds like governance."
+     ],
+     [
+      "Discord",
+      "CTO-turned-CEO, senior ops VP",
+      "He has been the CTO under other CEOs. You will be the most senior operator he has managed. Propose the operating rhythm in the first month: what you decide alone, what comes to him, how often."
+     ],
+     [
+      "Discord",
+      "Impact register versus cost register",
+      "Lead with margin. Mention mission only if he does, and only attached to a number."
+     ],
+     [
+      "Discord",
+      "Technical depth",
+      "He and Bedri may test SQL or pipeline knowledge directly. Answer at your true level, then say how you get the rest. Bluffing a CTO is the one unrecoverable move."
+     ],
+     [
+      "Discord",
+      "Presence",
+      "He is in Brooklyn and wants you on the ground for each launch. A conditional answer on travel or in-person will read as hedging. Decide first."
+     ],
+     [
+      "Discord",
+      "Capital",
+      "Rivals have far more cash. He may want a million hours on a fraction of their budget. Push back with a capital-light plan, not with a bigger budget ask."
+     ]
+    ]
+   },
+   "close": "Lead with margin. Mention mission only if he does, and only attached to a number."
+  },
+  {
+   "title": "Always · sometimes · never",
+   "open": "The operating constitution for the conversation and, if it lands, for the partnership.",
+   "figure": {
+    "type": "triple",
+    "cols": [
+     [
+      "Always",
+      [
+       "Lead every answer with the number, then the story, under 60 seconds.",
+       "Use their units: usable hours, cost per usable hour, quality rate, task diversity.",
+       "Name your gaps before he does: customs, entity setup, market pay design.",
+       "Turn each gap into a day-30 deliverable with a number attached.",
+       "Frame process as instrumentation, never as governance.",
+       "Agree the operating rhythm: what you decide, what he decides, how often you meet."
+      ]
+     ],
+     [
+      "Sometimes",
+      [
+       "Mention Sama’s mission. Only when it explains margin or retention.",
+       "Name Fortune 50 clients. Only if asked about scale, and only public ones.",
+       "Go deep on the annotation platform. Only if he pulls the thread.",
+       "Discuss equity and bonus mechanics. After the second conversation, not the first.",
+       "Offer Turkey or Pakistan launch ideas. Only after hearing why those two."
+      ]
+     ],
+     [
+      "Never",
+      [
+       "Call their business annotation, labeling, or data services.",
+       "Claim hardware logistics or entity-setup experience you do not have.",
+       "Say a Starpilot number you did not hear from them.",
+       "Explain leaving Sama in more than one sentence.",
+       "Hedge on travel and in-person. Decide before the call.",
+       "Tell him what is or is not hard in his own business. Ask instead."
+      ]
+     ]
+    ]
+   },
+   "close": "Frame process as instrumentation, never as governance."
+  },
+  {
+   "title": "Ask: pick two",
+   "open": "Each one is answerable only by him, and each answer changes what you would do first.",
+   "figure": {
+    "type": "list",
+    "items": [
+     "What is cost per usable hour today in Vietnam versus Egypt?",
+     "What share of captured hours are rejected, and who decides?",
+     "What is the retargeting acceptance rate, and how many hours are delivered to customers versus captured?",
+     "Why Turkey and Pakistan over the alternatives?",
+     "In six months, what decision do you want to stop being in the room for?"
+    ]
+   },
+   "close": "Your own line: \"Good with AI. Better with people.\""
+  }
+ ],
+ "close": "They are hiring a machine builder who can stand in a field in Vietnam and read a dashboard in Brooklyn. Show the machine you ran, name the three parts you have not built, and give each a date.",
+ "record_links": [
+  {
+   "label": "the full seven-section brief",
+   "href": "/"
+  }
+ ]
+}
