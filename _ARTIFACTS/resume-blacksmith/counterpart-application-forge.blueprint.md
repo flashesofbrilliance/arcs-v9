@@ -96,6 +96,14 @@ rendered on the public Forge (stages 5→10 map to the six on-page gates):
 | surface | reader | file(s) |
 |---------|--------|---------|
 | **Front door** `<company>.arcs.care` | recruiter + panel | landing (hero ship-clock, domain-map, kitchen, Forge CTA) |
+
+> **Domain-map = a 2-column mapping table**, NOT a connector visual. Left column: what
+> their customers build (domain + logos). Right column: where you have already shipped.
+> A vertical divider between the columns + row separators; align-items:start. Do NOT put a
+> gradient line with a center dot between the columns: it renders as a broken range slider
+> (caught + fixed on blacksmith + growth-ai, 2026-09-03). One shared 2-col grid for the head
+> and every row so the divider is continuous; on mobile it stacks (gold domain, then the
+> gradient-left-border "mine" cell).
 | **Honest-method showcase** `/forge` | panel (technical) | replay with per-stage gates, evidence grades, cut list, CI gates |
 | **Deliverables** `/resume` | ATS + human | résumé PDF · ATS text · cover PDF, via a sticky-eyebrow viewer |
 | **Private SSOT** (never served) | candidate only | recoil report · persona-gauntlet · triangulation · kintsugi receipt |
