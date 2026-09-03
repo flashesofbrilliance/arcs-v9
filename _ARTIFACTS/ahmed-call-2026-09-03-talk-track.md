@@ -13,7 +13,7 @@ it checks what actually happened. Over a series of calls, the gap between the tw
 | When | Input (what you hand it) | Output (what you get back) | How to read it, in plain words |
 |---|---|---|---|
 | **Before** | The invite, the last few emails, the last transcript if there is one | A one-page **pre-meeting receipt**: what you think they want, what you expect them to say, the one thing you are going to ask for | "Here is my bet, written down where I can't quietly edit it later." |
-| **During** | Nothing. You take the meeting. | Nothing. No bot talks. | The human does the meeting. The system does the paperwork. |
+| **During** | The call itself, recorded (Granola on our call) | The time-stamped transcript: who said what, when, with the hedges | "The recording is the raw material. Every score on the next page is a line from it." |
 | **After** | The transcript | A **post-meeting receipt**: what they actually said vs your bet, where their confidence went up or down, where the thread dropped | "Here is where I was right, where I was wrong, and the one place I should have asked a follow-up." |
 
 The thing he found hard to follow on ahmed-ext was the belief chart. Read it as: **a line going up

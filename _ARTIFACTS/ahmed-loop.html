@@ -37,7 +37,7 @@ td.v{white-space:nowrap;font-weight:600}.wrong{color:var(--red)}.right{color:var
 
 <nav class="step" aria-label="Where you are"><ol>
 <li><a href="#before" data-s="before"><b>1 · Before</b>The bet</a></li>
-<li><a href="#during" data-s="during"><b>2 · During</b>The call</a></li>
+<li><a href="#during" data-s="during"><b>2 · During</b>The transcript</a></li>
 <li><a href="#after" data-s="after"><b>3 · After</b>The score</a></li>
 <li><a href="#trend" data-s="trend"><b>4 · Trend</b>What compounds</a></li>
 </ol></nav>
@@ -51,7 +51,7 @@ td.v{white-space:nowrap;font-weight:600}.wrong{color:var(--red)}.right{color:var
 <div class="pre">
 <p><b>What you are looking at</b> A scorecard for a meeting. Before we spoke on July 22 I wrote down what I expected you to say. After, I checked each line against what you actually said.</p>
 <p><b>Why it exists</b> Written down before, it is a bet. Written down after, it is a story. Only a bet can be scored.</p>
-<p><b>How to read it</b> Stop 1 is the bet. Stop 3 is the score. Stop 4 is why it gets better every time.</p>
+<p><b>How to read it</b> Stop 1 is the bet. Stop 2 is the transcript it gets scored against. Stop 3 is the score. Stop 4 is why it gets better every time.</p>
 </div>
 <h2>What I wrote down before the call</h2>
 <table>
@@ -67,9 +67,16 @@ td.v{white-space:nowrap;font-weight:600}.wrong{color:var(--red)}.right{color:var
 
 <section id="during">
 <p class="where">You are at 2 of 4</p>
-<h2>During: nothing</h2>
-<p class="lede">No bot in the room. No notes app talking. You take the meeting, the way you already do.</p>
-<p>The only thing that changes is that the bet already exists. So when you say something that surprises me, it lands against a number instead of against a vague feeling. That is the whole mechanism, and it is why the next screen can be honest.</p>
+<h2>During: the call is recorded, and that recording is the raw material</h2>
+<p class="lede">You take the meeting the way you already do. A notetaker (Granola, on our call) captures the transcript. Nothing talks, nothing interrupts.</p>
+<p>The transcript is the input to everything on the next screen. Every score there is a line from it, with the minute it was said. No transcript, no score. That is why this works on your customers' calls with nothing new to install: they already record them.</p>
+<table>
+<tr><th style="width:30%">Captured during the call</th><th>What it feeds</th></tr>
+<tr><td>The full transcript, time-stamped</td><td>Every quoted line on stop 3, and the minute each belief moved</td></tr>
+<tr><td>Who said what, in order</td><td>Whose confidence rose or fell, and what was said just before it did</td></tr>
+<tr><td>Hedges and qualifiers</td><td>The "probably," "we'd have to see," "not this quarter" flags</td></tr>
+</table>
+<p class="note">The bet from stop 1 is filed before this. The transcript is filed as it happens. Neither can be edited after the fact, which is what makes the score on stop 3 checkable.</p>
 <a class="next" href="#after">Next: the score</a>
 </section>
 
