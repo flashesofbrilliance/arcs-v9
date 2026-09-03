@@ -19,12 +19,14 @@ const PAGES = [
   { path: "/forge", title: /The Forge/, must: ["The Forge", "honest, agentic pipeline", "Replay the build", "what is not on this page"] },
 ]
 
-// The resume is delivered as a downloadable PDF, not a responsive HTML page.
-test("/growth-ai-resume.pdf is served for download", async ({ request }) => {
-  const res = await request.get((process.env.GROWTH_AI_BASE_URL ?? "https://growth-ai.arcs.care") + "/growth-ai-resume.pdf")
-  expect(res.status(), "resume PDF not reachable").toBeLessThan(400)
-  expect((res.headers()["content-type"] || ""), "resume is not served as a PDF").toContain("pdf")
-})
+// The deliverables are downloadable PDFs, not responsive HTML pages.
+for (const pdf of ["/growth-ai-resume.pdf", "/growth-ai-cover.pdf", "/growth-ai-resume-ats.pdf"]) {
+  test(`${pdf} is served for download`, async ({ request }) => {
+    const res = await request.get((process.env.GROWTH_AI_BASE_URL ?? "https://growth-ai.arcs.care") + pdf)
+    expect(res.status(), `${pdf} not reachable`).toBeLessThan(400)
+    expect((res.headers()["content-type"] || ""), `${pdf} not served as a PDF`).toContain("pdf")
+  })
+}
 
 // Air-gap trip-words that must not appear anywhere in the public HTML.
 // Policy: this is a personal referral, so the referrer is air-gapped entirely
