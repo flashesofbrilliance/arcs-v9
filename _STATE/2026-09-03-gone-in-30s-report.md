@@ -5,14 +5,14 @@ Rule pre-registered in `_STATE/2026-09-03-gone-in-30s-preregistration.md` before
 | Measure | Value |
 |---|---|
 | Calls coded | 125 |
-| Transcript fetch failed | 77 |
-| In scope (artifact or ARCS explained) | 28 |
+| Transcript fetch failed | 75 |
+| In scope (artifact or ARCS explained) | 29 |
 | In-scope calls with >= 1 hit | 7 |
-| Hit rate (hit calls / in scope) | 0.25 |
+| Hit rate (hit calls / in scope) | 0.24 |
 | In-scope calls with an UNPROMPTED hit | 5 |
 | In-scope calls with a miss (M1/M2) | 4 |
-| Out-of-scope calls that still produced a hit | 1 |
-| **Pre-registered verdict** | **INCONCLUSIVE (0.25 to 0.50)** |
+| Out-of-scope calls that still produced a hit | 2 |
+| **Pre-registered verdict** | **H0 (< 0.25)** |
 
 ## Tag distribution (in scope)
 
@@ -81,6 +81,7 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Jun 17, 2026 11:30 AM EDT · 30 mins w/ Chris G (Zach Harris) · verbal explanation of ARCS / cognitive OS parallels · M1: "Not only do I think it, not only do I think it's interesting, I've actually built very, very similar things myself, probably not to the depth that you have, but... I've tried to make a portable, I call it a cognitive OS."
 - Jun 23, 2026 10:59 AM EDT · Oliver x Zach // 1-1 Call ·  
 - Mar 16, 2026 1:30 PM EDT · Zach Harris x Reha Maher · ARCS demo / energy scan explanation 
+- Mar 17, 2026 10:00 AM EDT · Jeben x Zach · ARCS explanation (mentioned running arcs on session) 
 - Mar 31, 2026 11:00 AM EDT · Jeben x Zach // Let's go!!! · deck mapping ARCS to Limitless Minds (braid/red-thread) 
 - Mar 5, 2026 2:00 PM EST · Call with Zach · ARCS explanation (verbal, no artifact shown) 
 - May 19, 2026 9:58 AM EDT · Adriana x Zach // Part 2 // Jam Session · ARCS coherence-engine draft / ICP positioning doc 
@@ -91,6 +92,7 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 
 - Apr 13, 2026 4:00 PM EDT · Jack and Jill · **C1**: "Okay. I hear the vision. But you're going abstract again. Let me ground this."
 - Apr 13, 2026 4:00 PM EDT · Jack and Jill · **C1**: "She doesn't need the philosophy. She needs proof you've executed."
+- Feb 5, 2026 3:59 PM EST · Hila and Zach // Mock Chase Interview  · **C1**: "Everything you're saying to me is too detailed. Unless she asks you about settlement layers."
 
 ## Zach-side lines (the mechanism, said about his own material)
 
@@ -131,6 +133,7 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Mar 16, 2026 1:30 PM EDT · Zach Harris x Reha Maher: "I basically built arcs as a way to either go really high level or really deep or meet people kind of where they are."
 - Mar 16, 2026 1:30 PM EDT · Zach Harris x Reha Maher: "it's translating from like 10,000 foot view to 1,000 foot view to 100 foot view to 10ft on the ground"
 - Mar 16, 2026 1:30 PM EDT · Zach Harris x Reha Maher: "So it's saying at L0, the executive headline level, at the L1, the strategy system level"
+- Mar 17, 2026 10:00 AM EDT · Jeben x Zach: "I'm going to run, like, arcs thing on this, just to try to zip it up and make it, like, a little bit more condensed and stuff, and hopefully it'll be helpful for your noodling."
 - Mar 3, 2026 10:48 AM EST · Interview prep for JPMorgan Chase digital assets role: "I also have been writing articles that are effectively stalking horses. For dense signaling."
 - Mar 3, 2026 10:48 AM EST · Interview prep for JPMorgan Chase digital assets role: "I think I should keep it as short as possible because I tend to freeze and I tend to go down too many rabbit holes or mid curve"
 - Mar 3, 2026 10:48 AM EST · Interview prep for JPMorgan Chase digital assets role: "I literally came out with a 30 second max opening statement that I think I can memorize that I think will be really good."
@@ -214,7 +217,6 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Apr 9, 2026 3:30 PM EDT · zach chase kineysys interview prep · 8e5a96e1-3782-401d-93e7-465f226171c8
 - Mar 20, 2026 12:00 PM EDT · Scott x Zach · 88522a70-d856-47c3-ad3d-02601fc8f97e
 - Mar 2, 2026 5:45 PM EST · Jack and Jill Call Prep · 30f33e0a-1178-4a65-977f-5290e1e35171
-- Feb 5, 2026 3:59 PM EST · Hila and Zach // Mock Chase Interview  · ced361d0-7d97-492c-bc10-6f7f7218e913
 - Jan 23, 2026 1:30 PM EST · [HM 1:1] Head of Job Outcomes: Zach Harris <> Joanna Patterson · 62181d6b-7a07-4ded-82bd-7c0773f0d978
 - Aug 10, 2026 4:03 PM EDT · Todd x Zach  · 40dbf5af-1077-49cb-ac0c-4a9fb403159f
 - Jul 16, 2026 1:00 PM EDT · DQ x ZH // 1-1 · d8b2265f-b46c-40b5-9795-0e11dc584a16
@@ -222,6 +224,5 @@ _Artifact: Content Factory forensic teardown + Saul pre-meeting brief + recoil r
 - Jun 23, 2026 3:09 PM EDT · Call with Jonny RE Tribe.ai Referral · 4478fba1-4f96-4c1e-8c9c-2c30392c6be0
 - May 19, 2026 11:32 AM EDT · Dan x Zach // 1-1 · 4e9ff3d4-2385-4324-9401-3831b21950e4
 - Apr 9, 2026 10:00 AM EDT · 1-1 with Zach (Matt Paddock) · 84847493-7e9a-4c01-8095-8874b48808f7
-- Mar 17, 2026 10:00 AM EDT · Jeben x Zach · b9fe2956-57a2-4484-8f38-99060d75544e
 - Feb 4, 2026 4:00 PM EST · Meet with Dan (Zach Harris ) · 89febb99-de23-4968-b3bb-c5abd3d367bf
 - Jan 22, 2026 10:30 AM EST · Zach Harris and Zachary Drossman · ad14e70d-c65e-4fa4-a577-09c1c15c6fe7
