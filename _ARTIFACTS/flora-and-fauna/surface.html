@@ -1,0 +1,505 @@
+<title>Flora and Fauna of ARCS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  /* ── tokens: paper (light) on bare :root; the void (dark) is the native ARCS ground ── */
+  :root{
+    --bg:#eef1f3; --surface:#f7f8f9; --elevated:#ffffff; --border:#c9d2da; --border-strong:#9aa8b5;
+    --fg1:#0b1220; --fg2:#3a475a; --fg3:#5b6b80; --fg4:#7a8798;
+    --cyan:#087c8c; --green:#0a7f55; --gold:#8a6d00; --orange:#b45a10; --red:#b8324f;
+    --cyan-ink:#0b5f6b; --glow:rgba(8,124,140,.12); --grain:rgba(11,18,32,.08);
+    --measure:640px; --radius:6px;
+    --font-display:"Newsreader",Georgia,"Times New Roman",serif;
+    --font-sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --track-widest:.14em;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b; --border-strong:#334155;
+      --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+      --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+      --cyan-ink:#7ff7ff; --glow:rgba(0,240,255,.14); --grain:rgba(226,232,240,.06);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b; --border-strong:#334155;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+    --cyan-ink:#7ff7ff; --glow:rgba(0,240,255,.14); --grain:rgba(226,232,240,.06);
+    color-scheme:dark;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg1);font:16px/1.55 var(--font-sans);overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+  a{color:var(--cyan);text-decoration-thickness:1px;text-underline-offset:3px}
+  h1,h2,h3,h4{text-wrap:balance;margin:0}
+  p,li{max-width:var(--measure);text-wrap:pretty}
+  .eyebrow,.lab{max-width:none;text-wrap:balance;font-family:var(--font-mono);font-size:.7rem;font-weight:700;letter-spacing:var(--track-widest);text-transform:uppercase;color:var(--fg4)}
+  .eyebrow{color:var(--cyan)}
+  @media (max-width:640px){.eyebrow,.lab{letter-spacing:.07em}}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* ── masthead ── */
+  .mast{border-bottom:1px solid var(--border);padding:28px clamp(16px,4vw,48px) 20px;display:grid;gap:14px}
+  .mast h1{font-family:var(--font-display);font-weight:500;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;letter-spacing:-.01em}
+  .mast h1 em{font-style:italic;font-weight:400;color:var(--cyan-ink)}
+  .lede{color:var(--fg2);font-size:1.02rem;margin:0}
+  .mast-row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between}
+  .threadkey{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--font-mono);font-size:.74rem;color:var(--fg3)}
+  .threadkey span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .glyph{display:inline-block;width:10px;height:10px;flex:none}
+  .g-flora{border-radius:50%;background:var(--green)}
+  .g-fauna{background:var(--cyan)}
+  .g-mycelium{background:var(--gold);transform:rotate(45deg);width:9px;height:9px}
+  .g-pathogen{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:11px solid var(--red);background:none}
+  .g-ore{background:var(--orange);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)}
+
+  /* ── lens bar (sticky) ── */
+  .lensbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px clamp(16px,4vw,48px);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+  .lenses{display:inline-flex;border:1px solid var(--border-strong);border-radius:999px;padding:3px;gap:2px;background:var(--surface)}
+  .lens{appearance:none;border:0;background:transparent;color:var(--fg2);font:600 .78rem/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 13px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .lens:hover{color:var(--fg1)}
+  .lens[aria-pressed="true"]{background:var(--fg1);color:var(--bg)}
+  .lens-hint{font-family:var(--font-mono);font-size:.74rem;color:var(--fg3);flex:1 1 220px;min-width:0}
+  .search{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-strong);border-radius:999px;padding:6px 12px;background:var(--surface)}
+  .search input{border:0;background:transparent;color:var(--fg1);font:.85rem var(--font-sans);width:170px;outline:none}
+  .search input::placeholder{color:var(--fg4)}
+  .count{font-family:var(--font-mono);font-size:.7rem;color:var(--fg4);white-space:nowrap}
+
+  /* ── stage ── */
+  .stage{padding:26px clamp(16px,4vw,48px) 80px;min-height:60vh}
+  .view{display:none}.view.on{display:block}
+  .sec{margin:0 0 34px}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px}
+  .sec-head h2{font-family:var(--font-display);font-weight:500;font-size:1.55rem;letter-spacing:-.005em;display:inline-flex;align-items:center;gap:10px}
+  .sec-head .plate{font-family:var(--font-mono);font-size:.7rem;letter-spacing:var(--track-widest);text-transform:uppercase;color:var(--fg4)}
+  .sec-head .sub{color:var(--fg3);font-size:.9rem;flex:1 1 240px;max-width:none}
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+
+  /* ── the block (one DOM node per organism; moves between lenses) ── */
+  .block{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px 12px;cursor:pointer;display:grid;gap:6px;align-content:start;transition:border-color .18s,box-shadow .18s}
+  .block:hover{border-color:var(--border-strong)}
+  .block::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 2px 2px 0;background:var(--thread)}
+  .block.k-flora{--thread:var(--green)} .block.k-fauna{--thread:var(--cyan)} .block.k-mycelium{--thread:var(--gold)} .block.k-pathogen{--thread:var(--red)} .block.k-ore{--thread:var(--orange)}
+  .block .bin{font-family:var(--font-display);font-style:italic;font-size:1.12rem;line-height:1.15;color:var(--fg1)}
+  .block .com{font-weight:600;font-size:.92rem;color:var(--fg1)}
+  .block .meta{font-family:var(--font-mono);font-size:.68rem;color:var(--fg4);display:flex;flex-wrap:wrap;gap:4px 10px}
+  .block .meta b{color:var(--fg3);font-weight:500}
+  .block .mark{color:var(--fg2);font-size:.86rem;max-width:none;margin:0}
+  .block .det{display:none;margin-top:6px;border-top:1px dashed var(--border);padding-top:8px;gap:6px 12px;grid-template-columns:max-content 1fr;font-size:.82rem}
+  .block.open .det{display:grid}
+  .block .det dt{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg4);padding-top:3px}
+  .block .det dd{margin:0;color:var(--fg2);max-width:none}
+  .block .det code{font-family:var(--font-mono);font-size:.74rem;color:var(--cyan-ink);word-break:break-all}
+  .block.open{box-shadow:0 0 0 1px var(--thread),0 10px 30px -18px var(--thread)}
+  .block.hide{display:none}
+  .status-chip{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border-strong);border-radius:999px;color:var(--fg3);white-space:nowrap;justify-self:start}
+  .status-chip.cand{border-color:var(--gold);color:var(--gold)}
+  .status-chip.fail{border-color:var(--red);color:var(--red)}
+  .status-chip.rom{border-color:var(--green);color:var(--green)}
+  .status-chip.new{border-color:var(--cyan);color:var(--cyan)}
+
+  /* ── library lens: shelves ── */
+  .shelf{display:grid;grid-template-columns:56px 1fr;gap:12px;border-top:1px solid var(--border);padding:12px 0 16px}
+  .shelf:last-child{border-bottom:1px solid var(--border)}
+  .spine{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);border-right:2px solid var(--border-strong);padding:6px 0;text-align:center;min-height:120px}
+  .spine b{color:var(--fg1);font-weight:700}
+  .shelf-body{display:grid;gap:8px;align-content:start}
+  .shelf-body .lab{font-size:.66rem}
+  @media (max-width:560px){.shelf{grid-template-columns:1fr}.spine{writing-mode:horizontal-tb;transform:none;border-right:0;border-bottom:2px solid var(--border-strong);min-height:0;text-align:left;padding:0 0 4px}}
+
+  /* ── atlas lens: bands rendered at earned fidelity ── */
+  .band{position:relative;border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px 16px;margin-bottom:10px;background:var(--surface);overflow:hidden}
+  .band-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:12px}
+  .band-head h3{font-family:var(--font-display);font-weight:500;font-size:1.25rem}
+  .band-head .y{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--fg3)}
+  .band-head .rr{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto}
+  .band.fog{opacity:.78}
+  .band.fog::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-radial-gradient(circle at 30% 20%,var(--grain) 0 1px,transparent 1px 4px),repeating-radial-gradient(circle at 70% 80%,var(--grain) 0 1px,transparent 1px 5px)}
+  .band.fog .block .bin,.band.fog .block .com{font-weight:300;letter-spacing:.02em}
+  .band.pressure{opacity:.9}
+  .band.pressure::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(115deg,transparent 0 9px,var(--grain) 9px 10px)}
+  .band.ridge{opacity:1}
+  .band.nucleus{opacity:1;border-color:var(--cyan);box-shadow:inset 0 0 0 1px var(--cyan),0 0 40px -18px var(--cyan)}
+  .band.nucleus .block{border-radius:2px}
+  .band.nucleus .block .bin{font-weight:600;letter-spacing:-.005em}
+  .band.bedrock{background:repeating-linear-gradient(180deg,var(--surface) 0 22px,color-mix(in srgb,var(--surface) 80%,var(--border)) 22px 23px);border-style:dashed}
+  .band .grid{position:relative;z-index:1}
+
+  /* ── observatory lens ── */
+  .obs{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start}
+  .panel{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:16px}
+  .panel h3{font-family:var(--font-display);font-weight:500;font-size:1.25rem;margin-bottom:8px}
+  .panel p{color:var(--fg2);font-size:.92rem}
+  .circuit{width:100%;height:auto;display:block}
+  .circuit text{font-family:var(--font-mono);font-size:11px;fill:var(--fg2)}
+  .circuit .t{fill:var(--fg1);font-size:12.5px;font-weight:600}
+  .circuit .loop{fill:none;stroke:var(--cyan);stroke-width:1.5;stroke-dasharray:4 6}
+  @media (prefers-reduced-motion:no-preference){.circuit .loop{animation:flow 6s linear infinite}}
+  @keyframes flow{to{stroke-dashoffset:-100}}
+  .law{font-family:var(--font-mono);font-size:.88rem;color:var(--fg1);background:var(--elevated);border:1px solid var(--border);border-radius:4px;padding:12px 14px;overflow-x:auto;white-space:pre;margin:10px 0}
+  .arcstrip{overflow-x:auto;padding-bottom:6px}
+  .arcstrip svg{display:block}
+  .arcstrip text{font-family:var(--font-mono);font-size:10.5px;fill:var(--fg2)}
+
+  /* ── status lens ── */
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));margin-bottom:18px}
+  .tile{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:12px 14px;display:grid;gap:2px}
+  .tile .n{font-family:var(--font-mono);font-size:1.7rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--fg1)}
+  .tile .l{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4)}
+  .tile .s{font-size:.8rem;color:var(--fg3);max-width:none}
+  .gradebar{display:flex;height:14px;border-radius:3px;overflow:hidden;border:1px solid var(--border);margin:6px 0 4px}
+  .gradebar i{display:block;height:100%}
+  .gradebar .A{background:var(--green)} .gradebar .B{background:var(--cyan)} .gradebar .C{background:var(--gold)} .gradebar .D{background:var(--red)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--font-mono);font-size:.72rem;color:var(--fg3)}
+  .legend i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:.84rem;font-variant-numeric:tabular-nums}
+  th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left;font-family:var(--font-mono);font-size:.76rem}
+  th{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  td.warn{color:var(--orange);font-weight:600}
+  .gates{display:grid;gap:8px;margin-top:18px}
+  .gate{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;background:var(--surface)}
+  .gate .st{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--border-strong);color:var(--fg3);white-space:nowrap;margin-top:2px}
+  .gate .st.pass{border-color:var(--green);color:var(--green)} .gate .st.next{border-color:var(--cyan);color:var(--cyan)}
+  .gate b{display:block;font-size:.9rem}
+  .gate span{font-size:.84rem;color:var(--fg2)}
+  .callout{border-left:3px solid var(--gold);background:var(--surface);padding:10px 14px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0;max-width:calc(var(--measure) + 48px)}
+  .callout p{max-width:none;margin:0;font-size:.88rem;color:var(--fg2)}
+  .stitch{margin:22px 0 0;font-family:var(--font-mono);font-size:.78rem;color:var(--fg3);border-top:1px solid var(--border);padding-top:12px;max-width:none}
+  footer{padding:0 clamp(16px,4vw,48px) 40px;font-family:var(--font-mono);font-size:.76rem;color:var(--fg3);border-top:1px solid var(--border);margin-top:10px;padding-top:16px}
+  footer p{max-width:none}
+</style>
+
+<header class="mast">
+  <p class="eyebrow">Field OS // Notes from the trenches edition // one corpus, five lenses</p>
+  <h1>The Flora and Fauna <em>of ARCS</em></h1>
+  <p class="lede">A naturalist's guide to an ecosystem that is literal, figurative, and thermodynamic at the same time. The same organisms, snapped into whichever mental model you need: the field guide, the Library of Alexandria, the Atlas, the Observatory, or the status board.</p>
+  <div class="mast-row">
+    <div class="threadkey" aria-label="thread key">
+      <span><i class="glyph g-flora"></i>flora · stores charge</span>
+      <span><i class="glyph g-fauna"></i>fauna · moves signal</span>
+      <span><i class="glyph g-mycelium"></i>mycelium · connects</span>
+      <span><i class="glyph g-pathogen"></i>pathogen · reads wrong later</span>
+      <span><i class="glyph g-ore"></i>ore · dormant, homeless</span>
+    </div>
+    <span class="count" id="sighted"></span>
+  </div>
+</header>
+
+<nav class="lensbar" aria-label="lens">
+  <div class="lenses" role="group" aria-label="mental model">
+    <button class="lens" data-lens="guide" aria-pressed="true">Guide</button>
+    <button class="lens" data-lens="library" aria-pressed="false">Library</button>
+    <button class="lens" data-lens="atlas" aria-pressed="false">Atlas</button>
+    <button class="lens" data-lens="observatory" aria-pressed="false">Observatory</button>
+    <button class="lens" data-lens="status" aria-pressed="false">Status</button>
+  </div>
+  <span class="lens-hint" id="hint"></span>
+  <label class="search"><span class="lab" style="font-size:.62rem">find</span><input id="q" type="search" placeholder="loki, oracle, receipt, drift…" autocomplete="off"></label>
+</nav>
+
+<main class="stage">
+  <section class="view on" id="view-guide"></section>
+  <section class="view" id="view-library"></section>
+  <section class="view" id="view-atlas"></section>
+
+  <section class="view" id="view-observatory">
+    <div class="obs">
+      <div class="panel" style="grid-column:1/-1">
+        <p class="lab">The circuit · why the ecosystem vibrates</p>
+        <h3>Charge, current, and the dynamo that regenerates the source</h3>
+        <p>A seed stores charge and is free to hold. The vox animus fires it at Kairos, metered. The receipt it prints lowers entropy for every decision downstream, the fog retreats, and at the nucleus the rigid lattice and the mobile charge share one volume. That is where a planetary core generates its own field, so the end of the loop is the start of it. A self-exciting circuit radiates; the Orthogonal Echo Detector is the organ that listens for the radiation in other domains.</p>
+        <svg class="circuit" viewBox="0 0 900 300" role="img" aria-label="The ARCS energy circuit: seed bank, vox animus, receipt, fog retreat, nucleus, dynamo, back to seed bank. The operator's attention is the only sun.">
+          <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4 0 8z" fill="var(--cyan)"/></marker></defs>
+          <path class="loop" d="M120 200 C 160 90, 300 90, 340 200 S 520 310, 560 200 S 740 90, 780 200" marker-end="url(#arr)"/>
+          <path class="loop" d="M780 200 C 760 260, 640 275, 450 275 C 260 275, 140 260, 120 200" />
+          <g><circle cx="120" cy="200" r="22" fill="var(--elevated)" stroke="var(--green)" stroke-width="2"/><text class="t" x="120" y="204" text-anchor="middle">seed</text><text x="120" y="245" text-anchor="middle">bank · free to hold</text></g>
+          <g><circle cx="340" cy="200" r="22" fill="var(--elevated)" stroke="var(--gold)" stroke-width="2"/><text class="t" x="340" y="204" text-anchor="middle">spark</text><text x="340" y="245" text-anchor="middle">vox animus · metered to fire</text></g>
+          <g><rect x="536" y="178" width="48" height="44" rx="4" fill="var(--elevated)" stroke="var(--cyan)" stroke-width="2"/><text class="t" x="560" y="204" text-anchor="middle">receipt</text><text x="560" y="245" text-anchor="middle">DEWY frozen · fog retreats</text></g>
+          <g><polygon points="780,172 806,186 806,214 780,228 754,214 754,186" fill="var(--elevated)" stroke="var(--cyan)" stroke-width="2"/><text class="t" x="780" y="204" text-anchor="middle">nucleus</text><text x="780" y="245" text-anchor="middle">superionic dynamo</text></g>
+          <g><circle cx="450" cy="62" r="26" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="2 3"/><text class="t" x="450" y="58" text-anchor="middle">operator</text><text x="450" y="72" text-anchor="middle">the only sun</text><text x="450" y="112" text-anchor="middle">NOTOMATION: nothing photosynthesizes on their behalf</text></g>
+          <text x="450" y="292" text-anchor="middle">flux → current → spark → loop → dynamo → flux · the loop closes on itself (ADR-071)</text>
+        </svg>
+      </div>
+      <div class="panel">
+        <p class="lab">The law</p>
+        <h3>Coherence is negentropy</h3>
+<pre class="law">C = α·A − β·S + γ·W
+
+A  alignment of the parts     (rowers in phase)
+S  Shannon entropy of state   (futures still equiprobable)
+W  useful work                (became a receipt, not heat)</pre>
+        <p>The ecosystem is alive to the degree it converts scatter into work, and the conversion compounds: the terrain you have already navigated does not fog over again.</p>
+      </div>
+      <div class="panel">
+        <p class="lab">Succession</p>
+        <h3>From pioneer fog to climax crystal</h3>
+        <p>Early: heavy fog, coarse briefs, yellow gates firing. Mid: patterns surface, the compass gets faster, NCI climbs. Late: navigation from the clarity ridge, the receipt history a personal atlas. Superionic: structure of clarity, fluidity of instinct.</p>
+        <p>Graduation is not extinction. A healthy ecosystem needs its keystone species to need it less over time. One that must keep its operator dependent to survive is a monoculture.</p>
+      </div>
+      <div class="panel" style="grid-column:1/-1">
+        <p class="lab">The harvest arc · index → catalog → organize → bundle</p>
+        <div class="arcstrip" id="arcstrip"></div>
+        <p class="stitch">Each stage cut prints an artifact through a gate to a fate. A stage without a print happened only in conversation. The loop stops on the operator's ruling, never on its own.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-status">
+    <p class="lab" style="margin-bottom:10px">Loop 1 · index · run 2026-09-03 · shallow clone: ages are lower bounds</p>
+    <div class="tiles" id="tiles"></div>
+    <div class="gradebar" id="gradebar"></div>
+    <div class="legend" id="gradelegend"></div>
+    <div class="callout"><p>Grade is a training-reuse heuristic, one point per signal: dated · provenance · referenced · well-formed. An orphan can score at most B by definition, since "referenced" is one of the four. The instrument's own outputs are excluded from the citation corpus after it was caught citing itself on the second run.</p></div>
+    <div class="tablewrap"><table id="classtable"></table></div>
+    <div class="gates" id="gates"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Source of truth: <code>_CANON/flora-and-fauna.md</code> · survey <code>_STATE/2026-09-03-prospecting-survey.md</code> · instrument <code>scripts/corpus_prospector.py</code>. No organism was invented for the guide; every block cites a path where it was sighted. Candidates are marked as candidates.</p>
+</footer>
+
+<script>
+/* ────────────────────────── data ────────────────────────── */
+const SURVEY = {"generated": "2026-09-03", "shallow": true, "indexed": 800, "graded": 614, "grades": {"A": 255, "B": 158, "C": 163, "D": 38}, "orphans": 132, "orphan_bytes": 10264755, "secret_risk": 0, "classes": [{"cls": "ARTIFACT", "n": 176, "kb": 14977.3, "orphans": 72, "A": 22, "B": 41, "C": 79, "D": 34, "secret": 0}, {"cls": "RECOIL", "n": 133, "kb": 1430.3, "orphans": 29, "A": 52, "B": 54, "C": 26, "D": 1, "secret": 0}, {"cls": "SCRIPT", "n": 78, "kb": 924.5, "orphans": 0, "A": 0, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "ADR", "n": 69, "kb": 426.3, "orphans": 0, "A": 69, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "OPERATOR", "n": 61, "kb": 930.6, "orphans": 0, "A": 0, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "PATTERN", "n": 39, "kb": 340.0, "orphans": 2, "A": 27, "B": 11, "C": 1, "D": 0, "secret": 0}, {"cls": "SPEC", "n": 33, "kb": 482.3, "orphans": 0, "A": 14, "B": 11, "C": 8, "D": 0, "secret": 0}, {"cls": "WARROOM", "n": 33, "kb": 1868.9, "orphans": 4, "A": 2, "B": 3, "C": 27, "D": 1, "secret": 0}, {"cls": "STATE", "n": 30, "kb": 610.9, "orphans": 10, "A": 16, "B": 9, "C": 5, "D": 0, "secret": 0}, {"cls": "SKILL", "n": 27, "kb": 101.5, "orphans": 0, "A": 0, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "CANON", "n": 26, "kb": 628.7, "orphans": 0, "A": 8, "B": 10, "C": 8, "D": 0, "secret": 0}, {"cls": "COMMAND", "n": 13, "kb": 59.0, "orphans": 0, "A": 0, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "SCRATCH", "n": 13, "kb": 143.1, "orphans": 2, "A": 9, "B": 2, "C": 1, "D": 1, "secret": 0}, {"cls": "DEWY", "n": 10, "kb": 64.3, "orphans": 3, "A": 7, "B": 3, "C": 0, "D": 0, "secret": 0}, {"cls": "WITNESS", "n": 9, "kb": 44.4, "orphans": 0, "A": 9, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "QUEUE", "n": 8, "kb": 33.9, "orphans": 6, "A": 1, "B": 4, "C": 3, "D": 0, "secret": 0}, {"cls": "SEED", "n": 8, "kb": 91.3, "orphans": 0, "A": 7, "B": 1, "C": 0, "D": 0, "secret": 0}, {"cls": "AGENT", "n": 7, "kb": 10.8, "orphans": 0, "A": 0, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "MEMORY", "n": 7, "kb": 81.0, "orphans": 0, "A": 4, "B": 3, "C": 0, "D": 0, "secret": 0}, {"cls": "HANDOFF", "n": 4, "kb": 232.4, "orphans": 2, "A": 1, "B": 2, "C": 1, "D": 0, "secret": 0}, {"cls": "KINTSUGI", "n": 4, "kb": 29.5, "orphans": 1, "A": 1, "B": 0, "C": 2, "D": 1, "secret": 0}, {"cls": "WORLD", "n": 3, "kb": 32.5, "orphans": 0, "A": 1, "B": 1, "C": 1, "D": 0, "secret": 0}, {"cls": "DECISION", "n": 3, "kb": 38.0, "orphans": 1, "A": 0, "B": 2, "C": 1, "D": 0, "secret": 0}, {"cls": "COLLISION", "n": 2, "kb": 7.8, "orphans": 0, "A": 2, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "APEX", "n": 1, "kb": 4.8, "orphans": 0, "A": 1, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "MOMENT", "n": 1, "kb": 8.0, "orphans": 0, "A": 1, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "PROVERB", "n": 1, "kb": 107.5, "orphans": 0, "A": 1, "B": 0, "C": 0, "D": 0, "secret": 0}, {"cls": "RUNTIME", "n": 1, "kb": 11.1, "orphans": 0, "A": 0, "B": 1, "C": 0, "D": 0, "secret": 0}]};
+
+const ZONES = [
+  {id:'fog',     cls:'fog',      name:'Outer Fog Layer',    y:'SCRATCH · PARADOX',       rr:'render: GRAIN / MOIRE',      note:'Orient only. Do not commit.'},
+  {id:'band',    cls:'pressure', name:'Pressure Band',      y:'YELLOW · FORK · DELTA',   rr:'render: DEGRADED',           note:'Careful movement. Y gate active.'},
+  {id:'ridge',   cls:'ridge',    name:'Clarity Ridge',      y:'GREEN · HIGH',            rr:'render: SHARP',              note:'Move confidently. Lock what you have earned.'},
+  {id:'nucleus', cls:'nucleus',  name:'Superionic Nucleus', y:'LOCKED',                  rr:'render: SHARP + hard edges', note:'Structure and flow fused. Charge through crystal.'},
+  {id:'bedrock', cls:'bedrock',  name:'Bedrock and strata', y:'beneath the zones',       rr:'git · archive · the deposits', note:'What everything roots into, and what has been laid down and forgotten.'},
+];
+const SHELVES = [
+  {id:'0xx', name:'Core & Mythology',   sub:'Judgment & receipts · drift & coherence'},
+  {id:'1xx', name:'Constraints',        sub:'Risk & protection · luck, error, hubris'},
+  {id:'2xx', name:'Time & Energy',      sub:'Time/energy laws · Kairos · the window'},
+  {id:'3xx', name:'Translation',        sub:'Triangulation · problem framing · naming'},
+  {id:'4xx', name:'Deep Physics',       sub:'Terra · gravity · meaning'},
+  {id:'5xx', name:'Governance',         sub:'NOTOMATION & agency'},
+  {id:'6xx', name:'Emerging',           sub:'Instruments still earning their plate'},
+  {id:'7xx', name:'Titans',             sub:'Named laws from named people'},
+];
+const KINGDOMS = [
+  {id:'flora',    plate:'Plate I',   name:'Flora',    sub:'Rooted. Accretes rings. Holds energy in a form that survives winter. Free to hold.'},
+  {id:'fauna',    plate:'Plate II',  name:'Fauna',    sub:'Moves. Eats signal, excretes artifacts. Every animal here is metered to fire.'},
+  {id:'mycelium', plate:'Plate III', name:'Mycelium', sub:'Neither plant nor animal. Runs underground between sessions; turns litter into soil.'},
+  {id:'pathogen', plate:'Plate IV',  name:'Pathogens',sub:'No villain. Entropy masquerading as motion, wearing a healthy organism\'s skin. Each listed with its cure.'},
+  {id:'ore',      plate:'Plate V',   name:'Ore & Dormancy', sub:'Nothing points at it and it has not moved in a season. Staleness is not death; dormancy is a claim that must be earned.'},
+];
+
+// k kingdom · b binomial · n common name · z zone · s shelf · st status chip · m field mark (one line)
+// h habitat · d diet · o produces · t threats/pathogens · p path (sighting)
+const ORGANISMS = [
+ // ── flora
+ {k:'flora',b:'Semen atomicum',n:'the Seed',z:'fog',s:'2xx',m:'Small, typed, dormant. Has lineage back to seed #0 (adam == atom). Has not necessarily done anything yet; that is not a defect.',h:'_SEEDS/ — index, ledger, distribution, the oracle',d:'Nothing while dormant. Soil, when it returns.',o:'On firing, a germinated instance; on harvest, new seeds. The bank compounds.',t:'Garbage collection on staleness. Never GC a dormant seed (Tao §IV).',p:'_SEEDS/index.jsonl · _CANON/Tao-of-ARCS.md'},
+ {k:'flora',b:'Receptum dewyi',n:'the Receipt',z:'ridge',s:'0xx',m:'A state vector frozen in time: D, E, W, Y plus polarity × conviction × stability and an NCI. The fruit: a seed with a story wrapped around it.',h:'Receipt table in prod · _STATE/*.dewy.json · runtime/recoil/generated/',d:'One sharpened question, one prep session, one L0–L5 pass.',o:'Fog retreat for every decision downstream. This is the compounding organ.',t:'Reconstruction filed as witness (ADR-044); an outcome edited into the header; open-loop decay.',p:'runtime/specs/dewy-receipt-schema-v1.json'},
+ {k:'flora',b:'Quercus decisionis',n:'the ADR · heartwood',z:'ridge',s:'0xx',m:'Numbered by the oracle and nothing else. D/E/W/Y sections, options, decision, consequences, revisit trigger. Growth rings: dated status lines.',h:'_DECISIONS/ADR-NNN-*.md, indexed 1:1 in index.json',d:'A canon collision, a fork, a gate that needed a fate.',o:'The durable "why" that keeps an architecture from dissolving back into fog.',t:'Numbering-without-registry (033 and 067 both doubled). Cure: the oracle + pre-commit hook.',p:'_DECISIONS/index.json · 69 files'},
+ {k:'flora',b:'Sequoia canonica',n:'Canon · old growth',z:'nucleus',s:'0xx',st:'rom',m:'Status banner, version, a Kairos Lock when petrified. Referenced as authority by downstream artifacts without producing failures: the definition of ROM.',h:'_CANON/ — Book II, the Tao, WORLD.md, trust contract, apex spines',d:'Patterns that kept appearing in sessions before they were named.',o:'Shade. Everything else grows in relation to it.',t:'Competing vocabularies for one root (the ROM collision, resolved 2026-08-28).',p:'_CANON/index.md · .claude/arcs-canon.md'},
+ {k:'flora',b:'Pollen taoense',n:'the Proverb',z:'ridge',s:'3xx',m:'One sentence, coordinate-free, carries an aspect (D/E/W/Y) and a verb. Travels on any wind, lands in any soil.',h:'_CANON/tao-proverbs.jsonl, 250+ minted, each generated-from an ADR',d:'A ripened ADR.',o:'The compressed, portable form of a decision. The Hemingway pass of the canon.',t:'Pollen without a source ADR is decoration.',p:'_CANON/tao-proverbs.jsonl'},
+ {k:'flora',b:'Lichen durabilis',n:'the Pattern',z:'ridge',s:'1xx',m:'Slow, flat, grows on rock. An indicator species: where lichen is thick, the same failure recurred at least twice.',h:'_PATTERNS/ — durable gotchas, audits, blueprints, the ledger',d:'Recurrence.',o:'The do-not-re-derive layer. Read on demand only.',t:'Being loaded on every session (the 40k-token orientation chain, retired 2026-07-19).',p:'_PATTERNS/durable-gotchas.md'},
+ {k:'flora',b:'Flos artificialis',n:'the Artifact · bloom',z:'ridge',s:'4xx',m:'Showy, seasonal, made for one counterpart or one moment. Renders only as sharp as the data underneath.',h:'_ARTIFACTS/ · runtime/warroom/*.html · *.arcs.care',d:'An engagement, a call, a recoil.',o:'The print of a stage cut (ADR-068).',t:'Orphaning. The most-orphaned organism in the tree by a wide margin.',p:'_ARTIFACTS/ · 176 files indexed'},
+ {k:'flora',b:'Folium traditum',n:'the Handoff · leaf litter',z:'ridge',s:'0xx',m:'Versioned v3.NN.0, dated, names what shipped and what is open. Falls each season; never burned, only relocated.',h:'Last 1–2 in CLAUDE.md; the rest in _ARCHIVE/handoffs.md',d:'A session ending.',o:'Humus for the next session\'s pickup.',t:'Chronos-sequencer: read after it stopped being true.',p:'_ARCHIVE/handoffs.md'},
+ // ── fauna
+ {k:'fauna',b:'Homo navigans',n:'the Operator · keystone',z:'nucleus',s:'5xx',m:'The only organism whose revealed preference the system may not compress, replace, or overrule. The vox animus is their breath, scaffolded.',h:'Everywhere the sun is.',d:'The world.',o:'Questions, "wait, that\'s it", rulings ("I\'ll allow it").',t:'False urgency; the 5-hour window; entropy masquerading as motion. Ullr says the instrument\'s highest success is this organism needing it less.',p:'WORLD.md · ROM Primitive 1'},
+ {k:'fauna',b:'Pyxis quaerens',n:'the Compass · parser',z:'band',s:'0xx',m:'Takes a question, runs L0–L5, returns a bearing and a Y-gate state. Does not say what to decide; says where you are and which way is uphill.',h:'POST /api/compass · src/lib/ygate.ts',d:'One question + one prep session.',o:'One Receptum dewyi with exactly three tributaries: meta · challenge · adjacent.',t:'Being asked to decide.',p:'src/app/api/compass/route.ts'},
+ {k:'fauna',b:'Sentinella derivans',n:'the Drift Sentinel',z:'band',s:'0xx',m:'Watches for N turns without a new artifact and says one sentence: "Land the plane, or keep exploring?"',h:'Every session, against its declared JTBD',d:'Turn overlap with the anchor.',o:'ON_TRACK · USEFUL_TANGENT · DERAILMENT, then one concrete artifact prompt.',t:'A Baldur-held moment it should stay quiet in.',p:'_CANON/living/ARCS-v9-Canon-Operational.md'},
+ {k:'fauna',b:'Sentinella testis',n:'the Witness Trigger',z:'band',s:'0xx',m:'Fires when a flash crystallizes live. Surfaces /witness in one line and files a verbatim, timestamped stub: the sound the tree made, not a summary.',h:'_STATE/witness/*.jsonl',d:'"Wait, that\'s it."',o:'A stub upstream of any ADR or receipt, promoted later only if durable.',t:'Reconstruction at handoff pretending to be witness.',p:'ADR-046 · WORLD.md The Witness'},
+ {k:'fauna',b:'Sentinella oraculum',n:'the Oracle',z:'band',s:'5xx',m:'Issues the next number in a namespace; git\'s non-fast-forward rejection is the atomic lock. Never infer highest + 1.',h:'scripts/oracle.py · _SEEDS/_oracle.json · pre-commit hook',d:'A mint request.',o:'A number that cannot collide.',t:'Sessions minting off-oracle; counters drift and need `oracle.py sync`.',p:'ADR-057 · scripts/git-hooks/pre-commit'},
+ {k:'fauna',b:'Sentinella kairotica',n:'Kairos · the timing operator',z:'band',s:'2xx',m:'Judges ripeness: is this seed ready for this soil at this moment? Watches the window and the one-way door.',h:'operators/arcs_operator_kairos.py; not yet a background job (gated at 100 receipts)',d:'Horizon, window, reversibility.',o:'Kairos Lock; deferment receipts ("revisit mañana").',t:'False urgency. Chronos mistaken for Kairos.',p:'operators/arcs_operator_kairos.py'},
+ {k:'fauna',b:'Sentinella tokenomica',n:'the Hall Monitor',z:'fog',s:'2xx',m:'Estimates prompt size, token cost, and window usage before a prompt is sent; proposes chunk, compress, or defer.',h:'Glossary v0.1; a runtime governance primitive',d:'The 5-hour window budget.',o:'A budget decision made deliberately instead of ad hoc.',t:'Token anxiety turning into false urgency.',p:'_CANON/ordinals/ARCS-Glossary-v0.1.md'},
+ {k:'fauna',b:'Curia constitutionalis',n:'the Court',z:'band',s:'1xx',m:'Auto-invoked at PARADOX and RED. Three lenses (LAB: Loki, Advisor, Bayes) plus BAR and KKL. If a verdict would feel like relief, you were deferring into Court territory.',h:'operators/arcs_constitutional_court.py · Book II Part III',d:'A fork with stakes and a closing window.',o:'A LOCKED state, or a redesign of the climb.',t:'Being dodged by a held-moment claim (the weaponized Baldur case).',p:'_CANON/book-ii/part-iii-constitutional-court.md'},
+ {k:'fauna',b:'Loki adversarius',n:'the Trickster · beneficial parasite',z:'band',s:'1xx',m:'Looks like an attack; is immune training. A concept earns a receipt only by surviving the Loki test. Hubris does not self-examine; megalopsychia does.',h:'Inside every candidate before it becomes canon (Hyperstition stage 2)',d:'Confidence.',o:'The inversion: the written failure mode that would falsify the claim.',t:'Not to be confused with a pathogen. Loki strengthens the host.',p:'runtime/specs/ROM-CANDIDATES-norse-witness.md'},
+ {k:'fauna',b:'Operatoridae sex',n:'the Six Operators',z:'band',s:'0xx',m:'Orchestrator integrates · Detective inverts · Immune guards values · Accountant trusts numbers · Folksonomist coins tags bottom-up (Op20, DBSCAN over 54 dims) · Librarian retrieves.',h:'operators/ — canonical alternative L0–L5; not wired into the compass route',d:'Each other\'s output.',o:'A synthesized decision with an audit trail.',t:'Being mistaken for the compass. They are the same law in a different substrate.',p:'_CANON/ARCS-Canon-v2-0-Complete.md Part IV'},
+ {k:'fauna',b:'Geometrida aurea',n:'the Golden Inchworm',z:'nucleus',s:'3xx',st:'rom',m:'The only animal that is a constitutional primitive. Moves by contraction in three passes: Red Thread (the case) → Golden Thread (the pattern) → Needle (the rule). Non-blocking.',h:'ROM Primitive 4; every named concept arrived this way',d:'Concrete sessions.',o:'Names. It is its own first example.',t:'An abstraction minted before its worked example.',p:'.claude/arcs-canon.md'},
+ {k:'fauna',b:'Auris orthogonalis',n:'the Orthogonal Echo Detector',z:'nucleus',s:'3xx',st:'fail',m:'Listens for the same kinematics in two unrelated domains and names the isomorphism. Honest status: the stub matcher is not seaworthy (adversarial FP 1.0 at default, dogfood 2026-08-29).',h:'ROM Primitive 5 · scripts/echo_detector_dogfood.py',d:'Two domains moving the same way.',o:'A named pattern; today, too many false ones.',t:'Its own confidence. Fix: injectable signature fn + embedding orthogonality fn.',p:'_STATE/2026-08-29-echo-detector-dogfood.json'},
+ {k:'fauna',b:'Pabulatores sex',n:'the Foragers · scanner suite',z:'fog',s:'6xx',m:'Graze on personal data across six domains and extract OM (present, resolved) from it. Stdlib-only.',h:'scripts/calendar_scan.py · reader · listening · network · forensic · archetype',d:'Calendars, reading, listening, networks, forensics.',o:'Signal atoms with provenance.',t:'Privacy: they eat what they are pointed at.',p:'scripts/forensic_scan.py'},
+ {k:'fauna',b:'Prospector corporis',n:'the Corpus Prospector',z:'band',s:'6xx',st:'new',m:'Reads the repo itself. Classes every addressable file, grades it for training reuse, and lists what nothing points at. Its own outputs are excluded from its citation corpus.',h:'scripts/corpus_prospector.py · loop 1 of the harvest cycle',d:'git ls-files.',o:'_STATE/<date>-corpus-index.jsonl + the ore ledger.',t:'Self-citation (sighted 2026-09-03, cured same day). Shallow clones lie about age.',p:'scripts/corpus_prospector.py'},
+ {k:'fauna',b:'Detectores repositorii',n:'the Repo Detectors',z:'band',s:'6xx',m:'Gravity-well fork scan · canon propagation check · branch hygiene · seedbank / lattice / state-sync drift · ledger check · receipt sweep · cruft sweep · tool catalog.',h:'scripts/*_check.py · *_scan.py · cruft_sweep.py · tool_catalog_emit.py',d:'The tree disagreeing with its ledgers.',o:'A work list the shell can score before any agent is spent.',t:'Being run by hand only. Nightly cron still HELD.',p:'runtime/specs/tool-catalog.md'},
+ {k:'fauna',b:'Venatores gregarii',n:'the Pack Hunters · subagents',z:'band',s:'6xx',m:'Narrow diets, least privilege by construction: the web gatherer cannot run a shell; the reasoner cannot fetch.',h:'.claude/agents/ — ciso, privacy, sre, claims-skeptic, recoil-*',d:'One kind of prey each.',o:'A verdict on a diff, a claim, a profile.',t:'Being given a broad prompt.',p:'.claude/agents/claims-skeptic.md'},
+ {k:'fauna',b:'Ouroboros falsificans',n:'recursive self-falsification',z:'nucleus',s:'1xx',m:'Eats its own tail on purpose. Every claim the system makes about itself carries an executable kill condition; an unfalsifiable claim is a NULL signal.',h:'ADR-062 · the falsifiable-test skill',d:'The system\'s claims about itself.',o:'Kill conditions.',t:'Impressive-but-unfalsifiable.',p:'_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md'},
+ {k:'fauna',b:'Ullr graduans',n:'Ullr · the graduation invariant',z:'nucleus',s:'5xx',st:'cand',m:'CANDIDATE. The instrument must be able to decrease scaffolding as fluency rises. Retaining a fluent user by making the instrument necessary is a NOTOMATION breach. Graduation ≠ churn.',h:'runtime/specs/ROM-CANDIDATES-norse-witness.md',d:'≥3 fluency signals across consecutive sessions, never self-declaration.',o:'A Graduation Receipt.',t:'A lucky hit claiming to be fluency. Gate still open: one live receipt.',p:'ROM-CANDIDATES-norse-witness.md · Candidate A'},
+ {k:'fauna',b:'Baldur tenens',n:'Baldur · the no-go zone',z:'nucleus',s:'5xx',st:'cand',m:'CANDIDATE. Some moments ask to be held, not processed. In a held moment no pipeline runs, no NCI, no nudge, no "turn this into a receipt?". The mistletoe is always the thing overlooked for being too small.',h:'runtime/specs/ROM-CANDIDATES-norse-witness.md',d:'Grief, trust, intimacy phrased as a decision question.',o:'A Witness Receipt: what was present, that it was held.',t:'Being used to dodge a real fork with a closing window. Gate still open: one live receipt.',p:'ROM-CANDIDATES-norse-witness.md · Candidate B'},
+ // ── mycelium
+ {k:'mycelium',b:'Mycorrhiza memoriae',n:'Memory',z:'bedrock',s:'0xx',m:'Hyphae between sessions. Recent entries live; dead history relocated to the archive. Failure: the index outgrowing what a session can load.',h:'_MEMORY/ · MEMORY.md · memory_index_sync.py',d:'What a session learned.',o:'What the next session does not have to re-derive.',t:'21KB index > 17KB budget at last check.',p:'_MEMORY/'},
+ {k:'mycelium',b:'Hypha bisuperficialis',n:'the two-surface protocol',z:'bedrock',s:'5xx',m:'Architect surface and implementor surface share one file on main plus a raw-GitHub handoff. Zero infrastructure.',h:'_STATE/snapshot.json · arcs-decision-receipts ↔ arcs-v9',d:'Sealed state from the other side.',o:'A pickup that starts oriented.',t:'Snapshot drifting from ground truth; state_sync_check is the antibody.',p:'_PATTERNS/two-surface-protocol.md'},
+ {k:'mycelium',b:'Humus archivi',n:'the Archive',z:'bedrock',s:'0xx',m:'Where handoffs and memory go when they fall. Never burned.',h:'_ARCHIVE/',d:'Leaf litter.',o:'Soil.',t:'Being read to orient (do not).',p:'_ARCHIVE/handoffs.md'},
+ {k:'mycelium',b:'Saprophyta noctis',n:'the Decomposers',z:'bedrock',s:'2xx',m:'/night-moves at dusk · /fold for dense sessions · /consolidate-memory · the nightly canon-propagation cron (HELD) · cruft_sweep, which bundles before it removes.',h:'.claude/skills/night-moves · fold · cruft-sweep',d:'The day\'s residue.',o:'A digest, a composed session, a bundle.',t:'Skipping the bundle.',p:'_STATE/night-moves/'},
+ {k:'mycelium',b:'Bibliotheca alexandrina',n:'the Library of Alexandria',z:'bedrock',s:'0xx',m:'arcs-canon, shelved by Dewey code 0xx–7xx. Every file one canon block: spine, dewey, dependencies, attestation. Where a law from one project becomes pasteable in the next.',h:'flashesofbrilliance/arcs-canon',d:'Laws that survived a project.',o:'Pasteable canon.',t:'Empty shelves (gaps are a visible wishlist, by design).',p:'arcs-canon/README.md'},
+ // ── pathogens
+ {k:'pathogen',b:'Chronos sequitor',n:'chronos-sequencer',z:'band',s:'0xx',m:'A belief that was true, read after it stopped being true. A stale handoff; a snapshot with closed items still open.',h:'Every ARCS-writes-to-ARCS surface',d:'Time.',o:'Confident wrongness.',t:'Cure: dated status lines; state_sync_check; read the latest handoff only.',p:'ADR-033 · recoil-modes-v1.md'},
+ {k:'pathogen',b:'Inductio superadaptans',n:'inductive-overfit',z:'band',s:'1xx',m:'Validated there, treated as law here. n = 2 under near-constant conditions promoted to a model.',h:'Recoil ledgers, scenario weights',d:'Small samples.',o:'A law with no jurisdiction.',t:'Cure: the admission gate (ADR-023 minimum-n).',p:'ADR-033'},
+ {k:'pathogen',b:'Ansa aperta',n:'open-loop decay',z:'band',s:'0xx',m:'A shipped-feeling mechanism that never landed. A memory citing CI-gated law that lives on an unmerged branch.',h:'MEMORY.md · handoffs',d:'Optimism.',o:'Enforced-in-prose-only.',t:'Cure: close only via mechanism or a dated waiver (ADR-034 ledger).',p:'ADR-033 · ADR-034'},
+ {k:'pathogen',b:'Urgentia falsa',n:'false urgency',z:'fog',s:'2xx',m:'Pressure to act at low coherence, especially late and under token anxiety. Mantra: the road to ruin.',h:'After midnight.',d:'The 5-hour window.',o:'Low-quality execution.',t:'Cure: a deferment receipt. "Do not build after midnight; revisit mañana."',p:'_CANON/ordinals/ARCS-Glossary-v0.1.md'},
+ {k:'pathogen',b:'Numerus sine registro',n:'numbering-without-registry',z:'band',s:'5xx',m:'"Highest + 1" across parallel sessions. ADR-033 and ADR-067 were both doubled this way.',h:'_DECISIONS/',d:'Parallel harnesses.',o:'Collisions.',t:'Cured: the oracle + the pre-commit hook (armed 2026-08-29).',p:'_DECISIONS/CANON-COLLISION-adr-033-duplicate.md'},
+ {k:'pathogen',b:'Reconstructio testificans',n:'reconstruction-as-witness',z:'ridge',s:'0xx',m:'A receipt filed later, describing itself as having been there. The same dishonesty on the aspiration side is ADR-044.',h:'Handoffs written hours after the flash.',d:'Hindsight.',o:'A witness that was not there.',t:'Cure: attest in the moment (/witness), or label it reconstruction.',p:'ADR-044 · ADR-046'},
+ {k:'pathogen',b:'Optimismus immeritus',n:'unearned optimism',z:'band',s:'1xx',m:'Confidence climbing while risk stays flat. The nearest thing to sycophancy the ecosystem has named.',h:'Belief logs.',d:'Agreement.',o:'A flat risk line under a rising confidence line.',t:'Cure: germinate\'s belief-log lint, a wirable anti-sycophancy gate.',p:'FORENSIC_REPORT.md · tag 13'},
+ {k:'pathogen',b:'Ramus effloresc ens',n:'algal bloom · worktree sprawl',z:'band',s:'2xx',m:'Seventy-two worktrees at last count. Not malignant; suffocating.',h:'git worktree list',d:'Parallel sessions that never pruned.',o:'A delta where a river should be.',t:'Cure: cruft_sweep, human-gated; bundle first.',p:'scripts/branch_hygiene_check.py'},
+ {k:'pathogen',b:'Instrumentum se citans',n:'instrument self-citation',z:'band',s:'6xx',st:'new',m:'A detector reading its own output as evidence. Sighted live 2026-09-03: the corpus index listed every path, so on the next run every orphan looked homed.',h:'Any scanner that writes into the tree it scans.',d:'Its own ledger.',o:'A false all-clear.',t:'Cure: exclude an instrument\'s outputs from its own reference corpus. The seam is shown on purpose.',p:'scripts/corpus_prospector.py · SELF_OUTPUT_RE'},
+ // ── ore
+ {k:'ore',b:'Metallum nativum',n:'native metal · Grade A/B refined, homeless',z:'bedrock',s:'4xx',m:'Refined, dated, sourced, with no index pointing at it. The 2026-08-27 forensic sweep: six mine/g*.jsonl ledgers and a report, 190 decision-lineage records already skeptic-adjudicated.',h:'_ARTIFACTS/forensic-recoil-2026-08-27/',d:'Nothing. It is already refined.',o:'On homing: a catalog entry and a Dewey shelf.',t:'Being re-mined from scratch because nobody linked it.',p:'_ARTIFACTS/forensic-recoil-2026-08-27/FORENSIC_REPORT.md'},
+ {k:'ore',b:'Vena dives',n:'rich vein · finished prose never published',z:'bedrock',s:'4xx',m:'Five NFTT stories and two field-notes with no inbound link; seven vision-film transcripts; per-counterpart recoil JSONs with dates and provenance but no home.',h:'_ARTIFACTS/blog/stories/ · vision-films-hyperstition/ · runtime/recoil/generated/',d:'One reference each.',o:'On homing: a published post or a catalog row.',t:'Chronos-sequencer, if homed without re-reading.',p:'_ARTIFACTS/blog/stories/self-cataloging-full.story.md'},
+ {k:'ore',b:'Arena aurifera',n:'placer · real content, thin metadata',z:'bedrock',s:'4xx',m:'War-room pages, PRL close-loop notes, state files from August with no date in the header or no provenance line.',h:'runtime/warroom/ · _ARTIFACTS/prl-* · _STATE/',d:'A date and a source line.',o:'Grade B after one metadata pass.',t:'Being bundled as cruft because the header was thin.',p:'runtime/warroom/jalaja.html'},
+ {k:'ore',b:'Onus superjacens',n:'overburden · heavy, low doctrine yield',z:'bedrock',s:'4xx',m:'Résumé renders, raw CRM exports, print PDFs. Most of the orphan bytes, least of the doctrine. Sometimes sensitive.',h:'_ARTIFACTS/resume-* · _ARTIFACTS/prl-baseline/',d:'Disk.',o:'A private bundle with a manifest, or nothing.',t:'Being hosted. Never.',p:'_ARTIFACTS/prl-baseline/opps-all.json'},
+ {k:'ore',b:'Semen dormiens',n:'the dormant seed (look-alike)',z:'bedrock',s:'2xx',m:'Zero inbound references, full provenance, lineage to seed #0. Not ore, not cruft: waiting for soil. The one thing in this plate that must never be bundled away.',h:'_SEEDS/index.jsonl',d:'Soil, when it returns.',o:'A germinated instance at Kairos.',t:'Staleness mistaken for death.',p:'_CANON/Tao-of-ARCS.md §I'},
+];
+
+/* ────────────────────────── blocks (one node each) ────────────────────────── */
+const KNAME = {flora:'flora',fauna:'fauna',mycelium:'mycelium',pathogen:'pathogen',ore:'ore'};
+const STATUS = {rom:'ROM · canon',cand:'candidate · not ratified',fail:'not seaworthy',new:'sighted 2026-09-03'};
+const blocks = ORGANISMS.map((o,i)=>{
+  const el=document.createElement('article');
+  el.className='block k-'+o.k; el.dataset.id=i; el.tabIndex=0; el.setAttribute('role','button'); el.setAttribute('aria-expanded','false');
+  el.innerHTML=`
+    <div class="bin">${o.b}</div>
+    <div class="com">${o.n}</div>
+    ${o.st?`<span class="status-chip ${o.st}">${STATUS[o.st]}</span>`:''}
+    <div class="meta"><span><b>zone</b> ${ZONES.find(z=>z.id===o.z).name}</span><span><b>shelf</b> ${o.s}</span></div>
+    <p class="mark">${o.m}</p>
+    <dl class="det">
+      <dt>habitat</dt><dd>${o.h}</dd>
+      <dt>diet</dt><dd>${o.d}</dd>
+      <dt>produces</dt><dd>${o.o}</dd>
+      <dt>threats</dt><dd>${o.t}</dd>
+      <dt>sighted</dt><dd><code>${o.p}</code></dd>
+    </dl>`;
+  const toggle=()=>{el.classList.toggle('open');el.setAttribute('aria-expanded',el.classList.contains('open'));};
+  el.addEventListener('click',toggle);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+  el._text=(o.b+' '+o.n+' '+o.m+' '+o.h+' '+o.d+' '+o.o+' '+o.t+' '+o.p).toLowerCase();
+  return {o,el};
+});
+document.getElementById('sighted').textContent = blocks.length+' organisms sighted · '+blocks.filter(b=>b.o.st==='cand').length+' candidates';
+
+/* ────────────────────────── lenses ────────────────────────── */
+const HINTS={
+  guide:'Plates I–V. Click a block for habitat, diet, produces, threats, and where it was sighted.',
+  library:'The same blocks shelved by Dewey code, the way arcs-canon shelves law.',
+  atlas:'The same blocks placed on the terrain of WORLD.md, each band rendered at its earned fidelity.',
+  observatory:'The energy physics: why the ecosystem compounds and why it radiates.',
+  status:'Loop 1 of the harvest cycle: what the corpus prospector found today.'
+};
+function section(head, sub, plate){
+  const s=document.createElement('div'); s.className='sec';
+  s.innerHTML=`<div class="sec-head">${plate?`<span class="plate">${plate}</span>`:''}<h2>${head}</h2><p class="sub">${sub}</p></div><div class="grid"></div>`;
+  return s;
+}
+function buildGuide(host){
+  host.replaceChildren();
+  KINGDOMS.forEach(k=>{
+    const s=section(`<i class="glyph g-${k.id}"></i>${k.name}`,k.sub,k.plate); const g=s.querySelector('.grid');
+    blocks.filter(b=>b.o.k===k.id).forEach(b=>g.appendChild(b.el)); host.appendChild(s);
+  });
+}
+function buildLibrary(host){
+  host.replaceChildren();
+  const intro=document.createElement('p'); intro.className='lab'; intro.style.marginBottom='8px'; intro.textContent='arcs-canon · Dewey map · 0xx → 7xx'; host.appendChild(intro);
+  SHELVES.forEach(sh=>{
+    const row=document.createElement('div'); row.className='shelf';
+    const mine=blocks.filter(b=>b.o.s===sh.id);
+    row.innerHTML=`<div class="spine"><b>${sh.id}</b> ${sh.name}</div><div class="shelf-body"><p class="lab">${sh.sub}${mine.length?'':' · empty shelf, visible wishlist'}</p><div class="grid"></div></div>`;
+    const g=row.querySelector('.grid'); mine.forEach(b=>g.appendChild(b.el)); host.appendChild(row);
+  });
+}
+function buildAtlas(host){
+  host.replaceChildren();
+  ZONES.forEach(z=>{
+    const band=document.createElement('div'); band.className='band '+z.cls;
+    band.innerHTML=`<div class="band-head"><h3>${z.name}</h3><span class="y">${z.y}</span><span class="rr">${z.rr}</span></div><p class="mark" style="margin:-6px 0 12px;color:var(--fg3);font-size:.84rem">${z.note}</p><div class="grid"></div>`;
+    const g=band.querySelector('.grid'); blocks.filter(b=>b.o.z===z.id).forEach(b=>g.appendChild(b.el)); host.appendChild(band);
+  });
+}
+const builders={guide:buildGuide,library:buildLibrary,atlas:buildAtlas};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let current='guide';
+function setLens(lens){
+  // FLIP: measure, move the same nodes, animate the delta → the blocks snap into the new arrangement
+  const first=new Map(); blocks.forEach(b=>{ if(b.el.isConnected) first.set(b.el,b.el.getBoundingClientRect()); });
+  document.querySelectorAll('.lens').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.lens===lens)));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='view-'+lens));
+  document.getElementById('hint').textContent=HINTS[lens];
+  if(builders[lens]){ builders[lens](document.getElementById('view-'+lens)); applyFilter(); }
+  current=lens;
+  if(reduced||!builders[lens]) return;
+  requestAnimationFrame(()=>{
+    blocks.forEach((b,i)=>{
+      const el=b.el; if(!el.isConnected||el.classList.contains('hide')) return;
+      const last=el.getBoundingClientRect(); const f=first.get(el);
+      if(!f){ el.animate([{opacity:0,transform:'scale(.96)'},{opacity:1,transform:'none'}],{duration:260,delay:Math.min(i*8,220),easing:'ease-out'}); return; }
+      const dx=f.left-last.left, dy=f.top-last.top; if(Math.abs(dx)<1&&Math.abs(dy)<1) return;
+      el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:460,easing:'cubic-bezier(.2,.9,.22,1.04)'});
+    });
+  });
+  try{localStorage.setItem('ff-lens',lens);}catch(e){}
+}
+document.querySelectorAll('.lens').forEach(btn=>btn.addEventListener('click',()=>setLens(btn.dataset.lens)));
+function applyFilter(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  let n=0; blocks.forEach(b=>{const hit=!q||b.el._text.includes(q); b.el.classList.toggle('hide',!hit); if(hit)n++;});
+  document.getElementById('sighted').textContent=(q?n+' of ':'')+blocks.length+' organisms'+(q?' match':' sighted')+' · '+blocks.filter(b=>b.o.st==='cand').length+' candidates';
+}
+document.getElementById('q').addEventListener('input',applyFilter);
+
+/* ────────────────────────── observatory: the harvest arc strip (NFTT-style) ────────────────────────── */
+(function(){
+  const stops=[
+    {l:'index · every addressable file classed',c:'var(--cyan)',s:'square',done:true},
+    {l:'secret hits = 0 · caveat stated',c:'var(--cyan)',s:'square',done:true},
+    {l:'catalog · Folksonomist tags the residue',c:'var(--gold)',s:'circle'},
+    {l:'skeptic · ALREADY_CANON / VARIANT / NET_NEW',c:'var(--gold)',s:'circle'},
+    {l:'organize · oracle numbers, homes, inbound edges',c:'var(--green)',s:'diamond'},
+    {l:'bundle · manifest per bundle, fate per item',c:'var(--orange)',s:'hex'},
+    {l:'exit · operator rules "enough"',c:'var(--fg2)',s:'circle'},
+  ];
+  const W=Math.max(900,stops.length*150), y=46; let svg=`<svg width="${W}" height="118" viewBox="0 0 ${W} 118"><line x1="48" y1="${y}" x2="${W-48}" y2="${y}" stroke="var(--border)" stroke-width="2"/>`;
+  stops.forEach((s,i)=>{
+    const x=48+i*((W-96)/(stops.length-1)); const fill=s.done?s.c:'var(--surface)';
+    let g='';
+    if(s.s==='circle') g=`<circle cx="${x}" cy="${y}" r="8" fill="${fill}" stroke="${s.c}" stroke-width="2"/>`;
+    else if(s.s==='square') g=`<rect x="${x-8}" y="${y-8}" width="16" height="16" fill="${fill}" stroke="${s.c}" stroke-width="2"/>`;
+    else if(s.s==='diamond') g=`<rect x="${x-8}" y="${y-8}" width="16" height="16" transform="rotate(45 ${x} ${y})" fill="${fill}" stroke="${s.c}" stroke-width="2"/>`;
+    else g=`<polygon points="${x-5},${y-9} ${x+5},${y-9} ${x+10},${y} ${x+5},${y+9} ${x-5},${y+9} ${x-10},${y}" fill="${fill}" stroke="${s.c}" stroke-width="2"/>`;
+    const anchor=i===0?'start':(i===stops.length-1?'end':'middle'); const ly=i%2?y+30:y-20;
+    svg+=`<g>${g}<text x="${x}" y="${ly}" text-anchor="${anchor}">${s.l}</text></g>`;
+  });
+  svg+='</svg>'; document.getElementById('arcstrip').innerHTML=svg;
+})();
+
+/* ────────────────────────── status: from SURVEY (injected from the ledger) ────────────────────────── */
+(function(){
+  const S=SURVEY; if(!S.indexed) return;
+  const ab=S.grades.A+S.grades.B, tot=S.graded;
+  const tiles=[
+    ['indexed',S.indexed,'addressable files, tracked + untracked in artifact dirs'],
+    ['graded',tot,'corpus files scored (instruments rostered, not graded)'],
+    ['training-grade',Math.round(100*ab/tot)+'%','A + B share · '+ab+' files'],
+    ['orphans',S.orphans,'scanned, zero inbound references · '+(S.orphan_bytes/1048576).toFixed(1)+' MB'],
+    ['secret hits',S.secret_risk,'regex sweep · grade capped at D on a hit'],
+  ];
+  document.getElementById('tiles').innerHTML=tiles.map(t=>`<div class="tile"><span class="n">${t[1]}</span><span class="l">${t[0]}</span><span class="s">${t[2]}</span></div>`).join('');
+  const gb=document.getElementById('gradebar'); gb.innerHTML=['A','B','C','D'].map(g=>`<i class="${g}" style="width:${100*S.grades[g]/tot}%" title="${g}: ${S.grades[g]}"></i>`).join('');
+  document.getElementById('gradelegend').innerHTML=['A','B','C','D'].map(g=>`<span><i style="background:var(--${{A:'green',B:'cyan',C:'gold',D:'red'}[g]})"></i>${g} · ${S.grades[g]} · ${Math.round(100*S.grades[g]/tot)}%</span>`).join('');
+  const rows=S.classes.map(c=>`<tr><td>${c.cls}</td><td>${c.n}</td><td>${Math.round(c.kb)}</td><td class="${c.orphans>0?'warn':''}">${c.orphans}</td><td>${c.A}</td><td>${c.B}</td><td>${c.C}</td><td>${c.D}</td></tr>`).join('');
+  document.getElementById('classtable').innerHTML=`<thead><tr><th>class</th><th>files</th><th>KB</th><th>orphans</th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead><tbody>${rows}</tbody>`;
+  const gates=[
+    ['pass','Loop 1 · Index','Every addressable file classed. Secret hits = '+S.secret_risk+'. Shallow-clone caveat stated. Instrument self-citation caught and cured.'],
+    ['next','Loop 2 · Catalog','Folksonomist over the Grade A/B residue; claims-skeptic on anything that claims canon. Gate: ≥90% of A/B items tagged; every NET_NEW claim checked.'],
+    ['','Loop 3 · Organize','Oracle for anything that earns a number; a home (canon index, artifacts README, Dewey shelf) for each. Gate: A/B orphan rate → 0; nothing minted off-oracle.'],
+    ['','Loop 4 · Bundle','Manifest per bundle with a fate per item (KEEP / ARCHIVE / PRIVATE / RELEASE). Gate: every Grade D item has a declared fate; nothing deleted without a bundle.'],
+  ];
+  document.getElementById('gates').innerHTML=gates.map(g=>`<div class="gate"><span class="st ${g[0]}">${g[0]||'held'}</span><div><b>${g[1]}</b><span>${g[2]}</span></div></div>`).join('');
+})();
+
+/* restore lens */
+let initial='guide'; try{initial=localStorage.getItem('ff-lens')||'guide';}catch(e){}
+if(!HINTS[initial]) initial='guide';
+buildGuide(document.getElementById('view-guide'));
+if(initial!=='guide') setLens(initial); else document.getElementById('hint').textContent=HINTS.guide;
+</script>

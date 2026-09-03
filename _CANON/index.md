@@ -24,6 +24,7 @@
 | File | Status | Covers |
 |------|--------|--------|
 | **Tao-of-ARCS.md** | CANONICAL (v1.0.0) | Dormant potential (seed) vs animating spark (vox animus); the open germinate ↔ private ARCS boundary; free-to-hold/metered-to-fire. Genesis seed `adam==atom`. See ADR-053/054. |
+| **flora-and-fauna.md** | REFERENCE (v0.1.0, Ethereal) | Field guide to the ARCS ecosystem — energy physics, biomes, flora (stores charge), fauna (moves signal), mycelium (connects sessions), pathogens, ore/dormancy, and the harvest cycle (index → catalog → organize → bundle). Instrument: `scripts/corpus_prospector.py`. |
 
 ## Theories & Manifestos
 
