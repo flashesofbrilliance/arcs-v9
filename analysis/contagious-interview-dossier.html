@@ -15,7 +15,7 @@
     --crit-bg:rgba(210,31,60,.09); --high-bg:rgba(194,84,16,.10); --med-bg:rgba(154,115,16,.10); --low-bg:rgba(31,95,191,.10);
     --code-bg:#0f151d; --code-text:#d3dce6; --code-border:#243040;
     --shadow:0 1px 2px rgba(20,26,33,.06),0 8px 24px rgba(20,26,33,.06);
-    --maxw:74ch;
+    --maxw:660px;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
@@ -148,8 +148,8 @@
     color:var(--signal); letter-spacing:.05em; padding-top:3px}
   h2{font-family:var(--f-display); font-weight:700; letter-spacing:-.015em;
     font-size:clamp(1.5rem,3.6vw,2.05rem); line-height:1.1; margin:0; text-wrap:balance}
-  .sec-sub{color:var(--muted); font-size:15px; margin:2px 0 26px; max-width:var(--maxw)}
-  p{max-width:var(--maxw)}
+  .sec-sub{color:var(--muted); font-size:15px; margin:2px 0 26px; max-width:var(--maxw); text-wrap:pretty}
+  p{max-width:var(--maxw); text-wrap:pretty}
   h3{font-family:var(--f-display); font-weight:600; font-size:1.12rem; letter-spacing:-.01em;
     margin:30px 0 10px}
   h4{font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
@@ -171,6 +171,8 @@
     padding:15px 18px; margin:20px 0; font-size:14.5px; color:var(--muted); max-width:none}
   .note b{color:var(--text)}
   .note.signal{border-color:color-mix(in srgb,var(--signal) 32%,var(--border))}
+  /* reading measure is for top-level section prose only; reset inside padded cards */
+  .note p, .note ul.plain, .note li{max-width:none}
 
   /* severity chips */
   .chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--f-mono);
@@ -764,7 +766,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
     <div class="note signal"><b>Instrument honesty first.</b> The two ARCS methods used here are, as pure automation, not yet reliable enough to trust unattended: on the current corpus they over-flag, so a human-or-LLM judgment step (the signature / resolver function) does the real discrimination. That judgment, grounded in the decision corpus, is what produced the two artifacts below, not an unattended script. Labeled, not laundered. The file-level telemetry behind this sits in a private companion.</div>
 
     <h3>A · Orthogonal echo, the campaign's kinematic twin in the decision corpus</h3>
-    <p>Abstract the campaign away from malware and it is a five-move shape (its kinematic, the order in which things move): a<strong>spoofed-legitimate provenance</strong> (recruiter) delivers an artifact that <strong>auto-triggers before review</strong> (folderOpen / prepare), then <strong>executes untrusted remote output</strong> (<span class="mono">eval</span> of the C2 response) to <strong>drain the ambient secret substrate</strong> (<span class="mono">process.env</span>). The Orthogonal Echo Detector asks: where else in the logged corpus does this exact kinematic appear, at the opposite sign?</p>
+    <p>Abstract the campaign away from malware and it is a five-move shape (its kinematic, the order in which things move): a <strong>spoofed-legitimate provenance</strong> (recruiter) delivers an artifact that <strong>auto-triggers before review</strong> (folderOpen / prepare), then <strong>executes untrusted remote output</strong> (<span class="mono">eval</span> of the C2 response) to <strong>drain the ambient secret substrate</strong> (<span class="mono">process.env</span>). The Orthogonal Echo Detector asks: where else in the logged corpus does this exact kinematic appear, at the opposite sign?</p>
     <div class="twrap">
       <table>
         <thead><tr><th>Campaign move</th><th>Kinematic primitive</th><th>Echo in the ARCS corpus (real file)</th><th>Same object, opposite sign</th></tr></thead>
