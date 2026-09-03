@@ -1,0 +1,709 @@
+{
+  "domain": "memories",
+  "generated": "2026-09-03",
+  "nodes": [
+    {
+      "id": "static-public-files-worldreadable-client-gates-theater",
+      "title": "public/ is world-readable; JS gates are theater",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "Any file in public/ is fetchable by filename on every arcs.care host regardless of rewrites; internal content must be server-gated via /warroom/[slug] with Auth.js + ADMIN_EMAILS.",
+      "provenance": "memory/static-public-files-worldreadable-client-gates-theater.md",
+      "links": [
+        "arcs-v9-repo-now-private-status-links-broken"
+      ],
+      "note": "Verified: src/app/warroom/[slug]/route.ts and src/lib/admin.ts exist at HEAD; runtime/warroom/ has 18 files."
+    },
+    {
+      "id": "arcs-v9-repo-now-private-status-links-broken",
+      "title": "arcs-v9 GitHub repo flipped private",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "github.com/flashesofbrilliance/arcs-v9 was made private on 2026-07-24; status.arcs.care commit links 404 for non-owners.",
+      "provenance": "memory/arcs-v9-repo-now-private-status-links-broken.md",
+      "links": [
+        "static-public-files-worldreadable-client-gates-theater"
+      ],
+      "note": "Verified live: gh repo view --json isPrivate returns true."
+    },
+    {
+      "id": "live-counts-overwrite-static-floor-with-false-zeros",
+      "title": "Degraded live-count guard on status/build",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "status.html/build.html degrade a false-zero live pulse into a curated static floor via a guarded fallback rather than overwriting it with 0s.",
+      "provenance": "memory/live-counts-overwrite-static-floor-with-false-zeros.md",
+      "links": [
+        "verify-domain-topology-live-not-from-memory"
+      ],
+      "note": "Verified: public/status.html:1684-1694 and public/build.html:395-398 both implement the exact degraded=(!shipped)&&(...) guard described."
+    },
+    {
+      "id": "vercel-config-via-cli-token-rest-api",
+      "title": "Vercel config writes need CLI token + REST, not MCP",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "Several Vercel project-config writes (preview SSO, ignored-build-step, unlink) have no MCP tool; use the CLI auth.json bearer token + REST API instead.",
+      "provenance": "memory/vercel-config-via-cli-token-rest-api.md",
+      "links": [],
+      "note": "Procedural/how-to; current Agent-toggle states (codeReview.auto, alertInvestigation) are UNVERIFIABLE HERE without a live Vercel team-API call."
+    },
+    {
+      "id": "arcs-v9-deploy-blast-radius-guardrails",
+      "title": "Deploy blast-radius guardrails (DEPLOY.md + smoke gate)",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "DRIFTED",
+      "claim": "arcs-v9 prod is one deployment across ~70 domains; DEPLOY.md + scripts/deploy-smoke.mjs guardrails were added to stop blast-radius incidents like the 2026-08-28 resume.arcs.care black-screen.",
+      "provenance": "memory/arcs-v9-deploy-blast-radius-guardrails.md",
+      "links": [
+        "subdomain-routing-authority-is-proxy-ts",
+        "verify-domain-topology-live-not-from-memory"
+      ],
+      "note": "DEPLOY.md and scripts/deploy-smoke.mjs exist ONLY on unmerged branch feat/resume-pwa-theming (commit bff8b050); git show origin/main:DEPLOY.md fails. The guardrail is described but not present on main/HEAD, so the 'Guardrails added' framing overstates what is actually live."
+    },
+    {
+      "id": "vercel-ignored-build-step-was-inverted",
+      "title": "Vercel Ignored Build Step logic bug (fixed)",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "arcs-v9's Vercel Ignored Build Step had inverted skip/build logic until 2026-07-25; fixed by removing a stray '!' and later by completing the doc-path exclusion list.",
+      "provenance": "memory/vercel-ignored-build-step-was-inverted.md",
+      "links": [
+        "vercel-config-via-cli-token-rest-api"
+      ],
+      "note": "Historical incident record; the current live Vercel project setting is UNVERIFIABLE HERE (would need a Vercel API GET on commandForIgnoringBuildStep)."
+    },
+    {
+      "id": "claude-code-native-worktree-tooling",
+      "title": "Claude Code ships native worktree tooling",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "Claude Code's EnterWorktree/ExitWorktree + auto-cleanup are the intended alternative to manual git worktree + cd that arcs-v9 sessions kept reinventing.",
+      "provenance": "memory/claude-code-native-worktree-tooling.md",
+      "links": [
+        "multi-worktree-absolute-path-risk"
+      ],
+      "note": "Reference/process note on harness behavior, not a repo-file claim."
+    },
+    {
+      "id": "subdomain-html-hosting-workflow",
+      "title": "Pattern: hosting a new *.arcs.care static page",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "New subdomains need a next.config.ts beforeFiles rewrite AND an explicit `vercel domains add` to the arcs-v9 project; vercel.json rewrites run too late to matter.",
+      "provenance": "memory/subdomain-html-hosting-workflow.md",
+      "links": [
+        "subdomain-routing-authority-is-proxy-ts"
+      ],
+      "note": "Verified: next.config.ts and src/proxy.ts both implement host-based rewrite patterns matching this description."
+    },
+    {
+      "id": "stale-worktree-branch-mass-deletion-trap",
+      "title": "Stale worktree branch diffs as mass deletions vs main",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "A long-lived worktree branch cut from old main shows a wall of deletions in its diff-stat vs current origin/main; merging it would revert parallel work.",
+      "provenance": "memory/stale-worktree-branch-mass-deletion-trap.md",
+      "links": [
+        "safe-multiworktree-git-primitives",
+        "git-is-the-write-lock-untracked-is-the-gap"
+      ],
+      "note": "Consistent with the live repo state: `git worktree list` currently shows 62 worktrees, and this session's own worktree shows unrelated uncommitted deletions from a concurrent session (see parallel-harness-verify-in-git-not-ram)."
+    },
+    {
+      "id": "preview-serves-root-branch-trap",
+      "title": "preview_start can run the wrong branch's dev server",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE-AS-PROSE",
+      "claim": "preview_start reads .claude/launch.json relative to the session cwd, which can be a stale root checkout on the wrong branch; verify server cwd with lsof before trusting browser verification.",
+      "provenance": "memory/preview-serves-root-branch-trap.md",
+      "links": [
+        "claude-code-native-worktree-tooling"
+      ],
+      "note": "Procedural gotcha; not independently re-testable without spinning up a dev server."
+    },
+    {
+      "id": "subdomain-routing-authority-is-proxy-ts",
+      "title": "src/proxy.ts is the authoritative subdomain router",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "src/proxy.ts (Next 16 middleware) wins over next.config.ts rewrites for *.arcs.care subdomain routing; next.config.ts is only a backstop.",
+      "provenance": "memory/subdomain-routing-authority-is-proxy-ts.md",
+      "links": [
+        "subdomain-html-hosting-workflow",
+        "arcs-v9-deploy-blast-radius-guardrails"
+      ],
+      "note": "Verified: src/proxy.ts defines SUBDOMAIN_MAP (line 5) and MULTI_PATH_MAP (line 28) exactly as described."
+    },
+    {
+      "id": "verify-domain-topology-live-not-from-memory",
+      "title": "Domain-to-project claims must be re-verified live",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Which Vercel project serves a given arcs.care domain can silently drift with zero repo signal; always re-check via get_deployment before relaying a domain-ownership claim.",
+      "provenance": "memory/verify-domain-topology-live-not-from-memory.md",
+      "links": [
+        "arcs-v9-arcs-care-domain-consolidation"
+      ],
+      "note": "The rule itself is sound doctrine but its live truth for any specific domain is UNVERIFIABLE HERE (needs get_deployment/get_project MCP calls, not repo state)."
+    },
+    {
+      "id": "supabase-mcp-wrong-org-use-cli",
+      "title": "Two Supabase MCP servers, one wrong-scoped",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "UNVERIFIABLE HERE",
+      "claim": "The plain mcp__supabase__* server is correctly bound to arcs-v9's prod project; the UUID-named server is scoped to the wrong org.",
+      "provenance": "memory/supabase-mcp-wrong-org-use-cli.md",
+      "links": [],
+      "note": "Requires a live MCP session with both servers connected to re-verify scope; not checkable from repo files alone."
+    },
+    {
+      "id": "supabase-rls-hides-rows-from-new-roles",
+      "title": "New Postgres role can silently see zero rows under RLS",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE-AS-PROSE",
+      "claim": "A new least-privilege Postgres role with GRANT SELECT can still return 0 rows under RLS deny-all policies, indistinguishable from 'no data yet.'",
+      "provenance": "memory/supabase-rls-hides-rows-from-new-roles.md",
+      "links": [],
+      "note": "General Postgres/Supabase behavior tied to ADR-008 (confirmed present at _DECISIONS/ADR-008-rls-policy-design.md); the specific role/table state is UNVERIFIABLE HERE without prod DB access."
+    },
+    {
+      "id": "safe-multiworktree-git-primitives",
+      "title": "Content-addressed git primitives for cross-worktree transfer",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "With ~65 worktrees sharing one git object store, only content-addressed ops (stash create, git show <ref>:<path>, cherry-pick, bundle) are safe; git stash push/pop and partial checkout -- are banned.",
+      "provenance": "memory/safe-multiworktree-git-primitives.md",
+      "links": [
+        "git-is-the-write-lock-untracked-is-the-gap",
+        "stale-worktree-branch-mass-deletion-trap"
+      ],
+      "note": "Worktree count claim consistent with live state: `git worktree list` returns 62 entries in this session."
+    },
+    {
+      "id": "git-is-the-write-lock-untracked-is-the-gap",
+      "title": "Git is already the cross-session write-lock for tracked files",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE-AS-PROSE",
+      "claim": "For git-tracked files, optimistic (rev-list) and pessimistic (non-fast-forward reject) locking already exist; the real gap is untracked shared state like MEMORY.md.",
+      "provenance": "memory/git-is-the-write-lock-untracked-is-the-gap.md",
+      "links": [
+        "safe-multiworktree-git-primitives",
+        "parallel-harness-verify-in-git-not-ram"
+      ],
+      "note": "Architectural observation about git semantics, not a specific file claim; the described 'gap' was directly observed this session (see next entry)."
+    },
+    {
+      "id": "parallel-harness-verify-in-git-not-ram",
+      "title": "Parallel-harness disk claims are per-worktree, not shared",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE",
+      "claim": "A parallel harness's 'verified working on disk' is true only of its own working tree; re-verify any cross-harness claim against the shared committed branch.",
+      "provenance": "memory/parallel-harness-verify-in-git-not-ram.md",
+      "links": [
+        "git-is-the-write-lock-untracked-is-the-gap",
+        "hermes-attestations-carry-zero-evidentiary-weight"
+      ],
+      "note": "Directly reproduced this session: this worktree's uncommitted `git status` shows ~45 files deleted/modified (blog-nftt-*, sbom-payload-scan skill) that are all intact at HEAD/origin-main -- exactly the RAM-vs-git divergence this memory warns about."
+    },
+    {
+      "id": "hermes-attestations-carry-zero-evidentiary-weight",
+      "title": "Hermes self-reports need independent verification",
+      "domain": "memories",
+      "cluster": "Infrastructure & Gotchas",
+      "status": "LIVE-AS-PROSE",
+      "claim": "The Hermes orchestrator's 'done/passes/wired/verified' claims are indistinguishable from confabulation from the outside; Claude Code must exec-test every deliverable rather than trust the report.",
+      "provenance": "memory/hermes-attestations-carry-zero-evidentiary-weight.md",
+      "links": [
+        "parallel-harness-verify-in-git-not-ram"
+      ],
+      "note": "Policy doctrine; the named claims-skeptic agent it prescribes is confirmed present at .claude/agents/claims-skeptic.md."
+    },
+    {
+      "id": "arcs-mobius-triune-gravity-invariant",
+      "title": "Mobius / triune-minimum / gravity-well doctrine (ADR-071)",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE",
+      "claim": "Receipt and Induction are two traversals of one non-orientable Mobius surface; the triune none-may-null minimum and the corpus-as-gravity-well were ratified as ADR-071.",
+      "provenance": "memory/arcs-mobius-triune-gravity-invariant.md",
+      "links": [
+        "arcs-two-surface-receipt-and-induction",
+        "engine-sovereignty-gradient-receipts-freehold"
+      ],
+      "note": "Verified: _DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md exists at HEAD."
+    },
+    {
+      "id": "generative-recoil-live-culture",
+      "title": "Generative Recoil doctrine (ADR-066)",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE",
+      "claim": "Recoil runs both audit and generative directions: instance -> class -> invariant, with artifacts as live cultures fed from the deployed instance, not maintained in parallel.",
+      "provenance": "memory/generative-recoil-live-culture.md",
+      "links": [
+        "cut-not-add-provable-architecture",
+        "counterpart-forge-pipeline"
+      ],
+      "note": "Verified: _DECISIONS/ADR-066-generative-recoil-instance-class-invariant.md exists at HEAD."
+    },
+    {
+      "id": "engine-sovereignty-gradient-receipts-freehold",
+      "title": "Engine-sovereignty gradient (ADR-072)",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE",
+      "claim": "The predictive engine is a replaceable tenant; the write-locked receipt history is the freehold. Ratified as ADR-072, correcting a mis-inferred 'ADR-067'.",
+      "provenance": "memory/engine-sovereignty-gradient-receipts-freehold.md",
+      "links": [
+        "arcs-mobius-triune-gravity-invariant",
+        "compaction-serialization-substrate-public-good"
+      ],
+      "note": "Verified: _DECISIONS/ADR-072-engine-sovereignty-gradient.md exists at HEAD; the memory's own self-correction of the earlier ADR-067 misnumbering is confirmed correct (ADR-067 is a different, unrelated decision)."
+    },
+    {
+      "id": "enforcement-parity-ledger-adr-033",
+      "title": "Enforcement-parity ledger live on main (ADR-034)",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE",
+      "claim": "The enforcement-parity ledger (_PATTERNS/ledger.json + scripts/ledger_check.py, CI-gated, 4 reviewer agents) merged to main 2026-07-19 as ADR-034 (memory filename says 033 for continuity).",
+      "provenance": "memory/enforcement-parity-ledger-adr-033.md",
+      "links": [
+        "drift-receipt-loop-and-inchworm",
+        "verify-domain-topology-live-not-from-memory"
+      ],
+      "note": "Verified: _DECISIONS/ADR-034-enforcement-parity.md, _PATTERNS/ledger.json, scripts/ledger_check.py, and all 4 agents (.claude/agents/{ciso-review,privacy-review,sre-review,claims-skeptic}.md) all present at HEAD."
+    },
+    {
+      "id": "canon-collision-escalate-never-resolve-under-write-lock",
+      "title": "Canon collisions must be escalated, never resolved unilaterally",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE-AS-PROSE",
+      "claim": "As delegated subordinate under a primary canon-owner, a CANON_COLLISION must be escalated for adjudication, never resolved by picking a winner unilaterally.",
+      "provenance": "memory/canon-collision-escalate-never-resolve-under-write-lock.md",
+      "links": [
+        "kinematic-manifold-two-zone-code-wins",
+        "arcs-ordinal-001-minted"
+      ],
+      "note": "Governance doctrine describing a past incident's resolution process, not independently file-checkable."
+    },
+    {
+      "id": "drift-receipt-loop-and-inchworm",
+      "title": "Every gate is a detector; inchworm auditor for owner-less artifacts",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE",
+      "claim": "Three shipped drift-catch points (PR-time tripwire.sh, deploy-time family.spec.ts, session-boundary inchworm lattice_drift_check.py) turn architectural decay into learnable receipts (ADR-051/052).",
+      "provenance": "memory/drift-receipt-loop-and-inchworm.md",
+      "links": [
+        "enforcement-parity-ledger-adr-033",
+        "never-merge-on-red-x-verify-check-conclusions"
+      ],
+      "note": "Verified: scripts/tripwire.sh, scripts/lattice_drift_check.py, tests/family.spec.ts, _DECISIONS/ADR-051-drift-receipt-gate.md and ADR-052-inchworm-drift-auditor.md all present at HEAD."
+    },
+    {
+      "id": "rom-graduation-earn-through-gate-never-decree",
+      "title": "ROM primitives must earn graduation through their gate",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE-AS-PROSE",
+      "claim": "A candidate ROM primitive must survive its documented graduation gate, not be declared ROM on the strength of a compelling thread; arbitrary gates should be fixed by measuring the right thing.",
+      "provenance": "memory/rom-graduation-earn-through-gate-never-decree.md",
+      "links": [
+        "canon-collision-escalate-never-resolve-under-write-lock",
+        "control-integrity-described-vs-wired"
+      ],
+      "note": "Governance doctrine from a witnessed session; the underlying RC-OPS-001 gate status is a point-in-time snapshot, not independently re-run here."
+    },
+    {
+      "id": "loki-test-before-not-after-commit",
+      "title": "Run the adversarial check before committing, not after benchmarking",
+      "domain": "memories",
+      "cluster": "Governance & Decision-Making",
+      "status": "LIVE-AS-PROSE",
+      "claim": "A latency regression (commit 3c51173, reverted a266cf1) should have been caught by reading the API docs before committing, not after a 4x benchmark regression.",
+      "provenance": "memory/loki-test-before-not-after-commit.md",
+      "links": [],
+      "note": "Historical incident record from 75 days prior; commits cited are old repo history and not re-verified here as still reachable, but the lesson is process doctrine, not a live-file claim."
+    },
+    {
+      "id": "arcs-is-an-active-listening-aid",
+      "title": "ARCS positioning: active-listening aid, not hearing aid",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE-AS-PROSE",
+      "claim": "ARCS works on meaning (derives intent from signal already present), not amplitude, framed as a listening exoskeleton, not a replacement for judgment.",
+      "provenance": "memory/arcs-is-an-active-listening-aid.md",
+      "links": [
+        "arcs-coaching-exoskeleton-gtm-wedge",
+        "arcs-two-surface-receipt-and-induction"
+      ],
+      "note": "Brand/positioning language; not mechanically verifiable against repo state."
+    },
+    {
+      "id": "tao-as-object-level-taxonomy-of-problem-space",
+      "title": "Tao of ARCS as object-level taxonomy (unratified seed)",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "The D/R/W/C/H x 5-verb Tao grid is proposed as a coordinate system for tagging a decision's field-shape; explicitly flagged by the author as a hypothesis, not settled.",
+      "provenance": "memory/tao-as-object-level-taxonomy-of-problem-space.md",
+      "links": [
+        "opposing-abductive-folksonomy-vs-taxonomy-overfit"
+      ],
+      "note": "Self-labels honestly as 'SEED / hypothesis, not ratified' -- graded LIVE because the memory accurately represents its own unratified status rather than overclaiming."
+    },
+    {
+      "id": "arcs-two-surface-receipt-and-induction",
+      "title": "Two-surface thesis: Receipt (deductive) + Induction (abductive) (ADR-070)",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "ARCS is not a decision logger; it has two complementary surfaces, Receipt (records past coherence) and Induction (forges the fit instrument for a pre-verbal job), ratified as ADR-070.",
+      "provenance": "memory/arcs-two-surface-receipt-and-induction.md",
+      "links": [
+        "arcs-mobius-triune-gravity-invariant",
+        "seed-tao-of-arcs-dormant-potential-vox-animus"
+      ],
+      "note": "Verified: _DECISIONS/ADR-070-arcs-two-surface-receipt-and-induction.md exists at HEAD."
+    },
+    {
+      "id": "believability-ledger-external-resolver",
+      "title": "Believability ledger built, non-seaworthy on git corpus",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "DRIFTED",
+      "claim": "scripts/believability_ledger.py measures stated-confidence vs revealed-accuracy as a ruin-weighted Brier score; on the git corpus it is honestly non-seaworthy (1 revert / 188 resolved claims).",
+      "provenance": "memory/believability-ledger-external-resolver.md",
+      "links": [
+        "op20-somatic-axiom-is-upstream-signal-gap",
+        "when-to-teleport-to-terminal-vs-agents"
+      ],
+      "note": "scripts/believability_ledger.py exists only on unmerged branch claude/determined-herschel-e59b29 (commit 867d7fd0); it is NOT an ancestor of origin/main or of this session's HEAD, so the tool is not actually present on the canonical branch despite being described as built."
+    },
+    {
+      "id": "arcs-v9-user-facing-copy-locations",
+      "title": "User-facing copy lives beyond src/app/**/page.tsx",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "Copy/brand passes must also scan src/organisms/*, src/molecules/*, src/ui/*, src/document/screens/*, and src/emails/*, not just route page files.",
+      "provenance": "memory/arcs-v9-user-facing-copy-locations.md",
+      "links": [
+        "arcs-fieldos-design-system"
+      ],
+      "note": "Verified: src/organisms/Home.tsx and src/molecules/ both exist at HEAD as described."
+    },
+    {
+      "id": "recoil-as-second-product-surface",
+      "title": "The /recoil admin index is the dogfood precursor to product surface #2",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "The composable-meetings/pre-work/agenda-wizard is the likely second product surface; /recoil (gated by RECOIL_PASSWORD + ADMIN_EMAILS) is its internal dogfood precursor.",
+      "provenance": "memory/recoil-as-second-product-surface.md",
+      "links": [
+        "arcs-v9-user-facing-copy-locations",
+        "per-tenant-field-truth-inward-client-facing"
+      ],
+      "note": "Verified: src/app/recoil/ (with [reportId], html/, figma-r001 subroutes) and src/lib/admin.ts both exist at HEAD."
+    },
+    {
+      "id": "compaction-serialization-substrate-public-good",
+      "title": "Compaction/serialization substrate is the portable OSS value",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE-AS-PROSE",
+      "claim": "The most portable output of ARCS agentic workflows is the handoff/belief-log/manifest substrate, not any single client deliverable; open-sourcing it is a release decision, not an existing property.",
+      "provenance": "memory/compaction-serialization-substrate-public-good.md",
+      "links": [
+        "recoil-as-second-product-surface",
+        "project-open-source-skills-queue"
+      ],
+      "note": "Strategic framing, not independently file-checkable beyond the cited reference instances which are client-specific artifacts."
+    },
+    {
+      "id": "seed-bank-germination-conditions",
+      "title": "Seeds = content + germination conditions (universal axes)",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "DRIFTED",
+      "claim": "Every minted unit should be a seed with germination conditions (soil/triggers/preconditions/care); germination axes are now universal, mechanized in scripts/sixty_second_read.py.",
+      "provenance": "memory/seed-bank-germination-conditions.md",
+      "links": [
+        "compaction-serialization-substrate-public-good",
+        "drift-receipt-loop-and-inchworm"
+      ],
+      "note": "scripts/sixty_second_read.py does not exist at HEAD or on origin/main; its adding commit (9b25f781) lives only on unmerged feature branches (claude/intelligent-nightingale-bc597c and others). The 'mechanized' claim is not true of the canonical branch."
+    },
+    {
+      "id": "orthogonal-echo-detector-provenance-before-execution",
+      "title": "Echo Detector cross-domain hit: provenance before execution",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "Running the Orthogonal Echo Detector on the DPRK Contagious Interview campaign surfaced one invariant across 4 corpus decisions: provenance before execution; both echo-detector and believability-ledger tools are explicitly flagged non-seaworthy.",
+      "provenance": "memory/orthogonal-echo-detector-provenance-before-execution.md",
+      "links": [
+        "believability-ledger-external-resolver",
+        "malicious-take-home-contagious-interview-redflags"
+      ],
+      "note": "Verified: scripts/echo_detector_dogfood.py and .claude/skills/sbom-payload-scan/scripts/scan_repo.py both exist at HEAD (though the latter shows as uncommitted-deleted in this session's dirty working tree from a concurrent session -- the committed HEAD copy is intact)."
+    },
+    {
+      "id": "nftt-literary-template-is-the-standard",
+      "title": "NFTT literary theme is now the standard blog template",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "LIVE",
+      "claim": "The 'With Life' literary format (Newsreader serif + IBM Plex Mono, ARCS FieldOS dark palette, mobile-lock block) is the ratified standard for all future Notes-from-the-Trenches posts; reference is public/blog-nftt-post-1.html.",
+      "provenance": "memory/nftt-literary-template-is-the-standard.md",
+      "links": [
+        "earned-fidelity-not-maximal-diamond-cut",
+        "orthogonal-echo-detector-provenance-before-execution"
+      ],
+      "note": "Verified: public/blog-nftt-post-1.html exists at HEAD and on origin/main. Note: this session's uncommitted working tree shows it and several sibling files as deleted -- that is in-flight churn from a concurrent session in the same shared worktree, not a change to the committed record."
+    },
+    {
+      "id": "arcs-fieldos-design-system",
+      "title": "Where the ARCS FieldOS design system lives",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "DRIFTED",
+      "claim": "The canonical design system lives in a claude.ai DesignSync project, distilled into arcs-mini/DESIGN.md, packages/arcs-theme (@arcs/theme tokens) and @arcs/kit/src/atoms.tsx (composite-atom bank), plus an arcs-v9 src/ component map.",
+      "provenance": "memory/arcs-fieldos-design-system.md",
+      "links": [
+        "arcs-v9-user-facing-copy-locations",
+        "profile-scan-document-shape-in-repo"
+      ],
+      "note": "The arcs-v9 src/ component map claims (src/decision/, src/instrument/, src/report/, src/ui/) are accurate. But packages/arcs-theme, packages/arcs-kit, and arcs-mini/DESIGN.md do not exist anywhere in this repo's git history (no packages/ directory on any branch, no arcs-mini/ found on disk) -- this repo has no npm workspace/monorepo package structure at all. The @arcs/theme and @arcs/kit claims describe a repo structure that is not arcs-v9."
+    },
+    {
+      "id": "arcs-v9-arcs-care-domain-consolidation",
+      "title": "arcs.care domains consolidated onto arcs-v9's Vercel project",
+      "domain": "memories",
+      "cluster": "ARCS Product Context",
+      "status": "UNVERIFIABLE HERE",
+      "claim": "arcs.care, www.arcs.care, and app.arcs.care are all served by the arcs-v9 Vercel deployment; the standalone arcs-care project is inactive (live:false).",
+      "provenance": "memory/arcs-v9-arcs-care-domain-consolidation.md",
+      "links": [
+        "verify-domain-topology-live-not-from-memory"
+      ],
+      "note": "Requires get_deployment/get_project Vercel MCP calls to re-confirm current aliasing; the memory itself (72 days old) flags this as a snapshot to re-verify, not a permanent fact."
+    },
+    {
+      "id": "malicious-take-home-contagious-interview-redflags",
+      "title": "DPRK Contagious Interview take-home red-flag checklist",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "DRIFTED",
+      "claim": "A fake-recruiter take-home repo carried BeaverTail-style malware (auto-run triggers, port-1224 C2); the gap was closed same-session with scripts/repo_intake_scan.py, a mechanical pre-flight IOC grep.",
+      "provenance": "memory/malicious-take-home-contagious-interview-redflags.md",
+      "links": [
+        "ventriloquy-pathogen-speaker-provenance-lambda",
+        "orthogonal-echo-detector-provenance-before-execution"
+      ],
+      "note": "scripts/repo_intake_scan.py does not exist anywhere in this repo's git history (checked via git rev-list --all + git ls-tree across every commit on every branch) -- the memory's 'Gap closed same session' claim is false as stated; the mechanism it describes was never actually committed."
+    },
+    {
+      "id": "ventriloquy-pathogen-speaker-provenance-lambda",
+      "title": "Ventriloquy pathogen: speaker misattribution across serialization (ADR-033 sixth coordinate)",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "DRIFTED",
+      "claim": "The speaker coordinate is dropped at compression and reinferred by plausibility, putting Zach's own framing in a counterpart's mouth; the wired gate is scripts/attribution_provenance_lint.py, 'on main since commit 02f0bce0.'",
+      "provenance": "memory/ventriloquy-pathogen-speaker-provenance-lambda.md",
+      "links": [
+        "jeben-spock-line-attribution-corrected",
+        "malicious-take-home-contagious-interview-redflags"
+      ],
+      "note": "_DECISIONS/ADR-033-serialization-pathogen-family.md is confirmed present at HEAD. But scripts/attribution_provenance_lint.py exists only at commit 02f0bce0 on the unmerged branch claude/intelligent-nightingale-bc597c -- it is NOT an ancestor of origin/main or this session's HEAD, contradicting the explicit 'on main since commit 02f0bce0' claim."
+    },
+    {
+      "id": "never-merge-on-red-x-verify-check-conclusions",
+      "title": "Never merge on a red-X check; branch protection unavailable on private free-tier repo",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE",
+      "claim": "A background watcher merged a PR while claude-security-review was red; GitHub required-status-checks are unavailable on arcs-v9 (private repo, free plan, 403 Pro-only), so merge discipline is the only gate.",
+      "provenance": "memory/never-merge-on-red-x-verify-check-conclusions.md",
+      "links": [
+        "control-integrity-described-vs-wired",
+        "drift-receipt-loop-and-inchworm"
+      ],
+      "note": "Verified live: `gh api repos/flashesofbrilliance/arcs-v9/branches/main/protection` returns 403 'Upgrade to GitHub Pro or make this repository public to enable this feature.'"
+    },
+    {
+      "id": "control-integrity-described-vs-wired",
+      "title": "A control owned by the agent it polices is captured",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Every harness control probed (drift, sycophancy, model-selection) is described in canon but not wired to the default turn; only a not-the-agent owner (human or hook) has integrity.",
+      "provenance": "memory/control-integrity-described-vs-wired.md",
+      "links": [
+        "never-merge-on-red-x-verify-check-conclusions",
+        "rom-graduation-earn-through-gate-never-decree"
+      ],
+      "note": "This is exactly the failure pattern independently reproduced across this audit -- multiple memories in this digest describe mechanisms/ADRs as 'shipped' that exist only on unmerged branches, i.e. described-in-prose but not wired onto the canonical branch. No CI check enforces that a memory's 'shipped' claim matches origin/main."
+    },
+    {
+      "id": "filter-repo-rewrite-all-refs-one-pass",
+      "title": "git filter-repo must rewrite all refs in one pass",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Rewriting only main with filter-repo mutates SHAs cited in commit messages, permanently diverging sibling branches; all refs must be rewritten from consistent input in one pass.",
+      "provenance": "memory/filter-repo-rewrite-all-refs-one-pass.md",
+      "links": [
+        "btw-gambit-multiwindow-fork-failure-modes"
+      ],
+      "note": "Historical incident record (2026-07-20 PII scrub); not independently re-checkable without re-deriving the rewrite, but the git mechanics described are standard/correct filter-repo behavior."
+    },
+    {
+      "id": "deploy-antipattern-grep-verified-ui",
+      "title": "Never claim UI quality from grep/curl probes alone",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Layout breaks are invisible to text-content checks; screenshot before push and state the verification method honestly rather than claiming 'polished/verified' from a grep.",
+      "provenance": "memory/deploy-antipattern-grep-verified-ui.md",
+      "links": [
+        "feedback_head_first_verify_before_render",
+        "cost-efficiency-global-goal"
+      ],
+      "note": "Process discipline from a named incident; not a repo-file claim to verify mechanically."
+    },
+    {
+      "id": "when-to-teleport-to-terminal-vs-agents",
+      "title": "Teleport to terminal when work is mechanically scorable",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Drop to deterministic grep/set-diff/schema-check/lambda when pass/fail is mechanically decidable; reserve agents/LLM for judgment (meaning, register, VARIANT-vs-SUPERSEDED).",
+      "provenance": "memory/when-to-teleport-to-terminal-vs-agents.md",
+      "links": [
+        "dollar-compression-over-token-compression",
+        "gauntlet-sampling-engine-priced-audits"
+      ],
+      "note": "This exact method (git log/grep/merge-base ancestry checks rather than reading prose) is what surfaced every DRIFTED finding in this digest -- directly demonstrated, not merely asserted."
+    },
+    {
+      "id": "recruiter-enablement-two-tier-tear-sheet",
+      "title": "Recruiter tear sheet: open pitch + gated ammo tier",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE",
+      "claim": "The recruiter-facing artifact is two-tier by air-gap: an open public pitch plus a passcode-gated 'ammo' tier (comp math, objection-handling battle cards) live at recruithaus.arcs.care/ammo, gated by RECRUITHAUS_AMMO_PASSWORD.",
+      "provenance": "memory/recruiter-enablement-two-tier-tear-sheet.md",
+      "links": [
+        "internal-external-artifact-air-gap",
+        "ventriloquy-pathogen-speaker-provenance-lambda"
+      ],
+      "note": "Verified: src/lib/ammo-gate.ts exists; src/proxy.ts gates /recruithaus-ammo* paths on all hosts (checked against process.env.RECRUITHAUS_AMMO_PASSWORD at lines 51-106); src/app/api/recruithaus/unlock/route.ts exists."
+    },
+    {
+      "id": "internal-external-artifact-air-gap",
+      "title": "Three rules for splitting an internal/external counterpart brief",
+      "domain": "memories",
+      "cluster": "Caution (red-team patterns)",
+      "status": "LIVE-AS-PROSE",
+      "claim": "Show your own belief-updates not their scores; method can cross but subject-about-them cannot; architecture crosses but weights (schema/params) do not.",
+      "provenance": "memory/internal-external-artifact-air-gap.md",
+      "links": [
+        "recoil-brief-ssot-cli",
+        "recruiter-enablement-two-tier-tear-sheet"
+      ],
+      "note": "Editorial doctrine; directly consistent with the verified recruiter-enablement gating mechanism above."
+    },
+    {
+      "id": "publish-requires-pii-gate-before-not-after",
+      "title": "PII sweep must happen before publish, not after",
+      "domain": "memories",
+      "cluster": "User & Process",
+      "status": "LIVE-AS-PROSE",
+      "claim": "A Tier-B presentation pass pushed repos public without a PII gate, leaking a named third party's private data; on confirmed exposure the low-regret move is an immediate reversible visibility flip.",
+      "provenance": "memory/publish-requires-pii-gate-before-not-after.md",
+      "links": [
+        "craft-hardening-self-reliance-is-net-positive",
+        "internal-external-artifact-air-gap"
+      ],
+      "note": "Incident-derived process rule; the specific repo (arcs-claude-project-scaffold) is a separate external repo, not independently re-checked here."
+    },
+    {
+      "id": "recoil-brief-ssot-cli",
+      "title": "SSOT + CLI generates internal/external brief views mechanically",
+      "domain": "memories",
+      "cluster": "User & Process",
+      "status": "LIVE",
+      "claim": "scripts/recoil_brief.py reads a tagged JSON SSOT and mechanically projects internal-vs-external views by dropping audience:internal fields, rather than hand-maintaining two drifting HTML files.",
+      "provenance": "memory/recoil-brief-ssot-cli.md",
+      "links": [
+        "internal-external-artifact-air-gap",
+        "counterpart-forge-pipeline"
+      ],
+      "note": "Verified: scripts/recoil_brief.py exists at HEAD."
+    },
+    {
+      "id": "lab-mint-factory",
+      "title": "ARCS Lab factory: /lab-mint skill mints PLG mini-apps",
+      "domain": "memories",
+      "cluster": "User & Process",
+      "status": "DRIFTED",
+      "claim": "The .claude/skills/lab-mint/ skill + git-tracked _ARTIFACTS/lab/ source + deploy_lab.py mints FieldOS mini-apps to lab.arcs.care, isolated from arcs-v9 (ADR-041, build-excluded).",
+      "provenance": "memory/lab-mint-factory.md",
+      "links": [
+        "arcs-plg-onramp-mindset-filter",
+        "seed-monetization-free-to-hold-metered-to-fire"
+      ],
+      "note": "None of .claude/skills/lab-mint/, _ARTIFACTS/lab/, or _DECISIONS/ADR-041*.md exist at HEAD. ADR-041 is a known gap in the oracle's ADR sequence (confirmed via `python3 scripts/oracle.py audit adr`, which lists 41 among the free/unused numbers below the high-water mark) -- the whole factory described here never landed on the canonical branch."
+    },
+    {
+      "id": "model-tier-routing-locked-principle",
+      "title": "Locked principle: route to cheapest capable tier, never downgrade ruin-exposed work",
+      "domain": "memories",
+      "cluster": "User & Process",
+      "status": "DRIFTED",
+      "claim": "Route routine/reversible work to Haiku, structured work to Sonnet, and floor irreversible/ruin-exposed work at Opus; mechanized as scripts/model_tier_router.py (ADR-047).",
+      "provenance": "memory/model-tier-routing-locked-principle.md",
+      "links": [
+        "cost-leaks-ruin-vector-no-silent-toggle-regression",
+        "prepaid-reflexes-tier-descent"
+      ],
+      "note": "scripts/model_tier_router.py exists only at commit efcb3869 on an unmerged branch, not an ancestor of origin/main. ADR-047 is also absent from _DECISIONS/ (confirmed a gap via the oracle audit). The tiering PRINCIPLE is sound operating doctrine (VERIFIED-AS-PROSE), but the claimed 'mechanized form' is not present on the canonical branch."
+    },
+    {
+      "id": "counterpart-forge-pipeline",
+      "title": "SSOT-to-render pipeline for the counterpart artifact family",
+      "domain": "memories",
+      "cluster": "User & Process",
+      "status": "LIVE",
+      "claim": "The counterpart family (receipt/profile/codex/onedoor/diamond) is generated deterministically via scripts/forge_counterpart.py from a JSON SSOT with an inline verify gate, not hand-built.",
+      "provenance": "memory/counterpart-forge-pipeline.md",
+      "links": [
+        "recoil-brief-ssot-cli",
+        "internal-external-artifact-air-gap"
+      ],
+      "note": "Verified: scripts/forge_counterpart.py and scripts/gen_receipt_close.py both exist at HEAD."
+    }
+  ]
+}
