@@ -208,7 +208,11 @@ def harvest_ziggurat() -> dict:
     return {"generated": c.get("generated"), "nodes": len(c.get("nodes", [])), "edges": len(c.get("edges", [])),
             "dangling": c.get("dangling_declared"),
             "hubs": [{"id": k, "in": v, "kind": nodes.get(k, {}).get("kind"), "type": nodes.get(k, {}).get("type"),
-                      "desc": clip(nodes.get(k, {}).get("desc", ""), 200)} for k, v in hubs]}
+                      "desc": clip(nodes.get(k, {}).get("desc", ""), 200)} for k, v in hubs],
+            # the memory ring for the explorer: every node, every declared edge (nothing inferred)
+            "ring": [{"id": n["id"], "kind": n.get("kind"), "type": n.get("type"), "desc": clip(n.get("desc", ""), 240),
+                      "in": indeg.get(n["id"], 0)} for n in c.get("nodes", [])],
+            "ring_edges": [[e.get("from"), e.get("to")] for e in c.get("edges", []) if e.get("from") in nodes and e.get("to") in nodes]}
 
 
 def harvest_recoil() -> list[dict]:

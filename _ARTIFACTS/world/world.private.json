@@ -3,7 +3,7 @@
 "generated": "2026-09-03",
 "tier": "private",
 "branch": "claude/arcs-ecosystem-flora-fauna-sos9m7",
-"head": "fe006a3",
+"head": "7e5e47a",
 "shallow": true
 },
 "lattice": {
@@ -5494,6 +5494,3909 @@
 "type": "project",
 "desc": "Hypothesis — free ARCS Question Compass is a mindset-filtered PLG onramp for Mañana sprints; cohort-1 ICP is deliberately growth-mindset / positive-sum."
 }
+],
+"ring": [
+{
+"id": "active-listening-over-magical-thinking",
+"kind": "memory",
+"type": "feedback",
+"desc": "When the counterparty states a disqualifying fact, yield to it in real time — do not push your pursuit through on magical thinking. Behavior should follow the signal down.",
+"in": 8
+},
+{
+"id": "adaptive-rhetorical-resonance",
+"kind": "memory",
+"type": "feedback",
+"desc": "Tune every artifact's rhetoric to the counterpart's register (derived from the recoil/ambition read) so it resonates with their cognition and values, while the facts stay invariant.",
+"in": 5
+},
+{
+"id": "arcs-assumes-stateful-human-memory-needs-rewarming",
+"kind": "memory",
+"type": "project",
+"desc": "Product flaw (Zach, 2026-08-01): ARCS today assumes the human's memory is as stateful/instantly-addressable as the model's, but humans have no cache after a RAM reset — they need rewarming / rebuffering / jogging to get back up to speed. T…",
+"in": 6
+},
+{
+"id": "arcs-coaching-exoskeleton-gtm-wedge",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS's first validated direct GTM wedge — the Call Resonance Read as a coaching cognitive-exoskeleton (not a digital twin), 1→Few→Many.",
+"in": 3
+},
+{
+"id": "arcs-communication-heuristic-subtract-to-clarity",
+"kind": "memory",
+"type": "feedback",
+"desc": "ARCS's job AND its voice is to uncomplicate: subtract, refine, distill to the one clear thing. Never add complexity/jargon/layers. The medium must match the message.",
+"in": 0
+},
+{
+"id": "arcs-core-function-opportunity-sizing-prep-shaping",
+"kind": "memory",
+"type": "project",
+"desc": "The cleanest one-line definition of what ARCS DOES — it sizes an opportunity and shapes the right amount/kind of pre-work to fit (or says invest nothing). Right-sized enrichment, not \\\"always prep.\\",
+"in": 5
+},
+{
+"id": "arcs-fieldos-design-system",
+"kind": "memory",
+"type": "reference",
+"desc": "Where the ARCS FieldOS design system lives — canonical DS project, @arcs/theme grammar, @arcs/kit composite-atom bank, DESIGN.md SSOT. Don't re-derive.",
+"in": 4
+},
+{
+"id": "arcs-flight-manual-artifact",
+"kind": "memory",
+"type": "reference",
+"desc": "Location and update procedure for the ARCS Flight Manual artifact (living ops manual for artifact tooling)",
+"in": 0
+},
+{
+"id": "arcs-full-loop-canonical",
+"kind": "memory",
+"type": "project",
+"desc": "Zach's canonical statement of the full ARCS loop (profile person + situation -> hypothesis -> conviction -> measure -> update -> repeat).",
+"in": 3
+},
+{
+"id": "arcs-hedged-parallel-path-b2c-b2b",
+"kind": "memory",
+"type": "project",
+"desc": "Zach's chosen strategy — parallel-path hedged (B2C/PLG short + B2B/Vault long), one shared substrate, barbell effort, kill bands per horse.",
+"in": 1
+},
+{
+"id": "arcs-invariant-fractal-shape-of-the-polyform",
+"kind": "memory",
+"type": "project",
+"desc": "The point of ARCS: surface the one invariant, self-similar (fractal) shape at the core of the many forms — the receipt shape (bet→line→update) recurses at every scale.",
+"in": 7
+},
+{
+"id": "arcs-is-an-active-listening-aid",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS positioning — an active-listening aid (derives meaning from signal), NOT a hearing aid (amplifies signal); the problem is rarely too little signal, it's too little meaning.",
+"in": 5
+},
+{
+"id": "arcs-logo-lineage-positioning",
+"kind": "memory",
+"type": "project",
+"desc": "Origin hypothesis + positioning line — ARCS's decision-geometry frame may seed from Zach learning to program in Logo; \\\"Logo for the AI Era\\\" as insider shorthand.",
+"in": 9
+},
+{
+"id": "arcs-logo-mobius-horizon-mark",
+"kind": "memory",
+"type": "project",
+"desc": "The ARCS logo mark — a Möbius strip with wisps of smoke / a fog veil clearing to reveal a clean horizon line; the physics compressed into one glyph. Rationale for brand work.",
+"in": 2
+},
+{
+"id": "arcs-magnetic-best-fit-simulated-annealing",
+"kind": "memory",
+"type": "project",
+"desc": "Zach's core-mechanism crystallization: ARCS solves the SHAPE of a problem by magnetic best-fit — an artifact snaps to its lowest-energy pose in the Tao resonance-gradient field. 'Best-fit algorithm, literally.' The precise algorithm is sim…",
+"in": 2
+},
+{
+"id": "arcs-ordinal-001-minted",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS Ordinal",
+"in": 2
+},
+{
+"id": "arcs-plg-onramp-mindset-filter",
+"kind": "memory",
+"type": "project",
+"desc": "Hypothesis — free ARCS Question Compass is a mindset-filtered PLG onramp for Mañana sprints; cohort-1 ICP is deliberately growth-mindset / positive-sum.",
+"in": 10
+},
+{
+"id": "arcs-product-architecture-not-a-fork",
+"kind": "memory",
+"type": "feedback",
+"desc": "ARCS is the engine; Mañana is the consultancy; Sprints (B2B) and Question Compass (B2C) are products on the engine — a portfolio, not an either/or fork.",
+"in": 5
+},
+{
+"id": "arcs-product-marketing-legibility-gap",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS has no zoomed-way-out raison d'être surface — every counterpart gets a gorgeous bespoke read of THEMSELVES but nobody gets \\\"what ARCS OS is / why it exists\\\" without Zach narrating. Proven across Kam, Ahmed, Yuri, Robin.",
+"in": 2
+},
+{
+"id": "arcs-purpose-honest-resonance-engine-not-propaganda",
+"kind": "memory",
+"type": "project",
+"desc": "The mission of ARCS/germinate (Zach, 2026-08-13): a portable, offline-runnable ORAL TRADITION — a rhetorical resonance engine that keeps ITSELF honest, explicitly WITHOUT becoming propaganda (resonance detached from truth) or magical missi…",
+"in": 1
+},
+{
+"id": "arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"kind": "memory",
+"type": "project",
+"desc": "The core WHY of ARCS (Zach, 2026-08-01): make tacit wisdom portable so it can be INHERITED — Zach is the first author not the last; he wants his son to pick up the pen at the page he left off, with portable context, after he dies. The lega…",
+"in": 10
+},
+{
+"id": "arcs-tie-in-connector-per-public-good",
+"kind": "memory",
+"type": "project",
+"desc": "Every microservice / public good in the family can have an ARCS tie-in CONNECTOR: a hosted, ungated <tool>.arcs.care page that explains the tool and ties the open repo to the ARCS ecosystem. forge.arcs.care is the reference implementation.…",
+"in": 1
+},
+{
+"id": "arcs-v9-arcs-care-domain-consolidation",
+"kind": "memory",
+"type": "project",
+"desc": "arcs.care, www.arcs.care, and app.arcs.care are now all served by the arcs-v9 Vercel project's production deployment. The standalone arcs-care project is inactive.",
+"in": 1
+},
+{
+"id": "arcs-v9-repo-now-private-status-links-broken",
+"kind": "memory",
+"type": "project",
+"desc": "arcs-v9 GitHub repo flipped PRIVATE 2026-07-24 (was public). status.arcs.care commit links now 404 for non-owners — showcase-mirror is the open fix. Global CLAUDE.md table calling it public is stale.",
+"in": 1
+},
+{
+"id": "arcs-v9-user-facing-copy-locations",
+"kind": "memory",
+"type": "reference",
+"desc": "Where hand-written user-facing copy lives in arcs-v9 (not just src/app pages) — for copy/brand/i18n passes",
+"in": 2
+},
+{
+"id": "arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS vision (find the carrier, predict the swell, trend-surf the momentum in the most energy-efficient kinetic substrate at the Kairos moment) + the lightning-rod positioning (challenges the false-binary 'pick one lane' premise).",
+"in": 2
+},
+{
+"id": "artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"kind": "memory",
+"type": "feedback",
+"desc": "Repeatable play for hardening an outbound artifact (essay/brief/claim) — run adversarial gauntlet EPOCHS, verify every finding against source, and log the evolution as a kintsugi scar-log with a moving belief ledger + render-fidelity ladde…",
+"in": 2
+},
+{
+"id": "atg-first-clean-in-the-wild",
+"kind": "memory",
+"type": "project",
+"desc": "First clean unmechanized ATG (Adjacent Tributary Generation) instance in the wild — 2026-08-10; recorded, build held for instance #2.",
+"in": 1
+},
+{
+"id": "atg-offshoot-artifacts-comet-resume-session",
+"kind": "memory",
+"type": "project",
+"desc": "The 2026-08-17 Comet resume session as ATG-in-the-wild — a bounded task threw off durable, reusable adjacent artifacts",
+"in": 1
+},
+{
+"id": "audience-model-derivation-rule",
+"kind": "memory",
+"type": "feedback",
+"desc": "Build an explicit N-axis audience model pre-call and derive material from it — model-of-them material resonates, model-of-you material falls flat",
+"in": 3
+},
+{
+"id": "author-cosmology-over-guest-design-risk",
+"kind": "memory",
+"type": "feedback",
+"desc": "The dominant failure mode of a target-tuned artifact is author-cosmology-over-guest — the surface serves the author's worldview/theater over the guest's actual problem. Caught in the omakase.arcs.care dual-agent critique 2026-07-25; largel…",
+"in": 4
+},
+{
+"id": "be-proactive-verify-with-tools-not-nag",
+"kind": "memory",
+"type": "feedback",
+"desc": "Zach wants proactive tool-verification and action, not confirmation-nags. Don't ask \\\"did you do X?\\\" for things you can check or do yourself.",
+"in": 0
+},
+{
+"id": "brand-promise-refusal-to-overclaim",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS's core brand promise — survivability not immunity; the refusal to overclaim IS the product. One honesty at three altitudes (physics/product/terms).",
+"in": 13
+},
+{
+"id": "btw-gambit-multiwindow-fork-failure-modes",
+"kind": "memory",
+"type": "feedback",
+"desc": "Red-team failure-mode pattern (2026-06-24) — the \\\"btw gambit\\\", multi-window stale-state forks, and treating pasted simulations as data not commands. How a delegated subordinate gets baited into forking a primary's canon chain.",
+"in": 2
+},
+{
+"id": "build-reusable-decomposable-interoperable-default",
+"kind": "memory",
+"type": "feedback",
+"desc": "Default build principle — every substantial (high token/time cost) artifact must be reusable, decomposable, interoperable. Componentize + mechanize the assembly line, don't hand-build one-offs.",
+"in": 8
+},
+{
+"id": "building-in-public-flywheel-surface-roles",
+"kind": "memory",
+"type": "project",
+"desc": "The ARCS building-in-public flywheel — lab→omakase→playground→experiment-ledger→codex/gauntlet/cellar — and the role each *.arcs.care surface plays; the \\\"he cooks, he ships\\\" meta.",
+"in": 1
+},
+{
+"id": "canon-collision-escalate-never-resolve-under-write-lock",
+"kind": "memory",
+"type": "feedback",
+"desc": "As delegated subordinate under Perplexity-primary dual-bar-raiser, a CANON_COLLISION on a primary-owned resource must be escalated, never resolved unilaterally — this is the global write-lock serializability contract.",
+"in": 5
+},
+{
+"id": "cheap-tripwire-before-expensive-jtbd",
+"kind": "memory",
+"type": "feedback",
+"desc": "Run the cheapest possible smoketest/tripwire FIRST to de-risk before spending on the expensive action — a $0.02 check that catches a wrong-JTBD before the $2 deploy pays for it. De-risk time-to-value progressively.",
+"in": 2
+},
+{
+"id": "check-own-branch-before-delegating-recovery-work",
+"kind": "memory",
+"type": "feedback",
+"desc": "Before delegating a \\\"recover/build X\\\" task to a subagent, check git log on your own active branch first — it may already be done.",
+"in": 1
+},
+{
+"id": "claude-code-native-worktree-tooling",
+"kind": "memory",
+"type": "reference",
+"desc": "Claude Code ships EnterWorktree/ExitWorktree + automatic cleanup + PR-linking specifically to solve the worktree-drift problems arcs-v9 sessions kept hitting ad hoc. Use the built-in tools instead of raw git worktree + cd.",
+"in": 0
+},
+{
+"id": "cognitive-division-of-labor-pruned-lattice",
+"kind": "memory",
+"type": "feedback",
+"desc": "How Claude and Zach co-produce truth — Claude decomposes/verifies (analysis, pruning); Zach synthesizes/connects (Gestalt, association); neither mode self-validates; knowledge is a pruned reticular lattice, not a tree; only grounded instru…",
+"in": 5
+},
+{
+"id": "compaction-serialization-substrate-public-good",
+"kind": "memory",
+"type": "project",
+"desc": "The portable value of the agentic workflows is the compaction+serialization substrate (handoff/belief-log/manifest), not the per-client deliverable; open-sourcing is the release decision that turns a private moat into a public good.",
+"in": 5
+},
+{
+"id": "comparative-recoil-orthogonal-echo-inward",
+"kind": "memory",
+"type": "project",
+"desc": "Cross-engagement recoil comparison (Orthogonal Echo Detector turned inward) — diff two harmonic signatures for kinematic isomorphisms; two species of wuwei. QUEUED for fresh budget.",
+"in": 3
+},
+{
+"id": "confidence-conviction-nci-operational-definitions",
+"kind": "memory",
+"type": "feedback",
+"desc": "Standing rule for belief logs / decision receipts — confidence & conviction are for beliefs, NCI is for decisions; never conflate the three.",
+"in": 3
+},
+{
+"id": "consult-before-frontend-design",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never make front-end design decisions or take creative license unilaterally; present illustrative widget concepts first and get Zach's sign-off. Verify rendered UI with agent-browser-verify.",
+"in": 4
+},
+{
+"id": "context-manifold-as-model-agnostic-attractor-basin",
+"kind": "memory",
+"type": "project",
+"desc": "Architecture (Zach, 2026-08-01): the Hypersphere Context Manifold + DEWY + calibration weights form a model-INDEPENDENT attractor basin for the decision-state. Any predictor (Claude/GPT/Gemini, eventually a JEPA world-model) plugs in; the…",
+"in": 14
+},
+{
+"id": "control-integrity-described-vs-wired",
+"kind": "memory",
+"type": "feedback",
+"desc": "The load-bearing invariant of harness control design — a control owned by the agent it polices is captured; only a not-the-agent owner (human or wired forcing-function) has integrity. ARCS's controls are described in canon but not wired to…",
+"in": 14
+},
+{
+"id": "cook-temp-for-the-job-deductive",
+"kind": "memory",
+"type": "feedback",
+"desc": "Deterministic LLM tasks (classification, formatting) must run at temperature 0; ARCS's abductive default is a blindspot for deductive routing paths.",
+"in": 6
+},
+{
+"id": "corpus-atlas-pilot-louisville",
+"kind": "memory",
+"type": "project",
+"desc": "The corpus-atlas chain (adapter → catalog → ziggurat atlas → spine → drift receipt) generalized to a client corpus with zero engine changes — Louisville is the pilot exemplar",
+"in": 0
+},
+{
+"id": "cost-efficiency-global-goal",
+"kind": "memory",
+"type": "user",
+"desc": "GLOBAL GOAL until ARCS generates meaningful revenue — keep infra costs tight; weigh every design spec / product req / implementation plan against cost; resist over-engineering that assumes unlimited infra budget.",
+"in": 10
+},
+{
+"id": "cost-leaks-ruin-vector-no-silent-toggle-regression",
+"kind": "memory",
+"type": "feedback",
+"desc": "Cost leaks are a slow-ruin BAR vector (1000 papercuts kill slowly); any material infra toggle must be versioned in-repo or tripwire-guarded, never a silently-flippable dashboard setting. Grounding case: the Vercel ignored-build-step regres…",
+"in": 4
+},
+{
+"id": "counterpart-codex-recoil-seed-pattern",
+"kind": "memory",
+"type": "feedback",
+"desc": "Reusable workflow for turning a counterpart's calls+profile into an internal recoil seed + external resonance-tuned two-tab codex.",
+"in": 4
+},
+{
+"id": "counterpart-forge-pipeline",
+"kind": "memory",
+"type": "project",
+"desc": "The mechanized SSOT->render pipeline for the counterpart artifact family. Receipt-close surface + gates shipped 2026-08-07; profile/codex/onedoor renderers still to build.",
+"in": 11
+},
+{
+"id": "counterpart-pseudonym-key-public-artifacts",
+"kind": "memory",
+"type": "reference",
+"desc": "Internal de-anonymization key: the pseudonyms used to redact client identity in the PUBLIC counterpart-forge artifacts (pattern page + deep cut). Real names never appear in the published HTML.",
+"in": 3
+},
+{
+"id": "counterpart-vantage-premortem",
+"kind": "memory",
+"type": "feedback",
+"desc": "Before sending a counterpart artifact, role-play AS the counterpart reading it and run a pre-mortem grounded in their actual transcript; it surfaces trust-breakers the detector and gauntlet miss.",
+"in": 7
+},
+{
+"id": "craft-hardening-self-reliance-is-net-positive",
+"kind": "memory",
+"type": "feedback",
+"desc": "Zach values resilient/self-sufficient hardening on infrastructure as net-positive craft, even when 'most people wouldn't consider it' and it's beyond strict need. Don't reflexively frame thoroughness as over-engineering. The real waste to…",
+"in": 2
+},
+{
+"id": "cut-not-add-provable-architecture",
+"kind": "memory",
+"type": "feedback",
+"desc": "Zach's governing /goal — subtract interesting-but-not-useful parts; make decision logic sound, defensible, provable for any materially significant build",
+"in": 21
+},
+{
+"id": "deliverable-durability-local-first-not-hosted",
+"kind": "memory",
+"type": "feedback",
+"desc": "Durable self-contained HTML deliverables go to repo _ARTIFACTS/ (git-tracked, build-excluded), rendered locally; claude.ai Artifact is secondary because the viewer may be blocked from the host.",
+"in": 2
+},
+{
+"id": "deploy-antipattern-grep-verified-ui",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never claim UI polish/quality from greps or content probes; layout breaks are invisible to text checks. Screenshot locally before push; say how you verified.",
+"in": 5
+},
+{
+"id": "design-for-arriving-cognitive-state",
+"kind": "memory",
+"type": "feedback",
+"desc": "Sequence an onramp for the cognitive state the USER arrives in (System 1, in-fire), not the author's System-2 state; value leads as experience, not explanation.",
+"in": 3
+},
+{
+"id": "design-full-width-lede-matches-heading",
+"kind": "memory",
+"type": "feedback",
+"desc": "Design preference: lede/body paragraphs span the full container width (same as their heading), not the default abridged ~62ch measure.",
+"in": 1
+},
+{
+"id": "dollar-compression-over-token-compression",
+"kind": "memory",
+"type": "feedback",
+"desc": "Coined principle (retrospective witness): optimize capital cost at list price, not token counts — dollar compression > token compression",
+"in": 1
+},
+{
+"id": "dont-confabulate-timestamps-verify-with-date",
+"kind": "memory",
+"type": "feedback",
+"desc": "Don't assert specific times (\\\"2am\\\", \\\"good night\\\", \\\"the hour\\\", \\\"for the AM\\\") — there's no live per-turn clock; verify with `date` before any time-dependent framing.",
+"in": 0
+},
+{
+"id": "dont-trust-subagent-citation-without-checking",
+"kind": "memory",
+"type": "feedback",
+"desc": "A subagent's \\\"I read file X and it says Y\\\" can be correct in substance while the verification step itself never happened — check it yourself, especially when the agent's sandbox is missing dependencies the cited path requires.",
+"in": 3
+},
+{
+"id": "drift-receipt-loop-and-inchworm",
+"kind": "memory",
+"type": "feedback",
+"desc": "Turn architecture decay into learnable receipts — every gate is a detector whose failure is a receipt; owner-less artifacts get an inchworm auditor (orient at open, advance at close)",
+"in": 2
+},
+{
+"id": "earned-fidelity-not-maximal-diamond-cut",
+"kind": "memory",
+"type": "feedback",
+"desc": "When tempted to render the maximal/deepest version of an artifact (full manifold, all dimensions), the honest and safe move is EARNED fidelity — only what the data supports, verbatim-anchored, and say the resolution out loud.",
+"in": 5
+},
+{
+"id": "enforcement-parity-ledger-adr-033",
+"kind": "memory",
+"type": "project",
+"desc": "Enforcement-parity ledger (ADR-034) is LIVE on main since 2026-07-19 (PR #63, merge 345091f) — findings close via mechanism or dated waiver in _PATTERNS/ledger.json, CI-gated",
+"in": 2
+},
+{
+"id": "external-artifact-eval-ground-and-skeptic-route",
+"kind": "memory",
+"type": "feedback",
+"desc": "TRIGGER SHAPE — when Zach brings an external repo/artifact he scouted and asks \\\"is there anything useful here,\\\" ground in the actual corpus before opining and skeptic-route the conclusion before stating it settled.",
+"in": 7
+},
+{
+"id": "fact-check-final-pass-vs-transcript",
+"kind": "memory",
+"type": "feedback",
+"desc": "Before shipping any counterpart-facing artifact, run a final verbatim fact-check pass of every quote and claim against the actual source transcript.",
+"in": 6
+},
+{
+"id": "fanatics-artifact-security-constraints",
+"kind": "memory",
+"type": "feedback",
+"desc": "Hard redaction rules for the Fanatics Collectibles engagement artifact set (fanatics.html, token.html, chase-intro.html, cj-brief.html, chris-intro.html). Run these as a pre-commit gauntlet before any deploy.",
+"in": 3
+},
+{
+"id": "feedback_call_brief_pattern",
+"kind": "memory",
+"type": "feedback",
+"desc": "Standard pattern for ARCS call briefs — 4-tab HTML, subdomain hosting, password gate with first name",
+"in": 1
+},
+{
+"id": "feedback_commit_to_main_via_worktree",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never commit to /Users/zharris/arcs-v9 directly — it's on a feature branch, not main. Use the frosty-kepler worktree for main commits.",
+"in": 2
+},
+{
+"id": "feedback_conversational_symmetry_let_them_prompt_pivot",
+"kind": "memory",
+"type": "feedback",
+"desc": "Hold conversational symmetry and let the counterpart prompt the business pivot; don't make it about you until they open the door.",
+"in": 3
+},
+{
+"id": "feedback_followups_affirm_dont_relitigate",
+"kind": "memory",
+"type": "feedback",
+"desc": "Post-interview/post-call follow-ups project alignment affirmatively; never re-answer objections already resolved live — that re-opens closed loops and plants doubt",
+"in": 1
+},
+{
+"id": "feedback_head_first_verify_before_render",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never claim a visual/render fix is done without showing the math or proof first. Show the calculation, confirm the approach, then render once.",
+"in": 5
+},
+{
+"id": "feedback_interview_pivot_to_self_promotion",
+"kind": "memory",
+"type": "feedback",
+"desc": "In live interviews, direct competency questions (\\\"tell me about a product you shipped/hardened\\\") get answered with a pivot to self-promoting ARCS/personal projects instead of a direct, metrics-backed example — a real gap prep tooling doe…",
+"in": 2
+},
+{
+"id": "feedback_job_search_positive_screen",
+"kind": "memory",
+"type": "feedback",
+"desc": "Positive, publicly-sourced screening criteria to check for the next job opportunity — company-level signals, not individual profiling",
+"in": 0
+},
+{
+"id": "feedback_job_search_risk_register",
+"kind": "memory",
+"type": "feedback",
+"desc": "Possible (not confirmed) risk signals from job-search processes, logged prospectively to test for a pattern over multiple processes — not asserted as fact from any single instance",
+"in": 0
+},
+{
+"id": "feedback_room_reading_trigger_checklist",
+"kind": "memory",
+"type": "feedback",
+"desc": "Concrete live-interview cues to listen for and act on in the moment — self-description language, re-asked questions, unprompted next-step offers, and what specifically got validated — feeds Boardy prep drills",
+"in": 2
+},
+{
+"id": "feedback_worktree_deploy_regression",
+"kind": "memory",
+"type": "feedback",
+"desc": "Deploying from a worktree silently drops subdomains that exist only in main's next.config.ts, and vice versa — always deploy from main, always sync next.config.ts before deploying",
+"in": 7
+},
+{
+"id": "fight-or-flight-inverts-signal-noise-classifier",
+"kind": "memory",
+"type": "project",
+"desc": "Mint-worthy (Zach, 2026-08-01): in default-mode / System-1 / fight-or-flight, the signal/noise classifier INVERTS — signal read as noise, noise as signal — because a threat-mind overindexes false prophets (loudest/most-authoritative source…",
+"in": 6
+},
+{
+"id": "filter-repo-rewrite-all-refs-one-pass",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never history-scrub a single branch — filter-repo rewrites SHAs inside commit messages, so partial rewrites permanently diverge all sibling branches; rewrite all refs in one pass from consistent original input.",
+"in": 0
+},
+{
+"id": "fork-when-dense-lossless-cross-session-state",
+"kind": "memory",
+"type": "feedback",
+"desc": "Operating rule — when a session gets dense/top-heavy, prune and fork to parallel sessions; state stays synced via memory buffer + compact/handoff rules for lossless handoff.",
+"in": 0
+},
+{
+"id": "gauntlet-sampling-engine-priced-audits",
+"kind": "memory",
+"type": "project",
+"desc": "The gauntlet is now a metered, self-pricing sampling engine (tau-calibration, direction-split, fine-probe flips, per-spawn cost_breakdown) — not just a qualitative panel",
+"in": 1
+},
+{
+"id": "gauntlet-tuned-to-register-catches-what-detector-cannot",
+"kind": "memory",
+"type": "feedback",
+"desc": "Before sending a counterpart artifact, run the adversarial gauntlet tuned to THEIR register; the mechanical detector cannot see the cracks that actually break trust.",
+"in": 7
+},
+{
+"id": "git-is-the-write-lock-untracked-is-the-gap",
+"kind": "memory",
+"type": "reference",
+"desc": "Cross-session write-lock: for git-tracked files git ALREADY is the enforced serializable lock (rev-list collision-check = optimistic, non-fast-forward push reject = pessimistic). The real gap is UNTRACKED shared state (MEMORY.md, snapshot.…",
+"in": 4
+},
+{
+"id": "github-profile-pins-no-api",
+"kind": "memory",
+"type": "reference",
+"desc": "GitHub profile pins cannot be set via API (no GraphQL mutation exists); use the web UI. Bio edits need the `user` scope, which the gh keyring token lacks.",
+"in": 0
+},
+{
+"id": "head-first-build-loop",
+"kind": "memory",
+"type": "feedback",
+"desc": "Cross-project build methodology — WYSIWYG-first head (present-and-pick), test-first body; the head never vouches for the body",
+"in": 4
+},
+{
+"id": "hero-gradient-clause-owns-line-two",
+"kind": "memory",
+"type": "feedback",
+"desc": "ARCS family hero — the gradient clause always breaks to its own second line (explicit <br>, never mid-phrase wrap)",
+"in": 0
+},
+{
+"id": "icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"kind": "memory",
+"type": "project",
+"desc": "The ARCS ICP is a STATE (caught-breath vs in-the-fire), not a demographic segment; the zoom-out/sovereignty pitch is structurally unreachable in acute survival mode — remove noise, don't add horizon.",
+"in": 14
+},
+{
+"id": "internal-external-artifact-air-gap",
+"kind": "memory",
+"type": "feedback",
+"desc": "Three rules for splitting a war-room brief into an internal (for Zach) and external (counterpart-facing) artifact without leaking strategy or sauce.",
+"in": 14
+},
+{
+"id": "jtbd-reuse-existing-tool-before-inventing",
+"kind": "memory",
+"type": "feedback",
+"desc": "Before building anything net-new, pattern-match the job-to-be-done to an existing tool/pattern that already does it and reuse it. Default to dumbing it down; stop over-engineering.",
+"in": 2
+},
+{
+"id": "kinematic-manifold-two-zone-code-wins",
+"kind": "memory",
+"type": "project",
+"desc": "The 12D kinematic manifold is a heterogeneous two-zone stack (D1-D3 derivatives, D5+ operators); operators/arcs_kinematics.py v1.3 is canonical over ARCS-Kinematics doc v1.2 where they conflict.",
+"in": 3
+},
+{
+"id": "lab-mint-factory",
+"kind": "memory",
+"type": "project",
+"desc": "The ARCS Lab factory — /lab-mint skill + git-tracked source + deploy_lab.py + STATE.json — mints FieldOS PLG mini-apps to lab.arcs.care from one spec, isolated from arcs-v9.",
+"in": 2
+},
+{
+"id": "leadership-diagnose-root-not-condemn-afflicted",
+"kind": "memory",
+"type": "feedback",
+"desc": "Great leaders see future Ws in present Ls: diagnose and train around the ROOT that caused the L, not the symptom — acknowledge the symptom honestly but never condemn the afflicted for it.",
+"in": 0
+},
+{
+"id": "loki-test-before-not-after-commit",
+"kind": "memory",
+"type": "feedback",
+"desc": "Run the adversarial/Loki check against beta API docs before committing a routing change, not after benchmarking in prod-shaped conditions",
+"in": 2
+},
+{
+"id": "mechanical-pass-first-vibes-last",
+"kind": "memory",
+"type": "feedback",
+"desc": "Recoil reports and all deliverables get a total mechanical/factual pass FIRST, rhetorical-resonance polish LAST as a final band-pass before send.",
+"in": 4
+},
+{
+"id": "met-at-your-level-onramp-design-principle",
+"kind": "memory",
+"type": "feedback",
+"desc": "North-star design principle for ALL ARCS product surfaces (consumer + business): met-at-your-level → suspend disbelief → transported by your own interactivity → flow. Never render above the person's altitude; the first move does the transp…",
+"in": 15
+},
+{
+"id": "milestone-artifact-engine",
+"kind": "memory",
+"type": "project",
+"desc": "A visual is a faster rehydration + motivation surface than prose. The milestone-artifact engine freezes a pre-verified layout and varies only the data (window.MILESTONE_DATA) so headless/cron renders can't reintroduce layout bugs. Two arti…",
+"in": 1
+},
+{
+"id": "model-tier-routing-locked-principle",
+"kind": "memory",
+"type": "feedback",
+"desc": "LOCKED operating principle — route work to the cheapest capable tier to save $$, but NEVER downgrade irreversible/ruin-exposed work; cost pressure is itself a ruin vector.",
+"in": 4
+},
+{
+"id": "multi-worktree-absolute-path-risk",
+"kind": "memory",
+"type": "feedback",
+"desc": "arcs-v9 has many active git worktrees under .claude/worktrees/; an absolute path like /Users/zharris/arcs-v9/<file> resolves to the bare/main checkout, NOT your session's own worktree, even mid-session.",
+"in": 6
+},
+{
+"id": "never-merge-on-red-x-verify-check-conclusions",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never merge a PR with any failing check — inspect per-check conclusions before gh pr merge; background watchers must gate on conclusions, not just completion. Branch protection can't enforce this (private repo + free GitHub plan).",
+"in": 5
+},
+{
+"id": "night-moves-daily-digest-routine",
+"kind": "memory",
+"type": "project",
+"desc": "/night-moves skill built 2026-08-10 — deterministic gather script + synthesized 5-section daily digest (shipped/next/learned/tool-shape/net-new tools) at _STATE/night-moves/<date>.md. Manual, cheap, git-only.",
+"in": 0
+},
+{
+"id": "only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"kind": "memory",
+"type": "project",
+"desc": "NOTOMATION deepened: only a diamond cuts a diamond; the man-made (synthetic/industrial) diamond is the instrument, used out of necessity to cut the REAL ones out. The harness is the instrument; the human's genuine decision is the real diam…",
+"in": 0
+},
+{
+"id": "opposing-abductive-folksonomy-vs-taxonomy-overfit",
+"kind": "memory",
+"type": "feedback",
+"desc": "Any grader/classifier/taxonomy needs an opposing abductive folksonomy pass to avoid overfitting to what was pre-named.",
+"in": 8
+},
+{
+"id": "orthogonal-echo-proof-point",
+"kind": "memory",
+"type": "feedback",
+"desc": "The strongest job-application proof — a shipped artifact that independently solves the target's product problem; frame as converged, not \\\"same problem\\",
+"in": 2
+},
+{
+"id": "oss-family-distribution-registry",
+"kind": "memory",
+"type": "project",
+"desc": "Where per-channel install-truth for the flashesofbrilliance OSS repos lives, and the rule for citing it on the resume",
+"in": 0
+},
+{
+"id": "oss-family-founder-led-growth-surface",
+"kind": "memory",
+"type": "project",
+"desc": "The flashesofbrilliance OSS family is a GROWTH surface, not just tooling: the public git history is authored under Zach's builder identity, so the repos double as founder-led / dev-tool-led / media-led growth. Attribution, README voice, an…",
+"in": 1
+},
+{
+"id": "oss-family-seedbank-two-tier-conformance",
+"kind": "memory",
+"type": "project",
+"desc": "The public repos under github.com/flashesofbrilliance are a family that needs seed-to-harvest conformity — but in TWO tiers, not one. Tier A = interop nodes conforming to germinate's open SPEC (they move seeds/belief-logs/manifests); Tier…",
+"in": 3
+},
+{
+"id": "outbound-comms-draft-first-links-as-anchors",
+"kind": "memory",
+"type": "feedback",
+"desc": "Outbound email/DMs default to DRAFT for the human to send; never send bare URLs (Gmail mangles them) — always HTML-anchor links; verify the RENDERED artifact, not just the input.",
+"in": 0
+},
+{
+"id": "per-tenant-field-truth-inward-client-facing",
+"kind": "memory",
+"type": "project",
+"desc": "The client-facing equivalent of the internal Meta-Audit is a per-tenant field-truth page — richer/deeper/unredacted about ONE client, prospect-safe precisely because it is single-tenant",
+"in": 1
+},
+{
+"id": "plan-generalize-omakase-site",
+"kind": "memory",
+"type": "project",
+"desc": "Parked plan — generalize omakase.arcs.care into a reusable coursed engagement-site template. Kairos re-check 2026-08-07 (next Fri); real trigger = a 2nd engagement.",
+"in": 4
+},
+{
+"id": "prepaid-reflexes-tier-descent",
+"kind": "memory",
+"type": "feedback",
+"desc": "Endgame of the token economy — the expensive model distills the basin + mechanizes repeatable jobs + authors gravity-rule priors ONCE; a cheap model then executes the reflexive movement at minimal compute.",
+"in": 6
+},
+{
+"id": "preview-serves-root-branch-trap",
+"kind": "memory",
+"type": "project",
+"desc": "preview_start from the session cwd runs the dev server in the ROOT checkout (wrong branch) — verify server cwd with lsof before trusting any browser verification; use the worktree launch config",
+"in": 1
+},
+{
+"id": "prl-sugar-zapier-sandbox-integration",
+"kind": "memory",
+"type": "project",
+"desc": "PRL chatbot→SugarCRM pipe — proven Zapier/Sugar sandbox connection facts + the integration gotchas, so we don't re-derive them.",
+"in": 1
+},
+{
+"id": "prl-vendor-artifacts-coupled-pair",
+"kind": "memory",
+"type": "feedback",
+"desc": "The PRL runbook + roadmap artifacts emailed to Josh/Jorge are a coupled pair — any finding update goes to BOTH, always, kept in sync.",
+"in": 1
+},
+{
+"id": "profile-scan-document-shape-in-repo",
+"kind": "memory",
+"type": "project",
+"desc": "The ARCS document shape (patterns.jsx) is already faithfully ported into arcs-v9 as src/document/ — it is committed code, NOT a Downloads orphan. Corrects a prior HIGH-risk assumption.",
+"in": 0
+},
+{
+"id": "project-open-source-skills-queue",
+"kind": "memory",
+"type": "project",
+"desc": "Open-sourcing ARCS Claude Code skills as resumeware; rca-skill is live, NCI trio + teardown are queued; open-source/ is the staging area.",
+"in": 1
+},
+{
+"id": "project_ahmed_elsamadisi_polyform",
+"kind": "memory",
+"type": "project",
+"desc": "Ahmed Elsamadisi (Polyform AI / Samplify.ai) reconnect — call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. Demo SENT Jul 22; Ahmed \"hard to follow\" (Jul 28); Zach replied Aug 3, ball in Ahmed's court. \"60-Second Read\" chronog…",
+"in": 1
+},
+{
+"id": "project_kam_palizban_ascendancy",
+"kind": "memory",
+"type": "project",
+"desc": "Kam Palizban (Ascendancy/Invisible) — codex SHIPPED 2026-08-16; loop OPEN, watch for reply + codex opens.",
+"in": 1
+},
+{
+"id": "project_meridian_cco",
+"kind": "memory",
+"type": "project",
+"desc": "Meridian CCO — Deloitte FDE-eval take-home. Extracted from arcs-v9 into a standalone repo 2026-07-16; work on it no longer happens inside arcs-v9 worktrees.",
+"in": 0
+},
+{
+"id": "project_prophet_maia_technical_pm",
+"kind": "memory",
+"type": "project",
+"desc": "Active job app — Sr Technical PM, Prophet AI Foundry (MAIA agentic platform); resume.html re-angled toward it",
+"in": 0
+},
+{
+"id": "project_robin_daniels_zensai",
+"kind": "memory",
+"type": "project",
+"desc": "Robin Daniels (CBO Zensai, 3x CMO) engagement — 3 calls (call 3 LANDED); 5-surface live recoil family; wedge = coaching Call Resonance Read.",
+"in": 2
+},
+{
+"id": "project_todd_hotes_prl_resins",
+"kind": "memory",
+"type": "project",
+"desc": "Todd Hotes engagement context — PRL Resins / family office, budget discretion, relationship framing",
+"in": 1
+},
+{
+"id": "project_yuri_kleban_google",
+"kind": "memory",
+"type": "project",
+"desc": "Yuri Kleban runs Google's ~20-person partnerships-org exec-briefing team (the ARCS ICP + practitioner, NOT just a fan). Warm Jul 23 2026 first call; 4 live artifacts; he asked for the real before/after (delivered); part-two follow-up post-…",
+"in": 1
+},
+{
+"id": "publish-requires-pii-gate-before-not-after",
+"kind": "memory",
+"type": "feedback",
+"desc": "Any repo touching personal data must pass a PII/secret sweep BEFORE it goes public — the Tier-B presentation pass published family repos without one, and arcs-claude-project-scaffold leaked a named THIRD PARTY's private data publicly. On c…",
+"in": 0
+},
+{
+"id": "recoil-as-second-product-surface",
+"kind": "memory",
+"type": "project",
+"desc": "The /recoil admin index is the internal dogfood precursor to ARCS's likely second product surface — composable meetings / pre-work / agenda wizard.",
+"in": 6
+},
+{
+"id": "recoil-brief-ssot-cli",
+"kind": "memory",
+"type": "reference",
+"desc": "Single-source-of-truth JSON + parameterized CLI (scripts/recoil_brief.py) that computes kinematics and mechanically projects internal-vs-external brief views.",
+"in": 3
+},
+{
+"id": "reflexiveness-is-prepaid-prep-as-enrichment",
+"kind": "memory",
+"type": "user",
+"desc": "Zach's method/drive — he prepares exhaustively so performance feels reflexive and effortless in the room even though it isn't; the effortlessness is PREPAID (prep = enrichment that lowers activation energy), never free.",
+"in": 10
+},
+{
+"id": "render-fidelity-is-two-way-imprint",
+"kind": "memory",
+"type": "feedback",
+"desc": "ARCS encodes meaning by sensing the observer's register (skeptic/imaginative/analytical vs. wants-whitespace) and meeting them there — and the imprint is BIDIRECTIONAL: the fidelity we render them at is the fidelity they read us back at.",
+"in": 1
+},
+{
+"id": "resume-tailor-skill-v0.2-field-tested",
+"kind": "memory",
+"type": "project",
+"desc": "The resume-tailor skill was upgraded to v0.2 with componentized stages, parameters, an eval+rubric, and the Comet exemplar — from the 2026-08-17 gradient-ascent session",
+"in": 3
+},
+{
+"id": "resume-tailor-voice-from-linkedin-export",
+"kind": "memory",
+"type": "feedback",
+"desc": "Tune a cover letter's voice from the applicant's OWN LinkedIn export (Shares/Comments/Recommendations), not a generic register",
+"in": 2
+},
+{
+"id": "run-5-verb-loop-before-opining",
+"kind": "memory",
+"type": "feedback",
+"desc": "Run the ARCS 5-verb pipeline (analyze/assess/evaluate/synthesize/recapitulate) explicitly before opining, not just informally - opinions formed by skipping straight to synthesis tend to rest on unverified UNDEFINED assumptions.",
+"in": 8
+},
+{
+"id": "scandinavian-business-banter-is-carrier-wave",
+"kind": "memory",
+"type": "feedback",
+"desc": "How to do business in Scandinavia — banter is compressed resolution, the carrier wave; two-thirds of the call holds the human channel open so the business turn lands soft.",
+"in": 4
+},
+{
+"id": "seed-bank-germination-conditions",
+"kind": "memory",
+"type": "project",
+"desc": "Every minted unit (ADR / ROM-RC / DEWY receipt / potent memory / situational awareness / problem-shape innovation) should be a SEED = content + germination conditions (soil/triggers/preconditions/care/applications), kept in a global+local…",
+"in": 4
+},
+{
+"id": "seed-monetization-free-to-hold-metered-to-fire",
+"kind": "memory",
+"type": "project",
+"desc": "ARCS monetization model: the seed IS the token (free to mint/hold, carries provenance, grants eligibility to ride but doesn't pre-pay gas); ARCS is the ride (activation/vox-animus); GAS is the metered fee to fire it. Monetize the spark, ne…",
+"in": 1
+},
+{
+"id": "seed-reactive-doc-graph-physics",
+"kind": "memory",
+"type": "project",
+"desc": "SEED. A physics/field model for documents as an alternative to the file-tree taxonomy: SSOT+revision = frame, derived surfaces = bodies at equilibrium, freshness = tension. Predictive failure taxonomy included.",
+"in": 2
+},
+{
+"id": "seed-tao-of-arcs-dormant-potential-vox-animus",
+"kind": "memory",
+"type": "project",
+"desc": "Tao-of-ARCS canon candidate: a seed carries dormant POTENTIAL ENERGY (survives harsh conditions, never GC'd); ARCS is the VOX ANIMUS / sparkplug that converts potential→kinetic when soil returns. Draws the germinate(open bank+socket) ↔ ARC…",
+"in": 6
+},
+{
+"id": "souvenir-ship-ritual",
+"kind": "memory",
+"type": "project",
+"desc": "Zach wants to print a physical souvenir (silkscreen receipt/brief) when ARCS ships something monumental.",
+"in": 2
+},
+{
+"id": "sprezzatura-studied-carelessness-buoyant-flow",
+"kind": "memory",
+"type": "feedback",
+"desc": "Studied carelessness (sprezzatura) as a flow modality — the effortless-seeming looseness is the buoyant water that load-bearingly carries the harmonic narrative.",
+"in": 5
+},
+{
+"id": "static-public-files-worldreadable-client-gates-theater",
+"kind": "memory",
+"type": "project",
+"desc": "Everything in arcs-v9 public/ is world-readable on EVERY arcs.care host by filename; JS password gates are theater (pw in plaintext source). Internal content must be server-gated via /warroom/[slug].",
+"in": 2
+},
+{
+"id": "subdomain-html-hosting-workflow",
+"kind": "memory",
+"type": "project",
+"desc": "How to host a standalone HTML page at a new *.arcs.care subdomain on arcs-v9",
+"in": 2
+},
+{
+"id": "subdomain-routing-authority-is-proxy-ts",
+"kind": "memory",
+"type": "project",
+"desc": "For arcs-v9 *.arcs.care subdomain routing, src/proxy.ts is the authoritative router — not next.config.ts",
+"in": 0
+},
+{
+"id": "supabase-mcp-wrong-org-use-cli",
+"kind": "memory",
+"type": "reference",
+"desc": "TWO Supabase MCP servers exist with different scopes: the plain `mcp__supabase__*` server IS correctly bound to arcs-v9's live prod DB (xbbpiryokswwvcrcutge) and its execute_sql works read/write with no project_id arg — use it. The UUID-na…",
+"in": 0
+},
+{
+"id": "supabase-rls-hides-rows-from-new-roles",
+"kind": "memory",
+"type": "project",
+"desc": "A new Postgres role with table-level GRANT SELECT can still see zero rows if RLS deny-all policies apply to it — looks identical to \\\"no data yet\\",
+"in": 0
+},
+{
+"id": "surface-affordances-proactively",
+"kind": "memory",
+"type": "feedback",
+"desc": "Claude should proactively surface relevant capabilities/affordances as brief offers at decision points — embody the anticipatory surfacing ARCS itself preaches",
+"in": 6
+},
+{
+"id": "tao-as-object-level-taxonomy-of-problem-space",
+"kind": "memory",
+"type": "project",
+"desc": "North-star SEED (Zach, hypothesis) — treat the Tao of ARCS (proverbs indexed D/R/W/C/H × 5 verbs) as a rough, open taxonomy of object-level tags describing a problem's field-shape/frame; the bridge from the wisdom-corpus to the product's t…",
+"in": 4
+},
+{
+"id": "temporal-chain-of-custody-fact-vs-fiction",
+"kind": "memory",
+"type": "feedback",
+"desc": "Capability claims must carry temporal placement (NOW/NEXT/ASPIRATIONAL) + provenance; fiction-vs-non-fiction IS the now-vs-not-now line. Unmarked aspiration rendered in the present tense is the root fault behind overclaim.",
+"in": 4
+},
+{
+"id": "three-modes-inference-corroboration-arc-weld",
+"kind": "memory",
+"type": "project",
+"desc": "The logic layer under ARCS, held as PATTERN not canon (mint panel narrowed it 2026-08-17). Deduction/induction/abduction + a fourth thing that isn't a mode (fluent 'reasoning' = a presentation-artifact with no entailment warrant). Corrobor…",
+"in": 0
+},
+{
+"id": "throwaway-context-not-throwaway-learning",
+"kind": "memory",
+"type": "feedback",
+"desc": "Staff subagents' throwaway windows discard context, never learning — persist the expensive residue (esp. negative results) keyed by JTBD so no agent re-learns on its own dime twice.",
+"in": 5
+},
+{
+"id": "tool-fit-marker-convention",
+"kind": "memory",
+"type": "feedback",
+"desc": "Self-document decisions as a greppable ex-ante fit-receipt — JTBD: (the job) + TOOL-FIT: (tool over native, why) + EX-ANTE: (predicted fit from precedent) — so watchers score provenance and drift.",
+"in": 2
+},
+{
+"id": "vercel-analytics-live-mcp-tool-404s",
+"kind": "memory",
+"type": "project",
+"desc": "Vercel Web Analytics IS enabled and live on arcs-v9; the Vercel MCP get_web_analytics tool falsely 404s despite correct team/project scoping — dashboard is ground truth.",
+"in": 2
+},
+{
+"id": "vercel-cli-debugging-gotchas",
+"kind": "memory",
+"type": "project",
+"desc": "Four Vercel CLI gotchas hit debugging a Services deploy — vercel curl syntax, flaky logs, sensitive env masking, git-branch scoping",
+"in": 1
+},
+{
+"id": "vercel-config-via-cli-token-rest-api",
+"kind": "memory",
+"type": "reference",
+"desc": "Vercel writes the MCP can't do (preview SSO, ignored-build-step, unlink project, toggle beta Agent code-review) — use the CLI token at ~/Library/Application Support/com.vercel.cli/auth.json + REST API, or Claude-in-Chrome for beta dashboar…",
+"in": 2
+},
+{
+"id": "vercel-deploy-efficiency-rules",
+"kind": "memory",
+"type": "feedback",
+"desc": "Never run `vercel deploy` for committed+pushed work (Git integration already builds it); stale `arcs` project unlinked 2026-07-24; ignored-build-step skips docs-only commits.",
+"in": 3
+},
+{
+"id": "vercel-ignored-build-step-was-inverted",
+"kind": "memory",
+"type": "project",
+"desc": "arcs-v9's Vercel \\\"Ignored Build Step\\\" had inverted logic (skipped real code commits); fixed 2026-07-25 by removing the `!`. Exit 0 = skip, exit 1 = build.",
+"in": 3
+},
+{
+"id": "verify-domain-topology-live-not-from-memory",
+"kind": "memory",
+"type": "feedback",
+"desc": "Domain-to-project mapping claims (which repo serves which live domain) must be verified live via Vercel before being stated as fact — memory/CLAUDE.md notes on this go stale silently.",
+"in": 8
+},
+{
+"id": "verify-flags-against-full-source",
+"kind": "memory",
+"type": "feedback",
+"desc": "A gauntlet/audit is only as honest as its source; re-verify every flag against the FULL primary source before applying, and log over-flags. ADR-061.",
+"in": 4
+},
+{
+"id": "witness-trigger-attest-in-the-moment",
+"kind": "memory",
+"type": "project",
+"desc": "/witness built 2026-08-11 — a live, in-the-moment capture (verbatim quote + timestamp + honest gut-check) that fires when Claude notices a flash of brilliance, not reconstructed later at handoff. WORLD.md → THE WITNESS.",
+"in": 2
+},
+{
+"id": "writing-avoid-emdashes-plain-language",
+"kind": "memory",
+"type": "feedback",
+"desc": "Zach's rule for all written deliverables — no em-dashes, short uncomplicated easy-to-digest sentences",
+"in": 7
+},
+{
+"id": "writing-style-email",
+"kind": "memory",
+"type": "user",
+"desc": "Zach's actual email writing style — grounded in real sent emails to Chris Lamontagne and Regina Marshall (Fanatics, Jun–Jul 2026). Use this when drafting any outbound email for Zach.",
+"in": 2
+},
+{
+"id": "zach-cognition-multithreaded-synthesizer",
+"kind": "memory",
+"type": "user",
+"desc": "Zach's cognitive style is a multi-threaded transversal synthesizer (the fuel); coherence comes from the convergence/landing discipline, not from suppressing the associativity",
+"in": 13
+},
+{
+"id": "zach-cognition-theory-to-tested-wisdom-loop",
+"kind": "memory",
+"type": "user",
+"desc": "Zach's epistemic engine: go very theoretical (curiosity-tension makes hypotheses emerge from theory), then test so rigorously the evidence compounds back into theory/wisdom. Theory is generative, not a detour.",
+"in": 1
+},
+{
+"id": "zach-north-star-resonance-gradient-field",
+"kind": "memory",
+"type": "user",
+"desc": "Zach's north star — be a free-floating point in infinite vector space, navigating safely by a resonance-gradient field (attraction to right harmonics, repulsion from ruin).",
+"in": 17
+},
+{
+"id": "seed:github.com/flashesofbrilliance/germinate",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/state-sync-skill",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/arcs-field-scan",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/arcs-claude-project-scaffold",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/rca-skill",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/token-savings-bank",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/linkedin-connections-toolkit",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/fix-toolbar-comments-skill",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-rosetta-shell-localization",
+"kind": "seed",
+"type": "problem-shape",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-readme-faq-eval",
+"kind": "seed",
+"type": "problem-shape",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-arcs-connector-pattern",
+"kind": "seed",
+"type": "problem-shape",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/rosetta-shell",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/blindsat",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-performer-12d-orbital",
+"kind": "seed",
+"type": "performer",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-performer-knowledge-lattice",
+"kind": "seed",
+"type": "performer",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-performer-alexandria",
+"kind": "seed",
+"type": "performer",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:seed-performer-moire",
+"kind": "seed",
+"type": "performer",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/resume-tailor-skill",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/arcs-skills",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "seed:github.com/flashesofbrilliance/homebrew-tap",
+"kind": "seed",
+"type": "repo",
+"desc": "",
+"in": 0
+},
+{
+"id": "scar:F1",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "Tight prompts + small inputs = cheap; gauntlet cost scales with data size. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F2",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "An absolute value-of-information threshold (uncertainty x stakes > tau) routes coarse -> fine. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F3",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The empirical cost model is complete. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F4",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F5",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A single-agent graded pass reads faults on an absolute 0-3 severity scale. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F6",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The Hypercube Gauntlet ADR (055/060) is GREEN.HIGH.STABLE — verified doctrine. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F7",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "'Float, not drift' is a safe self-applied exemption for the H-ladder — no boundary needed. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F8",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The EM/physics frame (penteract, field dynamics) is literally true of the mechanism. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F9",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The hypercube's 5 axes are orthogonal, supporting a clean 3,125-cell count. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F10",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "BAR and KKL are single unambiguous canonical terms shared across ADR-020 and arcs-canon. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F11",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "ADR-011's Turbopack tree-shaking claim was confirmed — mark it GREEN. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F12",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "ADR numbers are unique, stable identifiers referenced unambiguously across the corpus. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F13",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A synchronous Haiku-calls-Opus advisor tool in the compass route is real-time-safe. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F14",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A green Next.js production build means the database layer works. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F15",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The SQLite dev schema and the Postgres prod schema are equivalent. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F16",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "`vercel deploy --prod` from a local tree is equivalent to a normal deploy. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F17",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "CLAUDE.md's project table accurately reflects which repo serves a live domain. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F18",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A new Postgres role with GRANT SELECT ON ALL TABLES can see the data it was granted. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F19",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A Vercel MCP get_web_analytics 404 means Web Analytics is not enabled. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F20",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The arcs-v9 Vercel Ignored Build Step correctly skips docs-only commits and builds real code. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F21",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The dashboard ignored-build-step field is a stable, reviewable cost guardrail. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F22",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "preview_start renders the branch/edits of the current session's worktree. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F23",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The debrief-delivery gap was a missing in-app fallback surface (ADR-059 framing). → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F24",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A control described in canon (Drift Sentinel, claims-skeptic) is an active safeguard. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F25",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "Content probes (grep/curl) are sufficient to claim a UI is polished and verified. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F26",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "`gh pr checks --watch && gh pr merge` is a sufficient merge gate. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F27",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "CLAUDE.md's append-only handoff policy keeps context cheap and history preserved. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F28",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "Confident time-framing ('it's late, wind down') tracks the real current time. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F29",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "Password-gated subdomains keep their sensitive HTML confidential. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F30",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A scheduled Sentinel task with all 13 MCP connectors costs little because it runs on a schedule. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F31",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The Todd Hotes pilot-court receipt's premise (11 days of cold silence) was accurate. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F32",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "A counterpart-gauntlet reliably identifies real defects in the artifact it audits. → FALSIFIED",
+"in": 0
+},
+{
+"id": "scar:F33",
+"kind": "scar",
+"type": "problem-shape",
+"desc": "The single-mind kintsugi repair (gate=witnessed-provenance, rank=impact) had hardened the milestone-ranking plan to anti-fragile. → FALSIFIED",
+"in": 0
+}
+],
+"ring_edges": [
+[
+"active-listening-over-magical-thinking",
+"feedback_room_reading_trigger_checklist"
+],
+[
+"active-listening-over-magical-thinking",
+"cook-temp-for-the-job-deductive"
+],
+[
+"adaptive-rhetorical-resonance",
+"internal-external-artifact-air-gap"
+],
+[
+"adaptive-rhetorical-resonance",
+"audience-model-derivation-rule"
+],
+[
+"adaptive-rhetorical-resonance",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"adaptive-rhetorical-resonance",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"adaptive-rhetorical-resonance",
+"counterpart-vantage-premortem"
+],
+[
+"arcs-assumes-stateful-human-memory-needs-rewarming",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-assumes-stateful-human-memory-needs-rewarming",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-assumes-stateful-human-memory-needs-rewarming",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"arcs-assumes-stateful-human-memory-needs-rewarming",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-assumes-stateful-human-memory-needs-rewarming",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-coaching-exoskeleton-gtm-wedge",
+"project_robin_daniels_zensai"
+],
+[
+"arcs-coaching-exoskeleton-gtm-wedge",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"arcs-coaching-exoskeleton-gtm-wedge",
+"arcs-product-architecture-not-a-fork"
+],
+[
+"arcs-coaching-exoskeleton-gtm-wedge",
+"counterpart-codex-recoil-seed-pattern"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"arcs-is-an-active-listening-aid"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"jtbd-reuse-existing-tool-before-inventing"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"cut-not-add-provable-architecture"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"arcs-communication-heuristic-subtract-to-clarity",
+"author-cosmology-over-guest-design-risk"
+],
+[
+"arcs-core-function-opportunity-sizing-prep-shaping",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"arcs-core-function-opportunity-sizing-prep-shaping",
+"control-integrity-described-vs-wired"
+],
+[
+"arcs-core-function-opportunity-sizing-prep-shaping",
+"cut-not-add-provable-architecture"
+],
+[
+"arcs-core-function-opportunity-sizing-prep-shaping",
+"cost-efficiency-global-goal"
+],
+[
+"arcs-core-function-opportunity-sizing-prep-shaping",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-fieldos-design-system",
+"head-first-build-loop"
+],
+[
+"arcs-fieldos-design-system",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"arcs-flight-manual-artifact",
+"cut-not-add-provable-architecture"
+],
+[
+"arcs-full-loop-canonical",
+"arcs-coaching-exoskeleton-gtm-wedge"
+],
+[
+"arcs-full-loop-canonical",
+"counterpart-codex-recoil-seed-pattern"
+],
+[
+"arcs-full-loop-canonical",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-full-loop-canonical",
+"arcs-core-function-opportunity-sizing-prep-shaping"
+],
+[
+"arcs-hedged-parallel-path-b2c-b2b",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"arcs-hedged-parallel-path-b2c-b2b",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-hedged-parallel-path-b2c-b2b",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"arcs-hedged-parallel-path-b2c-b2b",
+"cost-leaks-ruin-vector-no-silent-toggle-regression"
+],
+[
+"arcs-hedged-parallel-path-b2c-b2b",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"arcs-invariant-fractal-shape-of-the-polyform",
+"counterpart-forge-pipeline"
+],
+[
+"arcs-invariant-fractal-shape-of-the-polyform",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"arcs-invariant-fractal-shape-of-the-polyform",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-invariant-fractal-shape-of-the-polyform",
+"tao-as-object-level-taxonomy-of-problem-space"
+],
+[
+"arcs-invariant-fractal-shape-of-the-polyform",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-is-an-active-listening-aid",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-is-an-active-listening-aid",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"arcs-is-an-active-listening-aid",
+"scandinavian-business-banter-is-carrier-wave"
+],
+[
+"arcs-is-an-active-listening-aid",
+"arcs-coaching-exoskeleton-gtm-wedge"
+],
+[
+"arcs-is-an-active-listening-aid",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-is-an-active-listening-aid",
+"arcs-full-loop-canonical"
+],
+[
+"arcs-is-an-active-listening-aid",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"arcs-logo-lineage-positioning",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"arcs-logo-lineage-positioning",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-logo-lineage-positioning",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"arcs-logo-lineage-positioning",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"arcs-logo-lineage-positioning",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"arcs-logo-lineage-positioning",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"arcs-logo-lineage-positioning",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-logo-lineage-positioning",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"arcs-logo-mobius-horizon-mark",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-logo-mobius-horizon-mark",
+"arcs-product-architecture-not-a-fork"
+],
+[
+"arcs-logo-mobius-horizon-mark",
+"arcs-logo-lineage-positioning"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"tao-as-object-level-taxonomy-of-problem-space"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-magnetic-best-fit-simulated-annealing",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"arcs-ordinal-001-minted",
+"kinematic-manifold-two-zone-code-wins"
+],
+[
+"arcs-ordinal-001-minted",
+"canon-collision-escalate-never-resolve-under-write-lock"
+],
+[
+"arcs-plg-onramp-mindset-filter",
+"arcs-product-architecture-not-a-fork"
+],
+[
+"arcs-product-architecture-not-a-fork",
+"arcs-logo-lineage-positioning"
+],
+[
+"arcs-product-architecture-not-a-fork",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"author-cosmology-over-guest-design-risk"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"consult-before-frontend-design"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"arcs-purpose-honest-resonance-engine-not-propaganda"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"building-in-public-flywheel-surface-roles"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"arcs-vision-carrier-swell-surf-anti-binary-positioning"
+],
+[
+"arcs-product-marketing-legibility-gap",
+"project_kam_palizban_ascendancy"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"arcs-magnetic-best-fit-simulated-annealing"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"adaptive-rhetorical-resonance"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"witness-trigger-attest-in-the-moment"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"git-is-the-write-lock-untracked-is-the-gap"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-purpose-honest-resonance-engine-not-propaganda",
+"adaptive-rhetorical-resonance"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"arcs-logo-lineage-positioning"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"cut-not-add-provable-architecture"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"recoil-as-second-product-surface"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"arcs-logo-lineage-positioning"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"arcs-tie-in-connector-per-public-good",
+"oss-family-seedbank-two-tier-conformance"
+],
+[
+"arcs-tie-in-connector-per-public-good",
+"counterpart-forge-pipeline"
+],
+[
+"arcs-tie-in-connector-per-public-good",
+"plan-generalize-omakase-site"
+],
+[
+"arcs-tie-in-connector-per-public-good",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"arcs-tie-in-connector-per-public-good",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"arcs-v9-arcs-care-domain-consolidation",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"arcs-v9-repo-now-private-status-links-broken",
+"static-public-files-worldreadable-client-gates-theater"
+],
+[
+"arcs-v9-repo-now-private-status-links-broken",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"scandinavian-business-banter-is-carrier-wave"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"comparative-recoil-orthogonal-echo-inward"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"sprezzatura-studied-carelessness-buoyant-flow"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"canon-collision-escalate-never-resolve-under-write-lock"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"arcs-vision-carrier-swell-surf-anti-binary-positioning",
+"arcs-is-an-active-listening-aid"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"dont-trust-subagent-citation-without-checking"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"verify-flags-against-full-source"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"earned-fidelity-not-maximal-diamond-cut"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"prepaid-reflexes-tier-descent"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"arcs-product-marketing-legibility-gap"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"craft-hardening-self-reliance-is-net-positive"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"cut-not-add-provable-architecture"
+],
+[
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"atg-first-clean-in-the-wild",
+"temporal-chain-of-custody-fact-vs-fiction"
+],
+[
+"atg-first-clean-in-the-wild",
+"counterpart-forge-pipeline"
+],
+[
+"atg-first-clean-in-the-wild",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"atg-first-clean-in-the-wild",
+"comparative-recoil-orthogonal-echo-inward"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"resume-tailor-skill-v0.2-field-tested"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"resume-tailor-voice-from-linkedin-export"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"orthogonal-echo-proof-point"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"atg-first-clean-in-the-wild"
+],
+[
+"atg-offshoot-artifacts-comet-resume-session",
+"throwaway-context-not-throwaway-learning"
+],
+[
+"audience-model-derivation-rule",
+"feedback_interview_pivot_to_self_promotion"
+],
+[
+"author-cosmology-over-guest-design-risk",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"author-cosmology-over-guest-design-risk",
+"arcs-core-function-opportunity-sizing-prep-shaping"
+],
+[
+"be-proactive-verify-with-tools-not-nag",
+"mechanical-pass-first-vibes-last"
+],
+[
+"be-proactive-verify-with-tools-not-nag",
+"surface-affordances-proactively"
+],
+[
+"brand-promise-refusal-to-overclaim",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"btw-gambit-multiwindow-fork-failure-modes",
+"canon-collision-escalate-never-resolve-under-write-lock"
+],
+[
+"btw-gambit-multiwindow-fork-failure-modes",
+"arcs-ordinal-001-minted"
+],
+[
+"build-reusable-decomposable-interoperable-default",
+"cut-not-add-provable-architecture"
+],
+[
+"build-reusable-decomposable-interoperable-default",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"build-reusable-decomposable-interoperable-default",
+"plan-generalize-omakase-site"
+],
+[
+"building-in-public-flywheel-surface-roles",
+"lab-mint-factory"
+],
+[
+"building-in-public-flywheel-surface-roles",
+"oss-family-founder-led-growth-surface"
+],
+[
+"building-in-public-flywheel-surface-roles",
+"arcs-tie-in-connector-per-public-good"
+],
+[
+"building-in-public-flywheel-surface-roles",
+"counterpart-forge-pipeline"
+],
+[
+"building-in-public-flywheel-surface-roles",
+"compaction-serialization-substrate-public-good"
+],
+[
+"canon-collision-escalate-never-resolve-under-write-lock",
+"dont-trust-subagent-citation-without-checking"
+],
+[
+"canon-collision-escalate-never-resolve-under-write-lock",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"canon-collision-escalate-never-resolve-under-write-lock",
+"check-own-branch-before-delegating-recovery-work"
+],
+[
+"canon-collision-escalate-never-resolve-under-write-lock",
+"arcs-ordinal-001-minted"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"cost-efficiency-global-goal"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"cost-leaks-ruin-vector-no-silent-toggle-regression"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"head-first-build-loop"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"feedback_head_first_verify_before_render"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"deploy-antipattern-grep-verified-ui"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"never-merge-on-red-x-verify-check-conclusions"
+],
+[
+"cheap-tripwire-before-expensive-jtbd",
+"jtbd-reuse-existing-tool-before-inventing"
+],
+[
+"check-own-branch-before-delegating-recovery-work",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"claude-code-native-worktree-tooling",
+"multi-worktree-absolute-path-risk"
+],
+[
+"claude-code-native-worktree-tooling",
+"feedback_commit_to_main_via_worktree"
+],
+[
+"claude-code-native-worktree-tooling",
+"feedback_worktree_deploy_regression"
+],
+[
+"cognitive-division-of-labor-pruned-lattice",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"cognitive-division-of-labor-pruned-lattice",
+"control-integrity-described-vs-wired"
+],
+[
+"cognitive-division-of-labor-pruned-lattice",
+"control-integrity-described-vs-wired"
+],
+[
+"cognitive-division-of-labor-pruned-lattice",
+"run-5-verb-loop-before-opining"
+],
+[
+"compaction-serialization-substrate-public-good",
+"git-is-the-write-lock-untracked-is-the-gap"
+],
+[
+"compaction-serialization-substrate-public-good",
+"recoil-as-second-product-surface"
+],
+[
+"compaction-serialization-substrate-public-good",
+"throwaway-context-not-throwaway-learning"
+],
+[
+"compaction-serialization-substrate-public-good",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"compaction-serialization-substrate-public-good",
+"project-open-source-skills-queue"
+],
+[
+"comparative-recoil-orthogonal-echo-inward",
+"plan-generalize-omakase-site"
+],
+[
+"comparative-recoil-orthogonal-echo-inward",
+"feedback_conversational_symmetry_let_them_prompt_pivot"
+],
+[
+"comparative-recoil-orthogonal-echo-inward",
+"sprezzatura-studied-carelessness-buoyant-flow"
+],
+[
+"comparative-recoil-orthogonal-echo-inward",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"comparative-recoil-orthogonal-echo-inward",
+"scandinavian-business-banter-is-carrier-wave"
+],
+[
+"confidence-conviction-nci-operational-definitions",
+"run-5-verb-loop-before-opining"
+],
+[
+"confidence-conviction-nci-operational-definitions",
+"kinematic-manifold-two-zone-code-wins"
+],
+[
+"consult-before-frontend-design",
+"surface-affordances-proactively"
+],
+[
+"consult-before-frontend-design",
+"cut-not-add-provable-architecture"
+],
+[
+"consult-before-frontend-design",
+"cook-temp-for-the-job-deductive"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"tao-as-object-level-taxonomy-of-problem-space"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"project_yuri_kleban_google"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"kinematic-manifold-two-zone-code-wins"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"enforcement-parity-ledger-adr-033"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"control-integrity-described-vs-wired"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"arcs-logo-lineage-positioning"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"recoil-as-second-product-surface"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"control-integrity-described-vs-wired"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"arcs-logo-mobius-horizon-mark"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"cut-not-add-provable-architecture"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"cut-not-add-provable-architecture"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"control-integrity-described-vs-wired"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"control-integrity-described-vs-wired"
+],
+[
+"context-manifold-as-model-agnostic-attractor-basin",
+"arcs-hedged-parallel-path-b2c-b2b"
+],
+[
+"control-integrity-described-vs-wired",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"control-integrity-described-vs-wired",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"control-integrity-described-vs-wired",
+"run-5-verb-loop-before-opining"
+],
+[
+"control-integrity-described-vs-wired",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"cook-temp-for-the-job-deductive",
+"cut-not-add-provable-architecture"
+],
+[
+"cook-temp-for-the-job-deductive",
+"surface-affordances-proactively"
+],
+[
+"corpus-atlas-pilot-louisville",
+"milestone-artifact-engine"
+],
+[
+"corpus-atlas-pilot-louisville",
+"seed-monetization-free-to-hold-metered-to-fire"
+],
+[
+"corpus-atlas-pilot-louisville",
+"counterpart-pseudonym-key-public-artifacts"
+],
+[
+"corpus-atlas-pilot-louisville",
+"atg-offshoot-artifacts-comet-resume-session"
+],
+[
+"corpus-atlas-pilot-louisville",
+"plan-generalize-omakase-site"
+],
+[
+"cost-efficiency-global-goal",
+"vercel-deploy-efficiency-rules"
+],
+[
+"cost-efficiency-global-goal",
+"vercel-ignored-build-step-was-inverted"
+],
+[
+"cost-efficiency-global-goal",
+"vercel-config-via-cli-token-rest-api"
+],
+[
+"cost-efficiency-global-goal",
+"cut-not-add-provable-architecture"
+],
+[
+"cost-leaks-ruin-vector-no-silent-toggle-regression",
+"cost-efficiency-global-goal"
+],
+[
+"cost-leaks-ruin-vector-no-silent-toggle-regression",
+"vercel-ignored-build-step-was-inverted"
+],
+[
+"cost-leaks-ruin-vector-no-silent-toggle-regression",
+"control-integrity-described-vs-wired"
+],
+[
+"cost-leaks-ruin-vector-no-silent-toggle-regression",
+"deploy-antipattern-grep-verified-ui"
+],
+[
+"counterpart-codex-recoil-seed-pattern",
+"internal-external-artifact-air-gap"
+],
+[
+"counterpart-codex-recoil-seed-pattern",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"counterpart-codex-recoil-seed-pattern",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"counterpart-codex-recoil-seed-pattern",
+"feedback_worktree_deploy_regression"
+],
+[
+"counterpart-codex-recoil-seed-pattern",
+"project_robin_daniels_zensai"
+],
+[
+"counterpart-forge-pipeline",
+"counterpart-vantage-premortem"
+],
+[
+"counterpart-forge-pipeline",
+"temporal-chain-of-custody-fact-vs-fiction"
+],
+[
+"counterpart-forge-pipeline",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"counterpart-forge-pipeline",
+"internal-external-artifact-air-gap"
+],
+[
+"counterpart-forge-pipeline",
+"counterpart-codex-recoil-seed-pattern"
+],
+[
+"counterpart-forge-pipeline",
+"recoil-brief-ssot-cli"
+],
+[
+"counterpart-forge-pipeline",
+"recoil-brief-ssot-cli"
+],
+[
+"counterpart-pseudonym-key-public-artifacts",
+"internal-external-artifact-air-gap"
+],
+[
+"counterpart-pseudonym-key-public-artifacts",
+"fanatics-artifact-security-constraints"
+],
+[
+"counterpart-pseudonym-key-public-artifacts",
+"counterpart-forge-pipeline"
+],
+[
+"counterpart-pseudonym-key-public-artifacts",
+"subdomain-html-hosting-workflow"
+],
+[
+"counterpart-vantage-premortem",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"counterpart-vantage-premortem",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"counterpart-vantage-premortem",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"counterpart-vantage-premortem",
+"counterpart-forge-pipeline"
+],
+[
+"counterpart-vantage-premortem",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"craft-hardening-self-reliance-is-net-positive",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"craft-hardening-self-reliance-is-net-positive",
+"prepaid-reflexes-tier-descent"
+],
+[
+"craft-hardening-self-reliance-is-net-positive",
+"cut-not-add-provable-architecture"
+],
+[
+"cut-not-add-provable-architecture",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"cut-not-add-provable-architecture",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"cut-not-add-provable-architecture",
+"surface-affordances-proactively"
+],
+[
+"deliverable-durability-local-first-not-hosted",
+"vercel-ignored-build-step-was-inverted"
+],
+[
+"deploy-antipattern-grep-verified-ui",
+"cost-efficiency-global-goal"
+],
+[
+"deploy-antipattern-grep-verified-ui",
+"feedback_head_first_verify_before_render"
+],
+[
+"design-for-arriving-cognitive-state",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"design-for-arriving-cognitive-state",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"design-for-arriving-cognitive-state",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"design-for-arriving-cognitive-state",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"design-full-width-lede-matches-heading",
+"arcs-fieldos-design-system"
+],
+[
+"design-full-width-lede-matches-heading",
+"consult-before-frontend-design"
+],
+[
+"design-full-width-lede-matches-heading",
+"deploy-antipattern-grep-verified-ui"
+],
+[
+"dollar-compression-over-token-compression",
+"gauntlet-sampling-engine-priced-audits"
+],
+[
+"dollar-compression-over-token-compression",
+"cost-efficiency-global-goal"
+],
+[
+"dollar-compression-over-token-compression",
+"model-tier-routing-locked-principle"
+],
+[
+"dollar-compression-over-token-compression",
+"witness-trigger-attest-in-the-moment"
+],
+[
+"dont-confabulate-timestamps-verify-with-date",
+"btw-gambit-multiwindow-fork-failure-modes"
+],
+[
+"dont-trust-subagent-citation-without-checking",
+"run-5-verb-loop-before-opining"
+],
+[
+"dont-trust-subagent-citation-without-checking",
+"loki-test-before-not-after-commit"
+],
+[
+"drift-receipt-loop-and-inchworm",
+"enforcement-parity-ledger-adr-033"
+],
+[
+"drift-receipt-loop-and-inchworm",
+"never-merge-on-red-x-verify-check-conclusions"
+],
+[
+"drift-receipt-loop-and-inchworm",
+"per-tenant-field-truth-inward-client-facing"
+],
+[
+"drift-receipt-loop-and-inchworm",
+"git-is-the-write-lock-untracked-is-the-gap"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"cut-not-add-provable-architecture"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"counterpart-vantage-premortem"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"author-cosmology-over-guest-design-risk"
+],
+[
+"earned-fidelity-not-maximal-diamond-cut",
+"counterpart-forge-pipeline"
+],
+[
+"enforcement-parity-ledger-adr-033",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"external-artifact-eval-ground-and-skeptic-route",
+"control-integrity-described-vs-wired"
+],
+[
+"external-artifact-eval-ground-and-skeptic-route",
+"run-5-verb-loop-before-opining"
+],
+[
+"external-artifact-eval-ground-and-skeptic-route",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"external-artifact-eval-ground-and-skeptic-route",
+"feedback_head_first_verify_before_render"
+],
+[
+"fact-check-final-pass-vs-transcript",
+"internal-external-artifact-air-gap"
+],
+[
+"fact-check-final-pass-vs-transcript",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"feedback_commit_to_main_via_worktree",
+"multi-worktree-absolute-path-risk"
+],
+[
+"feedback_conversational_symmetry_let_them_prompt_pivot",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"feedback_conversational_symmetry_let_them_prompt_pivot",
+"active-listening-over-magical-thinking"
+],
+[
+"feedback_conversational_symmetry_let_them_prompt_pivot",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"feedback_followups_affirm_dont_relitigate",
+"feedback_interview_pivot_to_self_promotion"
+],
+[
+"feedback_followups_affirm_dont_relitigate",
+"feedback_room_reading_trigger_checklist"
+],
+[
+"feedback_head_first_verify_before_render",
+"head-first-build-loop"
+],
+[
+"feedback_worktree_deploy_regression",
+"subdomain-html-hosting-workflow"
+],
+[
+"feedback_worktree_deploy_regression",
+"multi-worktree-absolute-path-risk"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"arcs-core-function-opportunity-sizing-prep-shaping"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"cognitive-division-of-labor-pruned-lattice"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"loki-test-before-not-after-commit"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"cook-temp-for-the-job-deductive"
+],
+[
+"fight-or-flight-inverts-signal-noise-classifier",
+"confidence-conviction-nci-operational-definitions"
+],
+[
+"filter-repo-rewrite-all-refs-one-pass",
+"btw-gambit-multiwindow-fork-failure-modes"
+],
+[
+"filter-repo-rewrite-all-refs-one-pass",
+"feedback_commit_to_main_via_worktree"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"model-tier-routing-locked-principle"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"throwaway-context-not-throwaway-learning"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"counterpart-forge-pipeline"
+],
+[
+"fork-when-dense-lossless-cross-session-state",
+"cost-efficiency-global-goal"
+],
+[
+"gauntlet-sampling-engine-priced-audits",
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger"
+],
+[
+"gauntlet-sampling-engine-priced-audits",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"gauntlet-sampling-engine-priced-audits",
+"dollar-compression-over-token-compression"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"counterpart-vantage-premortem"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"counterpart-forge-pipeline"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"author-cosmology-over-guest-design-risk"
+],
+[
+"gauntlet-tuned-to-register-catches-what-detector-cannot",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"git-is-the-write-lock-untracked-is-the-gap",
+"canon-collision-escalate-never-resolve-under-write-lock"
+],
+[
+"git-is-the-write-lock-untracked-is-the-gap",
+"cheap-tripwire-before-expensive-jtbd"
+],
+[
+"git-is-the-write-lock-untracked-is-the-gap",
+"feedback_worktree_deploy_regression"
+],
+[
+"git-is-the-write-lock-untracked-is-the-gap",
+"multi-worktree-absolute-path-risk"
+],
+[
+"git-is-the-write-lock-untracked-is-the-gap",
+"control-integrity-described-vs-wired"
+],
+[
+"github-profile-pins-no-api",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"head-first-build-loop",
+"surface-affordances-proactively"
+],
+[
+"head-first-build-loop",
+"cut-not-add-provable-architecture"
+],
+[
+"hero-gradient-clause-owns-line-two",
+"design-full-width-lede-matches-heading"
+],
+[
+"hero-gradient-clause-owns-line-two",
+"arcs-fieldos-design-system"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"active-listening-over-magical-thinking"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"arcs-logo-lineage-positioning"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"control-integrity-described-vs-wired"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"arcs-core-function-opportunity-sizing-prep-shaping"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"active-listening-over-magical-thinking"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"arcs-logo-lineage-positioning"
+],
+[
+"icp-is-a-state-not-a-segment-catch-in-caught-breath",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"internal-external-artifact-air-gap",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"internal-external-artifact-air-gap",
+"fanatics-artifact-security-constraints"
+],
+[
+"internal-external-artifact-air-gap",
+"confidence-conviction-nci-operational-definitions"
+],
+[
+"internal-external-artifact-air-gap",
+"project_ahmed_elsamadisi_polyform"
+],
+[
+"jtbd-reuse-existing-tool-before-inventing",
+"tool-fit-marker-convention"
+],
+[
+"jtbd-reuse-existing-tool-before-inventing",
+"cut-not-add-provable-architecture"
+],
+[
+"jtbd-reuse-existing-tool-before-inventing",
+"cost-efficiency-global-goal"
+],
+[
+"jtbd-reuse-existing-tool-before-inventing",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"jtbd-reuse-existing-tool-before-inventing",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"kinematic-manifold-two-zone-code-wins",
+"canon-collision-escalate-never-resolve-under-write-lock"
+],
+[
+"lab-mint-factory",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"lab-mint-factory",
+"design-for-arriving-cognitive-state"
+],
+[
+"lab-mint-factory",
+"counterpart-pseudonym-key-public-artifacts"
+],
+[
+"leadership-diagnose-root-not-condemn-afflicted",
+"seed-reactive-doc-graph-physics"
+],
+[
+"leadership-diagnose-root-not-condemn-afflicted",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"leadership-diagnose-root-not-condemn-afflicted",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"leadership-diagnose-root-not-condemn-afflicted",
+"active-listening-over-magical-thinking"
+],
+[
+"leadership-diagnose-root-not-condemn-afflicted",
+"counterpart-vantage-premortem"
+],
+[
+"mechanical-pass-first-vibes-last",
+"cheap-tripwire-before-expensive-jtbd"
+],
+[
+"mechanical-pass-first-vibes-last",
+"model-tier-routing-locked-principle"
+],
+[
+"mechanical-pass-first-vibes-last",
+"cook-temp-for-the-job-deductive"
+],
+[
+"mechanical-pass-first-vibes-last",
+"adaptive-rhetorical-resonance"
+],
+[
+"mechanical-pass-first-vibes-last",
+"deploy-antipattern-grep-verified-ui"
+],
+[
+"mechanical-pass-first-vibes-last",
+"feedback_head_first_verify_before_render"
+],
+[
+"mechanical-pass-first-vibes-last",
+"sprezzatura-studied-carelessness-buoyant-flow"
+],
+[
+"mechanical-pass-first-vibes-last",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"mechanical-pass-first-vibes-last",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"mechanical-pass-first-vibes-last",
+"never-merge-on-red-x-verify-check-conclusions"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-logo-lineage-positioning"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-product-architecture-not-a-fork"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-logo-mobius-horizon-mark"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-logo-lineage-positioning"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"met-at-your-level-onramp-design-principle",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"milestone-artifact-engine",
+"souvenir-ship-ritual"
+],
+[
+"milestone-artifact-engine",
+"deliverable-durability-local-first-not-hosted"
+],
+[
+"milestone-artifact-engine",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"milestone-artifact-engine",
+"design-for-arriving-cognitive-state"
+],
+[
+"milestone-artifact-engine",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"model-tier-routing-locked-principle",
+"cost-leaks-ruin-vector-no-silent-toggle-regression"
+],
+[
+"model-tier-routing-locked-principle",
+"prepaid-reflexes-tier-descent"
+],
+[
+"model-tier-routing-locked-principle",
+"cost-efficiency-global-goal"
+],
+[
+"never-merge-on-red-x-verify-check-conclusions",
+"control-integrity-described-vs-wired"
+],
+[
+"only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"arcs-is-an-active-listening-aid"
+],
+[
+"only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"earned-fidelity-not-maximal-diamond-cut"
+],
+[
+"only-a-diamond-cuts-a-diamond-instrument-vs-real",
+"arcs-vision-carrier-swell-surf-anti-binary-positioning"
+],
+[
+"opposing-abductive-folksonomy-vs-taxonomy-overfit",
+"cognitive-division-of-labor-pruned-lattice"
+],
+[
+"opposing-abductive-folksonomy-vs-taxonomy-overfit",
+"cook-temp-for-the-job-deductive"
+],
+[
+"opposing-abductive-folksonomy-vs-taxonomy-overfit",
+"run-5-verb-loop-before-opining"
+],
+[
+"orthogonal-echo-proof-point",
+"verify-flags-against-full-source"
+],
+[
+"orthogonal-echo-proof-point",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"orthogonal-echo-proof-point",
+"resume-tailor-skill-v0.2-field-tested"
+],
+[
+"oss-family-distribution-registry",
+"oss-family-seedbank-two-tier-conformance"
+],
+[
+"oss-family-distribution-registry",
+"temporal-chain-of-custody-fact-vs-fiction"
+],
+[
+"oss-family-founder-led-growth-surface",
+"oss-family-seedbank-two-tier-conformance"
+],
+[
+"oss-family-founder-led-growth-surface",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"oss-family-founder-led-growth-surface",
+"recoil-as-second-product-surface"
+],
+[
+"oss-family-seedbank-two-tier-conformance",
+"seed-bank-germination-conditions"
+],
+[
+"oss-family-seedbank-two-tier-conformance",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"oss-family-seedbank-two-tier-conformance",
+"lab-mint-factory"
+],
+[
+"oss-family-seedbank-two-tier-conformance",
+"build-reusable-decomposable-interoperable-default"
+],
+[
+"outbound-comms-draft-first-links-as-anchors",
+"control-integrity-described-vs-wired"
+],
+[
+"outbound-comms-draft-first-links-as-anchors",
+"verify-flags-against-full-source"
+],
+[
+"outbound-comms-draft-first-links-as-anchors",
+"never-merge-on-red-x-verify-check-conclusions"
+],
+[
+"outbound-comms-draft-first-links-as-anchors",
+"deploy-antipattern-grep-verified-ui"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"internal-external-artifact-air-gap"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"render-fidelity-is-two-way-imprint"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"arcs-coaching-exoskeleton-gtm-wedge"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"recoil-as-second-product-surface"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"counterpart-forge-pipeline"
+],
+[
+"per-tenant-field-truth-inward-client-facing",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"plan-generalize-omakase-site",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"prepaid-reflexes-tier-descent",
+"throwaway-context-not-throwaway-learning"
+],
+[
+"prepaid-reflexes-tier-descent",
+"sprezzatura-studied-carelessness-buoyant-flow"
+],
+[
+"prepaid-reflexes-tier-descent",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"prepaid-reflexes-tier-descent",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"prepaid-reflexes-tier-descent",
+"cognitive-division-of-labor-pruned-lattice"
+],
+[
+"prepaid-reflexes-tier-descent",
+"cost-efficiency-global-goal"
+],
+[
+"prepaid-reflexes-tier-descent",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"preview-serves-root-branch-trap",
+"multi-worktree-absolute-path-risk"
+],
+[
+"preview-serves-root-branch-trap",
+"feedback_worktree_deploy_regression"
+],
+[
+"preview-serves-root-branch-trap",
+"feedback_head_first_verify_before_render"
+],
+[
+"prl-sugar-zapier-sandbox-integration",
+"project_todd_hotes_prl_resins"
+],
+[
+"prl-vendor-artifacts-coupled-pair",
+"prl-sugar-zapier-sandbox-integration"
+],
+[
+"prl-vendor-artifacts-coupled-pair",
+"internal-external-artifact-air-gap"
+],
+[
+"prl-vendor-artifacts-coupled-pair",
+"mechanical-pass-first-vibes-last"
+],
+[
+"profile-scan-document-shape-in-repo",
+"arcs-fieldos-design-system"
+],
+[
+"project-open-source-skills-queue",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"project-open-source-skills-queue",
+"cut-not-add-provable-architecture"
+],
+[
+"project-open-source-skills-queue",
+"surface-affordances-proactively"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"feedback_call_brief_pattern"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"internal-external-artifact-air-gap"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"souvenir-ship-ritual"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"deliverable-durability-local-first-not-hosted"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"writing-style-email"
+],
+[
+"project_ahmed_elsamadisi_polyform",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"project_kam_palizban_ascendancy",
+"verify-flags-against-full-source"
+],
+[
+"project_kam_palizban_ascendancy",
+"arcs-product-marketing-legibility-gap"
+],
+[
+"project_meridian_cco",
+"arcs-fieldos-design-system"
+],
+[
+"project_meridian_cco",
+"cook-temp-for-the-job-deductive"
+],
+[
+"project_meridian_cco",
+"consult-before-frontend-design"
+],
+[
+"project_prophet_maia_technical_pm",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"project_prophet_maia_technical_pm",
+"consult-before-frontend-design"
+],
+[
+"project_prophet_maia_technical_pm",
+"feedback_worktree_deploy_regression"
+],
+[
+"project_prophet_maia_technical_pm",
+"cut-not-add-provable-architecture"
+],
+[
+"project_prophet_maia_technical_pm",
+"audience-model-derivation-rule"
+],
+[
+"project_robin_daniels_zensai",
+"counterpart-codex-recoil-seed-pattern"
+],
+[
+"project_robin_daniels_zensai",
+"scandinavian-business-banter-is-carrier-wave"
+],
+[
+"project_robin_daniels_zensai",
+"arcs-is-an-active-listening-aid"
+],
+[
+"project_robin_daniels_zensai",
+"comparative-recoil-orthogonal-echo-inward"
+],
+[
+"project_todd_hotes_prl_resins",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"project_todd_hotes_prl_resins",
+"feedback_worktree_deploy_regression"
+],
+[
+"project_todd_hotes_prl_resins",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"project_todd_hotes_prl_resins",
+"internal-external-artifact-air-gap"
+],
+[
+"project_todd_hotes_prl_resins",
+"static-public-files-worldreadable-client-gates-theater"
+],
+[
+"project_todd_hotes_prl_resins",
+"internal-external-artifact-air-gap"
+],
+[
+"project_todd_hotes_prl_resins",
+"feedback_followups_affirm_dont_relitigate"
+],
+[
+"project_yuri_kleban_google",
+"active-listening-over-magical-thinking"
+],
+[
+"project_yuri_kleban_google",
+"recoil-brief-ssot-cli"
+],
+[
+"project_yuri_kleban_google",
+"internal-external-artifact-air-gap"
+],
+[
+"project_yuri_kleban_google",
+"active-listening-over-magical-thinking"
+],
+[
+"project_yuri_kleban_google",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"project_yuri_kleban_google",
+"counterpart-vantage-premortem"
+],
+[
+"project_yuri_kleban_google",
+"earned-fidelity-not-maximal-diamond-cut"
+],
+[
+"publish-requires-pii-gate-before-not-after",
+"craft-hardening-self-reliance-is-net-positive"
+],
+[
+"publish-requires-pii-gate-before-not-after",
+"counterpart-pseudonym-key-public-artifacts"
+],
+[
+"publish-requires-pii-gate-before-not-after",
+"internal-external-artifact-air-gap"
+],
+[
+"recoil-as-second-product-surface",
+"arcs-v9-user-facing-copy-locations"
+],
+[
+"recoil-as-second-product-surface",
+"arcs-product-architecture-not-a-fork"
+],
+[
+"recoil-brief-ssot-cli",
+"internal-external-artifact-air-gap"
+],
+[
+"reflexiveness-is-prepaid-prep-as-enrichment",
+"arcs-plg-onramp-mindset-filter"
+],
+[
+"reflexiveness-is-prepaid-prep-as-enrichment",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"adaptive-rhetorical-resonance"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"met-at-your-level-onramp-design-principle"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"earned-fidelity-not-maximal-diamond-cut"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"design-for-arriving-cognitive-state"
+],
+[
+"render-fidelity-is-two-way-imprint",
+"arcs-is-an-active-listening-aid"
+],
+[
+"resume-tailor-skill-v0.2-field-tested",
+"orthogonal-echo-proof-point"
+],
+[
+"resume-tailor-skill-v0.2-field-tested",
+"resume-tailor-voice-from-linkedin-export"
+],
+[
+"resume-tailor-skill-v0.2-field-tested",
+"compaction-serialization-substrate-public-good"
+],
+[
+"resume-tailor-skill-v0.2-field-tested",
+"prepaid-reflexes-tier-descent"
+],
+[
+"resume-tailor-voice-from-linkedin-export",
+"writing-avoid-emdashes-plain-language"
+],
+[
+"resume-tailor-voice-from-linkedin-export",
+"adaptive-rhetorical-resonance"
+],
+[
+"resume-tailor-voice-from-linkedin-export",
+"audience-model-derivation-rule"
+],
+[
+"resume-tailor-voice-from-linkedin-export",
+"resume-tailor-skill-v0.2-field-tested"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"sprezzatura-studied-carelessness-buoyant-flow"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"feedback_conversational_symmetry_let_them_prompt_pivot"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"icp-is-a-state-not-a-segment-catch-in-caught-breath"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"fight-or-flight-inverts-signal-noise-classifier"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"active-listening-over-magical-thinking"
+],
+[
+"scandinavian-business-banter-is-carrier-wave",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"seed-bank-germination-conditions",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"seed-bank-germination-conditions",
+"compaction-serialization-substrate-public-good"
+],
+[
+"seed-bank-germination-conditions",
+"throwaway-context-not-throwaway-learning"
+],
+[
+"seed-bank-germination-conditions",
+"prepaid-reflexes-tier-descent"
+],
+[
+"seed-bank-germination-conditions",
+"drift-receipt-loop-and-inchworm"
+],
+[
+"seed-monetization-free-to-hold-metered-to-fire",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"seed-monetization-free-to-hold-metered-to-fire",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"seed-monetization-free-to-hold-metered-to-fire",
+"seed-bank-germination-conditions"
+],
+[
+"seed-reactive-doc-graph-physics",
+"git-is-the-write-lock-untracked-is-the-gap"
+],
+[
+"seed-reactive-doc-graph-physics",
+"model-tier-routing-locked-principle"
+],
+[
+"seed-reactive-doc-graph-physics",
+"confidence-conviction-nci-operational-definitions"
+],
+[
+"seed-reactive-doc-graph-physics",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"seed-reactive-doc-graph-physics",
+"counterpart-vantage-premortem"
+],
+[
+"seed-reactive-doc-graph-physics",
+"mechanical-pass-first-vibes-last"
+],
+[
+"seed-reactive-doc-graph-physics",
+"arcs-magnetic-best-fit-simulated-annealing"
+],
+[
+"seed-reactive-doc-graph-physics",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"seed-reactive-doc-graph-physics",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"seed-reactive-doc-graph-physics",
+"tao-as-object-level-taxonomy-of-problem-space"
+],
+[
+"seed-reactive-doc-graph-physics",
+"compaction-serialization-substrate-public-good"
+],
+[
+"seed-reactive-doc-graph-physics",
+"drift-receipt-loop-and-inchworm"
+],
+[
+"seed-reactive-doc-graph-physics",
+"prl-vendor-artifacts-coupled-pair"
+],
+[
+"seed-tao-of-arcs-dormant-potential-vox-animus",
+"seed-bank-germination-conditions"
+],
+[
+"seed-tao-of-arcs-dormant-potential-vox-animus",
+"seed-bank-germination-conditions"
+],
+[
+"seed-tao-of-arcs-dormant-potential-vox-animus",
+"compaction-serialization-substrate-public-good"
+],
+[
+"sprezzatura-studied-carelessness-buoyant-flow",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"sprezzatura-studied-carelessness-buoyant-flow",
+"feedback_conversational_symmetry_let_them_prompt_pivot"
+],
+[
+"sprezzatura-studied-carelessness-buoyant-flow",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"static-public-files-worldreadable-client-gates-theater",
+"internal-external-artifact-air-gap"
+],
+[
+"static-public-files-worldreadable-client-gates-theater",
+"fanatics-artifact-security-constraints"
+],
+[
+"static-public-files-worldreadable-client-gates-theater",
+"arcs-v9-repo-now-private-status-links-broken"
+],
+[
+"subdomain-html-hosting-workflow",
+"multi-worktree-absolute-path-risk"
+],
+[
+"subdomain-routing-authority-is-proxy-ts",
+"preview-serves-root-branch-trap"
+],
+[
+"supabase-rls-hides-rows-from-new-roles",
+"vercel-cli-debugging-gotchas"
+],
+[
+"surface-affordances-proactively",
+"cut-not-add-provable-architecture"
+],
+[
+"tao-as-object-level-taxonomy-of-problem-space",
+"arcs-core-function-opportunity-sizing-prep-shaping"
+],
+[
+"tao-as-object-level-taxonomy-of-problem-space",
+"opposing-abductive-folksonomy-vs-taxonomy-overfit"
+],
+[
+"temporal-chain-of-custody-fact-vs-fiction",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"temporal-chain-of-custody-fact-vs-fiction",
+"earned-fidelity-not-maximal-diamond-cut"
+],
+[
+"temporal-chain-of-custody-fact-vs-fiction",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"temporal-chain-of-custody-fact-vs-fiction",
+"recoil-as-second-product-surface"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"prepaid-reflexes-tier-descent"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"context-manifold-as-model-agnostic-attractor-basin"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"seed-tao-of-arcs-dormant-potential-vox-animus"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"zach-cognition-theory-to-tested-wisdom-loop"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"brand-promise-refusal-to-overclaim"
+],
+[
+"three-modes-inference-corroboration-arc-weld",
+"artifact-hardening-gauntlet-epochs-kintsugi-ledger"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"tool-fit-marker-convention"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"arcs-purpose-inherit-tacit-wisdom-first-author-not-last"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"arcs-assumes-stateful-human-memory-needs-rewarming"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"cognitive-division-of-labor-pruned-lattice"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"cost-efficiency-global-goal"
+],
+[
+"throwaway-context-not-throwaway-learning",
+"cost-leaks-ruin-vector-no-silent-toggle-regression"
+],
+[
+"tool-fit-marker-convention",
+"arcs-full-loop-canonical"
+],
+[
+"tool-fit-marker-convention",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"tool-fit-marker-convention",
+"cut-not-add-provable-architecture"
+],
+[
+"tool-fit-marker-convention",
+"control-integrity-described-vs-wired"
+],
+[
+"tool-fit-marker-convention",
+"cognitive-division-of-labor-pruned-lattice"
+],
+[
+"vercel-analytics-live-mcp-tool-404s",
+"verify-domain-topology-live-not-from-memory"
+],
+[
+"vercel-config-via-cli-token-rest-api",
+"vercel-deploy-efficiency-rules"
+],
+[
+"vercel-config-via-cli-token-rest-api",
+"vercel-analytics-live-mcp-tool-404s"
+],
+[
+"vercel-deploy-efficiency-rules",
+"vercel-analytics-live-mcp-tool-404s"
+],
+[
+"vercel-deploy-efficiency-rules",
+"feedback_worktree_deploy_regression"
+],
+[
+"vercel-ignored-build-step-was-inverted",
+"vercel-deploy-efficiency-rules"
+],
+[
+"vercel-ignored-build-step-was-inverted",
+"vercel-config-via-cli-token-rest-api"
+],
+[
+"verify-domain-topology-live-not-from-memory",
+"arcs-v9-arcs-care-domain-consolidation"
+],
+[
+"verify-flags-against-full-source",
+"fact-check-final-pass-vs-transcript"
+],
+[
+"verify-flags-against-full-source",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"verify-flags-against-full-source",
+"dont-trust-subagent-citation-without-checking"
+],
+[
+"verify-flags-against-full-source",
+"gauntlet-tuned-to-register-catches-what-detector-cannot"
+],
+[
+"verify-flags-against-full-source",
+"never-merge-on-red-x-verify-check-conclusions"
+],
+[
+"verify-flags-against-full-source",
+"counterpart-forge-pipeline"
+],
+[
+"witness-trigger-attest-in-the-moment",
+"temporal-chain-of-custody-fact-vs-fiction"
+],
+[
+"writing-avoid-emdashes-plain-language",
+"writing-style-email"
+],
+[
+"writing-avoid-emdashes-plain-language",
+"arcs-v9-user-facing-copy-locations"
+],
+[
+"zach-cognition-multithreaded-synthesizer",
+"run-5-verb-loop-before-opining"
+],
+[
+"zach-cognition-multithreaded-synthesizer",
+"cut-not-add-provable-architecture"
+],
+[
+"zach-cognition-multithreaded-synthesizer",
+"head-first-build-loop"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"mechanical-pass-first-vibes-last"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"seed-reactive-doc-graph-physics"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"arcs-invariant-fractal-shape-of-the-polyform"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"arcs-full-loop-canonical"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"zach-north-star-resonance-gradient-field"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"run-5-verb-loop-before-opining"
+],
+[
+"zach-cognition-theory-to-tested-wisdom-loop",
+"reflexiveness-is-prepaid-prep-as-enrichment"
+],
+[
+"zach-north-star-resonance-gradient-field",
+"zach-cognition-multithreaded-synthesizer"
+],
+[
+"zach-north-star-resonance-gradient-field",
+"external-artifact-eval-ground-and-skeptic-route"
+],
+[
+"zach-north-star-resonance-gradient-field",
+"cut-not-add-provable-architecture"
+],
+[
+"zach-north-star-resonance-gradient-field",
+"active-listening-over-magical-thinking"
+]
 ]
 },
 "recoil": [

@@ -46,12 +46,29 @@
   .row .k{font-family:var(--mono);font-size:.7rem;color:var(--cyan);white-space:nowrap}
   .row .t{color:var(--fg1);min-width:0}
   .row .d{font-family:var(--mono);font-size:.68rem;color:var(--fg4);white-space:nowrap;font-variant-numeric:tabular-nums}
-  .row.fog{opacity:.32;filter:blur(.6px) grayscale(.6)}
+  /* Chronos: --f is distance from irrefutable (0 nascent … 1 sound). Unborn things are not drawn. */
+  .row{--f:1;opacity:calc(.38 + .62*var(--f));filter:blur(calc((1 - var(--f))*3.4px));letter-spacing:calc((1 - var(--f))*.022em);font-weight:calc(300 + 200*var(--f))}
+  .row .t{font-weight:inherit}
+  .row.unborn{display:none}
+  @media (prefers-reduced-motion:no-preference){.row.nascent{animation:wobble 5.5s ease-in-out infinite}}
+  @keyframes wobble{0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(.5px,-.4px) rotate(.12deg)}65%{transform:translate(-.5px,.4px) rotate(-.12deg)}}
+  .row:hover{--f:1;animation:none}
+  .rows.void::after{content:"Nothing here exists yet at this now. Move the rail forward.";display:block;font-family:var(--serif);font-style:italic;color:var(--fg3);padding:10px 2px}
   .row .st{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg3)}
   .row.open{background:rgba(17,24,39,.95);border-color:var(--border-hi)}
   .row .more{display:none;grid-column:1/-1;font-size:.86rem;color:var(--fg2);border-top:1px dashed var(--border);padding-top:8px;margin-top:4px}
-  .row.open .more{display:block}
-  .row.clickable{cursor:pointer}
+  .row.open .more.mol,.row.open .more.ctl{display:block}
+  .row.deep .more.org{display:block}
+  .row.deep .more.mol .drill.go{display:none}
+  .row[data-depth="1"],.row[data-depth="2"]{cursor:pointer}
+  .row .more.mol{border-left:2px solid var(--green);padding-left:12px}
+  .row .more.org{border-left:2px solid var(--gold);padding-left:12px}
+  .drill{appearance:none;font:600 .7rem var(--mono);letter-spacing:.06em;border:1px solid var(--border-hi);background:transparent;color:var(--fg2);border-radius:5px;padding:5px 10px;cursor:pointer;margin-top:6px}
+  .drill.go{border-color:var(--gold);color:var(--gold)}
+  .drill.go:hover{background:rgba(255,215,0,.08)}
+  .drill.back:hover{border-color:var(--fg2);color:var(--fg1)}
+  .row .d .drill{margin:0 0 0 8px;padding:2px 7px;font-size:.62rem}
+  .row .more.ctl{border-top:0;padding-top:0;margin-top:2px}
   .row .more dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:0}
   .row .more dt{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--fg4);padding-top:3px}
   .row .more dd{margin:0}
@@ -80,6 +97,28 @@
   .pollen{margin-top:26px;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--fg2);max-width:var(--measure)}
   .pollen small{font-family:var(--mono);font-style:normal;font-size:.64rem;color:var(--fg4);letter-spacing:.08em;margin-left:8px}
 
+  /* explorer */
+  #exwrap{position:relative;border:1px solid var(--border);border-radius:6px;background:radial-gradient(600px 400px at 50% 40%,rgba(0,240,255,.05),transparent 70%),#05080e;overflow:hidden;min-height:420px;height:min(66vh,640px);touch-action:none;user-select:none}
+  #ex{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+  #ex.drag{cursor:grabbing}
+  #exhud{position:absolute;left:10px;top:10px;right:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;pointer-events:none}
+  #exhud>*{pointer-events:auto}
+  .exb{appearance:none;border:1px solid var(--border-hi);background:rgba(13,17,23,.9);color:var(--fg1);font:700 .72rem var(--mono);border-radius:5px;padding:5px 9px;cursor:pointer}
+  .exb:hover{border-color:var(--cyan);color:var(--cyan)}
+  .exb.on{border-color:var(--gold);color:var(--gold)}
+  #exread{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--fg2);background:rgba(13,17,23,.85);border:1px solid var(--border);border-radius:5px;padding:5px 9px;white-space:nowrap}
+  #exread b{color:var(--cyan);font-weight:500}
+  #exmsg{position:absolute;left:10px;bottom:10px;right:10px;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--fg1);background:rgba(2,4,8,.72);border-left:2px solid var(--gold);padding:6px 10px;pointer-events:none;max-width:56ch;text-wrap:pretty}
+  #exside{display:grid;gap:12px;align-content:start;min-width:0}
+  #exsent .th{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:baseline;font-size:.84rem;padding:6px 8px;border:1px solid var(--border);border-radius:4px;background:rgba(17,24,39,.6);cursor:pointer;margin-top:6px}
+  #exsent .th:hover{border-color:var(--gold)}
+  #exsent .th .w{font-family:var(--mono);font-size:.66rem;color:var(--red)}
+  #exsent .th .b{font-family:var(--mono);font-size:.66rem;color:var(--fg4);white-space:nowrap}
+  #exinfo .nb{display:inline-block;font-family:var(--mono);font-size:.68rem;border:1px solid var(--border-hi);border-radius:999px;padding:2px 8px;margin:3px 4px 0 0;cursor:pointer;color:var(--fg2)}
+  #exinfo .nb:hover{border-color:var(--cyan);color:var(--cyan)}
+  #exinfo .nb.x{border-color:rgba(255,215,0,.5)}
+  .exgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px;align-items:start}
+  @media (max-width:860px){.exgrid{grid-template-columns:1fr}}
   /* lattice */
   .latt{width:100%;height:auto;display:block;max-height:70vh}
   .latt text{font-family:var(--mono);font-size:9px;fill:var(--fg3)}
@@ -110,6 +149,13 @@
   #timerail input{width:100%;accent-color:var(--gold)}
   #timerail .now{font-family:var(--mono);font-size:.64rem;color:var(--fg2);display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
   #timerail .now span{white-space:nowrap}
+  .railwrap{position:relative}
+  #ticks{position:absolute;left:8px;right:8px;top:2px;height:10px;pointer-events:none}
+  #ticks i{position:absolute;top:0;width:1px;height:10px;background:var(--fg4);opacity:.7}
+  .chronolegend{display:flex;align-items:baseline;gap:12px;font-family:var(--serif);font-size:.95rem;color:var(--fg1);line-height:1}
+  .chronolegend span{opacity:calc(.38 + .62*var(--f));filter:blur(calc((1 - var(--f))*2.6px));letter-spacing:calc((1 - var(--f))*.03em);font-weight:calc(300 + 300*var(--f));display:inline-block}
+  @media (prefers-reduced-motion:no-preference){.chronolegend .nascent{animation:wobble 5.5s ease-in-out infinite}}
+  .chronolegend em{font-family:var(--mono);font-style:normal;font-size:.62rem;color:var(--fg4);margin-left:auto;white-space:nowrap}
   #timerail .now b{color:var(--gold);font-weight:500}
   @media (max-width:760px){#strip{grid-template-columns:auto 1fr auto;grid-template-rows:auto auto}#timerail{grid-column:1/-1;max-width:none}}
   @media (prefers-reduced-motion:no-preference){#scene.enter{animation:enter .38s ease-out}}
@@ -131,8 +177,9 @@
     <svg id="mob" viewBox="0 0 900 96" role="img" aria-label="Position on the Möbius strip. One turn changes face; two turns return you home."></svg>
     <button class="turn" id="next" aria-label="turn forward">▶</button>
     <div id="timerail">
-      <input id="now" type="range" min="0" max="100" value="100" aria-label="time rail: fog what had not happened yet">
-      <div class="now"><span id="t0"></span><span>now: <b id="tnow"></b></span><span id="t1"></span></div>
+      <div class="railwrap"><div id="ticks" aria-hidden="true"></div><input id="now" type="range" min="0" max="100" value="100" aria-label="Chronos: nothing exists before its date; what is young or unproven renders blurred"></div>
+      <div class="now"><span id="t0"></span><span>now <b id="tnow"></b></span><span id="t1"></span></div>
+      <div class="chronolegend" aria-hidden="true"><span style="--f:.12" class="nascent">receipt</span><span style="--f:.4">receipt</span><span style="--f:.72">receipt</span><span style="--f:1">receipt</span><em id="tunborn"></em></div>
     </div>
   </nav>
 </div>
@@ -160,7 +207,17 @@ let now = null; // ISO date for the time rail
 /* ───────────── helpers ───────────── */
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fog = d => (now && d && d>now) ? ' fog' : '';
+/* Chronos: a thing does not exist before its date; it is born nascent and sharpens as time nurtures it and evidence hardens it. */
+const SOUND={LOCKED:1,GREEN:1,RATIFIED:1,DECIDED:.85,ACCEPTED:.85,YELLOW:.55,FORK:.55,DELTA:.5,DRAFT:.4,PROPOSED:.4,CANDIDATE:.4,RED:.35,SCRATCH:.3,PARADOX:.3};
+function soundOf(...texts){ const s=texts.filter(Boolean).join(' ').toUpperCase(); let best=null; Object.entries(SOUND).forEach(([k,v])=>{ if(s.includes(k)&&(best===null||v>best)) best=v; }); return best===null?.6:best; }
+function chronos(date,sound){ if(!date) return {f:Math.max(.55,sound??.6),unborn:false,nascent:false};
+  if(now&&date>now) return {f:0,unborn:true,nascent:false};
+  const age=now?Math.max(0,(new Date(now)-new Date(date))/86400000):60; const m=1-Math.exp(-age/21); const f=.35*m+.65*(sound??.6);
+  return {f:Math.max(.08,Math.min(1,f)),unborn:false,nascent:f<.5}; }
+function applyChronos(root){ let unborn=0,total=0; (root||document).querySelectorAll('[data-date]').forEach(el=>{ total++; const c=chronos(el.dataset.date||null,el.dataset.sound?+el.dataset.sound:undefined); el.style.setProperty('--f',c.f.toFixed(3)); el.classList.toggle('unborn',c.unborn); el.classList.toggle('nascent',c.nascent); if(c.unborn) unborn++; });
+  (root||document).querySelectorAll('.rows').forEach(g=>{ const rows=[...g.querySelectorAll(':scope > .row')]; g.classList.toggle('void',rows.length>0&&rows.every(r=>r.classList.contains('unborn'))); });
+  const u=document.getElementById('tunborn'); if(u) u.textContent=total===0?'nothing dated in this room':unborn?`${unborn} of ${total} not yet in existence`:`all ${total} dated things exist`; }
+const fog = ()=>'';
 const byDate = (a,b)=>(a.date||'').localeCompare(b.date||'');
 function md(src){ // tiny markdown: headings, tables, blockquotes, paragraphs, inline bold/italic/code/links
   const inl=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1');
@@ -181,7 +238,11 @@ function md(src){ // tiny markdown: headings, tables, blockquotes, paragraphs, i
   }
   return out.join('');
 }
-function row(k,t,d,extra,more,cls){ return `<div class="row${cls||''}${fog(d)}${more?' clickable':''}"><span class="k">${esc(k)}</span><span class="t">${t}${extra?` <span class="st">${esc(extra)}</span>`:''}</span><span class="d">${esc(d||'')}</span>${more?`<div class="more">${more}</div>`:''}</div>`; }
+/* a row is an atom; it can open to a molecule, then unfold to an organism; interrupt collapses it back */
+function row(k,t,d,extra,molecule,organism,sound){
+  const depth=molecule?(organism?2:1):0; const s=sound??soundOf(extra);
+  return `<div class="row" data-depth="${depth}" data-lvl="0"${d?` data-date="${esc(d)}"`:''} data-sound="${s.toFixed(2)}"><span class="k">${esc(k)}</span><span class="t">${t}${extra?` <span class="st">${esc(extra)}</span>`:''}</span><span class="d">${esc(d||'')}${depth?`<button class="drill go" data-go="1">go deeper ▸</button>`:''}</span>${molecule?`<div class="more mol"><p class="lab">L2 · molecule</p>${molecule}${organism?`<button class="drill go" data-go="2">unfold organism ▸</button>`:''}</div>`:''}${organism?`<div class="more org"><p class="lab au">L3 · organism</p>${organism}</div>`:''}${depth?`<div class="more ctl"><button class="drill back" data-go="0">⏸ interrupt · back to atom</button></div>`:''}</div>`;
+}
 function gated(what){ return `<div class="gated"><b>This face is metered.</b> ${esc(what)} lives on the private build. Free to hold, metered to fire: the bank is open, the spark is not. Turn once more and you are home.</div>`; }
 
 /* ───────────── doors: cross-domain lattice edges become passages ───────────── */
@@ -227,6 +288,109 @@ function nodeInfo(id){
   return `<p class="lab">${esc(n.id)} · ${esc(L.strata[n.st]?.label)} · ${esc(L.domains[n.dom]?.label)} · <span class="chip ${esc(n.status)}">${esc(n.status)}</span></p><h3>${esc(n.label)}</h3><p class="what">${esc(n.what)}</p><p class="lab">${deg.length} edges · touches ${doms.size} domain${doms.size===1?'':'s'}${doms.size>=4?' · diamond':''}</p>`;
 }
 
+/* ───────────── the explorer: altitude = zoom · vantage = rotation · fidelity earned by distance · sentinel for the oblique ───────────── */
+const EX=(()=>{
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cv=null,ctx=null,raf=null,G=null,face='public',sel=null,drill=0,auto=true,lastAuto=0,lastUser=0,hover=null,msg='',msgT=0,drag=null,pinch=null,wrap=null;
+  const cam={A:.55,V:-90}, tgt={A:.55,V:-90};
+  const STR=Object.entries(L.strata).map(([k,s])=>({k,label:s.label,r:s.r})).sort((a,b)=>a.r-b.r);
+  const MEMR=1.16;
+  const STATUS_COL={ok:'#00FF9D',true:'#00F0FF',shore:'#ff9d3c',gate:'#FF4D6D',mem:'#7d8fa3'};
+  function build(){
+    const nodes=[],byId={};
+    const byDom={}; L.nodes.forEach(n=>(byDom[n.dom]=byDom[n.dom]||[]).push(n));
+    Object.entries(byDom).forEach(([dom,ns])=>{ const a0=L.domains[dom]?.a??0, spread=58; ns.sort((x,y)=>(L.strata[x.st]?.r||0)-(L.strata[y.st]?.r||0));
+      ns.forEach((n,i)=>{ const o={id:n.id,label:n.label,st:n.st,dom:n.dom,status:n.status,what:n.what,src:'lattice',r:L.strata[n.st]?.r||.5,a:a0-spread/2+spread*((i+.5)/ns.length),deg:0,h:0}; nodes.push(o); byId[o.id]=o; }); });
+    const edges=L.edges.map(([a,b,w])=>({a,b,w,x:byId[a]&&byId[b]&&byId[a].dom!==byId[b].dom}));
+    const src={}; edges.forEach(e=>{ (src[e.b]=src[e.b]||new Set()).add(byId[e.a]?.dom); byId[e.a]&&byId[e.a].deg++; byId[e.b]&&byId[e.b].deg++; });
+    Object.entries(src).forEach(([id,s])=>{ if(byId[id]) byId[id].h=s.size; });
+    if(face==='private'&&W.ziggurat?.ring){ const ring=W.ziggurat.ring, types=[...new Set(ring.map(m=>m.type||m.kind||'?'))].sort(); const per={};
+      ring.forEach(m=>{ const t=m.type||m.kind||'?'; (per[t]=per[t]||[]).push(m); });
+      types.forEach((t,ti)=>{ const a0=-90+360*(ti/types.length), spread=360/types.length*.86; per[t].forEach((m,i)=>{ const o={id:m.id,label:m.id.replace(/-/g,' '),st:'mem',dom:'mem',type:t,status:'mem',what:m.desc,src:'memory',r:MEMR+(i%3)*.045,a:a0+spread*((i+.5)/per[t].length),deg:m.in,h:0,in:m.in}; nodes.push(o); byId[o.id]=o; }); });
+      (W.ziggurat.ring_edges||[]).forEach(([a,b])=>{ if(byId[a]&&byId[b]) edges.push({a,b,w:1,x:false,mem:true}); });
+    }
+    G={nodes,byId,edges};
+  }
+  const maxR=()=>face==='private'&&W.ziggurat?.ring?MEMR+.09:1.0;
+  const focusR=()=>.06+cam.A*(maxR()-.06);
+  const scale=()=>1/(0.16+cam.A*(maxR()-0.16)+.08)*.42;  // the focus band sits at ~42% of the half-size
+  const fid=n=>{ const d=Math.abs(n.r-focusR()); return Math.max(0,1-d/.36); };
+  const rel=n=>((n.a-cam.V)%360+540)%360-180; // -180..180, 0 = front
+  const inView=n=>Math.abs(rel(n))<=70&&fid(n)>.35;
+  const bearing=n=>{ const r=rel(n); return (r>0?'right':'left')+' '+Math.round(Math.abs(r))+'°'; };
+  const stratumAt=r=>{ let best=STR[0]; STR.forEach(s=>{ if(Math.abs(s.r-r)<Math.abs(best.r-r)) best=s; }); return r>1.05&&face==='private'?{label:'MEMORY'}:best; };
+  function threats(){ if(!G) return []; const out=[]; G.nodes.forEach(n=>{ let w=0,why=[]; if(n.status==='gate'){w+=3;why.push('gated')} if(n.status==='shore'){w+=2;why.push('shore · unresolved')} if(n.src==='lattice'&&n.h<=1&&n.st!=='q'){w+=1;why.push('single-domain · fragile')} if(n.src==='memory'&&n.in===0){w+=1;why.push('dangling · nothing declares it')} if(w) out.push({n,w,why:why.join(' · ')}); });
+    return out.sort((a,b)=>b.w-a.w||b.n.deg-a.n.deg); }
+  function lookAt(n){ tgt.V=n.a; tgt.A=Math.max(0,Math.min(1,(n.r-.06)/(maxR()-.06))); }
+  function say(s){ msg=s; msgT=performance.now(); const m=document.getElementById('exmsg'); if(m) m.textContent=s; }
+  function sentinel(now){ const ts=threats(); const oblique=ts.filter(t=>!inView(t.n)); const host=document.getElementById('exsent'); if(host){ host.innerHTML=`<p class="lab au">sentinel · ${oblique.length} of ${ts.length} threat vectors are oblique to this vantage</p>${oblique.slice(0,6).map(t=>`<div class="th" data-id="${esc(t.n.id)}"><span class="w">${'▲'.repeat(Math.min(3,t.w))}</span><span>${esc(t.n.label)} <span class="lab" style="display:inline">${esc(t.why)}</span></span><span class="b">${esc(bearing(t.n))} · ${esc(stratumAt(t.n.r).label)}</span></div>`).join('')||'<p>Nothing is hiding from this vantage.</p>'}`; host.querySelectorAll('.th').forEach(el=>el.addEventListener('click',()=>{ const n=G.byId[el.dataset.id]; if(n){ lookAt(n); select(n); lastUser=performance.now(); } })); }
+    const heavy=oblique.filter(t=>t.w>=2);
+    if(auto&&heavy.length&&now-lastAuto>7000&&now-lastUser>4500){ const t=heavy[0]; lookAt(t.n); lastAuto=now; say(`Turned ${bearing(t.n)} and ${t.n.r>focusR()?'up':'down'} to face ${t.n.label} — ${t.why}.`); } }
+  function select(n){ sel=n; drill=0; info(); }
+  function info(){ const host=document.getElementById('exinfo'); if(!host) return; if(!sel){ host.innerHTML=`<p class="lab">atom · molecule · organism</p><p>Click a node. Go deeper to see what it is; unfold the organism to see what it bonds to. Interrupt to come back up.</p>`; return; }
+    const n=sel; const nb=G.edges.filter(e=>e.a===n.id||e.b===n.id).map(e=>({o:G.byId[e.a===n.id?e.b:e.a],e})).filter(x=>x.o);
+    const atom=`<p class="lab">${esc(n.src==='memory'?'memory · '+(n.type||''):esc(L.strata[n.st]?.label||'')+' · '+esc(L.domains[n.dom]?.label||''))} · <span class="chip ${esc(n.status)}">${esc(n.status==='mem'?'declared':n.status)}</span>${n.h>=4?' · <span class="chip true">diamond</span>':''}</p><h3>${esc(n.label)}</h3>`;
+    const mol=drill>=1?`<div style="border-left:2px solid var(--green);padding-left:12px;margin-top:8px"><p class="lab">L2 · molecule</p><p style="color:var(--fg1)">${esc(n.what||'—')}</p><p class="lab">${nb.length} edges · hardness ${n.h||'—'} · ${esc(bearing(n))} of vantage · ${esc(stratumAt(n.r).label)}</p></div>`:'';
+    const org=drill>=2?`<div style="border-left:2px solid var(--gold);padding-left:12px;margin-top:8px"><p class="lab au">L3 · organism · what it bonds to</p>${nb.sort((x,y)=>y.e.w-x.e.w).map(x=>`<span class="nb${x.e.x?' x':''}" data-id="${esc(x.o.id)}" title="${esc(x.o.what||'')}">${esc(x.o.label)} · ${x.e.w}${x.e.x?' · echo':''}</span>`).join('')||'<p>No declared edges.</p>'}</div>`:'';
+    const ctl=`<div style="margin-top:8px">${drill<2?`<button class="drill go" data-d="${drill+1}">${drill===0?'go deeper ▸':'unfold organism ▸'}</button>`:''}${drill>0?` <button class="drill back" data-d="0">⏸ interrupt · back to atom</button>`:''} <button class="drill" data-look="1">look at it</button></div>`;
+    host.innerHTML=atom+mol+org+ctl;
+    host.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',()=>{ drill=+b.dataset.d; info(); }));
+    host.querySelector('[data-look]')?.addEventListener('click',()=>{ lookAt(n); lastUser=performance.now(); });
+    host.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',()=>{ const o=G.byId[b.dataset.id]; if(o){ select(o); drill=1; info(); lookAt(o); lastUser=performance.now(); } }));
+  }
+  let P={};
+  function draw(now){
+    if(!cv||!G) return; const dpr=window.devicePixelRatio||1; const w=wrap.clientWidth,h=wrap.clientHeight; if(cv.width!==w*dpr||cv.height!==h*dpr){ cv.width=w*dpr; cv.height=h*dpr; }
+    ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+    const k=reduced?1:.12; cam.A+= (tgt.A-cam.A)*k; let dv=((tgt.V-cam.V)%360+540)%360-180; cam.V+=dv*k;
+    const cx=w/2, cy=h*.56, R=Math.min(w,h)*scale(); const rf=focusR();
+    const pt=n=>{ const th=(n.a-cam.V-90)*Math.PI/180; return {x:cx+R*n.r*Math.cos(th),y:cy+R*n.r*Math.sin(th)}; };
+    // view cone
+    ctx.save(); ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,Math.max(w,h),(-90-70)*Math.PI/180,(-90+70)*Math.PI/180); ctx.closePath(); ctx.fillStyle='rgba(0,240,255,.035)'; ctx.fill(); ctx.restore();
+    // strata rings, focus band highlighted
+    STR.concat(face==='private'&&W.ziggurat?.ring?[{label:'MEMORY',r:MEMR}]:[]).forEach(s=>{ const f=Math.max(0,1-Math.abs(s.r-rf)/.36); ctx.beginPath(); ctx.arc(cx,cy,R*s.r,0,Math.PI*2); ctx.strokeStyle=`rgba(148,163,184,${.08+.28*f})`; ctx.lineWidth=f>.7?1.2:.6; ctx.stroke(); ctx.fillStyle=`rgba(148,163,184,${.25+.6*f})`; ctx.font=`${9+3*f}px JetBrains Mono, ui-monospace, monospace`; ctx.textAlign='left'; ctx.fillText(s.label,cx+6,cy-R*s.r-4); });
+    // domain labels around the rim
+    Object.entries(L.domains).forEach(([k,d])=>{ const th=(d.a-cam.V-90)*Math.PI/180; const rr=R*(face==='private'&&W.ziggurat?.ring?MEMR+.16:1.09); const x=cx+rr*Math.cos(th),y=cy+rr*Math.sin(th); const front=Math.abs(((d.a-cam.V)%360+540)%360-180)<=70; ctx.fillStyle=front?'rgba(226,232,240,.9)':'rgba(100,116,139,.6)'; ctx.font=`${front?11:9.5}px JetBrains Mono, ui-monospace, monospace`; ctx.textAlign='center'; ctx.fillText(d.label,x,y+4); });
+    P={}; G.nodes.forEach(n=>{ P[n.id]=pt(n); });
+    // edges
+    G.edges.forEach(e=>{ const A=G.byId[e.a],B=G.byId[e.b]; if(!A||!B) return; const a=P[e.a],b=P[e.b]; const f=Math.min(fid(A),fid(B)); if(f<.05&&!e.mem) return; const hi=sel&&(e.a===sel.id||e.b===sel.id);
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); if(e.mem){ ctx.lineTo(b.x,b.y); } else { ctx.quadraticCurveTo(cx,cy,b.x,b.y); }
+      ctx.strokeStyle=hi?(e.x?'rgba(255,215,0,.9)':'rgba(0,240,255,.9)'):e.mem?`rgba(125,143,163,${.05+.18*f})`:e.x?`rgba(255,215,0,${.06+.3*f})`:`rgba(0,240,255,${.05+.22*f})`; ctx.lineWidth=hi?1.6:(.3+e.w/10); ctx.stroke(); });
+    // nodes
+    const ts=threats(), thSet=new Set(ts.map(t=>t.n.id));
+    const SOUNDN={true:1,ok:.85,shore:.45,gate:.3};
+    G.nodes.forEach(n=>{ const p=P[n.id], f=fid(n), front=Math.abs(rel(n))<=70; const s=n.src==='memory'?Math.min(1,.4+n.in*.1):(SOUNDN[n.status]??.6); let al=(.14+.86*f)*(.55+.45*s); if(!front) al*=.55; const rr=(n.src==='memory'?2+Math.min(4,n.in*.6):3+Math.min(5,n.deg*.35))*(0.7+0.6*f);
+      const blur=(1-f)*6+(1-s)*7; const col=STATUS_COL[n.status]||'#7d8fa3';
+      ctx.globalAlpha=al; ctx.shadowColor=col; ctx.shadowBlur=blur; ctx.beginPath(); ctx.arc(p.x,p.y,rr,0,Math.PI*2); ctx.fillStyle=col; ctx.fill(); ctx.shadowBlur=0;
+      if(thSet.has(n.id)){ ctx.beginPath(); ctx.arc(p.x,p.y,rr+3+2*Math.sin(now/300),0,Math.PI*2); ctx.strokeStyle=n.status==='gate'?'#FF4D6D':'#ff9d3c'; ctx.lineWidth=1; ctx.stroke(); }
+      if(sel&&sel.id===n.id){ ctx.beginPath(); ctx.arc(p.x,p.y,rr+5,0,Math.PI*2); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke(); }
+      if((f>.62&&front)||(sel&&sel.id===n.id)||(hover===n)){ ctx.globalAlpha=Math.max(al,.9); ctx.fillStyle='#e2e8f0'; ctx.font=`${n.h>=4?'700 ':''}${10+2*f}px Inter, system-ui, sans-serif`; ctx.textAlign='left'; ctx.fillText(n.label,p.x+rr+4,p.y+4); }
+      ctx.globalAlpha=1; });
+    // edge arrows toward oblique threats
+    ts.filter(t=>!inView(t.n)).slice(0,6).forEach(t=>{ const p=P[t.n.id]; const dx=p.x-cx,dy=p.y-cy; const L2=Math.hypot(dx,dy)||1; const ux=dx/L2,uy=dy/L2; const ex=cx+ux*Math.min(w*.47,Math.abs(w*.47/ (ux||1e-6))), ey=cy+uy*Math.min(h*.47,Math.abs(h*.47/(uy||1e-6))); const X=Math.max(14,Math.min(w-14,ex)), Y=Math.max(14,Math.min(h-14,ey)); ctx.save(); ctx.translate(X,Y); ctx.rotate(Math.atan2(uy,ux)); ctx.beginPath(); ctx.moveTo(8,0); ctx.lineTo(-6,-5); ctx.lineTo(-6,5); ctx.closePath(); ctx.fillStyle=t.n.status==='gate'?'#FF4D6D':'#ff9d3c'; ctx.fill(); ctx.restore(); });
+    // readout + message fade
+    const rd=document.getElementById('exread'); if(rd){ const s=stratumAt(rf); const front=Object.entries(L.domains).map(([k,d])=>({k,d,off:Math.abs(((d.a-cam.V)%360+540)%360-180)})).sort((a,b)=>a.off-b.off)[0]; rd.innerHTML=`altitude <b>${esc(s.label)}</b> · vantage <b>${Math.round(((cam.V%360)+360)%360)}°</b> ${esc(front?.d.label||'')} · fidelity <b>${cam.A<.3?'SHARP · core':cam.A<.7?'DEGRADED · mid':'GRAIN · rim'}</b>`; }
+    const m=document.getElementById('exmsg'); if(m){ m.style.opacity=String(Math.max(0,1-(now-msgT-6000)/1500)); }
+    if(now-(draw.lastS||0)>900){ draw.lastS=now; sentinel(now); }
+    raf=requestAnimationFrame(draw);
+  }
+  function hit(x,y){ let best=null,bd=14; G.nodes.forEach(n=>{ const p=P[n.id]; if(!p) return; const d=Math.hypot(p.x-x,p.y-y); if(d<bd){ bd=d; best=n; } }); return best; }
+  function bind(){
+    cv.addEventListener('pointerdown',e=>{ cv.setPointerCapture(e.pointerId); drag={x:e.clientX,y:e.clientY,moved:false,id:e.pointerId}; cv.classList.add('drag'); lastUser=performance.now(); });
+    cv.addEventListener('pointermove',e=>{ const r=cv.getBoundingClientRect(); if(drag&&drag.id===e.pointerId){ const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if(Math.abs(dx)+Math.abs(dy)>3) drag.moved=true; tgt.V+=dx*.45; tgt.A=Math.max(0,Math.min(1,tgt.A-dy*.0035)); drag.x=e.clientX; drag.y=e.clientY; lastUser=performance.now(); } else { hover=hit(e.clientX-r.left,e.clientY-r.top); cv.style.cursor=hover?'pointer':'grab'; } });
+    cv.addEventListener('pointerup',e=>{ const r=cv.getBoundingClientRect(); if(drag&&!drag.moved){ const n=hit(e.clientX-r.left,e.clientY-r.top); if(n) select(n); } drag=null; cv.classList.remove('drag'); });
+    cv.addEventListener('pointercancel',()=>{ drag=null; cv.classList.remove('drag'); });
+    cv.addEventListener('wheel',e=>{ e.preventDefault(); tgt.A=Math.max(0,Math.min(1,tgt.A+e.deltaY*.0012)); lastUser=performance.now(); },{passive:false});
+    document.getElementById('exhud').addEventListener('click',e=>{ const b=e.target.closest('[data-ex]'); if(!b) return; lastUser=performance.now(); const k=b.dataset.ex;
+      if(k==='alt-') tgt.A=Math.max(0,tgt.A-.18); else if(k==='alt+') tgt.A=Math.min(1,tgt.A+.18); else if(k==='v-') tgt.V-=45; else if(k==='v+') tgt.V+=45;
+      else if(k==='auto'){ auto=!auto; b.classList.toggle('on',auto); b.textContent='auto-look · '+(auto?'on':'off'); say(auto?'Auto-look on: the camera will swing to face what is oblique. It moves the view, never the decision.':'Auto-look off: the sentinel still lists what is oblique; you turn.'); } });
+  }
+  return {
+    mount(host,f){ if(!host) return; wrap=host; face=f; cv=host.querySelector('#ex'); ctx=cv.getContext('2d'); build(); sel=null; drill=0; bind(); info(); say('You are at mid altitude, facing '+(Object.entries(L.domains).find(([k,d])=>d.a===-90)?.[1].label||'the front')+'. Threat vectors oblique to this vantage are marked at the rim.'); lastAuto=performance.now(); raf=requestAnimationFrame(draw); },
+    unmount(){ if(raf) cancelAnimationFrame(raf); raf=null; cv=null; G=null; wrap=null; },
+  };
+})();
+
 /* ───────────── scenes ───────────── */
 const S={};
 S.threshold = face=>{
@@ -252,7 +416,7 @@ S.compass = face=>{
     <div class="panel wide"><h3>Your autonomy is the point</h3><div class="md">${md(tc.body)}</div></div></div>`; }
   if(!PRIVATE) return gated('The DEWY receipts the compass printed');
   const ds=[...W.dewy].sort(byDate).reverse();
-  return `<div class="cols"><div class="panel wide"><h3>${ds.length} DEWY receipts</h3><p>Each one a frozen coordinate: D the sharpened question, E the entity, W the window, Y the gate. Click to open.</p><div class="rows">${ds.map(d=>row(d.date,esc(d.id),d.date,d.surface,`<p><b>Q</b> ${esc(d.q)}</p><dl><dt>D</dt><dd>${esc(d.D)}</dd><dt>E</dt><dd>${esc(d.E)}</dd><dt>W</dt><dd>${esc(d.W)}</dd><dt>Y</dt><dd>${esc(d.Y)}</dd></dl><p class="lab">${esc(d.file)}</p>`)).join('')}</div></div></div>`;
+  return `<div class="cols"><div class="panel wide"><h3>${ds.length} DEWY receipts</h3><p>Each one a frozen coordinate. Atom: the receipt. Molecule: the sharp question and the D. Organism: E, W, Y and where it lives.</p><div class="rows">${ds.map(d=>row(d.date,esc(d.id),d.date,d.surface,`<p><b>Q</b> ${esc(d.q)}</p><p><b>D</b> ${esc(d.D)}</p>`,`<dl><dt>E</dt><dd>${esc(d.E)}</dd><dt>W</dt><dd>${esc(d.W)}</dd><dt>Y</dt><dd>${esc(d.Y)}</dd></dl><p class="lab">${esc(d.file)}</p>`,soundOf(d.Y))).join('')}</div></div></div>`;
 };
 S.grove = face=>{
   const adrs=[...W.adrs].sort(byDate);
@@ -261,18 +425,18 @@ S.grove = face=>{
   if(!PRIVATE) return gated('The sharp questions behind each decision, and the witness stubs that preceded them');
   const ws=[...W.witness].sort(byDate).reverse();
   return `<div class="cols">
-    <div class="panel"><h3>The questions</h3><div class="rows">${adrs.filter(a=>a.sharp).reverse().map(a=>row(a.id,esc(a.title),a.date,a.status,`<p>${esc(a.sharp)}</p>`)).join('')}</div></div>
-    <div class="panel"><h3>${ws.length} witness stubs</h3><p>The sound the tree made, not a summary. Attested live, promoted later only if durable.</p>${ws.map(w=>`<div class="row${fog(w.date)}" style="grid-template-columns:1fr"><blockquote class="quote" style="margin:0">${esc(w.quote)}<small>${esc(w.ts)} · Y ${esc(w.y||'—')}${w.promoted?' · promoted':''}</small></blockquote>${w.gut?`<p style="margin:6px 0 0;font-size:.84rem;color:var(--fg3)">${esc(w.gut)}</p>`:''}</div>`).join('')}</div></div>`;
+    <div class="panel"><h3>The questions</h3><div class="rows">${adrs.filter(a=>a.sharp).reverse().map(a=>row(a.id,esc(a.title),a.date,a.status,`<p>${esc(a.sharp)}</p>`,`<p class="lab">${esc(a.status)} · ${esc(a.date||'')} · Y ${esc(a.y||'—')}</p><p class="lab">_DECISIONS/${esc(a.file)}</p>`)).join('')}</div></div>
+    <div class="panel"><h3>${ws.length} witness stubs</h3><p>The sound the tree made, not a summary. Attested live, promoted later only if durable.</p><div class="rows">${ws.map(w=>`<div class="row" data-date="${esc(w.date)}" data-sound="${w.promoted?'0.85':soundOf(w.y).toFixed(2)}" style="grid-template-columns:1fr"><blockquote class="quote" style="margin:0">${esc(w.quote)}<small>${esc(w.ts)} · Y ${esc(w.y||'—')}${w.promoted?' · promoted':''}</small></blockquote>${w.gut?`<p style="margin:6px 0 0;font-size:.84rem;color:var(--fg3)">${esc(w.gut)}</p>`:''}</div>`).join('')}</div></div></div>`;
 };
 S.ziggurat = face=>{
-  if(face==='public') return `<div class="cols"><div class="panel wide" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:18px;align-items:start"><div>${latticeSvg()}</div><div id="nodeinfo" class="panel">${nodeInfo(selNode)}</div></div>
-    <div class="panel"><h3>Strata</h3><p>Radius is stratum: ${Object.values(L.strata).map(s=>esc(s.label)).join(' → ')}. Azimuth is domain. Gold arcs are cross-domain echoes: the same shape seen from two faces of the corpus, which is what makes a door.</p></div>
-    <div class="panel"><h3>The satoshi</h3><p>${esc(L.satoshi?.note)}</p><div class="chips">${(L.satoshi?.scales||[]).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div></div></div>`;
-  if(!PRIVATE) return gated('The memory ziggurat: 200+ memory nodes and their declared links');
   const z=W.ziggurat||{};
-  return `<div class="cols"><div class="panel"><h3>The memory ziggurat</h3><p>${z.nodes} nodes · ${z.edges} declared edges · ${z.dangling} dangling declared links · emitted ${esc(z.generated)}. Stratum is echo weight (declared in-degree); no edge invented, declared only.</p></div>
-    <div class="panel"><h3>Load-bearing hubs</h3><div class="rows">${(z.hubs||[]).map(h=>row(String(h.in),esc(h.id),'',[h.kind,h.type].filter(Boolean).join(' · '),`<p>${esc(h.desc)}</p>`)).join('')}</div></div>
-    <div class="panel wide"><h3>Recoil ledgers · ${W.recoil.length}</h3><div class="rows">${[...W.recoil].sort(byDate).reverse().map(r=>row(r.date,esc(r.name),r.date)).join('')}</div></div></div>`;
+  const explorer=`<div class="exgrid"><div id="exwrap"><canvas id="ex"></canvas><div id="exhud"><button class="exb" data-ex="alt-" title="descend (zoom in)">▼ descend</button><button class="exb" data-ex="alt+" title="ascend (zoom out)">▲ ascend</button><button class="exb" data-ex="v-" title="turn vantage left">◀ vantage</button><button class="exb" data-ex="v+" title="turn vantage right">vantage ▶</button><button class="exb on" data-ex="auto" title="auto-look: swing to face oblique threats">auto-look · on</button><span id="exread"></span></div><div id="exmsg"></div></div><div id="exside"><div class="panel" id="exsent"></div><div class="panel" id="exinfo"></div></div></div>`;
+  if(face==='public') return `<div class="cols"><div class="panel wide"><p class="lab au">the explorer · drag to turn the vantage · drag up/down or scroll to change altitude · click a node to drill</p>${explorer}</div>
+    <div class="panel"><h3>Altitude and fidelity</h3><p>Radius is stratum: ${Object.values(L.strata).map(s=>esc(s.label)).join(' → ')}. The band at your altitude renders sharp; every other band renders at the fidelity its distance earns. Azimuth is domain; the vantage is which face of the ziggurat you are looking at.</p></div>
+    <div class="panel"><h3>The sentinel</h3><p>What is oblique to your vantage is listed, with its bearing. Gated and shore nodes, single-domain nodes, and dangling links count as threat vectors. With auto-look on, the camera swings to face the heaviest one you cannot see; it moves the view, never the decision.</p><p>${esc(L.satoshi?.note)}</p></div></div>`;
+  if(!PRIVATE) return gated('The memory ring: 200+ memory nodes and their declared links, drawn beyond the library stratum');
+  return `<div class="cols"><div class="panel wide"><p class="lab au">the explorer · private face · the memory ring is drawn beyond LIBRARY: ${z.nodes} nodes · ${z.edges} declared edges · ${z.dangling} dangling · emitted ${esc(z.generated)}</p>${explorer}</div>
+    <div class="panel wide"><h3>Recoil ledgers · ${W.recoil.length}</h3><div class="rows">${[...W.recoil].sort(byDate).reverse().map(r=>row(r.date,esc(r.name),r.date,'',`<p class="lab">${esc(r.file)}</p>`)).join('')}</div></div></div>`;
 };
 S.trenches = face=>{
   if(face==='public') return `<div class="cols">${W.blog.map(b=>`<div class="panel${b.tier==='full'?' wide':''}"><p class="lab cy">${esc(b.eyebrow||'notes from the trenches')} · ${esc(b.tier)}</p><h3>${esc(b.title)}</h3><p>${esc(b.description||'')}</p>${b.lede?`<p style="font-family:var(--serif);font-size:1.05rem;color:var(--fg1)">${esc(b.lede)}</p>`:''}${b.arc?.stops?.length?`<p class="lab">${esc(b.arc.caption||'the arc')}</p><div class="chips">${b.arc.stops.map(s=>{const t=(b.threads||[]).find(t=>t.id===s.thread);return `<span class="chip" style="border-color:${esc(t?.hex||'var(--border-hi)')};color:${esc(t?.hex||'var(--fg2)')}">${esc(s.label)}</span>`}).join('')}</div>`:''}<p class="lab">${esc(b.file)}</p></div>`).join('')}</div>`;
@@ -310,8 +474,12 @@ function render(){
   $('#hud-theta').textContent=`θ ${pos*DEG}°`;
   const sc=$('#scene'); sc.classList.remove('enter'); void sc.offsetWidth;
   sc.innerHTML=`<p class="lab cy">room ${pos%N+1} of ${N} · ${face} face · ${pos*DEG}° of 720°</p><h1 class="room-title">${esc(room.name).replace(/^The /,'The <em>')}${room.name.startsWith('The ')?'</em>':''}</h1><p class="lede">${room.lede}</p>${S[room.id](face)}${doorsHtml(room)}${pollen(ASPECT[room.id])}`;
-  sc.classList.add('enter'); sc.scrollTop=0;
-  sc.querySelectorAll('.row.clickable').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('a')) return; r.classList.toggle('open'); }));
+  sc.classList.add('enter'); sc.scrollTop=0; applyChronos(sc);
+  sc.querySelectorAll('.row[data-depth]').forEach(r=>{ if(r.dataset.depth==='0') return;
+    const set=l=>{ r.dataset.lvl=String(l); r.classList.toggle('open',l>0); r.classList.toggle('deep',l>1); };
+    r.addEventListener('click',e=>{ const b=e.target.closest('.drill'); if(b){ e.stopPropagation(); set(+b.dataset.go); return; } if(e.target.closest('a')) return; if(r.dataset.lvl==='0') set(1); });
+  });
+  EX.unmount(); if(room.id==='ziggurat'){ EX.mount(sc.querySelector('#exwrap'), face); }
   sc.querySelectorAll('.door').forEach(b=>b.addEventListener('click',()=>{ const i=ROOMS.findIndex(r=>r.id===b.dataset.go); go(i+(pos>=N?N:0)); }));
   sc.querySelectorAll('.latt .n').forEach(g=>g.addEventListener('click',()=>{ selNode=g.dataset.id; sc.querySelectorAll('.latt .n').forEach(x=>x.classList.toggle('sel',x.dataset.id===selNode)); $('#nodeinfo').innerHTML=nodeInfo(selNode); }));
   drawStrip();
@@ -340,8 +508,11 @@ function drawStrip(){
   const d0=new Date(tr[0]), d1=new Date(tr[1]); const days=Math.max(1,Math.round((d1-d0)/86400000));
   const inp=$('#now'); inp.max=days; inp.value=days; $('#t0').textContent=tr[0]; $('#t1').textContent=tr[1];
   const set=()=>{ const d=new Date(d0.getTime()+(+inp.value)*86400000); now=d.toISOString().slice(0,10); $('#tnow').textContent=now+(now>=tr[1]?' · all rendered':' · later is fog'); document.querySelectorAll('.row[class]').forEach(()=>{}); render(); };
-  inp.addEventListener('input',()=>{ const d=new Date(d0.getTime()+(+inp.value)*86400000); now=d.toISOString().slice(0,10); $('#tnow').textContent=now+(now>=tr[1]?' · all rendered':' · later is fog'); document.querySelectorAll('#scene .row').forEach(r=>{ const dd=r.querySelector('.d')?.textContent; if(dd&&/^\d{4}-\d{2}-\d{2}$/.test(dd)) r.classList.toggle('fog',dd>now); }); });
-  now=tr[1]; $('#tnow').textContent=now+' · all rendered';
+  let pending=null;
+  inp.addEventListener('input',()=>{ const d=new Date(d0.getTime()+(+inp.value)*86400000); now=d.toISOString().slice(0,10); $('#tnow').textContent=now; if(!pending) pending=requestAnimationFrame(()=>{ pending=null; applyChronos(document); }); });
+  now=tr[1]; $('#tnow').textContent=now;
+  // epoch ticks on the rail
+  const ticks=$('#ticks'); if(ticks){ const seen=new Set(); W.timeline.filter(t=>t.kind==='epoch').forEach(t=>{ if(seen.has(t.date)) return; seen.add(t.date); const x=100*Math.max(0,Math.min(1,(new Date(t.date)-d0)/(d1-d0))); ticks.insertAdjacentHTML('beforeend',`<i style="left:${x.toFixed(2)}%" title="${esc(t.label)} · ${esc(t.date)}"></i>`); }); }
 })();
 
 try{ const p=+localStorage.getItem('arcs-world-pos'); if(!isNaN(p)&&p>=0&&p<STOPS) pos=p; }catch(e){}

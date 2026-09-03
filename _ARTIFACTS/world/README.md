@@ -15,9 +15,21 @@ works, and ADR-071 already made the ARCS mark a Möbius.
 | The Field Guide | flora/fauna plates | ore + grades |
 | The Spine | the apex spine (Möbius induction circuit) | what was witnessed and receipted that night |
 
-**Doors** between rooms exist only where a lattice edge crosses domains (an orthogonal echo). The **time
-rail** fogs anything dated after the chosen "now" (earned fidelity in time). A proverb is drawn per room
-by its DEWY aspect (pollen).
+**Doors** between rooms exist only where a lattice edge crosses domains (an orthogonal echo). A proverb is
+drawn per room by its DEWY aspect (pollen).
+
+**Chronos (the time rail).** Nothing exists before its date: move "now" back and later things are not
+drawn at all. What exists renders at a fidelity f = 0.35·maturity + 0.65·soundness, where maturity is
+1 − e^(−age/21 days) and soundness comes from the evidence state (LOCKED/GREEN 1 · DECIDED .85 · YELLOW
+.55 · DRAFT/candidate .4 · SCRATCH/PARADOX .3). f drives blur, opacity, weight and tracking together;
+only nascent things (f < .5) wobble, never under reduced motion. Blur is distance from irrefutable.
+
+**The explorer (Ziggurat).** Canvas. Altitude is the zoom (quantum core → meta; the private face draws
+the memory ring beyond LIBRARY, 217 nodes / 595 declared edges). Vantage is the rotation; the front cone
+is 140°. Fidelity is earned by distance from the focus stratum and by soundness (status). The sentinel
+lists threat vectors oblique to the vantage (gated, shore, single-domain, dangling) with their bearing;
+auto-look swings the camera to face the heaviest one you cannot see. It moves the view, never the
+decision. Nodes drill atom → molecule → organism; interrupt returns to the atom.
 
 ## Build
 
