@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The week my notes started filing themselves · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A recruiter I did not know messaged me on a Saturday. What came after was a month of the most productive procrastination of my life, and a spell-checker for my own honesty that caught me first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip}
+  body{margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none}
+  .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding:52px 0 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
+    margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none;
+    border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">No. 1</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Building ARCS in the open</p>
+    <h1>The week my notes started filing themselves</h1>
+    <p class="standfirst">A recruiter I did not know messaged me on a Saturday. What came after was a month of the most productive procrastination of my life, and a spell-checker for my own honesty whose first catch was mine.</p>
+    <p class="byline">Field notes, receipts included</p>
+  </header>
+
+  <section>
+    <span class="num">I · A Saturday message</span>
+    <p class="lead">A recruiter I did not know messaged me on a Saturday, about a company I had never heard of. Nearly everyone archives that message. I ran a ten-minute check instead.</p>
+    <p>Three questions, no more. Does the sender actually exist. Does the role exist somewhere they do not control. And one thing no script can answer: what is the story with the team. It passed. Honest answers pass, and so do honest gaps, because "I do not know much yet" is harder to fake than a pitch.</p>
+    <div class="panel">
+      <h4>The ten-minute smoke test</h4>
+      <div class="step">
+        <span class="k">Sender</span><b>Do they exist, independently, off the channel that reached me.</b>
+        <span class="k">Role</span><b>Does the role exist somewhere the sender does not control.</b>
+        <span class="k">Story</span><b>One open question a script cannot answer. Honest gaps count as passing.</b>
+      </div>
+      <p>Cheap to run, hard to fake. The same instinct that later kept me off a malicious repo started here, on a cold DM.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">II · Build the machine once</span>
+    <p>Then the part that matters. The application itself took two minutes, run right before the call, because the hours had gone into a reusable method, not a document.</p>
+    <p>This is the unlock most people hold backwards. They use AI to speed up the task, then re-prompt from scratch the next time. The compounding move is the opposite: build the machine once, and make every future task a two-minute run of it. The first one is slow. The hundredth is free.</p>
+  </section>
+
+  <section>
+    <span class="num">III · A month of procrastination</span>
+    <p>What happened next looked like procrastination and was the opposite. I kept not-quite-finishing the application because the tools I was building to finish it kept turning into better tools.</p>
+    <p>My notes started filing themselves: the index rebuilds from the files' own headers, so nothing can quietly fall out of it. The links between notes drew a pyramid on their own, and the single most-cited idea in the whole archive turned out to be <em>cut, do not add</em>. A privacy gate I wrote refused one hundred percent of exports on its first day, correctly, because I had not yet told it what was safe to let out.</p>
+    <div class="panel">
+      <h4>What the self-audit found</h4>
+      <div class="step">
+        <span class="k">Spend</span><b>My single most expensive AI run had bought a negative result. Worth knowing; not worth repeating.</b>
+        <span class="k">Failure log</span><b>It can commemorate a mistake, but it cannot calibrate one. Memory is not measurement.</b>
+        <span class="k">Priors</span><b>My predictions consistently undershoot how warm people actually are.</b>
+      </div>
+      <p>Auditing your own month is uncomfortable in exactly the way that makes it useful.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · A spell-checker for my own honesty</span>
+    <p>And my favorite, the one I did not design and could not have. The automated check that keeps my public pages honest rejected a commit. Not any commit. The very commit that created my doctrine about drift, because that commit had itself caused drift.</p>
+    <p>I had built a spell-checker for my own honesty, and its first catch was mine, in the sentence announcing it. There is no better proof that a control works than watching it refuse to spare its author.</p>
+    <blockquote>The easiest person to lie to is yourself, which is exactly why the receipt has to be able to overrule you.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">V · Three lessons I am keeping</span>
+    <p>Receipts, or it did not happen. Not as bureaucracy, but because the easiest person to lie to is yourself, and a dated receipt is the one witness you cannot talk out of it.</p>
+    <p>Some procrastination is not avoidance. It is your attention reading a window your calendar has no axis for, and the honest move is to follow it and log what you find, not to shame it back into the task.</p>
+    <p>And your worst critic makes an excellent employee, once you give it a job description. Turned loose it corrodes; scoped to a gate, it is the most reliable colleague you have.</p>
+  </section>
+
+  <div class="more">
+    <a href="https://resume-tailor.arcs.care/">
+      <span class="lbl">The tool that started it, free</span>
+      Open resume-tailor.arcs.care &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the build: the receipts, the commits, and the gates are real.
+  </footer>
+</div>
+</body>
+</html>

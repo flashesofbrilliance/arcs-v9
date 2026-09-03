@@ -41,14 +41,15 @@
   }
 
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip}
   body{
     margin:0; background:var(--bg); color:var(--text);
     font-family:var(--f-body);
     font-size:16px; line-height:1.6; letter-spacing:.005em;
     text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
   }
-  .mono{font-family:var(--f-mono)}
+  .mono{font-family:var(--f-mono); overflow-wrap:anywhere}
 
   /* ---- classification bar ---- */
   .tlp{
