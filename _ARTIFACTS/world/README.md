@@ -18,8 +18,12 @@ works, and ADR-071 already made the ARCS mark a Möbius.
 **Doors** between rooms exist only where a lattice edge crosses domains (an orthogonal echo). A proverb is
 drawn per room by its DEWY aspect (pollen).
 
-**Chronos (the time rail).** Nothing exists before its date: move "now" back and later things are not
-drawn at all. What exists renders at a fidelity f = 0.35·maturity + 0.65·soundness, where maturity is
+**Chronos (the turntable).** The bottom of the page is a record player. The platter is the Möbius
+ribbon: drag it to scrub time (it coasts when you let go), press play to spin it (90 s per revolution at
+1.0×; ▶▶/◀◀ double the speed, `[` `]` on the keyboard, space to play/pause). The groove is every dated
+receipt, decision, witness stub and epoch, etched as ticks. The tone arm is the row of rooms; the record
+has two sides, A public and B private (F flips). Nothing exists before its date: scrub back and later
+things are not drawn at all. What exists renders at a fidelity f = 0.35·maturity + 0.65·soundness, where maturity is
 1 − e^(−age/21 days) and soundness comes from the evidence state (LOCKED/GREEN 1 · DECIDED .85 · YELLOW
 .55 · DRAFT/candidate .4 · SCRATCH/PARADOX .3). f drives blur, opacity, weight and tracking together;
 only nascent things (f < .5) wobble, never under reduced motion. Blur is distance from irrefutable.
@@ -42,4 +46,4 @@ strips every private-face key (DEWY, witness, moments, memory catalog, recoil, w
 sharp questions) and renders a gated notice in its place. Harvest only, never infer: every room is fed
 from files that already exist (see the docstring in `scripts/world_build.py`).
 
-Keys: ← → turn · F flip 360° · 1–8 jump to a room · click a strip stop.
+Keys: ← → room · F flip side · 1–8 jump to a room · space play/pause · [ ] speed.
