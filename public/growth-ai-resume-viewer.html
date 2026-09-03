@@ -33,7 +33,8 @@
     <span class="who"><span class="g">&#9670;</span> Zach Harris &middot; Résumé</span>
     <div class="btns">
       <a class="btn p" href="/growth-ai-resume.pdf" download="Zach-Harris-Resume.pdf">&#8595; R&eacute;sum&eacute; PDF</a>
-      <a class="btn" href="/growth-ai-resume.pdf" target="_blank" rel="noopener">&#8599; Open in tab</a>
+      <a class="btn" href="/growth-ai-cover.pdf" download="Zach-Harris-Cover-Letter.pdf">&#8595; Cover letter</a>
+      <a class="btn" href="/growth-ai-resume-ats.pdf" download="Zach-Harris-Resume-ATS.pdf">&#8595; ATS r&eacute;sum&eacute;</a>
     </div>
   </div>
   <iframe class="frame" src="/growth-ai-resume.pdf#view=FitH" title="Zach Harris resume (PDF)"></iframe>
@@ -46,8 +47,9 @@
       var el = e.target.closest && e.target.closest('a[href]'); if(!el) return;
       var h = el.getAttribute('href')||'', label='';
       if(h==='/') label='back_to_bundle';
-      else if(/growth-ai-resume\.pdf/.test(h) && el.hasAttribute('download')) label='download_resume_pdf';
-      else if(/growth-ai-resume\.pdf/.test(h)) label='open_resume_tab';
+      else if(/growth-ai-cover\.pdf/.test(h)) label='download_cover';
+      else if(/growth-ai-resume-ats\.pdf/.test(h)) label='download_ats';
+      else if(/growth-ai-resume\.pdf/.test(h)) label='download_resume_pdf';
       if(label) track(label);
     }, true);
   </script>
