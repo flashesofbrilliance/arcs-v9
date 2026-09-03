@@ -101,6 +101,27 @@ def clean(s):
     return s[:240]
 
 
+# Named sequences. A family is the customer-legible shape of the toolset: each stage's output is
+# the next stage's input. Members must exist in the harvested tool list (checked at emit time).
+FAMILIES = [
+    {
+        "name": "receipt-loop",
+        "title": "The Receipt Loop (before / during / after / share / compounds)",
+        "jtbd": "One counterpart, one loop: write the bet before the meeting, take the meeting, "
+                "score the bet against the transcript, gauntlet then share, append to the account record.",
+        "stages": [
+            {"stage": "before",    "tool": "recoil-new",           "note": "first time only: scaffold the account record"},
+            {"stage": "before",    "tool": "recoil-prep",          "note": "pre-meeting receipt: the bet, written down"},
+            {"stage": "during",    "tool": "witness",              "note": "optional: attest a live moment; the human takes the meeting"},
+            {"stage": "after",     "tool": "recoil-close",         "note": "post-meeting receipt: transcript vs the bet"},
+            {"stage": "share",     "tool": "counterpart-gauntlet", "note": "pre-send gauntlet on the external artifact"},
+            {"stage": "share",     "tool": "recoil-ship",          "note": "external page + hand-sent note"},
+            {"stage": "compounds", "tool": "forge",                "note": "stamps the whole family per counterpart; the how-it-scales tab"},
+        ],
+    },
+]
+
+
 def collect():
     tools = []
 
@@ -184,8 +205,14 @@ def main():
         "counts": dict(sorted(counts.items())),
         "total": len(tools),
         "missing_jtbd": missing,
+        "families": FAMILIES,
         "tools": tools,
     }
+    names = {t["name"] for t in tools}
+    for fam in FAMILIES:
+        for st in fam["stages"]:
+            if st["tool"] not in names:
+                print(f"tool-catalog: WARN family {fam['name']} references unknown tool {st['tool']}", file=sys.stderr)
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(cat, f, indent=1, ensure_ascii=False)
@@ -196,6 +223,14 @@ def main():
              "One line per tool, JTBD harvested from the tool's own declaration.", "",
              "Counts: " + " · ".join(f"{k} {v}" for k, v in sorted(counts.items()))
              + f" · total {len(tools)} · missing JTBD {missing}", ""]
+    for fam in FAMILIES:
+        lines.append(f"## {fam['title']}")
+        lines.append("")
+        lines.append(f"> {fam['jtbd']}")
+        lines.append("")
+        for st in fam["stages"]:
+            lines.append(f"- `{st['stage']}` **{st['tool']}** — {st['note']}")
+        lines.append("")
     for kind in ["skill", "command", "workflow", "hook", "script", "operator"]:
         grp = [t for t in tools if t["kind"] == kind]
         if not grp:

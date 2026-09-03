@@ -1,5 +1,12 @@
 # /recoil-report
 
+> **Two things share this name.** This command is the single-session, cheap path (one
+> transcript in, one report out). `.claude/workflows/recoil-report.mjs` is the multi-agent,
+> ~350k-token version for a full pre-call dossier on a person; run it only on explicit opt-in.
+> Inside the Receipt Loop (see `runtime/specs/tool-catalog.md`), prefer `/recoil-prep` and
+> `/recoil-close`, which write to the counterpart's account record; this command is the
+> standalone, no-SSOT variant.
+
 > Generates an ARCS Recoil Report from a Granola call transcript, builds it into a deployed
 > preview, smoke-tests it, and emails the link. Run manually right after a call, or on a
 > recurring schedule via `/schedule` (Claude Code's own cron — see "Scheduling" below).

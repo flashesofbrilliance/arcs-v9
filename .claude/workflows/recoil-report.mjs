@@ -1,3 +1,6 @@
+// NAME COLLISION, on purpose: `/recoil-report` (the command) is the cheap single-session path.
+// This workflow is the expensive multi-agent dossier. Same story, two budgets. See the command's
+// header and the Receipt Loop family in runtime/specs/tool-catalog.md.
 export const meta = {
   name: 'recoil-report',
   description: 'Multi-agent recoil report: gather signals, analyze through ARCS operator lenses, adversarially verify every claim, synthesize a provenance-graded report',

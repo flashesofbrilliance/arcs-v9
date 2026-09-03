@@ -4,14 +4,65 @@
  "counts": {
   "command": 13,
   "hook": 2,
-  "operator": 38,
-  "script": 63,
-  "skill": 13,
+  "operator": 43,
+  "script": 66,
+  "skill": 15,
   "workflow": 2
  },
- "total": 131,
+ "total": 141,
  "missing_jtbd": 0,
+ "families": [
+  {
+   "name": "receipt-loop",
+   "title": "The Receipt Loop (before / during / after / share / compounds)",
+   "jtbd": "One counterpart, one loop: write the bet before the meeting, take the meeting, score the bet against the transcript, gauntlet then share, append to the account record.",
+   "stages": [
+    {
+     "stage": "before",
+     "tool": "recoil-new",
+     "note": "first time only: scaffold the account record"
+    },
+    {
+     "stage": "before",
+     "tool": "recoil-prep",
+     "note": "pre-meeting receipt: the bet, written down"
+    },
+    {
+     "stage": "during",
+     "tool": "witness",
+     "note": "optional: attest a live moment; the human takes the meeting"
+    },
+    {
+     "stage": "after",
+     "tool": "recoil-close",
+     "note": "post-meeting receipt: transcript vs the bet"
+    },
+    {
+     "stage": "share",
+     "tool": "counterpart-gauntlet",
+     "note": "pre-send gauntlet on the external artifact"
+    },
+    {
+     "stage": "share",
+     "tool": "recoil-ship",
+     "note": "external page + hand-sent note"
+    },
+    {
+     "stage": "compounds",
+     "tool": "forge",
+     "note": "stamps the whole family per counterpart; the how-it-scales tab"
+    }
+   ]
+  }
+ ],
  "tools": [
+  {
+   "kind": "skill",
+   "name": "cruft-sweep",
+   "path": ".claude/skills/cruft-sweep/SKILL.md",
+   "jtbd": "Survey, classify, and safely reclaim stale git worktrees in a many-worktree repo, and spread shared files across them. Use when worktrees accumulate (\"clean up worktrees\", \"prune stale branches\", \"spread this to other worktrees\"), before a ",
+   "invoke": "/cruft-sweep"
+  },
   {
    "kind": "skill",
    "name": "fold",
@@ -98,6 +149,13 @@
   },
   {
    "kind": "skill",
+   "name": "sbom-payload-scan",
+   "path": ".claude/skills/sbom-payload-scan/SKILL.md",
+   "jtbd": ">",
+   "invoke": "/sbom-payload-scan"
+  },
+  {
+   "kind": "skill",
    "name": "teardown-page-factory",
    "path": ".claude/skills/teardown-page-factory/SKILL.md",
    "jtbd": "Stamp a counterpart-facing S-tier diamond teardown surface at <name>.arcs.care from source teardown MDs — the wing.arcs.care pattern (Chan build-record skeleton re-cut as claim-vs-record teardown with PRESENT mode). Use whenever a founder/c",
@@ -177,7 +235,7 @@
    "kind": "command",
    "name": "recoil-report",
    "path": ".claude/commands/recoil-report.md",
-   "jtbd": "Generates an ARCS Recoil Report from a Granola call transcript, builds it into a deployed",
+   "jtbd": "**Two things share this name.** This command is the single-session, cheap path (one",
    "invoke": "/recoil-report"
   },
   {
@@ -242,6 +300,13 @@
    "path": "scripts/arcs_core.py",
    "jtbd": "arcs_core.py — ARCS Personal Data Science Kernel (Pass 1 MVP)",
    "invoke": "python3 scripts/arcs_core.py"
+  },
+  {
+   "kind": "script",
+   "name": "artifact_wrap_lint.py",
+   "path": "scripts/artifact_wrap_lint.py",
+   "jtbd": "artifact_wrap_lint.py — pre-publish gate for the intermediate-width wrap-regression class.",
+   "invoke": "python3 scripts/artifact_wrap_lint.py"
   },
   {
    "kind": "script",
@@ -315,6 +380,13 @@
   },
   {
    "kind": "script",
+   "name": "cruft_sweep.py",
+   "path": "scripts/cruft_sweep.py",
+   "jtbd": "cruft_sweep — survey, classify, and safely reclaim stale git worktrees.",
+   "invoke": "python3 scripts/cruft_sweep.py"
+  },
+  {
+   "kind": "script",
    "name": "deploy-prod.sh",
    "path": "scripts/deploy-prod.sh",
    "jtbd": "deploy-prod.sh — always run this instead of `vercel --prod`",
@@ -333,6 +405,13 @@
    "path": "scripts/doll_sprout.py",
    "jtbd": "doll_sprout.py — germinate a doll into a tenant memory dir (UserN+1 side).",
    "invoke": "python3 scripts/doll_sprout.py"
+  },
+  {
+   "kind": "script",
+   "name": "echo_detector_dogfood.py",
+   "path": "scripts/echo_detector_dogfood.py",
+   "jtbd": "echo_detector_dogfood.py — falsifiable seaworthiness test for the Orthogonal Echo",
+   "invoke": "python3 scripts/echo_detector_dogfood.py"
   },
   {
    "kind": "script",
@@ -777,6 +856,13 @@
   },
   {
    "kind": "operator",
+   "name": "arcs_operator21.py",
+   "path": "operators/arcs_operator21.py",
+   "jtbd": "arcs_operator21.py",
+   "invoke": "python3 operators/arcs_operator21.py"
+  },
+  {
+   "kind": "operator",
    "name": "arcs_operator_contract.py",
    "path": "operators/arcs_operator_contract.py",
    "jtbd": "arcs_operator_contract.py",
@@ -914,6 +1000,34 @@
    "path": "operators/kryptonite_scorer.py",
    "jtbd": "ARCS Operator: KryptoniteScorer",
    "invoke": "python3 operators/kryptonite_scorer.py"
+  },
+  {
+   "kind": "operator",
+   "name": "operator_client.py",
+   "path": "operators/operator_client.py",
+   "jtbd": "operator_client.py — ARCS operator invocation wrapper",
+   "invoke": "python3 operators/operator_client.py"
+  },
+  {
+   "kind": "operator",
+   "name": "pipeline_runner.py",
+   "path": "operators/pipeline_runner.py",
+   "jtbd": "pipeline_runner.py — ARCS pipeline wrapper",
+   "invoke": "python3 operators/pipeline_runner.py"
+  },
+  {
+   "kind": "operator",
+   "name": "prod_receipt_to_op20_seed.py",
+   "path": "operators/prod_receipt_to_op20_seed.py",
+   "jtbd": "prod_receipt_to_op20_seed — faithful adapter: prod Prisma Receipt -> op20 seed dict.",
+   "invoke": "python3 operators/prod_receipt_to_op20_seed.py"
+  },
+  {
+   "kind": "operator",
+   "name": "receipt_evaluator.py",
+   "path": "operators/receipt_evaluator.py",
+   "jtbd": "receipt_evaluator.py — KINTSUGI phase-gate wrapper",
+   "invoke": "python3 operators/receipt_evaluator.py"
   },
   {
    "kind": "operator",
