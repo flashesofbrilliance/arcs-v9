@@ -7,18 +7,54 @@
       "surface": "rendering canon / counterpart delivery layer",
       "sharp_question": "Why did three well-built counterpart artifacts fail the same reader in the same way, and what stops the fourth?",
       "dewy_vector": {
-        "D": "Adopt ADR-075: a fixed verdict-first grammar plus a two-layer cold-reader eval (mechanical scripts/cold_reader_gate.py + a counterpart-gauntlet facet) as a blocking pre-publish gate on every counterpart surface. Depth is pulled by the reader, never pushed by the author. The lesson moves from per-counterpart memory (instance) to a wired class-level gate.",
+        "D": "Adopt ADR-075: a fixed verdict-first grammar plus a two-layer cold-reader eval (mechanical scripts/cold_reader_gate.py + a counterpart-gauntlet facet) as a blocking pre-publish gate on every counterpart surface. Depth is pulled by the reader, never pushed by the author. The lesson moves from per-counterpart memory (instance) to a wired class-level gate. Amendment A (same day): one gate doctrine, two ends. Input end pre_prep_gate.py (P0 to P7) wired as Step 1.5 of recoil-prep; output end cold_reader_gate.py wired into recoil-ship.",
         "E": "Ahmed Elsamadisi (calibration source, Sep 3), Jeben re Harry Wilson (Apr 21), Robin (Aug); the forge, PREP renderer, atlas renderer, NFTT engine, counterpart-gauntlet; the memory index (gains a mechanism axis); the author, whose blindspot the gate compensates.",
         "W": "YEARS / constitutional rendering rule. Revisit if the acceptance test (re-rendered Saul page, Ahmed reads it in under two minutes) fails, or the pre-registered corpus test returns H0 after the throttled transcripts are re-read, or the gate over-fits (fails pages counterparts consumed with ease).",
         "Y": "GREEN on the mechanism: three independent counterparts named it verbatim from outside, and the author's own Apr 21 line ('how deep can you go in 30 seconds?') predates all three. YELLOW on thresholds: R1 to R7 are a first calibration on three pages. Falsifier: Ahmed cannot act on the verdict-first Saul re-render inside two minutes, or the corpus hit rate lands below 0.25 on the full 125."
       },
       "evidence": [
-        {"who": "Ahmed", "when": "2026-09-03", "quote": "your delivery mechanisms are just not great", "source": "granola 363c13a2 raw transcript"},
-        {"who": "Ahmed", "when": "2026-09-03", "quote": "nobody wants depth front. You want depth once you know, like you have the ability to know how to scan it because you built it.", "source": "granola 363c13a2 raw transcript"},
-        {"who": "Ahmed", "when": "2026-09-03", "quote": "if it takes the system like a day to create it, it should take me an hour to consume it", "source": "granola 363c13a2 raw transcript"},
-        {"who": "Jeben", "when": "2026-04-21", "quote": "you are not a person that walks around ready to receive this type of information, even though I think it's pretty critical for you", "source": "JebenHarryBriefing.txt line 96"},
-        {"who": "Zach", "when": "2026-04-21", "quote": "many executives are like give me the 30 second version. It's like how deep can you go in 30 seconds?", "source": "JebenHarryBriefing.txt line 119 (filed YELLOW then)"},
-        {"who": "Zach", "when": "2026-09-03", "quote": "we obviously didn't recognize the shape of the persona demand and bank that pattern as likely for other generalized users (as a best practice)", "source": "session, witnessed 14:29:34"}
+        {
+          "who": "Ahmed",
+          "when": "2026-09-03",
+          "quote": "your delivery mechanisms are just not great",
+          "source": "granola 363c13a2 raw transcript"
+        },
+        {
+          "who": "Ahmed",
+          "when": "2026-09-03",
+          "quote": "nobody wants depth front. You want depth once you know, like you have the ability to know how to scan it because you built it.",
+          "source": "granola 363c13a2 raw transcript"
+        },
+        {
+          "who": "Ahmed",
+          "when": "2026-09-03",
+          "quote": "if it takes the system like a day to create it, it should take me an hour to consume it",
+          "source": "granola 363c13a2 raw transcript"
+        },
+        {
+          "who": "Jeben",
+          "when": "2026-04-21",
+          "quote": "you are not a person that walks around ready to receive this type of information, even though I think it's pretty critical for you",
+          "source": "JebenHarryBriefing.txt line 96"
+        },
+        {
+          "who": "Zach",
+          "when": "2026-04-21",
+          "quote": "many executives are like give me the 30 second version. It's like how deep can you go in 30 seconds?",
+          "source": "JebenHarryBriefing.txt line 119 (filed YELLOW then)"
+        },
+        {
+          "who": "Zach",
+          "when": "2026-09-03",
+          "quote": "we obviously didn't recognize the shape of the persona demand and bank that pattern as likely for other generalized users (as a best practice)",
+          "source": "session, witnessed 14:29:34"
+        },
+        {
+          "who": "Zach",
+          "when": "2026-09-03",
+          "quote": "sure one gate doctrine two ends it is",
+          "source": "session"
+        }
       ],
       "misses_kept": [
         "Ex-ante 2026-08-26 filed 30% that Ahmed would reply without repeating the objection; he repeated it Sep 2. Scored wrong, kept.",
@@ -30,7 +66,8 @@
         "Run cold_reader_gate.py calibration: ahmed-ext FAIL, saul FAIL, verdict-first re-render PASS.",
         "Re-render saul.arcs.care in the ADR-075 grammar; send Ahmed both; his read is the acceptance test.",
         "Finish the corpus test (90 throttled transcripts re-reading) and record the verdict in the ADR revisit field.",
-        "Add the cold-reader facet to counterpart-gauntlet; add mechanism tags to feedback memories; point gravity_well_fork_scan at them."
+        "Add the cold-reader facet to counterpart-gauntlet; add mechanism tags to feedback memories; point gravity_well_fork_scan at them.",
+        "Fill a real pre_prep block for the next counterpart build and let recoil-close score it as the artifact's own ex-ante."
       ]
     }
   ]
