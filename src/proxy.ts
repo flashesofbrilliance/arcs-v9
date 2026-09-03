@@ -75,7 +75,17 @@ export default async function proxy(request: NextRequest) {
 
   const multiPaths = MULTI_PATH_MAP[sub]
   if (multiPaths) {
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
+    if (
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/api') ||
+      // AEO discovery files must serve the real public/ static files on these
+      // hosts, not the host's catch-all `default` page. Without this passthrough
+      // good.arcs.care/robots.txt and /sitemap.xml were being rewritten to
+      // /good.html (200, but garbage as robots/sitemap), so the sitemap the
+      // NFTT robots.txt advertises was unreachable on its own host.
+      pathname === '/robots.txt' ||
+      pathname === '/sitemap.xml'
+    ) {
       return NextResponse.next()
     }
     const dest = multiPaths[pathname] ?? multiPaths.default
