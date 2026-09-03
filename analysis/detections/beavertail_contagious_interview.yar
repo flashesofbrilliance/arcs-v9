@@ -13,17 +13,17 @@ rule DPRK_ContagiousInterview_BeaverTail_JS
         $path   = "/api/checkStatus"
         $vercel = "vscode-check-mo4-ten.vercel.app"
 
-        // behavioral (generalizes to variants)
+        // behavioral (hunt-grade, not alert-grade)
         $b1 = "process.env"
         $b2 = /eval\s*\(\s*[a-zA-Z_$]/
-        $b3 = ".vscode/tasks.json"
-        $b4 = /axios|fetch|https?\.request/
         // MetaMask + common wallet extension IDs
         $w1 = "nkbihfbeogaeaoehlefnkodbefgpgknn"
         $w2 = "ejbalbakoplchlghecdalmeeeajnimhm"
 
     condition:
-        // any pinned infra OR the stealer behavior cluster
+        // pinned infra alerts; the behavioral branch is hunt-only,
+        // wallet ID is load-bearing to keep process.env+eval from
+        // false-positing on ordinary Node tooling
         (1 of ($ip, $port, $path, $vercel))
-        or ($b1 and $b2 and 1 of ($w1, $w2, $b4))
+        or ($b1 and $b2 and 1 of ($w1, $w2))
 }

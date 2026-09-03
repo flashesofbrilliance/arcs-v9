@@ -26,7 +26,7 @@ detection:
     CommandLine|contains|all:
       - 'curl'
       - '|'
-  condition: parent and (child_shell or remote_fetch)
+  condition: parent and remote_fetch and child_shell
 falsepositives:
   - 'Legitimate postinstall scripts - tune to your build hosts'
 level: high

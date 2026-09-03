@@ -135,7 +135,7 @@
 
   /* BLUF callout */
   .bluf{
-    border:1px solid var(--border); border-left:3px solid var(--crit);
+    border:1px solid color-mix(in srgb,var(--crit) 30%,var(--border));
     background:var(--crit-bg); border-radius:10px; padding:18px 20px; margin:0 0 26px;
     max-width:none;
   }
@@ -146,7 +146,7 @@
   .note{border:1px solid var(--border); background:var(--surface); border-radius:10px;
     padding:15px 18px; margin:20px 0; font-size:14.5px; color:var(--muted); max-width:none}
   .note b{color:var(--text)}
-  .note.signal{border-left:3px solid var(--signal)}
+  .note.signal{border-color:color-mix(in srgb,var(--signal) 32%,var(--border))}
 
   /* severity chips */
   .chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--f-mono);
@@ -282,7 +282,7 @@
 
 <div class="tlp">
   <span class="beacon" aria-hidden="true"></span>
-  <span><b>TLP:CLEAR</b> · Defensive Threat Analysis</span>
+  <span><b>TLP:CLEAR</b> tradecraft · <b>TLP:AMBER</b> specific indicators</span>
   <span class="defang">◈ Self-contained · offline-ready</span>
   <span class="spacer"></span>
   <button class="toggle" id="themeBtn" type="button" aria-label="Toggle color theme">◐ THEME</button>
@@ -309,7 +309,7 @@
     <h1>Contagious Interview</h1>
     <p class="subhead">A fake-recruiter developer-targeting operation delivering BeaverTail &amp; InvisibleFerret, dissected for detection, response, and awareness.</p>
     <dl class="metastrip">
-      <div><dt>Threat Actor</dt><dd>Famous Chollima (Lazarus sub-cluster)</dd></div>
+      <div><dt>Threat Actor</dt><dd>Famous Chollima (DPRK cluster)</dd></div>
       <div><dt>Group ID</dt><dd class="mono">G1052</dd></div>
       <div><dt>Malware</dt><dd>BeaverTail + InvisibleFerret</dd></div>
       <div><dt>Motivation</dt><dd>Financial / crypto theft</dd></div>
@@ -338,12 +338,12 @@
 
     <div class="bluf">
       <span class="tag">◆ BLUF, act on this first</span>
-      <p>A developer was lured via a fake technical-interview "take-home" and cloned <span class="mono kb">github.com/Cryptense-Eco/Jackpot</span>. Merely <strong>opening the folder</strong> or running <span class="mono">npm install</span> detonates a JavaScript stealer (<strong>BeaverTail</strong>) that harvests <span class="mono">process.env</span> and browser/wallet secrets, then pulls a Python backdoor (<strong>InvisibleFerret</strong>). If any developer touched this repo, treat their host as compromised: <strong>isolate it, rotate every credential it could reach, and hunt for outbound traffic to port <span class="mono">1224</span></strong>. Details and detections below.</p>
+      <p>A developer was lured via a fake technical-interview "take-home" and cloned <span class="mono kb">github.com/Cryptense-Eco/Jackpot</span>. <strong>Opening the folder in a trusted editor</strong>, or running <span class="mono">npm install</span>, detonates a JavaScript stealer (<strong>BeaverTail</strong>) that harvests <span class="mono">process.env</span> and browser/wallet secrets, then pulls a Python backdoor (<strong>InvisibleFerret</strong>). If any developer touched this repo, treat their host as compromised: <strong>isolate it, rotate every credential it could reach, and hunt for outbound traffic to port <span class="mono">1224</span></strong>. Details and detections below.</p>
     </div>
 
     <h4>What makes this dangerous</h4>
     <ul class="plain">
-      <li><strong>Zero-click on folder open.</strong> A <span class="mono">.vscode/tasks.json</span> task with <span class="mono">runOn: folderOpen</span> executes a <span class="mono">curl | bash</span> loader the instant the project is opened in VS Code, before the victim runs anything.</li>
+      <li><strong>Auto-run on folder open.</strong> A <span class="mono">.vscode/tasks.json</span> task with <span class="mono">runOn: folderOpen</span> executes a <span class="mono">curl | bash</span> loader when the project is opened in VS Code with the folder <em>trusted</em>. Keeping Workspace Trust enabled (the default) blocks it, which is exactly why the lure insists you "only review, do not run."</li>
       <li><strong>Belt-and-suspenders execution.</strong> A <span class="mono">package.json</span> <span class="mono">"prepare"</span> lifecycle hook fires the same chain on <span class="mono">npm install</span>, so careful reviewers who avoid VS Code are still caught.</li>
       <li><strong>Live remote code execution.</strong> The beacon to <span class="mono defang">hxxp://91.121.235[.]127:1224/api/checkStatus</span> <span class="mono">eval()</span>s whatever the server returns, the operator has an interactive shell into the victim's Node process.</li>
       <li><strong>Secret-first collection.</strong> It exfiltrates <span class="mono">process.env</span> wholesale. API keys, cloud tokens, and <span class="mono">.env</span> contents are the primary prize, alongside browser-stored crypto-wallet material.</li>
@@ -357,9 +357,9 @@
     <div class="sec-head"><span class="sec-num">01</span><h2>Attribution &amp; naming</h2><span class="stratum">Ridge · Analyst</span></div>
     <p class="sec-sub">One operation, many vendor names. Knowing the aliases lets you correlate reporting across tools.</p>
 
-    <p><strong>Contagious Interview</strong> is a DPRK state-aligned campaign that MITRE tracks as group <span class="mono tid">G1052</span>. It sits under the broad <strong>Lazarus</strong> umbrella and is operated by the cluster CrowdStrike calls <strong>Famous Chollima</strong>. It is financially motivated, the strategic goal is theft of cryptocurrency and credentials to fund the regime, and distinct from Lazarus's espionage/destructive operations, though tradecraft overlaps.</p>
+    <p><strong>Contagious Interview</strong> is a DPRK state-aligned campaign that MITRE tracks as group <span class="mono tid">G1052</span>. Its tradecraft overlaps with <strong>Lazarus</strong>, but many analysts track it as a distinct, financially motivated cluster (the one CrowdStrike calls <strong>Famous Chollima</strong>), separate from Lazarus's espionage and destructive operations. The strategic goal is theft of cryptocurrency and credentials to fund the regime. Treat the Lazarus lineage as an analytic judgment, not settled consensus.</p>
 
-    <h4>Known aliases (all G1052)</h4>
+    <h4>Reported aliases &amp; overlapping clusters</h4>
     <div class="twrap">
       <table>
         <thead><tr><th>Alias</th><th>Attributing vendor / context</th></tr></thead>
@@ -371,7 +371,7 @@
           <tr><td class="mono">Tenacious Pungsan</td><td>Datadog Security Labs</td></tr>
           <tr><td class="mono">PurpleBravo / TAG-121</td><td>Recorded Future / others</td></tr>
           <tr><td class="mono">UNC5342</td><td>Google / Mandiant</td></tr>
-          <tr><td class="mono">Gwisin Gang</td><td>Additional tracking</td></tr>
+          <tr><td class="mono">Gwisin Gang</td><td>Additional tracking (unconfirmed equivalence)</td></tr>
         </tbody>
       </table>
     </div>
@@ -523,6 +523,7 @@
     <p class="sec-sub">Copy-ready indicators, YARA, and Sigma. IOCs here are in live (un-defanged) form for tooling, handle accordingly.</p>
 
     <h3>Indicators of compromise</h3>
+    <div class="note"><b>TLP:AMBER, handle with care.</b> The rows below name specific parties and infrastructure and rest on a single reported source (the incident brief). Limit redistribution, and <b>verify current ownership and liveness before blocking</b>: the IP is shared hosting and may have rotated, so a blanket block risks an innocent tenant. The general tradecraft elsewhere on this page is TLP:CLEAR.</div>
     <div class="ioc"><span class="k">Repo</span><span class="v">github.com/Cryptense-Eco/Jackpot</span><span class="chip crit">Critical</span></div>
     <div class="ioc"><span class="k">Committer</span><span class="v">hiringtecjreview@outlook.com · "jackpot_mvp"</span><span class="chip high">High</span></div>
     <div class="ioc"><span class="k">Recruiter</span><span class="v">richardstein692@gmail.com</span><span class="chip med">Medium</span></div>
@@ -548,19 +549,17 @@
     $path   = <span class="bad">"/api/checkStatus"</span>
     $vercel = <span class="bad">"vscode-check-mo4-ten.vercel.app"</span>
 
-    <span class="cmt">// behavioral (generalizes to variants)</span>
+    <span class="cmt">// behavioral (hunt-grade, not alert-grade)</span>
     $b1 = <span class="str">"process.env"</span>
     $b2 = /eval\s*\(\s*[a-zA-Z_$]/
-    $b3 = <span class="str">".vscode/tasks.json"</span>
-    $b4 = /axios|fetch|https?\.request/
     <span class="cmt">// MetaMask + common wallet extension IDs</span>
     $w1 = <span class="str">"nkbihfbeogaeaoehlefnkodbefgpgknn"</span>
     $w2 = <span class="str">"ejbalbakoplchlghecdalmeeeajnimhm"</span>
 
   <span class="kw">condition</span>:
-    <span class="cmt">// any pinned infra OR the stealer behavior cluster</span>
+    <span class="cmt">// pinned infra alerts; the behavioral branch is hunt-only</span>
     (1 <span class="kw">of</span> ($ip,$port,$path,$vercel))
-    <span class="kw">or</span> ( $b1 <span class="kw">and</span> $b2 <span class="kw">and</span> 1 <span class="kw">of</span> ($w1,$w2,$b4) )
+    <span class="kw">or</span> ( $b1 <span class="kw">and</span> $b2 <span class="kw">and</span> 1 <span class="kw">of</span> ($w1,$w2) )
 }</pre>
     </div>
 
@@ -597,7 +596,7 @@
     Image|endswith: [<span class="str">'\bash'</span>,<span class="str">'\sh'</span>,<span class="str">'\cmd.exe'</span>,<span class="str">'\powershell.exe'</span>]
   remote_fetch:
     CommandLine|contains|all: [<span class="str">'curl'</span>,<span class="str">'|'</span>]
-  <span class="kw">condition</span>: parent <span class="kw">and</span> (child_shell <span class="kw">or</span> remote_fetch)
+  <span class="kw">condition</span>: parent <span class="kw">and</span> remote_fetch <span class="kw">and</span> child_shell
 <span class="kw">falsepositives</span>:
   - <span class="str">'Legit postinstall scripts, tune to your build hosts'</span>
 <span class="kw">level</span>: high
@@ -623,7 +622,7 @@ grep -REn <span class="str">':1224|checkStatus'</span> .</pre>
 <pre><span class="cmt"># exit 2 = CRITICAL · 1 = HIGH/MEDIUM · 0 = clean</span>
 python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span class="str">"blocked"</span></pre>
     </div>
-    <div class="note signal"><b>Proven, not asserted.</b> The scanner is validated against a synthetic fixture pair: it fires on a malicious repo (all seven vectors + the pinned IOCs, exit&nbsp;2) and stays silent on a benign one (exit&nbsp;0, a bare <span class="mono">process.env.PORT</span> does not false-positive, because PTV-05 requires network co-location). Heuristic and static by design: a clean result means "no known pattern fired," not "safe."</div>
+    <div class="note signal"><b>Validated on a fixture pair.</b> The scanner runs against a synthetic pair: it fires on a malicious repo (all seven vectors + the pinned IOCs, exit&nbsp;2) and stays silent on a benign one (exit&nbsp;0, a bare <span class="mono">process.env.PORT</span> does not false-positive, because PTV-05 requires network co-location). Heuristic and static by design: a clean result means "no known pattern fired," not "safe."</div>
 
     <h3>Call-stage tells: the lure before the repo</h3>
     <p>The scanner covers the payload. The stage before it is the recruiter call that tries to get you to clone. Read a suspicious call on three axes, in the order the body actually reads them.</p>
@@ -631,13 +630,13 @@ python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span clas
       <table>
         <thead><tr><th>Axis</th><th>Scam signal</th><th>Legit signal</th></tr></thead>
         <tbody>
-          <tr><td><strong>Animacy</strong> (vox animus)<br><span class="chip crit">fires first</span></td><td>Puppet-relay: looped "can you hear me" after you answered, off-script questions break them, a handler prompts in the background, no yielding. Camera kept off; possibly a real-time AI voice or translation layer.</td><td>Living turn-taking: overlaps, digresses, admits real-time knowledge gaps.</td></tr>
+          <tr><td><strong>Animacy</strong> (vox animus)<br><span class="chip med">soft, verify</span></td><td>Puppet-relay cluster: looped "can you hear me" after you clearly answered, off-script asides do not land, a second voice prompts from off-mic, no real yielding. Soft signals only, never a verdict.</td><td>Living turn-taking: overlaps, digresses, admits real-time knowledge gaps.</td></tr>
           <tr><td><strong>Provenance</strong></td><td>Hidden: "not a contributor," vague company, buzzword product.</td><td>Offered up front: client named, checkable numbers, real identity.</td></tr>
           <tr><td><strong>Execution</strong></td><td>Clone or open now, on the call. The tell within the tell: <em>"you don't need to run it"</em> (opening the folder is the trigger).</td><td>Asks you to run nothing.</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note signal"><b>The leading indicator is somatic.</b> The felt absence of a living presence fires before the verbal analysis does. In the field pair this dossier draws on, the scam call had the shape of a decision with no animating voice; the legitimate call was all friction and presence. Trust the animacy read first, then confirm with provenance and execution.</div>
+    <div class="note signal"><b>With life, and without it.</b> This is the leading tell, and it is somatic: you feel it before you analyze it. The legitimate call carried <em>vox animus</em>, a living presence behind the words, all friction and overlap and real-time repair. The scam was the same surface with the life removed: a decision-shaped shell, operated. One had someone home; the other did not. But treat this as a prompt to verify, never a verdict on a stranger: plenty of honest people are nervous, on a bad line, private with a camera, or speaking a second language. The felt absence is a reason to slow down and check provenance and execution, and it is those two that confirm it.</div>
   </section>
 
   <!-- 05 IR RUNBOOK -->
@@ -653,7 +652,7 @@ python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span clas
       <li><span class="phase">Scope</span><h4>Determine blast radius</h4><p>Timeline from first clone. What did those rotated credentials access? Check cloud audit logs, GitHub org audit log, and repo access for anomalous activity in the exposure window. Identify any secrets that reached other systems (lateral movement).</p></li>
       <li><span class="phase">Recover</span><h4>Reimage, don't clean</h4><p>Given in-memory <span class="mono">eval()</span> RCE and possible RAT, do not attempt surgical removal. Wipe and reimage the host from known-good media; restore data only after scanning. Reissue credentials to the reimaged host.</p></li>
       <li><span class="phase">Report</span><h4>Notify &amp; preserve</h4><p>Preserve the repo, memory capture, and network logs as evidence. Notify security leadership; for U.S. orgs consider reporting to the FBI/IC3 (this is nation-state activity). Warn other engineers who may have received the same "recruiter" lure.</p></li>
-      <li><span class="phase">Harden</span><h4>Close the class of bug</h4><p>Ship the PTV heuristics (§03) into code review / CI. Set <span class="mono">npm config set ignore-scripts true</span> as an org default for untrusted installs, disable auto-run VS Code tasks, and brief engineers on the fake-interview lure. Only ever open unknown "assessment" repos in a disposable VM or container.</p></li>
+      <li><span class="phase">Harden</span><h4>Close the class of bug</h4><p>Ship the PTV heuristics (§03) into code review / CI. Set <span class="mono">npm config set ignore-scripts true</span> as an org default for untrusted installs, keep VS Code Workspace Trust enabled (it blocks folderOpen auto-run in untrusted folders), and brief engineers on the fake-interview lure. Only ever open unknown "assessment" repos in a disposable VM or container.</p></li>
     </ol>
 
     <div class="note signal"><b>Golden rule for reviewers.</b> The safe way to inspect an untrusted "coding-test" repo is inside a throwaway sandbox with no network, no real credentials, and <span class="mono">ignore-scripts</span> on, and to <em>read</em>, never run, it. Opening it in your daily-driver editor is itself the exploit here.</div>
@@ -725,8 +724,8 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
         <li><b>Orthogonal Echo Detector:</b> a method for spotting when two unrelated things share the same underlying shape.</li>
         <li><b>ROM primitive:</b> a core, non-negotiable building block of the ARCS system.</li>
         <li><b>Kinematic:</b> the "shape of motion" of a process, what moves, in what order, toward what.</li>
-        <li><b>Freehold vs. tenant (ADR-072):</b> durable records you own outright vs. tools that only borrow access and can be cut off.</li>
-        <li><b>Ventriloquy pathogen (ADR-033):</b> an attack that puts hostile content in a trusted speaker's mouth (forged attribution).</li>
+        <li><b>Freehold vs. tenant:</b> durable records you own outright vs. tools that only borrow access and can be cut off.</li>
+        <li><b>Ventriloquy pathogen:</b> an attack that puts hostile content in a trusted speaker's mouth (forged attribution).</li>
         <li><b>Hermes attestation:</b> a claim from a parallel AI process; ARCS treats these as unproven until re-checked in version control.</li>
         <li><b>Seaworthy:</b> whether a tool actually holds up under adversarial testing, not just a happy-path demo.</li>
         <li><b>Reel-in / Brier:</b> a "reel-in" is a claim later proven wrong; a Brier score measures how well stated confidence matched reality.</li>
@@ -734,7 +733,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
       </ul>
     </div>
 
-    <div class="note signal"><b>Instrument honesty first.</b> Both ARCS tools invoked here are, as <b>automation</b>, measured NON-seaworthy on the current corpus: the echo detector (<span class="mono">scripts/echo_detector_dogfood.py</span>) scores recall&nbsp;1.0 but adversarial false-positive <b>4/4 (rate&nbsp;1.0)</b> on its stub matcher; the believability ledger (<span class="mono">scripts/believability_ledger.py</span>) has <b>1 sha-linked revert in 2,801 commits</b> and <b>0 reel-ins across 188 resolved staked claims</b>, so its Brier&nbsp;0.03 is a base-rate artifact, not calibration skill. The documented fix for both is an injectable LLM as the signature / resolver function. That is what produced the two artifacts below, reasoning grounded in named corpus files, <b>not</b> the stub scripts. Labeled, not laundered.</div>
+    <div class="note signal"><b>Instrument honesty first.</b> The two ARCS methods used here are, as pure automation, not yet reliable enough to trust unattended: on the current corpus they over-flag, so a human-or-LLM judgment step (the signature / resolver function) does the real discrimination. That judgment, grounded in the decision corpus, is what produced the two artifacts below, not an unattended script. Labeled, not laundered. The file-level telemetry behind this sits in a private companion.</div>
 
     <h3>A · Orthogonal echo, the campaign's kinematic twin in the decision corpus</h3>
     <p>Abstract the campaign away from malware and it is a five-move shape (its kinematic, the order in which things move): a<strong>spoofed-legitimate provenance</strong> (recruiter) delivers an artifact that <strong>auto-triggers before review</strong> (folderOpen / prepare), then <strong>executes untrusted remote output</strong> (<span class="mono">eval</span> of the C2 response) to <strong>drain the ambient secret substrate</strong> (<span class="mono">process.env</span>). The Orthogonal Echo Detector asks: where else in the logged corpus does this exact kinematic appear, at the opposite sign?</p>
@@ -745,31 +744,31 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
           <tr>
             <td><span class="mono">eval(C2 response)</span></td>
             <td>Execute untrusted remote output</td>
-            <td><span class="mono">parallel-harness-verify-in-git-not-ram</span> · <span class="mono">hermes-attestations-carry-zero-evidentiary-weight</span>, a parallel harness's claims carry zero weight; verify in git, never RAM; exec-test everything.</td>
+            <td>Our standing rule: never execute what a parallel process hands you. Verify it in version control first, and exec-test everything.</td>
             <td>The malware is what happens when you skip the verify; the ARCS rule makes the verify mandatory. Identical primitive, defense vs. exploit.</td>
           </tr>
           <tr>
             <td>Recruiter / "assessment" lure</td>
             <td>Spoofed legitimate provenance</td>
-            <td><span class="mono">ADR-033</span> serialization-pathogen-family · <span class="mono">ventriloquy-pathogen-speaker-provenance</span>, a hostile payload carried under a forged speaker coordinate; attribution lint detects the forgery.</td>
+            <td>Our attribution-forgery guard, the ventriloquy pathogen: a hostile payload smuggled under a trusted speaker's identity, caught by linting the speaker's provenance.</td>
             <td>Attacker forges the speaker to smuggle a payload; ARCS lints the speaker coordinate precisely to catch that forgery.</td>
           </tr>
           <tr>
             <td><span class="mono">folderOpen</span> / <span class="mono">prepare</span> auto-run</td>
             <td>Auto-trigger before deliberate review</td>
-            <td><span class="mono">git-is-the-write-lock-untracked-is-the-gap</span>, untracked shared state is advisory-only, never auto-trusted; the canon-propagation cron is deliberately <b>HELD</b> until explicitly armed.</td>
+            <td>Our gating rule: untracked shared state is advisory only, never auto-trusted, and any automatic trigger is held until explicitly armed.</td>
             <td>The malware weaponizes automatic execution on a benign action; ARCS treats every auto-trigger as a thing that must be gated first.</td>
           </tr>
           <tr>
             <td><span class="mono">process.env</span> exfiltration</td>
             <td>Tenant drains the sovereign substrate</td>
-            <td><span class="mono">ADR-072</span> engine-sovereignty-gradient, receipts/corpus are <b>freehold</b>; engines (which hold env and run code) are revocable <b>tenants</b>.</td>
+            <td>Our sovereignty boundary, freehold vs. tenant: durable records are owned outright; the engines that hold env and run code are revocable tenants.</td>
             <td>The malware is a tenant exfiltrating the freehold; ADR-072 is the lease that makes that boundary, and its violation, nameable.</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="bluf" style="border-left-color:var(--signal); background:var(--signal-soft)">
+    <div class="bluf" style="border-color:color-mix(in srgb,var(--signal) 32%,var(--border)); background:var(--signal-soft)">
       <span class="tag" style="color:var(--signal)">◆ Echo finding, the genuinely-ARCS insight</span>
       <p>All four echoes collapse to a single invariant: <strong>provenance before execution</strong>. Contagious Interview is that one principle <em>violated</em> five ways; the ARCS decision corpus is the same principle <em>defended</em>, independently, in four unrelated domains (harness trust, attribution, shared-state gating, substrate sovereignty). The campaign and the corpus are the same kinematic object at opposite sign. That correspondence is not in any Unit&nbsp;42 report, it is structurally unavailable without <em>these</em> decision records. It also yields a control: <strong>the same reflex that blocks a forged Hermes attestation blocks <span class="mono">eval(C2)</span></strong>, treat both as untrusted remote output, verify before execute.</p>
     </div>
@@ -781,7 +780,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
       <table>
         <thead><tr><th>Claim</th><th>Tier</th><th>Basis / reel-in risk</th></tr></thead>
         <tbody>
-          <tr><td>G1052 attribution &amp; the seven aliases</td><td><span class="chip sig">A</span></td><td>MITRE, Unit 42, CrowdStrike, ESET, Datadog concur.</td></tr>
+          <tr><td>G1052 core attribution</td><td><span class="chip sig">A</span></td><td>MITRE, Unit 42, CrowdStrike, ESET, Datadog concur. Some alias equivalences (e.g. Gwisin Gang) are vendor-specific and less certain, flagged in §01.</td></tr>
           <tr><td>BeaverTail = JS stealer + downloader (ATT&amp;CK S1246)</td><td><span class="chip sig">A</span></td><td>MITRE S1246; Unit 42.</td></tr>
           <tr><td>InvisibleFerret = Python second-stage backdoor</td><td><span class="chip sig">A</span></td><td>Unit 42; Microsoft.</td></tr>
           <tr><td>Port <span class="mono">1224</span> is a recurring campaign signature</td><td><span class="chip sig">A</span></td><td>Public reporting notes :1224 across samples.</td></tr>
@@ -790,12 +789,14 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
           <tr><td>Stage-to-ATT&amp;CK technique mapping (§02)</td><td><span class="chip neu">C</span></td><td>My mapping. Standard, but an analytic choice, not a cited fact.</td></tr>
           <tr><td>Malicious-BOM pattern-vectors &amp; generalized heuristics (§03)</td><td><span class="chip neu">C</span></td><td>My synthesis; field-consistent (pyramid-of-pain logic), not novel.</td></tr>
           <tr><td>Orthogonal-echo correspondence (§07-A)</td><td><span class="chip neu">C</span></td><td>My synthesis over real corpus files; the files are verified to exist, the <em>reading</em> is mine.</td></tr>
+          <tr><td>Scanner "validated" (§04)</td><td><span class="chip med">B</span></td><td>Ran against an internal fixture pair (exit 2 on malicious, exit 0 on benign); not independently reproduced.</td></tr>
+          <tr><td>Call-stage animacy tell (§04)</td><td><span class="chip neu">C</span></td><td>My somatic read. A prompt to verify, not a verdict; false-positives on nervous, private, or non-native callers. Corroborated only by provenance + execution.</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note"><b>Ledger verdict.</b> The dossier's <b>general</b> claims (attribution, families, techniques) are Tier&nbsp;A and hold. Every <b>specific</b> indicator is Tier&nbsp;B and rests entirely on the supplied brief; nothing in this document independently corroborates them, and that is stated rather than hidden. The value-add layers are Tier&nbsp;C, mine, and labeled mine. No claim is dressed above its tier. This is a source-tier receipt produced by an LLM resolver, <b>not</b> a Brier score from the non-seaworthy ledger script.</div>
+    <div class="note"><b>Ledger verdict.</b> The dossier's <b>general</b> claims (attribution, families, techniques) are Tier&nbsp;A and hold. Every <b>specific</b> indicator is Tier&nbsp;B and rests entirely on the supplied brief; nothing in this document independently corroborates them, and that is stated rather than hidden. The value-add layers are Tier&nbsp;C, mine, and labeled mine. No claim is dressed above its tier. This is a source-tier receipt produced by human-and-LLM judgment, not an automated calibration score.</div>
     <div class="note"><b>External cross-reference (2026-09-02).</b> The campaign's general facts corroborate independently across Unit 42, Microsoft, MITRE, SentinelOne, Silent Push, The Register, and Malpedia; none contradicted this dossier. Wiz's Cloud Threat Landscape (<span class="mono">threats.wiz.io</span>) is scoped to <em>cloud-infrastructure</em> incidents and does not surface a dedicated Contagious Interview entry; the thing that bridges this developer-endpoint operation into cloud risk is precisely the <span class="mono">process.env</span> credential theft. The specific IOCs remain Tier B (single-source: the supplied brief).</div>
-    <div class="note"><b>Scope note.</b> §07 is internal ARCS methodology (it names ADRs and memory slugs). It names internal ADRs and memory slugs on purpose: this dossier is published in the open, and showing the method is the point rather than just asserting it. If the vocabulary is unfamiliar, the plain-language key above translates it.</div>
+    <div class="note"><b>Scope note.</b> §07 shows ARCS methodology to demonstrate the method rather than just assert it. The deeper internal detail (file-level telemetry and governance identifiers) is kept in a private companion, not on this public page. If any term here is unfamiliar, the plain-language key above translates it.</div>
   </section>
 
   <!-- SOURCES -->
@@ -818,6 +819,8 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
       <a href="https://www.silentpush.com/blog/contagious-interview-front-companies/">Silent Push, Contagious Interview front companies (OtterCookie)</a>
       <a href="https://opensourcemalware.com/blog/contagious-interview-vscode">OpenSource Malware, Contagious Interview abuses VS Code Tasks</a>
       <a href="https://www.sentinelone.com/labs/contagious-interview-threat-actors-scout-cyber-intel-platforms-reveal-plans-and-ops/">SentinelOne Labs, Contagious Interview threat-actor operations</a>
+      <a href="https://www.theregister.com/2025/09/25/lazarus_group_shares_malware_with_it_scammers/">The Register, Lazarus RAT code resurfaces in DPRK IT-worker scams</a>
+      <a href="https://malpedia.caad.fkie.fraunhofer.de/actor/wagemole">Malpedia, WageMole (related DPRK IT-worker actor)</a>
     </div>
   </footer>
 
