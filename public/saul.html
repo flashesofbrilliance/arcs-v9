@@ -201,7 +201,7 @@ document.getElementById("app").innerHTML=`
 <header><span class="eyebrow">${esc(PREP.who)} · <b>${esc(PREP.role)}</b> · ${esc(PREP.org)}</span><span class="eyebrow">read: 7 min · use: the whole process</span></header>
 <h1>${esc(PREP.headline[0])}<br><em>${esc(PREP.headline[1])}</em></h1>
 <p class="thesis">${esc(PREP.thesis)}</p>
-<nav class="nav"><a href="#truth">the posting</a><a href="#map">fit map</a><a href="#cards">battle cards</a><a href="#wave">interference</a><a href="#const">always · sometimes · never</a><a href="#ask">ask</a></nav>
+<nav class="nav"><a href="#truth">the posting</a><a href="#map">fit map</a><a href="#cards">battle cards</a><a href="#wave">interference</a><a href="#const">always · sometimes · never</a><a href="#ask">ask</a><a href="/followup">follow-up →</a><a href="/resume">resume bundle →</a></nav>
 
 <section id="truth"><h2>What the posting actually says</h2><p class="lede">Read it as written. Each cell names its source. Press and directory facts are secondary sources; confirm in the room.</p>
 <div class="truth">${PREP.truth.map(([k,v])=>`<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div></section>
