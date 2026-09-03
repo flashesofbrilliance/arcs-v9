@@ -110,7 +110,7 @@ const nextConfig: NextConfig = {
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
-        { source: "/:path((?!blog).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },

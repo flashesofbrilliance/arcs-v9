@@ -35,7 +35,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
   // /brief = operational, /full = surgical. Firehose is opt-in, one click deeper.
-  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3-full.html', '/blog/nftt/post-3': '/blog-nftt-post-3-full.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4-full.html', '/blog/nftt/post-4': '/blog-nftt-post-4-full.html', '/blog/nftt/take-home-trap': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/full': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/dossier': '/blog-nftt-take-home-trap-dossier.html', '/blog/nftt': '/blog-nftt-index.html', default: '/good.html' },
+  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2.html', '/blog/nftt/post-2': '/blog-nftt-post-2.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3.html', '/blog/nftt/post-3': '/blog-nftt-post-3.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4.html', '/blog/nftt/post-4': '/blog-nftt-post-4.html', '/blog/nftt/take-home-trap': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/full': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/dossier': '/blog-nftt-take-home-trap-dossier.html', '/blog/nftt': '/blog-nftt-index.html', default: '/good.html' },
 }
 
 export default async function proxy(request: NextRequest) {
@@ -75,7 +75,17 @@ export default async function proxy(request: NextRequest) {
 
   const multiPaths = MULTI_PATH_MAP[sub]
   if (multiPaths) {
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
+    if (
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/api') ||
+      // AEO discovery files must serve the real public/ static files on these
+      // hosts, not the host's catch-all `default` page. Without this passthrough
+      // good.arcs.care/robots.txt and /sitemap.xml were being rewritten to
+      // /good.html (200, but garbage as robots/sitemap), so the sitemap the
+      // NFTT robots.txt advertises was unreachable on its own host.
+      pathname === '/robots.txt' ||
+      pathname === '/sitemap.xml'
+    ) {
       return NextResponse.next()
     }
     const dest = multiPaths[pathname] ?? multiPaths.default

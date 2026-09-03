@@ -32,8 +32,10 @@
   .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
   .burger{display:none;background:var(--elev);border:1px solid var(--border2);border-radius:7px;color:var(--fg1);font-size:15px;line-height:1;padding:7px 11px;cursor:pointer;}
   .burger:hover{border-color:var(--cyan);color:var(--cyan);}
-  .brand{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--fg1);white-space:nowrap;}
-  .brand .g{color:var(--cyan);}
+  /* Universal ARCS Field OS wordmark (mirrors src/ui/Wordmark.tsx): ARCS heavy+wide, FIELD OS lighter+dimmer. Public surface, so no auth controls. */
+  .wm{display:inline-flex;align-items:baseline;gap:.45em;font-family:var(--mono);font-size:11px;text-transform:uppercase;white-space:nowrap;text-decoration:none;flex-shrink:0;}
+  .wm .a{color:var(--cyan);font-weight:800;letter-spacing:.22em;}
+  .wm .f{color:var(--fg4);font-weight:400;letter-spacing:.14em;}
   .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
   .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
   .navlinks a:hover{color:var(--cyan);background:var(--elev);}
@@ -102,15 +104,15 @@
 
   /* domain map as an actual mapping: their world → bridge → my shipped work */
   .dmap{border:1px solid var(--border);border-radius:14px;padding:2px 20px 6px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
-  .dmap-head{display:grid;grid-template-columns:1fr 2fr;gap:28px;padding:14px 0 11px;border-bottom:1px solid var(--border);}
+  .dmap-head{display:grid;grid-template-columns:1fr 76px 1fr;gap:18px;padding:14px 0 11px;border-bottom:1px solid var(--border);}
   .dmap-head span{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
-  .dmap-head .dh-l{color:var(--gold);} .dmap-head .dh-r{color:var(--green);}
-  .drow{display:grid;grid-template-columns:1fr 2fr;gap:28px;align-items:start;padding:16px 0;border-bottom:1px solid var(--border);}
+  .dmap-head .dh-l{color:var(--gold);} .dmap-head .dh-r{color:var(--green);text-align:right;grid-column:3;}
+  .drow{display:grid;grid-template-columns:1fr 76px 1fr;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);}
   .drow:last-child{border-bottom:none;}
   .dside .dv{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
   .dside .dlogos{font-size:13.5px;line-height:1.5;color:var(--fg2);margin-top:5px;}
   .dside .dmine{font-size:14px;line-height:1.52;color:var(--fg1);} .dside .dmine b{color:var(--green);font-weight:600;}
-  .dr{text-align:left;}
+  .dr{text-align:right;}
   .dconn{position:relative;height:2px;background:linear-gradient(90deg,var(--gold),var(--green));opacity:.55;}
   .dconn .dnode{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan);box-shadow:0 0 9px rgba(0,240,255,.55);}
   @media(max-width:640px){
@@ -130,7 +132,7 @@
   .pl .pn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:.03em;}
   .pl .pd{font-size:13px;line-height:1.5;color:var(--fg3);margin-top:7px;}
 
-  .dccard{position:relative;overflow:hidden;border:1px solid var(--border2);border-radius:16px;padding:28px 26px;max-width:720px;
+  .dccard{position:relative;overflow:hidden;border:1px solid var(--border2);border-radius:16px;padding:28px 26px;
     background:radial-gradient(600px 300px at 12% 0,rgba(0,240,255,.10),transparent 60%),linear-gradient(168deg,#0c1219,#080d13);}
   .dccard h3{font-size:23px;font-weight:800;letter-spacing:-.02em;}
   .dccard h3 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
@@ -151,7 +153,7 @@
 
 <nav class="nav">
   <div class="navin">
-    <span class="brand"><span class="g">&#9670;</span> Zach Harris</span>
+    <a class="wm" href="/" aria-label="ARCS Field OS"><span class="a">ARCS</span><span class="f">Field OS</span></a>
     <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
     <div class="navdrop" aria-hidden="true"></div>
     <div class="navlinks">
@@ -201,13 +203,19 @@
     <div class="dmap">
       <div class="dmap-head"><span class="dh-l">What Blacksmith's customers build</span><span class="dh-r">Where I've already shipped</span></div>
       <div class="drow">
-        <div class="dside dl"><div class="dv">Regulated fintech</div><div class="dlogos">Mercury &middot; Finch &middot; Expensify</div></div>        <div class="dside dr"><div class="dmine"><b>Grayscale</b>: SEC/FINRA, RBAC, compliance-in-the-loop gates on a $7B, 10-product launch.</div></div>
+        <div class="dside dl"><div class="dv">Regulated fintech</div><div class="dlogos">Mercury &middot; Finch &middot; Expensify</div></div>
+        <div class="dconn"><span class="dnode"></span></div>
+        <div class="dside dr"><div class="dmine"><b>Grayscale</b>: SEC/FINRA, RBAC, compliance-in-the-loop gates on a $7B, 10-product launch.</div></div>
       </div>
       <div class="drow">
-        <div class="dside dl"><div class="dv">AI-native infra</div><div class="dlogos">Exa &middot; Chroma &middot; Clerk &middot; Supabase</div></div>        <div class="dside dr"><div class="dmine"><b>ARCS</b>: an agentic platform on Claude with a live MCP server. I'm the developer your new products are for.</div></div>
+        <div class="dside dl"><div class="dv">AI-native infra</div><div class="dlogos">Exa &middot; Chroma &middot; Clerk &middot; Supabase</div></div>
+        <div class="dconn"><span class="dnode"></span></div>
+        <div class="dside dr"><div class="dmine"><b>ARCS</b>: an agentic platform on Claude with a live MCP server. I'm the developer your new products are for.</div></div>
       </div>
       <div class="drow">
-        <div class="dside dl"><div class="dv">Media &amp; consumer</div><div class="dlogos">Descript &middot; VEED &middot; Plex &middot; UserTesting</div></div>        <div class="dside dr"><div class="dmine"><b>WTA &middot; GoPro &middot; Axon</b>: real-time consumer platforms, CI/CD modernization, secure OTT.</div></div>
+        <div class="dside dl"><div class="dv">Media &amp; consumer</div><div class="dlogos">Descript &middot; VEED &middot; Plex &middot; UserTesting</div></div>
+        <div class="dconn"><span class="dnode"></span></div>
+        <div class="dside dr"><div class="dmine"><b>WTA &middot; GoPro &middot; Axon</b>: real-time consumer platforms, CI/CD modernization, secure OTT.</div></div>
       </div>
     </div>
     <p class="mapnote"><b>Your public customer list, matched to where I've actually shipped.</b> A forward-deployed Staff PE who co-designs with these customers is better for having lived their domains.</p>
