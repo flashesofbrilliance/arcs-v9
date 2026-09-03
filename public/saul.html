@@ -49,7 +49,7 @@ li b{font-weight:600}
 .mirror .eyebrow{margin-bottom:8px}
 .mirror q{font-family:var(--serif);font-size:20px;line-height:1.3;quotes:"“" "”"}
 .pick{display:grid;gap:8px}
-.pick li{grid-template-columns:1fr;background:var(--paper);border:1px solid var(--rule);padding:10px 14px;border-left:3px solid var(--accent)}
+.pick li{display:block;background:var(--paper);border:1px solid var(--rule);padding:10px 14px;border-left:3px solid var(--accent)}
 .watch li .n{color:var(--accent)}
 .close{margin-top:32px;padding:22px 0 0}
 .close p{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0;max-width:var(--measure);text-wrap:balance}
@@ -75,7 +75,7 @@ footer a{color:inherit}
 // Page data. Every number and quoted line carries its source: [LI] = Saul's LinkedIn profile, [site] = starpilot.ai as read 2026-09-03. Anything else is a question, not a claim.
 const PREP = {
   who: "Saul Miller", role: "VP Data Operations", org: "Starpilot",
-  orgUrl: "https://www.starpilot.ai", verified: "starpilot.ai read 2026-09-03 · LinkedIn profile 2026-09-03 · re-grounded after a Saul-vs-Saul read, 7 lines changed",
+  orgUrl: "https://www.starpilot.ai", verified: "sources: starpilot.ai + launch post (2026-06-11) + FELT paper (arXiv 2607.20683) + f4.fund + LinkedIn, all read 2026-09-03 · re-grounded after a Saul-vs-Saul read",
   headline: ["Same delivery problem you ran at Sama.", "Harder physics."],
   thesis: "Starpilot sources expert real-world datasets and maps human execution onto a customer's robot. That is the Sama delivery problem, moved into the physical world. You have run the people half of it for ten years.",
   mirror: { who: "Your own LinkedIn line", text: "Good with AI. Better with people." },
@@ -83,7 +83,8 @@ const PREP = {
   stages: [
     { seconds: 0, title: "What they say they are", body: [
       "Ground truth for physical autonomy. Multi-camera + depth, tactile sensing, sub-millimeter motion tracking, LiDAR. Engine: Source \u2192 Retarget \u2192 Evaluate \u2192 Refine. \u201cPowered by global PhD-led teams.\u201d",
-      "Three supply channels: robotics teams request data, businesses become data partners, individuals record (marked coming soon). San Francisco address. Stage, headcount, and customers are not on the site."
+      "Founded 2026, seed stage, about nine people. Public launch post June 11, 2026: handheld grippers and optical trackers capture human hands, retargeted to any arm, re-staged with NVIDIA Cosmos. CEO John Chirikjian, twice a YC founder. Hisham Bedri, MIT Media Lab, 3D sensing. Research paper with USC and Columbia on tactile data.",
+      "Three supply channels on the site: instrumented cells with PhD-led teams, business data partners, individuals recording (coming soon). Only the first looks operational. No funding amount, customers, or job posting found publicly. Their pitch is precision; rivals like Micro1 and Mecka pitch volume."
     ]},
     { seconds: 20, title: "Your fit in one breath", body: [
       "Ten years scaling AI data operations at Sama. Teams across 4 continents, 25+ concurrent client engagements, 95%+ retention against contracted SLAs. Owned 3D LiDAR annotation as a product. Ran the functions that drove company profitability, not just volume. All of it is on your profile; say it the same way."
@@ -96,16 +97,18 @@ const PREP = {
     { seconds: 80, title: "Ask two", pick: [
       "What share of collected episodes reach a customer-usable dataset, and where do the rest fall out?",
       "When retargeting fails on a customer's embodiment, who owns quality: ops, research, or the customer?",
-      "How much of your supply do you expect the individual channel to carry once it launches?",
+      "How many capture cells are running today, and how many demos per week come out of them?",
+      "What is the runway, and what does this role need to prove before the next round?",
       "What does this role own at 12 months that it does not own today?"
     ]},
     { seconds: 105, title: "Watch-outs", watch: [
       ["Mirror their words.", "Episodes, trajectories, embodiment, retarget. Not annotations and tasks."],
       ["Expect the one-company question.", "Ten years at Sama will come up. Answer with Change Machine: post-launch SaaS scaling, small team, no safety net."],
-      ["Public information is limited.", "Ask stage, headcount, customers, funding. Do not guess any of it out loud."]
+      ["At nine people, you are the data ops function.", "There is no team to inherit. Talk about building the first SOPs, QA, and partner onboarding, not managing a floor."],
+      ["Funding is not public.", "Assume capital is tight. Ask about runway; do not guess any number out loud."]
     ]}
   ],
-  premortem: "Most likely ways this interview goes wrong: you sound like a services vendor selling annotation; you tell a five-minute Sama story where they wanted a number; you get asked something about sensors or embodiments and bluff; you read as a process person to founders who want speed.",
+  premortem: "Most likely ways this interview goes wrong: you sound like a services vendor selling annotation; you tell a five-minute Sama story where they wanted a number; you get asked something about sensors or embodiments and bluff; you read as a process person to two technical founders who want speed and precision.",
   guardrails: {
     always: [
       "Number first, then the story. Cut every story at 60 seconds.",
@@ -115,10 +118,10 @@ const PREP = {
       "Pair every process you mention with the speed or margin outcome it bought."
     ],
     sometimes: [
-      "Name Fortune 50 clients. Only when asked about scale, and only ones already public on Sama\u2019s site.",
+      "Name Fortune 50 clients. Only when asked about scale, and only ones already public on Sama\u2019s site. Nine people will not be impressed by scale alone.",
       "Go deep on 3D LiDAR product work. Only if the interviewer is technical.",
       "Bring up the social-impact side of Sama. Only if they open the door on mission.",
-      "Talk hiring plans. Only after you know current headcount."
+      "Talk hiring plans. Only after you hear runway and cell count."
     ],
     never: [
       "Call their business annotation, labeling, or data services.",
