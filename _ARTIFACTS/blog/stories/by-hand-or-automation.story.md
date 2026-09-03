@@ -58,7 +58,7 @@ It holds the pre-call bet with a number on each line, the beliefs, and every upd
 
 One flag decides who is allowed to see what. The internal audience gets conviction scores and the war-game tabs. The external audience gets the rows and the quotes. Same file, two renders, and the leak check runs on the external one before it leaves.
 
-— *Verm: the seam is the --set flag. It takes key.path=value and overrides one field without opening the file. That is the difference between a template and a form letter: the shape holds, the values pass through.*
+The seam is the --set flag. It takes key.path=value and overrides one field without opening the file. That is the difference between a template and a form letter: the shape holds, the values pass through.
 
 ## Score the bet
 
@@ -88,16 +88,12 @@ The last command is the one that keeps me honest about the rest.
 
 It emits every tool in the repo with the one job it does, harvested from the tool's own declaration, never inferred. As of this week it opens with a named family: the receipt loop, in stage order. Before, the bet. During, the transcript. After, the score. Share, the gauntlet and the page. Compounds, the account record that gets one row longer every call.
 
-— *Red: he asked what he hands over and what comes back. He hands over an export of a customer's sales calls, one row per call. What comes back is a table per deal, rows over time, then a roll-up across the book. His format. It was always his format; the commands were built for it. I just kept showing him the chart instead of the rows.*
+He asked what he hands over and what comes back. He hands over an export of a customer's sales calls, one row per call. What comes back is a table per deal, rows over time, then a roll-up across the book. His format. It was always his format; the commands were built for it. I just kept showing him the chart instead of the rows.
 
 >> A question you did not answer is a row in the account record with a red number next to it. Keep it. It is the most useful row you have.
 
 ## The braid, for the record
 
-— *Red: two asks, verbatim, both answerable in a sentence.*
-
-— *Gold: five commands that already existed when he asked.*
-
-— *Verm: one seam, the flag that passes a value through a fixed shape. That is what turns by hand into mechanical without turning the person into a bystander.*
+Two asks, verbatim, both answerable in a sentence. Five commands that already existed when he asked. One seam, the flag that passes a value through a fixed shape. That is what turns by hand into mechanical without turning the person into a bystander.
 
 *Every quoted line above is verbatim from the recorded call or the email thread, checked against the raw transcript on the day this was written. Anything not in quotation marks is my read.*
