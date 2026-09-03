@@ -29,9 +29,13 @@
   /* sticky nav */
   .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     background:rgba(2,4,8,.78);border-bottom:1px solid var(--border);}
-  .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:flex-end;gap:12px;}
+  .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
   .burger{display:none;background:var(--elev);border:1px solid var(--border2);border-radius:7px;color:var(--fg1);font-size:15px;line-height:1;padding:7px 11px;cursor:pointer;}
   .burger:hover{border-color:var(--cyan);color:var(--cyan);}
+  /* Universal ARCS Field OS wordmark (mirrors src/ui/Wordmark.tsx): ARCS heavy+wide, FIELD OS lighter+dimmer. Public surface, so no auth controls. */
+  .wm{display:inline-flex;align-items:baseline;gap:.45em;font-family:var(--mono);font-size:11px;text-transform:uppercase;white-space:nowrap;text-decoration:none;flex-shrink:0;}
+  .wm .a{color:var(--cyan);font-weight:800;letter-spacing:.22em;}
+  .wm .f{color:var(--fg4);font-weight:400;letter-spacing:.14em;}
   .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
   .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
   .navlinks a:hover{color:var(--cyan);background:var(--elev);}
@@ -149,6 +153,7 @@
 
 <nav class="nav">
   <div class="navin">
+    <a class="wm" href="/" aria-label="ARCS Field OS"><span class="a">ARCS</span><span class="f">Field OS</span></a>
     <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
     <div class="navdrop" aria-hidden="true"></div>
     <div class="navlinks">
