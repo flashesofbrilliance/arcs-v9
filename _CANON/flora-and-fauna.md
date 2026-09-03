@@ -2,7 +2,7 @@
 
 **Status:** REFERENCE · Ethereal (Hyperstition Pipeline stage 1 — not ROM; nothing starts at ROM)
 **Version:** 0.1.0 · 2026-09-03 · **Companion instrument:** `scripts/corpus_prospector.py`
-**Companion survey:** `_STATE/2026-09-03-prospecting-survey.md` (loop 1: index) · **Surface:** `_ARTIFACTS/flora-and-fauna/surface.html` (five lenses, one corpus)
+**Companion survey:** `_STATE/2026-09-03-prospecting-survey.md` (loop 1: index) · **Surface:** `_ARTIFACTS/flora-and-fauna/surface.html` (five lenses, one corpus) · **World:** `_ARTIFACTS/world/` (the 720° Möbius surface, built by `scripts/world_build.py`)
 **Reads with:** `WORLD.md` (the physics) · `Tao-of-ARCS.md` (seed / spark) · `.claude/arcs-canon.md` (ROM primitives) · `ARCS-Canon-v2-0-Complete.md` Part I (the ARCS Law)
 
 > A spec says what a thing must do. A field guide says how to recognize it in the wild, what it

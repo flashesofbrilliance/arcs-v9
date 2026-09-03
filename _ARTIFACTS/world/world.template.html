@@ -1,0 +1,349 @@
+<title>ARCS World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  /* One visual world, committed: the Field OS void. Every color painted explicitly. */
+  :root{
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b; --border-hi:#2c3b52;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#64748b;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D; --violet:#9D7BFF;
+    --serif:"Cormorant Garamond",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+    --measure:640px; color-scheme:dark;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:radial-gradient(1200px 640px at 50% -12%,rgba(0,240,255,.07),transparent 62%),radial-gradient(900px 560px at 50% 112%,rgba(255,215,0,.045),transparent 60%),var(--bg);color:var(--fg1);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+  a{color:var(--cyan)}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  p,li{max-width:var(--measure);text-wrap:pretty}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+  .lab{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg4);max-width:none;text-wrap:balance}
+  .lab.cy{color:var(--cyan)} .lab.au{color:var(--gold)}
+  @media (max-width:640px){.lab{letter-spacing:.08em}}
+
+  /* ── frame ── */
+  #frame{display:grid;grid-template-rows:auto 1fr auto;height:100%;min-height:0}
+  #hud{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:12px clamp(14px,3vw,36px);border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(2,4,8,.96),rgba(2,4,8,.85))}
+  #hud .room{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:-.005em;color:#fff;white-space:nowrap}
+  #hud .face{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--border-hi);border-radius:999px;color:var(--fg2);white-space:nowrap}
+  #hud .face.private{border-color:var(--gold);color:var(--gold)}
+  #hud .theta{font-family:var(--mono);font-size:.74rem;color:var(--fg3);font-variant-numeric:tabular-nums;white-space:nowrap;margin-left:auto}
+  #hud .keys{font-family:var(--mono);font-size:.64rem;color:var(--fg4);white-space:nowrap}
+  #hud kbd{font:inherit;border:1px solid var(--border-hi);border-radius:3px;padding:0 5px;color:var(--fg2)}
+
+  #scene{overflow:auto;padding:26px clamp(14px,3vw,36px) 40px;min-height:0;scrollbar-color:var(--border) var(--bg)}
+  .room-title{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,5vw,3.6rem);line-height:.98;letter-spacing:-.015em;color:#fff;text-shadow:0 0 42px rgba(0,240,255,.12)}
+  .room-title em{font-style:italic;font-weight:500;color:var(--cyan)}
+  .lede{font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--fg2);margin:10px 0 0;max-width:36ch}
+  .lede b{color:var(--gold);font-style:normal;font-weight:500}
+  .cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:24px;align-items:start}
+  .panel{border:1px solid var(--border);border-radius:6px;background:rgba(13,17,23,.92);padding:16px 18px;min-width:0}
+  .panel h3{font-family:var(--serif);font-weight:600;font-size:1.3rem;color:#fff;margin-bottom:8px}
+  .panel p{color:var(--fg2);font-size:.92rem;margin:0 0 .6em}
+  .panel.wide{grid-column:1/-1}
+  .rows{display:grid;gap:6px;margin-top:8px}
+  .row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;padding:7px 10px;border:1px solid var(--border);border-radius:4px;background:rgba(17,24,39,.6);font-size:.88rem;transition:opacity .25s,filter .25s}
+  .row .k{font-family:var(--mono);font-size:.7rem;color:var(--cyan);white-space:nowrap}
+  .row .t{color:var(--fg1);min-width:0}
+  .row .d{font-family:var(--mono);font-size:.68rem;color:var(--fg4);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .row.fog{opacity:.32;filter:blur(.6px) grayscale(.6)}
+  .row .st{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg3)}
+  .row.open{background:rgba(17,24,39,.95);border-color:var(--border-hi)}
+  .row .more{display:none;grid-column:1/-1;font-size:.86rem;color:var(--fg2);border-top:1px dashed var(--border);padding-top:8px;margin-top:4px}
+  .row.open .more{display:block}
+  .row.clickable{cursor:pointer}
+  .row .more dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:0}
+  .row .more dt{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--fg4);padding-top:3px}
+  .row .more dd{margin:0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border-hi);border-radius:999px;color:var(--fg2);white-space:nowrap}
+  .chip.ok{border-color:var(--green);color:var(--green)} .chip.true{border-color:var(--cyan);color:var(--cyan)} .chip.shore{border-color:var(--orange);color:var(--orange)} .chip.gate{border-color:var(--red);color:var(--red)}
+  .quote{font-family:var(--serif);font-size:1.12rem;line-height:1.45;color:var(--fg1);border-left:2px solid var(--gold);padding-left:14px;margin:0 0 10px;max-width:var(--measure)}
+  .quote small{display:block;font-family:var(--mono);font-size:.66rem;color:var(--fg4);margin-top:6px;letter-spacing:.06em}
+  .md h1,.md h2,.md h3{font-family:var(--serif);color:#fff;margin:1em 0 .4em}
+  .md h1{font-size:1.6rem}.md h2{font-size:1.3rem}.md h3{font-size:1.1rem}
+  .md p{color:var(--fg2);font-size:.92rem}
+  .md blockquote{border-left:2px solid var(--gold);margin:0;padding-left:14px;color:var(--fg1);font-family:var(--serif);font-size:1.05rem}
+  .md table{border-collapse:collapse;font-size:.82rem;margin:8px 0;width:100%}
+  .md th,.md td{border:1px solid var(--border);padding:5px 8px;text-align:left;vertical-align:top}
+  .md th{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4)}
+  .md code{font-family:var(--mono);font-size:.78rem;color:var(--cyan)}
+  .md .tw{overflow-x:auto}
+  .gated{border:1px dashed var(--gold);border-radius:6px;padding:18px;color:var(--fg2);background:rgba(255,215,0,.03)}
+  .gated b{color:var(--gold)}
+  .doors{margin-top:26px;border-top:1px solid var(--border);padding-top:14px}
+  .door{display:inline-flex;flex-direction:column;gap:2px;border:1px solid var(--border-hi);border-radius:6px;padding:9px 12px;margin:6px 8px 0 0;background:rgba(13,17,23,.9);cursor:pointer;color:var(--fg1);font:inherit;text-align:left;max-width:320px}
+  .door:hover{border-color:var(--cyan)}
+  .door .to{font-family:var(--serif);font-size:1.05rem;color:#fff}
+  .door .via{font-family:var(--mono);font-size:.66rem;color:var(--fg3)}
+  .door .via b{color:var(--gold);font-weight:500}
+  .pollen{margin-top:26px;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--fg2);max-width:var(--measure)}
+  .pollen small{font-family:var(--mono);font-style:normal;font-size:.64rem;color:var(--fg4);letter-spacing:.08em;margin-left:8px}
+
+  /* lattice */
+  .latt{width:100%;height:auto;display:block;max-height:70vh}
+  .latt text{font-family:var(--mono);font-size:9px;fill:var(--fg3)}
+  .latt .dom{font-size:10px;letter-spacing:.14em;fill:var(--fg4)}
+  .latt .ring{fill:none;stroke:var(--border);stroke-width:.6}
+  .latt .e{stroke:var(--cyan);stroke-opacity:.16;fill:none}
+  .latt .e.x{stroke:var(--gold);stroke-opacity:.28}
+  .latt .n{cursor:pointer}
+  .latt .n circle{stroke:var(--bg);stroke-width:1}
+  .latt .n.sel circle{stroke:#fff;stroke-width:1.5}
+  .latt .n.dim{opacity:.18}
+  #nodeinfo{min-height:96px}
+  #nodeinfo .what{color:var(--fg1);font-size:.95rem}
+
+  /* strip navigator */
+  #strip{border-top:1px solid var(--border);background:linear-gradient(0deg,rgba(2,4,8,.98),rgba(2,4,8,.9));padding:8px clamp(14px,3vw,36px) 10px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+  .turn{appearance:none;border:1px solid var(--border-hi);background:var(--surface);color:var(--fg1);font:700 .8rem var(--mono);border-radius:999px;width:42px;height:42px;cursor:pointer}
+  .turn:hover{border-color:var(--cyan);color:var(--cyan)}
+  #mob{width:100%;height:auto;display:block;max-height:92px}
+  #mob .band{fill:none;stroke:var(--border-hi);stroke-width:14;stroke-linecap:round}
+  #mob .band2{fill:none;stroke:var(--cyan);stroke-opacity:.18;stroke-width:14;stroke-linecap:round}
+  #mob .stop{fill:var(--surface);stroke:var(--fg4);stroke-width:1;cursor:pointer}
+  #mob .stop.pv{stroke:var(--gold)}
+  #mob .stop:hover{stroke:#fff}
+  #mob .here{fill:var(--cyan);stroke:#fff;stroke-width:1.5}
+  #mob text{font-family:var(--mono);font-size:8.5px;fill:var(--fg4);letter-spacing:.06em;pointer-events:none}
+  #timerail{display:grid;grid-template-columns:1fr;gap:4px;min-width:280px;max-width:360px}
+  #timerail input{width:100%;accent-color:var(--gold)}
+  #timerail .now{font-family:var(--mono);font-size:.64rem;color:var(--fg2);display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+  #timerail .now span{white-space:nowrap}
+  #timerail .now b{color:var(--gold);font-weight:500}
+  @media (max-width:760px){#strip{grid-template-columns:auto 1fr auto;grid-template-rows:auto auto}#timerail{grid-column:1/-1;max-width:none}}
+  @media (prefers-reduced-motion:no-preference){#scene.enter{animation:enter .38s ease-out}}
+  @keyframes enter{from{transform:translateY(8px)}to{transform:none}}
+  .sr{position:absolute;left:-9999px}
+</style>
+
+<div id="frame">
+  <header id="hud">
+    <span class="lab cy">ARCS World // __TIER__ build</span>
+    <span class="room" id="hud-room">The Threshold</span>
+    <span class="face" id="hud-face">public face</span>
+    <span class="theta" id="hud-theta">θ 0°</span>
+    <span class="keys"><kbd>←</kbd><kbd>→</kbd> turn · <kbd>F</kbd> flip 360° · <kbd>1</kbd>–<kbd>8</kbd> rooms</span>
+  </header>
+  <main id="scene" aria-live="polite"></main>
+  <nav id="strip" aria-label="the Möbius strip">
+    <button class="turn" id="prev" aria-label="turn back">◀</button>
+    <svg id="mob" viewBox="0 0 900 96" role="img" aria-label="Position on the Möbius strip. One turn changes face; two turns return you home."></svg>
+    <button class="turn" id="next" aria-label="turn forward">▶</button>
+    <div id="timerail">
+      <input id="now" type="range" min="0" max="100" value="100" aria-label="time rail: fog what had not happened yet">
+      <div class="now"><span id="t0"></span><span>now: <b id="tnow"></b></span><span id="t1"></span></div>
+    </div>
+  </nav>
+</div>
+
+<script>
+const W = /*__WORLD__*/{};
+const TIER = "__TIER__";
+const PRIVATE = TIER === "private";
+
+/* ───────────── rooms: 8 places × 2 faces = 16 stops, 45° each, 720° home ───────────── */
+const ROOMS = [
+  {id:'threshold', name:'The Threshold', dom:null,  lede:'You arrive in fog. No tutorial. <b>Walk.</b>'},
+  {id:'compass',   name:'The Compass',   dom:'epi', lede:'The parser. It does not say what to decide; it says <b>where you are</b> and which way is uphill.'},
+  {id:'grove',     name:'The Grove',     dom:'ont', lede:'Heartwood. Every ring a decision, <b>numbered by the oracle</b> and nothing else.'},
+  {id:'ziggurat',  name:'The Ziggurat',  dom:'lib', lede:'The serialized lattice. Strata by hardness, faces by domain, <b>echoes as doors</b>.'},
+  {id:'trenches',  name:'The Trenches',  dom:'ety', lede:'Notes from the trenches. <b>Why these names</b>, told as it happened.'},
+  {id:'covenant',  name:'The Covenant',  dom:'epi', lede:'What is stored, what is not, and <b>whose judgment it is.</b> A covenant, not a shield.'},
+  {id:'guide',     name:'The Field Guide', dom:'met', lede:'Flora, fauna, mycelium, pathogens, ore. <b>What lives here</b>, and what feeds on what.'},
+  {id:'spine',     name:'The Spine',     dom:'met', lede:'One non-orientable surface. <b>Two is a quarrel, three is a world.</b>'},
+];
+const N = ROOMS.length, STOPS = N*2, DEG = 720/STOPS;
+let pos = 0;  // 0..STOPS-1 ; face = pos>=N ? private : public
+let now = null; // ISO date for the time rail
+
+/* ───────────── helpers ───────────── */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fog = d => (now && d && d>now) ? ' fog' : '';
+const byDate = (a,b)=>(a.date||'').localeCompare(b.date||'');
+function md(src){ // tiny markdown: headings, tables, blockquotes, paragraphs, inline bold/italic/code/links
+  const inl=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1');
+  const out=[]; const lines=src.split('\n'); let i=0;
+  while(i<lines.length){
+    const l=lines[i];
+    if(/^\s*$/.test(l)){i++;continue}
+    if(/^---+\s*$/.test(l)){i++;continue}
+    const h=l.match(/^(#{1,3})\s+(.*)/); if(h){out.push(`<h${h[1].length}>${inl(h[2])}</h${h[1].length}>`);i++;continue}
+    if(l.startsWith('|')){ const rows=[]; while(i<lines.length&&lines[i].startsWith('|')){rows.push(lines[i]);i++}
+      const cells=r=>r.replace(/^\||\|$/g,'').split('|').map(c=>c.trim());
+      const head=cells(rows[0]); const body=rows.slice(2).map(cells);
+      out.push(`<div class="tw"><table><thead><tr>${head.map(c=>`<th>${inl(c)}</th>`).join('')}</tr></thead><tbody>${body.map(r=>`<tr>${r.map(c=>`<td>${inl(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`); continue }
+    if(l.startsWith('>')){ const q=[]; while(i<lines.length&&lines[i].startsWith('>')){q.push(lines[i].replace(/^>\s?/,''));i++} out.push(`<blockquote>${inl(q.join(' '))}</blockquote>`); continue }
+    if(/^\s*[-*]\s/.test(l)){ const li=[]; while(i<lines.length&&/^\s*[-*]\s/.test(lines[i])){li.push(lines[i].replace(/^\s*[-*]\s/,''));i++} out.push(`<ul>${li.map(x=>`<li>${inl(x)}</li>`).join('')}</ul>`); continue }
+    const p=[]; while(i<lines.length&&!/^\s*$/.test(lines[i])&&!/^(#|\||>|\s*[-*]\s|---)/.test(lines[i])){p.push(lines[i]);i++}
+    out.push(`<p>${inl(p.join(' '))}</p>`);
+  }
+  return out.join('');
+}
+function row(k,t,d,extra,more,cls){ return `<div class="row${cls||''}${fog(d)}${more?' clickable':''}"><span class="k">${esc(k)}</span><span class="t">${t}${extra?` <span class="st">${esc(extra)}</span>`:''}</span><span class="d">${esc(d||'')}</span>${more?`<div class="more">${more}</div>`:''}</div>`; }
+function gated(what){ return `<div class="gated"><b>This face is metered.</b> ${esc(what)} lives on the private build. Free to hold, metered to fire: the bank is open, the spark is not. Turn once more and you are home.</div>`; }
+
+/* ───────────── doors: cross-domain lattice edges become passages ───────────── */
+const L=W.lattice, NODE=Object.fromEntries(L.nodes.map(n=>[n.id,n]));
+function doorsFor(room){
+  if(!room.dom) return [];
+  const out={};
+  L.edges.forEach(([a,b,w])=>{ const A=NODE[a],B=NODE[b]; if(!A||!B) return;
+    let from=null,to=null; if(A.dom===room.dom&&B.dom!==room.dom){from=A;to=B} else if(B.dom===room.dom&&A.dom!==room.dom){from=B;to=A} else return;
+    ROOMS.forEach(r=>{ if(r.dom===to.dom&&r.id!==room.id){ const k=r.id; if(!out[k]||out[k].w<w) out[k]={room:r,w,from,to}; } });
+  });
+  return Object.values(out).sort((x,y)=>y.w-x.w);
+}
+function doorsHtml(room){
+  const ds=doorsFor(room); if(!ds.length) return '';
+  return `<div class="doors"><p class="lab au">doors · orthogonal echoes across the lattice</p>${ds.map(d=>`<button class="door" data-go="${d.room.id}"><span class="to">${esc(d.room.name)}</span><span class="via">echo <b>${esc(d.from.label)}</b> ↔ <b>${esc(d.to.label)}</b> · weight ${d.w}</span></button>`).join('')}</div>`;
+}
+function diamonds(){ const src={}; L.edges.forEach(([a,b])=>{ (src[b]=src[b]||new Set()).add(NODE[a]?.dom); }); return Object.entries(src).map(([id,s])=>({id,label:NODE[id]?.label||id,h:s.size})).filter(x=>x.h>=4).sort((a,b)=>b.h-a.h); }
+function pollen(aspect){
+  const pool=W.proverbs.filter(p=>!aspect||p.aspect===aspect); if(!pool.length) return '';
+  const p=pool[(pos*7+pool.length)%pool.length];
+  return `<p class="pollen">“${esc(p.text)}”<small>${esc(p.id)} · ${esc(p.aspect_name||p.aspect||'')} · from ${esc(p.adr||'')}</small></p>`;
+}
+
+/* ───────────── the lattice drawing (radial: radius = stratum, azimuth = domain) ───────────── */
+let selNode=null;
+function latticeSvg(){
+  const R=290,cx=350,cy=350; const byDom={}; L.nodes.forEach(n=>(byDom[n.dom]=byDom[n.dom]||[]).push(n));
+  const P={};
+  Object.entries(byDom).forEach(([dom,ns])=>{ const a0=(L.domains[dom]?.a??0); const spread=54; ns.sort((x,y)=>(L.strata[x.st]?.r||0)-(L.strata[y.st]?.r||0));
+    ns.forEach((n,i)=>{ const a=(a0-spread/2+spread*((i+.5)/ns.length))*Math.PI/180; const r=(L.strata[n.st]?.r||.5)*R; P[n.id]={x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}; }); });
+  const rings=Object.values(L.strata).map(s=>`<circle class="ring" cx="${cx}" cy="${cy}" r="${s.r*R}"/>`).join('');
+  const labels=Object.values(L.strata).map(s=>`<text x="${cx+4}" y="${cy-s.r*R-3}">${esc(s.label)}</text>`).join('');
+  const doms=Object.entries(L.domains).map(([k,d])=>{const a=d.a*Math.PI/180; return `<text class="dom" x="${cx+(R+22)*Math.cos(a)}" y="${cy+(R+22)*Math.sin(a)}" text-anchor="middle">${esc(d.label)}</text>`;}).join('');
+  const edges=L.edges.map(([a,b,w])=>{const A=P[a],B=P[b]; if(!A||!B) return ''; const x=NODE[a].dom!==NODE[b].dom; return `<path class="e${x?' x':''}" d="M${A.x},${A.y} Q${cx},${cy} ${B.x},${B.y}" stroke-width="${.4+w/8}"/>`;}).join('');
+  const col={ok:'var(--green)',true:'var(--cyan)',shore:'var(--orange)',gate:'var(--red)'};
+  const nodes=L.nodes.map(n=>{const p=P[n.id]; return `<g class="n" data-id="${esc(n.id)}"><circle cx="${p.x}" cy="${p.y}" r="${n.st==='q'?5:4}" fill="${col[n.status]||'var(--fg3)'}"/></g>`;}).join('');
+  return `<svg class="latt" viewBox="0 0 700 700">${rings}${labels}${doms}<g>${edges}</g><g>${nodes}</g></svg>`;
+}
+function nodeInfo(id){
+  const n=NODE[id]; if(!n) return `<p class="lab">select a node</p><p class="what">${L.nodes.length} nodes · ${L.edges.length} edges · ${L.edges.filter(([a,b])=>NODE[a].dom!==NODE[b].dom).length} cross-domain echoes. Hardness: ${esc(L.hardness_rule)}</p>`;
+  const deg=L.edges.filter(([a,b])=>a===id||b===id); const doms=new Set(deg.map(([a,b])=>NODE[a===id?b:a].dom));
+  return `<p class="lab">${esc(n.id)} · ${esc(L.strata[n.st]?.label)} · ${esc(L.domains[n.dom]?.label)} · <span class="chip ${esc(n.status)}">${esc(n.status)}</span></p><h3>${esc(n.label)}</h3><p class="what">${esc(n.what)}</p><p class="lab">${deg.length} edges · touches ${doms.size} domain${doms.size===1?'':'s'}${doms.size>=4?' · diamond':''}</p>`;
+}
+
+/* ───────────── scenes ───────────── */
+const S={};
+S.threshold = face=>{
+  if(face==='public') return `<div class="cols">
+    <div class="panel"><h3>Navigate to clarity.</h3><p>Render through the fog. Survive the pressure. Find the flow. Every decision, recorded; every path, replayable. Superionic: where structure meets flow.</p><p>This is one surface with two faces. Each turn is 45°. After 360° you are on the other face of the same room. After 720° you are home. That is not a metaphor about Möbius strips; it is how they work.</p></div>
+    <div class="panel"><h3>What is federated here</h3><p>${L.nodes.length} lattice nodes across ${Object.keys(L.domains).length} domains and ${Object.keys(L.strata).length} strata · ${W.adrs.length} decisions · ${W.proverbs.length} proverbs · ${W.blog.length} stories · the covenant · the apex spine · the field guide${PRIVATE?` · ${W.dewy.length} DEWY receipts · ${W.witness.length} witness stubs · ${W.recoil.length} recoil ledgers · ${W.warrooms.length} war rooms`:''}.</p><p class="lab">lattice ${esc(L.version)} · drift check ${esc((L.last_drift_check||'').slice(0,10))} · built ${esc(W.meta.generated)} on ${esc(W.meta.branch)} @ ${esc(W.meta.head)}${W.meta.shallow?' · shallow clone':''}</p></div>
+    <div class="panel wide"><p class="lab au">load-bearing chemistry — what everything else bonds to</p><p>Hardness is the count of distinct domains bonded into a node. Three nodes are bonded from all four other domains: the diamonds. They are the elements ARCS is made of; the rest is compounds.</p><div class="chips">${diamonds().map(d=>`<span class="chip true" title="hardness ${d.h}">${esc(d.label)} · ${d.h}</span>`).join('')}</div><div class="cols" style="margin-top:14px"><div><p class="lab">loop</p><p>The same score, again, until a gate passes. Routines, the nightly canon cron, the harvest cycle, <em>tutti</em> across the barline.</p></div><div><p class="lab">graph</p><p>Stages that print through gates to fates. The L0–L5 pipeline, the print schedule, the operator sequencer. <em>Legato</em> between the stages.</p></div><div><p class="lab">fan</p><p>One question, many narrow lenses at once: LAB, BAR, KKL, the pack hunters. <em>Divisi</em>, then resolve.</p></div></div><p>To conduct the same chemistry in a different field: declare the frame, transform lawfully, keep the invariants (Tao §V). A changing flux induces a current; a changing problem induces a different ARCS with the same three elements.</p></div>
+    <div class="panel wide"><p class="lab au">the invariants — three grades of always-true</p><p>${esc(L.invariants.note)}</p><div class="chips">${['tautology','constitutional','empirical'].map(g=>(L.invariants[g]||[]).map(id=>`<span class="chip ${g==='empirical'?'ok':g==='constitutional'?'true':''}" title="${esc(g)}">${esc(NODE[id]?.label||id)}</span>`).join('')).join('')}</div></div>
+  </div>`;
+  if(!PRIVATE) return gated('The session record, the survey, and the receipts behind the decisions');
+  const s=W.survey||{};
+  return `<div class="cols">
+    <div class="panel"><h3>The private face</h3><p>Same room, other side. What the public face states, this face shows the receipts for. Nothing here is hosted; it is the bank the spark fires from.</p></div>
+    <div class="panel"><h3>Harvest loop 1 · index</h3><p>${s.indexed||'—'} files indexed · ${s.graded||'—'} graded · A ${s.grades?.A} · B ${s.grades?.B} · C ${s.grades?.C} · D ${s.grades?.D} · ${s.orphans} orphans (${((s.orphan_bytes||0)/1048576).toFixed(1)} MB)${s.shallow?' · ages are lower bounds (shallow clone)':''}</p><p class="lab">${esc(s.file||'')}</p></div>
+    <div class="panel wide"><p class="lab au">great moments · when someone outside named the category</p>${(W.moments||[]).map(m=>`<blockquote class="quote">${esc(m.quote)}<small>${esc(m.speaker)} · ${esc(m.date)}</small></blockquote><p>${esc(m.gut)}</p>`).join('')}</div>
+  </div>`;
+};
+S.compass = face=>{
+  if(face==='public'){ const tc=W.covenant.trust.sections.find(s=>s.h.startsWith('7'))||{body:''};
+    return `<div class="cols">
+    <div class="panel"><h3>L0 → L5</h3><div class="rows">${[['L0','raw input','receive the question exactly as given'],['L1','parse & validate','HOLD / REJECT gate; Kintsugi scan'],['L2','decompose','extract D, E, W; infer the opening Y'],['L3','Bayesian update','prior receipts, domain context'],['L4','triune classify','NULL / OM / UNDEFINED per dimension'],['L5','receipt emit','the frozen DEWY coordinate + Y state']].map(x=>row(x[0],esc(x[1]),'',x[2])).join('')}</div></div>
+    <div class="panel"><h3>The Y gate</h3><div class="rows">${[['SCRATCH','no coherent position yet · orient only'],['YELLOW','contested · Y gate active'],['PARADOX','options non-separable · Court auto-invoked'],['FORK','two live paths · skintrack choice'],['DELTA','conviction collapsed · watch for phase change'],['GREEN','high conviction · lock what you earned'],['LOCKED','post-Court · superionic']].map(x=>row(x[0],esc(x[1]),'')).join('')}</div></div>
+    <div class="panel wide"><h3>Your autonomy is the point</h3><div class="md">${md(tc.body)}</div></div></div>`; }
+  if(!PRIVATE) return gated('The DEWY receipts the compass printed');
+  const ds=[...W.dewy].sort(byDate).reverse();
+  return `<div class="cols"><div class="panel wide"><h3>${ds.length} DEWY receipts</h3><p>Each one a frozen coordinate: D the sharpened question, E the entity, W the window, Y the gate. Click to open.</p><div class="rows">${ds.map(d=>row(d.date,esc(d.id),d.date,d.surface,`<p><b>Q</b> ${esc(d.q)}</p><dl><dt>D</dt><dd>${esc(d.D)}</dd><dt>E</dt><dd>${esc(d.E)}</dd><dt>W</dt><dd>${esc(d.W)}</dd><dt>Y</dt><dd>${esc(d.Y)}</dd></dl><p class="lab">${esc(d.file)}</p>`)).join('')}</div></div></div>`;
+};
+S.grove = face=>{
+  const adrs=[...W.adrs].sort(byDate);
+  if(face==='public'){ const months={}; adrs.forEach(a=>{const m=(a.date||'undated').slice(0,7); (months[m]=months[m]||[]).push(a)});
+    return `<div class="cols"><div class="panel wide"><h3>${adrs.length} decisions of record</h3><p>Titles and status on this face. The question each one answered is on the other. Numbering: oracle-issued; git's non-fast-forward rejection is the lock.</p>${Object.entries(months).map(([m,xs])=>`<p class="lab" style="margin-top:10px">${esc(m)}</p><div class="rows">${xs.map(a=>row(a.id,esc(a.title),a.date,a.status)).join('')}</div>`).join('')}</div></div>`; }
+  if(!PRIVATE) return gated('The sharp questions behind each decision, and the witness stubs that preceded them');
+  const ws=[...W.witness].sort(byDate).reverse();
+  return `<div class="cols">
+    <div class="panel"><h3>The questions</h3><div class="rows">${adrs.filter(a=>a.sharp).reverse().map(a=>row(a.id,esc(a.title),a.date,a.status,`<p>${esc(a.sharp)}</p>`)).join('')}</div></div>
+    <div class="panel"><h3>${ws.length} witness stubs</h3><p>The sound the tree made, not a summary. Attested live, promoted later only if durable.</p>${ws.map(w=>`<div class="row${fog(w.date)}" style="grid-template-columns:1fr"><blockquote class="quote" style="margin:0">${esc(w.quote)}<small>${esc(w.ts)} · Y ${esc(w.y||'—')}${w.promoted?' · promoted':''}</small></blockquote>${w.gut?`<p style="margin:6px 0 0;font-size:.84rem;color:var(--fg3)">${esc(w.gut)}</p>`:''}</div>`).join('')}</div></div>`;
+};
+S.ziggurat = face=>{
+  if(face==='public') return `<div class="cols"><div class="panel wide" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:18px;align-items:start"><div>${latticeSvg()}</div><div id="nodeinfo" class="panel">${nodeInfo(selNode)}</div></div>
+    <div class="panel"><h3>Strata</h3><p>Radius is stratum: ${Object.values(L.strata).map(s=>esc(s.label)).join(' → ')}. Azimuth is domain. Gold arcs are cross-domain echoes: the same shape seen from two faces of the corpus, which is what makes a door.</p></div>
+    <div class="panel"><h3>The satoshi</h3><p>${esc(L.satoshi?.note)}</p><div class="chips">${(L.satoshi?.scales||[]).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div></div></div>`;
+  if(!PRIVATE) return gated('The memory ziggurat: 200+ memory nodes and their declared links');
+  const z=W.ziggurat||{};
+  return `<div class="cols"><div class="panel"><h3>The memory ziggurat</h3><p>${z.nodes} nodes · ${z.edges} declared edges · ${z.dangling} dangling declared links · emitted ${esc(z.generated)}. Stratum is echo weight (declared in-degree); no edge invented, declared only.</p></div>
+    <div class="panel"><h3>Load-bearing hubs</h3><div class="rows">${(z.hubs||[]).map(h=>row(String(h.in),esc(h.id),'',[h.kind,h.type].filter(Boolean).join(' · '),`<p>${esc(h.desc)}</p>`)).join('')}</div></div>
+    <div class="panel wide"><h3>Recoil ledgers · ${W.recoil.length}</h3><div class="rows">${[...W.recoil].sort(byDate).reverse().map(r=>row(r.date,esc(r.name),r.date)).join('')}</div></div></div>`;
+};
+S.trenches = face=>{
+  if(face==='public') return `<div class="cols">${W.blog.map(b=>`<div class="panel${b.tier==='full'?' wide':''}"><p class="lab cy">${esc(b.eyebrow||'notes from the trenches')} · ${esc(b.tier)}</p><h3>${esc(b.title)}</h3><p>${esc(b.description||'')}</p>${b.lede?`<p style="font-family:var(--serif);font-size:1.05rem;color:var(--fg1)">${esc(b.lede)}</p>`:''}${b.arc?.stops?.length?`<p class="lab">${esc(b.arc.caption||'the arc')}</p><div class="chips">${b.arc.stops.map(s=>{const t=(b.threads||[]).find(t=>t.id===s.thread);return `<span class="chip" style="border-color:${esc(t?.hex||'var(--border-hi)')};color:${esc(t?.hex||'var(--fg2)')}">${esc(s.label)}</span>`}).join('')}</div>`:''}<p class="lab">${esc(b.file)}</p></div>`).join('')}</div>`;
+  if(!PRIVATE) return gated('The war rooms and per-counterpart recoil behind the stories');
+  return `<div class="cols"><div class="panel"><h3>War rooms · ${W.warrooms.length}</h3><div class="chips">${W.warrooms.map(w=>`<span class="chip">${esc(w)}</span>`).join('')}</div></div><div class="panel"><h3>Recoil · ${W.recoil.length} ledgers</h3><p>Ex-ante receipt before any counterpart send; pre-send gauntlet; close-loop when they respond. The three mandatory-blocking prints (ADR-068).</p><div class="rows">${[...W.recoil].sort(byDate).reverse().slice(0,20).map(r=>row(r.date,esc(r.name),r.date)).join('')}</div></div></div>`;
+};
+S.covenant = face=>{
+  const c=W.covenant;
+  if(face==='public') return `<div class="cols"><div class="panel wide"><p class="lab au">trust contract v${esc(c.trust.version)} · ${esc(c.trust.date)} · canonical</p><h3>${esc(c.trust.sections[0]?.h||'What ARCS is')}</h3><div class="md">${md(c.trust.sections[0]?.body||'')}</div></div>
+    ${c.trust.sections.slice(1).map(s=>`<div class="panel"><h3>${esc(s.h)}</h3><div class="md">${md(s.body)}</div></div>`).join('')}
+    <div class="panel"><h3>Privacy</h3>${c.privacy.map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+    <div class="panel"><h3>Terms · a covenant, not a liability shield</h3>${c.terms.map(p=>`<p>${esc(p)}</p>`).join('')}</div></div>`;
+  const ids=new Set(W.covenant_adrs); const adrs=W.adrs.filter(a=>ids.has(a.id));
+  return `<div class="cols"><div class="panel wide"><h3>What enforces it</h3><p>The covenant is kept true by architecture, not policy. These are the decisions that do the keeping.</p><div class="rows">${adrs.map(a=>row(a.id,esc(a.title),a.date,a.status,a.sharp?`<p>${esc(a.sharp)}</p>`:'')).join('')}</div>${PRIVATE?'':gated('The sharp question behind each enforcing decision')}</div></div>`;
+};
+S.guide = face=>{
+  const f=W.flora;
+  if(face==='public') return `<div class="cols">${f.kingdoms.map(k=>`<div class="panel"><p class="lab">plate ${esc(k.n)}</p><h3>${esc(k.name)}</h3><div class="rows">${k.organisms.map(o=>`<div class="row" style="grid-template-columns:1fr auto"><span class="t"><em style="font-family:var(--serif);font-size:1.05rem">${esc(o.binomial)}</em></span><span class="d">${esc(o.name)}</span></div>`).join('')}</div></div>`).join('')}<div class="panel wide"><p class="lab">${esc(f.file)} · the interactive plates live in _ARTIFACTS/flora-and-fauna/surface.html</p></div></div>`;
+  if(!PRIVATE) return gated('The prospecting survey and the ore ledger');
+  const s=W.survey||{};
+  return `<div class="cols"><div class="panel"><h3>Ore and dormancy</h3><p>${s.orphans} files nothing points at, ${((s.orphan_bytes||0)/1048576).toFixed(1)} MB. Staleness is not death; dormancy is a claim that must be earned. Never delete before the bundle exists.</p><p class="lab">harvest cycle · index ✓ · catalog · organize · bundle</p></div><div class="panel"><h3>Grades</h3><div class="rows">${['A','B','C','D'].map(g=>row(g,String(s.grades?.[g]??'—'),'',{A:'dated · provenance · referenced · well-formed',B:'three of four',C:'two of four',D:'one or none, or a secret hit'}[g])).join('')}</div></div></div>`;
+};
+S.spine = face=>{
+  if(face==='public') return `<div class="cols"><div class="panel wide md">${md(W.apex)}</div></div>`;
+  if(!PRIVATE) return gated('The witness stubs and DEWY receipt the spine was drawn from');
+  const ws=W.witness.filter(w=>w.date==='2026-08-28'); const ds=W.dewy.filter(d=>d.date==='2026-08-28');
+  return `<div class="cols"><div class="panel"><h3>Witnessed that night</h3>${ws.length?ws.map(w=>`<blockquote class="quote">${esc(w.quote)}<small>${esc(w.ts)}</small></blockquote>`).join(''):'<p>No stubs dated 2026-08-28 in this build.</p>'}</div><div class="panel"><h3>Receipted</h3><div class="rows">${ds.map(d=>row(d.date,esc(d.id),d.date,d.surface,`<p><b>Q</b> ${esc(d.q)}</p><dl><dt>D</dt><dd>${esc(d.D)}</dd><dt>Y</dt><dd>${esc(d.Y)}</dd></dl>`)).join('')||'<p>—</p>'}</div></div></div>`;
+};
+const ASPECT={compass:'D',grove:'Y',ziggurat:'E',trenches:'E',covenant:'Y',guide:'W',spine:'D',threshold:null};
+
+/* ───────────── render ───────────── */
+function render(){
+  const room=ROOMS[pos%N], face=pos>=N?'private':'public';
+  $('#hud-room').textContent=room.name; $('#hud-face').textContent=face+' face'; $('#hud-face').className='face '+face;
+  $('#hud-theta').textContent=`θ ${pos*DEG}°`;
+  const sc=$('#scene'); sc.classList.remove('enter'); void sc.offsetWidth;
+  sc.innerHTML=`<p class="lab cy">room ${pos%N+1} of ${N} · ${face} face · ${pos*DEG}° of 720°</p><h1 class="room-title">${esc(room.name).replace(/^The /,'The <em>')}${room.name.startsWith('The ')?'</em>':''}</h1><p class="lede">${room.lede}</p>${S[room.id](face)}${doorsHtml(room)}${pollen(ASPECT[room.id])}`;
+  sc.classList.add('enter'); sc.scrollTop=0;
+  sc.querySelectorAll('.row.clickable').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('a')) return; r.classList.toggle('open'); }));
+  sc.querySelectorAll('.door').forEach(b=>b.addEventListener('click',()=>{ const i=ROOMS.findIndex(r=>r.id===b.dataset.go); go(i+(pos>=N?N:0)); }));
+  sc.querySelectorAll('.latt .n').forEach(g=>g.addEventListener('click',()=>{ selNode=g.dataset.id; sc.querySelectorAll('.latt .n').forEach(x=>x.classList.toggle('sel',x.dataset.id===selNode)); $('#nodeinfo').innerHTML=nodeInfo(selNode); }));
+  drawStrip();
+  try{localStorage.setItem('arcs-world-pos',String(pos));}catch(e){}
+}
+function go(p){ pos=((p%STOPS)+STOPS)%STOPS; render(); }
+$('#prev').addEventListener('click',()=>go(pos-1)); $('#next').addEventListener('click',()=>go(pos+1));
+document.addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT') return;
+  if(e.key==='ArrowRight') go(pos+1); else if(e.key==='ArrowLeft') go(pos-1); else if(e.key==='f'||e.key==='F') go(pos+N); else if(/^[1-8]$/.test(e.key)) go((+e.key-1)+(pos>=N?N:0)); });
+
+/* ───────────── the strip: a lemniscate; first loop public, second loop private ───────────── */
+function lem(t){ // t in [0,1) → point on ∞ curve
+  const a=2*Math.PI*t, s=Math.sin(a), c=Math.cos(a), d=1+s*s; return {x:450+380*c/d, y:48+40*s*c/d};
+}
+function drawStrip(){
+  const svg=$('#mob'); let path='M'; for(let i=0;i<=200;i++){const p=lem(i/200); path+=`${i?'L':''}${p.x.toFixed(1)},${p.y.toFixed(1)} `;}
+  let stops=''; for(let i=0;i<STOPS;i++){ const p=lem(i/STOPS); const pv=i>=N; stops+=`<circle class="stop${pv?' pv':''}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6" data-i="${i}"><title>${esc(ROOMS[i%N].name)} · ${pv?'private':'public'} face</title></circle>`; }
+  const h=lem(pos/STOPS);
+  svg.innerHTML=`<path class="band" d="${path}"/><path class="band2" d="${path}"/>${stops}<circle class="here" cx="${h.x.toFixed(1)}" cy="${h.y.toFixed(1)}" r="7"/><text x="450" y="93" text-anchor="middle">← private face · the crossing is the half-twist · one turn = other face · two turns = home · public face →</text>`;
+  svg.querySelectorAll('.stop').forEach(c=>c.addEventListener('click',()=>go(+c.dataset.i)));
+}
+
+/* ───────────── time rail ───────────── */
+(function(){
+  const tr=W.time_range; if(!tr){ $('#timerail').hidden=true; return; }
+  const d0=new Date(tr[0]), d1=new Date(tr[1]); const days=Math.max(1,Math.round((d1-d0)/86400000));
+  const inp=$('#now'); inp.max=days; inp.value=days; $('#t0').textContent=tr[0]; $('#t1').textContent=tr[1];
+  const set=()=>{ const d=new Date(d0.getTime()+(+inp.value)*86400000); now=d.toISOString().slice(0,10); $('#tnow').textContent=now+(now>=tr[1]?' · all rendered':' · later is fog'); document.querySelectorAll('.row[class]').forEach(()=>{}); render(); };
+  inp.addEventListener('input',()=>{ const d=new Date(d0.getTime()+(+inp.value)*86400000); now=d.toISOString().slice(0,10); $('#tnow').textContent=now+(now>=tr[1]?' · all rendered':' · later is fog'); document.querySelectorAll('#scene .row').forEach(r=>{ const dd=r.querySelector('.d')?.textContent; if(dd&&/^\d{4}-\d{2}-\d{2}$/.test(dd)) r.classList.toggle('fog',dd>now); }); });
+  now=tr[1]; $('#tnow').textContent=now+' · all rendered';
+})();
+
+try{ const p=+localStorage.getItem('arcs-world-pos'); if(!isNaN(p)&&p>=0&&p<STOPS) pos=p; }catch(e){}
+render();
+</script>
