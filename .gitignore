@@ -88,3 +88,6 @@ operators/_torch_distillation_artifacts/
 supabase/
 test-results/
 .claude/skills/sbom-payload-scan-workspace/
+
+# generated job-search output (scored rows, raw digests); the board + _STATE carry the durable record
+runtime/job-search/
