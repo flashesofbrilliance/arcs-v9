@@ -185,7 +185,16 @@ const byId = {}; NODES.forEach(n=>{ if(n.id) byId[n.id]=n; });
 
 // in-degree: how many nodes reference each id in their links[]
 const IND = {}; NODES.forEach(n=>(n.links||[]).forEach(l=>{ IND[l]=(IND[l]||0)+1; }));
-function required(k){ return NODES.filter(n=>n.id&&IND[n.id]&&isLive(n)).map(n=>({n,deg:IND[n.id]})).sort((a,b)=>b.deg-a.deg).slice(0,k); }
+// Two shelves. Foundational = required BY CANON (constitutional clusters), regardless of
+// link-count: in-degree structurally under-weights foundations because everything
+// assumes them and nothing links to them. Load-bearing = required BY REFERENCE (in-degree).
+const FOUND_RE = /architecture|canon-governance|user cognition|product context|governance|design principles|leadership|rom-primitive/i;
+function foundational(k){ return NODES.filter(n=>isLive(n)&&FOUND_RE.test(n.cluster||"")).map(n=>({n,deg:IND[n.id]||0})).sort((a,b)=>b.deg-a.deg||String(a.n.epoch||"z").localeCompare(String(b.n.epoch||"z"))).slice(0,k); }
+function required(k, exclude){ return NODES.filter(n=>n.id&&IND[n.id]&&isLive(n)&&!(exclude&&exclude.has(n.id))).map(n=>({n,deg:IND[n.id]})).sort((a,b)=>b.deg-a.deg).slice(0,k); }
+function shelfRows(list, why){ return list.map((r,i)=>`<div class="row" onclick="jumpTo('${esc(r.n.id)}')">
+      <span class="rk">${i+1}</span>
+      <div><div class="rt">${esc(r.n.title)}<span class="rd">${esc(r.n.domain)}</span></div><div class="rc">${esc(r.n.claim)}</div></div>
+      <span class="rw">${why(r)}</span></div>`).join(""); }
 
 function aggcounts(nodes){ const c={}; AGG.forEach(b=>c[b]=0); nodes.forEach(n=>c[agg(n.status)]++); return c; }
 function domains(){ const d={}; NODES.forEach(n=>{(d[n.domain]=d[n.domain]||[]).push(n);}); return d; }
@@ -201,18 +210,19 @@ const applyF = () => NODES.filter(n =>
 function renderSkim(){
   const total = NODES.length, c = aggcounts(NODES);
   const dm = domains(), health = Math.round(100*c.LIVE/total);
-  const req = required(8);
+  const found = foundational(6);
+  const foundIds = new Set(found.map(r=>r.n.id));
+  const req = required(8, foundIds);
   const drift = NODES.filter(n=>agg(n.status)==="DRIFTED");
   const leg = AGG.filter(b=>c[b]).map(b=>`<span class="it"><span class="sw" style="background:${ABI[b].c}"></span>${ABI[b].label} ${c[b]}</span>`).join("");
-  const rows = req.map((r,i)=>`<div class="row" onclick="jumpTo('${esc(r.n.id)}')">
-      <span class="rk">${i+1}</span>
-      <div><div class="rt">${esc(r.n.title)}<span class="rd">${esc(r.n.domain)}</span></div><div class="rc">${esc(r.n.claim)}</div></div>
-      <span class="rw">referenced ${r.deg}&times;</span></div>`).join("") ||
-    `<div class="rc" style="padding:8px 10px">No cross-referenced live nodes yet.</div>`;
+  const foundRows = shelfRows(found, r=>esc(r.n.cluster)) || `<div class="rc" style="padding:8px 10px">No constitutional nodes graded live.</div>`;
+  const rows = shelfRows(req, r=>`referenced ${r.deg}&times;`) || `<div class="rc" style="padding:8px 10px">No cross-referenced live nodes yet.</div>`;
   document.getElementById("skim").innerHTML = `
     <div class="bignum"><span class="n">${health}<span style="font-size:.5em">%</span></span><span class="l">of ${total} load-bearing nodes are <b style="color:var(--live)">live</b> and hold against the repo. ${c.DRIFTED} drifted &middot; ${c.STALE} stale.</span></div>
     <div class="hbar">${track(c,total)}</div><div class="hleg">${leg}</div>
-    <div class="rr-h">Required reading <small>the load-bearing spine &mdash; ranked by how often the corpus leans on it, live only</small></div>
+    <div class="rr-h">Required reading &middot; foundational <small>read to understand the world &mdash; required by canon, not by link-count</small></div>
+    <div class="rr">${foundRows}</div>
+    <div class="rr-h">Required reading &middot; load-bearing <small>read to do the work &mdash; ranked by how often the corpus leans on it, live only</small></div>
     <div class="rr">${rows}</div>
     ${drift.length?`<div class="attn"><b>Needs attention:</b> ${drift.length} claim${drift.length!=1?"s have":" has"} drifted from the record. ${esc((drift[0]||{}).title||"")}${drift.length>1?`, +${drift.length-1} more`:""}.</div>`:""}
     <div class="jump">Go deeper: <a onclick="setAlt('scan')">the informatics &rarr;</a> &middot; <a onclick="setAlt('trenches')">every node &rarr;</a></div>`;
