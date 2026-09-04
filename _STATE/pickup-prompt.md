@@ -53,3 +53,18 @@ reference). Meaning, not mechanism — un-outcome-tested. Gate them, don't canon
 ## Reach on THIS prompt
 Echo-flagged (I authored it). GREEN sections survived field-contact; YELLOW/resonance did not. Cut what
 doesn't ground on a re-read. The open-loops backlog is the honest close: parked, not lost, workable next.
+
+## Drive update (2026-09-04 — after driving the loop-closing)
+- **#2 claims-skeptic: CLOSED.** Independent adversary CONFIRMED 4/5 core repo claims (handler-built,
+  compass=Claude-not-operators, SAGE-enrichment-only+operators-unwired, sensor-deterministic, _STATE
+  files committed) → those GREENs *survived an independent audit*, not just my field-contact. Caught
+  **deceipt #13** (my "only audit-translator references operators" — `audit-client.ts` also does; both
+  dead code, load-bearing claim holds).
+- **#4 outcome-grep: reclassified, not blocked.** **Deceipt #12** — I mislabeled it "DB-blocked"; it ran
+  via MCP (247/247 horizon, 88 one-way, 2 outcomes). Real gate = judgment/PII (classify outcome-
+  observability from decision content), not DB.
+- **Deceipt ledger now 13** (was 11). Two caught *by driving the loops* — mislabels I'd have carried forward.
+- **The one un-closed strand:** the DB claims (247/189/6-of-9-degenerate) are MCP-verified *by me*, NOT
+  independently audited — claims-skeptic lacks Supabase. That's the residual gap for next session.
+- **Human-gated (not mine to close):** consolidation-retirement, NFTT b-rework+ship, ROM-candidate (parked),
+  push-to-origin (17 commits ahead, off-machine backup = your bless).
