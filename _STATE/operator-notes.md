@@ -60,3 +60,11 @@ not confident confabulation. Append over time; each entry is a learning that cha
     that *feels examined* whose map is upside-down is more dangerous than an empty instrument — it
     points at the rocks with the confidence of consideration. The only tell is external: turn the map
     over against something that isn't you.
+
+13. **Stack-rank candidate frames/directions on THREE axes, not two: survivability × plausibility ×
+    regime-match.** Expert-pruning (the master sees a handful where the novice sees infinite) is
+    *regime-bound* — the handful is valid only in the regime the mastery was learned in. A confident,
+    well-ranked handful on the wrong seas capsizes regardless of the ranking. So before trusting the
+    rank, ask: *are these the seas these survivability-priors were learned on?* Regime home is ADR-033
+    (validityBounds {n, conditions, stationarity}); this adds regime-match as a ranking axis, not just
+    a validity bound. YELLOW — only the outcome resolves regime-match, same as everything else.
