@@ -1,0 +1,633 @@
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alert Swipe Board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   SKIN CONTRACT. Everything below reads only these tokens.
+   To reskin: replace this :root block (and the dark block) with
+   the target system's values. Nothing else needs to change.
+   Canonical values: ARCS FieldOS (dark cockpit), see WORLD.md. Single-theme by design.
+   ============================================================ */
+html{color-scheme:dark}
+:root{
+  /* Ported from src/ui/tokens.ts (surface / border / text / signal / font / radius / space). No invented hex. */
+  --bg:#020408; --surface:#0d1117; --surface-2:#111827; --border:#1e293b; --border-strong:rgba(122,210,255,.38); --hairline:rgba(255,255,255,.06);
+  --fg-1:#e2e8f0; --fg-2:#94a3b8; --fg-3:#64748b; --fg-4:#475569;
+  --accent:#00F0FF; --accent-soft:rgba(0,240,255,.08); --accent-glow:rgba(0,240,255,.35);
+  --pursue:#00FF9D; --pursue-soft:rgba(0,255,157,.09);
+  --consider:#FFD700; --consider-soft:rgba(255,215,0,.09);
+  --pass:#FF4D6D; --pass-soft:rgba(255,77,109,.10);
+  --font-ui:'Inter',system-ui,-apple-system,sans-serif;
+  --font-data:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+  --fs-0:12px; --fs-1:13px; --fs-2:14px; --fs-3:16px; --fs-4:20px;
+  --radius:3px; --radius-sm:6px; --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:40px;
+  --measure:64ch; --control:36px; --control-touch:44px;
+  --shadow:0 8px 22px -10px rgba(0,0,0,.7);
+  /* compass-kit recipes (public/compass-kit/primitives.jsx + atoms.jsx): glass body, recessed screen, underlit LED */
+  --glass:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#141c24,#0b1117);
+  --glass-card:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016);
+  --glass-bevel:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.45);
+  --screen:linear-gradient(180deg,#090d12,#0c1219);
+  --screen-inset:inset 0 2px 5px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.04);
+  --card-border:#243042; --well-border:#1c2736; --well-border-hover:#34435a;
+  --btn-base:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -2px 7px rgba(0,0,0,.5),0 4px 12px rgba(0,0,0,.4);
+  --btn-press:inset 0 2px 6px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
+  /* mono label ladder (font.tier): size up, tracking down, weight holds */
+  --t2:700 10px/1.2 var(--font-data); --t2-ls:.14em;
+  --t3:700 10.5px/1.2 var(--font-data); --t3-ls:.12em;
+  --t4:600 11px/1.2 var(--font-data); --t4-ls:.10em;
+  --t6:700 13px/1.2 var(--font-data); --t6-ls:.06em;
+}
+/* ============================================================ */
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg-1);font-family:var(--font-ui);font-size:var(--fs-2);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover,a:focus-visible{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button,select,input{font:inherit;color:inherit}
+.data{font-family:var(--font-data);font-variant-numeric:tabular-nums}
+.wrap{max-width:1280px;margin:0 auto;padding:var(--sp-5) var(--sp-4) var(--sp-6)}
+
+/* header */
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--sp-2) var(--sp-4);padding-bottom:var(--sp-4);margin-bottom:var(--sp-4);border-bottom:1px solid var(--hairline)}
+h1{font-size:var(--fs-4);font-weight:600;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.brand{display:inline-flex;align-items:center;gap:.75rem;flex-basis:100%;font-family:var(--font-data);font-size:.65rem;text-transform:uppercase;white-space:nowrap;text-decoration:none}
+.brand:hover{text-decoration:none}
+.brand .mark{color:var(--accent);font-weight:800;letter-spacing:.22em}
+.brand .os{color:var(--fg-3);font-weight:400;letter-spacing:.14em;margin-left:-.3rem}
+.brand .sep{width:1px;height:12px;background:var(--border)}
+.brand .section{color:var(--fg-4);letter-spacing:.12em}
+@media (max-width:640px){.brand .sep,.brand .section{display:none}}
+.kicker{font:var(--t2);letter-spacing:var(--t2-ls);text-transform:uppercase;color:var(--fg-4);white-space:nowrap}
+.status{font-size:var(--fs-1);color:var(--fg-2);flex-basis:100%;max-width:var(--measure);text-wrap:pretty;margin:0}
+.status b{color:var(--fg-1);font-weight:500}
+.status .data{color:var(--fg-1)}
+.stat{white-space:nowrap}
+.stats{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-4);flex-basis:100%;margin:0;font-size:var(--fs-1);color:var(--fg-2)}
+.stats .data{color:var(--fg-1);font-weight:600}
+
+/* flow line: the pipeline as one sentence, stages are a real sequence */
+.flow{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-3);align-items:center;font-size:var(--fs-1);color:var(--fg-2);padding:0 0 var(--sp-3);border-bottom:1px solid var(--hairline);margin-bottom:var(--sp-4)}
+.flow .st{display:inline-flex;gap:var(--sp-2);align-items:baseline;white-space:nowrap}
+.flow .st b{color:var(--fg-1);font-weight:500}
+.flow .st .data{font:var(--t4);letter-spacing:var(--t4-ls);color:var(--fg-3);text-transform:uppercase}
+.flow .arrow{color:var(--fg-3)}
+.flow .here{color:var(--accent)}
+
+/* toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3);position:sticky;top:0;background:var(--bg);padding:var(--sp-2) 0;z-index:2}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:6px;background:var(--screen);box-shadow:inset 0 2px 6px rgba(0,0,0,.7),inset 0 -1px 0 rgba(255,255,255,.04)}
+.seg button{min-height:28px;padding:0 var(--sp-3);border:1px solid transparent;border-radius:5px;background:transparent;color:var(--fg-3);cursor:pointer;font:600 11px/1 var(--font-data);letter-spacing:.05em;white-space:nowrap;transition:color .18s,border-color .16s}
+.seg button:hover{color:var(--fg-1);border-color:var(--well-border-hover)}
+.seg button[aria-pressed="true"]{color:#b9e8f4;border-color:#00F0FF55;background:linear-gradient(180deg,#0d141c,#0f1822);box-shadow:inset 0 2px 4px rgba(0,0,0,.5),inset 0 -7px 11px -7px #00F0FF40,inset 0 0 0 1px rgba(255,255,255,.03)}
+.seg button:focus-visible{outline-offset:-2px}
+.ctl{min-height:var(--control);padding:0 var(--sp-3);background:var(--screen);border:1px solid var(--well-border);border-radius:5px;color:var(--fg-1);font-size:var(--fs-1);box-shadow:var(--screen-inset);transition:border-color .16s,box-shadow .16s}
+.ctl:hover{border-color:var(--well-border-hover)}
+.ctl:focus-visible{outline:0;border-color:#00F0FF66;box-shadow:inset 0 2px 5px rgba(0,0,0,.55),inset 0 -9px 14px -9px rgba(0,240,255,.34),0 0 0 1px #00F0FF3a}
+select.ctl{padding-right:var(--sp-5);appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--fg-3) 50%),linear-gradient(135deg,var(--fg-3) 50%,transparent 50%);background-position:calc(100% - 14px) 50%,calc(100% - 9px) 50%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
+input.ctl{min-width:160px;flex:1 1 160px}
+input.ctl::placeholder{color:var(--fg-3)}
+input[type="date"].ctl::-webkit-calendar-picker-indicator{filter:invert(.7)}
+.toolbar .spacer{flex:1}
+.toolbar .count{font-size:var(--fs-1);color:var(--fg-3);white-space:nowrap}
+.linkish{background:none;border:0;color:var(--accent);cursor:pointer;padding:0 var(--sp-1);min-height:var(--control);font-size:var(--fs-1)}
+.linkish:hover{text-decoration:underline}
+
+/* table */
+.tbl{border:1px solid var(--card-border);border-radius:4px;background:var(--glass-card);overflow:clip;box-shadow:var(--glass-bevel)}
+table{border-collapse:collapse;width:100%;table-layout:fixed}
+.c-score{width:72px}.c-role{width:auto}.c-ats{width:132px}.c-apply{width:92px}.c-forge{width:150px}.c-hm{width:200px}.c-next{width:230px}.c-sw{width:158px}
+@media (max-width:1100px){.c-forge,.c-next{width:0}}
+@media (max-width:840px){.c-hm{width:0}.c-ats{width:120px}}
+@media (max-width:640px){colgroup{display:none}table{table-layout:auto}}
+thead th{position:sticky;top:0;font:700 10px/1.2 var(--font-data);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-4);text-align:left;padding:var(--sp-2) var(--sp-3);background:var(--surface-2);border-bottom:1px solid var(--border);white-space:nowrap}
+thead th button{background:none;border:0;padding:0;color:inherit;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit}
+thead th button:hover{color:var(--fg-1)}
+thead th button[aria-sort]::after{content:"";display:inline-block;margin-left:5px;border:4px solid transparent;vertical-align:middle}
+thead th button[aria-sort="descending"]::after{border-top-color:var(--accent);border-bottom:0}
+thead th button[aria-sort="ascending"]::after{border-bottom-color:var(--accent);border-top:0}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s ease-out}
+tbody tr:last-child{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr[data-swipe="r"] td:first-child{box-shadow:inset 2px 0 0 var(--pursue)}
+tbody tr[data-swipe="l"] td:first-child{box-shadow:inset 2px 0 0 var(--pass)}
+tbody tr[data-tier="2"] .role b{font-weight:400}
+tbody tr[data-tier="3"]{opacity:.85}tbody tr[data-tier="3"] .role b{font-weight:400;letter-spacing:.01em}
+.unst tbody tr{opacity:.7}
+tbody tr[data-swipe="l"]{color:var(--fg-3)}
+tbody tr[data-swipe="l"] .role b,tbody tr[data-swipe="l"] .score{color:var(--fg-3)}
+tbody tr[data-swipe="r"] .score{color:var(--pursue)}
+tbody tr.tier-head td{background:var(--surface-2);padding:var(--sp-1) var(--sp-3);font:var(--t2);letter-spacing:var(--t2-ls);text-transform:uppercase;color:var(--fg-3);border-bottom:1px solid var(--border)}
+tbody tr.tier-head td b{color:var(--fg-1);font-weight:500;letter-spacing:0;text-transform:none;font-size:var(--fs-1);margin-right:var(--sp-2)}
+td{padding:var(--sp-3);vertical-align:top;font-size:var(--fs-1);overflow-wrap:anywhere}
+td.score{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-weight:600;font-size:var(--fs-2);white-space:nowrap}
+td.score small{display:block;font-weight:400;font-size:10px;color:var(--fg-3);letter-spacing:.06em}
+.role b{display:block;font-weight:500;color:var(--fg-1);text-wrap:pretty;overflow-wrap:anywhere}
+.role span{color:var(--fg-2);font-size:var(--fs-0)}
+.role .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.role .tag{display:inline-block;padding:0 5px;border:1px solid var(--border);border-radius:var(--radius);font-size:10px;color:var(--fg-3);vertical-align:1px;white-space:nowrap}
+.pill{display:inline-block;padding:2px 9px;border:1px solid #94a3b840;border-radius:6px;font:500 10px/1.4 var(--font-data);letter-spacing:.06em;text-transform:uppercase;white-space:normal;overflow-wrap:anywhere;color:var(--fg-2);opacity:.92}
+.pill.old{color:var(--consider);border-color:#FFD70040}
+.pill.new{color:var(--pursue);border-color:#00FF9D40}
+.pill.unk{color:var(--fg-3);border-style:dashed}
+.links a{display:block;white-space:nowrap}
+.forge{font-size:var(--fs-0);color:var(--fg-2)}
+.forge .ok{color:var(--pursue);font-weight:500}
+.forge .q{color:var(--fg-3)}
+.hm .k{display:block;font:var(--t2);letter-spacing:var(--t2-ls);text-transform:uppercase;color:var(--fg-4);margin-bottom:2px}
+.hm.explicit .k{color:var(--pursue)}
+.hm.implicit .k{color:var(--accent)}
+.hm span:not(.k){font-size:var(--fs-0);color:var(--fg-2)}
+.hm .how{display:block;margin-top:4px;font-size:var(--fs-0);color:var(--fg-3)}.hm .how b{color:var(--fg-2);font-weight:500}.hm .how a{overflow-wrap:anywhere}
+.next{font-size:var(--fs-0);color:var(--fg-2);text-wrap:pretty}
+.sw{display:flex;gap:var(--sp-1);white-space:nowrap}
+.sw button{min-height:var(--control);min-width:var(--control);padding:0 var(--sp-3);border:1px solid #2a3647;border-radius:5px;background:var(--glass);color:#cbd5e1;cursor:pointer;font:600 11px/1 var(--font-data);letter-spacing:.085em;text-transform:uppercase;white-space:nowrap;box-shadow:var(--btn-base);transition:box-shadow .16s,transform .09s,border-color .16s}
+.sw button:hover{border-color:#566b86;transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 7px rgba(0,0,0,.45),0 6px 16px rgba(0,0,0,.5)}
+.sw button:active{transform:translateY(1px);box-shadow:var(--btn-press)}
+.sw button.l[aria-pressed="true"]{color:#f6c9d2;border-color:#FF4D6D99;box-shadow:var(--btn-base),0 0 14px #FF4D6D2b}
+.sw button.r[aria-pressed="true"]{color:#bdf2dc;border-color:#00FF9D99;box-shadow:var(--btn-base),0 0 20px #00FF9D2b}
+@media (pointer:coarse){.sw button,.seg button,.ctl{min-height:var(--control-touch)}.sw button{min-width:var(--control-touch)}}
+.why{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-1)}
+.why button{min-height:28px;padding:0 var(--sp-2);border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--fg-3);font-size:11px;cursor:pointer}
+.why button:hover{color:var(--fg-1);border-color:var(--border-strong)}
+.why button[aria-pressed="true"]{color:var(--pass);border-color:var(--pass);background:var(--pass-soft)}
+@media (pointer:coarse){.why button{min-height:36px}}
+.empty{padding:var(--sp-6) var(--sp-4);text-align:center;color:var(--fg-3);font-size:var(--fs-1)}
+.empty b{display:block;color:var(--fg-1);font-weight:500;margin-bottom:var(--sp-1)}
+
+.range{display:inline-flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-0);color:var(--fg-3)}
+.range input{min-width:0;padding:0 var(--sp-2)}
+.add{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;padding:var(--sp-3);margin-bottom:var(--sp-3);border:1px dashed var(--border-strong);border-radius:var(--radius);background:var(--surface)}
+.add input{flex:1 1 150px;min-width:0}
+.add input[name="score"]{flex:0 1 150px}
+.cap{display:inline-block;min-height:28px;padding:0 var(--sp-5) 0 var(--sp-2);margin:0 2px}
+.uns{margin-top:var(--sp-4)}
+.uns summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-2);align-items:center;font-weight:500;padding:var(--sp-2) 0;list-style:none}
+.uns summary::-webkit-details-marker{display:none}
+.uns summary::before{content:"";display:inline-block;border:5px solid transparent;border-left-color:var(--fg-3);margin-right:2px;transition:transform .15s ease-out}
+.uns[open] summary::before{transform:rotate(90deg)}
+.uns summary .linkish{min-height:28px}
+.unst td{padding:var(--sp-2) var(--sp-3);color:var(--fg-2)}
+.unst td.seen{font-family:var(--font-data);font-size:var(--fs-0);white-space:nowrap}
+.unst td.role b{display:block;color:var(--fg-1);font-weight:500}
+.unst td.role span{font-size:var(--fs-0)}
+.unst td.sal{font-family:var(--font-data);font-size:var(--fs-0);white-space:nowrap}
+.unst td.why{font-size:var(--fs-0);max-width:34ch}
+/* below: queue + gate + wednesday */
+.below{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:var(--sp-4);margin-top:var(--sp-5)}
+.block{border:1px solid var(--card-border);border-radius:4px;padding:1.25rem 1.5rem;background:var(--glass-card);box-shadow:var(--glass-bevel)}
+.block h2{font-size:var(--fs-3);font-weight:600;margin:0 0 var(--sp-2);letter-spacing:-.01em}
+.block p,.block li{font-size:var(--fs-1);color:var(--fg-2);text-wrap:pretty}
+.block p{margin:0 0 var(--sp-2);max-width:var(--measure)}
+.block ol,.block ul{margin:0;padding-left:18px}
+.block li{margin:var(--sp-1) 0}
+.block li b{color:var(--fg-1);font-weight:500}
+.block code{font-family:var(--font-data);font-size:11px;color:var(--fg-1);background:var(--surface-2);padding:0 4px;border-radius:2px}
+#queue{list-style:none;padding:0;font-family:var(--font-data);font-size:var(--fs-0)}
+#queue li{display:flex;gap:var(--sp-2);padding:var(--sp-1) 0;border-bottom:1px dashed var(--border)}
+#queue li:last-child{border-bottom:0}
+#queue .fire{color:var(--pursue);font-weight:600;width:44px;flex:none}
+#queue .hold{color:var(--fg-3);width:44px;flex:none}
+#queue .who{color:var(--fg-1)}
+.ledger{font-size:var(--fs-0)}.ledger th{font:var(--t2);letter-spacing:var(--t2-ls);text-transform:uppercase;color:var(--fg-4);text-align:left;padding:var(--sp-1) var(--sp-2) var(--sp-1) 0;border-bottom:1px solid var(--border)}.ledger td{padding:var(--sp-1) var(--sp-2) var(--sp-1) 0;border-bottom:1px dashed var(--border);color:var(--fg-2);vertical-align:baseline}.ledger tr:last-child td{border-bottom:0}.ledger td:first-child{color:var(--fg-1)}.ledger .tag{display:inline-block;margin-left:4px;padding:0 5px;border:1px solid var(--border);border-radius:var(--radius);font-size:10px;color:var(--fg-3)}
+.log{margin-top:var(--sp-3)}.log summary{cursor:pointer;font-size:var(--fs-1);color:var(--fg-2)}.log ul{list-style:none;padding:0;margin:var(--sp-2) 0 0;font-size:var(--fs-0)}.log li{display:flex;gap:var(--sp-2);align-items:center;padding:var(--sp-1) 0;border-bottom:1px dashed var(--border)}.log li:last-child{border-bottom:0}.log .dir{font-family:var(--font-data);width:44px;flex:none}.log .dir.r{color:var(--pursue)}.log .dir.l{color:var(--pass)}.log .who{flex:1;color:var(--fg-1)}.log .when,.log .tag{color:var(--fg-3);white-space:nowrap}.log button{min-height:28px;min-width:28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--fg-2);cursor:pointer;font-size:12px}.log button:hover{border-color:var(--pass);color:var(--pass)}
+.prog{display:block;margin-top:5px;height:6px;width:100%;max-width:120px;background:var(--screen);border-radius:999px;overflow:hidden;position:relative;box-shadow:inset 0 2px 4px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.04)}.prog::after{content:"";position:absolute;top:0;bottom:0;width:34%;border-radius:999px;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 9px -1px var(--accent);animation:arcs-indet 1.35s cubic-bezier(.4,0,.2,1) infinite}.prog.p50::after,.prog.p75::after,.prog.p100::after{left:0;background:linear-gradient(90deg,#1ec3d4,var(--accent));box-shadow:0 0 8px -1px var(--accent),inset 0 1px 0 rgba(255,255,255,.35);animation:none}.prog.p50::after{width:50%}.prog.p75::after{width:75%}.prog.p100::after{width:100%;background:linear-gradient(90deg,#00c97a,var(--pursue));box-shadow:0 0 8px -1px var(--pursue)}@keyframes arcs-indet{0%{left:-34%}100%{left:100%}}@media (prefers-reduced-motion:reduce){.prog::after{animation:none;left:0;width:25%}}.stage{font:var(--t2);letter-spacing:var(--t2-ls);text-transform:uppercase;color:var(--fg-3)}
+/* score anatomy: one series (earned points) on a neutral track, rubric order by weight */
+tbody tr.detail td{padding:0 var(--sp-3) var(--sp-4);background:var(--surface-2);border-bottom:1px solid var(--border)}
+.anat{display:grid;grid-template-columns:minmax(280px,1.2fr) minmax(220px,.8fr);gap:var(--sp-4) var(--sp-6);padding-top:var(--sp-3)}
+.anat h4{margin:0 0 var(--sp-2);font:var(--t3);letter-spacing:var(--t3-ls);text-transform:uppercase;color:var(--fg-4)}
+.anat .sum{font-family:var(--font-data);font-size:var(--fs-0);color:var(--fg-2);margin-bottom:var(--sp-2)}
+.anat .sum b{color:var(--fg-1);font-weight:600}
+.dim{display:grid;grid-template-columns:150px 1fr 44px;gap:var(--sp-2);align-items:center;padding:3px 0}
+.dim .lab{font-size:var(--fs-0);color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dim .lab small{color:var(--fg-4);font-family:var(--font-data);font-size:10px;margin-left:4px}
+.dim .bar{position:relative;height:8px;background:var(--screen);border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.04)}
+.dim .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#1ec3d4,var(--accent));border-radius:999px;box-shadow:0 0 8px -1px var(--accent),inset 0 1px 0 rgba(255,255,255,.35)}
+.dim .bar.zero i{background:var(--pass);width:3px!important}
+.dim .val{font-family:var(--font-data);font-size:var(--fs-0);color:var(--fg-1);text-align:right;font-variant-numeric:tabular-nums}
+.dim .val small{color:var(--fg-4)}
+.dim:hover .lab,.dim:focus-within .lab{color:var(--fg-1)}
+.dim[title]{cursor:help}
+.delta ul{list-style:none;margin:0;padding:0;font-size:var(--fs-0);color:var(--fg-2)}
+.delta li{display:flex;justify-content:space-between;gap:var(--sp-2);padding:3px 0;border-bottom:1px dashed var(--border)}
+.delta li:last-child{border-bottom:0}
+.delta .pt{font-family:var(--font-data);font-variant-numeric:tabular-nums;white-space:nowrap}
+.delta .pt.up{color:var(--pursue)}.delta .pt.dn{color:var(--pass)}
+.delta p{margin:var(--sp-2) 0 0;font-size:var(--fs-0);color:var(--fg-2);text-wrap:pretty}
+.gates{font-size:var(--fs-0);color:var(--fg-2);margin-top:var(--sp-2)}
+.gates b{color:var(--fg-1);font-weight:500}
+.role button.more{display:inline-block;margin-top:4px;background:none;border:0;padding:0;color:var(--accent);font-size:var(--fs-0);cursor:pointer}
+.role button.more:hover{text-decoration:underline}
+@media (max-width:640px){.anat{grid-template-columns:1fr}.dim{grid-template-columns:118px 1fr 44px}tbody tr.detail{display:block;padding:0 var(--sp-3) var(--sp-3)}tbody tr.detail td{display:block}}
+.gate{margin-top:var(--sp-3);padding:var(--sp-3);background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--consider);border-radius:var(--radius-sm);color:var(--fg-2);font-size:var(--fs-1)}
+.gate b{color:var(--fg-1);font-weight:500}
+.wed{position:relative;overflow:hidden;border:1px solid #00F0FF45;border-radius:4px;padding:1.25rem 1.5rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#00F0FF1c,#0a1620);box-shadow:inset 0 1px 0 #00F0FF80,inset 0 -11px 17px -11px #00F0FF55,0 0 12px #00F0FF26,0 5px 16px rgba(0,0,0,.5)}
+.wed dl{margin:0;display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:var(--sp-2) var(--sp-3)}
+.wed dt{font:var(--t3);letter-spacing:var(--t3-ls);text-transform:uppercase;color:var(--fg-4);padding-top:3px}
+.wed dd{margin:0;font-size:var(--fs-1);color:var(--fg-2);text-wrap:pretty}
+.wed dd b{color:var(--fg-1);font-weight:500}
+footer{margin-top:var(--sp-5);font-size:var(--fs-0);color:var(--fg-3);max-width:var(--measure)}
+kbd{font-family:var(--font-data);font-size:10px;padding:0 4px;border:1px solid var(--border);border-bottom-width:2px;border-radius:2px;color:var(--fg-2)}
+
+/* responsive: tablet trims optional columns, phone turns rows into cards */
+@media (max-width:1100px){.col-forge,.col-next{display:none}}
+@media (max-width:840px){
+  .col-hm{display:none}
+  .flow{gap:var(--sp-1) var(--sp-2)}
+}
+@media (max-width:640px){
+  .flow .st{white-space:normal;flex-wrap:wrap}
+  .range{flex-basis:100%}
+  .unst thead{display:none}.unst,.unst tbody{display:block}.unst tr{display:grid;grid-template-columns:auto 1fr;gap:var(--sp-1) var(--sp-3);padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--border)}.unst td{display:block;padding:0}.unst td.role{grid-column:2}.unst td.seen{grid-column:1;grid-row:1}.unst td.arch,.unst td.sal,.unst td.why{grid-column:2}
+  .wrap{padding:var(--sp-4) var(--sp-3) var(--sp-6)}
+  .toolbar{position:static}
+  thead{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  table,tbody{display:block}
+  tbody tr{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"score role" "meta meta" "sw sw";gap:var(--sp-2) var(--sp-3);padding:var(--sp-3)}
+  tbody tr.tier-head{display:block;padding:0}
+  td{display:block;padding:0}
+  td.score{grid-area:score;font-size:var(--fs-3)}
+  td.role{grid-area:role}
+  td.ats,td.links,td.forge,td.hm,td.next{grid-area:meta}
+  .col-forge,.col-next,.col-hm{display:block}
+  td.ats{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-2);align-items:center}
+  td.links{display:flex;gap:var(--sp-3)}
+  td.forge,td.hm,td.next{padding-top:var(--sp-1)}
+  .next{max-width:none}
+  td.sw-wrap{grid-area:sw}
+  .sw{display:flex;gap:var(--sp-2)}
+  .sw button{flex:1;min-height:var(--control-touch)}
+  /* one meta cell wraps all the secondary fields on phones */
+  td.ats::before{content:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="https://arcs.care" aria-label="ARCS Field OS, home"><span class="mark">ARCS</span><span class="os">FIELD OS</span><span class="sep"></span><span class="section">Job search</span></a>
+    <h1>Alert Swipe Board</h1>
+    <p class="status">Every LinkedIn alert since 8/28, scored once against the target-role rubric and stack-ranked above a <span class="stat"><b class="data">0.58</b> cutoff</span>. You decide. Nothing runs until you swipe right.</p>
+    <p class="stats"><span class="stat"><b class="data" id="stat-inbox">123</b> rows in</span><span class="stat"><b class="data" id="stat-scored">18</b> scored</span><span class="stat"><b class="data" id="stat-above">13</b> on the board</span><span class="stat"><b class="data" id="stat-uns">105</b> waiting on a JD read</span><span class="stat"><b class="data" id="stat-right">0</b> swiped right</span></p>
+  </header>
+
+  <div class="flow" aria-label="Pipeline">
+    <span class="st"><b>Catch</b><span class="data">python · $0</span></span><span class="arrow">→</span>
+    <span class="st"><b>Score</b><span class="data">1 JD read + small model · ~1¢/row</span></span><span class="arrow">→</span>
+    <span class="st here"><b>Swipe</b><span class="data">you · this page</span></span><span class="arrow">→</span>
+    <span class="st"><b>Forge</b><span class="data">runs on swipe right · full forge gated</span></span>
+  </div>
+
+  <div class="toolbar" role="region" aria-label="Filters and sort">
+    <div class="seg" role="group" aria-label="Tier">
+      <button data-f="tier" data-v="all" aria-pressed="true">All tiers</button>
+      <button data-f="tier" data-v="1">≥ 0.80</button>
+      <button data-f="tier" data-v="2">0.70–0.79</button>
+      <button data-f="tier" data-v="3">0.58–0.69</button>
+    </div>
+    <div class="seg" role="group" aria-label="Swipe state">
+      <button data-f="swipe" data-v="all" aria-pressed="true">Any</button>
+      <button data-f="swipe" data-v="none">Unswiped</button>
+      <button data-f="swipe" data-v="r">Right</button>
+      <button data-f="swipe" data-v="l">Left</button>
+    </div>
+    <select class="ctl" id="f-ats" aria-label="Applicant tracking system">
+      <option value="all">Any ATS</option><option value="old">Old school (Workday)</option><option value="new">New school (Ashby, Greenhouse)</option><option value="unk">Unverified</option>
+    </select>
+    <select class="ctl" id="f-arch" aria-label="Saved search that surfaced the row">
+      <option value="all">Any search</option><option value="fde">Forward deployed</option><option value="applied">Applied AI</option><option value="solutions">AI solutions</option><option value="product">Product lead</option><option value="manual">Added by hand</option>
+    </select>
+    <select class="ctl" id="f-co" aria-label="Company type">
+      <option value="all">Any company</option><option value="startup">Startup</option><option value="scaleup">Scale-up</option><option value="enterprise">Enterprise</option>
+    </select>
+    <input class="ctl" id="f-q" type="search" placeholder="Search role or company" aria-label="Search role or company">
+    <label class="range"><span>Seen</span><input class="ctl" type="date" id="f-from" aria-label="Seen from"><span>to</span><input class="ctl" type="date" id="f-to" aria-label="Seen to"></label>
+    <span class="spacer"></span>
+    <span class="count" id="count"></span>
+    <button class="linkish" id="reset" type="button">Reset</button>
+    <button class="ctl" id="add-toggle" type="button" aria-expanded="false" aria-controls="add-form">+ Add a row</button>
+  </div>
+
+  <form class="add" id="add-form" hidden>
+    <input class="ctl" name="url" type="url" required placeholder="Posting URL" aria-label="Posting URL">
+    <input class="ctl" name="role" required placeholder="Role" aria-label="Role">
+    <input class="ctl" name="co" required placeholder="Company" aria-label="Company">
+    <input class="ctl" name="score" type="number" step="0.001" min="0" max="1" placeholder="Score, if graded" aria-label="Score, optional">
+    <button class="ctl" type="submit">Add</button>
+    <button class="linkish" type="button" id="add-cancel">Cancel</button>
+    <span class="count">Without a score it waits in the unscored list until the scorer runs. Esc closes.</span>
+  </form>
+  <div class="tbl">
+    <table>
+      <colgroup><col class="c-score"><col class="c-role"><col class="c-ats"><col class="c-apply"><col class="c-forge"><col class="c-hm"><col class="c-next"><col class="c-sw"></colgroup>
+      <thead><tr>
+        <th><button type="button" data-sort="score" aria-sort="descending">Score</button></th>
+        <th><button type="button" data-sort="company">Role</button></th>
+        <th>ATS</th>
+        <th>Apply</th>
+        <th class="col-forge">Forge</th>
+        <th class="col-hm">Hiring manager</th>
+        <th class="col-next">Next step</th>
+        <th>Swipe</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden><b>Nothing matches.</b>Loosen a filter, or reset.</div>
+  </div>
+
+  <details class="uns" id="uns">
+    <summary><span>Waiting on a JD read</span> <span class="count" id="uns-count"></span> <span class="count">· sort by</span>
+      <button class="linkish" type="button" data-usort="sal">salary</button><button class="linkish" type="button" data-usort="why">reason</button><button class="linkish" type="button" data-usort="seen">date</button></summary>
+    <p class="status" style="margin:var(--sp-2) 0 var(--sp-3)">Salary is known for one row. LinkedIn digests only carry pay for the lead job in a subject line, so comp for the rest arrives with the JD read, which is the same step that scores them.</p>
+    <div class="tbl"><table class="unst"><thead><tr><th>Seen</th><th>Role</th><th>Search</th><th>Salary</th><th>Why not scored</th></tr></thead><tbody id="uns-rows"></tbody></table></div>
+  </details>
+
+  <div class="below">
+    <div class="block">
+      <h2>What a right swipe fires</h2>
+      <ol>
+        <li><b>Resume cut.</b> resume-tailor against the JD into <code>_ARTIFACTS/resume-&lt;target&gt;/</code>: HTML, PDF, PNG, ATS text, tailor notes. Runs the moment you swipe right, in a live session watching the board. The cap only bounds how many run at once.</li>
+        <li><b>Hiring-manager pull.</b> The JD's reports-to line, then a LinkedIn people search on company and team. Labeled explicit, implicit, or unknown. Never a guessed name. Records the apply path too: ATS portal, a form on their site, a human's email, or a referral, as an operating note under the name.</li>
+        <li><b>ATS resolve.</b> One probe per company, cached. Sets the next-step template: Workday means re-key once and reuse, Ashby or Greenhouse means one upload.</li>
+        <li><b>Forge stub.</b> <code>&lt;company&gt;.arcs.care</code> reserved, not built.</li>
+      </ol>
+      <div class="gate"><b>Gate.</b> The full counterpart forge (reverse-listen, audience model, persona gauntlet, hosted page) never fires on a swipe. It fires when a human on their side responds. Same rule as the held Kinexys cut.</div>
+      <p style="margin-top:var(--sp-3)"><b style="color:var(--fg-1);font-weight:500">What a finished forge looks like, live:</b> <a href="https://blacksmith.arcs.care" target="_blank" rel="noopener">blacksmith.arcs.care</a> (the forge) · <a href="https://blacksmith.arcs.care/resume" target="_blank" rel="noopener">blacksmith.arcs.care/resume</a> (the tailored resume it printed) · <a href="https://recruithaus.arcs.care" target="_blank" rel="noopener">recruithaus.arcs.care</a> (recruiter tier). Every cut derives from <a href="https://resume.arcs.care/resume.pdf" target="_blank" rel="noopener">resume.arcs.care/resume.pdf</a>.</p>
+    </div>
+    <div class="block">
+      <h2>Forge cost ledger</h2>
+      <p>Estimate before, meter after. Actuals come from the session usage report at the end of each forge run and replace the estimate here. Nothing below is metered yet.</p>
+      <div style="overflow-x:auto"><table class="ledger">
+        <thead><tr><th>Target</th><th>Resume cut</th><th>Full forge</th><th>Actual</th></tr></thead>
+        <tbody>
+          <tr><td>Blacksmith <span class="tag">reference</span></td><td class="data">—</td><td class="data">1 session</td><td class="data">not metered</td></tr>
+          <tr><td>Trinity Life Sciences</td><td class="data">done, not metered</td><td class="data">est. 1–2M</td><td class="data">—</td></tr>
+          <tr><td>Morgan Stanley</td><td class="data">est. 80–150K</td><td class="data">est. 1–2M</td><td class="data">—</td></tr>
+          <tr><td>Citi</td><td class="data">est. 80–150K</td><td class="data">est. 1–2M</td><td class="data">—</td></tr>
+          <tr><td>Norm Ai</td><td class="data">est. 80–150K</td><td class="data">est. 1–2M</td><td class="data">—</td></tr>
+          <tr><td>Aircall</td><td class="data">est. 80–150K</td><td class="data">est. 1–2M</td><td class="data">—</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:var(--sp-2)">Savings targets for run two, in order: reuse the positioning spine instead of re-deriving it, one render pass with the four widths in a single sweep, and the persona gauntlet only on rows with a named hiring manager.</p>
+    </div>
+    <div class="block">
+      <h2>Generating now</h2>
+      <p>Swipes live in this browser. Copy them to hand the queue to the pipeline. Up to <select class="ctl cap" id="cap" aria-label="Auto-trigger cap"><option>3</option><option selected>5</option><option>10</option><option value="99">all</option></select> forges run at a time, the rest hold their place. The cap is a cost bound, not a ranking.</p>
+      <ul id="queue"><li><span class="hold">—</span><span class="who">none yet</span></li></ul>
+      <p style="margin-top:var(--sp-3)"><span id="store" class="count">Stored in this browser only</span></p>
+      <details class="log"><summary>Every swipe, with undo <span class="count" id="log-count"></span></summary><ul id="log"></ul><p style="margin-top:var(--sp-2)"><button class="linkish" type="button" id="undo">Undo last swipe</button></p></details>
+      <p>A left swipe opens a why-not tag under the row. Tags travel with the export and feed the saved-search prune list.</p>
+      <p style="margin-top:var(--sp-3)"><button class="ctl" type="button" id="copy">Copy swipes as JSON</button> <span id="copied" class="count" aria-live="polite"></span></p>
+    </div>
+    <div class="wed">
+      <h2 style="font-size:var(--fs-3);font-weight:600;margin:0 0 var(--sp-3)">Wednesday dogfood · Paraform recruiter</h2>
+      <dl>
+        <dt>Entry</dt><dd>A recruiter with a live req, not an alert digest. That is the forge's real input contract, so this tests the Forge stage directly.</dd>
+        <dt>Before</dt><dd>Req text in as a row. Score it. At or above 0.58 it lands here with a hiring-manager guess and the ATS class.</dd>
+        <dt>During</dt><dd>Granola captures it: which reqs they actually hold, who the hiring manager is, what the loop looks like.</dd>
+        <dt>After</dt><dd>The human-responded gate is met by definition. Forge runs end to end: transcript, reverse-listen, resume cut, recruiter tear sheet in the shape of Amy's.</dd>
+        <dt>Pass / fail</dt><dd><b>Did the pre-call hiring-manager and ATS guesses survive the call.</b> Did the tear sheet need fewer than three edits.</dd>
+        <dt>Missing</dt><dd>Their name and the req link. Nothing on file yet.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <footer>Scores from the 8/31 run of runtime/job-search/opportunities-scored.jsonl plus the Bjak grade from 9/4. Unverified ATS rows resolve on swipe. Keyboard: <kbd>←</kbd> left, <kbd>→</kbd> right, <kbd>Enter</kbd> opens the score on a focused row.</footer>
+</div>
+
+<script>
+(function(){
+  // ---- data: one record per row above the cutoff --------------------------
+  var ROWS=[
+    {id:"4420203328",assess:"Purest FDE instantiation read this cycle: 'this is still a hands-on role', embed with biopharma clients end-to-end, LLM/RAG/agentic architectures core, 8-12yr band, light mentorship (3-4 juniors) not headcount management. Regulated life-sciences domain maps to his HIPAA digital-therapeutics record; 'understand the commercial model, can talk the language' maps to product x GTM breadth.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":3,"scope_authority":3,"culture":2,"comp_level":3,"logistics":3,"warm_path":0},gates:[],contact:{type:"portal",detail:"Workday re-key, then find the practice lead on LinkedIn"},seen:"2026-08-28",score:0.917,role:"Assoc. Director, Forward Deployed GenAI",co:"Trinity Life Sciences",loc:"New York",comp:"",cotype:"enterprise",arch:"fde",ats:"old",atsName:"Workday",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4420203328/"]],forge:"cut",forgeNote:"resume cut ✓ · local, not hosted",hmk:"implicit",hm:"Head of the GenAI practice",hmNote:"hands-on lead, mentors 3–4",
+     next:"Find the practice lead on LinkedIn before the Workday re-key. Cover note leads with embed-with-clients."},
+    {id:"4459454074",assess:"Co-leader. Multi-agent orchestration/RAG core, 10+yr, product x engineering breadth explicit ('connective tissue across product, engineering, governance'). Platform/enablement shape rather than customer-embed - less pure FDE.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":3,"scope_authority":3,"culture":2,"comp_level":3,"logistics":3,"warm_path":0},gates:[],contact:{type:"portal",detail:"Workday"},seen:"2026-08-29",score:0.917,role:"DevGen.AI Lead Product Engineer, ED",co:"Morgan Stanley",loc:"New York",comp:"$195–275K",cotype:"enterprise",arch:"product",ats:"old",atsName:"Workday",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4459454074/"]],forge:"queued",hmk:"implicit",hm:"DevGen.AI platform head",hmNote:"JD says co-leader, so a peer exists",
+     next:"Identify the existing co-lead. Platform-enablement framing, not customer-embed."},
+    {id:"4450095632",assess:"Co-leader. Agentic solution design core; regulated finance maps to Grayscale SEC/FINRA genome. Diluted by explicit 'leadership accountability and people management responsibility' + bank-scale approval friction vs 'can decide without six approvals'.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":3,"scope_authority":3,"culture":2,"comp_level":3,"logistics":3,"warm_path":0},gates:[],contact:{type:"portal",detail:"Eightfold front end over Workday"},seen:"2026-08-29",score:0.917,role:"Forward Deployed Engineer, AI Transformation, Director",co:"Citi",loc:"New York",comp:"",cotype:"enterprise",arch:"fde",ats:"old",atsName:"Workday + Eightfold",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4450095632/"]],forge:"queued",hmk:"unknown",hm:"Pull on swipe",hmNote:"AI Transformation org",
+     next:"People-management scope is explicit. Decide if you want headcount before spending a cut."},
+    {id:"4266778287",assess:"'Embed with our client teams', agentic law/compliance = regulated fluency, staff tier $240-280K. Slightly narrower domain surface.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":3,"scope_authority":3,"culture":2,"comp_level":3,"logistics":2,"warm_path":0},gates:[],contact:{type:"form",detail:"Ashby board",url:"https://jobs.ashbyhq.com/norm-ai"},seen:"2026-08-30",score:0.889,role:"Forward Deployed Engineer",co:"Norm Ai",loc:"New York",comp:"",cotype:"startup",arch:"solutions",ats:"new",atsName:"Ashby",
+     links:[["Ashby","https://jobs.ashbyhq.com/norm-ai"],["LinkedIn","https://www.linkedin.com/jobs/view/4266778287/"]],forge:"queued",hmk:"unknown",hm:"Pull on swipe",hmNote:"",
+     next:"One PDF upload, fast loop. Warm intro beats cold here; check 2nd-degree first."},
+    {id:"4450628250",assess:"Strong on product x GTM breadth. Role-shape docked: primary mandate is scaling FDE headcount 3 to 7-8, hands-on is 'maintain deep technical credibility' rather than the job.",dims:{"role_shape":2,"ai_native":3,"strength_leverage":3,"scope_authority":3,"culture":2,"comp_level":3,"logistics":2,"warm_path":0},gates:[],contact:{type:"form",detail:"Greenhouse on aircall.io/careers"},seen:"2026-08-29",score:0.819,role:"Director, Forward Deployed Engineering & AI GTM",co:"Aircall",loc:"New York",comp:"$200–299K",cotype:"scaleup",arch:"fde",ats:"new",atsName:"Greenhouse",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4450628250/"]],forge:"queued",hmk:"unknown",hm:"Pull on swipe",hmNote:"GTM + FDE, likely CRO or CPO line",
+     next:"Two-hires-in-one pitch fits exactly. Reuse the recruithaus positioning page."},
+    {id:"4441207605",assess:"Ships genAI end-to-end incl. agentic patterns. Docked on scope (IC 'with growing influence') and 3-5yr leveling well under his 20.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":2,"scope_authority":2,"culture":2,"comp_level":3,"logistics":2,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-28",score:0.792,role:"Lead, AI Engineering",co:"Bain & Company",loc:"New York",comp:"",cotype:"enterprise",arch:"applied",ats:"unk",atsName:"likely Workday",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4441207605/"]],forge:"swipe",hmk:"unknown",hm:"Pull on swipe",hmNote:"",
+     next:"Resolve ATS. A second Bain PM role landed 9/1, same org, bundle the read."},
+    {id:"4460193996",assess:"Good shape (7+yr architect, agentic/LLM architecture, 'the technical authority the delivery team relies on') but comp band sits below the senior/staff target.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":2,"scope_authority":3,"culture":2,"comp_level":1,"logistics":2,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-29",score:0.778,role:"Deployment Architect",co:"monday.com",loc:"New York",comp:"$140–170K",cotype:"enterprise",arch:"solutions",ats:"unk",atsName:"likely Comeet",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4460193996/"]],forge:"swipe",hmk:"unknown",hm:"Pull on swipe",hmNote:"",
+     next:"Comp is under target. Only worth it as a foot in the door for the FDE req."},
+    {id:"4460592986",assess:"Founding scope is real ('you'll set the standard'). Docked on logistics (5d onsite + travel) and culture; only 2+yrs customer-facing required = leveling below his band.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":2,"scope_authority":3,"culture":1,"comp_level":3,"logistics":1,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-30",score:0.764,role:"Forward Deployed Engineer (Founding)",co:"Codesearch AI",loc:"NYC metro",comp:"$180–250K",cotype:"startup",arch:"solutions",ats:"unk",atsName:"unverified",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4460592986/"]],forge:"swipe",hmk:"implicit",hm:"Founder / CEO",hmNote:"founding hire",
+     next:"Founding role means the founder reads it. A teardown of their product beats a resume."},
+    {id:"4460560416",assess:"MCP named explicitly in requirements - direct hit on his ARCS MCP-server evidence. But 3+yr leveling and $140-160K sit under target.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":2,"scope_authority":2,"culture":2,"comp_level":1,"logistics":2,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-30",score:0.736,role:"Forward Deployed Engineer",co:"monday.com",loc:"New York",comp:"",cotype:"enterprise",arch:"applied",ats:"unk",atsName:"likely Comeet",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4460560416/"]],forge:"swipe",hmk:"unknown",hm:"Pull on swipe",hmNote:"",
+     next:"Pair with the Deployment Architect row. One application, ask which req fits."},
+    {id:"4460555968",assess:"Application layer not model training - passes the 'AI-native for real' test. But 'Applied Scientist' framing leans research-adjacent and there is no customer-embed component.",dims:{"role_shape":2,"ai_native":3,"strength_leverage":2,"scope_authority":2,"culture":2,"comp_level":3,"logistics":2,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-29",score:0.722,role:"Senior Applied Scientist, Agentic AI",co:"Arlyn AI",loc:"New York",comp:"up to $255K",cotype:"startup",arch:"applied",ats:"unk",atsName:"unverified",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4460555968/"]],forge:"swipe",hmk:"implicit",hm:"Founder",hmNote:"stealth, small",
+     next:"Scientist title is a stretch on role-shape. Confirm applied, not research, before a cut."},
+    {id:"4454311856",assess:"Comp and scope are strong but culture screen fails on the rubric's own wording: 'Move at rocket speed'; 'It's hard, it's intense'. 4-5d onsite + 2x/month travel.",dims:{"role_shape":3,"ai_native":3,"strength_leverage":2,"scope_authority":3,"culture":0,"comp_level":3,"logistics":0,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-29",score:0.694,role:"Deployment Strategist Lead, Future Platforms",co:"EliseAI",loc:"New York, 4–5d onsite",comp:"$190–250K",cotype:"scaleup",arch:"solutions",ats:"unk",atsName:"unverified",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4454311856/"]],forge:"none",hmk:"unknown",hm:"—",hmNote:"",
+     next:"Culture screen scored 0 on JD wording. Right only if you want to test that read."},
+    {id:"4450636067",assess:"'The mandate is deliberately unfinished, and you'll define it' = high authority. AI is the product but the role's core is enterprise integrations (OAuth/SAML/SCIM/SIEM). No comp disclosed.",dims:{"role_shape":3,"ai_native":2,"strength_leverage":2,"scope_authority":3,"culture":2,"comp_level":0,"logistics":2,"warm_path":0},gates:[],contact:{type:"unverified",detail:"resolves on swipe"},seen:"2026-08-29",score:0.694,role:"Forward Deployed Engineering Lead",co:"Doppel",loc:"New York",comp:"",cotype:"startup",arch:"fde",ats:"unk",atsName:"unverified",
+     links:[["LinkedIn","https://www.linkedin.com/jobs/view/4450636067/"]],forge:"none",hmk:"unknown",hm:"—",hmNote:"",
+     next:"Re-read the JD. Sits on the cutoff edge."},
+    {id:"bjak-7629ca49",assess:"Regulated, high-consequence product with an explicit when-not-to-use-AI bar. PM-shaped rather than forward-deployed; culture wording and unlisted comp are the swing.",dims:{"role_shape":2,"ai_native":2,"strength_leverage":3,"scope_authority":3,"culture":0,"comp_level":1,"logistics":2,"warm_path":0},gates:[],contact:{type:"form",detail:"Ashby; assessment first, CEO final round",url:"https://jobs.ashbyhq.com/bjakcareer/7629ca49-05c4-46ab-8b10-95a78eaa320f"},seen:"2026-09-04",score:0.625,role:"Technical Product Lead, AI Neobank",co:"Bjak",loc:"Remote, SEA time zones",comp:"",cotype:"startup",arch:"manual",ats:"new",atsName:"Ashby",
+     links:[["Ashby","https://jobs.ashbyhq.com/bjakcareer/7629ca49-05c4-46ab-8b10-95a78eaa320f"]],forge:"none",hmk:"explicit",hm:"CEO",hmNote:"final round per JD",
+     next:"Two swing dims: reviews and comp. Tips to 0.72 if both clear. Your call, not the rubric's."}
+  ];
+  var TIER=function(s){return s>=0.80?1:s>=0.70?2:3};
+  var TIER_LABEL={1:["Tier 1","0.80 and up · auto-trigger candidates"],2:["Tier 2","0.70 to 0.79 · manual trigger"],3:["Tier 3","0.58 to 0.69 · watch, no cut"]};
+  var ARCH_LABEL={fde:"forward deployed",applied:"applied AI",solutions:"AI solutions",product:"product lead",manual:"by hand"};
+  var COTYPE_LABEL={startup:"startup",scaleup:"scale-up",enterprise:"enterprise"};
+  var CAP=5;
+  var DIMS=[["role_shape","Role-shape fit",5,"maintenance or management → textbook forward-deployed build role"],["ai_native","AI-native surface",4,"no AI → agents and LLMs are the product"],["strength_leverage","Strength leverage",4,"hits none → regulated fluency, breadth, forward-deployed"],["scope_authority","Scope and authority",3,"narrow, gated → broad, autonomous ownership"],["culture","Culture screen",3,"grind or opaque → strong public positive signals"],["comp_level","Comp and level",2,"below senior → at or above target"],["logistics","Logistics",2,"on-site elsewhere → remote or NY metro"],["warm_path","Warm path",1,"cold → strong intro or referral"]];
+  var MAX=72;var open={};
+  var WHY=["comp","location","role shape","seniority","culture","company","timing","other"];
+  var UNSCORED=[{"id":"4457570273","role":"Forward Deployed Engineer","co":"Sequence Holdings","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4458316476","role":"AI Engineer, Enablement","co":"LangChain","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4456969012","role":"Senior Solutions Engineer","co":"Maven AGI","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460327938","role":"AI Solution Engineer","co":"HIGH BRIDGE & CO.","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4434197172","role":"Forward Deployed Engineer, AI Solutions","co":"Nitra","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4459046207","role":"GenAI Technology Architect","co":"Moody's Corporation","loc":"New York, New York, United States","arch":"ai solutions engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4456528240","role":"AI Engineer","co":"Sciemo","loc":"New York City Metropolitan Area","arch":"applied ai engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4456290477","role":"Senior Software Engineer, AI (New York)","co":"Fitch Ratings","loc":"New York, New York, United States","arch":"applied ai engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4447719279","role":"Frontier Agents Engineer (Applied AI)","co":"Scale AI","loc":"New York City Metropolitan Area","arch":"applied ai engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4439899207","role":"Sr AI Engineer II","co":"American Express","loc":"New York, New York, United States","arch":"applied ai engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4456551366","role":"Applied Intelligence Engineer","co":"Helios","loc":"New York, New York, United States","arch":"applied ai engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460386566","role":"Forward Deployed Engineer - Zingage","co":"talentpluto","loc":"New York, New York, United States","arch":"forward deployed engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4447710048","role":"Forward Deployed Engineer","co":"Intuit","loc":"New York, New York, United States","arch":"forward deployed engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4459660411","role":"Forward Deployed AI Architect (GenAI, AWS)","co":"Provectus","loc":"New York City Metropolitan Area","arch":"forward deployed engineer","seen":"2026-08-28","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4458240843","role":"Product Leader, Data and Digital","co":"Mercer","loc":"New York, New York, United States","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4455630336","role":"Director of Product","co":"Hatch","loc":"New York, New York, United States","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4439343389","role":"Lead Product Manager","co":"Knit","loc":"New York, New York, United States","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4458628792","role":"Principal Product Manager","co":"Zeta Global","loc":"New York, New York, United States","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4445520852","role":"Lead Product Manager, New Verticals","co":"AirOps","loc":"New York City Metropolitan Area","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4450661220","role":"Senior AI Engineer (NYC)","co":"LinkedIn","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4458989633","role":"Senior AI Tech Lead","co":"Tata Consultancy Services","loc":"Jersey City, NJ","arch":"applied ai engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4458440379","role":"Applied AI Engineer","co":"SNV Elite","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4404386939","role":"Staff Engineer - AI","co":"Wonder","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4426454169","role":"Member of Technical Staff, AI Developer Experience","co":"Crosby","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460541107","role":"Lead Product Manager","co":"AC Lion Digital Executive Search","loc":"New York City Metropolitan Area","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460521480","role":"Senior Director - AI Product Management","co":"Amtex Systems Inc","loc":"Park Ridge, NJ","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4450655469","role":"Head of AI Product","co":"BetaNXT","loc":"New York, NY","arch":"product lead","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460532674","role":"Senior GTM Engineer","co":"AssemblyAI","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4448707803","role":"Enterprise & Client Solutions Manager, AI, Song Life - part of Accenture Song","co":"Accenture","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4396178025","role":"Manager, AI Transformation - Advisory","co":"Kroll","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4441921997","role":"AI Advisory Principal","co":"Scale AI","loc":"New York City Metropolitan Area","arch":"ai solutions engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4413787655","role":"Agent Deployment Engineer","co":"Decagon","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4449759136","role":"Forward Deployed AI Architect IRC296102","co":"GlobalLogic","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-29","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4392103875","role":"GTM Engineer","co":"Basis","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-30","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4460564818","role":"Applied AI Engineer - Manager","co":"Percepta","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-30","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4459422958","role":"Director of Product, Rider and Driver Mobile Experience","co":"Via","loc":"New York, NY","arch":"product lead","seen":"2026-08-30","sal":"","why":"8/31 run stopped before reading this JD"},{"id":"4461361023","role":"Forward Deployed Engineer - AI","co":"AvePoint","loc":"Jersey City, NJ","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4366386286","role":"Frontier Agent Engineering Manager, Enterprise","co":"Scale AI","loc":"NYC Metro","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461341920","role":"Forward Deployed Engineer - AI","co":"AvePoint","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4453027168","role":"Lead GenAI Forward Deployed Engineer, YouTube GTM Operations","co":"Google","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460476666","role":"Forward Deployed Engineer","co":"UMATR","loc":"NYC Metro","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4462491328","role":"Forward Deployed Engineer","co":"Capgemini","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-04","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4290145549","role":"Senior / Staff Product Engineer","co":"Radar","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459562123","role":"Forward Deployed Engineer (Full Stack)","co":"scalr","loc":"NYC Metro","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461755202","role":"Founding Engineer","co":"People In AI","loc":"NYC Metro","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4415555117","role":"Forward Deployed Engineer","co":"Kong","loc":"Trenton, NJ","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459598131","role":"Software Engineer, Integrations","co":"Rilla","loc":"Brooklyn, NY","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4462083411","role":"Senior Software Engineer, Inference","co":"AssemblyAI","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4420689730","role":"Palantir Forward Deployed Engineer - GPS","co":"Deloitte","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4430655409","role":"Solution Specialist, AI Runtime Services","co":"CoreWeave","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4458875673","role":"Senior Forward Deployed Engineer (Customer Engineering)","co":"Palo Alto Networks","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4433424696","role":"Staff Forward Deployed Platform Engineer","co":"Charlie Health","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4424628809","role":"Forward Deployed Engineer, Lead - AI Engineer","co":"Reflection","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4420757713","role":"AI Process Forward Deployed Engineer","co":"Camunda","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4420772021","role":"AI Process Forward Deployed Engineer","co":"Camunda","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4434068424","role":"Forward Deployed Engineer (FDE) (Mid/Senior Level)","co":"Salesforce","loc":"NYC Metro","arch":"forward deployed engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4434068425","role":"Forward Deployed Engineer (FDE) (Mid/Senior Level)","co":"Salesforce","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4442174783","role":"Forward Deployed Engineer","co":"Venn","loc":"New York, NY","arch":"forward deployed engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459495290","role":"Forward Deployed Application/ML Principal Engineer","co":"SAP Americas","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460942418","role":"Forward Deployed Applied Intelligence Engineer","co":"Helios","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461585087","role":"Founding US Solutions Engineer","co":"Kombo","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461771147","role":"GTM Engineer","co":"Qualitate","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4462081203","role":"Forward Deployed AI Engineer, Backend - New York","co":"Draftwise","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461769303","role":"Solutions Engineer","co":"Baselayer","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460298553","role":"Founding Sales Engineer - Agentic AI Startup","co":"Double Down Group","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459733573","role":"AI Engineer","co":"Haystack","loc":"NYC Metro","arch":"ai solutions engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4434001397","role":"Solutions Engineer, Director","co":"BlackRock","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459766269","role":"AI practice lead - Financial services and Insurance","co":"EPAM Systems","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4434083014","role":"Portfolio Leader (Manager/Director Levels)","co":"Salesforce","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4450524513","role":"Applied AI Architect, Enterprise Tech","co":"Anthropic","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4411547766","role":"AI Strategist, Healthcare Solutions","co":"Distyl","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4420768173","role":"AI Process Forward Deployed Engineer","co":"Camunda","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4434082008","role":"Deployment Strategist (Mid/Senior Levels)","co":"Salesforce","loc":"NYC Metro","arch":"ai solutions engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4405251464","role":"AI Innovation Advisor","co":"Kirkland & Ellis","loc":"New York, NY","arch":"ai solutions engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460667199","role":"Director-Digital Product Management - AI Enterprise Platform ($144K-$256K)","co":"American Express","loc":"New York, NY","arch":"product lead","seen":"2026-09-02","sal":"$144K-$256K","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459571502","role":"AI Product Manager with P&C Insurance","co":"Zodiac Solutions, Inc","loc":"Warren, NJ","arch":"product lead","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4462069929","role":"Senior AI Product Manager (AI Builder)","co":"WEX","loc":"Chicago, IL","arch":"product lead","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4442746845","role":"Lead Product Manager Remote Assistance","co":"Uber","loc":"New York, NY","arch":"product lead","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4409028723","role":"Director of Product Management, Forward Deployed & Strategy","co":"Scale AI","loc":"NYC Metro","arch":"product lead","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4449819200","role":"VP, AI Product Manager - Data & AI","co":"Ares Management","loc":"New York, NY","arch":"product lead","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4441363533","role":"Senior Product Manager - Scout","co":"Daloopa","loc":"New York, NY","arch":"product lead","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4394344662","role":"New Leader - Pitch Us","co":"SentiLink","loc":"New York, NY","arch":"product lead","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4441377069","role":"Staff Product Manager, Growth","co":"Linktree","loc":"New York, NY","arch":"product lead","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4433336891","role":"Senior Product Manager - Search","co":"Datadog","loc":"New York, NY","arch":"product lead","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4372907312","role":"Lead, Product Management & Innovation","co":"Bain & Company","loc":"New York, NY","arch":"product lead","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4447222430","role":"Lead Product Manager","co":"Peloton Interactive","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459704838","role":"SVP, Digital Product Group Manager: Retail Bank Digital Product","co":"Citi","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4424665090","role":"Senior / Staff Product Manager, Fraud","co":"Radar","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4430214340","role":"Senior Product Manager - Enterprise","co":"Legora","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4396667767","role":"Senior Product Manager, AI Agents & Data","co":"Fora Travel","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4458499211","role":"Product Marketing Lead, Instagram Reels Monetization and Ads Experiences","co":"Meta","loc":"New York, NY","arch":"product lead","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460605560","role":"Founding Engineer","co":"Stealth AI Startup","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4461753230","role":"Lead Software Engineer","co":"People In AI","loc":"NYC Metro","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4449142161","role":"Generative AI & Machine Learning Engineer","co":"Morgan Stanley","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4449358537","role":"Sr AI Engineer","co":"Morgan Stanley","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4462064006","role":"AI Acceleration Engineer","co":"Decagon","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4458417016","role":"Principal AI Engineer","co":"Columbia University Irving Medical Center","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-02","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459752141","role":"AI Engineer","co":"Haystack","loc":"NYC Metro","arch":"applied ai engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4405471694","role":"Member of Technical Staff, Product","co":"Listen Labs","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4459741823","role":"Staff Product Engineer","co":"recruithaus","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4433234926","role":"Senior Applied AI/ML Scientist - Compass","co":"Faire","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4441355849","role":"Applied AI Engineer","co":"Millennium","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-09-01","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4460807502","role":"AI Workflow Engineer","co":"Alpaca VC","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4430250138","role":"Senior Applied AI Research Engineer","co":"Monstro","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"},{"id":"4441105462","role":"Member of Technical Staff - Atlas FDE","co":"Basis","loc":"New York, NY","arch":"applied ai engineer","seen":"2026-08-31","sal":"","why":"net-new in 9/1\u20139/4 sweep, scorer not yet run"}];
+  var usort="sal";
+
+  // ---- state ---------------------------------------------------------------
+  var KEY="swipe-board-v2";
+  var st={tier:"all",swipe:"all",ats:"all",arch:"all",co:"all",q:"",from:"",to:"",sort:"score",dir:"desc",swipes:{},manual:[]};
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||"{}");if(saved.swipes)st.swipes=saved.swipes;if(saved.manual)st.manual=saved.manual;if(saved.cap)CAP=saved.cap;}catch(e){}
+  st.manual.forEach(function(m){if(m.score)ROWS.push(m);else UNSCORED.push({id:m.id,role:m.role,co:m.co,loc:"",arch:"manual",seen:m.seen,sal:"",why:"added by hand, not yet scored",url:m.links[0][1]})});
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify({swipes:st.swipes,manual:st.manual,cap:CAP}))}catch(e){}}
+
+  // ---- helpers -------------------------------------------------------------
+  // Operating note: how you actually reach a human. contact = {type: portal|form|email|referral, detail, url?}. Pipeline-written forge docs can override.
+  function contactLine(r,f){var c=(f&&f.contact)||r.contact;if(!c)return'';var lab={portal:"ATS portal",form:"Form on site",email:"Email a human",referral:"Referral path",unverified:"Apply path"}[c.type]||c.type;
+    var d=c.type==="email"&&c.detail?'<a href="mailto:'+esc(c.detail)+'">'+esc(c.detail)+'</a>':c.url?'<a href="'+esc(c.url)+'" target="_blank" rel="noopener">'+esc(c.detail||c.url.replace(/^https?:\/\//,""))+'</a>':esc(c.detail||"");
+    return'<span class="how"><b>'+lab+'</b>'+(d?' · '+d:'')+'</span>'}
+  function pts(r){var t=0;DIMS.forEach(function(d){t+=(r.dims[d[0]]||0)*d[2]});return t}
+  function anatomy(r,nxt){
+    var total=pts(r),h='<div class="anat"><div><h4>How the score is built</h4><div class="sum"><b>'+total+'</b> of '+MAX+' points = <b>'+(total/MAX).toFixed(3)+'</b> · each dimension is scored 0 to 3, then multiplied by its weight</div>';
+    DIMS.forEach(function(d){var sc=r.dims[d[0]]||0,max=d[2]*3,got=sc*d[2];
+      h+='<div class="dim" title="'+esc(d[3])+'"><span class="lab">'+d[1]+'<small>×'+d[2]+'</small></span><span class="bar'+(sc===0?' zero':'')+'"><i style="width:'+(sc/3*100)+'%"></i></span><span class="val">'+got+'<small>/'+max+'</small></span></div>'});
+    h+='<div class="gates"><b>Hard gates:</b> '+(r.gates&&r.gates.length?esc(r.gates.join(", ")):"none fired")+'</div></div>';
+    h+='<div class="delta">';
+    if(nxt&&nxt.dims){var nt=pts(nxt),diffs=[];DIMS.forEach(function(d){var a=(r.dims[d[0]]||0)*d[2],b=(nxt.dims[d[0]]||0)*d[2];if(a!==b)diffs.push([d[1],a-b,r.dims[d[0]]||0,nxt.dims[d[0]]||0])});
+      h+='<h4>Versus the next row · '+esc(nxt.co)+'</h4><div class="sum"><b>'+total+'</b> vs <b>'+nt+'</b> points</div>';
+      if(!diffs.length)h+='<p>Identical on every dimension. The tie is a judgment call, not arithmetic; the assessment below is the tie-break.</p>';
+      else h+='<ul>'+diffs.map(function(x){return'<li><span>'+x[0]+' · '+x[2]+' vs '+x[3]+'</span><span class="pt '+(x[1]>0?"up":"dn")+'">'+(x[1]>0?"+":"")+x[1]+'</span></li>'}).join("")+'</ul>';
+    } else h+='<h4>Last row in this view</h4>';
+    h+='<p><b style="color:var(--fg-1);font-weight:500">Read:</b> '+esc(r.assess||"")+'</p></div></div>';
+    return h}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function rightOrder(){ // order in which rights were made, for the FIRE/HOLD cap
+    return Object.keys(st.swipes).filter(function(k){return st.swipes[k]&&st.swipes[k].v==="r"}).sort(function(a,b){return st.swipes[a].t-st.swipes[b].t});
+  }
+  function visible(){
+    var q=st.q.trim().toLowerCase();
+    return ROWS.filter(function(r){
+      var sw=(st.swipes[r.id]||{}).v||"none";
+      if(st.tier!=="all"&&TIER(r.score)!==+st.tier)return false;
+      if(st.swipe!=="all"&&sw!==st.swipe)return false;
+      if(st.ats!=="all"&&r.ats!==st.ats)return false;
+      if(st.arch!=="all"&&r.arch!==st.arch)return false;
+      if(st.co!=="all"&&r.cotype!==st.co)return false;
+      if(q&&(r.role+" "+r.co).toLowerCase().indexOf(q)<0)return false;
+      if(st.from&&r.seen<st.from)return false;
+      if(st.to&&r.seen>st.to)return false;
+      return true;
+    }).sort(function(a,b){
+      var d=st.dir==="asc"?1:-1;
+      if(st.sort==="company"){return d*a.co.localeCompare(b.co)||b.score-a.score}
+      return d*(a.score-b.score)||a.co.localeCompare(b.co);
+    });
+  }
+
+  // ---- render --------------------------------------------------------------
+  var tbody=document.getElementById("rows"),empty=document.getElementById("empty");
+  function render(){
+    var rows=visible(),html="",lastTier=null,groupByTier=st.sort==="score";
+    rows.forEach(function(r){
+      var t=TIER(r.score),sw=(st.swipes[r.id]||{}).v||"";
+      if(groupByTier&&t!==lastTier){lastTier=t;html+='<tr class="tier-head"><td colspan="8"><b>'+TIER_LABEL[t][0]+'</b>'+TIER_LABEL[t][1]+'</td></tr>'}
+      var f=FORGE[r.id],sw0=(st.swipes[r.id]||{}).v;
+      if(f&&f.status){var sg=STAGES[f.status]||[f.status,"",1];
+        var forge=(f.url&&f.status==="live"?'<a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+esc(f.url.replace(/^https?:\/\//,""))+'</a>':'<span class="stage">'+esc(sg[0])+'</span><span class="prog '+sg[1]+'" role="progressbar" aria-label="Forge '+esc(sg[0])+'"></span>')+(f.resume_url?'<br><a href="'+esc(f.resume_url)+'" target="_blank" rel="noopener">tailored resume</a>':'');
+      } else if(sw0==="r"){var forge='<span class="stage">generating</span><span class="prog" role="progressbar" aria-label="Forge generating"></span>';
+      } else var forge=(r.forge==="cut"?'<span class="ok">'+esc(r.forgeNote)+'</span>':'<span class="q">Generate on swipe →</span>')+'<br><a href="https://resume.arcs.care/resume.pdf" target="_blank" rel="noopener">base resume</a>';
+      html+='<tr data-id="'+r.id+'" data-tier="'+t+'" data-swipe="'+sw+'" tabindex="0" aria-label="'+esc(r.role+" at "+r.co)+'">'
+        +'<td class="score">'+r.score.toFixed(3)+'<small>T'+t+'</small></td>'
+        +'<td class="role"><b>'+esc(r.role)+'</b><span>'+esc(r.co)+' · '+esc(r.loc)+(r.comp?' · '+esc(r.comp):'')+'</span><span class="tags"><span class="tag">'+COTYPE_LABEL[r.cotype]+'</span><span class="tag">'+ARCH_LABEL[r.arch]+'</span></span>'+(r.dims?'<button type="button" class="more" data-more="'+r.id+'" aria-expanded="'+(!!open[r.id])+'">'+(open[r.id]?"Hide the score":"Why this score")+'</button>':'')+'</td>'
+        +'<td class="ats"><span class="pill '+r.ats+'">'+esc(r.atsName)+'</span></td>'
+        +'<td class="links">'+r.links.map(function(l){return'<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>'}).join("")+'</td>'
+        +'<td class="forge col-forge">'+forge+'</td>'
+        +(function(){var h=f&&f.hm?f.hm:null;if(h)return'<td class="hm col-hm '+esc(h.kind)+'"><span class="k">'+esc(h.kind)+'</span>'+esc(h.text||"")+contactLine(r,f)+'</td>';
+            if(sw0==="r"&&r.hmk==="unknown")return'<td class="hm col-hm unknown"><span class="k">generating</span><span class="prog" role="progressbar" aria-label="Hiring manager lookup queued"></span></td>';
+            return'<td class="hm col-hm '+r.hmk+'"><span class="k">'+r.hmk+'</span>'+(r.hmk==="unknown"?'Generate on swipe →':esc(r.hm))+(r.hmNote?'<br><span>'+esc(r.hmNote)+'</span>':'')+contactLine(r,f)+'</td>'})()
+        +'<td class="next col-next">'+esc(r.next)+'</td>'
+        +'<td class="sw-wrap"><div class="sw"><button type="button" class="l" aria-pressed="'+(sw==="l")+'" aria-label="Swipe left on '+esc(r.co)+'">← Left</button><button type="button" class="r" aria-pressed="'+(sw==="r")+'" aria-label="Swipe right on '+esc(r.co)+'">Right →</button></div>'
+        +(sw==="l"?'<div class="why" role="group" aria-label="Why not a fit">'+WHY.map(function(w){return'<button type="button" data-why="'+w+'" aria-pressed="'+((st.swipes[r.id]||{}).why===w)+'">'+w+'</button>'}).join("")+'</div>':'')
+        +'</td>'
+        +'</tr>';
+      if(open[r.id]&&r.dims){var nxt=rows[rows.indexOf(r)+1];html+='<tr class="detail" data-detail="'+r.id+'"><td colspan="8">'+anatomy(r,nxt)+'</td></tr>'}
+    });
+    tbody.innerHTML=html;
+    empty.hidden=rows.length>0;
+    document.getElementById("count").textContent=rows.length+" of "+ROWS.length;
+    // toolbar pressed states
+    document.querySelectorAll(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(st[b.dataset.f]===b.dataset.v))});
+    document.querySelectorAll("thead th button").forEach(function(b){if(b.dataset.sort===st.sort)b.setAttribute("aria-sort",st.dir==="asc"?"ascending":"descending");else b.removeAttribute("aria-sort")});
+    // queue
+    var q=rightOrder(),ul=document.getElementById("queue");
+    document.getElementById("stat-right").textContent=q.length;renderLog();
+    if(!q.length){ul.innerHTML='<li><span class="hold">—</span><span class="who">none yet</span></li>';return}
+    ul.innerHTML=q.map(function(id,i){var r=ROWS.filter(function(x){return x.id===id})[0];if(!r)return"";return'<li><span class="'+(i<CAP?"fire":"hold")+'">'+(i<CAP?"NOW":"NEXT")+'</span><span class="who">'+esc(r.co)+' · '+esc(r.role)+'</span></li>'}).join("");
+  }
+  function salNum(s){var m=(s||"").match(/\$(\d+)K?/g);if(!m)return 0;return Math.max.apply(null,m.map(function(x){return parseInt(x.replace(/\D/g,""),10)}))}
+  function renderUns(){
+    var rows=UNSCORED.slice().filter(function(u){return(!st.from||u.seen>=st.from)&&(!st.to||u.seen<=st.to)});
+    rows.sort(function(a,b){
+      if(usort==="sal"){return salNum(b.sal)-salNum(a.sal)||b.seen.localeCompare(a.seen)}
+      if(usort==="why"){return a.why.localeCompare(b.why)||b.seen.localeCompare(a.seen)}
+      return b.seen.localeCompare(a.seen)||a.co.localeCompare(b.co);
+    });
+    document.getElementById("uns-count").textContent=rows.length+" rows";
+    document.getElementById("uns-rows").innerHTML=rows.map(function(u){var url=u.url||("https://www.linkedin.com/jobs/view/"+u.id+"/");
+      return'<tr><td class="seen">'+u.seen.slice(5)+'</td><td class="role"><b><a href="'+url+'" target="_blank" rel="noopener">'+esc(u.role)+'</a></b><span>'+esc(u.co)+(u.loc?' · '+esc(u.loc):'')+'</span></td><td class="arch">'+esc(ARCH_LABEL[u.arch]||u.arch)+'</td><td class="sal">'+(u.sal?esc(u.sal):'<span style="color:var(--fg-3)">unknown</span>')+'</td><td class="why">'+esc(u.why)+'</td></tr>'}).join("");
+    document.querySelectorAll("[data-usort]").forEach(function(b){b.style.textDecoration=b.dataset.usort===usort?"underline":"none"});
+  }
+  function renderLog(){
+    var ids=Object.keys(st.swipes).filter(function(k){return st.swipes[k]}).sort(function(a,b){return st.swipes[b].t-st.swipes[a].t});
+    document.getElementById("log-count").textContent=ids.length?"("+ids.length+")":"";
+    document.getElementById("log").innerHTML=ids.length?ids.map(function(id){var r=ROWS.filter(function(x){return x.id===id})[0],w=st.swipes[id];if(!r)return"";
+      return'<li><span class="dir '+w.v+'">'+(w.v==="r"?"RIGHT":"LEFT")+'</span><span class="who">'+esc(r.co)+' · '+esc(r.role)+'</span>'+(w.why?'<span class="tag">'+esc(w.why)+'</span>':'')+'<span class="when">'+new Date(w.t).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})+'</span><button type="button" data-unswipe="'+id+'" aria-label="Undo swipe on '+esc(r.co)+'">✕</button></li>'}).join(""):'<li><span class="who" style="color:var(--fg-3)">no swipes yet</span></li>';
+  }
+  document.getElementById("log").addEventListener("click",function(e){var b=e.target.closest("[data-unswipe]");if(!b)return;unswipe(b.dataset.unswipe)});
+  document.getElementById("undo").addEventListener("click",function(){var ids=Object.keys(st.swipes).filter(function(k){return st.swipes[k]}).sort(function(a,b){return st.swipes[b].t-st.swipes[a].t});if(ids[0])unswipe(ids[0])});
+  function unswipe(id){delete st.swipes[id];persist();dbWrite("swipes",id,null);if(FORGE[id]&&FORGE[id].status==="queued")dbWrite("forge",id,null);render()}
+
+  // ---- events --------------------------------------------------------------
+  var DB=null;var FORGE={}; // forge/<jobid> docs written by the pipeline: {status:queued|gathering|grading|rendering|built|live, url, resume_url, hm:{kind,text}}
+  var STAGES={queued:["generating","",1],gathering:["gathering","p50",1],grading:["grading",""," "],rendering:["rendering","p75",1],built:["built, awaiting deploy","p75",1],live:["live","p100",1]};
+  function dbWrite(col,id,body){if(!DB)return;try{var ref=DB.doc(col+"/"+id);(body?ref.set(body):ref.delete()).catch(function(){})}catch(e){}}
+  function dbBoot(){
+    if(!(window.claude&&window.claude.use))return;
+    window.claude.use("db").then(function(db){
+      if(!db)return;DB=db;document.getElementById("store").textContent="Stored in the shared board database. Synced on every device, readable by the pipeline.";
+      db.collection("swipes").onSnapshot(function(snap){var next={};snap.docs.forEach(function(d){if(d.exists){var b=d.data();next[d.id]={v:b.v,t:b.t,why:b.why}}});st.swipes=next;persist();render()},function(){});
+      db.collection("manual").onSnapshot(function(snap){var rows=[];snap.docs.forEach(function(d){if(d.exists)rows.push(d.data())});
+        rows.forEach(function(m){if(st.manual.some(function(x){return x.id===m.id}))return;st.manual.push(m);if(m.score)ROWS.push(m);else UNSCORED.push({id:m.id,role:m.role,co:m.co,loc:"",arch:"manual",seen:m.seen,sal:"",why:"added by hand, not yet scored",url:m.links[0][1]})});
+        persist();render();renderUns()},function(){});
+      db.collection("forge").onSnapshot(function(snap){var next={};snap.docs.forEach(function(d){if(d.exists)next[d.id]=d.data()});FORGE=next;render()},function(){});
+      db.doc("settings/board").onSnapshot(function(d){if(d.exists&&d.data().cap){CAP=+d.data().cap;document.getElementById("cap").value=String(CAP);render()}},function(){});
+    }).catch(function(){});
+  }
+  function swipe(id,v){var cur=(st.swipes[id]||{}).v;if(cur===v)delete st.swipes[id];else st.swipes[id]={v:v,t:Date.now()};persist();
+    var r=ROWS.filter(function(x){return x.id===id})[0];dbWrite("swipes",id,st.swipes[id]?{v:v,t:st.swipes[id].t,company:r?r.co:"",role:r?r.role:""}:null);
+    if(st.swipes[id]&&v==="r"&&!(FORGE[id]&&FORGE[id].status))dbWrite("forge",id,{status:"queued",requested:Date.now(),company:r?r.co:"",role:r?r.role:"",posting:r&&r.links[0]?r.links[0][1]:""});
+    if(!st.swipes[id]&&FORGE[id]&&FORGE[id].status==="queued")dbWrite("forge",id,null);
+    render();
+    var tr=tbody.querySelector('tr[data-id="'+id+'"]');if(tr)tr.focus();}
+  tbody.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var tr=b.closest("tr");
+    if(b.dataset.more){open[b.dataset.more]=!open[b.dataset.more];render();var again=tbody.querySelector('[data-more="'+b.dataset.more+'"]');if(again)again.focus();return}
+    if(b.dataset.why){var cur=st.swipes[tr.dataset.id];if(cur){cur.why=cur.why===b.dataset.why?undefined:b.dataset.why;persist();var rr=ROWS.filter(function(x){return x.id===tr.dataset.id})[0];dbWrite("swipes",tr.dataset.id,{v:cur.v,t:cur.t,why:cur.why||null,company:rr?rr.co:"",role:rr?rr.role:""});render();tr=tbody.querySelector('tr[data-id="'+tr.dataset.id+'"]');if(tr)tr.focus()}return}
+    swipe(tr.dataset.id,b.classList.contains("l")?"l":"r")});
+  tbody.addEventListener("keydown",function(e){var tr=e.target.closest("tr[data-id]");if(!tr)return;
+    if(e.key==="Enter"&&e.target===tr){e.preventDefault();open[tr.dataset.id]=!open[tr.dataset.id];render();var t2=tbody.querySelector('tr[data-id="'+tr.dataset.id+'"]');if(t2)t2.focus()}
+    else if(e.key==="ArrowLeft"){e.preventDefault();swipe(tr.dataset.id,"l")}
+    else if(e.key==="ArrowRight"){e.preventDefault();swipe(tr.dataset.id,"r")}
+    else if(e.key==="ArrowDown"||e.key==="ArrowUp"){var all=[].slice.call(tbody.querySelectorAll("tr[data-id]")),i=all.indexOf(tr),n=all[i+(e.key==="ArrowDown"?1:-1)];if(n){e.preventDefault();n.focus()}}
+  });
+  document.querySelectorAll(".seg button").forEach(function(b){b.addEventListener("click",function(){st[b.dataset.f]=b.dataset.v;render()})});
+  document.getElementById("f-ats").addEventListener("change",function(e){st.ats=e.target.value;render()});
+  document.getElementById("f-arch").addEventListener("change",function(e){st.arch=e.target.value;render()});
+  document.getElementById("f-co").addEventListener("change",function(e){st.co=e.target.value;render()});
+  document.getElementById("f-q").addEventListener("input",function(e){st.q=e.target.value;render()});
+  document.getElementById("f-from").addEventListener("change",function(e){st.from=e.target.value;render();renderUns()});
+  document.getElementById("f-to").addEventListener("change",function(e){st.to=e.target.value;render();renderUns()});
+  document.getElementById("cap").addEventListener("change",function(e){CAP=+e.target.value;persist();dbWrite("settings","board",{cap:CAP});render()});
+  document.getElementById("cap").value=String(CAP);
+  document.querySelectorAll("[data-usort]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();usort=b.dataset.usort;renderUns();document.getElementById("uns").open=true})});
+  var addT=document.getElementById("add-toggle"),addF=document.getElementById("add-form");
+  function setAdd(open){addF.hidden=!open;addT.setAttribute("aria-expanded",String(open));addT.textContent=open?"Close":"+ Add a row";if(open)addF.querySelector("input").focus();else addT.focus()}
+  addT.addEventListener("click",function(){setAdd(addF.hidden)});
+  document.getElementById("add-cancel").addEventListener("click",function(){addF.reset();setAdd(false)});
+  addF.addEventListener("keydown",function(e){if(e.key==="Escape"){e.preventDefault();addF.reset();setAdd(false)}});
+  addF.addEventListener("submit",function(e){e.preventDefault();var f=new FormData(addF),sc=parseFloat(f.get("score"));
+    var m={id:"manual-"+Date.now(),seen:new Date().toISOString().slice(0,10),role:f.get("role").trim(),co:f.get("co").trim(),loc:"",comp:"",cotype:"startup",arch:"manual",ats:"unk",atsName:"unverified",links:[["Posting",f.get("url").trim()]],forge:"swipe",hmk:"unknown",hm:"Pull on swipe",hmNote:"",next:"Added by hand. Resolve ATS and hiring manager on swipe.",score:isNaN(sc)?0:sc};
+    st.manual.push(m);persist();dbWrite("manual",m.id,m);
+    if(m.score){ROWS.push(m)}else{UNSCORED.push({id:m.id,role:m.role,co:m.co,loc:"",arch:"manual",seen:m.seen,sal:"",why:"added by hand, not yet scored",url:m.links[0][1]})}
+    addF.reset();setAdd(false);render();renderUns();document.getElementById("stat-inbox").textContent=String(123+st.manual.length);});
+  document.querySelectorAll("thead th button").forEach(function(b){b.addEventListener("click",function(){
+    if(st.sort===b.dataset.sort)st.dir=st.dir==="asc"?"desc":"asc";else{st.sort=b.dataset.sort;st.dir=b.dataset.sort==="score"?"desc":"asc"}render()})});
+  document.getElementById("reset").addEventListener("click",function(){st.tier=st.swipe=st.ats=st.arch=st.co="all";st.q="";st.sort="score";st.dir="desc";
+    st.from=st.to="";["f-ats","f-arch","f-co"].forEach(function(i){document.getElementById(i).value="all"});["f-q","f-from","f-to"].forEach(function(i){document.getElementById(i).value=""});render();renderUns()});
+  document.getElementById("copy").addEventListener("click",function(){
+    var out=ROWS.filter(function(r){return st.swipes[r.id]}).map(function(r){var o={jobid:r.id,company:r.co,swipe:st.swipes[r.id].v==="r"?"right":"left",at:new Date(st.swipes[r.id].t).toISOString()};if(st.swipes[r.id].why)o.why=st.swipes[r.id].why;return o});
+    var txt=JSON.stringify({cap:CAP,swipes:out},null,2),ok=document.getElementById("copied");
+    function done(m){ok.textContent=m;setTimeout(function(){ok.textContent=""},2500)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){done("Copied "+out.length+" swipes")},function(){done("Copy blocked. Select and copy the queue instead.")})}
+    else done("Copy not available in this browser.");
+  });
+  render();renderUns();dbBoot();
+})();
+</script>
