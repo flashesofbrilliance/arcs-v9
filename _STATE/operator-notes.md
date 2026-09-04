@@ -28,6 +28,10 @@ not confident confabulation. Append over time; each entry is a learning that cha
 5. **Decompose the denominator before building on any count.** "Whose 247?" — ask the single
    confound that would invalidate the whole inquiry, and check *that* first. A confirmed count says
    nothing until you ask whose. (This one caught a keel built on your own dogfooding.)
+   **Cost corollary:** the cheap invalidating question isn't only epistemic hygiene — it's ROI. Rigor
+   and thrift are the same move. Max-effort on the wrong denominator is *negative* ROI: you pay full
+   price to arrive where one cheap question would have delivered you free. Ask it on turn one, not turn
+   six — asking early saves both the wrong conclusion and the wasted effort; asking late saves neither.
 
 6. **Productivity is camouflage.** A vicious cycle generates output right up to the runaway (the RBMK
    made power seconds before it blew). "Is it still producing?" is the wrong test. "Does it
