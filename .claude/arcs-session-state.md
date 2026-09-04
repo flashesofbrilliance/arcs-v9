@@ -1,55 +1,43 @@
-# ARCS session state — job-search loop (2026-08-29)
+# ARCS Session State — pickup snapshot
 
-> Sprint snapshot for `/handoff-pickup`. Latest handoff. Worktree: vigorous-lederberg-a6ca86,
-> branch `claude/recoil-kinexys-sizing`.
+**Last commit:** `5ed7a1e1` · branch `feat/audit-service` (ahead of origin **9**, unpushed) · 2026-09-04
 
-## What shipped this session
-- **Gmail MCP wired** (server `5d045ae7-…`; `search_threads`/`get_thread`/`get_message`, PLAIN_TEXT).
-  Job-search loop's one external dependency is now satisfied in-session.
-- **Job-search tooling relocated to main** — PR #195 merged (squash `97c04d62`): parser
-  (`operators/job_search/linkedin_alert_parser.py`, selftest-passing) + rubric
-  (`_ARTIFACTS/target-role-scan-hud.html`) + the missing reframe SSOT
-  (`_ARTIFACTS/resume-applied-ai/positioning.md`).
-- **Scored live LinkedIn inventory** (the 4 retargeted alerts were created 8/28 but haven't
-  produced digests yet — first ~8/31; scored 3 adjacent AI-relevant digests instead):
-  - **PURSUE (0.87): Amex — Director, Product Dev · MCP Platform & Agent Ecosystem** (4431293229)
-    → tailored resume built + print-verified: `_ARTIFACTS/resume-amex-mcp/` (HTML/PDF/PNG/ATS).
-  - CONSIDER: Avoca Agent PM (0.70), Google Applied-AI PSO (0.68, Ads-domain drag).
-  - Records: `runtime/job-search/opportunities{,-scored}.jsonl` (generated, uncommitted).
-- **Kinexys pursuit sized via recoil-new** — PR #197. Zach already applied to the JPM Kinexys
-  Digital Assets PM (VP) role (4440525172). 6-tab war-room SSOT
-  (`runtime/recoil/generated/2026-08-28-kinexys.json`) + gated render
-  (`_ARTIFACTS/recoil-kinexys/kinexys-war-internal.html`, pw `kinexys-dlt-forge-7719`).
-  Read: strongest *domain* fit (Grayscale ≈ Kinexys DLT/payments); live risk = JPM matrix org.
+## This session (ARCS-on-ARCS, 2026-09-02 → 09-04)
+Ran the harness on its own real production data, then ran the human-AI reach-honesty **calibration
+method** end-to-end on the session itself.
 
-## Open / next
-1. **PR #197** open (recoil war-room + backlog trigger) — review/merge.
-2. **Scheduled task** `arcs-job-search-loop-retargeted-alerts` fires **2026-08-31 09:00 ET** —
-   re-runs the loop on the 4 retargeted archetype alerts once they populate.
-3. **resume-kinexys — HELD, trigger-gated** in `_QUEUE/induced-backlog.jsonl`
-   (`resume-kinexys-regulated-digital-assets-cut`): build the Grayscale-led, regulated-digital-assets
-   cut ONLY when a JPM/Kinexys human responds (recruiter reply / screen scheduled). Lead Grayscale,
-   demote MCP/agents. Explicitly deferred by Zach 2026-08-29.
-4. Falsifier on the Kinexys pursuit: no response within ~3 weeks ⇒ domain fit didn't carry it
-   (likely internal fill); close the recoil receipt then.
+**Findings (GREEN, DB-verified via Supabase MCP):**
+- Keel = outcome-capture **RATE**, NOT "build the handler" — the handler already ships
+  (`POST /api/receipts/[id]/outcome` + Outcome model + debrief email + cron).
+- 247 receipts = **189 founder dogfooding** (zach.harris@gmail) + 10 from 4 users + 48 anon;
+  2 outcomes, both founder self-graded → **~0 externally-validated** (realness gate).
+- SageTrace 71/45-fired; **6 of 9 signal fields degenerate** (distinct==1) — somatic/axioms fabricated constants.
+- Compass dogfood: users-first bearing; reasoning + tributaries GREEN-useful, the felt-scores theater.
 
-## Blocking
-NONE.
+**Built + committed:** informativeness/echo sensor `bbb61bcb` · timecapsule git build-log + SessionStart
+hook `eb58f146` · AGENTS.md outcome-handler drift fix `b23e0df2` · fidelity-label fix `c11a4925`.
 
----
+**Persisted specs/ledgers (all in `_STATE/`):** `operator-notes.md` (13 human-side learnings) ·
+`deceipt-ledger.md` (11 liabilities, KINTSUGI-visible) · `edge-capture-evidence-seam-spec.md` ·
+`real-user-real-decision-definition.md` (§8 = why-capture-is-hard) · `canon-review-candidates-2026-09-02.md`
+(ROM candidate + carrier-signal/deceipt/regime candidates, all routed-not-minted).
 
-## Delta — Möbius/canon + echo-detector session (2026-08-29, later)
+**Memories banked (compounding substrate):** counterfeit-system2, burden-of-proof/escalate,
+chain-of-custody-on-rationales, doubt-the-premise (+ whose-247), surface-initiative (+ multi-dim debt).
 
-> Separate concurrent session (branch `art/the-field-dipole`). Primary handoff is now **v3.49.0**
-> in CLAUDE.md. All landed on main (PRs #198/#199/#200/#202/#203); branch current with origin/main; oracle at 71.
+## Open / owed (next session)
+1. **Consolidation typed-fold** — MEMORY.md over budget (20141 > 17408B); needs human-owned retirement
+   judgment (durable content, not decoration). Deceipt #8: the /consolidate pass GREW the index.
+2. **The fork** — both ledgers booked, ready to spawn via `/fold` (inner=consolidate, external=apply-with-governor).
+3. **Outcome-architecture grep** — does a real fraction of 247 have data-resident outcomes? DB-blocked
+   in this worktree (no DATABASE_URL); run where the DB is reachable.
+4. **NFTT `confirmed-not-my-bug` ship** — rendered + gate-clean, never routed/deployed; needs publish-bless.
 
-- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) + apex spine + tao-255 +
-  silkscreen; the two-surface architecture is now one non-orientable Möbius. Induction circuit
-  named 1998→2026 (the flux → flashesofbrilliance → livewire → Book of ARCS → ARCS/Möbius).
-- **Echo detector dogfood → NOT seaworthy** (adversarial-FP 1.0 @ default; architectural limit).
-  **RC-OPS-001 graduation INITIATED** (opened, NOT promoted; gate corrected to 4-criterion
-  scoreboard, precision FAILS). `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`.
-- The Mie + The Field calibrated per Perplexity's cross-substrate teardown; both claude.ai
-  artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
-- Fold-backs: worktree-prune (task_caa14569) + hyperstition miss-column (task_004b8253) both ended
-  **analysis-only** — nothing landed on main — recorded OPEN (see v3.49.0 handoff open items).
+## Meta
+The whole session's **calibration method** is a **ROM candidate at the gate** (witnessed YELLOW, routed,
+NOT minted). Graduation condition: a live receipt of the method catching a real error the existing ROM
+primitives (NOTOMATION/KINTSUGI/HYPERSTITION) would have missed. Ante-disciplinary gate flags it likely
+a fold/sharpening, not net-new.
+
+**Operating mode carried forward:** field-contact over validation · reach-tag everything (GREEN/YELLOW/
+resonance) · wired > written · decompose-the-denominator · the deceipts are the exothermic fuel.
