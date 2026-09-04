@@ -68,3 +68,14 @@ not confident confabulation. Append over time; each entry is a learning that cha
     rank, ask: *are these the seas these survivability-priors were learned on?* Regime home is ADR-033
     (validityBounds {n, conditions, stationarity}); this adds regime-match as a ranking axis, not just
     a validity bound. YELLOW — only the outcome resolves regime-match, same as everything else.
+
+14. **Not every moment must advance — three states, not two: generative · dwelling(ma) · spinning.**
+    Generative advances, pulls deeper (the serious investor, the living call) — earns its keep. Dwelling
+    /*ma* is *chosen* stillness that lets the next move land — earns its keep too. Only **spinning**
+    (hollow looping, no advance AND no *ma*) fails — the Drift-Sentinel's enemy, the call you can't leave
+    fast enough. The tell between dwelling and spinning is **animacy** (alive vs hollow) — your read, not
+    a turn-count. "Does this moment earn its keep?" resolves to "is it alive?" — generative and dwelling
+    both are; only the hollow spin fails. Corollary to #6: productivity/advance is *not* the sole signal;
+    the mistake is treating stillness as failure. NOTE: the spin-detector (Drift-Sentinel) is a WORLD.md
+    concept, NOT wired code — the mechanical half (turn-count → flag) is wirable; the dwelling-vs-spinning
+    call stays judgment (animacy), yours.
