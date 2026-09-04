@@ -42,3 +42,17 @@ of a compelling thread (RC-OPS-001 governance precedent). Each already checked a
 *Status: candidates, unminted. The gate decides, not the thread. Captured here so the finding fires
 rather than evaporating (a capture sensor that does not fire is itself the system-level failure this
 session diagnosed).*
+
+## 4. ROM candidate — human-AI reach-honesty calibration method (2026-09-04, routed not minted)
+- **What:** the session's operating method as a possible ROM primitive — entangled two-strand audit
+  (escapes solo-audit vacuity) · field-contact-over-echo · reach-tags · triad-none-may-null
+  (human + AI + external ground) · conviction-is-the-tell. Captured in `_STATE/operator-notes.md` (13
+  learnings) + this session's memories.
+- **Ante-disciplinary gate (run before minting):** likely NOT net-new — collides/composes with
+  NOTOMATION (never overrule revealed preference), KINTSUGI (repair the seam visibly), HYPERSTITION
+  (ethereal → loki → receipt → ROM = the graduate-through-gate mechanism, i.e. RC-OPS-001 itself).
+  So the honest default is FOLD (sharpen an existing primitive), not mint a new one — unless the gate
+  finds a genuinely-new grounded nucleus the existing seven don't cover.
+- **Reach:** YELLOW. The method's own rule forbids minting it on conviction; it graduates by surviving
+  its gate (a live receipt of the method preventing a real error that the existing primitives wouldn't
+  have), never by being proposed with a compelling thread. Feed to /canon-review as a candidate.
