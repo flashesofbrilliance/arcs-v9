@@ -30,3 +30,8 @@ distrust — it would mean nothing touched the field hard enough to burn.
 how confident it felt (all 11 felt like receipts when issued) — it's whether it *survived field-contact*.
 The sort is mechanical: re-run each claim against ground; the ones that flip are liabilities. Confidence
 is not the sort key. Contact is.
+
+## Addendum (2026-09-04, driving the loop-closing)
+| # | The false receipt (deceipt) | Caught by (the totem) | Scar / blindspot made visible |
+|---|---|---|---|
+| 12 | "outcome-architecture grep is DB-blocked in this worktree, not closeable here" | ran it via the Supabase MCP (247/247 horizon, 88 one-way, 2 outcomes) — the DB was reachable all along | mislabeled the *gate*: called it DB-blocked when the real gate is judgment/PII (classifying outcome-observability needs decision content). Would have carried "blocked" forward as false if the loop hadn't been *driven*. Reclassified: judgment-gated, structure surfaced. |
