@@ -1,0 +1,38 @@
+{
+  "receipt_id": "receipt_citi_fde_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-04",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "Air-gap leak: a CSS comment on the public landing page named another company's bundle as its source",
+      "caught_by": "grep audit (air-gap term list)",
+      "gold": "comment stripped; page greps clean for every forbidden term"
+    },
+    {
+      "break": "Record of record URL (resume.arcs.care/resume.pdf) serves the HTML resume, not a PDF; a naive pdftotext trace would have failed silently",
+      "caught_by": "curl + pdftotext error output",
+      "gold": "content data extracted from the served HTML and saved as record-of-record.txt; every resume claim traced against it; discrepancy logged as an open question"
+    },
+    {
+      "break": "Headless Chrome clamps the window below roughly 500px, so the first 375px screenshot rendered a wider layout and looked like horizontal overflow",
+      "caught_by": "looking at the PNG",
+      "gold": "re-rendered through a 375px iframe harness; true 375px layout verified clean, top and bottom"
+    },
+    {
+      "break": "Landing page described the Squat engagement with colour beyond the record ('in one room')",
+      "caught_by": "red-team pass",
+      "gold": "narrowed to the record's own wording"
+    },
+    {
+      "break": "Posting requires the literal title 'Forward Deployed Engineer', which the candidate never held",
+      "caught_by": "honest-grade pass",
+      "gold": "archetype claimed, title never claimed; the gap is printed on the page itself in the mapping note and the STRESS-TEST stage"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes); five in-flight breaks were sealed with visible gold during the session, documented above."
+}

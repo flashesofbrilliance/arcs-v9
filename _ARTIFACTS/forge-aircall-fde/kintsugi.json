@@ -1,0 +1,43 @@
+{
+  "receipt_id": "receipt_aircall_fde_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-04",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "Resume counted 'three organizations' for the first-intelligence-layer claim; the record of record names two (WTA, CTF)",
+      "caught_by": "red-team pass (grep against public/resume.html)",
+      "gold": "rewritten to 'twice, for organizations that had none'; re-rendered, both pages inspected, still two pages"
+    },
+    {
+      "break": "Two mirrors of the posting disagree on team size (aggregators: 3 to 7-8 by H1 '26; Greenhouse: 6 to 20 by EOY '26)",
+      "caught_by": "gather stage (LinkedIn fetch vs Greenhouse fetch)",
+      "gold": "Greenhouse saved as jd-full.txt and treated as current; the disagreement is written into TAILOR-NOTES rather than silently picking one"
+    },
+    {
+      "break": "Headless Chrome cannot lay out a 375px window (macOS minimum window width), so the first 375 screenshot showed a cropped desktop layout and looked like an overflow bug",
+      "caught_by": "looking at the PNG, then a scrollWidth probe in the browser pane (no non-fixed element past the viewport)",
+      "gold": "screenshots retaken with Playwright at true viewports 1280/790/768/375, full page; scrollWidth equals viewport at all four"
+    },
+    {
+      "break": "Forge rail orphaned the fifth stage on its own row at 790 and 768",
+      "caught_by": "screenshot inspection",
+      "gold": "rail minmax lowered from 150px to 130px so five stages fit on one row down to about 700px, two columns below"
+    },
+    {
+      "break": "Record of record URL (/resume.pdf) is not a PDF; it serves the interactive HTML resume",
+      "caught_by": "curl + pdftotext failure",
+      "gold": "claims traced against public/resume.html source text instead; noted in TAILOR-NOTES so the next forge does not repeat the fetch"
+    }
+  ],
+  "air_gap_check": {
+    "tokens_grepped": ["PURSUE", "composite", "rubric", "tier", "Y-gate", "recruiter names", "counterpart surnames", "other target companies", "em-dash", "en-dash"],
+    "hits_in_public_page": 0,
+    "note": "The only 'blacksmith' string on the page is a CSS comment naming the base file; no counterpart, recruiter, or scoring vocabulary in rendered text"
+  },
+  "verdict": "Final receipt passes the kintsugi gate (no schema pathogens); five in-flight breaks were sealed with visible gold during the session, documented above."
+}

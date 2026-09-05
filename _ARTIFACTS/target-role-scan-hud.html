@@ -198,7 +198,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="statuslights">
         <span class="led on" style="color:var(--palette-conviction)"></span>ARCHETYPES · 4 IN SCOPE<br>
         <span class="led on" style="color:var(--palette-asset)"></span>RUBRIC · v1 CALIBRATED<br>
-        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · CATCHER = GMAIL LABEL · UNWIRED<br>
+        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · GMAIL MCP · WIRED 2026-08-28<br>
         <span class="led on" style="color:var(--palette-bearing)"></span>LOOP · RECOIL-READY
       </div>
     </div>
@@ -208,7 +208,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="cell"><div class="v"><b>4</b></div><div class="k">archetypes in scope</div></div>
       <div class="cell"><div class="v">6</div><div class="k">must-haves · screen-in</div></div>
       <div class="cell"><div class="v">6</div><div class="k">disqualifiers · screen-out</div></div>
-      <div class="cell"><div class="v">0.70</div><div class="k">pursue band · full omakase</div></div>
+      <div class="cell"><div class="v">0.58</div><div class="k">board cutoff · tiers at 0.80 / 0.70</div></div>
       <div class="cell"><div class="v">20<span style="font-size:15px">yr</span></div><div class="k">senior IC · operator-builder</div></div>
     </div>
     <div class="src" style="margin-top:10px;">SRC · resume.arcs.care (SSOT) · profile-scan-hud.html · memory: icp-is-a-state · positive-screen · risk-register · opportunity-sizing</div>
@@ -348,8 +348,8 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
     <div class="flow">
       <div class="step panel">
         <h4>Ingest — job alerts land</h4>
-        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. <b>Gap:</b> there is no committed catcher — it's a Gmail label + MCP read (or an external Zapier zap). Formalizing a normalize-step that emits one "opportunity record" per alert is the front-door build.
-          <span class="tool gap">Gmail MCP · label</span><span class="tool gap">TODO: normalize step</span></p>
+        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. Wired 2026-08-28: the Gmail MCP pulls the digests, <b>linkedin_alert_parser.py</b> emits one opportunity record per job, and the Alert Swipe Board carries the scored rows above the 0.58 cutoff in three tiers. This rubric is now data at <b>runtime/specs/target-role-scan.json</b>.
+          <span class="tool">Gmail MCP</span><span class="tool">linkedin_alert_parser.py</span><span class="tool">Alert Swipe Board</span></p>
       </div>
       <div class="step panel">
         <h4>Score — run the rubric</h4>
@@ -389,7 +389,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
 
   <footer>
     <span>ARCS Target Scan · Zach Harris · _ARTIFACTS/target-role-scan-hud.html</span>
-    <span>Internal · v1 · Aug 2026 · render at earned fidelity</span>
+    <span>Internal · v1.1 · Sep 2026 · rubric as data · render at earned fidelity</span>
   </footer>
 </div>
 </body>

@@ -1,0 +1,43 @@
+{
+  "receipt_id": "receipt_morgan_stanley_devgen_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-04",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "Resume headline under the name was the requisition title nearly verbatim ('Lead Product Engineer · AI Development Platforms')",
+      "caught_by": "user rule check (headline must name the archetype, never the req title)",
+      "gold": "rewritten to 'AI-native product engineer · builds the platform, runs the product'; document <title> keeps the role"
+    },
+    {
+      "break": "Resume squeezed to one page, dropping the open-source tools, advisory engagements, and engineering stack that answer this JD's InnerSource and technical-fluency hooks",
+      "caught_by": "reference-length comparison against the two-page reference bundle and the record of record",
+      "gold": "restored to two pages from the record of record; both rendered pages viewed and clean"
+    },
+    {
+      "break": "Self-measured figures (60% noise reduction, 3 to 5x) in the first ARCS bullet",
+      "caught_by": "honest-grade pass",
+      "gold": "cut; bullet states the mechanism; figures moved to defend-or-drop"
+    },
+    {
+      "break": "ATS text carried pdftotext artifacts (letter-spaced uppercase, broken slashes)",
+      "caught_by": "red-team read of the .txt",
+      "gold": "regenerated from the HTML with a tag-strip pass"
+    },
+    {
+      "break": "Forge page ticker count (Three) disagreed with the cut list (four)",
+      "caught_by": "self-review of the rendered page",
+      "gold": "count corrected to Four"
+    },
+    {
+      "break": "Forge page grids orphaned one card at 790 px",
+      "caught_by": "four-width screenshot review",
+      "gold": "auto-fit minimums tightened; zero overflow at 1280 / 790 / 768 / 375"
+    }
+  ],
+  "verdict": "Bundle passes the kintsugi gate (no schema pathogens); six in-flight breaks were sealed with visible gold during the session, documented above."
+}
