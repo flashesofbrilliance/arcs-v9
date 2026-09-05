@@ -33,7 +33,7 @@ export async function pageViewerAllowed(): Promise<boolean> {
 // change to the spec does not need a rebuild.
 export type ScanSpec = {
   version: string
-  archetypes: { id: string; title: string; rail: string; titles: string[] }[]
+  archetypes: { id: string; title: string; rail: string; titles: string[]; lead_proof?: { company: string | null; claim: string; evidence_grade: string } }[]
   quads: { id: string; label: string; headline: string; dims: string[]; proof: { company: string | null; claim: string } }[]
   rubric: {
     dims: { key: string; label: string; weight: number; anchor0: string; anchor3: string }[]
