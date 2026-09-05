@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
     "/api/jobs/forge": ["./runtime/specs/*.json"],
     "/jobs": ["./runtime/specs/*.json"],
     "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
+    "/jobs/profile": ["./_ARTIFACTS/profile-scan-hud.html"],
+    "/jobs/[jobid]": ["./runtime/specs/*.json"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
