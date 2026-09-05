@@ -68,3 +68,11 @@ doesn't ground on a re-read. The open-loops backlog is the honest close: parked,
   independently audited — claims-skeptic lacks Supabase. That's the residual gap for next session.
 - **Human-gated (not mine to close):** consolidation-retirement, NFTT b-rework+ship, ROM-candidate (parked),
   push-to-origin (17 commits ahead, off-machine backup = your bless).
+
+## Fold record (2026-09-05 — /fold executed)
+Open-loop #3 (the fork) CLOSED. Three composed sessions spawned as chips (human-started, not auto-run):
+- **NFTT confirmed-not-my-bug b-rework + ship** (was loop #5) — story-factory render + publish-bless gate.
+- **Memory consolidation typed-fold** (was loop #1) — index 18563B>17408B; mechanical merge only, retirement human-owned.
+- **Outcome-capture nudge / the keel** (the "external=apply-with-governor" fold) — surgical-first, 247/2 closed.
+Staying on trunk (not sessions): ROM candidate (#6, parked — gate=live receipt), push-to-origin (#7, consent),
+DB-independent-audit gap (claims-skeptic lacks Supabase — small MCP task). Resume-test agent running in parallel.
