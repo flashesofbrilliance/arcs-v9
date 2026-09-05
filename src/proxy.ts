@@ -130,6 +130,26 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.rewrite(url)
   }
 
+  // --- jobs.arcs.care ------------------------------------------------------
+  // The Alert Swipe Board, an app route (src/app/jobs) rather than a static
+  // page: the host collapses to /jobs, while the API, auth, and the magic-link
+  // sign-in page (/compass, where the gated page redirects) pass through so the
+  // sign-in round trip does not loop back into the rewrite.
+  if (sub === 'jobs') {
+    if (
+      pathname.startsWith('/jobs') ||
+      pathname.startsWith('/compass') ||
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/_vercel') ||
+      pathname.startsWith('/api')
+    ) {
+      return NextResponse.next()
+    }
+    const url = request.nextUrl.clone()
+    url.pathname = '/jobs'
+    return NextResponse.rewrite(url)
+  }
+
   const dest = SUBDOMAIN_MAP[sub]
 
   if (dest) {
