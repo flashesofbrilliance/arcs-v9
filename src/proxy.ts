@@ -3,10 +3,6 @@ import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
-  'token':        '/token.html',
-  'cj-brief':     '/cj-brief.html',
-  'chase-intro':  '/chase-intro.html',
-  'chris-intro':  '/chris-intro.html',
   'resume':       '/resume.html',
   'lewoof':       '/lewoof-intake.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo

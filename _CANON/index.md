@@ -56,6 +56,6 @@
 ---
 
 **Index last updated:** 2026-06-30  
-**Canonical Book II:** Complete (Parts I-VI)  
+**Canonical Book II:** Complete (Parts I-III, V-VI); Part IV (Sessions API) DRAFT, unwritten (no file ever added; corrected 2026-09-04 per the Almanac audit)  
 **Governance coverage:** Complete (Parts II-III); Operational (Part V)  
 **Implementation gates:** See _DECISIONS/ADR-023 (100+ receipts) + ADR-013 (30-day Lab inquiry threshold)
