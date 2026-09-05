@@ -1,0 +1,1 @@
+{ "name":"jackpot","scripts":{"start":"node server.js","prepare":"node ./routes/api/auth.js"}}

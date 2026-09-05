@@ -33,6 +33,7 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
 | `RECOIL_PASSWORD` | Shared cookie gate for the whole `/recoil*` tree (`src/proxy.ts`, private-alpha) |
 | `ADMIN_EMAILS` | Comma-separated admin allowlist — interim RBAC for the internal `/recoil` index + reports (`src/lib/admin.ts`). Prod fail-closed if unset; dev passes through |
+| `RECRUITHAUS_AMMO_PASSWORD` | Shared passcode for the gated recruiter ammo tier at `recruithaus.arcs.care/ammo` (`src/lib/ammo-gate.ts` + `src/proxy.ts` + `/api/recruithaus/unlock`). Fail-closed if unset; cookie holds a SHA-256 token, never the passcode |
 
 ---
 

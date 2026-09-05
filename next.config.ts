@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
+    // jobs.arcs.care: the rubric + trigger specs are read at request time; the scan HUD is served from _ARTIFACTS.
+    "/api/jobs": ["./runtime/specs/*.json"],
+    "/api/jobs/swipe": ["./runtime/specs/*.json"],
+    "/api/jobs/forge": ["./runtime/specs/*.json"],
+    "/jobs": ["./runtime/specs/*.json"],
+    "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
+    "/jobs/profile": ["./_ARTIFACTS/profile-scan-hud.html"],
+    "/jobs/[jobid]": ["./runtime/specs/*.json"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
@@ -19,11 +27,24 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "scott-cut.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
     ];
   },
   async rewrites() {
     return {
       beforeFiles: [
+        { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*_vercel).*)", destination: "/blacksmith.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        { source: "/forge", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
+        { source: "/observatory", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
+        { source: "/resume", destination: "/growth-ai-resume-viewer.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
+        { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*\\.ico|.*_vercel).*)", destination: "/growth-ai.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path((?!.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
@@ -40,7 +61,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },
@@ -97,6 +118,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
+        { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!blog).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },

@@ -1,0 +1,235 @@
+{
+ "version": "1.1",
+ "source": "_ARTIFACTS/target-role-scan-hud.html",
+ "extracted": "2026-09-04",
+ "archetypes": [
+  {
+   "id": "forward-deployed-ai-engineer",
+   "title": "Forward-Deployed (AI) Engineer",
+   "rail": "bearing",
+   "fit": "Bearing \u00b7 Primary target",
+   "summary": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: sole tech partner for a $350M-ARR client, roadmap through handoff.",
+   "lead_proof": {
+    "company": "Squat NY",
+    "claim": "Embed with the customer, ship in their environment, own discovery \u2192 build \u2192 QA \u2192 handoff. Proven at Squat NY: sole tech partner for a $350M-ARR client, roadmap through handoff.",
+    "evidence_grade": "self-reported"
+   },
+   "titles": [
+    "Forward Deployed Engineer",
+    "FDE",
+    "Deployment Strategist",
+    "Field / Solutions Engineer (technical)"
+   ]
+  },
+  {
+   "id": "applied-ai-engineer-lead",
+   "title": "Applied AI Engineer / Lead",
+   "rail": "conviction",
+   "fit": "Conviction \u00b7 Primary target",
+   "summary": "Turn model capability into shipped systems. ARCS: AI-native pipeline on Claude + a custom MCP server + agentic orchestration, architecture \u2192 production. Application layer, not model training.",
+   "lead_proof": {
+    "company": "ARCS",
+    "claim": "Turn model capability into shipped systems. ARCS: AI-native pipeline on Claude + a custom MCP server + agentic orchestration, architecture \u2192 production. Application layer, not model training.",
+    "evidence_grade": "self-reported"
+   },
+   "titles": [
+    "Applied AI Engineer",
+    "AI Engineer",
+    "Member of Technical Staff (Applied)",
+    "Forward-Deployed AI"
+   ]
+  },
+  {
+   "id": "ai-native-product-engineer-lead",
+   "title": "AI-Native Product Engineer / Lead",
+   "rail": "asset",
+   "fit": "Asset \u00b7 Strong fit",
+   "summary": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
+   "lead_proof": {
+    "company": "Grayscale",
+    "claim": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
+    "evidence_grade": "self-reported"
+   },
+   "titles": [
+    "AI Product Engineer",
+    "Founding PM / Engineer",
+    "Product Lead (AI)",
+    "Growth Engineer"
+   ]
+  },
+  {
+   "id": "solutions-deployment-architect",
+   "title": "Solutions / Deployment Architect",
+   "rail": "steel",
+   "fit": "Steel \u00b7 Adjacent fit",
+   "summary": "Customer-facing technical + cross-functional glue (eng \u00b7 design \u00b7 clinical \u00b7 ops \u00b7 commercial). The register-spanning role for a builder who also speaks the buyer's language.",
+   "lead_proof": {
+    "company": null,
+    "claim": "Customer-facing technical + cross-functional glue (eng \u00b7 design \u00b7 clinical \u00b7 ops \u00b7 commercial). The register-spanning role for a builder who also speaks the buyer's language.",
+    "evidence_grade": "self-reported"
+   },
+   "titles": [
+    "Solutions Engineer / Architect",
+    "Deployment Strategist",
+    "Sales/Solutions Engineering (technical)"
+   ]
+  }
+ ],
+ "quads": [
+  {
+   "id": "A",
+   "label": "AI-native builder, for real",
+   "headline": "Ships on Claude / MCP / agents \u2014 not demos",
+   "rail": "bearing",
+   "proof": {
+    "company": "ARCS",
+    "claim": "End-to-end LLM-native systems. ARCS: 60% decision-noise reduction, 3\u20135\u00d7 time-to-insight, agentic orchestration in production. A GTM operator who also writes the software is the rare pairing."
+   },
+   "dims": [
+    "ai_native"
+   ]
+  },
+  {
+   "id": "B",
+   "label": "Forward-deployed operator",
+   "headline": "Gets into the customer's weeds",
+   "rail": "conviction",
+   "proof": {
+    "company": "Squat NY",
+    "claim": "Sole-tech-partner capable; aligns eng \u00b7 design \u00b7 clinical \u00b7 ops \u00b7 commercial. Squat NY: discovery \u2192 QA \u2192 handoff for a $350M-ARR client, on schedule."
+   },
+   "dims": [
+    "role_shape",
+    "scope_authority"
+   ]
+  },
+  {
+   "id": "C",
+   "label": "Product \u00d7 GTM breadth",
+   "headline": "Decision \u2192 revenue, in one head",
+   "rail": "asset",
+   "proof": {
+    "company": "Grayscale",
+    "claim": "Personalization, lifecycle, growth intelligence. Grayscale: +20% net-new revenue via data personalization across a 10-product regulated portfolio. \"Breadth is the product.\""
+   },
+   "dims": [
+    "comp_level",
+    "strength_leverage"
+   ]
+  },
+  {
+   "id": "D",
+   "label": "Regulated / high-stakes fluency",
+   "headline": "Ships where getting it wrong is expensive",
+   "rail": "constraint",
+   "proof": {
+    "company": "Grayscale (SEC/FINRA, $7B AUM) \u00b7 digital health (HIPAA, $350M ARR) \u00b7 Axon (gov)",
+    "claim": "SEC/FINRA ($7B AUM), HIPAA (digital health, $350M ARR), gov (Axon). Twenty years turning the constraint into the product \u2014 the genome the record proves."
+   },
+   "dims": [
+    "strength_leverage",
+    "culture"
+   ]
+  }
+ ],
+ "fit": {
+  "screen_in": [
+   "Build-and-embed role \u2014 real building, real ownership; not maintenance or pure management",
+   "AI-native surface \u2014 LLMs/agents core to the product or the work, not a bolt-on",
+   "Senior IC / lead / staff / founding scope with decision latitude (can decide without six approvals)",
+   "Sustainable, experience-valuing culture \u2014 positive-screen signals (GPTW/Comparably, family-friendly, tenure mix in senior roles)",
+   "Comp band at senior/staff level",
+   "Remote or NY-metro friendly (Fairfield, CT)"
+  ],
+  "screen_out": [
+   "Pure people-management with no building",
+   "\"AI\" as costume \u2014 nothing real for it to do",
+   "Junior/entry leveling or \"young & scrappy only\" framing (risk-register)",
+   "996 / always-on grind; wide/loose comp banding across locations for one role (risk-register)",
+   "Keep-the-lights-on maintenance with no decision authority",
+   "Domain he has no interest in or can't add real value to"
+  ]
+ },
+ "rubric": {
+  "dims": [
+   {
+    "key": "role_shape",
+    "label": "Role-shape fit",
+    "weight": 5,
+    "anchor0": "maintenance / management",
+    "anchor3": "textbook forward-deployed build role"
+   },
+   {
+    "key": "ai_native",
+    "label": "AI-native surface",
+    "weight": 4,
+    "anchor0": "no AI / buzzword",
+    "anchor3": "agents + LLMs are the product"
+   },
+   {
+    "key": "strength_leverage",
+    "label": "Strength leverage",
+    "weight": 4,
+    "anchor0": "hits none",
+    "anchor3": "regulated fluency \u00b7 breadth \u00b7 forward-deployed \u2014 3+ differentiators"
+   },
+   {
+    "key": "scope_authority",
+    "label": "Scope & authority",
+    "weight": 3,
+    "anchor0": "narrow, gated",
+    "anchor3": "broad, autonomous ownership"
+   },
+   {
+    "key": "culture",
+    "label": "Culture screen",
+    "weight": 3,
+    "anchor0": "grind / opaque",
+    "anchor3": "strong public positive-screen signals"
+   },
+   {
+    "key": "comp_level",
+    "label": "Comp / level fit",
+    "weight": 2,
+    "anchor0": "below senior/staff",
+    "anchor3": "at / above target"
+   },
+   {
+    "key": "logistics",
+    "label": "Logistics",
+    "weight": 2,
+    "anchor0": "on-site elsewhere",
+    "anchor3": "remote or NY-metro"
+   },
+   {
+    "key": "warm_path",
+    "label": "Warm path",
+    "weight": 1,
+    "anchor0": "cold",
+    "anchor3": "strong intro / referral path"
+   }
+  ],
+  "max": 72,
+  "gates": [
+   "Junior/entry leveling",
+   "pure management with no build",
+   "\"AI\" with nothing to build",
+   "grind-culture red flags in reviews"
+  ],
+  "scale": "0-3 per dimension, composite = sum(score*weight)/max",
+  "bands": {
+   "pursue": 0.7,
+   "consider": 0.5
+  },
+  "board_cutoff": 0.58,
+  "tiers": {
+   "t1": 0.8,
+   "t2": 0.7,
+   "t3": 0.58
+  }
+ },
+ "stale_on_hud": [
+  "status light says INGEST UNWIRED; ingest is wired via Gmail MCP since 2026-08-28",
+  "band copy says pursue 0.70 only; the board cuts at 0.58 with three tiers"
+ ]
+}

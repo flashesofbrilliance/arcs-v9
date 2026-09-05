@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Recoil · Amy call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#050a10;--surface:#0c141d;--elev:#0f1a25;--border:#1d2c3a;--border2:#28394b;
+    --fg1:#eef4fa;--fg2:#c4d2e0;--fg3:#93a4b6;--fg4:#65788b;
+    --cyan:#31d4e6;--green:#00d98a;--gold:#e6b23c;--red:#ff6b82;--violet:#a996f5;
+    --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  body{padding:0 18px 80px;}
+  .wrap{max-width:800px;margin:0 auto;}
+  a{color:inherit;}
+  header{padding:44px 0 26px;border-bottom:1px solid var(--border);
+    background:radial-gradient(700px 360px at 15% -20%,rgba(49,212,230,.09),transparent 60%);margin:0 -18px;padding-left:18px;padding-right:18px;}
+  header .in{max-width:800px;margin:0 auto;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(49,212,230,.34);border-radius:999px;padding:5px 12px;}
+  .kick .d{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);}
+  h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:16px;}
+  .sub{font-family:var(--mono);font-size:12px;color:var(--fg3);margin-top:11px;line-height:1.6;}
+  .priv{font-family:var(--mono);font-size:10.5px;color:var(--fg4);margin-top:9px;letter-spacing:.03em;}
+  .frame{font-size:15px;line-height:1.62;color:var(--fg2);margin-top:20px;max-width:660px;} .frame b{color:var(--fg1);font-weight:600;}
+
+  section{padding:30px 0;border-bottom:1px solid var(--border);}
+  .sh{display:flex;align-items:center;gap:11px;margin-bottom:6px;}
+  .sh .ic{width:10px;height:10px;border-radius:2px;flex:none;}
+  .sh h2{font-size:18px;font-weight:700;letter-spacing:-.01em;}
+  .sh .sd{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  .lead{font-size:13px;line-height:1.55;color:var(--fg3);margin:2px 0 16px;}
+  .ic-peak{background:var(--gold);box-shadow:0 0 9px var(--gold);}
+  .ic-con{background:var(--green);box-shadow:0 0 9px var(--green);}
+  .ic-dis{background:var(--violet);box-shadow:0 0 9px var(--violet);}
+  .ic-kai{background:var(--cyan);box-shadow:0 0 9px var(--cyan);}
+
+  .item{border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-bottom:10px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));}
+  .item .t{font-size:14px;font-weight:600;color:var(--fg1);line-height:1.4;}
+  .item .b{font-size:13.5px;line-height:1.6;color:var(--fg2);margin-top:6px;} .item .b b{color:var(--fg1);}
+  .item .q{color:var(--fg3);font-style:italic;}
+  .item.peak{border-left:2px solid var(--gold);} .item.con{border-left:2px solid var(--green);}
+  .item.dis{border-left:2px solid var(--violet);} .item.kai{border-left:2px solid var(--cyan);}
+
+  .carry{display:grid;gap:9px;}
+  .carry li{list-style:none;font-size:13.5px;line-height:1.55;color:var(--fg2);padding-left:16px;position:relative;}
+  .carry li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--cyan);}
+  .carry li b{color:var(--fg1);}
+
+  .oneline{background:linear-gradient(150deg,#0f1c26,#0a141c);border:1px solid var(--border2);border-radius:14px;padding:22px 24px;margin-top:8px;}
+  .oneline .ol{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
+  .oneline p{font-size:16px;line-height:1.55;color:var(--fg1);} .oneline p .q{color:var(--fg2);font-style:italic;}
+
+  /* call-arc sparkline */
+  .arc{margin:26px 0 4px;padding:16px 18px 12px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.2));}
+  .arc-h{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);margin-bottom:4px;}
+  .arc-sub{font-family:var(--mono);font-size:9.5px;color:var(--fg4);letter-spacing:.03em;margin-bottom:14px;}
+  .arc-wrap{position:relative;}
+  #spark{width:100%;height:auto;display:block;overflow:visible;}
+  #spark .curve{fill:none;stroke:url(#arcgrad);stroke-width:1.6;opacity:.55;}
+  #spark .dot{cursor:pointer;transition:r .12s ease;}
+  #spark .dot:hover{r:8;}
+  #spark .base{stroke:var(--border);stroke-width:1;stroke-dasharray:2 4;}
+  #spark .flip{stroke:var(--fg4);stroke-width:1;stroke-dasharray:3 3;opacity:.5;}
+  .tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transform:translate(-50%,-10px);transition:opacity .12s ease;
+    width:max-content;max-width:270px;background:#0a1420;border:1px solid var(--border2);border-radius:9px;padding:9px 11px;box-shadow:0 16px 38px -14px rgba(0,0,0,.85);}
+  .tip.on{opacity:1;}
+  .tip.below{transform:translate(-50%,12px);}
+  .tip .tw{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+  .tip .tq{font-size:12.5px;line-height:1.45;color:var(--fg1);font-style:italic;} .tip .tl{color:var(--fg4);font-style:normal;display:block;margin-top:5px;font-family:var(--mono);font-size:9.5px;}
+  .arc-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--fg4);margin-top:9px;letter-spacing:.04em;}
+  .arc-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.03em;}
+  .arc-legend span{display:inline-flex;align-items:center;gap:6px;} .arc-legend i{width:8px;height:8px;border-radius:50%;}
+  @media(max-width:560px){ .sh .sd{display:none;} #spark .dot{r:6;} .tip{max-width:210px;} .arc-axis{font-size:8px;} }
+</style>
+</head>
+<body>
+<header>
+  <div class="in">
+    <span class="kick"><span class="d"></span>recoil · reverse-listen</span>
+    <h1>The Amy call, read back</h1>
+    <div class="sub">Sep 2, 2026 &middot; ~40 min &middot; Staff Product Engineer @ Blacksmith &middot; source: Granola verbatim</div>
+    <div class="priv">&#9670; Private. For your records. Contains reverse-listening; never shown externally (air-gap).</div>
+    <p class="frame"><b>Frame:</b> Amy is an independent recruiter (RecruitHaus, via Paraform), 27 years in the seat, the gatekeeper who packages you into Blacksmith. She is not a Blacksmith employee. By minute ~20 she flips from screener to advocate. The rest of the call is her figuring out how to sell you in, not whether to.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="arc">
+    <div class="arc-h">The call arc</div>
+    <div class="arc-sub">resonance shape across ~40 min &middot; interpretive placement, quotes verbatim &middot; hover a beat</div>
+    <div class="arc-wrap">
+      <svg id="spark" viewBox="0 0 700 150" role="img" aria-label="Resonance sparkline of the call; hover each beat for the verbatim quote">
+        <defs><linearGradient id="arcgrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#31d4e6"/><stop offset="0.5" stop-color="#e6b23c"/><stop offset="1" stop-color="#31d4e6"/>
+        </linearGradient></defs>
+      </svg>
+      <div id="tip" class="tip"></div>
+    </div>
+    <div class="arc-axis"><span>call start</span><span>&#8593; ~min 20 &middot; the flip</span><span>close</span></div>
+    <div class="arc-legend">
+      <span><i style="background:var(--gold)"></i> peak resonance</span>
+      <span><i style="background:var(--green)"></i> constructive interference</span>
+      <span><i style="background:var(--violet)"></i> productive discord</span>
+      <span><i style="background:var(--cyan)"></i> timing</span>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var C={peak:'#e6b23c',con:'#00d98a',dis:'#a996f5',kai:'#31d4e6'};
+    var LB={peak:'peak resonance',con:'constructive interference',dis:'productive discord',kai:'timing'};
+    // t = approx minute (interpretive), a = amplitude 0-100, verbatim quotes from the recoil
+    var B=[
+      {t:6, a:60, k:'peak', who:'Amy', q:'it’s so fun to listen to you talk like this.', l:'origin story lands'},
+      {t:14,a:70, k:'con',  who:'Amy', q:'Exactly. Exactly. It’s incredibly detrimental.', l:'cautious-capital thread'},
+      {t:20,a:98, k:'peak', who:'Amy', q:'that’s a really hard and rare find, Zach.', l:'“you’re the unicorn” · the flip'},
+      {t:24,a:80, k:'peak', who:'Amy', q:'you have a good story. You do.', l:'army of one'},
+      {t:27,a:52, k:'dis',  who:'Amy', q:'it definitely wasn’t a PM situation. I don’t get that feeling.', l:'PM framing corrected'},
+      {t:32,a:90, k:'peak', who:'Amy', q:'We’re not going to undersell you. We are not.', l:'the comp turn'},
+      {t:35,a:76, k:'kai',  who:'Amy', q:'I’m on your timeline now.', l:'the 1:30 commitment'},
+      {t:39,a:84, k:'kai',  who:'Amy', q:'a fantastic candidate no matter where we sent you.', l:'closing'}
+    ];
+    var svg=document.getElementById('spark'),tip=document.getElementById('tip'),wrap=svg.parentNode;
+    var W=700,H=150,P=16,T=40,NS='http://www.w3.org/2000/svg';
+    function px(t){return P+(t/T)*(W-2*P);}
+    function py(a){return P+(1-a/100)*(H-2*P);}
+    function el(n,at){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);return e;}
+    // baseline + flip marker
+    svg.appendChild(el('line',{x1:P,y1:H-P,x2:W-P,y2:H-P,'class':'base'}));
+    svg.appendChild(el('line',{x1:px(20),y1:P-6,x2:px(20),y2:H-P,'class':'flip'}));
+    // smooth-ish curve through the points
+    var pts=B.map(function(b){return px(b.t)+','+py(b.a);}).join(' ');
+    svg.appendChild(el('polyline',{points:pts,'class':'curve'}));
+    // dots
+    B.forEach(function(b){
+      var c=el('circle',{cx:px(b.t),cy:py(b.a),r:5,'class':'dot',fill:C[b.k],stroke:'#050a10','stroke-width':2});
+      function show(){
+        tip.innerHTML='<div class="tw" style="color:'+C[b.k]+'">'+LB[b.k]+'</div><div class="tq">“'+b.q+'”<span class="tl">'+b.who+' · '+b.l+'</span></div>';
+        tip.classList.add('on');
+        var r=c.getBoundingClientRect(),w=wrap.getBoundingClientRect();
+        // flip below when the dot is high enough that the tooltip would clip the top
+        var below=(r.top-w.top) < tip.offsetHeight + 14;
+        tip.classList.toggle('below', below);
+        tip.style.top=(below ? (r.bottom-w.top) : (r.top-w.top))+'px';
+        // clamp horizontally so edge beats don't overflow the card
+        var half=tip.offsetWidth/2, cx=r.left-w.left+r.width/2;
+        cx=Math.max(half+4, Math.min(w.width-half-4, cx));
+        tip.style.left=cx+'px';
+      }
+      function hide(){tip.classList.remove('on');}
+      c.addEventListener('mouseenter',show);c.addEventListener('mouseleave',hide);
+      c.addEventListener('focus',show);c.addEventListener('blur',hide);
+      c.setAttribute('tabindex','0');
+      svg.appendChild(c);
+    });
+  })();
+  </script>
+  <section>
+    <div class="sh"><span class="ic ic-peak"></span><h2>Punctuated peak resonance</h2><span class="sd">highest amplitude</span></div>
+    <p class="lead">The beats where the signal spiked &mdash; the load-bearing anchors to re-invoke later.</p>
+    <div class="item peak"><div class="t">&ldquo;You're the unicorn.&rdquo;</div><div class="b"><span class="q">&ldquo;when you have technical teams&hellip; sales teams&hellip; the client&hellip; and someone who can speak to all of them&hellip; that's a really hard and rare find, Zach.&rdquo;</span> Triggered by the bilingual-bridge narrative. This is <b>the</b> resonance frequency; everything downstream rides it.</div></div>
+    <div class="item peak"><div class="t">The origin story landed.</div><div class="b">Berklee &times; MIT Media Lab, electronic music to agentic harnesses, reflexive muscle memory. Amy: <span class="q">&ldquo;it's so fun to listen to you talk like this.&rdquo;</span> She was enjoying the human channel, not just evaluating.</div></div>
+    <div class="item peak"><div class="t">&ldquo;Army of one&hellip; punching at the weight class of a heavyweight.&rdquo;</div><div class="b">Landed as the exact counter to the rejected ex-AWS candidate. Amy: <span class="q">&ldquo;you have a good story. You do.&rdquo;</span></div></div>
+    <div class="item peak"><div class="t">The comp turn.</div><div class="b"><span class="q">&ldquo;We're not going to undersell you. We are not.&rdquo;</span> She raised your floor herself ($325&ndash;375). She is now negotiating <b>for</b> you.</div></div>
+    <div class="item peak"><div class="t">&ldquo;A fantastic candidate no matter where we sent you.&rdquo;</div><div class="b">Closing peak; the relationship, not just this role, is now open.</div></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="ic ic-con"></span><h2>Constructive interference</h2><span class="sd">positive-sum</span></div>
+    <p class="lead">Where you built on each other &mdash; two signals reinforcing into something bigger than either.</p>
+    <div class="item con"><div class="t">The cautious-capital thread.</div><div class="b">You: betting on the right person = exponential upside, the wrong person can trigger a death spiral. Amy: <span class="q">&ldquo;Exactly. Exactly. It's incredibly detrimental.&rdquo;</span> Fully in phase &mdash; you named her worldview back to her.</div></div>
+    <div class="item con"><div class="t">Zone of genius / energizers-drainers.</div><div class="b">You floated ARCS as a team diagnostic (<span class="q">&ldquo;constructive interference and productive discord that creates torque&rdquo;</span>). She leaned into the org-design framing. A live thread to pull &mdash; she came out of a 60-person global CS org; org design resonates.</div></div>
+    <div class="item con"><div class="t">The parallel-path fork.</div><div class="b">You: <span class="q">&ldquo;I'd love to fork the conversation&hellip; parallel-path a few things.&rdquo;</span> She offered the Paraform list unprompted. Mutual amplification.</div></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="ic ic-dis"></span><h2>Productive discord</h2><span class="sd">torque, not friction</span></div>
+    <p class="lead">Honest challenge that strengthened trust rather than eroding it.</p>
+    <div class="item dis"><div class="t">&ldquo;Product engineer = PM&rdquo; &mdash; she pushed back.</div><div class="b">Amy: <span class="q">&ldquo;it definitely wasn't a PM situation. I don't get that feeling.&rdquo;</span> Corrective torque: an engineer who owns product, not a PM who codes. <b>Do not re-invoke the PM framing.</b></div></div>
+    <div class="item dis"><div class="t">The ACL disclosure.</div><div class="b">You surfaced the surgery honestly and early. She took ownership of pre-framing it to the team. Honesty converted a logistics friction into a trust deposit.</div></div>
+    <div class="item dis"><div class="t">On-site expectation.</div><div class="b">She probed 5-day on-site; you countered &ldquo;ideally hybrid, not a deal-breaker.&rdquo; Mild, resolved; she assumes it lands hybrid.</div></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="ic ic-kai"></span><h2>Timing that mattered</h2><span class="sd">the window opening</span></div>
+    <p class="lead">Where the opportune moment arrived and a move mattered.</p>
+    <div class="item kai"><div class="t">~Minute 20: the flip.</div><div class="b">The unicorn line is the hinge. Before it she's screening; after it she's selling. Everything you want carried to Blacksmith was seeded after this point.</div></div>
+    <div class="item kai"><div class="t">The 1:30 commitment.</div><div class="b"><span class="q">&ldquo;I'm on your timeline now.&rdquo;</span> Only one prior candidate (rejected); speed is the kairos lever and doubles as proof of the ship-velocity claim.</div></div>
+    <div class="item kai"><div class="t">The comp-floor raise.</div><div class="b">Her volunteering $325&ndash;375 and &ldquo;we won't undersell you&rdquo; is a gift: do not negotiate against yourself; let her anchor high.</div></div>
+    <div class="item kai"><div class="t">The parallel-path offer.</div><div class="b">A second door opening while the first is live. Nurture the relationship regardless of the Blacksmith outcome.</div></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="ic" style="background:var(--fg3)"></span><h2>What she carries to Blacksmith</h2></div>
+    <ul class="carry">
+      <li>Hotspots she keyed on: <b>radical ownership, speed (days not months), products used by engineers, maturity over company size, founder/client co-design.</b></li>
+      <li>The one prior rejection: ex-AWS, 10 yrs, &ldquo;too corporate.&rdquo; Your scrappy-operator framing is the deliberate anti-profile.</li>
+      <li>Process: 3 stages (was 4) &mdash; two short screens (~30 + ~60 min), then on-site; ~1-day turnaround. All hires before year end.</li>
+      <li><b>Open loops:</b> she submits today; she's building a Paraform parallel list; reporting line + on-site vs hybrid unconfirmed.</li>
+    </ul>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="oneline">
+      <div class="ol">&#9670; The one line to remember</div>
+      <p>She told you the whole game: <span class="q">&ldquo;some people are technical, some people are operational. God forbid they cross over &mdash; and that's where the unicorn&hellip; and that's you.&rdquo;</span> Everything you send should make the crossover feel <b>real and checkable</b>, not claimed.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

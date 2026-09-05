@@ -1,0 +1,48 @@
+name: Blacksmith bundle verify
+
+# Smoke + air-gap + responsive gate for the blacksmith.arcs.care application
+# bundle. Runs when the bundle, its resume/observatory, the spec, or the host
+# rewrite changes. Tests the live host (Vercel deploys on the same push, so a
+# brief propagation lag is possible; re-run via workflow_dispatch if a run
+# races the deploy). Uploads the four-width screenshots as an artifact.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/blacksmith.html"
+      - "public/blacksmith-observatory.html"
+      - "public/blacksmith-resume.html"
+      - "tests/blacksmith.spec.ts"
+      - "next.config.ts"
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL to test (default https://blacksmith.arcs.care)"
+        required: false
+        default: "https://blacksmith.arcs.care"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright - blacksmith.arcs.care smoke + air-gap + responsive
+        run: npx playwright test tests/blacksmith.spec.ts
+        env:
+          BLACKSMITH_BASE_URL: ${{ github.event.inputs.base_url || 'https://blacksmith.arcs.care' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blacksmith-screenshots
+          path: test-results/
+          if-no-files-found: ignore

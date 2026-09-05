@@ -8,6 +8,11 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Progressive handoff (2026-09-04):** a global hook checkpoints git state to
+  `_STATE/handoff-progress.jsonl` every turn-with-change, and asks for a `## Delta` in
+  `_STATE/handoff-progress.md` at each compaction. Both are gitignored. `/handoff` folds them
+  into the CLAUDE.md block and marks the ledger claimed; the global SessionStart hook flags any
+  worktree whose trail was never claimed. Compaction never writes CLAUDE.md anymore.
 - **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
   from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):
@@ -75,8 +80,9 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
 Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
-rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
-from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
+rewrite). The full interactive Next.js page IS committed on main at `src/app/observatory/page.tsx`
+(landed 2026-06-23, ~1.2k LOC); the old "never pushed" note was stale (Atlas audit 2026-09-03).
+Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -107,6 +113,53 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.52.0 (2026-09-02)
+
+> **Blacksmith application + recruiter-enablement session.** Built and shipped the full Blacksmith
+> candidate bundle, then a recruiter-facing enablement system for Amy at RecruitHaus. Everything live
+> is verified. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Long session, converged under
+> the 5-hour limit.
+
+## Shipped + live (verified)
+- **blacksmith.arcs.care**: hero **ship-clock frozen to `v0 · 1h 22m`** (git-true; live counter was
+  undercutting the flex), **The Forge** with **6 between-stage CI gates** (ADR-068 print schedule;
+  final gate names the real CI: lint + next build + air-gap-leak-check-as-test + security scan +
+  auto-rollback, 7 workflows), **domain-map rebuilt as a connection visual**, cover security nod,
+  "director's cut"→"the forge". Air-gap test retuned (recruiter credit allowed; founders hard-gated,
+  added Aditya/Maru).
+- **status/build false-zero bug fixed** — degraded `/api/pulse` overwrote the curated floor with
+  0/0/0/1 over a full board; guard + curated fallback + honest stamp. FM banked
+  ([[live-counts-overwrite-static-floor-with-false-zeros]]).
+- **recruithaus.arcs.care** LIVE — public candidate-positioning page (two-hires-in-one, role pills,
+  why-multi-threaded, compounding). Air-gap clean (leak=0; orphan CSS stripped). proxy.ts SUBDOMAIN_MAP
+  + `/_vercel` exclusion (analytics fix for all subdomain hosts).
+- **Kintsugi receipt** `_STATE/2026-09-02-blacksmith-kintsugi.json` (healthy + golden-seam ledger).
+
+## Private (`_ARTIFACTS/resume-blacksmith/`, not served)
+- `counterpart-application-forge.blueprint.md` (parameterized factory), `tear-sheet-amy.html`+`.pdf`
+  (**gated ammo**: comp logic, 3-lens battle cards w/ nested 1st/2nd/3rd-order objection handling,
+  best/base/worst, ARCS circuit breakers; founders by lens not name), `recruiter-recoil-report.html/.md`,
+  `dyor-blacksmith-recon.md`, `design-critique-personas.md`, `founder-gauntlet.md`, `intel-bundle.md`.
+- Pattern banked: [[recruiter-enablement-two-tier-tear-sheet]].
+
+## Open (next session)
+1. **Gate + host the ammo tier** + a `/resume`-style PDF-download viewer behind a passcode
+   (RECOIL_PASSWORD cookie retired; recoil now Auth.js/admin-email = not Amy-accessible; no qpdf/pikepdf
+   for PDF encryption). 2. **Impeccable audit/polish/refine/distill pass** on recruithaus (user queued
+   it "after deploy"). 3. **Amy-facing recoil recap** (warm call-recap, not the reverse-listening).
+   4. **Named founder battle cards** — offline file only, never hosted. 5. `/consolidate-memory` (index
+   21KB > 17KB). 6. Deep-recon vs raw Granola transcript `1831d31e` to re-verify every attribution
+   before any ammo is hosted.
+
+## Candidates to mint via oracle (do NOT infer numbers)
+- **ADR:** two-tier counterpart-artifact doctrine (pitch open / ammo gated; founders-by-lens; comp-talk
+  never on open web). **ADR:** battle-cards-as-objection-filters + nested N-order handling.
+- **Seed:** recruiter-enablement tear-sheet as a productizable surface of the counterpart-forge.
+- **DEWY:** session-decisions receipt still owed (kintsugi receipt already appended).
+
+> _v3.51.0 / v3.49.0 (Möbius) to relocate to `_ARCHIVE/handoffs.md` next session; kept 3 live under the time limit._
+
+
 # Handoff — v3.50.0 (2026-08-29)
 
 > **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
@@ -134,7 +187,7 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
   ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
 
 ## Open (next session)
-1. **Nightly canon-propagation cron — still HELD.** Arm after merge: `cp scripts/launchd/care.arcs.canon-propagation.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/care.arcs.canon-propagation.plist`.
+1. **Nightly canon-propagation cron — ARMED** (plist installed at `~/Library/LaunchAgents/care.arcs.canon-propagation.plist`; confirmed live 2026-09-03. The "still HELD / arm after merge" note was stale, per the Atlas audit).
 2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
 3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
 4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).

@@ -1,0 +1,863 @@
+{
+  "domain": "product",
+  "generated": "2026-09-04",
+  "nodes": [
+    {
+      "id": "adr-001-auth-gate",
+      "title": "ADR-001 Auth Gate Strategy",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "App-level auth gate chosen over Supabase RLS as the primary enforcement layer.",
+      "provenance": "_DECISIONS/ADR-001-auth-gate-strategy.md",
+      "links": [],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-002-db-split",
+      "title": "ADR-002 Database Strategy",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "SQLite in dev, Supabase/Postgres in prod; JSON arrays stored as TEXT for SQLite compat.",
+      "provenance": "_DECISIONS/ADR-002-database-split.md",
+      "links": [
+        "arch-json-text-fields"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-009-design-system",
+      "title": "ADR-009 Design System Canonicalization",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Inline-style design system canonicalized in arcs-v9; no Tailwind/CSS modules.",
+      "provenance": "_DECISIONS/ADR-009-design-system-canonicalization.md",
+      "links": [
+        "arch-inline-styles-only"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-016-auth-model",
+      "title": "ADR-016 arcs-v9 Auth Model",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Authenticated Compass via Auth.js v5 magic link (Resend) + Prisma adapter chosen over anonymous-only.",
+      "provenance": "_DECISIONS/ADR-016-arcs-v9-auth-model.md",
+      "links": [
+        "arch-auth-status-contradiction"
+      ],
+      "note": "Verified WIRED: src/lib/auth.ts:2-31 imports next-auth/providers/resend + @auth/prisma-adapter, PrismaAdapter(prisma) is set. This ADR's ruling is executed in code, contradicting AGENTS.md's own Agents table entry (see arch-auth-status-contradiction).",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-017-receipt-core-schema",
+      "title": "ADR-017 receipt-core Canonical Schema",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "DEWY + Y-gate + kinematic + lineage fields ratified as the canonical Receipt schema.",
+      "provenance": "_DECISIONS/ADR-017-receipt-core-schema.md",
+      "links": [
+        "arch-l0-l5-pipeline"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-020-tribune",
+      "title": "ADR-020 Tribune Intelligence Layer",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Ratifies the Tribune intelligence layer / LAB-BAR-SAGE operator triad as canonical design.",
+      "provenance": "_DECISIONS/ADR-020-tribune-intelligence-layer.md",
+      "links": [
+        "arch-operators-not-wired"
+      ],
+      "note": "Operators (LAB/BAR/SAGE/etc.) exist as production-ready Python (operators/arcs_operators_{lab,bar,sage}.py verified present) but are NOT wired into the live compass route — see arch-operators-not-wired.",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-023-observability-lattice",
+      "title": "ADR-023 Observability Goal Lattice",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Observability designed as a superionic goal lattice; gated at 100+ receipts; Folksonomist operator machinery in scripts/.",
+      "provenance": "_DECISIONS/ADR-023-observability-goal-lattice.md",
+      "links": [],
+      "note": "Verified: scripts/arcs_core.py:708 has the Folksonomist operator comment, class FolksonomistTag at line 854 — matches AGENTS.md's cited line range.",
+      "epoch": "2026-06"
+    },
+    {
+      "id": "adr-032-zero-trust",
+      "title": "ADR-032 Zero-Trust Posture (governing)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Zero-trust posture declared GOVERNING across the repo (ACCEPTED, 2026-07-19).",
+      "provenance": "_DECISIONS/ADR-032-zero-trust-posture.md",
+      "links": [],
+      "epoch": "2026-07"
+    },
+    {
+      "id": "adr-033-pathogen-family",
+      "title": "ADR-033 Serialization Pathogen Family",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Defines the serialization-pathogen taxonomy (warrant-stripping, epistemic-sequencer, etc.) as a ratified registry.",
+      "provenance": "_DECISIONS/ADR-033-serialization-pathogen-family.md",
+      "links": [
+        "adr-073-model-routing",
+        "collision-adr-033-resolved"
+      ],
+      "epoch": "2026-07"
+    },
+    {
+      "id": "adr-034-enforcement-parity",
+      "title": "ADR-034 Enforcement Parity",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Internal invariants must get the same enforcement gates as client-facing artifacts — 'a rule that isn't enforced isn't a rule.'",
+      "provenance": "_DECISIONS/ADR-034-enforcement-parity.md",
+      "links": [
+        "arch-oracle-gate-warn-not-block"
+      ],
+      "note": "Ironic self-test: this repo's own oracle-numbering and index-backfill mechanisms (which ADR-034's doctrine would require) are themselves currently out of parity — see arch-oracle-gate-warn-not-block and adr-074-not-in-index.",
+      "epoch": "2026-07"
+    },
+    {
+      "id": "adr-036-repo-split",
+      "title": "ADR-036 Split the repo: public/private",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "DRIFTED",
+      "claim": "Decision: split arcs-v9 into a public app repo + a separate private repo for sensitive content (Option B).",
+      "provenance": "_DECISIONS/ADR-036-repo-split-public-private.md",
+      "links": [],
+      "note": "FALSE-AS-EXECUTED. File itself says 'Status: ACCEPTED — execution pending.' Live check (`gh repo view flashesofbrilliance/arcs-v9`) shows the whole repo was flipped to visibility:PRIVATE, not split into two repos as the ADR's Option B specifies. The MEMORY.md note 'arcs-v9-repo-now-private-status-links-broken' reflects the actual outcome; the ADR's own decision text does not.",
+      "epoch": "2026-07"
+    },
+    {
+      "id": "adr-044-temporal-provenance",
+      "title": "ADR-044 Temporal-Provenance Gate",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Capability claims must carry fact-vs-fiction chain-of-custody provenance.",
+      "provenance": "_DECISIONS/ADR-044-temporal-provenance-gate.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-051-drift-receipt-gate",
+      "title": "ADR-051 Drift Receipts",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Every gate must be a detector; every failure must print a receipt.",
+      "provenance": "_DECISIONS/ADR-051-drift-receipt-gate.md",
+      "links": [
+        "arch-oracle-gate-warn-not-block"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-052-inchworm-auditor",
+      "title": "ADR-052 Inchworm Drift-Auditor",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Ratifies an orphaned-artifact drift auditor ('inchworm') pass.",
+      "provenance": "_DECISIONS/ADR-052-inchworm-drift-auditor.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-053-tao-of-arcs",
+      "title": "ADR-053 The Tao of ARCS",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Establishes dormant-potential / vox-animus framing and the open/private content boundary.",
+      "provenance": "_DECISIONS/ADR-053-tao-of-arcs-dormant-potential-vox-animus.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-054-pricing-model",
+      "title": "ADR-054 Free-to-Hold, Metered-to-Fire Pricing",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "ARCS activation pricing model: holding a receipt is free, firing/metering is billed.",
+      "provenance": "_DECISIONS/ADR-054-free-to-hold-metered-to-fire-pricing.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-055-oss-conformance",
+      "title": "ADR-055 OSS Family Two-Tier Conformance",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Defines Tier A/B conformance for the OSS family + a private seed-bank registry.",
+      "provenance": "_DECISIONS/ADR-055-oss-family-two-tier-conformance.md",
+      "links": [
+        "seed-repo-germinate"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-056-tie-in-connector",
+      "title": "ADR-056 ARCS Tie-In Connector Pattern",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Per-tool <tool>.arcs.care pages are the canonical umbrella-head connector pattern.",
+      "provenance": "_DECISIONS/ADR-056-arcs-tie-in-connector-pattern.md",
+      "links": [
+        "seed-repo-resume-tailor"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-057-sequence-oracle",
+      "title": "ADR-057 The Sequence Oracle",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "A git-serialized ID + time authority (oracle.py) is the canonical numbering mechanism for ADRs/seeds/handoffs.",
+      "provenance": "_DECISIONS/ADR-057-sequence-oracle.md",
+      "links": [
+        "arch-oracle-gate-warn-not-block"
+      ],
+      "note": "Mechanism exists and partially works (pre-commit hook blocks exact-duplicate ADR numbers), but does not enforce staying in sync: ADR-074 was minted above the committed oracle counter (_SEEDS/_oracle.json adr=73) and the hook only WARNS (non-blocking) in that case. See arch-oracle-gate-warn-not-block.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-062-ouroboros",
+      "title": "ADR-062 The Ouroboros",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "A falsifier is only honest if it turns on itself (self-application requirement for detectors).",
+      "provenance": "_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-065-corpus-ssot",
+      "title": "ADR-065 Corpus is SSOT; Storage is Induced Projection",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Corpus (git history + receipts) is the source of truth; every rendered surface (atlas, teardown, war-room) is a lawful projection of it.",
+      "provenance": "_DECISIONS/ADR-065-corpus-ssot-induced-projection-infra-compass.md",
+      "links": [],
+      "note": "Status recorded as 'DECIDED (doctrine) · instrument = ROM CANDIDATE, designed-not-built' — the doctrine is ratified, the Infra Compass instrument itself is explicitly not yet built. This atlas is itself an instance of the pattern this ADR describes.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-066-generative-recoil",
+      "title": "ADR-066 Generative Recoil (instance→class→invariant)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Reverse-listening a session to compose instance → class → invariant is ratified doctrine.",
+      "provenance": "_DECISIONS/ADR-066-generative-recoil-instance-class-invariant.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-068-print-schedule",
+      "title": "ADR-068 Verb x Altitude Gate Matrix (the print schedule)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Every stage cut in the 5-verb arc must print an artifact, through a gate, to a fate — a stage without a print is undone.",
+      "provenance": "_DECISIONS/ADR-068-verb-altitude-gate-matrix.md",
+      "links": [
+        "arch-print-schedule-world"
+      ],
+      "note": "This is a prose invariant ('every gate a detector'), not a single automated checker. Concrete instances of enforcement exist (CI workflows, pre-commit hooks) but the doctrine itself does not name one mechanism that catches every violation across all 5 verbs — treat the general claim as VERIFIED-AS-PROSE per ADR-034's own standard, verified only where a specific gate (e.g. the oracle pre-commit hook) is cited.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-069-closed-client-receipt",
+      "title": "ADR-069 First Closed Client Receipt Precedent",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "A closed client engagement receipt sets precedent-shaped expectations for future engagements.",
+      "provenance": "_DECISIONS/ADR-069-first-closed-client-receipt-precedent.md",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-070-two-surface",
+      "title": "ADR-070 ARCS Two-Surface Doctrine (Receipt + Induction)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "ARCS is two surfaces: the Receipt (deductive record, backward) and the Induction (abductive instrument-forging, forward).",
+      "provenance": "_DECISIONS/ADR-070-arcs-two-surface-receipt-and-induction.md",
+      "links": [
+        "adr-071-mobius"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-071-mobius",
+      "title": "ADR-071 The Möbius Invariant",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "One non-orientable surface with a triune load-bearing minimum ('none-may-null'), held honest by gravity (the live prototype).",
+      "provenance": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md",
+      "links": [
+        "adr-072-engine-sovereignty"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-072-engine-sovereignty",
+      "title": "ADR-072 Engine-Sovereignty Gradient",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Receipts are the freehold; execution engines (Claude, operators, any model) are tenants — receipt history outlives any one engine.",
+      "provenance": "_DECISIONS/ADR-072-engine-sovereignty-gradient.md",
+      "links": [
+        "adr-071-mobius"
+      ],
+      "note": "Number itself was contested (memory previously mis-cited '067'); corrected via CANON-COLLISION resolution 2026-08-28. oracle.py audit adr confirms 0 collisions at this number today.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-073-model-routing",
+      "title": "ADR-073 Model-Routing ADR-Audit Default",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Routes the ADR-audit harness to laguna-xs-2.1:free by default. Renumbered from an off-oracle collision with ADR-033.",
+      "provenance": "_DECISIONS/ADR-073-model-routing-adr-audit-default.md",
+      "links": [
+        "collision-adr-033-resolved"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "adr-074-prl-sugar-collision",
+      "title": "ADR-074 PRL Sugar Custom-Code Collision Surface",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "PRL chatbot lead path verified clear of Sugar custom-code collisions at the package layer (DRAFT, Y-state YELLOW→GREEN-leaning).",
+      "provenance": "_DECISIONS/ADR-074-prl-sugar-custom-code-collision-surface.md",
+      "links": [
+        "adr-034-enforcement-parity",
+        "adr-057-sequence-oracle"
+      ],
+      "note": "Resolved 2026-09-04: the repo-hygiene drift this node originally flagged is closed. _DECISIONS/index.json now carries an ADR-074 entry (line 615, id 'ADR-074', file 'ADR-074-prl-sugar-custom-code-collision-surface.md') — grep confirms it, and the index is 69 entries. _SEEDS/_oracle.json now records {\"adr\": 74}, matching the on-disk high-water mark exactly (no gap between the committed ADR set and the oracle counter).",
+      "epoch": "2026-09"
+    },
+    {
+      "id": "collision-adr-033-resolved",
+      "title": "CANON-COLLISION ADR-033 duplicate — RESOLVED",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Two DECIDED ADRs both claimed number 033; ruling kept 033 for Pathogen Family, renumbered the other to 073.",
+      "provenance": "_DECISIONS/CANON-COLLISION-adr-033-duplicate.md",
+      "links": [
+        "adr-033-pathogen-family",
+        "adr-073-model-routing"
+      ],
+      "note": "Verified: only one file _DECISIONS/ADR-033-serialization-pathogen-family.md exists; ADR-073 file header carries the renumber note. Resolution holds.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "collision-rom-vocabulary-resolved",
+      "title": "CANON-COLLISION ROM vocabulary — RESOLVED",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "Three axis-sets all called 'ROM' collided; ruling declared 7 ROM Primitives (.claude/arcs-canon.md) canon, 6 behavioral laws + 7 epistemic axioms subordinate/derived.",
+      "provenance": "runtime/specs/ROM-AXIS-INDEX.md",
+      "links": [
+        "arch-rom-primitives"
+      ],
+      "note": "Verified: .claude/arcs-canon.md line 65 has '## ROM Primitives (never violate)'; ROM-AXIS-INDEX.md exists and lists the 7 primitives matching WORLD.md/AGENTS.md's own governing-law section verbatim.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-repo-germinate",
+      "title": "Seed: germinate (seed bank + germination engine)",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "Tier-A reference-impl repo for the seed bank; role=bank, status built-unpublished.",
+      "provenance": "_SEEDS/index.jsonl:1",
+      "links": [],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-repo-resume-tailor",
+      "title": "Seed: resume-tailor-skill",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "Honesty-graded resume/cover-letter skill; the hand-built reference connector for ADR-056's rendered fleet; claude-plugin/github/connector all recorded 'live'.",
+      "provenance": "_SEEDS/index.jsonl:19",
+      "links": [
+        "adr-056-tie-in-connector"
+      ],
+      "note": "'Live' distribution status is self-reported in the seed row, not independently re-verified here (would need get_deployment/marketplace check) — UNVERIFIABLE HERE for the distribution.claude-plugin/github/connector booleans specifically.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-pattern-live-culture",
+      "title": "Seed: live-culture-artifacts pattern",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "Artifacts derived from a living system must rebuild from the deployed instance, never the reverse (SSOT rule of motion).",
+      "provenance": "_SEEDS/index.jsonl:23",
+      "links": [
+        "adr-066-generative-recoil"
+      ],
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-pattern-projection-registry",
+      "title": "Seed: projection-family-registry pattern",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "omakase/teardown/atlas/codex/war-room/receipt are six projections of one corpus, not six products; atlas is explicitly still un-extracted as a factory class.",
+      "provenance": "_SEEDS/index.jsonl:26",
+      "links": [
+        "adr-065-corpus-ssot"
+      ],
+      "note": "Self-referential: this atlas-building task is itself an un-extracted projection per the seed's own 'un-extracted: atlas' note — consistent with current repo state (no atlas-pipeline skill found under .claude/skills/).",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-pattern-induced-backlog",
+      "title": "Seed: induced-backlog pattern",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "A backlog whose items carry their own route/gates/trigger so execution is mechanical, not re-planned.",
+      "provenance": "_SEEDS/index.jsonl:30",
+      "links": [],
+      "note": "_QUEUE/induced-backlog.jsonl exists in repo (referenced by CLAUDE.md's orientation section) — file presence not re-verified in this pass; UNVERIFIABLE HERE for the 'zero replanning' behavioral claim (would need to trace an actual execution).",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "seed-pattern-pollinate",
+      "title": "Seed: pollinate (sister skill to germinate)",
+      "domain": "product",
+      "cluster": "seed",
+      "status": "LIVE",
+      "claim": "Horizontal seed-sharing mechanics (pollen gate, soil-agnostic packet, carrier, pedigree, out-crossing rule) — named but not yet built.",
+      "provenance": "_SEEDS/index.jsonl:29",
+      "links": [],
+      "note": "Explicitly a naming/design seed, not a built tool ('becomes buildable, not just nameable' is listed as the trigger) — correctly graded LIVE-as-doctrine, not claimed as shipped code.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "arch-rom-primitives",
+      "title": "7 ROM Primitives (constitutional, never violate)",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "NOTOMATION, HYPERSPHERE CONTEXT MANIFOLD, HYPERSTITION PIPELINE, GOLDEN INCHWORM, ORTHOGONAL ECHO DETECTOR, KINTSUGI IMMUNE SYSTEM, WRITE-LOCK.",
+      "provenance": "CLAUDE.md (ARCS v9 Architecture governing law) + .claude/arcs-canon.md:65",
+      "links": [
+        "collision-rom-vocabulary-resolved"
+      ],
+      "note": "'Never violate' is prose, not a wired gate — no single mechanism found in this pass that mechanically checks every commit/action against all 7 primitives. VERIFIED-AS-PROSE for the enforcement claim; VERIFIED for existence/count/naming (matches ROM-AXIS-INDEX.md exactly).",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-l0-l5-pipeline",
+      "title": "L0-L5 pipeline (current impl; L6-L7 not built)",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "Compass runs a 6-stage L0(atomic signal)-L5(global coherence) Claude pipeline; L6-L7 (ecosystem/meta-governance) explicitly not built.",
+      "provenance": "src/app/api/compass/route.ts:49-297",
+      "links": [],
+      "note": "Verified directly in source: route.ts:49 'Your job is to run a user's decision through the L0-L5 pipeline', :58 'L0 Activation filter', :63 'L5 Synthesis'. Matches CLAUDE.md/AGENTS.md claims exactly.",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-tributaries-3",
+      "title": "Tributaries: EXACTLY 3 per response",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "Every compass response emits exactly 3 tributary follow-ups (meta / challenge / adjacent).",
+      "provenance": "src/app/api/compass/route.ts:77",
+      "links": [],
+      "note": "Verified: route.ts:77 'tributaries: EXACTLY 3 follow-up prompts.' Matches AGENTS.md's DEWY pipeline section.",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-ygate-states",
+      "title": "Y-gate states (SCRATCH/YELLOW/PARADOX/FORK/DELTA/GREEN/LOCKED)",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "12D manifold computes a Y-gate polarity from this state set, rendered per the earned-fidelity resolution table.",
+      "provenance": "src/lib/ygate.ts:6-9",
+      "links": [
+        "arch-rom-primitives"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-operators-not-wired",
+      "title": "Operators library NOT wired into compass",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "AGENTS.md discloses operators (LAB/BAR/SAGE/etc.) are a 'canonical alternative implementation,' not currently called by the live compass route.",
+      "provenance": "AGENTS.md:178",
+      "links": [],
+      "note": "VERIFIED accurate self-disclosure: `grep -rn 'from.*operators\\|import.*operators' src/` returns zero hits. The doc's honesty here is itself worth noting — contrast with the census-count drift below.",
+      "epoch": "2026-04"
+    },
+    {
+      "id": "arch-operators-census-drift",
+      "title": "Operators library file/LOC census (43 modules / 51 py files / 60 tracked / 21,891 LOC)",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "DRIFTED",
+      "claim": "AGENTS.md's 'reconciled 2026-08-28' census states: 43 top-level .py modules, 51 .py files total, 60 tracked files total, 21,891 LOC.",
+      "provenance": "AGENTS.md operators table footnote",
+      "links": [],
+      "note": "FALSE as read today. Current measured state (git ls-files, __pycache__ excluded): 52 tracked .py files under operators/ (not 51), 62 tracked files total (not 60), 22,171 LOC (not 21,891). Further, the doc's own prescribed recount command `git ls-files 'operators/**/*.py' | grep -v __pycache__ | wc -l` returns 9 today — it only matches files nested two+ directories deep (core/, job_search/, linkedin_pipeline/), not the ~52 top-level modules, so the documented verification method does not actually reproduce the documented number even in principle. Files like operators/kryptonite_scorer.py and operators/arcs_substrate.py were first added 2026-06-16/07-08, predating the 'reconciled 2026-08-28' census, meaning the census undercounted even at authoring time, and has drifted further since (new files added post-2026-08-28 not checked further here).",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "arch-auth-status-contradiction",
+      "title": "Auth.js magic-link status: 'not end-to-end validated' vs 'confirmed working live'",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "DRIFTED",
+      "claim": "AGENTS.md's Agents & workers map states Auth is 'Magic link, not end-to-end validated yet.'",
+      "provenance": "AGENTS.md Agents & workers map, Auth row",
+      "links": [
+        "adr-016-auth-model"
+      ],
+      "note": "Internally contradicted within this repo's own doc set: CLAUDE.md's global orientation (P-tracks table) records this as 'RESOLVED: src/lib/auth.ts has a fully wired Auth.js v5 Resend provider + PrismaAdapter, confirmed working live (sign-in form renders, magic-link flow functional)' as of 2026-06-23. Code inspection (src/lib/auth.ts) supports the CLAUDE.md claim (Resend provider + PrismaAdapter both wired) — so AGENTS.md's caveat is the stale one, but both documents are checked into the same repo and disagree about the same fact, exactly the self-contradiction class this audit is asked to catch. Neither doc's UI-flow claim ('sign-in form renders,' 'magic-link flow functional') is settled by static grep alone — UNVERIFIABLE HERE without exercising the flow (send a magic link, click it) against a live deployment.",
+      "epoch": "2026-06"
+    },
+    {
+      "id": "arch-print-schedule-world",
+      "title": "The Print Schedule (WORLD.md's framing of ADR-068)",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "5-verb arc (analyze/assess/evaluate/synthesize/recapitulate) is a print schedule: every stage cut prints an artifact, through a gate, to a fate.",
+      "provenance": "WORLD.md 'THE PRINT SCHEDULE (ADR-068)'",
+      "links": [
+        "adr-068-print-schedule"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-witness-section",
+      "title": "The Witness / Witness Trigger",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "A flash-of-brilliance moment should be attested live via a one-line '/witness' prompt, not reconstructed after the fact.",
+      "provenance": "WORLD.md 'THE WITNESS' + _DECISIONS/ADR-046-witness-trigger-live-capture.md",
+      "links": [],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-oracle-gate-warn-not-block",
+      "title": "Oracle pre-commit gate: blocks exact duplicates, only WARNS on off-oracle/above-counter numbers",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "AGENTS.md gotcha #12 claims 'A pre-commit hook enforces this: blocks any commit that duplicates an existing ADR number; warns on off-oracle numbers.'",
+      "provenance": "scripts/git-hooks/pre-commit:16-40",
+      "links": [
+        "adr-057-sequence-oracle"
+      ],
+      "note": "VERIFIED, and the doc's own wording is accurate (it says 'blocks duplicates... warns on off-oracle' — it does not claim the warn case blocks). Confirmed the hook is armed in this environment: `git config --get core.hooksPath` returns scripts/git-hooks. But this is exactly the enforcement gap ADR-034 warns about in the abstract: the warn-only branch is precisely how ADR-074 slipped past the oracle counter and the index.json backfill without being caught — a live illustration, not a hypothetical, of 'a rule that isn't enforced isn't a rule.'",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "arch-adr-file-count-vs-oracle",
+      "title": "Oracle counter (_SEEDS/_oracle.json) now matches the ADR high-water mark",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "The committed oracle state records {\"adr\": 74}, matching the on-disk ADR-074 high-water mark.",
+      "provenance": "_SEEDS/_oracle.json",
+      "links": [
+        "adr-057-sequence-oracle"
+      ],
+      "note": "Resolved 2026-09-04: `cat _SEEDS/_oracle.json` reads {\"adr\": 74, \"handoff\": 43} — the one-behind drift this node flagged (oracle at 73 while ADR-074 existed on disk) has been corrected. The oracle (ADR-057's logical clock) and the committed ADR set are back in sync.",
+      "epoch": "2026-09"
+    },
+    {
+      "id": "arch-inline-styles-only",
+      "title": "Inline styles only — no Tailwind, no CSS modules",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "Only two sanctioned CSS exceptions: next/font classes on <html>, and the single src/app/globals.css.",
+      "provenance": "AGENTS.md Gotcha #2 + CLAUDE.md Token-saving rules",
+      "links": [
+        "adr-009-design-system"
+      ],
+      "note": "Not independently re-greped across the full src/ tree in this pass (would require an exhaustive className scan across every component to fully verify the 'only two exceptions' absolute claim per this audit's own sampling rule) — treat the absolute form as UNVERIFIABLE HERE without a full-repo className/CSS-file grep; the rule's existence and the design-system ADR backing it are confirmed.",
+      "epoch": "2026-05"
+    },
+    {
+      "id": "arch-json-text-fields",
+      "title": "JSON arrays stored as TEXT (SQLite compat), not Prisma Json type",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "Do not use Prisma's Json type until the datasource is Postgres; stringify/parse manually.",
+      "provenance": "CLAUDE.md Cross-project rules + AGENTS.md Prisma/DB section",
+      "links": [
+        "adr-002-db-split"
+      ],
+      "epoch": "2026-05"
+    },
+    {
+      "id": "adr-003-cocd-weave",
+      "title": "ADR-003 arcs.care COCD as First-Class UX Primitive",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "Proposed surfacing Calibrate→Orient→Chart→Detect as arcs.care's primary UX frame, replacing/supplementing the '10x lighter' hero.",
+      "provenance": "_DECISIONS/ADR-003-arcs-care-cocd-weave.md",
+      "links": [],
+      "note": "STALE by domain consolidation, not by content failure: this ADR governs the arcs-care project's own hero/UX framing, but per the user's global CLAUDE.md (verified 2026-06-23 via get_deployment) arcs.care/www.arcs.care/app.arcs.care all now serve the arcs-v9 deployment, and the separate arcs-care Vercel project is live:false. The COCD-hero question this ADR decided no longer has a reachable surface to apply to."
+    },
+    {
+      "id": "adr-004-mcp-dns",
+      "title": "ADR-004 mcp.arcs.care DNS Wiring",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "UNVERIFIABLE HERE",
+      "epoch": "2026-05",
+      "claim": "Decided to add mcp.arcs.care as a custom domain on the separate perplexity-mcp Vercel project to fix a 404.",
+      "provenance": "_DECISIONS/ADR-004-mcp-arcs-care-dns.md",
+      "links": [],
+      "note": "UNVERIFIABLE HERE: this ADR's entity is the perplexity-mcp Vercel project (prj_BOLubU4LLun9jadQZJTkBiXtaHzF), not arcs-v9. `grep -n mcp src/proxy.ts` in this repo returns zero hits, confirming arcs-v9's own proxy never claimed this subdomain — consistent with the ADR's own scope — but whether the DNS record was actually added at the registrar/Vercel side requires a get_deployment/domain check against the perplexity-mcp project, which this pass does not have access to."
+    },
+    {
+      "id": "adr-005-env-injection",
+      "title": "ADR-005 Vercel→Supabase Env Var Injection (amended)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "Fixed the Vercel Supabase integration's env-var prefix (STORAGE→DATABASE) so DATABASE_URL auto-syncs to arcs-v9 without manual copy-paste; status flagged EXECUTION DIVERGED in an amendment.",
+      "provenance": "_DECISIONS/ADR-005-vercel-supabase-env-injection.md",
+      "links": [],
+      "note": "Resolved per the user's global CLAUDE.md P-tracks (re-verified 2026-06-23): `vercel env ls` confirmed DATABASE_URL present on both Production and Preview. `src/lib/env.ts:4` reads `process.env.DATABASE_URL ?? \"file:./dev.db\"` — consistent with the fixed-injection path being live. The 'EXECUTION DIVERGED' amendment describes a since-closed gap, not current state."
+    },
+    {
+      "id": "adr-006-supabase-branching",
+      "title": "ADR-006 Supabase Branching for Preview Deployments — deferred",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "Chose to share a single Supabase database across preview deployments rather than provisioning per-PR branch DBs, until a named trigger (external contributor PR, or first prod schema migration after a real user has a receipt) fires.",
+      "provenance": "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+      "links": [
+        "adr-007-prisma-migration"
+      ],
+      "note": "Decision still holds: no branching config found in this repo (no supabase/config.toml branching block, no per-PR DB workflow in evidence). Whether the revisit trigger has silently fired — i.e. whether any real user now holds a Receipt row — is UNVERIFIABLE HERE without direct Supabase table access (not authorized this session); grading the decision's continued validity as LIVE on the absence of contrary evidence, not a positive confirmation of zero real users."
+    },
+    {
+      "id": "adr-007-prisma-migration",
+      "title": "ADR-007 Prisma Migration Strategy: db push vs migrate deploy",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "Adopted db push for early bootstrap, transitioning to tracked migrate deploy once real users exist; status flagged BOOTSTRAP COMPLETE in an amendment.",
+      "provenance": "_DECISIONS/ADR-007-prisma-migration-strategy.md",
+      "links": [
+        "adr-006-supabase-branching"
+      ],
+      "note": "Verified LIVE: `prisma/migrations/` holds a `0_init` baseline plus 13 further dated/named migrations (20260410143234_dewy_v1 through 20260819170000_scott_studio_role) — a tracked migration history, not ad hoc db push. package.json carries both `db:push` and `db:migrate` (`prisma migrate dev`) scripts, matching the ADR's documented dual-mode posture."
+    },
+    {
+      "id": "adr-008-rls-policy",
+      "title": "ADR-008 RLS Policy Design: Deny-All for Non-Superuser Roles",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "Enable RLS on all 9 tables with explicit DENY ALL for anon/authenticated roles; Prisma's superuser connection is unaffected and remains the real isolation boundary (ADR-001).",
+      "provenance": "_DECISIONS/ADR-008-rls-policy-design.md",
+      "links": [
+        "adr-001-auth-gate"
+      ],
+      "note": "Verified the artifact exists exactly as documented: `scripts/rls-policies.sql` is present and its header identifies the same Supabase project (xbbpiryokswwvcrcutge) and the same superuser-bypasses-RLS architecture note as the ADR. Whether these policies are currently APPLIED to the live Supabase project (vs. just committed as a runbook) is UNVERIFIABLE HERE — Supabase MCP execute_sql/get_advisors access was not available this session."
+    },
+    {
+      "id": "adr-010-dewy-rename",
+      "title": "ADR-010 Rename arcs-dewy Package to Resolve Module Shadowing",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "UNVERIFIABLE HERE",
+      "epoch": "2026-05",
+      "claim": "Resolves a Python import-shadowing bug where a flat arcs_dewy.py file at /Users/zharris/A.R.C.S./ wins over the arcs-dewy/ package directory, breaking ReceiptObject construction; the ADR explicitly states no arcs-v9 files are touched.",
+      "provenance": "_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md",
+      "links": [
+        "adr-019-receipt-core-boundary"
+      ],
+      "note": "UNVERIFIABLE HERE by the ADR's own scope — the change executes entirely in /Users/zharris/A.R.C.S., outside this worktree. Notable adjacent evidence found IN this repo: `operators/arcs_dewy_log.py`'s header states 'This file was originally arcs_dewy.py. It was renamed to arcs_dewy_log.py to resolve a sys.path collision with the arcs_dewy/ package' — the identical collision pattern, independently fixed a second time inside arcs-v9's own operators/ tree. That confirms the failure mode this ADR describes is real and recurring, but does not confirm the external-repo fix itself."
+    },
+    {
+      "id": "adr-011-ui-import-strategy",
+      "title": "ADR-011 UI Component Import Strategy: Direct, Not Barrel",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "src/ui/ components are imported directly from their own files; no barrel index.ts re-export.",
+      "provenance": "_DECISIONS/ADR-011-ui-import-strategy.md",
+      "links": [
+        "arch-inline-styles-only"
+      ],
+      "note": "Verified: `ls src/ui/` lists Badge.tsx, Button.tsx, Card.tsx, ... Wordmark.tsx, tokens.ts, useVw.ts — no index.ts/index.tsx barrel file present. Matches the decision exactly."
+    },
+    {
+      "id": "adr-012-plg-phase1",
+      "title": "ADR-012 arcs.care PLG Phase 1: Compass Model Swap + Lab Offer Card",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "Locked the placement strategy for a paid Lab-offer card surfaced immediately after a free Compass result on arcs.care.",
+      "provenance": "_DECISIONS/ADR-012-arcs-care-plg-phase-1.md",
+      "links": [
+        "adr-003-cocd-weave"
+      ],
+      "note": "STALE for the same domain-consolidation reason as ADR-003/013/014/015: this ADR's entities (app/api/compass/route.ts, components/lab-offer.tsx) live in the separate arcs-care repo/Vercel project, which the user's global CLAUDE.md records as live:false and not reachable on any current arcs.care domain. Matches the AGENTS.md P5 status line: 'Built, not currently reachable.'"
+    },
+    {
+      "id": "adr-013-conversion-architecture",
+      "title": "ADR-013 arcs.care Conversion Architecture: Founding-10 Build Sequence",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "Sequenced email capture, case-study excerpt, and spots-badge prominence as the build order for closing arcs.care's founding-client conversion gap.",
+      "provenance": "_DECISIONS/ADR-013-arcs-care-conversion-architecture.md",
+      "links": [
+        "adr-012-plg-phase1",
+        "adr-015-case-study-gate"
+      ],
+      "note": "STALE: same domain-consolidation basis as ADR-012 — all named entities (arcs-care-local/components/*, Supabase waitlist table on the arcs-care project) sit on the now-inactive arcs-care Vercel project, unreachable from any live arcs.care domain per the user's global memory."
+    },
+    {
+      "id": "adr-014-cicd-governance",
+      "title": "ADR-014 CI/CD Governance — NOTOMATION Circuit Breaker Model (arcs-care)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "Set the automation-authority ceiling for arcs-care's CI/CD (lint+build gate, Claude auto-repair workflow, human-approve-to-promote) to enforce NOTOMATION without blocking automated build-failure repair.",
+      "provenance": "_DECISIONS/ADR-014-arcs-care-ci-cd-governance.md",
+      "links": [
+        "arch-rom-primitives"
+      ],
+      "note": "STALE by scope: governs `.github/workflows/*` inside the separate arcs-care repo, which is not checked out in this worktree and, per the domain-consolidation status, is not the live surface for any arcs.care traffic. The NOTOMATION principle itself remains constitutional (arch-rom-primitives) — only this ADR's specific arcs-care CI wiring is stale."
+    },
+    {
+      "id": "adr-015-case-study-gate",
+      "title": "ADR-015 arcs.care Week 1 Build Gate: Case-Study Content Dependency",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "Decided email capture and spots-badge elevation could ship independently of the case-study excerpt, which was gated on a real founding-client outcome not yet existing.",
+      "provenance": "_DECISIONS/ADR-015-arcs-care-case-study-content-gate.md",
+      "links": [
+        "adr-013-conversion-architecture"
+      ],
+      "note": "STALE: same arcs-care-inactive basis as ADR-012/013/014. The sequencing question this ADR resolved is moot while the target surface (arcs-care-local's components) is not reachable on any live domain."
+    },
+    {
+      "id": "adr-018-helpful-input-model",
+      "title": "ADR-018 /helpful Input Model: Structured Form vs. Raw-Paste — held",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "Considered replacing the 5-field structured /helpful form with a single raw-context paste field; the ADR's own header marks it DRAFT — HELD pending an Architect packet, never ratified to DECIDED.",
+      "provenance": "_DECISIONS/ADR-018-helpful-input-model.md",
+      "links": [],
+      "note": "Graded LIVE-as-still-pending, not LIVE-as-executed: `find src/app -iname '*helpful*'` returns zero results in this repo — there is no /helpful route in arcs-v9 at all (the ADR's entities, app/helpful/page.tsx and app/api/helpful/route.ts, belong to the separate arcs-care-local tree). The HELD status accurately describes the current state: nothing has been decided or built either way since 2026-05-28."
+    },
+    {
+      "id": "adr-019-receipt-core-boundary",
+      "title": "ADR-019 receipt-core Python Boundary: ReceiptObject as Wire/Storage Type",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "ReceiptObject (Pydantic, arcs_dewy) is the wire/storage format; CoherenceReceipt/DecisionReceipt stay as internal operator types, converted at the boundary.",
+      "provenance": "_DECISIONS/ADR-019-receipt-core-python-boundary.md",
+      "links": [
+        "adr-010-dewy-rename",
+        "adr-017-receipt-core-schema"
+      ],
+      "note": "Verified: `operators/arcs_primitives_bridge.py` docstring reads 'ARCS v9 — CoherenceReceipt → ReceiptObject migration bridge ... maps to the canonical DEWY v1 ReceiptObject (arcs_dewy/schema/receipt.py Pydantic model)' — the bridge module the decision calls for exists and matches the described boundary exactly."
+    },
+    {
+      "id": "adr-022-emailverified-debt",
+      "title": "ADR-022 User Schema Debt: emailVerified + image Missing from 0_init — resolved",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "epoch": "2026-06",
+      "claim": "Fixes a Postgres baseline migration gap where emailVerified/image columns (added to schema.prisma via a SQLite-only migration) were never ported to 0_init, breaking Auth.js PrismaAdapter sign-in.",
+      "provenance": "_DECISIONS/ADR-022-user-schema-emailverified-debt.md",
+      "links": [
+        "adr-016-auth-model",
+        "adr-007-prisma-migration"
+      ],
+      "note": "Verified resolved: `prisma/migrations/0_init/migration.sql:9` now reads `\"emailVerified\" TIMESTAMP(3),` — the missing column is present in the Postgres baseline exactly as this ADR's remediation intended."
+    },
+    {
+      "id": "adr-024-resume-architecture-gates",
+      "title": "ADR-024 resume.arcs.care Architecture Gates",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "DRIFTED",
+      "epoch": "2026-06",
+      "claim": "Decided resume.arcs.care would be a new standalone Next.js app (new Vercel project, new repo) with opportunityId-scoped routes (/[opportunityId]/...) and Supabase RLS composite-key isolation per opportunity — referencing but never forking arcs-v9's compass machinery.",
+      "provenance": "_DECISIONS/ADR-024-resume-arcs-care-architecture-gates.md",
+      "links": [
+        "arch-inline-styles-only"
+      ],
+      "note": "DRIFTED, verified: live resume.arcs.care is NOT a standalone Next.js app. `src/proxy.ts:11` maps `'resume': '/resume.html'` — it is a single static file (`public/resume.html`, 74KB, last modified 2026-09-02) served through arcs-v9's own subdomain proxy, the exact 'fork vs. reference' architecture this ADR explicitly rejected in a simpler form. There is no `/[opportunityId]/` dynamic route, no opportunityId-scoped RLS, and no separate Vercel project in evidence. The static-page approach an cheaper path that superseded the two architecture gates this ADR ratified, without a follow-up ADR recording the change."
+    }
+  ]
+}

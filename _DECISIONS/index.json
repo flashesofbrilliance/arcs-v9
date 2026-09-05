@@ -610,5 +610,23 @@
     "stability": null,
     "gate": "see content",
     "file": "ADR-058-CALIBRATE-IDEA-Construction.md"
+  },
+  {
+    "id": "ADR-074",
+    "title": "ADR-074 — PRL Sugar custom-code collision surface: chatbot lead path is clear; attribution rides W-Systems hooks",
+    "status": "DRAFT",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-074-prl-sugar-custom-code-collision-surface.md"
+  },
+  {
+    "id": "ADR-075",
+    "title": "ADR-075 — The Metabolic Router (mechanical fan-out is automatable; judgment is not)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "falsifier: first metabolize run routes a record to every organ with zero human carrying AND the integrity gate catches a planted cite to an unmerged commit",
+    "file": "ADR-075-metabolic-router-mechanical-judgment-split.md"
   }
 ]
