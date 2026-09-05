@@ -72,3 +72,21 @@ CREATE TABLE "JobBoardSetting" (
   "value" TEXT NOT NULL,
   CONSTRAINT "JobBoardSetting_pkey" PRIMARY KEY ("key")
 );
+
+-- Repo RLS convention (scripts/rls-policies.sql): RLS on, explicit deny for the
+-- anon and authenticated roles; Prisma connects as postgres and bypasses.
+-- Applied to prod 2026-09-05 via the Supabase MCP (migration name jobs_board).
+ALTER TABLE "JobOpportunity"  ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "JobSwipe"        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ForgeRun"        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "JobBoardSetting" ENABLE ROW LEVEL SECURITY;
+CREATE POLICY deny_anon ON "JobOpportunity"  FOR ALL TO anon USING (false);
+CREATE POLICY deny_authenticated ON "JobOpportunity"  FOR ALL TO authenticated USING (false);
+CREATE POLICY deny_anon ON "JobSwipe"        FOR ALL TO anon USING (false);
+CREATE POLICY deny_authenticated ON "JobSwipe"        FOR ALL TO authenticated USING (false);
+CREATE POLICY deny_anon ON "ForgeRun"        FOR ALL TO anon USING (false);
+CREATE POLICY deny_authenticated ON "ForgeRun"        FOR ALL TO authenticated USING (false);
+CREATE POLICY deny_anon ON "JobBoardSetting" FOR ALL TO anon USING (false);
+CREATE POLICY deny_authenticated ON "JobBoardSetting" FOR ALL TO authenticated USING (false);
+
+INSERT INTO "JobBoardSetting" ("key","value") VALUES ('cap','5');

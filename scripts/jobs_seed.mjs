@@ -81,6 +81,22 @@ if (dbdump) {
 }
 console.log(`rows ${rows.size} · swipes ${swipes.length} · forges ${forges.length}`)
 
+// --emit-sql <file>: write idempotent INSERT ... ON CONFLICT statements (for applying through a SQL console when DATABASE_URL is not available locally).
+if (args["emit-sql"]) {
+  const q = (v) => v == null ? "NULL" : typeof v === "number" ? String(v) : `'${String(typeof v === "object" ? JSON.stringify(v) : v).replace(/'/g, "''")}'`
+  const cols = ["jobid","title","company","location","url","alertQuery","alertLocation","source","firstSeen","seenCount","salary","composite","band","dims","gates","assessment","atsClass","atsName","companyType","compBand","workLocation","hmKind","hmText","contactType","contactDetail","contactUrl","nextStep","unscoredWhy","scoredAt"]
+  const out = []
+  for (const r of rows.values()) {
+    const vals = cols.map((c) => c === "firstSeen" || c === "scoredAt" ? (r[c] ? `'${new Date(r[c]).toISOString()}'` : "NULL") : c === "dims" || c === "gates" ? (r[c] ? q(JSON.stringify(r[c])) : "NULL") : q(r[c]))
+    out.push(`INSERT INTO "JobOpportunity" (${cols.map((c) => `"${c}"`).join(",")},"updatedAt") VALUES (${vals.join(",")},now()) ON CONFLICT ("jobid") DO UPDATE SET ${cols.filter((c) => c !== "jobid").map((c) => `"${c}"=EXCLUDED."${c}"`).join(",")},"updatedAt"=now();`)
+  }
+  for (const s of swipes) out.push(`INSERT INTO "JobSwipe" ("jobid","direction","why","at") VALUES (${q(s.jobid)},${q(s.direction)},${q(s.why)},'${s.at}') ON CONFLICT ("jobid") DO UPDATE SET "direction"=EXCLUDED."direction","why"=EXCLUDED."why","at"=EXCLUDED."at";`)
+  for (const f of forges) out.push(`INSERT INTO "ForgeRun" ("jobid","status","url","resumeUrl","hmKind","hmText","contactType","contactDetail","contactUrl","notes","requestedAt","updatedAt") VALUES (${q(f.jobid)},${q(f.status)},${q(f.url)},${q(f.resumeUrl)},${q(f.hm?.kind)},${q(f.hm?.text)},${q(f.contact?.type)},${q(f.contact?.detail)},${q(f.contact?.url)},${q(f.notes)},${f.requestedAt ? `'${f.requestedAt}'` : "now()"},now()) ON CONFLICT ("jobid") DO UPDATE SET "status"=EXCLUDED."status","url"=EXCLUDED."url","resumeUrl"=EXCLUDED."resumeUrl","hmKind"=EXCLUDED."hmKind","hmText"=EXCLUDED."hmText","contactType"=EXCLUDED."contactType","contactDetail"=EXCLUDED."contactDetail","contactUrl"=EXCLUDED."contactUrl","notes"=EXCLUDED."notes","updatedAt"=now();`)
+  fs.writeFileSync(args["emit-sql"], out.join("\n") + "\n")
+  console.log(`wrote ${out.length} statements to ${args["emit-sql"]}`)
+  process.exit(0)
+}
+
 if (args.api) {
   const H = { "content-type": "application/json", "x-jobs-token": args.token ?? "" }
   const r = await fetch(`${args.api}/api/jobs`, { method: "POST", headers: H, body: JSON.stringify([...rows.values()]) })
