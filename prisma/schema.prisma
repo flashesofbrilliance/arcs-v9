@@ -251,6 +251,81 @@ model PrepGuide {
   generatedAt       DateTime @default(now())
 }
 
+// ─── Job-search board (jobs.arcs.care) ──────────────────────────────────────
+// The ingest→score→swipe→forge loop, moved off the claude.ai artifact store
+// (2026-09-05). One row per LinkedIn job id (or manual-<id> for hand-added
+// rows). JSON fields (dims, gates, jdHits) are TEXT per the repo rule.
+
+model JobOpportunity {
+  jobid         String    @id
+  title         String
+  company       String
+  location      String?
+  url           String
+  alertQuery    String?
+  alertLocation String?
+  source        String    @default("linkedin_alert_digest")
+  firstSeen     DateTime
+  seenCount     Int       @default(1)
+  salary        String?   // digest-subject salary string, lead job only
+  composite     Float?
+  band          String    @default("UNSCORED") // PURSUE | CONSIDER | PASS | UNSCORED
+  dims          String?   // TEXT json {role_shape:0-3, ...}
+  gates         String?   // TEXT json [string]
+  assessment    String?
+  atsClass      String?   // old | new | unk
+  atsName       String?
+  companyType   String?   // startup | scaleup | enterprise
+  compBand      String?
+  workLocation  String?
+  hmKind        String?   // explicit | implicit | unknown
+  hmText        String?
+  contactType   String?   // portal | form | email | referral | unverified
+  contactDetail String?
+  contactUrl    String?
+  nextStep      String?
+  jdHits        String?   // TEXT json {A:[...],B:[...],C:[...],D:[...]}
+  unscoredWhy   String?
+  scoredAt      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  swipe         JobSwipe?
+  forge         ForgeRun?
+
+  @@index([band, composite])
+  @@index([firstSeen])
+}
+
+model JobSwipe {
+  jobid     String         @id
+  job       JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  direction String         // r | l
+  why       String?        // left-swipe reason tag
+  at        DateTime       @default(now())
+  userId    String?
+}
+
+model ForgeRun {
+  jobid         String         @id
+  job           JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  status        String         // queued | gathering | grading | rendering | built | live
+  url           String?
+  resumeUrl     String?
+  hmKind        String?
+  hmText        String?
+  contactType   String?
+  contactDetail String?
+  contactUrl    String?
+  notes         String?
+  requestedAt   DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model JobBoardSetting {
+  key   String @id
+  value String
+}
+
 model Outcome {
   id          String   @id @default(cuid())
   receiptId   String   @unique
