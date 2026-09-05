@@ -221,7 +221,7 @@ tbody tr.detail td{padding:0 var(--sp-3) var(--sp-4);background:var(--surface-2)
 .ql{display:inline-block;margin:2px 10px 0 0;white-space:nowrap}.ql b{color:var(--accent)}.ql .data{color:var(--fg-3);font-size:10px}
 .role button.more{display:inline-block;margin-top:4px;background:none;border:0;padding:0;color:var(--accent);font-size:var(--fs-0);cursor:pointer}
 .role button.more:hover{text-decoration:underline}
-@media (max-width:640px){.anat{grid-template-columns:1fr}.dim{grid-template-columns:118px 1fr 44px}tbody tr.detail{display:block;padding:0 var(--sp-3) var(--sp-3)}tbody tr.detail td{display:block}}
+@media (max-width:640px){tbody tr.detail{grid-template-columns:1fr}tbody tr.detail td{grid-column:1}.anat{grid-template-columns:1fr}.dim{grid-template-columns:118px 1fr 44px}tbody tr.detail{display:block;padding:0 var(--sp-3) var(--sp-3)}tbody tr.detail td{display:block}}
 .gate{margin-top:var(--sp-3);padding:var(--sp-3);background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--consider);border-radius:var(--radius-sm);color:var(--fg-2);font-size:var(--fs-1)}
 .gate b{color:var(--fg-1);font-weight:500}
 .wed{position:relative;overflow:hidden;border:1px solid #00F0FF45;border-radius:4px;padding:1.25rem 1.5rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#00F0FF1c,#0a1620);box-shadow:inset 0 1px 0 #00F0FF80,inset 0 -11px 17px -11px #00F0FF55,0 0 12px #00F0FF26,0 5px 16px rgba(0,0,0,.5)}
@@ -246,22 +246,19 @@ kbd{font-family:var(--font-data);font-size:10px;padding:0 4px;border:1px solid v
   .toolbar{position:static}
   thead{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
   table,tbody{display:block}
-  tbody tr{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"score role" "meta meta" "sw sw";gap:var(--sp-2) var(--sp-3);padding:var(--sp-3)}
+  tbody tr{display:grid;grid-template-columns:auto 1fr;column-gap:var(--sp-3);row-gap:var(--sp-2);padding:var(--sp-3)}
   tbody tr.tier-head{display:block;padding:0}
   td{display:block;padding:0}
-  td.score{grid-area:score;font-size:var(--fs-3)}
-  td.role{grid-area:role}
-  td.ats,td.links,td.forge,td.hm,td.next{grid-area:meta}
+  td.score{grid-column:1;grid-row:1;font-size:var(--fs-3)}
+  td.role{grid-column:2;grid-row:1}
+  td.ats,td.links,td.forge,td.hm,td.next,td.sw-wrap{grid-column:1 / -1}
   .col-forge,.col-next,.col-hm{display:block}
   td.ats{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-2);align-items:center}
   td.links{display:flex;gap:var(--sp-3)}
-  td.forge,td.hm,td.next{padding-top:var(--sp-1)}
+  td.links a{display:inline}
   .next{max-width:none}
-  td.sw-wrap{grid-area:sw}
   .sw{display:flex;gap:var(--sp-2)}
   .sw button{flex:1;min-height:var(--control-touch)}
-  /* one meta cell wraps all the secondary fields on phones */
-  td.ats::before{content:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
 </style>
