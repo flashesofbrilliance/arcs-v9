@@ -1,5 +1,8 @@
 {
   "version": "1.0",
+  "status": "draft",
+  "status_doc": "draft until the Score table exists and the sizing eval has run once (spec v2.1 §12 step 5); then bound",
+  "metering": "not_wired",
   "domain": "job-search",
   "name": "Search Compass",
   "doc": "First Compass Lane instance (see _SPECS/compass-lane-spec-v2.md). Everything domain-specific about the job search lives here; the engine reads labels, stages, triggers, and meta from this file.",
