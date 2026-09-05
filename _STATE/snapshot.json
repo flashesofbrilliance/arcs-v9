@@ -1,27 +1,55 @@
 {
-  "captured_at": "2026-09-04T02:30:00-04:00",
+  "captured_at": "2026-09-05T19:34:12-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "5ed7a1e1",
-    "head_message": "spec+witness: edge-capture evidence-seam persisted before compaction",
+    "head_sha": "3b536b80",
+    "head_message": "chore(fold): record /fold — 3 composed sessions spawned, trunk left clean [NCI:SKIP]",
     "branch": "feat/audit-service",
     "in_sync_with_origin": false,
-    "ahead_of_origin": 9,
-    "dirty_files": ["_INBOX/lattice-drift.jsonl", "_INBOX/seedbank-drift.jsonl", "operators/audit_service/audit_traces.jsonl", "operators/audit_service/benchmark_pairs.jsonl", "runtime/specs/knowledge-lattice-v1.json"]
+    "ahead_of_origin": 19,
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "operators/audit_service/audit_traces.jsonl",
+      "operators/audit_service/benchmark_pairs.jsonl",
+      "runtime/specs/knowledge-lattice-v1.json",
+      "_ARTIFACTS/blog/stories/confirmed-not-my-bug.story.md",
+      "_STATE/handoff-progress.jsonl",
+      "_STATE/witness/2026-09-01.jsonl",
+      "_STATE/witness/2026-09-02.jsonl",
+      "_STATE/witness/2026-09-03.jsonl",
+      "public/blog-nftt-confirmed-not-my-bug-full.html"
+    ]
   },
   "vercel": {
     "note": "LAST-KNOWN, not re-verified this session (verify live with get_deployment before relying)",
     "project": "arcs-v9",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "note": "prod reachable this session via Supabase MCP execute_sql (read-only queries only)",
     "role": "arcs_app",
-    "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Outcome", "SageTrace", "Account", "Session", "VerificationToken"],
-    "live_facts_2026_09_04": "Receipt 247 (189 = zach.harris@gmail dogfood + 10 from 4 users + 48 anon); Outcome 2 (BOTH founder self-graded → ~0 externally-validated); SageTrace 71/45 fired; 6 of 9 signal fields degenerate (distinct==1)"
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Outcome",
+      "SageTrace",
+      "Account",
+      "Session",
+      "VerificationToken"
+    ],
+    "live_facts_2026_09_04": "Receipt 247 (189 = zach.harris@gmail dogfood + 10 from 4 users + 48 anon); Outcome 2 (BOTH founder self-graded \u2192 ~0 externally-validated); SageTrace 71/45 fired; 6 of 9 signal fields degenerate (distinct==1)"
   },
-  "session_summary": "ARCS-on-ARCS: diagnosed the harness on real data (keel = outcome-capture RATE, handler already built; 247 = founder dogfooding), built the informativeness/echo sensor + timecapsule build-log, and ran the human-AI reach-honesty calibration method end-to-end (11 deceipts booked, 13 operator-notes, specs persisted).",
-  "next_action": "Consolidation typed-fold (index over budget 20141>17408B, human-owned retirement) OR spawn the fork via /fold (both ledgers booked). DB-blocked items (outcome-architecture grep) run when a worktree has DATABASE_URL.",
-  "blocking": "NONE (consolidation retirement + NFTT publish-bless are human-owned, not blockers)"
+  "session_summary": "ARCS-on-ARCS (v3.51.0 close): drove the loop-closing to proof — claims-skeptic independently confirmed 4/5 repo claims + caught deceipt #13; outcome-grep caught deceipt #12 (ledger now 13). Then /fold: 3 composed sessions spawned as chips (NFTT ship, memory consolidation, outcome-capture keel = external/apply-with-governor). Resume test PASSED: _STATE/pickup-prompt.md boots a fresh agent, 2/3 structural GREENs independently re-verified.",
+  "next_action": "Start the 3 spawned chips (NFTT ship / memory consolidation / outcome-capture keel) as fresh worktree sessions — each is self-contained. Trunk residuals: push 19 commits to origin (consent gate), ROM candidate parked (gate = live receipt), DB claims 247/2 still MCP-verified-by-me not independently (owned by the keel chip).",
+  "blocking": "NONE (NFTT publish-bless, memory retirement, push-to-origin are human-owned consent gates, not blockers)",
+  "git_refreshed_at": "2026-09-05T19:34:12-04:00"
 }

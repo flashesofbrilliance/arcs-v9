@@ -1,43 +1,27 @@
-# ARCS Session State — pickup snapshot
+# ARCS Session State — current sprint snapshot
 
-**Last commit:** `5ed7a1e1` · branch `feat/audit-service` (ahead of origin **9**, unpushed) · 2026-09-04
+> Overwritten each `/handoff`. For the full narrative see `CLAUDE.md` → Handoff v3.51.0 and the
+> resume seed `_STATE/pickup-prompt.md`.
 
-## This session (ARCS-on-ARCS, 2026-09-02 → 09-04)
-Ran the harness on its own real production data, then ran the human-AI reach-honesty **calibration
-method** end-to-end on the session itself.
+**As of:** 2026-09-05T19:34-04:00
+**Branch:** `feat/audit-service` · HEAD `3b536b80` · **19 commits ahead of origin (unpushed)**
+**Version:** v3.51.0 (ARCS-on-ARCS close)
 
-**Findings (GREEN, DB-verified via Supabase MCP):**
-- Keel = outcome-capture **RATE**, NOT "build the handler" — the handler already ships
-  (`POST /api/receipts/[id]/outcome` + Outcome model + debrief email + cron).
-- 247 receipts = **189 founder dogfooding** (zach.harris@gmail) + 10 from 4 users + 48 anon;
-  2 outcomes, both founder self-graded → **~0 externally-validated** (realness gate).
-- SageTrace 71/45-fired; **6 of 9 signal fields degenerate** (distinct==1) — somatic/axioms fabricated constants.
-- Compass dogfood: users-first bearing; reasoning + tributaries GREEN-useful, the felt-scores theater.
+## What this session did
+Drove the loop-closing method to proof, then `/fold`ed the residue into composed sessions.
+- **Proof:** `claims-skeptic` (independent strand) confirmed 4/5 repo claims + caught deceipt #13;
+  `outcome-grep` caught deceipt #12. Deceipt ledger now 13 (`_STATE/deceipt-ledger.md`).
+- **Fold:** 3 chips spawned (human-started) — NFTT ship · memory consolidation · outcome-capture keel.
+- **Resume test:** `pickup-prompt.md` boots a fresh agent; 2/3 structural GREENs independently re-verified.
 
-**Built + committed:** informativeness/echo sensor `bbb61bcb` · timecapsule git build-log + SessionStart
-hook `eb58f146` · AGENTS.md outcome-handler drift fix `b23e0df2` · fidelity-label fix `c11a4925`.
+## Next action
+Start the 3 chips as fresh worktree sessions (each self-contained). Trunk residuals below.
 
-**Persisted specs/ledgers (all in `_STATE/`):** `operator-notes.md` (13 human-side learnings) ·
-`deceipt-ledger.md` (11 liabilities, KINTSUGI-visible) · `edge-capture-evidence-seam-spec.md` ·
-`real-user-real-decision-definition.md` (§8 = why-capture-is-hard) · `canon-review-candidates-2026-09-02.md`
-(ROM candidate + carrier-signal/deceipt/regime candidates, all routed-not-minted).
+## Open (trunk, human-gated)
+1. Push 19 commits to origin — **consent gate** (memory content leaving the machine).
+2. DB claims 247/2/6-of-9-degenerate — MCP-verified by me, NOT independently (owned by keel chip).
+3. ROM candidate (calibration method) parked — gate = live receipt of it catching a real miss.
+4. Memory index over budget (18.5k > 17.4k) — owned by the consolidation chip; do NOT run on trunk.
 
-**Memories banked (compounding substrate):** counterfeit-system2, burden-of-proof/escalate,
-chain-of-custody-on-rationales, doubt-the-premise (+ whose-247), surface-initiative (+ multi-dim debt).
-
-## Open / owed (next session)
-1. **Consolidation typed-fold** — MEMORY.md over budget (20141 > 17408B); needs human-owned retirement
-   judgment (durable content, not decoration). Deceipt #8: the /consolidate pass GREW the index.
-2. **The fork** — both ledgers booked, ready to spawn via `/fold` (inner=consolidate, external=apply-with-governor).
-3. **Outcome-architecture grep** — does a real fraction of 247 have data-resident outcomes? DB-blocked
-   in this worktree (no DATABASE_URL); run where the DB is reachable.
-4. **NFTT `confirmed-not-my-bug` ship** — rendered + gate-clean, never routed/deployed; needs publish-bless.
-
-## Meta
-The whole session's **calibration method** is a **ROM candidate at the gate** (witnessed YELLOW, routed,
-NOT minted). Graduation condition: a live receipt of the method catching a real error the existing ROM
-primitives (NOTOMATION/KINTSUGI/HYPERSTITION) would have missed. Ante-disciplinary gate flags it likely
-a fold/sharpening, not net-new.
-
-**Operating mode carried forward:** field-contact over validation · reach-tag everything (GREEN/YELLOW/
-resonance) · wired > written · decompose-the-denominator · the deceipts are the exothermic fuel.
+## Blocking
+NONE — every open item is a human-owned consent/judgment gate, not a blocker.

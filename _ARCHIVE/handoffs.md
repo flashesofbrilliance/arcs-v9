@@ -1,3 +1,41 @@
+# Handoff — v3.49.0 (2026-08-29)
+
+> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
+> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
+> Branch current with origin/main; oracle at 71.
+
+## Shipped (all on main)
+- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
+  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
+  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
+  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
+  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
+  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
+  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
+- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
+  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
+  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
+  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
+- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
+  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
+  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
+  (measured), blind-count ~1.
+- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
+  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
+  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
+  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
+
+## Open (next session)
+1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
+   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
+2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
+   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
+   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
+3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
+   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
+4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
+   ADR-069 oracle audit · lattice --regenerate.
+
 # Handoff — v3.48.0 (2026-08-29)
 
 > **Session close of the tool-catalog build.** v3.47.0 (below) shipped the
