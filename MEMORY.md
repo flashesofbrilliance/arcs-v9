@@ -7,6 +7,17 @@
 
 ---
 
+## [v3.53.0] 2026-09-04 — The Reading Room: the Almanac, ADR-075 the Metabolic Router, locked build plan
+
+- **Almanac** (`scripts/research_render.py`): 264 full-temporal epoch-tagged nodes read at 3 altitudes
+  (Skim/Scan/Trenches); two-shelf Required Reading (Foundational by canon + Load-bearing by in-degree);
+  per-row export. Local-only. Library taxonomy: Alexandria index / Atlas map / Almanac dated state.
+- **ADR-075** minted through the oracle from a live witness: mechanical fan-out automatable, judgment
+  never; integrity gate = cites exist on origin/main (caught 5 memories describing never-merged gates).
+- **Locked plan** `_SPECS/reading-room-build-plan-v1.md`: spine (Desk+Reader+cache) first, tenants
+  cheap; token-savings-bank levers; CBA ledger. Loop: Desk -> Almanac -> Concordance -> Chronicle -> Lexicon.
+- growth-ai.arcs.care family live; recruithaus `/ammo` gated live; Blacksmith polish; drift swept.
+
 ## [v3.46.0] 2026-08-27 — First closed client receipt + instrument board
 
 - **ADR-069 minted** (oracle audit pending): first ex-ante->ex-post receipt closed in a paying

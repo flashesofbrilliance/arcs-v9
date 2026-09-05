@@ -108,6 +108,61 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.53.0 (2026-09-04)
+
+> **The Reading Room session: the Almanac, the library taxonomy, ADR-075, and the locked build plan.**
+> Started as Blacksmith polish plus a Google (growth-ai) family stand-up; became the corpus-metabolism
+> architecture. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Everything on main. Oracle at 75.
+
+## Shipped (all on main)
+- **growth-ai.arcs.care family LIVE**: landing + /forge + /resume, Zach's real resume/cover/ATS PDFs
+  (2pp/448KB, not the 5pp render), air-gap clean (referrer off-page, employer named once), persona-gauntlet
+  hardened then realigned to "production" per the canonical docs. Blueprint run: ~40 min to standup, ~2h
+  to hardened. `tests/growth-ai.spec.ts` added. SEND stays human.
+- **recruithaus ammo tier gated + live** at `/ammo`: passcode `RECRUITHAUS_AMMO_PASSWORD` (Vercel env),
+  SHA-256 httpOnly cookie, host-independent gate in `src/proxy.ts` (closes the app.arcs.care/<file>
+  bypass), `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock`. Mobile PDF panel fixed.
+- **Blacksmith polish**: nav brand -> universal ARCS Field OS wordmark (also good/build/status), domain-map
+  slider glitch -> 2-col table (+blueprint note), hero left-edge aligned (.hero padding), lede spans the
+  lane (max-width:none, the 660px mode-4 bug), pill "Code as Receipts Era", build.html tofu banners removed,
+  growth-ai generic favicon (rewrite excludes .ico).
+- **The Almanac** (`scripts/research_render.py` -> `_ARTIFACTS/atlas/atlas-almanac.html`): 264 nodes,
+  full-temporal Apr->Sep, every node epoch-tagged (4 digests re-curated by Curator agents; Skeptics
+  correctly REFUSED to author). Read through the Reader at 3 altitudes (Skim/Scan/Trenches); two-shelf
+  Required Reading (Foundational by canon + Load-bearing by in-degree: in-degree structurally cannot
+  surface foundations); dataviz-validated palette; per-row self-contained export. LOCAL only.
+- **ADR-075 The Metabolic Router**: witnessed live -> DEWY -> ADR -> wisdom in one session (oracle-minted
+  75; `_STATE/witness/2026-09-04.jsonl` promoted, `_STATE/2026-09-04-session-decisions.dewy.json`). Mechanical
+  fan-out is automatable, judgment never; integrity gate = every cited ADR/commit/script must exist on
+  origin/main. Specs: `_SPECS/metabolic-router-v1.md`, `_ARTIFACTS/atlas/cache-manifest.spec.md`.
+- **Locked build plan** `_SPECS/reading-room-build-plan-v1.md`: spine first (Desk + Reader + cache),
+  tenants cheap (Concordance/Chronicle/Lexicon), token-savings-bank levers per phase, CBA ledger seeded.
+  Library taxonomy: Alexandria = index, Atlas = map (space), Almanac = dated state (time), missing =
+  Concordance, Chronicle, Lexicon, the Desk (intent router). Public room = lawful projections of private.
+- **Drift swept**: ADR-074 into index.json + oracle 73->74; 2 stale CLAUDE.md claims (Observatory IS on
+  main; canon-cron IS armed). False "ADR-075"/"ADR-042" claims de-claimed in the memory index + the
+  legibility-gate memory (specified, not wired). Memory index compacted to 18.2KB (~0.8KB over target).
+
+## Open (next session)
+1. **Phase 0 integrity gate** `scripts/integrity_gate.py` (cites exist on origin/main): build first, zero
+   judgment, then wire into pre-commit.
+2. **The Desk**: Stage 1 shape brief presented as a compact confirmation (job / audience / one thing /
+   direction / anti-goals / open decisions: route name `/library` vs `/reading-room`, freshness on the
+   front door). Awaiting Zach's one correction or "go", then polish -> `/dual-bar-raiser` -> brand-manager
+   persona gauntlet -> kintsugi -> build (admin-gated, reuse the `/recoil` Auth.js + ADMIN_EMAILS gate).
+3. **Loop locked until complete**: Desk -> Almanac wired -> Concordance -> Chronicle -> Lexicon.
+4. Two clean AGENTS.md fixes queued: `RECOIL_PASSWORD` row is stale (retired -> Auth.js/ADMIN_EMAILS);
+   operators census is wrong (recounted 2026-09-04: 52 top-level .py, 52 .py total, 62 tracked, 22,171
+   LOC). Judgment calls for Zach: `_CANON/index.md` "Book II Complete I-VI" self-contradiction (Part IV
+   deleted); `fanatics.arcs.care` routes to a missing file (live 308).
+5. MEMORY.md one more trim pass; router v1 wiring after the spine; growth-ai send to Yuri stays human.
+
+## Minted / receipts / memories
+- ADR-075 (oracle). Witness stub promoted=ADR-075. DEWY receipt 2026-09-04. Memories:
+  `metabolic-router-mechanical-judgment-split`, `proactive-spec-jtbd-reverse-lookup-flag`,
+  `research-render-three-altitude-delivery-grammar`; `recruiter-enablement-two-tier-tear-sheet` updated
+  (gate LIVE). CBA baseline lesson: match agent role to job class (Skeptic verifies, Curator authors).
+
 # Handoff — v3.52.0 (2026-09-02)
 
 > **Blacksmith application + recruiter-enablement session.** Built and shipped the full Blacksmith
@@ -154,77 +209,4 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 > _v3.51.0 / v3.49.0 (Möbius) to relocate to `_ARCHIVE/handoffs.md` next session; kept 3 live under the time limit._
 
-
-# Handoff — v3.50.0 (2026-08-29)
-
-> **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
-> armed.** Renumbered up the version chain (48→49→50) as parallel sessions shipped their own
-> v3.48.0 (tool-catalog) and v3.49.0 (Möbius) while this branch was in flight. On
-> `claude/elastic-driscoll-a80e72` (PR #194). Oracle audit clean (68 ids, 0 collisions); rebased
-> onto live main three times.
-
-## Shipped (this branch)
-- **ADR-033 duplicate → Option A.** Serialization Pathogen Family keeps 033; the model-routing/adr-
-  audit decision renumbered to oracle-issued **ADR-073** (index.json + header renumber note).
-- **Engine-sovereignty doctrine → minted as ADR-072** (oracle-issued). Honors the forward reference
-  in main's Möbius (ADR-071) DEWY receipt, which cites "engine-sovereignty (ADR-072)". Old "067"
-  claim retired (067 = cross-subject-comparative-recoil); memory + MEMORY.md index re-pointed.
-- **ROM vocabulary → Option A.** 7 ROM Primitives (`.claude/arcs-canon.md`) = CANON; 6 execution laws
-  → "behavioral laws (derived)"; 7 axioms → "epistemic foundations". Authority index
-  `runtime/specs/ROM-AXIS-INDEX.md` + tier banners on all three source files.
-- Both `_DECISIONS/CANON-COLLISION-*.md` → **RESOLVED**. `_SEEDS/_oracle.json` adr 71→73.
-  `build.html` sv-adrs → 68 (true distinct-ADR count). DEWY receipt appended
-  (`_STATE/2026-08-28-session-decisions.dewy.json`).
-- **`_DECISIONS/index.json` fully backfilled.** 10 files were missing entries (032, 033-pathogen,
-  034, 038, 044, 048, 049, 058, plus 070/071); index now 1:1 with 68 files (set-diff verified).
-- **Oracle pre-commit gate ARMED** for this worktree (`core.hooksPath = scripts/git-hooks`).
-- **Norse ROM candidates**: Loki inversions written (Ullr + Baldur); numbering gate cleared. NOT
-  ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
-
-## Open (next session)
-1. **Nightly canon-propagation cron — ARMED** (plist installed at `~/Library/LaunchAgents/care.arcs.canon-propagation.plist`; confirmed live 2026-09-03. The "still HELD / arm after merge" note was stale, per the Atlas audit).
-2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
-3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
-4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
-
-
-# Handoff — v3.49.0 (2026-08-29)
-
-> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
-> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
-> Branch current with origin/main; oracle at 71.
-
-## Shipped (all on main)
-- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
-  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
-  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
-  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
-  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
-  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
-  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
-- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
-  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
-  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
-  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
-- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
-  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
-  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
-  (measured), blind-count ~1.
-- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
-  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
-  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
-  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
-
-## Open (next session)
-1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
-   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
-2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
-   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
-   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
-3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
-   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
-4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
-   ADR-069 oracle audit · lattice --regenerate.
-
-
-> _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.50.0 (canon-governance) + v3.49.0 (Möbius) relocated to `_ARCHIVE/handoffs.md` on 2026-09-04; v3.52.0 kept live one more cycle._
