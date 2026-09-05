@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "domain": "job-search",
+  "name": "Search Compass",
+  "doc": "First Compass Lane instance (see _SPECS/compass-lane-spec-v2.md). Everything domain-specific about the job search lives here; the engine reads labels, stages, triggers, and meta from this file.",
+  "subject": { "label": "candidate", "record_sources": ["linkedin_url", "resume_pdf", "linkedin_export_zip"], "scan": "_ARTIFACTS/profile-scan-hud.html" },
+  "target": { "spec": "runtime/specs/target-role-scan.json", "scan": "_ARTIFACTS/target-role-scan-hud.html" },
+  "candidate": { "label": "posting", "id_prefixes": { "linkedin_alert_digest": "", "manual": "manual-", "eval": "eval-" } },
+  "sources": ["linkedin_alert_digest", "ashby_board", "greenhouse_board", "lever_board", "manual"],
+  "stages": [
+    { "verb": "analyze",      "label": "Research",              "print": "JD read + record graded (Score with evidence)", "gate": "every claim traces to the record; JD quoted, not paraphrased", "fates": ["scored", "unscored:reason"], "sla_days": 2 },
+    { "verb": "assess",       "label": "Qualify",               "print": "band, tier, gates, one-line read",             "gate": "hard gates first; composite only if none fired",      "fates": ["pursue", "consider", "pass"] },
+    { "verb": "evaluate",     "label": "Apply and screen",      "print": "resume cut, tailor notes, red-team, landing page (light run)", "gate": "honest-grade + red-team; air-gap clean", "fates": ["applied", "screened", "declined"], "sla_days": 7 },
+    { "verb": "synthesize",   "label": "Interview loop",        "print": "pre-call brief, full-tier artifacts (needs a counterpart)", "gate": "a recorded human reply", "fates": ["offer", "reject", "withdrawn"], "sla_days": 21 },
+    { "verb": "recapitulate", "label": "Outcome and correction","print": "Outcome vs receipt + Correction (learned, pattern, avoid, logic, links)", "gate": "outcome recorded against the ex-ante score", "fates": ["closed:won", "closed:lost", "closed:learned"] }
+  ],
+  "run": {
+    "label": "forge",
+    "statuses": ["queued", "gathering", "grading", "rendering", "built", "live"],
+    "tiers": { "light": [1, 5, 7, 8, 9], "full": [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    "blueprint": "_ARTIFACTS/resume-blacksmith/counterpart-application-forge.blueprint.md",
+    "triggers": "runtime/specs/forge-triggers.json",
+    "hosting": "human-approved; page staged in the bundle until then"
+  },
+  "decision": {
+    "vocab": { "r": "right", "l": "left" },
+    "why_tags": ["comp", "location", "role shape", "seniority", "culture", "company", "timing", "other"],
+    "why_tags_next": { "drainers": ["bureaucracy", "endless approval loops", "unclear goals", "credit hoarding", "slow sponsors"], "anti_signals": ["toxic leadership", "lack of purpose", "feeling invisible", "conflicting priorities", "short-termism"] }
+  },
+  "counterpart": { "kinds": ["recruiter", "hiring_manager", "referrer"] },
+  "meta_schema": {
+    "ats_class":  { "label": "ATS",            "values": ["old", "new", "unk"] },
+    "ats_name":   { "label": "Applicant tracking" },
+    "company_type": { "label": "Company type", "values": ["startup", "scaleup", "enterprise"] },
+    "comp_band":  { "label": "Comp" },
+    "hiring_manager": { "label": "Hiring manager", "kinds": ["explicit", "implicit", "unknown"], "rule": "never a guessed name" },
+    "contact":    { "label": "Apply path", "types": ["portal", "form", "email", "referral", "unverified"] },
+    "next_step":  { "label": "Next step", "templated_by": "ats_class" }
+  },
+  "lenses": {
+    "role_shape": "D", "ai_native": "D", "strength_leverage": "C", "scope_authority": "D",
+    "culture": "R", "comp_level": "R", "logistics": "W", "warm_path": "H"
+  },
+  "onramps": ["O0 paste a posting", "O1 forward an alert email or connect Gmail", "O2 add the record", "O3 add sources", "O4 swipe and forge", "O5 counterpart reply"]
+}
