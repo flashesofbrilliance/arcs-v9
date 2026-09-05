@@ -8,6 +8,11 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Progressive handoff (2026-09-04):** a global hook checkpoints git state to
+  `_STATE/handoff-progress.jsonl` every turn-with-change, and asks for a `## Delta` in
+  `_STATE/handoff-progress.md` at each compaction. Both are gitignored. `/handoff` folds them
+  into the CLAUDE.md block and marks the ledger claimed; the global SessionStart hook flags any
+  worktree whose trail was never claimed. Compaction never writes CLAUDE.md anymore.
 - **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
   from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):

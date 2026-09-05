@@ -9,12 +9,26 @@
 2. Audits the current session (commits pushed, files created, decisions made)
 3. Updates `MEMORY.md` with a new versioned entry at the top
 4. Updates `SKILL.md` changelog if any new capabilities were added
-5. Appends a new `## Handoff — vX.Y.Z` block to `CLAUDE.md`
+5. Appends a new `## Handoff — vX.Y.Z` block to `CLAUDE.md` **and relocates the oldest live block to `_ARCHIVE/handoffs.md` so at most 2 stay live** (policy 2026-07-19)
 6. Writes `.claude/arcs-session-state.md` with the current sprint snapshot
 7. Commits `_STATE/snapshot.json` alongside the session commit
 8. Outputs a one-shot pickup prompt the next session can use immediately
 
-## Step 0 — Capture machine state (run FIRST, before prose)
+## Step -1 — Fold the progressive ledger (run FIRST)
+
+The global Stop/PreCompact/SessionEnd hook (`~/.claude/hooks/progressive-handoff.sh`) has been
+appending mechanical checkpoints to `_STATE/handoff-progress.jsonl` and you may have written
+`## Delta` blocks to `_STATE/handoff-progress.md` at each compaction. Read both — they are the
+session's own trail and beat reconstruction from memory:
+
+```bash
+cat _STATE/handoff-progress.md 2>/dev/null
+tail -n 5 _STATE/handoff-progress.jsonl 2>/dev/null
+```
+
+Use them as the source for the handoff block below. Do NOT re-derive what they already record.
+
+## Step 0 — Capture machine state (run before prose)
 
 Run these bash commands and write results into `_STATE/snapshot.json`:
 
@@ -115,3 +129,14 @@ Next session start: /handoff-pickup
 - Mid-session (run only at natural stopping points)
 - If no commits were pushed (nothing to log)
 - If you're about to hit context limit — run `/compact` first, then `/handoff`
+
+## Step Ω — Claim the ledger (run LAST)
+
+Mark the progressive trail as folded so the next session's global SessionStart hook does not
+flag it as an UNCLAIMED checkpoint, then clear the prose deltas (they now live in CLAUDE.md):
+
+```bash
+python3 -c "import json,datetime; print(json.dumps({'ts':datetime.datetime.now().astimezone().isoformat(timespec='seconds'),'event':'handoff','handoff_done':True,'head':'$(git rev-parse --short HEAD)'}))" >> _STATE/handoff-progress.jsonl
+: > _STATE/handoff-progress.md
+```
+
