@@ -142,7 +142,77 @@ Swept 2026-09-05. Twenty-one sibling projects; the ones with transferable ideas,
 7. **Interference is a hint.** Simultaneous Runs inside one competitor cluster are flagged before firing, never blocked.
 8. **Onboarding contract.** ≤ 5 prompts, 60 to 90 s, safe defaults on timeout, reduced-motion means no timer.
 
-## 12. Decisions for Zach
+## 12. v2.1 — pre-implementation gate (dual bar-raiser pass, 2026-09-05)
+
+A Perplexity bar-raiser pass (`compass-lane-spec-v2-REVISED.md`, plus the design-system reconciliation and the product-roadmap wireframe audit) checked v2's claims against the live repo, Supabase, and Vercel. Its findings, re-verified here against main and the database after this morning's merges:
+
+| # | Claim in v2 | Live state (re-checked 2026-09-05) | Status |
+|---|---|---|---|
+| G1 | The job-search lane file ships with this spec | `runtime/specs/lanes/job-search.json` is on main (PR #290). The reviewer's pull predated the merge. | True now. Lane file carries `status: draft` until step 5 below. |
+| G2 | Core weight share is 54%, below the 60% guardrail | role_shape 5 + ai_native 4 + strength_leverage 4 = 13 of 24 = 54% in `target-role-scan.json` | Confirmed, live, failing. Own PR (step 1). |
+| G3 | The engine reads Candidate / Decision / Run | Live tables: JobOpportunity 124, JobSwipe 4, ForgeRun 6, JobBoardSetting 1. No Score, Target, Source, Lane, Counterpart, Correction, or Ledger table. | Confirmed. This is new-tables-plus-backfill, not a rename in place. |
+| G3a | An `Outcome` table exists (2 rows) | It does, but it belongs to the Question Compass: `Outcome.receiptId → Receipt`. The jobs lane has **no outcome store**; the compass has 247 receipts and 2 outcomes. | Correction to the review. The recapitulate gap is product-wide, not lane-specific (see Q4). |
+| A1 | The 124 rows are Zach's live search | True. The reviewer's attribution of specific companies from Granola was not verified here and is not relied on. | Rows stay as they are; existing scores keep their band; new Score rows are additive. Backfill of Score from the current inline fields is a copy, never a re-score. |
+
+### Migration reality (adds a column to §2)
+
+```
+Tenant        NEW
+Subject       NEW (closest today: ProfileUpload, 1 row)
+Target        file only today (target-role-scan.json); table optional until a second tenant
+Source        NEW (JobBoardSetting is settings, not sources)
+IngestRequest NEW
+Candidate     JobOpportunity → rename + migrate, data intact
+Score         NEW; backfilled by copying the inline dims/gates/composite/band off JobOpportunity, tagged target_version 1.1
+Decision      JobSwipe → rename + migrate
+Run           ForgeRun → rename + migrate
+Counterpart   NEW
+Correction    NEW
+Outcome       NEW for the lane (the compass Outcome table stays; see Q4 on sharing it)
+Ledger        NEW (today: _STATE/job-search/forge-cost-ledger.jsonl)
+Lane          file on main; table not needed until lanes are per-tenant
+```
+
+### Implementation order (adopted from the review, corrected)
+
+1. Fix the weight guardrail in `target-role-scan.json`, its own PR, its own audit trail. Zach's call which of the three fixes: raise core weights, shrink the denominator, or demote a core dimension.
+2. Migration: add Score, Source, IngestRequest, Counterpart, Correction, Outcome (lane), Ledger; rename JobOpportunity / JobSwipe / ForgeRun in place with data preserved; backfill Score by copy.
+3. Lane file stays `draft`; add the lane schema and the lane eval.
+4. Wire Size and Decide against Score; run the sizing eval for the first time.
+5. Flip the lane file to `bound`. Only then are §9's binding claims true.
+6. Second lane.
+
+### Resolved with defaults (override by saying so)
+
+1. **Invariant names: adopt now**, in the step-2 migration, once, with data intact.
+2. **Second lane: the Todd / PRL chatbot engagement**, not the internal backlog. The reviewer is right that it already has real Counterpart replies and real Outcomes; the backlog lane would have to simulate both. It binds to the Sales / Ops columns of §1.
+3. **Correction required only on rejections and pivots.** Mandatory on every close is cognitive mass without signal.
+4. **Metering is deferred and labeled.** No Ledger table in the first ship; the lane file's run statuses carry `metering: not_wired` so no surface implies billing.
+5. **Adapter compliance is per file.** Each ported ATS adapter carries a one-line note on its fetch method, rate limit, and terms, checked against §7 before it runs.
+
+### Evals need owners
+
+| Eval | Owner | Note |
+|---|---|---|
+| Trigger | Zach (mechanical: the script) | green, 54 checks |
+| Sizing | Zach | cannot run until Score exists (step 4) |
+| Close | Zach | no lane outcomes exist yet; the compass's 247:2 ratio says this is the product's weakest loop |
+| Lane | Zach | needs the schema (step 3) |
+
+Second reviewer per eval: the dual bar-raiser pass (Perplexity) that produced this revision, run on each eval's first green.
+
+## 13. Open questions (add to the bar-raiser run)
+
+- **Q1 Visual world for lane surfaces.** The Magic Patterns "ARCS" system is a hardware-instrument skin with no atoms; the repo's `src/ui` is atoms with no skin. The board and the Role Scan shipped on `src/ui` and the Blacksmith grammar. Is that the decision, or does the lane eventually get the PVD instrument skin? If the latter, the atoms have to be designed in that language first.
+- **Q2 One component root.** `src/ui` (20), `src/molecules` (16), `src/document` (16), `src/organisms` (5), `src/instrument` (3), `src/components` (2), `src/ui-kit` (0). Lane surfaces build on `src/ui` plus `src/document` for reading views. Confirm those two as canonical and the rest as migration targets.
+- **Q3 Is the Question Compass a lane?** Its stream is questions, its sizing is L0 to L5, its decision is the True North, its run is the brief, its counterpart is the person the decision involves, its outcome table exists with 2 rows. If yes, it is lane 0 and the recapitulate surface (the Debrief the roadmap calls net-new) is shared by every lane.
+- **Q4 Shared or per-lane Outcome.** Given Q3: one Outcome table keyed to any receipt-like object, or one per lane? Recommendation: one, since the close eval and the learning loop are invariant.
+- **Q5 Persona lenses and the Counterpart model.** The roadmap's open ADR (do Zach / Harry / Jeben lenses produce different recommendations or different framings of one?) is the same fork as the Career Fit Analyzer's HiringArchetype: is the Counterpart a lens on the same score, or a second scorer? Decide once for both.
+- **Q6 Retroactive learning.** With the reward table adopted, do the 2 compass outcomes and the first lane outcomes feed the bounded EMA immediately, or only after N ≥ 20 closes? Recommendation: log from day one, adopt only on consent, never before 20.
+- **Q7 Anonymous claim across lanes.** O0's anonymous session must claim into a tenant later. Does one anonymous session hold candidates from multiple lanes, or is a session lane-scoped?
+- **Q8 Lane file per tenant.** When a second tenant calibrates their own weights, is the lane file copied per tenant, or is the lane shared and only the Target per-tenant? Recommendation: lane shared, Target per tenant.
+
+## 14. Decisions for Zach
 
 1. Confirm the invariant names (Subject, Target, Candidate, Decision, Run, Counterpart, Correction, Outcome, Lane). They replace the job nouns in code at the second-lane milestone.
 2. Second lane to prove isomorphism: sales (leads → ICP → proposal → close) or build (ideas → bet criteria → sprint → retro)? Recommendation: build, because ARCS's own backlog is the stream and the outcomes are already in git.
