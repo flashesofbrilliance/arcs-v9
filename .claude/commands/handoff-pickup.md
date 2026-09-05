@@ -13,7 +13,19 @@
 6. Reports: what's done, what's next, what's blocked, what the live system looks like
 7. Asks exactly ONE clarifying question if anything is ambiguous — then waits
 
-## Step 0 — Load snapshot (run FIRST)
+## Step -1 — Check for an unclaimed progressive trail (run FIRST)
+
+The global SessionStart hook prints `progressive-handoff: UNCLAIMED checkpoint [...]` if any
+worktree of this repo ended a session without `/handoff`. If it fired, read that worktree's
+`_STATE/handoff-progress.md` (prose deltas) and the tail of `_STATE/handoff-progress.jsonl`
+(head / dirty files / branch) BEFORE the snapshot — the dead session's own trail is fresher than
+the last committed handoff block. If it did not fire, skip to Step 0.
+
+```bash
+cat _STATE/handoff-progress.md 2>/dev/null; tail -n 3 _STATE/handoff-progress.jsonl 2>/dev/null
+```
+
+## Step 0 — Load snapshot
 
 **If running in arcs-v9 (Implementor / local):**
 ```bash
@@ -37,7 +49,8 @@ Surface `snapshot.blocking` — if not NONE, this is the open question between s
 
 ## Token budget
 
-Reads at most 5 files:
+Reads at most 6 files:
+- `_STATE/handoff-progress.{md,jsonl}` (only if the SessionStart hook flagged UNCLAIMED)
 - `_STATE/snapshot.json` (machine state — primary source)
 - `.claude/arcs-session-state.md` (prose sprint state)
 - `CLAUDE.md` (last handoff block only — scan from bottom)

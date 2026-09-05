@@ -88,3 +88,9 @@ operators/_torch_distillation_artifacts/
 supabase/
 test-results/
 .claude/skills/sbom-payload-scan-workspace/
+
+# progressive-handoff ledger (local crash trail; folded into CLAUDE.md by /handoff)
+_STATE/handoff-progress.jsonl
+_STATE/handoff-progress.md
+.claude/handoff-progress.jsonl
+.claude/handoff-progress.md
