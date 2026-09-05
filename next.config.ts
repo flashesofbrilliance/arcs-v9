@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
+    // jobs.arcs.care: the rubric + trigger specs are read at request time; the scan HUD is served from _ARTIFACTS.
+    "/api/jobs": ["./runtime/specs/*.json"],
+    "/api/jobs/swipe": ["./runtime/specs/*.json"],
+    "/api/jobs/forge": ["./runtime/specs/*.json"],
+    "/jobs": ["./runtime/specs/*.json"],
+    "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },

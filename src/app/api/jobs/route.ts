@@ -26,6 +26,17 @@ export async function GET(req: NextRequest) {
   })
 }
 
+// DELETE /api/jobs?jobid=<id> — only hand-added and eval rows (manual-*, eval-*)
+// may be deleted; alert-sourced rows are the record and stay.
+export async function DELETE(req: NextRequest) {
+  const caller = await callerFor(req)
+  if (!caller) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const jobid = req.nextUrl.searchParams.get("jobid") ?? ""
+  if (!/^(manual|eval)-/.test(jobid)) return NextResponse.json({ error: "only manual-* or eval-* rows can be deleted" }, { status: 400 })
+  const r = await prisma.jobOpportunity.deleteMany({ where: { jobid } })
+  return NextResponse.json({ deleted: r.count })
+}
+
 // POST /api/jobs — add a row by hand (a posting URL that did not come through
 // the alert digests), or upsert scored rows from the pipeline (array body).
 export async function POST(req: NextRequest) {
@@ -80,9 +91,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Manual add from the page.
-  const { url, title, company, composite } = body as { url?: string; title?: string; company?: string; composite?: number | null }
+  const { url, title, company, composite, jobid: wanted } = body as { url?: string; title?: string; company?: string; composite?: number | null; jobid?: string }
   if (!url || !title || !company) return NextResponse.json({ error: "url, title, company required" }, { status: 400 })
-  const jobid = `manual-${Date.now()}`
+  // eval-* ids may be supplied by the trigger eval so it can clean up after itself.
+  const jobid = wanted && /^eval-[A-Za-z0-9_-]+$/.test(wanted) ? wanted : `manual-${Date.now()}`
   const row = await prisma.jobOpportunity.create({
     data: {
       jobid, title, company, url, source: "manual", alertQuery: "manual", firstSeen: new Date(),

@@ -59,6 +59,40 @@ export function loadScanSpec(): ScanSpec | null {
   }
 }
 
+// What fires when: runtime/specs/forge-triggers.json. The swipe route applies
+// it; scripts/jobs_trigger_eval.mjs asserts the live rows match it.
+export type TriggerSpec = { version: string; tiers: { auto: number[]; confirm: number[] } }
+let cachedTrig: { spec: TriggerSpec; mtime: number } | null = null
+export function loadTriggerSpec(): TriggerSpec {
+  const p = path.join(process.cwd(), "runtime", "specs", "forge-triggers.json")
+  try {
+    const mtime = fs.statSync(p).mtimeMs
+    if (cachedTrig && cachedTrig.mtime === mtime) return cachedTrig.spec
+    const spec = JSON.parse(fs.readFileSync(p, "utf8")) as TriggerSpec
+    cachedTrig = { spec, mtime }
+    return spec
+  } catch {
+    return { version: "fallback", tiers: { auto: [1, 2], confirm: [3] } }
+  }
+}
+export const CONFIRM_NOTE = "below auto tier: confirm before spending a cut"
+
+export type SwipeDecision =
+  | { forge: "create"; note: string | null }
+  | { forge: "delete" }
+  | { forge: "keep" }
+// Pure rule: given the new direction, the row's tier, and its current forge status.
+export function decideSwipe(direction: "r" | "l" | null, tier: 1 | 2 | 3 | null, forgeStatus: string | null, spec: TriggerSpec): SwipeDecision {
+  if (direction === "r") {
+    if (forgeStatus) return { forge: "keep" }
+    if (tier === null) return { forge: "keep" } // unscored: swipe recorded, no forge until scored
+    return { forge: "create", note: spec.tiers.confirm.includes(tier) ? CONFIRM_NOTE : null }
+  }
+  // left or cleared: withdraw only while still queued
+  if (forgeStatus === "queued") return { forge: "delete" }
+  return { forge: "keep" }
+}
+
 export const FORGE_STATUSES = ["queued", "gathering", "grading", "rendering", "built", "live"] as const
 export type ForgeStatus = (typeof FORGE_STATUSES)[number]
 export const WHY_TAGS = ["comp", "location", "role shape", "seniority", "culture", "company", "timing", "other"] as const

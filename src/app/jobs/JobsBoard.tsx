@@ -338,7 +338,7 @@ export function JobsBoard() {
             <p style={{ marginTop: 12, fontSize: 12, color: fg3 }}>Stored in the ARCS database. Synced on every device, read by the pipeline.</p>
           </div>
         </div>
-        <footer style={{ marginTop: 24, fontSize: 12, color: fg4, maxWidth: "64ch" }}>Rubric v{spec?.version ?? "?"} from runtime/specs/target-role-scan.json. Unverified ATS rows resolve on swipe.</footer>
+        <footer style={{ marginTop: 24, fontSize: 12, color: fg4, maxWidth: "64ch" }}>Rubric v{spec?.version ?? "?"} from runtime/specs/target-role-scan.json · <a href="/jobs/scan" style={{ color: signal.cyan }}>the Target-Role Scan</a> behind every score · trigger rules in runtime/specs/forge-triggers.json. Unverified ATS rows resolve on swipe.</footer>
       </div>
     </main>
   )
