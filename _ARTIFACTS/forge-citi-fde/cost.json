@@ -1,1 +1,5 @@
-{"est_tokens_before": 180000, "notes": "Estimate written 2026-09-04 14:37 EDT before stage 1. Light-tier forge (stages 1,5,7,8,9): JD fetch + one search + master resume extraction + resume cut/render loop with PNG inspection + landing page + notes/red-team/kintsugi. Context-heavy reads (blacksmith.html, blueprint, references) dominate; generation ~40k.", "actual_tokens": null}
+{
+ "est_tokens_before": 180000,
+ "notes": "Estimate written 2026-09-04 14:37 EDT before stage 1. Light-tier forge (stages 1,5,7,8,9): JD fetch + one search + master resume extraction + resume cut/render loop with PNG inspection + landing page + notes/red-team/kintsugi. Context-heavy reads (blacksmith.html, blueprint, references) dominate; generation ~40k. | Actual 2026-09-04 19:50 EDT: ~14 turns; estimate ~135k (large reads: blacksmith.html, blacksmith-observatory.html, record HTML, blueprint, 5 screenshot PNGs; generation ~35k). Under the 180k estimate because resume HTML needed no change and no re-render.",
+ "actual_tokens": 135000
+}

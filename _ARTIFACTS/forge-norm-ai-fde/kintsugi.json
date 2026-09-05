@@ -1,0 +1,60 @@
+{
+  "receipt_id": "receipt_norm_ai_fde_bundle_v2",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-04",
+  "slug": "norm-ai-fde",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "healthy_checks": [
+    "air-gap grep on public/forge-norm-ai-fde.html: no counterpart surnames, no recruiter names, no internal scoring vocabulary, no other target companies (0 hits)",
+    "no em-dashes anywhere in the landing page (grep count 0)",
+    "landing page built from public/blacksmith.html structure, section grammar, and CSS; build stages in The Forge rail + panel + gate grammar; deliverables in The kitchen link grammar; no tile grid",
+    "header lockup mirrors src/ui/Wordmark.tsx (ARCS 800/.22em cyan, FIELD OS 400/.14em dimmed, 1px rule, section label)",
+    "color and font tokens taken from src/ui/tokens.ts only; reading measure exposed as --measure on :root; auto-fit grids; text-wrap balance on headings and pretty on prose; nowrap on chips, buttons, stage titles, nav links",
+    "headline under the name is a positioning line (Embeds with the customer. Ships the integration.), not the requisition title; document title keeps the role",
+    "resume links are /forge-norm-ai-fde-resume.pdf placeholders plus ATS text; two-page resume cut on disk unchanged",
+    "rendered and inspected as pixels at 1280, 790, 768, 375 (forge-shot-<w>.png overwritten with the new page)",
+    "every claim on the page traces to TAILOR-NOTES.md evidence grades; FastAPI, Dagster, Airflow, and a Python year-count remain absent"
+  ],
+  "golden_seam_ledger": [
+    {
+      "break": "First landing page rejected on design grammar: the 'how this bundle was built' section and the 'deliverables' tile used a foreign layout instead of the house page",
+      "caught_by": "user review",
+      "gold": "rebuilt from public/blacksmith.html as the base; stages re-rendered in The Forge rail/panel/gate grammar, deliverables re-rendered in The kitchen grammar; landing-draft.html deleted"
+    },
+    {
+      "break": "Hero kick on the rejected draft carried the requisition title verbatim ('Forward Deployed Engineer · New York · hybrid')",
+      "caught_by": "headline rule check",
+      "gold": "kick now reads 'forward-deployed builder · regulated domains'; the role stays only in the document title"
+    },
+    {
+      "break": "Nav wrapped to two rows at 768 (six links plus the section label)",
+      "caught_by": "rendered screenshot at 768",
+      "gold": "dropped the 'good' nav link (still in The kitchen) and hid the wordmark section label below 900px"
+    },
+    {
+      "break": "Kitchen grid left a two-card orphan row at 1280 (six cards at minmax 200px)",
+      "caught_by": "rendered screenshot at 1280",
+      "gold": "auto-fit minimum raised to 280px: 3x2 at desktop, 2x3 at tablet, single column at phone"
+    },
+    {
+      "break": "Headless Chrome enforces a minimum window width, so the first 375 screenshot was a ~540px layout cropped to 375 and read as horizontal overflow",
+      "caught_by": "rendered screenshot at 375",
+      "gold": "page framed in a 375px iframe inside a wider window, then cropped from the left edge; true 375 layout verified clean"
+    },
+    {
+      "break": "Thesis line on the resume echoed the posting instead of the record (enablement sessions, 'twenty years regulated', 'rule into working software')",
+      "caught_by": "red-team pass (red-team.md)",
+      "gold": "three phrases cut or softened; recorded in defend-or-drop and shown on the page in the RED-TEAM stage"
+    },
+    {
+      "break": "Resume fit-table label collided with its value at print width",
+      "caught_by": "rendered page image, not the HTML",
+      "gold": "fixed column width and shortened labels; re-rendered and re-inspected"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, air-gap clean, design grammar matches the house page); seven in-flight breaks were sealed with visible gold and are documented above."
+}
