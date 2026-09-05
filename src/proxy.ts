@@ -7,7 +7,6 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'cj-brief':     '/cj-brief.html',
   'chase-intro':  '/chase-intro.html',
   'chris-intro':  '/chris-intro.html',
-  'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
   'lewoof':       '/lewoof-intake.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
