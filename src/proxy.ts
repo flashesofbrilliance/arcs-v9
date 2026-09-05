@@ -8,6 +8,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'chris-intro':  '/chris-intro.html',
   'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
+  'lewoof':       '/lewoof-intake.html',
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
