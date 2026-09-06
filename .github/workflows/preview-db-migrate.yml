@@ -56,7 +56,7 @@ jobs:
         run: npx prisma db push
       - name: Pushed DB must equal schema.prisma
         # exit 2 = drift detected; anything else is a hard error
-        run: npx prisma migrate diff --from-url "$DATABASE_URL" --to-schema-datamodel prisma/schema.prisma --exit-code
+        run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
 
   migrate-preview:
     needs: schema-dryrun
