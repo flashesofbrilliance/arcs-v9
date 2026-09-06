@@ -79,6 +79,13 @@ jobs:
       - name: Ledger delinquency check
         run: python3 scripts/ledger_check.py
 
+      # Hard gate — informativeness ratchet: blocks only on NEW signal degeneracy
+      # beyond the committed baseline (operators/audit_service/informativeness_baseline.json).
+      # Existing SAGE degeneracy is frozen and visible; a field that carried
+      # information going constant fails the merge. Deterministic, stdlib-only.
+      - name: Informativeness ratchet (audit signal degeneracy)
+        run: python3 operators/audit_service/informativeness_gate.py
+
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)
         run: npm run build
