@@ -180,7 +180,9 @@ export function JobsBoard() {
   function forgeCell(r: Row) {
     const fz = r.forge; const sw = r.swipe?.direction
     if (fz) { const st = STAGES[fz.status] ?? [fz.status, 50]; return (<>
-      {fz.url && fz.status === "live" ? <a href={fz.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>{fz.url.replace(/^https?:\/\//, "")}</a> : <><span style={{ ...smallLabel, color: fg3 }}>{st[0]}</span><Progress pct={st[1]} indeterminate={fz.status === "queued"} done={fz.status === "live"} /></>}
+      {fz.url && fz.status === "live" ? <a href={fz.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>{fz.url.replace(/^https?:\/\//, "")}</a>
+        : fz.url && fz.status === "built" ? <a href={fz.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>open bundle</a>
+        : <><span style={{ ...smallLabel, color: fg3 }}>{st[0]}</span><Progress pct={st[1]} indeterminate={fz.status === "queued"} done={fz.status === "live"} /></>}
       {fz.resumeUrl && <><br /><a href={fz.resumeUrl} target="_blank" rel="noopener" style={{ color: signal.cyan }}>tailored resume</a></>}
     </>) }
     if (sw === "r") return <><span style={{ ...smallLabel, color: fg3 }}>generating</span><Progress pct={0} indeterminate /></>
