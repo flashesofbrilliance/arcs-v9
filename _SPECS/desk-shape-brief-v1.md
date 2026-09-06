@@ -1,10 +1,10 @@
-# The Desk — shape brief v1.2 (impeccable `shape`, Phase 3 — gauntleted, decisions 1+3 closed)
+# The Desk — shape brief v1.3 (impeccable `shape`, Phase 3 — gauntleted, all decisions closed)
 
 > v1 confirmed by Zach 2026-09-04 ("Go ahead"). v1.1 (2026-09-06): polish -> `/dual-bar-raiser`
 > (α PASS-WITH-FIXES, β PASS-WITH-FIXES, held as ROM CANDIDATE) -> brand-manager persona gauntlet
 > (REVISE -> applied) -> kintsugi receipt `_STATE/2026-09-06-desk-brief-kintsugi.json`. Material
 > state: **SOLID**. Hierarchy level: **template** (the desk grammar) instantiating one **page**.
-> v1.2 (2026-09-06): Zach closed decisions (1) route = `/reading-room` and (3) Codex = full canon, Lexicon renamed **Babelfish**; only freshness placement (2) stays open. Still a BRIEF, not a build until (2) is decided. Plan: `_SPECS/reading-room-build-plan-v1.md`.
+> v1.2 (2026-09-06): Zach closed decisions (1) route = `/reading-room` and (3) Codex = full canon, Lexicon renamed **Babelfish**; v1.3: (2) closed — dated stamp on the shelf slot. **All three decisions closed; brief is build-ready.** Build still waits on the plan's sequencing rule (1a Reader + 1b cache land before 1c Desk builds). Plan: `_SPECS/reading-room-build-plan-v1.md`.
 
 ## 1. Job and audience
 The librarian's desk: the *reader's* intent router (distinct from the Metabolic Router of ADR-075, which routes records, not people — a naming seam, resolved here by qualification) and federated front door for the PRIVATE reading room.
@@ -69,10 +69,11 @@ manifest (data), never hardcoded in the route, so a second tool can consume the 
 Open build seam (named, not solved): the Almanac is LOCAL-only while the desk is hosted; how a local
 render becomes a served frame (commit the render? build-time generation? admin upload?) is a
 Phase-1c design question, not something this brief implies is settled. Delivery: local-first renders, the desk is the only
-hosted piece and it is gated. Decisions — two closed by Zach 2026-09-06, one open:
+hosted piece and it is gated. Decisions — all three closed by Zach 2026-09-06:
 (1) **DECIDED** route `/reading-room` (not `/library`: "library" names the wider taxonomy).
-(2) **OPEN** freshness on the front door vs inside a tenant only — `cache-manifest.spec.md` puts freshness per
-slice inside the Reader; engineer and brand-manager personas lean inside-only, the mid-work operator
-wants the dated stamp on the shelf slot so a stale Almanac is not a surprise on arrival. A builder must not invent this.
+(2) **DECIDED** freshness shows on the front door as a dated mono stamp on each shelf slot (`graded 2026-09-04`,
+muted tier, a measurement not a status pill); the re-grade action lives inside the tenant only. Rationale: the
+mid-work operator should not discover a stale Almanac only after opening it; a date is honest fidelity, a badge
+plus offer is notification grammar.
 (3) **DECIDED** Codex = the full canon (the name it already carries; ADR index is a section within); the term
 shelf is **Babelfish** (was Lexicon).

@@ -2,7 +2,7 @@
   "receipt_id": "receipt_desk_shape_brief_v1_1",
   "kintsugi_version": "v9.0-phase4",
   "ran_at": "2026-09-06",
-  "artifact": "_SPECS/desk-shape-brief-v1.md (v1.2)",
+  "artifact": "_SPECS/desk-shape-brief-v1.md (v1.3, build-ready)",
   "gauntlet": {
     "dual_bar_raiser": {
       "alpha": "PASS-WITH-FIXES",
@@ -56,14 +56,13 @@
       "gold": "manifest-as-data rule added to \u00a77"
     }
   ],
-  "operator_decisions_open": [
-    "freshness placement"
-  ],
-  "verdict": "Brief passes the kintsugi gate at SOLID with six seams sealed visibly. Build remains blocked on the three operator decisions by the brief's own rule.",
+  "operator_decisions_open": [],
+  "verdict": "Brief passes the kintsugi gate at SOLID with six seams sealed visibly. All three operator decisions closed 2026-09-06; build gated only by plan sequencing (1a/1b before 1c).",
   "operator_decisions_closed": {
     "route": "/reading-room",
     "codex": "full canon",
     "lexicon": "renamed Babelfish",
-    "decided_by": "Zach 2026-09-06"
+    "decided_by": "Zach 2026-09-06",
+    "freshness": "dated stamp on the shelf slot; re-grade inside the tenant"
   }
 }
