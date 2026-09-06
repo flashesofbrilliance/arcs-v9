@@ -3,15 +3,22 @@ name: preview-db-migrate
 # ADR-006 (Supabase Branching for preview DBs) — repo-side half, activated 2026-09-06.
 #
 # Two jobs, zero LLM:
-#   migrate-dryrun  every PR: apply the FULL prisma/migrations chain to a throwaway Postgres
-#                   service container. A migration that cannot apply from zero, or that drifts
-#                   from schema.prisma, fails the PR here — never against production. This is
-#                   the guard ADR-006's Loki test asks for, and it costs nothing.
-#   migrate-preview only when the PREVIEW_DATABASE_URL secret is set: `prisma migrate deploy`
-#                   against that database (a Supabase branch DB, or a shared staging DB).
-#                   Supabase Branching creates the per-PR branch and injects DATABASE_URL into
-#                   the Vercel preview; this job is what brings the branch's schema up to the
-#                   PR's migrations, since Prisma (not supabase/migrations) owns the DDL here.
+#   schema-dryrun   every PR touching prisma/**: `prisma db push` from zero on a throwaway
+#                   Postgres 17, then `migrate diff --exit-code` to prove the pushed DB equals
+#                   schema.prisma. This is the path production actually uses (ADR-007: db push;
+#                   ci.yml applies the same way before smoke). A schema that cannot apply from
+#                   zero fails here, never against production.
+#   migrate-preview only when the PREVIEW_DATABASE_URL secret is set: `prisma db push` against
+#                   that database (a Supabase branch DB, or a shared staging DB). Supabase
+#                   Branching creates the per-PR branch and injects DATABASE_URL into the Vercel
+#                   preview; this job brings the branch's schema up to the PR's schema.prisma.
+#
+# KNOWN DEBT (surfaced by this job's first run, 2026-09-06, PR #297): prisma/migrations is a
+# DDL receipt log, not an applicable chain — migration_lock.toml still says `sqlite`, and the
+# April-2026 migrations are SQLite dialect, so `prisma migrate deploy` fails with P3019 from
+# zero. ADR-007's revisit trigger ("first post-launch schema change -> migrate deploy
+# mandatory") fired long ago and was never honored. Re-baselining history is destructive and
+# is Zach's call: see _QUEUE/PENDING.md row 007. Until then this job tests db push, not deploy.
 on:
   pull_request:
     paths:
@@ -22,7 +29,7 @@ permissions:
   contents: read
 
 jobs:
-  migrate-dryrun:
+  schema-dryrun:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -43,14 +50,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --no-audit --no-fund
-      - name: Apply full migration chain from zero
-        run: npx prisma migrate deploy
-      - name: Schema drift check (migrations ⇔ schema.prisma)
+      - name: Validate schema
+        run: npx prisma validate
+      - name: Apply schema from zero (production path, ADR-007)
+        run: npx prisma db push --skip-generate
+      - name: Pushed DB must equal schema.prisma
         # exit 2 = drift detected; anything else is a hard error
-        run: npx prisma migrate diff --from-migrations prisma/migrations --to-schema-datamodel prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
+        run: npx prisma migrate diff --from-url "$DATABASE_URL" --to-schema-datamodel prisma/schema.prisma --exit-code
 
   migrate-preview:
-    needs: migrate-dryrun
+    needs: schema-dryrun
     runs-on: ubuntu-latest
     # `if` cannot read secrets directly; the step below exits early when the secret is unset.
     steps:
@@ -60,7 +69,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --no-audit --no-fund
-      - name: Deploy migrations to the preview database (if configured)
+      - name: Push schema to the preview database (if configured)
         env:
           DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
         run: |
@@ -68,4 +77,4 @@ jobs:
             echo "PREVIEW_DATABASE_URL not set — skipping (enable Supabase Branching + set the secret to activate)."
             exit 0
           fi
-          npx prisma migrate deploy
+          npx prisma db push --skip-generate

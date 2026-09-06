@@ -107,11 +107,16 @@ live project is `xbbpiryokswwvcrcutge`. Branch cost quoted for the visible org: 
 per branch (~$9.80/month per open branch)**; the live org's price must be re-quoted from its dashboard.
 
 **What shipped (no cost, no dashboard):** `.github/workflows/preview-db-migrate.yml` —
-(1) every PR touching `prisma/**` applies the full migration chain from zero on a throwaway
-Postgres 17 service container and runs `prisma migrate diff --exit-code` against
-`schema.prisma`, so a migration that cannot apply, or drifts, fails in CI instead of in prod;
-(2) when a `PREVIEW_DATABASE_URL` secret exists it runs `prisma migrate deploy` against it.
-Prisma stays the DDL source of truth (`supabase/` is gitignored; no `supabase/migrations` mirror).
+(1) every PR touching `prisma/**` applies `schema.prisma` from zero with `prisma db push` on a
+throwaway Postgres 17 (the production path per ADR-007) and proves the pushed DB equals the
+schema with `prisma migrate diff --exit-code`; (2) when a `PREVIEW_DATABASE_URL` secret exists it
+pushes the schema there. Prisma stays the DDL source of truth (`supabase/` is gitignored).
+
+**Golden seam (kintsugi, 2026-09-06):** the job's first draft ran `prisma migrate deploy` and
+failed P3019 on PR #297 — `migration_lock.toml` still says `sqlite` and the April-2026
+migrations are SQLite dialect. The migrations directory is a DDL receipt log, not an applicable
+chain; ADR-007's revisit trigger fired and was never honored. Re-baselining is destructive and
+is queued for Zach as PENDING row 007 (reopened). Until then, `db push` is the honest test.
 
 **Remaining, human-gated (WRITE-LOCK: recurring spend):**
 1. Zach confirms the branch price on the live project's org and enables Branching in the Supabase
