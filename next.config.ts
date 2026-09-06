@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
     "/jobs/[jobid]": ["./runtime/specs/*.json"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
+    // reading room (ADR-075 / desk brief v1.3): the desk manifest + cache manifest are read at
+    // request time; the Almanac render is streamed by the gated handler. Without these the
+    // standalone Vercel bundle omits the files and the routes 404/500 in prod.
+    "/reading-room": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
+    "/reading-room/[tenant]": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
+    "/api/reading-room/almanac": ["./_ARTIFACTS/atlas/atlas-almanac.html"],
   },
   async headers() {
     return [

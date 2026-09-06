@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "spec": "_SPECS/desk-shape-brief-v1.md",
+  "route": "/reading-room",
+  "cache_manifest": "_ARTIFACTS/atlas/cache-manifest.json",
+  "shelf": [
+    {
+      "tenant": "almanac",
+      "question": "what changed since I last looked?",
+      "work": "Almanac",
+      "built": true,
+      "frame": "/api/reading-room/almanac",
+      "render": "_ARTIFACTS/atlas/atlas-almanac.html",
+      "domains": ["memories", "handoffs", "product", "recoil"]
+    },
+    {
+      "tenant": "concordance",
+      "question": "where does this idea show up?",
+      "work": "Concordance",
+      "built": false,
+      "domains": ["memories", "handoffs", "product", "recoil"]
+    },
+    {
+      "tenant": "chronicle",
+      "question": "how did we get here?",
+      "work": "Chronicle",
+      "built": false,
+      "domains": ["handoffs"]
+    },
+    {
+      "tenant": "babelfish",
+      "question": "what does this word mean here?",
+      "work": "Babelfish",
+      "built": false,
+      "domains": ["memories"]
+    },
+    {
+      "tenant": "codex",
+      "question": "what did we rule?",
+      "work": "Codex",
+      "built": false,
+      "domains": ["product"]
+    }
+  ]
+}
