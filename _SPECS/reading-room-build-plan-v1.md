@@ -77,7 +77,7 @@ projection pipeline with the air-gap leak-check at 0.
 | Phase | Est hrs | Actual hrs | Est tokens | Actual tokens | Lever that mattered most | What we learned → next estimate adjusts how |
 |---|---|---|---|---|---|---|
 | (baseline) Almanac v1→v2 + full-temporal re-curation, 2026-09-04 | ~4 | ~5 | ~600k | ~1.0M | Route: two claims-skeptic agents *refused* an authoring job (correctly) and we re-ran as general-purpose Curators → paid twice | **Match agent role to job class before spawning** (verify ≠ author). Delegated corpus sweeps were the right call (Lever 3); the waste was the role mismatch, not delegation. Future: Curator for augment/grade, Skeptic only for verify. |
-| 0 | 1 | | | | | |
+| 0 | 1 | ~0.5 | ~40k | ~35k | Route: pure script, zero agents; Batch: one ls-tree + one cat-file --batch-check for all cites | First run against the real corpus found live drift (ADR-042 gap, `routing-manifest.json` vapor, 9 retired `public/*.html` still cited by `_STATE/snapshot.json`), so the gate earns its keep on day one. Rolled out warn-then-block (`INTEGRITY_GATE_BLOCK=1`). Estimates for mechanical scripts hold at ~1 hr; next: trust the ~8× figure. |
 | 1a | 2 | | | | | |
 | 1b | 2–3 | | | | | |
 | 1c | 3–5 | | | | | |
