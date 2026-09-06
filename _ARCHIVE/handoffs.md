@@ -3662,3 +3662,51 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 
 
 > _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+
+---
+
+# Handoff — v3.52.0 (2026-09-02)
+
+> **Blacksmith application + recruiter-enablement session.** Built and shipped the full Blacksmith
+> candidate bundle, then a recruiter-facing enablement system for Amy at RecruitHaus. Everything live
+> is verified. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Long session, converged under
+> the 5-hour limit.
+
+## Shipped + live (verified)
+- **blacksmith.arcs.care**: hero **ship-clock frozen to `v0 · 1h 22m`** (git-true; live counter was
+  undercutting the flex), **The Forge** with **6 between-stage CI gates** (ADR-068 print schedule;
+  final gate names the real CI: lint + next build + air-gap-leak-check-as-test + security scan +
+  auto-rollback, 7 workflows), **domain-map rebuilt as a connection visual**, cover security nod,
+  "director's cut"→"the forge". Air-gap test retuned (recruiter credit allowed; founders hard-gated,
+  added Aditya/Maru).
+- **status/build false-zero bug fixed** — degraded `/api/pulse` overwrote the curated floor with
+  0/0/0/1 over a full board; guard + curated fallback + honest stamp. FM banked
+  ([[live-counts-overwrite-static-floor-with-false-zeros]]).
+- **recruithaus.arcs.care** LIVE — public candidate-positioning page (two-hires-in-one, role pills,
+  why-multi-threaded, compounding). Air-gap clean (leak=0; orphan CSS stripped). proxy.ts SUBDOMAIN_MAP
+  + `/_vercel` exclusion (analytics fix for all subdomain hosts).
+- **Kintsugi receipt** `_STATE/2026-09-02-blacksmith-kintsugi.json` (healthy + golden-seam ledger).
+
+## Private (`_ARTIFACTS/resume-blacksmith/`, not served)
+- `counterpart-application-forge.blueprint.md` (parameterized factory), `tear-sheet-amy.html`+`.pdf`
+  (**gated ammo**: comp logic, 3-lens battle cards w/ nested 1st/2nd/3rd-order objection handling,
+  best/base/worst, ARCS circuit breakers; founders by lens not name), `recruiter-recoil-report.html/.md`,
+  `dyor-blacksmith-recon.md`, `design-critique-personas.md`, `founder-gauntlet.md`, `intel-bundle.md`.
+- Pattern banked: [[recruiter-enablement-two-tier-tear-sheet]].
+
+## Open (next session)
+1. **Gate + host the ammo tier** + a `/resume`-style PDF-download viewer behind a passcode
+   (RECOIL_PASSWORD cookie retired; recoil now Auth.js/admin-email = not Amy-accessible; no qpdf/pikepdf
+   for PDF encryption). 2. **Impeccable audit/polish/refine/distill pass** on recruithaus (user queued
+   it "after deploy"). 3. **Amy-facing recoil recap** (warm call-recap, not the reverse-listening).
+   4. **Named founder battle cards** — offline file only, never hosted. 5. `/consolidate-memory` (index
+   21KB > 17KB). 6. Deep-recon vs raw Granola transcript `1831d31e` to re-verify every attribution
+   before any ammo is hosted.
+
+## Candidates to mint via oracle (do NOT infer numbers)
+- **ADR:** two-tier counterpart-artifact doctrine (pitch open / ammo gated; founders-by-lens; comp-talk
+  never on open web). **ADR:** battle-cards-as-objection-filters + nested N-order handling.
+- **Seed:** recruiter-enablement tear-sheet as a productizable surface of the counterpart-forge.
+- **DEWY:** session-decisions receipt still owed (kintsugi receipt already appended).
+
+> _relocated from CLAUDE.md 2026-09-06._
