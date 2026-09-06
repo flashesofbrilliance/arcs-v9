@@ -29,6 +29,21 @@ import json, sys, os, html, glob, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+import re
+EPOCH_RE = re.compile(r"^\d{4}-\d{2}$")
+
+
+def norm_epoch(v, nid=None):
+    """YYYY-MM or 'undated'. A malformed tag (number, full date, junk) is coerced and logged
+    so a curator sees it; it must never crash the render or the Scan tab."""
+    e = str(v or "").strip()
+    if EPOCH_RE.match(e):
+        return e
+    if e and e != "undated":
+        print(f"  epoch {e!r} on {nid or '?'} is not YYYY-MM; treated as undated", file=sys.stderr)
+    return "undated"
+
+
 def load_digests(paths):
     nodes = []
     for p in paths:
@@ -45,12 +60,42 @@ def load_digests(paths):
                 "domain": n.get("domain") or dom,
                 "cluster": n.get("cluster") or "(uncategorized)",
                 "status": (n.get("status") or "UNVERIFIED").upper(),
+                "epoch": norm_epoch(n.get("epoch"), n.get("id")),
                 "claim": n.get("claim") or "",
                 "provenance": n.get("provenance") or "",
                 "links": n.get("links") or [],
                 "note": n.get("note") or "",
             })
     return nodes
+
+
+MANIFEST_PATH = os.path.join(ROOT, "_ARTIFACTS/atlas/cache-manifest.json")
+
+
+def load_manifest(path=MANIFEST_PATH):
+    """Freshness index over (domain, epoch) slices (see cache-manifest.spec.md).
+    A missing or unreadable manifest is tolerated: returns None -> the Reader shows
+    'freshness unknown' once, never a broken state."""
+    if not os.path.exists(path):
+        return None
+    try:
+        m = json.load(open(path, encoding="utf-8"))
+    except Exception as e:
+        print(f"  manifest unreadable ({e}); freshness unknown", file=sys.stderr)
+        return None
+    slices = {}
+    for s in (m.get("slices") or []):
+        if not isinstance(s, dict):
+            continue
+        key = f"{s.get('domain','')}/{s.get('epoch','')}"
+        slices[key] = {
+            "graded_at": s.get("graded_at") or "",
+            "graded_at_sha": (s.get("graded_at_sha") or "")[:7],
+            "fresh": s.get("fresh"),
+            "dirty": len(s.get("dirty_files") or []),
+            "node_count": s.get("node_count"),
+        }
+    return {"generated": m.get("generated") or "", "repo_head": (m.get("repo_head") or "")[:7], "slices": slices}
 
 
 TEMPLATE = r"""<!doctype html>
@@ -121,6 +166,21 @@ TEMPLATE = r"""<!doctype html>
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;}
   .chip{font-family:var(--mono);font-size:11px;color:var(--fg2);background:var(--elev);border:1px solid var(--border2);border-radius:999px;padding:5px 11px;cursor:pointer;transition:.12s;}
   .chip:hover{border-color:var(--cyan);color:var(--fg1);} .chip.sel{color:#001014;background:var(--cyan);border-color:transparent;} .chip b{color:inherit;}
+  /* epoch axis (scan): same bar grammar as domains, rows are months */
+  .ebars{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+  .ebar{display:grid;grid-template-columns:120px 1fr 48px;gap:14px;align-items:center;cursor:pointer;}
+  .ebar .ename{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.05em;color:var(--fg3);text-align:right;transition:.12s;}
+  .ebar:hover .ename{color:var(--fg1);} .ebar.sel .ename{color:var(--cyan);}
+  .ebar .track{display:flex;gap:2px;height:16px;} .ebar .track span{display:block;height:100%;border-radius:3px;min-width:2px;}
+  .ebar .etot{font-family:var(--mono);font-size:13px;font-weight:800;color:var(--fg1);text-align:right;}
+  /* freshness: a dated readout per (domain, epoch) slice, muted tier, a measurement not a pill */
+  .fresh{overflow-x:auto;margin:6px 0 22px;}
+  .fresh table{border-collapse:collapse;font-family:var(--mono);font-size:10.5px;color:var(--fg4);}
+  .fresh th,.fresh td{text-align:left;padding:5px 14px 5px 0;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:top;}
+  .fresh th{font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg3);font-size:9.5px;}
+  .fs-g{color:var(--fg3);} .fs-d{color:var(--drift);margin-left:6px;} .fs-na{color:var(--fg4);}
+  .node .ntitle .rd{font-family:var(--mono);font-size:10px;font-weight:400;color:var(--fg4);letter-spacing:.06em;margin-left:8px;}
+  .fresh .fnote{font-family:var(--mono);font-size:10.5px;color:var(--fg4);padding:4px 0 0;}
   /* trenches */
   .tbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0 12px;}
   .tbar input{flex:1 1 240px;font-family:var(--mono);font-size:12.5px;color:var(--fg1);background:var(--elev);border:1px solid var(--border2);border-radius:9px;padding:9px 12px;}
@@ -148,6 +208,7 @@ TEMPLATE = r"""<!doctype html>
   @media(max-width:560px){
     .dbar{grid-template-columns:1fr auto;} .dbar .dname{text-align:left;} .dbar .track{grid-column:1/-1;order:3;}
     .node .nh{grid-template-columns:auto 1fr auto;} .rr .row{grid-template-columns:22px 1fr;} .rr .rw{grid-column:2;justify-self:start;}
+    .ebar{grid-template-columns:1fr auto;} .ebar .ename{text-align:left;} .ebar .track{grid-column:1/-1;order:3;}
   }
 </style>
 </head>
@@ -201,10 +262,33 @@ function domains(){ const d={}; NODES.forEach(n=>{(d[n.domain]=d[n.domain]||[]).
 function track(c,total){ return AGG.filter(b=>c[b]).map(b=>`<span style="flex:${c[b]};background:${ABI[b].c}" title="${ABI[b].label}: ${c[b]}"></span>`).join(""); }
 
 // shared filter state (scan <-> trenches)
-let F = {domain:null, bucket:null, q:""};
+let F = {domain:null, bucket:null, epoch:null, q:""};
 const applyF = () => NODES.filter(n =>
-  (!F.domain || n.domain===F.domain) && (!F.bucket || agg(n.status)===F.bucket) &&
+  (!F.domain || n.domain===F.domain) && (!F.bucket || agg(n.status)===F.bucket) && (!F.epoch || n.epoch===F.epoch) &&
   (!F.q || (n.title+" "+n.claim+" "+n.cluster+" "+n.provenance).toLowerCase().includes(F.q)));
+
+// epoch axis: YYYY-MM buckets, "undated" sorts last
+const epochs = () => { const e={}; NODES.forEach(n=>{(e[n.epoch]=e[n.epoch]||[]).push(n);}); return e; };
+const epochKeys = e => Object.keys(e).sort((a,b)=>(a==="undated")-(b==="undated")||a.localeCompare(b));
+// freshness: manifest slice for (domain, epoch); null manifest -> unknown (tolerated, never broken)
+const MAN = META.manifest || null;
+const slice = (d,e) => MAN ? (MAN.slices[d+"/"+e] || null) : null;
+// freshText = the one source of truth (plain text, explicit separators); freshStamp wraps it.
+function freshText(s){
+  if(!MAN) return "freshness unknown";
+  if(!s) return "not graded";
+  const g = "graded " + (s.graded_at||"?");
+  if(s.fresh===true) return g;
+  if(s.fresh===false) return g + " · dirty " + (s.dirty||0);
+  return g + " · fresh unknown";
+}
+function freshStamp(s){
+  const t = freshText(s);
+  if(!MAN||!s) return `<span class="fs-na">${esc(t)}</span>`;
+  const [g, rest] = t.split(" · ");
+  return `<span class="fs-g">${esc(g)}</span>${rest?`<span class="fs-d">${esc(rest)}</span>`:""}`;
+}
+const notFresh = s => !(s && s.fresh===true);
 
 // ---------- SKIM = required reading ----------
 function renderSkim(){
@@ -220,9 +304,9 @@ function renderSkim(){
   document.getElementById("skim").innerHTML = `
     <div class="bignum"><span class="n">${health}<span style="font-size:.5em">%</span></span><span class="l">of ${total} load-bearing nodes are <b style="color:var(--live)">live</b> and hold against the repo. ${c.DRIFTED} drifted &middot; ${c.STALE} stale.</span></div>
     <div class="hbar">${track(c,total)}</div><div class="hleg">${leg}</div>
-    <div class="rr-h">Required reading &middot; foundational <small>read to understand the world &mdash; required by canon, not by link-count</small></div>
+    <div class="rr-h">Required reading &middot; foundational <small>read to understand the world: required by canon, not by link-count</small></div>
     <div class="rr">${foundRows}</div>
-    <div class="rr-h">Required reading &middot; load-bearing <small>read to do the work &mdash; ranked by how often the corpus leans on it, live only</small></div>
+    <div class="rr-h">Required reading &middot; load-bearing <small>read to do the work: ranked by how often the corpus leans on it, live only</small></div>
     <div class="rr">${rows}</div>
     ${drift.length?`<div class="attn"><b>Needs attention:</b> ${drift.length} claim${drift.length!=1?"s have":" has"} drifted from the record. ${esc((drift[0]||{}).title||"")}${drift.length>1?`, +${drift.length-1} more`:""}.</div>`:""}
     <div class="jump">Go deeper: <a onclick="setAlt('scan')">the informatics &rarr;</a> &middot; <a onclick="setAlt('trenches')">every node &rarr;</a></div>`;
@@ -232,16 +316,40 @@ function renderSkim(){
 function renderScan(){
   const dm = domains(), total = NODES.length, c = aggcounts(NODES);
   const bars = Object.keys(dm).sort((a,b)=>dm[b].length-dm[a].length).map(d=>{
-    const nodes=dm[d], cc=aggcounts(nodes);
+    const nodes=dm[d].filter(n=>!F.epoch||n.epoch===F.epoch), cc=aggcounts(nodes); if(!nodes.length) return "";
     return `<div class="dbar ${F.domain===d?'sel':''}" onclick="toggleDomain('${esc(d)}')">
       <span class="dname">${esc(d)}</span><div class="track">${track(cc,nodes.length)}</div><span class="dtot">${nodes.length}</span></div>`;
   }).join("");
   const leg = AGG.filter(b=>c[b]).map(b=>`<span class="it ${F.bucket&&F.bucket!==b?'off':''}" onclick="toggleBucket('${b}')"><span class="sw" style="background:${ABI[b].c}"></span>${ABI[b].label} <b>${c[b]}</b></span>`).join("");
-  const active = F.domain||F.bucket;
+  const active = F.domain||F.bucket||F.epoch;
+  // epoch x status: rows are months; composes with the domain filter (bars show the filtered domain)
+  const em = epochs(), ek = epochKeys(em);
+  const ebars = ek.map(e=>{
+    const nodes = em[e].filter(n=>!F.domain||n.domain===F.domain); if(!nodes.length&&F.epoch!==e) return "";
+    const cc=aggcounts(nodes);
+    return `<div class="ebar ${F.epoch===e?'sel':''}" onclick="toggleEpoch('${esc(e)}')">
+      <span class="ename">${esc(e)}</span><div class="track">${track(cc,nodes.length)}</div><span class="etot">${nodes.length}</span></div>`;
+  }).join("");
+  // freshness readout: one dated line per (domain, epoch) slice; a measurement, not a status pill
+  const dk = Object.keys(dm).sort().filter(d=>!F.domain||d===F.domain);
+  // a row for every epoch the manifest actually grades (undated included when a slice exists)
+  const fk = ek.filter(e=>(!F.epoch||e===F.epoch)&&(e!=="undated"||dk.some(d=>slice(d,e))));
+  let fresh;
+  if(!MAN){ fresh = `<div class="fnote">freshness unknown &middot; no cache-manifest.json at render time</div>`; }
+  else if(!fk.length){ fresh = `<div class="fnote">${F.epoch?esc(F.epoch)+" nodes carry no graded slice":"no graded slices"}</div>`; }
+  else {
+    fresh = `<table><tr><th>epoch</th>${dk.map(d=>`<th>${esc(d)}</th>`).join("")}</tr>` +
+      fk.map(e=>`<tr><td>${esc(e)}</td>${dk.map(d=>`<td>${em[e].some(n=>n.domain===d)?freshStamp(slice(d,e)):`<span class="fs-na">&middot;</span>`}</td>`).join("")}</tr>`).join("") +
+      `</table><div class="fnote">manifest ${esc(MAN.generated)} &middot; head ${esc(MAN.repo_head)} &middot; dirty = files in the slice scope changed since it was graded</div>`;
+  }
   document.getElementById("scan").innerHTML = `
     <div class="sech"><span>Nodes by domain &times; status &middot; click a bar to filter</span>${active?`<span class="clr" onclick="clearF()">clear filter</span>`:""}</div>
     <div class="dbars">${bars}</div>
     <div class="leg">${leg}</div>
+    <div class="sech"><span>Nodes by epoch &times; status${F.domain?` &middot; ${esc(F.domain)}`:""}${F.epoch?` &middot; ${esc(F.epoch)}`:""} &middot; click a month to filter</span></div>
+    <div class="ebars">${ebars}</div>
+    <div class="sech"><span>Freshness by slice &middot; domain &times; epoch</span></div>
+    <div class="fresh">${fresh}</div>
     <div class="jump"><a onclick="setAlt('trenches')">Open the Trenches${active?" (filtered)":""} &rarr;</a></div>`;
 }
 
@@ -259,11 +367,12 @@ function renderTrenches(){
       out += `<div class="node" data-nid="${esc(n.id)}" id="N_${nid}">
         <div class="nh">
           <span class="sd" style="background:${s.c}"></span>
-          <div class="nt" onclick="this.closest('.node').classList.toggle('open')"><div class="ntitle">${esc(n.title)}</div><div class="nclaim">${esc(n.claim)}</div></div>
+          <div class="nt" onclick="this.closest('.node').classList.toggle('open')"><div class="ntitle">${esc(n.title)}<span class="rd">${esc(n.epoch)}</span></div><div class="nclaim">${esc(n.claim)}</div></div>
           <span class="st" style="color:${s.c};border:1px solid ${s.c}">${esc(s.label)}</span>
           <button class="exp" title="Export this node as a self-contained bundle" onclick="exportNode('${esc(n.id)}','${nid}')">&#8595;</button>
         </div>
         <div class="body">
+          <div class="row"><b>Slice</b>${esc(n.domain)} / ${esc(n.epoch)} &middot; ${freshStamp(slice(n.domain,n.epoch))}</div>
           ${n.note?`<div class="row"><b>Note</b>${esc(n.note)}</div>`:""}
           ${n.provenance?`<div class="row"><b>Source</b>${esc(n.provenance)}</div>`:""}
           ${links?`<div class="row"><b>Links</b>${links}</div>`:""}
@@ -271,7 +380,7 @@ function renderTrenches(){
     });
     out += `</div>`;
   }));
-  const active = F.domain||F.bucket||F.q;
+  const active = F.domain||F.bucket||F.epoch||F.q;
   document.getElementById("trenches").innerHTML = `
     <div class="tbar"><input id="q" placeholder="search claims, titles, provenance..." value="${esc(F.q)}">
       <span class="cnt">${rows.length} / ${NODES.length} nodes</span>${active?`<span class="clr" onclick="clearF()">clear</span>`:""}</div>
@@ -300,12 +409,12 @@ h1{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-b
 .lk{display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 9px;margin:2px 5px 0 0;color:var(--fg3);font-size:11px;font-family:var(--mono)}
 .foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--fg4);line-height:1.7}</style></head>
 <body><div class="eb">&#9670; ARCS Almanac &middot; one node</div>
-<div class="meta">${esc(n.domain)} / ${esc(n.cluster)}</div><h1>${esc(n.title)}</h1><span class="pill">${esc(s.label)}</span>
+<div class="meta">${esc(n.domain)} / ${esc(n.cluster)} &middot; ${esc(n.epoch)}</div><h1>${esc(n.title)}</h1><span class="pill">${esc(s.label)}</span>
 <p class="claim">${esc(n.claim)}</p>
 ${n.note?`<div class="card"><b>Note</b><div class="v">${esc(n.note)}</div></div>`:""}
 ${n.provenance?`<div class="card"><b>Source</b><div class="v">${esc(n.provenance)}</div></div>`:""}
 ${links?`<div class="card"><b>Links</b><div class="v">${links}</div></div>`:""}
-<div class="foot">Exported from the ARCS Almanac (${esc(META.generated)}). A graded snapshot, not live. Internal &mdash; keep local.</div></body></html>`;
+<div class="foot">Exported from the ARCS Almanac (${esc(META.generated)}). Slice ${esc(n.domain)} / ${esc(n.epoch)}: ${esc(freshText(slice(n.domain,n.epoch)))}. A graded snapshot, not live. Internal: keep local.</div></body></html>`;
   try{
     const blob = new Blob([doc], {type:"text/html"});
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
@@ -327,7 +436,8 @@ function setAlt(a){
 function jumpTo(id){ setAlt("trenches"); const el=document.querySelector(`.node[data-nid="${CSS.escape(id)}"]`); if(el){ el.classList.add("open"); el.scrollIntoView({block:"center"}); el.style.transition="box-shadow .2s"; el.style.boxShadow="0 0 0 1px var(--cyan)"; setTimeout(()=>el.style.boxShadow="",1400);} }
 function toggleDomain(d){ F.domain=F.domain===d?null:d; renderScan(); }
 function toggleBucket(b){ F.bucket=F.bucket===b?null:b; renderScan(); }
-function clearF(){ F={domain:null,bucket:null,q:""}; renderScan(); if(!document.getElementById("trenches").hidden) renderTrenches(); }
+function toggleEpoch(e){ F.epoch=F.epoch===e?null:e; renderScan(); }
+function clearF(){ F={domain:null,bucket:null,epoch:null,q:""}; renderScan(); if(!document.getElementById("trenches").hidden) renderTrenches(); }
 document.querySelectorAll("#alt button").forEach(b=>b.addEventListener("click",()=>setAlt(b.dataset.alt)));
 renderSkim();
 </script>
@@ -341,12 +451,21 @@ def render(nodes, meta):
     drift = sum(1 for n in nodes if n["status"] == "DRIFTED")
     stale = sum(1 for n in nodes if n["status"] == "STALE")
     doms = sorted({n["domain"] for n in nodes})
-    sub = (f"{len(nodes)} nodes &middot; {len(doms)} domains &middot; {live} live &middot; "
-           f"{drift} drifted &middot; {stale} stale &middot; graded {meta['generated']}")
-    foot = ("The Almanac &mdash; the graded, dated state of the corpus, read through the Reader at three "
+    eps = sorted(e for e in {n["epoch"] for n in nodes} if e != "undated")
+    span = f"{eps[0]} to {eps[-1]}" if eps else "undated"
+    man = meta.get("manifest")
+    if man and man["slices"]:
+        graded = max(v.get("graded_at") or "" for v in man["slices"].values()) or "unknown"
+        not_fresh = sum(1 for v in man["slices"].values() if v.get("fresh") is not True)
+        fresh_note = f"graded {graded} &middot; {not_fresh} slices not fresh"
+    else:
+        fresh_note = "graded unknown &middot; freshness unknown"
+    sub = (f"{len(nodes)} nodes &middot; {len(doms)} domains &middot; {span} &middot; {live} live &middot; "
+           f"{drift} drifted &middot; {stale} stale &middot; rendered {meta['generated']} &middot; {fresh_note}")
+    foot = ("The Almanac: the graded, dated state of the corpus, read through the Reader at three "
             "altitudes. A snapshot, not live: statuses graded against the repo at render time; re-run the "
             "auditors to refresh. Required reading is ranked by reference-density (in-degree), live only. "
-            "Internal research &mdash; render local, never a public host. scripts/research_render.py.")
+            "Internal research: render local, never a public host. scripts/research_render.py.")
     return (TEMPLATE
             .replace("__TITLE__", html.escape(meta["title"]))
             .replace("__EYEBROW__", html.escape(meta["eyebrow"]))
@@ -372,7 +491,10 @@ def main():
         "h1": "The state of what ARCS knows",
         "generated": datetime.date.today().isoformat(),
         "sources": [os.path.basename(d) for d in digests],
+        "manifest": load_manifest(),
     }
+    if meta["manifest"] is None:
+        print("  no cache-manifest.json; freshness unknown", file=sys.stderr)
     open(out_path, "w", encoding="utf-8").write(render(nodes, meta))
     print(f"rendered {len(nodes)} nodes -> {out_path}")
 
