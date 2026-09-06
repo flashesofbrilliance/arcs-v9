@@ -61,7 +61,7 @@ doesn't ground on a re-read. The open-loops backlog is the honest close: parked,
   **deceipt #13** (my "only audit-translator references operators" — `audit-client.ts` also does; both
   dead code, load-bearing claim holds).
 - **#4 outcome-grep: reclassified, not blocked.** **Deceipt #12** — I mislabeled it "DB-blocked"; it ran
-  via MCP (247/247 horizon, 88 one-way, 2 outcomes). Real gate = judgment/PII (classify outcome-
+  via MCP (247/247 window [NOT horizon — see deceipt #14], 88 ONE_WAY doorClass, 2 outcomes). Real gate = judgment/PII (classify outcome-
   observability from decision content), not DB.
 - **Deceipt ledger now 13** (was 11). Two caught *by driving the loops* — mislabels I'd have carried forward.
 - **The one un-closed strand:** the DB claims (247/189/6-of-9-degenerate) are MCP-verified *by me*, NOT
