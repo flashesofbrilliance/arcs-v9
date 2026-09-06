@@ -1,0 +1,71 @@
+name: preview-db-migrate
+
+# ADR-006 (Supabase Branching for preview DBs) — repo-side half, activated 2026-09-06.
+#
+# Two jobs, zero LLM:
+#   migrate-dryrun  every PR: apply the FULL prisma/migrations chain to a throwaway Postgres
+#                   service container. A migration that cannot apply from zero, or that drifts
+#                   from schema.prisma, fails the PR here — never against production. This is
+#                   the guard ADR-006's Loki test asks for, and it costs nothing.
+#   migrate-preview only when the PREVIEW_DATABASE_URL secret is set: `prisma migrate deploy`
+#                   against that database (a Supabase branch DB, or a shared staging DB).
+#                   Supabase Branching creates the per-PR branch and injects DATABASE_URL into
+#                   the Vercel preview; this job is what brings the branch's schema up to the
+#                   PR's migrations, since Prisma (not supabase/migrations) owns the DDL here.
+on:
+  pull_request:
+    paths:
+      - "prisma/**"
+      - ".github/workflows/preview-db-migrate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  migrate-dryrun:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: arcs
+          POSTGRES_PASSWORD: arcs
+          POSTGRES_DB: arcs
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U arcs" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://arcs:arcs@localhost:5432/arcs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Apply full migration chain from zero
+        run: npx prisma migrate deploy
+      - name: Schema drift check (migrations ⇔ schema.prisma)
+        # exit 2 = drift detected; anything else is a hard error
+        run: npx prisma migrate diff --from-migrations prisma/migrations --to-schema-datamodel prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
+
+  migrate-preview:
+    needs: migrate-dryrun
+    runs-on: ubuntu-latest
+    # `if` cannot read secrets directly; the step below exits early when the secret is unset.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Deploy migrations to the preview database (if configured)
+        env:
+          DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "PREVIEW_DATABASE_URL not set — skipping (enable Supabase Branching + set the secret to activate)."
+            exit 0
+          fi
+          npx prisma migrate deploy
