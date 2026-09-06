@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-09-06T00:00:00Z",
+  "captured_at": "2026-09-06T00:35:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md — GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "80c01e3",
-    "head_message": "ci(db): ADR-006 preview-db-migrate workflow (branch claude/open-loops-handoff-cvgjxd, unmerged; main = efd2a13)",
+    "head_sha": "1eb6705",
+    "head_message": "Open loops: integrity gate (Phase 0), Tribune layer (ADR-020), preview-db CI (ADR-006) (#297) — squash-merged to main",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -52,9 +52,9 @@
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
   "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "session_summary": "Open-loops session: integrity gate (Phase 0) built + hooked warn-then-block; ADR-020 Tribune steps 1-2 (/api/tribune, model, migration); ADR-006 CI half (preview-db-migrate). Branch unmerged.",
-  "next_action": "Open + merge the PR for claude/open-loops-handoff-cvgjxd; Zach: enable Supabase Branching on the live ref + set PREVIEW_DATABASE_URL; then Tribune UI panel and the Desk gauntlet.",
-  "blocking": "ADR-006 dashboard half = recurring spend, Zach confirms price + enables Branching.",
+  "session_summary": "Open-loops session, MERGED (#297): integrity gate built + hooked warn-then-block; ADR-020 Tribune steps 1-2+6 (/api/tribune, model, migration, receipt panel); ADR-006 CI half (schema-dryrun on db push; migrate-deploy debt reopened as PENDING 007); Desk brief v1.1 gauntleted + kintsugi.",
+  "next_action": "Zach: (1) Desk brief §7 three decisions (route name / freshness placement / Codex scope); (2) Supabase Branching on live ref + PREVIEW_DATABASE_URL secret; (3) PENDING 007 re-baseline call. Claude: smoke one real receipt Tribune on prod; flip INTEGRITY_GATE_BLOCK after a clean week.",
+  "blocking": "Desk build blocked on the three §7 operator decisions; ADR-006 dashboard half = recurring spend.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
