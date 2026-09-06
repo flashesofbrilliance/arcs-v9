@@ -17,7 +17,7 @@ Concordance / Chronicle / Lexicon are just views over cached slices through one 
 ```
 Phase 0  integrity gate          (pulled forward: ~1 hr, zero judgment, protects every later write)
 Phase 1  the spine               Desk + Reader + cache        (~10 hrs, the expensive part)
-Phase 2  the tenants             Concordance -> Chronicle -> Lexicon   (~1–2 hrs each)
+Phase 2  the tenants             Concordance -> Chronicle -> Babelfish   (~1–2 hrs each)
 Phase 3  the router (full)       routing manifest + triggers + judgment queue
 Phase 4  federated design pass + public-projection pipeline
 ```
@@ -49,10 +49,10 @@ Correctness outranks budget at every row. A cheaper tier never touches auth, mon
 | **0 Integrity gate** | `scripts/integrity_gate.py <file>`: cited ADRs / commits / scripts exist on `origin/main`; wire into pre-commit as a warn-then-block | 1 | ~1 day | ~8× | script + inline; batch the git checks | catches a planted cite to an unmerged commit; zero false positives on the 5 known-bad memories' *fixed* versions |
 | **1a Reader** | `research_render.py` hardened: epoch axis, two-shelf Skim (done), per-row export (done), a freshness badge per slice from the manifest | 2 | ~1 wk | ~15× | inline (we iterate on it); mechanical render on a cheap tier | all 3 altitudes verified at 4 widths; export round-trips |
 | **1b Cache** | `cache-manifest.json` emitted by the render; freshness = `git diff --name-only <sha> HEAD` ∩ scope-globs; lazy back-prop as a targeted Curator run on one `(domain, epoch)` | 2–3 | ~1 wk | ~12× | script; back-prop delegated per slice to a cheaper-tier Curator | a dirty slice re-grades on read; a fresh one does not re-audit |
-| **1c Desk** | admin-gated `app.arcs.care/library` route (reuse the `/recoil` Auth.js + `ADMIN_EMAILS` fail-closed gate), the intent router ("what are you here to do?"), the federated grammar, Almanac wired as tenant #1 | 3–5 | ~2 wk | ~14× | design judgment inline at strong tier; gauntlet + persona runs delegated | passes the full design gauntlet (§1) *before* build; gated route resolves only for admin email |
+| **1c Desk** | admin-gated `app.arcs.care/reading-room` route (decided 2026-09-06) (reuse the `/recoil` Auth.js + `ADMIN_EMAILS` fail-closed gate), the intent router ("what are you here to do?"), the federated grammar, Almanac wired as tenant #1 | 3–5 | ~2 wk | ~14× | design judgment inline at strong tier; gauntlet + persona runs delegated | passes the full design gauntlet (§1) *before* build; gated route resolves only for admin email |
 | **2a Concordance** | concept → every node/ADR/memory/handoff that references it; a view over the existing in-degree graph through the Reader grammar | 1–2 | ~3 days | ~12× | inline; data already computed | pick any concept, see all references, click-through |
 | **2b Chronicle** | the temporal arc Day-0 → now: epoch-tagged nodes + git-history epochs (status.arcs.care's raw material) as a library citizen | 2–3 | ~1 wk | ~12× | inline render; git-epoch extraction mechanical | scrub Apr → Sep; per-epoch health |
-| **2c Lexicon** | the controlled vocabulary (DEWY, Y-gate, ROM, Tao, status ladder) as a browsable glossary; a term-harvester (NET-NEW, small) + the Reader for display | 2–4 | ~1 wk | ~10× | harvester delegated; definitions judgment inline | a newcomer can look up any canon term |
+| **2c Babelfish** (was Lexicon; renamed 2026-09-06) | the controlled vocabulary (DEWY, Y-gate, ROM, Tao, status ladder) as a browsable glossary; a term-harvester (NET-NEW, small) + the Reader for display | 2–4 | ~1 wk | ~10× | harvester delegated; definitions judgment inline | a newcomer can look up any canon term |
 | **3 Router (full)** | routing manifest as data + `metabolize` script (mechanical column auto, judgment column → queue) + triggers (post-commit cheap path, night-moves batch, /witness, /handoff) + queue folded into `/canon-review` | 4–8 | ~2 wk | ~10× | script; judgment queue stays human | one record routes to every organ with zero carrying; nothing auto-promotes to canon |
 | **4 Federate + project** | unify the sibling surfaces under the Desk grammar; NFTT/brief as lawful air-gapped projections of private originals | 4–7 | ~2 wk | ~10× | gauntlets delegated; copy inline | every public surface has a named private twin; leak-check 0 |
 
