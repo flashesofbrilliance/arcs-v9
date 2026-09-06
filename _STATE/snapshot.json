@@ -67,7 +67,7 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs. STALE 2026-09-06: integrity_gate found 9 call_briefs entries whose public/*.html no longer exist on main (labella, peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview) — prune on next refresh.",
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs. Pruned 9 retired entries on 2026-09-06 via scripts/snapshot_prune_ui_artifacts.py.",
     "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
@@ -82,11 +82,6 @@
         "person": "Ahmed Elsamadisi — EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
       },
       {
-        "file": "public/labella.html",
-        "subdomain": "labella.arcs.care",
-        "person": "Steve LaBella / Tallin"
-      },
-      {
         "file": "public/julia.html",
         "subdomain": "julia.arcs.care",
         "person": "Julia Trabulski"
@@ -97,54 +92,14 @@
         "person": "Julia Trabulski (sanitized external)"
       },
       {
-        "file": "public/cj-brief.html",
-        "subdomain": "cj-brief.arcs.care",
-        "person": "CJ Masopust / Fanatics"
-      },
-      {
-        "file": "public/chase-intro.html",
-        "subdomain": "chase-intro.arcs.care",
-        "person": "Chase intro"
-      },
-      {
-        "file": "public/chris-intro.html",
-        "subdomain": "chris.arcs.care",
-        "person": "Chris Lamontagne (alias: chris-intro.arcs.care)"
-      },
-      {
-        "file": "public/kelly-interview.html",
-        "subdomain": "kelly-interview.arcs.care",
-        "person": "Kelly Mullaney / Juniper Square"
-      },
-      {
         "file": "public/todd-call.html",
         "subdomain": "todd-call.arcs.care",
         "person": "Todd Hotes / PRL Resins"
       },
       {
-        "file": "public/peter.html",
-        "subdomain": "peter.arcs.care",
-        "person": "Peter"
-      },
-      {
         "file": "public/vishal-combined.html",
         "subdomain": "vishal.arcs.care",
         "person": "Vishal"
-      },
-      {
-        "file": "public/growth-intel.html",
-        "subdomain": "growth-intel.arcs.care",
-        "person": "Growth Intel"
-      },
-      {
-        "file": "public/fanatics.html",
-        "subdomain": "fanatics.arcs.care",
-        "person": "CJ Masopust / Fanatics (fanatics go-bag)"
-      },
-      {
-        "file": "public/token.html",
-        "subdomain": "token.arcs.care",
-        "person": "Token"
       }
     ],
     "product_status_pages": [
@@ -186,7 +141,54 @@
         "cj-pre-meeting-brief.html",
         "chase-intro.html"
       ]
-    }
+    },
+    "pruned": [
+      {
+        "file": "public/labella.html",
+        "subdomain": "labella.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/cj-brief.html",
+        "subdomain": "cj-brief.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/chase-intro.html",
+        "subdomain": "chase-intro.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/chris-intro.html",
+        "subdomain": "chris.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/kelly-interview.html",
+        "subdomain": "kelly-interview.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/peter.html",
+        "subdomain": "peter.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/growth-intel.html",
+        "subdomain": "growth-intel.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/fanatics.html",
+        "subdomain": "fanatics.arcs.care",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "file": "public/token.html",
+        "subdomain": "token.arcs.care",
+        "pruned_at": "2026-09-06"
+      }
+    ]
   },
   "git_refreshed_at": "2026-09-03T02:03:00Z",
   "open_source": {

@@ -110,7 +110,8 @@ export async function POST(req: NextRequest) {
   })
   const delta = nciDelta(seed?.nciScore, receipt.nciScore)
   const tier = riskTierOf(receipt)
-  const drift = receipt.flowTopology === "LOOPING" ? "LOOPING" : null // ygate driftState is not persisted on Receipt yet; topology is the persisted proxy
+  // Drift Sentinel state is persisted on Receipt by the compass write (ygate.driftState); topology is the fallback for pre-schema rows.
+  const drift = receipt.driftState ?? (receipt.flowTopology === "LOOPING" ? "LOOPING" : null)
   const court = courtInvoked(receipt, tier)
 
   // Proactive silence gate: below threshold the Tribune stays silent and persists nothing.

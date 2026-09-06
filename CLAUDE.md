@@ -142,9 +142,12 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
    the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
 2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
    `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
-3. **Tribune step 6:** panel on receipt detail (SIMPLE = 1 line/phase); persist `driftState` on Receipt
-   (topology is the proxy today); fire Posterior from the Outcome handler when it exists.
-4. **Snapshot hygiene:** prune the 9 retired briefs from `ui_artifacts`; refresh `git.head_sha` after merge.
+3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
+   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
+   smoke one real receipt on prod after merge.
+4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
+   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
+   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
 5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
    orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
 6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
