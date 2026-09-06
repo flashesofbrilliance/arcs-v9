@@ -8,7 +8,7 @@ brief. Found necessary 2026-09-06 when integrity_gate flagged 9 retired public/*
     python3 scripts/snapshot_prune_ui_artifacts.py            # apply
     python3 scripts/snapshot_prune_ui_artifacts.py --dry-run  # report only
 """
-import json, subprocess, sys
+import json, os, subprocess, sys
 from datetime import datetime, timezone
 
 SNAP = "_STATE/snapshot.json"
@@ -29,6 +29,8 @@ if not pruned:
 elif not dry:
     ui["_note"] = (ui.get("_note", "").split(" STALE ")[0].strip()
                    + f" Pruned {len(pruned)} retired entries on {datetime.now(timezone.utc).date()} via scripts/snapshot_prune_ui_artifacts.py.")
-    ui["pruned"] = ui.get("pruned", []) + [{"file": r.get("file"), "subdomain": r.get("subdomain"), "pruned_at": str(datetime.now(timezone.utc).date())} for r in pruned]
+    # Ledger by subdomain + basename only — never the repo path, or the ledger itself becomes a
+    # vapor cite that integrity_gate.py rightly flags forever.
+    ui["pruned"] = ui.get("pruned", []) + [{"subdomain": r.get("subdomain"), "was": os.path.basename(r.get("file", "")), "pruned_at": str(datetime.now(timezone.utc).date())} for r in pruned]
     json.dump(snap, open(SNAP, "w"), indent=2, ensure_ascii=False); open(SNAP, "a").write("\n")
     print(f"wrote {SNAP}")
