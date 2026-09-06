@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-09-05T01:30:30Z",
+  "captured_at": "2026-09-06T00:00:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md — GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "d794a593",
-    "head_message": "Merge pull request #281 (linkedin-alerts-scraper); this handoff commit follows",
+    "head_sha": "80c01e3",
+    "head_message": "ci(db): ADR-006 preview-db-migrate workflow (branch claude/open-loops-handoff-cvgjxd, unmerged; main = efd2a13)",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -52,9 +52,9 @@
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
   "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "session_summary": "Built the Almanac (3-altitude Reader over 264 full-temporal nodes), minted ADR-075 the Metabolic Router from a live witness, locked the spine-first Reading Room build plan; shipped growth-ai family + gated recruithaus ammo + Blacksmith polish.",
-  "next_action": "Build Phase 0 integrity_gate.py, then take the Desk shape brief through polish -> dual-bar-raiser -> brand gauntlet -> kintsugi before building /library.",
-  "blocking": "NONE",
+  "session_summary": "Open-loops session: integrity gate (Phase 0) built + hooked warn-then-block; ADR-020 Tribune steps 1-2 (/api/tribune, model, migration); ADR-006 CI half (preview-db-migrate). Branch unmerged.",
+  "next_action": "Open + merge the PR for claude/open-loops-handoff-cvgjxd; Zach: enable Supabase Branching on the live ref + set PREVIEW_DATABASE_URL; then Tribune UI panel and the Desk gauntlet.",
+  "blocking": "ADR-006 dashboard half = recurring spend, Zach confirms price + enables Branching.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -67,7 +67,7 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs. Pruned 9 retired entries on 2026-09-06 via scripts/snapshot_prune_ui_artifacts.py.",
     "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
@@ -82,11 +82,6 @@
         "person": "Ahmed Elsamadisi — EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
       },
       {
-        "file": "public/labella.html",
-        "subdomain": "labella.arcs.care",
-        "person": "Steve LaBella / Tallin"
-      },
-      {
         "file": "public/julia.html",
         "subdomain": "julia.arcs.care",
         "person": "Julia Trabulski"
@@ -97,54 +92,14 @@
         "person": "Julia Trabulski (sanitized external)"
       },
       {
-        "file": "public/cj-brief.html",
-        "subdomain": "cj-brief.arcs.care",
-        "person": "CJ Masopust / Fanatics"
-      },
-      {
-        "file": "public/chase-intro.html",
-        "subdomain": "chase-intro.arcs.care",
-        "person": "Chase intro"
-      },
-      {
-        "file": "public/chris-intro.html",
-        "subdomain": "chris.arcs.care",
-        "person": "Chris Lamontagne (alias: chris-intro.arcs.care)"
-      },
-      {
-        "file": "public/kelly-interview.html",
-        "subdomain": "kelly-interview.arcs.care",
-        "person": "Kelly Mullaney / Juniper Square"
-      },
-      {
         "file": "public/todd-call.html",
         "subdomain": "todd-call.arcs.care",
         "person": "Todd Hotes / PRL Resins"
       },
       {
-        "file": "public/peter.html",
-        "subdomain": "peter.arcs.care",
-        "person": "Peter"
-      },
-      {
         "file": "public/vishal-combined.html",
         "subdomain": "vishal.arcs.care",
         "person": "Vishal"
-      },
-      {
-        "file": "public/growth-intel.html",
-        "subdomain": "growth-intel.arcs.care",
-        "person": "Growth Intel"
-      },
-      {
-        "file": "public/fanatics.html",
-        "subdomain": "fanatics.arcs.care",
-        "person": "CJ Masopust / Fanatics (fanatics go-bag)"
-      },
-      {
-        "file": "public/token.html",
-        "subdomain": "token.arcs.care",
-        "person": "Token"
       }
     ],
     "product_status_pages": [
@@ -186,7 +141,54 @@
         "cj-pre-meeting-brief.html",
         "chase-intro.html"
       ]
-    }
+    },
+    "pruned": [
+      {
+        "subdomain": "labella.arcs.care",
+        "was": "labella.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "cj-brief.arcs.care",
+        "was": "cj-brief.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "chase-intro.arcs.care",
+        "was": "chase-intro.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "chris.arcs.care",
+        "was": "chris-intro.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "kelly-interview.arcs.care",
+        "was": "kelly-interview.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "peter.arcs.care",
+        "was": "peter.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "growth-intel.arcs.care",
+        "was": "growth-intel.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "fanatics.arcs.care",
+        "was": "fanatics.html",
+        "pruned_at": "2026-09-06"
+      },
+      {
+        "subdomain": "token.arcs.care",
+        "was": "token.html",
+        "pruned_at": "2026-09-06"
+      }
+    ]
   },
   "git_refreshed_at": "2026-09-03T02:03:00Z",
   "open_source": {

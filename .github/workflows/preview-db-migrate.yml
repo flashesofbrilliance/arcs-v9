@@ -1,0 +1,80 @@
+name: preview-db-migrate
+
+# ADR-006 (Supabase Branching for preview DBs) — repo-side half, activated 2026-09-06.
+#
+# Two jobs, zero LLM:
+#   schema-dryrun   every PR touching prisma/**: `prisma db push` from zero on a throwaway
+#                   Postgres 17, then `migrate diff --exit-code` to prove the pushed DB equals
+#                   schema.prisma. This is the path production actually uses (ADR-007: db push;
+#                   ci.yml applies the same way before smoke). A schema that cannot apply from
+#                   zero fails here, never against production.
+#   migrate-preview only when the PREVIEW_DATABASE_URL secret is set: `prisma db push` against
+#                   that database (a Supabase branch DB, or a shared staging DB). Supabase
+#                   Branching creates the per-PR branch and injects DATABASE_URL into the Vercel
+#                   preview; this job brings the branch's schema up to the PR's schema.prisma.
+#
+# KNOWN DEBT (surfaced by this job's first run, 2026-09-06, PR #297): prisma/migrations is a
+# DDL receipt log, not an applicable chain — migration_lock.toml still says `sqlite`, and the
+# April-2026 migrations are SQLite dialect, so `prisma migrate deploy` fails with P3019 from
+# zero. ADR-007's revisit trigger ("first post-launch schema change -> migrate deploy
+# mandatory") fired long ago and was never honored. Re-baselining history is destructive and
+# is Zach's call: see _QUEUE/PENDING.md row 007. Until then this job tests db push, not deploy.
+on:
+  pull_request:
+    paths:
+      - "prisma/**"
+      - ".github/workflows/preview-db-migrate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  schema-dryrun:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: arcs
+          POSTGRES_PASSWORD: arcs
+          POSTGRES_DB: arcs
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U arcs" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://arcs:arcs@localhost:5432/arcs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Validate schema
+        run: npx prisma validate
+      - name: Apply schema from zero (production path, ADR-007)
+        run: npx prisma db push
+      - name: Pushed DB must equal schema.prisma
+        # exit 2 = drift detected; anything else is a hard error
+        run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+
+  migrate-preview:
+    needs: schema-dryrun
+    runs-on: ubuntu-latest
+    # `if` cannot read secrets directly; the step below exits early when the secret is unset.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Push schema to the preview database (if configured)
+        env:
+          DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "PREVIEW_DATABASE_URL not set — skipping (enable Supabase Branching + set the secret to activate)."
+            exit 0
+          fi
+          npx prisma db push

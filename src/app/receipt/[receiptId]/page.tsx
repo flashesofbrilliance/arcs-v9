@@ -10,6 +10,7 @@ import { Button } from "@/ui/Button"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
 import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
+import { TribunePanel } from "@/molecules/TribunePanel"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult } from "@/lib/mockCompass"
@@ -260,6 +261,13 @@ export default function ReceiptPage() {
               }}
             />
           </div>
+
+          {/* Tribune — ADR-020: three-phase annotation, owner-only, persisted receipts only */}
+          {!isEphemeral && (
+            <div style={{ marginBottom: "2rem" }}>
+              <TribunePanel receiptId={receipt.id} />
+            </div>
+          )}
 
           {/* Why bullets */}
           {why.length > 0 && (

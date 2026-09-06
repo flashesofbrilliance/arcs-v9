@@ -189,6 +189,9 @@ model Receipt {
   brief          Brief?
   guide          PrepGuide?
   sageTrace      SageTrace? // invisible — never `include`d by client-facing routes; query directly for the efficacy study
+  tribunes       Tribune[]  @relation("tribuneReceipt") // ADR-020: up to 3 rows (anterior/proactive/posterior); annotates, never mutates
+  batonId        String?    // ADR-020: forward chain link — the successor receipt this one hands the baton to (nullable, additive)
+  batonTribunes  Tribune[]  @relation("tribuneBaton")
 
   createdAt      DateTime         @default(now())
   reviewDate     DateTime?
@@ -335,6 +338,36 @@ model Outcome {
   regretScore Int
   learning    String?
   loggedAt    DateTime @default(now())
+}
+
+// ── ADR-020 Tribune Intelligence Layer ─────────────────────────────────────
+// Three-phase annotation (ANTERIOR pre-mortem / PROACTIVE kinematic / POSTERIOR
+// post-mortem) that WRAPS a Receipt. The Receipt stays the sealed canonical
+// object (ADR-019); a Tribune row is commentary with a FK, never a mutation.
+// Proactive is silent below threshold: risk tier RUIN, drift ≥ DERAILMENT, or
+// |NCI delta| > 15 within the session (src/lib/tribune.ts shouldSpeak).
+// JSON columns are TEXT (house rule: JSON.stringify/parse at the boundary).
+model Tribune {
+  id           String   @id @default(cuid())
+  receiptId    String
+  receipt      Receipt  @relation("tribuneReceipt", fields: [receiptId], references: [id], onDelete: Cascade)
+  phase        String   // anterior | proactive | posterior
+  riskTier     String?  // baseline | asymmetric | ruin  (ADR-020 "evidence bar tier" = risk-tier enum, not BAR macro)
+  labResult    String?  // JSON: {loki, advisors, bayesian}
+  courtInvoked Boolean  @default(false)
+  driftState   String?  // from Drift Sentinel via ygate: ON_TRACK | DRIFTING | LOCKED | LANDED (+ DERAILMENT when wired)
+  nciDelta     Float?   // NCI at open vs. at decision point (session-scoped)
+  clarityMode  String   @default("SIMPLE") // SIMPLE | RICH | DEEP
+  batonId      String?  // forward chain link to the successor receipt
+  baton        Receipt? @relation("tribuneBaton", fields: [batonId], references: [id])
+  boardVotes   String?  // JSON: {detective, accountant, loki, sentry, alchemist, elder} -> green|red
+  content      String   // JSON: phase-specific generated content (see src/lib/tribune.ts TribuneContent)
+  model        String?  // which model generated it (observability; never exposed as authority)
+  createdAt    DateTime @default(now())
+
+  @@unique([receiptId, phase]) // one row per phase per receipt; regenerate = upsert
+  @@index([receiptId])
+  @@index([batonId])
 }
 
 model Account {
