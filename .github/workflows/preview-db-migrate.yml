@@ -53,7 +53,7 @@ jobs:
       - name: Validate schema
         run: npx prisma validate
       - name: Apply schema from zero (production path, ADR-007)
-        run: npx prisma db push --skip-generate
+        run: npx prisma db push
       - name: Pushed DB must equal schema.prisma
         # exit 2 = drift detected; anything else is a hard error
         run: npx prisma migrate diff --from-url "$DATABASE_URL" --to-schema-datamodel prisma/schema.prisma --exit-code
@@ -77,4 +77,4 @@ jobs:
             echo "PREVIEW_DATABASE_URL not set — skipping (enable Supabase Branching + set the secret to activate)."
             exit 0
           fi
-          npx prisma db push --skip-generate
+          npx prisma db push
