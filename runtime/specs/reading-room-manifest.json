@@ -17,7 +17,9 @@
       "tenant": "concordance",
       "question": "where does this idea show up?",
       "work": "Concordance",
-      "built": false,
+      "built": true,
+      "frame": "/api/reading-room/concordance",
+      "render": "_ARTIFACTS/atlas/concordance.html",
       "domains": ["memories", "handoffs", "product", "recoil"]
     },
     {
