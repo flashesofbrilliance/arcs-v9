@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assets and Liabilities · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A system that only counts what it built is keeping half a book. This is the week the liability side opened and the fourteen false receipts it booked against itself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding:52px 0 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Net position, not gross</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">A system that learned to book both sides</p>
+    <h1>Assets and Liabilities</h1>
+    <p class="standfirst">A record that only counts what it built is keeping half a book. This week the other half opened, and the honest number stopped being the sum of the wins and became the difference.</p>
+    <p class="byline">Field notes, receipts included · every figure has a commit behind it</p>
+  </header>
+
+  <section>
+    <span class="num">I · The single-entry book</span>
+    <p class="lead">A changelog is a list of assets. A release note is a list of assets. A status page with a green badge, a portfolio, a resume: assets, all of them, answering the same question, which is what did you build. Every one of them is silent on the question that actually tells you whether to trust the number, which is what did you get wrong on the way, and did you catch it, or did it catch you.</p>
+    <p>A book with only assets is not neutral. It is survivorship bias rendered as a document. It reads as strength precisely because the failures were never entered. From the outside you cannot tell a system that made no mistakes from one that made many and quietly deleted them. From the inside it is worse, because the deletions feel like tidiness.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Double-entry, for knowing</span>
+    <p>The fix is six hundred years old. Merchants solved it with double-entry bookkeeping: every asset carries a matching entry on the other side, and the honest position is the difference, not the sum.</p>
+    <p>Applied to a system that claims to know things, it looks like this. A receipt is an asset, a piece of knowing that survived contact with the ground. A deceipt is a liability, a claim that felt exactly like a receipt when it was issued and did not survive. The two words are siblings on purpose; they come from the same act of taking hold. What separates them is not how confident the claim felt. It is whether it held up against something that does not care what you want.</p>
+    <blockquote>A system that reports only its receipts is reporting a gross number and calling it net.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · The week the liability side opened</span>
+    <p>The product spent its first hundred and fifty days learning to grade a decision. This week it was pointed at its own production data, and for the first time it booked the other column: not what it knew, but what it had gotten wrong and stamped as true at the time. Fourteen false receipts, so far, caught and carried rather than deleted.</p>
+    <div class="panel">
+      <h4>The ledger: assets that were liabilities all along</h4>
+      <div class="step">
+        <span class="k">Booked as</span><b>A signal, evidence-backed across forty-five records.</b>
+        <span class="k">Truly</span><b>One constant value wearing a decimal point. Present, and completely contentless. A <code>count distinct</code> of one.</b>
+        <span class="k">Booked as</span><b>A field covering two hundred forty-seven of two hundred forty-seven cases.</b>
+        <span class="k">Truly</span><b>The right number on the wrong column. The field it named was empty in every single row.</b>
+        <span class="k">Booked as</span><b>A task, blocked, uncloseable here.</b>
+        <span class="k">Truly</span><b>Never blocked. A mislabeled gate that would have carried the word blocked forward as fact indefinitely.</b>
+      </div>
+      <p>None of these were caught by looking inward. Every one was caught by a query, a failed build, or an independent second pass. The correction is always a move from the asset column to the liability column, carried and re-examined, never a silent delete.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · Why the liabilities are the fuel</span>
+    <p>Here the usual feeling inverts. The deceipts are not the shame of the ledger. They are its calibration data. A session that books zero of them is not the clean one; it is the suspect one, because it means nothing touched the field hard enough to burn. The liability side is the evidence the system was in contact with reality rather than admiring its own coherence.</p>
+    <p>And coherence is exactly what a good forgery maximizes. The more resonant and tidy a claim feels, the more it needs the check, not less, because tidiness is the texture a counterfeit and a truth share. Without exception, the claims that had to be moved to the liability column were the ones that had felt most like clean insight when they were written.</p>
+    <blockquote>A record that can embarrass you is the only kind that can correct you. Show the break, and show the gold in the seam.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">V · The reverse view</span>
+    <p>From the horizon line, looking forward, almost none of this was legible. Day-zero confidence felt like momentum, not scaffolding to be torn out later. Two hundred forty-seven receipts felt like traction, not a denominator hiding the fact that one author wrote a hundred and eighty-nine of them. A discipline written into a document felt like it would hold, when in truth it only ever held once it was wired into a gate that fires whether or not anyone remembers it.</p>
+    <p>In reverse, each of those snaps into a single line, and the trustworthy ones share a property: they left a trail. A removed file. A committed query. A booked liability. The feeling that it was all obviously heading here is the retrofit; the commits are what actually happened. If a reflection cannot point at a diff, it is a story about the past, not a record of it, and this one is trying hard to be the second thing.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · The promise, corrected</span>
+    <p>The brochure line is navigate to clarity. It is easy to read that as confidence, as arrival, as the fog lifting to reveal that you were right all along. The ledger corrects it. The clarity worth having is the kind that knows its own liabilities, that can tell you the net and not just the gross, that files the miss in the same book as the hit and trusts you to read both.</p>
+    <p>A system that differentiates its assets from its liabilities is not a system that stopped being wrong. It is a system that stopped pretending it was not. That is a smaller claim than the badge suggests, and a far more expensive one to keep. It is the only one worth documenting from day one, so a team could take it over without the author in the room.</p>
+    <blockquote>The honest position was never the sum of the wins. It is the difference, and the difference is only true if you enter the losses.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt/confirmed-not-my-bug">
+      <span class="lbl">The companion piece</span>
+      How the second strand caught the receipt the self-audit could not &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every figure here is grounded in the record: the receipts are real, the liabilities are booked, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>
