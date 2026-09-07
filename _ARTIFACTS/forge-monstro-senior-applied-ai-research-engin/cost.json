@@ -1,0 +1,5 @@
+{
+ "est_tokens_before": 90000,
+ "notes": "Estimate written 2026-09-07 before stage 1. Light-tier forge (stages 1,5,7,8,9), all inputs pre-staged: no JD fetch, no re-grade, no design-system exploration. Reads: JD text, record-of-record, full Citi reference bundle (TAILOR-NOTES, red-team, resume ATS HTML, render.sh, page.html, kintsugi, cost, hiring-manager, contact) as the format contract, plus generation of the tailored resume/page/notes/red-team and one Playwright four-width pass. | Actual: ~40 turns; actual usage below.",
+ "actual_tokens": 70000
+}
