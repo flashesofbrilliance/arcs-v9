@@ -43,7 +43,7 @@ async function main() {
   console.log(`unscored to process: ${unscored.length}${DRY ? " (DRY)" : ""}`)
 
   let fetched = 0, nofetch = 0
-  for (const r of unscored) { r.jd = await fetchJD(r); if (r.jd) fetched++; else nofetch++ }
+  for (const r of unscored) { r.jd = await fetchJD(r); if (r.jd) fetched++; else nofetch++; await new Promise(z=>setTimeout(z,700)) }
   const scorable = unscored.filter((r) => r.jd)
   console.log(`JDs fetched: ${fetched} · fetch-failed: ${nofetch}`)
   if (DRY) { console.log(`DRY: would score ${scorable.length} in ${Math.ceil(scorable.length / BATCH)} batches.`); return }

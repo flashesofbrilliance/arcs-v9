@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     "/jobs/lane": ["./runtime/specs/*.json"],
     "/api/jobs/lane": ["./runtime/specs/*.json"],
     "/api/jobs/score": ["./runtime/specs/*.json"],
+    "/api/jobs/edit-from-seed": ["./runtime/specs/*.json"],
     "/jobs/[jobid]/forge": ["./runtime/specs/forge-bundles.json", "./_ARTIFACTS/forge-*/**"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
