@@ -1,0 +1,15 @@
+{
+  "_note": "Ratchet baseline for informativeness_gate.py. known_degenerate = the SAGE signal fields that are ALREADY constant across the audit corpus (the degeneracy diagnosed 2026-09-02; keel = outcome-capture rate). The gate blocks only on NEW degeneracy beyond this set. When a data-path fix genuinely restores variance to one of these, the gate prints HEALED — drop it from this list in the same commit (the ratchet turning the right way). nci_score is deliberately NOT baselined: it currently carries information, so it is the live tripwire.",
+  "corpus": "audit_traces.jsonl",
+  "fields": [
+    "result.output.signal_classification",
+    "result.output.nci_score",
+    "result.output.pci_score",
+    "result.output.hci_score"
+  ],
+  "known_degenerate": [
+    "result.output.signal_classification",
+    "result.output.pci_score",
+    "result.output.hci_score"
+  ]
+}

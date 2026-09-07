@@ -135,27 +135,33 @@ def digest_generated(d: dict, fallback: str) -> str:
     return v if isinstance(v, str) and DATE_RE.match(v) else fallback
 
 
-def build_slices(digests: list[dict], head: str, today: str) -> list[OrderedDict]:
+def build_slices(digests: list[dict], head: str, today: str, prior: dict | None = None) -> list[OrderedDict]:
+    """Group digest nodes into (domain, epoch) slices.
+
+    `prior` maps (domain, epoch) -> {graded_at_sha, graded_at} from an existing manifest. When a
+    slice is already recorded there, its grade is PRESERVED — the manifest is the source of truth
+    for WHEN each slice was graded, so a per-slice back-propagation (cache_backprop.py re-grading
+    one slice) is never clobbered by the whole-file heuristic below. The file's last commit only
+    BOOTSTRAPS a brand-new slice that no manifest has recorded yet.
+    """
+    prior = prior or {}
     slices = []
     for d in digests:
         domain = str(d["_domain"]).lower()
-        # graded_at_sha = the sha the digest records, else the digest FILE's own last commit
-        # (the closest honest proxy for "when it was graded"); HEAD only when untracked, and
-        # then the slice is marked dirty rather than silently fresh.
+        # Bootstrap sha for slices this digest introduces: the sha the digest records, else the
+        # digest FILE's own last commit; HEAD only when untracked, and then marked dirty.
         untracked = False
-        sha = digest_sha(d)
-        if not sha:
-            sha = file_last_commit(d["_path"])
-        if not sha:
-            sha, untracked = head, True
-        graded_at = digest_generated(d, today)
+        boot = digest_sha(d)
+        if not boot:
+            boot = file_last_commit(d["_path"])
+        if not boot:
+            boot, untracked = head, True
+        boot_at = digest_generated(d, today)
         globs = SCOPE_GLOBS.get(domain)
-        markers = []
+        base_markers = []
         if globs is None:
             globs = []
-            markers.append("<unknown domain %s: no scope>" % domain)
-        if untracked:
-            markers.append("<untracked digest %s>" % d["_path"])
+            base_markers.append("<unknown domain %s: no scope>" % domain)
         counts: dict[str, int] = {}
         for node in d.get("nodes") or []:
             epoch = node.get("epoch")
@@ -163,6 +169,14 @@ def build_slices(digests: list[dict], head: str, today: str) -> list[OrderedDict
                 epoch = UNKNOWN_EPOCH
             counts[epoch] = counts.get(epoch, 0) + 1
         for epoch in sorted(counts):
+            rec = prior.get((domain, epoch))
+            markers = list(base_markers)
+            if rec and rec.get("graded_at_sha"):
+                sha, graded_at = rec["graded_at_sha"], rec.get("graded_at") or boot_at
+            else:
+                sha, graded_at = boot, boot_at
+                if untracked:
+                    markers.append("<untracked digest %s>" % d["_path"])
             slices.append(OrderedDict([
                 ("domain", domain),
                 ("epoch", epoch),
@@ -174,6 +188,15 @@ def build_slices(digests: list[dict], head: str, today: str) -> list[OrderedDict
                 ("dirty_files", list(markers)),
             ]))
     return sort_slices(slices)
+
+
+def prior_grades(doc: dict | None) -> dict:
+    """{(domain, epoch): {graded_at_sha, graded_at}} from an existing manifest, for preservation."""
+    out = {}
+    for s in ((doc or {}).get("slices") or []):
+        if isinstance(s, dict) and s.get("domain") and s.get("epoch"):
+            out[(s["domain"], s["epoch"])] = {"graded_at_sha": s.get("graded_at_sha"), "graded_at": s.get("graded_at")}
+    return out
 
 
 def sort_slices(slices: list) -> list:
@@ -260,7 +283,9 @@ def cmd_stamp(today: str, as_json: bool) -> int:
     if not digests:
         print("no digests found under %s" % ATLAS_DIR, file=sys.stderr)
         return 1
-    slices = build_slices(digests, head, today)
+    # Preserve per-slice grades already recorded (so a re-stamp never resurrects a slice that
+    # back-propagation graded, nor bumps un-re-graded slices via the shared digest's last commit).
+    slices = build_slices(digests, head, today, prior=prior_grades(read_manifest()))
     refresh(slices, head)
     warn_dead_scopes(git("ls-files").splitlines())
     doc = manifest_doc(today, head, slices)
@@ -290,7 +315,7 @@ def cmd_check(today: str, as_json: bool) -> int:
     # Reconcile with the digests as they are NOW: a (domain, epoch) that exists in a digest
     # but not in the manifest is MISSING (a re-curation or new epoch since stamp); a manifest
     # slice with no digest behind it is an ORPHAN. Both are dirty; node_count is refreshed.
-    current = {(c["domain"], c["epoch"]): c for c in build_slices(load_digests(), head, today)}
+    current = {(c["domain"], c["epoch"]): c for c in build_slices(load_digests(), head, today, prior=prior_grades(doc))}
     have = {(s["domain"], s["epoch"]) for s in slices}
     for key, c in current.items():
         if key not in have:
