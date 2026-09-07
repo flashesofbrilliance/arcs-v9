@@ -1,0 +1,53 @@
+{
+  "receipt_kind": "DEWY",
+  "surface": "ORIENT",
+  "session_ts": "2026-09-02T12:00:00Z",
+  "decision": "Build audit-stack item #2b — the believability ledger — as the highest-leverage FALSIFIABLE-NOW construct, after verifying #1 (Outcome handler) was already merged.",
+  "D_sharp_question": "Which audit-stack construct is both unbuilt and falsifiable without waiting on product outcomes — and does building it produce a real, honest measurement?",
+  "E_entity": {
+    "self": "forward-build session on claude/determined-herschel-e59b29 (== origin/main at start)",
+    "other": "the SAGE-firing diagnosis floor-stack (feat/audit-service); the run_real_receipts instrument"
+  },
+  "W_window": { "horizon": "single session", "inferred": false },
+  "Y": { "polarity": "GREEN", "conviction": "high", "stability": "solid" },
+  "true_north": "The believability ledger is now a reusable, pre-registered, null-honest, ruin-weighted Brier engine over an EXTERNAL resolver. Run over the real corpus it honestly reports it is NOT YET seaworthy as a calibration test: 1 sha-linked revert / 2801 commits, 0 reel-ins among 188 resolved staked claims, base-rate hold = 1.0. Brier 0.03 is a base-rate artifact, not skill.",
+  "why": [
+    "Premise correction (verify-in-git-not-RAM): the task said 'build #1 Outcome handler, unbuilt'. HEAD == origin/main and the Outcome handler + /debrief + /api/cron/debrief were ALREADY merged. So #1 is built; the highest-leverage UNBUILT falsifiable item is #2b.",
+    "The diagnosis bedrock: outcomes are 2/247, none externally adjudicated; #2b is the one construct testable without waiting on that (git reel-ins are an external judge).",
+    "Pre-registered detectors BEFORE counting: [NCI:0..100] = claim-time confidence (p=NCI/100); git-revert-trailer = high-precision reel-in. 'fix' (337) deliberately NOT scored — mostly forward work, would be a false-positive disaster.",
+    "Null-honesty held: NCI>100 (483) uninterpretable-as-probability -> excluded, not coerced; too-young claims -> explicit null; no resolver faked."
+  ],
+  "finding": {
+    "commits_scanned": 2801,
+    "staked_claims_0_100": 230,
+    "excluded_nci_skip_or_nonnumeric": 1517,
+    "excluded_nci_over_100": 483,
+    "unlinked_corrections_seen_not_scored": 57,
+    "distinct_sha_linked_reverts": 1,
+    "resolved": 188,
+    "reel_ins_among_resolved": 0,
+    "base_rate_hold": 1.0,
+    "brier_weighted": 0.0327,
+    "seaworthy": false,
+    "verdict": "NON-DISCRIMINATING — external reel-in signal too sparse; mirrors the SAGE data-floor finding (instrument honest, data floor near-empty)."
+  },
+  "loki": "Did I build the wrong thing? The ledger reveals the corpus can't yet feed it. Counter: that IS the measure-first win — it produced a falsifiable measurement and refused to fabricate discrimination it lacks. The value is the honest next-lever, not a pretty Brier.",
+  "bar": {
+    "reversibility": "high — additive script + one _STATE json; no schema/route change",
+    "ruin_risk": "low",
+    "debt_markers": [
+      "ReceiptOutcomeResolver is an honest NOT_WIRED stub (self-graded, 2/247) — not faked.",
+      "The 57 unlinked corrections are semantically real reel-ins that don't sha-link; linking them (raising discriminating power NOW) is scoped follow-on, deliberately left unscored to keep v1 high-precision.",
+      "NCI-as-P(holds) is a monotone proxy, not a calibrated probability — stated in the ledger, load-bearing."
+    ]
+  },
+  "next_levers": [
+    "Sha-link a fraction of the 57 unlinked corrections -> drops base-rate below 1.0 and gives the ledger discriminating power without waiting on outcomes.",
+    "Add an external adjudication field to Outcome + a receipt+outcome export -> wire ReceiptOutcomeResolver into the same Brier engine.",
+    "Clarify the NCI>100 convention so 483 staked-but-uninterpretable tags become scorable."
+  ],
+  "artifacts": [
+    "scripts/believability_ledger.py",
+    "_STATE/believability-ledger/2026-09-02.json"
+  ]
+}
