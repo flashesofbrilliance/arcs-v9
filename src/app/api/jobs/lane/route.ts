@@ -56,6 +56,26 @@ export async function PATCH(req: NextRequest) {
   const body = await req.json().catch(() => null)
   const jobid = String(body?.jobid ?? "")
   if (!jobid) return NextResponse.json({ error: "jobid required" }, { status: 400 })
+  // Complete an IngestRequest: the consumer (scripts/jobs_ingest_consume.mjs +
+  // Gmail read) calls this after posting new rows, to mark the request done and
+  // advance the source watermark so the next sweep reads only newer mail.
+  if (body?.requestId) {
+    const id = String(body.requestId)
+    const status = ["done", "failed", "running"].includes(body?.status) ? String(body.status) : "done"
+    const rowsAdded = body?.rowsAdded != null ? Number(body.rowsAdded) : null
+    const reqRow = await prisma.ingestRequest.update({
+      where: { id }, data: { status, rowsAdded, completedAt: status === "running" ? null : new Date() },
+    }).catch(() => null)
+    if (!reqRow) return NextResponse.json({ error: "no such request" }, { status: 404 })
+    if (status === "done" && body?.watermark) {
+      await prisma.source.update({ where: { key: reqRow.sourceKey }, data: { watermark: new Date(String(body.watermark)), lastRunAt: new Date(), lastError: null } }).catch(() => {})
+    }
+    if (status === "failed" && body?.error) {
+      await prisma.source.update({ where: { key: reqRow.sourceKey }, data: { lastRunAt: new Date(), lastError: String(body.error).slice(0, 300) } }).catch(() => {})
+    }
+    return NextResponse.json({ ok: true, requestId: id, status, rowsAdded })
+  }
+
   const stage = body?.laneStage === null ? null : String(body?.laneStage ?? "")
   if (stage !== null && !(LANE_STAGES as readonly string[]).includes(stage)) {
     return NextResponse.json({ error: `laneStage must be one of ${LANE_STAGES.join(", ")} or null` }, { status: 400 })
