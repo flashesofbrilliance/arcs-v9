@@ -29,6 +29,28 @@ const REPO = A.repo || ''
 const surfLines = A.surfaces.map(s => `- ${REPO}/${s.html}` + (s.ssot ? `  (+ SSOT ${REPO}/${s.ssot})` : '')).join('\n')
 const memLines = (A.memory || []).map(m => `- ${m}`).join('\n') || '(none passed)'
 
+// Mechanical baseline (optional): the deterministic defect classes already
+// swept by scripts/gauntlet_prepass.py BEFORE this run (banned lexicon,
+// cross-surface dup, false precision, employer over-exposure, leak_check
+// verdict). Injected so facets do NOT re-hunt these classes and the synth
+// dedupes against them — the token-savings-bank pre-pass lever (ADR-075,
+// _SPECS/gauntlet-cba-v1.md). Additive only: no facet or judgment read is
+// removed, so catch-rate cannot drop. Pass args.mechanical_baseline = the
+// path the prepass wrote (--out), or inline the JSON as args.mechanical_baseline_json.
+let baselineBlock = ''
+const rawBaseline = A.mechanical_baseline_json ||
+  (A.mechanical_baseline ? `(read the JSON at ${REPO ? REPO + '/' : ''}${A.mechanical_baseline})` : '')
+if (rawBaseline) {
+  baselineBlock = `
+MECHANICAL BASELINE (already caught DETERMINISTICALLY by scripts/gauntlet_prepass.py):
+${typeof rawBaseline === 'string' ? rawBaseline : JSON.stringify(rawBaseline)}
+Do NOT re-flag anything already in this baseline — those classes (banned lexicon,
+cross-surface duplication, false precision, employer over-exposure) were checked by
+script and are covered. Spend your read on the JUDGMENT your facet is for. If the
+baseline's leak_check.verdict is not "clean", escalate that as a pathogen.
+`
+}
+
 const CTX = `
 You are simulating ${A.counterpart} reading an artifact family that is about to be sent to them. This is a
 HIGH-BURDEN-OF-PROOF adversarial gauntlet: assume the work is flawed and find what breaks. But you will be
@@ -46,7 +68,7 @@ ${surfLines}
 
 WHO THEY ARE (register): ${A.register || '(derive from the transcript + comms thread + memory)'}
 
-${A.already_healed ? `ALREADY HEALED (do NOT re-flag unless REGRESSED or a NEW problem appears):\n${A.already_healed}\n` : ''}
+${A.already_healed ? `ALREADY HEALED (do NOT re-flag unless REGRESSED or a NEW problem appears):\n${A.already_healed}\n` : ''}${baselineBlock}
 Your job for your assigned facet: read as THIS person, find the pathogens (trust-breakers), cracks
 (register misfits, resonance failures), and breaks (things that would make you cool off, glaze, or feel
 managed / sized as a lead). Ground each in a transcript/comms line or a memory fact. Prescribe a fix in
@@ -107,7 +129,11 @@ const synth = await agent(
   ` / comms thread / memory. REJECT over-flags (hallucinated, already-healed, taste-not-defect, ungrounded) ` +
   `with a reason. For survivors: dedup across facets, rank by relationship-cost (pathogens first), assign ` +
   `confidence, write a concrete fix IN THEIR REGISTER. Consolidate keep_dont_touch so nothing strong is ` +
-  `over-cut. A warm, technical, hype-allergic reader is the bar. Findings:\n` + JSON.stringify(finds),
+  `over-cut. A warm, technical, hype-allergic reader is the bar. ` +
+  (rawBaseline ? `A MECHANICAL BASELINE was swept by script before this run (in the context above); any agent ` +
+    `finding that merely repeats a baseline class is already-caught — fold it in, do not double-count it, ` +
+    `and if the baseline's leak_check.verdict is not "clean" rank that FIRST as a pathogen. ` : '') +
+  `Findings:\n` + JSON.stringify(finds),
   { label: 'verify+synthesize', phase: 'Verify + synthesize', schema: SYNTH_SCHEMA, effort: 'high' }
 )
 

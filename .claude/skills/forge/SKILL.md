@@ -115,8 +115,13 @@ four phases are the difference between "renders" and "lands." Run them in order;
   not memory of it, and final-pass every attributed belief/value/quote against it. The register gauntlet
   AND the detector both passed a *value fabricated onto Yuri* (a consent stance he disowned on tape); only
   the transcript caught it. Treat "this is who you are" claims as the highest-risk class.
+- **Mechanical pre-pass (run FIRST, ≈ $0)** — before spawning any agent, sweep the deterministic classes:
+  `python3 scripts/gauntlet_prepass.py --surface public/<a>.html --surface public/<b>.html --employer "<current employer>" --banned <register don't-say list> --out _STATE/gauntlet/<counterpart>-mechanical-baseline.json`.
+  Catches banned lexicon / cross-surface dup / false precision / employer over-exposure and folds in
+  `leak_check.sh` — deterministically, every run. Pass its `--out` path as `mechanical_baseline` below so the
+  facets don't re-hunt these and the synth dedupes against them (raises catch-rate; see `_SPECS/gauntlet-cba-v1.md`).
 - **Persona-facet gauntlet (deepest)** — run the reusable Workflow:
-  `Workflow({ name: 'counterpart-gauntlet', args: { counterpart, repo, transcript, comms_thread, surfaces:[{label,html,ssot}], memory:[...], register, already_healed } })`.
+  `Workflow({ name: 'counterpart-gauntlet', args: { counterpart, repo, transcript, comms_thread, surfaces:[{label,html,ssot}], memory:[...], register, already_healed, mechanical_baseline } })`.
   Six facets BE the counterpart (most-technical / practitioner / hype-allergic-skeptic / no-ask-connector /
   situational-strategic / bite-size) at high burden of proof; an adversarial verifier rejects over-flags,
   dedups, ranks, and prescribes register-tuned fixes. It catches framing/mechanism cracks the lens gauntlet

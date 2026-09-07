@@ -68,25 +68,33 @@ retired-surface links. These belong in the pre-pass regardless.
 
 ## The three levers (in build order)
 
-1. **Mechanical pre-pass** (biggest win, a script ≈ $0). Before spawning agents,
-   run a deterministic sweep that extracts the greppable defect classes ONCE —
-   air-gap leaks, banned lexicon, cross-surface duplicate spans, suspicious
-   precision, structured copy-vs-data contradictions — and distills a compact
-   **register card** (who they are, banned words, what loses them) + the changed-
-   surface excerpt. Inject that instead of the raw corpus. Two returns: tokens
-   drop (facets read ~10% of C, not 100%), and **correctness rises** — the
-   mechanical defects are caught every run, deterministically, not
-   probabilistically by whichever agent happened to look.
-2. **Incremental delta passes.** Pass 1 is the full 6-facet read. Passes 2–N of
-   a heal loop only re-check the **surfaces that changed** against the cached
-   register card, and only the facets whose class the change touched. This is
-   where the 71% cycle saving comes from.
+1. **Mechanical pre-pass** (`scripts/gauntlet_prepass.py`, a script ≈ $0) —
+   **SHIPPED 2026-09-07.** Before spawning agents, sweep the deterministic
+   defect classes ONCE — banned lexicon, cross-surface duplicate spans, false
+   precision, employer over-exposure — and compose `scripts/leak_check.sh` for
+   the air-gap verdict. Emits a baseline JSON that `counterpart-gauntlet.js`
+   injects (via `args.mechanical_baseline`) into every facet + the synth.
+   - **What shipped is ADDITIVE**: facets stop re-hunting these classes and the
+     synth dedupes against them; **no facet is removed and no judgment read is
+     shrunk**, so catch-rate strictly rises. The immediate return is
+     *correctness* (these defects are now caught every run, deterministically,
+     not probabilistically by whichever agent looked) plus a modest token drop
+     from eliminated re-hunting — NOT yet the full Lever-2 model number.
+   - The **83%/run** figure in the table above assumes the *aggressive* form
+     (facets read a distilled register card ≈10% of C instead of the raw
+     corpus). That read-shrink is the measured follow-up below, not what shipped.
+2. **Read-shrink + incremental delta passes** — **NEXT, needs a real family
+   measured first.** Distill a cached register card once; have facets read the
+   card + only the *changed* surface on heal passes 2–N (and only the facets
+   whose class the change touched). This is where the modeled **71% cycle**
+   saving lives. Gated on measuring C on a real family (surfaces can be large
+   HTML) to confirm the ≈10%-of-C assumption before trusting the number.
 3. **Tier-route** the two mechanical facets (`skeptic`, `bitesize`) to Sonnet 5.
    Smallest lever (~17%); do it, but it is not the main event.
 
 **Guardrail:** none of these touch the judgment facets or the `effort:high`
 synth. The gauntlet's catch-rate on trust-breakers is sacred; these levers cut
-redundant *reads*, not *scrutiny*.
+redundant *reads*, not *scrutiny*. The pre-pass only ADDS deterministic catches.
 
 ## CBA learning ledger (fill actuals on the next real gauntlet run)
 
