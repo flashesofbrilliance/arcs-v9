@@ -4,14 +4,21 @@
  "counts": {
   "command": 13,
   "hook": 2,
-  "operator": 38,
-  "script": 63,
-  "skill": 13,
+  "operator": 43,
+  "script": 71,
+  "skill": 15,
   "workflow": 2
  },
- "total": 131,
+ "total": 146,
  "missing_jtbd": 0,
  "tools": [
+  {
+   "kind": "skill",
+   "name": "cruft-sweep",
+   "path": ".claude/skills/cruft-sweep/SKILL.md",
+   "jtbd": "Survey, classify, and safely reclaim stale git worktrees in a many-worktree repo, and spread shared files across them. Use when worktrees accumulate (\"clean up worktrees\", \"prune stale branches\", \"spread this to other worktrees\"), before a ",
+   "invoke": "/cruft-sweep"
+  },
   {
    "kind": "skill",
    "name": "fold",
@@ -95,6 +102,13 @@
    "path": ".claude/skills/recoil-ship/SKILL.md",
    "jtbd": "T-plus phase. Project the internal war-room SSOT into a counterpart-safe external artifact, safety-scan it, deploy it, and draft the accompanying note (never sent automatically). Use when you're ready to share something with the counterpart",
    "invoke": "/recoil-ship"
+  },
+  {
+   "kind": "skill",
+   "name": "sbom-payload-scan",
+   "path": ".claude/skills/sbom-payload-scan/SKILL.md",
+   "jtbd": ">",
+   "invoke": "/sbom-payload-scan"
   },
   {
    "kind": "skill",
@@ -245,6 +259,13 @@
   },
   {
    "kind": "script",
+   "name": "artifact_wrap_lint.py",
+   "path": "scripts/artifact_wrap_lint.py",
+   "jtbd": "artifact_wrap_lint.py — pre-publish gate for the intermediate-width wrap-regression class.",
+   "invoke": "python3 scripts/artifact_wrap_lint.py"
+  },
+  {
+   "kind": "script",
    "name": "blog_provenance.py",
    "path": "scripts/blog_provenance.py",
    "jtbd": "blog_provenance — emit/verify a provenance manifest for a hand-synthesized artifact.",
@@ -315,6 +336,20 @@
   },
   {
    "kind": "script",
+   "name": "corrections_link.py",
+   "path": "scripts/corrections_link.py",
+   "jtbd": "corrections_link.py — git-ground the believability ledger's \"unlinked corrections\".",
+   "invoke": "python3 scripts/corrections_link.py"
+  },
+  {
+   "kind": "script",
+   "name": "cruft_sweep.py",
+   "path": "scripts/cruft_sweep.py",
+   "jtbd": "cruft_sweep — survey, classify, and safely reclaim stale git worktrees.",
+   "invoke": "python3 scripts/cruft_sweep.py"
+  },
+  {
+   "kind": "script",
    "name": "deploy-prod.sh",
    "path": "scripts/deploy-prod.sh",
    "jtbd": "deploy-prod.sh — always run this instead of `vercel --prod`",
@@ -333,6 +368,13 @@
    "path": "scripts/doll_sprout.py",
    "jtbd": "doll_sprout.py — germinate a doll into a tenant memory dir (UserN+1 side).",
    "invoke": "python3 scripts/doll_sprout.py"
+  },
+  {
+   "kind": "script",
+   "name": "echo_detector_dogfood.py",
+   "path": "scripts/echo_detector_dogfood.py",
+   "jtbd": "echo_detector_dogfood.py — falsifiable seaworthiness test for the Orthogonal Echo",
+   "invoke": "python3 scripts/echo_detector_dogfood.py"
   },
   {
    "kind": "script",
@@ -417,6 +459,13 @@
    "path": "scripts/idea_montecarlo.py",
    "jtbd": "I.D.E.A. Monte Carlo — Instantiate · Disrupt · Evaluate · Anneal",
    "invoke": "python3 scripts/idea_montecarlo.py"
+  },
+  {
+   "kind": "script",
+   "name": "integrity_gate.py",
+   "path": "scripts/integrity_gate.py",
+   "jtbd": "integrity_gate.py — the Metabolic Router's GATE organ (ADR-075, Reading Room Phase 0).",
+   "invoke": "python3 scripts/integrity_gate.py"
   },
   {
    "kind": "script",
@@ -518,10 +567,31 @@
   },
   {
    "kind": "script",
+   "name": "receipt_outcome_resolver.py",
+   "path": "scripts/receipt_outcome_resolver.py",
+   "jtbd": "receipt_outcome_resolver.py — the receipt-side resolver for the believability ledger.",
+   "invoke": "python3 scripts/receipt_outcome_resolver.py"
+  },
+  {
+   "kind": "script",
    "name": "recoil_brief.py",
    "path": "scripts/recoil_brief.py",
    "jtbd": "recoil_brief.py -- single-source-of-truth generator for a recoil brief.",
    "invoke": "python3 scripts/recoil_brief.py"
+  },
+  {
+   "kind": "script",
+   "name": "reel_in_scan.py",
+   "path": "scripts/reel_in_scan.py",
+   "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
+   "invoke": "python3 scripts/reel_in_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "research_render.py",
+   "path": "scripts/research_render.py",
+   "jtbd": "research_render.py — render a digest node schema as an ALMANAC read through the READER.",
+   "invoke": "python3 scripts/research_render.py"
   },
   {
    "kind": "script",
@@ -560,17 +630,17 @@
   },
   {
    "kind": "script",
+   "name": "snapshot_prune_ui_artifacts.py",
+   "path": "scripts/snapshot_prune_ui_artifacts.py",
+   "jtbd": "snapshot_prune_ui_artifacts.py — keep _STATE/snapshot.json `ui_artifacts` honest.",
+   "invoke": "python3 scripts/snapshot_prune_ui_artifacts.py"
+  },
+  {
+   "kind": "script",
    "name": "state_sync_check.py",
    "path": "scripts/state_sync_check.py",
    "jtbd": "State-sync drift check — advisory only, never fails the build.",
    "invoke": "python3 scripts/state_sync_check.py"
-  },
-  {
-   "kind": "script",
-   "name": "story_render.py",
-   "path": "scripts/story_render.py",
-   "jtbd": "story_render — render a data-driven ARCS story (Notes-from-the-Trenches class) to FieldOS HTML.",
-   "invoke": "python3 scripts/story_render.py"
   },
   {
    "kind": "script",
@@ -777,6 +847,13 @@
   },
   {
    "kind": "operator",
+   "name": "arcs_operator21.py",
+   "path": "operators/arcs_operator21.py",
+   "jtbd": "arcs_operator21.py",
+   "invoke": "python3 operators/arcs_operator21.py"
+  },
+  {
+   "kind": "operator",
    "name": "arcs_operator_contract.py",
    "path": "operators/arcs_operator_contract.py",
    "jtbd": "arcs_operator_contract.py",
@@ -914,6 +991,34 @@
    "path": "operators/kryptonite_scorer.py",
    "jtbd": "ARCS Operator: KryptoniteScorer",
    "invoke": "python3 operators/kryptonite_scorer.py"
+  },
+  {
+   "kind": "operator",
+   "name": "operator_client.py",
+   "path": "operators/operator_client.py",
+   "jtbd": "operator_client.py — ARCS operator invocation wrapper",
+   "invoke": "python3 operators/operator_client.py"
+  },
+  {
+   "kind": "operator",
+   "name": "pipeline_runner.py",
+   "path": "operators/pipeline_runner.py",
+   "jtbd": "pipeline_runner.py — ARCS pipeline wrapper",
+   "invoke": "python3 operators/pipeline_runner.py"
+  },
+  {
+   "kind": "operator",
+   "name": "prod_receipt_to_op20_seed.py",
+   "path": "operators/prod_receipt_to_op20_seed.py",
+   "jtbd": "prod_receipt_to_op20_seed — faithful adapter: prod Prisma Receipt -> op20 seed dict.",
+   "invoke": "python3 operators/prod_receipt_to_op20_seed.py"
+  },
+  {
+   "kind": "operator",
+   "name": "receipt_evaluator.py",
+   "path": "operators/receipt_evaluator.py",
+   "jtbd": "receipt_evaluator.py — KINTSUGI phase-gate wrapper",
+   "invoke": "python3 operators/receipt_evaluator.py"
   },
   {
    "kind": "operator",

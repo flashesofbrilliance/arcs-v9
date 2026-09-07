@@ -134,10 +134,18 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
   robots tweak to keep the change set focused.
 
+## Drift closed (2026-09-07, same session)
+- **NFTT threaded->literary drift CLOSED.** Proven: all 6 served posts were literary; 4 threaded
+  `-full.html` were orphaned; the skill's own "proven instance" claimed a live URL (`post-2/full`) that
+  actually served the literary file. Decision (Zach): retire the threaded engine, repoint the skill.
+  - **Retired + archived** `story_render.py`, `nftt-story.schema.json`, all `.story.md` sources, and the
+    4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/` (+ README). Tool-catalog regenerated
+    (story_render dropped: 146 tools).
+  - **`nftt-story-factory` SKILL.md rewritten** to the literary standard (template + checklist, no
+    engine): clone chrome from take-home-trap, hand-write sections, route + index, run the real gates.
+    Reference = take-home-trap (gold) + confirmed-not-my-bug (latest).
+
 ## Open (next session)
-- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
-  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
-  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
 - Everything below from v3.54.0 still stands.
 
 # Handoff — v3.54.0 (2026-09-06)
