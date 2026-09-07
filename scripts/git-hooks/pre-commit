@@ -67,6 +67,27 @@ if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# informativeness ratchet: when the audit corpus or the gate machinery is staged,
+# block on NEW signal degeneracy beyond the committed baseline
+# (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
+# degeneracy is frozen; a field that carried information going constant blocks.
+# Deterministic, stdlib-only. Skips cleanly if the gate or python3 is absent.
+if [ -f operators/audit_service/informativeness_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  touched=$(git diff --cached --name-only -- \
+    'operators/audit_service/audit_traces.jsonl' \
+    'operators/audit_service/informativeness_gate.py' \
+    'operators/audit_service/informativeness_sensor.py' \
+    'operators/audit_service/informativeness_baseline.json' 2>/dev/null || true)
+  if [ -n "$touched" ]; then
+    if ! python3 operators/audit_service/informativeness_gate.py; then
+      echo "✖ commit blocked: informativeness ratchet — a NEW field went degenerate (see above)." >&2
+      echo "  fix the data path, or if intended add it to informativeness_baseline.json with a note." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # integrity gate (ADR-075 GATE organ, Reading Room Phase 0): every ADR / commit sha /
 # repo path cited by a staged record (_DECISIONS, _MEMORY, _SPECS, _CANON, _STATE, _SEEDS,
 # _PATTERNS, root *.md) must exist on origin/main. See scripts/integrity_gate.py.

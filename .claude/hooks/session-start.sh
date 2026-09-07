@@ -94,6 +94,12 @@ except Exception:
   fi
 fi
 
+# (7) Timecapsule — per-session build-log commit of the memory dir (no-op if unchanged; absent-safe on other machines).
+if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
+  _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)
+  [ -n "$_tc" ] && echo "timecapsule: memory build-log @ $_tc"
+fi
+
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
