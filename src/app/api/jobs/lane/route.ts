@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
 
+export const LANE_STAGES = ["research", "qualify", "apply", "interview", "outcome"] as const
+
 // jobs.arcs.care/api/jobs/lane — Compass Lane surfaces backend.
 // GET: sources + recent ingest requests (the Sources surface can refresh).
 // POST: file an IngestRequest over a date range (the "run a search" control).
@@ -43,4 +45,26 @@ export async function POST(req: NextRequest) {
     },
   })
   return NextResponse.json({ ok: true, request, sort: SORT[src.status] ?? 9 })
+}
+
+// PATCH — move a card between kanban columns by hand (mark applied, advance the
+// interview loop). laneStage overrides the derived bucket; null clears the
+// override and the row falls back to its derived stage.
+export async function PATCH(req: NextRequest) {
+  const caller = await callerFor(req)
+  if (!caller) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const body = await req.json().catch(() => null)
+  const jobid = String(body?.jobid ?? "")
+  if (!jobid) return NextResponse.json({ error: "jobid required" }, { status: 400 })
+  const stage = body?.laneStage === null ? null : String(body?.laneStage ?? "")
+  if (stage !== null && !(LANE_STAGES as readonly string[]).includes(stage)) {
+    return NextResponse.json({ error: `laneStage must be one of ${LANE_STAGES.join(", ")} or null` }, { status: 400 })
+  }
+  const job = await prisma.jobOpportunity.findUnique({ where: { jobid } })
+  if (!job) return NextResponse.json({ error: "no such job" }, { status: 404 })
+  const updated = await prisma.jobOpportunity.update({
+    where: { jobid },
+    data: { laneStage: stage, laneStatus: body?.laneStatus != null ? String(body.laneStatus) : job.laneStatus, laneMovedAt: new Date() },
+  })
+  return NextResponse.json({ ok: true, jobid, laneStage: updated.laneStage, laneStatus: updated.laneStatus })
 }

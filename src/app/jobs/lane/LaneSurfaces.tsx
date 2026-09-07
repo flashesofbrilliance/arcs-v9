@@ -16,7 +16,7 @@ const fg1 = "#e2e8f0", fg2 = "#94a3b8"
 const PANEL = "linear-gradient(160deg,#ffffff0d,#ffffff03 38%,#0000002e), linear-gradient(165deg,#11181f,#0a1016)"
 const BEVEL = "inset 0 1px 0 #ffffff1a, inset 0 -2px 8px #00000080, 0 5px 16px #00000073"
 
-export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string }
+export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean }
 export type Stage = { verb: string; label: string; print: string; sla?: string; count: number; items: StageItem[]; empty?: string }
 export type Src = { key: string; label: string; adapter: string; status: string; lastRunAt: string | null; pollWindow: string | null; note: string | null }
 export type Req = { fromDate: string | null; toDate: string | null; status: string; rowsAdded: number | null; requestedAt: string; note: string | null }
@@ -25,6 +25,8 @@ export type Corr = { learned: string; pattern: string | null; avoid: string | nu
 export type LaneData = { stages: Stage[]; sources: Src[]; requests: Req[]; outcomes: OutcomeRow[]; corrections: Corr[]; live: string }
 
 const TABS = [["lane", "Lane view"], ["sources", "Sources"], ["debrief", "Debrief"]] as const
+const ORDER = ["research", "qualify", "apply", "interview", "outcome"] as const
+const STAGE_LABEL: Record<string, string> = { research: "Research", qualify: "Qualify", apply: "Apply & screen", interview: "Interview loop", outcome: "Outcome" }
 const statusDot: Record<string, string> = { live: signal.green, detected: signal.gold, proposed: fg2, paused: signal.red, queued: signal.cyan, running: signal.cyan, done: signal.green, failed: signal.red }
 
 const card: React.CSSProperties = { border: "1px solid #243042", borderRadius: 4, background: PANEL, boxShadow: BEVEL }
@@ -57,7 +59,28 @@ export function LaneSurfaces({ data }: { data: LaneData }) {
 function H({ children }: { children: React.ReactNode }) { return <h1 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-.015em", margin: "0 0 4px" }}>{children}</h1> }
 function Lede({ children }: { children: React.ReactNode }) { return <p style={{ margin: "0 0 16px", color: fg2, fontSize: 13, maxWidth: "64ch" }}>{children}</p> }
 
+async function moveStage(jobid: string, laneStage: string | null) {
+  await fetch("/api/jobs/lane", { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ jobid, laneStage }) })
+}
+
+function StageControls({ it, onDone }: { it: StageItem; onDone: () => void }) {
+  const idx = ORDER.indexOf((it.stage ?? "research") as (typeof ORDER)[number])
+  const prev = idx > 0 ? ORDER[idx - 1] : null
+  const next = idx >= 0 && idx < ORDER.length - 1 ? ORDER[idx + 1] : null
+  const btn: React.CSSProperties = { minHeight: 28, padding: "0 8px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: surface.elevated, color: fg2, cursor: "pointer", fontFamily: mono, fontSize: 10, letterSpacing: ".06em", textTransform: "uppercase" }
+  const go = async (stage: string | null) => { await moveStage(it.jobid, stage); onDone() }
+  return (
+    <div style={{ display: "flex", gap: 6, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
+      {prev && <button type="button" style={btn} onClick={() => go(prev)} aria-label={`Move ${it.company} back to ${STAGE_LABEL[prev]}`}>←</button>}
+      {next && <button type="button" style={{ ...btn, color: "#b9e8f4", borderColor: "#00F0FF3a" }} onClick={() => go(next)} aria-label={`Advance ${it.company} to ${STAGE_LABEL[next]}`}>{next === "apply" ? "mark applied →" : next === "interview" ? "→ interview" : `→ ${STAGE_LABEL[next]}`}</button>}
+      {it.manual && <button type="button" style={btn} onClick={() => go(null)} aria-label={`Reset ${it.company} to auto stage`}>auto</button>}
+    </div>
+  )
+}
+
 function LaneView({ data }: { data: LaneData }) {
+  const router = useRouter()
+  const refresh = () => router.refresh()
   return (<>
     <H>Lane view</H>
     <Lede>Five stages as columns. A row enters at Research and moves right on decisions and outcomes. Each column names what it prints and the SLA it holds.</Lede>
@@ -73,14 +96,18 @@ function LaneView({ data }: { data: LaneData }) {
             {s.items.length === 0
               ? <div style={{ padding: "16px 10px", textAlign: "center", color: fg2, fontSize: 12 }}>{s.empty ?? "Nothing here yet."}</div>
               : s.items.map((it) => (
-                <Link key={it.jobid} href={`/jobs/${it.jobid}`} style={{ padding: 10, border: `1px solid ${border.subtle}`, borderRadius: 4, background: surface.panel, textDecoration: "none", display: "block" }}>
-                  <b style={{ display: "block", fontWeight: 500, fontSize: 13, color: fg1 }}>{it.title}</b>
-                  <span style={{ fontSize: 12, color: fg2 }}>{it.company}</span>
-                  <span style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6, alignItems: "center" }}>
-                    {it.score && <span style={{ fontFamily: mono, fontSize: 12, color: it.tone ?? signal.green }}>{it.score}</span>}
-                    {it.meta && <span style={{ fontFamily: mono, fontSize: 10.5, color: fg2, letterSpacing: ".04em" }}>{it.meta}</span>}
-                  </span>
-                </Link>
+                <div key={it.jobid} style={{ padding: 10, border: `1px solid ${border.subtle}`, borderRadius: 4, background: surface.panel }}>
+                  <Link href={`/jobs/${it.jobid}`} style={{ textDecoration: "none", display: "block" }}>
+                    <b style={{ display: "block", fontWeight: 500, fontSize: 13, color: fg1 }}>{it.title}</b>
+                    <span style={{ fontSize: 12, color: fg2 }}>{it.company}</span>
+                    <span style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6, alignItems: "center" }}>
+                      {it.score && <span style={{ fontFamily: mono, fontSize: 12, color: it.tone ?? signal.green }}>{it.score}</span>}
+                      {it.meta && <span style={{ fontFamily: mono, fontSize: 10.5, color: fg2, letterSpacing: ".04em" }}>{it.meta}</span>}
+                      {it.manual && <span style={{ fontFamily: mono, fontSize: 9, color: signal.cyan, letterSpacing: ".08em", textTransform: "uppercase" }}>moved</span>}
+                    </span>
+                  </Link>
+                  <StageControls it={it} onDone={refresh} />
+                </div>
               ))}
           </div>
         </div>
@@ -150,7 +177,7 @@ function Debrief({ data }: { data: LaneData }) {
     <H>Debrief</H>
     <Lede>Filed when a row closes: what happened against what the scan predicted, and a correction record, required on a reject or pivot. Nothing has closed yet, so this fills as outcomes land.</Lede>
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 12 }}>
-      <div style={{ ...card, padding: "16px 18px" }}>
+      <div style={{ ...card, padding: "16px 18px", overflowX: "auto" }}>
         <h3 style={{ margin: "0 0 8px", fontSize: 15, fontWeight: 600 }}>Outcome vs the ex-ante score</h3>
         {data.outcomes.length === 0
           ? <p style={{ color: fg2, fontSize: 13 }}>No rows have closed. When one does, its actual outcome is scored against the composite the scan filed, and any honesty gap shows here.</p>
@@ -161,7 +188,7 @@ function Debrief({ data }: { data: LaneData }) {
               ))}</tbody>
             </table>}
       </div>
-      <div style={{ ...card, padding: "16px 18px" }}>
+      <div style={{ ...card, padding: "16px 18px", overflowX: "auto" }}>
         <h3 style={{ margin: "0 0 8px", fontSize: 15, fontWeight: 600 }}>Correction record</h3>
         {data.corrections.length === 0
           ? <p style={{ color: fg2, fontSize: 13 }}>Filed on a reject or pivot: what you learned, the pattern it fits, what you will avoid, and the decision logic. These are what the learning loop reads.</p>
