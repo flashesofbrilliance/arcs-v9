@@ -1,6 +1,6 @@
 {
   "domain": "recoil",
-  "generated": "2026-09-03",
+  "generated": "2026-09-04",
   "nodes": [
     {
       "id": "ai-product-lead-referral-engagement",
@@ -15,7 +15,8 @@
         "counterpart-vantage-premortem",
         "internal-external-artifact-air-gap"
       ],
-      "note": "Referral is real per the memory's own latest entry, but the explicit 'yes I'll refer you' from the counterpart is NOT in the cited email thread -- the memory itself flags this as an inference from context, not a confirmed grant. Live-page status not re-checked here."
+      "note": "Referral is real per the memory's own latest entry, but the explicit 'yes I'll refer you' from the counterpart is NOT in the cited email thread -- the memory itself flags this as an inference from context, not a confirmed grant. Live-page status not re-checked here.",
+      "epoch": "2026-07"
     },
     {
       "id": "data-consultancy-founder-reconnect-engagement",
@@ -30,7 +31,8 @@
         "fact-check-final-pass-vs-transcript",
         "recoil-as-second-product-surface"
       ],
-      "note": "The draft was staged but, per the memory's own account, sat un-sent and effectively invisible for several days due to a staging-visibility gap. Confirm with the human whether it has actually been sent since this memory was last touched."
+      "note": "The draft was staged but, per the memory's own account, sat un-sent and effectively invisible for several days due to a staging-visibility gap. Confirm with the human whether it has actually been sent since this memory was last touched.",
+      "epoch": "2026-07"
     },
     {
       "id": "strategy-network-cofounder-engagement",
@@ -43,7 +45,8 @@
       "links": [
         "counterpart-codex-recoil-seed-pattern"
       ],
-      "note": "NEEDS PULSE-CHECK: memory last touched 2026-08-17; no close-loop or reply recorded since, and no follow-up commit in git log for the corresponding recoil file. As of today this loop has sat OPEN for 2.5+ weeks with no recorded activity."
+      "note": "NEEDS PULSE-CHECK: memory last touched 2026-08-17; no close-loop or reply recorded since, and no follow-up commit in git log for the corresponding recoil file. As of today this loop has sat OPEN for 2.5+ weeks with no recorded activity.",
+      "epoch": "2026-08"
     },
     {
       "id": "hr-coaching-cbo-engagement",
@@ -57,7 +60,8 @@
         "counterpart-codex-recoil-seed-pattern",
         "comparative-recoil-orthogonal-echo-inward"
       ],
-      "note": "Correctly graded STALE by the memory's own explicit close ('no pursuit, revive only on inbound') -- not a drift case."
+      "note": "Correctly graded STALE by the memory's own explicit close ('no pursuit, revive only on inbound') -- not a drift case.",
+      "epoch": "2026-08"
     },
     {
       "id": "growth-consultancy-pm-application",
@@ -70,7 +74,8 @@
       "links": [
         "untracked-early-recoil-leads-cluster"
       ],
-      "note": "Correctly graded CLOSED-LOST by its own memory. One inconsistency worth flagging: one recoil SSOT names a third contact (the platform's day-to-day technical lead, described as 'the actual interviewer') absent from the curated memory's two-contact summary -- a minor scope gap, not a status error."
+      "note": "Correctly graded CLOSED-LOST by its own memory. One inconsistency worth flagging: one recoil SSOT names a third contact (the platform's day-to-day technical lead, described as 'the actual interviewer') absent from the curated memory's two-contact summary -- a minor scope gap, not a status error.",
+      "epoch": "2026-07"
     },
     {
       "id": "collectibles-marketplace-intro-engagement",
@@ -83,7 +88,8 @@
       "links": [
         "counterpart-pseudonym-key-public-artifacts"
       ],
-      "note": "Correctly graded CLOSED-WARM by its own memory; also carries five hard NEVER-PUBLISH redaction rules (comp figures, vendor stack, back-links, verbatim attributed quotes, internal tool enumeration) documented as a pre-deploy gauntlet, but with no automated pre-commit scan cited -- VERIFIED-AS-PROSE for the enforcement claim specifically."
+      "note": "Correctly graded CLOSED-WARM by its own memory; also carries five hard NEVER-PUBLISH redaction rules (comp figures, vendor stack, back-links, verbatim attributed quotes, internal tool enumeration) documented as a pre-deploy gauntlet, but with no automated pre-commit scan cited -- VERIFIED-AS-PROSE for the enforcement claim specifically.",
+      "epoch": "2026-06"
     },
     {
       "id": "regulated-manufacturer-chatbot-engagement",
@@ -98,7 +104,8 @@
         "e2e-proven-once-hitl-required",
         "closed-receipt-precedent-shapes-expectations"
       ],
-      "note": "The end-to-end lead-capture chain was verified working only ONCE per the memory's own hard-gate note -- do not read 'active build' as 'always-on and demo-safe.'"
+      "note": "The end-to-end lead-capture chain was verified working only ONCE per the memory's own hard-gate note -- do not read 'active build' as 'always-on and demo-safe.'",
+      "epoch": "2026-07"
     },
     {
       "id": "consumer-brand-retail-placement-engagement",
@@ -109,7 +116,8 @@
       "claim": "A consumer packaged-goods brand's placement deal with a retail partner has a live DRAFT payment-processor invoice (four figures, per-unit pricing) that is not finalized or sent, with two open tax/resale-certificate gates flagged to a financial contact but not yet resolved.",
       "provenance": "memory/ (project note for this invoice, modified 2026-09-02); runtime/recoil/generated/ (one dated SSOT from the founder call)",
       "links": [],
-      "note": "Grading LIVE reflects an open/pending state, not a completed transaction -- the invoice is explicitly draft/unsent and gated on unresolved tax questions; do not report as a closed deal."
+      "note": "Grading LIVE reflects an open/pending state, not a completed transaction -- the invoice is explicitly draft/unsent and gated on unresolved tax questions; do not report as a closed deal.",
+      "epoch": "2026-07"
     },
     {
       "id": "regional-brand-engagement-site-pilot",
@@ -122,7 +130,8 @@
       "links": [
         "comparative-recoil-orthogonal-echo-inward"
       ],
-      "note": "The memory itself flags a DRIFT within this engagement: 17 version-duplicate copies of client knowledge scattered across 4 local-disk locations outside the repo -- the deploy is healthy but the underlying knowledge is not centrally tracked."
+      "note": "The memory itself flags a DRIFT within this engagement: 17 version-duplicate copies of client knowledge scattered across 4 local-disk locations outside the repo -- the deploy is healthy but the underlying knowledge is not centrally tracked.",
+      "epoch": "2026-07"
     },
     {
       "id": "exec-search-recruiter-enablement-engagement",
@@ -136,7 +145,8 @@
         "recruiter-enablement-two-tier-tear-sheet",
         "internal-external-artifact-air-gap"
       ],
-      "note": "Handoff claims the public page is air-gap-clean (leak=0, orphan CSS stripped); the gated ammo tier's security depends on a passcode env var being set in all environments and an all-hosts proxy check -- not independently re-verified live here (would need a request against the deployed URL)."
+      "note": "Handoff claims the public page is air-gap-clean (leak=0, orphan CSS stripped); the gated ammo tier's security depends on a passcode env var being set in all environments and an all-hosts proxy check -- not independently re-verified live here (would need a request against the deployed URL).",
+      "epoch": "2026-09"
     },
     {
       "id": "bank-digital-assets-pm-application",
@@ -147,7 +157,8 @@
       "claim": "An application to a major bank's digital-assets division was sized via the recoil pipeline, but the tailored resume cut for it is explicitly HELD and trigger-gated -- to be built only if a human contact at the employer responds.",
       "provenance": "memory/ (job-search pipeline note, modified 2026-08-29); runtime/recoil/generated/ (one dated SSOT)",
       "links": [],
-      "note": "A separate, older cross-project tracking table also lists this application as HELD, consistent with the later memory. NEEDS PULSE-CHECK: no reply-received signal recorded as of the source date."
+      "note": "A separate, older cross-project tracking table also lists this application as HELD, consistent with the later memory. NEEDS PULSE-CHECK: no reply-received signal recorded as of the source date.",
+      "epoch": "2026-08"
     },
     {
       "id": "untracked-early-recoil-leads-cluster",
@@ -158,7 +169,8 @@
       "claim": "At least 10 ex-ante recoil receipts (several early-stage networking/co-working peer calls, a job-negotiation call, a career-reentry networking call, a growth-community call, a gaming/media exec engagement, and two engagement receipts for a fintech-app founder and a marketing-tech firm founder) exist in the recoil-reports directory with zero corresponding entry in the curated memory index. At least two of these have an explicit unresolved 'status: OPEN' close-loop block with no scoring recorded since filing.",
       "provenance": "runtime/recoil/generated/ (11 dated SSOTs, Jul-Aug 2026 range); cross-checked against memory/ -- no project-note file exists for any of these counterparts",
       "links": [],
-      "note": "This is itself a method-level finding: the recoil corpus (ex-ante filing volume) is outpacing the curated-memory close-loop step. Genuinely UNVERIFIABLE HERE whether any of these have since resolved by reply -- would need a live inbox/thread check per contact."
+      "note": "This is itself a method-level finding: the recoil corpus (ex-ante filing volume) is outpacing the curated-memory close-loop step. Genuinely UNVERIFIABLE HERE whether any of these have since resolved by reply -- would need a live inbox/thread check per contact.",
+      "epoch": "2026-07"
     },
     {
       "id": "recoil-as-second-product-surface",
@@ -171,7 +183,8 @@
       "links": [
         "recoil-brief-ssot-cli"
       ],
-      "note": "The gating mechanism (cookie + allowlist) is a real enforced code path per AGENTS.md; the 'second product surface' framing itself is a stated intent/plan, not a shipped product feature -- VERIFIED-AS-PROSE for the roadmap claim specifically."
+      "note": "The gating mechanism (cookie + allowlist) is a real enforced code path per AGENTS.md; the 'second product surface' framing itself is a stated intent/plan, not a shipped product feature -- VERIFIED-AS-PROSE for the roadmap claim specifically.",
+      "epoch": "2026-07"
     },
     {
       "id": "recoil-brief-ssot-cli",
@@ -185,7 +198,8 @@
         "internal-external-artifact-air-gap",
         "counterpart-forge-pipeline"
       ],
-      "note": "This is the rare case where the air-gap claim IS enforced by a code path (field-tag-driven drop), not just prose discipline -- confirmed by the audience-tag structure present in the cited SSOT files."
+      "note": "This is the rare case where the air-gap claim IS enforced by a code path (field-tag-driven drop), not just prose discipline -- confirmed by the audience-tag structure present in the cited SSOT files.",
+      "epoch": "2026-07"
     },
     {
       "id": "counterpart-forge-pipeline",
@@ -200,7 +214,8 @@
         "counterpart-vantage-premortem",
         "recruiter-enablement-two-tier-tear-sheet"
       ],
-      "note": "The verify gate (phases 1-5) is a real mechanism that refuses-on-fail per the memory's description; phases 6-9 (gauntlet, vibe-refit, send-prep, capture) are workflow discipline layered on top and rely on the operator actually running them -- no automated enforcement cited for those later phases."
+      "note": "The verify gate (phases 1-5) is a real mechanism that refuses-on-fail per the memory's description; phases 6-9 (gauntlet, vibe-refit, send-prep, capture) are workflow discipline layered on top and rely on the operator actually running them -- no automated enforcement cited for those later phases.",
+      "epoch": "2026-08"
     },
     {
       "id": "counterpart-codex-recoil-seed-pattern",
@@ -214,7 +229,8 @@
         "internal-external-artifact-air-gap",
         "hr-coaching-cbo-engagement"
       ],
-      "note": "Register-discipline rule ('only the external is tuned to them') is a stated authoring rule, not code-enforced -- VERIFIED-AS-PROSE."
+      "note": "Register-discipline rule ('only the external is tuned to them') is a stated authoring rule, not code-enforced -- VERIFIED-AS-PROSE.",
+      "epoch": "2026-08"
     },
     {
       "id": "counterpart-vantage-premortem",
@@ -228,7 +244,8 @@
         "ai-product-lead-referral-engagement",
         "gauntlet-tuned-to-register-catches-what-detector-cannot"
       ],
-      "note": "A real, specific, one-time-documented catch (a fabricated value/stance attributed to the counterpart) -- VERIFIED as a concrete instance, not just a claimed capability. No evidence this step is enforced by any gate that blocks send without it; relies on the operator actually running it each time."
+      "note": "A real, specific, one-time-documented catch (a fabricated value/stance attributed to the counterpart) -- VERIFIED as a concrete instance, not just a claimed capability. No evidence this step is enforced by any gate that blocks send without it; relies on the operator actually running it each time.",
+      "epoch": "2026-08"
     },
     {
       "id": "counterpart-pseudonym-key-public-artifacts",
@@ -242,7 +259,8 @@
         "internal-external-artifact-air-gap",
         "exec-search-recruiter-enablement-engagement"
       ],
-      "note": "The grep-based verification step is a real, repeatable check, though the memory documents it as a manual grep run, not a wired pre-commit hook -- VERIFIED-AS-PROSE for 'always run before publish,' VERIFIED for the check itself being mechanically well-defined."
+      "note": "The grep-based verification step is a real, repeatable check, though the memory documents it as a manual grep run, not a wired pre-commit hook -- VERIFIED-AS-PROSE for 'always run before publish,' VERIFIED for the check itself being mechanically well-defined.",
+      "epoch": "2026-08"
     },
     {
       "id": "internal-external-artifact-air-gap",
@@ -256,7 +274,8 @@
         "recoil-brief-ssot-cli",
         "counterpart-pseudonym-key-public-artifacts"
       ],
-      "note": "These three rules are prose doctrine; the one place they are actually code-enforced is the SSOT/CLI audience-tag field-drop mechanism -- elsewhere (hand-authored artifacts) they rely on the operator applying them manually before each deploy."
+      "note": "These three rules are prose doctrine; the one place they are actually code-enforced is the SSOT/CLI audience-tag field-drop mechanism -- elsewhere (hand-authored artifacts) they rely on the operator applying them manually before each deploy.",
+      "epoch": "2026-07"
     },
     {
       "id": "generative-recoil-live-culture",
@@ -269,7 +288,8 @@
       "links": [
         "counterpart-forge-pipeline"
       ],
-      "note": "ADR file confirmed to exist in _DECISIONS/ (not just cited in memory) -- the doctrine is a ratified decision, not just a session note. The falsifiable claim in the memory (a bounded spec-cost target for the next reference-implementation page) was not independently re-tested here."
+      "note": "ADR file confirmed to exist in _DECISIONS/ (not just cited in memory) -- the doctrine is a ratified decision, not just a session note. The falsifiable claim in the memory (a bounded spec-cost target for the next reference-implementation page) was not independently re-tested here.",
+      "epoch": "2026-08"
     },
     {
       "id": "comparative-recoil-orthogonal-echo-inward",
@@ -283,7 +303,8 @@
         "regional-brand-engagement-site-pilot",
         "hr-coaching-cbo-engagement"
       ],
-      "note": "Correctly graded STALE/queued by its own memory ('do NOT run yet'). Worth noting: a governing decision for the doctrine exists even though the actual comparative run was never executed per the memory -- the doctrine is minted, the analysis is not done."
+      "note": "Correctly graded STALE/queued by its own memory ('do NOT run yet'). Worth noting: a governing decision for the doctrine exists even though the actual comparative run was never executed per the memory -- the doctrine is minted, the analysis is not done.",
+      "epoch": "2026-08"
     },
     {
       "id": "recruiter-enablement-two-tier-tear-sheet",
@@ -298,7 +319,8 @@
         "counterpart-pseudonym-key-public-artifacts",
         "internal-external-artifact-air-gap"
       ],
-      "note": "The gate mechanism (hashed cookie token, fail-closed, all-hosts proxy check) is described as verified live end-to-end (locked -> gate, bypass closed, wrong -> 401, right -> 200) in the memory itself, but was not independently re-tested in this pass."
+      "note": "The gate mechanism (hashed cookie token, fail-closed, all-hosts proxy check) is described as verified live end-to-end (locked -> gate, bypass closed, wrong -> 401, right -> 200) in the memory itself, but was not independently re-tested in this pass.",
+      "epoch": "2026-09"
     },
     {
       "id": "gauntlet-tuned-to-register-catches-what-detector-cannot",
@@ -312,7 +334,8 @@
         "counterpart-vantage-premortem",
         "ai-product-lead-referral-engagement"
       ],
-      "note": "Documents concrete one-time catches (real bugs found), which is stronger evidence than a general claim, but the gauntlet itself remains an invoked (human-run) control, not an automated pre-send block per the memory's own framing elsewhere."
+      "note": "Documents concrete one-time catches (real bugs found), which is stronger evidence than a general claim, but the gauntlet itself remains an invoked (human-run) control, not an automated pre-send block per the memory's own framing elsewhere.",
+      "epoch": "2026-08"
     },
     {
       "id": "external-artifact-eval-ground-and-skeptic-route",
@@ -325,7 +348,8 @@
       "links": [
         "fact-check-final-pass-vs-transcript"
       ],
-      "note": "The memory explicitly names its own limit: these are invoked controls that nothing auto-invokes on the default turn -- self-flagged as VERIFIED-AS-PROSE, not an enforced gate. Notably this atlas-building task is itself an instance of the skeptic-route step being invoked."
+      "note": "The memory explicitly names its own limit: these are invoked controls that nothing auto-invokes on the default turn -- self-flagged as VERIFIED-AS-PROSE, not an enforced gate. Notably this atlas-building task is itself an instance of the skeptic-route step being invoked.",
+      "epoch": "2026-07"
     },
     {
       "id": "fact-check-final-pass-vs-transcript",
@@ -339,7 +363,8 @@
         "data-consultancy-founder-reconnect-engagement",
         "counterpart-vantage-premortem"
       ],
-      "note": "Documents a real one-time catch (compressed quotes, overstated consent, wrong call duration); like the other pre-send steps, it is a manual last-step discipline, not an automated gate."
+      "note": "Documents a real one-time catch (compressed quotes, overstated consent, wrong call duration); like the other pre-send steps, it is a manual last-step discipline, not an automated gate.",
+      "epoch": "2026-07"
     },
     {
       "id": "vendor-artifact-coupled-pair-discipline",
@@ -352,7 +377,8 @@
       "links": [
         "regulated-manufacturer-chatbot-engagement"
       ],
-      "note": "This is an authoring discipline (keep two docs in sync manually via a rebuild script), not an automated diff-check that would catch drift between the two artifacts if the rule were violated."
+      "note": "This is an authoring discipline (keep two docs in sync manually via a rebuild script), not an automated diff-check that would catch drift between the two artifacts if the rule were violated.",
+      "epoch": "2026-08"
     },
     {
       "id": "e2e-proven-once-hitl-required",
@@ -365,7 +391,8 @@
       "links": [
         "regulated-manufacturer-chatbot-engagement"
       ],
-      "note": "Named a 'HARD GATE' in the memory, but the enforcement mechanism is explicitly a human doing a manual visual check before each demo, not an automated pre-demo test -- VERIFIED-AS-PROSE for the word 'gate'; the underlying technical finding (delivery step paused, first-visit-only trigger) is a grounded, specific, credible claim."
+      "note": "Named a 'HARD GATE' in the memory, but the enforcement mechanism is explicitly a human doing a manual visual check before each demo, not an automated pre-demo test -- VERIFIED-AS-PROSE for the word 'gate'; the underlying technical finding (delivery step paused, first-visit-only trigger) is a grounded, specific, credible claim.",
+      "epoch": "2026-09"
     },
     {
       "id": "closed-receipt-precedent-shapes-expectations",
@@ -378,7 +405,67 @@
       "links": [
         "regulated-manufacturer-chatbot-engagement"
       ],
-      "note": "ADR file confirmed to exist in _DECISIONS/, corroborating the memory-index one-liner rather than relying on the index alone."
+      "note": "ADR file confirmed to exist in _DECISIONS/, corroborating the memory-index one-liner rather than relying on the index alone.",
+      "epoch": "2026-08"
+    },
+    {
+      "id": "recoil-genesis-self-application-before-counterpart-tool",
+      "title": "Recoil genesis: proven on the author's own decisions before any counterpart use",
+      "domain": "recoil",
+      "cluster": "method",
+      "epoch": "2026-06",
+      "status": "LIVE",
+      "claim": "Recoil's first-ever artifact (2026-06-08/09) was not a counterpart engagement: a hand-built DEWY receipt + FE page scoring the author's own job-interview screening call as an ex-ante HOLD verdict. The pattern was tested a second time eight days later (2026-06-16) on a peer/advisor check-in call, still hand-authored, before any counterpart-facing artifact or repeatable skill existed.",
+      "provenance": "git log (commit 352efd25, 2026-06-09, first recoil-tagged commit -- message names the target company and role, redacted here); runtime/recoil/2026-06-08-*.md (first recoil artifact -- a job-interview self-scoring, not a counterpart report); _DECISIONS/ (a dated 2026-06-16 recoil report scoring a peer/advisor check-in call, filename redacted -- it carries both parties' names)",
+      "links": [
+        "recoil-report-skill-formalized"
+      ],
+      "note": "Genuinely the earliest dated recoil artifact found in git history (git log --diff-filter=A across the repo, checked this pass). Company/counterpart names redacted per air-gap rule even though one is the author's own job search, not a client."
+    },
+    {
+      "id": "recoil-report-skill-formalized",
+      "title": "/recoil-report mechanized: from hand-built pages to a repeatable Granola-to-deploy pipeline",
+      "domain": "recoil",
+      "cluster": "method",
+      "epoch": "2026-06",
+      "status": "STALE",
+      "claim": "Eighteen days after the first hand-authored recoil page, the pattern was mechanized into a dedicated /recoil-report skill (2026-06-26, 'Granola transcript to deployed report'); the first counterpart-facing report built through it followed five days later (2026-07-01), opening the run of engagement reports that populate the rest of this domain. The original single skill was itself refactored four weeks later (2026-07-23) into the four-phase SSOT workflow.",
+      "provenance": "git log (commits 249957c/5e84471, 2026-06-26); runtime/recoil/generated/2026-07-01-*.json (first skill-produced counterpart report); git log (commit for 'closed-loop recoil workflow -- 4 composable skills over the SSOT', 2026-07-23)",
+      "links": [
+        "recoil-genesis-self-application-before-counterpart-tool",
+        "recoil-tminus-tzero-tplus-phase-lifecycle"
+      ],
+      "note": "Graded STALE, not because the finding is wrong, but because the artifact it describes (a standalone /recoil-report skill) no longer exists in .claude/skills/ -- verified absent this pass; it was superseded by the four-skill workflow, which is graded LIVE separately."
+    },
+    {
+      "id": "recoil-tminus-tzero-tplus-phase-lifecycle",
+      "title": "T-minus / T-zero / T-plus: the three-phase recoil lifecycle across four composable skills",
+      "domain": "recoil",
+      "cluster": "method",
+      "epoch": "2026-07",
+      "status": "LIVE",
+      "claim": "The recoil workflow decomposes into three named phases: T-minus (recoil-prep -- gather context, file the ex-ante receipt before the call), T-zero (recoil-close -- pull the transcript, score the ex-ante against reality across four tabs: Forge / Recoil / War Game / Defensibility), and T-plus (recoil-ship -- project the internal SSOT into a counterpart-safe external artifact through the three-rule air gap plus a mandatory safety-scan). All four skills (plus recoil-new, which scaffolds the one-SSOT-per-counterpart substrate) shipped in one commit (2026-07-23). ADR-068 (2026-08-23) later formalized this as a mandatory-blocking print schedule, explicitly naming an ex-ante left unscored after a counterpart response a 'drift receipt.'",
+      "provenance": ".claude/skills/recoil-new/SKILL.md, recoil-prep/SKILL.md, recoil-close/SKILL.md, recoil-ship/SKILL.md (all first-added git commit dated 2026-07-23, 'closed-loop recoil workflow -- 4 composable skills over the SSOT'); _DECISIONS/ADR-068-verb-altitude-gate-matrix.md (dated 2026-08-23)",
+      "links": [
+        "recoil-brief-ssot-cli",
+        "counterpart-forge-pipeline",
+        "recoil-report-skill-formalized"
+      ],
+      "note": "The mandatory-blocking gate is asserted in skill text and ADR-068, but the actual enforcement is the operator invoking recoil-close/recoil-ship each time -- no automated CI check was found in this pass that blocks a commit or deploy on an unscored ex-ante."
+    },
+    {
+      "id": "recoil-bookmark-primitive-rc-not-adopted",
+      "title": "Recoil bookmark primitive (peak/park/probe): proposed as default, adopted by exactly one report",
+      "domain": "recoil",
+      "cluster": "method",
+      "epoch": "2026-07",
+      "status": "DRIFTED",
+      "claim": "ADR-038 (2026-07-31, status RC-PROPOSED) proposed a lightweight bookmark primitive (peak / park / probe tags carrying a why + quote) as the default replacement for a full per-segment kinematic manifold, with an explicit falsifier and a stated score-back after 3 reports. Checked mechanically against the live corpus in this pass: of the dozens of recoil SSOTs filed after 2026-07-31, exactly one contains a bookmarks field.",
+      "provenance": "_DECISIONS/ADR-038-recoil-bookmark-primitive.md; grep -l '\"bookmarks\"' runtime/recoil/generated/*.json (1 match of ~45 files, run this pass)",
+      "links": [
+        "recoil-tminus-tzero-tplus-phase-lifecycle"
+      ],
+      "note": "The ADR's own falsifier condition (score-back after 3 reports) does not appear to have been formally closed in any file found this pass -- the RC was never promoted to DECIDED nor explicitly dropped; it sits unresolved while practice moved on without it. This is itself a method-level finding, not a fabricated one: it is grounded in a direct grep run, not inference."
     }
   ]
 }

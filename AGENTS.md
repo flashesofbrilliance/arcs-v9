@@ -31,7 +31,7 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 | `AUTH_SECRET` | Auth.js v5 session signing |
 | `AUTH_RESEND_KEY` | Magic link emails via Resend |
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
-| `RECOIL_PASSWORD` | Shared cookie gate for the whole `/recoil*` tree (`src/proxy.ts`, private-alpha) |
+| `RECOIL_PASSWORD` | **Retired.** Was a shared cookie gate for `/recoil*`; removed (it sat disclosed in git history). `/recoil` is now gated per-route by Auth.js session + `ADMIN_EMAILS` (`src/lib/admin.ts`), fail-closed. No code reads this var. |
 | `ADMIN_EMAILS` | Comma-separated admin allowlist — interim RBAC for the internal `/recoil` index + reports (`src/lib/admin.ts`). Prod fail-closed if unset; dev passes through |
 | `RECRUITHAUS_AMMO_PASSWORD` | Shared passcode for the gated recruiter ammo tier at `recruithaus.arcs.care/ammo` (`src/lib/ammo-gate.ts` + `src/proxy.ts` + `/api/recruithaus/unlock`). Fail-closed if unset; cookie holds a SHA-256 token, never the passcode |
 
@@ -166,14 +166,15 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | | Prod→op20 adapter | `operators/prod_receipt_to_op20_seed.py` | 4.8KB | Maps prod Receipt columns → op20 54-dim seed (faithful; never fabricates somatic/axiom) | READY |
 | **Total** | see census note ↓ | `operators/` | **~21.9K LOC tracked** | **Atomic design components for L0–L5 decision pipeline** | **PRODUCTION** |
 
-> **File census (authoritative, reconciled 2026-08-28).** The table above is a *curated catalog*
+> **File census (authoritative, reconciled 2026-09-04).** The table above is a *curated catalog*
 > of the core L0–L5 components, not a file count — which is why three different numbers were in
 > circulation (this line said "34 files", the atlas said "38 py files", `ls` showed "44 entries").
-> Counted once against the tracked tree on this branch: **43 top-level `.py` modules · 51 `.py`
-> files total** (recursive, excludes `__pycache__`) **· 60 tracked files total · 21,891 LOC**.
+> Counted once against the tracked tree on main (recounted 2026-09-04): **52 top-level `.py` modules · 52 `.py`
+> files total** (recursive, excludes `__pycache__`) **· 62 tracked files total · 22,171 LOC**.
 > Tracked subdirs: `core/` (7), `docs/` (4), `linkedin_pipeline/` (3). `audit_service/` is a
 > separate WIP thread and is **not** part of this library census. Recount with:
-> `git ls-files 'operators/**/*.py' | grep -v __pycache__ | wc -l`.
+> `git ls-files 'operators/*.py' | wc -l` (top-level) and `git ls-files operators/ | grep '\.py$' | wc -l` (all).
+> (The old `operators/**/*.py` glob only matched files two-plus levels deep, so it could never reproduce the top-level count.)
 
 **Integration status:** Operators are canonical alternative implementation. Not currently wired into compass route (which uses Claude L0–L5). Future integration: custom decision domains, audit hooks, phase gates for high-consequence decisions.
 

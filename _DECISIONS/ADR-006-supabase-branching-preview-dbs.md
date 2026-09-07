@@ -89,3 +89,38 @@ Supabase Branching creates isolated database branches per PR, with Vercel integr
 
 - ADR-005 — Vercel Supabase env injection (prerequisite; must be resolved first)
 - ADR-007 — prisma db push vs migrate (branching changes migration deployment strategy)
+
+---
+
+## Amendment 2026-09-06 — gate fired; repo-side half activated, dashboard half awaits cost sign-off
+
+**Gate status:** fired, repeatedly. Schema PRs since the decision: ADR-026's migration, `jobs_board`
+(2026-09-05), `tribune` (2026-09-06, ADR-020). Production holds 184+ receipts. Option B's
+"zero rows, zero users" precondition no longer holds, so this ADR's own Loki test is live.
+
+**Live check (Supabase MCP, 2026-09-06):** the connector sees two projects in org
+`jgwddgzgotdmzxdhgelp` — `ARCS` (`owdiiyvphyifukygvxhg`, us-east-2, **INACTIVE**) and
+`monomath-compiler` (INACTIVE). The production ref in `_STATE/snapshot.json`
+(`xbbpiryokswwvcrcutge`, us-east-1) is **not visible** to this connector — the known Supabase-MCP
+blind spot (`_PATTERNS/durable-gotchas.md`). The E-section ref above is therefore stale; the
+live project is `xbbpiryokswwvcrcutge`. Branch cost quoted for the visible org: **$0.01344/hour
+per branch (~$9.80/month per open branch)**; the live org's price must be re-quoted from its dashboard.
+
+**What shipped (no cost, no dashboard):** `.github/workflows/preview-db-migrate.yml` —
+(1) every PR touching `prisma/**` applies `schema.prisma` from zero with `prisma db push` on a
+throwaway Postgres 17 (the production path per ADR-007) and proves the pushed DB equals the
+schema with `prisma migrate diff --exit-code`; (2) when a `PREVIEW_DATABASE_URL` secret exists it
+pushes the schema there. Prisma stays the DDL source of truth (`supabase/` is gitignored).
+
+**Golden seam (kintsugi, 2026-09-06):** the job's first draft ran `prisma migrate deploy` and
+failed P3019 on PR #297 — `migration_lock.toml` still says `sqlite` and the April-2026
+migrations are SQLite dialect. The migrations directory is a DDL receipt log, not an applicable
+chain; ADR-007's revisit trigger fired and was never honored. Re-baselining is destructive and
+is queued for Zach as PENDING row 007 (reopened). Until then, `db push` is the honest test.
+
+**Remaining, human-gated (WRITE-LOCK: recurring spend):**
+1. Zach confirms the branch price on the live project's org and enables Branching in the Supabase
+   dashboard for `xbbpiryokswwvcrcutge` (Vercel integration → per-branch `DATABASE_URL` in previews).
+2. Set `PREVIEW_DATABASE_URL` as a GitHub Actions secret (branch DB pooler URL, or a shared
+   staging DB as the Option-C interim) — the second job activates itself.
+3. Until (1) lands, the dry-run job is the control; treat every schema PR as touching prod.

@@ -1,12 +1,13 @@
 {
   "domain": "handoffs",
-  "generated": "2026-09-03",
+  "generated": "2026-09-04",
   "nodes": [
     {
       "id": "dewy-receipt-schema-ygate",
       "title": "DEWY receipt schema + Y-gate",
       "cluster": "product",
       "status": "LIVE",
+      "epoch": "2026-05",
       "claim": "DEWY schema + Prisma Receipt model + Y-gate enums (GREEN/YELLOW/RED/FORK/SCRATCH/DELTA/PARADOX/DRIFT) shipped v0.1-v0.3, still the live schema.",
       "provenance": "_ARCHIVE/handoffs.md v0.1.0-v0.3.0",
       "links": [
@@ -19,16 +20,18 @@
       "title": "Book II Canon Parts I-VI",
       "cluster": "canon-governance",
       "status": "DRIFTED",
+      "epoch": "2026-05",
       "claim": "Handoffs (v0.6/v0.7) claim Book II Parts I-VI all promoted CANONICAL v1.0.0, including Part IV.",
       "provenance": "_ARCHIVE/handoffs.md v0.6.0, v0.7.0, v0.9.0",
       "links": [],
-      "note": "`_CANON/book-ii/` on disk today has only parts i,ii,iii,v,vi \u2014 no part-iv file. A stale part-iv-sessions-api.md was deleted per v0.9.0; the promised CONDITIONAL-CLEAR Part IV was apparently never re-landed under a canonical filename. Verified via `ls _CANON/book-ii/`."
+      "note": "`_CANON/book-ii/` on disk today has only parts i,ii,iii,v,vi — no part-iv file. A stale part-iv-sessions-api.md was deleted per v0.9.0; the promised CONDITIONAL-CLEAR Part IV was apparently never re-landed under a canonical filename. Verified via `ls _CANON/book-ii/`."
     },
     {
       "id": "p4-vercel-deploy",
       "title": "P4: arcs-v9 first Vercel deploy",
       "cluster": "infra",
       "status": "LIVE",
+      "epoch": "2026-05",
       "claim": "First READY Vercel deployment shipped v1.3.0 (2026-05-28); Prisma 7 PrismaPg adapter wired.",
       "provenance": "_ARCHIVE/handoffs.md v1.3.0 / v1.4.0",
       "links": [
@@ -41,18 +44,20 @@
       "title": "Supabase RLS deny-all policies",
       "cluster": "infra",
       "status": "STALE",
+      "epoch": "2026-05",
       "claim": "v1.4.0: all 9 Supabase tables have RLS enabled with deny-all policies (ADR-008); Prisma connects as postgres superuser so auth.uid() policies are wrong by design.",
       "provenance": "_ARCHIVE/handoffs.md v1.4.0",
       "links": [
         "p4-vercel-deploy"
       ],
-      "note": "Table count and specifics are 2026-05 era; later handoffs (v3.2.0) found other Supabase projects (SageTrace) with RLS disabled in production reachable via anon PostgREST \u2014 the 'all tables have RLS' claim did not hold repo-wide going forward. Treat as a point-in-time claim, not a standing guarantee."
+      "note": "Table count and specifics are 2026-05 era; later handoffs (v3.2.0) found other Supabase projects (SageTrace) with RLS disabled in production reachable via anon PostgREST — the 'all tables have RLS' claim did not hold repo-wide going forward. Treat as a point-in-time claim, not a standing guarantee."
     },
     {
       "id": "design-system-tokens-v1",
       "title": "Design system tokens/Badge/Button/Card (src/ui)",
       "cluster": "product",
       "status": "LIVE",
+      "epoch": "2026-05",
       "claim": "v1.6.0: src/ui/tokens.ts + Badge/Button/Card components shipped as the canonical design system, no-barrel import rule (ADR-011).",
       "provenance": "_ARCHIVE/handoffs.md v1.6.0",
       "links": [
@@ -65,18 +70,20 @@
       "title": "arcs-care PLG Phase 1 (Lab card, case study, email capture)",
       "cluster": "product",
       "status": "DRIFTED",
+      "epoch": "2026-05",
       "claim": "v1.8.0-v2.1.0: full PLG funnel (5-lens compass, Lab Offer Card, case study, email capture, DMARC, CI/CD) shipped and live on arcs.care.",
       "provenance": "_ARCHIVE/handoffs.md v1.8.0, v1.9.0, v2.0.0, v2.1.0",
       "links": [
         "domain-consolidation-arcs-care"
       ],
-      "note": "Superseded by the v3.0.0 domain-topology correction: arcs.care/app.arcs.care/www.arcs.care/resume.arcs.care all alias to the arcs-v9 deployment, and the standalone arcs-care Vercel project is live:false. This PLG work is real code but not reachable by any visitor today \u2014 confirmed still true per user's global CLAUDE.md P5 note."
+      "note": "Superseded by the v3.0.0 domain-topology correction: arcs.care/app.arcs.care/www.arcs.care/resume.arcs.care all alias to the arcs-v9 deployment, and the standalone arcs-care Vercel project is live:false. This PLG work is real code but not reachable by any visitor today — confirmed still true per user's global CLAUDE.md P5 note."
     },
     {
       "id": "domain-consolidation-arcs-care",
       "title": "Domain topology: arcs.care family all serves arcs-v9",
       "cluster": "infra",
       "status": "LIVE",
+      "epoch": "2026-06",
       "claim": "v3.0.0 (2026-06-23): corrected prior wrong assumption; arcs.care/app.arcs.care/www.arcs.care/resume.arcs.care all alias to this repo's deployment; standalone arcs-care project is live:false.",
       "provenance": "_ARCHIVE/handoffs.md v3.0.0",
       "links": [
@@ -89,7 +96,8 @@
       "title": "Observatory full interactive replay page",
       "cluster": "product",
       "status": "DRIFTED",
-      "claim": "Current CLAUDE.md 'What's NOT built yet' section states: 'A full interactive Next.js page exists but was never pushed \u2014 recoverable via cherry-pick from a stale local clone.'",
+      "epoch": "2026-06",
+      "claim": "Current CLAUDE.md 'What's NOT built yet' section states: 'A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick from a stale local clone.'",
       "provenance": "CLAUDE.md (live, current) vs _ARCHIVE/handoffs.md v3.3.0",
       "links": [],
       "note": "FALSE as written today. `src/app/observatory/page.tsx` (1174 LOC, 'use client') is committed on main since commit 4460bcea (2026-06-23, verified via `git log` and `git show main:src/app/observatory/page.tsx`), landed via the v3.3.0 sleepy-booth merge. No host-level rewrite in next.config.ts shadows /observatory for the main app.arcs.care host, only for blacksmith.arcs.care. This is a load-bearing stale claim in the project's own live orientation file."
@@ -99,6 +107,7 @@
       "title": "ADR-023: Observability as superionic goal lattice",
       "cluster": "canon-governance",
       "status": "STALE",
+      "epoch": "2026-06",
       "claim": "v2.5.0: ADR-023 decided a receipts-DAG folksonomy model; implementation explicitly gated at 100+ real receipts (same gate as ADR-020).",
       "provenance": "_ARCHIVE/handoffs.md v2.5.0",
       "links": [
@@ -111,6 +120,7 @@
       "title": "RC-OPS-001 Orthogonal Echo Detector graduation",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.1.0 candidate landed; v3.49.0 dogfood test found NOT seaworthy on the stub matcher (adversarial-FP 1.0); v3.50.0 graduation INITIATED but not promoted, 3/4 criteria still open.",
       "provenance": "_ARCHIVE/handoffs.md v3.1.0 -> CLAUDE.md v3.50.0",
       "links": [
@@ -123,7 +133,8 @@
       "title": "sleepy-booth mega-merge (Observatory, trust/privacy/terms, operators library, canon docs)",
       "cluster": "product",
       "status": "LIVE",
-      "claim": "v3.3.0: 170 files / 42K+ insertions merged to main \u2014 EyebrowToast drawer, /trust /privacy /terms pages, Observatory page, 34-file operators library, ADR-025..030.",
+      "epoch": "2026-06",
+      "claim": "v3.3.0: 170 files / 42K+ insertions merged to main — EyebrowToast drawer, /trust /privacy /terms pages, Observatory page, 34-file operators library, ADR-025..030.",
       "provenance": "_ARCHIVE/handoffs.md v3.3.0",
       "links": [
         "observatory-full-page",
@@ -136,6 +147,7 @@
       "title": "Token-efficiency: CLAUDE.md/MEMORY.md lean + archive policy",
       "cluster": "infra",
       "status": "LIVE",
+      "epoch": "2026-07",
       "claim": "v3.8.0: split append-forever CLAUDE.md/MEMORY.md into lean working files + _ARCHIVE/; amended versioning policy to archive-not-append.",
       "provenance": "_ARCHIVE/handoffs.md v3.8.0",
       "links": [],
@@ -146,6 +158,7 @@
       "title": "ADR-035 Commit-NCI rubric + /nci-commit /drift-check /rca",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-07",
       "claim": "v3.8.0/v3.9.0: 5-lens Commit-NCI rubric ratified; nci-scoring skill + slash commands wired.",
       "provenance": "_ARCHIVE/handoffs.md v3.8.0",
       "links": [],
@@ -156,16 +169,18 @@
       "title": "Stateless anonymous brief sharing (ADR-037) + persist-on-signin fix",
       "cluster": "product",
       "status": "LIVE",
+      "epoch": "2026-07",
       "claim": "v3.9.0: PR #100 shipped URL-fragment anon share; v3.9.0 honesty-flag ('not driven via live compass call') closed by v3.11.0 persist fix (PR #121) and verified live end-to-end via Claude-in-Chrome in v3.12.1.",
       "provenance": "_ARCHIVE/handoffs.md v3.9.0 -> v3.11.0 -> v3.12.1",
       "links": [],
-      "note": "Full loop (share -> sign in to keep -> ClaimAnonymousReceipts -> /receipt/<id>) reported independently verified live, not just code-inspected \u2014 a rare closed loop in this archive."
+      "note": "Full loop (share -> sign in to keep -> ClaimAnonymousReceipts -> /receipt/<id>) reported independently verified live, not just code-inspected — a rare closed loop in this archive."
     },
     {
       "id": "serialization-pathogen-adr033",
       "title": "ADR-033: serialization pathogen family",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-07",
       "claim": "v3.10.0: ratified GREEN/HIGH; time/scope/obligation/warrant/dictionary each a dropped coordinate of a serialized belief; --sweep tooling built.",
       "provenance": "_ARCHIVE/handoffs.md v3.10.0",
       "links": [
@@ -178,7 +193,8 @@
       "title": "ADR-033 duplicate number collision -> resolved to ADR-073",
       "cluster": "canon-governance",
       "status": "LIVE",
-      "claim": "v3.50.0 (CLAUDE.md live handoff): two different ADRs both claimed number 033 across parallel sessions; resolved Option A \u2014 serialization pathogen family keeps 033, the model-routing/adr-audit decision renumbered to oracle-issued ADR-073.",
+      "epoch": "2026-08",
+      "claim": "v3.50.0 (CLAUDE.md live handoff): two different ADRs both claimed number 033 across parallel sessions; resolved Option A — serialization pathogen family keeps 033, the model-routing/adr-audit decision renumbered to oracle-issued ADR-073.",
       "provenance": "CLAUDE.md v3.50.0",
       "links": [
         "serialization-pathogen-adr033",
@@ -191,6 +207,7 @@
       "title": "IP-leak hardening: repo private, /warroom/[slug] admin gate, analytics coverage",
       "cluster": "recoil",
       "status": "LIVE",
+      "epoch": "2026-07",
       "claim": "v3.18.0: public/ world-readable counterpart docs moved to admin-gated runtime/warroom/; repo flipped PRIVATE; preview deploys SSO-gated; analytics coverage enforced via leak_check.sh.",
       "provenance": "_ARCHIVE/handoffs.md v3.18.0",
       "links": [
@@ -203,6 +220,7 @@
       "title": "Counterpart-forge pipeline (SSOT -> render, /forge skill)",
       "cluster": "recoil",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.25.0-v3.28.0: scripts/forge_counterpart.py + /forge skill generate all counterpart surfaces (receipt/profile/codex/onedoor) from one SSOT with inline verify/honesty gates; proven on Robin, Yuri, later Ahmed/Wing/Sean.",
       "provenance": "_ARCHIVE/handoffs.md v3.25.0 -> v3.28.0",
       "links": [
@@ -216,30 +234,33 @@
       "title": "ADR-044: temporal-provenance gate (no unhedged aspiration claims)",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.28.0: forge_counterpart.py refuses to write unhedged present-tense claims about capabilities not yet true (e.g. 'model-agnostic, runs on Gemini' when ARCS runs on Claude); caught 2 live instances (Yuri, Robin).",
       "provenance": "_ARCHIVE/handoffs.md v3.28.0",
       "links": [
         "counterpart-forge-pipeline"
       ],
-      "note": "Mechanically enforced (a real code gate, not just a rule) \u2014 the strongest form of claim in this domain per the Skeptic's own standard."
+      "note": "Mechanically enforced (a real code gate, not just a rule) — the strongest form of claim in this domain per the Skeptic's own standard."
     },
     {
       "id": "yuri-counterpart-family",
-      "title": "Yuri/Google counterpart family \u2014 sent, awaiting reply",
+      "title": "Yuri/Google counterpart family — sent, awaiting reply",
       "cluster": "recoil",
       "status": "STALE",
+      "epoch": "2026-08",
       "claim": "v3.28.0/v3.29.0: yuri.arcs.care family SENT 2026-08-10, ball in Yuri's court, 'nothing pending on our side.'",
       "provenance": "_ARCHIVE/handoffs.md v3.29.0",
       "links": [
         "counterpart-forge-pipeline"
       ],
-      "note": "User's own auto-memory (MEMORY.md, referenced in system context) still lists project_yuri_kleban_google as 'ACTIVE: Agentum tester, 1-1 Sep 14' \u2014 i.e. still open/warm as of the latest memory index (2026-09-02), consistent with 'awaiting reply' rather than closed."
+      "note": "User's own auto-memory (MEMORY.md, referenced in system context) still lists project_yuri_kleban_google as 'ACTIVE: Agentum tester, 1-1 Sep 14' — i.e. still open/warm as of the latest memory index (2026-09-02), consistent with 'awaiting reply' rather than closed."
     },
     {
       "id": "prl-todd-hotes-engagement",
       "title": "PRL Resins / Todd Hotes engagement (chatbot -> 1.1 -> 1.2 -> 1.3)",
       "cluster": "recoil",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "Continuous thread v3.22.0 through v3.46.0+: Zapier/SugarCRM chatbot delivery, 1.1/1.2 shipped and closed (ADR-069 receipt), 1.2-A payment-gated, 1.3 gated on a call with Todd.",
       "provenance": "_ARCHIVE/handoffs.md v3.22.0..v3.46.0 -> CLAUDE.md v3.50.0",
       "links": [],
@@ -250,38 +271,42 @@
       "title": "ADR-039: path-based ignored-build-step guardrail",
       "cluster": "infra",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.21.0: fixed incomplete build-exclude list (docs commits were still triggering full builds); verified live via CANCELED deployment on a docs-only commit.",
       "provenance": "_ARCHIVE/handoffs.md v3.21.0",
       "links": [],
-      "note": "Confirmed as still-governing practice \u2014 AGENTS.md gotcha #4 and repo build discipline both consistent with this fix remaining in force."
+      "note": "Confirmed as still-governing practice — AGENTS.md gotcha #4 and repo build discipline both consistent with this fix remaining in force."
     },
     {
       "id": "louisville-brands-engagement",
       "title": "Louisville Brands (Justin Delaney) three-surface engagement",
       "cluster": "recoil",
       "status": "STALE",
+      "epoch": "2026-08",
       "claim": "v3.20.0: full pitch/omakase/atom universe shipped, email sent, Justin accepted LinkedIn invite; explicit instruction 'let it breathe, no follow-up assigned.'",
       "provenance": "_ARCHIVE/handoffs.md v3.19.0 -> v3.20.0",
       "links": [],
-      "note": "No mention in any handoff after v3.20.0 (2026-08-01) through the current v3.52.0 \u2014 consistent with the deliberate no-follow-up posture, but also means the thread's live/dead state (did Justin ever reply?) is unverified in this archive and absent from the current MEMORY.md project list, suggesting it went cold rather than closed."
+      "note": "No mention in any handoff after v3.20.0 (2026-08-01) through the current v3.52.0 — consistent with the deliberate no-follow-up posture, but also means the thread's live/dead state (did Justin ever reply?) is unverified in this archive and absent from the current MEMORY.md project list, suggesting it went cold rather than closed."
     },
     {
       "id": "oss-family-tao-of-arcs",
       "title": "Tao of ARCS canon (ADR-053/054): dormant seed vs vox animus, free-to-hold/metered-to-fire",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.33.0: seed=dormant potential, ARCS=the animating spark; open/private boundary is one seam four faces; billing metered per activation not per seed.",
       "provenance": "_ARCHIVE/handoffs.md v3.33.0",
       "links": [
         "oracle-sequence-authority"
       ],
-      "note": "Extended into WORLD.md itself ('THE FIELD GEOMETRY (Tao \u00a7V)' section present in the live WORLD.md today), and into ADR-053/054 files confirmed in _DECISIONS/."
+      "note": "Extended into WORLD.md itself ('THE FIELD GEOMETRY (Tao §V)' section present in the live WORLD.md today), and into ADR-053/054 files confirmed in _DECISIONS/."
     },
     {
       "id": "oracle-sequence-authority",
       "title": "ADR-057: oracle.py sequence authority for ADR/seed/handoff numbering",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.34.0: git-serialized id+time authority (scripts/oracle.py) built after ADR namespace collided repeatedly across parallel sessions (024/025/031/032 doubled).",
       "provenance": "_ARCHIVE/handoffs.md v3.34.0",
       "links": [
@@ -294,6 +319,7 @@
       "title": "Family public surfaces (good/build/lab/playground) + sync tripwire",
       "cluster": "product",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.36.0: one _SEEDS bank renders 4 public surfaces; scripts/sync_family_roster.py wired into pre-push, fails the push on drift.",
       "provenance": "_ARCHIVE/handoffs.md v3.32.0, v3.36.0",
       "links": [
@@ -306,6 +332,7 @@
       "title": "ADR-065: self-cataloging memory (memory_index_sync, Terrain Atlas, Dolls)",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.38.0: memory corpus indexes itself via frontmatter SSOT inversion, 183-node/590-edge catalog, epoch-stamped tenant 'doll' export with fail-closed air-gap gate.",
       "provenance": "_ARCHIVE/handoffs.md v3.38.0",
       "links": [
@@ -318,42 +345,46 @@
       "title": "PRL page factory + ADR-066 Generative Recoil",
       "cluster": "recoil",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.41.0: one design system across 8 PRL surfaces via a spec.json generator (prl-page-factory skill); ADR-066 names recoil as bidirectional (audit AND compose).",
       "provenance": "_ARCHIVE/handoffs.md v3.41.0",
       "links": [
         "counterpart-forge-pipeline"
       ],
-      "note": "Directly generalized one session later into teardown-page-factory (v3.42.0, wing.arcs.care) \u2014 a real reuse, not just a claim."
+      "note": "Directly generalized one session later into teardown-page-factory (v3.42.0, wing.arcs.care) — a real reuse, not just a claim."
     },
     {
       "id": "verb-altitude-gate-matrix-adr068",
       "title": "ADR-068: five-verb print schedule (verb x altitude gate matrix)",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.43.0: every stage cut prints an artifact through a gate to a fate; wired into 7 skills as mandatory-blocking (ex-ante receipt before send, pre-send gauntlet, close-loop on response).",
       "provenance": "_ARCHIVE/handoffs.md v3.43.0",
       "links": [
         "prl-page-factory-adr066"
       ],
-      "note": "Directly cited as governing law in the current live handoff v3.52.0 (Blacksmith 'Forge' section: '6 between-stage CI gates (ADR-068 print schedule)') and in WORLD.md's 'THE PRINT SCHEDULE (ADR-068)' section \u2014 durable, still load-bearing 10+ handoff versions later."
+      "note": "Directly cited as governing law in the current live handoff v3.52.0 (Blacksmith 'Forge' section: '6 between-stage CI gates (ADR-068 print schedule)') and in WORLD.md's 'THE PRINT SCHEDULE (ADR-068)' section — durable, still load-bearing 10+ handoff versions later."
     },
     {
       "id": "wing-financial-teardown",
       "title": "Wing Financial (Sean Wing) S-tier teardown",
       "cluster": "recoil",
       "status": "STALE",
+      "epoch": "2026-08",
       "claim": "v3.42.0: wing.arcs.care sent 2026-08-23; close-loop trigger set for any reply, 7-day silence (2026-08-30), or his next public note.",
       "provenance": "_ARCHIVE/handoffs.md v3.42.0",
       "links": [
         "prl-page-factory-adr066"
       ],
-      "note": "No later handoff (through v3.52.0, dated 2026-09-02) records the close-loop actually having run past the 2026-08-30 trigger date \u2014 the LinkedIn draft (_ARTIFACTS/wing-sean-linkedin-draft.md) is still present on disk with no evidence of having been gauntleted/sent. Thread appears to have gone unclosed past its own stated deadline."
+      "note": "No later handoff (through v3.52.0, dated 2026-09-02) records the close-loop actually having run past the 2026-08-30 trigger date — the LinkedIn draft (_ARTIFACTS/wing-sean-linkedin-draft.md) is still present on disk with no evidence of having been gauntleted/sent. Thread appears to have gone unclosed past its own stated deadline."
     },
     {
       "id": "ahmed-polyform-60sec-read",
       "title": "Ahmed/Polyform 60-Second Read onramp + reopen note",
       "cluster": "recoil",
       "status": "STALE",
+      "epoch": "2026-08",
       "claim": "v3.44.0: onramp shipped live at ahmed-ext.arcs.care; re-open note drafted, 'Zach sends by hand' listed as next session's first work; 10-day close-loop review after send.",
       "provenance": "_ARCHIVE/handoffs.md v3.44.0",
       "links": [
@@ -366,19 +397,21 @@
       "title": "PRL Instrument Board + ADR-069 (first closed-client-receipt precedent)",
       "cluster": "recoil",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.46.0: prl.arcs.care/status/receipt shipped as data-driven story with fact-checked gauntlet (14 verified findings fixed); scripts/warroom_board.py serves /warroom/gauntlet, admin-gated (verified 404 anonymous).",
       "provenance": "_ARCHIVE/handoffs.md v3.46.0",
       "links": [
         "prl-todd-hotes-engagement",
         "ip-leak-hardening-warroom"
       ],
-      "note": "ADR-069 is cited as still-governing in the current live CLAUDE.md handoff summary block ('ADR-069: closed client receipt = precedent-shaped expectations') via user's MEMORY.md index \u2014 durable."
+      "note": "ADR-069 is cited as still-governing in the current live CLAUDE.md handoff summary block ('ADR-069: closed client receipt = precedent-shaped expectations') via user's MEMORY.md index — durable."
     },
     {
       "id": "tool-catalog-dispatcher",
       "title": "Tool catalog + /catalog dispatcher (131 tools, ADR-070 lineage)",
       "cluster": "infra",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.47.0/v3.48.0: scripts/tool_catalog_emit.py harvests JTBD from all six tool surfaces into runtime/specs/tool-catalog.{json,md}; /catalog recommends exactly one tool.",
       "provenance": "_ARCHIVE/handoffs.md v3.47.0, v3.48.0",
       "links": [],
@@ -386,9 +419,10 @@
     },
     {
       "id": "mobius-induction-circuit-adr071",
-      "title": "ADR-071: M\u00f6bius one-surface / triune none-may-null / gravity-well induction circuit",
+      "title": "ADR-071: Möbius one-surface / triune none-may-null / gravity-well induction circuit",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.49.0: minted through the oracle (->71); apex spine + witness stubs + DEWY + 2 wisdom memories.",
       "provenance": "CLAUDE.md v3.49.0",
       "links": [
@@ -402,18 +436,20 @@
       "title": "ADR-072: engine-sovereignty doctrine (receipts=freehold, engines=tenants)",
       "cluster": "canon-governance",
       "status": "LIVE",
-      "claim": "v3.50.0: minted via the oracle to honor a forward reference already living in main's M\u00f6bius (ADR-071) DEWY receipt; an earlier 'ADR-067' claim for this doctrine was retired.",
+      "epoch": "2026-08",
+      "claim": "v3.50.0: minted via the oracle to honor a forward reference already living in main's Möbius (ADR-071) DEWY receipt; an earlier 'ADR-067' claim for this doctrine was retired.",
       "provenance": "CLAUDE.md v3.50.0",
       "links": [
         "mobius-induction-circuit-adr071"
       ],
-      "note": "Consistent with user's global MEMORY.md entry [[engine-sovereignty-gradient-receipts-freehold]] tagged ADR-072 \u2014 matches, no drift found."
+      "note": "Consistent with user's global MEMORY.md entry [[engine-sovereignty-gradient-receipts-freehold]] tagged ADR-072 — matches, no drift found."
     },
     {
       "id": "rom-vocabulary-tiering",
       "title": "ROM vocabulary Option A: 7 Primitives=canon, 6 laws=derived, 7 axioms=epistemic foundations",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.50.0: resolved a 3-way canon collision between arcs-canon.md primitives, execution laws, and axioms; authority index runtime/specs/ROM-AXIS-INDEX.md created with tier banners on all three source files.",
       "provenance": "CLAUDE.md v3.50.0",
       "links": [],
@@ -421,31 +457,34 @@
     },
     {
       "id": "norse-rom-candidates-ullr-baldur",
-      "title": "Norse ROM candidates (Ullr, Baldur) \u2014 Loki inversions written, not ratified",
+      "title": "Norse ROM candidates (Ullr, Baldur) — Loki inversions written, not ratified",
       "cluster": "canon-governance",
       "status": "STALE",
-      "claim": "v3.50.0: Loki inversions written for Ullr + Baldur, numbering gate cleared, but ratification blocked on a live Ullr Graduation Receipt + a live Baldur Witness Receipt \u2014 explicitly listed as open for 'next session.'",
+      "epoch": "2026-08",
+      "claim": "v3.50.0: Loki inversions written for Ullr + Baldur, numbering gate cleared, but ratification blocked on a live Ullr Graduation Receipt + a live Baldur Witness Receipt — explicitly listed as open for 'next session.'",
       "provenance": "CLAUDE.md v3.50.0",
       "links": [
         "mobius-induction-circuit-adr071"
       ],
-      "note": "Confirmed the candidate spec still exists at runtime/specs/ROM-CANDIDATES-norse-witness.md; no graduation/witness receipt found anywhere in _STATE/ or _DECISIONS/ as of this audit, and no later handoff (v3.52.0) mentions Norse ROM at all \u2014 thread appears to have stalled, not progressed."
+      "note": "Confirmed the candidate spec still exists at runtime/specs/ROM-CANDIDATES-norse-witness.md; no graduation/witness receipt found anywhere in _STATE/ or _DECISIONS/ as of this audit, and no later handoff (v3.52.0) mentions Norse ROM at all — thread appears to have stalled, not progressed."
     },
     {
       "id": "canon-propagation-cron",
       "title": "Nightly canon-propagation cron",
       "cluster": "infra",
       "status": "DRIFTED",
-      "claim": "v3.50.0 (latest handoff to mention it): cron is 'still HELD' \u2014 'Arm after merge' with explicit manual launchctl commands listed as not-yet-run.",
+      "epoch": "2026-08",
+      "claim": "v3.50.0 (latest handoff to mention it): cron is 'still HELD' — 'Arm after merge' with explicit manual launchctl commands listed as not-yet-run.",
       "provenance": "CLAUDE.md v3.50.0",
       "links": [],
-      "note": "Contradicted by live filesystem check: ~/Library/LaunchAgents/care.arcs.canon-propagation.plist exists \u2014 the cron IS armed. (User's own global MEMORY.md agrees: 'Canon-propagation cron is containerized ... armed 8/29', i.e. armed after v3.50.0's PR merged, but the live CLAUDE.md handoff block itself was never updated to reflect this \u2014 a real handoff-vs-reality drift, exactly the failure mode this audit is checking for.)"
+      "note": "Contradicted by live filesystem check: ~/Library/LaunchAgents/care.arcs.canon-propagation.plist exists — the cron IS armed. (User's own global MEMORY.md agrees: 'Canon-propagation cron is containerized ... armed 8/29', i.e. armed after v3.50.0's PR merged, but the live CLAUDE.md handoff block itself was never updated to reflect this — a real handoff-vs-reality drift, exactly the failure mode this audit is checking for.)"
     },
     {
       "id": "blacksmith-application-bundle",
       "title": "Blacksmith Staff Engineer application + recruiter enablement (current session)",
       "cluster": "blacksmith",
       "status": "LIVE",
+      "epoch": "2026-09",
       "claim": "v3.52.0 (current handoff): blacksmith.arcs.care hero frozen 'v0 . 1h 22m', The Forge with 6 CI gates, domain-map rebuilt; recruithaus.arcs.care LIVE two-hires-in-one positioning page.",
       "provenance": "CLAUDE.md v3.52.0",
       "links": [
@@ -459,6 +498,7 @@
       "title": "status/build false-zero pulse bug fixed",
       "cluster": "blacksmith",
       "status": "LIVE",
+      "epoch": "2026-09",
       "claim": "v3.52.0: degraded /api/pulse was overwriting the curated floor with 0/0/0/1 across a full board; fixed with a guard + curated fallback + honest stamp.",
       "provenance": "CLAUDE.md v3.52.0",
       "links": [
@@ -471,7 +511,8 @@
       "title": "recruithaus.arcs.care ammo-tier gate (RECRUITHAUS_AMMO_PASSWORD)",
       "cluster": "blacksmith",
       "status": "STALE",
-      "claim": "v3.52.0 'Open (next session)' item #1: 'Gate + host the ammo tier at a /resume-style PDF-download viewer behind a passcode' \u2014 listed as still to be done.",
+      "epoch": "2026-09",
+      "claim": "v3.52.0 'Open (next session)' item #1: 'Gate + host the ammo tier at a /resume-style PDF-download viewer behind a passcode' — listed as still to be done.",
       "provenance": "CLAUDE.md v3.52.0",
       "links": [
         "blacksmith-application-bundle",
@@ -484,6 +525,7 @@
       "title": "recruithaus.arcs.care public candidate-positioning page",
       "cluster": "blacksmith",
       "status": "LIVE",
+      "epoch": "2026-09",
       "claim": "v3.52.0: LIVE, air-gap clean (leak=0, orphan CSS stripped), proxy.ts SUBDOMAIN_MAP updated + /_vercel exclusion fixing analytics for all subdomain hosts.",
       "provenance": "CLAUDE.md v3.52.0",
       "links": [
@@ -496,6 +538,7 @@
       "title": "Kintsugi receipt for the Blacksmith session",
       "cluster": "blacksmith",
       "status": "LIVE",
+      "epoch": "2026-09",
       "claim": "v3.52.0: _STATE/2026-09-02-blacksmith-kintsugi.json filed (healthy + golden-seam ledger).",
       "provenance": "CLAUDE.md v3.52.0",
       "links": [
@@ -508,24 +551,484 @@
       "title": "Tikkun olam origin witnessed + folded into apex spine (v3.43.0 witness thread)",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.43.0: witness stub 2026-08-23 GREEN, 'tikkun olam ORIGIN ... absent from all of _CANON until witnessed.'",
       "provenance": "_ARCHIVE/handoffs.md v3.43.0",
       "links": [
         "verb-altitude-gate-matrix-adr068"
       ],
-      "note": "Represents the witness-stub-to-canon pipeline (ADR-046, v3.31.0) actually firing in practice \u2014 corroborating evidence for the /witness mechanism being more than aspirational prose."
+      "note": "Represents the witness-stub-to-canon pipeline (ADR-046, v3.31.0) actually firing in practice — corroborating evidence for the /witness mechanism being more than aspirational prose."
     },
     {
       "id": "witness-trigger-adr046",
       "title": "ADR-046: /witness live-capture trigger",
       "cluster": "canon-governance",
       "status": "LIVE",
+      "epoch": "2026-08",
       "claim": "v3.31.0: WORLD.md 'THE WITNESS' section + .claude/commands/witness.md; deliberately rare, appends to _STATE/witness/<date>.jsonl; promotion to ADR/DEWY is a separate later act.",
       "provenance": "_ARCHIVE/handoffs.md v3.31.0",
       "links": [
         "tikkun-olam-witness-origin"
       ],
-      "note": "Present in the live WORLD.md today ('THE WITNESS' section verbatim); multiple later handoffs (v3.43.0, v3.66.0-lineage) show real witness-stub firings, i.e. VERIFIED-AS-MECHANISM not just prose \u2014 the command file and the jsonl ledger both exist as artifacts, not merely a described rule."
+      "note": "Present in the live WORLD.md today ('THE WITNESS' section verbatim); multiple later handoffs (v3.43.0, v3.66.0-lineage) show real witness-stub firings, i.e. VERIFIED-AS-MECHANISM not just prose — the command file and the jsonl ledger both exist as artifacts, not merely a described rule."
+    },
+    {
+      "id": "sprint1-dewy-bootstrap-issues2-5",
+      "title": "Sprint 1 (#2-#5): DEWY schema + Time ROM + Compass flow + Book II bootstrap",
+      "cluster": "product",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v0.1.0-v0.3.0 defined the founding GitHub Issue sprint (DEWY receipt schema, Time Quality Attribution ROM, Compass->DEWY flow, Book II canon chapter) as a strict dependency chain, governed by arcs-field-os's orient-prd.md.",
+      "provenance": "_ARCHIVE/handoffs.md v0.1.0, v0.2.0, v0.3.0",
+      "links": [
+        "dewy-receipt-schema-ygate",
+        "arcs-field-os-cross-repo-authority"
+      ],
+      "note": "Sprint fully completed per v0.9.0 ('Sprint 1 COMPLETE'). The founding artifacts (dewy-receipt-schema-v1, time-quality-attribution-rom, question-compass-to-dewy flow) all shipped; superseded operationally by later schema evolution."
+    },
+    {
+      "id": "arcs-field-os-cross-repo-authority",
+      "title": "arcs-field-os named governing authority for arcs-v9 schema decisions",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v0.2.0 named arcs-field-os's orient-prd.md as the 'governing authority' for Issues #2-4, with an explicit cross-repo sync obligation: arcs-v9 schema changes require an orient-prd.md amendment before proceeding.",
+      "provenance": "_ARCHIVE/handoffs.md v0.2.0",
+      "links": [
+        "sprint1-dewy-bootstrap-issues2-5"
+      ],
+      "note": "arcs-field-os does not appear anywhere in AGENTS.md's current 'Connected systems' table (arcs-canon, arcs-hq, gigi, arcs.care only) — this cross-repo governing relationship appears to have lapsed silently rather than being formally retired."
+    },
+    {
+      "id": "book-ii-part-v-accumulation-protocol",
+      "title": "Book II Part V: The Accumulation Protocol",
+      "cluster": "canon-governance",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v0.5.0 drafted, v0.7.0 promoted CANONICAL v1.0.0: delta gates, kairos detection, the 5-step accumulation loop (silent/flagged/override modes), drift CLEAR/WATCH/DRIFT categories, debrief as a first-class session type.",
+      "provenance": "_ARCHIVE/handoffs.md v0.5.0, v0.7.0",
+      "links": [
+        "book-ii-canon-parts"
+      ],
+      "note": "Confirmed on disk: _CANON/book-ii/part-v-the-accumulation-protocol.md exists, unlike Part IV which was never re-landed."
+    },
+    {
+      "id": "book-ii-part-vi-shared-court",
+      "title": "Book II Part VI: The Shared Court",
+      "cluster": "canon-governance",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v0.6.0 drafted, v0.7.0 promoted CANONICAL v1.0.0: extends the constitutional court to multi-party sessions — Initiator/Respondent standing, witness-as-annotation (not a protocol role), unanimity-of-being-bound quorum, Dissent Record, Arbitration Session.",
+      "provenance": "_ARCHIVE/handoffs.md v0.6.0, v0.7.0",
+      "links": [
+        "book-ii-canon-parts"
+      ],
+      "note": "Confirmed on disk: _CANON/book-ii/part-vi-the-shared-court.md exists."
+    },
+    {
+      "id": "github-projects-board-sprint-tracker",
+      "title": "GitHub Projects board as sprint tracker",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v0.9.0: a GitHub Projects board (github.com/users/flashesofbrilliance/projects/1) went live with Not Started->Research->Receipt->Build->Refine->QA->Done columns, backfilled with all Sprint 1 + Book II Part cards.",
+      "provenance": "_ARCHIVE/handoffs.md v0.9.0",
+      "links": [],
+      "note": "Never mentioned again in any handoff from v0.9.0 through the current v3.52.0. `_QUEUE/induced-backlog.jsonl` is the tracking mechanism named in the current CLAUDE.md instead — this board appears to have been abandoned in favor of that."
+    },
+    {
+      "id": "arcs-data-science-suite-scanners",
+      "title": "ARCS personal data-science scanner suite",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v0.9.1: full scanner suite committed — arcs_core.py kernel (DEWY, Folksonomist, DomainConfig hook), calendar/listening/reader Strand-A scan scripts, arcs_cli.py 5-verb pipeline; first real run against 750 real Google Calendar events.",
+      "provenance": "_ARCHIVE/handoffs.md v0.9.1",
+      "links": [],
+      "note": "Confirmed present via `ls scripts/`: arcs_core.py, calendar_scan.py, listening_scan.py, reader_scan.py, arcs_cli.py all still exist. AGENTS.md's Foundation table lists them READY, matching this origin."
+    },
+    {
+      "id": "calendar-restructure-anchor-blocks",
+      "title": "Google Calendar restructured into 5 recurring anchor blocks",
+      "cluster": "product",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v0.9.1: Calendar restructured via MCP into 5 recurring anchor blocks (Deep Work, Morning Stack, Revenue Block, Weekly Review, Shutdown Ritual) starting 2026-06-01, following a calendar audit that found 2.3% revenue/external time and 0% recurring structure pre-restructure.",
+      "provenance": "_ARCHIVE/handoffs.md v0.9.1",
+      "links": [],
+      "note": "Personal-calendar state, not independently re-verifiable from this repo; no later handoff references whether the restructure held or was abandoned."
+    },
+    {
+      "id": "adr-001-002-auth-db-split",
+      "title": "ADR-001/002: app-level auth gating + SQLite-dev/Supabase-prod split",
+      "cluster": "canon-governance",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v0.10.0: ADR-001 (app-level auth gating, not Supabase RLS) and ADR-002 (SQLite dev / Supabase prod split, with the P4 deploy checklist as an authoritative forward reference) locked as the founding data-access architecture.",
+      "provenance": "_ARCHIVE/handoffs.md v0.10.0",
+      "links": [
+        "p4-vercel-deploy",
+        "rls-supabase-policies"
+      ],
+      "note": "Both files confirmed in _DECISIONS/ (ADR-001-auth-gate-strategy.md, ADR-002-database-split.md). Still the governing pattern per AGENTS.md ('SQLite in dev, Postgres in prod') and the working src/lib/auth.ts."
+    },
+    {
+      "id": "arcs-care-cocd-hero-rewrite",
+      "title": "arcs.care COCD hero rewrite (Calibrate->Orient->Chart->Detect)",
+      "cluster": "product",
+      "status": "DRIFTED",
+      "epoch": "2026-05",
+      "claim": "v1.1.0: arcs.care hero rewritten around a Calibrate->Orient->Chart Course->Detect (COCD) frame, with new hero.tsx copy and a hand-authored loop-diagram.tsx SVG component, committed to the standalone arcs-care repo.",
+      "provenance": "_ARCHIVE/handoffs.md v1.0.0, v1.1.0",
+      "links": [
+        "arcs-care-plg-phase1",
+        "domain-consolidation-arcs-care"
+      ],
+      "note": "Same fate as the rest of arcs-care's PLG work — the standalone repo is live:false; this COCD hero is not reachable on any current arcs.care domain, which is now served entirely by arcs-v9."
+    },
+    {
+      "id": "mcp-arcs-care-dns-live",
+      "title": "mcp.arcs.care DNS fix (ADR-004)",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v1.0.0/v1.1.0: mcp.arcs.care DNS wiring (ADR-004) landed and was confirmed live via a 308 redirect.",
+      "provenance": "_ARCHIVE/handoffs.md v1.0.0, v1.1.0",
+      "links": [],
+      "note": "Point-in-time infra confirmation from 2026-05; not re-verified in this pass and not referenced in any later handoff — low-risk but unconfirmed as still live."
+    },
+    {
+      "id": "memory-hallucination-self-correction-v1-5",
+      "title": "MEMORY.md self-correction of 3 auto-system hallucinations",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v1.5.0: a memory-consolidation pass caught and corrected three hallucinated claims already written into MEMORY.md — 'RLS ENABLED' (false at the time), a fabricated 'ADR-008' citation, and 'Parts I-VI canonical' (false — Part IV was still draft).",
+      "provenance": "_ARCHIVE/handoffs.md v1.5.0",
+      "links": [
+        "book-ii-canon-parts",
+        "canon-index-book-ii-self-contradiction"
+      ],
+      "note": "The exact Part-IV-canonical hallucination this 2026-05 session caught and corrected is STILL live today in _CANON/index.md's footer banner ('Canonical Book II: Complete (Parts I-VI)') — the correction did not stick everywhere it needed to; see the new canon-index-book-ii-self-contradiction drift node."
+    },
+    {
+      "id": "dmarc-blindspot-research-v1-9",
+      "title": "/arcs-research blindspot pass surfaces DMARC + 5 other conversion gaps",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v1.9.0: /arcs-research run on ADR-013 surfaced 6 blindspots missed by dual-bar-raiser and ultrareview, including DMARC monitor-only spam risk, a missing compass_receipt_id column, an undefined 'signal threshold', and a hardcoded spots-remaining badge.",
+      "provenance": "_ARCHIVE/handoffs.md v1.9.0",
+      "links": [
+        "email-auth-dkim-spf-dmarc-v2-1"
+      ],
+      "note": "DMARC fix confirmed landed by v2.1.0 (p=quarantine, live) and reconfirmed in user's global CLAUDE.md 2026-06-23 verification — this specific thread closed cleanly, unlike several others in this archive."
+    },
+    {
+      "id": "anthropic-api-key-rotation-v2-0",
+      "title": "ANTHROPIC_API_KEY rotation (arcs-care)",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-05",
+      "claim": "v2.0.0: ANTHROPIC_API_KEY rotated in arcs-care after discovering the old key belonged to a stale/revoked workspace; new key synced to all 3 Vercel environments (Production/Preview/Development).",
+      "provenance": "_ARCHIVE/handoffs.md v2.0.0",
+      "links": [],
+      "note": "Point-in-time infra fix on the now-unreachable standalone arcs-care project; superseded in relevance by the later domain consolidation onto arcs-v9."
+    },
+    {
+      "id": "arcs-care-week1-conversion-builds-v2-1",
+      "title": "arcs-care Week 1 ADR-013 conversion builds shipped",
+      "cluster": "product",
+      "status": "DRIFTED",
+      "epoch": "2026-05",
+      "claim": "v2.1.0: all three Week-1 ADR-013 conversion builds shipped — compass-result email capture, spots badge, and a Dan Pascone/Tailored Wealth case-study excerpt (dark until NEXT_PUBLIC_CASE_STUDY_APPROVED=true).",
+      "provenance": "_ARCHIVE/handoffs.md v2.1.0",
+      "links": [
+        "arcs-care-plg-phase1",
+        "domain-consolidation-arcs-care"
+      ],
+      "note": "Same fate as arcs-care-plg-phase1 — real, working code, but not reachable by any visitor since the v3.0.0 domain consolidation moved all arcs.care traffic onto arcs-v9."
+    },
+    {
+      "id": "email-auth-dkim-spf-dmarc-v2-1",
+      "title": "arcs.care email authentication fully configured",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-05",
+      "claim": "v2.1.0: arcs.care email auth fully configured on Resend — DKIM verified, SPF verified, DMARC p=quarantine live; compass_receipt_id column added to the Supabase waitlist table.",
+      "provenance": "_ARCHIVE/handoffs.md v2.1.0",
+      "links": [
+        "dmarc-blindspot-research-v1-9"
+      ],
+      "note": "DMARC p=quarantine reconfirmed in user's global CLAUDE.md as of the 2026-06-23 verification pass — durable."
+    },
+    {
+      "id": "s-tier-copy-rewrite-v3-0",
+      "title": "S-tier copy rewrite retires internal jargon from user-facing surfaces",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-06",
+      "claim": "v3.0.0: retired internal jargon ('L0-L5 pipeline,' 'boardroom-grade,' 'FATED decomposition' in prose) from every user-facing surface (Home, compass, brief, prep, emails); locked the governing principle that ARCS clarifies the shape of a decision and never implies it decides for the user.",
+      "provenance": "_ARCHIVE/handoffs.md v3.0.0",
+      "links": [],
+      "note": "Consistent with the still-current brand-promise memory [[brand-promise-refusal-to-overclaim]] and WORLD.md's tonal-register section — durable design ethos."
+    },
+    {
+      "id": "field-component-a11y-fix-v3-0",
+      "title": "Field.tsx accessibility fix (missing id/name app-wide)",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-06",
+      "claim": "v3.0.0: fixed a missing id/name on every input/textarea/select app-wide by patching it once at the shared Field.tsx component level (auto-derived stable id + real label htmlFor) — no call site needed touching.",
+      "provenance": "_ARCHIVE/handoffs.md v3.0.0",
+      "links": [],
+      "note": "Durable, low-risk component-level fix; no later handoff reports a regression."
+    },
+    {
+      "id": "canon-collision-bar-kkl-v3-1",
+      "title": "CANON_COLLISION: BAR/KKL meant two different things in two canon files",
+      "cluster": "canon-governance",
+      "status": "LIVE",
+      "epoch": "2026-06",
+      "claim": "v3.1.0: found and resolved a real CANON_COLLISION — 'BAR' and 'KKL' each had two conflicting definitions across two different canon files.",
+      "provenance": "_ARCHIVE/handoffs.md v3.1.0",
+      "links": [
+        "rom-vocabulary-tiering"
+      ],
+      "note": "Direct precedent for the much larger 3-way ROM-vocabulary collision resolved in v3.50.0 — same collision class recurring at increasing scale across the corpus's history."
+    },
+    {
+      "id": "sagetrace-rls-exposure-incident-v3-2",
+      "title": "SageTrace Supabase project found fully exposed (RLS disabled, anon read/write/delete)",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-06",
+      "claim": "v3.2.0: a separate Supabase project (public.SageTrace, xbbpiryokswwvcrcutge) was found with RLS disabled, allowing anon read/write/delete via PostgREST — discovered via a real alert email, not routine audit; fixed with the ADR-008 deny-all pattern. The Supabase MCP connection could not see this project at all (wrong org); only the Supabase CLI could.",
+      "provenance": "_ARCHIVE/handoffs.md v3.2.0",
+      "links": [
+        "rls-supabase-policies"
+      ],
+      "note": "Directly falsifies the standing 'all tables have RLS' claim from v1.4.0 (see rls-supabase-policies node) — a real production security incident, not a hypothetical gap."
+    },
+    {
+      "id": "prose-rule-enforcement-audit-v3-2",
+      "title": "Prose-rule enforcement audit: 0 of 6 SKILL.md rules mechanically enforced",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-06",
+      "claim": "v3.2.0 audit found zero of 6 in-scope SKILL.md prose rules had any real mechanical enforcement; specifically found 'inline styles only, no Tailwind, no className' had been violated at src/app/layout.tsx since the very first commit.",
+      "provenance": "_ARCHIVE/handoffs.md v3.2.0",
+      "links": [],
+      "note": "AGENTS.md gotcha #2 still states the inline-styles-only rule as a manual convention (with two named exceptions), not a mechanically enforced lint gate — the audit's core finding appears to still hold today, unconfirmed whether it was ever re-run."
+    },
+    {
+      "id": "subdomain-hosting-workflow-pattern-v3-4",
+      "title": "Subdomain HTML hosting workflow documented (beforeFiles pattern)",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-07",
+      "claim": "v3.4.0: documented the subdomain-HTML-hosting workflow — use next.config.ts beforeFiles (not vercel.json rewrites, which src/app/page.tsx overrides); changes must land on main, not a worktree branch; new subdomains need explicit Vercel-dashboard assignment on alias_conflict.",
+      "provenance": "_ARCHIVE/handoffs.md v3.4.0",
+      "links": [
+        "fanatics-led-sprint-v3-5"
+      ],
+      "note": "Confirmed still governing — memories [[subdomain-html-hosting-workflow]] and [[subdomain-routing-authority-is-proxy-ts]] are both live-indexed in the user's global MEMORY.md; src/proxy.ts is the documented evolution of this same routing-authority pattern."
+    },
+    {
+      "id": "fanatics-led-sprint-v3-5",
+      "title": "fanatics.arcs.care LED refactor + layout sprint",
+      "cluster": "product",
+      "status": "DRIFTED",
+      "epoch": "2026-07",
+      "claim": "v3.5.0: fanatics.arcs.care LED refactor (vertical rail -> horizontal SVG waveform timeline) and layout fixes shipped and verified live; fanatics.arcs.care listed among subdomains deliberately left ungated as a permanent security exception.",
+      "provenance": "_ARCHIVE/handoffs.md v3.5.0",
+      "links": [
+        "subdomain-hosting-workflow-pattern-v3-4"
+      ],
+      "note": "FALSE today: public/fanatics.html no longer exists (moved to _ARCHIVE/fanatics-pages/fanatics.html), but src/proxy.ts's SUBDOMAIN_MAP still maps 'fanatics' -> '/fanatics.html' and next.config.ts still lists fanatics.arcs.care as a recognized host. The route is dead; fanatics.arcs.care most likely 404s today. Verified via `ls public/fanatics.html` (not found) and `grep fanatics src/proxy.ts` (stale mapping still present) — a genuine, previously-uncaught drift found in this pass."
+    },
+    {
+      "id": "consolidation-arcs-decision-receipts-v3-6",
+      "title": "arcs-decision-receipts -> arcs-v9 consolidation audit",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-07",
+      "claim": "v3.6.0: consolidation audit ported unique content from arcs-decision-receipts into arcs-v9 — runtime/specs/field-os/ (9 spec files), the canonical call-brief-template.html, 4 _CANON/living/ promotions, and a git-tracked _MEMORY/ (5 product-intelligence shards, replacing the machine-local ~/.claude/projects/).",
+      "provenance": "_ARCHIVE/handoffs.md v3.6.0",
+      "links": [],
+      "note": "_MEMORY/ and _CANON/living/ are both still referenced as current locations in the user's global MEMORY.md index — the consolidation stuck."
+    },
+    {
+      "id": "chan-prophet-discovery-artifact-v3-7",
+      "title": "chan.arcs.care Prophet/Chan Suh discovery-call artifact",
+      "cluster": "recoil",
+      "status": "STALE",
+      "epoch": "2026-07",
+      "claim": "v3.7.0: chan.arcs.care built end-to-end for a Prophet/Chan Suh discovery call — Player/Coach/Pacecar identity frame, instrument-panel section with 12 design principles, 16-slide SEEN/HEARD/VIBE-CHECK presentation mode, full design-system conformance pass, PII removed.",
+      "provenance": "_ARCHIVE/handoffs.md v3.7.0",
+      "links": [
+        "status-arcs-care-fork-v3-7"
+      ],
+      "note": "User's global MEMORY.md lists 'Prophet MAIA' as LOST in the dormant-projects section — this engagement did not convert."
+    },
+    {
+      "id": "status-arcs-care-fork-v3-7",
+      "title": "status.arcs.care forked from chan.html",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-07",
+      "claim": "v3.7.0: status.arcs.care stood up as a standalone fork of chan.html via anchor-based excision (not hand-editing) — Prophet-specific content and the presentation deck surgically removed, sections renumbered.",
+      "provenance": "_ARCHIVE/handoffs.md v3.7.0",
+      "links": [
+        "chan-prophet-discovery-artifact-v3-7"
+      ],
+      "note": "Pattern (fork-via-excision rather than rebuild) is a reusable technique; status.arcs.care itself was later superseded by the family public-surface system (v3.36.0) which uses status/build/lab/good instead."
+    },
+    {
+      "id": "mobile-css-bug-patterns-v3-7",
+      "title": "Two real mobile CSS bugs found only via actual iPhone photos",
+      "cluster": "product",
+      "status": "LIVE",
+      "epoch": "2026-07",
+      "claim": "v3.7.0: found two real mobile bugs invisible to simulator resizing, only visible from actual iPhone photos — a CSS rotate() transform that repaints an element but doesn't change its layout footprint, and a horizontally-scrollable SVG with no visible affordance on mobile Safari (hidden scrollbars until active drag).",
+      "provenance": "_ARCHIVE/handoffs.md v3.7.0",
+      "links": [],
+      "note": "Durable pattern class, corroborated by later-indexed memories [[wrap-regression-class]] and [[text-wrapping-bug-four-failure-modes-rca]] covering the same responsive-layout bug family."
+    },
+    {
+      "id": "recoil-pipeline-generalized-4skills-v3-17",
+      "title": "Recoil pipeline generalized into 4 composable skills",
+      "cluster": "recoil",
+      "status": "LIVE",
+      "epoch": "2026-07",
+      "claim": "v3.17.0: the recoil pipeline matured into 4 composable skills (recoil-new/prep/close/ship) over one SSOT-per-counterpart JSON, with a parameterized 6-tab war-room template and a zero-dep bash wrapper (scripts/recoil); first live run simultaneously on Yuri, Ahmed, and Joe.",
+      "provenance": "_ARCHIVE/handoffs.md v3.17.0",
+      "links": [
+        "counterpart-forge-pipeline"
+      ],
+      "note": "Confirmed still present: `.claude/skills/recoil-{new,prep,close,ship}` all exist on disk today — durable, load-bearing infrastructure for every counterpart engagement since."
+    },
+    {
+      "id": "yuri-gate-removed-by-design-v3-27",
+      "title": "Yuri family server-side gate plan explicitly REMOVED, not migrated",
+      "cluster": "recoil",
+      "status": "LIVE",
+      "epoch": "2026-08",
+      "claim": "v3.27.0: a planned server-side gate migration for the Yuri family was explicitly REMOVED rather than built, on Zach's call — client-side password gates were friction on a consented-call recap, not real protection (he literally bounced off the gate live); all four Yuri surfaces shipped ungated, still noindex/nofollow, link-only.",
+      "provenance": "_ARCHIVE/handoffs.md v3.27.0",
+      "links": [
+        "ip-leak-hardening-warroom",
+        "yuri-counterpart-family"
+      ],
+      "note": "Confirmed public/yuri*.html files still exist and are ungated by design — a deliberate, documented exception to the general IP-leak-hardening posture (v3.18.0), not an oversight."
+    },
+    {
+      "id": "prl-sugar-studio-live-access-v3-39",
+      "title": "Real authenticated Sugar Studio access discovered via claude-in-chrome",
+      "cluster": "recoil",
+      "status": "LIVE",
+      "epoch": "2026-08",
+      "claim": "v3.39.0: discovered mid-session that real, authenticated Sugar Studio + Administration access exists via the claude-in-chrome MCP (Zach's real logged-in Chrome), not the sandboxed preview browser — changed the PRL chatbot delivery build plan from a custom DB-bridge to Sugar's own native Web-to-Lead form.",
+      "provenance": "_ARCHIVE/handoffs.md v3.39.0",
+      "links": [
+        "prl-todd-hotes-engagement",
+        "prl-web-lead-bridge-abandoned-v3-39"
+      ],
+      "note": "Named explicitly as a process lesson (default to checking claude-in-chrome for any live-session question before the sandboxed browser) — durable and still applicable guidance for future sessions."
+    },
+    {
+      "id": "prl-web-lead-bridge-abandoned-v3-39",
+      "title": "PrlWebLead Prisma model left uncommitted, likely abandoned",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-08",
+      "claim": "v3.39.0: an uncommitted PrlWebLead Prisma model (a custom DB staging layer for web-form leads) was mid-build, migration never run, explicitly flagged as 'may no longer be the right approach' once native Sugar Studio access was confirmed.",
+      "provenance": "_ARCHIVE/handoffs.md v3.39.0",
+      "links": [
+        "prl-sugar-studio-live-access-v3-39"
+      ],
+      "note": "Confirmed abandoned: `grep PrlWebLead prisma/schema.prisma` returns nothing today — the model was never committed, consistent with the native-Sugar-form path being chosen instead."
+    },
+    {
+      "id": "prl-chatbot-delivery-verified-v3-40",
+      "title": "Chatbot-to-Sugar delivery verified end-to-end in sandbox",
+      "cluster": "recoil",
+      "status": "LIVE",
+      "epoch": "2026-08",
+      "claim": "v3.40.0: chatbot-to-Sugar delivery verified end-to-end in the sandbox — a real WP-staging conversation produced a real sandbox Sugar Lead with correct name split and location_c; the Tidio mobile-shows-wrong-bot trigger bug was found and fixed live via claude-in-chrome.",
+      "provenance": "_ARCHIVE/handoffs.md v3.40.0",
+      "links": [
+        "prl-todd-hotes-engagement",
+        "prl-sugar-studio-live-access-v3-39"
+      ],
+      "note": "Consistent with the user's global MEMORY.md ('1.2 closed 8/27') — this verified delivery is the technical basis the 1.2 close-loop was built on."
+    },
+    {
+      "id": "prl-empty-email-dedup-bug-v3-40",
+      "title": "CRITICAL empty-email dedup false-positive corrupted a real 2021 Sugar lead",
+      "cluster": "infra",
+      "status": "STALE",
+      "epoch": "2026-08",
+      "claim": "v3.40.0 flagged a CRITICAL bug as 'next session's first work': an empty-email dedup false-positive in the Zapier flow overwrote a real 2021 Sugar lead record (Roger A Lamarre), plus an owed repair to clear the corrupted description/title/industry fields back to blank.",
+      "provenance": "_ARCHIVE/handoffs.md v3.40.0",
+      "links": [
+        "prl-chatbot-delivery-verified-v3-40"
+      ],
+      "note": "No later handoff explicitly confirms either the dedup-filter fix or the record repair was applied — v3.45.0's PRL close-loop covers re-pricing and DoD reconciliation but does not name this specific repair. The corrupted record's status is unverifiable from this repo (it lives in the Sugar sandbox, not in git)."
+    },
+    {
+      "id": "comet-resume-atg-application-v3-37",
+      "title": "Comet Technical PMM application built end-to-end",
+      "cluster": "counterpart",
+      "status": "STALE",
+      "epoch": "2026-08",
+      "claim": "v3.37.0: built a full tailored application for Comet (Technical Product Marketing Manager, reports to VP Marketing Hannah Klemme) featuring an 'orthogonal echo' framing (token-savings-bank vs Opik's AI Spend Tracker, reduction-side vs observability-side) that survived a 4-facet adversarial pre-send gauntlet.",
+      "provenance": "_ARCHIVE/handoffs.md v3.37.0",
+      "links": [
+        "resume-tailor-skill-v02-shipped-v3-37"
+      ],
+      "note": "Comet is not listed anywhere in the user's global MEMORY.md current job-search project index (active, dormant, or lost) — outcome unconfirmed, most likely cold."
+    },
+    {
+      "id": "resume-tailor-skill-v02-shipped-v3-37",
+      "title": "resume-tailor skill generalized to v0.2, pushed to its own public repo",
+      "cluster": "infra",
+      "status": "LIVE",
+      "epoch": "2026-08",
+      "claim": "v3.37.0: the resume-tailor skill was generalized to v0.2 and pushed to a separate public repo (flashesofbrilliance/resume-tailor-skill) as a reusable ATG offshoot of the Comet application work — Parameters+Components model, Greenhouse JD fast-path, evals.json + rubric.md.",
+      "provenance": "_ARCHIVE/handoffs.md v3.37.0",
+      "links": [
+        "comet-resume-atg-application-v3-37"
+      ],
+      "note": "Confirmed still tracked live in the user's global MEMORY.md ([[resume-tailor-skill-v0.2-field-tested]], [[resume-tailor-voice-from-linkedin-export]]) — the reusable artifact survived even though the specific Comet application it grew out of did not."
+    },
+    {
+      "id": "canon-index-book-ii-self-contradiction",
+      "title": "_CANON/index.md self-contradicts on Book II completeness",
+      "cluster": "canon-governance",
+      "status": "DRIFTED",
+      "epoch": "2026-06",
+      "claim": "_CANON/index.md's own Book II table lists 'Part IV: Sessions API' as status 'DRAFT (CONDITIONAL CLEAR pending),' while the same file's footer banner three lines below states 'Canonical Book II: Complete (Parts I-VI)' — a live, self-contained self-contradiction inside one document, not merely a stale claim contradicted by a separate source.",
+      "provenance": "_CANON/index.md (read directly; header 'Index last updated: 2026-06-30')",
+      "links": [
+        "book-ii-canon-parts",
+        "memory-hallucination-self-correction-v1-5"
+      ],
+      "note": "Confirmed by direct read of _CANON/index.md this pass: the Book II reference table's own Part IV row says DRAFT, and the file's closing banner line reads 'Canonical Book II: Complete (Parts I-VI)' with no caveat. This compounds the pre-existing book-ii-canon-parts finding: the missing Part IV is not just undocumented relative to the handoff history (no _CANON/book-ii/part-iv-*.md file exists on disk), the one file whose entire job is to track canon status contradicts itself about it in two adjacent sections."
+    },
+    {
+      "id": "recoil-password-retired-agents-md-stale",
+      "title": "AGENTS.md env-var table still lists RECOIL_PASSWORD as the live /recoil gate",
+      "cluster": "infra",
+      "status": "DRIFTED",
+      "epoch": "2026-09",
+      "claim": "AGENTS.md's Environment Variables table still lists RECOIL_PASSWORD as 'Shared cookie gate for the whole /recoil* tree (src/proxy.ts, private-alpha)' — presented as the live gating mechanism for the internal /recoil surface.",
+      "provenance": "AGENTS.md Environment Variables table (live, read directly)",
+      "links": [
+        "ip-leak-hardening-warroom",
+        "recruithaus-ammo-tier-gate"
+      ],
+      "note": "Contradicted by the code it cites as its own source: src/proxy.ts line 68's comment reads '...fail-closed. The old shared RECOIL_PASSWORD cookie gate was a coarser...' (mechanism now retired), and src/lib/ammo-gate.ts line 6's comment reads '...by an ADMIN_EMAILS session. The old RECOIL_PASSWORD cookie was retired because...'. /recoil is now gated by an Auth.js session + ADMIN_EMAILS allowlist, not a shared password — meaning anyone who only had the old shared password (e.g. Amy at RecruitHaus, or any other external party from the private-alpha era) no longer has access at all. This is a real capability change the documentation was never updated to reflect."
     }
   ]
 }
