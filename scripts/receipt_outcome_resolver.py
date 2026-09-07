@@ -44,7 +44,8 @@ def resolve(rows: list[dict]) -> tuple[list[dict], dict]:
     self_only = pending = excluded_over100 = no_stake = 0
     for r in rows:
         nci = r.get("nci_score")
-        if not isinstance(nci, int):
+        # bool is an int subclass in Python — reject True/False as a stake (would score p=0.01).
+        if not isinstance(nci, int) or isinstance(nci, bool):
             no_stake += 1
             continue
         if nci > 100:
@@ -87,10 +88,16 @@ def load_export(path: str | None) -> list[dict]:
     rows: list[dict] = []
     try:
         with open(path) as fh:
-            for line in fh:
+            for i, line in enumerate(fh, 1):
                 line = line.strip()
-                if line:
+                if not line:
+                    continue
+                try:
                     rows.append(json.loads(line))
+                except json.JSONDecodeError as e:
+                    # fail loud with the line number rather than a bare traceback — a bad
+                    # export should be legible, not a mystery crash.
+                    raise ValueError(f"{path}: malformed JSON on line {i}: {e}") from e
     except FileNotFoundError:
         return []
     return rows
