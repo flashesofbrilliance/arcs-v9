@@ -1,3 +1,58 @@
+# Handoff — v3.53.0 (2026-09-04)
+
+> **The Reading Room session: the Almanac, the library taxonomy, ADR-075, and the locked build plan.**
+> Started as Blacksmith polish plus a Google (growth-ai) family stand-up; became the corpus-metabolism
+> architecture. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Everything on main. Oracle at 75.
+
+## Shipped (all on main)
+- **growth-ai.arcs.care family LIVE**: landing + /forge + /resume, Zach's real resume/cover/ATS PDFs
+  (2pp/448KB, not the 5pp render), air-gap clean (referrer off-page, employer named once), persona-gauntlet
+  hardened then realigned to "production" per the canonical docs. Blueprint run: ~40 min to standup, ~2h
+  to hardened. `tests/growth-ai.spec.ts` added. SEND stays human.
+- **recruithaus ammo tier gated + live** at `/ammo`: passcode `RECRUITHAUS_AMMO_PASSWORD` (Vercel env),
+  SHA-256 httpOnly cookie, host-independent gate in `src/proxy.ts` (closes the app.arcs.care/<file>
+  bypass), `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock`. Mobile PDF panel fixed.
+- **Blacksmith polish**: nav brand -> universal ARCS Field OS wordmark (also good/build/status), domain-map
+  slider glitch -> 2-col table (+blueprint note), hero left-edge aligned (.hero padding), lede spans the
+  lane (max-width:none, the 660px mode-4 bug), pill "Code as Receipts Era", build.html tofu banners removed,
+  growth-ai generic favicon (rewrite excludes .ico).
+- **The Almanac** (`scripts/research_render.py` -> `_ARTIFACTS/atlas/atlas-almanac.html`): 264 nodes,
+  full-temporal Apr->Sep, every node epoch-tagged (4 digests re-curated by Curator agents; Skeptics
+  correctly REFUSED to author). Read through the Reader at 3 altitudes (Skim/Scan/Trenches); two-shelf
+  Required Reading (Foundational by canon + Load-bearing by in-degree: in-degree structurally cannot
+  surface foundations); dataviz-validated palette; per-row self-contained export. LOCAL only.
+- **ADR-075 The Metabolic Router**: witnessed live -> DEWY -> ADR -> wisdom in one session (oracle-minted
+  75; `_STATE/witness/2026-09-04.jsonl` promoted, `_STATE/2026-09-04-session-decisions.dewy.json`). Mechanical
+  fan-out is automatable, judgment never; integrity gate = every cited ADR/commit/script must exist on
+  origin/main. Specs: `_SPECS/metabolic-router-v1.md`, `_ARTIFACTS/atlas/cache-manifest.spec.md`.
+- **Locked build plan** `_SPECS/reading-room-build-plan-v1.md`: spine first (Desk + Reader + cache),
+  tenants cheap (Concordance/Chronicle/Lexicon), token-savings-bank levers per phase, CBA ledger seeded.
+  Library taxonomy: Alexandria = index, Atlas = map (space), Almanac = dated state (time), missing =
+  Concordance, Chronicle, Lexicon, the Desk (intent router). Public room = lawful projections of private.
+- **Drift swept**: ADR-074 into index.json + oracle 73->74; 2 stale CLAUDE.md claims (Observatory IS on
+  main; canon-cron IS armed). False "ADR-075"/"ADR-042" claims de-claimed in the memory index + the
+  legibility-gate memory (specified, not wired). Memory index compacted to 18.2KB (~0.8KB over target).
+
+## Open (next session)
+1. **Phase 0 integrity gate** `scripts/integrity_gate.py` (cites exist on origin/main): build first, zero
+   judgment, then wire into pre-commit.
+2. **The Desk**: Stage 1 shape brief presented as a compact confirmation (job / audience / one thing /
+   direction / anti-goals / open decisions: route name `/library` vs `/reading-room`, freshness on the
+   front door). Awaiting Zach's one correction or "go", then polish -> `/dual-bar-raiser` -> brand-manager
+   persona gauntlet -> kintsugi -> build (admin-gated, reuse the `/recoil` Auth.js + ADMIN_EMAILS gate).
+3. **Loop locked until complete**: Desk -> Almanac wired -> Concordance -> Chronicle -> Lexicon.
+4. Two clean AGENTS.md fixes queued: `RECOIL_PASSWORD` row is stale (retired -> Auth.js/ADMIN_EMAILS);
+   operators census is wrong (recounted 2026-09-04: 52 top-level .py, 52 .py total, 62 tracked, 22,171
+   LOC). Judgment calls for Zach: `_CANON/index.md` "Book II Complete I-VI" self-contradiction (Part IV
+   deleted); `fanatics.arcs.care` routes to a missing file (live 308).
+5. MEMORY.md one more trim pass; router v1 wiring after the spine; growth-ai send to Yuri stays human.
+
+## Minted / receipts / memories
+- ADR-075 (oracle). Witness stub promoted=ADR-075. DEWY receipt 2026-09-04. Memories:
+  `metabolic-router-mechanical-judgment-split`, `proactive-spec-jtbd-reverse-lookup-flag`,
+  `research-render-three-altitude-delivery-grammar`; `recruiter-enablement-two-tier-tear-sheet` updated
+  (gate LIVE). CBA baseline lesson: match agent role to job class (Skeptic verifies, Curator authors).
+
 # Handoff — v3.48.0 (2026-08-29)
 
 > **Session close of the tool-catalog build.** v3.47.0 (below) shipped the
@@ -3710,64 +3765,44 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 - **DEWY:** session-decisions receipt still owed (kintsugi receipt already appended).
 
 > _relocated from CLAUDE.md 2026-09-06._
+# Handoff — v3.54.0 (2026-09-06)
 
----
+> **Open-loops session.** `/handoff-pickup` triage, then three loops closed on branch
+> `claude/open-loops-handoff-cvgjxd` (NOT yet merged to main — open the PR): Phase 0 integrity gate,
+> ADR-020 Tribune steps 1-2, ADR-006 repo-side half. Zach closed loop "sean-wing" by decision.
 
-# Handoff — v3.53.0 (2026-09-04)
-
-> **The Reading Room session: the Almanac, the library taxonomy, ADR-075, and the locked build plan.**
-> Started as Blacksmith polish plus a Google (growth-ai) family stand-up; became the corpus-metabolism
-> architecture. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Everything on main. Oracle at 75.
-
-## Shipped (all on main)
-- **growth-ai.arcs.care family LIVE**: landing + /forge + /resume, Zach's real resume/cover/ATS PDFs
-  (2pp/448KB, not the 5pp render), air-gap clean (referrer off-page, employer named once), persona-gauntlet
-  hardened then realigned to "production" per the canonical docs. Blueprint run: ~40 min to standup, ~2h
-  to hardened. `tests/growth-ai.spec.ts` added. SEND stays human.
-- **recruithaus ammo tier gated + live** at `/ammo`: passcode `RECRUITHAUS_AMMO_PASSWORD` (Vercel env),
-  SHA-256 httpOnly cookie, host-independent gate in `src/proxy.ts` (closes the app.arcs.care/<file>
-  bypass), `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock`. Mobile PDF panel fixed.
-- **Blacksmith polish**: nav brand -> universal ARCS Field OS wordmark (also good/build/status), domain-map
-  slider glitch -> 2-col table (+blueprint note), hero left-edge aligned (.hero padding), lede spans the
-  lane (max-width:none, the 660px mode-4 bug), pill "Code as Receipts Era", build.html tofu banners removed,
-  growth-ai generic favicon (rewrite excludes .ico).
-- **The Almanac** (`scripts/research_render.py` -> `_ARTIFACTS/atlas/atlas-almanac.html`): 264 nodes,
-  full-temporal Apr->Sep, every node epoch-tagged (4 digests re-curated by Curator agents; Skeptics
-  correctly REFUSED to author). Read through the Reader at 3 altitudes (Skim/Scan/Trenches); two-shelf
-  Required Reading (Foundational by canon + Load-bearing by in-degree: in-degree structurally cannot
-  surface foundations); dataviz-validated palette; per-row self-contained export. LOCAL only.
-- **ADR-075 The Metabolic Router**: witnessed live -> DEWY -> ADR -> wisdom in one session (oracle-minted
-  75; `_STATE/witness/2026-09-04.jsonl` promoted, `_STATE/2026-09-04-session-decisions.dewy.json`). Mechanical
-  fan-out is automatable, judgment never; integrity gate = every cited ADR/commit/script must exist on
-  origin/main. Specs: `_SPECS/metabolic-router-v1.md`, `_ARTIFACTS/atlas/cache-manifest.spec.md`.
-- **Locked build plan** `_SPECS/reading-room-build-plan-v1.md`: spine first (Desk + Reader + cache),
-  tenants cheap (Concordance/Chronicle/Lexicon), token-savings-bank levers per phase, CBA ledger seeded.
-  Library taxonomy: Alexandria = index, Atlas = map (space), Almanac = dated state (time), missing =
-  Concordance, Chronicle, Lexicon, the Desk (intent router). Public room = lawful projections of private.
-- **Drift swept**: ADR-074 into index.json + oracle 73->74; 2 stale CLAUDE.md claims (Observatory IS on
-  main; canon-cron IS armed). False "ADR-075"/"ADR-042" claims de-claimed in the memory index + the
-  legibility-gate memory (specified, not wired). Memory index compacted to 18.2KB (~0.8KB over target).
+## Shipped (on the branch)
+- **`scripts/integrity_gate.py`** (ADR-075 GATE organ): every ADR / commit sha / repo path a record
+  cites must exist on `origin/main`. OK / WARN (index drift, unknown sha, gitignored) / FAIL (missing
+  ADR, unmerged sha, vapor path). `--staged` for the hook (staged files count as existing). Wired into
+  `scripts/git-hooks/pre-commit` as **warn-then-block**: warns by default, `INTEGRITY_GATE_BLOCK=1`
+  enforces. First run found real drift: ADR-042 gap, `runtime/specs/routing-manifest.json` vapor,
+  **9 retired `public/*.html` briefs still listed in `_STATE/snapshot.json` `ui_artifacts`** (labella,
+  peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview).
+  CBA ledger row 0 filled (~0.5 hr actual vs 1 est).
+- **ADR-020 Tribune** steps 1-2: `POST/GET /api/tribune` (auth+owner, rate limit, lazy per-phase
+  upsert, Proactive silent below threshold, Posterior needs an Outcome, baton write), `Tribune` model +
+  `Receipt.batonId` + migration `20260906000000_tribune`, `src/lib/tribune.ts` pure helpers (18 unit
+  assertions; compiled via `npx tsc` to scratch, no tsx in repo). `npm run build` green.
+- **ADR-006** repo half: `.github/workflows/preview-db-migrate.yml` — migrations-from-zero on a
+  Postgres 17 service + `prisma migrate diff --exit-code` on every `prisma/**` PR; `migrate deploy` to
+  `PREVIEW_DATABASE_URL` when the secret exists. ADR-006 amended (live ref is `xbbpiryokswwvcrcutge`,
+  not the INACTIVE `owdiiy…` the connector sees; branch ~$0.0134/hr on the visible org).
 
 ## Open (next session)
-1. **Phase 0 integrity gate** `scripts/integrity_gate.py` (cites exist on origin/main): build first, zero
-   judgment, then wire into pre-commit.
-2. **The Desk**: Stage 1 shape brief presented as a compact confirmation (job / audience / one thing /
-   direction / anti-goals / open decisions: route name `/library` vs `/reading-room`, freshness on the
-   front door). Awaiting Zach's one correction or "go", then polish -> `/dual-bar-raiser` -> brand-manager
-   persona gauntlet -> kintsugi -> build (admin-gated, reuse the `/recoil` Auth.js + ADMIN_EMAILS gate).
-3. **Loop locked until complete**: Desk -> Almanac wired -> Concordance -> Chronicle -> Lexicon.
-4. Two clean AGENTS.md fixes queued: `RECOIL_PASSWORD` row is stale (retired -> Auth.js/ADMIN_EMAILS);
-   operators census is wrong (recounted 2026-09-04: 52 top-level .py, 52 .py total, 62 tracked, 22,171
-   LOC). Judgment calls for Zach: `_CANON/index.md` "Book II Complete I-VI" self-contradiction (Part IV
-   deleted); `fanatics.arcs.care` routes to a missing file (live 308).
-5. MEMORY.md one more trim pass; router v1 wiring after the spine; growth-ai send to Yuri stays human.
+1. **Open + merge the PR** for this branch; then run `INTEGRITY_GATE_BLOCK=1` for a week before flipping
+   the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
+2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
+   `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
+3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
+   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
+   smoke one real receipt on prod after merge.
+4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
+   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
+   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
+5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
+   orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
+6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
 
-## Minted / receipts / memories
-- ADR-075 (oracle). Witness stub promoted=ADR-075. DEWY receipt 2026-09-04. Memories:
-  `metabolic-router-mechanical-judgment-split`, `proactive-spec-jtbd-reverse-lookup-flag`,
-  `research-render-three-altitude-delivery-grammar`; `recruiter-enablement-two-tier-tear-sheet` updated
-  (gate LIVE). CBA baseline lesson: match agent role to job class (Skeptic verifies, Curator authors).
 
-> _v3.52.0 relocated to `_ARCHIVE/handoffs.md` on 2026-09-06._
 
-> _v3.53.0 relocated from CLAUDE.md 2026-09-06 (≤2-live policy)._

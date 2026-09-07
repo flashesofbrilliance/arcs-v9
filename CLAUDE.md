@@ -113,82 +113,67 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.55.0 (2026-09-06)
+# Handoff — v3.56.0 (2026-09-07)
 
-> **The keel session: outcome-capture RATE.** Designed the spec and shipped the surgical-first
-> implementation of the outcome-capture nudge — the P1 keel. Branch `claude/wonderful-cray-0916fe`
-> (NOT merged — open the PR). The fold applied: *external directive = apply-with-governor.*
+> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
+> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
+> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
 
-## The reframe (GREEN, source-verified this session)
-- The capture **mechanism is fully built** — not just the handler. On this branch already:
-  `POST/GET /api/receipts/[id]/outcome` · `debriefEmail` · `cron/debrief` (opt-in ladder) ·
-  `DebriefCard` · `debrief/[id]` page · `account/reminders`. The AGENTS.md "not built" rows are stale.
-- The gap is **rate**: 247 receipts, **2 outcomes**, ~0 externally-validated (Supabase-MCP 2026-09-05).
-  Root: behavioral (forget-the-fitting) **+** a surfacing gap — `DebriefCard` renders only on
-  `/brief/[id]`, so nothing PULLS a returning user to close.
-
-## Shipped (surgical first cut — governor-gated dark, `build` green)
-- **`GET /api/receipts/ripe`** — auth-gated read of the caller's own OPEN short-window seed receipts
-  with no outcome, past their window (reminderDate, else conservative age floor TODAY 2d/WEEK 10d/
-  QUARTER 100d), ≤3. NOTOMATION-clean: **candidates only, no derivation plane touched.** Endpoint
-  smoke: `200 {"ripe":[]}` unauth.
-- **Dashboard banner** (`src/app/dashboard/page.tsx`) → top ripe receipt's existing `/debrief/[id]`.
-  Mirrors `onboardingNudge`; inline styles, no new dep, no new molecule.
-- **Governor = dark flag** `NEXT_PUBLIC_OUTCOME_NUDGE` (+ server mirror `OUTCOME_NUDGE` in
-  `src/lib/flags.ts`). **Default OFF → draft copy reaches no real user.** Write-lock-paradox governor
-  in code: narrow default, widen only on evidence. Dogfood-first (founder's 247) is the honest first pop.
-- Spec: `_STATE/edge-capture-evidence-seam-spec.md` §Surgical-first (v0.2, extended not forked).
-  Pickup: `_STATE/pickup-prompt.md`.
-
-## Open (next session — do NOT skip the order)
-1. **Open + merge the PR** for this branch.
-2. **Dogfood locally:** `NEXT_PUBLIC_OUTCOME_NUDGE=true` on a dev.db with the founder's receipts —
-   does the pull produce closes the email didn't? That's the whole test.
-3. **Bless the DRAFT banner copy** before any real-user exposure (marked `DRAFT COPY` at the mount).
-4. **`privacy-review` + `ciso-review`** on the ripe route before prod-widening; then widen the flag on
-   evidence (founder-in-prod → real users). Edge-function reliability layer only if plumbing proves the
-   binding constraint (it is not — capture is behavioral).
-5. **Two keels, don't conflate:** this moves *capture* (self-graded). **External adjudication** (~0/247)
-   is the separate `2026-09-05-receipt-outcome-resolver-spec.md` track (externalVerdict/adjudicatedBy).
-- Note: this worktree's Prisma client needed `npx prisma generate` (Tribune relation stale); the
-  tribune/route.ts typecheck fails until then — regenerate before building.
-
-# Handoff — v3.54.0 (2026-09-06)
-
-> **Open-loops session.** `/handoff-pickup` triage, then three loops closed on branch
-> `claude/open-loops-handoff-cvgjxd` (NOT yet merged to main — open the PR): Phase 0 integrity gate,
-> ADR-020 Tribune steps 1-2, ADR-006 repo-side half. Zach closed loop "sean-wing" by decision.
-
-## Shipped (on the branch)
-- **`scripts/integrity_gate.py`** (ADR-075 GATE organ): every ADR / commit sha / repo path a record
-  cites must exist on `origin/main`. OK / WARN (index drift, unknown sha, gitignored) / FAIL (missing
-  ADR, unmerged sha, vapor path). `--staged` for the hook (staged files count as existing). Wired into
-  `scripts/git-hooks/pre-commit` as **warn-then-block**: warns by default, `INTEGRITY_GATE_BLOCK=1`
-  enforces. First run found real drift: ADR-042 gap, `runtime/specs/routing-manifest.json` vapor,
-  **9 retired `public/*.html` briefs still listed in `_STATE/snapshot.json` `ui_artifacts`** (labella,
-  peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview).
-  CBA ledger row 0 filled (~0.5 hr actual vs 1 est).
-- **ADR-020 Tribune** steps 1-2: `POST/GET /api/tribune` (auth+owner, rate limit, lazy per-phase
-  upsert, Proactive silent below threshold, Posterior needs an Outcome, baton write), `Tribune` model +
-  `Receipt.batonId` + migration `20260906000000_tribune`, `src/lib/tribune.ts` pure helpers (18 unit
-  assertions; compiled via `npx tsc` to scratch, no tsx in repo). `npm run build` green.
-- **ADR-006** repo half: `.github/workflows/preview-db-migrate.yml` — migrations-from-zero on a
-  Postgres 17 service + `prisma migrate diff --exit-code` on every `prisma/**` PR; `migrate deploy` to
-  `PREVIEW_DATABASE_URL` when the secret exists. ADR-006 amended (live ref is `xbbpiryokswwvcrcutge`,
-  not the INACTIVE `owdiiy…` the connector sees; branch ~$0.0134/hr on the visible org).
+## Shipped
+- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
+  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
+  checks miss; scans `<style>` only (correctness + perf), strips CSS comments, FP-reducer for
+  `.hero .lede{max-width:none}` overrides, and a `wrap-lint-allow: measure-mismatch` opt-out for
+  intentional two-width designs. Fixed the dossier (`.wrap` 940→700 = inner==measure), 3 narrow ledes
+  (blacksmith-observatory, blog-nftt-index, recruithaus-ammo), marked 3 two-width pages
+  (wing/scott-cut/observatory). AEO robots/sitemap now reachable on good.arcs.care (proxy + next.config).
+- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (verified clean at 1280/790/375: no pan, no
+  split-emphasis, no mono overflow, measure coherent). Posts 1-3 swept clean too. The template produces
+  diamond-cut text handling by construction; the 4-width JS test method is banked.
+- **Dealroom talent research** (delegated agent) — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`
+  (PR #273): 15 report/viz patterns + an MCP-led-growth GTM analysis Zach flagged.
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307, merging). DRAFT/YELLOW: MCP = free land
+  on the authed core, API = paid expand, wedge = ARCS's native attribution (cited receipts, not the
+  model guessing). Drafted as ADR-075; **renumbered to 076 after a parallel session's DECIDED ADR-075
+  "Metabolic Router" merged first** (oracle-first doctrine; collision resolved cleanly, audit no-dup).
+- Housekeeping: lattice epoch re-pinned e9=2026-09-03 (honest spot-check, not a full meta-audit);
+  iCloud deliverable→Files sync convention set up (ARCS/dated subfolders); memory consolidated + 5 new
+  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms,
+  template s-tier proof).
 
 ## Open (next session)
-1. **Open + merge the PR** for this branch; then run `INTEGRITY_GATE_BLOCK=1` for a week before flipping
-   the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
-2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
-   `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
-3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
-   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
-   smoke one real receipt on prod after merge.
-4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
-   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
-   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
-5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
-   orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
-6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
+1. **ADR-076 demand probe** (the ADR's own next step): ship ONE cheap read-only MCP tool over the public
+   NFTT/receipt corpus + a "Connect an agent →" affordance; measure pull. Do NOT build a hosted MCP
+   server before that signal. If quiet across a fair window, the thesis weakens (falsifier stated).
+2. Memory index still ~20KB over the hook's 17.4KB budget — further trim needs de-indexing live wisdom (Zach's call).
+3. Full `/meta-audit` epoch to re-derive all 81 lattice node statuses (spot-check done; full run deferred).
+4. Everything below from v3.55.0 still stands (story_render.py / literary-theme drift).
 
+# Handoff — v3.55.0 (2026-09-07)
+
+> **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
+> "Confirmed Not My Bug" to its b-version, LIVE and publish-blessed. Everything on main (PR #308).
+
+## Shipped
+- **NFTT "Confirmed Not My Bug" LIVE** at good.arcs.care/blog/nftt/confirmed-not-my-bug (HTTP 200,
+  new "Latest"; take-home-trap demoted to No. 5). B-version arc = "the audit that measured its own
+  author": the harness audits its own maker, and the Mobius/second-strand turn is deceipt #13 (a false
+  claim *inside* the ledger of false claims) caught only by the independent strand, not introspection.
+  Faithful to `_STATE/deceipt-ledger.md` (in worktree `agitated-feynman-b23c40`); no counterpart, PII-clean.
+- **Theme fork surfaced + decided mid-session.** The task pointed at `story_render.py` (threaded engine),
+  but the LIVE NFTT series moved to a hand-authored **literary theme** (take-home-trap "With Life"
+  standard: Newsreader serif, 520px, no braid); the threaded engine's `-full.html` outputs are
+  orphaned/unrouted. Asked Zach -> "rebuild in literary theme". Authored in that template; the b-version
+  arc carries as an editorial essay + a deceipt-ledger `.panel` (the "receipts included" device).
+- Files: `public/blog-nftt-confirmed-not-my-bug.html`, `src/proxy.ts` route, index card.
+  Gates all green (em-dash=0, robots+desc meta, AA on #020408, no overflow 375/790/1024/1280,
+  wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
+  robots tweak to keep the change set focused.
+
+## Open (next session)
+- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
+  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
+  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
+- Everything below from v3.54.0 still stands.
+
+> _v3.54.0 (open-loops: integrity gate, Tribune, ADR-006) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.53.0 relocated 2026-09-07._

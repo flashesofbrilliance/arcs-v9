@@ -43,8 +43,14 @@ _NCI = re.compile(r"\[NCI:([^\]]+)\]")
 _HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,\d+)? @@")
 
 
-def _git(*args: str) -> str:
-    return subprocess.run(["git", *args], capture_output=True, text=True).stdout
+def _git(*args: str, allow_fail: bool = False) -> str:
+    # check the returncode by default: a swallowed error would read as "no link found",
+    # a false null. Callers that legitimately expect failure (blame on a path absent at
+    # the parent, e.g. a rename) pass allow_fail=True to degrade quietly.
+    r = subprocess.run(["git", *args], capture_output=True, text=True)
+    if r.returncode != 0 and not allow_fail:
+        raise RuntimeError(f"git {' '.join(args[:3])}… failed (exit {r.returncode}): {r.stderr.strip()[:200]}")
+    return r.stdout
 
 
 def numeric_nci(subject: str) -> int | None:
@@ -80,11 +86,17 @@ def removed_lines_by_file(sha: str) -> dict[str, list[int]]:
     cur: str | None = None
     old_ln = 0
     for line in diff.splitlines():
-        if line.startswith("+++ b/"):
+        # Key off the OLD-file header (--- a/…), since removed lines live in the parent and
+        # we blame the parent. Handles whole-file deletion (--- a/foo → +++ /dev/null) which
+        # a +++ b/ key would mis-attribute to the previous file (review #4).
+        if line.startswith("--- a/"):
             cur = line[6:]
             files.setdefault(cur, [])
             continue
-        if line.startswith("--- a/") or line.startswith("diff --git"):
+        if line == "--- /dev/null":       # new file — no removed (old) lines to attribute
+            cur = None
+            continue
+        if line.startswith("+++ ") or line.startswith("diff --git"):
             continue
         h = _HUNK.match(line)
         if h:
@@ -104,7 +116,10 @@ def blame_introducers(parent: str, path: str, lines: list[int]) -> dict[str, int
     """OLD-file line numbers -> introducing commit sha, tallied per commit."""
     tally: dict[str, int] = defaultdict(int)
     # blame the whole file once at the parent; index sha per line.
-    out = _git("blame", "-p", f"{parent}", "--", path)
+    # allow_fail: the path may not exist at the parent (a rename/copy correction) — that is a
+    # KNOWN recall gap (review #5), degraded quietly rather than crashing. Precision-preserving:
+    # a missing blame drops links, never invents one.
+    out = _git("blame", "-p", f"{parent}", "--", path, allow_fail=True)
     if not out:
         return tally
     line_sha: dict[int, str] = {}

@@ -78,9 +78,9 @@ projection pipeline with the air-gap leak-check at 0.
 |---|---|---|---|---|---|---|
 | (baseline) Almanac v1→v2 + full-temporal re-curation, 2026-09-04 | ~4 | ~5 | ~600k | ~1.0M | Route: two claims-skeptic agents *refused* an authoring job (correctly) and we re-ran as general-purpose Curators → paid twice | **Match agent role to job class before spawning** (verify ≠ author). Delegated corpus sweeps were the right call (Lever 3); the waste was the role mismatch, not delegation. Future: Curator for augment/grade, Skeptic only for verify. |
 | 0 | 1 | ~0.5 | ~40k | ~35k | Route: pure script, zero agents; Batch: one ls-tree + one cat-file --batch-check for all cites | First run against the real corpus found live drift (ADR-042 gap, `routing-manifest.json` vapor, 9 retired `public/*.html` still cited by `_STATE/snapshot.json`), so the gate earns its keep on day one. Rolled out warn-then-block (`INTEGRITY_GATE_BLOCK=1`). Estimates for mechanical scripts hold at ~1 hr; next: trust the ~8× figure. |
-| 1a | 2 | | | | | |
-| 1b | 2–3 | | | | | |
-| 1c | 3–5 | | | | | |
+| 1a | 2 | ~1.5 | ~150k | ~400k | Delegate: builder + skeptic + runner + per-finding refuters in one graph; 12 of 13 raw findings confirmed real (two contradictory "graded" stamps, undated row dropped, malformed epoch crash) | **Reviewers earn their cost on renderers**: the builder's self-report undercounted em-dashes and mislabeled the render date as "graded". Gate note: 4-width visual check still NOT run (headless screenshot pending); code complete, gate pending. |
+| 1b | 2–3 | ~1.5 | ~150k | ~450k | Delegate: same graph; 10 of 13 confirmed incl. one blocker (HEAD fallback made every slice read fresh) | **Scope globs must be derived from provenance, not assumed**: the spec's memories/recoil globs could never fire. Fixed: graded_at_sha = digest file's last commit, unknown-domain/untracked/missing/orphan are dirty markers, one JSON shape, usage errors exit 1. Back-prop (Curator) still the open seam; gate "a dirty slice re-grades on read" NOT met. |
+| 1c | 3–5 | ~2 | ~300k | ~600k | Delegate: builder + ciso/ds/brand lenses; **gauntlet INCOMPLETE** (spend limit killed 26 of 28 refuters + all rechecks) | 2 confirmed (tracing includes for standalone bundle; desk-manifest hardening) applied; unadjudicated ciso findings (iframe sandbox, frame-ancestors CSP, dev pass-through, frame src allowlist) applied conservatively. Must re-run the refute + recheck stages before this row is marked done. |
 | 2a | 1–2 | | | | | |
 | 2b | 2–3 | | | | | |
 | 2c | 2–4 | | | | | |

@@ -43,7 +43,9 @@ from dataclasses import dataclass, field
 _FLD = "\x1f"
 _REC = "\x1e"
 _VOCAB = re.compile(r"\b(revert|overclaim|supersed|corrected|correct|confabulat|retract|reclassif|false[- ]claim|walk[- ]?back|reel[- ]?in)\b", re.I)
-_REVERSAL = re.compile(r"\b(overstat|overclaim|confabulat|phantom|mislabel(?:ed|led)?|not (?:proven|live|true|a|yet)|didn'?t hold|walk[- ]?back|retract|false|stale|wrong|reclassif|superseded)\b", re.I)
+# stems carry \w* so inflected forms match ("overstated", "confabulated", "reclassified");
+# a bare trailing \b after a stem would (wrongly) require the word end AT the stem.
+_REVERSAL = re.compile(r"\b(overstat\w*|overclaim\w*|confabulat\w*|phantom|mislabel\w*|not (?:proven|live|true|a|yet)|didn'?t hold|walk[- ]?back|retract\w*|false\w*|stale\w*|wrong\w*|reclassif\w*|supersed\w*)\b", re.I)
 _REVERT_TRAILER = re.compile(r"This reverts commit ([0-9a-f]{7,40})", re.I)
 _SUBJECT_REVERT = re.compile(r"^(revert\(|revert:|Revert )")
 
@@ -58,7 +60,12 @@ _ARCH = {
 
 
 def _git(*args: str) -> str:
-    return subprocess.run(["git", *args], capture_output=True, text=True).stdout
+    # check the returncode: a swallowed git error would surface as a clean "0 events",
+    # indistinguishable from real absence (the repo's false-null failure mode).
+    r = subprocess.run(["git", *args], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args[:3])}… failed (exit {r.returncode}): {r.stderr.strip()[:200]}")
+    return r.stdout
 
 
 def patch_id(sha: str) -> str:
@@ -123,7 +130,18 @@ def main() -> int:
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
 
-    main_shas = set(_git("log", "origin/main", "--no-merges", "--pretty=tformat:%H").split())
+    # Resolve the mainline ref robustly. A silently-empty main set would flip EVERY event
+    # to off-main — the exact false-null inversion this scout exists to prevent (review #1).
+    main_shas: set[str] = set()
+    main_ref: str | None = None
+    for ref in ("origin/main", "main"):
+        try:
+            shas = _git("log", ref, "--no-merges", "--pretty=tformat:%H").split()
+        except RuntimeError:
+            continue
+        if shas:
+            main_shas, main_ref = set(shas), ref
+            break
     cands = gather()
     # transparency: how many commits matched the vocab only in the BODY (low-precision,
     # excluded by the subject-scoped scout — surfaced so 'cands' isn't read as exhaustive).
@@ -149,7 +167,11 @@ def main() -> int:
         if order[v] > order[ev.verdict]:
             ev.verdict = v
 
-    events = sorted(by_patch.values(), key=lambda e: (-{"GENUINE-AUTO":3,"NEEDS-RATIFY":2,"WEAK":1}[e.verdict], not e.on_main))
+    # If no mainline ref resolved, on-main is UNKNOWN — never claim off-main (false-null guard).
+    if main_ref is None:
+        for e in by_patch.values():
+            e.on_main = None
+    events = sorted(by_patch.values(), key=lambda e: (-{"GENUINE-AUTO":3,"NEEDS-RATIFY":2,"WEAK":1}[e.verdict], e.on_main is not False))
 
     if args.json:
         with open(args.json, "w") as fh:
@@ -157,15 +179,20 @@ def main() -> int:
                 fh.write(json.dumps({
                     "patch_id": e.patch, "verdict": e.verdict, "subject": e.subject,
                     "shas": e.shas, "sha_variants": len(e.shas), "on_main": e.on_main,
-                    "off_main_only": not e.on_main, "archetypes": e.archetypes,
+                    "off_main_only": e.on_main is False, "archetypes": e.archetypes,
                 }) + "\n")
 
     if not args.quiet:
         auto = [e for e in events if e.verdict == "GENUINE-AUTO"]
         rat = [e for e in events if e.verdict == "NEEDS-RATIFY"]
         weak = [e for e in events if e.verdict == "WEAK"]
-        offmain = [e for e in events if not e.on_main and e.verdict != "WEAK"]
+        offmain = [e for e in events if e.on_main is False and e.verdict != "WEAK"]
         print("── reel-in scout (all refs, logical events) ──────────────────")
+        if main_ref is None:
+            print("⚠ mainline ref (origin/main / main) did NOT resolve — on/off-main is UNDETERMINED,")
+            print("  not reported as off-main. Fetch or name the remote to restore the provenance split.")
+        elif main_ref != "origin/main":
+            print(f"note: origin/main absent — used '{main_ref}' as the mainline ref.")
         print(f"raw vocab candidates (subject)   : {len(cands)}   [+{body_only_excluded} body-only, excluded as low-precision]")
         print(f"logical events (patch-id deduped): {len(events)}   [twin-collapse killed {len(cands)-len(events)}]")
         print(f"  GENUINE-AUTO (revert-trailer)  : {len(auto)}")
