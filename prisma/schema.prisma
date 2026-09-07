@@ -290,6 +290,9 @@ model JobOpportunity {
   jdHits        String? // TEXT json {A:[...],B:[...],C:[...],D:[...]}
   unscoredWhy   String?
   scoredAt      DateTime?
+  laneStage     String?   // manual kanban override: research|qualify|apply|interview|outcome
+  laneStatus    String?   // fate within the stage: applied|screened|declined|offer|reject|withdrawn
+  laneMovedAt   DateTime?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   swipe         JobSwipe?

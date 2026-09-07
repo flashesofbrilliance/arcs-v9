@@ -26,15 +26,20 @@ export default async function LanePage() {
   ])
 
   const item = (r: (typeof rows)[number], extra?: Partial<StageItem>): StageItem => ({
-    jobid: r.jobid, company: r.company, title: r.title,
+    jobid: r.jobid, company: r.company, title: r.title, stage: stageOf(r), manual: r.laneStage != null,
     score: r.composite != null ? fmt(r.composite) : undefined, tone: bandTone(r.band), ...extra,
   })
 
-  const research = rows.filter((r) => r.band === "UNSCORED")
-  const qualify = rows.filter((r) => r.band !== "UNSCORED" && !r.swipe && !r.forge)
-  const apply = rows.filter((r) => r.forge || r.swipe?.direction === "r")
-  const interview = rows.filter((r) => r.forge?.status === "live")
-  const closed = rows.filter((r) => r.laneOutcome)
+  // Derived stage is the floor; a manual laneStage overrides it (mark applied,
+  // advance the interview loop). Each row lands in exactly one column.
+  const derived = (r: (typeof rows)[number]): string =>
+    r.laneOutcome ? "outcome"
+    : r.band === "UNSCORED" ? "research"
+    : (r.forge || r.swipe?.direction === "r") ? "apply"
+    : "qualify"
+  const stageOf = (r: (typeof rows)[number]): string => r.laneStage ?? derived(r)
+  const inStage = (k: string) => rows.filter((r) => stageOf(r) === k)
+  const research = inStage("research"), qualify = inStage("qualify"), apply = inStage("apply"), interview = inStage("interview"), closed = inStage("outcome")
 
   const stages: Stage[] = [
     { verb: "analyze", label: "Research", print: "JD read + record graded", sla: "2d", count: research.length,
