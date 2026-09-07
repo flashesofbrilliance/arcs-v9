@@ -11,3 +11,4 @@
 {"date": "2026-09-07", "target": "doppel-fde-lead", "stage": "forge-light", "est_tokens": null, "actual_tokens": 150000, "metered": true, "notes": "inputs pre-staged; sonnet; harness-metered"}
 {"date":"2026-09-07","target":"score-sweep","stage":"scorer","model":"claude-haiku-4-5-20251001","rows":0,"in_tokens":0,"out_tokens":0,"cache_read":0,"metered":true,"notes":"batch 8; 0 fetch-failed left unscored"}
 {"date":"2026-09-07","target":"score-sweep","stage":"scorer","model":"claude-haiku-4-5-20251001","rows":0,"in_tokens":0,"out_tokens":0,"cache_read":0,"metered":true,"notes":"batch 8; 0 fetch-failed left unscored"}
+{"date":"2026-09-07","target":"score-sweep","stage":"scorer","model":"claude-haiku-4-5","rows":105,"in_tokens":121553,"out_tokens":17251,"metered":true,"notes":"full backlog drained in 3 passes; 700ms fetch delay dodged LinkedIn throttle"}
