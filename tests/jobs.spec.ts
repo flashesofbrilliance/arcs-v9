@@ -37,6 +37,13 @@ test.describe("gate holds for anonymous visitors", () => {
     }
   })
 
+  test("lane surfaces page redirects anon to sign-in", async () => {
+    const c = await request.newContext({ baseURL: BASE })
+    const r = await c.get("/jobs/lane", noFollow)
+    expect([307, 308]).toContain(r.status())
+    expect(r.headers()["location"]).toContain("/compass")
+  })
+
   test("API rejects a missing/blank token", async () => {
     const c = await request.newContext({ baseURL: BASE })
     const r = await c.get("/api/jobs")
@@ -58,7 +65,17 @@ test.describe("API contract (pipeline token)", () => {
     expect(d.caller).toBe("pipeline")
   })
 
-  test("every built forge row has a unique-named resume download link", async () => {
+  test("GET /api/jobs/lane returns seeded sources", async () => {
+    const c = await request.newContext({ baseURL: BASE, extraHTTPHeaders: hdr() })
+    const r = await c.get("/api/jobs/lane")
+    expect(r.status()).toBe(200)
+    const d = await r.json()
+    expect(Array.isArray(d.sources)).toBeTruthy()
+    expect(d.sources.length).toBeGreaterThan(0)
+    expect(d.sources.map((s: { key: string }) => s.key)).toContain("linkedin_alert_digest")
+  })
+
+    test("every built forge row has a unique-named resume download link", async () => {
     const c = await request.newContext({ baseURL: BASE, extraHTTPHeaders: hdr() })
     const r = await c.get("/api/jobs/forge?status=built")
     expect(r.status()).toBe(200)
