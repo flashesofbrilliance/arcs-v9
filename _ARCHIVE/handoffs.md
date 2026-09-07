@@ -1,3 +1,31 @@
+# Handoff — v3.55.0 (2026-09-07)
+
+> **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
+> "Confirmed Not My Bug" to its b-version, LIVE and publish-blessed. Everything on main (PR #308).
+
+## Shipped
+- **NFTT "Confirmed Not My Bug" LIVE** at good.arcs.care/blog/nftt/confirmed-not-my-bug (HTTP 200,
+  new "Latest"; take-home-trap demoted to No. 5). B-version arc = "the audit that measured its own
+  author": the harness audits its own maker, and the Mobius/second-strand turn is deceipt #13 (a false
+  claim *inside* the ledger of false claims) caught only by the independent strand, not introspection.
+  Faithful to `_STATE/deceipt-ledger.md` (in worktree `agitated-feynman-b23c40`); no counterpart, PII-clean.
+- **Theme fork surfaced + decided mid-session.** The task pointed at `story_render.py` (threaded engine),
+  but the LIVE NFTT series moved to a hand-authored **literary theme** (take-home-trap "With Life"
+  standard: Newsreader serif, 520px, no braid); the threaded engine's `-full.html` outputs are
+  orphaned/unrouted. Asked Zach -> "rebuild in literary theme". Authored in that template; the b-version
+  arc carries as an editorial essay + a deceipt-ledger `.panel` (the "receipts included" device).
+- Files: `public/blog-nftt-confirmed-not-my-bug.html`, `src/proxy.ts` route, index card.
+  Gates all green (em-dash=0, robots+desc meta, AA on #020408, no overflow 375/790/1024/1280,
+  wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
+  robots tweak to keep the change set focused.
+
+## Open (next session)
+- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
+  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
+  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
+
+---
+
 # Handoff — v3.53.0 (2026-09-04)
 
 > **The Reading Room session: the Almanac, the library taxonomy, ADR-075, and the locked build plan.**

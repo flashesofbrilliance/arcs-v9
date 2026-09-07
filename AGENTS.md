@@ -121,7 +121,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 ### Backlog (not built)
 | Agent / Worker | Type | Priority | Notes |
 |---|---|---|---|
-| Outcome handler | `PATCH /api/receipts/[id]` | P1 | Closes receipt loop, fires `receipt_outcome_matched` |
+| Outcome handler | `POST /api/receipts/[receiptId]/outcome` | ✅ BUILT · gap=capture | **Shipped** (2026-09-02 correction): route + `Outcome` model + debrief-email nudge + drift read (`matched`→LANDED/DRIFTING, status→LOGGED). By design the human supplies `matched`/`regretScore` — a receipt can't close itself (§5.1, *In datis veritas*). NOT wired: any `receipt_outcome_matched` analytics event. **Real P1 gap = capture rate** — 2/247 closed; the harness's validation target (`Outcome.matched`/`regretScore` vs `nciScore`/CSM) exists but n=2. This, not "make SAGE fire," is the keel. See "Receipt save prompt". |
 | Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
 | GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
 | Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
