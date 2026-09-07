@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const msg = await anthropic.messages.create({
-    model: "claude-sonnet-5", max_tokens: 8000, temperature: 0.2,
+    model: "claude-sonnet-4-6", max_tokens: 16000, temperature: 0.2,
     system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `NEW role: ${b.title} @ ${b.company} (jobid ${b.jobid})\nSeed bundle: ${b.seedSlug}\n\n--- NEW JD ---\n${b.jd.slice(0, 6000)}\n\n--- SEED RESUME HTML (edit this) ---\n${b.seedResumeHtml.slice(0, 40000)}` }],
   })
