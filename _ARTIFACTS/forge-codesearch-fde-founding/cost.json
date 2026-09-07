@@ -1,0 +1,5 @@
+{
+ "est_tokens_before": 70000,
+ "notes": "Estimate written 2026-09-06 before stage 1. Light-tier forge (stages 1,5,7,8,9), all inputs pre-staged (no JD fetch, no record re-grade, no design-system exploration): reading JD + record of record + reference bundle (page.html, resume-ats.html, notes) dominate the read cost; generation of resume HTML + page.html + notes + red-team + screenshots is the rest. | Actual: ~11 turns (JD read, record read, reference-bundle read incl. large page.html, resume build + render + page-1/2 image inspection, page.html build, air-gap grep, four-width Playwright screenshot + one image inspection, five artifact writes, pdfinfo verify). Large reads: reference page.html (~38KB), record-of-record.txt, JD text, two resume PNGs, one forge-shot PNG.",
+ "actual_tokens": 62000
+}
