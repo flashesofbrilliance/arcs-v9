@@ -1,4 +1,4 @@
-// GET /api/reading-room/almanac — serves the committed Almanac render
+// GET /api/reading-room/almanac  - serves the committed Almanac render
 // (_ARTIFACTS/atlas/atlas-almanac.html) into the Desk's tenant frame. Gated exactly like
 // /recoil (Auth.js session + ADMIN_EMAILS, fail-closed in prod). 404 when the render is absent.
 // Seam (brief §7): the render is a LOCAL step (scripts/research_render.py); this route serves

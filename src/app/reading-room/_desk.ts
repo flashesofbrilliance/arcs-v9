@@ -1,4 +1,4 @@
-// The Desk — server-side data access for /reading-room (brief: _SPECS/desk-shape-brief-v1.md).
+// The Desk  - server-side data access for /reading-room (brief: _SPECS/desk-shape-brief-v1.md).
 // Intents + shelf slots are DATA (runtime/specs/reading-room-manifest.json), never hardcoded
 // here, so a second tool can consume the same shelf. Freshness comes from the atlas cache
 // manifest (_ARTIFACTS/atlas/cache-manifest.spec.md); a MISSING manifest degrades to "unknown".

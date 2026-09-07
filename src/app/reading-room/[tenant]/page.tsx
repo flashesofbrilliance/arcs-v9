@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import { surface, text, font, space, border } from "@/ui/tokens"
 import { gateDesk, readDesk, readCache, freshnessFor } from "../_desk"
 
-// Tenant frame (/reading-room/[tenant]) — desk -> tenant (full frame) -> back. The tenant's
+// Tenant frame (/reading-room/[tenant])  - desk -> tenant (full frame) -> back. The tenant's
 // own render is served through the gated /api/reading-room/<tenant> handler and framed here,
 // not rebuilt. Unknown or unbuilt tenant -> notFound (an unbuilt slot is never a link).
 export const dynamic = "force-dynamic"
@@ -30,7 +30,7 @@ export default async function TenantFrame({ params }: { params: Promise<{ tenant
         padding: `${space[3]} ${space[4]}`,
         borderBottom: `1px solid ${border.subtle}`,
       }}>
-        <Link href={desk.route} style={{ ...rail, color: text.secondary, textDecoration: "none" }}>back to the desk</Link>
+        <Link href={desk.route} style={{ ...rail, color: text.secondary, textDecoration: "none" }}>reading room</Link>
         <span style={{ ...rail, color: text.primary }}>{slot.work}</span>
         <span style={rail}>{slot.question}</span>
         <span style={rail}>graded {f.graded}{f.dirty ? " stale" : ""}</span>

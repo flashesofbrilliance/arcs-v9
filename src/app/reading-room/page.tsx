@@ -4,7 +4,7 @@ import { surface, text, font, space, border } from "@/ui/tokens"
 import { ShelfSlot } from "@/molecules/ShelfSlot"
 import { gateDesk, readDesk, readCache, freshnessFor, readoutFor } from "./_desk"
 
-// The Desk (/reading-room) — the reader's intent router for the PRIVATE reading room.
+// The Desk (/reading-room)  - the reader's intent router for the PRIVATE reading room.
 // Brief: _SPECS/desk-shape-brief-v1.md (v1.3, all decisions closed). Hierarchy: the five
 // questions ARE the heading (never "what are you here to do?"), the shelf second, one mono
 // readout third. NOT a dashboard: no plot. Admin-gated exactly like /recoil, fail-closed.
@@ -18,7 +18,6 @@ export default async function ReadingRoomDesk() {
   const desk = readDesk()
   const cache = readCache()
   const readout = readoutFor(cache)
-  const built = desk.shelf.filter((s) => s.built)
 
   return (
     <main style={{ ...measureVar, minHeight: "100vh", background: surface.bg, color: text.primary, fontFamily: font.sans }}>
@@ -79,9 +78,7 @@ export default async function ReadingRoomDesk() {
           <span aria-hidden="true">&middot;</span>
           <span>last graded {readout.lastGraded}</span>
           <span aria-hidden="true">&middot;</span>
-          <span>{readout.dirtySlices === null ? "dirty slices unknown" : `${readout.dirtySlices} dirty ${readout.dirtySlices === 1 ? "slice" : "slices"}`}</span>
-          <span aria-hidden="true">&middot;</span>
-          <span>{built.length} of {desk.shelf.length} built</span>
+          <span>{readout.dirtySlices === null ? "stale slices unknown" : `${readout.dirtySlices} stale ${readout.dirtySlices === 1 ? "slice" : "slices"}`}</span>
           {desk.error && (<><span aria-hidden="true">&middot;</span><span>{desk.error}</span></>)}
         </div>
       </div>

@@ -209,6 +209,15 @@ def refresh(slices: list, head: str) -> None:
         s["dirty_files"] = dirty
 
 
+def warn_dead_scopes(tracked: list[str]) -> list[str]:
+    """A domain whose globs match no tracked file can never go dirty: say so, loudly."""
+    dead = [dom for dom, globs in SCOPE_GLOBS.items() if not match_scope(tracked, globs)]
+    for dom in dead:
+        print("WARN: scope for domain %r matches no tracked file (%s) — it can never invalidate"
+              % (dom, ", ".join(SCOPE_GLOBS[dom])), file=sys.stderr)
+    return dead
+
+
 # ---------------------------------------------------------------- manifest io
 def read_manifest() -> dict | None:
     if not os.path.exists(MANIFEST_PATH):
@@ -253,6 +262,7 @@ def cmd_stamp(today: str, as_json: bool) -> int:
         return 1
     slices = build_slices(digests, head, today)
     refresh(slices, head)
+    warn_dead_scopes(git("ls-files").splitlines())
     doc = manifest_doc(today, head, slices)
     write_manifest(doc)
     if as_json:
