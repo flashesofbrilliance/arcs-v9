@@ -16,3 +16,16 @@
 {"date": "2026-09-07", "target": "daloopa-pm-scout", "stage": "forge-light", "est_tokens": null, "actual_tokens": 150000, "metered": true, "notes": "inputs pre-staged; sonnet; harness-metered"}
 {"date":"2026-09-07","target":"camunda-ai-process-forward-deployed-engi","stage":"forge-light","actual_tokens":150000,"metered":true,"notes":"batch-clear queued"}
 {"date":"2026-09-07","target":"monstro-senior-applied-ai-research-engin","stage":"forge-light","actual_tokens":191181,"metered":true,"notes":"batch-clear queued"}
+{"date":"2026-09-07","target":"charlie-health-staff-forward-deployed-pl","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1316,"out_tokens":2295,"metered":true}
+{"date":"2026-09-07","target":"listen-labs-member-of-technical-staff-pr","stage":"edit-from-seed","seed":"monstro-senior-applied-ai-research-engin","in_tokens":1402,"out_tokens":2203,"metered":true}
+{"date":"2026-09-07","target":"knit-lead-product-manager","stage":"edit-from-seed","seed":"daloopa-pm-scout","in_tokens":1394,"out_tokens":2193,"metered":true}
+{"date":"2026-09-07","target":"sentilink-new-leader-pitch-us","stage":"edit-from-seed","seed":"arlyn-applied-scientist","in_tokens":1125,"out_tokens":1757,"metered":true}
+{"date":"2026-09-07","target":"helios-forward-deployed-applied-intellig","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1140,"out_tokens":1859,"metered":true}
+{"date":"2026-09-07","target":"scalr-forward-deployed-engineer-full-sta","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":292,"out_tokens":1845,"metered":true}
+{"date":"2026-09-07","target":"decagon-ai-acceleration-engineer","stage":"edit-from-seed","seed":"sentilink-new-leader-pitch-us","in_tokens":1355,"out_tokens":1923,"metered":true}
+{"date":"2026-09-07","target":"google-lead-genai-forward-deployed-engin","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1076,"out_tokens":1787,"metered":true}
+{"date":"2026-09-07","target":"avepoint-forward-deployed-engineer-ai","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1385,"out_tokens":1654,"metered":true}
+{"date":"2026-09-07","target":"eliseai-deployment-strategist-lead-futur","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1283,"out_tokens":2277,"metered":true}
+{"date":"2026-09-07","target":"salesforce-forward-deployed-engineer-fde","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1370,"out_tokens":1682,"metered":true}
+{"date":"2026-09-07","target":"palo-alto-networks-senior-forward-deploy","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1100,"out_tokens":1920,"metered":true}
+{"date":"2026-09-07","target":"haystack-ai-engineer","stage":"edit-from-seed","seed":"monstro-senior-applied-ai-research-engin","in_tokens":425,"out_tokens":2072,"metered":true}
