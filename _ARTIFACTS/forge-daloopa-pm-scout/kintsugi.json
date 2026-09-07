@@ -1,0 +1,28 @@
+{
+  "receipt_id": "receipt_daloopa_pm_scout_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-07",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "JD explicitly wants a walk-through of the hardest LLM-shipping problem (evals/tool-design/retrieval/prompting) at a level of technical detail the record of record does not carry",
+      "caught_by": "honest-grade pass against record-of-record.txt",
+      "gold": "resume states the evaluation/outcome-capture mechanism at the altitude the record supports and stops there; the specific war-story detail is named as deferred-to-interview in TAILOR-NOTES rather than invented"
+    },
+    {
+      "break": "Grayscale's regulated-digital-asset GTM work could be read as direct financial-analyst / equity-research experience, which the scorer's own dims assessment already flags as merely adjacent",
+      "caught_by": "cross-check against scorer_assessment text in the posting input block",
+      "gold": "resume scopes the claim to 'regulated digital-asset investment products' only; the gap is stated explicitly on the page and in TAILOR-NOTES section 5"
+    },
+    {
+      "break": "WTA <120ms real-time scoring bullet, reworded to echo Scout's earnings-cycle cadence language, risked reading as prior fintech-cadence experience",
+      "caught_by": "red-team pass",
+      "gold": "kept as a labeled analogy in TAILOR-NOTES rather than a literal claim; underlying fact unchanged from the record"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no scoring vocabulary on page.html, no em-dashes); three in-flight breaks were sealed with visible gold during the session, documented above."
+}

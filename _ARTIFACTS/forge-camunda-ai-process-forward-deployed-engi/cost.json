@@ -1,0 +1,5 @@
+{
+ "est_tokens_before": 90000,
+ "notes": "Estimate written 2026-09-07 before stage 1. Light-tier forge (stages 1,5,7,8,9), single posting, reference bundle (forge-citi-fde) already on disk as the format contract, no JD fetch or grading needed (pre-staged). Actual work: read reference bundle + JD + record, adapt resume HTML, render+verify PDF, adapt page.html section by section, four-width screenshots via Playwright, write notes/red-team/kintsugi/cost.",
+ "actual_tokens": 70000
+}
