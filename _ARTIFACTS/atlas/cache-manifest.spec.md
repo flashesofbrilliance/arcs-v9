@@ -3,7 +3,11 @@
 > The shared temporal backend. "Prompt caching for the corpus": cache the expensive
 > query (auditor grading), keyed by content-scope + time + repo-SHA, so every
 > reference work (Almanac, Chronicle, Concordance, public projections) reuses one
-> graded slice instead of re-auditing. Status: SKETCH, pre-wiring.
+> graded slice instead of re-auditing. Status: WIRED (v1, 2026-09-07) — mechanical
+> half (`scripts/cache_manifest.py`: stamp / check) plus lazy back-propagation
+> (`backprop --slice DOMAIN/EPOCH --emit-packet|--apply`); the judgment half is a
+> targeted Curator run between the two phases. Gate met: a dirty slice re-grades on
+> read; a fresh one does not.
 
 ## The unit: a slice
 
@@ -93,7 +97,12 @@ the same slices.
 2. A `freshness` check: `git diff --name-only <sha> HEAD` ∩ scope-globs, marking
    slices fresh/dirty. (Reuses the drift-check machinery.)
 3. Back-propagation as a targeted Curator run over one `(domain, epoch)` — not a
-   full re-audit.
+   full re-audit. **DONE (2026-09-07):** `cache_manifest.py backprop` — `--emit-packet`
+   emits one slice's nodes + in-scope files for the Curator (refusing a fresh slice);
+   `--apply` validates every regraded node belongs to `(domain, epoch)`, replaces only
+   that slice's nodes in `digest-<domain>.json`, and re-stamps only that manifest row to
+   HEAD. No other slice is touched, so it can never re-audit everything, and the re-stamp
+   to HEAD makes it idempotent (a second read finds the slice fresh, so it cannot loop).
 4. The Reader reads the manifest to (a) show freshness per slice and (b) only
    trigger a re-grade on dirty slices the viewer actually opens.
 
