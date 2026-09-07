@@ -3,12 +3,8 @@ import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
-  'token':        '/token.html',
-  'cj-brief':     '/cj-brief.html',
-  'chase-intro':  '/chase-intro.html',
-  'chris-intro':  '/chris-intro.html',
-  'fanatics':     '/fanatics.html',
   'resume':       '/resume.html',
+  'lewoof':       '/lewoof-intake.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
@@ -38,7 +34,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
   // /brief = operational, /full = surgical. Firehose is opt-in, one click deeper.
-  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2.html', '/blog/nftt/post-2': '/blog-nftt-post-2.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3.html', '/blog/nftt/post-3': '/blog-nftt-post-3.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4.html', '/blog/nftt/post-4': '/blog-nftt-post-4.html', '/blog/nftt/take-home-trap': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/full': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/dossier': '/blog-nftt-take-home-trap-dossier.html', '/blog/nftt': '/blog-nftt-index.html', default: '/good.html' },
+  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2.html', '/blog/nftt/post-2': '/blog-nftt-post-2.html', '/blog/nftt/post-3/full': '/blog-nftt-post-3.html', '/blog/nftt/post-3': '/blog-nftt-post-3.html', '/blog/nftt/post-4/full': '/blog-nftt-post-4.html', '/blog/nftt/post-4': '/blog-nftt-post-4.html', '/blog/nftt/take-home-trap': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/full': '/blog-nftt-take-home-trap.html', '/blog/nftt/take-home-trap/dossier': '/blog-nftt-take-home-trap-dossier.html', '/blog/nftt/confirmed-not-my-bug': '/blog-nftt-confirmed-not-my-bug.html', '/blog/nftt/confirmed-not-my-bug/full': '/blog-nftt-confirmed-not-my-bug.html', '/blog/nftt': '/blog-nftt-index.html', default: '/good.html' },
 }
 
 export default async function proxy(request: NextRequest) {
@@ -127,6 +123,26 @@ export default async function proxy(request: NextRequest) {
     }
     const url = request.nextUrl.clone()
     url.pathname = '/recruithaus.html'
+    return NextResponse.rewrite(url)
+  }
+
+  // --- jobs.arcs.care ------------------------------------------------------
+  // The Alert Swipe Board, an app route (src/app/jobs) rather than a static
+  // page: the host collapses to /jobs, while the API, auth, and the magic-link
+  // sign-in page (/compass, where the gated page redirects) pass through so the
+  // sign-in round trip does not loop back into the rewrite.
+  if (sub === 'jobs') {
+    if (
+      pathname.startsWith('/jobs') ||
+      pathname.startsWith('/compass') ||
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/_vercel') ||
+      pathname.startsWith('/api')
+    ) {
+      return NextResponse.next()
+    }
+    const url = request.nextUrl.clone()
+    url.pathname = '/jobs'
     return NextResponse.rewrite(url)
   }
 

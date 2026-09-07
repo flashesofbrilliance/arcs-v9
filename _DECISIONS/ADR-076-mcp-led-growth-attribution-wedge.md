@@ -1,4 +1,4 @@
-# ADR-075 — MCP-Led Growth: the attribution wedge (MCP is the free land, the API is the paid expand)
+# ADR-076 — MCP-Led Growth: the attribution wedge (MCP is the free land, the API is the paid expand)
 
 > **Status:** DRAFT (adopted as directional GTM thesis; the build is gated on a demand signal, see Y)
 > **Date:** 2026-09-07
@@ -8,9 +8,15 @@
 > **Provenance note:** Flagged by Zach on 2026-09-04 while reviewing Dealroom's "four ways to work
 > with us" + `/mcp/` ("MCP-led growth could be huge for ARCS"). Corroborated by a delegated research
 > crawl the same day (`_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`, section E)
-> and banked as memory `arcs-mcp-led-growth-gtm`. Minted here through the oracle as **ADR-075**
-> (`_SEEDS/_oracle.json` committed at 75). This ADR records the *direction*; it does not authorize a
-> build beyond the validation step in Y.
+> and banked as memory `arcs-mcp-led-growth-gtm`.
+>
+> **Numbering note (collision resolved 2026-09-07):** originally allocated and drafted as **ADR-075**
+> off the oracle (`oracle.py next adr` → 75). A parallel session concurrently minted a *different*
+> **ADR-075 — The Metabolic Router**, which merged to `main` first as **DECIDED**. Per the oracle-first
+> doctrine and the ADR-072 precedent, the ratified/merged canon ADR keeps the number and this unmerged
+> DRAFT renumbered via the oracle to **ADR-076** (`_SEEDS/_oracle.json` committed at 76). This is a
+> mechanical numbering collision (two sessions raced the same free number), not a canon-content
+> collision. This ADR records the *direction*; it does not authorize a build beyond the Y validation step.
 
 ---
 

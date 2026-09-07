@@ -2,8 +2,23 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
+    // jobs.arcs.care: the rubric + trigger specs are read at request time; the scan HUD is served from _ARTIFACTS.
+    "/api/jobs": ["./runtime/specs/*.json"],
+    "/api/jobs/swipe": ["./runtime/specs/*.json"],
+    "/api/jobs/forge": ["./runtime/specs/*.json"],
+    "/jobs": ["./runtime/specs/*.json"],
+    "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
+    "/jobs/profile": ["./_ARTIFACTS/profile-scan-hud.html"],
+    "/jobs/[jobid]": ["./runtime/specs/*.json"],
+    "/jobs/[jobid]/forge": ["./runtime/specs/forge-bundles.json", "./_ARTIFACTS/forge-*/**"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
+    // reading room (ADR-075 / desk brief v1.3): the desk manifest + cache manifest are read at
+    // request time; the Almanac render is streamed by the gated handler. Without these the
+    // standalone Vercel bundle omits the files and the routes 404/500 in prod.
+    "/reading-room": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
+    "/reading-room/[tenant]": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
+    "/api/reading-room/almanac": ["./_ARTIFACTS/atlas/atlas-almanac.html"],
   },
   async headers() {
     return [
@@ -101,7 +116,7 @@ const nextConfig: NextConfig = {
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
+        { source: "/:path*", destination: "/lewoof-intake.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/danny", has: [{ type: "host", value: "danny.arcs.care" }] },
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },
