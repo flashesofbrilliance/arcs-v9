@@ -297,10 +297,16 @@ def score_ledger(rows: list[ClaimRow]) -> dict:
     brier_w = sum(r.weight * (r.confidence - r.outcome) ** 2 for r in resolved) / wsum
     brier_hedge = sum((0.5 - r.outcome) ** 2 for r in resolved) / n
     brier_base = sum((hold_rate - r.outcome) ** 2 for r in resolved) / n
+    # Weighted base-rate baseline: model skill compares a WEIGHTED model Brier against a
+    # WEIGHTED base-rate Brier, so the comparison is on one measure. Mixing weighted-vs-
+    # unweighted let the ruin-weighting scheme masquerade as calibration skill (review #3).
+    w_hold = sum(r.weight * r.outcome for r in resolved) / wsum
+    brier_base_w = sum(r.weight * (w_hold - r.outcome) ** 2 for r in resolved) / wsum
     # reliability buckets
     buckets: dict[str, dict] = {}
     for r in resolved:
-        b = f"{int(r.confidence * 10) * 10}-{int(r.confidence * 10) * 10 + 9}%"
+        lo = min(int(r.confidence * 10) * 10, 90)   # clamp top bucket: p=1.0 → "90-100%"
+        b = f"{lo}-{100 if lo == 90 else lo + 9}%"
         d = buckets.setdefault(b, {"n": 0, "mean_conf": 0.0, "mean_outcome": 0.0})
         d["n"] += 1
         d["mean_conf"] += r.confidence
@@ -333,7 +339,8 @@ def score_ledger(rows: list[ClaimRow]) -> dict:
         "brier_weighted": round(brier_w, 4),
         "brier_always_0.5_hedge": round(brier_hedge, 4),
         "brier_base_rate": round(brier_base, 4),
-        "model_skill_vs_base_rate": round(brier_base - brier_w, 4),
+        "brier_base_rate_weighted": round(brier_base_w, 4),
+        "model_skill_vs_base_rate": round(brier_base_w - brier_w, 4),
         "reliability_buckets": dict(sorted(buckets.items())),
     }
 
