@@ -2,6 +2,13 @@
   "version": "1.0",
   "doc": "jobid -> staged forge bundle under _ARTIFACTS. Read by /jobs/[jobid]/forge (admin-gated private viewer). Bundles are never served from public/; hosting a page publicly stays a separate human-approved step.",
   "bundles": {
+    "4266778287": {
+      "dir": "forge-norm-ai-fde",
+      "slug": "norm-ai-fde",
+      "resume": "resume-norm-ai-fde.pdf",
+      "resume_pdf": "resume-norm-ai-fde.pdf",
+      "resume_txt": "resume-norm-ai-fde-ats.txt"
+    },
     "4450095632": {
       "dir": "forge-citi-fde",
       "slug": "citi-fde",
@@ -15,13 +22,6 @@
       "resume": "resume-morgan-stanley-devgen-ats.pdf",
       "resume_pdf": "resume-morgan-stanley-devgen-ats.pdf",
       "resume_txt": "resume-morgan-stanley-devgen-ats.txt"
-    },
-    "4266778287": {
-      "dir": "forge-norm-ai-fde",
-      "slug": "norm-ai-fde",
-      "resume": "resume-norm-ai-fde.pdf",
-      "resume_pdf": "resume-norm-ai-fde.pdf",
-      "resume_txt": "resume-norm-ai-fde-ats.txt"
     },
     "4450628250": {
       "dir": "forge-aircall-fde",
@@ -102,6 +102,97 @@
       "resume": "resume-monstro-senior-applied-ai-research-engin.pdf",
       "resume_pdf": "resume-monstro-senior-applied-ai-research-engin.pdf",
       "resume_txt": "resume-monstro-senior-applied-ai-research-engin.txt"
+    },
+    "4433424696": {
+      "dir": "forge-charlie-health-staff-forward-deployed-pl",
+      "slug": "charlie-health-staff-forward-deployed-pl",
+      "resume": "resume-charlie-health-staff-forward-deployed-pl.pdf",
+      "resume_pdf": "resume-charlie-health-staff-forward-deployed-pl.pdf",
+      "resume_txt": "resume-charlie-health-staff-forward-deployed-pl-ats.txt"
+    },
+    "4405471694": {
+      "dir": "forge-listen-labs-member-of-technical-staff-pr",
+      "slug": "listen-labs-member-of-technical-staff-pr",
+      "resume": "resume-listen-labs-member-of-technical-staff-pr.pdf",
+      "resume_pdf": "resume-listen-labs-member-of-technical-staff-pr.pdf",
+      "resume_txt": "resume-listen-labs-member-of-technical-staff-pr-ats.txt"
+    },
+    "4439343389": {
+      "dir": "forge-knit-lead-product-manager",
+      "slug": "knit-lead-product-manager",
+      "resume": "resume-knit-lead-product-manager.pdf",
+      "resume_pdf": "resume-knit-lead-product-manager.pdf",
+      "resume_txt": "resume-knit-lead-product-manager-ats.txt"
+    },
+    "4394344662": {
+      "dir": "forge-sentilink-new-leader-pitch-us",
+      "slug": "sentilink-new-leader-pitch-us",
+      "resume": "resume-sentilink-new-leader-pitch-us.pdf",
+      "resume_pdf": "resume-sentilink-new-leader-pitch-us.pdf",
+      "resume_txt": "resume-sentilink-new-leader-pitch-us-ats.txt"
+    },
+    "4460942418": {
+      "dir": "forge-helios-forward-deployed-applied-intellig",
+      "slug": "helios-forward-deployed-applied-intellig",
+      "resume": "resume-helios-forward-deployed-applied-intellig.pdf",
+      "resume_pdf": "resume-helios-forward-deployed-applied-intellig.pdf",
+      "resume_txt": "resume-helios-forward-deployed-applied-intellig-ats.txt"
+    },
+    "4459562123": {
+      "dir": "forge-scalr-forward-deployed-engineer-full-sta",
+      "slug": "scalr-forward-deployed-engineer-full-sta",
+      "resume": "resume-scalr-forward-deployed-engineer-full-sta.pdf",
+      "resume_pdf": "resume-scalr-forward-deployed-engineer-full-sta.pdf",
+      "resume_txt": "resume-scalr-forward-deployed-engineer-full-sta-ats.txt"
+    },
+    "4462064006": {
+      "dir": "forge-decagon-ai-acceleration-engineer",
+      "slug": "decagon-ai-acceleration-engineer",
+      "resume": "resume-decagon-ai-acceleration-engineer.pdf",
+      "resume_pdf": "resume-decagon-ai-acceleration-engineer.pdf",
+      "resume_txt": "resume-decagon-ai-acceleration-engineer-ats.txt"
+    },
+    "4453027168": {
+      "dir": "forge-google-lead-genai-forward-deployed-engin",
+      "slug": "google-lead-genai-forward-deployed-engin",
+      "resume": "resume-google-lead-genai-forward-deployed-engin.pdf",
+      "resume_pdf": "resume-google-lead-genai-forward-deployed-engin.pdf",
+      "resume_txt": "resume-google-lead-genai-forward-deployed-engin-ats.txt"
+    },
+    "4461341920": {
+      "dir": "forge-avepoint-forward-deployed-engineer-ai",
+      "slug": "avepoint-forward-deployed-engineer-ai",
+      "resume": "resume-avepoint-forward-deployed-engineer-ai.pdf",
+      "resume_pdf": "resume-avepoint-forward-deployed-engineer-ai.pdf",
+      "resume_txt": "resume-avepoint-forward-deployed-engineer-ai-ats.txt"
+    },
+    "4454311856": {
+      "dir": "forge-eliseai-deployment-strategist-lead-futur",
+      "slug": "eliseai-deployment-strategist-lead-futur",
+      "resume": "resume-eliseai-deployment-strategist-lead-futur.pdf",
+      "resume_pdf": "resume-eliseai-deployment-strategist-lead-futur.pdf",
+      "resume_txt": "resume-eliseai-deployment-strategist-lead-futur-ats.txt"
+    },
+    "4441906258": {
+      "dir": "forge-salesforce-forward-deployed-engineer-fde",
+      "slug": "salesforce-forward-deployed-engineer-fde",
+      "resume": "resume-salesforce-forward-deployed-engineer-fde.pdf",
+      "resume_pdf": "resume-salesforce-forward-deployed-engineer-fde.pdf",
+      "resume_txt": "resume-salesforce-forward-deployed-engineer-fde-ats.txt"
+    },
+    "4458875673": {
+      "dir": "forge-palo-alto-networks-senior-forward-deploy",
+      "slug": "palo-alto-networks-senior-forward-deploy",
+      "resume": "resume-palo-alto-networks-senior-forward-deploy.pdf",
+      "resume_pdf": "resume-palo-alto-networks-senior-forward-deploy.pdf",
+      "resume_txt": "resume-palo-alto-networks-senior-forward-deploy-ats.txt"
+    },
+    "4459733573": {
+      "dir": "forge-haystack-ai-engineer",
+      "slug": "haystack-ai-engineer",
+      "resume": "resume-haystack-ai-engineer.pdf",
+      "resume_pdf": "resume-haystack-ai-engineer.pdf",
+      "resume_txt": "resume-haystack-ai-engineer-ats.txt"
     }
   }
 }
