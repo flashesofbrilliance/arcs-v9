@@ -3,16 +3,14 @@
   "repo": "flashesofbrilliance/arcs-v9",
   "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md \u2014 GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "22781915",
-    "head_message": "feat(blog): posts 2-4 in the literary theme + mobile scroll/footer lock on all NFTT pages [NCI:SKIP]",
+    "head_sha": "ce667713",
+    "head_message": "docs(spec): Compass Lane execution plan v1, dollars per outcome [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/snapshot.json",
-      "public/blog-nftt-take-home-trap-full.html",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/blog/take-home-trap.linkedin.md"
+      "_STATE/handoff-progress.jsonl",
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -202,7 +200,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-09-03T02:03:00Z",
+  "git_refreshed_at": "2026-09-05T23:40:46Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

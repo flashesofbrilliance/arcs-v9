@@ -1,0 +1,6 @@
+{
+ "est_tokens": 90000,
+ "notes": "Light-tier forge (stages 1,5,7,8,9), everything pre-staged (JD, record, reference bundle) so no fetch/search/database stages ran. Estimate covers: reading the JD + record + full reference bundle (resume HTML, page.html, render.sh, notes/red-team/kintsugi/cost as format contract) + writing the resume cut, TAILOR-NOTES, red-team, page.html, JSON files + render/screenshot loop with image inspection.",
+ "actual_turn_estimate": "~14 tool-call turns: read prompt+JD+record (2) + read reference bundle files (3) + write resume HTML (1) + write render.sh + run render + pdfinfo (1) + read both resume page PNGs (2) + write TAILOR-NOTES + red-team + hiring-manager + contact (1, batched) + write page.html (1) + grep air-gap/em-dash + fix (2) + Playwright 4-width screenshot run (1) + read 2 screenshots (2) + this file",
+ "actual_tokens_est": 95000
+}
