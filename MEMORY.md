@@ -7,6 +7,23 @@
 
 ---
 
+## [v3.56.0] 2026-09-07 — wrap-lint MODE 5 safeguard, post-4 s-tier pass, Dealroom research, ADR-076 MCP-led growth
+
+- **wrap-lint MODE 5** (`scripts/artifact_wrap_lint.py`, pre-commit wired, PRs #256/#258/#260): gates the
+  desktop measure/container-mismatch wrap bug that overflow checks miss. `<style>`-only scan, CSS-comment
+  strip, FP-reducer for `max-width:none` overrides, `wrap-lint-allow: measure-mismatch` opt-out for
+  intentional two-width designs. Fixed dossier + 3 ledes; marked wing/scott-cut/observatory. AEO
+  robots/sitemap reachable on good.arcs.care (proxy + next.config both layers).
+- **NFTT post-4 impeccable pass = s-tier, zero edits**; posts 1-3 swept clean. Template gives diamond-cut
+  text handling by construction; 4-width JS test method banked.
+- **Dealroom talent research** (`_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`, PR #273):
+  15 report/viz patterns + MCP-led-growth GTM analysis.
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW, demand-probe gated.
+  Drafted as ADR-075; renumbered to 076 after a parallel session's DECIDED **ADR-075 Metabolic Router**
+  merged first (oracle-first: ratified canon keeps the number, unmerged draft renumbers; audit no-dup).
+- Housekeeping: lattice epoch re-pinned e9 (spot-check); iCloud deliverable→Files sync convention; 5 new
+  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms).
+
 ## [v3.53.0] 2026-09-04 — The Reading Room: the Almanac, ADR-075 the Metabolic Router, locked build plan
 
 - **Almanac** (`scripts/research_render.py`): 264 full-temporal epoch-tagged nodes read at 3 altitudes

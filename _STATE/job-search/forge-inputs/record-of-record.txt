@@ -1,0 +1,134 @@
+RECORD OF RECORD · https://resume.arcs.care/resume.pdf · fetched 2026-09-04 19:29 EDT
+Note: the URL serves the HTML resume (public/resume.html), not a PDF file (see TAILOR-NOTES.md, open question). Below is the raw content data (ROLES / TRAJ / CONSULTING_CLIENTS / TRUE_NORTH / SKILLS) from that page. Cross-checked against _ARTIFACTS/resume-general/resume-general.pdf.
+
+const ROLES = [
+  { id:'arcs', glyph:'◈', label:'ARCS · Decision Intelligence Platform', color:T.cyan,
+    dates:'2025–Present', role:'Founder',
+    summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
+    metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
+    compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what\'s the right first wedge to prove the model?',
+    bullets:[
+      { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
+      { t:'Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
+      { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
+      { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
+    ] },
+  { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
+    dates:'2024–2025', role:'Product Lead, Go-To-Market',
+    summary:'Led go-to-market for 10 SEC/FINRA-regulated digital-asset investment products ($7B AUM): positioning, segmentation, and adoption strategy inside regulated controls and governance.',
+    metric:'$7B', metricLabel:'AUM · REGULATED PRODUCT SUITE',
+    compassPrompt:'How do you take ten regulated investment products to market inside SEC/FINRA controls, and what does the governance-first go-to-market sequence look like?',
+    bullets:[
+      { t:'Led go-to-market and market-expansion strategy across 10 regulated digital-asset products, inside SEC/FINRA controls and governance', v:['all','ds'] },
+      { t:'Owned positioning, segmentation, and adoption strategy across the investor experience', v:['all','figma'] },
+      { t:'Coordinated across product, engineering, legal, risk, and compliance through regulated release gates', v:['all','ds'] },
+      { t:'Translated regulatory requirements into product and go-to-market requirements', v:['all','ds'] },
+    ] },
+  { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
+    dates:'2018–2019', role:'Sr. Director, Data & Strategy',
+    summary:'Enterprise data and decision-intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
+    metric:'20%', metricLabel:'NET-NEW REVENUE VIA DATA PERSONALIZATION',
+    compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence, and how do you get program teams to act on the signal before the next campaign launches?',
+    bullets:[
+      { t:'Built the enterprise data infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
+      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units; the first intelligence layer any of these teams had', v:['all','ds'] },
+      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and cross-BU growth instrumentation', v:['all','figma'] },
+    ] },
+  { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
+    dates:'2016–2018', role:'Head of Product & Strategic Partnerships',
+    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue.',
+    metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
+    compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously, and what does the pre/post-event capture loop look like?',
+    bullets:[
+      { t:'Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms, serving personalized offers during live events', v:['all','ds'] },
+      { t:'Designed first commercial partnerships with Twitter and Facebook: behavioral data flows, attribution models, event-driven revenue; $850K+ year-one', v:['all','figma'] },
+      { t:'Pre/post-event intelligence loop: pre-tournament fan segmentation → in-event scoring → post-event outcome capture. Applied before "growth intelligence" was a category.', v:['all','ds'] },
+      { t:'Platform load simulation and reliability engineering ahead of Women\'s Finals: data-informed capacity decisions, not guesses', v:['all','ds'] },
+    ] },
+];
+
+// ── Main tab trajectory — ARCS → Grayscale → CTF → WTA (reverse chron) ───────
+const TRAJ = [
+  { id:'arcs',      label:'ARCS',      years:'2025→',   roleId:'arcs'      },
+  { id:'grayscale', label:'GRAYSCALE', years:'2024–25', roleId:'grayscale' },
+  { id:'ctf',       label:'CTF',       years:'2018–19', roleId:'ctf'       },
+  { id:'wta',       label:'WTA',       years:'2016–18', roleId:'wta'       },
+];
+
+// ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
+const CONSULTING_CLIENTS = [
+  { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
+    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.',
+    metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
+    bullets:[
+      { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
+      { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
+      { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
+    ] },
+  { id:'axon',    glyph:'⬡', label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
+    summary:'New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.',
+    metric:'MVP', metricLabel:'SECURE OTT PLATFORM',
+    bullets:[
+      { t:'Led discovery and business model validation for First Responder OTT network', v:['all'] },
+      { t:'Defined MVP features, instrumentation requirements, and success metrics for secure, video-first content platform', v:['all','ds'] },
+    ] },
+  { id:'twill',   glyph:'◑', label:'Twill Health',      dates:'Jan 2021–May 2023', domain:'HealthTech',
+    summary:'Market viability testing for 3 AI-enabled digital health product lines across a HIPAA-regulated environment.',
+    metric:'3', metricLabel:'AI HEALTH PRODUCT LINES VALIDATED',
+    bullets:[
+      { t:'Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
+      { t:'Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context', v:['all','ds'] },
+    ] },
+  { id:'gopro',   glyph:'◬', label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
+    summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
+    metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
+    bullets:[
+      { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
+      { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
+    ] },
+  { id:'verizon', glyph:'⊕', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
+    summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
+    metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
+    bullets:[
+      { t:'Quantitative opportunity assessments for five 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
+      { t:'Analyzed market trends to recommend go/no-go decisions on venture investments', v:['all','ds'] },
+    ] },
+];
+
+// ── True North content per focus view ────────────────────────────────────────
+const TRUE_NORTH = {
+  all:   { heading:'BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE',
+    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude.' },
+  figma: { heading:'GROWTH DEPTH',
+    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
+  ds:    { heading:'SYSTEMS DEPTH',
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude in production, not experiments.' },
+};
+
+const SKILLS = [
+  { id:'claude',   label:'Claude', accent:T.cyan,  views:['all','figma'] },
+  { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
+  { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
+  { id:'glean',    label:'Glean',                       accent:T.cyan,  views:['all','figma'] },
+  { id:'growth',   label:'Growth Marketing',            accent:T.green, views:['all','figma'] },
+  { id:'lifecycle',label:'Lifecycle / CRM',             accent:T.green, views:['all','figma'] },
+  { id:'gtm',      label:'GTM Strategy',                accent:T.green, views:['all','figma'] },
+  { id:'sql',      label:'SQL',                         accent:T.green, views:['all','ds'] },
+  { id:'python',   label:'Python',                      accent:T.green, views:['all','ds'] },
+  { id:'abtest',   label:'A/B Experimentation',         accent:T.green, views:['all','ds'] },
+  { id:'forecast', label:'Forecasting',                 accent:T.green, views:['all','ds'] },
+  { id:'datamod',  label:'Data Modeling',               accent:T.green, views:['all','ds'] },
+  { id:'cdp',      label:'CDP Architecture',            accent:T.gold,  views:['all','ds'] },
+  { id:'segment',  label:'Segment / mParticle',         accent:T.gold,  views:['all','ds'] },
+  { id:'evttax',   label:'Event Taxonomy',              accent:T.gold,  views:['all','ds'] },
+  { id:'attrib',   label:'Attribution Modeling',        accent:T.gold,  views:['all','ds'] },
+  { id:'snow',     label:'Snowflake',                   accent:T.gold,  views:['all','ds'] },
+  { id:'governa',  label:'Data Governance',             accent:T.gold,  views:['all','ds'] },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SKETCH — minimal, distilled, typographically considered
+// Dark ground. Single cyan rule. Pure hierarchy. Nothing decorative.
+// ─────────────────────────────────────────────────────────────────────────────
+function GrainResume() {
+  

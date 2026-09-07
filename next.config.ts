@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
     "/jobs/profile": ["./_ARTIFACTS/profile-scan-hud.html"],
     "/jobs/[jobid]": ["./runtime/specs/*.json"],
+    "/jobs/lane": ["./runtime/specs/*.json"],
+    "/api/jobs/lane": ["./runtime/specs/*.json"],
     "/jobs/[jobid]/forge": ["./runtime/specs/forge-bundles.json", "./_ARTIFACTS/forge-*/**"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],

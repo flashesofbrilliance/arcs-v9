@@ -1,0 +1,28 @@
+{
+  "receipt_id": "receipt_arlyn_applied_scientist_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "First render.sh invocation used Node __dirname inside a require('...') eval string, which threw ERR_INVALID_URL under file:// resolution",
+      "caught_by": "node stderr on first Playwright run",
+      "gold": "switched to path.resolve('page.html') for the file URL; re-ran clean with zero overflow at all four widths"
+    },
+    {
+      "break": "An em-dash slipped into red-team.md item 3 during drafting, violating the plain-language / no-em-dash rule",
+      "caught_by": "grep -n '—' across every deliverable before finishing",
+      "gold": "rewritten as two sentences with a period; re-grepped clean across page.html, the resume, both notes files, the JSON files, and render.sh (one remaining hit is a code comment matching the reference bundle's own header verbatim, not prose)"
+    },
+    {
+      "break": "The posting's 'data ontologies' language has no direct match in the record (ARCS uses 'evidence taxonomy', not 'ontology')",
+      "caught_by": "honest-grade pass while writing the JD-hook mapping table",
+      "gold": "kept the record's own phrasing throughout the resume and page rather than echoing the posting's term, and named the gap explicitly in the mapping note"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (2-page PDF verified, no schema pathogens, no air-gap terms, no em-dashes in prose, zero horizontal overflow at 375/768/790/1280); three in-flight breaks were sealed with visible gold during the session, documented above."
+}

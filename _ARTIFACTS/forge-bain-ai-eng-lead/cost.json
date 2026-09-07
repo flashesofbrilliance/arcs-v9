@@ -1,0 +1,5 @@
+{
+  "est_tokens_before": 130000,
+  "notes": "Estimate written 2026-09-06 before stage 1, based on the Citi bundle's actual (~135k). Light-tier forge (stages 1,5,7,8,9), all inputs pre-staged (no JD fetch, no web search, no re-grading): reading jd-full.txt + record-of-record.txt + full reference bundle (page.html, resume ATS html, render.sh, notes) for shape, then generating the resume cut, page.html, notes, red-team, hiring-manager/contact/kintsugi/cost json, running render.sh and a Playwright 4-width screenshot pass. | Actual: ~14 tool-call turns (reads of jd/record/reference bundle x6, mkdir+cp, resume write, render.sh adapt+run, 2 page-PNG reads, TAILOR-NOTES write, red-team write, hiring-manager/contact writes, page.html write, grep air-gap checks, Playwright script write+run, 2 screenshot reads, this file). Estimated actual_tokens ~120k: reference-bundle reads and the two full-page HTML writes (page.html ~24KB, resume ~11KB) dominate; generation itself is efficient because the shape was copied and only content swapped.",
+  "actual_tokens": 120000
+}

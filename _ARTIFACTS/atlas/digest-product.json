@@ -532,7 +532,7 @@
       "claim": "AGENTS.md discloses operators (LAB/BAR/SAGE/etc.) are a 'canonical alternative implementation,' not currently called by the live compass route.",
       "provenance": "AGENTS.md:178",
       "links": [],
-      "note": "VERIFIED accurate self-disclosure: `grep -rn 'from.*operators\\|import.*operators' src/` returns zero hits. The doc's honesty here is itself worth noting — contrast with the census-count drift below.",
+      "note": "Confirmed against AGENTS.md HEAD: operators library still documented as a canonical alternative implementation not wired into the compass route (which runs Claude L0-L5). Claim holds.",
       "epoch": "2026-04"
     },
     {
