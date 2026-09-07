@@ -100,8 +100,8 @@ redundant *reads*, not *scrutiny*. The pre-pass only ADDS deterministic catches.
 
 | Run | Est tokens | Actual tokens | Est $ | Actual $ | Lever applied | What we learned → next estimate |
 |---|---|---|---|---|---|---|
-| (model baseline) Yuri-class family, 2026-09-07 | ~2.9M/run | | ~$15.81/run | | none (baseline) | Structural: 7× corpus re-read dominates; caching can't help parallel fan-out. Optimize the re-read, not the tier. |
-| next real run | | | | | pre-pass + delta | Measure C for a real family (surfaces can be large HTML); confirm the ~10%-of-C register-card assumption in Lever 2. |
+| (model baseline @ C=400k) | ~2.9M/run | — | ~$15.81/run | — | none | Structural: 7× corpus re-read dominates; caching can't help parallel fan-out. Optimize the re-read, not the tier. |
+| **Yuri family MEASURED, 2026-09-07** | ~0.6M/run @ C≈70k | surfaces **40,127 raw / 12,849 visible** tok (7 surfaces) | ~$4.26/run · $17.06/4-pass cycle | not yet run through agents | prepass (shipped) | **C=400k was 10× too big for a Yuri-class family.** Real surface corpus ~40k raw / ~13k visible; with transcript+comms+memory C≈70k. So one run ≈ **$4**, a heal cycle ≈ **$17** — at this scale the pre-pass's return is **correctness, not dollars**. The cost lever only bites at large C (big families / long transcripts / many iterations = the original "3M-token" case). Prepass found **3 real candidate defects** (1 banned lexicon + 2 cross-surface dups) and the injected baseline is **1.4 KB** — negligible cost, strictly-additive catch. Next: run the agent phase once with the baseline injected to measure the actual token delta vs. baseline. |
 
 Rule (from the reading-room build plan §6): a run is not "done" until its row is
 filled. The ledger routes the next estimate (mechanical) and, when a lever lesson
