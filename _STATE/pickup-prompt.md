@@ -43,8 +43,11 @@ reference). Meaning, not mechanism — un-outcome-tested. Gate them, don't canon
    verification never run (offered 4×, never fired). Highest-value: the only non-echo check.
 3. **The fork (`/fold`)** — both ledgers booked; spawn inner=consolidate + external=apply-with-governor.
 4. **Outcome-architecture grep** — does a real fraction of 247 have data-resident outcomes? DB-blocked here.
-5. **NFTT `confirmed-not-my-bug`** — rework to the b-version (the-audit-that-measured-its-own-author arc)
-   + ship (publish-bless). Original is superseded; don't ship it as-is.
+5. **NFTT `confirmed-not-my-bug`** — CLOSED (2026-09-07, PR #308, merged to main). Shipped as NFTT
+   "Latest" at good.arcs.care/blog/nftt/confirmed-not-my-bug in the LITERARY theme (take-home-trap
+   "With Life" standard), NOT the threaded story_render.py engine (its -full.html outputs are
+   orphaned/unrouted on the live series). Publish-blessed by Zach. B-version Mobius/second-strand arc
+   intact; deceipt-ledger .panel carries the receipts. Gates all green.
 6. **ROM candidate** (calibration method) at the gate — graduates only by a *live receipt of the method
    catching an error the existing primitives would miss*, never by a compelling thread.
 7. **Push the local commits to origin** (off-machine backup — publish-bless; memory content leaving the
