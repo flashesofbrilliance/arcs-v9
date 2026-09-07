@@ -81,6 +81,48 @@
     </a>
   </div>
 </main>
+<style>
+  /* ADR-076 MCP-led-growth demand probe (Stage 0, painted door). Honest framing: the connector
+     does not exist yet; the CTA click is the interest signal, tracked via Vercel custom events. */
+  .mcp-probe{padding:8px 0 44px;}
+  .mp-card{border:1px solid rgba(0,240,255,.28);border-radius:16px;padding:26px 26px 24px;
+    background:radial-gradient(700px 300px at 12% -30%,rgba(0,240,255,.08),transparent 60%),linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));}
+  .mp-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);}
+  .mp-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  .mp-h{font-size:clamp(19px,3vw,25px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-top:12px;color:var(--fg1);text-wrap:balance;}
+  .mp-b{font-size:14.5px;line-height:1.6;color:var(--fg2);margin-top:11px;max-width:none;text-wrap:pretty;} .mp-b b{color:var(--fg1);font-weight:600;}
+  .mp-cta{margin-top:18px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;color:#001014;background:linear-gradient(100deg,var(--cyan),var(--green));border:none;border-radius:10px;padding:12px 20px;cursor:pointer;transition:transform .15s;}
+  .mp-cta:hover{transform:translateY(-1px);}
+  .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
+</style>
+<section class="mcp-probe" aria-label="Connect an agent (demand probe)">
+  <div class="wrap">
+    <div class="mp-card">
+      <div class="mp-eyebrow"><span class="mp-dot"></span>Connect an agent &middot; considering this</div>
+      <h2 class="mp-h">Query these field notes from your AI tools</h2>
+      <p class="mp-b">We are weighing an ARCS connector for Claude, Cursor, and other agents: ask about anything in these notes and get an answer that <b>cites its source, not a guess</b>. It does not exist yet. This is a live demand probe, so if you would use it, say so and we will build it.</p>
+      <button class="mp-cta" id="mpCta" type="button">I'd use this &#8594;</button>
+      <p class="mp-done" id="mpDone" hidden>Noted, thank you. Enough signal and we ship the connector. In the meantime the underlying tools are open at <a href="https://github.com/flashesofbrilliance/arcs-skills">github.com/flashesofbrilliance/arcs-skills</a>.</p>
+    </div>
+  </div>
+</section>
+<script>
+  /* Vercel Web Analytics custom events; guarded so the page is fine if analytics is blocked. */
+  (function(){
+    function ev(name){ try{ window.va && window.va('event', { name: name, data: { surface: 'nftt' } }); }catch(e){} }
+    var card = document.querySelector('.mcp-probe');
+    if (card && 'IntersectionObserver' in window){
+      var seen = false;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting && !seen){ seen = true; ev('mcp_probe_view'); io.disconnect(); } });
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+    var cta = document.getElementById('mpCta'), done = document.getElementById('mpDone');
+    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); if(done){ done.hidden = false; } cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; }); }
+  })();
+</script>
 <footer>
   <div class="wrap foot"><a href="https://good.arcs.care/">&#9664; good.arcs.care</a> &middot; open-source tools and field notes by ARCS</div>
 </footer>
