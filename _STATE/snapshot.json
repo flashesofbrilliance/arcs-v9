@@ -1,11 +1,11 @@
 {
-  "captured_at": "2026-09-07T09:05:00-04:00",
+  "captured_at": "2026-09-07T14:05:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9a48da44",
-    "head_message": "Merge origin/main into claude/dprk-lazarus-malware-analysis-4a7acf (ADR-076 branch)",
+    "head_sha": "343b266",
+    "head_message": "feat(cache): back-propagation organ — re-grade one dirty slice on read [NCI:87] (#320)",
     "in_sync_with_origin": true,
-    "dirty_files": ["_INBOX/lattice-drift.jsonl", "_INBOX/seedbank-drift.jsonl", "_STATE/handoff-progress.jsonl"]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -22,7 +22,7 @@
     "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"]
   },
   "open_adrs": ["ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)"],
-  "session_summary": "Wrap-lint MODE 5 (measure/container gate) built + audit swept; NFTT post-4 impeccable pass (s-tier, zero edits) + series verified; Dealroom talent/MCP research; ADR-076 MCP-led-growth minted (ADR-075 collision resolved via renumber).",
-  "next_action": "Ship ADR-076's cheap read-only MCP demand probe: one tool over the public NFTT/receipt corpus + a 'Connect an agent' affordance; measure pull before any hosted-server build.",
+  "session_summary": "Reading Room back-propagation organ shipped (scripts/cache_backprop.py, plan->packet->apply; grading external by NOTOMATION); cache_manifest.py now preserves per-slice graded_at_sha so re-grading one epoch never frees siblings sharing a digest; 1b gate MET (proved: product/2026-04 dirty->re-graded->fresh, 19 siblings stay dirty, survives full re-stamp + 11 commits of base advance). Gauntlet: 3 skeptic defects fixed, 5 stdlib tests green. PR #320 merged (343b266).",
+  "next_action": "Reading Room tenants 2a-2c (Concordance / Chronicle / Babelfish / Codex) on the Reader+cache spine; 1a 4-width visual check (headless screenshot); live admin smoke of /reading-room. Separately: ADR-076 cheap read-only MCP demand probe.",
   "blocking": "NONE"
 }
