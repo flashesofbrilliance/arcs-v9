@@ -273,23 +273,18 @@ def cmd_stamp(today: str, as_json: bool) -> int:
     return 0
 
 
-def cmd_check(today: str, as_json: bool) -> int:
-    head = head_sha()
-    doc = read_manifest()
-    if doc is None:
-        msg = "no manifest at %s — run `stamp` first (consumers treat this as freshness=unknown)"
-        print(msg % os.path.relpath(MANIFEST_PATH, REPO), file=sys.stderr)
-        return 1
+def reconcile(doc: dict, today: str, head: str) -> list:
+    """The manifest's slices reconciled against the digests AS THEY ARE NOW, with
+    fresh/dirty recomputed against ``head``. Shared by ``check`` (report) and
+    ``backprop`` (which needs the same freshness truth to find its target slice).
+
+    A ``(domain, epoch)`` in a digest but not the manifest is MISSING; a manifest
+    slice with no digest behind it is an ORPHAN. Both are dirty. This mutates and
+    returns a fresh slice list; it does not read or write the manifest file.
+    """
     slices = sort_slices([OrderedDict(s) for s in doc.get("slices", [])])
     for s in slices:
         s.setdefault("dirty_files", [])
-        for k in ("graded_at_sha", "scope_globs", "domain", "epoch"):
-            if k not in s:
-                print("manifest slice missing %r: %s" % (k, json.dumps(s)[:120]), file=sys.stderr)
-                return 1
-    # Reconcile with the digests as they are NOW: a (domain, epoch) that exists in a digest
-    # but not in the manifest is MISSING (a re-curation or new epoch since stamp); a manifest
-    # slice with no digest behind it is an ORPHAN. Both are dirty; node_count is refreshed.
     current = {(c["domain"], c["epoch"]): c for c in build_slices(load_digests(), head, today)}
     have = {(s["domain"], s["epoch"]) for s in slices}
     for key, c in current.items():
@@ -312,6 +307,22 @@ def cmd_check(today: str, as_json: bool) -> int:
             s["dirty_files"].insert(0, "<orphan: no digest has (%s, %s)>" % key); s["fresh"] = False
         if key in current and key not in have and not any(str(f).startswith("<missing") for f in s["dirty_files"]):
             s["dirty_files"].insert(0, "<missing: (%s, %s) not in manifest, re-stamp>" % key); s["fresh"] = False
+    return slices
+
+
+def cmd_check(today: str, as_json: bool) -> int:
+    head = head_sha()
+    doc = read_manifest()
+    if doc is None:
+        msg = "no manifest at %s — run `stamp` first (consumers treat this as freshness=unknown)"
+        print(msg % os.path.relpath(MANIFEST_PATH, REPO), file=sys.stderr)
+        return 1
+    for s in doc.get("slices", []):
+        for k in ("graded_at_sha", "scope_globs", "domain", "epoch"):
+            if k not in s:
+                print("manifest slice missing %r: %s" % (k, json.dumps(s)[:120]), file=sys.stderr)
+                return 1
+    slices = reconcile(doc, today, head)
     # `generated` is the stamp date; check rewrites fresh/dirty/node_count + repo_head only.
     out = manifest_doc(doc.get("generated", today), head, slices)
     write_manifest(out)
@@ -320,11 +331,177 @@ def cmd_check(today: str, as_json: bool) -> int:
         print(json.dumps(out, indent=2))
     else:
         print_table(slices, head)
-    # TODO(back-propagation, v1 seam — NOT built): for each dirty slice, run a
-    # targeted Curator over exactly that (domain, epoch), rewrite its nodes in
-    # digest-<domain>.json, then re-`stamp` so graded_at_sha = HEAD. That step is
-    # judgment (metabolic-router §3) and is deliberately left out of this script.
+    # Back-propagation (the v1 seam, now wired): a dirty slice is re-graded lazily,
+    # on read, by `backprop --slice <domain>/<epoch>` — a TARGETED Curator over
+    # exactly that (domain, epoch), never a full re-audit. `check` only reports; it
+    # never re-grades (grading is judgment, metabolic-router §3). See cmd_backprop.
     return 2 if dirty else 0
+
+
+# ---------------------------------------------------------------- back-propagation
+# Lazy, pull-driven re-grading of ONE dirty/missing slice (spec §"Request / back-propagate
+# flow"). Two phases, both mechanical here; the judgment (the grading itself) happens in the
+# Curator subagent between them:
+#
+#   emit-packet  read-only. Refuse if the slice is already fresh (nothing to do — this is the
+#                "a fresh slice does NOT re-grade" guard). Otherwise emit exactly this slice's
+#                current nodes + the tracked files in its scope, for a TARGETED Curator run.
+#   apply        take the Curator's re-graded nodes for THIS slice, validate every node really
+#                belongs to (domain, epoch), replace ONLY this slice's nodes in the digest, and
+#                re-stamp ONLY this slice's manifest row to graded_at_sha = HEAD (-> fresh).
+#
+# What this deliberately never does: touch any other slice, re-stamp the whole manifest, or
+# write nodes it did not verify belong to the slice. Those are the three failure modes the
+# peer review gates on.
+BACKPROP_INSTRUCTIONS = (
+    "TARGETED Curator re-grade of ONE cache slice. Re-grade ONLY the nodes for this exact "
+    "(domain, epoch) against the files listed in scope_files (read them at HEAD). Do NOT audit "
+    "any other slice, domain, or epoch. Output JSON {\"nodes\": [...]} where EVERY node has "
+    "domain == this domain and epoch == this epoch, using the node schema "
+    "{id, title, domain, cluster, status, claim, provenance, links[], note, epoch}. Status "
+    "vocabulary: LIVE, LIVE-AS-PROSE, DRIFTED, STALE, UNVERIFIED. Keep node ids stable where a "
+    "node still corresponds to a prior one; drop nodes whose subject no longer exists; add nodes "
+    "for new records in scope. current_nodes is what the slice held when last graded."
+)
+
+
+def parse_slice(spec: str) -> tuple[str, str]:
+    if "/" not in spec:
+        raise DigestError("bad --slice %r: want DOMAIN/EPOCH (e.g. product/2026-08)" % spec)
+    dom, _, epoch = spec.partition("/")
+    dom, epoch = dom.strip().lower(), epoch.strip()
+    if not dom or not epoch:
+        raise DigestError("bad --slice %r: want DOMAIN/EPOCH (e.g. product/2026-08)" % spec)
+    return dom, epoch
+
+
+def digest_path_for(domain: str) -> str:
+    return os.path.join(ATLAS_DIR, "digest-%s.json" % domain)
+
+
+def find_slice(slices: list, dom: str, epoch: str):
+    for s in slices:
+        if s["domain"] == dom and s["epoch"] == epoch:
+            return s
+    return None
+
+
+def tracked_scope_files(globs: list) -> list:
+    return match_scope(git("ls-files").splitlines(), globs) if globs else []
+
+
+def cmd_backprop_emit(today: str, dom: str, epoch: str, packet_path: str) -> int:
+    head = head_sha()
+    doc = read_manifest()
+    if doc is None:
+        print("no manifest — run `stamp` first", file=sys.stderr)
+        return 1
+    slices = reconcile(doc, today, head)
+    s = find_slice(slices, dom, epoch)
+    if s is None:
+        print("no slice (%s, %s) in manifest or digests — nothing to grade" % (dom, epoch), file=sys.stderr)
+        return 1
+    if s["fresh"]:
+        # The guard: back-prop is for dirty/missing slices only. A fresh slice is a cache
+        # HIT and must never re-grade.
+        print("slice (%s, %s) is fresh (graded_at_sha=%s == scope unchanged) — no re-grade"
+              % (dom, epoch, s["graded_at_sha"][:12]))
+        return 0
+    globs = SCOPE_GLOBS.get(dom, [])
+    digest = {}
+    dp = digest_path_for(dom)
+    if os.path.exists(dp):
+        with open(dp, encoding="utf-8") as fh:
+            digest = json.load(fh)
+    current_nodes = [n for n in (digest.get("nodes") or [])
+                     if (n.get("epoch") or UNKNOWN_EPOCH) == epoch]
+    packet = OrderedDict([
+        ("slice", "%s/%s" % (dom, epoch)),
+        ("domain", dom), ("epoch", epoch),
+        ("head_sha", head),
+        ("dirty_files", s.get("dirty_files", [])),
+        ("scope_globs", globs),
+        ("scope_files", tracked_scope_files(globs)),
+        ("instructions", BACKPROP_INSTRUCTIONS),
+        ("current_nodes", current_nodes),
+    ])
+    with open(packet_path, "w", encoding="utf-8") as fh:
+        json.dump(packet, fh, indent=2)
+        fh.write("\n")
+    print("emitted Curator packet for (%s, %s): %d node(s), %d scope file(s) -> %s"
+          % (dom, epoch, len(current_nodes), len(packet["scope_files"]), packet_path))
+    return 0
+
+
+def cmd_backprop_apply(today: str, dom: str, epoch: str, regraded_path: str) -> int:
+    head = head_sha()
+    doc = read_manifest()
+    if doc is None:
+        print("no manifest — run `stamp` first", file=sys.stderr)
+        return 1
+    with open(regraded_path, encoding="utf-8") as fh:
+        regraded = json.load(fh)
+    nodes = regraded.get("nodes") if isinstance(regraded, dict) else regraded
+    if not isinstance(nodes, list):
+        print("regraded file %s: want {\"nodes\": [...]}" % regraded_path, file=sys.stderr)
+        return 1
+    # VALIDATE before any write: every re-graded node must belong to THIS slice. A node with a
+    # foreign domain/epoch means the Curator strayed out of scope; refuse and write nothing.
+    clean = []
+    for i, n in enumerate(nodes):
+        if not isinstance(n, dict):
+            print("regraded node %d is not an object" % i, file=sys.stderr)
+            return 1
+        nd = (n.get("domain") or dom)
+        ne = (n.get("epoch") or epoch)
+        if nd != dom or ne != epoch:
+            print("regraded node %r is (%s, %s), not the requested slice (%s, %s) — refusing"
+                  % (n.get("id") or i, nd, ne, dom, epoch), file=sys.stderr)
+            return 1
+        n = dict(n); n["domain"] = dom; n["epoch"] = epoch
+        clean.append(n)
+    # Merge: replace ONLY this slice's nodes in the digest; every other epoch is untouched.
+    dp = digest_path_for(dom)
+    if os.path.exists(dp):
+        with open(dp, encoding="utf-8") as fh:
+            digest = json.load(fh)
+    else:
+        digest = OrderedDict([("domain", dom), ("generated", today), ("nodes", [])])
+    kept = [n for n in (digest.get("nodes") or []) if (n.get("epoch") or UNKNOWN_EPOCH) != epoch]
+    digest["nodes"] = kept + clean
+    digest["generated"] = today
+    with open(dp, "w", encoding="utf-8") as fh:
+        json.dump(digest, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    # Re-stamp ONLY this slice's manifest row: graded_at_sha = HEAD. Other rows keep their old
+    # graded_at_sha, so they stay exactly as dirty/fresh as they were (no whole-manifest stamp).
+    slices = [OrderedDict(s) for s in doc.get("slices", [])]
+    row = find_slice(slices, dom, epoch)
+    if row is None:
+        row = OrderedDict([("domain", dom), ("epoch", epoch)])
+        slices.append(row)
+    row["node_count"] = len(clean)
+    row["graded_at_sha"] = head
+    row["graded_at"] = today
+    row["scope_globs"] = list(SCOPE_GLOBS.get(dom, []))
+    slices = sort_slices(slices)
+    refresh([row], head)  # graded_at_sha == HEAD -> empty diff -> fresh
+    doc_out = manifest_doc(doc.get("generated", today), head, slices)
+    write_manifest(doc_out)
+    state = "fresh" if row["fresh"] else "DIRTY(%s)" % ", ".join(row["dirty_files"])
+    print("back-propagated (%s, %s): %d node(s) regraded, digest %s updated, slice re-stamped to %s -> %s"
+          % (dom, epoch, len(clean), os.path.relpath(dp, REPO), head[:12], state))
+    return 0 if row["fresh"] else 1
+
+
+def cmd_backprop(today: str, slice_spec: str, emit_packet: str | None, apply_path: str | None) -> int:
+    dom, epoch = parse_slice(slice_spec)
+    if bool(emit_packet) == bool(apply_path):
+        print("backprop: pass exactly one of --emit-packet or --apply", file=sys.stderr)
+        return 1
+    if emit_packet:
+        return cmd_backprop_emit(today, dom, epoch, emit_packet)
+    return cmd_backprop_apply(today, dom, epoch, apply_path)
 
 
 class _Parser(argparse.ArgumentParser):
@@ -340,13 +517,25 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--today", required=True, metavar="YYYY-MM-DD",
                     help="stamp date (required; no clock reads, for reproducible runs)")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
-    ap.add_argument("command", choices=["stamp", "check"])
+    ap.add_argument("command", choices=["stamp", "check", "backprop"])
+    ap.add_argument("--slice", metavar="DOMAIN/EPOCH",
+                    help="backprop only: the one slice to re-grade, e.g. product/2026-08")
+    ap.add_argument("--emit-packet", metavar="PATH",
+                    help="backprop only: write the targeted-Curator packet for --slice to PATH")
+    ap.add_argument("--apply", metavar="PATH", dest="apply_path",
+                    help="backprop only: merge the Curator's re-graded nodes for --slice from PATH")
     args = ap.parse_args(argv)
     if not DATE_RE.match(args.today):
         ap.error("--today must be YYYY-MM-DD")
+    if args.command == "backprop" and not args.slice:
+        ap.error("backprop requires --slice DOMAIN/EPOCH")
+    if args.command != "backprop" and (args.slice or args.emit_packet or args.apply_path):
+        ap.error("--slice/--emit-packet/--apply are only valid with the backprop command")
     try:
         if args.command == "stamp":
             return cmd_stamp(args.today, args.json)
+        if args.command == "backprop":
+            return cmd_backprop(args.today, args.slice, args.emit_packet, args.apply_path)
         return cmd_check(args.today, args.json)
     except subprocess.CalledProcessError as e:
         print("git failed: %s" % (e.stderr or e).strip(), file=sys.stderr)

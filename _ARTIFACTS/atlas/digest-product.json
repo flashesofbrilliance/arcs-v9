@@ -1,6 +1,6 @@
 {
   "domain": "product",
-  "generated": "2026-09-04",
+  "generated": "2026-09-07",
   "nodes": [
     {
       "id": "adr-001-auth-gate",
@@ -353,21 +353,6 @@
       "epoch": "2026-08"
     },
     {
-      "id": "adr-074-prl-sugar-collision",
-      "title": "ADR-074 PRL Sugar Custom-Code Collision Surface",
-      "domain": "product",
-      "cluster": "adr",
-      "status": "LIVE",
-      "claim": "PRL chatbot lead path verified clear of Sugar custom-code collisions at the package layer (DRAFT, Y-state YELLOW→GREEN-leaning).",
-      "provenance": "_DECISIONS/ADR-074-prl-sugar-custom-code-collision-surface.md",
-      "links": [
-        "adr-034-enforcement-parity",
-        "adr-057-sequence-oracle"
-      ],
-      "note": "Resolved 2026-09-04: the repo-hygiene drift this node originally flagged is closed. _DECISIONS/index.json now carries an ADR-074 entry (line 615, id 'ADR-074', file 'ADR-074-prl-sugar-custom-code-collision-surface.md') — grep confirms it, and the index is 69 entries. _SEEDS/_oracle.json now records {\"adr\": 74}, matching the on-disk high-water mark exactly (no gap between the committed ADR set and the oracle counter).",
-      "epoch": "2026-09"
-    },
-    {
       "id": "collision-adr-033-resolved",
       "title": "CANON-COLLISION ADR-033 duplicate — RESOLVED",
       "domain": "product",
@@ -598,20 +583,6 @@
       ],
       "note": "VERIFIED, and the doc's own wording is accurate (it says 'blocks duplicates... warns on off-oracle' — it does not claim the warn case blocks). Confirmed the hook is armed in this environment: `git config --get core.hooksPath` returns scripts/git-hooks. But this is exactly the enforcement gap ADR-034 warns about in the abstract: the warn-only branch is precisely how ADR-074 slipped past the oracle counter and the index.json backfill without being caught — a live illustration, not a hypothetical, of 'a rule that isn't enforced isn't a rule.'",
       "epoch": "2026-08"
-    },
-    {
-      "id": "arch-adr-file-count-vs-oracle",
-      "title": "Oracle counter (_SEEDS/_oracle.json) now matches the ADR high-water mark",
-      "domain": "product",
-      "cluster": "architecture",
-      "status": "LIVE",
-      "claim": "The committed oracle state records {\"adr\": 74}, matching the on-disk ADR-074 high-water mark.",
-      "provenance": "_SEEDS/_oracle.json",
-      "links": [
-        "adr-057-sequence-oracle"
-      ],
-      "note": "Resolved 2026-09-04: `cat _SEEDS/_oracle.json` reads {\"adr\": 74, \"handoff\": 43} — the one-behind drift this node flagged (oracle at 73 while ADR-074 existed on disk) has been corrected. The oracle (ADR-057's logical clock) and the committed ADR set are back in sync.",
-      "epoch": "2026-09"
     },
     {
       "id": "arch-inline-styles-only",
@@ -858,6 +829,64 @@
         "arch-inline-styles-only"
       ],
       "note": "DRIFTED, verified: live resume.arcs.care is NOT a standalone Next.js app. `src/proxy.ts:11` maps `'resume': '/resume.html'` — it is a single static file (`public/resume.html`, 74KB, last modified 2026-09-02) served through arcs-v9's own subdomain proxy, the exact 'fork vs. reference' architecture this ADR explicitly rejected in a simpler form. There is no `/[opportunityId]/` dynamic route, no opportunityId-scoped RLS, and no separate Vercel project in evidence. The static-page approach an cheaper path that superseded the two architecture gates this ADR ratified, without a follow-up ADR recording the change."
+    },
+    {
+      "id": "adr-074-prl-sugar-collision",
+      "title": "ADR-074 PRL Sugar Custom-Code Collision Surface",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "PRL chatbot lead-create/dedup/route path verified (sandbox read-only, 2026-09-01) clear of Sugar custom-code collisions at the package layer; DRAFT, Y-state YELLOW→GREEN-leaning.",
+      "provenance": "_DECISIONS/ADR-074-prl-sugar-custom-code-collision-surface.md",
+      "links": [
+        "adr-034-enforcement-parity",
+        "adr-057-sequence-oracle"
+      ],
+      "note": "File present at HEAD, dated 2026-09-01. index.json carries the ADR-074 entry (status DRAFT). No longer the ADR high-water mark (075/076 landed since).",
+      "epoch": "2026-09"
+    },
+    {
+      "id": "arch-adr-file-count-vs-oracle",
+      "title": "Oracle counter (_SEEDS/_oracle.json) matches the ADR high-water mark",
+      "domain": "product",
+      "cluster": "architecture",
+      "status": "LIVE",
+      "claim": "The committed oracle state records {\"adr\": 76}, matching the on-disk/index ADR-076 high-water mark (index.json max id = ADR-076).",
+      "provenance": "_SEEDS/_oracle.json",
+      "links": [
+        "adr-057-sequence-oracle"
+      ],
+      "note": "Re-graded 2026-09-07: oracle advanced 74→76 as ADR-075 (Metabolic Router) and ADR-076 (MCP-led growth) minted. `cat _SEEDS/_oracle.json` reads {\"adr\": 76, \"handoff\": 43}; index.json max id = ADR-076. Oracle (ADR-057 logical clock) still in sync with the committed ADR set — invariant holds, numbers moved.",
+      "epoch": "2026-09"
+    },
+    {
+      "id": "adr-075-metabolic-router",
+      "title": "ADR-075 The Metabolic Router (mechanical fan-out vs judgment split)",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "DECIDED (Y-state GREEN, STABLE): mechanical corpus fan-out is automatable and judgment is not; a metabolic router distributes a record to every organ with an integrity gate catching cites to unmerged commits.",
+      "provenance": "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+      "links": [
+        "adr-057-sequence-oracle"
+      ],
+      "note": "New node. File dated 2026-09-04, minted via oracle.py next adr (75); index.json status DECIDED. Reclaimed the 075 number previously vapor-claimed by the pull-not-push legibility-gate memory.",
+      "epoch": "2026-09"
+    },
+    {
+      "id": "adr-076-mcp-led-growth",
+      "title": "ADR-076 MCP-Led Growth: the attribution wedge",
+      "domain": "product",
+      "cluster": "adr",
+      "status": "LIVE",
+      "claim": "DRAFT (Y-state YELLOW): directional GTM thesis that MCP is the free land and the API the paid expand, with ARCS's native cited-receipt attribution as the wedge; build gated on a demand signal.",
+      "provenance": "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+      "links": [
+        "adr-057-sequence-oracle",
+        "adr-072-engine-sovereignty-gradient"
+      ],
+      "note": "New node. File dated 2026-09-07; drafted as ADR-075, renumbered to 076 via oracle after the parallel DECIDED ADR-075 (Metabolic Router) merged first. Mechanical numbering collision, not canon-content. index.json status DRAFT.",
+      "epoch": "2026-09"
     }
   ]
 }
