@@ -80,8 +80,16 @@ async function main() {
     const resp = await fetch(`${BASE}/api/jobs/edit-from-seed`, { method: "POST", headers: H, body: JSON.stringify({ jobid: t.jobid, title: t.title, company: t.company, jd, seedSlug: seed.slug, seedResumeHtml: seedHtml.html }) })
     if (!resp.ok) { console.error(`  edit failed: ${resp.status} ${(await resp.text()).slice(0, 200)}`); continue }
     const e = await resp.json()
+    // apply the PATCH to the seed HTML locally (pay for the delta, not the document)
+    let html = seedHtml.html, applied = 0, missed = []
+    for (const ed of e.edits || []) {
+      if (typeof ed.find === "string" && html.includes(ed.find)) { html = html.replace(ed.find, String(ed.replace ?? "")); applied++ }
+      else missed.push((ed.find || "").slice(0, 40))
+    }
+    if (applied === 0) { console.error(`  no edits applied (all ${(e.edits||[]).length} find-strings missed the seed) — skipped`); continue }
+    if (missed.length) console.log(`  applied ${applied}/${(e.edits||[]).length} edits (${missed.length} find-strings not located)`)
     const d = path.join("_ARTIFACTS", `forge-${slug}`); fs.mkdirSync(d, { recursive: true })
-    fs.writeFileSync(path.join(d, `resume-${slug}.html`), e.resumeHtml)
+    fs.writeFileSync(path.join(d, `resume-${slug}.html`), html)
     fs.writeFileSync(path.join(d, "jd-full.txt"), jd)
     fs.writeFileSync(path.join(d, "TAILOR-NOTES.md"), `# ${t.company} · ${t.title}\n\nEDIT-FROM-SEED of \`${seed.slug}\` (cluster ${sh}). ${new Date().toISOString()}\n\n${e.tailorDelta || ""}\n\nAssessment: ${e.assessment || ""}\n`)
     fs.writeFileSync(path.join(d, "hiring-manager.json"), JSON.stringify(e.hiringManager || { kind: "unknown", text: null }, null, 1))
@@ -96,11 +104,11 @@ async function main() {
       execSync(`pdftoppm -png -r 110 "${pdf}" "${path.resolve(d, `resume-${slug}-page`)}" 2>/dev/null || true`, { stdio: "ignore" })
       pages = Number(execSync(`pdfinfo "${pdf}" | awk '/^Pages/{print $2}'`).toString().trim())
       // ATS text
-      const txt = e.resumeHtml.replace(/<style[\s\S]*?<\/style>/g, "").replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim()
+      const txt = html.replace(/<style[\s\S]*?<\/style>/g, "").replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim()
       fs.writeFileSync(path.join(d, `resume-${slug}-ats.txt`), txt)
     } catch (err) { console.error("  render error:", err.message) }
     // air-gap on the resume HTML
-    const em = e.resumeHtml.includes("—"), sv = /\b(tier|band|composite|pursue)\b/i.test(e.resumeHtml)
+    const em = html.includes("—"), sv = /\b(tier|band|composite|pursue)\b/i.test(html)
     if (pages !== 2 || em || sv) { console.error(`  QC FAIL: pages=${pages} em=${em} sv=${sv} — left in bundle, NOT marked built`); continue }
     // register + mark built + mirror
     const p = "runtime/specs/forge-bundles.json"; const m = JSON.parse(fs.readFileSync(p, "utf8"))
