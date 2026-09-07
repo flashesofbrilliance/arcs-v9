@@ -110,7 +110,7 @@
 <script>
   /* Vercel Web Analytics custom events; guarded so the page is fine if analytics is blocked. */
   (function(){
-    function ev(name){ try{ window.va && window.va('event', { name: name }); }catch(e){} }
+    function ev(name){ try{ window.va && window.va('event', { name: name, data: { surface: 'nftt' } }); }catch(e){} }
     var card = document.querySelector('.mcp-probe');
     if (card && 'IntersectionObserver' in window){
       var seen = false;
