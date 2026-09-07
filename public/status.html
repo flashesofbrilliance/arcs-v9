@@ -574,7 +574,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
+  <div class="eyebrow"><span class="eyebrow-dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--muted);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; Live Build Status</div>
   <h1>Day 0: one empty commit.<br>Day <span id="hero-day">129</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the repository, updated live</div>
   <div class="lede">
@@ -696,7 +696,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION*</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 43-operator library and one engine behind every surface.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt: expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
     </div>
 
@@ -839,7 +839,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The core AI runs on a single vendor.</strong></td>
-          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (16.6K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
+          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (~21.9K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
           <td><span class="chip med">MED</span></td>
           <td><span class="chip open">OPEN, HEDGE BUILT</span></td>
         </tr>
@@ -1674,8 +1674,16 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   // the pulse payload lacks a shipped count (older cache / API hiccup) so the bar
   // never renders empty.
   var SHIP_FALLBACK = 25;
+  // Curated floor, matching the static cards below. The live GitHub-Issues bucketing
+  // is label-dependent and unreliable while the repo is private: if it reports 0
+  // shipped alongside 100+ open issues, the categorization is degraded. In that case
+  // keep the curated floor rather than render a false "0 shipped" over a full board,
+  // and label the stamp honestly (curated, not "live … as of [time]").
+  var CURATED = { shipped: 25, ip: 6, bl: 8, nx: 11 };
   function applyIssues(shipped, ip, bl, nx, truncated) {
-    shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var degraded = (!shipped) && (truncated || (!ip && !bl && (nx || 0) <= 1));
+    if (degraded) { shipped = CURATED.shipped; ip = CURATED.ip; bl = CURATED.bl; nx = CURATED.nx; truncated = true; }
+    else { shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0; }
     var total = shipped + ip + bl + nx;
     set("su-lead-ship", shipped); set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
     set("su-lab-ship", shipped); set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
@@ -1683,7 +1691,9 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
     seg("su-bar-ship", shipped); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
     var floor = truncated ? " · 100+ issues (floor)" : "";
-    set("su-stamp", "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString());
+    set("su-stamp", (degraded
+      ? "Whole board · curated tracker" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next"
+      : "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString()));
   }
   async function loadCommits() {
     try {

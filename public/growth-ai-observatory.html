@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Forge · how this resume was forged</title>
+<meta name="robots" content="noindex"><meta name="description" content="Instant replay of an honest, agentic resume build. The machinery, not the marketing.">
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
+  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  body{overflow-x:hidden;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:var(--mono);}
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 440px at 18% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(760px 400px at 92% 0,rgba(0,255,157,.06),transparent 55%);}
+  .hero{padding:56px 0 44px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-in-out infinite;}
+  .backtop{display:flex;width:fit-content;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--fg3);margin-bottom:16px;transition:.15s;}
+  .backtop:hover{color:var(--cyan);}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  h1{font-size:clamp(38px,7vw,68px);font-weight:800;letter-spacing:-.035em;line-height:.98;margin-top:20px;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16.5px,2.4vw,21px);line-height:1.6;color:var(--fg2);margin-top:20px;max-width:680px;text-wrap:pretty;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  .metastrip{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .chip{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--fg2);border:1px solid var(--border2);background:var(--elev);border-radius:8px;padding:8px 12px;}
+  .chip b{color:var(--cyan);}
+
+  section{padding:44px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  /* pipeline rail */
+  .transport{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .tbtn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--fg1);border:1px solid var(--border2);background:var(--elev);border-radius:8px;padding:8px 13px;cursor:pointer;transition:.14s;}
+  .tbtn:hover{border-color:var(--cyan);color:var(--cyan);}
+  .tstate{font-family:var(--mono);font-size:10.5px;color:var(--fg3);letter-spacing:.04em;}
+  .rail{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+  @media(max-width:720px){.rail{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:440px){.rail{grid-template-columns:repeat(2,1fr);} }
+  .stg{position:relative;text-align:left;border:1px solid var(--border);border-radius:11px;padding:12px 12px 13px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));cursor:pointer;transition:.16s;}
+  .stg:hover{border-color:var(--border2);}
+  .stg.on{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 12px 30px -18px rgba(0,240,255,.5);background:linear-gradient(165deg,rgba(0,240,255,.06),rgba(0,0,0,.16));}
+  .stg .sn{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--fg4);letter-spacing:.08em;}
+  .stg.on .sn{color:var(--cyan);}
+  .stg .st{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--fg1);margin-top:6px;}
+  .stg .sd{font-size:10px;line-height:1.4;color:var(--fg3);margin-top:5px;}
+
+  /* stage panel */
+  .panel{margin-top:18px;border:1px solid var(--border2);border-radius:14px;background:linear-gradient(168deg,#0c1219,#080d13);overflow:hidden;min-height:220px;}
+  .panel .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
+  .panel .bar .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);}
+  .panel .bar .r{font-family:var(--mono);font-size:9.5px;color:var(--fg4);letter-spacing:.06em;}
+  .panel .body{padding:18px 18px 20px;}
+  .pv{display:none;} .pv.on{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .pv p{font-size:14.5px;line-height:1.62;color:var(--fg2);max-width:700px;text-wrap:pretty;} .pv p b{color:var(--fg1);font-weight:600;} .pv p+p{margin-top:11px;}
+  .pv .kv{display:grid;grid-template-columns:150px 1fr;gap:7px 16px;margin-top:14px;}
+  @media(max-width:560px){.pv .kv{grid-template-columns:1fr;gap:2px 0;}}
+  .pv .kv .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);padding-top:2px;}
+  .pv .kv .v{font-size:12.5px;line-height:1.55;color:var(--fg2);} .pv .kv .v b{color:var(--fg1);}
+  /* advancement gate: the eval a stage must pass before the next one runs (ADR-068 print schedule) */
+  .pv .gate{display:flex;gap:11px;align-items:flex-start;margin-top:16px;padding:11px 13px;
+    border:1px solid var(--border2);border-left:2px solid var(--green);border-radius:0 9px 9px 0;
+    background:linear-gradient(100deg,rgba(0,255,157,.055),transparent 70%);}
+  .pv .gate .gk{flex:none;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.11em;color:var(--green);padding-top:2px;white-space:nowrap;}
+  .pv .gate .gv{font-size:11.5px;line-height:1.5;color:var(--fg2);} .pv .gate .gv b{color:var(--fg1);font-weight:600;}
+  @media(max-width:560px){.pv .gate{flex-direction:column;gap:5px;}}
+
+  /* evidence table */
+  .grade-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 14px;}
+  .gl{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--fg3);}
+  .gl .d{width:9px;height:9px;border-radius:50%;}
+  .d.doc{background:var(--green);box-shadow:0 0 8px var(--green);} .d.self{background:var(--gold);box-shadow:0 0 8px var(--gold);} .d.unv{background:var(--red);box-shadow:0 0 8px var(--red);}
+  .etbl{display:flex;flex-direction:column;gap:7px;}
+  .erow{display:grid;grid-template-columns:15px 1fr 118px;gap:12px;align-items:center;border:1px solid var(--border);border-radius:9px;padding:11px 13px;background:linear-gradient(165deg,rgba(255,255,255,.015),rgba(0,0,0,.14));}
+  @media(max-width:560px){.erow{grid-template-columns:15px 1fr;} .erow .tag{grid-column:2;justify-self:start;margin-top:2px;}}
+  .erow .dot{width:10px;height:10px;border-radius:50%;}
+  .erow .claim{font-size:12.5px;line-height:1.45;color:var(--fg1);} .erow .claim small{display:block;color:var(--fg3);font-size:11px;margin-top:2px;}
+  .erow .tag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;text-align:right;}
+  .tag.doc{color:var(--green);} .tag.self{color:var(--gold);} .tag.unv{color:var(--red);}
+
+  /* cut list */
+  .cut{display:flex;gap:13px;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:linear-gradient(165deg,rgba(255,77,109,.04),rgba(0,0,0,.14));}
+  .cut .x{flex-shrink:0;font-family:var(--mono);font-weight:800;color:var(--red);font-size:14px;line-height:1.3;}
+  .cut .t{font-size:12.5px;font-weight:600;color:var(--fg1);} .cut .w{font-size:11.5px;line-height:1.5;color:var(--fg3);margin-top:3px;}
+  .rt{display:flex;gap:13px;border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:linear-gradient(165deg,rgba(255,215,0,.04),rgba(0,0,0,.14));}
+  .rt .h{flex-shrink:0;font-family:var(--mono);font-weight:800;color:var(--gold);font-size:13px;}
+  .rt .t{font-size:12.5px;font-weight:600;color:var(--fg1);} .rt .w{font-size:11.5px;line-height:1.5;color:var(--fg3);margin-top:3px;} .rt .w b{color:var(--fg2);}
+
+  .airgap{margin-top:26px;border:1px dashed var(--border2);border-radius:12px;padding:15px 17px;background:rgba(0,255,157,.03);}
+  .airgap .h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+  .airgap p{font-size:12.5px;line-height:1.6;color:var(--fg2);} .airgap p b{color:var(--fg1);}
+
+  .proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:720px){.proof{grid-template-columns:1fr 1fr;}}
+  .pl{display:block;border:1px solid var(--border);border-radius:12px;padding:16px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));transition:.15s;}
+  .pl:hover{border-color:var(--cyan);transform:translateY(-2px);}
+  .pl .pn{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.03em;}
+  .pl .pd{font-size:11.5px;line-height:1.5;color:var(--fg3);margin-top:7px;}
+
+  footer{padding:30px 0 46px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.03em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+  .ext::after{content:"\2197";font-family:var(--mono);font-size:.7em;font-weight:700;margin-left:3px;opacity:.55;vertical-align:top;}
+  .back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--fg3);margin-top:14px;}
+  .back:hover{color:var(--cyan);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <a class="backtop" href="/">&#9664; back to the bundle</a>
+    <span class="kick"><span class="dot"></span>growth-ai.arcs.care &middot; the forge</span>
+    <h1>The <span class="g">Forge</span></h1>
+    <p class="lede">Instant replay of how this resume was actually forged: an <b>honest, agentic pipeline</b>. The machinery, not the marketing. Every claim graded by how checkable it is, and everything it <b>refused</b> to say, shown on purpose.</p>
+    <div class="metastrip">
+      <span class="chip"><b>6</b> pipeline stages</span>
+      <span class="chip">every claim graded</span>
+      <span class="chip"><b>4</b> claims cut</span>
+      <span class="chip">production, not pilots</span>
+      <span class="chip">built with <a href="https://resume-tailor.arcs.care" style="color:var(--cyan);text-decoration:none;"><b>resume-tailor</b></a> · MIT</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>Replay the build</h2><span class="sub">click a stage &middot; or use &larr; &rarr;</span></div>
+    <div class="rail" id="rail">
+      <button class="stg on" data-i="0"><div class="sn">01</div><div class="st">READ</div><div class="sd">role + record of record</div></button>
+      <button class="stg" data-i="1"><div class="sn">02</div><div class="st">GRADE</div><div class="sd">evidence per claim</div></button>
+      <button class="stg" data-i="2"><div class="sn">03</div><div class="st">STRESS-TEST</div><div class="sd">what it refused</div></button>
+      <button class="stg" data-i="3"><div class="sn">04</div><div class="st">ORDER</div><div class="sd">lead with the role</div></button>
+      <button class="stg" data-i="4"><div class="sn">05</div><div class="st">BUILD</div><div class="sd">landing &middot; forge &middot; resume</div></button>
+      <button class="stg" data-i="5"><div class="sn">06</div><div class="st">RED-TEAM</div><div class="sd">the same bar, applied again</div></button>
+    </div>
+
+    <div class="panel">
+      <div class="bar"><span class="l" id="pl">READ</span><span class="r" id="pr">stage 01 of 06</span></div>
+      <div class="body">
+
+        <div class="pv on" data-i="0">
+          <p><b>The posting is the target. My LinkedIn export is the source of truth.</b> Titles, dates, and credentials come from the export, not from an old resume, so nothing on the page can contradict a background check.</p>
+          <div class="kv">
+            <div class="k">Role read</div><div class="v">Senior AI Product Operations Manager &middot; Growth AI Transformation &middot; AI adoption at hyperscale &middot; use-case definition &middot; production ownership, not pilots</div>
+            <div class="k">Record of record</div><div class="v">LinkedIn data export (positions, dates, education) reconciled line by line</div>
+            <div class="k">Receipts</div><div class="v">Public GitHub, a live commit trail, and open-source tools that let a claim read as a fact</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; GRADE</span><span class="gv">Titles, dates, and credentials reconciled line by line against the LinkedIn export. Nothing advances that could contradict a background check.</span></div>
+        </div>
+
+        <div class="pv" data-i="1">
+          <p><b>Every line gets an evidence grade.</b> Green is public and checkable. Gold is my own number, plausible and consistent, but not independently verified. Red is tacit and never becomes a fact with a figure. Nothing is written past its grade.</p>
+          <div class="grade-legend">
+            <span class="gl"><span class="d doc"></span>documented</span>
+            <span class="gl"><span class="d self"></span>self-reported</span>
+            <span class="gl"><span class="d unv"></span>unverifiable</span>
+          </div>
+          <div class="etbl">
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">A production stack on Claude + ChatGPT Enterprise + a custom MCP server + agentic orchestration (ARCS)<small>public repo, live at status.arcs.care</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Power user of coding agents, delegating to Claude at scale<small>live commit trail + co-authored commits on GitHub</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Stack: TypeScript, React, Node, Python, SQL, Prisma<small>visible in public repos</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Titles + dates across ARCS, Grayscale, WTA, CTF<small>match the LinkedIn export exactly</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Mentor: Cornell Tech, Outlier Ventures; Builder in Residence, A.Team<small>listed on LinkedIn</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">$7B, 10-product regulated launch (Grayscale)<small>my figure for the suite I led, not total AUM</small></div><div class="tag self">self-reported</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">35% release-cycle reduction<small>stated as mine; method ready to explain</small></div><div class="tag self">self-reported</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">$850K year-one partnerships; &lt;120ms scoring (WTA)<small>consistent with role and era</small></div><div class="tag self">self-reported</div></div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; STRESS-TEST</span><span class="gv">Every claim carries an evidence grade. A claim with no grade cannot pass to the page.</span></div>
+        </div>
+
+        <div class="pv" data-i="2">
+          <p><b>The interesting part of an honest resume is what it leaves out.</b> These claims could not clear the evidence bar, so they were cut from the page and moved to a defend-or-drop list. The refusal is the point.</p>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">Section4 &ldquo;Certified Product Strategist&rdquo;</div><div class="w">Not in the LinkedIn export. Cut until the credential is linkable.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">A second MIT certificate</div><div class="w">Export verifies one course, not two. Only the verified one stays.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">&ldquo;~60% decision-noise reduction &middot; 3&ndash;5&times; time-to-insight&rdquo;</div><div class="w">Internal estimates with no external check. The softest numbers, so the first to go.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">A degree program named from memory</div><div class="w">Not in the education record, so it never became a credential. Held as personal color only.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; ORDER</span><span class="gv">Every claim that fails the evidence bar is removed to the defend-or-drop list before ordering begins.</span></div>
+        </div>
+
+        <div class="pv" data-i="3">
+          <p><b>Order by what the role actually wants, differentiator second.</b> The strongest, most checkable claims lead: AI product shipped end-to-end in production, the adoption motion around it, ship velocity in public. Experience is newest first; the framing is by relevance to this role.</p>
+          <div class="kv">
+            <div class="k">Leads with</div><div class="v"><b>AI product shipped end-to-end in production, plus the adoption motion around it</b>, because that combination is the actual gap this role needs to close</div>
+            <div class="k">Then</div><div class="v">0&rarr;1 ownership &middot; builder-and-activator &middot; two decades across product, growth, and commercial operations</div>
+            <div class="k">Framing</div><div class="v">Domain range mapped to what a growth org actually needs to prove: regulated-rollout discipline, AI-in-production, and adoption at scale</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; BUILD</span><span class="gv">The lead is the single most checkable and most differentiated claim. Only then does anything get built.</span></div>
+        </div>
+
+        <div class="pv" data-i="4">
+          <p><b>One graded record, three surfaces.</b> A landing page, this replay, and a print-clean résumé, all reading from the same evidence table. No cover letter or ATS text this pass: only the résumé had a ready source, so only the résumé shipped.</p>
+          <div class="kv">
+            <div class="k">Résumé</div><div class="v">Print-verified PDF, evidence-graded, same claims as the page</div>
+            <div class="k">Landing + replay</div><div class="v">Same evidence bar as the résumé; the Forge is the replay of the process, not extra decoration</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; RED-TEAM</span><span class="gv">Rendered pixels verified in CI: Playwright, zero horizontal overflow at four widths, and the PDF is reachable. Page-count is not a pass.</span></div>
+        </div>
+
+        <div class="pv" data-i="5">
+          <p><b>Same honest method, applied to a different room.</b> An evidence pass, an air-gap check for anything that shouldn't be public, and a responsive sweep across widths, before anything ships. Subtractive, never puffed.</p>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">Air-gap checked.</div><div class="w">Every public page is grepped for names, who-sent-me language, and internal jargon before it ships. Clean, or it doesn't go out.</div></div></div>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">Held to the same evidence bar.</div><div class="w">Self-reported figures move to a defend-or-drop list instead of landing as facts. <b>Production, not pilots</b>, or it doesn't get claimed.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; SHIP</span><span class="gv">CI green or no merge: ESLint + <span style="font-family:var(--mono)">next build</span>, the air-gap leak-check run as a test, and a security scan on every PR. A bad production deploy auto-rolls-back. Seven workflows in all.</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="airgap">
+      <div class="h">&#9670; what is not on this page</div>
+      <p><b>Nothing about you.</b> This is the honest method applied to my own evidence: the grading, the cuts, the red-team. Reading the room is a private craft, not a thing to publish. The kitchen is open; the surveillance is not.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>The kitchen</h2><span class="sub">live proof, not screenshots</span></div>
+    <div class="proof">
+      <a class="pl" href="https://github.com/flashesofbrilliance"><div class="pn">&#9670; GitHub</div><div class="pd">The code, the commits, the co-authored-with-Claude provenance.</div></a>
+      <a class="pl" href="https://status.arcs.care"><div class="pn">&#9670; status.arcs.care</div><div class="pd">The live commit trail. Shipping velocity as telemetry, not adjective.</div></a>
+      <a class="pl" href="https://good.arcs.care"><div class="pn">&#9670; good.arcs.care</div><div class="pd">Open-source developer tools, each with its own conformance suite.</div></a>
+      <a class="pl" href="https://build.arcs.care"><div class="pn">&#9670; build.arcs.care</div><div class="pd">What is getting built, in the open.</div></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span>the forge &middot; the honest method applied to my own claims</span>
+      <span><a href="https://resume-tailor.arcs.care">resume-tailor</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="https://arcs.care">arcs.care</a></span>
+    </div>
+    <a class="back" href="/">&#9664; back to the bundle</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var n=6, i=0;
+  var stgs=[].slice.call(document.querySelectorAll('.stg'));
+  var pvs=[].slice.call(document.querySelectorAll('.pv'));
+  var names=['READ','GRADE','STRESS-TEST','ORDER','BUILD','RED-TEAM'];
+  var pl=document.getElementById('pl'), pr=document.getElementById('pr');
+  function pad(x){return (x<10?'0':'')+x;}
+  function show(k){
+    i=(k+n)%n;
+    stgs.forEach(function(s){s.classList.toggle('on', +s.dataset.i===i);});
+    pvs.forEach(function(p){p.classList.toggle('on', +p.dataset.i===i);});
+    pl.textContent=names[i]; pr.textContent='stage '+pad(i+1)+' of '+pad(n);
+  }
+  stgs.forEach(function(s){ s.addEventListener('click', function(){ show(+s.dataset.i); }); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'){ show(i+1); } else if(e.key==='ArrowLeft'){ show(i-1); }
+  });
+  // external links open in a new tab; the in-page "back to the bundle" stays same-tab
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';
+    if(/^https?:\/\//.test(h)){ a.target='_blank'; a.rel='noopener noreferrer'; a.classList.add('ext'); }
+  });
+  show(0);
+})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+  function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+  document.addEventListener('click', function(e){
+    var el = e.target.closest && e.target.closest('a[href], .stg'); if(!el) return;
+    if(el.classList && el.classList.contains('stg')){ var st=el.querySelector('.st'); track('stage:'+(st?st.textContent.trim().toLowerCase():el.getAttribute('data-i'))); return; }
+    var h = el.getAttribute('href')||'', label='';
+    if(h==='/') label='back_to_bundle';
+    else if(/github/.test(h)) label='out_github';
+    else if(/status\./.test(h)) label='out_status';
+    else if(/good\./.test(h)) label='out_good';
+    else if(/build\./.test(h)) label='out_build';
+    else if(/resume-tailor/.test(h)) label='out_resume_tailor';
+    else if(/arcs\.care/.test(h)) label='out_arcs';
+    else if(/^https?:/.test(h)) label='out_other';
+    if(label) track(label);
+  }, true);
+</script>
+</body>
+</html>

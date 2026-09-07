@@ -1,0 +1,23 @@
+{
+  "skill_name": "sbom-payload-scan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A recruiter sent me a take-home coding assignment as a GitHub repo and asked me to clone it and get the dev server running before our next interview. I haven't opened it yet. The folder is at ./evil. Can you check whether it's safe to open before I do?",
+      "expected_output": "Uses scan_repo.py (read-only), does NOT run npm install or open the folder in an editor. Reports CRITICAL findings: the .vscode/tasks.json folderOpen curl|bash task, the package.json prepare hook, the eval/process.env exfil in routes/api/auth.js, and the port-1224 / vercel IOCs. Advises not to open or install it; recommends a disposable VM if inspection is required.",
+      "files": ["fixtures/evil"]
+    },
+    {
+      "id": 2,
+      "prompt": "Before I add this small express service (./benign) as a dependency, can you sanity-check it for any malicious install-time or open-time behavior?",
+      "expected_output": "Scans read-only and reports clean at HIGH (exit 0). Does not fabricate findings from the benign process.env.PORT usage. States that clean means no known pattern fired, not a guarantee of safety.",
+      "files": ["fixtures/benign"]
+    },
+    {
+      "id": 3,
+      "prompt": "Our CI needs a gate that fails the build if a vendored dependency ships an auto-executing install hook or a folderOpen shell task. How do I wire that up?",
+      "expected_output": "Explains running scan_repo.py in CI and gating on its exit code (2 = fail). Emphasizes the tool is read-only and never installs/executes the scanned code. Points at references/patterns.md for what is detected.",
+      "files": []
+    }
+  ]
+}

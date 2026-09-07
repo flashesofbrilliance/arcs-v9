@@ -198,7 +198,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="statuslights">
         <span class="led on" style="color:var(--palette-conviction)"></span>ARCHETYPES · 4 IN SCOPE<br>
         <span class="led on" style="color:var(--palette-asset)"></span>RUBRIC · v1 CALIBRATED<br>
-        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · CATCHER = GMAIL LABEL · UNWIRED<br>
+        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · GMAIL MCP · WIRED 2026-08-28<br>
         <span class="led on" style="color:var(--palette-bearing)"></span>LOOP · RECOIL-READY
       </div>
     </div>
@@ -208,7 +208,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="cell"><div class="v"><b>4</b></div><div class="k">archetypes in scope</div></div>
       <div class="cell"><div class="v">6</div><div class="k">must-haves · screen-in</div></div>
       <div class="cell"><div class="v">6</div><div class="k">disqualifiers · screen-out</div></div>
-      <div class="cell"><div class="v">0.70</div><div class="k">pursue band · full omakase</div></div>
+      <div class="cell"><div class="v">0.58</div><div class="k">board cutoff · tiers at 0.80 / 0.70</div></div>
       <div class="cell"><div class="v">20<span style="font-size:15px">yr</span></div><div class="k">senior IC · operator-builder</div></div>
     </div>
     <div class="src" style="margin-top:10px;">SRC · resume.arcs.care (SSOT) · profile-scan-hud.html · memory: icp-is-a-state · positive-screen · risk-register · opportunity-sizing</div>
@@ -348,8 +348,8 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
     <div class="flow">
       <div class="step panel">
         <h4>Ingest — job alerts land</h4>
-        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. <b>Gap:</b> there is no committed catcher — it's a Gmail label + MCP read (or an external Zapier zap). Formalizing a normalize-step that emits one "opportunity record" per alert is the front-door build.
-          <span class="tool gap">Gmail MCP · label</span><span class="tool gap">TODO: normalize step</span></p>
+        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. Wired 2026-08-28: the Gmail MCP pulls the digests, <b>linkedin_alert_parser.py</b> emits one opportunity record per job, and the Alert Swipe Board carries the scored rows above the 0.58 cutoff in three tiers. This rubric is now data at <b>runtime/specs/target-role-scan.json</b>.
+          <span class="tool">Gmail MCP</span><span class="tool">linkedin_alert_parser.py</span><span class="tool">Alert Swipe Board</span></p>
       </div>
       <div class="step panel">
         <h4>Score — run the rubric</h4>
@@ -383,13 +383,13 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
 
     <div class="prov" style="margin-top:24px;">
       <span class="eyebrow">Provenance · flags lit, not smoothed</span>
-      <p>Grounded in named sources: the résumé SSOT (<b>resume.arcs.care</b>), the master <b>profile-scan-hud.html</b> read, and job-search memories (<b>icp-is-a-state</b>, <b>positive-screen</b>, <b>risk-register</b>, <b>opportunity-sizing</b>). Tooling references verified against the repo. Three flags: <b>(1)</b> the "LinkedIn→Gmail job-alert catcher" is <b>not committed code</b> — it is a Gmail label + in-session MCP read (or an external Zapier zap); the normalize step is the front-door build to add. <b>(2)</b> No engine scores <em>job posts</em> today — the gauntlet substrate is the ready-made scorer, needs pointing at "JD vs profile." <b>(3)</b> Rubric weights + band thresholds are a <b>v1 calibration</b> — expected to shift after the first ~20 scored alerts. The archetype channel stays honest: this sizes opportunities, it does not assert a fixed identity.</p>
+      <p>Grounded in named sources: the résumé SSOT (<b>resume.arcs.care</b>), the master <b>profile-scan-hud.html</b> read, and job-search memories (<b>icp-is-a-state</b>, <b>positive-screen</b>, <b>risk-register</b>, <b>opportunity-sizing</b>). Tooling references verified against the repo. Three flags, two of them since closed: <b>(1)</b> the catcher is now committed code (<b>operators/job_search/linkedin_alert_parser.py</b> behind the Gmail MCP, 2026-08-28) and the board at <b>jobs.arcs.care</b> carries the scored rows. <b>(2)</b> Postings are scored by the scheduled loop against this rubric, which is data at <b>runtime/specs/target-role-scan.json</b>; each row opens its own Role Scan at jobs.arcs.care/&lt;jobid&gt;. <b>(3)</b> Rubric weights + band thresholds remain a <b>v1 calibration</b> — 19 rows scored as of 2026-09-05, tune after ~20. The archetype channel stays honest: this sizes opportunities, it does not assert a fixed identity.</p>
     </div>
   </section>
 
   <footer>
     <span>ARCS Target Scan · Zach Harris · _ARTIFACTS/target-role-scan-hud.html</span>
-    <span>Internal · v1 · Aug 2026 · render at earned fidelity</span>
+    <span>Internal · v1.1 · Sep 2026 · rubric as data · render at earned fidelity</span>
   </footer>
 </div>
 </body>

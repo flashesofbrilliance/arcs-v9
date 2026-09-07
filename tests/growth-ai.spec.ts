@@ -1,0 +1,77 @@
+import { test, expect } from "@playwright/test"
+
+// E2E gate for the growth-ai.arcs.care application bundle (the mission-facing
+// pitch, the /forge honest-method showcase, and the /resume). Mirrors the
+// blacksmith spec. Runs against the live host by default; override with
+// GROWTH_AI_BASE_URL to test a preview.
+//
+// Three gates in one spec:
+//  1. smoke      - 200, real content, key strings, no console/page errors
+//  2. air-gap    - the constitutional boundary as a test: the public pages must
+//                  NEVER leak the referrer, the persuasion layer, or ARCS jargon
+//  3. responsive - no horizontal overflow at four widths (the measure/wrap
+//                  regression class lives at the intermediate widths presets skip)
+
+const BASE = process.env.GROWTH_AI_BASE_URL ?? "https://growth-ai.arcs.care"
+
+const PAGES = [
+  { path: "/", title: /Zach Harris/, must: ["Growth AI Transformation", "Ships AI in production", "The seam I sit on", "The kitchen"] },
+  { path: "/forge", title: /The Forge/, must: ["The Forge", "honest, agentic pipeline", "Replay the build", "what is not on this page"] },
+]
+
+// The deliverables are downloadable PDFs, not responsive HTML pages.
+for (const pdf of ["/growth-ai-resume.pdf", "/growth-ai-cover.pdf", "/growth-ai-resume-ats.pdf"]) {
+  test(`${pdf} is served for download`, async ({ request }) => {
+    const res = await request.get((process.env.GROWTH_AI_BASE_URL ?? "https://growth-ai.arcs.care") + pdf)
+    expect(res.status(), `${pdf} not reachable`).toBeLessThan(400)
+    expect((res.headers()["content-type"] || ""), `${pdf} not served as a PDF`).toContain("pdf")
+  })
+}
+
+// Air-gap trip-words that must not appear anywhere in the public HTML.
+// Policy: this is a personal referral, so the referrer is air-gapped entirely
+// (no name, no "referral" framing). The persuasion layer (reverse-listening,
+// the resonance model) and ARCS-internal jargon must never reach a public
+// surface. The employer may be named factually (once, in the footer).
+const FORBIDDEN = ["Yuri", "Kleban", "siryuri", "referral", "reverse-listen", "resonance model", "recoil", "Pichai", "Sundar"]
+
+const WIDTHS = [
+  { name: "mobile", width: 375, height: 812 },
+  { name: "tablet", width: 768, height: 1024 },
+  { name: "narrow", width: 790, height: 900 },
+  { name: "desktop", width: 1280, height: 900 },
+]
+
+for (const p of PAGES) {
+  test(`${p.path} smoke + content + air-gap`, async ({ page }) => {
+    const errors: string[] = []
+    page.on("console", (m) => { if (m.type() === "error" && !/status of 4\d\d/.test(m.text())) errors.push(m.text()) })
+    page.on("pageerror", (e) => errors.push(e.message))
+
+    const res = await page.goto(BASE + p.path, { waitUntil: "networkidle" })
+    expect(res?.status(), `${p.path} responded with an error status`).toBeLessThan(400)
+    await expect(page).toHaveTitle(p.title)
+
+    const body = await page.locator("body").innerText()
+    expect(body.trim().length, `${p.path} rendered an empty body`).toBeGreaterThan(0)
+    for (const s of p.must) expect(body, `${p.path} missing expected copy: "${s}"`).toContain(s)
+
+    const html = await page.content()
+    for (const w of FORBIDDEN) expect(html, `${p.path} AIR-GAP LEAK: found "${w}"`).not.toContain(w)
+
+    // House rule: no em-dashes on hiring-facing surfaces.
+    expect(body, `${p.path} contains an em-dash`).not.toContain("—")
+
+    expect(errors, `${p.path} threw console errors:\n${errors.join("\n")}`).toEqual([])
+  })
+
+  for (const w of WIDTHS) {
+    test(`${p.path} no horizontal overflow @ ${w.name} (${w.width}px)`, async ({ page }) => {
+      await page.setViewportSize({ width: w.width, height: w.height })
+      await page.goto(BASE + p.path, { waitUntil: "networkidle" })
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+      expect(overflow, `${p.path} @ ${w.name}: page scrolls horizontally by ${overflow}px (wrap/grid regression)`).toBeLessThanOrEqual(1)
+      await page.screenshot({ path: `test-results/growth-ai${(p.path.replace(/\//g, "_") || "_home")}-${w.name}.png`, fullPage: true })
+    })
+  }
+}

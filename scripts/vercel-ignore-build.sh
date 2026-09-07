@@ -14,7 +14,8 @@ fi
 # build when a commit touches ONLY these. _DECISIONS/ and runtime/ are deliberately
 # excluded from this list — both are read at request time (link-search API and the
 # /recoil/[reportId] route respectively) and need a fresh deploy to serve new content.
-SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|\.claude/|_STATE/|_ARCHIVE/|_PATTERNS/|_MEMORY/|_ARTIFACTS/|scripts/)'
+# 2026-09-04: .gitignore added after PR #279 (docs-only + .gitignore) triggered a full production build.
+SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|AGENTS\.md|\.gitignore|\.claude/|_STATE/|_ARCHIVE/|_PATTERNS/|_MEMORY/|_ARTIFACTS/|_INBOX/|scripts/)'
 
 UNSAFE=$(echo "$CHANGED" | grep -Ev "$SAFE_PATTERN" || true)
 
