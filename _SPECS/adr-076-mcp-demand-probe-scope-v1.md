@@ -1,4 +1,4 @@
-# ADR-076 MCP-Led Growth — Demand Probe Scope v1
+# ADR-076 MCP-Led Growth: Demand Probe Scope v1
 
 > **Status:** DRAFT scope for Zach review. Validates ADR-076 (`_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md`).
 > **Rule:** this probe exists to FALSIFY, cheaply. Do not build a hosted MCP server. Ship the smallest
@@ -7,52 +7,58 @@
 ## The job we are testing
 
 Not "can we build an ARCS MCP" (yes, trivially). The bet is: **do people want to query ARCS from
-inside their agent (Claude/Cursor/etc.), and does the attribution wedge — cited answers, not the model
-guessing — pull them?** The probe must be able to come back **negative** and mean it.
+inside their agent (Claude/Cursor/etc.), and does the attribution wedge, cited answers, not the model
+guessing, pull them?** The probe must be able to come back **negative** and mean it.
 
 ## The crux: measurement, not the tool
 
 An MCP tool that runs locally (stdio, on the user's machine) is the cheapest to ship AND the hardest to
-measure — a local process is invisible to us unless it phones home, and phoning home is a privacy cost
+measure, a local process is invisible to us unless it phones home, and phoning home is a privacy cost
 we should not pay casually. Every design decision below is driven by *how we detect pull honestly*, not
 by the tool's features.
 
 ## Two stages, cheapest first (cheap-tripwire-before-expensive-jtbd)
 
-### Stage 0 — Painted door (~1 hr). Ship this first; it may end the experiment.
+### Stage 0: Painted door (~1 hr). Ship this first; it may end the experiment.
 - On `good.arcs.care` (public-goods index) and `good.arcs.care/blog/nftt`, add a **"Connect an agent →"**
-  card: one line of copy ("Query these field notes from your AI tools — every answer cites its source"),
+  card: one line of copy ("Query these field notes from your AI tools, every answer cites its source"),
   expanding to a short waitlist / "what would you ask ARCS?" capture (email + free-text intent).
 - **Signal:** Vercel Web Analytics on the card (view→expand→submit funnel) + the captured intents.
 - **Decision:** if, over the window, the card gets effectively zero engagement, the thesis is weakened
   for ~1 hour of work. Stop here; ADR-076 stays DRAFT. If it gets knocks, proceed to Stage 1.
 - Cost: one card + one capture endpoint (or a first-party form). No MCP code.
 
-### Stage 1 — Working read-only probe (~0.5–1 day). Only if Stage 0 gets knocks.
+### Stage 1: Working read-only probe (~0.5 to 1 day). Only if Stage 0 gets knocks.
 - **Distribution:** a local **stdio MCP server** shipped through the rails ARCS already owns (the
   `arcs-skills` marketplace + `npx`/brew), NOT a hosted endpoint. Users add it with one line
   (`claude mcp add arcs-field-notes ...`). Zero hosting cost; runs on the user's machine.
 - **Corpus (already-public only):** the NFTT field-notes posts. Exported once to a small static JSON at
   `good.arcs.care/field-notes.json` (id, slug, title, standfirst, body-text, url, date). No auth, no
   private data, repo stays private.
-- **Tools (read-only, verb+entity-namespaced — 2 to start):**
+- **Tools (read-only, verb+entity-namespaced, 2 to start):**
   - `search_field_notes(query)` → ranked matches, each with title + url + a cited snippet.
   - `get_field_note(slug)` → full text + canonical url.
-  - Every response **carries the source url** — the attribution wedge in miniature. This is the whole point.
+  - Every response **carries the source url**, the attribution wedge in miniature. This is the whole point.
 - **Measurement (the load-bearing design choice):** the tool fetches the corpus from
   `good.arcs.care/field-notes.json` on each cold start / query rather than bundling it. We then count
   requests to that path (Vercel logs / a lightweight edge counter), filtered to the MCP user-agent. That
-  request count = active-usage signal, with **no PII and no bespoke telemetry** — the user's own agent
+  request count = active-usage signal, with **no PII and no bespoke telemetry**, the user's own agent
   fetching public JSON is the beacon. (Fallback if fetch-per-query is too chatty: a single anonymous
   `HEAD /field-notes.json?mcp=1` ping per session.)
 
-## Decision gate (Zach sets the two numbers)
+## Decision gate (SET by Zach 2026-09-07)
 
-- **Window:** e.g. 4 weeks after the Stage-0 card is live (Stage-1 clock starts when Stage 1 ships).
-- **Threshold (OPEN — needs your call):** e.g. "≥ N distinct install/active-query sessions" and/or
-  "≥ M waitlist intents." Below → thesis weakened, ADR-076 stays DRAFT or is retired with the receipt.
-  At/above → graduate: now the hosted-server / API-tier build is justified.
-- Either outcome is a win: a clean negative saves the hosted-server spend the ADR explicitly guards against.
+- **Window: 4 weeks.** Stage-0 cards went live 2026-09-07 (good.arcs.care + /blog/nftt), so the
+  decision date is **2026-10-05**.
+- **Threshold: 10 `mcp_probe_interest` clicks** (aggregate across both surfaces; the `data.surface`
+  tag splits good vs nftt for context, but the gate is the combined count).
+- **On 2026-10-05:** if interest clicks are **below 10**, the thesis is weakened; ADR-076 stays DRAFT
+  or is retired with the receipt (and no hosted server was built). If **10 or more**, graduate to
+  Stage 1 (the local read-only MCP over the field-notes corpus) as the next probe before any hosted
+  build. Either outcome is a win: a clean negative saves the hosted-server spend the ADR guards against.
+- **Measurement source:** Vercel Web Analytics custom events (`mcp_probe_view`, `mcp_probe_interest`),
+  filterable by `data.surface`. Note `mcp_probe_interest` counts CTA clicks, not unique visitors; read
+  it as an interest signal, not a headcount.
 
 ## Cost / leverage
 
@@ -72,6 +78,9 @@ by the tool's features.
 
 ## Open questions for Zach
 
-1. The two gate numbers (window + threshold).
-2. Corpus scope for Stage 1: field-notes only, or include any public decision receipts?
-3. Is a first-party waitlist/capture acceptable for Stage 0, or keep it to click-analytics only (no capture)?
+1. ~~The two gate numbers (window + threshold).~~ **RESOLVED 2026-09-07: 4-week window, 10 interest
+   clicks (see Decision gate).**
+2. Corpus scope for Stage 1: field-notes only, or include any public decision receipts? (Deferred; let
+   the Stage-0 signal decide.)
+3. Is a first-party waitlist/capture acceptable for Stage 0, or keep it to click-analytics only? (Shipped
+   as click-analytics only; a capture form is an optional Stage 0.5.)
