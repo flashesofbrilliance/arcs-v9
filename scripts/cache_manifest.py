@@ -51,7 +51,11 @@ SCOPE_GLOBS = {
                "src/proxy.ts", "src/lib/admin.ts", "src/lib/ammo-gate.ts"],
 }
 DOMAIN_ORDER = ["memories", "handoffs", "product", "recoil"]
-UNKNOWN_EPOCH = "unknown"
+# Sentinel for a node with no epoch. MUST match scripts/research_render.py:norm_epoch, which
+# writes the literal "undated" (never omits the key); aligning the constant closes the dormant
+# trap where a hand-edited / non-research_render digest with a missing epoch would be filed under
+# a phantom bucket no other tool recognizes.
+UNKNOWN_EPOCH = "undated"
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
 # Keys a digest may use to record the sha it was graded against (none do yet).
@@ -233,11 +237,24 @@ def manifest_doc(generated: str, head: str, slices: list) -> OrderedDict:
                         ("dirty_count", dirty), ("slices", slices)])
 
 
+def atomic_write_json(path: str, obj, ensure_ascii: bool = True) -> None:
+    """Write JSON to a temp file in the same dir, then os.replace over the target.
+    A crash/SIGINT mid-write leaves the temp file, never a truncated real file — so an
+    interrupted apply can never brick load_digests / the whole cache surface (SRE S1)."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp.%d" % os.getpid()
+    try:
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(obj, fh, indent=2, ensure_ascii=ensure_ascii)
+            fh.write("\n")
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+
+
 def write_manifest(doc: OrderedDict) -> None:
-    os.makedirs(ATLAS_DIR, exist_ok=True)
-    with open(MANIFEST_PATH, "w", encoding="utf-8") as fh:
-        json.dump(doc, fh, indent=2)
-        fh.write("\n")
+    atomic_write_json(MANIFEST_PATH, doc)
 
 
 def print_table(slices: list, head: str) -> None:
@@ -411,8 +428,11 @@ def cmd_backprop_emit(today: str, dom: str, epoch: str, packet_path: str) -> int
     digest = {}
     dp = digest_path_for(dom)
     if os.path.exists(dp):
-        with open(dp, encoding="utf-8") as fh:
-            digest = json.load(fh)
+        try:
+            with open(dp, encoding="utf-8") as fh:
+                digest = json.load(fh)
+        except (OSError, json.JSONDecodeError) as e:
+            raise DigestError("bad digest %s: %s" % (os.path.relpath(dp, REPO), e))
     current_nodes = [n for n in (digest.get("nodes") or [])
                      if (n.get("epoch") or UNKNOWN_EPOCH) == epoch]
     packet = OrderedDict([
@@ -439,40 +459,48 @@ def cmd_backprop_apply(today: str, dom: str, epoch: str, regraded_path: str) -> 
     if doc is None:
         print("no manifest — run `stamp` first", file=sys.stderr)
         return 1
-    with open(regraded_path, encoding="utf-8") as fh:
-        regraded = json.load(fh)
+    try:
+        with open(regraded_path, encoding="utf-8") as fh:
+            regraded = json.load(fh)
+    except (OSError, json.JSONDecodeError) as e:
+        raise DigestError("bad regraded file %s: %s" % (regraded_path, e))
     nodes = regraded.get("nodes") if isinstance(regraded, dict) else regraded
     if not isinstance(nodes, list):
         print("regraded file %s: want {\"nodes\": [...]}" % regraded_path, file=sys.stderr)
         return 1
-    # VALIDATE before any write: every re-graded node must belong to THIS slice. A node with a
-    # foreign domain/epoch means the Curator strayed out of scope; refuse and write nothing.
+    # VALIDATE before any write: every re-graded node must EXPLICITLY carry this slice's
+    # (domain, epoch). A missing field is refused, not defaulted — defaulting would stamp a node
+    # into the slice whose membership was assumed, not verified (SRE S5). A foreign value means
+    # the Curator strayed out of scope. Either way: refuse and write nothing.
     clean = []
     for i, n in enumerate(nodes):
         if not isinstance(n, dict):
             print("regraded node %d is not an object" % i, file=sys.stderr)
             return 1
-        nd = (n.get("domain") or dom)
-        ne = (n.get("epoch") or epoch)
+        nd, ne = n.get("domain"), n.get("epoch")
+        if nd is None or ne is None:
+            print("regraded node %r missing domain/epoch — refusing (cannot verify slice membership)"
+                  % (n.get("id") or i), file=sys.stderr)
+            return 1
         if nd != dom or ne != epoch:
             print("regraded node %r is (%s, %s), not the requested slice (%s, %s) — refusing"
                   % (n.get("id") or i, nd, ne, dom, epoch), file=sys.stderr)
             return 1
-        n = dict(n); n["domain"] = dom; n["epoch"] = epoch
-        clean.append(n)
+        clean.append(dict(n))
     # Merge: replace ONLY this slice's nodes in the digest; every other epoch is untouched.
     dp = digest_path_for(dom)
     if os.path.exists(dp):
-        with open(dp, encoding="utf-8") as fh:
-            digest = json.load(fh)
+        try:
+            with open(dp, encoding="utf-8") as fh:
+                digest = json.load(fh)
+        except (OSError, json.JSONDecodeError) as e:
+            raise DigestError("bad digest %s: %s" % (os.path.relpath(dp, REPO), e))
     else:
         digest = OrderedDict([("domain", dom), ("generated", today), ("nodes", [])])
     kept = [n for n in (digest.get("nodes") or []) if (n.get("epoch") or UNKNOWN_EPOCH) != epoch]
     digest["nodes"] = kept + clean
     digest["generated"] = today
-    with open(dp, "w", encoding="utf-8") as fh:
-        json.dump(digest, fh, indent=2, ensure_ascii=False)
-        fh.write("\n")
+    atomic_write_json(dp, digest, ensure_ascii=False)
     # Re-stamp ONLY this slice's manifest row: graded_at_sha = HEAD. Other rows keep their old
     # graded_at_sha, so they stay exactly as dirty/fresh as they were (no whole-manifest stamp).
     slices = [OrderedDict(s) for s in doc.get("slices", [])]
@@ -484,8 +512,18 @@ def cmd_backprop_apply(today: str, dom: str, epoch: str, regraded_path: str) -> 
     row["graded_at_sha"] = head
     row["graded_at"] = today
     row["scope_globs"] = list(SCOPE_GLOBS.get(dom, []))
+    # Clear stale markers before re-stamp: refresh() preserves structural markers (<orphan…>,
+    # <missing…>) that were true of the OLD state but not the just-graded one — leaving them
+    # would report a genuinely-graded slice as dirty and drive the consumer to re-read forever
+    # (SRE S3). The slice is now graded at HEAD from the verified digest; recompute from clean.
+    row["dirty_files"] = []
     slices = sort_slices(slices)
-    refresh([row], head)  # graded_at_sha == HEAD -> empty diff -> fresh
+    # Refresh ALL rows' fresh/dirty against HEAD (freshness only — this never changes any
+    # graded_at_sha, so it is not a whole-manifest re-stamp). The target row goes fresh
+    # (graded_at_sha == HEAD -> empty diff); siblings get current-HEAD freshness rather than a
+    # verbatim copy of whatever the last `check` wrote, keeping dirty_count honest (correctness
+    # claim-5 caveat). Reconciliation of orphan/missing/node_count remains `check`'s job.
+    refresh(slices, head)
     doc_out = manifest_doc(doc.get("generated", today), head, slices)
     write_manifest(doc_out)
     state = "fresh" if row["fresh"] else "DIRTY(%s)" % ", ".join(row["dirty_files"])
