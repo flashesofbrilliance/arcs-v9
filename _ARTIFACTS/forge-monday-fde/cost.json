@@ -1,0 +1,5 @@
+{
+  "est_tokens_before": 90000,
+  "notes": "Estimate written 2026-09-06 before stage 1. LIGHT tier, single posting, every input pre-staged (no JD fetch, no re-grade, no design-system exploration, no API/DB calls). Work is judgment residue only: tailor mapping, resume cut, red-team, page copy, plus the render/screenshot loop. Actual: ~13 tool-call turns (read record+JD+reference bundle+blacksmith.html, write resume HTML, render+verify page count, write TAILOR-NOTES/red-team/hiring-manager/contact/page.html, fix em-dash/typo issues found on self-review, four-width Playwright screenshot pass, write kintsugi/cost). Reads dominated: record-of-record.txt, jd text, full citi-fde reference bundle (TAILOR-NOTES/red-team/ats-html/render.sh/json files), blacksmith.html, plus 4 screenshot images inspected.",
+  "actual_tokens": 70000
+}
