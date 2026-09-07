@@ -1,0 +1,5 @@
+{
+  "est_tokens_before": 90000,
+  "notes": "Estimate written 2026-09-06 before stage 1. LIGHT tier only (stages 1,5,7,8,9), all inputs pre-staged (no JD fetch, no re-grade, no design-system exploration, no scoring calls, no screenshots beyond the four named widths). Estimate assumed: reading the 4 pre-staged inputs (JD, record, reference bundle x8 files, render.sh) plus writing 10 output files plus one Playwright four-width pass. Actual 2026-09-06: 8 tool-call turns (2 reads of JD+record, 2 reads of reference bundle files, resume HTML write + render.sh copy + render, 5 notes/json writes, page.html write, Playwright screenshot run, em-dash cleanup pass). Actual ran under estimate because no design-system exploration or extra fetches were needed and the reference bundle's CSS could be copied verbatim rather than re-derived.",
+  "actual_tokens": 62000
+}

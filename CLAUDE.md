@@ -113,6 +113,42 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.56.0 (2026-09-07)
+
+> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
+> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
+> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
+
+## Shipped
+- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
+  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
+  checks miss; scans `<style>` only (correctness + perf), strips CSS comments, FP-reducer for
+  `.hero .lede{max-width:none}` overrides, and a `wrap-lint-allow: measure-mismatch` opt-out for
+  intentional two-width designs. Fixed the dossier (`.wrap` 940→700 = inner==measure), 3 narrow ledes
+  (blacksmith-observatory, blog-nftt-index, recruithaus-ammo), marked 3 two-width pages
+  (wing/scott-cut/observatory). AEO robots/sitemap now reachable on good.arcs.care (proxy + next.config).
+- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (verified clean at 1280/790/375: no pan, no
+  split-emphasis, no mono overflow, measure coherent). Posts 1-3 swept clean too. The template produces
+  diamond-cut text handling by construction; the 4-width JS test method is banked.
+- **Dealroom talent research** (delegated agent) — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`
+  (PR #273): 15 report/viz patterns + an MCP-led-growth GTM analysis Zach flagged.
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307, merging). DRAFT/YELLOW: MCP = free land
+  on the authed core, API = paid expand, wedge = ARCS's native attribution (cited receipts, not the
+  model guessing). Drafted as ADR-075; **renumbered to 076 after a parallel session's DECIDED ADR-075
+  "Metabolic Router" merged first** (oracle-first doctrine; collision resolved cleanly, audit no-dup).
+- Housekeeping: lattice epoch re-pinned e9=2026-09-03 (honest spot-check, not a full meta-audit);
+  iCloud deliverable→Files sync convention set up (ARCS/dated subfolders); memory consolidated + 5 new
+  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms,
+  template s-tier proof).
+
+## Open (next session)
+1. **ADR-076 demand probe** (the ADR's own next step): ship ONE cheap read-only MCP tool over the public
+   NFTT/receipt corpus + a "Connect an agent →" affordance; measure pull. Do NOT build a hosted MCP
+   server before that signal. If quiet across a fair window, the thesis weakens (falsifier stated).
+2. Memory index still ~20KB over the hook's 17.4KB budget — further trim needs de-indexing live wisdom (Zach's call).
+3. Full `/meta-audit` epoch to re-derive all 81 lattice node statuses (spot-check done; full run deferred).
+4. Everything below from v3.55.0 still stands (story_render.py / literary-theme drift).
+
 # Handoff — v3.55.0 (2026-09-07)
 
 > **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
@@ -134,58 +170,10 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
   robots tweak to keep the change set focused.
 
-## Drift closed (2026-09-07, same session)
-- **NFTT threaded->literary drift CLOSED.** Proven: all 6 served posts were literary; 4 threaded
-  `-full.html` were orphaned; the skill's own "proven instance" claimed a live URL (`post-2/full`) that
-  actually served the literary file. Decision (Zach): retire the threaded engine, repoint the skill.
-  - **Retired + archived** `story_render.py`, `nftt-story.schema.json`, all `.story.md` sources, and the
-    4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/` (+ README). Tool-catalog regenerated
-    (story_render dropped: 146 tools).
-  - **`nftt-story-factory` SKILL.md rewritten** to the literary standard (template + checklist, no
-    engine): clone chrome from take-home-trap, hand-write sections, route + index, run the real gates.
-    Reference = take-home-trap (gold) + confirmed-not-my-bug (latest).
-
 ## Open (next session)
+- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
+  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
+  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
 - Everything below from v3.54.0 still stands.
 
-# Handoff — v3.54.0 (2026-09-06)
-
-> **Open-loops session.** `/handoff-pickup` triage, then three loops closed on branch
-> `claude/open-loops-handoff-cvgjxd` (NOT yet merged to main — open the PR): Phase 0 integrity gate,
-> ADR-020 Tribune steps 1-2, ADR-006 repo-side half. Zach closed loop "sean-wing" by decision.
-
-## Shipped (on the branch)
-- **`scripts/integrity_gate.py`** (ADR-075 GATE organ): every ADR / commit sha / repo path a record
-  cites must exist on `origin/main`. OK / WARN (index drift, unknown sha, gitignored) / FAIL (missing
-  ADR, unmerged sha, vapor path). `--staged` for the hook (staged files count as existing). Wired into
-  `scripts/git-hooks/pre-commit` as **warn-then-block**: warns by default, `INTEGRITY_GATE_BLOCK=1`
-  enforces. First run found real drift: ADR-042 gap, `runtime/specs/routing-manifest.json` vapor,
-  **9 retired `public/*.html` briefs still listed in `_STATE/snapshot.json` `ui_artifacts`** (labella,
-  peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview).
-  CBA ledger row 0 filled (~0.5 hr actual vs 1 est).
-- **ADR-020 Tribune** steps 1-2: `POST/GET /api/tribune` (auth+owner, rate limit, lazy per-phase
-  upsert, Proactive silent below threshold, Posterior needs an Outcome, baton write), `Tribune` model +
-  `Receipt.batonId` + migration `20260906000000_tribune`, `src/lib/tribune.ts` pure helpers (18 unit
-  assertions; compiled via `npx tsc` to scratch, no tsx in repo). `npm run build` green.
-- **ADR-006** repo half: `.github/workflows/preview-db-migrate.yml` — migrations-from-zero on a
-  Postgres 17 service + `prisma migrate diff --exit-code` on every `prisma/**` PR; `migrate deploy` to
-  `PREVIEW_DATABASE_URL` when the secret exists. ADR-006 amended (live ref is `xbbpiryokswwvcrcutge`,
-  not the INACTIVE `owdiiy…` the connector sees; branch ~$0.0134/hr on the visible org).
-
-## Open (next session)
-1. **Open + merge the PR** for this branch; then run `INTEGRITY_GATE_BLOCK=1` for a week before flipping
-   the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
-2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
-   `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
-3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
-   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
-   smoke one real receipt on prod after merge.
-4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
-   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
-   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
-5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
-   orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
-6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
-
-
-> _v3.53.0 relocated to `_ARCHIVE/handoffs.md` on 2026-09-07._
+> _v3.54.0 (open-loops: integrity gate, Tribune, ADR-006) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.53.0 relocated 2026-09-07._

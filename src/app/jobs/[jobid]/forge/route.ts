@@ -47,7 +47,13 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ jobid: stri
     const p = path.join(root, name)
     if (!p.startsWith(root + path.sep) || !fs.existsSync(p)) return new NextResponse("not in bundle", { status: 404, headers: NO_STORE })
     const body = new Uint8Array(fs.readFileSync(p))
-    return new NextResponse(body, { headers: { ...NO_STORE, "content-type": OK_EXT[ext], "content-disposition": `inline; filename="${name}"` } })
+    // ?dl=1 forces a download with a human-readable, uniquely-named file rather
+    // than the terse in-bundle name (or a browser default like "forge.pdf").
+    const dl = req.nextUrl.searchParams.get("dl") === "1"
+    const isTxt = ext === ".txt"
+    const nice = dl ? `Zach-Harris-Resume-${b.slug}${isTxt ? "-ATS" : ""}${ext}` : name
+    const disp = dl ? "attachment" : "inline"
+    return new NextResponse(body, { headers: { ...NO_STORE, "content-type": OK_EXT[ext], "content-disposition": `${disp}; filename="${nice}"` } })
   }
 
   let html: string
@@ -67,11 +73,16 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ jobid: stri
     return `href="${self}?file=${encodeURIComponent(name)}"`
   })
   // Private top bar: the bundle's working files, one click each. Injected, not in the artifact.
-  const link = (n: string, label: string) => files.has(n) ? `<a href="${self}?file=${encodeURIComponent(n)}" target="_blank" rel="noopener">${label}</a>` : ""
+  const link = (n: string | null | undefined, label: string, dl?: boolean) => n && files.has(n) ? `<a href="${self}?file=${encodeURIComponent(n)}${dl ? "&dl=1" : ""}"${dl ? "" : ' target="_blank" rel="noopener"'}>${label}</a>` : ""
+  const pdf = (b as { resume_pdf?: string }).resume_pdf ?? b.resume
+  const txt = (b as { resume_txt?: string }).resume_txt
+  const dls = [link(pdf, "⤓ formatted pdf", true), link(txt, "⤓ ats text", true)].filter(Boolean).join("")
+  const refs = [link("TAILOR-NOTES.md", "tailor notes"), link("red-team.md", "red-team"), link("kintsugi.json", "kintsugi"), link("cost.json", "cost"), link("hiring-manager.json", "hiring manager"), link("contact.json", "contact")].filter(Boolean).join("")
   const bar = `<div style="position:sticky;top:0;z-index:9999;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;padding:8px 16px;background:#0d1117;border-bottom:1px solid #1e293b;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8">
 <a href="/jobs" style="color:#00F0FF;text-decoration:none">← board</a><span>private bundle · not hosted</span>
-<span style="display:flex;gap:14px;margin-left:auto">${[link(b.resume, "resume pdf"), link("TAILOR-NOTES.md", "tailor notes"), link("red-team.md", "red-team"), link("kintsugi.json", "kintsugi"), link("cost.json", "cost"), link("hiring-manager.json", "hiring manager"), link("contact.json", "contact")].filter(Boolean).join("")}</span>
-<style>div[style*="z-index:9999"] a{color:#00F0FF;text-decoration:none}</style></div>`
+<span style="display:flex;gap:14px;flex-wrap:wrap"><b style="color:#00FF9D;font-weight:600">${dls}</b></span>
+<span style="display:flex;gap:14px;margin-left:auto;flex-wrap:wrap">${refs}</span>
+<style>div[style*="z-index:9999"] a{color:#00F0FF;text-decoration:none}div[style*="z-index:9999"] b a{color:#00FF9D}</style></div>`
   html = html.replace(/<body([^>]*)>/i, (m) => `${m}${bar}`)
   return new NextResponse(html, { headers: { ...NO_STORE, "content-type": "text/html; charset=utf-8" } })
 }

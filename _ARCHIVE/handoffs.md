@@ -3765,3 +3765,44 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 - **DEWY:** session-decisions receipt still owed (kintsugi receipt already appended).
 
 > _relocated from CLAUDE.md 2026-09-06._
+# Handoff — v3.54.0 (2026-09-06)
+
+> **Open-loops session.** `/handoff-pickup` triage, then three loops closed on branch
+> `claude/open-loops-handoff-cvgjxd` (NOT yet merged to main — open the PR): Phase 0 integrity gate,
+> ADR-020 Tribune steps 1-2, ADR-006 repo-side half. Zach closed loop "sean-wing" by decision.
+
+## Shipped (on the branch)
+- **`scripts/integrity_gate.py`** (ADR-075 GATE organ): every ADR / commit sha / repo path a record
+  cites must exist on `origin/main`. OK / WARN (index drift, unknown sha, gitignored) / FAIL (missing
+  ADR, unmerged sha, vapor path). `--staged` for the hook (staged files count as existing). Wired into
+  `scripts/git-hooks/pre-commit` as **warn-then-block**: warns by default, `INTEGRITY_GATE_BLOCK=1`
+  enforces. First run found real drift: ADR-042 gap, `runtime/specs/routing-manifest.json` vapor,
+  **9 retired `public/*.html` briefs still listed in `_STATE/snapshot.json` `ui_artifacts`** (labella,
+  peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview).
+  CBA ledger row 0 filled (~0.5 hr actual vs 1 est).
+- **ADR-020 Tribune** steps 1-2: `POST/GET /api/tribune` (auth+owner, rate limit, lazy per-phase
+  upsert, Proactive silent below threshold, Posterior needs an Outcome, baton write), `Tribune` model +
+  `Receipt.batonId` + migration `20260906000000_tribune`, `src/lib/tribune.ts` pure helpers (18 unit
+  assertions; compiled via `npx tsc` to scratch, no tsx in repo). `npm run build` green.
+- **ADR-006** repo half: `.github/workflows/preview-db-migrate.yml` — migrations-from-zero on a
+  Postgres 17 service + `prisma migrate diff --exit-code` on every `prisma/**` PR; `migrate deploy` to
+  `PREVIEW_DATABASE_URL` when the secret exists. ADR-006 amended (live ref is `xbbpiryokswwvcrcutge`,
+  not the INACTIVE `owdiiy…` the connector sees; branch ~$0.0134/hr on the visible org).
+
+## Open (next session)
+1. **Open + merge the PR** for this branch; then run `INTEGRITY_GATE_BLOCK=1` for a week before flipping
+   the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
+2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
+   `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
+3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
+   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
+   smoke one real receipt on prod after merge.
+4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
+   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
+   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
+5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
+   orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
+6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
+
+
+
