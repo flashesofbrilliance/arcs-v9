@@ -1,7 +1,7 @@
 # People In AI · Founding Engineer
 
-EDIT-FROM-SEED of `morgan-stanley-devgen` (cluster Product-Eng). 2026-09-07T18:38:20.878Z
+EDIT-FROM-SEED of `morgan-stanley-devgen` (cluster Product-Eng). 2026-09-08T13:34:46.553Z
 
 
 
-Assessment: Strong fit: full-stack AI platform ownership, customer-facing delivery, fragmented data pipelines, evaluation systems, and founding-stage experience all present in seed.
+Assessment: Strong fit: AI-native full-stack builder, customer-facing delivery, data pipelines, evaluation/guardrails, and founding-stage ownership all evidenced in seed.
