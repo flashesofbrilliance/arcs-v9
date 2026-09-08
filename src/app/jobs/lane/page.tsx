@@ -62,7 +62,7 @@ export default async function LanePage() {
   const data: LaneData = {
     stages,
     sources: sources.map((s) => ({ key: s.key, label: s.label, adapter: s.adapter, status: s.status, lastRunAt: s.lastRunAt?.toISOString() ?? null, pollWindow: s.pollWindow, note: s.note })),
-    requests: requests.map((r) => ({ fromDate: r.fromDate, toDate: r.toDate, status: r.status, rowsAdded: r.rowsAdded, requestedAt: r.requestedAt.toISOString(), note: r.note })),
+    requests: requests.map((r) => ({ fromDate: r.fromDate, toDate: r.toDate, query: r.query, status: r.status, rowsAdded: r.rowsAdded, requestedAt: r.requestedAt.toISOString(), note: r.note })),
     outcomes: outcomes.map((o) => ({ jobid: o.jobid, company: o.job.company, fate: o.fate, predicted: fmt(o.predictedComposite), actual: o.actualNote ?? o.fate, honesty: o.honestyLabel ?? "—" })),
     corrections: corrections.map((c) => ({ learned: c.learned, pattern: c.pattern, avoid: c.avoid, logic: c.logic })),
     live: new Date().toISOString(),
