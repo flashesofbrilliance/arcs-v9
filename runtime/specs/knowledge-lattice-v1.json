@@ -664,7 +664,7 @@
 },
 {
 "id": "adrs",
-"label": "69 ADRs",
+"label": "68 ADRs",
 "st": "l",
 "dom": "lib",
 "status": "ok",
@@ -1430,7 +1430,7 @@
 "CORPUS"
 ]
 },
-"last_drift_check": "2026-09-02T22:00:45",
+"last_drift_check": "2026-09-08T12:45:00",
 "_note": "Countables auto-refreshed by lattice_drift_check; node statuses/edges/prose remain human-authored (NOTOMATION). Re-author the judgment layer manually.",
 "last_reviewed": "2026-09-03",
 "_review_note": "e9 (2026-09-03) is a TARGETED spot-check, not a full meta-audit: countables (69 ADRs) auto-refreshed and verified; representative node statuses confirmed vs repo (trib3 impl, echo detector script, gated Observatory/Kairos still gated, serializability epoch). A full 81-node status re-derivation still requires a /meta-audit epoch."
