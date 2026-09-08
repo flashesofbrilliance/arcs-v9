@@ -139,6 +139,8 @@ export function JobsBoard() {
   const [sort, setSort] = useState<{ key: "score" | "company" | "leverage"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [adding, setAdding] = useState(false)
+  const [weights, setWeights] = useState<Record<string, number> | null>(null)
+  const [labOpen, setLabOpen] = useState(false)
   const [unsOpen, setUnsOpen] = useState(false)
   const [usort, setUsort] = useState<"sal" | "why" | "seen">("sal")
   const [busy, setBusy] = useState<string | null>(null)
@@ -158,8 +160,26 @@ export function JobsBoard() {
   const DIMS = spec?.rubric.dims ?? []
   const MAX = spec?.rubric.max ?? 72
 
-  const scored = useMemo(() => (data?.rows ?? []).filter((r) => tierOf(r.composite, spec) !== null), [data, spec])
-  const unscored = useMemo(() => (data?.rows ?? []).filter((r) => r.band === "UNSCORED"), [data])
+  // Weight Lab: recompute composite live from the stored per-dimension scores
+  // (dims, 0-3 each) against adjustable weights, with NO model call — composite =
+  // sum(dim*weight)/sum(3*weight). Exploratory only; nothing is written. When the
+  // lab is off (weights === null) the stored, scorer-written composite is used.
+  const effWeight = useCallback((k: string, fallback: number) => weights?.[k] ?? fallback, [weights])
+  const recomposite = useCallback((r: Row): number | null => {
+    if (!weights || !r.dims) return r.composite
+    const d = parse<Record<string, number>>(r.dims, {})
+    let raw = 0, max = 0
+    for (const x of DIMS) { const w = effWeight(x.key, x.weight); raw += (d[x.key] ?? 0) * w; max += 3 * w }
+    return max ? +(raw / max).toFixed(3) : r.composite
+  }, [weights, DIMS, effWeight])
+  const rows = useMemo(() => {
+    const src = data?.rows ?? []
+    if (!weights) return src
+    return src.map((r) => ({ ...r, composite: recomposite(r) }))
+  }, [data, weights, recomposite])
+
+  const scored = useMemo(() => rows.filter((r) => tierOf(r.composite, spec) !== null), [rows, spec])
+  const unscored = useMemo(() => rows.filter((r) => r.band === "UNSCORED"), [rows])
 
   const visible = useMemo(() => {
     const q = f.q.trim().toLowerCase()
@@ -200,7 +220,8 @@ export function JobsBoard() {
   const why = (row: Row, w: string) => post("/api/jobs/swipe", "POST", { jobid: row.jobid, direction: "l", why: row.swipe?.why === w ? null : w }, row.jobid)
   const unswipe = (row: Row) => post("/api/jobs/swipe", "POST", { jobid: row.jobid, direction: null }, row.jobid)
 
-  function pts(r: Row) { const d = parse<Record<string, number>>(r.dims, {}); return DIMS.reduce((t, x) => t + (d[x.key] ?? 0) * x.weight, 0) }
+  function pts(r: Row) { const d = parse<Record<string, number>>(r.dims, {}); return DIMS.reduce((t, x) => t + (d[x.key] ?? 0) * effWeight(x.key, x.weight), 0) }
+  const effMax = weights ? DIMS.reduce((t, x) => t + 3 * effWeight(x.key, x.weight), 0) : MAX
 
   function anatomy(r: Row, nxt: Row | undefined) {
     const d = parse<Record<string, number>>(r.dims, {}); const total = pts(r); const gates = parse<string[]>(r.gates, [])
@@ -208,20 +229,20 @@ export function JobsBoard() {
       <div style={{ display: "grid", gridTemplateColumns: phone ? "1fr" : "minmax(280px,1.2fr) minmax(220px,.8fr)", gap: "16px 40px", paddingTop: 12 }}>
         <div>
           <div style={{ ...smallLabel, marginBottom: 8 }}>How the score is built</div>
-          <div style={{ fontFamily: mono, fontSize: 12, color: fg2, marginBottom: 8 }}><b style={{ color: fg1 }}>{total}</b> of {MAX} points = <b style={{ color: fg1 }}>{(total / MAX).toFixed(3)}</b> · each dimension is scored 0 to 3, then multiplied by its weight</div>
-          {DIMS.map((x) => { const sc = d[x.key] ?? 0; const max = x.weight * 3; return (
+          <div style={{ fontFamily: mono, fontSize: 12, color: fg2, marginBottom: 8 }}><b style={{ color: fg1 }}>{total}</b> of {effMax} points = <b style={{ color: fg1 }}>{(total / effMax).toFixed(3)}</b> · each dimension is scored 0 to 3, then multiplied by its weight{weights ? " (Weight Lab active)" : ""}</div>
+          {DIMS.map((x) => { const sc = d[x.key] ?? 0; const w = effWeight(x.key, x.weight); const max = w * 3; return (
             <div key={x.key} title={`${x.anchor0} to ${x.anchor3}`} style={{ display: "grid", gridTemplateColumns: phone ? "118px 1fr 44px" : "150px 1fr 44px", gap: 8, alignItems: "center", padding: "3px 0" }}>
-              <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{x.label}<small style={{ color: fg4, fontFamily: mono, fontSize: 10, marginLeft: 4 }}>×{x.weight}</small></span>
+              <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{x.label}<small style={{ color: weights && w !== x.weight ? signal.cyan : fg4, fontFamily: mono, fontSize: 10, marginLeft: 4 }}>×{w}</small></span>
               <span style={{ position: "relative", height: 8, background: SCREEN, borderRadius: 999, overflow: "hidden", boxShadow: "inset 0 2px 4px rgba(0,0,0,.65), inset 0 -1px 0 rgba(255,255,255,.04)" }}>
                 <i style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: sc === 0 ? 3 : `${(sc / 3) * 100}%`, background: sc === 0 ? signal.red : `linear-gradient(90deg, #1ec3d4, ${signal.cyan})`, borderRadius: 999, boxShadow: sc === 0 ? undefined : `0 0 8px -1px ${signal.cyan}, inset 0 1px 0 rgba(255,255,255,.35)` }} />
               </span>
-              <span style={{ fontFamily: mono, fontSize: 12, color: fg1, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{sc * x.weight}<small style={{ color: fg4 }}>/{max}</small></span>
+              <span style={{ fontFamily: mono, fontSize: 12, color: fg1, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{sc * w}<small style={{ color: fg4 }}>/{max}</small></span>
             </div>) })}
-          {spec && <div style={{ fontSize: 12, color: fg2, marginTop: 8 }}><b style={{ color: fg1, fontWeight: 500 }}>Differentiators it loads on:</b> {spec.quads.map((q) => { let p = 0, m = 0; q.dims.forEach((dk) => { const dd = DIMS.find((x) => x.key === dk); if (dd) { p += (d[dk] ?? 0) * dd.weight; m += 3 * dd.weight } }); return <span key={q.id} style={{ display: "inline-block", margin: "2px 10px 0 0", whiteSpace: "nowrap" }}><b style={{ color: signal.cyan }}>{q.id}</b> {q.label} <span style={{ fontFamily: mono, color: fg3, fontSize: 10 }}>{p}/{m}</span></span> })}</div>}
+          {spec && <div style={{ fontSize: 12, color: fg2, marginTop: 8 }}><b style={{ color: fg1, fontWeight: 500 }}>Differentiators it loads on:</b> {spec.quads.map((q) => { let p = 0, m = 0; q.dims.forEach((dk) => { const dd = DIMS.find((x) => x.key === dk); if (dd) { const dw = effWeight(dk, dd.weight); p += (d[dk] ?? 0) * dw; m += 3 * dw } }); return <span key={q.id} style={{ display: "inline-block", margin: "2px 10px 0 0", whiteSpace: "nowrap" }}><b style={{ color: signal.cyan }}>{q.id}</b> {q.label} <span style={{ fontFamily: mono, color: fg3, fontSize: 10 }}>{p}/{m}</span></span> })}</div>}
           <div style={{ fontSize: 12, color: fg2, marginTop: 8 }}><b style={{ color: fg1, fontWeight: 500 }}>Hard gates:</b> {gates.length ? gates.join(", ") : "none fired"}</div>
         </div>
         <div>
-          {nxt ? (() => { const nd = parse<Record<string, number>>(nxt.dims, {}); const nt = pts(nxt); const diffs = DIMS.map((x) => [x.label, (d[x.key] ?? 0) * x.weight - (nd[x.key] ?? 0) * x.weight, d[x.key] ?? 0, nd[x.key] ?? 0] as const).filter((x) => x[1] !== 0); return (<>
+          {nxt ? (() => { const nd = parse<Record<string, number>>(nxt.dims, {}); const nt = pts(nxt); const diffs = DIMS.map((x) => { const w = effWeight(x.key, x.weight); return [x.label, (d[x.key] ?? 0) * w - (nd[x.key] ?? 0) * w, d[x.key] ?? 0, nd[x.key] ?? 0] as const }).filter((x) => x[1] !== 0); return (<>
             <div style={{ ...smallLabel, marginBottom: 8 }}>Versus the next row · {nxt.company}</div>
             <div style={{ fontFamily: mono, fontSize: 12, color: fg2, marginBottom: 8 }}><b style={{ color: fg1 }}>{total}</b> vs <b style={{ color: fg1 }}>{nt}</b> points</div>
             {diffs.length === 0 ? <p style={{ margin: 0, fontSize: 12, color: fg2 }}>Identical on every dimension. The tie is a judgment call, not arithmetic; the read below is the tie-break.</p>
@@ -283,7 +304,7 @@ export function JobsBoard() {
           <h1 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.015em", margin: 0, textWrap: "balance" }}>Alert Swipe Board</h1>
           <p style={{ margin: 0, flexBasis: "100%", maxWidth: "64ch", fontSize: 13, color: fg2, textWrap: "pretty" }}>Every LinkedIn alert, scored once against the target-role rubric and stack-ranked above a <b style={{ color: fg1, fontFamily: mono }}>{spec?.rubric.board_cutoff ?? 0.58}</b> cutoff. You decide. Nothing runs until you swipe right.</p>
           <p style={{ margin: 0, flexBasis: "100%", display: "flex", flexWrap: "wrap", gap: "4px 16px", fontSize: 13, color: fg2 }}>
-            {[[String((data?.rows ?? []).length), "rows in"], [String(scored.length + (data?.rows ?? []).filter((r) => r.band !== "UNSCORED" && tierOf(r.composite, spec) === null).length), "scored"], [String(scored.length), "on the board"], [String(unscored.length), "waiting on a JD read"], [String(rights.length), "swiped right"]].map(([n, l]) => <span key={l} style={{ whiteSpace: "nowrap" }}><b style={{ color: fg1, fontFamily: mono, fontWeight: 600 }}>{n}</b> {l}</span>)}
+            {[[String(rows.length), "rows in"], [String(scored.length + rows.filter((r) => r.band !== "UNSCORED" && tierOf(r.composite, spec) === null).length), "scored"], [String(scored.length), "on the board"], [String(unscored.length), "waiting on a JD read"], [String(rights.length), "swiped right"]].map(([n, l]) => <span key={l} style={{ whiteSpace: "nowrap" }}><b style={{ color: fg1, fontFamily: mono, fontWeight: 600 }}>{n}</b> {l}</span>)}
           </p>
         </header>
         {err && <div style={{ padding: 12, border: `1px solid ${signal.red}55`, borderRadius: 4, color: fg1, marginBottom: 12 }}>{err} {err.includes("Sign in") && <a href="/compass?next=/jobs" style={{ color: signal.cyan }}>Sign in</a>}</div>}
@@ -301,8 +322,43 @@ export function JobsBoard() {
           <span style={{ flex: 1 }} />
           <span style={{ fontSize: 13, color: fg3, whiteSpace: "nowrap" }}>{visible.length} of {scored.length}</span>
           <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: 13 }}>Reset</button>
+          <Button variant="ghost" size="sm" onClick={() => { setLabOpen((o) => { const n = !o; if (n && !weights) setWeights(Object.fromEntries(DIMS.map((d) => [d.key, d.weight]))); return n }) }} aria-expanded={labOpen}>{labOpen ? "Close lab" : weights ? "Weight lab ●" : "Weight lab"}</Button>
           <Button variant="ghost" size="sm" onClick={() => setAdding((a) => !a)} aria-expanded={adding}>{adding ? "Close" : "+ Add a row"}</Button>
         </div>
+        {labOpen && spec && (() => {
+          const defs = Object.fromEntries(DIMS.map((d) => [d.key, d.weight]))
+          const w = weights ?? defs
+          const dirty = DIMS.some((d) => (w[d.key] ?? d.weight) !== d.weight)
+          const set = (k: string, v: number) => setWeights({ ...(weights ?? defs), [k]: v })
+          const PRESETS: [string, string, Record<string, number>][] = [
+            ["Boost the moat", "Weight the rare-combination differentiators up, comp/logistics down", { strength_leverage: 8, scope_authority: 5, role_shape: 6, ai_native: 4, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
+            ["Shape over surface", "Role-shape + scope lead; AI-surface and comp matter less", { role_shape: 8, scope_authority: 6, strength_leverage: 6, ai_native: 3, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
+          ]
+          return (
+            <div style={{ padding: 16, marginBottom: 12, border: `1px solid #2c3a50`, borderRadius: 4, background: surface.panel }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "baseline", marginBottom: 4 }}>
+                <b style={{ color: fg1, fontWeight: 600, fontSize: 14 }}>Weight Lab</b>
+                <span style={{ fontSize: 12, color: fg2, maxWidth: "62ch" }}>Drag a weight and the whole board re-ranks live, recomputed from each row&apos;s stored 0–3 dimension scores. Nothing is written and no model runs — this is exploration. To make a setting permanent, hand me the weights below and I&apos;ll change the rubric spec (that re-scores future rows).</span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: phone ? "1fr" : "repeat(auto-fit, minmax(280px, 1fr))", gap: "6px 28px", margin: "12px 0" }}>
+                {DIMS.map((d) => { const val = w[d.key] ?? d.weight; const chg = val !== d.weight; return (
+                  <label key={d.key} title={`${d.anchor0} → ${d.anchor3}`} style={{ display: "grid", gridTemplateColumns: "150px 1fr 30px", gap: 10, alignItems: "center" }}>
+                    <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{d.label}</span>
+                    <input type="range" min={0} max={8} step={1} value={val} onChange={(e) => set(d.key, Number(e.target.value))} style={{ width: "100%", accentColor: signal.cyan, cursor: "pointer" }} aria-label={`${d.label} weight`} />
+                    <span style={{ fontFamily: mono, fontSize: 12, textAlign: "right", color: chg ? signal.cyan : fg2, fontVariantNumeric: "tabular-nums" }}>{val}{chg ? "" : ""}<small style={{ color: fg4, display: "block", fontSize: 9 }}>{chg ? `was ${d.weight}` : "spec"}</small></span>
+                  </label>) })}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                {PRESETS.map(([label, tip, wts]) => <button key={label} title={tip} onClick={() => setWeights({ ...defs, ...wts })} style={{ minHeight: 30, padding: "0 12px", border: `1px solid ${signal.cyan}44`, borderRadius: 5, background: `${signal.cyan}12`, color: "#b9e8f4", cursor: "pointer", fontFamily: mono, fontSize: 11, fontWeight: 600 }}>{label}</button>)}
+                <button onClick={() => setWeights(defs)} disabled={!dirty} style={{ minHeight: 30, padding: "0 12px", border: `1px solid ${border.subtle}`, borderRadius: 5, background: surface.elevated, color: dirty ? fg2 : fg4, cursor: dirty ? "pointer" : "default", fontSize: 12 }}>Reset to spec</button>
+                <button onClick={() => { setWeights(null); setLabOpen(false) }} style={{ minHeight: 30, padding: "0 12px", border: 0, background: "none", color: signal.cyan, cursor: "pointer", fontSize: 12 }}>Turn off · use stored scores</button>
+                <span style={{ flex: 1 }} />
+                <span style={{ fontSize: 12, color: fg3, fontFamily: mono }}>norm ÷ {DIMS.reduce((t, d) => t + 3 * (w[d.key] ?? d.weight), 0)}</span>
+              </div>
+              {dirty && <div style={{ marginTop: 10, padding: "8px 10px", background: SCREEN, border: `1px solid ${border.subtle}`, borderRadius: 4, fontFamily: mono, fontSize: 11, color: fg2, overflowX: "auto" }}>{`"weights": { ${DIMS.map((d) => `"${d.key}": ${w[d.key] ?? d.weight}`).join(", ")} }`}</div>}
+            </div>
+          )
+        })()}
         {adding && <form onSubmit={async (e) => { e.preventDefault(); const fd = new FormData(e.currentTarget); const c = fd.get("composite"); await post("/api/jobs", "POST", { url: fd.get("url"), title: fd.get("title"), company: fd.get("company"), composite: c ? Number(c) : null }); setAdding(false) }}
           onKeyDown={(e) => { if (e.key === "Escape") setAdding(false) }}
           style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: 12, marginBottom: 12, border: `1px dashed #2c3a50`, borderRadius: 4, background: surface.panel }}>
