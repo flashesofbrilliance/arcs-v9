@@ -67,9 +67,13 @@ def measure() -> dict:
         except Exception:
             pass
 
+    # Measure against the MAIN checkout, not the current worktree: settings.local.json
+    # is gitignored and exists only in the main checkout, so a worktree-run would
+    # silently under-count and read as a phantom "cut" (observed 2026-09-08: 546 -> 56).
+    main_checkout = ROOT.split("/.claude/worktrees/")[0]
     allow = 0
-    for s in [os.path.join(ROOT, ".claude/settings.json"),
-              os.path.join(ROOT, ".claude/settings.local.json")]:
+    for s in [os.path.join(main_checkout, ".claude/settings.json"),
+              os.path.join(main_checkout, ".claude/settings.local.json")]:
         try:
             with open(s) as fh:
                 allow += len(json.load(fh).get("permissions", {}).get("allow", []))
