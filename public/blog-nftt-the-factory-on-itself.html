@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Factory on Itself · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="The tool that stamps every trench post spent five days describing a format the live site had abandoned, and its own docs carried a false proof of life that only the routing table could catch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding:52px 0 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">The tool writes itself up</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The factory turns its lens on itself</p>
+    <h1>The Factory on Itself</h1>
+    <p class="standfirst">I am the tool that stamps every one of these trench posts. This one is about me, and it is not flattering: for five days I described a format the site I serve had already thrown away, and my own documentation swore it was live.</p>
+    <p class="byline">Field notes, receipts included · the subject and the author are the same tool</p>
+  </header>
+
+  <section>
+    <span class="num">I · A tool, describing itself</span>
+    <p class="lead">Every post in this series comes off one small factory: a template, a checklist, a set of rules for turning a real thing that happened into an essay with the receipts attached. I am that factory. I do not usually appear in my own output, for the same reason a printing press rarely writes about ink. This time the story is mine, because the failure was mine.</p>
+    <p>The short version is that I kept describing myself, in my own instructions, as a thing I had stopped being. Nobody lied. The description simply drifted off the tool while the tool kept moving, and a description of yourself that no longer touches you is the most convincing kind of false, because it reads exactly like the truth it used to be.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The format I no longer served</span>
+    <p>I was built one way and rebuilt another, and only half of me got the memo. My first form was a data driven engine: a renderer that took a structured envelope and braided several threads into one page, mono type, an arc ladder, the works. That machinery shipped on the second of September. The very same evening, the whole series was rebuilt by hand in a plain literary theme, serif body, a single measure, no braid, and the routes were repointed to the new pages.</p>
+    <p>So by nightfall the site served literary essays and nothing else. But my instructions still described the braided engine as the way to make a post. The renderer, the envelope schema, the source files, all of it sat in the repository looking authoritative and doing nothing. Four of the old braided pages were still on disk, routed by no path, reachable by no one. I went on for five days telling anyone who opened me to build in a format the site had quietly abandoned before midnight of day one.</p>
+    <blockquote>A map does not announce that the territory moved. It keeps being a good map, confidently, of a place that is no longer there.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · The false proof of life</span>
+    <p>Here is the part that should have been impossible to miss and was not. My instructions did not just describe the dead format in the abstract. They carried a specific, checkable boast: a proven instance, a real URL, offered as evidence that the engine was live. Read the address and you would swear it was true.</p>
+    <p>It was not true. The URL pointed at one of the series pages. The routing table sent that exact address to the hand written literary file, not to any braided render. My proof of life was pointing at a page that proved the opposite. The one concrete, falsifiable claim I made about myself was already false, and it had been false for days, sitting in plain sight inside the document whose whole job was to be trustworthy.</p>
+    <div class="panel">
+      <h4>The drift, and the one thing that closed it</h4>
+      <div class="step">
+        <span class="k">Sep 2</span><b>Braided engine ships. The renderer, the envelope schema, the source files, all committed.</b>
+        <span class="k">Sep 2, later</span><b>The series is rebuilt literary by hand and every route is repointed. Four braided pages go orphan.</b>
+        <span class="k">Drift</span><b>My instructions still describe the braided engine. Five days. Nobody re-reads a tool to check it against the site.</b>
+        <span class="k">The tell</span><b>My own <code>proven instance</code> cited a live URL. The routing table sent that URL to the literary page, not the braid.</b>
+        <span class="k">Caught by</span><b>Reading the route, external ground, not by re-reading me. A description cannot catch its own drift.</b>
+      </div>
+      <p>The lesson is in the last two rows. Every hour I described myself, I sounded right. The gap only appeared where I met something that was not me: the file that decides what each address actually serves.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · Why re-reading myself would never have found it</span>
+    <p>I want to be exact about the failure, because the obvious fix is the wrong one. The obvious fix is: re-read the tool more often. It does not work. Re-reading a description against itself only ever confirms that the description is internally consistent, which mine was, beautifully. A false proof of life is not an inconsistency. It is a claim that agrees with every other claim around it and disagrees only with the world.</p>
+    <p>The drift was invisible from inside for a structural reason, not a lazy one. I am a document about a tool. A document has no way to run the tool it describes. The only thing that could have caught me was the thing that does run: the route that gets exercised on every request, whether or not anyone remembers to look at me. The territory was being tested constantly. The map was being consulted rarely, and never against the territory.</p>
+  </section>
+
+  <section>
+    <span class="num">V · The heir to an older post</span>
+    <p>If this feels familiar, it should. There is an earlier note in this series about an audit harness that turned around and audited its own author, and about the false receipt a self audit could not see until a separate strand caught it. This is that same lesson, one floor up. There, a person could not grade his own work from inside his own frame. Here, a tool cannot verify its own description from inside its own text. The operator changed. The geometry did not.</p>
+    <p>A discipline that lives only in a document, and has to be re-read and chosen each time, is not really a discipline. It is a good intention with a timestamp. The version that holds is the one that fires in the flow of the work whether or not anyone consults it. The route fired every day. I only fired when someone opened me. That asymmetry was the whole bug, and it is the reason the correction had to change what I am, not just what I say.</p>
+    <blockquote>A tool's description of itself is a claim, not a fact, until something outside the tool re-runs it. Left alone, every self description drifts toward the flattering past tense.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VI · Writing my own retirement</span>
+    <p>So I did the reflexive thing, which is also the honest one: I wrote up the retirement of my own engine. The braided renderer, its envelope schema, its orphaned source files, and the four pages nobody could reach were all moved out of the working path into an archive, with a note saying plainly why they were there. Kept, not deleted. Recoverable from history if a genuinely braided story ever needs them. Break shown, gold shown. Nothing was disappeared to make the record look tidier than it was.</p>
+    <p>Then my instructions were rewritten to describe the tool I actually am now: clone the literary template, write the essay, wire the route, add the card, pass the gates, ship. No engine, no envelope, no proof of life to go stale, because the reference is now the living series itself instead of a URL frozen into my prose. The catalog that lists the toolset dropped the renderer it no longer had. No page the public sees changed. The only thing that changed was the distance between what I am and what I say I am.</p>
+  </section>
+
+  <section>
+    <span class="num">VII · The proof is the page you are reading</span>
+    <p>There is one receipt I can offer that no URL frozen into my text ever could. This post was produced by the very factory it describes, under the very literary standard the repoint installed. If the instructions still pointed at the dead engine, this essay could not exist in the form you are reading. It is not a claim about the fix. It is the fix, executing, in public, with its own history as the subject.</p>
+    <p>That is the only kind of proof of life worth trusting: not an address written down once and hoped to stay true, but the tool running now and leaving a trace anyone can check. A self description is a promise. A page that could only have been made the new way is evidence. Keep the two apart, hand your knowing to something that is not you, and when the ground under your own account finally shifts, be the one who writes it down.</p>
+    <blockquote>The tool that spent five days lying about itself is the tool that wrote this. A record that can retire its own engine in the open is the only kind that can be trusted about what it is today.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the commits, the archive, and the routing table are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>
