@@ -140,15 +140,30 @@ def main():
             "docs_tokens_est": cf - pf,
             "settings_allow": m["settings_allow"] - prev["floor"]["settings_allow"],
         }
-        # "Landed" = did the floor actually shrink since the cut was proposed.
+        # "Landed" = did the SPECIFIC targeted file actually shrink since the cut
+        # was proposed. Must be per-file, NOT the aggregate docs total: unrelated
+        # churn in a sibling doc otherwise gets miscredited to this cut as a false
+        # landed=True (observed 2026-09-08: CLAUDE.md shrank on main, aggregate fell
+        # 131 tok, and an untouched AGENTS.md cut read as landed).
         pc = prev.get("this_cut") or {}
         if pc:
-            landed = cf < pf if pc.get("lever") in (
-                "lean-autoloaded-doc",) else None
+            tgt = pc.get("target")
+            prev_docs = prev["floor"].get("docs_bytes", {})
+            # Per-file attribution only for the doc lever with a known target file.
+            if pc.get("lever") == "lean-autoloaded-doc" and tgt in prev_docs \
+                    and tgt in m["docs_bytes"]:
+                prev_tf = tok(prev_docs[tgt])
+                cur_tf = tok(m["docs_bytes"][tgt])
+                target_delta = cur_tf - prev_tf
+                landed = cur_tf < prev_tf
+            else:
+                target_delta = cf - pf
+                landed = None  # connector/session levers: human confirms
             cut_landed = {
                 "proposed": pc.get("lever"),
-                "target": pc.get("target"),
-                "docs_delta_tokens": cf - pf,
+                "target": tgt,
+                "target_delta_tokens": target_delta,
+                "docs_delta_tokens": cf - pf,  # aggregate, for context
                 "landed": landed,  # None = not mechanically verifiable here (human confirms)
             }
 
@@ -191,8 +206,9 @@ def main():
         arrow = "DOWN" if d < 0 else ("UP" if d > 0 else "flat")
         print(f"  delta vs last run: docs {d:+d} tok ({arrow})")
     if cut_landed:
+        td = cut_landed.get("target_delta_tokens", cut_landed["docs_delta_tokens"])
         print(f"  last cut: {cut_landed['proposed']} -> {cut_landed['target']} "
-              f"({cut_landed['docs_delta_tokens']:+d} tok, landed={cut_landed['landed']})")
+              f"(target {td:+d} tok, landed={cut_landed['landed']})")
     print("  candidate cuts (pick ONE, human judgment):")
     for lv in row["candidate_levers"]:
         print(f"    - {lv['lever']}: {lv['target']}  [{lv['measured']}]")
