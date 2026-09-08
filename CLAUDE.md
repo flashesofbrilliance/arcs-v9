@@ -113,6 +113,33 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.59.0 (2026-09-08)
+
+> **NFTT collision + fold (worktree `practical-rhodes-0c7038`).** Tasked to author/ship a new NFTT
+> drift-closure post. Drafted `a-false-proof-of-life`, gate-clean and blessed — then found a parallel
+> session had already shipped the SAME event as `the-factory-on-itself` (v3.58.0, PR #348, live). Per
+> Zach's decision, folded the draft's distinct beats into the live post and stood the duplicate down.
+
+## Shipped
+- **`the-factory-on-itself` corrected + sharpened LIVE** (PR #354, on main `7f052783`, verified 200 with
+  new content serving). Two folds: (1) **timeline correction** — the post's own receipts panel carried
+  the very drift it is about, claiming the braided engine and literary rebuild shipped "the same evening";
+  git proves engine `13614454` = Aug 24, literary repoint `22781915` = Sep 2 (nine days apart), 5-day
+  drift from the Sep 2 repoint. Fixed in §II prose + panel. (2) **author accountability** — "Nobody lied"
+  softened the human omission; now names that the same hands that rebuilt the series left the instructions
+  pointing at the dead format. Gates: 0 em/en/minus, head hygiene, PII-clean (3 `@` = CSS/font only), build green.
+- **Duplicate stood down**: `a-false-proof-of-life` (PR #353 CLOSED). Draft recoverable in branch
+  `claude/practical-rhodes-0c7038` + git; not routed, not indexed.
+- Memory banked + indexed: `nftt-collision-both-posts-carried-same-false-timeline` (two independent drafts
+  inherited the brief's false "same evening" — convergent error, not corroboration; re-derive dates from git).
+
+## Open (next session)
+1. **Memory index over budget** (~830B; 18238/17408B). I offset only my own addition; the deeper
+   retire/merge prune is human-owned (index footer + hook say so) — Zach's greenlight needed.
+2. Carried from v3.58.0 (all started elsewhere): Pulse Phase-0 heartbeat (task_3fdd97bf); Kaizen
+   window-cost job (task_23dfd53b); zachharris.xyz/scan deploy (task_7215ccad); Reading Room tenants
+   2a-2c; ADR-076 demand probe.
+
 # Handoff — v3.58.0 (2026-09-08)
 
 > **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
@@ -147,37 +174,4 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   abductive profile→role scan.
 - Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
 
-# Handoff — v3.57.0 (2026-09-07)
-
-> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
-> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
-> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
-
-## Shipped
-- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
-  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
-  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
-  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
-- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
-  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
-  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
-  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
-- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
-  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
-  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
-  (`scripts/tests/test_cache_backprop.py`).
-- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
-  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
-  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
-
-## Open (next session)
-1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
-   Reader + cache spine now that back-prop closes 1b.
-2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
-3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
-4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
-   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
-5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
-   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
-
-> _v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
+> _v3.57.0 (open-loops · cache back-prop) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0/3.55.0/3.54.0/3.53.0 relocated earlier._
