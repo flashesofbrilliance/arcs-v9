@@ -28,11 +28,15 @@ filter on each new quarterly export to refresh.
 - Acceptance test captured as the swipe-right outcome: did they name the crossover rarity back
   unprompted/effortlessly (the Amy signal)?
 
-## HARD CONSTRAINT — PII gate (non-negotiable)
-The tab holds **real names + LinkedIn URLs from Zach's private network**. It MUST be gated (Auth.js
-session + `ADMIN_EMAILS`, the `/recoil` fail-closed pattern), served server-side behind auth. NEVER on
-the open `jobs.arcs.care` surface, NEVER world-readable static (cf. `static-public-files-worldreadable`,
-`publish-requires-pii-gate`). Standing exclusion: **Fanatics** (Zach, 2026-09-08).
+## PII — already covered by the surface's OAuth gate (Zach, 2026-09-08 correction)
+The tab holds **real names + LinkedIn URLs from Zach's private network**, but **the entire product
+surface (app/jobs.arcs.care) is already OAuth-gated**, which satisfies the air-gap: no world-readable
+static, no public exposure. So do **NOT** add a redundant second `/recoil`-style `ADMIN_EMAILS` gate —
+the existing session gate is sufficient. Serve the champions data server-side behind the existing auth
+(same as the rest of the board); just never emit it to a public/unauthenticated path or static file.
+**Residual to confirm (not a blocker):** OAuth-gated = any signed-in user. If the board is ever
+multi-tenant, scope the champions data to the owner (per-user), since it is Zach's private list, not
+every authenticated user's. Single-tenant → no action needed. Standing exclusion: **Fanatics**.
 
 ## Falsifiers / done-when
 - Done: gated tab renders the 84 stack-ranked by warm_path-weighted fit, Weight Lab re-ranks live,
