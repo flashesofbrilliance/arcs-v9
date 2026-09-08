@@ -2,27 +2,48 @@
   "captured_at": "2026-09-07T14:05:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "343b266",
-    "head_message": "feat(cache): back-propagation organ — re-grade one dirty slice on read [NCI:87] (#320)",
+    "head_sha": "934f7912",
+    "head_message": "design(hud): wired-loop schematic + em-dash sweep (#351)",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
     "latest_deploy_url": "https://app.arcs.care",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"]
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Account",
+      "Session",
+      "VerificationToken"
+    ]
   },
-  "open_adrs": ["ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)"],
+  "open_adrs": [
+    "ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)"
+  ],
   "session_summary": "Reading Room back-propagation organ shipped (scripts/cache_backprop.py, plan->packet->apply; grading external by NOTOMATION); cache_manifest.py now preserves per-slice graded_at_sha so re-grading one epoch never frees siblings sharing a digest; 1b gate MET (proved: product/2026-04 dirty->re-graded->fresh, 19 siblings stay dirty, survives full re-stamp + 11 commits of base advance). Gauntlet: 3 skeptic defects fixed, 5 stdlib tests green. PR #320 merged (343b266).",
   "next_action": "Reading Room tenants 2a-2c (Concordance / Chronicle / Babelfish / Codex) on the Reader+cache spine; 1a 4-width visual check (headless screenshot); live admin smoke of /reading-room. Separately: ADR-076 cheap read-only MCP demand probe.",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-08T16:27:12Z"
 }
