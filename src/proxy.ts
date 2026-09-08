@@ -25,6 +25,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // saul.arcs.care — interview bundle (2026-09-03): root = prep, /followup = forked battle cards, /resume = viewer.
   // Asset paths are mapped to themselves so the default-page rewrite does not swallow the PDFs/txt.
   'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },
+  // monstro.arcs.care — AI Marketing Engineer bundle (2026-09-08): root = candidate pitch (counterpart-safe, noindex), /resume + /cover = viewers, PDFs mapped to themselves so the default-page rewrite does not swallow them.
+  'monstro':   { '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
