@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Resume · Forward-Deployed Engineer · Tessera Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
+    --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
+    --accent:#0089a8;--metric:#0089a8;
+    --measure:7.2in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;margin:0 auto;padding:0.5in 0.58in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);}
+  p,li,.thesis,.job-sum{max-width:var(--measure);text-wrap:pretty;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:30px;font-weight:700;letter-spacing:-.024em;line-height:1;text-wrap:balance;}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:9px;}
+  .target{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:3px 8px;white-space:nowrap;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9.5px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+  .thesis{font-size:11.5px;line-height:1.64;color:var(--ink2);margin-top:13px;}
+  .thesis b{color:var(--ink);font-weight:600;}
+
+  .sec{display:flex;align-items:center;gap:11px;margin:15px 0 8px;break-after:avoid;}
+  .sec .lv{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .sec .gloss{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);white-space:nowrap;}
+  .sec .rule{flex:1;height:1px;background:var(--line);}
+
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px 22px;}
+  .pillar{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:7px;border-bottom:1px solid var(--line2);}
+  .pillar .pt{font-size:10px;line-height:1.42;color:var(--ink2);} .pillar .pt b{color:var(--ink);font-weight:600;font-size:10.5px;}
+  .pillar .fit{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);white-space:nowrap;padding-top:3px;}
+
+  .job{margin-bottom:8px;break-inside:avoid;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
+  .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:3px 0 3px;} .job-sum b{color:var(--ink);font-weight:600;}
+  ul.bul{list-style:none;} ul.bul li{position:relative;padding-left:13px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:1.5px;}
+  ul.bul li::before{content:"";position:absolute;left:1px;top:6.5px;width:4px;height:4px;border:1px solid var(--accent);border-radius:50%;} ul.bul li b{color:var(--ink);font-weight:600;}
+  .metric{font-family:var(--mono);font-weight:700;color:var(--metric);font-size:9.5px;white-space:nowrap;}
+
+  .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:9px 24px;}
+  .skill-k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+  .skill-v{font-size:9.5px;line-height:1.5;color:var(--ink2);text-wrap:pretty;}
+
+  .edu{font-size:10px;color:var(--ink2);line-height:1.6;} .edu b{color:var(--ink);font-weight:600;} .edu .yr{font-family:var(--mono);font-size:8px;color:var(--faint);}
+  footer{margin-top:14px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);}
+
+  @page{size:letter;margin:0.42in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;max-width:none;margin:0;padding:0.2in 0.28in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">Agentic AI builder, prototype to production</div>
+      <div class="target">Target · Forward-Deployed Engineer · Tessera Labs</div>
+    </div>
+    <div class="contact">
+      New York City (on site 3 days)<br><b>zach.harris@gmail.com</b><br>
+      linkedin.com/in/<b>zharris</b><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <p class="thesis"><b>I build and ship production AI systems in customer environments, from zero to deployed, with full technical and commercial ownership.</b> Two decades across tech, data, and commercial operations in finance, health, sports, and consumer. Most recently I built ARCS from scratch: an AI-native decision-intelligence platform on Claude, with an MCP server, agentic orchestration, and a structured evidence taxonomy that turns unstructured input into decisions with a scored outcome. Before that I led go-to-market for 10 SEC/FINRA-regulated products at Grayscale, and ran market-viability testing for three AI-enabled product lines inside a HIPAA-regulated health company. I embed in complex enterprise environments, break down ambiguous cross-system problems into well-defined solutions, and carry field signal back to shape product strategy.</p>
+
+  <section>
+    <div class="sec"><span class="lv">What I bring to this role</span><span class="gloss">mapped to the FDE criteria</span><span class="rule"></span></div>
+    <div class="pillars">
+      <div class="pillar"><span class="pt"><b>Production AI builder, zero to deployed</b>: designed and built ARCS from scratch, an AI-native platform with MCP server, agentic orchestration, and structured evidence taxonomy, running in production, not a lab demo. Took an ambiguous, high-stakes problem from zero to shipped as a solo technical founder.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Deep process discovery and solution definition</b>: built the evidence taxonomy and gating architecture that turns raw, unstructured, cross-system input into a scored, structured outcome with a feedback loop that recalibrates it; the same motion required to break down complex enterprise workflows into well-defined AI automation solutions.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Customer-embedded, cross-functional execution</b>: operate the full stack at ARCS as a single founder; five prior engagements embedding directly with customers and leading product, engineering, data, and GTM across regulated financial-services and health environments end to end, from discovery through handoff.</span><span class="fit">strong</span></div>
+      <div class="pillar"><span class="pt"><b>Field signal to product strategy</b>: built the measurement frameworks that drove go/no-go calls on AI product lines, 5G ventures, and a healthcare CDP; direct experience translating frontline customer and deployment signal into instrumentation, success metrics, and product direction across regulated enterprise environments.</span><span class="fit">strong</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec"><span class="lv">Experience</span><span class="gloss">newest first</span><span class="rule"></span></div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">ARCS <span class="dom">· Decision Intelligence Platform</span></div><div class="job-role">Founder · 2025 to present</div></div>
+      <div class="job-sum">Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an <b>AI-native analysis pipeline on Claude</b>, and compounding feedback loops.</div>
+      <ul class="bul">
+        <li>Built the <b>MCP server and agentic orchestration layer</b> that runs pre- and post-decision capture automatically; AI-native in production, not experiments.</li>
+        <li>Designed a structured evidence taxonomy and gating architecture that converts unstructured input into scored, actionable output.</li>
+        <li>Designed the experimentation and outcome-capture framework: models recalibrate scoring weights from prior decisions, compounding institutional memory.</li>
+        <li>Operate the full stack alone: product development, go-to-market, growth motion, and commercial strategy; every product decision is founder-facing because there is one founder.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Grayscale Investments <span class="dom">· Digital Currency Group · SEC/FINRA</span></div><div class="job-role">Product Lead, Go-To-Market · 2024 to 2025</div></div>
+      <div class="job-sum">Led go-to-market for <b>10 SEC/FINRA-regulated digital-asset investment products</b> (<span class="metric">$7B AUM</span>): positioning, segmentation, and adoption inside regulated controls and governance.</div>
+      <ul class="bul">
+        <li>Coordinated product, engineering, legal, risk, and compliance through regulated release gates.</li>
+        <li>Translated regulatory requirements into product and go-to-market requirements the teams could build against.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Embedded and advisory engagements <span class="dom">· health, gov, consumer, telecom</span></div><div class="job-role">Embedded Product &amp; Solution Lead · 2019 to 2024</div></div>
+      <ul class="bul">
+        <li><b>Twill Health</b> (HIPAA digital health, 2021 to 2023): market-viability testing for <b>3 AI-enabled digital-health product lines</b>; the KPI frameworks informed go-forward decisions on 2 of 3.</li>
+        <li><b>Squat New York</b> (behavioral health, <span class="metric">$350M ARR</span>, post-PE acquisition, 2019 to 2020): sole technology partner on a <b>seven-figure embedded engagement</b> from discovery through QA and handoff. Owned roadmap, backlog, and sprint planning; retooled a headless CMS; time-to-interaction as the primary conversion KPI.</li>
+        <li><b>Axon Enterprise</b> (GovTech, 2023): discovery and business-model validation for a first-responder OTT network; defined MVP features, instrumentation, and success metrics for a secure video-first platform.</li>
+        <li><b>Verizon Media</b> (5G ventures, 2021): quantitative opportunity assessments for five 5G products; market sizing, competitive analysis, go/no-go recommendations.</li>
+        <li><b>GoPro</b> (consumer tech, 2020 to 2021): analytics framework for EMEA/APAC growth; navigated GDPR data-sovereignty requirements for collection, activation, and attribution.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Children's Tumor Foundation</div><div class="job-role">Sr. Director, Data &amp; Strategy · 2018 to 2019</div></div>
+      <ul class="bul">
+        <li>Built the enterprise data layer end to end (CDP evaluation, Salesforce Lightning modernization, lifecycle segmentation) across marketing, fundraising, and clinical operations in 3 business units; the first intelligence layer those teams had.</li>
+        <li>Drove a <span class="metric">20%</span> increase in net-new revenue through data-driven personalization and behavioral segmentation.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Women's Tennis Association</div><div class="job-role">Head of Product &amp; Strategic Partnerships · 2016 to 2018</div></div>
+      <ul class="bul">
+        <li>Led CDP evaluation and selection for a global consumer sports platform; built real-time fan-behavior scoring at <span class="metric">&lt;120ms</span> serving personalized offers during live events.</li>
+        <li>Designed the first commercial partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): <span class="metric">$850K+</span> in year one.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Skills</span><span class="gloss">what I use, not what I have heard of</span><span class="rule"></span></div>
+    <div class="skills">
+      <div><div class="skill-k">AI and agent systems</div><div class="skill-v">Claude · MCP servers · agentic AI pipelines and orchestration · prompt engineering · Glean · GitHub</div></div>
+      <div><div class="skill-k">Analytics and modeling</div><div class="skill-v">SQL · Python · R · Tableau · forecasting · data modeling · A/B and multivariate experimentation · attribution modeling</div></div>
+      <div><div class="skill-k">Data systems</div><div class="skill-v">Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems · data governance</div></div>
+      <div><div class="skill-k">Product and delivery</div><div class="skill-v">Discovery and business-model validation · MVP definition · KPI and instrumentation design · event taxonomy and telemetry · rapid experimentation and iteration</div></div>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Education</span><span class="rule"></span></div>
+    <div class="edu"><b>Oberlin College</b> · BA, Studio Art <span class="yr">2002 to 2006</span></div>
+  </section>
+
+  <footer><span>Zach Harris · github.com/flashesofbrilliance</span><span>Tailored · Forward-Deployed Engineer · Tessera Labs · 2026</span></footer>
+</div>
+</body>
+</html>

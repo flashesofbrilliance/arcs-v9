@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     "/jobs/[jobid]": ["./runtime/specs/*.json"],
     "/jobs/lane": ["./runtime/specs/*.json"],
     "/api/jobs/lane": ["./runtime/specs/*.json"],
+    // champions lane (gated PII: read server-side only, never emitted to a static/public path)
+    "/api/champions": ["./runtime/data/*.tsv"],
+    "/api/champions/swipe": ["./runtime/data/*.tsv"],
     "/api/jobs/score": ["./runtime/specs/*.json"],
     "/api/jobs/edit-from-seed": ["./runtime/specs/*.json"],
     "/api/jobs/cover-letter": ["./runtime/specs/*.json"],
