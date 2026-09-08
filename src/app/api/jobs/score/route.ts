@@ -27,14 +27,14 @@ function systemPrompt(s: ReturnType<typeof spec>): string {
   const dims: Dim[] = s.rubric.dims
   return `You score a job posting for one candidate against a fixed rubric. The candidate is a forward-deployed / applied-AI product-and-engineering builder: regulated-domain fluency, breadth across product + GTM + data, ships LLM/agent systems on Claude + MCP in production, two decades across tech/data/commercial ops. Target archetypes: ${s.archetypes.map((a: { title: string }) => a.title).join("; ")}.
 
-Score EACH posting on these 8 dimensions, integer 0-3, using the anchors:
+Score EACH posting on these ${dims.length} dimensions, integer 0-3, using the anchors:
 ${dims.map((d) => `- ${d.key} (weight ${d.weight}): 0 = ${d.anchor0}; 3 = ${d.anchor3}`).join("\n")}
 
 Hard gates (list any that fire, by these exact strings): ${JSON.stringify(s.rubric.gates)}. A gate means auto-disqualify.
 Extract a comp string if the JD states one (e.g. "$180K-$250K"), else null. Write a <=25 word assessment: the single sharpest fit-or-gap read.
 
 Return ONLY a JSON array, one object per posting IN THE SAME ORDER, no prose:
-[{"jobid":"...","dims":{"role_shape":0,"ai_native":0,"strength_leverage":0,"scope_authority":0,"culture":0,"comp_level":0,"logistics":0,"warm_path":0},"gates":[],"comp":null,"assessment":"..."}]`
+[{"jobid":"...","dims":{${dims.map((d) => `"${d.key}":0`).join(",")}},"gates":[],"comp":null,"assessment":"..."}]`
 }
 
 export async function POST(req: NextRequest) {

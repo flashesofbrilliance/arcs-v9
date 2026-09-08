@@ -344,8 +344,8 @@ export function JobsBoard() {
           const dirty = DIMS.some((d) => (w[d.key] ?? d.weight) !== d.weight)
           const set = (k: string, v: number) => setWeights({ ...(weights ?? defs), [k]: v })
           const PRESETS: [string, string, Record<string, number>][] = [
-            ["Boost the moat", "Weight the rare-combination differentiators up, comp/logistics down", { strength_leverage: 8, scope_authority: 5, role_shape: 6, ai_native: 4, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
-            ["Shape over surface", "Role-shape + scope lead; AI-surface and comp matter less", { role_shape: 8, scope_authority: 6, strength_leverage: 6, ai_native: 3, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
+            ["Boost the moat", "Weight the rare combination hard, breadth up, comp/logistics down", { rare_combination: 8, domain_breadth: 5, scope_authority: 5, role_shape: 6, ai_native: 4, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
+            ["Shape over surface", "Role-shape + scope + rare combination lead; AI-surface and comp matter less", { role_shape: 8, scope_authority: 6, rare_combination: 6, domain_breadth: 3, ai_native: 3, culture: 2, comp_level: 1, logistics: 1, warm_path: 1 }],
           ]
           return (
             <div style={{ padding: 16, marginBottom: 12, border: `1px solid #2c3a50`, borderRadius: 4, background: surface.panel }}>

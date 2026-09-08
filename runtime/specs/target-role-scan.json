@@ -1,7 +1,7 @@
 {
- "version": "1.1",
+ "version": "1.2",
  "source": "_ARTIFACTS/target-role-scan-hud.html",
- "extracted": "2026-09-04",
+ "extracted": "2026-09-08",
  "archetypes": [
   {
    "id": "forward-deployed-ai-engineer",
@@ -114,7 +114,7 @@
    },
    "dims": [
     "comp_level",
-    "strength_leverage"
+    "rare_combination"
    ]
   },
   {
@@ -127,7 +127,7 @@
     "claim": "SEC/FINRA ($7B AUM), HIPAA (digital health, $350M ARR), gov (Axon). Twenty years turning the constraint into the product \u2014 the genome the record proves."
    },
    "dims": [
-    "strength_leverage",
+    "domain_breadth",
     "culture"
    ]
   }
@@ -167,11 +167,18 @@
     "anchor3": "agents + LLMs are the product"
    },
    {
-    "key": "strength_leverage",
-    "label": "Strength leverage",
+    "key": "rare_combination",
+    "label": "Rare combination",
     "weight": 4,
-    "anchor0": "hits none",
-    "anchor3": "regulated fluency \u00b7 breadth \u00b7 forward-deployed \u2014 3+ differentiators"
+    "anchor0": "a common single-lane profile many applicants share",
+    "anchor3": "rewards the moat \u2014 operator-who-builds \u00d7 transversal synthesizer \u00d7 0\u21921-under-ambiguity \u2014 a shape few qualified applicants have"
+   },
+   {
+    "key": "domain_breadth",
+    "label": "Domain breadth",
+    "weight": 3,
+    "anchor0": "single narrow domain",
+    "anchor3": "regulated fluency across multiple high-stakes domains \u2014 SEC/FINRA \u00b7 HIPAA \u00b7 gov"
    },
    {
     "key": "scope_authority",
@@ -209,7 +216,7 @@
     "anchor3": "strong intro / referral path"
    }
   ],
-  "max": 72,
+  "max": 81,
   "gates": [
    "Junior/entry leveling",
    "pure management with no build",

@@ -60,7 +60,7 @@ rows.set("bjak-7629ca49", {
   jobid: "bjak-7629ca49", title: "Technical Product Lead, AI Neobank", company: "Bjak", location: "Remote, SEA time zones",
   url: "https://jobs.ashbyhq.com/bjakcareer/7629ca49-05c4-46ab-8b10-95a78eaa320f", alertQuery: "manual", source: "manual",
   firstSeen: "2026-09-04", composite: 0.625, band: "CONSIDER",
-  dims: { role_shape: 2, ai_native: 2, strength_leverage: 3, scope_authority: 3, culture: 0, comp_level: 1, logistics: 2, warm_path: 0 }, gates: [],
+  dims: { role_shape: 2, ai_native: 2, rare_combination: 3, domain_breadth: 3, scope_authority: 3, culture: 0, comp_level: 1, logistics: 2, warm_path: 0 }, gates: [],
   assessment: "Regulated, high-consequence product with an explicit when-not-to-use-AI bar. PM-shaped rather than forward-deployed; culture wording and unlisted comp are the swing.",
   atsClass: "new", atsName: "Ashby", companyType: "startup", hmKind: "explicit", hmText: "CEO (final round per JD)",
   contactType: "form", contactDetail: "Ashby; assessment first, CEO final round", contactUrl: "https://jobs.ashbyhq.com/bjakcareer/7629ca49-05c4-46ab-8b10-95a78eaa320f",
