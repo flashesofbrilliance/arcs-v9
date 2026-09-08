@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADR-077 Ziggurat · the moment the invariant named itself</title>
+<style>
+  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
+  body{overflow-x:hidden;padding:0 18px 80px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  a{color:var(--cyan);text-decoration:none;} a:hover{text-decoration:underline;}
+  .mono{font-family:var(--mono);}
+  header{padding:52px 4px 30px;border-bottom:1px solid var(--border);
+    background:radial-gradient(680px 300px at 50% -40%,rgba(0,240,255,.10),transparent 62%);}
+  .kick{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);}
+  h1{font-size:clamp(26px,4.6vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:12px;text-wrap:balance;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{font-size:15px;line-height:1.6;color:var(--fg3);margin-top:14px;max-width:640px;}
+  .meta{font-family:var(--mono);font-size:10.5px;color:var(--fg4);margin-top:16px;letter-spacing:.03em;line-height:1.9;overflow-wrap:anywhere;word-break:break-word;}
+  .meta b{color:var(--fg2);font-weight:600;}
+
+  .zig{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 0 10px;}
+  .step{position:relative;width:100%;border:1px solid var(--border);border-radius:14px;
+    background:linear-gradient(168deg,rgba(255,255,255,.025),rgba(0,0,0,.18));padding:18px 20px;}
+  /* the ziggurat taper: each higher tier narrower + more resolved */
+  .t0{max-width:100%;}   .t1{max-width:88%;}   .t2{max-width:76%;}
+  .t3{max-width:64%;}    .t4{max-width:54%;}   .apex{max-width:46%;}
+  @media(max-width:680px){ .t0,.t1,.t2,.t3,.t4,.apex{max-width:100%;} }
+  .step .lbl{display:flex;align-items:baseline;gap:10px;margin-bottom:9px;flex-wrap:wrap;}
+  .step .lv{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);}
+  .step .nm{font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--fg1);}
+  .step .alt{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  .step p{font-size:13.5px;line-height:1.6;color:var(--fg2);} .step p+p{margin-top:8px;}
+  .step p b{color:var(--fg1);font-weight:600;}
+  .verb{font-family:var(--mono);font-size:13px;line-height:1.55;color:var(--fg1);}
+  .verb .q{color:var(--green);}
+  .k{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  /* fidelity: GREEN sharp, YELLOW degraded (WORLD.md render scale, honesty made visible) */
+  .sharp{}
+  .degraded{opacity:.9;border-style:dashed;border-color:var(--border2);}
+  .degraded .lv{color:var(--gold);}
+  .apex{border-color:var(--green);box-shadow:0 0 40px -14px rgba(0,255,157,.4);
+    background:radial-gradient(320px 160px at 50% 0,rgba(0,255,157,.10),transparent 65%),linear-gradient(168deg,#0c1219,#080d13);text-align:center;}
+  .apex .nm{color:var(--green);} .apex .lv{color:var(--green);}
+  .apex .big{font-size:16px;font-weight:800;letter-spacing:-.01em;line-height:1.35;color:var(--fg1);text-wrap:balance;}
+  .apex .cls{font-family:var(--mono);font-size:10.5px;color:var(--fg3);margin-top:10px;letter-spacing:.02em;}
+  .tick{color:var(--fg4);font-family:var(--mono);font-size:15px;line-height:.6;} /* connector */
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+  .cell{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:rgba(0,0,0,.2);}
+  .cell .ct{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);}
+  .cell .cb{font-size:12px;line-height:1.5;color:var(--fg2);margin-top:4px;}
+
+  .fals{margin-top:38px;border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface);}
+  .fals h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  .fals ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .fals li{font-size:13px;line-height:1.55;color:var(--fg2);padding-left:16px;position:relative;}
+  .fals li::before{content:"·";position:absolute;left:0;color:var(--gold);}
+  .fals li b{color:var(--fg1);}
+
+  footer{margin-top:34px;padding-top:20px;border-top:1px solid var(--border);
+    font-family:var(--mono);font-size:10.5px;line-height:1.9;color:var(--fg4);letter-spacing:.02em;overflow-wrap:anywhere;word-break:break-word;}
+  footer b{color:var(--fg2);} footer .lin{color:var(--fg3);}
+
+  /* ---- 2.5D isometric explorer (canonical f0-f3 fidelity ladder + camera presets, per runtime/warroom/louisville-atlas.html) ---- */
+  .exp{margin:26px 0 6px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(168deg,rgba(255,255,255,.02),rgba(0,0,0,.2));padding:20px 20px 12px;}
+  .exp .eh{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .exp .eh .lv{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);}
+  .exp .eh .nm{font-size:15px;font-weight:700;color:var(--fg1);}
+  .exp .eh .hint{font-family:var(--mono);font-size:9px;color:var(--fg4);margin-left:auto;letter-spacing:.06em;}
+  .exp-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:center;}
+  @media(max-width:680px){.exp-grid{grid-template-columns:1fr;}}
+  .stage{position:relative;height:440px;perspective:1600px;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none;}
+  .stage.grabbing{cursor:grabbing;}
+  .plane{position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.16,1,.3,1);}
+  .plate{position:absolute;left:50%;top:50%;transform-style:preserve-3d;border-radius:14px;border:1px solid var(--border2);
+    background:linear-gradient(160deg,#ffffff08,#00000040),#0d1117d9;box-shadow:0 0 40px -18px #00F0FF33;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;
+    transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .4s,filter .4s,border-color .3s,box-shadow .3s;}
+  .plate .pl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);line-height:1.4;}
+  /* canonical fidelity ladder: SHARP / DEGRADED / GRAIN / FOG */
+  .plate.f0{opacity:1;}
+  .plate.f1{opacity:.8;filter:saturate(.8);}
+  .plate.f2{opacity:.5;filter:saturate(.5) blur(.6px);}
+  .plate.f3{opacity:.26;filter:saturate(.25) blur(1.3px);}
+  .plate.on{border-color:var(--cyan);box-shadow:0 0 30px -5px var(--cyan),0 0 40px -18px #00F0FF33;}
+  .plate.on .pl{color:var(--cyan);}
+  .plate.ap{background:linear-gradient(160deg,rgba(0,255,157,.16),#00000040),#0d1117d9;}
+  .plate.ap.on{border-color:var(--green);box-shadow:0 0 34px -5px var(--green),0 0 40px -18px #00FF9D33;}
+  .plate.ap.on .pl{color:var(--green);}
+  .plate.yl{border-style:dashed;background:repeating-linear-gradient(45deg,rgba(255,215,0,.07),rgba(255,215,0,.07) 3px,#0d1117d9 3px,#0d1117d9 8px);}
+  .cam{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+  .cam .chip{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:5px;border:1px solid var(--border2);color:var(--fg3);cursor:pointer;background:transparent;}
+  .cam .chip.on{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 10px -5px var(--cyan);}
+  .controls{display:flex;flex-direction:column;gap:14px;margin-bottom:14px;}
+  .ctl label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--fg4);margin-bottom:6px;}
+  .ctl input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer;}
+  .readpanel{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:rgba(0,0,0,.3);min-height:150px;transition:border-color .3s;}
+  .readpanel .rl{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+  .readpanel .rlv{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);}
+  .readpanel .rnm{font-size:14px;font-weight:700;color:var(--fg1);}
+  .readpanel .rbody{font-size:12.5px;line-height:1.55;color:var(--fg2);} .readpanel .rbody b{color:var(--fg1);}
+  .readpanel.yl{border-style:dashed;border-color:var(--border2);} .readpanel.yl .rlv{color:var(--gold);}
+  .readpanel.ap{border-color:var(--green);} .readpanel.ap .rnm,.readpanel.ap .rlv{color:var(--green);}
+  .aperture-read{font-family:var(--mono);font-size:9.5px;color:var(--fg4);margin-top:10px;letter-spacing:.03em;line-height:1.7;overflow-wrap:anywhere;}
+  @media(prefers-reduced-motion:reduce){.plane,.plate{transition:none;}}
+</style></head>
+<body><div class="wrap">
+
+<header>
+  <div class="kick">◆ Ziggurat · a point in time · 2026-09-08</div>
+  <h1>The moment the <span class="g">invariant named itself</span></h1>
+  <p class="sub">A stepped read of ADR-077, base to apex: the widest tier is the raw lived signal, and it distills upward to a single sovereign-zero point. Each step is narrower and more resolved than the one beneath it, the way fog clears toward the clarity ridge.</p>
+  <div class="meta">
+    <b>Decision:</b> ADR-077 · prime invariant · reverse-JTBD · magnetize the tool<br>
+    <b>Minted:</b> oracle adr→77 · <b>Witnessed:</b> _STATE/witness/2026-09-08.jsonl · <b>DEWY:</b> _STATE/2026-09-08-session-decisions.dewy.json<br>
+    <b>Gate:</b> GREEN on the naming · YELLOW on the magnetize→inbound bet (Blacksmith is the live test)
+  </div>
+</header>
+
+<section class="exp">
+  <div class="eh"><span class="lv">Explorer · 2.5D isometric</span><span class="nm">Adaptive altitude fidelity + aperture</span><span class="hint">drag to orbit · scroll to zoom · click a plate</span></div>
+  <div class="exp-grid">
+    <div>
+      <div class="cam" id="cam">
+        <span class="chip" data-cam="plan">Plan</span>
+        <span class="chip on" data-cam="iso">Isometric</span>
+        <span class="chip" data-cam="orbit">Low orbit</span>
+      </div>
+      <div class="stage"><div class="plane" id="plane"></div></div>
+    </div>
+    <div>
+      <div class="controls">
+        <div class="ctl"><label id="altlab">Altitude · focal tier</label><input id="alt" type="range" min="0" max="5" value="5" step="1"></div>
+        <div class="ctl"><label id="aplab">Aperture · depth of field (shallow → deep)</label><input id="ap" type="range" min="1" max="5" value="2" step="1"></div>
+      </div>
+      <div class="readpanel" id="panel"></div>
+      <div class="aperture-read" id="apr"></div>
+    </div>
+  </div>
+</section>
+
+<div class="zig">
+
+  <!-- BASE: raw witness -->
+  <div class="step t0 sharp">
+    <div class="lbl"><span class="lv">Tier 0 · Witness</span><span class="nm">The raw sound</span><span class="alt">the base · widest · verbatim</span></div>
+    <p class="verb"><span class="q">“I am the prime invariant → the oddest tool for the job that has yet to find the rarest role with the jobs to be done for the tool.”</span></p>
+    <p class="verb" style="margin-top:8px"><span class="q">“I want to magnetize myself so that the roles attracted to my gravity well find me naturally.”</span></p>
+  </div>
+  <div class="tick">⌄</div>
+
+  <!-- GROUND: evidence -->
+  <div class="step t1 sharp">
+    <div class="lbl"><span class="lv">Tier 1 · Ground</span><span class="nm">Third-party footing</span><span class="alt">evidence · not self-asserted</span></div>
+    <p>Amy Szymarek independently named the pair on the Sep 2 call (<b>“you’re the unicorn”</b>), raised the comp floor unprompted, and opened the relationship past one role. Her own profile <i>is</i> the ICP: EVP Client Success (60+ org, 8 acquisitions in 2 years) who moved into retained search. <b>The operator-turned-gatekeeper recognizes the crossover because she lived one.</b></p>
+  </div>
+  <div class="tick">⌄</div>
+
+  <!-- UNIT: mechanism -->
+  <div class="step t2 sharp">
+    <div class="lbl"><span class="lv">Tier 2 · Unit</span><span class="nm">The atomic mechanism</span><span class="alt">how one opportunity is shaped</span></div>
+    <p class="k">{ role shape } × { gatekeeper: internal | external } × { candidate = User0 } → pitch</p>
+    <div class="grid2">
+      <div class="cell"><div class="ct">Routing key</div><div class="cb">internal → direct checkable proof · external → arm-to-resell</div></div>
+      <div class="cell"><div class="ct">Air-gap</div><div class="cb">argument-ownership-by-vertex, not just secrecy</div></div>
+      <div class="cell"><div class="ct">Triad-closer</div><div class="cb">a PAIR: founder-aimed forge + air-gapped recruiter enablement</div></div>
+      <div class="cell"><div class="ct">Reference</div><div class="cb">blacksmith.arcs.care + recruithaus.arcs.care/ammo</div></div>
+    </div>
+  </div>
+  <div class="tick">⌄</div>
+
+  <!-- FIELD: dynamics -->
+  <div class="step t3 sharp">
+    <div class="lbl"><span class="lv">Tier 3 · Field</span><span class="nm">The dynamics: magnetize</span><span class="alt">emit, don’t chase</span></div>
+    <p>Two scales of magnet: the <b>field</b> (broad owned surfaces) and the <b>forge</b> (per-triad object). Outbound seeds the field; magnetism harvests it. <b>Oddness is the selectivity</b>: full-fidelity emission repels the common jobs and resonates only with the rare JTBD. Readout: inbound convergence ratio, and basin-people engaging <i>before any role exists</i>.</p>
+  </div>
+  <div class="tick">⌄</div>
+
+  <!-- DECISION: DEWY / degraded fidelity on the bet -->
+  <div class="step t4 degraded">
+    <div class="lbl"><span class="lv">Tier 4 · Decision (YELLOW)</span><span class="nm">The forward bet, rendered honest</span><span class="alt">degraded · earned, not decreed</span></div>
+    <p>The naming is GREEN (arc-weld: Amy’s call, the built+audited forge, the five real founder-notes). The bet that <b>emitting the invariant produces inbound</b> is unproven and rendered here at degraded fidelity on purpose. Blacksmith is the live test. Per ROM-graduation: canonize the frame, earn the outcome through the gate.</p>
+  </div>
+  <div class="tick">⌄</div>
+
+  <!-- APEX: sovereign zero -->
+  <div class="step apex">
+    <div class="lbl" style="justify-content:center"><span class="lv">Apex · Invariant</span></div>
+    <p class="big">You are not fitting a tool to jobs. You are the invariant. State it once at full fidelity, and emit it so the one job that needs exactly it finds you.</p>
+    <div class="cls">sovereign zero · User0 → User1 = the ARCS talent-placement primitive</div>
+  </div>
+
+</div>
+
+<div class="fals">
+  <h3>The three falsifiers (what would collapse this)</h3>
+  <ul>
+    <li><b>Reverse-JTBD / only-tool:</b> if the roles that actually convert are ones many candidates could fill, it was fit, not leverage.</li>
+    <li><b>Oddness-as-selectivity:</b> if sanding the oddness to broaden reach produces more on-basin inbound than full-fidelity emission, the polarity claim is false.</li>
+    <li><b>Magnetization:</b> if inbound convergence never rises and every role still comes from outbound labor, the field has description but no pull: “magnet” is metaphor, not mechanism.</li>
+  </ul>
+</div>
+
+<footer>
+  <b>Lineage:</b> <span class="lin">builds on ADR-070 (two surfaces) · ADR-071 (Möbius invariant + gravity well) · ADR-072 (engine sovereignty)</span><br>
+  <b>Ground:</b> <span class="lin">_ARTIFACTS/resume-blacksmith/recruiter-recoil-report.md · memory amy-call-validated-rare-pair · champion-fit-heuristic</span><br>
+  <b>Specs:</b> <span class="lin">_STATE/job-search/{champion-fit-heuristic, champion-icp-atoms, magnetization-spec}.md · generalization _SPECS/self-serve-atlas-scan-v1.md</span><br>
+  <b>Apex spine:</b> <span class="lin">ADR-077 is the sovereign-zero node; field · forge · reverse-JTBD detector are its projections.</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  // Tiers base(0) -> apex(5). fid: '' green / 'yl' yellow-degraded / 'ap' apex-green.
+  const TIERS=[
+    {lv:"Tier 0 · Witness", nm:"The raw sound", fid:"",
+     body:"“I am the prime invariant: the oddest tool for the job that has yet to find the rarest role with the jobs to be done for the tool.” The widest tier, verbatim lived signal."},
+    {lv:"Tier 1 · Ground", nm:"Third-party footing", fid:"",
+     body:"Amy independently named the pair (“you’re the unicorn”), raised the comp floor unprompted. Her own profile is the ICP: operator-turned-gatekeeper. Not self-asserted."},
+    {lv:"Tier 2 · Unit", nm:"The atomic mechanism", fid:"",
+     body:"{ role shape } × { gatekeeper: internal | external } × { candidate = User0 } → pitch. Internal/external is the routing key; air-gap = argument-ownership-by-vertex; the triad-closer is a pair."},
+    {lv:"Tier 3 · Field", nm:"The dynamics: magnetize", fid:"",
+     body:"Two scales of magnet: the field (broad) and the forge (per-triad). Outbound seeds, magnetism harvests. Oddness is the selectivity: full-fidelity emission repels common jobs."},
+    {lv:"Tier 4 · Decision", nm:"The forward bet, YELLOW", fid:"yl",
+     body:"Naming is GREEN (arc-weld: the call, the built+audited forge, five real founder-notes). That emitting the invariant produces inbound is unproven: rendered at degraded fidelity on purpose. Blacksmith is the live test."},
+    {lv:"Apex · Invariant", nm:"Sovereign zero", fid:"ap",
+     body:"You are not fitting a tool to jobs. You are the invariant. State it once at full fidelity, and emit it so the one job that needs exactly it finds you. User0 → User1 = the ARCS talent-placement primitive."},
+  ];
+  const PRESETS={plan:[0,45], iso:[56,42], orbit:[74,32]};
+  const plane=document.getElementById('plane');
+  const N=TIERS.length;
+  // build plates: base widest+lowest, apex smallest+highest
+  const plates=TIERS.map((t,i)=>{
+    const W=300-i*32, Z=i*42;
+    const el=document.createElement('div');
+    el.className='plate'+(t.fid?(' '+t.fid):'');
+    el.style.width=W+'px'; el.style.height=W+'px';
+    el.dataset.i=i; el.dataset.z=Z;
+    el.innerHTML='<span class="pl">'+t.lv.replace(/·/g,'&middot;')+'</span>';
+    el.addEventListener('click',()=>{document.getElementById('alt').value=i; setFocus(i);});
+    plane.appendChild(el);
+    return el;
+  });
+  let tilt=PRESETS.iso[0], rot=PRESETS.iso[1], zoom=1;
+  const stage=plane.parentElement;
+  function placeCam(glide){
+    plane.style.transition = glide ? 'transform .55s cubic-bezier(.16,1,.3,1)' : 'none';
+    plane.style.transform='scale('+zoom.toFixed(3)+') rotateX('+tilt+'deg) rotateZ('+rot+'deg)';
+  }
+  // grab-to-orbit (canonical louisville #stage interaction)
+  let drag=null;
+  stage.addEventListener('pointerdown',e=>{ if(e.target.closest('.plate')) return; drag={x:e.clientX,y:e.clientY,tilt,rot}; stage.classList.add('grabbing'); try{stage.setPointerCapture(e.pointerId);}catch(_){}; document.querySelectorAll('#cam .chip').forEach(x=>x.classList.remove('on')); });
+  stage.addEventListener('pointermove',e=>{ if(!drag) return; rot=drag.rot+(e.clientX-drag.x)*0.4; tilt=Math.max(0,Math.min(85,drag.tilt+(e.clientY-drag.y)*0.3)); placeCam(false); });
+  const endDrag=()=>{ if(drag){drag=null; stage.classList.remove('grabbing');} };
+  stage.addEventListener('pointerup',endDrag); stage.addEventListener('pointercancel',endDrag);
+  // scroll-to-zoom
+  stage.addEventListener('wheel',e=>{ e.preventDefault(); zoom=Math.max(0.55,Math.min(1.9, zoom - e.deltaY*0.0012)); placeCam(false); },{passive:false});
+  function setFocus(f){
+    const a=+document.getElementById('ap').value;   // 1 shallow .. 5 deep
+    const spread=6-a;                                // shallow => steep falloff
+    let inField=0;
+    plates.forEach((el,i)=>{
+      const d=Math.abs(i-f);
+      const raw=d*spread;
+      let fc = raw===0?0 : raw<=2?1 : raw<=4?2 : 3;
+      if(fc<=1) inField++;
+      el.classList.remove('f0','f1','f2','f3','on');
+      el.classList.add('f'+fc);
+      if(i===f) el.classList.add('on');
+      const lift = i===f ? 26 : 0;
+      el.style.transform='translate(-50%,-50%) translateZ('+((+el.dataset.z)+lift)+'px)';
+    });
+    const t=TIERS[f];
+    const p=document.getElementById('panel');
+    p.className='readpanel'+(t.fid?(' '+t.fid):'');
+    p.innerHTML='<div class="rl"><span class="rlv">'+t.lv+'</span><span class="rnm">'+t.nm+'</span></div><div class="rbody">'+t.body+'</div>';
+    const fidWord = t.fid==='yl'?'degraded (YELLOW floor)' : t.fid==='ap'?'sharp (apex)' : 'sharp';
+    document.getElementById('apr').innerHTML='focal altitude: tier '+f+' &middot; aperture: '+(a>=4?'deep':a<=2?'shallow':'mid')+' &middot; '+inField+' of '+N+' tiers within field &middot; focus fidelity: '+fidWord;
+    document.getElementById('altlab').textContent='Altitude · focal tier ('+f+' of '+(N-1)+')';
+  }
+  document.getElementById('alt').addEventListener('input',e=>setFocus(+e.target.value));
+  document.getElementById('ap').addEventListener('input',()=>setFocus(+document.getElementById('alt').value));
+  document.querySelectorAll('#cam .chip').forEach(c=>c.addEventListener('click',()=>{
+    document.querySelectorAll('#cam .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on'); const p=PRESETS[c.dataset.cam]; tilt=p[0]; rot=p[1]; zoom=1; placeCam(true);
+  }));
+  placeCam(true); setFocus(5);
+})();
+</script>
+</body></html>

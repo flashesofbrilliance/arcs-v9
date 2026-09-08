@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Probably Confirmation Bias, Might Delete Later · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding:52px 0 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Status: might delete later</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The monument I built to a conclusion I liked</p>
+    <h1>Probably Confirmation Bias, Might Delete Later</h1>
+    <p class="standfirst">I spent a day turning a flattering hunch about myself into an architecture: a decision record, a map you could orbit. The more beautiful it got, the more suspicious I should have been.</p>
+    <p class="byline">Field notes, receipts included · the only subject here is the author and the artifact</p>
+  </header>
+
+  <section>
+    <span class="num">I · The hunch</span>
+    <p class="lead">The hunch is old and flattering: that I am an unusual shape, that the combination is rarer than the parts, that the whole is worth more than the sum. It is the kind of thing you are not supposed to say out loud. So instead of saying it, I did something worse. I built it a house.</p>
+    <p>In a day it had an architecture. A decision record with a number. A specification. A stepped thing you could orbit with the mouse and watch resolve from fog to a single point at the top. Every hour I spent on it, the hunch felt more true. That feeling was the whole problem, and it took most of the day to notice why.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Elaboration is not evidence</span>
+    <p>Here is the tell I missed for hours: the better it looked, the more certain I became, and the two had nothing to do with each other. A render budget is not a proof. Beauty is what a conclusion buys with attention once you have decided you like it, and attention is exactly what a flattering conclusion gets for free. The monument was real. What it demonstrated was that I had taste and an afternoon, not that the thesis underneath it was true.</p>
+    <p>The corpus already has a name for this, and I had recited it a dozen times without feeling it. Coherence is what forgery maximizes. The tidier the story, the more it needs the check, not less, because tidiness is the thing a true account and a self-serving one both compete to produce. Mine read beautifully. That should have moved the needle toward suspicion, and instead it moved the needle toward pride.</p>
+    <blockquote>A conclusion you find beautiful is a conclusion you should search twice. The pleasure is not evidence. The pleasure is the thing evidence has to survive.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · The name that told the truth</span>
+    <p>So I gave the thing a name that was honest about it: probably confirmation bias, might delete later. Not a caption. A verdict, filed with the artifact, inside the artifact. Because the signature move of self-mythology is that it never says this. It builds the monument, steps back, and admires. It does not date the monument or reserve the right to knock it down.</p>
+    <p>The label was the first honest thing in the whole build, and it cost nothing, which is its own small warning. An honesty that costs nothing is easy to perform and easy to fake. Naming a bias out loud feels like escaping it and is not the same thing at all. So the name was necessary and nowhere near sufficient. It bought me the right to keep looking, not the right to stop.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · The one thing bias cannot do</span>
+    <p>The name was cheap. The next part was not, and it is the only part I would defend. The artifact wrote down, in its own record, the specific things that would prove it wrong. Not hedges. Falsifiers. Concrete conditions under which the flattering thesis is simply false and I would have to put it down.</p>
+    <div class="panel">
+      <h4>The ledger: what would prove the flattering thesis false</h4>
+      <div class="step">
+        <span class="k">Falsifier</span><b>If the thing I claim only I can do turns out to be a thing many people do just as well, it was never rare. That is fit, not edge.</b>
+        <span class="k">Falsifier</span><b>If sanding the odd parts off to look broadly useful works <em>better</em> than leaning into them, the oddness was a liability I was flattering, not a moat.</b>
+        <span class="k">Falsifier</span><b>If nothing ever comes toward the work on its own and I only ever chase, the pull I claimed does not exist. A magnet you have to carry is not a magnet.</b>
+      </div>
+      <p>Three loaded guns, each pointed at the conclusion I most wanted to keep. That is the part bias cannot counterfeit.</p>
+    </div>
+    <p>Confirmation bias is not a failure to argue well. It is a machine for protecting a conclusion, and a stated falsifier is the one thing that machine cannot manufacture, because a falsifier is a way for the conclusion to lose. Bias builds the monument and never signs the demolition permit. A belief that hands you the permit itself is doing something bias is structurally unable to do.</p>
+    <blockquote>Confirmation bias builds the monument and never signs the demolition permit. The tell that a belief might survive is that it hands you the permit itself.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">V · Necessary, not sufficient</span>
+    <p>This is where I have to stop myself, because the move I just made is exactly the kind that feels like winning and is not. Shipping falsifiers does not make the thesis true. It makes it honest. A hunch that can be killed is still only a hunch until the world takes an actual swing at it. All the falsifiers did was move the thing from a flattering story to a testable claim, which is a real upgrade and a small one. Testable is not tested. Unproven is not confirmed, and the whole discipline is in refusing to let the relief of the first feel like the arrival of the second.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · Even the falsifiers are mine</span>
+    <p>And even the falsifiers are mine. I wrote them, from inside the same frame that produced the thesis, which means they might be soft on purpose in ways I cannot see, aimed politely to the left of the conclusion so nothing important is ever in the line of fire. A loop has no outside. I have written that sentence before, about a different self-audit, and here it is again wearing a nicer suit.</p>
+    <p>The only test that counts is the one I do not control: the world declining to behave the way the flattering story needs it to. A conclusion about yourself is the hardest possible ground to reach honestly, because you are standing on it. Until the world swings, or refuses to, the artifact stays exactly where it belongs, in the trench notes, dated and reelable, might delete later and meaning it.</p>
+    <blockquote>One strand grading itself makes a loop, and a loop has no outside. The story you tell about yourself is the loop with the highest walls.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VII · What earned a place</span>
+    <p>Nothing from that day earned canon. Not the record, not the map, not the clever name. The monument earned no promotion, and naming the bias earned no exemption from it, because naming a bias and escaping one feel almost identical from the inside. The single thing that earned a place is the falsifier list, and it earned it precisely because it is the only part that can lose. Everything else was decoration on a conclusion I already wanted.</p>
+    <p>So the artifact keeps its honest, ridiculous name. And the only thing that will decide is not how good the map looks when I orbit it at two in the morning. It is whether the world, over the next while, does any of the three things that would prove the whole pretty structure false.</p>
+    <blockquote>A story about yourself that cannot be killed is not a strength. It is the most comfortable place in the world to be wrong.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>

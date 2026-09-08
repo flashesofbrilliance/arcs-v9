@@ -1,0 +1,26 @@
+{
+  "_doc": "DEWY receipt for the 2026-09-08 champion-sourcing / magnetization session (worktree quirky-taussig-946b8d). Promoted live from the witness stub (_STATE/witness/2026-09-08.jsonl) at Zach's call: 'witness, mint, print, and create an ADR, DEWY and wisdom receipt all in one.' Receipt -> ADR-077 -> wisdom memory champion-fit-heuristic. Germinated from amy-call-validated-rare-pair.",
+  "session_ts": "2026-09-08",
+  "receipts": [
+    {
+      "receipt_id": "2026-09-08-prime-invariant-reverse-jtbd",
+      "surface": "the job search as a placement primitive (User0)",
+      "sharp_question": "What is actually being placed, by what search arrow, and how does it get found without linear outbound labor?",
+      "dewy_vector": {
+        "D": "User0 (Zach) is the prime invariant, and the arrow inverts: not tool-for-the-job (fit) but role-for-the-tool (leverage) -- find the JTBD unsatisfiable without this exact combination. Oddness is the selectivity, emit at full fidelity, never sand it off. Atomic unit = {role shape} x {gatekeeper: internal|external} x {candidate=User0} -> pitch (the projection); internal/external is the routing key; air-gap = argument-ownership-by-vertex; the triad-closer is a PAIR (founder forge + air-gapped recruiter enablement). Magnetize: emit the invariant (field + forge scales) so the basin falls in. Class, not one-off: User0 -> User1 = the general ARCS talent-placement primitive.",
+        "E": "No new engine. Names/binds built artifacts: forge public/blacksmith.html (blacksmith.arcs.care, audited to close the triad + 'to sunset' ownership mirror landed); two-tier enablement public/recruithaus.html + gated recruithaus-ammo (recruithaus.arcs.care/ammo); specs _STATE/job-search/{champion-fit-heuristic,champion-icp-atoms,magnetization-spec}.md. Reverse-JTBD detector target = the 5 Blacksmith founder-notes via Amy.",
+        "W": "YEARS. Operating law for the job search; constitutional for the placement primitive. Revisit if a role converts that many candidates could fill (leverage breaks), the field never produces inbound (magnet is metaphor), or User1 generalization surfaces a new leg.",
+        "Y": "GREEN on the naming / YELLOW on the forward efficacy bet. GREEN grounds: Amy independently validated the rare pair on the call (third-party); the forge is built + audited to close the triad; the 5 founder-notes are real JTBD in the decider's words (arc-weld, three vantages). YELLOW: magnetize->inbound is unproven, Blacksmith is the live test; canonize the frame, not the outcome (ROM-graduation: earn through the gate, never decree)."
+      },
+      "evidence": [
+        "witness stub _STATE/witness/2026-09-08.jsonl (verbatim, y=GREEN)",
+        "Amy call recoil _ARTIFACTS/resume-blacksmith/recruiter-recoil-report.md ('you're the unicorn'; comp floor raised unprompted; 'no matter where we sent you') = third-party validation of the pair",
+        "Amy LinkedIn profile (Downloads PDF, read this session): headline 'Building High-Performing Teams...', career = EVP Client Success (60+ org, 8 acquisitions/2yr) -> retained/boutique search = the operator-turned-gatekeeper ICP",
+        "forge audit 2026-09-08: blacksmith.arcs.care is founder-aimed + stands alone + checkable proof; the recruiter register is correctly air-gapped into recruithaus.arcs.care(/ammo) -- triad-closer is a pair",
+        "JTBD coverage map: notes 2/3/4 answered on the forge; note 5 (maturity>size) placed in the recruiter pitch ('sleeper-signal'); note 1 (ownership to sunset) was the one unmirrored decider-phrase -> fixed on the forge this session",
+        "oracle: python3 scripts/oracle.py next adr -> 77; _SEEDS/_oracle.json committed with the ADR"
+      ],
+      "wisdom": "You are not fitting a tool to jobs; you are the invariant. State it once at full fidelity and emit it so the one job that needs exactly it finds you. Sanding the oddness to look applicable is the failure mode, not the strategy -- the oddness is the selectivity. An external gatekeeper multiplies reach only when you hand them a self-emitting object aimed past them at the decider, with the sensitive re-sell air-gapped by which vertex owns the argument. Mirror the decider's own distinctive words back ('to sunset'); recognition is what makes the pull feel effortless."
+    }
+  ]
+}
