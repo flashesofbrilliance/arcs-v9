@@ -19,7 +19,7 @@ const BEVEL = "inset 0 1px 0 #ffffff1a, inset 0 -2px 8px #00000080, 0 5px 16px #
 export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean }
 export type Stage = { verb: string; label: string; print: string; sla?: string; count: number; items: StageItem[]; empty?: string }
 export type Src = { key: string; label: string; adapter: string; status: string; lastRunAt: string | null; pollWindow: string | null; note: string | null }
-export type Req = { fromDate: string | null; toDate: string | null; status: string; rowsAdded: number | null; requestedAt: string; note: string | null }
+export type Req = { fromDate: string | null; toDate: string | null; query: string | null; status: string; rowsAdded: number | null; requestedAt: string; note: string | null }
 export type OutcomeRow = { jobid: string; company: string; fate: string; predicted: string; actual: string; honesty: string }
 export type Corr = { learned: string; pattern: string | null; avoid: string | null; logic: string | null }
 export type LaneData = { stages: Stage[]; sources: Src[]; requests: Req[]; outcomes: OutcomeRow[]; corrections: Corr[]; live: string }
@@ -119,12 +119,13 @@ function LaneView({ data }: { data: LaneData }) {
 function Sources({ data }: { data: LaneData }) {
   const router = useRouter()
   const [sourceKey, setSourceKey] = useState(data.sources[0]?.key ?? "")
-  const [from, setFrom] = useState(""); const [to, setTo] = useState(""); const [busy, setBusy] = useState(false)
+  const [from, setFrom] = useState(""); const [to, setTo] = useState(""); const [query, setQuery] = useState(""); const [busy, setBusy] = useState(false)
+  const [filed, setFiled] = useState<{ query: string; from: string; to: string } | null>(null)
   async function run() {
-    if (!sourceKey) return; setBusy(true)
+    if (!sourceKey) return; setBusy(true); setFiled(null)
     try {
-      await fetch("/api/jobs/lane", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sourceKey, fromDate: from || null, toDate: to || null }) })
-      router.refresh()
+      const r = await fetch("/api/jobs/lane", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sourceKey, fromDate: from || null, toDate: to || null, query: query.trim() || null }) })
+      if (r.ok) { setFiled({ query: query.trim(), from, to }); setQuery(""); router.refresh() }
     } finally { setBusy(false) }
   }
   const ctl: React.CSSProperties = { minHeight: 36, padding: "0 10px", background: "linear-gradient(180deg,#090d12,#0c1219)", border: "1px solid #1c2736", borderRadius: 5, color: fg1, font: "inherit", fontSize: 13 }
@@ -150,17 +151,24 @@ function Sources({ data }: { data: LaneData }) {
         <span style={lab}>Run a search</span>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
           <select aria-label="Source" value={sourceKey} onChange={(e) => setSourceKey(e.target.value)} style={ctl}>{data.sources.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}</select>
+          <input type="search" aria-label="Title or keyword" placeholder="Title or keyword (optional)" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") run() }} style={{ ...ctl, flex: "1 1 180px", minWidth: 160 }} />
           <input type="date" aria-label="From" value={from} onChange={(e) => setFrom(e.target.value)} style={{ ...ctl, colorScheme: "dark" }} />
           <input type="date" aria-label="To" value={to} onChange={(e) => setTo(e.target.value)} style={{ ...ctl, colorScheme: "dark" }} />
           <button type="button" onClick={run} disabled={busy} style={{ ...ctl, minHeight: 36, color: "#b9e8f4", borderColor: "#00F0FF3a", cursor: busy ? "default" : "pointer", opacity: busy ? 0.6 : 1, fontFamily: mono, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase" }}>{busy ? "filing…" : "Run a search"}</button>
         </div>
-        <span style={{ fontSize: 12, color: fg2 }}>Files an ingest request over that window. The sweep picks it up; new rows appear in Research.</span>
+        {filed ? (
+          <div role="status" style={{ display: "flex", gap: 8, alignItems: "baseline", padding: "8px 10px", borderRadius: 5, border: "1px solid #00FF9d3a", background: "linear-gradient(165deg,#00FF9d0a,#00000030)", fontSize: 12, color: fg1 }}>
+            <span style={{ fontFamily: mono, color: "#00FF9d", fontSize: 11 }}>QUEUED</span>
+            <span style={{ color: fg2 }}>Filed <b style={{ color: fg1, fontWeight: 500 }}>{filed.query || "all titles"}</b>{filed.from || filed.to ? <> · {filed.from || "…"} → {filed.to || "…"}</> : " · full window"}. The sweep pulls only <b style={{ color: fg1, fontWeight: 500 }}>net-new</b> postings (deduped against the board) into Research.</span>
+          </div>
+        ) : <span style={{ fontSize: 12, color: fg2 }}>Files an ingest request over that window and title. The sweep picks it up and pulls net-new rows (deduped against the board) into Research.</span>}
         <div style={{ marginTop: 6 }}>
           <span style={{ ...lab, fontSize: 10 }}>Request history</span>
           <ul style={{ listStyle: "none", margin: "8px 0 0", padding: 0 }}>
             {data.requests.length === 0 ? <li style={{ color: fg2, fontSize: 12 }}>none yet</li> : data.requests.map((r, i) => (
               <li key={i} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: `1px dashed ${border.subtle}`, fontSize: 12, fontFamily: mono, color: fg2 }}>
                 <span style={{ minWidth: 96, color: fg1 }}>{r.fromDate ?? "…"} → {r.toDate ?? "…"}</span>
+                {r.query && <span style={{ color: fg1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 140 }} title={r.query}>&ldquo;{r.query}&rdquo;</span>}
                 <span style={{ color: statusDot[r.status] ?? fg2 }}>{r.status}</span>
                 <span style={{ marginLeft: "auto" }}>{r.rowsAdded != null ? `${r.rowsAdded} rows` : ""}</span>
               </li>
