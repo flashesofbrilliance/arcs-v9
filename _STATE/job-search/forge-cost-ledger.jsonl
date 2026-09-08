@@ -60,3 +60,7 @@
 {"date":"2026-09-08","target":"american-express-director-digital-produc","stage":"edit-from-seed","seed":"basis-gtm-engineer","in_tokens":1145,"out_tokens":1919,"metered":true}
 {"date":"2026-09-08","target":"venn-forward-deployed-engineer","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":800,"out_tokens":2187,"metered":true}
 {"date":"2026-09-08","target":"maven-agi-senior-solutions-engineer","stage":"edit-from-seed","seed":"camunda-ai-process-forward-deployed-engi","in_tokens":1283,"out_tokens":2376,"metered":true}
+{"ts":"2026-09-08T16:48:32Z","kind":"score_sweep","rows":22,"tokens_in":25459,"tokens_out":3563,"cache_read":0,"est_usd":0.04,"actual_usd":0.04,"note":"Haiku score of 22 new re-pull rows"}
+{"ts":"2026-09-08T16:48:32Z","kind":"forge_edit_from_seed","jobid":"4461755202","seed":"morgan-stanley-devgen","est_usd":0.02,"actual_usd":0.02,"outcome":"QC_FAIL pages=3 sv=true — not marked built"}
+{"ts":"2026-09-08T16:48:32Z","kind":"forge_edit_from_seed","jobid":"4290145549","seed":"morgan-stanley-devgen","est_usd":0.02,"actual_usd":0.02,"outcome":"QC_FAIL pages=3 sv=true — not marked built"}
+{"ts":"2026-09-08T16:48:32Z","kind":"forge_edit_from_seed","jobid":"4459741823","seed":"morgan-stanley-devgen","est_usd":0.02,"actual_usd":0.02,"outcome":"QC_FAIL pages=3 sv=true — not marked built"}
