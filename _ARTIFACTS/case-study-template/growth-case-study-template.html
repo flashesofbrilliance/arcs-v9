@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Growth Case Study — Reusable Template (Asset-Manager framing)</title>
+<!--
+  ============================================================================
+  GROWTH CASE STUDY — REUSABLE BLANK TEMPLATE
+  ----------------------------------------------------------------------------
+  Repurposed from the canonical "Ideal Protein Growth Case" deck (Z. Harris, 2021).
+  This is a REDACTED / GENERICIZED template — every client specific has been
+  swapped for a placeholder, framed for an asset-manager / financial-services
+  prospect (e.g. Grayscale). NOT a client-ready deck until the placeholders are
+  filled and a live/tailored pass is run.
+
+  HOW TO RE-SKIN (turn this blank into a live deck):
+    1. Global brand color .......... change  --accent  below (one value).
+    2. Client name / logo .......... find & replace  [CLIENT]  and the
+                                      "[CLIENT LOGO]" marks on slides 1 & 18.
+    3. Tagline ..................... replace  [BRAND TAGLINE].
+    4. Firmographics ............... [HQ] [YYYY] $XXB AUM [NN]-country/jurisdiction.
+    5. Segments / personas ......... [SEGMENT] [PERSONA A/B] [CHANNEL].
+    6. Metrics ..................... fill the masked tokens:
+         +XX%  (percentages)   ·  +XX (NPS)  ·  X,XXX (counts / ms)  ·  $XXB (AUM)
+       Source (real IP numbers, DO NOT ship un-generalized): +40% PQL,
+       +30% lead/form-fill, +63% match success (<5mi), TTI 6,794ms->1,796ms,
+       +23 NPS, +15.8% new-unit CAGR, 64-country, $350MM ARR.
+    7. Roster ...................... names/titles stay anonymized by design.
+
+  MASKING VOCABULARY (keep consistent):  $XXB · +XX% · +XX · X,XXX · [BRACKETS]
+  ============================================================================
+-->
+<style>
+  :root{
+    --accent:#E8452E;          /* single re-skin knob: brand primary */
+    --accent-soft:#f6b8ab;
+    --ink:#1a1a1a;
+    --muted:#5f6b76;
+    --line:#e6e8ea;
+    --paper:#ffffff;
+    --deck-bg:#3a3d42;
+    --slide-w:1280px;
+    --slide-h:720px;
+    --sans:"Helvetica Neue",Helvetica,Arial,"Segoe UI",Roboto,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--deck-bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:34px 18px 70px}
+
+  /* ---------- slide frame ---------- */
+  .slide{
+    position:relative;width:var(--slide-w);height:var(--slide-h);
+    background:var(--paper);overflow:hidden;
+    box-shadow:0 18px 50px rgba(0,0,0,.38);border-radius:2px;
+    flex:0 0 auto;
+  }
+  .slide-num{position:absolute;bottom:10px;right:14px;font-size:11px;color:#c7ccd1;letter-spacing:.04em}
+  .footer{position:absolute;bottom:14px;left:0;right:0;text-align:center;
+    font-size:10px;letter-spacing:.12em;color:#9aa0a6;font-weight:700}
+
+  /* corner tab (section label, top-left) */
+  .tab{position:absolute;top:0;left:0;height:88px;min-width:290px;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:flex-start;padding:26px 60px 0 40px;
+    font-size:13px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+    clip-path:polygon(0 0,100% 0,calc(100% - 34px) 100%,0 100%);
+  }
+  .tab.dark{background:transparent;color:var(--ink);clip-path:none;padding:34px 0 0 44px}
+
+  /* client mark (top-right) */
+  .mark{position:absolute;top:30px;right:44px;text-align:right;line-height:1}
+  .mark .logo{display:inline-flex;align-items:center;gap:8px;
+    border:1.5px dashed #c2c7cc;border-radius:5px;padding:7px 12px;
+    font-weight:900;letter-spacing:.06em;color:var(--ink);font-size:15px}
+  .mark .logo .dot{width:14px;height:14px;border-radius:50%;background:var(--accent);display:inline-block}
+  .mark .tag{margin-top:6px;font-family:var(--serif);font-size:10px;letter-spacing:.18em;color:var(--muted)}
+
+  /* headings */
+  h1.title{font-size:44px;font-weight:800;letter-spacing:-.01em}
+  h1.title .thin{font-weight:400;color:#2b2b2b}
+  .kicker{color:var(--accent)}
+  .body-region{position:absolute;left:520px;right:70px;top:120px}
+  .lede{position:absolute;left:44px;right:70px;top:118px}
+
+  /* text blocks */
+  .blk{margin-top:26px;font-size:20px;line-height:1.5;color:#22262b}
+  .blk b{font-weight:800;color:var(--ink)}
+  .list{margin-top:14px;list-style:none}
+  .list li{font-size:19px;line-height:1.95;color:#22262b}
+  .list li::before{content:"–  ";color:#22262b}
+
+  /* device / image placeholders */
+  .ph{background:linear-gradient(135deg,#f3f4f6,#e9ebee);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:#aeb4ba;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  .ph-photo{position:absolute;left:70px;top:118px;width:360px;height:484px;border-radius:14px;
+    box-shadow:0 10px 26px rgba(0,0,0,.14)}
+  .accent-band{position:absolute;left:0;bottom:0;height:210px;width:100%;background:var(--accent)}
+  .phone{position:absolute;left:150px;top:120px;width:270px;height:520px;border-radius:34px;
+    background:#111;border:9px solid #16181b;box-shadow:0 14px 30px rgba(0,0,0,.28)}
+  .phone .scr{position:absolute;inset:9px;border-radius:26px;background:#fafafa}
+  .rail{position:absolute;left:0;top:0;bottom:0;width:440px;background:var(--accent);color:#fff;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 40px}
+  .rail h2{font-size:40px;font-weight:800;line-height:1.08;margin-bottom:26px}
+  .rail .word{font-size:22px;line-height:2.0;opacity:.96}
+
+  /* two-column challenge/solve rows */
+  .cols{position:absolute;left:44px;right:60px;top:150px;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .col .ic{font-size:26px;color:var(--accent);margin-bottom:12px}
+  .col h3{font-size:21px;font-weight:800;margin-bottom:14px}
+  .col .list li{font-size:16px;line-height:1.75}
+  .imgstrip{position:absolute;left:44px;right:44px;bottom:52px;height:200px;border-radius:14px}
+
+  /* phase timeline */
+  .timeline{position:absolute;left:60px;right:60px;top:250px}
+  .tl-line{position:relative;height:2px;background:var(--accent-soft);margin:64px 40px}
+  .tl-node{position:absolute;top:-9px;width:20px;height:20px;border-radius:50%;
+    border:4px solid var(--accent);background:#fff;transform:translateX(-50%)}
+  .tl-lab{position:absolute;font-size:22px;transform:translateX(-50%);white-space:nowrap}
+  .tl-lab b{font-weight:800}
+  .tl-lab .thin{font-weight:400;color:#3a3f45}
+  .phase-band{position:absolute;left:0;bottom:0;height:210px;width:100%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center}
+  .phase-band span{color:#fff;font-size:38px;font-weight:800}
+
+  /* roster */
+  .roster{position:absolute;left:500px;right:56px;top:150px;
+    display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
+  .person{display:flex;gap:16px;align-items:center}
+  .avatar{width:60px;height:60px;border-radius:50%;flex:0 0 auto;
+    background:radial-gradient(circle at 50% 38%,#cfd4d9 0 38%,#e7eaed 39% 100%);
+    position:relative;border:1px solid var(--line)}
+  .avatar::after{content:"";position:absolute;left:50%;bottom:8px;transform:translateX(-50%);
+    width:34px;height:22px;border-radius:16px 16px 0 0;background:#cfd4d9}
+  .person .nm{font-size:17px;font-weight:800;line-height:1.15}
+  .person .rl{font-size:13px;color:var(--muted);margin-top:3px}
+  .anon-note{position:absolute;right:56px;bottom:38px;font-size:12px;color:var(--muted)}
+  .anon-note b{color:var(--ink)}
+
+  /* insight callouts (WP plugin slide) */
+  .callout{position:absolute;width:300px;border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+  .callout .num{position:absolute;top:8px;right:14px;font-size:30px;font-weight:800;color:var(--accent-soft)}
+  .callout .ins{font-size:13px;color:var(--muted);font-weight:700}
+  .callout .hd{font-size:16px;font-weight:800;margin:6px 0 5px;line-height:1.18}
+  .callout .sub{font-size:12px;color:#4a5157;line-height:1.4}
+
+  /* stat grid */
+  .stats{position:absolute;left:44px;right:60px;top:250px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:44px 40px}
+  .stat .ic{font-size:22px;color:var(--ink);margin-bottom:10px}
+  .stat .big{font-size:56px;font-weight:700;color:var(--accent);line-height:1}
+  .stat .cap{margin-top:10px;font-size:17px;font-weight:800;color:var(--ink)}
+
+  /* title + close slides */
+  .cover{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+  .cover .biglogo{display:inline-flex;align-items:center;gap:16px;
+    border:2px dashed #c2c7cc;border-radius:10px;padding:18px 26px;
+    font-size:40px;font-weight:900;letter-spacing:.04em}
+  .cover .biglogo .dot{width:34px;height:34px;border-radius:50%;background:var(--accent)}
+  .cover .subtag{font-family:var(--serif);font-size:15px;letter-spacing:.22em;color:var(--muted);margin-top:14px}
+  .cover .ct{margin-top:54px;font-size:30px;font-weight:800;letter-spacing:.02em}
+  .cover .by{margin-top:10px;font-size:19px;letter-spacing:.18em;color:var(--muted)}
+
+  /* chart */
+  .chart-wrap{position:absolute;left:44px;right:44px;top:210px}
+  .chart-intro{position:absolute;left:44px;right:60px;top:126px;font-size:16px;line-height:1.55;color:#3a3f45}
+
+  /* screen banner */
+  .banner{position:fixed;top:0;left:0;right:0;z-index:50;background:#111318;color:#e7eaed;
+    font-size:12px;letter-spacing:.04em;padding:7px 16px;display:flex;justify-content:space-between;
+    box-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .banner b{color:#ffd15c}
+  .banner .r{color:#9aa0a6}
+
+  @media print{
+    :root{--deck-bg:#fff}
+    .banner{display:none}
+    .deck{gap:0;padding:0}
+    .slide{box-shadow:none;border-radius:0;page-break-after:always;break-after:page}
+    @page{size:1280px 720px;margin:0}
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <span><b>TEMPLATE — NOT CLIENT-READY.</b> Fill placeholders + run a live/tailored pass before sending.</span>
+  <span class="r">Print → Save as PDF (landscape, no margins) to export.</span>
+</div>
+
+<div class="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide">
+    <div class="cover">
+      <div class="biglogo">[CLIENT&nbsp;LOGO] <span class="dot"></span></div>
+      <div class="subtag">[ B R A N D &nbsp; T A G L I N E ]</div>
+      <div class="ct">GROWTH CASE STUDY</div>
+      <div class="by">BY ZACH HARRIS</div>
+    </div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">01</div>
+  </section>
+
+  <!-- 2 · OVERVIEW -->
+  <section class="slide">
+    <div class="ph ph-photo">[ HERO IMAGE ]</div>
+    <div class="accent-band"></div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span></div>
+    <div class="body-region">
+      <div style="font-size:26px;color:var(--accent);margin-bottom:8px">▣</div>
+      <h1 class="title" style="font-size:40px">Overview</h1>
+      <div class="blk" style="margin-top:18px"><b>This Case Study Includes:</b></div>
+      <ul class="list">
+        <li>Assignment &amp; Product Overview</li>
+        <li>Client Challenges Discovered</li>
+        <li>Strategic Initiatives Pursued</li>
+        <li>Workstream Overlap &amp; Collaboration</li>
+        <li>Outcomes &amp; Key Results</li>
+      </ul>
+    </div>
+    <div class="slide-num">02</div>
+  </section>
+
+  <!-- 3 · ASSIGNMENT & PRODUCT OVERVIEW -->
+  <section class="slide">
+    <div class="tab">Assignment &amp; Product Overview</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="phone" style="top:150px"><div class="scr ph" style="font-size:11px">[PRODUCT MOCKUP]</div></div>
+    <div class="body-region" style="left:520px;top:150px">
+      <h1 class="title" style="font-size:38px"><b>Agency Client:</b> <span class="thin">[CLIENT]</span></h1>
+      <div class="blk"><b>About:</b> [HQ], [NN]-Jurisdiction Footprint, Founded [YYYY], $XXB AUM</div>
+      <div class="blk"><b>Brief At A Glance:</b> Rebrand, redesign, rebuild &amp; relaunch of a leading [SEGMENT] asset manager under new Distribution, Marketing &amp; Board leadership following [ownership event]</div>
+      <div class="blk"><b>Brand Assets:</b> Brand identity, comms strategy &amp; positioning, collateral, [channel] footprint (+X,XXX), multi-locale site redesign/rebuild, [NN]+ product SKUs, platform reskin, [product] locator plugin</div>
+    </div>
+    <div class="slide-num">03</div>
+  </section>
+
+  <!-- 4 · CLIENT CHALLENGES DISCOVERED -->
+  <section class="slide">
+    <div class="tab">Client Challenges Discovered</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="phone" style="top:150px"><div class="scr ph" style="font-size:11px">[PRODUCT MOCKUP]</div></div>
+    <div class="body-region" style="left:520px;top:150px">
+      <h1 class="title" style="font-size:38px"><b>Agency Client:</b> <span class="thin">[CLIENT]</span></h1>
+      <div class="blk"><b>Commercial Challenges:</b> Low-quality leads, lack of actionable insight, limited org &amp; investor research, no segmentation strategy, knowledge gaps from personnel reshuffle</div>
+      <div class="blk"><b>Technical Challenges:</b> Technical debt, compliance blindspots ([WCAG + regulatory]), poor code documentation, no roadmap, lack of leadership, lack of best practices, high API failure rate</div>
+      <div class="blk"><b>Advisory Challenges:</b> Multi-layer approval process, misalignment on SEO &amp; SEM strategy, lack of agile project-management experience</div>
+    </div>
+    <div class="slide-num">04</div>
+  </section>
+
+  <!-- 5 · LEGACY SITE -->
+  <section class="slide">
+    <div class="tab dark">Client Challenges Discovered</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Legacy Site:</b> <span class="thin">Traffic, Goals, Architecture, Navigation</span></h1></div>
+    <div class="cols">
+      <div class="col">
+        <div class="ic">▧</div>
+        <h3>Unsegmented Traffic &amp; Out-of-Date Conversion Goals</h3>
+        <ul class="list">
+          <li>User journey lacked persona-based path by segment (i.e. [PERSONA A] / [PERSONA B])</li>
+          <li>Conversion goals failed to reflect evolved OKRs (i.e. leads &amp; form-fills)</li>
+          <li>No behavioral intelligence hindered ability to prioritize content &amp; features</li>
+          <li>Poor lead-qualification process created friction for [audience] &amp; [channel]</li>
+          <li>Lack of cohesive in-house web strategy translated to confusion vs. clarity</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="ic">⚓</div>
+        <h3>Poor Information Architecture &amp; User Navigation</h3>
+        <ul class="list">
+          <li>Majority of legacy content had low search volume &amp; zero conversion value</li>
+          <li>Old UI elements lacked responsive rules &amp; sub-navigation elements</li>
+          <li>URLs lacked consistency in meta-tagging, canonical structure &amp; site map</li>
+          <li>Poor editorial decisions led to high bounce rate &amp; limited return visits</li>
+          <li>Lack of clear, concise documented product &amp; design requirements</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ph imgstrip">[ IMAGE STRIP ]</div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">05</div>
+  </section>
+
+  <!-- 6 · LEGACY BACK-END -->
+  <section class="slide">
+    <div class="tab dark">Client Challenges Discovered</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Legacy Back-End:</b> <span class="thin">Old Tech Stack ≠ New Business Needs</span></h1></div>
+    <div class="cols">
+      <div class="col">
+        <div class="ic">❮❯</div>
+        <h3>Challenging Development Environment</h3>
+        <ul class="list">
+          <li>Unreliable client-side API with high end-point failure</li>
+          <li>Code lacked documentation &amp; adherence to best practices</li>
+          <li>Heavy reliance on 3rd-party tags slowed down performance</li>
+          <li>Inability to confidently deploy new code in a sandboxed environment</li>
+          <li>Lack of DevOps process or endpoint monitoring of uptime status</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="ic">◎</div>
+        <h3>Legacy Stack Hindered Experimentation &amp; Growth</h3>
+        <ul class="list">
+          <li>Branded &amp; unbranded campaigns clicked to a generic landing page</li>
+          <li>Lacked ability to make data-driven decisions for CTAs, buttons, copy, etc.</li>
+          <li>Old block editor was non-performative &amp; inflexible (poor WYSIWYG)</li>
+          <li>Generic landing-page heuristics were resource-guide, not conversion-focused</li>
+          <li>Old landing page lacked re-engagement &amp; search-retargeting capabilities</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ph imgstrip">[ IMAGE STRIP ]</div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">06</div>
+  </section>
+
+  <!-- 7 · STRATEGIC INITIATIVES / PHASES -->
+  <section class="slide">
+    <div class="tab dark">Strategic Initiatives Pursued</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="timeline">
+      <div class="tl-line">
+        <div class="tl-node" style="left:12%"></div>
+        <div class="tl-node" style="left:38%"></div>
+        <div class="tl-node" style="left:64%"></div>
+        <div class="tl-node" style="left:90%"></div>
+        <div class="tl-lab" style="left:12%;top:-72px"><b>Phase 1:</b> <span class="thin">Research &amp; Discovery</span></div>
+        <div class="tl-lab" style="left:38%;top:34px"><b>Phase 2:</b> <span class="thin">Strategy &amp; Org Alignment</span></div>
+        <div class="tl-lab" style="left:64%;top:-72px"><b>Phase 3:</b> <span class="thin">Rebrand &amp; Packaging</span></div>
+        <div class="tl-lab" style="left:90%;top:34px"><b>Phase 4:</b> <span class="thin">Redesign &amp; Relaunch</span></div>
+      </div>
+    </div>
+    <div class="phase-band"><span>Project Phases</span></div>
+    <div class="slide-num">07</div>
+  </section>
+
+  <!-- 8 · WORKSTREAM (RESEARCH & DISCOVERY) -->
+  <section class="slide">
+    <div class="rail">
+      <div style="position:absolute;top:26px;left:34px;font-size:13px;font-weight:800;letter-spacing:.11em;text-transform:uppercase">Strategic Initiatives Pursued</div>
+      <h2>Research &amp;<br>Discovery:</h2>
+      <div class="word">Competitive Intelligence</div>
+      <div class="word">Product Differentiation</div>
+      <div class="word">Brand + Org Health</div>
+      <div class="word">Agile On-Demand</div>
+      <div class="word">Design Thinking</div>
+      <div class="word">Disaster Check</div>
+      <div class="word">Product Lead</div>
+    </div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span></div>
+    <h1 class="title" style="position:absolute;left:500px;top:44px;font-size:34px;font-weight:800">Workstream Overlap &amp; Collaboration</h1>
+    <div class="roster">
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Director, [Distribution/Sales]</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">CMO, Board Observer</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Chief Information Officer, CTO</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">VP, Marketing &amp; Design</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Sr Manager, SEO &amp; Demand Gen</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">SVP, [Channel] Partnerships</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">[Owner/PE], Board Observer</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">VP, [Segment] Sales</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">[Owner/PE], Operational Excellence Analyst</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Sr Product Marketing Director</div></div></div>
+    </div>
+    <div class="anon-note"><b>Note:</b> Names &amp; titles have been anonymized for confidentiality</div>
+    <div class="slide-num">08</div>
+  </section>
+
+  <!-- 9 · WORKSTREAM (STRATEGY & ORG ALIGNMENT) -->
+  <section class="slide">
+    <div class="rail">
+      <div style="position:absolute;top:26px;left:34px;font-size:13px;font-weight:800;letter-spacing:.11em;text-transform:uppercase">Strategic Initiatives Pursued</div>
+      <h2>Strategy &amp;<br>Org Alignment:</h2>
+      <div class="word">Heuristics Audit</div>
+      <div class="word">Content Audit</div>
+      <div class="word">Persona Development</div>
+      <div class="word">CX Journey Mapping</div>
+      <div class="word">Wireframing</div>
+      <div class="word">Traffic Segmentation</div>
+      <div class="word">Split Testing</div>
+    </div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span></div>
+    <h1 class="title" style="position:absolute;left:500px;top:44px;font-size:34px;font-weight:800">Workstream Overlap &amp; Collaboration</h1>
+    <div class="roster" style="grid-template-columns:1fr 1fr;gap:52px 40px;top:170px">
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Director, [Distribution/Sales]</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Sr Manager, SEO &amp; Demand Gen</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">CMO, Board Observer</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">[Owner/PE], Board Observer</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">Chief Information Officer, CTO</div></div></div>
+      <div class="person"><div class="avatar"></div><div><div class="nm">[NAME]</div><div class="rl">[Owner/PE], Operational Excellence Analyst</div></div></div>
+    </div>
+    <div class="anon-note"><b>Note:</b> Names &amp; titles have been anonymized for confidentiality</div>
+    <div class="slide-num">09</div>
+  </section>
+
+  <!-- 10 · REBRAND -->
+  <section class="slide">
+    <div class="tab dark">Strategic Initiatives Pursued</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Rebrand:</b> <span class="thin">Corp Identity + Product UI Kit ([Jurisdiction] Compliance)</span></h1></div>
+    <div class="ph" style="position:absolute;left:150px;top:240px;width:360px;height:280px;border-radius:14px">[ TABLET MOCKUP ]</div>
+    <div class="ph" style="position:absolute;left:430px;top:200px;width:520px;height:330px;border-radius:12px">[ DESKTOP / PACKAGING MOCKUP ]</div>
+    <div class="ph" style="position:absolute;left:900px;top:230px;width:200px;height:400px;border-radius:26px">[ PHONE ]</div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">10</div>
+  </section>
+
+  <!-- 11 · RELAUNCH -->
+  <section class="slide">
+    <div class="tab dark">Strategic Initiatives Pursued</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Relaunch:</b> <span class="thin">Responsive Identity, Revamped Experience &amp; Plugin Rebuild</span></h1></div>
+    <div class="ph" style="position:absolute;left:140px;top:250px;width:340px;height:300px;border-radius:14px">[ TABLET — IDENTITY ]</div>
+    <div class="ph" style="position:absolute;left:420px;top:210px;width:520px;height:340px;border-radius:12px">[ DESKTOP — EXPERIENCE ]</div>
+    <div class="ph" style="position:absolute;left:900px;top:250px;width:200px;height:400px;border-radius:26px">[ PHONE — LOCATOR ]</div>
+    <div class="accent-band" style="height:150px;opacity:.14"></div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">11</div>
+  </section>
+
+  <!-- 12 · MANIFESTO QUOTE -->
+  <section class="slide">
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div style="position:absolute;left:120px;top:150px;width:640px;height:420px;background:var(--accent);border-radius:20px;
+         display:flex;align-items:center;padding:0 54px">
+      <div style="font-family:var(--serif);color:#fff;font-size:52px;line-height:1.12;letter-spacing:.01em">
+        [ BRAND <i style="color:#1a1a1a">MANIFESTO</i> LINE — THE ONE-SENTENCE PROMISE <i style="color:#1a1a1a">GOES HERE</i>. ]
+      </div>
+    </div>
+    <div class="ph" style="position:absolute;left:820px;top:210px;width:230px;height:430px;border-radius:26px">[ BUSINESS CARD / COLLATERAL ]</div>
+    <div class="slide-num">12</div>
+  </section>
+
+  <!-- 13 · DISCOVERY REVISITED -->
+  <section class="slide">
+    <div class="tab">Discovery Revisited</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="phone" style="top:150px"><div class="scr ph" style="font-size:11px">[PRODUCT MOCKUP]</div></div>
+    <div class="body-region" style="left:520px;top:150px">
+      <h1 class="title" style="font-size:38px"><b>Agency Client:</b> <span class="thin">[CLIENT]</span></h1>
+      <div class="blk" style="font-size:17px"><b>Commercial Solves:</b> Created 2-step lead-qualification process, branded &amp; unbranded search-traffic audit, conducted stakeholder research, defined new personas &amp; segments, codified artifact-documentation process &amp; knowledge-sharing tools</div>
+      <div class="blk" style="font-size:17px"><b>Technical Solves:</b> Fully rebuilt front-end &amp; back-end publishing experience, [WCAG + regulatory] compliance into new design system, implemented peer code review &amp; documentation, crafted roadmap collaboratively, implemented DevOps monitoring, fortified QA/UAT</div>
+      <div class="blk" style="font-size:17px"><b>Advisory Solves:</b> Established agile PMO cadence, alignment &amp; education on branded/unbranded keyword ops, managed dependencies &amp; hard deadlines by resourcing into client-side tech PMO</div>
+    </div>
+    <div class="slide-num">13</div>
+  </section>
+
+  <!-- 14 · OUTCOMES: NEW SITE -->
+  <section class="slide">
+    <div class="tab dark">Outcomes &amp; Key Results</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>New Site:</b> <span class="thin">Better UX, Better IA + CX ➜ Faster Time-to-Value</span></h1></div>
+    <div class="cols" style="top:170px">
+      <div class="col">
+        <div class="ic">〰</div>
+        <h3 style="font-size:19px">CRO-Optimized Design: <span style="font-weight:400;color:#3a3f45">Low bounce, higher conversion</span></h3>
+      </div>
+      <div class="col">
+        <div class="ic">🔗</div>
+        <h3 style="font-size:19px">CX Pathing Alignment: <span style="font-weight:400;color:#3a3f45">P0–P2s (Marketing, Sales, Compliance)</span></h3>
+      </div>
+    </div>
+    <ul class="list" style="position:absolute;left:44px;right:60px;top:250px">
+      <li><b>Content &amp; Usage Audit:</b> keyword audit for high-value, high-volume pages to identify intent-driven, commercially viable content for migration</li>
+      <li><b>Two-Step Lead Qualification:</b> turned [qualification tool] into an unbranded paid-media landing page to pre-qualify prospects by [threshold, e.g. accredited / suitability gate]</li>
+      <li><b>Simplified Journey &amp; CTA Testing:</b> distilled the user journey into a tight [B2B2C / B2C] microsite, split-testing CTAs and growing [locator] leads &amp; [advisor] form-fills</li>
+      <li><b>[WCAG + Regulatory] Compliance:</b> from design requirements to functional requirements — accessibility &amp; blind form-fills for potential PII were critical</li>
+      <li><b>Creative Enablement &amp; Testing Tools:</b> for landing-page development agility, leveraged [page builder + experiment + heatmap stack]</li>
+    </ul>
+    <div class="ph imgstrip">[ IMAGE STRIP ]</div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">14</div>
+  </section>
+
+  <!-- 15 · OUTCOMES: PLUGIN REBUILD INSIGHTS -->
+  <section class="slide">
+    <div class="tab dark">Outcomes &amp; Key Results</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span></div>
+    <div class="phone" style="left:505px;top:120px;width:250px;height:480px"><div class="scr ph" style="font-size:11px">[ LOCATOR MAP ]</div></div>
+
+    <div class="callout" style="left:44px;top:130px">
+      <div class="num">01</div>
+      <div class="ins">Insight: XX% of locator traffic via mobile users</div>
+      <div class="hd">Delivered responsive, mobile-first, [AMP]-optimized plugin</div>
+      <div class="sub">New version asynchronously leveraged [maps + client APIs]</div>
+    </div>
+    <div class="callout" style="left:44px;top:300px">
+      <div class="num">02</div>
+      <div class="ins">Insight: +XX% match success for [in-region &lt;5-unit] radius</div>
+      <div class="hd">Changed results logic by distance vs. [recency]</div>
+      <div class="sub">Front-end localized errors in [locales] for performance</div>
+    </div>
+    <div class="callout" style="left:44px;top:470px">
+      <div class="num">03</div>
+      <div class="ins">Insight: branded vs. unbranded search need different LP</div>
+      <div class="hd">Directed branded paid search to [locator] page</div>
+      <div class="sub">Simplified form schema, leveraged [reCaptcha + form stack]</div>
+    </div>
+    <div class="callout" style="right:44px;top:130px">
+      <div class="num">04</div>
+      <div class="ins">Insight: client API end-point failures made debugging tricky</div>
+      <div class="hd">Implemented [code fixer] &amp; [monitoring] for DevOps</div>
+      <div class="sub">Real-time monitoring &amp; lower run-time errors</div>
+    </div>
+    <div class="callout" style="right:44px;top:300px">
+      <div class="num">05</div>
+      <div class="ins">Insight: prior experience lacked language localization</div>
+      <div class="hd">Support native search for [region] postal formats</div>
+      <div class="sub">Responsive text schema built with [i18n] attributes &amp; meta tags</div>
+    </div>
+    <div style="position:absolute;right:44px;top:480px;width:290px">
+      <div style="font-size:26px;font-weight:800;margin-bottom:10px">Plugin Rebuild:</div>
+      <ul class="list"><li>Responsive Redesign</li><li>Mobile-Optimized UX</li><li>Grew Lead Quality + NPS</li></ul>
+    </div>
+    <div class="slide-num">15</div>
+  </section>
+
+  <!-- 16 · SUCCESS METRICS CHART -->
+  <section class="slide">
+    <div class="tab dark">Outcomes &amp; Key Results</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Success Metrics:</b> <span class="thin">Quarterly Growth Pre/Post Launch</span></h1></div>
+    <div class="chart-intro">One of the most impactful growth strategies was the two-staged lead-qualification approach — taking a high search-volume unbranded page and atomizing [the qualification feature] to segment prospects by [threshold]. Coupled with a radically simplified lead form and a mobile-first, performance-tuned [locator] paradigm to reduce spam, improve lead quality &amp; grow volume while cutting time-to-interact for qualified leads &amp; [advisor] form-fills.</div>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 1180 380" width="100%" height="380" font-family="var(--sans)">
+        <!-- axes -->
+        <line x1="40" y1="330" x2="1150" y2="330" stroke="#d5d9dd" stroke-width="1.5"/>
+        <!-- phase 4 marker -->
+        <line x1="880" y1="40" x2="880" y2="330" stroke="var(--accent-soft)" stroke-width="1.5"/>
+        <circle cx="880" cy="40" r="4" fill="var(--accent)"/>
+        <text x="892" y="44" font-size="15" font-weight="700" fill="#1a1a1a">Phase 4:<tspan font-weight="400" fill="#5f6b76"> Redesign &amp; Relaunch</tspan></text>
+        <!-- Metric A: leads (rising, red) -->
+        <polyline points="70,300 350,215 630,235 1120,120" fill="none" stroke="var(--accent)" stroke-width="3.5"/>
+        <!-- Metric B: form fills (rising, gold) -->
+        <polyline points="70,262 350,225 630,215 1120,190" fill="none" stroke="#F4B740" stroke-width="3.5"/>
+        <!-- Metric C: time-to-interact (falling, cyan) -->
+        <polyline points="70,90 350,140 630,210 1120,300" fill="none" stroke="#8ED0DE" stroke-width="3.5"/>
+        <!-- masked value labels -->
+        <text x="70"   y="80"  font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="350"  y="130" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="630"  y="200" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="1095" y="292" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="1095" y="112" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="1095" y="182" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <text x="60"   y="316" font-size="14" fill="#9aa0a6">X,XXX</text>
+        <!-- quarter ticks -->
+        <text x="64"  y="356" font-size="15" font-weight="700" fill="#1a1a1a">Q1</text>
+        <text x="344" y="356" font-size="15" font-weight="700" fill="#1a1a1a">Q2</text>
+        <text x="624" y="356" font-size="15" font-weight="700" fill="#1a1a1a">Q3</text>
+        <text x="1104" y="356" font-size="15" font-weight="700" fill="#1a1a1a">Q4</text>
+      </svg>
+      <div style="display:flex;justify-content:center;gap:34px;margin-top:6px;font-size:14px;font-weight:600">
+        <span><span style="color:var(--accent)">▬</span> [Metric A] — Qualified Leads</span>
+        <span><span style="color:#F4B740">▬</span> [Metric B] — [Advisor] Form-Fills</span>
+        <span><span style="color:#8ED0DE">▬</span> [Metric C] — Time-to-Interact (ms)</span>
+      </div>
+    </div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">16</div>
+  </section>
+
+  <!-- 17 · EXECUTIVE SUMMARY STAT GRID -->
+  <section class="slide">
+    <div class="tab dark">Outcomes &amp; Key Results</div>
+    <div class="mark"><span class="logo">[CLIENT] <span class="dot"></span></span><div class="tag">[BRAND TAGLINE]</div></div>
+    <div class="lede"><h1 class="title"><b>Executive Summary:</b> <span class="thin">Growth Story Facts At-A-Glance</span></h1></div>
+    <div style="position:absolute;left:44px;right:60px;top:180px;font-size:19px;line-height:1.5;color:#3a3f45">
+      Our team thoughtfully assessed the client's needs, challenges, blindspots &amp; commercial objectives to craft a winning growth &amp; web strategy that left a profound impact on their business from day zero of relaunch.
+    </div>
+    <div class="stats" style="top:275px">
+      <div class="stat"><div class="ic">🌐</div><div class="big">[NN]</div><div class="cap">Global [Jurisdiction] Footprint</div></div>
+      <div class="stat"><div class="ic">⤢</div><div class="big">+XX%</div><div class="cap">Qualified-Lead Increase</div></div>
+      <div class="stat"><div class="ic">☺</div><div class="big">XX%</div><div class="cap">[Investor Retention] Rate</div></div>
+      <div class="stat"><div class="ic">$</div><div class="big">$XXB</div><div class="cap">Assets Under Management</div></div>
+      <div class="stat"><div class="ic">↗</div><div class="big">+XX%</div><div class="cap">New-[Account/AUM] CAGR</div></div>
+      <div class="stat"><div class="ic">▭</div><div class="big">+XX</div><div class="cap">Website NPS Increase</div></div>
+    </div>
+    <div class="footer">CONFIDENTIAL · TEMPLATE · DO NOT SHARE UNTIL FILLED &amp; APPROVED</div>
+    <div class="slide-num">17</div>
+  </section>
+
+  <!-- 18 · CLOSE -->
+  <section class="slide">
+    <div class="cover">
+      <div class="biglogo">[CLIENT&nbsp;LOGO] <span class="dot"></span></div>
+      <div class="subtag">[ B R A N D &nbsp; T A G L I N E ]</div>
+      <div class="ct">GROWTH CASE STUDY</div>
+      <div class="by">© [YEAR] ZACH HARRIS</div>
+    </div>
+    <div class="slide-num">18</div>
+  </section>
+
+</div>
+</body>
+</html>
