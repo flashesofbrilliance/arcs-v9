@@ -1,25 +1,22 @@
-# ARCS Session State — v3.57.0 (2026-09-07)
+# ARCS Session State — current sprint snapshot
 
-**Arc:** open-loops / Reading Room cache spine
-**Branch:** `claude/open-loops-handoff-cvgjxd` (restarted from main after prior arc PRs merged)
-**Head:** `343b266` — back-propagation organ (PR #320, merged)
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.59.0; resume seed `_STATE/pickup-prompt.md`.
 
-## This sprint (done)
-- Reading Room **back-propagation organ** (`scripts/cache_backprop.py`): re-grade one dirty
-  `(domain, epoch)` cache slice on read. Grading external by NOTOMATION.
-- `cache_manifest.py` **per-slice grade preservation** — the load-bearing fix (shared digest file was
-  the wrong granularity; re-grading one epoch used to free its siblings).
-- Gauntlet: 3 skeptic defects fixed (half-graded digest / partial-stamps-fresh / stale note). 5 tests green.
-- **1b gate MET.**
+**As of:** 2026-09-08 · **Branch:** `feat/audit-service` · **Version:** v3.59.0 (ARCS-on-ARCS shipping close)
 
-## Next unblocked
-1. Reading Room tenants 2a-2c (Concordance / Chronicle / Babelfish / Codex) on the Reader+cache spine.
-2. 1a 4-width visual check (headless Chromium screenshot).
-3. Live admin smoke of `/reading-room`.
+## Shipped + verified live this session
+- NFTT "Assets and Liabilities" (good.arcs.care/blog/nftt/assets-and-liabilities) — PR #332
+- Field Instruments public-goods chapter (good.arcs.care/instruments) — PR #337 + routing fix #340
+- Day-151 milestone on status.html; informativeness ratchet real CI arm (informativeness.yml) — PR #337
+- Reproducible DB audit + dead-trio build fix — PR #306
 
-## Zach-gated (carried)
-Supabase Branching + `PREVIEW_DATABASE_URL` · PENDING 007 migration re-baseline · flip
-`INTEGRITY_GATE_BLOCK=1` after a clean week · Tribune Posterior trigger (needs Outcome handler) ·
-ADR-076 demand probe.
+## Deceipt ledger: 15 (12–15 booked this session; #13/#15 caught by field-contact, not self-review)
 
-**Blocking:** NONE
+## Next action
+Extract informativeness-auditor into a standalone package (Seed→Proven). Outcome-capture keel (2/247) = P1.
+
+## Open (human-gated)
+Memory-index retirement · outcome-capture keel · ROM candidate (live-receipt gate) · flip INTEGRITY_GATE_BLOCK=1 after a clean week
+
+## Blocking
+NONE.
