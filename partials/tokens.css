@@ -1,0 +1,3 @@
+/* ARCS dark-cockpit design tokens -- single source of truth for the counterpart-forge family.
+   Superset (includes --steel, used by codex + demo). Extracted verbatim from the Yuri suite. */
+:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--steel:#94a3b8;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}

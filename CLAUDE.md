@@ -101,88 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.21.0 (2026-08-01)
-
-> **For Claude Code:** active pickup point. Short, surgical session: closed a Vercel
-> build-cost leak, generalized it, and formalized it as ADR-039. No counterpart work.
-
-## What shipped (2026-08-01)
-
-**Vercel deploy-cost leak closed + generalized + ADR'd.**
-
-- **Root cause:** every commit to `main` was building — including docs-only. Logic was NOT
-  inverted this time (that was the Jul-25 incident); the `commandForIgnoringBuildStep` exclude
-  list was just **incomplete**. `docs(handoff)` commits touch `.claude/arcs-session-state.md`,
-  and `.claude/` wasn't excluded (confirmed: `953effc docs(handoff): v3.20.0` built READY).
-- **Fix:** added `":(exclude).claude"` to the ignore-step via `PATCH /v9/projects`. Full
-  excludes now: `_MEMORY _PATTERNS _ARCHIVE _STATE .claude CLAUDE.md MEMORY.md AGENTS.md WORLD.md`.
-- **Verified live:** docs-only commit `a1fed75` (`_PATTERNS/` only) → deployment **CANCELED**
-  (skipped, no build); `public/` changes still build **READY**. Kept path-based, not
-  `[NCI:SKIP]`-based — a `[NCI:SKIP]` polish commit can still touch shippable `public/`.
-- **Vercel Agent audit:** both on-demand billing burners already OFF, read via
-  `GET /v2/teams/<id>`: `agent.codeReview.auto.enabled=false`, `alertInvestigation.enabled=false`
-  ("Investigate Anomalies Automatically" — the v3.18.0 "still ON" flag is now stale/corrected).
-- **Generalized** into the impeccable skill as cost-discipline (SKILL.md → Cost discipline,
-  v4.1.0; reference/init.md captures deploy-cost into PRODUCT.md; reference/live.md frames local
-  iteration as the cost-correct loop).
-- **ADR-039** (DECIDED, GREEN) — path-based ignored-build-step guardrail; index.json updated.
-- **Memories consolidated** (updated, not duplicated): [[vercel-ignored-build-step-was-inverted]]
-  (added the `.claude/` incident + live verification), [[vercel-config-via-cli-token-rest-api]]
-  (agent toggles ARE API-readable — corrected "dashboard-only"), [[cost-efficiency-global-goal]]
-  (path-not-message rule + local-iteration rule).
-
-## Also cleaned up (leftover main-worktree working state, 2026-08-01)
-
-Reviewed the three uncommitted items that had been sitting in the `main` worktree:
-- **`ADR-026-debrief-calendar-invite-vs-email.md`** (untracked DRAFT, collided with tracked
-  ADR-026 Debrief Delivery Fix) → renumbered to **ADR-040**, cross-linked, added to index. Still
-  DRAFT (Decision pending Zach; calendar-invite-vs-email-only for the debrief close-the-loop).
-- **`_ARTIFACTS/arcs-meta-audit-roadmap.html`** (+93 lines) → committed: a print-only "silkscreen
-  on paper" stylesheet (inverts the dark cockpit to ink densities that survive a laser printer,
-  forces SHARP fidelity on paper). Extends [[souvenir-ship-ritual]] to the roadmap deck.
-- **`.impeccable/critique/…omakase.md`** (dual-agent critique, 18/36) → durable lesson banked as
-  [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
-  v3.20.0 omakase distillation. Critique file committed as the dated record.
-
-## Also built this session (skills + code-verified ADR)
-
-- **`/meta-audit` skill** (`.claude/skills/meta-audit/SKILL.md`) — codifies the 8-section Drift
-  Sentry protocol from `_STATE/meta-audit-roadmap-v1.md` so any session runs one epoch
-  consistently (Recoil → code-verified parity → gauntlets → Chi/Ma/Wuwei → stack-rank → append
-  §8). Bakes in the hard-won non-negotiables (main-reachable epoch anchor, honesty gauge,
-  weekly-and-small, verify-parity-from-code). Chose skill only; routine/workflow deferred.
-- **Omakase critique → assembly rules.** Folded the omakase dual-agent critique into
-  `.claude/skills/omakase-pipeline/SKILL.md` as a "Composition & assembly rules (the guest test)"
-  section + wired into Step 4 (assemble against them) and Step 7 (guest-test lens) + anti-goal.
-  The critique is now reusable rules, not a one-off. See [[author-cosmology-over-guest-design-risk]].
-- **ADR-040 code-verified.** The debrief close-the-loop JTBD is **already shipped** (Option C,
-  Stage 1): in-app `/debrief/[receiptId]` + `/api/receipts/[receiptId]/outcome` + scheduled
-  Resend send (compass-time + long-horizon cron, loud logging, opt-in). NOT built: `.ics`,
-  Google Calendar API. ADR-040 corrected to reflect this — the live question is only whether to
-  add a calendar mechanism on top, at lower urgency than the original framing.
-
-## Open / next
-
-1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
-2. **ADR-040 is DRAFT** — the loop already closes via email+in-app; decide whether a calendar
-   mechanism (.ics or Google Calendar) is worth adding, once there are ≥20 real (non-dev-test)
-   debrief opportunities to measure against.
-3. **Optional: schedule `/meta-audit` as a weekly routine** — deferred (needs a human toggle;
-   a prior claude.ai "Drift Sentinel" routine was DECIDED-disabled; scheduled runs add spend).
-3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
-   Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. New: ADR-039 (deploy cost guardrail). The ignored-build-step exclude list is
-path-based — add a path when a new non-shipping file class enters the repo.
-
----
-
 # Handoff — v3.22.0 (2026-08-03)
 
 > **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
@@ -249,3 +167,76 @@ source; approve one labelled test lead or confirm a sandbox), but nothing is int
 Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
 full state names, status "New", assign Bill Galla, details into `description`), then send one real
 test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---
+
+# Handoff — v3.23.0 (2026-08-05)
+
+> **For Claude Code:** active pickup point. v3.22.0 above preserved; v3.21.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. This session mechanized the counterpart
+> artifact family (the "instance #2" move). Nothing deployed; all changes staged in the
+> `clever-jones-895d60` worktree for review.
+
+## Headline: the counterpart-artifact-family FORGE pipeline is built
+
+Extracted + generalized the live Yuri suite (`public/yuri{,-recoil,-codex,-demo}.html`) into a
+deterministic, re-runnable generator triggered by a recoil seed. Same SSOT in -> same 4 HTML
+surfaces out. This is the mechanized instance #2 of [[build-reusable-decomposable-interoperable-default]].
+Blueprint it implements: `_PATTERNS/counterpart-artifact-family-blueprint.md`. New durable memory:
+[[counterpart-forge-pipeline]].
+
+## What shipped (all staged, uncommitted)
+
+- **`partials/`** (10 fragments + README) — single source of truth for the shared grammar: ARCS
+  dark-cockpit tokens, `.said` speaker quote, confidence meter, conviction chip, headline+lede+
+  `<details>` progressive disclosure, sub-nav + IntersectionObserver scroll-spy, presentation mode
+  (keyboard nav, G=go deeper), two-band inference ledger, JSON export, pw-gate, dwell analytics.
+  Edit a partial -> every counterpart re-renders next run.
+- **`scripts/forge_counterpart.py`** — deterministic `<name>-forge.json` -> `public/<name>{,-recoil,
+  -codex,-demo}.html`, mirroring the `recoil_brief.py` SSOT->render pattern. Has an **overwrite
+  guard**: refuses to clobber a non-forged file (marker `<!-- forged by scripts/forge_counterpart.py
+  -->`) unless `--force` — this is what protects the live hand-authored `public/yuri.html`.
+  `FORGE_SCHEMA_DOC` documents the SSOT schema.
+- **`scripts/forge_verify.py`** — pre-deploy gate (exit nonzero blocks): impeccable detector
+  (`~/.claude/skills/impeccable/scripts/detect.mjs`), 0-em-dash scan, attribution+labeling
+  (said.speaker in {zach,counterpart}; every demo read has clue+inference; reserved reads have a
+  disclosure), noindex + gate topology, password=first-name. Soft-surfaces the semantic checks
+  (transcript attribution, role-archetype) for a human.
+- **`.claude/skills/counterpart-forge/SKILL.md`** — `/forge <name>` orchestration (gather ->
+  synthesize one SSOT -> generate -> verify -> deploy -> poll), reusing recoil-new/prep +
+  omakase-pipeline. Carries the full deploy recipe (4 next.config.ts wildcard rewrites mirroring
+  yuri-*, Vercel subdomain adds, from the MAIN worktree only).
+- **`.claude/hooks/forge-suggest.sh`** (wired into settings.json PostToolUse Write) — suggests the
+  forge when a new `runtime/recoil/generated/*-enriched-profile.json` lands.
+- **`runtime/recoil/generated/kleban-forge.json`** — worked example / regression fixture. Renders
+  to a scratch dir only (name=yuri collides with the live suite). All 4 surfaces verified in the
+  in-app browser: gate admits on first-name, demo ledger (3 public + 1 reserved reads, color-by-
+  value meters, conviction chips, chain expansion, JSON export), codex (5 altitudes, 3 disclosure
+  sections, presentation mode keyboard nav 1/3->2/3). Detector clean on all 4, 0 em-dashes, verify PASS.
+
+## Deliberately NOT done (rule-compliant)
+
+- **No deploy, no `next.config.ts` edit.** Per the non-negotiables: never deploy from a feature
+  worktree; deploy is per-real-counterpart from main. The kleban fixture also collides with the
+  live yuri.arcs.care namespace, so it must never be written to `public/` or routed.
+
+## Open / next
+
+1. **Commit + review the staged pipeline** from this worktree (or cherry-pick to main). Files:
+   `partials/`, `scripts/forge_counterpart.py`, `scripts/forge_verify.py`,
+   `.claude/skills/counterpart-forge/`, `.claude/hooks/forge-suggest.sh`, `.claude/settings.json`,
+   `runtime/recoil/generated/kleban-forge.json`.
+2. **First real use:** run `/forge <name>` on the next live counterpart (Robin already has a
+   5-surface family; a fresh counterpart with a clean namespace is the cleanest first deploy).
+3. Prior untouched: Todd Tidio->Zapier->SugarCRM wire (v3.22.0 next-step); Louisville breathe;
+   Ahmed ext send; ADR-040 calendar-vs-email decision.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New capability: `/forge <name>`. To render an existing counterpart, edit its
+`<name>-forge.json` and re-run `forge_counterpart.py` (the marker lets it overwrite its own output),
+then re-verify before any redeploy.

@@ -1,0 +1,51 @@
+/* Shared component grammar for the counterpart-forge family. Present on >=3 of the 4 Yuri
+   surfaces -> template base stylesheet. Inline-styles-only rule is honored: this ships inside
+   the generated page's single <style> block, not as an external stylesheet. */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:48px 24px 96px;line-height:1.62;}
+.page{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:22px;}
+/* header cluster */
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
+h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;}
+.sub{font-size:14px;color:var(--muted);margin-top:6px;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:4px 0;}
+.sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:10px 2px -6px;}
+/* cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
+.card h2{font-size:12px;font-family:var(--mono);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
+.card h3{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);}
+.card p{font-size:14.5px;color:var(--text);margin-bottom:10px;}
+.card p:last-child{margin-bottom:0;}
+.card strong{font-weight:600;}
+.card.pilot{border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.04);}
+.card.orient{border-color:rgba(0,255,157,0.30);background:rgba(0,255,157,0.035);}
+.card.fence{border-color:rgba(255,215,0,0.28);}
+.card.fence h2{color:var(--gold);}
+/* bullet lists */
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.55;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:7px;}
+.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+/* .said speaker-colored quote callout -- tinted block, NOT border-left>1px (detector flags that). */
+.said{background:rgba(0,240,255,0.045);border:1px solid rgba(0,240,255,0.20);border-radius:10px;padding:14px 16px;}
+.said .qk{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;}
+.said .qv{font-size:14px;line-height:1.55;color:var(--text);font-style:italic;}
+.said.them{background:rgba(0,255,157,0.045);border-color:rgba(0,255,157,0.20);}
+.said.them .qk{color:var(--green);}
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl td,.tbl th{padding:10px 12px;border-bottom:1px solid rgba(30,41,59,0.6);vertical-align:top;line-height:1.45;text-align:left;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl th{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
+.chart-wrap{overflow-x:auto;}
+/* links */
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}
+a:hover{opacity:0.82;}
+/* foot / stamp */
+.foot{font-size:13px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
+.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}
+/* sub-nav + scroll-spy */
+.subnav{position:sticky;top:0;background:var(--bg);z-index:10;display:flex;flex-wrap:wrap;gap:4px;padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:4px;}
+.subnav a{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;padding:5px 9px;border-radius:6px;}
+.subnav a.active{color:var(--cyan);background:rgba(0,240,255,0.08);}
+.subnav a:hover{color:var(--text);}

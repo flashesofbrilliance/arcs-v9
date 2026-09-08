@@ -1,0 +1,20 @@
+/* Codex surface: headline+lede+<details> progressive disclosure, altitude cards. */
+section.sec{display:flex;flex-direction:column;gap:12px;}
+.seclead{display:flex;flex-direction:column;gap:4px;scroll-margin-top:56px;}
+.seclead .n{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmed);}
+.seclead .k{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--cyan);}
+.shl{font-size:21px;font-weight:700;letter-spacing:-0.01em;line-height:1.2;}
+.lede{font-size:15px;color:var(--muted);line-height:1.55;}
+details.deeper{border-top:1px solid var(--border);padding-top:10px;}
+details.deeper summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--cyan);}
+details.deeper summary::-webkit-details-marker{display:none;}
+details.deeper summary::after{content:' + go deeper';}
+details.deeper[open] summary::after{content:' - show less';color:var(--dimmed);}
+details.deeper>*{margin-top:12px;}
+/* altitude cards -- 5-tier gold->cyan->green->steel->red scale (fixed, not counterpart-specific) */
+.alt{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:15px 17px;display:flex;flex-direction:column;gap:6px;}
+.alt .bar{height:3px;border-radius:2px;width:100%;}
+.alt .atop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.alt .aname{font-size:14px;font-weight:600;}
+.alt .arole{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--dimmed);}
+.alt .aline{font-size:13.5px;color:var(--muted);line-height:1.5;}

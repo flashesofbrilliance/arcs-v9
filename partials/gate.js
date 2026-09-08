@@ -1,0 +1,3 @@
+/* pw-gate. Placeholders {{GATE_KEY}} (sessionStorage key) and {{GATE_PW}} (lowercased first name)
+   are substituted by forge_counterpart.py. Password compared lowercased. */
+(function(){var K='{{GATE_KEY}}',P='{{GATE_PW}}';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();

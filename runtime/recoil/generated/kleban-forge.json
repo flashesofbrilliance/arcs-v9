@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "id": "kleban-forge",
+    "name": "yuri",
+    "counterpart": "Yuri Kleban",
+    "first_name": "Yuri",
+    "company": "Google / Alphabet",
+    "role": "Global Product Lead, Partnerships",
+    "call_date": "2026-07-23",
+    "call_label": "Jul 23",
+    "consent": "recorded with your OK",
+    "seed_profile": "2026-08-05-kleban-enriched-profile.json",
+    "seed_recoil": "2026-07-23-kleban-recoil.json",
+    "fence": "tight",
+    "gate_password": "yuri"
+  },
+  "landing": {
+    "eyebrow": "For Yuri, start here",
+    "title": "Three reads, in order",
+    "sub": "Not a deck. Three short surfaces you open in sequence, each one built from what you already shared. Start at the top; each unlocks the next.",
+    "onramp": [
+      {"order": "01", "chip": "Start here", "chip_kind": "start", "title": "The engine, run on our call", "what": "The before-and-after read I filed on you, then scored against what actually changed once we spoke.", "why": "You asked to see the magic, not the abstract doc. This is the magic.", "unlocks": "Unlocks the org view", "href": "https://yuri-recoil.arcs.care"},
+      {"order": "02", "chip": "Then unlock", "chip_kind": "unlock", "title": "One decision, five altitudes", "what": "The same decision seen from five seats in an org, from the operator to the office of the CEO.", "why": "It shows how one read scales across a partnerships org without losing the thread.", "unlocks": "Unlocks the live demo", "href": "https://yuri-codex.arcs.care"},
+      {"order": "03", "chip": "Then feel it", "chip_kind": "unlock", "title": "How I read you, and how sure I am", "what": "An interactive ledger: every read, its confidence, and the clue it came from. Export it as JSON.", "why": "So the read is inspectable, not a black box. You can pull the whole thing and check it.", "unlocks": "You are current", "href": "https://yuri-demo.arcs.care"}
+    ],
+    "felt_value": {
+      "h2": "What this changes for you",
+      "intro": "You already built the hand-rolled version of this five years early. Here is what closing the loop and scoring it buys.",
+      "pillars": [
+        {"title": "The brief writes its own bet first", "text": "Every meeting starts with a falsifiable prediction filed before the room, so it can be scored honestly after instead of rationalized."},
+        {"title": "It runs on the model you already run", "text": "Model-agnostic by design. The context manifold is the asset; the predictor is swappable, including Gemini."},
+        {"title": "The correction compounds", "text": "Each scored miss updates the manifold. It is the opposite of a forgetting machine: it banks the correction and gets sharper."}
+      ]
+    },
+    "offer": {"h2": "The one receipt", "text": "If any of this lands, the next step is small: pick one live decision you are prepping for, and I file the ex-ante read on it before your next meeting. One receipt, scored after. No deck required."},
+    "studio": {"h2": "The studio", "text": "Everything here is generated from one source record by a deterministic pipeline. Same input, same output, every time. The transform stays under the fence; the shape and value are fully shown."}
+  },
+  "recoil": {
+    "header": {"eyebrow": "The thing you asked to see", "title": "Before and after: our call", "sub": "What I predicted before we spoke, and what actually changed once we did. All of it from what you shared, with your OK to record. Nothing redacted here."},
+    "onramp_card": {"h2": "What this is", "p": ["The engine starts every meeting by writing down a falsifiable bet before the meeting happens, so it can be scored honestly afterward instead of rationalized. Here is the one I filed on you, built from your public profile and our short exchange. It is not flattering by design. It is just what I thought."]},
+    "loop_steps": [
+      {"n": "1", "title": "Profile the person and the situation", "tag": "shown below", "filled": true},
+      {"n": "2", "title": "File a falsifiable hypothesis before the room", "tag": "shown below", "filled": true},
+      {"n": "3", "title": "State conviction with the evidence behind it", "tag": "shown below", "filled": true},
+      {"n": "4", "title": "Measure expected against actual after the call", "tag": "shown below", "filled": true},
+      {"n": "5", "title": "Update the manifold on the delta", "tag": "shown below", "filled": true},
+      {"n": "6", "title": "Repeat, so the correction compounds", "tag": "the loop", "filled": false}
+    ],
+    "ex_ante": {"h2": "My ex-ante receipt, filed before the call", "fields": [
+      {"label": "The question I was deciding", "value": "Is this a peer and potential internal champion, or a buyer today? Register the relationship correctly before pitching anything."},
+      {"label": "The bet I filed", "value": "Peer and champion, not a buyer. Model-agnostic is the deal-maker for a Google adopter. He will pull rather than be pushed; over-pursuing would break it."},
+      {"label": "Confidence before", "value": "0.62, shifting"},
+      {"label": "The strongest case against my instinct", "value": "He could be a polite connector with no real adoption intent, in which case reading him as a champion overweights the signal."}
+    ]},
+    "said": [
+      {"speaker": "counterpart", "label": "Your words, our call", "quote": "it'd be great to see your hypothesis on me before and what happened after our conversation, that's the magic"},
+      {"speaker": "zach", "label": "What I laid out, our call", "quote": "the context manifold is the asset, the model is swappable, so it runs on whatever you already run"}
+    ],
+    "receipt_closed": {"h2": "The receipt, scored after", "fields": [
+      {"label": "What actually happened", "value": "He confirmed the peer or champion register directly and volunteered a live example of the hand-rolled version he built years earlier, which is stronger evidence for the read than the read assumed."},
+      {"label": "Confidence after", "value": "0.84, stable"},
+      {"label": "The delta the manifold banked", "value": "Model-agnostic mattered even more than filed, given his current agent-tooling side project. Register moved from shifting to stable on his own confirmation."}
+    ]},
+    "felt_value": {"h2": "Why this matters in your seat", "intro": "You run exec briefs for senior leaders. Here is what a scored loop adds to that.", "pillars": [
+      {"title": "The brief is accountable", "text": "It carries the bet it made, so after the meeting you can see where it was right and where it was wrong, not just what it claimed."},
+      {"title": "The read is inspectable", "text": "Every conclusion traces to a clue and a confidence number, so a senior reader can audit the reasoning, not just trust the output."}
+    ]},
+    "offer": {"h2": "The one receipt", "text": "Pick one live decision you are prepping for. I file the ex-ante read before your next meeting, we score it after. One receipt, no deck."}
+  },
+  "codex": {
+    "header": {"eyebrow": "One decision, five altitudes", "title": "The same read, from every seat", "sub": "How a single decision looks from five seats in a partnerships org, from the operator to the office of the CEO. One system, five altitudes, one thread."},
+    "sections": [
+      {"id": "read", "n": "00 - How to read this codex", "k": "One system, five altitudes", "shl": "One decision, seen from every seat.", "lede": "The same partnership decision, rendered at five altitudes. Each seat sees a different resolution of the same terrain, and the thread never breaks.", "deeper": ["The point is not five documents. It is one source record projected to five audiences, so the operator's detail and the executive's one-liner are provably the same decision, not two stories that drifted apart."]},
+      {"id": "why", "n": "01 - Why altitudes", "k": "Resolution, not summary", "shl": "A summary loses the thread. An altitude keeps it.", "lede": "Rolling up is lossy when each layer re-summarizes the one below. Projecting from one record is lossless: every seat reads the same manifold at its own resolution.", "deeper": ["This is the difference between a status chain, where each rung paraphrases the last until the executive read no longer matches the ground truth, and a projection, where the office-of-the-CEO line and the operator line are the same record filtered, never re-typed."]},
+      {"id": "fence", "n": "02 - What stays under the fence", "k": "Taste, not the recipe", "shl": "You see the shape and the value in full. The transform stays mine.", "lede": "Everything on this page is real and inspectable. The scoring, the parse, and the data model are held back on purpose, craftsman to craftsman.", "deeper": ["For a resourced org that could rebuild what is shown, the fence is dialed tight: the surfaces demonstrate the taste and the outcome without handing over the mechanism. That is a deliberate choice, not an omission."]}
+    ],
+    "altitudes": [
+      {"name": "Office of the CEO", "role": "one line", "color": "var(--gold)", "line": "This partnership survives its worst case and compounds; approve the smaller reversible bet first."},
+      {"name": "Org lead", "role": "the tradeoff", "color": "var(--cyan)", "line": "Two viable paths; the model-agnostic one keeps optionality and does not lock the org to one predictor."},
+      {"name": "Team lead", "role": "the plan", "color": "var(--green)", "line": "Run the pilot on one live decision, score it, and only then decide whether to widen."},
+      {"name": "Operator", "role": "the detail", "color": "var(--steel)", "line": "File the ex-ante read, capture the call, compute the delta, update the manifold. Concrete steps, this week."},
+      {"name": "Risk / trust", "role": "the ruin edge", "color": "var(--red)", "line": "One hidden constraint could be unrecoverable; require a survivable failure mode before committing the line."}
+    ],
+    "said": [
+      {"speaker": "zach", "label": "What I laid out, our call", "quote": "one record, five audiences, so the executive line and the operator line are provably the same decision"}
+    ],
+    "fence_card": {"h2": "The fence", "p": ["This is taste, not the recipe. You see every read and every outcome in full. The parse, the scoring, and the data model stay mine, because you could rebuild them from the mechanism and I would rather show you what it does than how it does it."]}
+  },
+  "demo": {
+    "header": {"eyebrow": "How I read you, and how sure I am", "title": "The inference ledger", "sub": "Every read I filed, its confidence, the conviction behind it, and the clue it came from. Two bands: what I would project publicly, and what I would hold in reserve. Export the whole thing as JSON."},
+    "controls_note": "Toggle the band. Expand any read to see the clue and the inference. Nothing here is a black box.",
+    "reads": [
+      {"band": "pub", "conclusion": "Peer and potential internal champion, not a buyer today", "confidence": 0.84, "conviction": "stable", "clue": "Warm connector register, no ask, and a live example of the hand-rolled version he built years earlier.", "inference": "Someone who already built the thing reads as a practitioner and champion, not a prospect being sold to.", "source": "his own account of the exec-brief he automated by hand"},
+      {"band": "pub", "conclusion": "Model-agnostic is the deal-maker for this adopter", "confidence": 0.8, "conviction": "stable", "clue": "Runs a current agent-tooling side project and evaluates from inside a large model ecosystem.", "inference": "A swappable predictor on top of an owned context manifold fits an org that already runs its own model.", "source": "his current side project bringing people to use agents for productivity"},
+      {"band": "pub", "conclusion": "Let him pull; do not over-pursue", "confidence": 0.75, "conviction": "shifting", "clue": "Explicit help-you-move-forward energy with nothing to sell in return.", "inference": "The relationship progresses on his cadence; pushing would invert the register.", "source": "his stated posture of wanting to help move the other person forward"},
+      {"band": "res", "conclusion": "Consent-first framing is table stakes, not a nice-to-have", "confidence": 0.7, "conviction": "stable", "clue": "Data-ethics surfaced unprompted as a value, not a compliance box.", "inference": "The right-thing framing is a gate; crossing it would end the relationship, so the artifact leads with consent.", "source": "his unprompted read that the consent-first approach was the right thing", "disclosure": "Reserved: a values read, held back from any public-facing version out of respect."}
+    ],
+    "beliefs": [
+      {"label": "Is this a buyer or a champion?", "moved_by": "his volunteered example on the call", "points": [
+        {"t": "pre-call", "note": "Leaning champion from the public profile, but unconfirmed.", "conf": 0.62},
+        {"t": "mid-call", "note": "He described building the hand-rolled version himself.", "conf": 0.78},
+        {"t": "post-call", "note": "Register confirmed directly; moved to stable.", "conf": 0.84}
+      ]},
+      {"label": "Does model-agnostic matter to him?", "moved_by": "his current agent-tooling side project", "points": [
+        {"t": "pre-call", "note": "Assumed it helps a Google adopter.", "conf": 0.6},
+        {"t": "post-call", "note": "Given the side project, it matters more than filed.", "conf": 0.8}
+      ]}
+    ]
+  }
+}

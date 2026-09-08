@@ -1,0 +1,9 @@
+/* pw-gate overlay -- byte-identical block across the gated Yuri surfaces. Cosmetic gating
+   (client-side plaintext compare), not security: it keeps casual/link-scanner eyes out. */
+#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px;}
+#pw-gate.hidden{display:none;}
+.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#475569;}
+.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:0.1em;}
+.pw-input:focus{border-color:#00F0FF;}
+.pw-input.shake{animation:shake 0.3s ease;border-color:#FF4D6D;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}

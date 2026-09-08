@@ -2,10 +2,21 @@
   "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "db4d5a6",
-    "head_message": "docs(handoff): v3.22.0 — Zapier MCP direct SugarCRM access, config audit, site distill [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "943d741",
+    "head_message": "feat(robin): ship robin-receipt.arcs.care (full-resolution forensic) + studio link",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      ".claude/settings.json",
+      "CLAUDE.md",
+      "_ARCHIVE/handoffs.md",
+      "_STATE/snapshot.json",
+      ".claude/hooks/forge-suggest.sh",
+      ".claude/skills/counterpart-forge/",
+      "partials/",
+      "runtime/recoil/generated/kleban-forge.json",
+      "scripts/forge_counterpart.py",
+      "scripts/forge_verify.py"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -179,7 +190,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-03T22:21:20Z",
+  "git_refreshed_at": "2026-08-06T14:05:15Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
