@@ -8,6 +8,7 @@ import { Rule } from "@/ui/Rule"
 import { SectionLabel } from "@/ui/SectionLabel"
 import { Button } from "@/ui/Button"
 import { AuthControl } from "@/molecules/AuthControl"
+import { BoardTabs } from "@/ui/BoardTabs"
 import Link from "next/link"
 
 // The Alert Swipe Board, product edition. Same loop as the artifact version
@@ -330,6 +331,7 @@ export function JobsBoard() {
           <AuthControl />
         </div>
         <Rule />
+        <BoardTabs active="roles" />
         <header style={{ padding: "16px 0", display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "baseline" }}>
           <h1 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.015em", margin: 0, textWrap: "balance" }}>Alert Swipe Board</h1>
           <p style={{ margin: 0, flexBasis: "100%", maxWidth: MEASURE, fontSize: 13, color: fg2, textWrap: "pretty" }}>Every LinkedIn alert, scored once against the target-role rubric and stack-ranked above a <b style={{ color: fg1, fontFamily: mono }}>{spec?.rubric.board_cutoff ?? 0.58}</b> cutoff. You decide. Nothing runs until you swipe right.</p>
