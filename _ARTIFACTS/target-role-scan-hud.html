@@ -26,6 +26,7 @@ Grounded in: resume SSOT (resume.arcs.care) · profile-scan-hud.html · job-sear
   --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
   --shape-radius-sm:6px; --shape-radius-md:10px; --shape-radius-lg:14px;
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
+  --measure:640px; /* one shared px reading column for all left-aligned prose; never per-element ch caps */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
@@ -58,7 +59,7 @@ header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(
 .mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
 h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
 h1 .b{color:var(--palette-bearing);} h1 .g{color:var(--palette-conviction);}
-.mast .sub{max-width:66ch;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}
+.mast .sub{max-width:none;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}/* hero lede spans the full lane, matching the heading (design-full-width-lede-matches-heading) */
 .statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
 
 .telemetry{display:grid;grid-template-columns:repeat(5,1fr);margin-top:var(--space-5);}
