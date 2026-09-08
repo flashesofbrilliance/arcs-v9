@@ -207,6 +207,8 @@ The brief and all UI sections render at **earned fidelity** — never at higher 
 | GREEN / HIGH | Clear | SHARP | opacity: 1.0, weight: 500, tracking: normal |
 | LOCKED / Nucleus | Crystal | SHARP + hard edges | opacity: 1.0, weight: 600, tracking: -0.01em |
 
+**Earned fidelity has a floor: coherent wrapping.** Fidelity is the *resolution* of the render, never a licence for a ragged one. All reading text on a surface shares ONE measure (a single px `--measure`, never per-element `ch` caps); bordered callouts carry that measure on the box so every right edge lines up. A misaligned rag reads as broken, no matter how sharp the type — it is the fog leaking back in. Verify the wrap across the full width band (360–1440, especially the 700–1000 zone) with the surface's own gate before calling anything SHARP. Canon: `_PATTERNS/arcs-artifact-css-base.css`; enforcement in AGENTS.md gotcha #13.
+
 ---
 
 ## THE FIRST THING TO BUILD

@@ -90,6 +90,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
 - Inline styles only in components — no Tailwind, no utility classes. Sanctioned exceptions (only these): next/font classes on `<html>`, and the single `src/app/globals.css` (reset + keyframes + font tokens). Tailwind was removed 2026-07-11.
 - No new dependencies without asking.
+- **Self-contained artifact/page CSS: one shared px `--measure` for all reading text — NEVER `max-width:NNch` per element** (font-dependent → misaligned right edges that read as broken wrapping). Bordered callouts carry the measure on the box, not on the inner text. Before shipping any single-file HTML, run the repo's own gate (`scripts/artifact_wrap_lint.py` for ARCS artifacts; `npm test` for `zachharris-xyz`) and sweep widths 360–1440 incl. the 700–1000 band — not an ad-hoc 3-width check. Em-dashes 0. Canon: `_PATTERNS/arcs-artifact-css-base.css`; AGENTS.md gotcha #13.
 
 
 # Versioning & handoff policy (amended 2026-07-19)
