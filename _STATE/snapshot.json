@@ -2,19 +2,17 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "696dc19",
-    "head_message": "feat(forge): back-propagate the full pre-send sequence into the canonical pipeline",
-    "in_sync_with_origin": true,
+    "head_sha": "59033ac",
+    "head_message": "feat(recoil): wire cover action links; Open Doc SSOT on /recoil/sugar [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "CLAUDE.md",
-      "_ARCHIVE/handoffs.md",
-      "_DECISIONS/index.json",
-      "_STATE/2026-08-10-session-decisions.dewy.json",
       "_STATE/snapshot.json",
-      ".claude/skills/night-moves/",
-      "_DECISIONS/ADR-045-night-moves-digest-routine.md",
-      "_STATE/night-moves/",
-      "scripts/night_moves_gather.sh"
+      "runtime/specs/knowledge-lattice-v1.json",
+      "_INBOX/",
+      "_STATE/2026-08-15-session-decisions.dewy.json",
+      "_STATE/2026-08-17-session-decisions.dewy.json",
+      "_STATE/witness/2026-08-14.jsonl",
+      "public/prl-status-tidio.html"
     ]
   },
   "vercel": {
@@ -65,9 +63,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 247,
-  "session_summary": "Yuri counterpart family: forge -> 4 gauntlets (lens/register/transcript/persona x2) -> full LinkedIn-thread vibe refit -> SENT 2026-08-10. Final: warm 2-link one-door (before/after codex + diamond-as-a-read); the machine (scored closed-loop + file-your-own-bet = receipt) chained off the codex; profile redacted. False model-agnostic claim killed + machine-gated (ADR-044 temporal_provenance). Gmail draft (had the false claim) replaced with honest version + sent by Zach to siryuri@. Captured: ADR-044, 5 DEWY receipts, memories. Handoff v3.29.0. Ball in Yuri's court.",
-  "next_action": "SENT to Yuri 2026-08-10 (Zach tweaked + sent the Gmail to siryuri@, pointing to yuri.arcs.care). Ball in Yuri's court. NO action pending on our side. When he replies, the live threads: his read on ARCS positioning/GTM, Agentum chat (two builders), part-two/GCP-dogfood, portable diligence/M&A (Purpose Built + ex-UBS partner). Keep replies short + concrete (warm, no-agenda, bite-size, bounces off abstraction).",
-  "blocking": "NONE. Sent; awaiting Yuri.",
+  "session_summary": "PRL 1.1/1.2 execution + client comms (2026-08-17). Proven chatbot->Sugar sandbox create E2E via Zapier MCP (routed to rep by CT abbrev, created_by 'Chatbot Integration', deleted clean); locked field spec (6 required + location_c abbreviation enum). Delivery path settled: Tidio native 'Send to Zapier' node -> Zap -> Sugar create (Zapier Pro; A-8 closed). Big reframe: Gravity Forms never wrote to Sugar; real 'Web Site' leads = Sugar native Web-to-Lead, and Todd confirmed that's the Unbounce/PPC landing-page mechanism -> subtract GF, reuse native W2L. Shipped: prl.arcs.care/status/build (runbook) + /status/tidio (E2E-scaffold + UAT + DoD); reconciled forked deck lineages onto one SSOT + fixed live regression (Stripe pay button shown post-payment); tributary card (web-form-on-Sugar-native + de-SPOF access) added to roadmap. Mailgun ownership flip: not Jorge/not Todd -> likely Josh/WFA. Todd re-engaged, approved web-forms plan, started negative-keyword list ('sheet resin'). Two delegate sessions running (prl-chatbot-sugarcrm: W2L probe + WP copilot + Josh/Jorge drafts; a Sonnet thread built /status/tidio). SSOT for pickup: _ARTIFACTS/prl-11-oneshot-pickup.md (chatbot worktree). Runbook 60fbdf00 + roadmap fb2878f6 synced.",
+  "next_action": "Gate = WebToLeadCapture endpoint probe (running in prl-chatbot-sugarcrm session) -> firms the web-form CWO best case (reuse Unbounce/PPC W2L mechanism). RECONCILE: probe session already shipped a $2,000 CWO on /status/troubleshooting (commits 7bc7dc3, 83e9d45) -- verify it prices vendor-latency buffer (slippage has been 100% in coordination legs, ~1x in build) + waited for the probe, not optimism. Then: finish 1.1 Tidio->Zapier wiring (copiloted UI, Zach's hands) -> capture recorded E2E evidence into /status/tidio placeholders -> that's the artifact promised to Todd. Score open 1.2 receipt at Aug-24 check-in (tracking high end of 12-30h band).",
+  "blocking": "NONE. All gates resolve on their own clock (probe running) or need Zach's hands (Tidio/Zapier UI wiring). No credentials to be entered by agents; WordPress + reCAPTCHA + login walls are human-only.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -191,7 +189,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-11T09:53:32Z",
+  "git_refreshed_at": "2026-08-17T19:58:26Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

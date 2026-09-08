@@ -1,0 +1,32 @@
+{
+  "_doc": "DEWY receipts for 2026-08-17. Live-refresh state: Sugar UNCHANGED (928 total, newest lead Aug 7, ARCSTEST still 0 -> website-form->Sugar still non-functional, 10+ days quiet). Comms: Todd SILENT ~4-5d (no reply to Aug-14 1.1 update or Aug-12 invoices; Mixmax reminders firing); the staged Todd/Jorge drafts were NEVER sent; Zach sent a shorter Aug-14 note asking Josh for a call early this week; Josh has NOT replied; open SugarCRM support case 589806 (reports/tracking-leads + sandbox access) pending with Long Ngo.",
+  "session_ts": "2026-08-17",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-17-website-form-via-sugar-web-to-lead",
+      "surface": "1.2 website-form -> CRM",
+      "ex_ante": true,
+      "sharp_question": "How do we get website-form leads into Sugar reliably, subtracting Gravity Forms?",
+      "dewy_vector": {
+        "D": "Route website intake through Sugar's NATIVE Web-to-Lead (free, built-in) rather than Gravity Forms. Evidence: the real 'Web Site' leads carry the webtolead_email1 fingerprint (Sugar Web-to-Lead entry point) with no campaign; Gravity Forms posts to WordPress (prlresins.com/) and produced 0 Sugar leads in our ARCSTEST test. So a free native pipe already works and already produces the good leads; the contact form just isn't wired to it.",
+        "E": "Sugar Web-to-Lead form/entrypoint; the WordPress contact page (Josh's lane); Gravity Forms (subtract from the CRM path, keep or drop as UI).",
+        "W": "1.2. Revisit after confirming what front-end currently feeds the working web-to-lead pipe.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Website leads land in Sugar reliably and for free, without the Gravity Forms / Akismet / reCAPTCHA / Mailgun tangle for the CRM write.",
+      "why": "Subtract-GF, reuse-native, free. Sidesteps Akismet/reCAPTCHA/Mailgun for getting leads INTO Sugar (email notification stays a separate, smaller concern). Reuse-before-invent + cut-don't-add.",
+      "assumptions": [
+        "The working 'Web Site' leads come via a Sugar-generated Web-to-Lead form (or a plugin posting to the endpoint) that we can reuse or regenerate",
+        "The native Web-to-Lead form can be embedded on the contact page (small WordPress change, Josh) with a honeypot/captcha for spam"
+      ],
+      "wrong_if": "The working web-to-lead leads actually originate FROM Gravity Forms posting to the endpoint (then GF isn't cleanly subtractable); OR the native form can't be styled/spam-protected acceptably for the site.",
+      "confidence": "MEDIUM — evidence that Sugar Web-to-Lead is the working pipe is strong (webtolead_email1 fingerprint); the 'which front-end feeds it' + the WordPress embed are unconfirmed.",
+      "next": "Confirm the current Web-to-Lead form config / which front-end feeds the working pipe (Josh + Sugar admin); decide reuse-existing-embed vs generate-fresh. Gated on Josh (WordPress) — currently non-responsive.",
+      "horizon": "1.2",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "outcome": null
+    }
+  ]
+}

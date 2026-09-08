@@ -1,0 +1,39 @@
+{
+  "_doc": "DEWY receipts for 2026-08-15 — PRL 1.1/1.2 wiring. Ex-ante bets, scored (outcome) after the leg.",
+  "session_ts": "2026-08-15",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-15-tidio-sugar-delivery-node-path",
+      "surface": "1.1 wiring / integration",
+      "ex_ante": true,
+      "sharp_question": "How do we wire the standing Tidio->Sugar hand-off so every live chat auto-creates a Chatbot-tagged lead?",
+      "assumption_check": "RESOLVED 2026-08-15: (a) 'Zapier likely free' FALSIFIED — account is Zapier PRO ($29.99/mo, 750 tasks/mo, 95 used); Webhooks/Catch Hook + premium apps available. (b) PATH SIMPLIFIED — Zach recalls Tidio has a native Zapier ACTION node usable in flows, so use that (push from the flow) instead of the raw API-call->Catch Hook route; no webhook URL to wrangle. Reconcile against the earlier note that Tidio<->Zapier was 'limited to 1 action': the check becomes whether that action node carries the FULL lead payload.",
+      "dewy_vector": {
+        "D": "Zapier is PRO, so the clean managed path is open. Primary: Tidio flow API-call node -> Zapier Catch Hook (Webhooks) -> proven Sugar create action (~1-2 tasks/lead). No owned code, managed/no-code (handoff-friendly). Fallbacks: owned Vercel webhook (zero-Zapier); Zapier SDK (beta). SDK set aside — its draw is task efficiency, which is not a binding constraint here.",
+        "E": "Tidio flows (outbound API-call node); Zapier Pro (Webhooks + Sugar connector); SugarCRM prod REST; proven zapier.chatbot user + field-map.",
+        "W": "TODAY->WEEK, before go-live. Revisit trigger: 1.4 SEM landing pages drive high lead volume -> task cost could bind -> reweigh SDK/owned-webhook.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Every real chat lands a complete, Chatbot-tagged lead in Sugar — leanly, with the fewest moving parts to maintain post-handoff.",
+      "why": "Zapier confirmed PRO (not free). At ~10 leads/mo against 750 tasks/mo (~1-2 tasks/lead), task cost is NOT a binding constraint, so the managed no-code Catch Hook Zap is the leanest-to-build and most handoff-sustainable path. Optimizing task usage (the SDK's appeal) optimizes a non-constraint at this volume.",
+      "bet": "Tidio API-node -> Zapier Catch Hook -> proven Sugar create Zap. ~20 tasks/mo of 750. Zero owned code; config, not build.",
+      "gate_verified": "2026-08-15, visually in the live PRL Tidio account (PRO plan): the Flows Actions palette has a native 'Send to Zapier' action node (and a raw 'API call' node as backup). The 'AI Handoff (lead delivery bridge)' flow exists as a DRAFT that collects data via Ask-a-question nodes but ends with NO delivery node — matching the runbook. Tidio-outbound gate CLEARED. Field mapping to Sugar happens on the Zap side (proven), not in Tidio; Tidio forwards the contact + collected properties.",
+      "assumptions": [
+        "The flow's Ask-a-question nodes save answers to contact properties that 'Send to Zapier' forwards (verify at build time)",
+        "zapier.chatbot creds + field-map work vs PROD at cutover (prod also needs the 'Chatbot' lead_source picklist value added — known go-live gate)"
+      ],
+      "wrong_if": "Tidio has no outbound API node on its plan -> fall back to Tidio's native Zapier trigger if it can fire the Zap, else escalate (Tidio upgrade); OR prod rejects the create (picklist/perms) at cutover.",
+      "sdk_considered": "Zapier SDK is Beta ('free in beta, we'll notify before pricing changes') — adopting a beta as a client's production lead pipe is a future rug-pull risk, and it adds our-stack code for a task-cost saving that does not bind at this volume. Revisit only if 1.4 volume makes task cost real.",
+      "confidence": "MEDIUM-HIGH — Sugar-write proven (high); Zapier path now unblocked (Pro); only the Tidio outbound-node fact is unconfirmed.",
+      "loki": "A managed Zap is one more system in the chain vs an owned webhook; but it needs no code, no owned secret, and PRL's team can maintain it after handoff — net simpler for a client deliverable.",
+      "bar": "Low-med — sandbox-first; no prod write until the 'Chatbot' picklist exists AND a verified create; kill switch = don't publish the Tidio flow live.",
+      "at_risk": "go-live window; building on a beta (avoided); over-optimizing a non-binding task cost (avoided).",
+      "next": "Confirm in the Tidio flow builder: the native Zapier action node exists, fires at lead-capture, and carries the full field set (name/email/phone/company/material). Then build the Zap (Tidio action -> Sugar create) in sandbox and score expected-vs-actual against this receipt.",
+      "horizon": "WEEK",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "outcome": null
+    }
+  ]
+}
