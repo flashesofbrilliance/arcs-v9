@@ -1,26 +1,30 @@
 {
-  "captured_at": "2026-09-08T12:45:00-04:00",
+  "captured_at": "2026-09-08T16:10:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "2dcec25a",
-    "head_message": "merge origin/main; keep session hook receipts [NCI:SKIP merge]",
-    "branch": "feat/audit-service",
+    "head_sha": "7951b36b",
+    "head_message": "feat(job-search): champion shortlist v1 (84 warm Amys) + champions-lane spec [NCI:SKIP]",
     "in_sync_with_origin": false,
-    "note": "all substantive work merged to main via PRs #306/#332/#337/#340; branch ahead only on session hook-state + this handoff"
+    "note": "head is a branch-only commit (internal docs); NFTT/embed/ADR-077 work all merged to main via PR #375-#380",
+    "dirty_files": ["_INBOX/*.jsonl (hook telemetry)", "_STATE/pulse.json", "_STATE/snapshot.json"]
   },
   "vercel": {
-    "note": "LAST-KNOWN, not re-verified this session (verify live with get_deployment before relying)",
     "project": "arcs-v9",
+    "latest_deploy": "dpl_xDL6JBqL7aNumF63xG3GpbcAPpJF (commit 684228ba, PR #380 merge)",
+    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "good_alias": "https://good.arcs.care",
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "RECRUITHAUS_AMMO_PASSWORD"]
   },
   "database": {
-    "note": "prod reachable via Supabase MCP (read-only). Reproducible audit committed: _STATE/2026-09-05-db-audit-reproducible.md",
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "live_facts_2026_09_05": "Receipt 247 (189 = top user / founder dogfood); Outcome 2 (both self-graded, ~0 externally-validated); window 247/247; doorClass 88 ONE_WAY / 159 TWO_WAY; horizon column all-NULL (unused)"
+    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
+    "port": 6543,
+    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
   },
-  "session_summary": "ARCS-on-ARCS shipping close (v3.59.0): shipped + verified live the NFTT 'Assets and Liabilities' essay, the Field Instruments public-goods chapter, the Day-151 status milestone, and the informativeness ratchet with a REAL CI arm (moved off the disabled ci.yml). Deceipt ledger now 15; #13/#15 caught by field-contact, not self-review.",
-  "next_action": "Extract informativeness-auditor from the harness into a standalone package (Seed->Proven graduation, tracked on good.arcs.care/instruments); the outcome-capture keel (2/247 closed) remains the P1.",
-  "blocking": "NONE (memory-index retirement + keel work are human-owned/gated, not blockers)"
+  "open_adrs": ["ADR-077 (DECIDED; GREEN-on-naming / YELLOW-on-magnetize->inbound bet, Blacksmith is the live test)"],
+  "session_summary": "Champion-sourcing thread: characterized the Amy signal -> operator-turned-gatekeeper ICP + magnetization model (ADR-077, minted 77) -> sourced 84 warm 'more Amys' from Zach's own LinkedIn export; shipped 2 live NFTT surfaces (Probably Confirmation Bias post + e2e loop-map embed) after a 6-deploy cache/routing saga.",
+  "next_action": "Launch task_779dfca0: build the gated Champions lane (2nd board tab) from _SPECS/champions-lane-second-tab-v1.md; or work the champion shortlist warmest-first (Masopust, Steinthal, Rich Roberts, Ravi Vijay).",
+  "blocking": "NONE"
 }

@@ -113,6 +113,49 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.60.0 (2026-09-08)
+
+> **Champion-sourcing session** (worktree `quirky-taussig-946b8d`, branch `claude/quirky-taussig-946b8d`).
+> Germinated to build the PEOPLE pipeline (find "more Amys"). Landed the model AND the actual list.
+> Honest note: the session drifted mid-way into derivative artifacts before returning to the real
+> objective (sourcing) — see "Drift" below.
+
+## Shipped (all on main via PR #375–#380)
+- **ADR-077** (minted oracle→77): prime-invariant / reverse-JTBD / magnetize-the-tool — the sovereign-zero
+  canon for the talent-placement primitive. GREEN on naming, YELLOW on the magnetize→inbound bet
+  (Blacksmith is the live test). + DEWY receipt + witness stub + 3 job-search specs
+  (`champion-fit-heuristic`, `champion-icp-atoms`, `magnetization-spec`).
+- **Champion shortlist v1 — THE deliverable**: 84 warm Amy-shape champions sourced from Zach's OWN
+  LinkedIn export (deterministic filter, reusable each quarter), two lanes EXT-search/INT-basin, VC
+  portfolio-talent + ad-agency staffing + Fanatics excluded. `_STATE/job-search/champion-shortlist-v1.{md,tsv}`.
+  Internal only (real names = PII, private repo, never public).
+- **2 live NFTT surfaces**: "Probably Confirmation Bias, Might Delete Later" post
+  (good.arcs.care/blog/nftt/probably-confirmation-bias, new index Latest) + the e2e loop-map HUD
+  embedded as §V of `the-loop-closes` (served at `/blog/nftt/the-loop-closes/hud`).
+
+## Key lesson (banked)
+The embed took SIX deploys — three overlapping bugs I diagnosed in the wrong order: (1) `next.config.ts`
+catch-all re-catches any good.arcs.care path whose served file does NOT start with `blog` → good.html;
+(2) curling a new good path BEFORE its route is READY sticky-caches it to good.html (probe poisons);
+(3) a `git mv` committed as a pure rename while the route/iframe edits sat UNCOMMITTED. Banked:
+`good-arcs-care-embed-blog-prefix-and-probe-poison`. [[frustration-gate]]: symptom surviving multiple
+green fixes = wrong problem; check the committed diff + next.config on round 2, not round 6.
+
+## Drift (own it)
+Thread intent was champion SOURCING. Mid-session I opened new loops (ADR ceremony, a ziggurat that
+didn't land, the NFTT/embed saga) before executing the objective — the exact "close loop before opening
+new" miss. Recovered: sourced the 84 at the end. The ziggurat (`_ARTIFACTS/atlas/2026-09-08-adr-077-ziggurat.html`)
+is committed as a seed but Zach said it "didn't pan out"; do not invest further unless asked.
+
+## Open (next session)
+1. **task_779dfca0 — gated Champions lane (2nd board tab)**: build from `_SPECS/champions-lane-second-tab-v1.md`.
+   Reuse the swipe board; rubric = champion-fit dims with warm_path DOMINANT; swipe → EXT recruithaus
+   enablement / INT blacksmith forge. HARD: PII-gated (/recoil pattern), never on open jobs.arcs.care.
+2. **Work the shortlist warmest-first**: Masopust (live, Chase advocate), Steinthal (JPMC, Chase-lane
+   tie), Rich Roberts (Applied AI Recruiting = closest "another Amy"), Ravi Vijay (Merge Labs founding+AI).
+3. HEAD `7951b36b` (shortlist+spec) is a branch-only commit; push/merge if you want it on main (internal
+   docs, no deploy impact). Memory index near/over budget — retirement stays human-owned.
+
 # Handoff — v3.59.0 (2026-09-08)
 
 > **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
@@ -147,38 +190,5 @@ caught by field-contact, never by my own confidence.
 4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
 
 
-# Handoff — v3.58.0 (2026-09-08)
 
-> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
-> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
-> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
-
-## Shipped
-- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
-  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
-  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
-  regenerated. Closes the v3.55.0 `story_render.py` open loop.
-- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
-  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
-  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
-- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
-  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
-  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
-  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
-  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
-- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
-  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
-- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
-
-## Open (handed to fresh sessions, all started)
-1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
-   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
-2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
-   "Token cost ROI analysis" cloud session, not duplicate.
-3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
-   register decision (insider-dense vs legibility layer) + domain-topology verify first.
-- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
-  abductive profile→role scan.
-- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
-
-> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
+> _v3.58.0 (living-system architecture · NFTT Factory-on-Itself · e2e map) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.57.0/3.56.0/3.55.0/3.54.0/3.53.0 relocated earlier._
