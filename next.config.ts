@@ -42,6 +42,17 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "scott-cut.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // pitch-us counterpart micro-sites are unlisted: never index a live pitch strategy.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "sentilink.arcs.care" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "mercury.arcs.care" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
       // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
       {
         source: "/fonts/:path*",
@@ -56,6 +67,11 @@ const nextConfig: NextConfig = {
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*_vercel).*)", destination: "/blacksmith.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
+        // pitch-us counterpart micro-sites (opportunity at /, operator at /operator). noindex, unlisted.
+        { source: "/operator", destination: "/sentilink-operator.html", has: [{ type: "host", value: "sentilink.arcs.care" }] },
+        { source: "/:path((?!.*operator|.*\\.woff2|.*\\.png|.*\\.pdf|.*\\.ico|.*_vercel).*)", destination: "/sentilink.html", has: [{ type: "host", value: "sentilink.arcs.care" }] },
+        { source: "/operator", destination: "/mercury-operator.html", has: [{ type: "host", value: "mercury.arcs.care" }] },
+        { source: "/:path((?!.*operator|.*\\.woff2|.*\\.png|.*\\.pdf|.*\\.ico|.*_vercel).*)", destination: "/mercury.html", has: [{ type: "host", value: "mercury.arcs.care" }] },
         { source: "/forge", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/observatory", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/resume", destination: "/growth-ai-resume-viewer.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
