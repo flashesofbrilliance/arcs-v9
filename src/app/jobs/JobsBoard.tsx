@@ -36,7 +36,7 @@ const WHY = ["comp", "location", "role shape", "seniority", "culture", "company"
 const ARCH: Record<string, string> = { "forward deployed engineer": "forward deployed", "applied ai engineer": "applied AI", "ai solutions engineer": "AI solutions", "product lead": "product lead", manual: "by hand" }
 const COTYPE: Record<string, string> = { startup: "startup", scaleup: "scale-up", enterprise: "enterprise" }
 const STAGES: Record<string, [string, number]> = { queued: ["generating", 0], gathering: ["gathering", 25], grading: ["grading", 50], rendering: ["rendering", 75], built: ["built, awaiting deploy", 90], live: ["live", 100] }
-const TIER_LABEL: Record<number, [string, string]> = { 1: ["Tier 1", "0.80 and up · generate on swipe"], 2: ["Tier 2", "0.70 to 0.79 · manual trigger"], 3: ["Tier 3", "0.58 to 0.69 · watch"] }
+const TIER_LABEL: Record<number, [string, string]> = { 1: ["Tier 1", "0.80 and up · generate on swipe"], 2: ["Tier 2", "0.70 to 0.79 · manual trigger"], 3: ["Tier 3", "0.52 to 0.69 · watch"] }
 
 const mono = font.mono
 const sans = font.sans
@@ -105,6 +105,18 @@ function leverageScore(r: Row): number {
 }
 function isMoat(r: Row): boolean { return leverageScore(r) >= 4 }
 
+// The row's computed folksonomy tags — the same badges shown on the card, gathered
+// for filtering. All pure compute (no model), so the filter needs no new data.
+const TAG_OPTIONS = ["Moat", "Sleeper", "Embedded", "Product", "Applied AI", "Vertical", "Horizontal"] as const
+function rowTags(r: Row, spec: Spec | null): string[] {
+  const t: string[] = []
+  if (isMoat(r)) t.push("Moat")
+  if (isSleeper(r, spec)) t.push("Sleeper")
+  const m = flavorMotion(r); if (m) t.push(m)
+  const a = flavorAxis(r); if (a) t.push(a)
+  return t
+}
+
 function tierOf(c: number | null, spec: Spec | null): 1 | 2 | 3 | null {
   if (c == null) return null
   const t = spec?.rubric.tiers ?? { t1: 0.8, t2: 0.7, t3: 0.58 }
@@ -135,7 +147,7 @@ export function JobsBoard() {
   const tablet = vw < 1100
   const [data, setData] = useState<Payload | null>(null)
   const [err, setErr] = useState<string | null>(null)
-  const [f, setF] = useState({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", q: "", from: "", to: "" })
+  const [f, setF] = useState({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })
   const [sort, setSort] = useState<{ key: "score" | "company" | "leverage"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [adding, setAdding] = useState(false)
@@ -204,6 +216,7 @@ export function JobsBoard() {
       if (f.ats !== "all" && (r.atsClass ?? "unk") !== f.ats) return false
       if (f.arch !== "all" && (r.alertQuery ?? "manual") !== f.arch) return false
       if (f.co !== "all" && r.companyType !== f.co) return false
+      if (f.tag !== "all" && !rowTags(r, spec).includes(f.tag)) return false
       if (q && !(r.title + " " + r.company).toLowerCase().includes(q)) return false
       const seen = r.firstSeen.slice(0, 10)
       if (f.from && seen < f.from) return false
@@ -324,17 +337,18 @@ export function JobsBoard() {
 
         {/* toolbar */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "8px 0 12px" }}>
-          {seg("tier", [["all", "All tiers"], ["1", "≥ 0.80"], ["2", "0.70–0.79"], ["3", "0.58–0.69"]])}
+          {seg("tier", [["all", "All tiers"], ["1", "≥ 0.80"], ["2", "0.70–0.79"], ["3", "0.52–0.69"]])}
           {seg("swipe", [["all", "Any"], ["none", "Unswiped"], ["r", "Right"], ["l", "Left"]])}
           <select aria-label="ATS" value={f.ats} onChange={(e) => setF({ ...f, ats: e.target.value })} style={ctl}><option value="all">Any ATS</option><option value="old">Old school (Workday)</option><option value="new">New school (Ashby, Greenhouse)</option><option value="unk">Unverified</option></select>
           <select aria-label="Saved search" value={f.arch} onChange={(e) => setF({ ...f, arch: e.target.value })} style={ctl}><option value="all">Any search</option>{Object.entries(ARCH).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Company type" value={f.co} onChange={(e) => setF({ ...f, co: e.target.value })} style={ctl}><option value="all">Any company</option>{Object.entries(COTYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
+          <select aria-label="Tag" value={f.tag} onChange={(e) => setF({ ...f, tag: e.target.value })} style={ctl} title="Filter by a computed tag: Moat / Sleeper (leverage & hidden-fit), or role-shape flavor"><option value="all">Any tag</option>{TAG_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}</select>
           <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option></select>
           <input type="search" placeholder="Search role or company" aria-label="Search" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} style={{ ...ctl, flex: "1 1 160px", minWidth: 160 }} />
           <label style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: fg3, flexBasis: phone ? "100%" : undefined }}>Seen <input type="date" aria-label="Seen from" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /> to <input type="date" aria-label="Seen to" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /></label>
           <span style={{ flex: 1 }} />
           <span style={{ fontSize: 13, color: fg3, whiteSpace: "nowrap" }}>{visible.length} of {scored.length}</span>
-          <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: 13 }}>Reset</button>
+          <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: 13 }}>Reset</button>
           <Button variant="ghost" size="sm" onClick={() => { setLabOpen((o) => { const n = !o; if (n && !weights) setWeights(Object.fromEntries(DIMS.map((d) => [d.key, d.weight]))); return n }) }} aria-expanded={labOpen}>{labOpen ? "Close lab" : weights ? "Weight lab ●" : "Weight lab"}</Button>
           <Button variant="ghost" size="sm" onClick={() => setAdding((a) => !a)} aria-expanded={adding}>{adding ? "Close" : "+ Add a row"}</Button>
         </div>

@@ -228,11 +228,11 @@
    "pursue": 0.7,
    "consider": 0.5
   },
-  "board_cutoff": 0.58,
+  "board_cutoff": 0.52,
   "tiers": {
    "t1": 0.8,
    "t2": 0.7,
-   "t3": 0.58
+   "t3": 0.52
   }
  },
  "stale_on_hud": [
