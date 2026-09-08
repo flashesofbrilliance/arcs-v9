@@ -63,6 +63,15 @@
   .endmark { margin: 2.6em 0 0; }
   nav a { text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  /* The living braid: a read-thread rail that reacts to scroll position, velocity, and
+     direction, with a gold yad (the Torah pointer) marking your heading and your place. */
+  .braid-rail { position: fixed; top: 0; left: 0; width: 56px; height: 100vh; z-index: 5;
+    pointer-events: none; display: none; }
+  .braid-resume { position: fixed; left: 62px; z-index: 6; transform: translateY(-50%);
+    font: 600 .72rem/1 var(--font-mono); color: var(--bg); background: var(--gold);
+    border: none; border-radius: 999px; padding: .5em .8em; cursor: pointer; display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.5); letter-spacing: .02em; }
+  @media (min-width: 1040px) { .braid-rail { display: block; } }
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
@@ -72,7 +81,7 @@
 <p class="standfirst">What actually happened, in order, with the failures left in. Watch for three threads: <strong>red</strong> is everything that says no, <strong>gold</strong> is everything that keeps paying after the job is done, and <strong>vermillion</strong> is where they twist together, the moments the thing that bit you turns out to have been on your side.</p>
 <hr style="border:none;border-top:1px solid var(--border);margin:2.5em 0">
 <div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · gates</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#FFD700"/></svg>gold · assets</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#FF6B2C"/></svg>vermillion · fusion</span></div>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">A stranger in my inbox</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">A stranger in my inbox</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">Nobody plans a filing system. You plan how to answer an email.</p>
 <p class="dropcap" style="margin:0 0 1.15em;line-height:1.75">It started with a cold LinkedIn message on a Saturday: a recruiter I did not know, pitching a role at an AI startup I had never heard of. For 99.9% of people the reflex is delete, archive, move on, and most of the time that reflex is right. Mine is different, and not because I am more disciplined. My curiosity always gets the better of me, and underneath it a hero bias does quiet work: some part of me wants the message to be real, wants to be the person somebody went looking for. That pull is exactly why I need a posture. A bias you know you have is a bias you can build a gate for.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">So, before the scheduling link, a ten-minute smoke test. Does the sender exist: years of profile history, real employer, mutual connections? Does the opportunity exist independently of the message? Make them invest first: ask for the job description before you touch the calendar. Then the one that separates signal from script: ask a question no template can answer. Mine was "what's the story with the team?" A script deflects or gushes. A person either knows something specific or admits they don't, and both are passes, because an honest gap is as un-fakeable as a specific answer. I got both: an admitted gap and a vouch for one leader with the texture of real shared history. Pass. If it had failed: archive without guilt, because now it is a verdict instead of a vibe.</p>
@@ -80,19 +89,19 @@
 <p style="margin:0 0 1.15em;line-height:1.75">The application itself took minutes. I ran it two minutes before my call with the recruiter, because I was not crafting anything in that moment: I was executing a method I had already packaged from previous applications, refined again on this rep. The hours had been spent earlier, building the workflow that makes any given application nearly free. This is the unlock generative AI actually offers, and most people hold it backwards: you invest in the class, and the instances become almost free. Build the reusable machine once, at full care; then each deliverable is a two-minute run. The deliverable was disposable; the method was the asset. Before sending, a panel of four harsh simulated readers tore the draft apart, and earned its keep: it caught me claiming an open-source tool of mine solved "the same problem" as the company's product. It does not. Mine reduces a cost; theirs measures it. The corrected framing, independently converged from the other side, is stronger than the false identity, and a staff engineer would have caught the overclaim in five seconds.</p>
 <blockquote class="pull">The deliverable was disposable; the method was the asset.</blockquote>
 <p style="margin:0 0 1.15em;line-height:1.75">The application went out. That should have been the end of the story. Instead, the leftover tricks from one disposable errand needed somewhere to live, and a resume became a filing problem.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The index that writes itself</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The index that writes itself</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">My working memory is a few hundred small text files: lessons, patterns, scars. For months the master index was hand-curated, which means it was always slightly wrong. The fix was an inversion: instead of the index describing the files, the files describe themselves, and a script rebuilds the index from their own headers every morning. Curation, the judgment about what matters, stays human. Cataloging, the mechanical act of not losing things, is now impossible to forget. That split, automate the countable, keep the judgment, is the house rule everything else here follows.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The pyramid nobody designed</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The pyramid nobody designed</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">Once the files described themselves, the links between them became data: 183 notes, 590 cross-references, with one honesty rule: only explicitly declared links count. A guessed lineage is the propaganda version of lineage. I rendered the graph as a landscape where altitude equals citation count, and the data made a pyramid on its own. The apex, cited 21 times, turned out to be the note that says: cut, don't add; make it provable. The archive's most load-bearing idea is the instruction to have fewer ideas. I did not put it there; two hundred small filing decisions did. One asterisk a skeptic has earned: the pyramid shows my citation habits with perfect honesty. Whether my habits show my beliefs is a question it cannot answer.</p>
 <div class="plain">In plain terms: count who points at whom, and the crowd makes a hill. What stood on top surprised me.</div>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gate that said no to everything</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gate that said no to everything</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">To make slices of the archive portable without leaking client context, the exporter got a gate: any file without an explicit audience label is internal, full stop. On its first run the gate refused every single file. My first instinct said bug. My second said: that is the gate working. A gate that fails open on day one is decoration. Inconvenient and correct beats convenient and leaky, every time someone's actual information is on the line.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Auditing the auditor</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Auditing the auditor</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">A system that measures everything except its maker is a mirror hung facing the wall. So I treated a month of my own work like a portfolio, every project a position, every outcome booked, and made myself read the whole statement:</p>
 <ul style="margin:0 0 1.15em;padding-left:1.3em"><li style="margin:0 0 .8em;line-height:1.7"><strong>The most expensive run of the month bought a negative result, and that was the right trade.</strong> A fourteen-reviewer adversarial panel unanimously falsified a plan I was about to build. The build never happened. Booked honestly, that is R&amp;D: the money bought an avoided mistake, the cheapest form a mistake comes in. One asterisk: an avoided mistake is unverifiable by construction, and unanimous agreement is also what a shared blind spot looks like. I booked it as R&amp;D anyway. I might be wrong.</li><li style="margin:0 0 .8em;line-height:1.7"><strong>My failure log is a scar log, not a predictor.</strong> All 33 entries were written after the surprise, none before. A log that only records wounds cannot calibrate anything. It can only commemorate.</li><li style="margin:0 0 .8em;line-height:1.7"><strong>My calibration has a measurable bias</strong>: my written-in-advance predictions consistently undershoot how warmly people respond. I would prefer a more flattering finding. I trust this one more because it is not.</li></ul>
 <p style="margin:0 0 1.15em;line-height:1.75">And the gates kept biting their own author. The pre-push check that keeps my public pages honest rejected the very commit that created the doctrine about drift, because that commit had itself created drift. I fixed the page rather than override the gate. If your quality gate has never caught you personally, it is not strict enough to catch anyone else, and deep down you already know it.</p>
 <div class="plain">In plain terms: I built a spell-checker for my own honesty, and the first typo it found was mine, in the sentence announcing the spell-checker. That is not embarrassing. That is the product demo.</div>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The braid</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The braid</h2>
 <svg width="200" height="36" viewBox="0 0 200 36" aria-hidden="true" style="display:block;margin:.2em 0 1.2em"><polyline points="0,18.0 6,21.7 12,24.8 18,26.6 24,26.9 30,25.6 36,22.9 42,19.3 48,15.5 54,12.1 60,9.8 66,9.0 72,9.8 78,12.1 84,15.5 90,19.3 96,22.9 102,25.6 108,26.9 114,26.6 120,24.8 126,21.7 132,18.0 138,14.3 144,11.2 150,9.4 156,9.1 162,10.4 168,13.1 174,16.7 180,20.5 186,23.9 192,26.2 198,27.0" fill="none" stroke="#FF4D6D" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,25.8 6,23.2 12,19.7 18,15.9 24,12.4 30,10.0 36,9.0 42,9.6 48,11.8 54,15.1 60,18.9 66,22.5 72,25.3 78,26.8 84,26.7 90,25.1 96,22.1 102,18.4 108,14.7 114,11.5 120,9.5 126,9.0 132,10.2 138,12.8 144,16.3 150,20.1 156,23.6 162,26.0 168,27.0 174,26.4 180,24.2 186,20.9 192,17.1 198,13.5" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,10.2 6,9.0 12,9.5 18,11.5 24,14.7 30,18.4 36,22.1 42,25.1 48,26.7 54,26.8 60,25.3 66,22.5 72,18.9 78,15.1 84,11.8 90,9.6 96,9.0 102,10.0 108,12.4 114,15.9 120,19.7 126,23.2 132,25.8 138,27.0 144,26.5 150,24.5 156,21.3 162,17.6 168,13.9 174,10.9 180,9.3 186,9.2 192,10.7 198,13.5" fill="none" stroke="#FF6B2C" stroke-width="2.5" stroke-linecap="round" opacity=".9"/></svg>
 <p style="margin:0 0 1.15em;line-height:1.75"><strong>Vermillion.</strong> Procrastination might be a premise worth challenging. The month's stated goal was "send resume"; the actual output was everything above, which a client project was reusing days later. The Greeks had two words for time: chronos, the gridded clock a calendar can hold, and kairos, the opportune window that opens and closes. A calendar has a slot for the meeting and no slot for "you will be in peak flow at 9pm Tuesday." Some drift is not defiance of the plan; it is attention reading a dimension the plan cannot render. But flag who holds the pencil: the adjudicator of the drift's returns is the drifter. One external mark exists so far, and one mark is not a curve.</p>
 <div class="plain">In plain terms: your calendar knows when the meeting is. It has no idea when you'll catch the wave.</div>
@@ -101,7 +110,7 @@
 <p style="margin:0 0 1.15em;line-height:1.75">People say "trust the process." What I trust is instruments, homebuilt and uncertified, with one known fault already on the record, but a gauge that logs its own faults still beats no gauge. Every receipt is a waypoint dropped so that later, fogged and tired, I can reconstruct my heading from the record instead of the feeling.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">The notes file themselves now. The judgment is still mine. That split is the whole method.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">One last receipt: the resume method that started this story, the class whose instance took two minutes, is shipped as a free public good at <a href="https://resume-tailor.arcs.care/">resume-tailor.arcs.care</a>. If a stranger ever slides into your inbox on a Saturday and survives the peephole check, the machine is yours too.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The invention sparkline</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The invention sparkline</h2>
 <figure class="arc arc-ladder" role="img" aria-label="the invention arc: 16 stops"><ol class="arc-list"><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">cold DM</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">smoke test</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">2-minute run</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">gauntlet</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">application sent</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">offshoots harvested</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">self-filing index</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">citation pyramid</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">travel bundles + gate</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">storage doctrine</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#FF6B2C"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">self-audit</span><span class="arc-thread" style="color:#FF6B2C">fusion</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">this essay</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">depth ladder</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">page renderer</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">provenance manifest</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#FF6B2C"/></svg></span><span class="arc-label">the law, witnessed</span><span class="arc-thread" style="color:#FF6B2C">fusion</span></li></ol></figure>
 <hr style="border:none;border-top:1px solid var(--border);margin:2.5em 0">
 <div class="aside">Every claim traces to a commit or ledger entry in the project repo. Names omitted or generalized. No adoption claims, because none exist yet. Full-length version with house terminology: available; the internal names (untrusted node, the gauntlet, the air-gap gate, the falsification ledger, ADR-065) map one-to-one onto everything above.</div>
@@ -109,4 +118,104 @@
 </article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
-</main></body></html>
+</main>
+<div class="braid-rail" aria-hidden="true"><svg width="56" height="100" preserveAspectRatio="none"></svg></div>
+<button class="braid-resume" type="button">pick up where you left off</button>
+<script id="braid-threads" type="application/json">[{"hex": "#FF4D6D", "shape": "diamond"}, {"hex": "#FFD700", "shape": "circle"}, {"hex": "#FF6B2C", "shape": "square"}]</script>
+<script>
+(function(){
+  var rail=document.querySelector('.braid-rail'); if(!rail) return;
+  var svg=rail.querySelector('svg');
+  var threads=JSON.parse(document.getElementById('braid-threads').textContent);
+  var N=threads.length, W=56, cx=28;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SVGNS='http://www.w3.org/2000/svg';
+  var H=innerHeight;
+  function fit(){ H=innerHeight; svg.setAttribute('viewBox','0 0 '+W+' '+H); }
+  fit(); addEventListener('resize',fit,{passive:true});
+
+  // one main strand + one moiré ghost per thread, drawn back to front
+  var strands=threads.map(function(t){
+    var g=document.createElementNS(SVGNS,'polyline');
+    g.setAttribute('fill','none'); g.setAttribute('stroke',t.hex);
+    g.setAttribute('stroke-linecap','round'); g.setAttribute('opacity','0.5');
+    var ghost=document.createElementNS(SVGNS,'polyline');
+    ghost.setAttribute('fill','none'); ghost.setAttribute('stroke',t.hex);
+    ghost.setAttribute('stroke-linecap','round'); ghost.setAttribute('opacity','0');
+    svg.appendChild(ghost); svg.appendChild(g);
+    return {t:t, line:g, ghost:ghost};
+  });
+  // the yad: a gold pointer riding the braid at the reading line
+  var yad=document.createElementNS(SVGNS,'g');
+  yad.innerHTML='<circle r="7" fill="none" stroke="#FFD700" stroke-width="1.5" opacity=".9"/>'
+    +'<path d="M0 -3 L0 6 M-3 3 L0 6 L3 3" stroke="#FFD700" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  svg.appendChild(yad);
+
+  // lead thread per section, from the h2 data-thread the reader is currently under
+  var heads=[].slice.call(document.querySelectorAll('h2[data-thread]'));
+  function currentLead(){
+    var mark=scrollY+innerHeight*0.4, hex=(threads[0]||{}).hex;
+    for(var i=0;i<heads.length;i++){ if(heads[i].offsetTop<=mark) hex=heads[i].getAttribute('data-thread'); else break; }
+    return hex;
+  }
+
+  var lastY=scrollY, vel=0, energy=0, phase=0, dir=1, leadHex=currentLead();
+  addEventListener('scroll',function(){
+    var y=scrollY, d=y-lastY; lastY=y;
+    vel=d; if(d) dir=d>0?1:-1;
+    energy=Math.min(1, energy+Math.min(0.9, Math.abs(d)/90));
+    leadHex=currentLead();
+    savePlace(y);
+  },{passive:true});
+
+  function docFrac(){ var m=document.documentElement.scrollHeight-innerHeight; return m>0?Math.min(1,scrollY/m):0; }
+
+  function draw(){
+    var docH=document.documentElement.scrollHeight-innerHeight;
+    var amp=6+energy*13, spread=6+energy*10, step=14, phi=phase;
+    for(var s=0;s<strands.length;s++){
+      var st=strands[s], lead=(st.t.hex===leadHex);
+      var ph=phi + s*(Math.PI*2/N);
+      var pts='', gpts='';
+      for(var y=-10;y<=H+10;y+=step){
+        var base=cx + Math.sin(y/44 + ph)*amp + Math.sin(y/17 + ph*1.7)*(spread*0.28*(s-(N-1)/2));
+        pts+= base.toFixed(1)+','+y+' ';
+        gpts+=(base+ (energy*3)*Math.sin(y/9 - ph)).toFixed(1)+','+y+' ';
+      }
+      st.line.setAttribute('points',pts);
+      st.line.setAttribute('stroke-width',(lead?2.6:1.4)+energy*1.2);
+      st.line.setAttribute('opacity', lead? (0.95) : (0.34+energy*0.15));
+      st.ghost.setAttribute('points',gpts);
+      st.ghost.setAttribute('opacity', (lead? energy*0.5 : energy*0.22).toFixed(3)); // moiré at speed
+    }
+    // yad rides the braid at the reading line, points the way you are heading
+    var yy=innerHeight*0.4, yx=cx + Math.sin(yy/44 + phi)*amp;
+    yad.setAttribute('transform','translate('+yx.toFixed(1)+','+yy.toFixed(1)+') scale(1,'+(dir<0?-1:1)+')');
+    phase += dir*(0.006+energy*0.05) + 0.0016;   // travels with you, gentle idle drift
+    energy*=0.94;                                  // settles back to a calm weave
+    if(!reduce) requestAnimationFrame(draw);
+  }
+
+  // bookmark: remember the place; offer to resume on return
+  var KEY='braid:'+'post-1', saveT=0;
+  function savePlace(y){ var now=Date.now(); if(now-saveT<400) return; saveT=now;
+    try{ localStorage.setItem(KEY, JSON.stringify({f:docFrac(),t:now})); }catch(e){} }
+  function offerResume(){
+    var raw; try{ raw=localStorage.getItem(KEY); }catch(e){ return; }
+    if(!raw) return; var st; try{ st=JSON.parse(raw); }catch(e){ return; }
+    if(!st || st.f<0.06 || st.f>0.97 || scrollY>innerHeight*0.5) return;
+    var btn=document.querySelector('.braid-resume');
+    btn.style.top=(st.f*innerHeight)+'px'; btn.style.display='block';
+    btn.addEventListener('click',function(){
+      var target=st.f*(document.documentElement.scrollHeight-innerHeight);
+      scrollTo({top:target,behavior:'smooth'}); btn.style.display='none';
+    });
+    ['scroll','keydown','wheel','touchstart'].forEach(function(ev){
+      addEventListener(ev,function(){ btn.style.display='none'; },{once:true,passive:true}); });
+  }
+
+  if(reduce){ draw(); } else { requestAnimationFrame(draw); }
+  offerResume();
+})();
+</script>
+</body></html>

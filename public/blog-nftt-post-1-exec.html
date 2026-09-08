@@ -63,6 +63,15 @@
   .endmark { margin: 2.6em 0 0; }
   nav a { text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  /* The living braid: a read-thread rail that reacts to scroll position, velocity, and
+     direction, with a gold yad (the Torah pointer) marking your heading and your place. */
+  .braid-rail { position: fixed; top: 0; left: 0; width: 56px; height: 100vh; z-index: 5;
+    pointer-events: none; display: none; }
+  .braid-resume { position: fixed; left: 62px; z-index: 6; transform: translateY(-50%);
+    font: 600 .72rem/1 var(--font-mono); color: var(--bg); background: var(--gold);
+    border: none; border-radius: 999px; padding: .5em .8em; cursor: pointer; display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.5); letter-spacing: .02em; }
+  @media (min-width: 1040px) { .braid-rail { display: block; } }
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
@@ -81,4 +90,104 @@
 </article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
-</main></body></html>
+</main>
+<div class="braid-rail" aria-hidden="true"><svg width="56" height="100" preserveAspectRatio="none"></svg></div>
+<button class="braid-resume" type="button">pick up where you left off</button>
+<script id="braid-threads" type="application/json">[{"hex": "#FF4D6D", "shape": "diamond"}, {"hex": "#FFD700", "shape": "circle"}, {"hex": "#FF6B2C", "shape": "square"}]</script>
+<script>
+(function(){
+  var rail=document.querySelector('.braid-rail'); if(!rail) return;
+  var svg=rail.querySelector('svg');
+  var threads=JSON.parse(document.getElementById('braid-threads').textContent);
+  var N=threads.length, W=56, cx=28;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SVGNS='http://www.w3.org/2000/svg';
+  var H=innerHeight;
+  function fit(){ H=innerHeight; svg.setAttribute('viewBox','0 0 '+W+' '+H); }
+  fit(); addEventListener('resize',fit,{passive:true});
+
+  // one main strand + one moiré ghost per thread, drawn back to front
+  var strands=threads.map(function(t){
+    var g=document.createElementNS(SVGNS,'polyline');
+    g.setAttribute('fill','none'); g.setAttribute('stroke',t.hex);
+    g.setAttribute('stroke-linecap','round'); g.setAttribute('opacity','0.5');
+    var ghost=document.createElementNS(SVGNS,'polyline');
+    ghost.setAttribute('fill','none'); ghost.setAttribute('stroke',t.hex);
+    ghost.setAttribute('stroke-linecap','round'); ghost.setAttribute('opacity','0');
+    svg.appendChild(ghost); svg.appendChild(g);
+    return {t:t, line:g, ghost:ghost};
+  });
+  // the yad: a gold pointer riding the braid at the reading line
+  var yad=document.createElementNS(SVGNS,'g');
+  yad.innerHTML='<circle r="7" fill="none" stroke="#FFD700" stroke-width="1.5" opacity=".9"/>'
+    +'<path d="M0 -3 L0 6 M-3 3 L0 6 L3 3" stroke="#FFD700" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  svg.appendChild(yad);
+
+  // lead thread per section, from the h2 data-thread the reader is currently under
+  var heads=[].slice.call(document.querySelectorAll('h2[data-thread]'));
+  function currentLead(){
+    var mark=scrollY+innerHeight*0.4, hex=(threads[0]||{}).hex;
+    for(var i=0;i<heads.length;i++){ if(heads[i].offsetTop<=mark) hex=heads[i].getAttribute('data-thread'); else break; }
+    return hex;
+  }
+
+  var lastY=scrollY, vel=0, energy=0, phase=0, dir=1, leadHex=currentLead();
+  addEventListener('scroll',function(){
+    var y=scrollY, d=y-lastY; lastY=y;
+    vel=d; if(d) dir=d>0?1:-1;
+    energy=Math.min(1, energy+Math.min(0.9, Math.abs(d)/90));
+    leadHex=currentLead();
+    savePlace(y);
+  },{passive:true});
+
+  function docFrac(){ var m=document.documentElement.scrollHeight-innerHeight; return m>0?Math.min(1,scrollY/m):0; }
+
+  function draw(){
+    var docH=document.documentElement.scrollHeight-innerHeight;
+    var amp=6+energy*13, spread=6+energy*10, step=14, phi=phase;
+    for(var s=0;s<strands.length;s++){
+      var st=strands[s], lead=(st.t.hex===leadHex);
+      var ph=phi + s*(Math.PI*2/N);
+      var pts='', gpts='';
+      for(var y=-10;y<=H+10;y+=step){
+        var base=cx + Math.sin(y/44 + ph)*amp + Math.sin(y/17 + ph*1.7)*(spread*0.28*(s-(N-1)/2));
+        pts+= base.toFixed(1)+','+y+' ';
+        gpts+=(base+ (energy*3)*Math.sin(y/9 - ph)).toFixed(1)+','+y+' ';
+      }
+      st.line.setAttribute('points',pts);
+      st.line.setAttribute('stroke-width',(lead?2.6:1.4)+energy*1.2);
+      st.line.setAttribute('opacity', lead? (0.95) : (0.34+energy*0.15));
+      st.ghost.setAttribute('points',gpts);
+      st.ghost.setAttribute('opacity', (lead? energy*0.5 : energy*0.22).toFixed(3)); // moiré at speed
+    }
+    // yad rides the braid at the reading line, points the way you are heading
+    var yy=innerHeight*0.4, yx=cx + Math.sin(yy/44 + phi)*amp;
+    yad.setAttribute('transform','translate('+yx.toFixed(1)+','+yy.toFixed(1)+') scale(1,'+(dir<0?-1:1)+')');
+    phase += dir*(0.006+energy*0.05) + 0.0016;   // travels with you, gentle idle drift
+    energy*=0.94;                                  // settles back to a calm weave
+    if(!reduce) requestAnimationFrame(draw);
+  }
+
+  // bookmark: remember the place; offer to resume on return
+  var KEY='braid:'+'post-1', saveT=0;
+  function savePlace(y){ var now=Date.now(); if(now-saveT<400) return; saveT=now;
+    try{ localStorage.setItem(KEY, JSON.stringify({f:docFrac(),t:now})); }catch(e){} }
+  function offerResume(){
+    var raw; try{ raw=localStorage.getItem(KEY); }catch(e){ return; }
+    if(!raw) return; var st; try{ st=JSON.parse(raw); }catch(e){ return; }
+    if(!st || st.f<0.06 || st.f>0.97 || scrollY>innerHeight*0.5) return;
+    var btn=document.querySelector('.braid-resume');
+    btn.style.top=(st.f*innerHeight)+'px'; btn.style.display='block';
+    btn.addEventListener('click',function(){
+      var target=st.f*(document.documentElement.scrollHeight-innerHeight);
+      scrollTo({top:target,behavior:'smooth'}); btn.style.display='none';
+    });
+    ['scroll','keydown','wheel','touchstart'].forEach(function(ev){
+      addEventListener(ev,function(){ btn.style.display='none'; },{once:true,passive:true}); });
+  }
+
+  if(reduce){ draw(); } else { requestAnimationFrame(draw); }
+  offerResume();
+})();
+</script>
+</body></html>

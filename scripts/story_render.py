@@ -242,7 +242,37 @@ def render_body(md, env, threads):
     titled = seen_h2 = dropped_cap = keyed = False
     stitch_words = {t["name"].split("·")[0].strip().lower(): t["hex"] for t in threads}
     P = 'style="margin:0 0 1.15em;line-height:1.75"'
-    for block in re.split(r"\n\s*\n", md.strip()):
+    blocks = [b.strip() for b in re.split(r"\n\s*\n", md.strip()) if b.strip()]
+
+    # Pre-scan: for each section heading (every ## after the title), find the thread that
+    # governs it, from the stitches inside. The living braid reads these to know which strand
+    # leads where. A section with no stitch inherits the previous lead.
+    def stitch_hex(b):
+        head = b[:20].lower()
+        return next((hx for w, hx in stitch_words.items() if w in head), None)
+    section_leads, in_section, seen_title, tally, prev = [], False, False, {}, threads[0]["hex"]
+    def flush():
+        nonlocal tally, prev
+        if tally:
+            prev = max(tally, key=tally.get)
+        section_leads.append(prev)
+        tally = {}
+    for b in blocks:
+        if b.startswith("## ") and not seen_title:
+            seen_title = True
+        elif b.startswith("## "):
+            if in_section:
+                flush()
+            in_section = True
+        elif b.startswith("— *"):
+            hx = stitch_hex(b)
+            if hx:
+                tally[hx] = tally.get(hx, 0) + 1
+    if in_section:
+        flush()
+    lead_iter = iter(section_leads)
+
+    for block in blocks:
         b = block.strip()
         if not b:
             continue
@@ -261,7 +291,8 @@ def render_body(md, env, threads):
             if not keyed and len(threads) >= 2:  # P1: thread key after the map, before the body
                 out.append(thread_legend(threads)); keyed = True
             seen_h2 = True
-            out.append(f'<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">{inline(b[3:])}</h2>')
+            lead = next(lead_iter, threads[0]["hex"])
+            out.append(f'<h2 data-thread="{lead}" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">{inline(b[3:])}</h2>')
             if "braid" in b.lower():
                 out.append(braid_svg(threads))
         elif b.startswith("[[ARC]]"):
@@ -371,6 +402,16 @@ PAGE = """<!doctype html>
   .endmark {{ margin: 2.6em 0 0; }}
   nav a {{ text-decoration: none; }}
   nav a:hover {{ text-decoration: underline; }}
+  /* The living braid: a read-thread rail that reacts to scroll position, velocity, and
+     direction, with a gold yad (the Torah pointer) marking your heading and your place. */
+  .braid-rail {{ position: fixed; top: 0; left: 0; width: 56px; height: 100vh; z-index: 5;
+    pointer-events: none; display: none; }}
+  .braid-rail svg {{ display: block; width: 56px; height: 100%; }}
+  .braid-resume {{ position: fixed; left: 62px; z-index: 6; transform: translateY(-50%);
+    font: 600 .72rem/1 var(--font-mono); color: var(--bg); background: var(--gold);
+    border: none; border-radius: 999px; padding: .5em .8em; cursor: pointer; display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.5); letter-spacing: .02em; }}
+  @media (min-width: 1040px) {{ .braid-rail {{ display: block; }} }}
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
@@ -379,8 +420,115 @@ PAGE = """<!doctype html>
 </article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
-</main></body></html>
+</main>
+<!--BRAID-->
+</body></html>
 """
+
+
+# The living braid + yad. Injected via string replace (never through PAGE.format) so its JS/CSS
+# braces stay intact. __THREADS__ / __SLUG__ are filled by build().
+BRAID_FEATURE = r"""<div class="braid-rail" aria-hidden="true"><svg width="56" height="100" preserveAspectRatio="none"></svg></div>
+<button class="braid-resume" type="button">pick up where you left off</button>
+<script id="braid-threads" type="application/json">__THREADS__</script>
+<script>
+(function(){
+  var rail=document.querySelector('.braid-rail'); if(!rail) return;
+  var svg=rail.querySelector('svg');
+  var threads=JSON.parse(document.getElementById('braid-threads').textContent);
+  var N=threads.length, W=56, cx=28;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SVGNS='http://www.w3.org/2000/svg';
+  var H=innerHeight;
+  function fit(){ H=innerHeight; svg.setAttribute('viewBox','0 0 '+W+' '+H); }
+  fit(); addEventListener('resize',fit,{passive:true});
+
+  // The ARCS double helix: base-pair rungs behind, two backbones in front. The rungs are the
+  // threads (coded by the section you are in); the backbones are the structure that carries them.
+  var GAP=15, nR=Math.ceil(H/GAP)+3, rungs=[];
+  for(var i=0;i<nR;i++){ var r=document.createElementNS(SVGNS,'line');
+    r.setAttribute('stroke-linecap','round'); svg.appendChild(r); rungs.push(r); }
+  var back=[0,1].map(function(k){
+    var p=document.createElementNS(SVGNS,'polyline');
+    p.setAttribute('fill','none'); p.setAttribute('stroke',(threads[k]||threads[0]).hex);
+    p.setAttribute('stroke-linecap','round'); svg.appendChild(p); return p;
+  });
+  // the yad: a gold pointer riding a backbone at the reading line
+  var yad=document.createElementNS(SVGNS,'g');
+  yad.innerHTML='<circle r="7" fill="none" stroke="#FFD700" stroke-width="1.5" opacity=".9"/>'
+    +'<path d="M0 -3 L0 6 M-3 3 L0 6 L3 3" stroke="#FFD700" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  svg.appendChild(yad);
+
+  // lead thread per section, from the h2 data-thread the reader is currently under
+  var heads=[].slice.call(document.querySelectorAll('h2[data-thread]'));
+  function currentLead(){
+    var mark=scrollY+innerHeight*0.4, hex=(threads[0]||{}).hex;
+    for(var i=0;i<heads.length;i++){ if(heads[i].offsetTop<=mark) hex=heads[i].getAttribute('data-thread'); else break; }
+    return hex;
+  }
+
+  var lastY=scrollY, vel=0, energy=0, phase=0, dir=1, leadHex=currentLead();
+  addEventListener('scroll',function(){
+    var y=scrollY, d=y-lastY; lastY=y;
+    vel=d; if(d) dir=d>0?1:-1;
+    energy=Math.min(1, energy+Math.min(0.9, Math.abs(d)/90));
+    leadHex=currentLead();
+    savePlace(y);
+  },{passive:true});
+
+  function docFrac(){ var m=document.documentElement.scrollHeight-innerHeight; return m>0?Math.min(1,scrollY/m):0; }
+
+  var period=54;
+  function draw(){
+    var A=13+energy*7, spin=phase;               // helix radius opens with reading speed
+    var a='', b='';
+    for(var y=-12;y<=H+12;y+=8){
+      var s=Math.sin(y/period+spin);
+      a+=(cx+A*s).toFixed(1)+','+y+' ';
+      b+=(cx-A*s).toFixed(1)+','+y+' ';
+    }
+    back[0].setAttribute('points',a); back[1].setAttribute('points',b);
+    var bw=(1.8+energy*1.3).toFixed(1);
+    back[0].setAttribute('stroke-width',bw); back[1].setAttribute('stroke-width',bw);
+    back[0].setAttribute('opacity','0.9');  back[1].setAttribute('opacity','0.5');
+    for(var i=0;i<rungs.length;i++){
+      var yy2=i*GAP, s2=Math.sin(yy2/period+spin), r=rungs[i];
+      r.setAttribute('x1',(cx+A*s2).toFixed(1)); r.setAttribute('y1',yy2);
+      r.setAttribute('x2',(cx-A*s2).toFixed(1)); r.setAttribute('y2',yy2);
+      r.setAttribute('stroke',leadHex);
+      r.setAttribute('stroke-width',(1+energy*0.8).toFixed(1));
+      r.setAttribute('opacity',(Math.abs(s2)*(0.4+energy*0.45)).toFixed(2)); // bright when facing us
+    }
+    // the yad rides a backbone at the reading line, tipped the way you are heading
+    var ry=innerHeight*0.4, rx=cx + A*Math.sin(ry/period+spin);
+    yad.setAttribute('transform','translate('+rx.toFixed(1)+','+ry.toFixed(1)+') scale(1,'+(dir<0?-1:1)+')');
+    phase += dir*(0.01+energy*0.06) + 0.003;     // winds with you; idle drift keeps it alive
+    energy*=0.94;                                  // settles back to a calm helix
+    if(!reduce) requestAnimationFrame(draw);
+  }
+
+  // bookmark: remember the place; offer to resume on return
+  var KEY='braid:'+'__SLUG__', saveT=0;
+  function savePlace(y){ var now=Date.now(); if(now-saveT<400) return; saveT=now;
+    try{ localStorage.setItem(KEY, JSON.stringify({f:docFrac(),t:now})); }catch(e){} }
+  function offerResume(){
+    var raw; try{ raw=localStorage.getItem(KEY); }catch(e){ return; }
+    if(!raw) return; var st; try{ st=JSON.parse(raw); }catch(e){ return; }
+    if(!st || st.f<0.06 || st.f>0.97 || scrollY>innerHeight*0.5) return;
+    var btn=document.querySelector('.braid-resume');
+    btn.style.top=(st.f*innerHeight)+'px'; btn.style.display='block';
+    btn.addEventListener('click',function(){
+      var target=st.f*(document.documentElement.scrollHeight-innerHeight);
+      scrollTo({top:target,behavior:'smooth'}); btn.style.display='none';
+    });
+    ['scroll','keydown','wheel','touchstart'].forEach(function(ev){
+      addEventListener(ev,function(){ btn.style.display='none'; },{once:true,passive:true}); });
+  }
+
+  if(reduce){ draw(); } else { requestAnimationFrame(draw); }
+  offerResume();
+})();
+</script>"""
 
 
 def build(src: Path, dst: Path):
@@ -398,6 +546,10 @@ def build(src: Path, dst: Path):
     page = PAGE.format(
         title=h.escape(f"{title} · NFTT"), desc=h.escape(desc), css_root=css_root,
         body=body, ladder=ladder(slug, tier, dst.parent))
+    # Living braid + yad: injected by replace so its JS/CSS braces survive (never .format).
+    palette = json.dumps([{"hex": t["hex"], "shape": t["shape"]} for t in threads])
+    braid = BRAID_FEATURE.replace("__THREADS__", palette).replace("__SLUG__", slug)
+    page = page.replace("<!--BRAID-->", braid)
     # Ship-gate: no story ships an em-dash, prose included (ADR-034: gate, not hope).
     if "—" in page:
         raise StoryError("em-dash (U+2014) in output. ARCS uses commas, colons, or periods. "

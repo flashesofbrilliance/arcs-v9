@@ -63,6 +63,15 @@
   .endmark { margin: 2.6em 0 0; }
   nav a { text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  /* The living braid: a read-thread rail that reacts to scroll position, velocity, and
+     direction, with a gold yad (the Torah pointer) marking your heading and your place. */
+  .braid-rail { position: fixed; top: 0; left: 0; width: 56px; height: 100vh; z-index: 5;
+    pointer-events: none; display: none; }
+  .braid-resume { position: fixed; left: 62px; z-index: 6; transform: translateY(-50%);
+    font: 600 .72rem/1 var(--font-mono); color: var(--bg); background: var(--gold);
+    border: none; border-radius: 999px; padding: .5em .8em; cursor: pointer; display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.5); letter-spacing: .02em; }
+  @media (min-width: 1040px) { .braid-rail { display: block; } }
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
@@ -73,7 +82,7 @@
 <p class="standfirst">Two quick keys before you start. First: whenever it gets technical, an italic "in plain terms" line retells the same idea at the kitchen table; neither version is the dumbed-down one. Second: three threads run through everything here. <strong>Red</strong> is everything that says no. <strong>Gold</strong> is everything that keeps paying after the job that made it is done. And where they twist together, <strong>vermillion</strong>: the moments the thing that bit you turns out to have been on your side. The essay ends where the threads do, braided.</p>
 <hr style="border:none;border-top:1px solid var(--border);margin:2.5em 0">
 <div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · gates</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#FFD700"/></svg>gold · assets</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#FF6B2C"/></svg>vermillion · fusion</span></div>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">It started with a stranger in my inbox</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">It started with a stranger in my inbox</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">Nobody plans a filing system. You plan how to answer an email.</p>
 <p class="dropcap" style="margin:0 0 1.15em;line-height:1.75">Before there was a resume, there was a cold LinkedIn message on a Saturday afternoon. A second-degree connection, a recruiter I did not know, working on behalf of an AI startup I had never heard of. The note had the shape that usually earns an archive: a warm pitch, a scheduling link before we had exchanged a single real sentence. In my world that sender has a name: an untrusted node. Not an insult, a starting condition. Every meaningful relationship starts as one. The question an untrusted node poses is the question underneath every decision I build tools for: how do I verify this is real, and worth investing my time and effort in, before I have sunk either?</p>
 <p style="margin:0 0 1.15em;line-height:1.75">So I did the checking before the crafting, and before the scheduling link. I did not book the call. I asked for the job description instead, and I asked a question no job description answers: what's the story with the team? Two things came back that a script could not fake. First, an honest gap: the recruiter admitted he did not have much on the team, which in a world of confident filler is itself a trust signal. Second, a specific human vouch: he had personally worked with one of the company's leaders at a previous job, and the way he spoke about him had the texture you only get from real shared history. Meanwhile my own reading checked out too, real open-source product, real space adjacent to my own, and one detail that made it personal: offices in a city my family has roots in, which turned "random opportunity" into "small world."</p>
@@ -90,34 +99,34 @@
 <p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red thread, first stitch: verify before you invest.</em></p>
 <p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold thread, first stitch: the method outlived the task.</em></p>
 <p style="margin:0 0 1.15em;line-height:1.75">Which is how a resume became a filing problem.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The index that writes itself</h2>
+<h2 data-thread="#FFD700" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The index that writes itself</h2>
 <blockquote class="pull">An index you have to remember to update is a to-do item. An index that updates itself is infrastructure.</blockquote>
 <p style="margin:0 0 1.15em;line-height:1.75">My working memory for this project is a few hundred small markdown files: lessons, patterns, client context, scars. Each has a one-line description in its header. For months, the master index was hand-curated, which means it was always slightly wrong: new files sat unindexed, and a buggy check kept flagging files with dots in their names as orphans forever.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">The fix was an inversion, not a bigger to-do list. Instead of the index describing the files, the files describe themselves, and a small script assembles the index from their own headers at the start of every session. Anything uncataloged auto-files into an "uncurated" band using its own self-description. Curation, the judgment about what matters, stays human. Cataloging, the mechanical act of not losing things, is now impossible to forget.</p>
 <div class="plain">In plain terms: imagine every document in your filing cabinet came with its own label, and the cabinet's table of contents rebuilt itself every morning. You still decide what matters; you just never lose anything again.</div>
 <p style="margin:0 0 1.15em;line-height:1.75">That split, automate the countable, keep the judgment, is the house rule everything else in this story follows.</p>
 <p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold thread: an index that cannot forget is a dividend that pays every morning.</em></p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The pyramid nobody designed</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The pyramid nobody designed</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">Once the files described themselves, the links between them became data: 183 notes, 590 explicit cross-references. One rule made the graph honest: only declared edges count. If a file does not explicitly cite another, no edge exists, no matter how obviously related they seem. A guessed lineage is the propaganda version of lineage.</p>
 <div class="plain">In plain terms: think of each note as a person, and each citation as one person pointing at another and saying "that one taught me something." Line everyone up by how many fingers point at them, and you get a crowd shaped like a hill, with the most-pointed-at idea standing on top.</div>
 <p style="margin:0 0 1.15em;line-height:1.75">I rendered the graph as an explorable 2.5D landscape where altitude equals citation count. Uncited notes at the fog line, heavily cited ones stacked toward the top. I did not design the shape. The citation data made a pyramid on its own.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">Here is the part that still gets me. The apex, the single most-cited note in the whole archive at 21 citations, turned out to be the note that says: cut, don't add; make it provable. The archive's most load-bearing idea is the instruction to have fewer ideas. I did not put it there. Two hundred small filing decisions, none of them about that note in particular, put it there. You find out what you actually believe by looking at what everything else leans on. Or, a skeptic would say, what you find most convenient to cite, and the instrument cannot tell the difference. I hold the epiphany with that asterisk attached: the pyramid shows my citation habits with perfect honesty. Whether my citation habits show my beliefs is a question the pyramid cannot answer.</p>
 <p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red thread: only declared edges count; a guessed lineage is propaganda.</em></p>
 <p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold thread: the pyramid was free; the data paid for it.</em></p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gate that said no to everything</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gate that said no to everything</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">Then I made the graph portable, exportable bundles of notes with their citation neighborhoods, nested like Russian dolls, so a slice of the archive can travel to a new project or a client context without dragging the whole thing along.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">Portable knowledge has a failure mode: leaking. These files contain client context, candid assessments, half-formed judgments. So the exporter got a gate: any file without an explicit audience label is treated as internal, full stop, and an export that excludes a file names what it excluded rather than silently shrinking.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">On its first run, the gate refused every single file. One hundred percent rejection, because nothing had been labeled yet.</p>
 <div class="plain">In plain terms: it works like a bouncer with a guest list. Day one, the list is empty, so nobody gets in. Annoying, but that is exactly what you want from a bouncer guarding a room full of private conversations.</div>
 <p style="margin:0 0 1.15em;line-height:1.75">My first instinct said bug. My second said: that is the gate working. A gate that fails open on day one is decoration. The fix is labeling files as they earn external status, one at a time, not loosening the gate. Inconvenient and correct beats convenient and leaky, every time someone's actual information is on the line.</p>
 <p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red thread, pulled taut: a gate that fails open on day one is decoration.</em></p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Writing down where truth lives</h2>
+<h2 data-thread="#FF4D6D" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Writing down where truth lives</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">By now there were four systems making claims about the same files: the notes themselves, the generated catalog, the rendered landscape, the export bundles. Four representations of one truth is three opportunities to lie.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">So the storage question got a formal decision record, the sixty-fifth in this project's ledger: the notes, under version control, are the single source of truth, and everything downstream, every catalog, database row, search index, and bundle, is a derived projection. Regenerable, disposable, never hand-edited. Citation counts and staleness are always recomputed, never stored, because a number nobody can hand-write is a number that cannot drift.</p>
 <div class="plain">In plain terms: one master copy, and every other version is a photocopy you are allowed to shred and reprint. The moment two copies can each claim to be the original, somebody eventually edits the wrong one, and now you have two truths. The rule kills that possibility at the root.</div>
 <p style="margin:0 0 1.15em;line-height:1.75">The decision record is honest about what is not built: the database projection, the synthesis layer above the raw signals. Writing "not built yet" into your own doctrine is cheap insurance against your future self's optimism.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">And the doctrine was not theoretical. That same stretch of work produced, live, every failure state it governs: three parallel work sessions independently created a handoff document with the same version number (a fork); two repos sat publicly visible while their own descriptions said "private pending review" (a paradox, two stores asserting contradictory truth, resolved by re-privatizing, the restrictive assertion wins); a status page lagged the repo's actual count (drift). My first pass at reconciling the handoff collision was wrong, too. I initially resolved it in a way that papered over the three-way split, and had to amend it to renumber all three honestly rather than pretend there had been a clean sequence. The merge history now shows the collision instead of hiding it, which is the point.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Auditing the auditor</h2>
+<h2 data-thread="#FF6B2C" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Auditing the auditor</h2>
 <blockquote class="pull">A system that measures everything except its maker is a mirror hung facing the wall.</blockquote>
 <p style="margin:0 0 1.15em;line-height:1.75">With the archive now queryable, I ran five parallel reviews over a month of work: four organized by my own categories, and a fifth deliberately run without them, clustering the raw material to see what shape it made on its own. Then I treated the whole thing like a portfolio: every project a position, everything it produced a holding, every outcome booked.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">What the audit found, filed under things I would rather not know but need to:</p>
@@ -127,13 +136,13 @@
 <p style="margin:0 0 1.15em;line-height:1.75"><strong>My calibration has a measurable bias.</strong> Across engagements, my written-in-advance predictions consistently undershoot how warmly friendly counterparts will respond. Same direction, multiple instances. The product I am building is a calibration loop for decisions, and here it is, running on its maker, finding the maker miscalibrated. I would prefer a more flattering finding. I trust this one more because it is not.</p>
 <p class="stitch"><span style="color:#FF6B2C" aria-hidden="true">&#9473;&#9473;</span> <em>Vermillion, first sighting: the audit bites its maker (red) and files every wound it finds as an asset (gold). The bite and the bank deposit, one event.</em></p>
 <p style="margin:0 0 1.15em;line-height:1.75"><strong>Infrastructure was not free of friction either.</strong> The heavy panel runs spent a meaningful share of wall-clock time in retry loops against API overload errors before completing. (Labeled inference: this detail is from session run logs I could not re-pull while drafting; the token totals above are from the committed ledger.)</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gates keep biting their authors</h2>
+<h2 data-thread="#FF6B2C" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The gates keep biting their authors</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">One more pattern, observed so many times this month it graduated from anecdote to law.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">I have a pre-push check that verifies public status pages match the repo's actual state. When I committed decision record sixty-five, the one about drift and projections, the check rejected the push. The status page still said sixty-four. The commit minting the doctrine about drift had itself created drift, and the gate caught it. I fixed the page and pushed clean. I did not, and this matters, override the gate to save thirty seconds.</p>
 <div class="plain">In plain terms: I built a spell-checker for my own honesty, and the first typo it ever found was mine, in the very sentence announcing the spell-checker. That is not embarrassing. That is the product demo.</div>
 <p style="margin:0 0 1.15em;line-height:1.75">The same shape, four times in a few weeks: the export gate refused its own first run; the falsification ledger's first entry was my own wrong claim about the ledger; the paradox rule's first application was my own repos. The gate's first true positive is always the author. Granted, in a one-person shop the author is the only candidate, so the observation proves less than it feels like it proves. The live version of the claim, the one that gets tested when other people work in this system, is the contrapositive: if your quality gate has never caught you personally, it is not strict enough to catch anyone else, and deep down you already know it.</p>
 <p class="stitch"><span style="color:#FF6B2C" aria-hidden="true">&#9473;&#9473;</span> <em>Vermillion, full color: the bite and the gift are the same event.</em></p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">What the trenches taught: the braid</h2>
+<h2 data-thread="#FF6B2C" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">What the trenches taught: the braid</h2>
 <svg width="200" height="36" viewBox="0 0 200 36" aria-hidden="true" style="display:block;margin:.2em 0 1.2em"><polyline points="0,18.0 6,21.7 12,24.8 18,26.6 24,26.9 30,25.6 36,22.9 42,19.3 48,15.5 54,12.1 60,9.8 66,9.0 72,9.8 78,12.1 84,15.5 90,19.3 96,22.9 102,25.6 108,26.9 114,26.6 120,24.8 126,21.7 132,18.0 138,14.3 144,11.2 150,9.4 156,9.1 162,10.4 168,13.1 174,16.7 180,20.5 186,23.9 192,26.2 198,27.0" fill="none" stroke="#FF4D6D" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,25.8 6,23.2 12,19.7 18,15.9 24,12.4 30,10.0 36,9.0 42,9.6 48,11.8 54,15.1 60,18.9 66,22.5 72,25.3 78,26.8 84,26.7 90,25.1 96,22.1 102,18.4 108,14.7 114,11.5 120,9.5 126,9.0 132,10.2 138,12.8 144,16.3 150,20.1 156,23.6 162,26.0 168,27.0 174,26.4 180,24.2 186,20.9 192,17.1 198,13.5" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,10.2 6,9.0 12,9.5 18,11.5 24,14.7 30,18.4 36,22.1 42,25.1 48,26.7 54,26.8 60,25.3 66,22.5 72,18.9 78,15.1 84,11.8 90,9.6 96,9.0 102,10.0 108,12.4 114,15.9 120,19.7 126,23.2 132,25.8 138,27.0 144,26.5 150,24.5 156,21.3 162,17.6 168,13.9 174,10.9 180,9.3 186,9.2 192,10.7 198,13.5" fill="none" stroke="#FF6B2C" stroke-width="2.5" stroke-linecap="round" opacity=".9"/></svg>
 <p style="margin:0 0 1.15em;line-height:1.75">This is where the three threads tie off. Pull each one and see where it leads.</p>
 <p style="margin:0 0 1.15em;line-height:1.75"><strong>Vermillion first, because it is the strangest.</strong> Procrastination might be a premise worth challenging, not a vice worth confessing.</p>
@@ -152,7 +161,7 @@
 <p style="margin:0 0 1.15em;line-height:1.75">None of this was the plan. The plan was a resume. But work that is honest with itself compounds sideways: the filing system priced the portfolio, the portfolio audited the maker, and the audit's ugliest findings, the scar log that cannot calibrate, the bias that undershoots warmth, are next month's work, already filed where I cannot lose them.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">The notes file themselves now. The judgment is still mine. That split is the whole method, and I am increasingly convinced it is the only split that scales.</p>
 <p style="margin:0 0 1.15em;line-height:1.75">One last receipt, because an essay about compounding methods should end by handing you one. The resume method that started this whole story, the class whose instance took two minutes, is not mine anymore. I shipped it as a free public good: <a href="https://resume-tailor.arcs.care/">resume-tailor.arcs.care</a>. It is the actual tool, refined by the actual application this essay narrates, gates and all. If a stranger ever slides into your inbox on a Saturday and survives your peephole check, the machine is yours too.</p>
-<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Appendix: the invention sparkline</h2>
+<h2 data-thread="#FF6B2C" style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Appendix: the invention sparkline</h2>
 <p style="margin:0 0 1.15em;line-height:1.75">One arc, start to finish. Everything on this line exists and is dated; nothing on it was planned at the start.</p>
 <figure class="arc arc-ladder" role="img" aria-label="the invention arc: 16 stops"><ol class="arc-list"><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">cold DM</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">smoke test</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">2-minute run</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">gauntlet</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">application sent</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">offshoots harvested</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">self-filing index</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">citation pyramid</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">travel bundles + gate</span><span class="arc-thread" style="color:#FF4D6D">gates</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">storage doctrine</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#FF6B2C"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">self-audit</span><span class="arc-thread" style="color:#FF6B2C">fusion</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">this essay</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">depth ladder</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">page renderer</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#FFD700"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">provenance manifest</span><span class="arc-thread" style="color:#FFD700">assets</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#FF6B2C"/></svg></span><span class="arc-label">the law, witnessed</span><span class="arc-thread" style="color:#FF6B2C">fusion</span></li></ol></figure>
 <p style="margin:0 0 1.15em;line-height:1.75">Sixteen stops. The first is a stranger's message; the last is a law about why strangers can see what you cannot. The application was stop five. Everything after it is what the essay means by compounding: the deliverable ended and the inventions kept going, each one thrown off by the one before it, each one now reusable without its origin story. The provenance manifest even records this list's own receipts, which is the most this system knows how to promise: not that the work was wise, but that it happened, in this order, and cannot quietly be retold otherwise.</p>
@@ -163,4 +172,104 @@
 </article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
-</main></body></html>
+</main>
+<div class="braid-rail" aria-hidden="true"><svg width="56" height="100" preserveAspectRatio="none"></svg></div>
+<button class="braid-resume" type="button">pick up where you left off</button>
+<script id="braid-threads" type="application/json">[{"hex": "#FF4D6D", "shape": "diamond"}, {"hex": "#FFD700", "shape": "circle"}, {"hex": "#FF6B2C", "shape": "square"}]</script>
+<script>
+(function(){
+  var rail=document.querySelector('.braid-rail'); if(!rail) return;
+  var svg=rail.querySelector('svg');
+  var threads=JSON.parse(document.getElementById('braid-threads').textContent);
+  var N=threads.length, W=56, cx=28;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SVGNS='http://www.w3.org/2000/svg';
+  var H=innerHeight;
+  function fit(){ H=innerHeight; svg.setAttribute('viewBox','0 0 '+W+' '+H); }
+  fit(); addEventListener('resize',fit,{passive:true});
+
+  // one main strand + one moiré ghost per thread, drawn back to front
+  var strands=threads.map(function(t){
+    var g=document.createElementNS(SVGNS,'polyline');
+    g.setAttribute('fill','none'); g.setAttribute('stroke',t.hex);
+    g.setAttribute('stroke-linecap','round'); g.setAttribute('opacity','0.5');
+    var ghost=document.createElementNS(SVGNS,'polyline');
+    ghost.setAttribute('fill','none'); ghost.setAttribute('stroke',t.hex);
+    ghost.setAttribute('stroke-linecap','round'); ghost.setAttribute('opacity','0');
+    svg.appendChild(ghost); svg.appendChild(g);
+    return {t:t, line:g, ghost:ghost};
+  });
+  // the yad: a gold pointer riding the braid at the reading line
+  var yad=document.createElementNS(SVGNS,'g');
+  yad.innerHTML='<circle r="7" fill="none" stroke="#FFD700" stroke-width="1.5" opacity=".9"/>'
+    +'<path d="M0 -3 L0 6 M-3 3 L0 6 L3 3" stroke="#FFD700" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  svg.appendChild(yad);
+
+  // lead thread per section, from the h2 data-thread the reader is currently under
+  var heads=[].slice.call(document.querySelectorAll('h2[data-thread]'));
+  function currentLead(){
+    var mark=scrollY+innerHeight*0.4, hex=(threads[0]||{}).hex;
+    for(var i=0;i<heads.length;i++){ if(heads[i].offsetTop<=mark) hex=heads[i].getAttribute('data-thread'); else break; }
+    return hex;
+  }
+
+  var lastY=scrollY, vel=0, energy=0, phase=0, dir=1, leadHex=currentLead();
+  addEventListener('scroll',function(){
+    var y=scrollY, d=y-lastY; lastY=y;
+    vel=d; if(d) dir=d>0?1:-1;
+    energy=Math.min(1, energy+Math.min(0.9, Math.abs(d)/90));
+    leadHex=currentLead();
+    savePlace(y);
+  },{passive:true});
+
+  function docFrac(){ var m=document.documentElement.scrollHeight-innerHeight; return m>0?Math.min(1,scrollY/m):0; }
+
+  function draw(){
+    var docH=document.documentElement.scrollHeight-innerHeight;
+    var amp=6+energy*13, spread=6+energy*10, step=14, phi=phase;
+    for(var s=0;s<strands.length;s++){
+      var st=strands[s], lead=(st.t.hex===leadHex);
+      var ph=phi + s*(Math.PI*2/N);
+      var pts='', gpts='';
+      for(var y=-10;y<=H+10;y+=step){
+        var base=cx + Math.sin(y/44 + ph)*amp + Math.sin(y/17 + ph*1.7)*(spread*0.28*(s-(N-1)/2));
+        pts+= base.toFixed(1)+','+y+' ';
+        gpts+=(base+ (energy*3)*Math.sin(y/9 - ph)).toFixed(1)+','+y+' ';
+      }
+      st.line.setAttribute('points',pts);
+      st.line.setAttribute('stroke-width',(lead?2.6:1.4)+energy*1.2);
+      st.line.setAttribute('opacity', lead? (0.95) : (0.34+energy*0.15));
+      st.ghost.setAttribute('points',gpts);
+      st.ghost.setAttribute('opacity', (lead? energy*0.5 : energy*0.22).toFixed(3)); // moiré at speed
+    }
+    // yad rides the braid at the reading line, points the way you are heading
+    var yy=innerHeight*0.4, yx=cx + Math.sin(yy/44 + phi)*amp;
+    yad.setAttribute('transform','translate('+yx.toFixed(1)+','+yy.toFixed(1)+') scale(1,'+(dir<0?-1:1)+')');
+    phase += dir*(0.006+energy*0.05) + 0.0016;   // travels with you, gentle idle drift
+    energy*=0.94;                                  // settles back to a calm weave
+    if(!reduce) requestAnimationFrame(draw);
+  }
+
+  // bookmark: remember the place; offer to resume on return
+  var KEY='braid:'+'post-1', saveT=0;
+  function savePlace(y){ var now=Date.now(); if(now-saveT<400) return; saveT=now;
+    try{ localStorage.setItem(KEY, JSON.stringify({f:docFrac(),t:now})); }catch(e){} }
+  function offerResume(){
+    var raw; try{ raw=localStorage.getItem(KEY); }catch(e){ return; }
+    if(!raw) return; var st; try{ st=JSON.parse(raw); }catch(e){ return; }
+    if(!st || st.f<0.06 || st.f>0.97 || scrollY>innerHeight*0.5) return;
+    var btn=document.querySelector('.braid-resume');
+    btn.style.top=(st.f*innerHeight)+'px'; btn.style.display='block';
+    btn.addEventListener('click',function(){
+      var target=st.f*(document.documentElement.scrollHeight-innerHeight);
+      scrollTo({top:target,behavior:'smooth'}); btn.style.display='none';
+    });
+    ['scroll','keydown','wheel','touchstart'].forEach(function(ev){
+      addEventListener(ev,function(){ btn.style.display='none'; },{once:true,passive:true}); });
+  }
+
+  if(reduce){ draw(); } else { requestAnimationFrame(draw); }
+  offerResume();
+})();
+</script>
+</body></html>
