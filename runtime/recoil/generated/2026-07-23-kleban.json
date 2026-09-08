@@ -5,69 +5,265 @@
     "counterpart": "Yuri Kleban",
     "company": "Google (Product & AI)",
     "segments": 1,
-    "gate": {"internal": "sextant"},
-    "provenance": {"audience": "internal", "captured": "LinkedIn thread Jul 15-21 + profile", "load_bearing_quote": "I have nothing to sell/ask -- just wanted to say kudos on ARCS"}
+    "gate": {
+      "internal": "sextant"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "LinkedIn thread Jul 15-21 + profile",
+      "load_bearing_quote": "I have nothing to sell/ask -- just wanted to say kudos on ARCS"
+    }
   },
-  "kinematic_series": {"dt": 1.0, "series": []},
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": []
+  },
   "page": {
     "layout": "tabs",
-    "header": {"eyebrow": "ARCS &#183; War Room", "title": "Yuri Kleban &#183; Google", "sub": "Warm 1st-degree intro, 10am PST / 1pm EST, Jul 23. Fan-not-buyer register. First call."},
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "Yuri Kleban &#183; Google",
+      "sub": "Warm 1st-degree intro, 10am PST / 1pm EST, Jul 23. Fan-not-buyer register. First call."
+    },
     "tabs": [
-      {"id": "pre", "label": "Pre-Call"},
-      {"id": "exante", "label": "Ex-Ante"},
-      {"id": "forge", "label": "Forge"},
-      {"id": "recoil", "label": "Recoil"},
-      {"id": "wargame", "label": "War Game"},
-      {"id": "defense", "label": "Defensibility"}
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      },
+      {
+        "id": "forge",
+        "label": "Forge"
+      },
+      {
+        "id": "recoil",
+        "label": "Recoil"
+      },
+      {
+        "id": "wargame",
+        "label": "War Game"
+      },
+      {
+        "id": "defense",
+        "label": "Defensibility"
+      }
     ],
     "blocks": [
-      {"tab": "pre", "type": "prose", "audience": "internal", "h2": "True North", "p": ["Match his warmth, not your ambition. He came to say kudos and share stories, not to buy. Let him name where he can help, offer one light concrete taste, and bank a genuine peer relationship at Google. Do not oversell; do not fish for anything material."]},
-      {"tab": "pre", "type": "keyvalue", "audience": "internal", "h2": "Context", "rows": [
-        {"k": "When", "v": "Today, 10am PST / 1pm EST, ~30 min. First call. He bumped you up his queue."},
-        {"k": "Register", "v": "<strong>Warm peer / genuine fan.</strong> 1st-degree. 'Nothing to sell/ask, just kudos.' Offered lunch @ Google, 'let me know if I can help.' Not a pitch, not a hire."},
-        {"k": "His goal", "v": "Connect, learn more about ARCS, see where he can help. Low agenda. Curiosity + goodwill."},
-        {"k": "Your goal", "v": "A Google surface if one is real (sprint for a team / internal ARCS tenant / warm intros to Gemini-suite teams) -- but downstream of the relationship, not forced today."},
-        {"k": "Y-Gate", "v": "YELLOW / warm -- strong relationship signal, no committed action expected."}
-      ]},
-      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Intel", "intro": "Who he is.", "items": [
-        {"dot": "c", "html": "<strong>Product &amp; AI @ Google.</strong> Close to the Apple / Gemini / Siri rollout you write about ('involved in some way... watch that space'). Do NOT ask about it."},
-        {"dot": "g", "html": "<strong>Genuine ARCS fan.</strong> Reached out unprompted with kudos, engaged with your Apple fault-line post and status.arcs.care ('really cool, great share'). Warm, generous, positive-sum."},
-        {"dot": "", "html": "<strong>New dad, time-constrained.</strong> Twins + a newborn; first-half-of-day calls only; off to Hawaii until the 5th. Keep it warm and efficient; congratulate the baby."},
-        {"dot": "g", "html": "<strong>Fresh stressor (public, ~3d ago).</strong> His mom was stranded by United's broken routing / incident handling; the family drove 7 hours to rescue her. His public thesis: systems optimize so tightly there is no slack for incidents, support, or recovery. The edge case is where they fail."},
-        {"dot": "", "html": "You already floated big: a Ma&ntilde;ana/ARCS sprint for teams ('avoid the next Project Loon'), an internal zero-point tenant (Antigravity), ideas for NotebookLM / Nano Banana / Veo / Gemma 4 / Lyria. He said 'would love to learn more and see where I can help' -- receptive, not committed."}
-      ]},
-      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Moves &amp; landmines", "intro": "How to play it.", "items": [
-        {"dot": "", "html": "<strong>First 20 seconds: ask consent to record.</strong> California is all-party consent, and Yuri is Bay Area and consent-aware -- he publicly noted people should ask before turning on a notetaker. One clean line: 'mind if I record for my own notes?' Compliance AND a trust signal he will clock."},
-        {"dot": "", "html": "<strong>Then open human, not agenda.</strong> Ask if his mom made it home safe (he posted about the United ordeal ~3 days ago). Genuine -- newborn plus that. Warmth first."},
-        {"dot": "g", "html": "<strong>His United thesis IS the ARCS thesis, one layer up.</strong> Optimization with no slack for incidents/recovery = the deck-and-battlecard gap in partnerships. If it flows, let HIM connect it; do not force the analogy."},
-        {"dot": "", "html": "<strong>Lead with stories, not the ask.</strong> He offered 'share stories' -- take him up on it. Ask what he's building / excited about at Google. Let him drive."},
-        {"dot": "", "html": "<strong>Offer ONE light taste, then stop.</strong> The gauntlet or a single decision-sprint premortem -- concrete, low-commitment. Don't dump the teams-ideas list; that reads as pushing."},
-        {"dot": "g", "html": "<strong>Let him surface the help.</strong> He twice offered to help; ask what a warm intro or internal champion looks like from his seat, but let him volunteer it."},
-        {"dot": "c", "html": "<strong>If he asks 'is this on Claude?': it is model-agnostic.</strong> The reasoning layer is decoupled; via a gateway (Vercel AI Gateway) it can run on Gemini, on Google's own stack. An internal pilot would touch no competitor API and nothing leaves the building. Strong answer for a Google audience -- but only if he raises it."},
-        {"dot": "", "html": "<span style='color:var(--red)'>Landmine 1 &#183; MNPI.</span> He is close to the Apple/Gemini rollout and guards it. You already promised not to ask. Keep that promise absolutely -- one wrong question costs the trust."},
-        {"dot": "", "html": "<span style='color:var(--red)'>Landmine 2 &#183; over-pursuit.</span> He said 'nothing to sell/ask.' If you push a Google engagement hard, you push past his stated frame. Yield to his low-agenda energy (active listening > magical thinking)."}
-      ]},
-      {"tab": "exante", "type": "receipt", "audience": "internal", "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt", "fields": [
-        {"label": "D &#183; Sharpened question", "value": "Is there a real Google engagement surface here, or is this a warm peer relationship to bank -- and which do I optimize this call for?"},
-        {"label": "E &#183; Entity", "value": "Yuri Kleban -- Product &amp; AI @ Google, genuine ARCS fan, close to the Apple/Gemini rollout, time-constrained new dad."},
-        {"label": "W &#183; Window", "value": "This 30-min call. No forcing function; he leaves for Hawaii soon."},
-        {"label": "Hypothesis / expecting to see", "value": "He came for a warm chat and to share stories, not to buy or hire. Generous, curious, non-committal. If a real surface exists, it is him as an internal champion / connector to Gemini-suite teams, not a deal today. He will keep MNPI off the table himself."},
-        {"label": "Predicted Y-gate", "value": "YELLOW / warm -- real relationship signal, no committed action. Not GREEN (nothing to close today)."},
-        {"label": "Pre-committed move", "value": "Match his warmth, share stories, let him name where he can help, offer one light taste (gauntlet / single premortem). Do NOT dump the teams list, push an engagement, or fish for anything material. Book a follow-up only if HE pulls."},
-        {"label": "Belief most likely to update", "value": "That there is a near-term engagement. More likely outcome: relationship banked + a possible warm intro he offers on his own timeline."},
-        {"label": "Falsifier", "value": "He proactively pulls toward a concrete engagement or offers a specific intro (-> real surface, upgrade). Or he keeps it purely social with no follow-through on his help-offer (-> bank it, no active work)."}
-      ]},
-      {"tab": "recoil", "type": "keyvalue", "audience": "internal", "h2": "Receipt closed &#183; ex-ante vs actual", "rows": [
-        {"k": "Predicted", "v": "YELLOW/warm; relationship to bank, no near-term deal; if a surface exists it is him as champion/connector."},
-        {"k": "Actual", "v": "<strong>GREEN-leaning.</strong> The falsifier's UPGRADE branch fired: he pulled (offered to help, asked what I need) AND revealed he RUNS the exact team. Ex-ante right on register, undershot the fit by a mile."},
-        {"k": "Fork hit", "v": "Champion + connector + potential investor-path, and the ICP himself, not a referral to one."}
-      ]},
-      {"tab": "recoil", "type": "prose", "audience": "internal", "h2": "The big update", "p": ["He runs a ~20-person team at Google building internal pre-meeting exec briefs for the partnerships org, stitching first- and third-party data. He built the Sundar brief automation. This is not a fan who knows a buyer; he IS the ICP and the practitioner. The abstract capability doc did not land live; he asked for the real before/after (built: yuri-recoil.arcs.care) and to see the internal war room (redacted: yuri-sample.arcs.care)."]},
-      {"tab": "recoil", "type": "list", "audience": "internal", "h2": "Next steps (internal)", "intro": "Real surface now, but he still gave 'nothing to sell' energy. Stay warm, let him drive the pace.", "items": [
-        {"dot": "", "html": "<strong>Send the before/after</strong> (yuri-recoil, pw yuri) + the redacted war-room sample. Both are exactly what he asked to see."},
-        {"dot": "g", "html": "<strong>Part two follow-up post-Hawaii</strong> (after ~Aug 5). He explicitly wants it: 'part two of where this goes.' He offered to help move it forward; let him name the intro or next step."},
-        {"dot": "", "html": "<strong>Zach-floated surfaces to develop:</strong> a GCP + Firebase build -> Google Ventures / gradient -> internal dogfood; his ex-UBS partner for investment-memo, diligence, and M&amp;A / Corp Dev pressure-testing. Lunch at Google NY when in town."}
-      ]}
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "True North",
+        "p": [
+          "Match his warmth, not your ambition. He came to say kudos and share stories, not to buy. Let him name where he can help, offer one light concrete taste, and bank a genuine peer relationship at Google. Do not oversell; do not fish for anything material."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "When",
+            "v": "Today, 10am PST / 1pm EST, ~30 min. First call. He bumped you up his queue."
+          },
+          {
+            "k": "Register",
+            "v": "<strong>Warm peer / genuine fan.</strong> 1st-degree. 'Nothing to sell/ask, just kudos.' Offered lunch @ Google, 'let me know if I can help.' Not a pitch, not a hire."
+          },
+          {
+            "k": "His goal",
+            "v": "Connect, learn more about ARCS, see where he can help. Low agenda. Curiosity + goodwill."
+          },
+          {
+            "k": "Your goal",
+            "v": "A Google surface if one is real (sprint for a team / internal ARCS tenant / warm intros to Gemini-suite teams) -- but downstream of the relationship, not forced today."
+          },
+          {
+            "k": "Y-Gate",
+            "v": "YELLOW / warm -- strong relationship signal, no committed action expected."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Intel",
+        "intro": "Who he is.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Product &amp; AI @ Google.</strong> Close to the Apple / Gemini / Siri rollout you write about ('involved in some way... watch that space'). Do NOT ask about it."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Genuine ARCS fan.</strong> Reached out unprompted with kudos, engaged with your Apple fault-line post and status.arcs.care ('really cool, great share'). Warm, generous, positive-sum."
+          },
+          {
+            "dot": "",
+            "html": "<strong>New dad, time-constrained.</strong> Twins + a newborn; first-half-of-day calls only; off to Hawaii until the 5th. Keep it warm and efficient; congratulate the baby."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Fresh stressor (public, ~3d ago).</strong> His mom was stranded by United's broken routing / incident handling; the family drove 7 hours to rescue her. His public thesis: systems optimize so tightly there is no slack for incidents, support, or recovery. The edge case is where they fail."
+          },
+          {
+            "dot": "",
+            "html": "You already floated big: a Ma&ntilde;ana/ARCS sprint for teams ('avoid the next Project Loon'), an internal zero-point tenant (Antigravity), ideas for NotebookLM / Nano Banana / Veo / Gemma 4 / Lyria. He said 'would love to learn more and see where I can help' -- receptive, not committed."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Moves &amp; landmines",
+        "intro": "How to play it.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>First 20 seconds: ask consent to record.</strong> California is all-party consent, and Yuri is Bay Area and consent-aware -- he publicly noted people should ask before turning on a notetaker. One clean line: 'mind if I record for my own notes?' Compliance AND a trust signal he will clock."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Then open human, not agenda.</strong> Ask if his mom made it home safe (he posted about the United ordeal ~3 days ago). Genuine -- newborn plus that. Warmth first."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>His United thesis IS the ARCS thesis, one layer up.</strong> Optimization with no slack for incidents/recovery = the deck-and-battlecard gap in partnerships. If it flows, let HIM connect it; do not force the analogy."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Lead with stories, not the ask.</strong> He offered 'share stories' -- take him up on it. Ask what he's building / excited about at Google. Let him drive."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Offer ONE light taste, then stop.</strong> The gauntlet or a single decision-sprint premortem -- concrete, low-commitment. Don't dump the teams-ideas list; that reads as pushing."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Let him surface the help.</strong> He twice offered to help; ask what a warm intro or internal champion looks like from his seat, but let him volunteer it."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>If he asks 'is this on Claude?': it is model-agnostic.</strong> The reasoning layer is decoupled; via a gateway (Vercel AI Gateway) it can run on Gemini, on Google's own stack. An internal pilot would touch no competitor API and nothing leaves the building. Strong answer for a Google audience -- but only if he raises it."
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine 1 &#183; MNPI.</span> He is close to the Apple/Gemini rollout and guards it. You already promised not to ask. Keep that promise absolutely -- one wrong question costs the trust."
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine 2 &#183; over-pursuit.</span> He said 'nothing to sell/ask.' If you push a Google engagement hard, you push past his stated frame. Yield to his low-agenda energy (active listening > magical thinking)."
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+        "fields": [
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "Is there a real Google engagement surface here, or is this a warm peer relationship to bank -- and which do I optimize this call for?"
+          },
+          {
+            "label": "E &#183; Entity",
+            "value": "Yuri Kleban -- Product &amp; AI @ Google, genuine ARCS fan, close to the Apple/Gemini rollout, time-constrained new dad."
+          },
+          {
+            "label": "W &#183; Window",
+            "value": "This 30-min call. No forcing function; he leaves for Hawaii soon."
+          },
+          {
+            "label": "Hypothesis / expecting to see",
+            "value": "He came for a warm chat and to share stories, not to buy or hire. Generous, curious, non-committal. If a real surface exists, it is him as an internal champion / connector to Gemini-suite teams, not a deal today. He will keep MNPI off the table himself."
+          },
+          {
+            "label": "Predicted Y-gate",
+            "value": "YELLOW / warm -- real relationship signal, no committed action. Not GREEN (nothing to close today)."
+          },
+          {
+            "label": "Pre-committed move",
+            "value": "Match his warmth, share stories, let him name where he can help, offer one light taste (gauntlet / single premortem). Do NOT dump the teams list, push an engagement, or fish for anything material. Book a follow-up only if HE pulls."
+          },
+          {
+            "label": "Belief most likely to update",
+            "value": "That there is a near-term engagement. More likely outcome: relationship banked + a possible warm intro he offers on his own timeline."
+          },
+          {
+            "label": "Falsifier",
+            "value": "He proactively pulls toward a concrete engagement or offers a specific intro (-> real surface, upgrade). Or he keeps it purely social with no follow-through on his help-offer (-> bank it, no active work)."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "YELLOW/warm; relationship to bank, no near-term deal; if a surface exists it is him as champion/connector."
+          },
+          {
+            "k": "Actual",
+            "v": "<strong>GREEN-leaning.</strong> The falsifier's UPGRADE branch fired: he pulled (offered to help, asked what I need) AND revealed he RUNS the exact team. Ex-ante right on register, undershot the fit by a mile."
+          },
+          {
+            "k": "Fork hit",
+            "v": "Champion + connector + potential investor-path, and the ICP himself, not a referral to one."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "The big update",
+        "p": [
+          "He runs a ~20-person team at Google building internal pre-meeting exec briefs for the partnerships org, stitching first- and third-party data. He built the Sundar brief automation. This is not a fan who knows a buyer; he IS the ICP and the practitioner. The abstract capability doc did not land live; he asked for the real before/after (built: yuri-recoil.arcs.care) and to see the internal war room (redacted: yuri-sample.arcs.care)."
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Next steps (internal)",
+        "intro": "Real surface now, but he still gave 'nothing to sell' energy. Stay warm, let him drive the pace.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>Send the before/after</strong> (yuri-recoil, pw yuri) + the redacted war-room sample. Both are exactly what he asked to see."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Part two follow-up post-Hawaii</strong> (after ~Aug 5). He explicitly wants it: 'part two of where this goes.' He offered to help move it forward; let him name the intro or next step."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Zach-floated surfaces to develop:</strong> a GCP + Firebase build -> Google Ventures / gradient -> internal dogfood; his ex-UBS partner for investment-memo, diligence, and M&amp;A / Corp Dev pressure-testing. Lunch at Google NY when in town."
+          }
+        ]
+      }
     ]
+  },
+  "ex_ante_job_intel_2026_08_31": {
+    "filed": "2026-08-31",
+    "context": "Reply to Yuri's Aug-31 founder-to-founder note (his advice: sustainability, non-friend validation). Zach pivots to the dual-track: Google 'Senior AI Product Operations Manager, Growth AI Transformation' req 142904922717725382 (NYC, Advanced, 176-256k+20%+equity; JD is near-verbatim ARCS craft incl. 'algorithmic brief generation'). Framing: learn on Google's dime, nights-and-weekends ARCS like Yuri's Agentum; ask is INTEL-only (know the team / req real), referral left for Yuri to offer.",
+    "bet": "Yuri knows the Growth AI Transformation team or reaches them in one hop, engages warmly with the day-job framing (it mirrors his own model), and escalates unprompted toward an offer to refer or intro.",
+    "quiet_signal_watch": "Whether he connects the role to his own team's product ('algorithmic brief generation' = exec briefs at marketing scale) without being told ARCS is the third leg of that triangle.",
+    "falsifier": "No reply within his normal warm-burst cadence (allow 1-2 weeks, he is deciduous); or a flat 'don't know them' with no alternative path offered; or any cooling of the Sep-14 commitment traceable to the ask.",
+    "confidence": 0.65,
+    "settles": "His reply, or the Sep 14 call, whichever first.",
+    "note": "Zach's verbatim trigger: 'I BET yuri knows the team(s) across this role.' Filed as a literal ex-ante per the recoil discipline. Parallel action independent of the bet: apply directly regardless.",
+    "amended_2026_08_31": "Context shift same day, BEFORE send: a different friend (Google Cloud sales) confirmed the team supports Google Marketing (not Yuri's org) and offered to submit the referral (needs email + 3-4 sentence blurb; blurb drafted, referral proceeding). Yuri draft REVISED: intel ask ('req real / know the team') replaced with insider-color ask ('inside read before interviews'), and the referral disclosed in-note to prevent any referral-shopping read. Bet NARROWED accordingly: Yuri engages warmly with the day-job framing and offers team color or a contact; the referral leg is settled externally and no longer part of the bet. Confidence on the narrowed bet: 0.7."
   }
 }
