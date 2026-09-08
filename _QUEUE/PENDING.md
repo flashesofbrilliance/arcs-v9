@@ -42,10 +42,15 @@
 
 ## Non-ADR backlog (real gaps, no ADR filed yet)
 
-These don't have a number in the table above because no ADR exists for them — confirmed against the actual codebase (`AGENTS.md`'s backlog table is stale on the first item below):
-
-- **Receipt save prompt (soft-auth nudge UI)** — `AGENTS.md` lists this as P1; confirmed via grep, genuinely not built (no `ReceiptSavePrompt` component anywhere in `src/`). Biggest open PLG gap, no dependency, no gate. *(Note: `AGENTS.md` also lists "Outcome handler — PATCH /api/receipts/[id]" as P1/not-built — that one is wrong, it's built and live at `src/app/api/receipts/[receiptId]/outcome/route.ts`.)*
 - **Calibrate-surface malformed-question HOLD gate** (Book II Part V §5.7) — the compass route has an inline L0 activation-filter heuristic, but no dedicated reject/HOLD path for the Calibrate surface as the canon specifies. This is a doctrine gap, not just a missing feature: running L0–L5 on a malformed question without holding it first can produce a confident-looking output on a broken input.
+
+> **Corrected 2026-09-08:** the "Receipt save prompt" row that used to sit above this one was
+> stale — it claimed genuinely-not-built based on a literal grep for a component named
+> `ReceiptSavePrompt`, which never existed under that name. The actual feature shipped
+> 2026-07-13 as ADR-049 Phase 2: `POST /api/receipts/save` + `ClaimAnonymousReceipts.tsx`
+> (mounted in `layout.tsx`). Two stale-backlog claims have now been found in this exact
+> paragraph in two different sessions — treat any "confirmed not built" line here as needing
+> a fresh grep before acting on it, not as settled.
 
 ---
 
