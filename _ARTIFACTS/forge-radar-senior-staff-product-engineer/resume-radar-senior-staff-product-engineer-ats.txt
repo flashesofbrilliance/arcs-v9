@@ -2,7 +2,7 @@ Zach Harris · Resume · Senior / Staff Product Engineer · Radar
 
 Zach Harris
 
-Multi-stack product engineer · ships at scale, talks to customers
+Multi-stack product engineer · ships across backend, frontend, and mobile at scale
 
 Target · Senior / Staff Product Engineer · Radar
 
@@ -16,26 +16,26 @@ zharris
 github.com/
 flashesofbrilliance
 
-Multi-stack product engineer who ships fast, talks to customers, and operates at scale.
- Building ARCS end to end: TypeScript / Next.js frontend, Python operator layer, Postgres, a custom MCP server, and agentic orchestration on Claude, with CI gates on every merge and a public commit trail. Before that, product lead for a 
+Multi-stack product engineer who ships across backend, frontend, and mobile and talks to customers to close the loop.
+ Building ARCS end to end on a TypeScript / Next.js / Python / Postgres stack, with a custom MCP server, agentic orchestration, and CI gates on every merge; public commit trail at github.com/flashesofbrilliance. Before that, product lead for a 
 10-product, $7B AUM regulated launch
- at Grayscale, coordinating engineering, legal, risk, and compliance through release gates. Two decades building intelligence layers from scratch across finance, health, sports, and consumer. The pattern that fits this role: generalist instincts, a bias toward shipping, and the habit of walking a mile in the customer's shoes to understand what actually needs to be built.
+ at Grayscale, coordinating engineering, legal, and compliance through release gates. Two decades building intelligence layers from scratch in finance, health, sports, and consumer at scale. The pattern that fits Radar: generalist instinct, fast shipping cadence, and a habit of walking a mile in the customer's shoes before writing a line of code.
 
 Fit, ranked for this role
 
 what I would bring to Radar
 
 Multi-stack generalist.
- TypeScript / Node API layer, React / Next.js frontend, Python operator layer, Postgres, CI pipelines, and a custom MCP server on Claude, all in production on my own platform with a public commit trail. Comfortable jumping across stacks to get things shipped.
+ TypeScript / Node API layer, React / Next.js frontend, Python operator layer, Postgres, CI on every merge, deployed to Vercel and Supabase in production. Comfortable jumping across stacks; the ARCS build is a single-engineer full-stack project with a public commit trail.
 
 Ships fast, talks to customers.
- Own the roadmap, the backlog, the sprint plan, and the code. At Grayscale and in advisory engagements, translated customer and prospect feedback directly into product requirements and shipped on short cycles. Engineers who talk to customers close the loop faster.
+ Own the roadmap, the backlog, the sprint plan, and the code on ARCS. At Grayscale, WTA, and Squat NY, incorporated customer and prospect feedback directly into product requirements and shipped on schedule. Engineers who close the loop with customers are the norm at Radar; that is the only mode I know.
 
-Governance as a product feature.
- Regulated release gates at Grayscale (SEC/FINRA); HIPAA context at Twill; GDPR data sovereignty at GoPro. Controls embedded in delivery, not appended at the end.
+High-throughput and reliability mindset.
+ Platform load simulation and reliability engineering ahead of the WTA Finals: capacity decisions made on data, not guesses. CI gates (lint, build, leak-check, security scan, auto-rollback) on every ARCS merge. Operated at scale in production; on-call ownership is not new territory.
 
-High-throughput and scale instincts.
- Built and operated production systems with CI gates, auto-rollback, and reliability engineering under load (WTA platform load simulation ahead of the Finals; capacity decisions made on data). Comfortable in an on-call rotation and in systems where a week is a long time.
+AI-augmented engineering, standards intact.
+ Claude API, tool use, and custom MCP server in production on ARCS; Claude and open-source tooling used daily. All code reviewed by a knowledgeable engineer before merge, with automated CI gates enforcing standards. Excited about what AI can do; equally committed to not compromising coding standards.
 
 Experience
 
