@@ -113,6 +113,40 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.58.0 (2026-09-08)
+
+> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
+> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
+> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
+
+## Shipped
+- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
+  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
+  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
+  regenerated. Closes the v3.55.0 `story_render.py` open loop.
+- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
+  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
+  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
+- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
+  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
+  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
+  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
+  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
+- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
+  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
+- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
+
+## Open (handed to fresh sessions, all started)
+1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
+   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
+2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
+   "Token cost ROI analysis" cloud session, not duplicate.
+3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
+   register decision (insider-dense vs legibility layer) + domain-topology verify first.
+- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
+  abductive profile→role scan.
+- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
+
 # Handoff — v3.57.0 (2026-09-07)
 
 > **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
@@ -146,40 +180,4 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
    index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
 
-# Handoff — v3.56.0 (2026-09-07)
-
-> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
-> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
-> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
-
-## Shipped
-- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
-  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
-  checks miss; scans `<style>` only (correctness + perf), strips CSS comments, FP-reducer for
-  `.hero .lede{max-width:none}` overrides, and a `wrap-lint-allow: measure-mismatch` opt-out for
-  intentional two-width designs. Fixed the dossier (`.wrap` 940→700 = inner==measure), 3 narrow ledes
-  (blacksmith-observatory, blog-nftt-index, recruithaus-ammo), marked 3 two-width pages
-  (wing/scott-cut/observatory). AEO robots/sitemap now reachable on good.arcs.care (proxy + next.config).
-- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (verified clean at 1280/790/375: no pan, no
-  split-emphasis, no mono overflow, measure coherent). Posts 1-3 swept clean too. The template produces
-  diamond-cut text handling by construction; the 4-width JS test method is banked.
-- **Dealroom talent research** (delegated agent) — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`
-  (PR #273): 15 report/viz patterns + an MCP-led-growth GTM analysis Zach flagged.
-- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307, merging). DRAFT/YELLOW: MCP = free land
-  on the authed core, API = paid expand, wedge = ARCS's native attribution (cited receipts, not the
-  model guessing). Drafted as ADR-075; **renumbered to 076 after a parallel session's DECIDED ADR-075
-  "Metabolic Router" merged first** (oracle-first doctrine; collision resolved cleanly, audit no-dup).
-- Housekeeping: lattice epoch re-pinned e9=2026-09-03 (honest spot-check, not a full meta-audit);
-  iCloud deliverable→Files sync convention set up (ARCS/dated subfolders); memory consolidated + 5 new
-  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms,
-  template s-tier proof).
-
-## Open (next session)
-1. **ADR-076 demand probe** (the ADR's own next step): ship ONE cheap read-only MCP tool over the public
-   NFTT/receipt corpus + a "Connect an agent →" affordance; measure pull. Do NOT build a hosted MCP
-   server before that signal. If quiet across a fair window, the thesis weakens (falsifier stated).
-2. Memory index still ~20KB over the hook's 17.4KB budget — further trim needs de-indexing live wisdom (Zach's call).
-3. Full `/meta-audit` epoch to re-derive all 81 lattice node statuses (spot-check done; full run deferred).
-4. story_render.py / literary-theme drift still stands (see v3.55.0 in `_ARCHIVE/handoffs.md`).
-
-> _v3.55.0 (NFTT "Confirmed Not My Bug" b-version) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.54.0 + v3.53.0 relocated earlier._
+> _v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
