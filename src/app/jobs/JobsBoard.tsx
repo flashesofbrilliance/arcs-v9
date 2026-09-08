@@ -40,6 +40,10 @@ const TIER_LABEL: Record<number, [string, string]> = { 1: ["Tier 1", "0.80 and u
 
 const mono = font.mono
 const sans = font.sans
+// One shared px reading measure for every prose block on the board. NEVER per-element
+// `ch` caps: ch computed against mixed font sizes gives each text role a different right
+// edge, and the misaligned rag reads as broken wrapping (intermediate-width-wrap-regression).
+const MEASURE = 620
 const fg1 = text.primary, fg2 = text.secondary, fg3 = text.dimmed, fg4 = text.muted
 const GLASS_CARD = "linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #11181f, #0a1016)"
 const GLASS_BEVEL = "inset 0 1px 0 rgba(255,255,255,.10), inset 0 -2px 8px rgba(0,0,0,.5), 0 5px 16px rgba(0,0,0,.45)"
@@ -328,7 +332,7 @@ export function JobsBoard() {
         <Rule />
         <header style={{ padding: "16px 0", display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "baseline" }}>
           <h1 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.015em", margin: 0, textWrap: "balance" }}>Alert Swipe Board</h1>
-          <p style={{ margin: 0, flexBasis: "100%", maxWidth: "64ch", fontSize: 13, color: fg2, textWrap: "pretty" }}>Every LinkedIn alert, scored once against the target-role rubric and stack-ranked above a <b style={{ color: fg1, fontFamily: mono }}>{spec?.rubric.board_cutoff ?? 0.58}</b> cutoff. You decide. Nothing runs until you swipe right.</p>
+          <p style={{ margin: 0, flexBasis: "100%", maxWidth: MEASURE, fontSize: 13, color: fg2, textWrap: "pretty" }}>Every LinkedIn alert, scored once against the target-role rubric and stack-ranked above a <b style={{ color: fg1, fontFamily: mono }}>{spec?.rubric.board_cutoff ?? 0.58}</b> cutoff. You decide. Nothing runs until you swipe right.</p>
           <p style={{ margin: 0, flexBasis: "100%", display: "flex", flexWrap: "wrap", gap: "4px 16px", fontSize: 13, color: fg2 }}>
             {[[String(rows.length), "rows in"], [String(scored.length + rows.filter((r) => r.band !== "UNSCORED" && tierOf(r.composite, spec) === null).length), "scored"], [String(scored.length), "on the board"], [String(unscored.length), "waiting on a JD read"], [String(rights.length), "swiped right"]].map(([n, l]) => <span key={l} style={{ whiteSpace: "nowrap" }}><b style={{ color: fg1, fontFamily: mono, fontWeight: 600 }}>{n}</b> {l}</span>)}
           </p>
@@ -363,9 +367,9 @@ export function JobsBoard() {
           ]
           return (
             <div style={{ padding: 16, marginBottom: 12, border: `1px solid #2c3a50`, borderRadius: 4, background: surface.panel }}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "baseline", marginBottom: 4 }}>
+              <div style={{ marginBottom: 4 }}>
                 <b style={{ color: fg1, fontWeight: 600, fontSize: 14 }}>Weight Lab</b>
-                <span style={{ fontSize: 12, color: fg2, maxWidth: "62ch" }}>Drag a weight and the whole board re-ranks live, recomputed from each row&apos;s stored 0–3 dimension scores. Nothing is written and no model runs — this is exploration. To make a setting permanent, hand me the weights below and I&apos;ll change the rubric spec (that re-scores future rows).</span>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: fg2, maxWidth: MEASURE, textWrap: "pretty" }}>Drag a weight and the whole board re-ranks live, recomputed from each row&apos;s stored 0–3 dimension scores. Nothing is written and no model runs. This is exploration: to make a setting permanent, hand me the weights below and I&apos;ll change the rubric spec (that re-scores future rows).</p>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: phone ? "1fr" : "repeat(auto-fit, minmax(280px, 1fr))", gap: "6px 28px", margin: "12px 0" }}>
                 {DIMS.map((d) => { const val = w[d.key] ?? d.weight; const chg = val !== d.weight; return (
@@ -442,7 +446,7 @@ export function JobsBoard() {
           <button onClick={() => setUnsOpen((o) => !o)} aria-expanded={unsOpen} style={{ background: "none", border: 0, padding: "8px 0", color: fg1, fontWeight: 500, cursor: "pointer", fontSize: 14, display: "flex", gap: 8, alignItems: "center" }}><span style={{ display: "inline-block", transform: unsOpen ? "rotate(90deg)" : "none", color: fg3 }}>▸</span>Waiting on a JD read <span style={{ color: fg3, fontSize: 13 }}>{unscored.length} rows</span></button>
           {unsOpen && <>
             <div style={{ display: "flex", gap: 12, fontSize: 12, color: fg3, marginBottom: 8 }}>sort by {(["sal", "why", "seen"] as const).map((k) => <button key={k} onClick={() => setUsort(k)} style={{ background: "none", border: 0, padding: 0, color: signal.cyan, cursor: "pointer", textDecoration: usort === k ? "underline" : "none" }}>{k === "sal" ? "salary" : k === "why" ? "reason" : "date"}</button>)}</div>
-            <p style={{ fontSize: 13, color: fg2, maxWidth: "64ch", margin: "0 0 12px" }}>Salary is only known where a digest subject carried it. Comp for the rest arrives with the JD read, which is the same step that scores them.</p>
+            <p style={{ fontSize: 13, color: fg2, maxWidth: MEASURE, margin: "0 0 12px" }}>Salary is only known where a digest subject carried it. Comp for the rest arrives with the JD read, which is the same step that scores them.</p>
             <div style={{ border: `1px solid #243042`, borderRadius: 4, background: GLASS_CARD, boxShadow: GLASS_BEVEL, overflowX: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 {!phone && <thead><tr>{th("Seen")}{th("Role")}{th("Search")}{th("Salary")}{th("Why not scored")}</tr></thead>}
@@ -481,7 +485,7 @@ export function JobsBoard() {
             <p style={{ marginTop: 12, fontSize: 12, color: fg3 }}>Stored in the ARCS database. Synced on every device, read by the pipeline.</p>
           </div>
         </div>
-        <footer style={{ marginTop: 24, fontSize: 12, color: fg4, maxWidth: "64ch" }}>Rubric v{spec?.version ?? "?"} from runtime/specs/target-role-scan.json · <Link href="/jobs/lane" style={{ color: signal.cyan }}>Lane view</Link> (pipeline across 5 stages) · <Link href="/jobs/profile" style={{ color: signal.cyan }}>Profile Scan</Link> (who) · <Link href="/jobs/scan" style={{ color: signal.cyan }}>Target Scan</Link> (where to aim) · click any role for its Role Scan (the two overlaid on one posting) · trigger rules in runtime/specs/forge-triggers.json. Unverified ATS rows resolve on swipe.</footer>
+        <footer style={{ marginTop: 24, fontSize: 12, color: fg4, maxWidth: MEASURE }}>Rubric v{spec?.version ?? "?"} from runtime/specs/target-role-scan.json · <Link href="/jobs/lane" style={{ color: signal.cyan }}>Lane view</Link> (pipeline across 5 stages) · <Link href="/jobs/profile" style={{ color: signal.cyan }}>Profile Scan</Link> (who) · <Link href="/jobs/scan" style={{ color: signal.cyan }}>Target Scan</Link> (where to aim) · click any role for its Role Scan (the two overlaid on one posting) · trigger rules in runtime/specs/forge-triggers.json. Unverified ATS rows resolve on swipe.</footer>
       </div>
     </main>
   )

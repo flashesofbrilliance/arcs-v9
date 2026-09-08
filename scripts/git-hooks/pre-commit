@@ -105,4 +105,22 @@ if [ -f scripts/integrity_gate.py ] && command -v python3 >/dev/null 2>&1 \
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# wrap-class gate for React/TS surfaces — the artifact_wrap_lint.py sibling for
+# code, not just public/*.html (that gate is blind to .tsx, which is how a ch cap
+# shipped on the jobs board 2026-09-08). Block a commit that ADDS a per-element
+# `ch` cap on text (maxWidth: "NNch"); the rule is one shared px MEASURE. See the
+# intermediate-width-wrap-regression class. Added-lines-only so legacy caps in
+# untouched files never block an unrelated edit. Pure grep, no deps.
+tsx=$(git diff --cached --name-only --diff-filter=ACM -- '*.tsx' '*.ts' 2>/dev/null || true)
+if [ -n "$tsx" ]; then
+  bad=$(git diff --cached -U0 -- '*.tsx' '*.ts' 2>/dev/null | grep -E '^\+' | grep -E 'maxWidth: *"[0-9]+ch"' || true)
+  if [ -n "$bad" ]; then
+    echo "✖ commit blocked: a new per-element ch cap on text (maxWidth:\"NNch\") — use the shared px MEASURE instead." >&2
+    echo "$bad" | sed 's/^/  /' >&2
+    echo "  (intermediate-width-wrap-regression class: ch against mixed font sizes gives each role a different right edge = broken-looking wrap.)" >&2
+    exit 1
+  fi
+fi
+
 exit 0
