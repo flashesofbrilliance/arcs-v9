@@ -54,8 +54,6 @@ export async function PATCH(req: NextRequest) {
   const caller = await callerFor(req)
   if (!caller) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   const body = await req.json().catch(() => null)
-  const jobid = String(body?.jobid ?? "")
-  if (!jobid) return NextResponse.json({ error: "jobid required" }, { status: 400 })
   // Complete an IngestRequest: the consumer (scripts/jobs_ingest_consume.mjs +
   // Gmail read) calls this after posting new rows, to mark the request done and
   // advance the source watermark so the next sweep reads only newer mail.
@@ -75,6 +73,9 @@ export async function PATCH(req: NextRequest) {
     }
     return NextResponse.json({ ok: true, requestId: id, status, rowsAdded })
   }
+
+  const jobid = String(body?.jobid ?? "")
+  if (!jobid) return NextResponse.json({ error: "jobid required" }, { status: 400 })
 
   const stage = body?.laneStage === null ? null : String(body?.laneStage ?? "")
   if (stage !== null && !(LANE_STAGES as readonly string[]).includes(stage)) {
