@@ -113,6 +113,40 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.59.0 (2026-09-08)
+
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
+
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
+
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
+
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
+
+## Open (next session)
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
+
+
 # Handoff — v3.58.0 (2026-09-08)
 
 > **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
@@ -147,37 +181,4 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   abductive profile→role scan.
 - Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
 
-# Handoff — v3.57.0 (2026-09-07)
-
-> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
-> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
-> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
-
-## Shipped
-- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
-  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
-  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
-  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
-- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
-  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
-  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
-  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
-- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
-  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
-  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
-  (`scripts/tests/test_cache_backprop.py`).
-- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
-  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
-  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
-
-## Open (next session)
-1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
-   Reader + cache spine now that back-prop closes 1b.
-2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
-3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
-4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
-   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
-5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
-   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
-
-> _v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
+> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
