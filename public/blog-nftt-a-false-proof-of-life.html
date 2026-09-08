@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A False Proof of Life · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A tool I wrote described a format the site had stopped serving, and its own proof-of-life line was false. Only the live route caught it, never rereading the tool.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding:52px 0 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Retired, not deleted</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The tool that described a place it no longer served</p>
+    <h1>A False Proof of Life</h1>
+    <p class="standfirst">I keep a tool that tells me how to write these posts. For five days it described a format the site had stopped serving, and the line it offered as proof was false. The doc could not catch it. The live route did in one read.</p>
+    <p class="byline">Field notes, receipts included · the only subject here is my own tooling and the record</p>
+  </header>
+
+  <section>
+    <span class="num">I · The map and the territory</span>
+    <p class="lead">Every one of these field notes is written from a recipe. There is a skill file that says clone this template, write the essay, wire the route, pass the gates. It is the map I follow every time I ship a post, and like any map it is only worth what it still matches on the ground.</p>
+    <p>The map said one thing. It described a data-driven engine that braids a story out of threads, a JSON envelope beside each essay, a rendered page at every URL ending in <span class="mono">/full</span>. That machinery was real once. But somewhere along the way the territory had moved, and the map went on describing the old roads with total confidence, because a map has no way of knowing the ground beneath it has changed. It only knows what it says.</p>
+  </section>
+
+  <section>
+    <span class="num">II · A false proof of life</span>
+    <p>What made the drift undeniable was not a vague sense of staleness. It was a specific, checkable, false claim, sitting right in the tool where it was supposed to be most trustworthy. The skill carried a proven-instance line, its own proof of life: it pointed at a live URL, one of the posts at its <span class="mono">/full</span> address, and stated plainly that the threaded render was what got served there. Here is the working system, it said. Go look.</p>
+    <p>So I went and looked, not at the skill but at the thing the skill was making a claim about. The router that decides what that URL actually returns sends it to the literary file, the hand-written essay, the format the whole series had quietly become. Not the threaded render. The threaded render was not served anywhere. The tool's proof that it was alive was pointing at a body that had been replaced, and calling the replacement itself.</p>
+    <blockquote>A tool's description of itself is a claim, not a fact, until something outside the tool re-runs it. Read alone, it will confirm whatever it already says.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · Caught by the route, not the doc</span>
+    <p>The part worth keeping is how the lie surfaced, because it is the same lesson as every honest catch in this trench. I did not find it by rereading the skill. I read that file many times, and every reading agreed with itself, because a document introspecting on itself is a strand grading its own work: no outside, no edge to stand off of, nothing that can resist you. It reads back exactly what it believes.</p>
+    <p>It fell the instant I put it next to external ground. The router is the ground here. It does not care what the skill claims; it just answers what it answers, and its answer is checkable in one grep. The moment the skill's sentence and the router's route were in the same view, the gap was not arguable. One of them was describing the site. The other was describing a memory of the site.</p>
+    <div class="panel">
+      <h4>The drift, and the one read that closed it</h4>
+      <div class="step">
+        <span class="k">Aug 24</span><b>Commit <code>13614454</code>: the threaded engine ships, migrates the first posts. Real, working, hardened.</b>
+        <span class="k">Sep 2</span><b>Commit <code>22781915</code>: the series is rebuilt literary and every <code>/full</code> route is repointed to the essays. The engine and the skill are not touched.</b>
+        <span class="k">Sep 2 to 7</span><b>Five days of silent drift. The map describes threaded roads; the territory serves literary ones. Nothing errors, because nothing checks.</b>
+        <span class="k">The tell</span><b>The skill's proof-of-life URL. It claimed threaded; <code>src/proxy.ts</code> routed literary.</b>
+        <span class="k">Caught by</span><b>Reading the route, not the doc. The map cannot see its own drift; only the ground can.</b>
+      </div>
+      <p>Nine days between the two commits, five days of drift after the second. The engine was never wrong to exist. It was wrong to still be described as live once the ground moved out from under it, and only the ground could say so.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · The drift was mine</span>
+    <p>Here is the part I would rather not write, which is exactly why it belongs here. The person who rebuilt the series into the literary format is the same person who left the skill pointing at the dead one. I shipped the new roads and never redrew the map. This was not a tool going stale on its own in a drawer. It was a self-inflicted gap, made by someone who had every fact in hand and simply updated the territory without updating the description of it.</p>
+    <p>That is the ordinary way these things happen. Nobody decides to let a doc lie. You change the working thing under deadline, the change is real and verified and it ships, and the sentence somewhere else that describes the old behavior is not in your diff, so it is not in your attention, so it survives. The gap does not feel like a mistake in the moment because in the moment there is no moment: the description is simply not present at the point where the truth changed.</p>
+  </section>
+
+  <section>
+    <span class="num">V · Wired beats written</span>
+    <p>This is the same lesson as one already sitting in these notes, one level up. A discipline that lives in a document you must remember to reread, and then choose to obey, is not a discipline. It is a hope. It holds only when it fires in the flow of the work, wired to the thing it governs, so that changing the territory forces the description to change with it or refuses the change outright.</p>
+    <p>The skill was written, not wired. Nothing connected the sentence describing the route to the route itself, so the two were free to drift apart, and they did, the way two things always do when only a person's memory holds them together. The engine's own build step, by contrast, refused a page containing a forbidden character; that rule was wired, and it never drifted, because it could not. Written rules rot at the speed of forgetting. Wired ones do not get the chance.</p>
+    <blockquote>A rule you have to reread and choose is not a rule. It is a note to yourself, and notes to yourself drift the moment the work moves and the note does not.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VI · Retired, not deleted</span>
+    <p>The close was not to fix the false sentence and move on. A false proof of life means the whole map is describing terrain that is gone, so the map gets redrawn to the territory that actually exists. The threaded engine, its schema, every source envelope, and the four orphaned renders that no route pointed at, all of it moved into an archive with a note explaining exactly why. The skill was rewritten to the standard the site truly serves: this template, this checklist, no engine.</p>
+    <p>Archived, not deleted, and the distinction is the whole ethic. The engine was real work, hardened through a real gauntlet, and it is recoverable in one command from the history and from the archive beside it. You do not burn the old road because you stopped driving it. You mark it closed, honestly, with a sign that says where it went and why, so the next traveler is not misled and is not robbed of it either. Show the break, keep the gold.</p>
+  </section>
+
+  <section>
+    <span class="num">VII · What the ground is for</span>
+    <p>The reason this is worth a post and not just a commit is that the failure is general and the fix is general. Any tool that describes itself will, given a moving world and enough time, describe a version of itself that no longer exists, and it will do it with the same calm confidence whether it is right or wrong, because confidence is not evidence and a description cannot feel the difference. The only thing that can feel the difference is contact with something the tool does not control.</p>
+    <p>For a claim about a route, that something is the route. For a claim about a number, it is the query. For a claim about your own audit, it is a second strand with no stake in the answer. The channel changes; the principle does not. Rereading the thing that made the claim will only ever return the claim. To know whether a tool is telling the truth about itself, you have to run it against ground, and the ground has to be allowed to win.</p>
+    <blockquote>Point the instrument at itself and it reports itself, faithfully, forever. The one question it cannot answer from the inside is whether any of it is still true.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>
