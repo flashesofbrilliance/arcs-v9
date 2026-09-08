@@ -200,6 +200,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 14. **Run repo scripts from YOUR worktree, never by the main-checkout absolute path.** `/Users/zharris/arcs-v9/scripts/*.py` is whatever branch the main checkout is parked on — often another session's dirty branch with a STALE copy. On 2026-09-08 I linted with the main-checkout `artifact_wrap_lint.py` (a 138-line copy with no MODE 5) while origin/main's is 296 lines and catches the exact narrow-lede-in-wide-container bug; every "wrap-lint clean" was a false pass and the bug shipped repeatedly. Use `./scripts/…` relative to your own worktree (which is cut from origin/main), or verify with `git show origin/main:scripts/<x>` before trusting a result. Same caution for any tool invoked by an `/Users/zharris/arcs-v9/…` absolute path. See memory `run-repo-tools-from-worktree-not-stale-main-checkout`.
 
+15. **Frustration Gate (design pattern, default not favor).** When a bug class is recurring or high-frustration, don't just fix the instance — in the same change add the cheapest mechanical check that FAILS the build on the whole class (grep < static lint < headless assert), prove it fails-on-bad AND passes-on-good, and wire it into the always-run path (`npm test` / pre-commit). A symptom that survives multiple green-gated fixes means the gate is blind or you're solving the wrong problem — that should fire on round 2, not round 15. Full pattern + worked example: `_PATTERNS/2026-09-08-frustration-gate-pattern.md`.
+
 ## Connected systems
 
 | System | Repo | Role |
