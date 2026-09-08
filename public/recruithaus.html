@@ -82,7 +82,15 @@
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
 
-  @media print{ body{padding:0;background:#fff;} .sheet{border:none;box-shadow:none;border-radius:0;max-width:none;} }
+  @media print{
+    @page{ size:letter; margin:0.5in; }
+    body{padding:0;background:#fff;} .sheet{border:none;box-shadow:none;border-radius:0;max-width:none;}
+    /* keep a section, and especially its heading, whole across the 8.5x11 page break */
+    .sec{ break-inside:avoid; page-break-inside:avoid; }
+    h2{ break-after:avoid; page-break-after:avoid; }
+    .sec h2{ break-inside:avoid; page-break-inside:avoid; }
+    p{ orphans:3; widows:3; }
+  }
 </style>
 </head>
 <body>
