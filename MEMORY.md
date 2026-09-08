@@ -7,6 +7,28 @@
 
 ---
 
+## [v3.57.0] 2026-09-07 — Reading Room back-propagation organ (1b gate MET)
+
+- **`scripts/cache_backprop.py`** (new, stdlib): the Metabolic Router's lazy pull-driven repair for a
+  DIRTY `(domain, epoch)` cache slice. `plan` (list dirty) → `packet` (assemble a Curator work-packet:
+  slice nodes + cited provenance AS-IS at HEAD + rubric) → `apply` (write graded statuses back into the
+  digest, stamp only THAT slice fresh). Grading is JUDGMENT and stays external by construction
+  (NOTOMATION) — the script never grades.
+- **Per-slice grade preservation** (the load-bearing fix in `cache_manifest.py`): `stamp`/`check` now
+  carry a prior slice's recorded `graded_at_sha` forward instead of recomputing it from the shared
+  digest file's last commit. Without this, re-grading one epoch falsely frees every sibling epoch that
+  shares the file. Only a *complete* re-grade advances the sha; `--partial` leaves the slice dirty and
+  says so (WITNESS honesty).
+- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding) — 3 real defects found
+  and fixed: (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI: all
+  validation now precedes the write); (2) `--partial` falsely stamped the whole slice fresh; (3) a
+  cleared note outlived a status change. 5 stdlib tests green (`scripts/tests/test_cache_backprop.py`).
+- **1b gate MET**: proved end-to-end — `product/2026-04` dirty → re-graded LIVE → fresh, 19 siblings
+  stay dirty; freshness survived a full re-stamp AND 11 commits of base advance. PR #320 → `343b266`.
+- **Lesson banked**: when many slices share one provenance/digest file, freshness MUST be tracked
+  per-slice in the manifest, never derived from the shared file's git history — the shared file is the
+  wrong granularity and silently over-frees.
+
 ## [v3.56.0] 2026-09-07 — wrap-lint MODE 5 safeguard, post-4 s-tier pass, Dealroom research, ADR-076 MCP-led growth
 
 - **wrap-lint MODE 5** (`scripts/artifact_wrap_lint.py`, pre-commit wired, PRs #256/#258/#260): gates the

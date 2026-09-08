@@ -1,0 +1,23 @@
+# red-team · Monstro Senior Applied AI Research Engineer (stage 7, subtractive only)
+
+Pass run 2026-09-07 on `resume-monstro-senior-applied-ai-research-engin.html` and `page.html`, reading as a skeptical hiring panel (this is an engineering-heavy role at a company that names "high bar" and "auditability core" in its own scorer summary) plus a background-check vendor. Rule: a hit only changes a word if it is true against the evidence, and the only allowed fix is removal or narrowing. Nothing is added back.
+
+## Hits and dispositions
+
+| # | Hit | Verdict | Fix applied |
+|---|---|---|---|
+| 1 | The posting wants "5-8+ years of engineering experience... leading complex systems from design to production." The record shows one production technical build (ARCS) inside a two-decade product/GTM/data-strategy track. | True: a real seniority-of-engineering-experience gap. | Named directly in TAILOR-NOTES §0 and §3, and the summary line reframes as "two decades of technical/product ownership" rather than implying eight years of engineering seniority. |
+| 2 | "Full-stack range... product-quality React/TypeScript UIs" is a required qualification. No React/TypeScript claim exists anywhere in the record. | True. | Not claimed on resume or page.html; listed as an open gap, not invented. |
+| 3 | "Own distributed backend infrastructure: event-driven workers, job pipelines, multi-stage processing" and "distributed systems fundamentals: event-driven architectures, message queues, job state machines" are required. Not in the record. | True. | Not claimed. Skills section limited to data modeling/CDP/pipeline-architecture language, which is adjacent but explicitly not conflated with distributed-systems engineering in TAILOR-NOTES. |
+| 4 | "Build internal tooling platforms (Python/FastAPI)" — FastAPI is not in the record; Python is (record SKILLS list). | Partly true. | Python kept on the skills line (documented). FastAPI not added anywhere. |
+| 5 | Grayscale bullet risks reading as "built the compliance/audit tooling" when the actual role was GTM/product translating regulation into requirements. | True risk of overclaim. | Resume and page.html both keep the verb as "translated regulatory requirements into product requirements," never "built the compliance system" or "built the audit tooling." |
+| 6 | "$7B AUM" can read as personal scope or as an engineering-owned metric. | Partly true. | Bound to the product suite ("$7B AUM" directly after "10 SEC/FINRA-regulated ... products"); TAILOR-NOTES grades it self-reported and states it is the firm's public figure, not a personal or engineering metric. |
+| 7 | ARCS bullet "the closest analog on this record to an AI-output validation loop" could be read as claiming a formal eval/hallucination-detection pipeline, which the posting explicitly asks for. | True risk. | Language kept hedged ("closest analog," not "eval pipeline" or "hallucination detection"); TAILOR-NOTES states plainly this is not a claim of building hallucination-detection tooling. |
+| 8 | Skills line originally (Citi bundle) included R, Tableau, Redshift, BigQuery, Salesforce CDP — none are strictly in the record's SKILLS list and none are relevant to this posting's asks. | True; unnecessary risk surface for a role this technical. | Cut from this bundle's skills line entirely (not carried over from the Citi cut); only record-listed skills kept. |
+| 9 | Headline "AI-native builder for regulated, auditable systems" could be read as implying the candidate built the auditability layer of a regulated financial system end to end. | Weak but worth stating. | Narrowed in prose everywhere it appears: "auditable" is paired with what was actually done (translating regulation into requirements, KPI/evaluation frameworks), never with a claim of building audit infrastructure. |
+| 10 | Nice-to-have "quantitative finance, financial planning, or wealth-management technology" — Grayscale is regulated digital assets, not wealth management. | True gap. | Named explicitly as a gap in TAILOR-NOTES (not conflated); page.html mapping table does not claim wealth-management fit. |
+
+## Not touched, on purpose
+
+- No claim was rewritten upward anywhere in this pass. Every fix above is a removal, a narrowing, or an explicit gap statement.
+- The three claims most likely to be probed in an interview (see TAILOR-NOTES §3): (1) ARCS as the sole production engineering build rather than eight years of engineering leadership, (2) Grayscale's regulated-fluency claim being GTM/requirements-translation, not compliance-engineering, and (3) the total absence of React/TypeScript, FastAPI, and distributed-systems (event-driven/message-queue) experience.

@@ -1,0 +1,222 @@
+Zach Harris · Resume · Senior / Staff Product Engineer · Radar
+
+Zach Harris
+
+Multi-stack product engineer · ships at scale, talks to customers
+
+Target · Senior / Staff Product Engineer · Radar
+
+      New York metro
+
+zach.harris@gmail.com
+
+      linkedin.com/in/
+zharris
+
+github.com/
+flashesofbrilliance
+
+Multi-stack product engineer who ships fast, talks to customers, and operates at scale.
+ Building ARCS end to end: TypeScript / Next.js frontend, Python operator layer, Postgres, a custom MCP server, and agentic orchestration on Claude, with CI gates on every merge and a public commit trail. Before that, product lead for a 
+10-product, $7B AUM regulated launch
+ at Grayscale, coordinating engineering, legal, risk, and compliance through release gates. Two decades building intelligence layers from scratch across finance, health, sports, and consumer. The pattern that fits this role: generalist instincts, a bias toward shipping, and the habit of walking a mile in the customer's shoes to understand what actually needs to be built.
+
+Fit, ranked for this role
+
+what I would bring to Radar
+
+Multi-stack generalist.
+ TypeScript / Node API layer, React / Next.js frontend, Python operator layer, Postgres, CI pipelines, and a custom MCP server on Claude, all in production on my own platform with a public commit trail. Comfortable jumping across stacks to get things shipped.
+
+Ships fast, talks to customers.
+ Own the roadmap, the backlog, the sprint plan, and the code. At Grayscale and in advisory engagements, translated customer and prospect feedback directly into product requirements and shipped on short cycles. Engineers who talk to customers close the loop faster.
+
+Governance as a product feature.
+ Regulated release gates at Grayscale (SEC/FINRA); HIPAA context at Twill; GDPR data sovereignty at GoPro. Controls embedded in delivery, not appended at the end.
+
+High-throughput and scale instincts.
+ Built and operated production systems with CI gates, auto-rollback, and reliability engineering under load (WTA platform load simulation ahead of the Finals; capacity decisions made on data). Comfortable in an on-call rotation and in systems where a week is a long time.
+
+Experience
+
+platform, product, cross-functional delivery
+
+ARCS 
+· Decision-Intelligence Platform on Claude
+
+Founder and Builder · 2025 to Present
+
+Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an 
+AI-native analysis pipeline on Claude
+, and compounding feedback loops that make each subsequent decision sharper. Next.js / TypeScript surface, Python operator layer, Postgres. Operate the full stack, product development through go-to-market; public build trail at github.com/flashesofbrilliance.
+
+Built the 
+custom MCP server and agentic orchestration layer
+ (Claude API, tool use, function calling); pre- and post-decision capture is handled by agents automatically, with human-in-the-loop control by design.
+
+Designed a structured evidence taxonomy and 
+evidence-gating architecture
+: every output carries a confidence state and a lineage to prior decisions, so the system scaffolds judgment without overruling it.
+
+Shipped a family of documented, 
+MIT-licensed open-source developer tools
+ (good.arcs.care), each with its own conformance or regression suite: the reusable-asset pattern that turns one build's work into the next team's starting point.
+
+Evaluation and guardrails as first-class: structured scoring, identity/auth and admin allowlists, CI gates (lint, build, leak-check as a test, security scan, auto-rollback) on every merge.
+
+Grayscale Investments 
+· Digital Currency Group · SEC/FINRA
+
+Product Lead, Go-To-Market · 2024 to 2025
+
+Led go-to-market for 
+10 SEC/FINRA-regulated digital-asset investment products
+ (
+$7B AUM
+): positioning, segmentation, and adoption strategy inside regulated controls and governance.
+
+Coordinated across product, engineering, legal, risk, and compliance through 
+regulated release gates
+; translated regulatory requirements into product and go-to-market requirements.
+
+Owned positioning, segmentation, and adoption strategy across the institutional and retail investor experience.
+
+Squat New York 
+· Behavioral Health · $350M ARR client
+
+Embedded Product and Tech Lead · 2019 to 2020
+
+Sole technology partner on a 
+seven-figure embedded engagement
+ post-PE acquisition, discovery through QA and handoff; owned roadmap, backlog, and sprint planning for a headless-CMS retooling and full CX overhaul.
+
+Aligned engineering, marketing, design, clinical, and operations against one conversion KPI (time-to-interaction) and shipped on schedule.
+
+Children's Tumor Foundation 
+· Rare-disease research and clinical ops
+
+Sr. Director, Data and Strategy · 2018 to 2019
+
+Built the enterprise data infrastructure end to end (CDP evaluation, Salesforce Lightning modernization, lifecycle segmentation): the 
+first shared intelligence layer across 3 business units
+, marketing, fundraising, and clinical.
+
+Drove a 
+20%
+ increase in net-new revenue through data-driven personalization and cross-BU growth instrumentation.
+
+Women's Tennis Association
+
+Head of Product and Strategic Partnerships · 2016 to 2018
+
+Built the first fan-behavior intelligence layer for a global sports platform: CDP selection and 
+real-time scoring at under 120ms
+, serving personalized offers during live events.
+
+Designed the first commercial data partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): 
+$850K+
+ in year one.
+
+Platform load simulation and reliability engineering ahead of the Finals: capacity decisions made on data, not guesses.
+
+Advisory and embedded engagements
+
+regulated and complex markets · 2020 to 2023
+
+Twill Health 
+· Digital therapeutics, HIPAA
+
+2021 to 2023
+
+Market viability testing for 
+3 AI-enabled digital-health product lines
+; KPI frameworks informed the go-forward decision on 2 of 3. Evidence standards in a clinical context.
+
+Axon Enterprise 
+· GovTech
+
+2023
+
+MVP scope, instrumentation requirements, and success metrics for a 
+secure first-responder OTT platform
+; discovery and business-model validation.
+
+GoPro 
+· Consumer tech
+
+2020 to 2021
+
+Analytics framework for EMEA/APAC growth under 
+GDPR data sovereignty
+: collection, activation, and attribution across international markets.
+
+Verizon Media 
+· 5G ventures
+
+2021
+
+Quantitative opportunity assessments across 
+five 5G ventures
+: market sizing, competitive analysis, go/no-go recommendations to the executive team.
+
+Open source
+
+reusable assets, inspectable code · good.arcs.care
+
+germinate
+
+A serializable, provenance-carrying handoff protocol for multi-agent work, so the thread between agents never gets lost.
+
+token-savings-bank
+
+Model-tier routing, batching, and context discipline for AI coding agents: spend tokens like a budget, not a faucet.
+
+rosetta-shell
+
+Write a shell script once, run it anywhere: lossless translation across bash, zsh, and POSIX, with a CI portability gate.
+
+arcs-field-scan
+
+A Next.js app that renders an adaptive profile scan from a LinkedIn profile or PDF.
+
+Skills
+
+mapped to the posting
+
+Generative AI and agentic systems
+
+Claude (API, tool use, function calling), custom MCP servers, agentic orchestration, prompt engineering, context management, evidence-gating and structured scoring, human-in-the-loop control
+
+Product engineering and platform
+
+0 to 1 platform build, roadmap and backlog ownership, sprint planning, REST APIs and webhooks, headless CMS and API architecture, CDP architecture, event taxonomy
+
+Engineering stack
+
+TypeScript / JavaScript, Node, React / Next.js, Python, SQL and Postgres, Git / CI, cloud-hosted production deployment (Vercel, Supabase), Snowflake
+
+Governance in regulated environments
+
+SEC/FINRA release gates, HIPAA, GDPR data sovereignty, RBAC and identity/auth, data governance, translating regulation into product requirements
+
+Measurement and adoption
+
+A/B and multivariate experimentation, attribution modeling, forecasting, Segment / mParticle, outcome capture, adoption and ROI framing for senior stakeholders
+
+Enablement and reuse
+
+Open-source tooling with conformance suites, technical documentation, reference implementations, cross-functional alignment across engineering, clinical, legal, and operations
+
+Education
+
+Oberlin College
+ · BA, Studio Art (Honors) 
+2002 to 2006
+
+MIT xPRO
+ · AI: Implications for Business Strategy 
+Certificate
+
+Zach Harris · github.com/flashesofbrilliance
+
+Tailored · Senior / Staff Product Engineer · Radar · September 2026

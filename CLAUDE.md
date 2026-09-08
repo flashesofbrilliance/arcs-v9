@@ -113,6 +113,39 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.57.0 (2026-09-07)
+
+> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
+> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
+> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
+
+## Shipped
+- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
+  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
+  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
+  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
+- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
+  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
+  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
+  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
+- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
+  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
+  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
+  (`scripts/tests/test_cache_backprop.py`).
+- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
+  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
+  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
+
+## Open (next session)
+1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
+   Reader + cache spine now that back-prop closes 1b.
+2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
+3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
+4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
+   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
+5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
+   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
+
 # Handoff — v3.56.0 (2026-09-07)
 
 > **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
@@ -147,33 +180,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
    server before that signal. If quiet across a fair window, the thesis weakens (falsifier stated).
 2. Memory index still ~20KB over the hook's 17.4KB budget — further trim needs de-indexing live wisdom (Zach's call).
 3. Full `/meta-audit` epoch to re-derive all 81 lattice node statuses (spot-check done; full run deferred).
-4. Everything below from v3.55.0 still stands (story_render.py / literary-theme drift).
+4. story_render.py / literary-theme drift still stands (see v3.55.0 in `_ARCHIVE/handoffs.md`).
 
-# Handoff — v3.55.0 (2026-09-07)
-
-> **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
-> "Confirmed Not My Bug" to its b-version, LIVE and publish-blessed. Everything on main (PR #308).
-
-## Shipped
-- **NFTT "Confirmed Not My Bug" LIVE** at good.arcs.care/blog/nftt/confirmed-not-my-bug (HTTP 200,
-  new "Latest"; take-home-trap demoted to No. 5). B-version arc = "the audit that measured its own
-  author": the harness audits its own maker, and the Mobius/second-strand turn is deceipt #13 (a false
-  claim *inside* the ledger of false claims) caught only by the independent strand, not introspection.
-  Faithful to `_STATE/deceipt-ledger.md` (in worktree `agitated-feynman-b23c40`); no counterpart, PII-clean.
-- **Theme fork surfaced + decided mid-session.** The task pointed at `story_render.py` (threaded engine),
-  but the LIVE NFTT series moved to a hand-authored **literary theme** (take-home-trap "With Life"
-  standard: Newsreader serif, 520px, no braid); the threaded engine's `-full.html` outputs are
-  orphaned/unrouted. Asked Zach -> "rebuild in literary theme". Authored in that template; the b-version
-  arc carries as an editorial essay + a deceipt-ledger `.panel` (the "receipts included" device).
-- Files: `public/blog-nftt-confirmed-not-my-bug.html`, `src/proxy.ts` route, index card.
-  Gates all green (em-dash=0, robots+desc meta, AA on #020408, no overflow 375/790/1024/1280,
-  wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
-  robots tweak to keep the change set focused.
-
-## Open (next session)
-- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
-  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
-  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
-- Everything below from v3.54.0 still stands.
-
-> _v3.54.0 (open-loops: integrity gate, Tribune, ADR-006) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.53.0 relocated 2026-09-07._
+> _v3.55.0 (NFTT "Confirmed Not My Bug" b-version) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.54.0 + v3.53.0 relocated earlier._
