@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Daily guard for the global heartbeat (pulse).
+  Runs `pulse check` at 09:00 daily, INDEPENDENT of whether a Claude session starts.
+  This is the strand the SessionStart hook cannot provide: if no session runs and no work
+  lands in git, the `commits` canary flatlines and this cron surfaces it on day 2 — the exact
+  failure mode where the drift-sentry went stale 5 days silently with nobody looking.
+
+  It only reads git + writes a receipt to _INBOX/pulse.jsonl (append-only). It never commits,
+  never pushes, never touches main. The alarm is the logged FLATLINE line + the receipt; a human
+  (or the next session's pickup) acts on it.
+
+  ACTIVATE (you run this — loading a standing LaunchAgent is a persistent-config change):
+    cp scripts/launchd/care.arcs.pulse.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/care.arcs.pulse.plist
+  DEACTIVATE:
+    launchctl unload ~/Library/LaunchAgents/care.arcs.pulse.plist
+
+  Adjust ARCS_MAIN_CHECKOUT below if your main checkout is not /Users/zharris/arcs-v9.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>care.arcs.pulse</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/zharris/arcs-v9/scripts/pulse.py</string>
+    <string>check</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>CLAUDE_PROJECT_DIR</key>
+    <string>/Users/zharris/arcs-v9</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/zharris/.arcs/pulse.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/zharris/.arcs/pulse.err.log</string>
+</dict>
+</plist>

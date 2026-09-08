@@ -1,3 +1,36 @@
+# Handoff — v3.57.0 (2026-09-07)
+
+> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
+> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
+> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
+
+## Shipped
+- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
+  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
+  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
+  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
+- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
+  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
+  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
+  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
+- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
+  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
+  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
+  (`scripts/tests/test_cache_backprop.py`).
+- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
+  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
+  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
+
+## Open (next session)
+1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
+   Reader + cache spine now that back-prop closes 1b.
+2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
+3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
+4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
+   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
+5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
+   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
+
 # Handoff — v3.55.0 (2026-09-07)
 
 > **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
@@ -3834,3 +3867,29 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 
 
 
+
+---
+
+# Handoff — v3.56.0 (2026-09-07)
+
+> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
+> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
+> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
+
+## Shipped
+- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
+  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
+  checks miss; scans `<style>` only, strips CSS comments, FP-reducer for `.hero .lede{max-width:none}`,
+  and a `wrap-lint-allow: measure-mismatch` opt-out. Fixed the dossier + 3 narrow ledes, marked 3
+  two-width pages. AEO robots/sitemap reachable on good.arcs.care.
+- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (clean at 1280/790/375). Posts 1-3 swept clean.
+- **Dealroom talent research** — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md` (PR #273).
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW; renumbered 075→076 after a
+  parallel DECIDED ADR-075 "Metabolic Router" merged first (oracle-first, collision resolved clean).
+- Housekeeping: lattice epoch e9=2026-09-03; iCloud→Files sync convention; 5 memories banked.
+
+## Open (as of that session)
+1. ADR-076 demand probe: one cheap read-only MCP tool + "Connect an agent →"; measure pull.
+2. Memory index over the hook's budget.
+3. Full `/meta-audit` epoch for the 81 lattice nodes.
+4. story_render.py / literary-theme drift (CLOSED in v3.58.0, PR #312).

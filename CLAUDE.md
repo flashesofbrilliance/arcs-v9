@@ -113,73 +113,72 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.57.0 (2026-09-07)
+# Handoff — v3.59.0 (2026-09-08)
 
-> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
-> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
-> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
 
-## Shipped
-- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
-  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
-  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
-  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
-- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
-  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
-  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
-  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
-- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
-  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
-  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
-  (`scripts/tests/test_cache_backprop.py`).
-- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
-  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
-  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
 
-## Open (next session)
-1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
-   Reader + cache spine now that back-prop closes 1b.
-2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
-3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
-4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
-   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
-5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
-   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
 
-# Handoff — v3.56.0 (2026-09-07)
-
-> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
-> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
-> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
-
-## Shipped
-- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
-  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
-  checks miss; scans `<style>` only (correctness + perf), strips CSS comments, FP-reducer for
-  `.hero .lede{max-width:none}` overrides, and a `wrap-lint-allow: measure-mismatch` opt-out for
-  intentional two-width designs. Fixed the dossier (`.wrap` 940→700 = inner==measure), 3 narrow ledes
-  (blacksmith-observatory, blog-nftt-index, recruithaus-ammo), marked 3 two-width pages
-  (wing/scott-cut/observatory). AEO robots/sitemap now reachable on good.arcs.care (proxy + next.config).
-- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (verified clean at 1280/790/375: no pan, no
-  split-emphasis, no mono overflow, measure coherent). Posts 1-3 swept clean too. The template produces
-  diamond-cut text handling by construction; the 4-width JS test method is banked.
-- **Dealroom talent research** (delegated agent) — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`
-  (PR #273): 15 report/viz patterns + an MCP-led-growth GTM analysis Zach flagged.
-- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307, merging). DRAFT/YELLOW: MCP = free land
-  on the authed core, API = paid expand, wedge = ARCS's native attribution (cited receipts, not the
-  model guessing). Drafted as ADR-075; **renumbered to 076 after a parallel session's DECIDED ADR-075
-  "Metabolic Router" merged first** (oracle-first doctrine; collision resolved cleanly, audit no-dup).
-- Housekeeping: lattice epoch re-pinned e9=2026-09-03 (honest spot-check, not a full meta-audit);
-  iCloud deliverable→Files sync convention set up (ARCS/dated subfolders); memory consolidated + 5 new
-  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms,
-  template s-tier proof).
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
 
 ## Open (next session)
-1. **ADR-076 demand probe** (the ADR's own next step): ship ONE cheap read-only MCP tool over the public
-   NFTT/receipt corpus + a "Connect an agent →" affordance; measure pull. Do NOT build a hosted MCP
-   server before that signal. If quiet across a fair window, the thesis weakens (falsifier stated).
-2. Memory index still ~20KB over the hook's 17.4KB budget — further trim needs de-indexing live wisdom (Zach's call).
-3. Full `/meta-audit` epoch to re-derive all 81 lattice node statuses (spot-check done; full run deferred).
-4. story_render.py / literary-theme drift still stands (see v3.55.0 in `_ARCHIVE/handoffs.md`).
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
 
-> _v3.55.0 (NFTT "Confirmed Not My Bug" b-version) relocated to `_ARCHIVE/handoffs.md` on 2026-09-07; v3.54.0 + v3.53.0 relocated earlier._
+
+# Handoff — v3.58.0 (2026-09-08)
+
+> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
+> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
+> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
+
+## Shipped
+- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
+  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
+  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
+  regenerated. Closes the v3.55.0 `story_render.py` open loop.
+- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
+  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
+  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
+- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
+  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
+  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
+  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
+  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
+- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
+  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
+- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
+
+## Open (handed to fresh sessions, all started)
+1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
+   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
+2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
+   "Token cost ROI analysis" cloud session, not duplicate.
+3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
+   register decision (insider-dense vs legibility layer) + domain-topology verify first.
+- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
+  abductive profile→role scan.
+- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
+
+> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
