@@ -96,6 +96,16 @@ def nxt(ns):
     new = d.get(ns, 0) + 1
     d[ns] = new
     _save(d)
+    # oracle -> pulse strand: an allocation is a beat. Stamp the pulse's `oracle`
+    # subsystem so its flatline guard has an activity signal beyond the committed
+    # counter's git timestamp. Best-effort, never fails an allocation (local-first;
+    # pulse may be absent on another machine). The git timestamp of _oracle.json
+    # remains the authoritative, tamper-evident proof-of-life either way.
+    try:
+        subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "pulse.py"),
+                        "stamp", "oracle"], capture_output=True, timeout=10)
+    except Exception:
+        pass
     print(new)
     sys.stderr.write(
         f"oracle: allocated {ns}={new}. COMMIT _SEEDS/_oracle.json now; "

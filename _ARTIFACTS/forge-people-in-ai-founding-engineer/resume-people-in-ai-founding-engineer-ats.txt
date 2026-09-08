@@ -1,0 +1,222 @@
+Zach Harris · Resume · DevGen.AI Lead Product Engineer, Executive Director
+
+Zach Harris
+
+AI-native product engineer · builds the platform, runs the product
+
+Target · Founding Engineer · People In AI (jobid 4461755202)
+
+      New York metro
+
+zach.harris@gmail.com
+
+      linkedin.com/in/
+zharris
+
+github.com/
+flashesofbrilliance
+
+Founding engineer who owns the full stack and ships directly to customers.
+ Building ARCS, a decision-intelligence platform on Claude with a custom MCP server, agentic orchestration, evaluation and guardrails, and human-in-the-loop control by design, operated end to end: product, architecture, data pipelines, and go-to-market. Before that, product lead for a 
+10-product, $7B AUM regulated launch
+ at Grayscale, shipped through release gates with legal, risk, and compliance in the loop. Two decades building intelligence layers from scratch in finance, health, sports, and consumer. The pattern that fits this role: own critical systems end to end, diagnose failure modes early, and turn complex operational problems into intuitive product experiences.
+
+Fit, ranked for this role
+
+what I would bring as founding engineer
+
+AI-native founding engineer.
+ Custom MCP server, Claude tool use, agentic orchestration, evaluation and guardrails, and an evidence-gating architecture, in production with a public commit trail. Diagnoses AI failure modes and builds reliability and observability in from the start, not appended later.
+
+Product and engineering in one head.
+ Own the roadmap, the backlog, the sprint plan, and the code. Works directly with customers to turn complex operational challenges into intuitive product experiences, iterating quickly with strong product judgment under ambiguity.
+
+Governance as a product feature.
+ Regulated release gates at Grayscale (SEC/FINRA); HIPAA context at Twill; GDPR data sovereignty at GoPro. Controls embedded in delivery, not appended at the end.
+
+Data pipelines and fragmented-data integration.
+ Built the first shared intelligence layer across three business units at CTF (CDP evaluation, Salesforce modernization, lifecycle segmentation). Designed ingestion, processing, and attribution frameworks for complex, fragmented data at GoPro across EMEA and APAC. The habit of making messy data reliable and actionable.
+
+Experience
+
+platform, product, cross-functional delivery
+
+ARCS 
+· Decision-Intelligence Platform on Claude
+
+Founder and Builder · 2025 to Present
+
+Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an 
+AI-native analysis pipeline on Claude
+, and compounding feedback loops that make each subsequent decision sharper. Next.js / TypeScript surface, Python operator layer, Postgres. Operate the full stack, product development through go-to-market; public build trail at github.com/flashesofbrilliance.
+
+Built the 
+custom MCP server and agentic orchestration layer
+ (Claude API, tool use, function calling); pre- and post-decision capture is handled by agents automatically, with human-in-the-loop control by design.
+
+Designed a structured evidence taxonomy and 
+evidence-gating architecture
+: every output carries a confidence state and a lineage to prior decisions, so the system scaffolds judgment without overruling it.
+
+Shipped a family of documented, 
+MIT-licensed open-source developer tools
+ (good.arcs.care), each with its own conformance or regression suite: the reusable-asset pattern that turns one build's work into the next team's starting point.
+
+Evaluation and guardrails as first-class: structured scoring, identity/auth and admin allowlists, CI gates (lint, build, leak-check as a test, security scan, auto-rollback) on every merge.
+
+Grayscale Investments 
+· Digital Currency Group · SEC/FINRA
+
+Product Lead, Go-To-Market · 2024 to 2025
+
+Led go-to-market for 
+10 SEC/FINRA-regulated digital-asset investment products
+ (
+$7B AUM
+): positioning, segmentation, and adoption strategy inside regulated controls and governance.
+
+Coordinated across product, engineering, legal, risk, and compliance through 
+regulated release gates
+; translated regulatory requirements into product and go-to-market requirements.
+
+Owned positioning, segmentation, and adoption strategy across the institutional and retail investor experience.
+
+Squat New York 
+· Behavioral Health · $350M ARR client
+
+Embedded Product and Tech Lead · 2019 to 2020
+
+Sole technology partner on a 
+seven-figure embedded engagement
+ post-PE acquisition, discovery through QA and handoff; owned roadmap, backlog, and sprint planning for a headless-CMS retooling and full CX overhaul.
+
+Aligned engineering, marketing, design, clinical, and operations against one conversion KPI (time-to-interaction) and shipped on schedule.
+
+Children's Tumor Foundation 
+· Rare-disease research and clinical ops
+
+Sr. Director, Data and Strategy · 2018 to 2019
+
+Built the enterprise data infrastructure end to end (CDP evaluation, Salesforce Lightning modernization, lifecycle segmentation): the 
+first shared intelligence layer across 3 business units
+, marketing, fundraising, and clinical.
+
+Drove a 
+20%
+ increase in net-new revenue through data-driven personalization and cross-BU growth instrumentation.
+
+Women's Tennis Association
+
+Head of Product and Strategic Partnerships · 2016 to 2018
+
+Built the first fan-behavior intelligence layer for a global sports platform: CDP selection and 
+real-time scoring at under 120ms
+, serving personalized offers during live events.
+
+Designed the first commercial data partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): 
+$850K+
+ in year one.
+
+Platform load simulation and reliability engineering ahead of the Finals: capacity decisions made on data, not guesses.
+
+Advisory and embedded engagements
+
+regulated and complex markets · 2020 to 2023
+
+Twill Health 
+· Digital therapeutics, HIPAA
+
+2021 to 2023
+
+Market viability testing for 
+3 AI-enabled digital-health product lines
+; KPI frameworks informed the go-forward decision on 2 of 3. Evidence standards in a clinical context.
+
+Axon Enterprise 
+· GovTech
+
+2023
+
+MVP scope, instrumentation requirements, and success metrics for a 
+secure first-responder OTT platform
+; discovery and business-model validation.
+
+GoPro 
+· Consumer tech
+
+2020 to 2021
+
+Analytics framework for EMEA/APAC growth under 
+GDPR data sovereignty
+: collection, activation, and attribution across international markets.
+
+Verizon Media 
+· 5G ventures
+
+2021
+
+Quantitative opportunity assessments across 
+five 5G ventures
+: market sizing, competitive analysis, go/no-go recommendations to the executive team.
+
+Open source
+
+reusable assets, inspectable code · good.arcs.care
+
+germinate
+
+A serializable, provenance-carrying handoff protocol for multi-agent work, so the thread between agents never gets lost.
+
+token-savings-bank
+
+Model-tier routing, batching, and context discipline for AI coding agents: spend tokens like a budget, not a faucet.
+
+rosetta-shell
+
+Write a shell script once, run it anywhere: lossless translation across bash, zsh, and POSIX, with a CI portability gate.
+
+arcs-field-scan
+
+A Next.js app that renders an adaptive profile scan from a LinkedIn profile or PDF.
+
+Skills
+
+mapped to founding engineer requirements
+
+Generative AI and agentic systems
+
+Claude (API, tool use, function calling), custom MCP servers, agentic orchestration, prompt engineering, context management, evidence-gating and structured scoring, human-in-the-loop control
+
+Product engineering and platform
+
+0 to 1 platform build, roadmap and backlog ownership, sprint planning, REST APIs and webhooks, headless CMS and API architecture, CDP architecture, event taxonomy
+
+Engineering stack
+
+TypeScript / JavaScript, Node, React / Next.js, Python, SQL and Postgres, Git / CI, cloud-hosted production deployment (Vercel, Supabase), Snowflake
+
+Governance in regulated environments
+
+SEC/FINRA release gates, HIPAA, GDPR data sovereignty, RBAC and identity/auth, data governance, translating regulation into product requirements
+
+Measurement and adoption
+
+A/B and multivariate experimentation, attribution modeling, forecasting, Segment / mParticle, outcome capture, adoption and ROI framing for senior stakeholders
+
+Production AI reliability and observability
+
+Evaluation and guardrails as first-class features, structured scoring, CI gates (lint, build, leak-check, security scan, auto-rollback), failure-mode diagnosis, cost and token management, multi-tenant security and RBAC
+
+Education
+
+Oberlin College
+ · BA, Studio Art (Honors) 
+2002 to 2006
+
+MIT xPRO
+ · AI: Implications for Business Strategy 
+Certificate
+
+Zach Harris · github.com/flashesofbrilliance
+
+Tailored · Founding Engineer · People In AI · September 2026

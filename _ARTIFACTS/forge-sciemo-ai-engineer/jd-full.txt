@@ -1,0 +1,87 @@
+About Sciemo
+
+Sciemo builds AI for consumer goods: technology that helps businesses make faster, smarter, and more human decisions across the entire IBP process. From optimizing promotions to balancing demand and supply, Sciemo's platform transforms messy, siloed data into measurable business impact. Its AI agents assist decision-makers in real-time, turning complexity into clarity. We are headquartered in New York City.
+
+Overview
+
+We are an industry-leading startup developing AI for consumer brands. Our solutions leverage machine learning, generative AI, agent-based systems, and graph technologies to get our customers to insights in seconds and to business impact in minutes using our products.
+
+We are looking for an AI Engineer to build and deploy the generative and agent-based systems at the core of our products, reporting to our Co-Founder   CAIO.
+
+ROLE
+
+As an AI Engineer, you will design, build, and ship the LLM and agent systems that power our products. You'll own these systems end to end — from prompt and architecture design through evaluation, deployment, monitoring, and iteration in production.
+
+This is a senior, founding-level role. You will help define our approach to applied GenAI: how we structure agents, how we ground them in customer data, how we measure whether they're actually working, and how we keep them reliable at scale. You'll collaborate closely with data scientists, data engineers, product leads, and backend engineers to make sure these systems deliver measurable value in real customer environments.
+
+Responsibilities
+
+Build and Deploy AI Systems
+
+ Architect, build, and deploy LLM- and agent-based products on cloud infrastructure (AWS or similar).
+
+ Design multi-agent systems, tool use, and orchestration patterns for complex business workflows.
+
+ Build retrieval and grounding pipelines over customer data, including graph-based and hybrid retrieval approaches.
+
+ Create automated pipelines for deployment, prompt/model versioning, and continuous performance monitoring.
+
+Evaluation   Reliability
+
+ Build rigorous evaluation frameworks — offline benchmarks, online metrics, and human-in-the-loop review — for systems whose outputs aren't trivially gradeable.
+
+ Design for reliability and fault tolerance: fallbacks, guardrails, cost and latency control, and graceful degradation.
+
+ Continuously optimize inference workflows for efficiency, robustness, and performance in production.
+
+Applied Impact
+
+ Translate complex business problems into AI solutions, including scoping, experiment design, and roadmap planning.
+
+ Develop interpretable, modular, and scalable systems that deliver measurable business value.
+
+ Work directly with customers and stakeholders to ensure deployed systems achieve their intended impact.
+
+Innovation   Thought Leadership
+
+ Stay current with advancements in LLMs, agent architectures, retrieval, and graph AI.
+
+ Propose and prototype new approaches for integrating emerging techniques into production products.
+
+ Develop methods to quantify and communicate AI performance and business ROI.
+
+ Promote responsible, ethical, and impactful AI practices across the organization.
+
+All About You
+
+ Proven track record of launching LLM- or agent-based products into production — not just prototypes.
+
+ Strong production-grade Python; comfort with the modern GenAI tooling ecosystem.
+
+ Hands-on experience with agent frameworks, tool use, structured output, RAG, and prompt engineering at production scale.
+
+ Experience building evaluation systems for generative outputs, and using them to drive real improvement.
+
+ Familiarity with the broader ML stack (PyTorch, scikit-learn, SQL, Spark) and with fine-tuning or model adaptation where it's warranted.
+
+ Experience designing and managing orchestration workflows and versioned pipelines (Airflow, ZenML, Kedro, dbt, etc.).
+
+ Strong problem-solving skills, adaptability, and a "hacker" mentality.
+
+ Excellent communication skills — able to work with both technical and non-technical stakeholders.
+
+ Demonstrated thought leadership and innovation in applied AI.
+
+Benefits   Perks
+
+Check out our one pager!
+
+LOCATION
+
+Hybrid role based in New York City; open to remote U.S. candidates willing to travel monthly to our NYC office.
+
+equal opportunity employer
+
+We are an equal opportunity employer and consider applicants without regard to gender, gender identity, sexual orientation, race, ethnicity, disability, veteran status, or any other characteristic protected by law. We actively encourage diversity, inclusion, and equitable hiring practices.
+
+If you require accommodations during the hiring process, please reach out to our recruitment team at join@sciemo.ai

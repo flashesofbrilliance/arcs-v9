@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+ARCS E2E I/O · NOTOMATION LOOP — internal reconciliation map (2026-09-08).
+Honest wiring state, not aspiration. Labels = live state: AUTOMATED / WIRED / BUILT-NOT-WIRED /
+AUTHORED / STALE-DISABLED / GAP. Human-in-the-loop (NOTOMATION) nodes carry a ◉ wheel.
+Grounded in: _SPECS/self-serve-atlas-scan-v1.md · target-role-scan-hud.html · scripts/oracle.py · task list.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ARCS E2E · NOTOMATION Loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020408; --paper:#0d1117; --div:#1e293b; --div2:#2c3b52;
+  --fg:#e2e8f0; --fg2:#94a3b8; --mut:#64748b; --faint:#475569;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#FF9F45; --red:#FF4D6D; --steel:#7d8fa3;
+  --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:radial-gradient(1100px 500px at 50% -10%, #00F0FF0a 0, transparent 60%),var(--bg);padding:32px 20px 64px}
+.wrap{max-width:1120px;margin:0 auto}
+.sec-hd{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+.sec-hd .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--faint)}
+.sec-hd .t{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--div),transparent)}
+.sec-hd .gloss{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase}
+.honest{font-family:var(--mono);font-size:10px;color:var(--mut);margin:8px 0 14px;line-height:1.6}
+.honest b{color:var(--orange)}
+.frame{background:linear-gradient(165deg,#ffffff06,#ffffff02 40%,#00000030),var(--paper);
+  border:1px solid var(--div);border-radius:12px;padding:8px;box-shadow:inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c}
+svg{display:block;width:100%;height:auto}
+.mono{font-family:var(--mono)}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="sec-hd"><span class="n">∞</span><span class="t">ARCS E2E · NOTOMATION Loop</span><span class="rule"></span><span class="gloss">full system · internal reconciliation</span></div>
+  <p class="honest">Reconciliation snapshot — every label is <b>live wiring state, not aspiration</b>. NOTOMATION: ◉ marks where the human keeps the wheel (scaffold/sequence cognition, never replace revealed preference). The heartbeat spine reads freshness off the OT layer.</p>
+  <div class="frame">
+    <svg viewBox="0 0 1120 1560" role="img" aria-labelledby="mt md" preserveAspectRatio="xMidYMid meet" font-family="var(--mono)">
+      <title id="mt">ARCS end-to-end I/O NOTOMATION loop</title>
+      <desc id="md">Two input lanes feed a deterministic geometry stage, an abductive role-mold stage, a per-tenant local-first atlas, a score/size stage, a scheduled orchestration stage, and output surfaces with three growth onramps. A git-anchored pulse-oracle heartbeat runs down the left spine, monitoring freshness via the OT layer and auto-triggering kintsugi or pathogen detection on buildup. A feedback arc recalibrates scoring from closed outcomes.</desc>
+      <defs>
+        <pattern id="g" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="var(--div)" stroke-width="0.5" opacity="0.3"/></pattern>
+        <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--cyan)"/></marker>
+        <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--green)"/></marker>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--red)"/></marker>
+      </defs>
+      <rect x="0.5" y="0.5" width="1119" height="1559" fill="url(#g)" stroke="var(--div)" rx="10"/>
+
+      <!-- ================= HEARTBEAT SPINE (left rail) ================= -->
+      <g>
+        <rect x="26" y="120" width="46" height="1180" rx="10" fill="#00F0FF07" stroke="var(--cyan)" stroke-width="1"/>
+        <text class="mono" x="49" y="150" fill="var(--cyan)" font-size="9" font-weight="700" text-anchor="middle" transform="rotate(-90 49 710)">PULSE ⇄ ORACLE · OT-CANARY HEARTBEAT · git-anchored · GAP</text>
+        <!-- beat ticks -->
+        <g stroke="var(--cyan)" stroke-width="1.4" opacity="0.8">
+          <path d="M40 210h18M40 360h18M40 510h18M40 700h18M40 840h18M40 990h18M40 1150h18"/>
+        </g>
+        <!-- pulse waveform hint -->
+        <path d="M34 1255 l6 0 l3 -16 l4 30 l4 -14 l6 0" fill="none" stroke="var(--green)" stroke-width="1.4"/>
+        <text class="mono" x="49" y="1285" fill="var(--green)" font-size="7.5" text-anchor="middle">alive</text>
+      </g>
+      <!-- immune branch off spine -->
+      <g>
+        <path d="M72 990 H150" fill="none" stroke="var(--orange)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+        <rect x="150" y="966" width="230" height="48" rx="8" fill="#FF9F450d" stroke="var(--orange)" stroke-width="1.1"/>
+        <text class="mono" x="164" y="984" fill="var(--orange)" font-size="8.5" font-weight="700">ARTERIAL BUILDUP → IMMUNE</text>
+        <text class="mono" x="164" y="998" fill="var(--fg2)" font-size="8">benign→KINTSUGI · foreign→PATHOGEN</text>
+        <text class="mono" x="164" y="1009" fill="var(--faint)" font-size="7.5">engines built · auto-trigger = GAP</text>
+      </g>
+
+      <!-- ================= BAND 1 · INPUT ================= -->
+      <text class="mono" x="96" y="112" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">IN · CORPUS LANES</text>
+      <!-- Lane A -->
+      <g>
+        <rect x="96" y="120" width="440" height="70" rx="8" fill="var(--paper)" stroke="var(--steel)" stroke-width="1.2"/>
+        <rect x="96" y="120" width="4" height="70" fill="var(--steel)"/>
+        <text x="112" y="144" fill="var(--fg)" font-size="13" font-weight="600">Lane A · Zach SSOT</text>
+        <text class="mono" x="112" y="162" fill="var(--fg2)" font-size="8.5">resume.arcs.care · Connections.csv · calendar/reader/listening</text>
+        <text class="mono" x="112" y="180" fill="var(--steel)" font-size="8" font-weight="700">BUILT · AD-HOC</text>
+      </g>
+      <!-- Lane B -->
+      <g>
+        <rect x="560" y="120" width="464" height="70" rx="8" fill="#FF4D6d08" stroke="var(--red)" stroke-width="1.2" stroke-dasharray="5 3"/>
+        <rect x="560" y="120" width="4" height="70" fill="var(--red)"/>
+        <text x="576" y="144" fill="var(--fg)" font-size="13" font-weight="600">Lane B · User1 self-serve <tspan fill="var(--gold)" font-size="10">◉ portable</tspan></text>
+        <text class="mono" x="576" y="162" fill="var(--fg2)" font-size="8.5">Resume + LinkedIn Profile PDF + LinkedIn Data Export</text>
+        <text class="mono" x="576" y="180" fill="var(--red)" font-size="8" font-weight="700">GAP · the productization</text>
+      </g>
+      <path d="M560 155H540" fill="none" stroke="var(--faint)" stroke-width="1"/>
+      <path d="M316 190 V214" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+      <path d="M792 190 V214" fill="none" stroke="var(--cyan)" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 2 · GEOMETRY (plié) ================= -->
+      <text class="mono" x="96" y="230" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">PLIÉ · FIRST-ORDER GEOMETRY · deductive</text>
+      <g>
+        <rect x="96" y="238" width="928" height="66" rx="8" fill="#00F0FF07" stroke="var(--cyan)" stroke-width="1.2"/>
+        <rect x="96" y="238" width="4" height="66" fill="var(--cyan)"/>
+        <text x="112" y="262" fill="var(--fg)" font-size="13" font-weight="600">scanner suite → classify_archetype · RESONANCE_MATRIX · compute_nci · op20 54-dim</text>
+        <text class="mono" x="112" y="281" fill="var(--fg2)" font-size="8.5">arcs_core.py — deterministic, zero-LLM · ProfileScan.tsx wired to app</text>
+        <text class="mono" x="112" y="296" fill="var(--cyan)" font-size="8" font-weight="700">BUILT / WIRED</text>
+        <text class="mono" x="1008" y="296" fill="var(--faint)" font-size="7.5" text-anchor="end">⚠ no committed geometry object yet</text>
+      </g>
+      <path d="M560 304 V328" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 3 · ABDUCTION (second order) ================= -->
+      <text class="mono" x="96" y="344" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">SECOND-ORDER · ABDUCTION · what shape best explains this geometry?</text>
+      <g>
+        <rect x="96" y="352" width="620" height="66" rx="8" fill="#FFD70009" stroke="var(--gold)" stroke-width="1.2"/>
+        <rect x="96" y="352" width="4" height="66" fill="var(--gold)"/>
+        <text x="112" y="376" fill="var(--fg)" font-size="13" font-weight="600">Folksonomist + op20 DBSCAN over ROLE-space → directional mold</text>
+        <text class="mono" x="112" y="395" fill="var(--fg2)" font-size="8.5">"these dimensions point to → Applied AI Engineer / FDE" + confidence</text>
+        <text class="mono" x="112" y="410" fill="var(--gold)" font-size="8" font-weight="700">ENGINE BUILT · INVERSE NOT WIRED</text>
+      </g>
+      <g>
+        <rect x="736" y="352" width="288" height="66" rx="8" fill="#FF4D6d08" stroke="var(--red)" stroke-width="1.1" stroke-dasharray="5 3"/>
+        <text x="752" y="374" fill="var(--fg)" font-size="12" font-weight="600">◉ overfit gate</text>
+        <text class="mono" x="752" y="392" fill="var(--fg2)" font-size="8">validate mold vs LIVE postings</text>
+        <text class="mono" x="752" y="408" fill="var(--red)" font-size="8" font-weight="700">GAP · mold must be real, not flattering</text>
+      </g>
+      <path d="M716 385 H732" fill="none" stroke="var(--gold)" stroke-width="1.4" marker-end="url(#a)"/>
+      <path d="M560 418 V442" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 4 · ATLAS (per-tenant, local-first) ================= -->
+      <text class="mono" x="96" y="458" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">PER-TENANT ATLAS · Ziggurat on L0–L7 · null-state fog → earned fidelity</text>
+      <g>
+        <rect x="96" y="466" width="928" height="150" rx="10" fill="#00FF9d06" stroke="var(--green)" stroke-width="1.2"/>
+        <rect x="96" y="466" width="4" height="150" fill="var(--green)"/>
+        <text x="112" y="490" fill="var(--fg)" font-size="13" font-weight="600">Supabase RLS tenant per User1 · corpus / canon / receipts / outcomes row-scoped</text>
+        <text class="mono" x="112" y="508" fill="var(--fg2)" font-size="8.5">null state = GRAIN (fog) → densifies along the earned-fidelity ladder as evidence compounds</text>
+        <!-- fidelity ladder -->
+        <g>
+          <text class="mono" x="112" y="536" fill="var(--faint)" font-size="8">FIDELITY:</text>
+          <rect x="176" y="528" width="70" height="12" rx="2" fill="#FF4D6d22" stroke="var(--red)" stroke-width="0.8"/><text class="mono" x="211" y="537" fill="var(--red)" font-size="7.5" text-anchor="middle">GRAIN</text>
+          <rect x="254" y="528" width="70" height="12" rx="2" fill="#FF9F4522" stroke="var(--orange)" stroke-width="0.8"/><text class="mono" x="289" y="537" fill="var(--orange)" font-size="7.5" text-anchor="middle">DEGRADED</text>
+          <rect x="332" y="528" width="70" height="12" rx="2" fill="#00FF9d22" stroke="var(--green)" stroke-width="0.8"/><text class="mono" x="367" y="537" fill="var(--green)" font-size="7.5" text-anchor="middle">SHARP</text>
+          <rect x="410" y="528" width="70" height="12" rx="2" fill="#00F0FF22" stroke="var(--cyan)" stroke-width="0.8"/><text class="mono" x="445" y="537" fill="var(--cyan)" font-size="7.5" text-anchor="middle">CRYSTAL</text>
+          <path d="M176 546 H480" stroke="var(--faint)" stroke-width="0.75" marker-end="url(#a)"/>
+          <text class="mono" x="486" y="549" fill="var(--faint)" font-size="7.5">evidence →</text>
+        </g>
+        <!-- local-first sync -->
+        <g>
+          <rect x="560" y="556" width="200" height="46" rx="6" fill="var(--paper)" stroke="var(--gold)" stroke-width="1"/>
+          <text class="mono" x="570" y="574" fill="var(--gold)" font-size="8.5" font-weight="700">LOCAL-FIRST · air-gapped</text>
+          <text class="mono" x="570" y="588" fill="var(--fg2)" font-size="8">GIGI / SQLite (local)</text>
+          <text class="mono" x="570" y="599" fill="var(--faint)" font-size="7.5">sync layer = GAP</text>
+          <path d="M760 579 H800" fill="none" stroke="var(--gold)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+          <path d="M800 579 H760" fill="none" stroke="var(--gold)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+          <rect x="808" y="556" width="200" height="46" rx="6" fill="var(--paper)" stroke="var(--green)" stroke-width="1"/>
+          <text class="mono" x="818" y="574" fill="var(--green)" font-size="8.5" font-weight="700">NETWORK · sync</text>
+          <text class="mono" x="818" y="588" fill="var(--fg2)" font-size="8">Supabase RLS (prod)</text>
+          <text class="mono" x="818" y="599" fill="var(--faint)" font-size="7.5">partly scaffolded</text>
+        </g>
+        <text class="mono" x="1008" y="490" fill="var(--faint)" font-size="7.5" text-anchor="end">◉ RLS isolation = hard gate</text>
+      </g>
+      <path d="M340 616 V640" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 5 · SCORE / SIZE (élevé) ================= -->
+      <text class="mono" x="96" y="656" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">ÉLEVÉ · SCORE / SIZE</text>
+      <g>
+        <rect x="96" y="664" width="300" height="66" rx="8" fill="#00FF9d0a" stroke="var(--green)" stroke-width="1.2"/>
+        <rect x="96" y="664" width="4" height="66" fill="var(--green)"/>
+        <text x="112" y="688" fill="var(--fg)" font-size="12.5" font-weight="600">parser → rubric-as-data</text>
+        <text class="mono" x="112" y="706" fill="var(--fg2)" font-size="8">linkedin_alert_parser · target-role-scan.json</text>
+        <text class="mono" x="112" y="721" fill="var(--green)" font-size="8" font-weight="700">AUTOMATED · WIRED</text>
+      </g>
+      <g>
+        <rect x="416" y="664" width="290" height="66" rx="8" fill="#00F0FF08" stroke="var(--cyan)" stroke-width="1.2"/>
+        <text x="432" y="688" fill="var(--fg)" font-size="12.5" font-weight="600">jobs.arcs.care · Swipe Board <tspan fill="var(--gold)" font-size="9">◉</tspan></text>
+        <text class="mono" x="432" y="706" fill="var(--fg2)" font-size="8">scored rows · 0.58 cutoff · per-job Role Scan</text>
+        <text class="mono" x="432" y="721" fill="var(--cyan)" font-size="8" font-weight="700">LIVE</text>
+      </g>
+      <g>
+        <rect x="726" y="664" width="298" height="66" rx="8" fill="#FFD70009" stroke="var(--gold)" stroke-width="1.2"/>
+        <text x="742" y="688" fill="var(--fg)" font-size="12.5" font-weight="600">recoil · go/no-go <tspan fill="var(--gold)" font-size="9">◉ ex-ante bet</tspan></text>
+        <text class="mono" x="742" y="706" fill="var(--fg2)" font-size="8">recoil-new/prep/report — size before invest</text>
+        <text class="mono" x="742" y="721" fill="var(--cyan)" font-size="8" font-weight="700">WIRED · proven</text>
+      </g>
+      <path d="M340 730 V754" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 6 · ORCHESTRATION (leap) ================= -->
+      <text class="mono" x="96" y="770" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">LEAP · ORCHESTRATION · scheduled</text>
+      <g>
+        <rect x="96" y="778" width="220" height="60" rx="8" fill="#00FF9d0a" stroke="var(--green)" stroke-width="1.1"/>
+        <text x="110" y="800" fill="var(--fg)" font-size="11.5" font-weight="600">job-search loop</text>
+        <text class="mono" x="110" y="817" fill="var(--fg2)" font-size="8">wkdy 08:17 · Haiku · workers</text>
+        <text class="mono" x="110" y="830" fill="var(--green)" font-size="8" font-weight="700">AUTOMATED · running</text>
+      </g>
+      <g>
+        <rect x="330" y="778" width="220" height="60" rx="8" fill="#00FF9d0a" stroke="var(--green)" stroke-width="1.1"/>
+        <text x="344" y="800" fill="var(--fg)" font-size="11.5" font-weight="600">field-os-weekly · prl-daily</text>
+        <text class="mono" x="344" y="817" fill="var(--fg2)" font-size="8">health check · exec status</text>
+        <text class="mono" x="344" y="830" fill="var(--green)" font-size="8" font-weight="700">AUTOMATED · running</text>
+      </g>
+      <g>
+        <rect x="564" y="778" width="215" height="60" rx="8" fill="#FF9F450d" stroke="var(--orange)" stroke-width="1.1"/>
+        <text x="578" y="800" fill="var(--fg)" font-size="11.5" font-weight="600">drift-sentry</text>
+        <text class="mono" x="578" y="817" fill="var(--fg2)" font-size="8">daily meta-audit</text>
+        <text class="mono" x="578" y="830" fill="var(--orange)" font-size="8" font-weight="700">STALE ~5d ⚠</text>
+      </g>
+      <g>
+        <rect x="793" y="778" width="231" height="60" rx="8" fill="#FF9F450d" stroke="var(--orange)" stroke-width="1.1"/>
+        <text x="807" y="800" fill="var(--fg)" font-size="11.5" font-weight="600">precall / postcall</text>
+        <text class="mono" x="807" y="817" fill="var(--fg2)" font-size="8">recoil auto-prep / close</text>
+        <text class="mono" x="807" y="830" fill="var(--orange)" font-size="8" font-weight="700">DISABLED since Jul ⚠</text>
+      </g>
+      <path d="M340 838 V862" fill="none" stroke="var(--cyan)" stroke-width="1.6" marker-end="url(#a)"/>
+
+      <!-- ================= BAND 7 · OUTPUT / ONRAMPS ================= -->
+      <text class="mono" x="96" y="878" fill="var(--faint)" font-size="9" font-weight="700" letter-spacing="1">OUT · ONE ARTIFACT → THREE ONRAMPS  (render at EARNED fidelity)</text>
+      <g>
+        <rect x="96" y="886" width="928" height="66" rx="8" fill="var(--paper)" stroke="var(--div2)" stroke-width="1.2"/>
+        <text x="112" y="910" fill="var(--fg)" font-size="12.5" font-weight="600">HUD scan artifact — the derivative content</text>
+        <text class="mono" x="112" y="930" fill="var(--green)" font-size="8.5">▸ product-led (self-serve)</text>
+        <text class="mono" x="300" y="930" fill="var(--cyan)" font-size="8.5">▸ media-led (shareable)</text>
+        <text class="mono" x="470" y="930" fill="var(--gold)" font-size="8.5">▸ founder-led (show, don't tell)</text>
+        <text class="mono" x="700" y="930" fill="var(--steel)" font-size="8.5">▸ MCP-led (ADR-076 · backlog)</text>
+        <text class="mono" x="112" y="945" fill="var(--faint)" font-size="8">good · jobs · resume · prl · app .arcs.care [LIVE] · zachharris.xyz [secondary]</text>
+      </g>
+
+      <!-- ================= FEEDBACK LOOP (close → recalibrate) ================= -->
+      <path d="M1024 919 H1064 V690 H710" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ag)"/>
+      <text class="mono" x="1070" y="805" fill="var(--green)" font-size="8" font-weight="700" transform="rotate(90 1070 805)">recoil-close → belief ledger → recalibrate rubric (GAP)</text>
+
+      <!-- ================= TITLE BLOCK + LEGEND ================= -->
+      <g>
+        <rect x="96" y="1000" width="360" height="96" rx="6" fill="var(--paper)" stroke="var(--div2)" stroke-width="1"/>
+        <path d="M96 1026 H456 M276 1000 V1096" stroke="var(--div)" stroke-width="0.75"/>
+        <text class="mono" x="108" y="1018" fill="var(--fg)" font-size="10" font-weight="700" letter-spacing="1">ARCS FIELD OS</text>
+        <text class="mono" x="108" y="1044" fill="var(--mut)" font-size="7.5">DRAWING</text>
+        <text class="mono" x="108" y="1057" fill="var(--fg2)" font-size="9">E2E · NOTOMATION LOOP</text>
+        <text class="mono" x="108" y="1078" fill="var(--mut)" font-size="7.5">SURFACE</text>
+        <text class="mono" x="108" y="1090" fill="var(--fg2)" font-size="8.5">internal reconciliation</text>
+        <text class="mono" x="288" y="1018" fill="var(--mut)" font-size="7.5">REV / DATE</text>
+        <text class="mono" x="288" y="1032" fill="var(--fg2)" font-size="9">v1 · 2026-09-08</text>
+        <text class="mono" x="288" y="1052" fill="var(--mut)" font-size="7.5">SCALE</text>
+        <text class="mono" x="288" y="1064" fill="var(--gold)" font-size="9">EARNED FIDELITY</text>
+        <text class="mono" x="288" y="1084" fill="var(--mut)" font-size="7.5">SPEC</text>
+        <text class="mono" x="288" y="1094" fill="var(--fg2)" font-size="8">self-serve-atlas-scan-v1</text>
+      </g>
+      <!-- legend: honest-state key -->
+      <g class="mono" font-size="8.5">
+        <text x="490" y="1014" fill="var(--faint)" font-size="8" font-weight="700" letter-spacing="1">STATE KEY</text>
+        <rect x="490" y="1024" width="11" height="11" rx="2" fill="none" stroke="var(--green)"/><text x="507" y="1033" fill="var(--fg2)">AUTOMATED / LIVE</text>
+        <rect x="490" y="1042" width="11" height="11" rx="2" fill="none" stroke="var(--cyan)"/><text x="507" y="1051" fill="var(--fg2)">WIRED</text>
+        <rect x="490" y="1060" width="11" height="11" rx="2" fill="none" stroke="var(--gold)"/><text x="507" y="1069" fill="var(--fg2)">BUILT · NOT WIRED</text>
+        <rect x="490" y="1078" width="11" height="11" rx="2" fill="none" stroke="var(--steel)"/><text x="507" y="1087" fill="var(--fg2)">AUTHORED (not generated)</text>
+        <rect x="700" y="1024" width="11" height="11" rx="2" fill="none" stroke="var(--orange)"/><text x="717" y="1033" fill="var(--fg2)">STALE / DISABLED</text>
+        <rect x="700" y="1042" width="11" height="11" rx="2" fill="none" stroke="var(--red)" stroke-dasharray="3 2"/><text x="717" y="1051" fill="var(--fg2)">GAP (not built)</text>
+        <text x="700" y="1069" fill="var(--gold)">◉</text><text x="717" y="1069" fill="var(--fg2)">NOTOMATION · human keeps the wheel</text>
+        <line x1="700" y1="1084" x2="722" y2="1084" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="728" y="1087" fill="var(--fg2)">feedback / recalibrate</text>
+      </g>
+    </svg>
+  </div>
+</div>
+</body></html>

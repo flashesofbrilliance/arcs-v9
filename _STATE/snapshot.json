@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-09-07T14:05:00-04:00",
+  "captured_at": "2026-09-08T12:40:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "343b266",
-    "head_message": "feat(cache): back-propagation organ — re-grade one dirty slice on read [NCI:87] (#320)",
+    "head_sha": "af13bd85",
+    "head_message": "design(hud): wired-loop schematic in target-role-scan §05 + em-dash sweep [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -21,8 +21,8 @@
     "port": 6543,
     "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"]
   },
-  "open_adrs": ["ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)"],
-  "session_summary": "Reading Room back-propagation organ shipped (scripts/cache_backprop.py, plan->packet->apply; grading external by NOTOMATION); cache_manifest.py now preserves per-slice graded_at_sha so re-grading one epoch never frees siblings sharing a digest; 1b gate MET (proved: product/2026-04 dirty->re-graded->fresh, 19 siblings stay dirty, survives full re-stamp + 11 commits of base advance). Gauntlet: 3 skeptic defects fixed, 5 stdlib tests green. PR #320 merged (343b266).",
-  "next_action": "Reading Room tenants 2a-2c (Concordance / Chronicle / Babelfish / Codex) on the Reader+cache spine; 1a 4-width visual check (headless screenshot); live admin smoke of /reading-room. Separately: ADR-076 cheap read-only MCP demand probe.",
+  "open_adrs": ["ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)", "candidate: global pulse<->oracle heartbeat", "candidate: two-order abductive profile->role scan"],
+  "session_summary": "ARCS-on-ARCS design session (v3.58.0): shipped NFTT 'The Factory on Itself' (self-referential, live); closed the threaded->literary NFTT drift (retired story_render.py engine, repointed the skill); serialized a full living-system spec + e2e NOTOMATION map (self-serve profile->role abductive scan, per-tenant RLS atlas, pulse<->oracle heartbeat); distilled a wired-loop schematic into target-role-scan-hud §05 + swept 22 em-dashes.",
+  "next_action": "Forward work is on 3 started fresh sessions: pulse Phase-0 heartbeat (task_3fdd97bf), kaizen window-cost job (task_23dfd53b), zachharris.xyz/scan deploy (task_7215ccad). This session rests.",
   "blocking": "NONE"
 }
