@@ -32,11 +32,15 @@ export default async function LanePage() {
 
   // Derived stage is the floor; a manual laneStage overrides it (mark applied,
   // advance the interview loop). Each row lands in exactly one column.
+  // Research is the floor. A built resume or a swipe is a DECISION, not an
+  // application, so it advances only to Qualify. Apply / Interview / Outcome
+  // require real evidence and are set explicitly via laneStage (e.g. an
+  // application confirmation in the inbox). laneStage always overrides.
   const derived = (r: (typeof rows)[number]): string =>
     r.laneOutcome ? "outcome"
     : r.band === "UNSCORED" ? "research"
-    : (r.forge || r.swipe?.direction === "r") ? "apply"
-    : "qualify"
+    : r.swipe?.direction === "r" ? "qualify"
+    : "research"
   const stageOf = (r: (typeof rows)[number]): string => r.laneStage ?? derived(r)
   const inStage = (k: string) => rows.filter((r) => stageOf(r) === k)
   const research = inStage("research"), qualify = inStage("qualify"), apply = inStage("apply"), interview = inStage("interview"), closed = inStage("outcome")
