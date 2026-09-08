@@ -1,26 +1,30 @@
 {
-  "captured_at": "2026-09-08T12:45:00-04:00",
+  "captured_at": "2026-09-08T14:35:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "2dcec25a",
-    "head_message": "merge origin/main; keep session hook receipts [NCI:SKIP merge]",
-    "branch": "feat/audit-service",
-    "in_sync_with_origin": false,
-    "note": "all substantive work merged to main via PRs #306/#332/#337/#340; branch ahead only on session hook-state + this handoff"
+    "head_sha": "046a3b88",
+    "head_message": "docs(patterns): Frustration Gate — recurring/high-pain bugs earn a mechanical gate [NCI:SKIP]",
+    "branch": "claude/frustration-gate-pattern",
+    "in_sync_with_origin": true,
+    "merged_to_main_this_session": ["#363 source parity + wrap-class doctrine", "#368 Frustration Gate pattern"],
+    "dirty_files": ["_STATE/* (hook-generated only)"]
   },
   "vercel": {
-    "note": "LAST-KNOWN, not re-verified this session (verify live with get_deployment before relying)",
-    "project": "arcs-v9",
-    "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "note": "app/DB/Vercel env NOT re-verified this session — work was on the separate zachharris-xyz repo + arcs-v9 docs/artifacts only. Prior snapshot's infra facts stand until re-checked.",
+    "arcs_v9_production_alias": "https://app.arcs.care"
+  },
+  "sibling_repo_shipped": {
+    "repo": "flashesofbrilliance/zachharris-xyz",
+    "surface": "https://zachharris.xyz/scan",
+    "head": "9c11a91",
+    "status": "LIVE — ARCS Target Scan HUD, full-lane lede, gates green (wrap-lint MODE5, Playwright lede-width + regression, axe)",
+    "standing_gate": "npm test / test:scan now includes a lede-width assertion (fails on a pinched lede)"
   },
   "database": {
-    "note": "prod reachable via Supabase MCP (read-only). Reproducible audit committed: _STATE/2026-09-05-db-audit-reproducible.md",
-    "project_ref": "xbbpiryokswwvcrcutge",
-    "role": "arcs_app",
-    "live_facts_2026_09_05": "Receipt 247 (189 = top user / founder dogfood); Outcome 2 (both self-graded, ~0 externally-validated); window 247/247; doorClass 88 ONE_WAY / 159 TWO_WAY; horizon column all-NULL (unused)"
+    "note": "not touched/verified this session"
   },
-  "session_summary": "ARCS-on-ARCS shipping close (v3.59.0): shipped + verified live the NFTT 'Assets and Liabilities' essay, the Field Instruments public-goods chapter, the Day-151 status milestone, and the informativeness ratchet with a REAL CI arm (moved off the disabled ci.yml). Deceipt ledger now 15; #13/#15 caught by field-contact, not self-review.",
-  "next_action": "Extract informativeness-auditor from the harness into a standalone package (Seed->Proven graduation, tracked on good.arcs.care/instruments); the outcome-capture keel (2/247 closed) remains the P1.",
-  "blocking": "NONE (memory-index retirement + keel work are human-owned/gated, not blockers)"
+  "open_adrs": [],
+  "session_summary": "Shipped zachharris.xyz/scan (ARCS Target Scan HUD) with a full-lane lede; root-caused a ~15-round wrap saga to a stale/blind gate + a doctrine conflict; banked the fix as mechanical gates + the Frustration Gate design pattern (arcs-v9 PRs #363, #368 merged).",
+  "next_action": "No open loop on /scan. If desired, apply the Frustration-Gate pattern + lede-exception doctrine to other single-file ARCS artifacts (run the REAL wrap-lint from the worktree, add a lede-width assertion where a repo has a test harness).",
+  "blocking": "NONE"
 }
