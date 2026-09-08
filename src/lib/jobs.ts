@@ -95,7 +95,15 @@ export function decideSwipe(direction: "r" | "l" | null, tier: 1 | 2 | 3 | null,
 
 export const FORGE_STATUSES = ["queued", "gathering", "grading", "rendering", "built", "live"] as const
 export type ForgeStatus = (typeof FORGE_STATUSES)[number]
-export const WHY_TAGS = ["comp", "location", "role shape", "seniority", "culture", "company", "timing", "other"] as const
+// Left-swipe rationale vocabulary. The coarse eight plus the lane's drainers and
+// anti-signals (runtime/specs/lanes/job-search.json why_tags_next), so a pass
+// records WHY in Zach's own anti-pattern language, not just a bucket. The board
+// reads these back as the "why-not echo" that tunes future ranking to his shape.
+export const WHY_TAGS = [
+  "comp", "location", "role shape", "seniority", "culture", "company", "timing", "other",
+  "bureaucracy", "approval loops", "unclear goals", "credit hoarding", "slow sponsors",
+  "toxic leadership", "no purpose", "feeling invisible", "conflicting priorities", "short-termism",
+] as const
 
 export function tierOf(composite: number | null | undefined, spec: ScanSpec | null): 1 | 2 | 3 | null {
   if (composite == null) return null
