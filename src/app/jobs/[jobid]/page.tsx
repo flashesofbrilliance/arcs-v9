@@ -79,7 +79,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
               <h1 style={{ fontSize: "clamp(24px,3.6vw,36px)", fontWeight: 700, letterSpacing: "-.025em", lineHeight: 1.06, margin: 0, textWrap: "balance" }}>{row.title}</h1>
               <div style={{ ...eyebrow, color: signal.cyan, marginTop: 10 }}>{row.company}{row.location ? ` · ${row.location}` : ""}{row.compBand ? ` · ${row.compBand}` : ""}</div>
             </div>
-            <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: ".07em", color: fg3, textAlign: "right", lineHeight: 2.1, whiteSpace: "nowrap" }}>
+            <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: ".07em", color: fg3, textAlign: "left", lineHeight: 2.1, whiteSpace: "nowrap" }}>
               {led(bandColor)}BAND · {row.band}{tier ? ` · TIER ${tier}` : ""}<br />
               {led(gates.length ? signal.red : signal.green)}GATES · {gates.length ? `${gates.length} FIRED` : "NONE FIRED"}<br />
               {led(row.swipe ? (row.swipe.direction === "r" ? signal.green : signal.red) : fg4)}SWIPE · {row.swipe ? (row.swipe.direction === "r" ? "RIGHT" : `LEFT${row.swipe.why ? ` · ${row.swipe.why.toUpperCase()}` : ""}`) : "NONE"}<br />
