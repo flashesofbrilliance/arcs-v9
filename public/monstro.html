@@ -59,6 +59,17 @@
   .role .rd{font-size:14.5px;line-height:1.6;color:var(--ink2);}
   .role .rd em{color:var(--gold);font-style:normal;font-weight:600;}
   .role .rd b{color:var(--ink);font-weight:600;}
+  .maptbl{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--card);}
+  .maph{display:grid;grid-template-columns:1fr 1fr;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:#f5fafb;border-bottom:1px solid var(--line);}
+  .maph span{padding:9px 15px;} .maph span:first-child{border-right:1px solid var(--line);}
+  .maprow{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+  .maprow:last-child{border-bottom:none;}
+  .mapc{padding:14px 15px;font-size:14px;line-height:1.55;color:var(--ink2);}
+  .mapc:first-child{border-right:1px solid var(--line);}
+  .mapc.mapb{background:#fcfefe;}
+  .mapc b{color:var(--ink);font-weight:600;} .mapc em{color:var(--gold);font-style:normal;font-weight:600;}
+  .mapc .sys{display:block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  @media(max-width:560px){.maph{display:none;}.maprow{grid-template-columns:1fr;}.mapc:first-child{border-right:none;border-bottom:1px solid var(--line);}.mapc.mapb::before{content:"I built \2192 ";font-family:var(--mono);font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;}}
 
   .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:560px){.vs{grid-template-columns:1fr;}}
@@ -142,26 +153,27 @@
     <div class="pad">
       <div class="sec">
         <h2>The five systems the role asks for, and where I already built each</h2>
-        <div class="roles">
-          <div class="role">
-            <div class="rt">A market-knowledge source of truth<small>system 1 · knowledge</small></div>
-            <div class="rd">JD: identify canonical sources, <em>detect conflicting or outdated claims</em>, preserve approved language, feed downstream AI. <b>I built:</b> the ARCS canon with oracle-numbered governance and a live drift + claims-skeptic layer that flags stale or contradictory claims automatically.</div>
+        <div class="maptbl">
+          <div class="maph"><span>What the role asks for</span><span>What I already built, running today</span></div>
+          <div class="maprow">
+            <div class="mapc"><span class="sys">System 1 · Knowledge</span><b>A market-knowledge source of truth.</b> Identify canonical sources, <em>detect conflicting or outdated claims</em>, preserve approved language, feed downstream AI.</div>
+            <div class="mapc mapb">The ARCS canon with oracle-numbered governance and a live drift + claims-skeptic layer that flags stale or contradictory claims automatically.</div>
           </div>
-          <div class="role">
-            <div class="rt">AI &amp; search discoverability<small>system 2 · AEO</small></div>
-            <div class="rd">JD: measure and improve how Monstro appears across ChatGPT, Gemini, Perplexity, Claude, Google. <b>I built:</b> a building-in-public surface publishing answer-engine-first, with MCP-led distribution, tuned for citation not generic traffic.</div>
+          <div class="maprow">
+            <div class="mapc"><span class="sys">System 2 · AEO</span><b>AI &amp; search discoverability.</b> Measure and improve how Monstro appears across ChatGPT, Gemini, Perplexity, Claude, Google.</div>
+            <div class="mapc mapb">A building-in-public surface publishing answer-engine-first, with MCP-led distribution, tuned for citation not generic traffic.</div>
           </div>
-          <div class="role">
-            <div class="rt">An AI-native content machine<small>system 3 · content</small></div>
-            <div class="rd">JD: a 15-minute recording or transcript becomes LinkedIn posts, video, articles, <em>with approval and extraordinary leverage</em>. <b>I built:</b> a story + artifact factory that turns one input into multiple approved assets, gated by a human-approval step, not volume-maxxing.</div>
+          <div class="maprow">
+            <div class="mapc"><span class="sys">System 3 · Content</span><b>An AI-native content machine.</b> A 15-minute recording or transcript becomes LinkedIn posts, video, articles, <em>with approval and extraordinary leverage</em>.</div>
+            <div class="mapc mapb">A story + artifact factory that turns one input into multiple approved assets, gated by a human-approval step, not volume-maxxing.</div>
           </div>
-          <div class="role">
-            <div class="rt">Distribution &amp; market listening<small>system 4 · distribution</small></div>
-            <div class="rd">JD: distribute content, surface high-value conversations, <em>prepare recommended responses for human approval</em>. <b>I built:</b> a daily digest + alert board that surfaces the highest-value opportunities and drafts the response, human-in-the-loop by design.</div>
+          <div class="maprow">
+            <div class="mapc"><span class="sys">System 4 · Distribution</span><b>Distribution &amp; market listening.</b> Distribute content, surface high-value conversations, <em>prepare recommended responses for human approval</em>.</div>
+            <div class="mapc mapb">A daily digest + alert board that surfaces the highest-value opportunities and drafts the response, human-in-the-loop by design.</div>
           </div>
-          <div class="role">
-            <div class="rt">A measurement feedback loop<small>system 5 · feedback</small></div>
-            <div class="rd">JD: "you are not being hired to report activity, you are being hired to build a <em>feedback loop</em>." <b>I built:</b> a receipts-and-outcomes system where the loop, ex-ante claim measured against what actually happened, is the entire thesis.</div>
+          <div class="maprow">
+            <div class="mapc"><span class="sys">System 5 · Feedback</span><b>A measurement feedback loop.</b> "You are not being hired to report activity, you are being hired to build a <em>feedback loop</em>."</div>
+            <div class="mapc mapb">A receipts-and-outcomes system where the loop, the ex-ante claim measured against what actually happened, is the entire thesis.</div>
           </div>
         </div>
         <p class="body" style="margin-top:13px;"><b>Five systems, one builder, already running.</b> That is the exact shape this role is asking for, and every piece is checkable today.</p>
