@@ -56,7 +56,7 @@ fi
 # are left to the manual sweep / a future net-new-diff check.
 # Skips cleanly when the linter or python3 is absent (older worktrees stay committable).
 if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; then
-  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
   if [ -n "$html" ]; then
     if ! echo "$html" | tr '\n' '\0' | xargs -0 python3 scripts/artifact_wrap_lint.py; then
       echo "✖ commit blocked: wrap-class violation in a NEW public/*.html (see above)." >&2
