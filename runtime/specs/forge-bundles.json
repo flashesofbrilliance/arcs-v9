@@ -2,6 +2,13 @@
   "version": "1.0",
   "doc": "jobid -> staged forge bundle under _ARTIFACTS. Read by /jobs/[jobid]/forge (admin-gated private viewer). Bundles are never served from public/; hosting a page publicly stays a separate human-approved step.",
   "bundles": {
+    "4172881368": {
+      "dir": "forge-the-d-e-shaw-group-start-up-ventures-pro",
+      "slug": "the-d-e-shaw-group-start-up-ventures-pro",
+      "resume": "resume-the-d-e-shaw-group-start-up-ventures-pro.pdf",
+      "resume_pdf": "resume-the-d-e-shaw-group-start-up-ventures-pro.pdf",
+      "resume_txt": "resume-the-d-e-shaw-group-start-up-ventures-pro-ats.txt"
+    },
     "4266778287": {
       "dir": "forge-norm-ai-fde",
       "slug": "norm-ai-fde",
@@ -564,6 +571,20 @@
       "resume": "resume-rillet-applied-ai-engineer.pdf",
       "resume_pdf": "resume-rillet-applied-ai-engineer.pdf",
       "resume_txt": "resume-rillet-applied-ai-engineer-ats.txt"
+    },
+    "4443901488": {
+      "dir": "forge-rippling-product-lead-talent-products",
+      "slug": "rippling-product-lead-talent-products",
+      "resume": "resume-rippling-product-lead-talent-products.pdf",
+      "resume_pdf": "resume-rippling-product-lead-talent-products.pdf",
+      "resume_txt": "resume-rippling-product-lead-talent-products-ats.txt"
+    },
+    "4450453140": {
+      "dir": "forge-humana-lead-ai-technical-product-manager",
+      "slug": "humana-lead-ai-technical-product-manager",
+      "resume": "resume-humana-lead-ai-technical-product-manager.pdf",
+      "resume_pdf": "resume-humana-lead-ai-technical-product-manager.pdf",
+      "resume_txt": "resume-humana-lead-ai-technical-product-manager-ats.txt"
     }
   }
 }
