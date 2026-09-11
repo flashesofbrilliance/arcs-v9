@@ -126,3 +126,39 @@ first ~9 resolutions are all rejections spanning both tiers; the only applicatio
 
 **Warm-path signal (H3):** a real warm path exists and is unused in the funnel data — Yuri Kleban
 (Google) offered a direct referral (2026-09-02). H3 should be run as a deliberate forward test.
+
+### Amendment 2026-09-11 (b) — H3 precondition: warm must be INTO a real, defined, funded req (worked example: Fanatics)
+
+**Why this amendment:** H3 as registered ("warm-path applications out-convert cold") has one
+resolved warm-path case in the whole record, and it is a loss. Fanatics (Jun 24 to Jul 15, 2026):
+founder-level intro (Chris Lamontagne) → talent screen passed (CJ Masopust, recoil NCI 88 GREEN) →
+"thanks but no thanks" on Jul 13, 12 days later, with a hiring-manager conversation that never
+happened. Full grounded post-mortem: `_STATE/job-search/postmortem-fanatics.md`.
+
+**What it isolates:** warmth was real and verified (intro within 4 days, Calendly within 2 hours,
+community invites). The outcome still resolved as no-convert because **there was no req**: no JD,
+no comp sign-off, no decision-owner reached. Boardy's same-night read: "liked the work but never
+found a concrete mandate that matched your shape." The fit-score and the recoil both saw the gap
+(go-bag prior "active req attached: 30%"; scenario tree gave 5% to "stalls at Talent, no open req")
+and rendered SHARP anyway.
+
+**H3 refined (H3'):** *Warm-path out-converts cold ONLY when the warm path lands INTO a req with
+`req_reality >= 2`. At `req_reality <= 1`, warmth predicts goodwill and referrals, not offers, and
+must be logged as a relationship asset, not a shot.*
+
+- New required field on every warm shot: `req_reality` (0 = no JD/no owner met · 1 = verbal shape,
+  no JD or budget · 2 = JD posted or cut, budget implied · 3 = JD + budget + decision-owner met).
+- Cut for H3' becomes 2×2: `warm_path {>=1, 0}` × `req_reality {>=2, <=1}`. The H3 comparison is
+  read on the `req_reality >= 2` row only. The `<=1` row is reported separately as the
+  "manufactured-role" arm and is expected to be ~0 regardless of warmth (Fanatics n=1).
+- Decision rule addendum: if the `<=1` arm stays ~0 while the `>=2` arm shows warm ≫ cold, the lever
+  is "warm INTO real reqs" (relationship manufacturing pointed at posted mandates), NOT
+  "manufacture the role through the relationship." Pilot/contract asks are the conversion path for
+  `<=1`, tracked as a distinct outcome (`pilot`), not as an application.
+- Fanatics is booked as: `warm_path=1 · req_reality=0 · laneStatus=rejected · resolved 2026-07-13`
+  in the manufactured-role arm. It stands as a standing exclusion on the champion shortlist for the
+  same reason (no req to target), with the door warm.
+
+**Not changed:** the pre-registered H3 text, metric, and min_n stay as written; this block adds the
+gate and the field. Read gate unchanged: no verdict before n ≥ 20 resolved warm shots, and the
+`>=2` row needs its own n.
