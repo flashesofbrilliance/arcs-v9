@@ -1,0 +1,98 @@
+Jobs at Monstro
+
+Open Positions
+
+Department
+
+.remix-css-b62m3t-container{position:relative;box-sizing:border-box;}
+
+.remix-css-7pg0cj-a11yText{z-index:9999;border:0;clip:rect(1px, 1px, 1px, 1px);height:1px;width:1px;position:absolute;overflow:hidden;padding:0;white-space:nowrap;}
+
+.remix-css-13cymwt-control{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:default;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;min-height:38px;outline:0!important;position:relative;-webkit-transition:all 100ms;transition:all 100ms;background-color:hsl(0, 0%, 100%);border-color:hsl(0, 0%, 80%);border-radius:4px;border-style:solid;border-width:1px;box-sizing:border-box;}.remix-css-13cymwt-control:hover{border-color:hsl(0, 0%, 70%);}
+
+.remix-css-hlgwow{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;display:grid;-webkit-flex:1;-ms-flex:1;flex:1;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-overflow-scrolling:touch;position:relative;overflow:hidden;padding:2px 8px;box-sizing:border-box;}
+
+.remix-css-1jqq78o-placeholder{grid-area:1/1/2/3;color:hsl(0, 0%, 50%);margin-left:2px;margin-right:2px;box-sizing:border-box;}
+
+Select...
+
+.remix-css-19bb58m{visibility:visible;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;display:inline-grid;grid-area:1/1/2/3;grid-template-columns:0 min-content;margin:2px;padding-bottom:2px;padding-top:2px;color:hsl(0, 0%, 20%);box-sizing:border-box;}.remix-css-19bb58m:after{content:attr(data-value) " ";visibility:hidden;white-space:pre;grid-area:1/2;font:inherit;min-width:2px;border:0;margin:0;outline:0;padding:0;}
+
+.remix-css-1wy0on6{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-align-self:stretch;-ms-flex-item-align:stretch;align-self:stretch;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;box-sizing:border-box;}
+
+Office
+
+Select...
+
+6 jobs
+
+Delivery  (Engineering)
+
+Job
+
+Senior Frontend Engineer 
+
+New York City — Onsite
+
+Senior Software Engineer
+
+New York City — Onsite
+
+Staff Software Engineer
+
+New York City — Onsite
+
+Delivery (Product) 
+
+Job
+
+Principal SME Regulatory Affairs — Banking   AI Compliance
+
+New York City — Onsite
+
+GTM (Sales)
+
+Job
+
+Managing Director, Enterprise Accounts, Financial Services AI
+
+New York City, Onsite with travel
+
+Managing Director Strategic Banking Accounts
+
+New York City, Onsite with travel
+
+Powered by
+
+Greenhouse
+
+((STORAGE_KEY, restoreKey) => {
+    if (!window.history.state || !window.history.state.key) {
+      let key = Math.random().toString(32).slice(2);
+      window.history.replaceState({
+        key
+      }, "");
+    }
+    try {
+      let positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}");
+      let storedY = positions[restoreKey || window.history.state.key];
+      if (typeof storedY === "number") {
+        window.scrollTo(0, storedY);
+      }
+    } catch (error) {
+      console.error(error);
+      sessionStorage.removeItem(STORAGE_KEY);
+    }
+  })("positions", null)
+
+window.ENV = {"ASSET_URL":"https://job-boards.cdn.greenhouse.io","EMAIL_ADDRESS_VALIDATOR_HOST":"email-address-validator.us.greenhouse.io","JBEN_URL":"https://boards.greenhouse.io","LOCATION_CONTROL_PROVIDER":"pelias","LOCATION_CONTROL_API_KEY":"ge-39f1178289d5d0c5","LOCATION_CONTROL_BASE_URL":"https://api-geocode-earth-proxy.greenhouse.io/","LOTUS_GIT_COMMIT":"69d938557aea367dbb7d90e792e91ad773414b99","MAX_POSTS_PER_PAGE":50,"ROLLBAR_ENV":"production","ROLLBAR_FE_ENABLED":true,"ROLLBAR_POST_CLIENT_ITEM_TOKEN":"fb557f59a5a84ab788801dd742eacf34","ROLLBAR_FILTER_HYDRATION_ERRORS":true,"GOOGLE_PICKER_APP_ID":"594601915089","GOOGLE_PICKER_DEVELOPER_KEY":"AIzaSyBeoz4WOjOsy8ZJFIkkQBvL8BZQCzLplHQ","GOOGLE_PICKER_CLIENT_ID":"594601915089-7c2994029qkt5qu2tmbppujr9jqrqqrs.apps.googleusercontent.com","DROPBOX_CHOOSER_API_KEY":"mh9jyh4mfwjnfhj","GOOGLE_RECAPTCHA_INVISIBLE_KEY":"6LfmcbcpAAAAAChNTbhUShzUOAMj_wY9LQIvLFX0","GOOGLE_RECAPTCHA_ENDPOINT":"https://www.recaptcha.net/recaptcha/enterprise.js","JOB_SEEKERS_URL":"https://my.greenhouse.io","SNOWPLOW_APP_ID":"job-board-renderer","SNOWPLOW_ENABLED":true,"SNOWPLOW_ENDPOINT":"c.spl.greenhouse.io","SNOWPLOW_NAMESPACE":"job-board-renderer-tracker","SNOWPLOW_DEBUG":false}
+
+window.__remixContext = {"basename":"/","future":{"v3_fetcherPersist":false,"v3_relativeSplatPath":false,"v3_throwAbortReason":false,"v3_routeConfig":false,"v3_singleFetch":false,"v3_lazyRouteDiscovery":false,"unstable_optimizeDeps":false},"isSpaMode":false,"state":{"loaderData":{"root":{"internal":false,"preview":false,"locale":"en","href":"http://job-boards.greenhouse.io/monstro?error=true","ENV":{"ASSET_URL":"https://job-boards.cdn.greenhouse.io","EMAIL_ADDRESS_VALIDATOR_HOST":"email-address-validator.us.greenhouse.io","JBEN_URL":"https://boards.greenhouse.io","LOCATION_CONTROL_PROVIDER":"pelias","LOCATION_CONTROL_API_KEY":"ge-39f1178289d5d0c5","LOCATION_CONTROL_BASE_URL":"https://api-geocode-earth-proxy.greenhouse.io/","LOTUS_GIT_COMMIT":"69d938557aea367dbb7d90e792e91ad773414b99","MAX_POSTS_PER_PAGE":50,"ROLLBAR_ENV":"production","ROLLBAR_FE_ENABLED":true,"ROLLBAR_POST_CLIENT_ITEM_TOKEN":"fb557f59a5a84ab788801dd742eacf34","ROLLBAR_FILTER_HYDRATION_ERRORS":true,"GOOGLE_PICKER_APP_ID":"594601915089","GOOGLE_PICKER_DEVELOPER_KEY":"AIzaSyBeoz4WOjOsy8ZJFIkkQBvL8BZQCzLplHQ","GOOGLE_PICKER_CLIENT_ID":"594601915089-7c2994029qkt5qu2tmbppujr9jqrqqrs.apps.googleusercontent.com","DROPBOX_CHOOSER_API_KEY":"mh9jyh4mfwjnfhj","GOOGLE_RECAPTCHA_INVISIBLE_KEY":"6LfmcbcpAAAAAChNTbhUShzUOAMj_wY9LQIvLFX0","GOOGLE_RECAPTCHA_ENDPOINT":"https://www.recaptcha.net/recaptcha/enterprise.js","JOB_SEEKERS_URL":"https://my.greenhouse.io","SNOWPLOW_APP_ID":"job-board-renderer","SNOWPLOW_ENABLED":true,"SNOWPLOW_ENDPOINT":"c.spl.greenhouse.io","SNOWPLOW_NAMESPACE":"job-board-renderer-tracker","SNOWPLOW_DEBUG":false},"boardConfiguration":{"job_board_id":4001038009,"logo":{"href":null,"url":"https://s9-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/103/800/original/M_White_on_Navy.png?1784317498"},"filters":{"include_office_filter":true,"include_department_filter":true,"allow_custom_field_filters":false},"button_shape":"rounded","cta_text":"Apply","primary_font":"Roboto Serif","secondary_font":"Arial","custom_primary_font_url":null,"custom_secondary_font_url":null,"dropdown_selection_color":"#5B8E7D","active_field_color":"#203A5B","link_color":"#5B8E7D","list_selection_color":"#5B8E7D","primary_font_color":"#0F244B","outside_label":false,"view_all_link":true,"button_color":"#5B8E7D","button_hover_color":"#0F244B","button_text_color":"#FFFFFF","banner_url":"https://s9-recruiting.cdn.greenhouse.io/job_board_renderer/job_board_configurations/banners/400/035/800/original/Employee_Banner_TEST_no_Guides.png?1784317502","board_layout":"stacked","display_department_hierarchy":true,"hide_app_description":false,"header_text":"Open Positions","job_board_public_url":"https://job-boards.greenhouse.io/monstro","secondary_font_color":"#203A5B","background_color":"#FFFFFF","disable_captcha":false,"disable_eeoc_quick_apply":false,"display_departments":true,"display_search_bar":false,"display_new_jobs_tag":true,"display_number_of_open_jobs":true,"display_footer":true,"application_tracking_enabled":false,"seek_id":null,"enable_recruitics":false,"appcast_tracking_code":null,"google_drive_enabled":true,"enable_dropbox":true,"allow_external_notifications":null,"display_job_trust_profiles":false,"grayscale_ai_bot_enabled":false,"grayscale_ai_bot_access_token":null},"urlToken":"monstro","embedded":false,"isJobPost":false},"routes/$url_token":{"jobPosts":{"count":6,"page":1,"total":6,"total_pages":1,"data":[{"id":4335945009,"title":"Senior Frontend Engineer ","internal_job_id":4196585009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"144","location":"New York City — Onsite","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4335945009","published_at":"2026-07-28T13:59:48-04:00","department":{"name":"Delivery  (Engineering)","id":4004789009,"path":[]},"is_featured":false},{"id":4297590009,"title":"Senior Software Engineer","internal_job_id":4174872009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"131","location":"New York City — Onsite","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4297590009","published_at":"2026-06-25T13:18:11-04:00","department":{"name":"Delivery  (Engineering)","id":4004789009,"path":[]},"is_featured":false},{"id":4297596009,"title":"Staff Software Engineer","internal_job_id":4174875009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"132","location":"New York City — Onsite","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4297596009","published_at":"2026-07-07T16:03:14-04:00","department":{"name":"Delivery  (Engineering)","id":4004789009,"path":[]},"is_featured":false},{"id":4295472009,"title":"Principal SME Regulatory Affairs — Banking \u0026 AI Compliance","internal_job_id":4174095009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"128","location":"New York City — Onsite","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4295472009","published_at":"2026-06-24T15:43:39-04:00","department":{"name":"Delivery (Product) ","id":4004792009,"path":[]},"is_featured":false},{"id":4389138009,"title":"Managing Director, Enterprise Accounts, Financial Services AI","internal_job_id":4225305009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"149","location":"New York City, Onsite with travel","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4389138009","published_at":"2026-08-31T17:09:56-04:00","department":{"name":"GTM (Sales)","id":4004790009,"path":[]},"is_featured":false},{"id":4389099009,"title":"Managing Director Strategic Banking Accounts","internal_job_id":4225213009,"updated_at":"2026-09-10T13:45:00-04:00","requisition_id":"148","location":"New York City, Onsite with travel","absolute_url":"https://job-boards.greenhouse.io/monstro/jobs/4389099009","published_at":"2026-08-31T17:09:26-04:00","department":{"name":"GTM (Sales)","id":4004790009,"path":[]},"is_featured":false}]},"featuredPosts":{"data":[]},"board":{"name":"Monstro","public_url":"https://job-boards.greenhouse.io/monstro","content":"","redirect_to":null},"departments":[{"id":4004789009,"value":4004789009,"name":"Delivery  (Engineering)","label":"Delivery  (Engineering)","children":[]},{"id":4004792009,"value":4004792009,"name":"Delivery (Product) ","label":"Delivery (Product) ","children":[]},{"id":4004790009,"value":4004790009,"name":"GTM (Sales)","label":"GTM (Sales)","children":[]}],"recentlyLiveDepartments":[{"id":4004789009,"value":4004789009,"name":"Delivery  (Engineering)","label":"Delivery  (Engineering)"},{"id":4004792009,"value":4004792009,"name":"Delivery (Product) ","label":"Delivery (Product) "},{"id":4004790009,"value":4004790009,"name":"GTM (Sales)","label":"GTM (Sales)"}],"offices":[{"id":4004490009,"value":4004490009,"name":"New York ","label":"New York ","children":[]}],"departmentIds":[],"officeIds":[],"customFieldFilters":{},"urlToken":"monstro","customFields":[],"url":"http://job-boards.greenhouse.io/monstro?error=true"}},"actionData":null,"errors":null}};
+
+import "https://job-boards.cdn.greenhouse.io/assets/manifest-8e78b32d.js";
+import * as route0 from "https://job-boards.cdn.greenhouse.io/assets/root-fzRmszp-.js";
+import * as route1 from "https://job-boards.cdn.greenhouse.io/assets/_url_token-CkMjMI0p.js";
+
+window.__remixRouteModules = {"root":route0,"routes/$url_token":route1};
+
+import("https://job-boards.cdn.greenhouse.io/assets/entry.client-B5kjVA5a.js");
