@@ -1,185 +1,212 @@
-# Post-mortem: Fanatics Collectibles (Chris Lamontagne / CJ Masopust), Jun 24 to Jul 15, 2026
+# Post-mortem: Fanatics Collectibles (Chris Lamontagne / CJ Masopust), Jun 23 to Jul 17, 2026
 
-> **Written:** 2026-09-11 (Thread 3 of the job-search fork). **Status of the engagement:** CLOSED-WARM.
+> **Written:** 2026-09-11 (Thread 3 of the job-search fork). **Revised same day** after the Gmail
+> connector came back and the full thread, the Jul 1 call transcript, and the surrounding sent mail
+> were pulled live. **Status of the engagement:** CLOSED-WARM.
 > **Why now:** this is the cleanest warm-path failure in the data. Warmth was real and verified; the
 > outcome was still a no. It isolates a variable the fit-score does not model: **req_reality**.
-> **Evidence discipline:** every dated claim below cites a local artifact. Anything not locally
-> verifiable is listed under "Unconfirmed", not folded into the narrative.
+> **Evidence discipline:** every dated claim cites a source. Anything not verifiable is listed under
+> "Unconfirmed", not folded into the narrative.
 
-## Sources (what this is grounded on)
+## Sources
 
-| Source | Path | What it carries |
+| Source | Where | What it carries |
 |---|---|---|
-| Chris call recoil SSOT | `runtime/recoil/generated/2026-06-25-lamontagne.json` | Jun 25 call, 5 segments, scenarios, stop-loss |
-| CJ screen recoil SSOT | `runtime/recoil/generated/2026-07-01-masopust.json` | Jul 1 screen, Granola notes, scenarios, risk flags |
-| Pre-call go-bag | `src/ui-kit/recoil-report/fanatics-go-bag.html` | Pipeline stages, pre-call probabilities incl. "active req attached: 30%" |
-| Archived target-facing pages | `_ARCHIVE/fanatics-pages/{fanatics,cj-brief,chase-intro,chris-intro}.html` | The artifacts Zach shipped, dated beats Jun 24 to Jul 7 |
+| Gmail thread `19f5db040cf63cdc` "Fanatics Collect - Follow Up" | pulled live 2026-09-11, PLAIN_TEXT | CJ's Jul 13 note (full), Zach's fwd to Boardy, Boardy's read (full), Zach's Jul 15 reply, Zach's Jul 15 fwd to Chris, Mixmax no-reply ping Jul 17 |
+| Gmail thread `19f5c4ac51e3babb` "Call Transcript w/ CJ" | pulled live 2026-09-11 | Granola transcript of the Jul 1 screen (Zach sent it to Hilary Jul 13 12:23 PM); Hilary's reply 12:56 PM |
+| Gmail thread `19f018d834006f23` "The bubblegum problem" | pulled live | Zach's Jun 25 night email + deck; Chris's Jun 29 reply and CJ intro (full wording) |
+| Gmail thread `19f237639ecb183e` "CJ was great // My read on it // Your take on Chase" | pulled live | Zach's Jul 2 note to Chris; Mixmax no-reply ping Jul 4 |
+| Gmail search: all mail to/from Chris, CJ, Regina, Jun 23 to Sep 11 | pulled live | Proves what was NOT sent (no Jul 8 stop-loss, no Growth+1 invite by email) |
+| Chris call recoil SSOT | `runtime/recoil/generated/2026-06-25-lamontagne.json` | Jun 25 call, scenarios, stop-loss |
+| CJ screen recoil SSOT | `runtime/recoil/generated/2026-07-01-masopust.json` | Jul 1 screen as scored on the day |
+| Pre-call go-bag | `src/ui-kit/recoil-report/fanatics-go-bag.html` | Pre-call prior "active req attached: 30%" |
+| Archived target-facing pages | `_ARCHIVE/fanatics-pages/*.html` | The artifacts Zach shipped Jul 1 to 2 |
 | The req Zach wrote | `JOB_REQ.md` | "This req was written by the person applying for it. That's intentional." |
-| Gmail thread `19f5db040cf63cdc` "Fanatics Collect - Follow Up" | recovered from a prior session's Gmail pull (2026-08-28), message headers + snippets | CJ's Jul 13 note, Zach's Jul 14 fwd to Boardy, Boardy's read, Zach's Jul 15 reply, Zach's Jul 15 fwd to Chris |
-| Memories | `feedback_room_reading_trigger_checklist`, `feedback_interview_pivot_to_self_promotion`, `writing-style-email` | Post-call transcript reads made in July |
 | Git | `git log --grep=fanatics` | Jul 15 archive + 301 of the six subdomains |
 
-The Gmail MCP was not connected in this session. The thread was NOT re-pulled live; the message
-headers and snippets above come from a verified pull on 2026-08-28. CJ's full Jul 13 body (19.6 KB)
-was never captured locally; only its first sentence is on record.
+## Timeline (what was said, when; all times ET)
 
-## Timeline (what was said, when)
-
-| Date (ET) | Event | Evidence |
+| Date | Event | Evidence |
 |---|---|---|
-| ~Jun 24 | Chris Lamontagne (President, Strategy & Growth) posts on LinkedIn: "looking for a few exceptional & high-agency operators... Have your agent speak to my agent." Zach is first comment, first to book. | `fanatics.html` beat 01 |
-| Jun 25, 3:00 PM | 30-min call with Chris (Regina Marshall, EA, on the invite). Chris names Instant Rips in segment 2. Load-bearing quote: **"Roles are fluid given pace of growth, looking for people with distinct ideas about what they want to do next."** Close: "send me something in writing, I'll use it to make relevant intros." | Lamontagne SSOT, segments 2 and 5 |
-| Jun 25, same night | Zach sends "The Bubblegum Problem" email + a Magic Patterns deck. Last page re-cuts Chris's own hiring site as a prompt-injection scenario. | `fanatics.html` beat 02; `writing-style-email` |
-| Jun 29 | Chris replies: "i loved what you built, would be keen to have the team dive in deeper. As an immediate next step, I'd like to introduce CJ, who leads Talent..." CJ sends a Calendly within 2 hours. | `fanatics.html` beat 03 |
-| Jul 1, 12:30 PM | 30-min screen with CJ Masopust (Talent Lead). She describes the shape: SD to VP reporting to Chris, over performance marketing, lifecycle, data/analytics across Tops.com, Fanatics Live, Collect, VA. Player-coach, ~5 to 6 reports, 5 days in West Village. Comp ballpark verbal. **No JD. No comp sign-off. "3 to 4 weeks realistically."** Close is on community (Growth Plus One, Fan Fest), not process. Zach asks to be put in front of Chase; CJ's reply is a scope-and-process hedge. | Masopust SSOT segments 1 to 5; room-reading memory trigger 6 |
-| Jul 1, same day | Zach ships `cj-brief.arcs.care` (post-call brief with **five candidate-written job-req variants** and **candidate-written interview probes**), `chase-intro.arcs.care` (30/60/90 for Chase + booking link), `fanatics.arcs.care` (chain-reaction provenance page), `token.arcs.care`. Recoil scores the screen **NCI 88, GREEN / HIGH / STABLE, render SHARP**: "Screen passed. CJ is an advocate. Path to Chase is clear." | archived pages; Masopust SSOT cover |
-| Jul 2 | Zach emails Chris: subject "CJ was great // My read on it // Your take on Chase", with the `chris-intro` loop-close page and the Chase brief link. | `chris-intro.html`; `writing-style-email` |
-| Jul 7 to 9 | Calendar reminders Zach set for himself: Jul 7 "reach out to Chase", Jul 9 "circle back with CJ on JD + process". Stop-loss in the Chris SSOT: "No Chase intro calendar by Jul 8, reopen with Chris directly." | `cj-brief.html` calendar block; Lamontagne SSOT protocol |
-| Jul 13, 6:54 PM | **CJ to Zach, "Fanatics Collect - Follow Up":** "Hi Zach, I wanted to personally thank you again for the time, thought, and energy you invested throughout our process. We genuinely enjoyed getting to know you, and I especially appreciated the..." (rest of body not on local record). | Gmail thread, msg 1 |
-| Jul 13, 9:50 PM | Zach forwards to Boardy: "Unfortunately, seems like the timing / needs didn't work out for this one..." | Gmail thread, msg 2 |
-| Jul 13, 9:50 PM | Boardy replies: "Read plainly, they liked the work but never found a concrete mandate that matched your shape. That makes this a role-design miss, not a signal that the interview process exposed a..." | Gmail thread, msg 3 |
-| Jul 15, 2:31 PM | Zach to CJ: "Hi CJ – Really appreciate you taking the time to write that. Totally understand it's a timing thing. Selfishly, I'd still love to swing by Growth+1 if the invite's still on the table..." | Gmail thread, msg 4 |
-| Jul 15, 2:34 PM | Zach forwards the exchange to Chris: "Hope this isn't goodbye… but see you later." | Gmail thread, msg 5 |
-| Jul 15, 3:22 PM | Zach archives all six Fanatics pages and removes the subdomain routing; 4:27 PM adds 301s "so anyone holding an old link (Chase, CJ, etc.) lands on arcs.care." | commits `ac7ad9ae`, `650b4e38` |
+| Jun 23 | Zach books "Growth Execs (Zach Harris)" via Chris's agentic hiring flow off his LinkedIn post ("Have your agent speak to my agent"). Regina Marshall (EA) on the invite. | booking confirmation |
+| Jun 25, 3:00 PM | 15-min call with Chris (scheduled 15, ran ~30). Chris names Instant Rips early. Close: "send me something in writing, I'll use it to make relevant intros." | Lamontagne SSOT |
+| Jun 25, 9:31 PM | Zach emails "The bubblegum problem": "Glad I saw the post – and got there first. Not a coincidence." Pitches the bookie/elephant's-memory layer, names it "Growth Intelligence, FDE, or something you haven't named yet", and closes: "Would love to chat with whoever's closest to this problem." 11:16 PM: follow-up with the Magic Patterns deck, "Something easy to socialize internally." | thread `19f018…` |
+| Jun 29, 2:20 PM | **Chris replies:** "i loved what you built - would be keen to have the team dive in deeper. As an immediate next step, I'd like to introduce CJ, who leads Talent for us... I'd love to get into a bit more detail with him and **would also love Zach to meet with Chase to talk specifically about Instant Rips Growth (as a starting point).**" Zach forwards to Hilary: "See below. Told ya!" CJ sends a Calendly; Jul 1 booked. | thread `19f018…` |
+| Jul 1, 12:30 PM | **30-min screen with CJ (Director, Recruiting).** See "What the transcript shows" below. Key exchange: Zach asks whether this is "a real thing or exploratory." CJ: "a little bit of both. We are going to have a need. Chris and I and his HR business partner are in the process of really defining what the job description can be. He just kind of wanted to see what type of response he would get." Later: "we are going to be having a leadership role open up... I'll just ask for your patience because I don't have it fully baked right now... it'll be somewhere at the top, managing and driving performance marketing, lifecycle marketing and all the data that pours into it." | transcript |
+| Jul 1, same day | Recoil scores the screen **NCI 88, GREEN / HIGH / STABLE, SHARP**: "Screen passed. CJ is an advocate. Path to Chase is clear." Zach ships `cj-brief` (five candidate-written req variants + candidate-written interview probes), `chase-intro` (30/60/90 for Chase + booking link), `fanatics` chain-reaction page, `token`. | Masopust SSOT; archived pages |
+| Jul 2, 11:32 AM | Zach to Chris: "CJ was great. Thanks for the intro. I put a short note together for you after the call. My read on where things landed and why Rips is the right starting point." + PS "cold start context for anybody else on your end." **No reply.** Mixmax no-reply reminder fires Jul 4. | thread `19f237…` |
+| Jul 2 to Jul 12 | **Silence in both directions.** No mail to or from Chris, CJ, or Regina. The Chris SSOT stop-loss ("no Chase calendar by Jul 8 → reopen with Chris directly") was **not executed**. CJ's "early next week the latest" circle-back did not arrive. | Gmail search, all three addresses |
+| Jul 13, 12:23 PM | Zach sends the Jul 1 transcript to Hilary. **12:56 PM Hilary replies:** "Seems like a great call. I wouldn't focus on other roles or rushing people in an Introduction - or pushing salary - let them come back and actually meet and have a meeting with would be boss. Maybe wait a day to see if they write you. What was your follow up?" | thread `19f5c4…` |
+| Jul 13, 6:53 PM | **CJ to Zach:** "...you bring a unique perspective on AI and how it can be applied to solve meaningful business problems. The creativity and initiative you demonstrated stood out... After reflecting on where we are as a business today, we've decided not to move forward with next steps at this time. **This decision is much more about timing and the opportunities we have available than it is about your capabilities. While we don't have a role in mind that's the right fit today**, we would very much like to stay in touch as things evolve." | thread `19f5db…` msg 1 |
+| Jul 13, 9:50 PM | Zach forwards to Boardy: "Unfortunately, seems like the timing / needs didn't work out for this one…" **Boardy, same minute:** "Read plainly, they liked the work but never found a concrete mandate that matched your shape. That makes this a role-design miss, not a signal that the interview process exposed a capability gap. I would treat the 'stay in touch' line as relationship preservation, not pipeline. **The useful takeaway is the same one we already had: you need an executive champion tied to a defined operating problem, not an exploratory growth-intelligence concept looking for a home.**" | msgs 2, 3 |
+| Jul 15, 2:31 PM | Zach to CJ: "Totally understand it's a timing thing. Selfishly, I'd still love to swing by Growth+1 if the invite's still on the table... Happy to be a sounding board or just a familiar face." 2:34 PM: forwards to Chris, "Hope this isn't goodbye… but see you later." **No reply from either.** Mixmax no-reply reminder Jul 17. | msgs 4, 5, 6 |
+| Jul 15, 3:22 PM | Zach archives all six Fanatics pages, removes the subdomain routing; 4:27 PM adds 301s "so anyone holding an old link (Chase, CJ, etc.) lands on arcs.care." | commits `ac7ad9ae`, `650b4e38` |
 | Aug 16 | Resume harmonized: "retire Fanatics framing, reduce growth-intelligence voice." | commit `c8428c33` |
-| Aug 28 | Engagement status trued against Gmail: CLOSED-WARM, no owed reply, revive on inbound or the Growth+1 invite. | retired memory `fanatics-artifact-security-constraints` (text recovered from transcript) |
+| Aug 28 | Status trued vs Gmail: CLOSED-WARM, no owed reply. | retired memory `fanatics-artifact-security-constraints` |
 | Sep 8 | Champion shortlist: "Standing exclusion: Fanatics." | memory `champion-shortlist-v1-sourced` |
 
-**A call with Chase never happened.** There is no Chase SSOT in `runtime/recoil/generated/`, no
-booking, no reply on record. The pipeline the go-bag drew (Chris → CJ → Chase → Loop → Offer)
-stopped at stage 2 of 5.
+**A call with Chase never happened.** No booking, no thread, no SSOT. The pipeline the go-bag drew
+(Chris → CJ → Chase → Loop → Offer) stopped at stage 2 of 5.
+
+## What the transcript shows (Jul 1, primary source)
+
+Read in order, the screen has five movements. Quotes are verbatim from the Granola transcript.
+
+1. **CJ opens by asking what Chris and Zach discussed.** Zach delivers a long "headlines only"
+   monologue (CoE vs vertical GMs, horizontal layer, strategic advisory + applied AI engineering +
+   forward-deployed engineering, "growth intelligence" as "a big enough umbrella"), then asks
+   whether Chris forwarded the deck. CJ: "I didn't see there was an attachment." Zach: "I know I've
+   given you a lot to digest."
+2. **Rapport is real.** Connecticut geography, Sacred Heart, CJ's own AI builds (talent-sourcing
+   agent, Interview Architect GPT, Greenhouse/Okta scheduling pain). Zach riffs on MCPs, permission
+   dashboards, Claude-in-Slack, "producer, composer, orchestrator." CJ: "No that's incredible."
+3. **Zach asks the req-reality question directly:** "I didn't quite understand from my chat with
+   Chris if this is like a real thing or if you guys were in exploratory stages." CJ answers at
+   length and honestly: a little of both; a need is coming; JD being defined with Chris and the HR
+   business partner; the LinkedIn post was Chris wanting "to see what type of response he would
+   get"; the eventual role is a senior leader over **performance marketing, lifecycle marketing,
+   and the data in between**, SD to VP, player-coach, small team, five days in West Village.
+4. **Zach pushes process, leverage, and comp** in the final third: "since I'm chatting with some
+   other folks", "late stages with a few and may have offers coming in after the fourth", asks if
+   there is "a monopoly bypass, go collect 200", asks for the Chase intro "to get that in motion",
+   hands over the pre-built brief and the Chase pass-along, asks for the targeted base band. CJ,
+   each time: "I still have to click in with Chris on total process and scope... we're in very
+   early stages... three to four weeks more realistically"; "I don't have a job description in
+   front of our compensation team yet." Zach also asks about Fan Fest guest passes for his son;
+   CJ: "I'm not in the in crowd that can give out guest passes."
+5. **CJ closes six minutes into her next call**, promising to "circle back to Chris with regards to
+   next steps... early next week the latest," and offers the Growth Plus One invite unprompted.
+
+Two independent readers scored this transcript before or as the outcome landed. Hilary, six hours
+before CJ's email, without knowing the outcome: don't focus on other roles, don't rush the intro,
+don't push salary, let them come back and meet the would-be boss. Boardy, the same night: no
+concrete mandate matched the shape; you need a champion tied to a defined operating problem. Both
+reads survive contact with the primary source.
 
 ## The inflection: where it turned
 
-The turn is not Jul 13. Jul 13 is where it was announced. The turn is **Jul 1, inside the CJ screen,
-segment 3**: "No formal JD with comp team yet." Everything after that was decided by a fact that was
-already on the table and got scored as optionality instead of as absence.
+Jul 13 is where it was announced. The turn is **Jul 1, movement 3**: the req-reality question was
+asked, answered at "being defined, not fully baked, please be patient", and then **scored as
+optionality instead of as absence.** Three readings of the same fact from Zach's own July artifacts:
 
-Three readings of the same fact, all from Zach's own July artifacts:
-
-1. The recoil SSOT logged it as a **MED** risk ("NO_JD_RISK: band could shift when formalized") and
-   as a **gold DIRECTIONAL** signal ("Role Still Fluid: structural optionality, Zach has more
-   influence over role definition than a standard search").
+1. The recoil SSOT logged it as a **MED** risk ("NO_JD_RISK") and a **gold DIRECTIONAL** signal
+   ("Role Still Fluid: structural optionality, Zach has more influence over role definition").
 2. The pre-call go-bag had already priced it: **"Active req attached to this process: 30%."**
-3. The Chris SSOT's scenario tree gave **5%** to "Process stalls at Talent: CJ screens and finds no
-   open req to attach this to." That is the scenario that occurred.
+3. The Chris SSOT's scenario tree gave **5%** to "Process stalls at Talent: CJ finds no open req to
+   attach this to." That is the scenario that occurred, in CJ's own words: "we don't have a role in
+   mind that's the right fit today."
 
-So the instrument saw it. The render did not honor it. A screen with a 30% prior on req existence,
-confirmed on the call as "no JD, no comp sign-off, Chase not yet in the loop," was rendered **SHARP
-at NCI 88** with the headline "Path to Chase is clear." By ARCS's own render scale that state is
-fog (YELLOW at best, GRAIN), and the honest headline was "Advocate confirmed. Req unconfirmed. Path
-to Chase is unowned."
+So the instrument saw it, the candidate asked it, and the render did not honor it. A screen with a
+30% prior on req existence, confirmed on the call as "JD being defined, no comp sign-off, process
+undefined, Chase not yet in the loop", was rendered **SHARP at NCI 88** with the headline "Path to
+Chase is clear." By ARCS's own render scale that is fog (YELLOW, DEGRADED at best), and the honest
+headline was "Advocate confirmed. Req unconfirmed (level 1). Path to Chase owned by Chris, not CJ."
 
-The secondary inflection is also Jul 1: **Zach asked for Chase; CJ hedged.** Room-reading trigger 6
-(written on Jul 13 from the transcript) records that the next step came from Zach, not from CJ, and
-that CJ's actual answer was a scope-and-process hedge. A talent lead who cannot volunteer the
-hiring manager is telling you the hiring manager does not yet own a req.
+The second inflection is movement 4 plus what followed it. The final third of the call converted a
+warm screen into a negotiation with a recruiter who had nothing to negotiate yet, and the follow-up
+converted the "send me something forwardable" signal into six subdomains and a self-authored req.
+Then the record goes silent for eleven days: no Chris reply, no CJ circle-back, no Jul 8 stop-loss.
 
 ## Root cause, separated
 
 ### A. Req reality (primary; largely out of Zach's control)
 
-- There was no req. Chris's "roles are fluid" was read as *architectural permission* to manifest a
-  role. The plainer reading, which Boardy gave in one line on Jul 13, is that fluid means
-  *unfunded and undefined*: "never found a concrete mandate that matched your shape."
-- The shape CJ actually described (SD to VP over performance marketing, lifecycle, analytics, with
-  5 to 6 reports) is a growth-operator exec. The shape Zach pitched (Head of Growth Intelligence,
-  a horizontal receipt/decision-instrument function, FDE-flavored) is a **new function**, by his own
-  req: "A new function that doesn't exist yet." A talent lead can route a person into an existing
-  mandate. She cannot create a VP-level function, a comp band, and a budget line on a candidate's
-  behalf. That decision lived with Chris and Chase, and the process never reached Chase.
-- Timing compounded it: CJ said 3 to 4 weeks; the no came in 12 days. Nothing in the record shows
-  a JD ever being cut. "Timing / needs" in both Zach's and CJ's language is the polite name for
-  "there was nothing to attach you to."
-- **Verdict on A:** this alone was sufficient for the outcome. No execution change flips a
-  non-existent req into a hire within a Talent screen.
+- There was no req. Chris's LinkedIn post was, per CJ, a probe to "see what type of response he
+  would get." The JD was being defined by Chris and HR at the time of the screen. CJ's no, twelve
+  days later, says it plainly: "we don't have a role in mind that's the right fit today."
+- The role that was forming (senior leader over performance marketing, lifecycle, and growth data)
+  is a **growth-operator exec**. The role Zach pitched (Growth Intelligence / FDE / horizontal
+  receipt layer) is a **new function**, by his own req: "A new function that doesn't exist yet."
+  Boardy's line names the gap exactly: "an exploratory growth-intelligence concept looking for a
+  home." A recruiter can route a person into a forming mandate; she cannot mint a VP-level function
+  on a candidate's behalf. That decision lived with Chris, and Chris went silent after the handoff.
+- Chris DID say he wanted Zach to meet Chase (Jun 29, in writing). That never happened either. The
+  block was upstream of CJ: the person who could open the req or the Chase door stopped replying
+  after Jul 2.
+- **Verdict on A:** sufficient on its own. No execution change turns "JD being defined" into a hire
+  inside a Talent screen. `req_reality` on Jul 1 = **1** (verbal shape, no JD, no budget).
 
 ### B. Execution and register ("cards hot"; in Zach's control)
 
-Zach's own description: "played my cards hot, tried to demonstrate technical competency and
-Applied-AI / FDE vibes for a role that didn't yet exist." The record supports the description and
-also bounds what it caused.
+Zach's own description holds up against the transcript: "played my cards hot, demonstrated
+technical competency and Applied-AI / FDE vibes for a role that didn't yet exist." Specifically:
 
-What "hot" looked like in the artifacts:
-- Same-night deck after the first 30-min call, with a prompt-injection "red pill" as the closer.
-- Within hours of the Talent screen: a post-call brief containing **five versions of the job req,
-  written by the candidate**, plus **the interview questions CJ should ask**, plus a 30/60/90 for a
-  GM who had not been contacted, plus a public booking link for that GM, plus a provenance page of
-  the whole chain, across six subdomains. The pitch document literally says "This req was written by
-  the person applying for it. That's intentional."
-- Register mismatch: a Talent screen for a growth-exec shape got an Applied-AI systems-builder
-  pitch. The pivot memory (Tribe AI, Jul 8, one week later) names the same reflex: direct,
-  scoped questions answered with the ARCS framework instead of the named example. CJ's screen did
-  not have that specific failure signature (she was already a practitioner-builder and the AI angle
-  "landed without needing to be sold"), which is exactly why over-demonstration bought nothing here:
-  **the axis being demonstrated was already conceded.** What was not conceded was the mandate.
-- Warmth was mis-scored as fit. The Growth Plus One and Fan Fest invites were logged as
-  "durable goodwill regardless of outcome" (correct) and also lifted the overall GREEN/HIGH read
-  (incorrect; room-reading trigger 7).
+- **Wrong register for the room.** CJ described a growth-exec search; Zach pitched an applied-AI
+  systems builder. CJ conceded the AI axis in movement 2 ("that's incredible"), so every further
+  demonstration on that axis bought nothing. The axis not conceded was the mandate.
+- **Negotiating before there was a counterparty.** Competing offers, "monopoly bypass", base band,
+  Fan Fest passes. Hilary named all three (rushing the intro, pushing salary, other roles) from the
+  transcript alone. Each push got the same honest answer: nothing is baked yet. Pressure on a
+  recruiter with no req cannot accelerate; it can only raise the cost of saying yes.
+- **Self-authoring the req and the rubric.** Five JD variants and "suggested interview probes" sent
+  to the person whose job is to write those. "This req was written by the person applying for it.
+  That's intentional." It reads as bespoke headcount, the hardest possible ask.
+- **Maximal ask, no scoped fallback.** Every artifact asked for a new VP function. The scoped
+  alternative was already in Zach's own material: the Day-60 deliverable ("first pre-drop brief, a
+  real tool Chase's team uses before the next drop") is a 60-day pilot that needs no headcount, no
+  band, no JD. It was written as a consequence of being hired, not offered as the entry.
+- **Stop-loss not executed.** The Jul 8 trigger was written on Jun 25 and never fired. The only
+  outbound after Jul 2 was the Jul 13 forward to Hilary and the Jul 15 close.
+- **Warmth mis-scored as fit.** Growth Plus One was offered unprompted and is real goodwill; it was
+  also lifted into the GREEN/HIGH read. Room-reading trigger 7.
 
 What B did and did not cause:
-- It did **not** cause the no. Both Zach's read and Boardy's say Fanatics liked the work.
-- It **raised the price of a yes.** Every artifact made the ask maximal: a new function, VP level,
-  a self-authored req, a $350 to 400K band, a direct line to a GM. That is the hardest possible
-  thing for a talent lead to say yes to when there is no req. The scoped alternative was already in
-  Zach's own material: the Day-60 deliverable ("first pre-drop brief, a real tool Chase's team uses
-  before the next drop") is a 60-day pilot that needs no headcount, no band, and no JD. It was
-  written as a *consequence* of being hired rather than offered as the *entry*.
-- It **consumed the stop-loss.** The Chris SSOT said: no Chase calendar by Jul 8, reopen with Chris
-  directly. Whether that reopen happened is not on record (see Unconfirmed). What is on record is
-  that the Jul 2 note to Chris was another artifact push ("my read on it"), not a req-reality check
-  ("is there a mandate and who owns it?").
-- The "cards hot" pattern is also what produced the evidence: the same artifact volume that
-  overspent the ask is why this post-mortem can be dated to the hour. That is not nothing. It is
-  just not conversion.
+- It did **not** cause the no. CJ ("not about your capabilities"), Boardy ("liked the work"), and
+  the transcript (CJ's enthusiasm is unforced) agree.
+- It **raised the price of a yes** and **spent the goodwill budget on the wrong axis**, at the
+  moment when the only thing a recruiter could green-light without a mandate was a scoped pilot.
+- The lesson was **available on Jul 13 and not banked for 60 days.** Boardy: "the useful takeaway
+  is the same one we already had." It reached the ledger only now.
 
 ## In vs out of control
 
 | In Zach's control | Out of Zach's control |
 |---|---|
-| Asking the req-reality question directly on Jul 1 (the go-bag even scripted it: "Does this land in an existing function, or is this bespoke and still being architected?") and gating artifact spend on the answer | Whether Chris had a funded mandate |
-| Sizing the ask to the req that existed (pilot / contract / scoped 60-day) instead of VP headcount | Whether Chase was ever reachable through Talent |
-| Rendering the Jul 1 screen at earned fidelity (YELLOW, not GREEN) so the next moves were "confirm mandate" rather than "prep Chase" | Fanatics' 12-day internal timeline |
-| Not authoring the req and the interview rubric for the counterpart | CJ's warmth (real, and kept) |
+| Honoring the answer to the req-reality question he asked (level 1) by rendering the screen YELLOW and gating artifact spend | Whether Chris and HR ever cut the JD |
+| Sizing the ask to the req that existed: a scoped pilot at Rips instead of a VP function | Whether Chris replied after Jul 2, or opened the Chase door he said he wanted |
+| Not negotiating comp or process, and not stacking competing offers, with a recruiter who had said "not fully baked" | Fanatics' twelve-day internal clock |
+| Not authoring the req and the interview rubric for the counterpart | CJ's warmth (real, kept) |
 | Executing the Jul 8 stop-loss as a mandate check with Chris | |
+| Banking Boardy's Jul 13 rule the day it was written | |
 
 ## The transferable rule
 
-**Warmth routes you; only a req hires you. Confirm req_reality (defined, funded, decision-owner met)
-before spending on a warm path, and size the ask to whatever req actually exists; when none does,
-offer a pilot, not a headcount.**
+**Warmth routes you; only a req hires you. Ask req_reality on the first screen, honor the answer
+in the render, and size the ask to the req that exists; when none does, offer a pilot, not a
+headcount.**
 
-Operationally, for the bridge rubric (Thread 2) and the ledger (H3):
+Operationally, for the bridge rubric (Thread 2) and the ledger (H3'):
 
 - `req_reality` is a **gate**, not a weighted dim. Score it 0 to 3:
-  0 = no JD, no owner met (Fanatics on Jul 1);
-  1 = verbal shape, no JD or budget;
+  0 = no JD, no owner met;
+  1 = verbal shape, no JD or budget (**Fanatics on Jul 1**);
   2 = JD posted or cut, budget implied;
   3 = JD + budget + you have met the decision-owner.
 - `warm_path` multiplies conversion only at `req_reality >= 2`. At 0 or 1, warmth predicts
   goodwill, invites, and referrals, not offers. Log it as a relationship asset, not a shot.
 - At `req_reality <= 1` the correct move is to **convert the ask**: propose the smallest scoped
-  deliverable the champion can say yes to without creating a req (pilot, audit brief, contract).
-  The 90-day plan is the offer, not the reward.
+  deliverable the champion can say yes to without creating a req. The 90-day plan is the offer.
+- At `req_reality <= 1`, **no negotiation moves**: no competing-offer leverage, no band questions,
+  no process-shortcut asks. There is no counterparty yet. Hilary's rule: let them come back and
+  meet the would-be boss.
 - Render fidelity follows the gate. A screen at `req_reality <= 1` cannot be SHARP/GREEN
-  regardless of rapport. Recoil headlines must carry the gate state ("Advocate confirmed, req
-  unconfirmed").
+  regardless of rapport. Recoil headlines must carry the gate state.
+- **Bank the rule the day it is stated.** A post-mortem that arrives 60 days after the outside read
+  is reconstruction, not witness.
 
 ## Reconciling with "Fanatics excluded"
 
 The champion-shortlist exclusion (2026-09-08) and the CLOSED-WARM status (2026-08-28) are
-consistent with this post-mortem, not in tension with it: Fanatics is excluded as a **target**
-because there is no req to target, and the door is **warm** because the people liked the work.
-Revive triggers stay as recorded: an inbound from CJ or Chris, the Growth+1 invite, or a posted
-req at `req_reality >= 2`. Do not re-pitch the bespoke function into the same Talent door.
+consistent with this post-mortem: Fanatics is excluded as a **target** because there is no req to
+target, and the door is **warm** because the people liked the work. Revive triggers: an inbound
+from CJ or Chris, a Growth Plus One invite (none has arrived by email as of Sep 11), or a posted
+req at `req_reality >= 2` in the growth-exec shape CJ described. Do not re-pitch the bespoke
+function into the same Talent door.
 
 ## Unconfirmed (do not cite as fact)
 
-- CJ's full Jul 13 body. Only the first sentence is on record; the stated reason beyond "timing /
-  needs" (Zach's paraphrase, same night) is not locally verifiable. Re-pull thread
-  `19f5db040cf63cdc` when the Gmail connector is available and attach the body here.
-- Whether Chris replied to the Jul 2 "CJ was great" note or the Jul 15 forward.
-- Whether CJ's promised week-of-Jul-7 circle-back with Chris on JD and process happened.
-- Whether Zach executed the Jul 8 stop-loss (reopen with Chris directly). No sent mail in the
-  recovered headers between Jul 2 and Jul 13.
-- Whether Zach attended Growth+1.
+- Whether the Growth Plus One invite or Fan Fest passes ever reached Zach by a channel other than
+  email (no email exists).
+- Whether Chris read the Jul 2 note or the Jul 15 forward (no reply; Mixmax pings confirm no reply,
+  not non-receipt).
+- Whether Chris and HR ever cut the growth-leader JD after Jul 13.

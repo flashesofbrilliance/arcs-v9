@@ -131,7 +131,8 @@ first ~9 resolutions are all rejections spanning both tiers; the only applicatio
 
 **Why this amendment:** H3 as registered ("warm-path applications out-convert cold") has one
 resolved warm-path case in the whole record, and it is a loss. Fanatics (Jun 24 to Jul 15, 2026):
-founder-level intro (Chris Lamontagne) → talent screen passed (CJ Masopust, recoil NCI 88 GREEN) →
+founder-level intro (Chris Lamontagne, who in writing asked for Zach to meet Chase) → talent screen
+passed (CJ Masopust, recoil NCI 88 GREEN) →
 "thanks but no thanks" on Jul 13, 12 days later, with a hiring-manager conversation that never
 happened. Full grounded post-mortem: `_STATE/job-search/postmortem-fanatics.md`.
 
@@ -139,8 +140,8 @@ happened. Full grounded post-mortem: `_STATE/job-search/postmortem-fanatics.md`.
 community invites). The outcome still resolved as no-convert because **there was no req**: no JD,
 no comp sign-off, no decision-owner reached. Boardy's same-night read: "liked the work but never
 found a concrete mandate that matched your shape." The fit-score and the recoil both saw the gap
-(go-bag prior "active req attached: 30%"; scenario tree gave 5% to "stalls at Talent, no open req")
-and rendered SHARP anyway.
+(go-bag prior "active req attached: 30%"; scenario tree gave 5% to "stalls at Talent, no open req";
+the req question was asked live and answered "being defined") and rendered SHARP anyway.
 
 **H3 refined (H3'):** *Warm-path out-converts cold ONLY when the warm path lands INTO a req with
 `req_reality >= 2`. At `req_reality <= 1`, warmth predicts goodwill and referrals, not offers, and
@@ -155,7 +156,10 @@ must be logged as a relationship asset, not a shot.*
   is "warm INTO real reqs" (relationship manufacturing pointed at posted mandates), NOT
   "manufacture the role through the relationship." Pilot/contract asks are the conversion path for
   `<=1`, tracked as a distinct outcome (`pilot`), not as an application.
-- Fanatics is booked as: `warm_path=1 · req_reality=0 · laneStatus=rejected · resolved 2026-07-13`
+- Fanatics is booked as: `warm_path=1 · req_reality=1 · laneStatus=rejected · resolved 2026-07-13`
+  (transcript-verified 2026-09-11: Zach asked "real thing or exploratory?" on the Jul 1 screen; CJ:
+  JD being defined, "not fully baked"; CJ's Jul 13 no: "we don't have a role in mind that's the
+  right fit today")
   in the manufactured-role arm. It stands as a standing exclusion on the champion shortlist for the
   same reason (no req to target), with the door warm.
 
