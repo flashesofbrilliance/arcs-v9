@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Second Pass · NFTT</title>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A second-pass check does not decide whether a claim is acceptable; it counts the distance between the claim and the source and leaves the remedy in human hands.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  p code{font-family:var(--mono); font-size:.82em; color:var(--gold);
+    background:rgba(255,215,0,.06); border-radius:4px; padding:.04em .3em}
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600; white-space:nowrap}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Receipts Included</span>
+    <span class="sp"><b>Discipline: mechanical</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // The scaffold that does not flatter you</p>
+    <h1>The <em>Second Pass</em></h1>
+    <p class="standfirst">An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands.</p>
+    <p class="byline">Receipts included &#183; Output captured from live runs &#183; The unproven parts remain marked</p>
+  </header>
+
+  <section>
+    <span class="num">I &#183; The check that does not take the wheel</span>
+    <p class="lead">The script ran against thirty-eight rows of extraction data and their source packet. It printed one line per field, thirty stored excerpts checked against source text, and four aggregate counts recomputed from raw entries. Then it stopped. It did not patch a single row. It did not infer a missing job title from an employer name. It did not collapse two colliding message identifiers into one neat key. It handed back three findings and exited.</p>
+    <p>That is the boundary where scaffolding ends and abdication begins. The temptation when building automated checks is to let the tool decide what to do about what it finds. That temptation is always wrong. A tool can measure discrepancy at zero marginal cost. A tool cannot bear the consequence of forgiving one.</p>
+    <blockquote>A validator that repairs its own findings is not an audit. It is an accomplice with a timestamp.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">II &#183; Thirty-eight records against the packet</span>
+    <p>The first run of <code>second_pass_ledger.py</code> compared the normalized extraction schema against the upstream markdown source packet. The scope covered all thirty-eight cases, thirteen query buckets, and thirty direct excerpts.</p>
+    <p>The mechanical counts came back clean on the main structure. Thirty-eight packet entries corresponded to thirty-eight ledger records. All thirty stored reason excerpts appeared verbatim in the source packet text. Recomputed aggregates matched the stored summary blocks exactly: thirty-four pre-screen endings, two after interviews, one after a hiring manager round, one at an assessment gate. One source-linked reason, nine with process context only, eighteen broad comparative notices, ten unverified.</p>
+
+    <div class="panel">
+      <h4>Extraction second pass <span class="sev">n = 38 cases</span></h4>
+      <div class="step">
+        <span class="k">Population</span><b><code>38</code> packet records match <code>38</code> ledger cases. No missing keys.</b>
+        <span class="k">Provenance</span><b><code>30</code> of <code>30</code> stored excerpts found verbatim in source text.</b>
+        <span class="k">Aggregates</span><b>recomputed <code>by_outcome</code> (<code>34/2/1/1</code>) and <code>by_specificity</code> (<code>10/22/5/1</code>) match stored totals.</b>
+        <span class="k">Findings</span><b><code>3</code> items flagged for human review. Zero automated repairs applied.</b>
+      </div>
+      <p>The validator verifies alignment. A person reads the discrepancies and decides their meaning.</p>
+    </div>
+
+    <p>Then the tool produced its findings. Two cases carried a placeholder sentinel instead of a verified message identifier because the source packet explicitly declined to assert an identifier for those two entries. Another two cases, Future Secure AI and InfoMagnus, shared a single message identifier, <code>1a06ac2958215e3c</code>, an identifier collision that cannot be true for two separate candidacies. And the prose summary had counted four missing role titles while the data held five. The script did not tidy any of those facts up. It listed them under a heading marked for human adjudication.</p>
+  </section>
+
+  <section>
+    <span class="num">III &#183; The ancestry inquiry</span>
+    <p>The second scaffold, <code>claim_check.py</code>, took on a different class of assertion. It checked whether a commit containing a declared governance rule had actually become reachable from the mainline branch.</p>
+    <p>The candidate commit was <code>7ab32ec9b71570067fefc62d81373cce0697ea28</code>. It had been committed to a feature branch called <code>resume-tailors</code>. The rule was real, the phrasing was sound, and the file sat in the correct repository path. But the ancestry inquiry asked whether the commit could be reached from <code>origin/main</code>.</p>
+
+    <div class="panel">
+      <h4>Ancestry inquiry <span class="sev">exit status</span></h4>
+      <div class="step">
+        <span class="k">Candidate SHA</span><b><code>7ab32ec9...</code> on branch <code>resume-tailors</code>.</b>
+        <span class="k">Command</span><b><code>git merge-base --is-ancestor 7ab32ec9... origin/main</code>.</b>
+        <span class="k">Exit code</span><b><code>1</code>. Commit is unreachable from mainline trunk.</b>
+        <span class="k">Remedy branch</span><b>cherry-picked to clean branch at <code>860bac74...</code>, merged in PR <code>#395</code> as <code>06bd757b...</code>.</b>
+        <span class="k">Post-merge</span><b>the same command on <code>06bd757b...</code> returns exit <code>0</code>.</b>
+      </div>
+      <p>The command does not explain why a commit was stranded. It verifies reachability without negotiation.</p>
+    </div>
+
+    <p>The result was exit 1. The check took two milliseconds and returned a single binary fact. That fact was not an interpretation. It meant that any agent or operator starting work from trunk would never see the rule. The repair was executed on a fresh branch, submitted as pull request <code>#395</code>, and merged into <code>main</code> as <code>06bd757ba01c8362852b150152569214e0d86bf3</code>. After the merge, the identical ancestry check returned exit 0.</p>
+  </section>
+
+  <section>
+    <span class="num">IV &#183; Measuring the claim against the diff</span>
+    <p>The same script then inspected pull request <code>#357</code>. The pull request title described an update to an ADR counter on a knowledge lattice. The pull request body opened with a clean assertion: Minimal 2-line diff, no reformatting.</p>
+    <p>The scaffold did not read the sentence as prose. It parsed the claimed number of lines, fetched the measured pull request statistics through the GitHub API, and subtracted one from the other.</p>
+
+    <div class="panel">
+      <h4>Scope audit <span class="sev">PR #357</span></h4>
+      <div class="step">
+        <span class="k">Claimed diff</span><b>minimal <code>2</code>-line diff.</b>
+        <span class="k">Measured git</span><b><code>11</code> commits, <code>84</code> files, <code>3940</code> additions, <code>291</code> deletions.</b>
+        <span class="k">Merge base</span><b><code>3d0f6f91...</code> with <code>origin/main</code>.</b>
+        <span class="k">Ratio</span><b>measured diff exceeded claimed diff by roughly two thousand fold.</b>
+        <span class="k">Disposition</span><b>PR closed without merge. Branch preserved intact on disk.</b>
+      </div>
+      <p>A description claims a boundary. Git returns the geometry.</p>
+    </div>
+
+    <p>Eighty-four files. Eleven commits. Three thousand nine hundred forty additions. Two hundred ninety-one deletions. The branch had accumulated work from an earlier ATS resume tailoring effort, and the two-line lattice change had been placed directly on top of it. The script printed the discrepancy, noted that the measured scope exceeded the stated scope by two thousand times, and stopped.</p>
+    <p>It did not rebase the branch. It did not close the pull request. A human read the comparison, closed pull request <code>#357</code> without merging it, and kept the work intact on its original branch until the lattice change could be extracted onto its own clean checkout.</p>
+  </section>
+
+  <section>
+    <span class="num">V &#183; The boundary of the scaffold</span>
+    <p>It is easy to misunderstand what these tools provide. They do not eliminate human error. They do not guarantee that a decision is wise. What they do is prevent the most common failure in modern engineering: mistaking a written intention for an accomplished condition.</p>
+    <p>A human reading a pull request description sees what the author hoped was true. A human reviewing an extraction ledger sees what the author intended to capture. The second pass does not replace that human reading. It sits beside it, runs the inexpensive verification steps that humans skip when tired, and presents the unvarnished difference between the claim and the ground.</p>
+    <blockquote>Scaffolding externalizes cognition. It does not replace custody. The human still reads the terminal, evaluates the anomaly, and signs the receipt.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VI &#183; What remains unproven</span>
+    <p>The findings left open by the second pass are preserved here as they were found.</p>
+    <p>The duplicate identifier across Future Secure AI and InfoMagnus remains unresolved. The source packet recorded <code>1a06ac2958215e3c</code> for both, and neither message has been re-examined against a live mailbox to establish which record owns the identifier. The two sentinel records for Plaid and Aircall remain unanchored to message identifiers because the source packet did not provide them. The fifth missing role title, identified by the script during the second pass, remains null in the ledger JSON rather than filled with a plausible guess. And pull request <code>#357</code> remains closed without its two-line lattice fix having been re-submitted on a clean branch.</p>
+    <p>None of these gaps was smoothed over to make the account look tidy. The purpose of a second pass is not to produce an unblemished record. It is to know the exact boundaries of the record you have.</p>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt/ledger-not-story">
+      <span class="lbl">The first companion piece</span>
+      The Ledger Is Not the Story: holding an outcome apart from a cause until the record can support both &#8594;
+    </a>
+  </div>
+  <div class="more">
+    <a href="/blog/nftt/pulp-governance">
+      <span class="lbl">The second companion piece</span>
+      The Ancestry Check: a rule was written, a pull request made a smaller promise than its diff, and the record was asked a rude question &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> &#183; open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unresolved parts are marked unresolved.
+  </footer>
+</div>
+</body>
+</html>

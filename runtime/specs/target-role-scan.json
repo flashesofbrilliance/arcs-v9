@@ -1,5 +1,5 @@
 {
- "version": "1.2",
+ "version": "1.3",
  "source": "_ARTIFACTS/target-role-scan-hud.html",
  "extracted": "2026-09-08",
  "archetypes": [
@@ -177,7 +177,7 @@
     "key": "domain_breadth",
     "label": "Domain breadth",
     "weight": 3,
-    "anchor0": "single narrow domain",
+    "anchor0": "no relevant domain depth \u2014 pure horizontal role, no regulated exposure (a single but genuinely deep or regulated domain scores 1\u20132, not 0)",
     "anchor3": "regulated fluency across multiple high-stakes domains \u2014 SEC/FINRA \u00b7 HIPAA \u00b7 gov"
    },
    {
@@ -198,7 +198,7 @@
     "key": "comp_level",
     "label": "Comp / level fit",
     "weight": 2,
-    "anchor0": "below senior/staff",
+    "anchor0": "disclosed comp below senior/staff level — if comp is NOT stated in the JD, score 2 (neutral), never 0",
     "anchor3": "at / above target"
    },
    {

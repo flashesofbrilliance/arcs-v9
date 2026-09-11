@@ -8,259 +8,104 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
-    --accent:#0089a8; --accent2:#0089a8;
-    --green:#0a8f5e;
-    --gold:#9a7218; --goldbg:#fbf3df;
-    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
-    --cyanlt:#00F0FF; --greenlt:#00FF9D;
+    --bg:#020408; --surface:#0b1017; --surface2:#0d1420; --border:#1b2634; --border2:#243247;
+    --text:#eaf1f8; --muted:#93a3b5; --dim:#5d6b7c;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+    --measure:760px;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,monospace;
-    --measure:600px;            /* reading column, ~66ch at 15px */
-    --gap-sec:30px;             /* between sections in a movement */
-    --gap-act:46px;             /* between movements */
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
-  body{padding:34px 18px 70px;}
-  .sheet{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;
-    box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
-  .pad{padding:34px 48px 40px;}
-  @media(max-width:600px){.pad{padding:28px 22px 32px;}}
+  html{background:
+    radial-gradient(900px 520px at 12% -8%, rgba(0,240,255,.06) 0, rgba(0,240,255,0) 60%),
+    radial-gradient(760px 460px at 96% 4%, rgba(0,255,157,.05) 0, rgba(0,255,157,0) 55%),
+    var(--bg);
+    color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{min-height:100vh;}
+  .wrap{max-width:var(--measure);margin:0 auto;padding:clamp(40px,8vh,84px) 22px 64px;}
 
-  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:32px 48px 30px;}
-  @media(max-width:600px){header{padding:28px 22px;}}
-  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyanlt);}
-  .eyebrow .mk{width:7px;height:7px;border-radius:50%;background:var(--greenlt);box-shadow:0 0 10px var(--greenlt);}
-  h1{font-size:clamp(31px,5.4vw,46px);font-weight:800;letter-spacing:-.032em;line-height:1;margin-top:16px;text-wrap:balance;}
-  .who{font-size:13px;color:#9fadbb;margin-top:12px;line-height:1.55;max-width:none;}
-  .who b{color:#e6ecf2;font-weight:600;}
-  .lead{font-family:var(--sans);font-size:clamp(15.5px,2.4vw,18px);line-height:1.55;color:#dbe4ec;margin-top:16px;max-width:none;text-wrap:pretty;}
-  .lead b{color:#fff;font-weight:600;}
+  .eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);}
 
-  .band{background:var(--tealbg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 48px;
-    display:flex;align-items:baseline;gap:10px 20px;flex-wrap:wrap;}
-  @media(max-width:600px){.band{padding:18px 22px;}}
-  .band .big{font-size:clamp(21px,3.4vw,27px);font-weight:800;letter-spacing:-.02em;color:var(--accent);line-height:1.12;text-wrap:balance;}
-  .band .sm{font-size:13.5px;color:var(--ink2);line-height:1.55;flex:1;min-width:240px;text-wrap:pretty;}
+  h1{margin:22px 0 0;font-size:clamp(34px,6.4vw,60px);line-height:1.02;font-weight:800;letter-spacing:-.035em;text-wrap:balance;}
+  h1 .two{display:block;color:var(--cyan);}
+  .sub{margin:20px 0 0;font-size:clamp(15.5px,2.3vw,18px);line-height:1.55;color:var(--muted);max-width:none;text-wrap:pretty;}
+  .sub b{color:var(--text);font-weight:600;}
 
-  h2{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
-    margin-bottom:15px;display:flex;align-items:center;gap:10px;line-height:1.3;}
-  h2::before{content:"";width:16px;height:2px;background:var(--accent);border-radius:2px;flex:none;}
-  .sec+.sec{margin-top:var(--gap-sec);}
-  .sec.act{margin-top:var(--gap-act);}
-  /* the sheet itself is the reading column (~624px inner ~= 66ch); no per-block caps */
-  .body p,p.body,.role .rd,.amrow .reb,.nest .reb,.offlimits p,.qrow{text-wrap:pretty;}
+  .rule{height:1px;background:linear-gradient(90deg,var(--border2),rgba(36,50,71,0));margin:36px 0 26px;}
 
-  .roles{display:flex;flex-direction:column;gap:10px;}
-  .role{display:flex;flex-direction:column;gap:9px;padding:15px 18px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
-  .role .rt{font-weight:700;font-size:14.5px;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;letter-spacing:-.01em;}
-  .role .rt small{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,137,168,.34);border-radius:999px;padding:3px 9px;margin-top:8px;background:rgba(0,137,168,.06);white-space:nowrap;}
-  .role .rd{font-size:14.5px;line-height:1.6;color:var(--ink2);}
-  .role .rd em{color:var(--gold);font-style:normal;font-weight:600;}
-  .role .rd b{color:var(--ink);font-weight:600;}
-  .maptbl{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--card);}
-  .maph{display:grid;grid-template-columns:1fr 1fr;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:#f5fafb;border-bottom:1px solid var(--line);}
-  .maph span{padding:9px 15px;} .maph span:first-child{border-right:1px solid var(--line);}
-  .maprow{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
-  .maprow:last-child{border-bottom:none;}
-  .mapc{padding:14px 15px;font-size:14px;line-height:1.55;color:var(--ink2);}
-  .mapc:first-child{border-right:1px solid var(--line);}
-  .mapc.mapb{background:#fcfefe;}
-  .mapc b{color:var(--ink);font-weight:600;} .mapc em{color:var(--gold);font-style:normal;font-weight:600;}
-  .mapc .sys{display:block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
-  @media(max-width:560px){.maph{display:none;}.maprow{grid-template-columns:1fr;}.mapc:first-child{border-right:none;border-bottom:1px solid var(--line);}.mapc.mapb::before{content:"I built \2192 ";font-family:var(--mono);font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;}}
+  .lead-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
 
-  .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  @media(max-width:560px){.vs{grid-template-columns:1fr;}}
-  .vcol{border:1px solid var(--line);border-radius:11px;padding:16px;}
-  .vcol.them{background:#faf9f7;}
-  .vcol.you{background:var(--tealbg);border-color:#bfe0e4;}
-  .vcol .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px;}
-  .vcol.them .vh{color:var(--ink3);} .vcol.you .vh{color:var(--accent);}
-  .vcol p{font-size:14px;line-height:1.58;color:var(--ink2);text-wrap:pretty;} .vcol.you p b{color:var(--ink);font-weight:600;}
+  .sys{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:15px 0;border-bottom:1px solid var(--border);}
+  .sys:last-child{border-bottom:none;}
+  .sys .n{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan);padding-top:2px;min-width:22px;}
+  .sys .st{font-size:16.5px;font-weight:600;letter-spacing:-.01em;color:var(--text);}
+  .sys .sd{margin-top:5px;font-size:14px;line-height:1.5;color:var(--muted);text-wrap:pretty;}
+  .sys .sd .jd{color:var(--dim);}
+  .sys .sd b{color:var(--green);font-weight:600;}
 
-  .body p{font-size:14.5px;line-height:1.62;color:var(--ink2);} .body p b{color:var(--ink);font-weight:600;} .body p+p{margin-top:13px;}
+  .closer{margin:30px 0 0;padding:18px 20px;border:1px solid var(--border2);border-radius:12px;
+    background:linear-gradient(180deg,var(--surface2),var(--surface));font-size:15.5px;line-height:1.55;color:var(--muted);text-wrap:pretty;}
+  .closer b{color:var(--text);font-weight:600;}
 
-  .ammo{display:flex;flex-direction:column;gap:11px;}
-  .amrow{border:1px solid var(--line);border-radius:11px;overflow:hidden;}
-  .amrow .obj{background:#faf6f1;padding:12px 16px;font-size:13px;color:var(--ink3);border-bottom:1px solid var(--line);}
-  .amrow .obj b{font-family:var(--mono);color:var(--ink2);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--gold);}
-  .amrow .obj i{font-style:italic;color:var(--ink2);}
-  .amrow .reb{padding:13px 16px;font-size:14.5px;line-height:1.6;color:var(--ink2);}
-  .amrow .reb .ar{color:var(--accent);font-weight:800;} .reb b{color:var(--ink);font-weight:600;}
-  .nest{margin:9px 15px 0;border-top:1px dashed var(--line);padding-top:9px;}
-  .nest summary{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink3);cursor:pointer;list-style:none;line-height:1.45;}
-  .nest summary::-webkit-details-marker{display:none;}
-  .nest summary::before{content:"\25B8 ";color:var(--accent);font-weight:700;}
-  .nest[open]>summary::before{content:"\25BE ";}
-  .nest summary i{font-style:normal;color:var(--ink2);}
-  .nest .reb{padding:8px 0 0 14px;border-left:2px solid var(--line);margin-top:8px;font-size:14px;line-height:1.55;}
-  .ordtag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;}
-  .lens{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px;}
+  .proof{margin:30px 0 0;display:flex;flex-wrap:wrap;gap:10px;}
+  .proof a{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.02em;text-decoration:none;
+    color:var(--text);border:1px solid var(--border2);border-radius:999px;padding:9px 15px;background:var(--surface);
+    transition:border-color .15s ease,color .15s ease;}
+  .proof a:hover{border-color:var(--cyan);color:var(--cyan);}
+  .proof a .k{color:var(--dim);}
 
-  .scen{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-  @media(max-width:600px){.scen{grid-template-columns:1fr;}}
-  .scol{border:1px solid var(--line);border-radius:11px;padding:13px 14px;}
-  .scol .sl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
-  .scol.best{background:#edfaf3;border-color:#bfe6d2;} .scol.best .sl{color:var(--green);}
-  .scol.base{background:#f2f7fb;border-color:#cfe0ec;} .scol.base .sl{color:var(--accent);}
-  .scol.worst{background:#fbf4f1;border-color:#eccfc6;} .scol.worst .sl{color:#b5573c;}
-  .scol p{font-size:13px;line-height:1.52;color:var(--ink2);text-wrap:pretty;}
-
-  .cb{display:flex;flex-direction:column;gap:10px;}
-  .cbrow{display:grid;grid-template-columns:20px 1fr;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:#f5fafb;align-items:start;}
-  .cbrow .ci{color:var(--accent);font-weight:800;line-height:1.5;}
-  .cbrow .cd{font-size:14px;line-height:1.58;color:var(--ink2);} .cbrow .cd b{color:var(--ink);font-weight:600;}
-
-  .offlimits{border:1px solid #eccfc6;background:#fbf4f1;border-radius:12px;padding:14px 18px;}
-  .offlimits .ol{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#b5573c;margin-bottom:8px;}
-  .offlimits p{font-size:14.5px;line-height:1.6;color:var(--ink2);} .offlimits p b{color:var(--ink);font-weight:700;}
-
-  .bites{background:var(--dark);color:#eaf0f5;border-radius:12px;padding:18px 22px;}
-  .bites .bt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyanlt);margin-bottom:14px;}
-  .bites ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-  .bites li{font-family:var(--sans);font-size:14.5px;line-height:1.4;padding-left:18px;position:relative;color:#f2f6f9;}
-  .bites li::before{content:"\201C";position:absolute;left:0;top:-2px;color:var(--greenlt);font-size:22px;font-family:var(--sans);}
-
-  .qs{display:flex;flex-direction:column;gap:10px;}
-  .qrow{border:1px solid var(--line);border-radius:10px;background:#fcfbf9;padding:13px 16px;font-size:14.5px;line-height:1.55;color:var(--ink2);}
-  .qrow b{color:var(--ink);font-weight:600;}
-
-  footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
-  @media(max-width:600px){footer{padding:20px 22px 26px;}}
-  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
-  .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
-  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
-
-  @media print{ body{padding:0;background:#fff;} .sheet{border:none;box-shadow:none;border-radius:0;max-width:none;} }
+  .foot{margin-top:40px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);line-height:1.7;}
 </style>
 </head>
 <body>
-  <div class="sheet">
-    <header>
-      <div class="eyebrow"><span class="mk"></span>Candidate brief · AI Marketing Engineer</div>
-      <h1>Zach Harris</h1>
-      <div class="who">For the <b>AI Marketing Engineer</b> role at <b>Monstro</b>. The short case for the fit, and the running systems behind it.</div>
-      <p class="lead">The short version: this job description is a <b>spec</b>, and I already built the reference implementation, in public. Rather than describe capability, I would rather point at a running system.</p>
-    </header>
+  <main class="wrap">
+    <div class="eyebrow"><span class="mk"></span>Zach Harris · AI Marketing Engineer</div>
 
-    <div class="band">
-      <span class="big">The JD is a spec. ARCS is the working proof.</span>
-      <span class="sm">Every system this role asks the hire to build, I have already built and run in the open. It is not a capability I claim. It is a system you can open in a browser.</span>
+    <h1>Your job description is a spec.<span class="two">I already built it.</span></h1>
+    <p class="sub">Every system the AI Marketing Engineer role asks someone to build, I have already built and run <b>in the open</b>. Not capability I claim. A system you can open in a browser.</p>
+
+    <div class="rule"></div>
+
+    <div class="lead-label">The five systems the role names, and where I built each</div>
+
+    <div class="sys"><span class="n">01</span><div>
+      <div class="st">A market-knowledge source of truth</div>
+      <div class="sd"><b>Built:</b> a canonical knowledge base with a live drift and claims-verification layer that flags stale or conflicting claims. <span class="jd">JD: detect conflicting or outdated claims.</span></div>
+    </div></div>
+
+    <div class="sys"><span class="n">02</span><div>
+      <div class="st">AI and search discoverability</div>
+      <div class="sd"><b>Built:</b> a building-in-public surface publishing answer-engine-first, tuned for citation across AI search, not generic traffic. <span class="jd">JD: how Monstro appears across ChatGPT, Gemini, Perplexity, Claude.</span></div>
+    </div></div>
+
+    <div class="sys"><span class="n">03</span><div>
+      <div class="st">An AI-native content machine</div>
+      <div class="sd"><b>Built:</b> one input, a talk or a transcript, becomes multiple approved assets through a human-approval gate. <span class="jd">JD: high-quality approved content with extraordinary leverage.</span></div>
+    </div></div>
+
+    <div class="sys"><span class="n">04</span><div>
+      <div class="st">Distribution and market listening</div>
+      <div class="sd"><b>Built:</b> a digest that surfaces the highest-value market conversations and drafts a recommended response for approval. <span class="jd">JD: prepare recommended responses for human approval.</span></div>
+    </div></div>
+
+    <div class="sys"><span class="n">05</span><div>
+      <div class="st">A measurement feedback loop</div>
+      <div class="sd"><b>Built:</b> stated claims scored against outcomes, so the system says what to change next. <span class="jd">JD: not activity reporting, a feedback loop.</span></div>
+    </div></div>
+
+    <div class="closer"><b>And I build the way your product thinks:</b> generative where judgment lives, deterministic and auditable where it ships. I also ran go-to-market for 10 SEC/FINRA-regulated financial products at $7B AUM, so I already know your buyer and your governance gates.</div>
+
+    <div class="proof">
+      <a href="/full"><span class="k">read</span> the full case</a>
+      <a href="/resume"><span class="k">see</span> resume</a>
+      <a href="/cover"><span class="k">see</span> cover</a>
+      <a href="https://good.arcs.care">good.arcs.care</a>
+      <a href="https://github.com/flashesofbrilliance">github</a>
     </div>
 
-    <div class="pad">
-      <div class="sec">
-        <h2>The five systems the role asks for, and where I already built each</h2>
-        <div class="maptbl">
-          <div class="maph"><span>What the role asks for</span><span>What I already built, running today</span></div>
-          <div class="maprow">
-            <div class="mapc"><span class="sys">System 1 · Knowledge</span><b>A market-knowledge source of truth.</b> Identify canonical sources, <em>detect conflicting or outdated claims</em>, preserve approved language, feed downstream AI.</div>
-            <div class="mapc mapb">The ARCS canon with oracle-numbered governance and a live drift + claims-skeptic layer that flags stale or contradictory claims automatically.</div>
-          </div>
-          <div class="maprow">
-            <div class="mapc"><span class="sys">System 2 · AEO</span><b>AI &amp; search discoverability.</b> Measure and improve how Monstro appears across ChatGPT, Gemini, Perplexity, Claude, Google.</div>
-            <div class="mapc mapb">A building-in-public surface publishing answer-engine-first, with MCP-led distribution, tuned for citation not generic traffic.</div>
-          </div>
-          <div class="maprow">
-            <div class="mapc"><span class="sys">System 3 · Content</span><b>An AI-native content machine.</b> A 15-minute recording or transcript becomes LinkedIn posts, video, articles, <em>with approval and extraordinary leverage</em>.</div>
-            <div class="mapc mapb">A story + artifact factory that turns one input into multiple approved assets, gated by a human-approval step, not volume-maxxing.</div>
-          </div>
-          <div class="maprow">
-            <div class="mapc"><span class="sys">System 4 · Distribution</span><b>Distribution &amp; market listening.</b> Distribute content, surface high-value conversations, <em>prepare recommended responses for human approval</em>.</div>
-            <div class="mapc mapb">A daily digest + alert board that surfaces the highest-value opportunities and drafts the response, human-in-the-loop by design.</div>
-          </div>
-          <div class="maprow">
-            <div class="mapc"><span class="sys">System 5 · Feedback</span><b>A measurement feedback loop.</b> "You are not being hired to report activity, you are being hired to build a <em>feedback loop</em>."</div>
-            <div class="mapc mapb">A receipts-and-outcomes system where the loop, the ex-ante claim measured against what actually happened, is the entire thesis.</div>
-          </div>
-        </div>
-        <p class="body" style="margin-top:13px;"><b>Five systems, one builder, already running.</b> That is the exact shape this role is asking for, and every piece is checkable today.</p>
-      </div>
-
-      <div class="sec">
-        <h2>Why this beats a traditional marketer, for this role</h2>
-        <div class="vs">
-          <div class="vcol them">
-            <div class="vh">A traditional marketing hire</div>
-            <p>Deep in brand, a content calendar, agencies, a demand-gen playbook. Uses AI as a writing assistant bolted onto an existing process. The JD is unusually blunt that it does <b>not</b> want this: "this is not a traditional marketing role."</p>
-          </div>
-          <div class="vcol you">
-            <div class="vh">Zach, marketing as a system</div>
-            <p>Approaches marketing <b>the way an engineer approaches a system</b>: builds the machine, not the campaign. Uses <b>AI as infrastructure, not a writing assistant</b>. The JD's own "who we're looking for" reads as my description, almost line for line: builds end to end, learns new tools untrained, measures instead of guessing.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="sec body">
-        <h2>The part that compounds</h2>
-        <p>I do not just produce content, I build the machine that produces it, then rebuilds itself as better tools arrive. The JD's core loop, <b>"why is this manual? can an agent do it? what needs human judgment?"</b>, is the exact router I already run on: mechanical work goes to the terminal, judgment stays with the human. In the first months I would set the leverage pattern the whole company compounds on, and raise the internal bar for using AI as infrastructure.</p>
-        <p>And I speak the buyer's language natively. Monstro sells <b>governed AI to regulated financial institutions</b>; I ran go-to-market for <b>10 SEC/FINRA-regulated financial products at $7B AUM</b>. A marketing system built by someone who has actually sold inside regulated-finance governance gates lands differently than one built by someone learning that world for the first time.</p>
-      </div>
-
-      <div class="sec act">
-        <h2>Best / base / worst, on the bet</h2>
-        <div class="scen">
-          <div class="scol best">
-            <div class="sl">Best case</div>
-            <p>Within a quarter the knowledge system and content machine are running, marketing leverage jumps from hours to minutes, and I set the pattern the team compounds on. The force-multiplier outcome.</p>
-          </div>
-          <div class="scol base">
-            <div class="sl">Base case</div>
-            <p>A strong builder who ships the source-of-truth and a working content pipeline in the first months and quietly raises the bar on using AI as infrastructure. Clear net-positive.</p>
-          </div>
-          <div class="scol worst">
-            <div class="sl">Worst case</div>
-            <p>The AEO or measurement side ramps slower than hoped, or breadth needs to converge on one depth first. Contained by the de-risking below.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="sec act">
-        <h2>De-risk it: what I would offer before you ask</h2>
-        <div class="cb">
-          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>A real work sample, not a whiteboard.</b> Hand me one input, a recording or a transcript, and watch the machine produce approved assets. The interview becomes the demo.</div></div>
-          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>30/60/90 shipped-artifact gate.</b> Pre-agreed, checkable success criteria at each mark. No vibes.</div></div>
-          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Week-one artifact.</b> My ship speed makes a real first-week system cheap, so the pattern is visible immediately.</div></div>
-          <div class="cbrow"><span class="ci">&#9670;</span><div class="cd"><b>Public reference-checkability.</b> good.arcs.care and the GitHub trail bound the downside to evidence they can read today.</div></div>
-        </div>
-      </div>
-
-      <div class="sec">
-        <h2>Questions I'm bringing</h2>
-        <div class="qs">
-          <div class="qrow">"You joined as roughly employee #20 to build the talent function 0 to 1. <b>What does the profile of someone who's thrived at Monstro so far look like?</b>"</div>
-          <div class="qrow">"'AI Marketing Engineer' is a role most companies don't have yet. <b>How does Monstro define the charter, and what does success look like in the first 90 days?</b>"</div>
-          <div class="qrow">"Governed, explainable AI is the whole thesis. <b>How much does that ethos shape how the team itself builds internally?</b>"</div>
-          <div class="qrow">"What's the process from here, and <b>is there anything in my background you'd want me to go deeper on in later rounds?</b>"</div>
-        </div>
-      </div>
-
-      <div class="sec">
-        <div class="bites">
-          <div class="bt">In short</div>
-          <ul>
-            <li>This job description is a spec. I already built the reference implementation, in public.</li>
-            <li>I use AI as infrastructure, not as a writing assistant.</li>
-            <li>I don't produce content, I build the machine that produces it, then rebuilds itself.</li>
-            <li>Marketing the way an engineer approaches a system. That's the whole pitch, and it's checkable.</li>
-            <li>Generative where judgment lives, deterministic and auditable where it ships. That's your product, and it's how I already build.</li>
-            <li>I ran GTM for ten SEC/FINRA-regulated financial products. I already know your buyer and your governance gates.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      <div class="proof">
-        <a href="/resume">resume</a>
-        <a href="/cover">cover letter</a>
-        <a href="https://good.arcs.care">good.arcs.care</a>
-        <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>
-      </div>
-      <div class="fine">Prepared by Zach Harris for the Monstro AI Marketing Engineer conversation.</div>
-    </footer>
-  </div>
+    <div class="foot">Zach Harris · prepared for the Monstro AI Marketing Engineer conversation.</div>
+  </main>
 </body>
 </html>
