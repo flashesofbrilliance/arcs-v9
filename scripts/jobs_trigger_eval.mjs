@@ -38,7 +38,13 @@ for (const r of rows) {
     ok(r.band !== "UNSCORED", `${r.jobid} no-forge-on-unscored`)
     if (f.status === "queued" && tier !== null && trig.tiers.confirm.includes(tier)) ok((f.notes ?? "").includes(CONFIRM_NOTE), `${r.jobid} confirm-tier-flagged (tier ${tier})`)
     if (f.status === "live") ok(!!f.url, `${r.jobid} live-has-url`)
-    if (f.status === "built") ok(!f.url, `${r.jobid} built-has-no-url`)
+    if (f.status === "built") {
+      // Option B canon (2026-09-11): built may carry a private, admin-gated viewer
+      // pointer (/jobs/<id>/forge) — see runtime/specs/forge-triggers.json. A PUBLIC
+      // url at built is the premature-exposure class this guard exists to catch.
+      ok(!f.url || f.url.startsWith("/jobs/"), `${r.jobid} built-url-not-public`)
+      ok(!f.resumeUrl || f.resumeUrl.startsWith("/jobs/"), `${r.jobid} built-resumeurl-not-public`)
+    }
   }
   if (s) ok(!s.why || s.direction === "l", `${r.jobid} why-only-on-left`)
 }
