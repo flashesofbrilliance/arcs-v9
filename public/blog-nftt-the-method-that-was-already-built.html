@@ -1,0 +1,185 @@
+<title>The Method That Was Already Built · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A Jan 30, 2026 job-search essay already named, dated, and field-tested the six principles a mechanized decision pipeline would spend the next eight months rebuilding in code.">
+<meta name="robots" content="index,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:none}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Public record</span>
+    <span class="sp"><b>Dated: 2026-01-30</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Prior art</p>
+    <h1>The Method <em>That Was Already Built</em></h1>
+    <p class="standfirst">Eight months before a mechanized pipeline existed, the pipeline was already described in prose.</p>
+    <p class="byline">Source: a LinkedIn article published Jan 30, 2026 · figures quoted as stated in the original</p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; The plain fact</span>
+    <p class="lead">On January 30, 2026, I was handed a list of 133 open roles at Ramp and about three hours of actual attention to spend on it. I did not skim. I ran a framework, named it in the piece I wrote that same day, and got from 133 roles to one S-tier fit, a Product Manager opening on the company's "New Bets" team, in under three hours of logged work. That part is not the point of this post. The point is what I called the framework, and what I said it was made of.</p>
+    <p>I named it ARCS. In that essay the letters stood for Assumption-Risk-Conviction-Signal, my own shorthand at the time, not the expansion the name carries now. But underneath the acronym I listed six operating principles, in order, with a plain definition for each: Traceability, Falsifiability, Explainability, Transparency, Composability, Interoperability. I was not describing a piece of software. There was no software. I was describing how I had just made a decision, by hand, in a spreadsheet and a browser, and naming the parts of it so I could do it again.</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; What the essay said</span>
+    <p>Here is what each of the six meant in that piece, stated the way I stated them then.</p>
+
+    <div class="panel">
+      <h4>Six principles, named Jan 30, 2026</h4>
+      <div class="step">
+        <span class="k">Traceability</span><b>every claim links back to a primary source. Not "customers want X," but the names, dates, and calls.</b>
+        <span class="k">Falsifiability</span><b>what evidence would disprove the bet. A stated kill condition, not just a hoped-for outcome.</b>
+        <span class="k">Explainability</span><b>can you say why it works in three sentences. If not, you don't understand it well enough to bet on it.</b>
+        <span class="k">Transparency</span><b>show the reasoning, not just the result, so someone else can pressure-test it.</b>
+        <span class="k">Composability</span><b>does the decision integrate with what already exists, or does it require rebuilding the world.</b>
+        <span class="k">Interoperability</span><b>does the same framework hold across domains: engineering, product, sales, finance, a job search.</b>
+      </div>
+      <p>As written Jan 30, 2026. Quoted here in paraphrase, from the essay's own definitions.</p>
+    </div>
+
+    <p>The essay itself claimed to demonstrate all six at once, marking each one inline as it appeared: a traceability note next to the 133-roles figure, a falsifiability note next to a 40% failure-rate estimate, and so on through the piece. It closed on a dated bet: if the article produced zero inbound interest by February 15, 2026, the hypothesis behind writing it in public would be considered wrong. I don't know how that resolved. It was a self-imposed date, stated as one, and I'm not asserting an outcome for it here.</p>
+  </section>
+
+  <section>
+    <span class="num">III &middot; The eight months between</span>
+    <p>What exists now, eight months later, is a mechanized decision pipeline: a receipt schema, a gate cascade that renders a decision GREEN, YELLOW, RED, or one of several other named states depending on how solid the conviction behind it is, and a standing rule that no merge, deploy, or publish counts as done until a receipt is logged against it, checked against what git and the deployment actually show. None of that existed on January 30. All six of it traces back to the same six words.</p>
+    <p>Traceability is now a literal field: every receipt this system logs carries a list of source references, and anything that can't be checked against real state goes in a column marked unconfirmed, never confirmed. Falsifiability is a write-lock: an irreversible decision requires a declared test before it can be committed to, not after. Explainability is a numeric score attached to a decision before it ships. Transparency is the receipt table itself, open to any verifier. Composability is a library of reusable decision components instead of one-off scripts. Interoperability is a numbering system that has to hold across more than one tool calling into the same ledger, or the numbers collide.</p>
+    <p>I am not claiming the engineering was planned from that essay. I'm stating the narrower thing, which is also the stranger one: the words match, in the same order, eight months apart.</p>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; What the ordering implies</span>
+    <p>Most of the time, a method gets built first and described afterward, in a changelog or a design doc that dresses up what the code already does. This ran the other way. The description came first, written under time pressure, about a decision that had nothing to do with software, and the description held up long enough that the system built later had no better words to use than the ones already on the page.</p>
+    <blockquote>The method was not designed and then written down. It was written down, and then, eight months later, designed.</blockquote>
+    <p>That ordering is not a claim about foresight. It's a claim about what was actually load-bearing in the January essay: not the job search, and not the 133-to-1 result, but the six words underneath it, which turned out to name something durable enough to survive being rebuilt in an entirely different medium without changing.</p>
+  </section>
+
+  <footer>
+    <b>Field account, 2026.</b> Source: LinkedIn article "From 133 to 1 Perfect Fit," published Jan 30, 2026, by the same author.<br>
+    Figures (133 roles, under 3 hours, the Feb 15, 2026 falsification date) are quoted as stated in the source; the date's outcome is not asserted here.<br>
+    The six principles are quoted in paraphrase from the source's own stated definitions.
+  </footer>
+</div>
