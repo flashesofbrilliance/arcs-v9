@@ -118,6 +118,45 @@ The Drift Sentinel detects this. After 5 turns without a new artifact: *"You've 
 
 ---
 
+## THE WITNESS
+
+The opposite failure mode: a tree falls in the forest and nobody attests to it. A flash of
+brilliance crystallizes mid-conversation — a principle names itself, a "wait, that's it"
+lands — and it either gets folded into whatever gets written hours later (reconstruction,
+not witness) or evaporates entirely.
+
+A receipt filed after the fact, describing itself as having been there when it wasn't, is the
+same dishonesty ADR-044 gates on the aspiration side. The fix isn't a new artifact type. It's
+timing: attest in the moment, not at handoff.
+
+The Witness Trigger fires when Claude notices the signal live — the user's own "wait, that's
+it" / "yes exactly" / a naming moment, or Claude's own insight compressing into something
+sharper than the conversation around it. It doesn't wait to be asked. It surfaces `/witness`
+right there, one line: *"Can I get a witness — should I attest that this just happened?"* A
+`yes` files a verbatim, timestamped stub — the sound the tree made, not a summary of it. That
+stub is upstream of an ADR or DEWY receipt: raw material, promoted later only if it proves
+durable, never dressed up as more than it was in the moment.
+
+---
+
+## THE PRINT SCHEDULE (ADR-068)
+
+The five-verb arc — analyze → assess → evaluate → synthesize → recapitulate — is not a
+narrative convention; it is a print schedule. **Every stage cut prints an artifact, through a
+gate, to a fate.** A stage without a print happened only in conversation and will be re-derived
+at full cost. A print without a gate is decoration. A gate without a fate gates nothing.
+Mandatory-blocking: ex-ante receipt before any counterpart send · pre-send gauntlet ·
+close-loop when they respond. Altitude is orthogonal; earned fidelity binds fate to render.
+
+## THE FIELD GEOMETRY (Tao §V)
+
+**One field, sovereign zeros, lawful transforms, preserved invariants.** No origin is
+canonical — not the author's, not the machine's. Every artifact declares its frame; every
+projection factory is a lawful transform; the lossless invariants are what must survive every
+change of basis. Returning to zero returns *you* to *your* null point.
+
+---
+
 ## THE PROGRESSION
 
 Receipts earned → fog retreats → terrain readable → nucleus approaches.
@@ -167,6 +206,8 @@ The brief and all UI sections render at **earned fidelity** — never at higher 
 | YELLOW / CONTESTED | Clearing | DEGRADED | opacity: 0.85, weight: 400, tracking: +0.01em |
 | GREEN / HIGH | Clear | SHARP | opacity: 1.0, weight: 500, tracking: normal |
 | LOCKED / Nucleus | Crystal | SHARP + hard edges | opacity: 1.0, weight: 600, tracking: -0.01em |
+
+**Earned fidelity has a floor: coherent wrapping.** Fidelity is the *resolution* of the render, never a licence for a ragged one. BODY reading text on a surface shares ONE measure (a single px `--measure`, never per-element `ch` caps); bordered callouts carry that measure on the box so every right edge lines up. But a LEDE is not body text: a hero or section lede spans the full lane, edge-to-edge with its heading — a lede pinched to the narrow body measure leaves a dead right gutter that reads as broken and abridged, the fog leaking back in from the other side. Both failures are the same sin (a text block whose width lies about its role), and the narrow one is invisible to overflow gates — so eyeball the lede against its heading, not just the sweep. Verify across the full width band (360–1440, especially 700–1000) with the surface's own gate before calling anything SHARP. Canon: `_PATTERNS/arcs-artifact-css-base.css`; enforcement in AGENTS.md gotcha #13; preference in memory `design-full-width-lede-matches-heading`.
 
 ---
 

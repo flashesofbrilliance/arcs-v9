@@ -747,8 +747,34 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
 
       <Rule style={{ marginBottom:20 }} />
 
+      {/* 04 — Open Source */}
+      <SectionLabel index="04" style={{ marginBottom:10 }}>Open Source</SectionLabel>
+      <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg3, lineHeight:1.6, marginBottom:12, maxWidth:640 }}>
+        A family of shipped developer tools — published to npm, Homebrew, and a Claude Code plugin
+        marketplace, each verified against its own conformance suite.
+      </div>
+      <div style={{ display:'flex', flexDirection:'column', gap:8, marginBottom:14 }}>
+        {[
+          { name:'rosetta-shell', accent:T.cyan, desc:'Lossless shell / env translation (bash 3.2 ↔ zsh ↔ POSIX) with a CI portability gate.', dist:'npm · Homebrew' },
+          { name:'germinate', accent:T.green, desc:'Serializable, provenance-carrying handoff protocol for multi-agent development.', dist:'npm · Homebrew' },
+          { name:'arcs skills', accent:T.gold, desc:'Claude Code plugin marketplace: root-cause analysis, state-sync, token-budgeting, toolbar triage.', dist:'plugin marketplace' },
+        ].map((t,i) => (
+          <div key={i} style={{ display:'flex', gap:10, alignItems:'baseline' }}>
+            <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, color:t.accent,
+              letterSpacing:'0.02em', flexShrink:0, minWidth:104 }}>{t.name}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{t.desc}
+              <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em' }}> · {t.dist}</span></span>
+          </div>
+        ))}
+      </div>
+      <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener"
+        style={{ fontFamily:T.mono, fontSize:9, color:`${T.cyan}aa`, letterSpacing:'0.06em',
+          textDecoration:'none' }}>→ github.com/flashesofbrilliance</a>
+
+      <Rule style={{ margin:'20px 0' }} />
+
       {/* Education */}
-      <SectionLabel index="04" style={{ marginBottom:10 }}>Education</SectionLabel>
+      <SectionLabel index="05" style={{ marginBottom:10 }}>Education</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
         {[
           { inst:'Oberlin College', degree:'BA, Honors Studio Art', year:'2002–2006', note:'Design-first foundation: aesthetic intuition applied to data visualization and developer experience analytics.' },
@@ -1075,5 +1101,5 @@ window.addEventListener('load', function() {
   if (window.va) va('event', { name: 'brief_open', data: { brief: 'resume-google-gtm' } });
 });
 </script>
-</body>
+<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
 </html>

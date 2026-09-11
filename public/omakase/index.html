@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物の哀れ /// MONO NO AWARE</title>
+<meta name="description" content="The Louisville canon, served as one evening. An interactive omakase by ARCS: nine courses, guest-paced, chef's order.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏮</text></svg>">
+<style>
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+  /* progress: nine lantern dots along the top, lit as the evening advances */
+  .lanterns{position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:14px;
+    padding:16px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px)}
+  .lanterns .subnav{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;color:var(--faint);white-space:nowrap}
+  .lanterns .subnav a{color:var(--graphite);text-decoration:none;border-bottom:1px dashed var(--line)}
+  .lanterns .subnav a:hover,.lanterns .subnav a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
+  .lanterns .subnav .here{color:var(--gold)}
+  .lanterns .subnav b{color:var(--faint);font-weight:400}
+  .lanterns{position:sticky}
+  @media(max-width:640px){.lanterns{flex-wrap:wrap;row-gap:8px}.lanterns .subnav{position:static;transform:none;width:100%;text-align:center}}
+  .lantern{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .8s,box-shadow .8s}
+  .lantern.lit{background:var(--gold);box-shadow:0 0 8px rgba(201,162,39,.5)}
+  .lantern.now{animation:lpulse 1.7s ease-in-out infinite}
+  @keyframes lpulse{0%,100%{box-shadow:0 0 6px rgba(201,162,39,.4)}50%{box-shadow:0 0 16px rgba(201,162,39,.95);background:#E8D48A}}
+
+  .evening{max-width:680px;margin:0 auto;padding:8vh 22px 14vh;text-align:center}
+
+  .scene{min-height:10px;overflow:hidden;max-height:0;opacity:0;transition:max-height 1.4s ease,opacity 1.1s ease}
+  .scene.on{max-height:3200px;opacity:1;padding:7vh 0}
+  .scene:first-of-type{max-height:none;opacity:1;padding:7vh 0}
+
+  .jp{display:block;color:var(--gold);font-weight:700;letter-spacing:.04em;line-height:1.3}
+  .en{font-size:13px;letter-spacing:.32em;color:var(--graphite);font-family:var(--mono);margin-top:14px;line-height:2.2}
+  .voice{font-size:19px;line-height:1.75;color:var(--dial);max-width:560px;margin:26px auto 0}
+  .voice i{color:var(--graphite)}
+  .voice .accent{color:var(--verm)}
+  .morsel{display:inline-block;border:1px dashed var(--gold);border-radius:4px;padding:20px 26px;margin:26px 0 6px;max-width:580px}
+  .morsel .note{font-size:22px;line-height:1.55;font-weight:700}
+  .morsel .note .accent{color:var(--verm)}
+  .kanji-big{font-size:64px;color:var(--gold);opacity:.9;display:block;margin-bottom:10px}
+
+  /* the noren */
+  .norenwrap{width:min(440px,86vw);margin:34px auto 6px;cursor:pointer}
+  .rail{height:5px;background:var(--panel2);border:1px solid var(--line);border-radius:3px}
+  .cloth{display:flex;gap:4px;height:min(270px,52vw);overflow:hidden;
+    transition:transform 1.3s cubic-bezier(.5,.05,.2,1),opacity 1.1s ease,filter 1.2s ease;transform-origin:50% 46%}
+  .drape{flex:1;background:linear-gradient(180deg,#15151a,#101013);border:1px solid var(--line);border-top:0;
+    border-radius:0 0 4px 4px;position:relative;transition:transform 1.2s cubic-bezier(.6,.05,.3,1),opacity 1.2s}
+  .drape svg{position:absolute;inset:0;width:300%;height:100%}
+  .drape.d1 svg{left:0}.drape.d2 svg{left:-100%}.drape.d3 svg{left:-200%}
+  /* entering = walking through: the camera pushes forward through the cloth */
+  .parted{transform:scale(3);opacity:0;filter:blur(3px)}
+
+  /* the ring gap */
+  .ringmark svg{width:min(300px,70vw);height:auto;margin:20px auto 0;display:block}
+
+  .step{margin-top:40px}
+  .step button{background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);
+    font-size:11px;letter-spacing:.28em;padding:14px 34px;border-radius:3px;transition:background .3s,color .3s}
+  .step button:hover{background:var(--gold);color:var(--case)}
+  .step button:disabled{border-color:var(--faint);color:var(--faint);cursor:default;background:none}
+  .quiet{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--graphite);margin-top:16px}
+
+
+  /* easter eggs: visible only after 完, faint until sought (the teacher appears to the one who seeks) */
+  /* walk-through doors: every course opens into the room it was cooked in */
+  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
+  .door.locked{cursor:default;color:var(--faint);opacity:.55}
+  .door.tea{opacity:.85}
+  .door.tea:hover,.door.tea:focus-visible{opacity:1;border-color:var(--gold);border-style:solid}
+
+  /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
+  .gift{margin-top:44px}
+  .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold)}
+  .cta{display:block;max-width:580px;margin:18px auto 0;text-align:center;text-decoration:none;border:1px solid var(--verm);color:var(--verm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;padding:16px 20px;border-radius:3px;transition:background .3s,color .3s}
+  .cta:hover,.cta:focus-visible{background:var(--verm);color:var(--case);text-decoration:none}
+  .assure{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite);margin-top:12px;line-height:1.9;max-width:580px;margin-left:auto;margin-right:auto}
+  .qlinks{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--faint);margin-top:16px}
+  .qlinks a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)}
+  .qlinks a:hover,.qlinks a:focus-visible{border-bottom-color:var(--gold)}
+  /* silk: scroll-choreographed brush-dash field behind the evening */
+  #silk{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .lanterns,.evening,footer{position:relative;z-index:1}
+  /* 間: the pause between courses; the last taste lingers before the next */
+  .ma{margin-bottom:36px}
+  .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.7;line-height:2}
+  .ma .men{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--graphite);margin-top:7px;line-height:1.9}
+  /* CJK display text obeys Japanese line-breaking, never western word-wrap */
+  [lang="ja"],.jp,.kanji-big,.ma .mjp{word-break:keep-all;line-break:strict;overflow-wrap:normal;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
+  .jp{font-size:clamp(30px,9.5vw,44px)}
+  /* 路地: the alleys, rabbit holes off the welcome, ordered by depth; the map re-cuts itself */
+  .alley{margin-top:38px}
+  .alleyk{background:none;border:none;font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--graphite);opacity:.65;cursor:pointer;padding:8px 12px;transition:opacity .4s,color .4s}
+  .alleyk:hover,.alleyk:focus-visible{opacity:1;color:var(--gold)}
+  .alleymap{overflow:hidden;max-height:0;opacity:0;transition:max-height .9s ease,opacity .7s ease;max-width:600px;margin:0 auto}
+  .alleymap.open{max-height:900px;opacity:1;padding-top:14px}
+  .ao{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--graphite);line-height:2.4;margin-top:10px}
+  .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:8.5px}
+  .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
+  .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
+  .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:9px}
+  .rcp{max-width:620px;margin:26px auto 0;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px;text-align:left}
+  .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px;text-align:center}
+  .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
+  .rcp .rrow:first-of-type{border-top:0}
+  .rcp .rl{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--faint);padding-top:3px}
+  .rcp .rv{font-size:13.5px;color:var(--dial);line-height:1.65}
+  @media(max-width:560px){.rcp .rrow{grid-template-columns:1fr;gap:3px}}
+  .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
+  /* the loading stroke: one enso draws itself in ink, breathes, and dissolves into the street.
+     Pure CSS timeline (self-clearing without JS); shown once per session; reduced-motion skips it. */
+  #loader{position:fixed;inset:0;z-index:100;background:var(--case);display:flex;align-items:center;justify-content:center;
+    pointer-events:none;animation:ldveil .45s ease 1.45s forwards}
+  #loader svg{width:min(300px,60vw);height:auto;overflow:visible}
+  #loader .stroke{fill:none;stroke:var(--gold);stroke-width:9;stroke-linecap:round;
+    stroke-dasharray:460 122;stroke-dashoffset:460;filter:blur(2.5px);opacity:.95;
+    animation:lddraw .95s cubic-bezier(.16,1,.3,1) .1s forwards, ldink .5s ease .75s forwards}
+  #loader.skip{display:none}
+  @keyframes lddraw{to{stroke-dashoffset:0}}
+  @keyframes ldink{to{filter:blur(0)}}
+  @keyframes ldveil{to{opacity:0;visibility:hidden;transform:scale(1.06)}}
+  @media (prefers-reduced-motion:reduce){#loader{display:none}}
+  footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true"><svg viewBox="0 0 200 200"><circle class="stroke" cx="100" cy="100" r="76" transform="rotate(-58 100 100)"/></svg></div>
+<canvas id="silk" aria-hidden="true"></canvas>
+<div class="lanterns" id="lanternbar"><span class="subnav"><a href="https://louisville.arcs.care">⛩ SUITE</a> <b>›</b> <span class="here">一夜 EVENING</span> <b>›</b> <a href="/omakase/atom">🍵 TEA HOUSE</a></span><span aria-hidden="true" id="lanterns" style="display:flex;gap:14px"></span></div>
+
+<div class="evening">
+
+  <!-- 0 · こんにちは -->
+  <section class="scene on" id="sc0">
+    <span class="jp" lang="ja">こんばんは</span>
+    <p class="en">GOOD EVENING · A SIDE STREET · AN UNMARKED DOOR</p>
+    <div class="norenwrap" id="noren" role="button" tabindex="0" aria-label="Part the curtain and enter">
+      <div class="rail"></div>
+      <div class="cloth" id="cloth">
+        <div class="drape d1"><svg viewBox="0 0 440 270" aria-hidden="true"><circle cx="220" cy="135" r="84" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round" stroke-dasharray="460 82" transform="rotate(-58 220 135)" opacity=".8"/></svg></div>
+        <div class="drape d2"><svg viewBox="0 0 440 270" aria-hidden="true"><circle cx="220" cy="135" r="84" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round" stroke-dasharray="460 82" transform="rotate(-58 220 135)" opacity=".8"/></svg></div>
+        <div class="drape d3"><svg viewBox="0 0 440 270" aria-hidden="true"><circle cx="220" cy="135" r="84" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round" stroke-dasharray="460 82" transform="rotate(-58 220 135)" opacity=".8"/></svg></div>
+      </div>
+    </div>
+    <p class="quiet">暖簾 · A CLOTH WITH A CIRCLE ON IT · PART IT</p>
+    <p class="voice" style="font-size:14px;color:var(--graphite);max-width:470px;margin-top:30px">Inside, one sentence is waiting: <i>Louisville is great at making things. The open question is which to make next.</i></p>
+  </section>
+
+  <!-- 1 · いらっしゃいませ -->
+  <section class="scene" id="sc1">
+    <span class="jp" lang="ja">いらっしゃいませ</span>
+    <div style="font-size:44px;line-height:1;margin-top:18px" aria-hidden="true">🧧</div>
+    <p class="en" style="margin-top:8px">WELCOME IN</p>
+    <p class="voice">One counter. No menu. The oshibori is warm; the cutting board is clean; the record behind this kitchen is write-locked. <i>Tonight the house chooses, and the house has been preparing for longer than you know.</i></p>
+    <div class="step"><button data-next="sc2">TAKE YOUR SEAT</button></div>
+    <div class="alley">
+      <button class="alleyk" id="alleyk" aria-expanded="false" aria-controls="alleymap">路地 · THE SIDE STREETS · EVERY ROOM OPENS ON AN ALLEY</button>
+      <div class="alleymap" id="alleymap">
+        <p class="ao"><b>2ND ORDER · THE ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 ◉ the seed</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥡 the gift</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥢 the menu</span></p>
+        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 🏯 the codex</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍣 the filter</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍱 the box</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🖌️ the war room</span></p>
+        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><span class="locked" title="Back of house · gated (ask for access)">🔒 👹 the audit</span><span class="locked" title="Back of house · gated (ask for access)">🔒 👺 the rehearsal</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🏮 the entrance</span></p>
+        <p class="an">THE MAP IS A FOLKSONOMY, NOT A MENU: EVERY NET NEW DATA POINT RE-CUTS THE TERRAIN, AND THE ALLEYS MOVE WITH IT. THE DEEPEST SUBCULTURE IS ALWAYS ONE DOOR FURTHER.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · the first bite -->
+  <section class="scene" id="sc2">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">一口に　今宵のすべて　灯りけり</span><span class="men">IN ONE BITE, ALL OF TONIGHT IS LIT</span></p>
+    <span class="kanji-big">先</span>
+    <p class="en">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU</p>
+    <div class="morsel"><p class="note">Louisville is great at <span class="accent">making things</span>. The open question is <span class="accent">which to make next</span>.</p></div>
+    <p class="quiet">ONE SENTENCE · EVERYTHING TONIGHT IS THIS BITE, RE-TASTED</p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥡 POCKET THE NOTE · THE PRE-READ</span></div>
+    <div class="step"><button data-next="sc3">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- 3 · the kernel -->
+  <section class="scene" id="sc3">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">種の中　眠れる森が　夢を見る</span><span class="men">INSIDE THE SEED, A SLEEPING FOREST DREAMS</span></p>
+    <span class="kanji-big">種</span>
+    <p class="en">THE SEED COURSE</p>
+    <p class="voice">Everything served tonight grew from one articulated seed: seven conversations of wild evidence, pulled into one place: what's live, what's parked, what it's worth, what happens next. <span class="accent">The tree is the seed and the seed is the tree.</span> Every later course is this one, unfolded.</p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 ◉ TASTE THE SEED ITSELF · THE THREAD BOOK</span></div>
+    <div class="step"><button data-next="sc4">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- 4 · the cellar: one record, three rooms -->
+  <section class="scene" id="sc4">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">蔵深く　年月は酒と　なりにけり</span><span class="men">DEEP IN THE CELLAR, THE YEARS HAVE BECOME WINE</span></p>
+    <span class="kanji-big">蔵</span>
+    <p class="en">THE CELLAR COURSE · ONE RECORD, THREE ROOMS</p>
+    <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open. The same truth is cut for each palate at the table, and a lacquered box carries <span class="accent">one small thing of great value</span> intact to the right hands. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏯 THE CODEX</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍣 THE FILTER</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍱 THE BOX</span></div>
+    <div class="step"><button data-next="scR">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- R · the guest's course: the receipt Justin cut live on the first call.
+       Figures milled for the open room (seimaibuai); the full-fidelity original
+       lives in the gated record. Source: runtime/recoil/generated/2026-07-31-delaney.json -->
+  <section class="scene" id="scR">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">客の手が　庖丁を取り　一皿成る</span><span class="men">THE GUEST TAKES THE KNIFE · ONE DISH APPEARS</span></p>
+    <span class="kanji-big">客</span>
+    <p class="en">THE GUEST'S COURSE · THE DISH YOU CUT YOURSELF</p>
+    <p class="voice">On the first call, the guest stepped behind the counter. A live decision, his own numbers, and he articulated the tripwire himself, then sharpened it past binary before the chef could. <span class="accent">This is that dish, plated as it was cut</span>, figures milled for the open room the way rice is milled for daiginjo. The unmilled original keeps in the cellar.</p>
+    <div class="rcp">
+      <p class="rk">領収書 · A DECISION RECEIPT · CUT LIVE · JUL 31 2026 · MINUTES 34 TO 42</p>
+      <div class="rrow"><span class="rl">THE BET</span><span class="rv">Keep the national sales team at its five-figure monthly retainer through the October gate, held to a six-figure monthly incrementality line.</span></div>
+      <div class="rrow"><span class="rl">THE BANDS</span><span class="rv">His own, graduated, not binary: below the line, end-of-year notice · at the line, re-compete it · above it, <i>"we let it roll, maybe a bonus."</i></span></div>
+      <div class="rrow"><span class="rl">THE SHARPEN</span><span class="rv">Then he cut it finer unprompted: lower the fixed retainer, raise the commission, focus the two regions that actually win.</span></div>
+      <div class="rrow"><span class="rl">STATUS</span><span class="rv"><span style="color:var(--verm)">UNSEALED</span> · the October gate is on the calendar and waiting for a signature.</span></div>
+    </div>
+    <p class="quiet">THE HOUSE DID NOT COOK THIS ONE · THE GUEST DID · THE HOUSE ONLY KEPT THE RECEIPT</p>
+    <p class="ao" style="margin-top:18px"><a href="data:application/json;charset=utf-8,%7B%0A%20%20%22kind%22%3A%20%22arcs.receipt%22%2C%0A%20%20%22id%22%3A%20%22lvb-2026-07-31-vendor-tripwire%22%2C%0A%20%20%22author%22%3A%20%22Justin%20Delaney%22%2C%0A%20%20%22createdLive%22%3A%20%222026-07-31%2C%20first%20call%2C%20minutes%2034%20to%2042%22%2C%0A%20%20%22bet%22%3A%20%22Keep%20the%20national%20sales%20team%20at%20its%20five-figure%20monthly%20retainer%20through%20the%20October%20renewal%20gate%2C%20held%20to%20a%20six-figure%20monthly%20incrementality%20line%22%2C%0A%20%20%22line%22%3A%20%22A%20six-figure%20monthly%20incrementality%20floor%2C%20measured%2C%20not%20recalled%22%2C%0A%20%20%22bands%22%3A%20%7B%0A%20%20%20%20%22belowTheLine%22%3A%20%22end-of-year%20notice%22%2C%0A%20%20%20%20%22atTheLine%22%3A%20%22re-compete%20it%20%28RFP%29%22%2C%0A%20%20%20%20%22aboveTheLine%22%3A%20%22let%20it%20roll%2C%20maybe%20a%20bonus%22%0A%20%20%7D%2C%0A%20%20%22sharpen%22%3A%20%22Lower%20the%20fixed%20retainer%2C%20raise%20the%20commission%2C%20focus%20the%20two%20regions%20that%20actually%20win%22%2C%0A%20%20%22gate%22%3A%20%22October%20renewal%22%2C%0A%20%20%22status%22%3A%20%22UNSEALED%22%2C%0A%20%20%22provenance%22%3A%20%22Co-built%20live%20by%20Justin%20on%20the%20Jul%2031%202026%20call%3B%20figures%20milled%20for%20the%20open%20page%20%28seimaibuai%29%2C%20full-fidelity%20original%20in%20the%20gated%20record%22%2C%0A%20%20%22next%22%3A%20%22Seal%20it%3A%20sign%2C%20date%2C%20and%20put%20the%20score-back%20on%20the%20calendar%20for%20the%20October%20gate%22%0A%7D" id="rcpdl" download="lvb-receipt-2026-07-31.json">⬇ TAKE IT WITH YOU · THE RECEIPT AS JSON</a></p>
+    <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- 7 · the ring -->
+  <section class="scene" id="sc7">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">筆離れ　円は残りて　息づけり</span><span class="men">THE BRUSH LIFTS · THE CIRCLE STAYS, STILL BREATHING</span></p>
+    <span class="kanji-big">円</span>
+    <p class="en">THE RING COURSE</p>
+    <p class="voice">This meal is not a line with an end. It is a circle with a gap. The meeting, the test, the read, the scored record: each returns. <i>The landing of one course is the plié of the next.</i></p>
+    <div class="ringmark"><svg viewBox="0 0 300 220" role="img" aria-label="An open circle over a horizontal stroke"><path d="M40 118 C 110 104, 210 102, 268 112 C 210 118, 120 124, 70 124 Z" fill="var(--dial)" opacity=".85"/><circle cx="150" cy="112" r="72" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="392 66" transform="rotate(-58 150 112)" opacity=".95"/></svg></div>
+    <p class="quiet">THE LINE IS HIS · THE CIRCLE IS OURS · THE GAP STAYS OPEN</p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🖌️ ENTER THE WAR ROOM · THE ENSŌ</span></div>
+    <div class="step"><button data-next="sc8">THE LAST BITE</button></div>
+  </section>
+
+  <!-- 8 · dessert · the seal -->
+  <section class="scene" id="sc8">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">甘きもの　終わり近きゆえ　なお甘し</span><span class="men">SWEETNESS, SWEETER FOR BEING NEAR THE END</span></p>
+    <span class="kanji-big">甘</span>
+    <p class="en">DESSERT · SWEET · SMALL · IT CONTAINS THE FIRST BITE</p>
+    <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
+    <p class="quiet">THE MEAL ENDS WHERE IT BEGAN · ONE OCTAVE HIGHER</p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥢 SEE THE MEAL PLATED · THE MENU</span></div>
+    <div><a class="door tea" href="/omakase/atom" title="After the meal, tea · the seed told whole">🍵 お茶 · TEA IS OFFERED · THE TEA HOUSE IS OPEN</a></div>
+    <div class="step"><button data-next="sc9">RISE FROM THE COUNTER</button></div>
+  </section>
+
+  <!-- 9 · the bow -->
+  <section class="scene" id="sc9">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">露の世は　露の世ながら　さりながら</span><span class="men">THIS DEWDROP WORLD IS A DEWDROP WORLD, AND YET, AND YET · ISSA</span></p>
+    <p class="voice"><i>the guest, quietly…</i></p>
+    <span class="jp" lang="ja" style="font-size:30px">とても美味しかったです。ごちそうさまでした。</span>
+    <p class="voice" style="margin-top:34px"><i>the house bows…</i></p>
+    <span class="jp" lang="ja">ありがとうございました</span>
+    <div class="step"><button data-next="sc11">深いお辞儀 · THE BOW COMPLETES · THE BRUSH LIFTS AGAIN</button></div>
+  </section>
+
+  <!-- 11 · さようなら -->
+  <section class="scene" id="sc11">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">暖簾揺れ　客も一夜も　夢の跡</span><span class="men">THE CURTAIN SWAYS · GUEST AND EVENING BOTH, TRACES OF A DREAM</span></p>
+    <span class="jp" lang="ja">さようなら</span>
+    <p class="en">THE STREET AGAIN · THE CURTAIN STILL · THE CIRCLE OPEN</p>
+    <p class="voice"><i>Thank you for dining at <span style="color:var(--gold)">Dojo Kuchisabishii</span> <span lang="ja" style="color:var(--gold)">口寂しい</span>, the lonely mouth: the name for wanting one more taste after the meal is done. The noren hangs exactly where you found it. The gap in the circle waits for your next decision. Come again soon, and come hungry.</i></p>
+    <div class="gift">
+      <p class="glbl">土産 · THE TAKE-HOME · WHAT THE BOX WAS BUILT TO CARRY</p>
+      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville is great at <span class="accent">making things</span>. The open question is <span class="accent">which to make next</span>.</p></div>
+      <p class="voice" style="font-size:16px;max-width:560px;margin-top:22px">🍱 And inside the box, one small thing of great value: <span class="accent">the dish you cut yourself</span>. The sales-team tripwire, your bands, your sharpen, anchored to the October gate you named. It is the smallest thing served tonight and the most valuable, because the house did not make it. You did. It is unsealed. <i>One sitting seals it: your receipt, run live, scored before the October call.</i></p>
+      <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">SEAL THE ONE YOU STARTED · BEFORE THE OCTOBER GATE</a>
+      <p class="assure">THE SITTING IS $0 · A MONTH-ONE EXIT CAPS YOUR WORST CASE AT $10K · YOU KEEP THE RECEIPTS AND THE TEST DATA EITHER WAY · IF OCTOBER PASSES UNSEALED, NOTHING IS LOST BUT THE SCORE</p>
+      <p class="qlinks"><span class="locked" title="Back of house · gated (ask for access)">🔒 THE GIFT · THE PRE-READ</span> · <span class="locked" title="Back of house · gated (ask for access)">🔒 THE POCKET CARD · PDF</span> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
+    </div>
+    <p class="quiet" style="margin-top:34px">完</p>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</span></div>
+  </section>
+
+</div>
+
+<footer>
+  <span lang="ja" style="color:var(--gold)">物の哀れ</span> <b><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></b> MONO NO AWARE 🏮 ARCS OMAKASE<br><span style="display:inline-block;margin-top:8px">⛩ <a href="https://louisville.arcs.care" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)">THE SUITE · LOUISVILLE</a> · 🍵 <a href="/omakase/atom" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)">THE TEA HOUSE · THE ATOM</a></span>
+</footer>
+
+<script>
+(function(){
+  // One evening: nine lanterns, one-way stages, guest-paced (the plié: nothing advances itself).
+  var SCENES = ["sc0","sc1","sc2","sc3","sc4","scR","sc7","sc8","sc9","sc11"];
+  var LANTERN_COUNT = 9; // one lantern per station after the street
+  var lan = document.getElementById("lanterns");
+  for(var i=0;i<LANTERN_COUNT;i++){ var d=document.createElement("span"); d.className="lantern"; lan.appendChild(d); }
+  var lanterns = lan.children;
+  // lanterns follow the guest's actual position: scroll back up and they dim again.
+  function paint(){
+    var mid = window.scrollY + window.innerHeight * 0.55;
+    var cur = 0;
+    for(var i=0;i<SCENES.length;i++){
+      var el = document.getElementById(SCENES[i]);
+      if(i>0 && !el.classList.contains("on")) break;
+      if(el.offsetTop <= mid) cur = i;
+    }
+    var n = Math.min(cur, LANTERN_COUNT);
+    for(var k=0;k<LANTERN_COUNT;k++){
+      lanterns[k].classList.toggle("lit", k<n);
+      lanterns[k].classList.toggle("now", k===n-1); // the guest's current station breathes
+    }
+  }
+  window.addEventListener("scroll", paint, {passive:true});
+  window.addEventListener("resize", paint);
+
+  // the loading stroke plays once per session; a returning guest walks straight in
+  try{
+    var ld = document.getElementById("loader");
+    if(sessionStorage.getItem("omk-stroke")){ ld.classList.add("skip"); }
+    else { sessionStorage.setItem("omk-stroke","1"); }
+  }catch(e){}
+  var noren = document.getElementById("noren"), cloth = document.getElementById("cloth"), entered = false;
+  function enter(){
+    if(entered) return; entered = true;
+    cloth.classList.add("parted");
+    setTimeout(function(){ show("sc1"); }, 800);
+  }
+
+  // 路地: the alleys unfold only for the one who seeks
+  var ak = document.getElementById("alleyk"), am = document.getElementById("alleymap");
+  ak.addEventListener("click", function(){
+    var open = am.classList.toggle("open");
+    ak.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  noren.addEventListener("click", enter);
+  // resume: an interrupted evening picks up where it left off, without replaying the theater
+  try{
+    var saved = sessionStorage.getItem("omk-scene");
+    var si = SCENES.indexOf(saved);
+    if(si > 0){
+      entered = true;
+      cloth.style.transition = "none"; cloth.classList.add("parted");
+      for(var r = 1; r <= si; r++){
+        var sc = document.getElementById(SCENES[r]);
+        sc.classList.add("on"); sc.style.maxHeight = "none";
+        var pb = document.getElementById(SCENES[r-1]).querySelector(".step button");
+        if(pb) pb.disabled = true;
+      }
+      paint();
+    }
+  }catch(e){}
+  noren.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); enter(); } });
+
+  function show(id){
+    var el = document.getElementById(id);
+    el.classList.add("on");
+    try{ sessionStorage.setItem("omk-scene", id); }catch(e){}
+    setTimeout(function(){ el.style.maxHeight = "none"; }, 1500); // release the reveal cap: tall scenes never clip
+    paint();
+    el.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+  document.querySelectorAll(".step button[data-next]").forEach(function(b){
+    b.addEventListener("click", function(){
+      b.disabled = true;
+      show(b.dataset.next);
+    });
+  });
+
+
+  // desktop hotkeys: ↓/→ snap to the next piece (or serve it at the frontier); ↑/← snap back.
+  function currentIdx(){
+    var mid = window.scrollY + window.innerHeight * 0.5, best = 0, bd = Infinity;
+    SCENES.forEach(function(id, i){
+      var el = document.getElementById(id);
+      if(i > 0 && !el.classList.contains("on")) return;
+      var d = Math.abs(el.offsetTop + el.offsetHeight/2 - mid);
+      if(d < bd){ bd = d; best = i; }
+    });
+    return best;
+  }
+  document.addEventListener("keydown", function(e){
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    var k = e.key;
+    if(k !== "ArrowDown" && k !== "ArrowRight" && k !== "ArrowUp" && k !== "ArrowLeft") return;
+    var a = document.activeElement;
+    if(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName)) return;
+    e.preventDefault();
+    var i = currentIdx();
+    if(k === "ArrowDown" || k === "ArrowRight"){
+      if(!entered){ enter(); return; }
+      var next = i + 1 < SCENES.length ? document.getElementById(SCENES[i+1]) : null;
+      if(next && next.classList.contains("on")){ next.scrollIntoView({behavior:"smooth", block:"center"}); }
+      else {
+        var btn = document.getElementById(SCENES[i]).querySelector(".step button:not(:disabled)");
+        if(btn) btn.click();
+      }
+    } else if(i > 0){
+      document.getElementById(SCENES[i-1]).scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
+})();
+  // silk choreography: concentric brush-dashes orbiting the center; the page scroll is the conductor.
+  (function(){
+    var cv = document.getElementById("silk"), cx = cv.getContext("2d");
+    var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var P = [], W, H, dpr;
+    function size(){
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      cv.style.width = W + "px"; cv.style.height = H + "px";
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed(){
+      P = [];
+      for(var i = 0; i < 110; i++){
+        P.push({ ring: 0.22 + (i % 5) * 0.16 + Math.sin(i * 7.13) * 0.03,
+                 a0: (i * 2.399963),            // golden-angle spread
+                 len: 0.05 + ((i * 37) % 11) / 140,
+                 w: 0.6 + ((i * 13) % 7) / 9,
+                 drift: 0.05 + ((i * 29) % 13) / 60 });
+      }
+    }
+    var t = 0;
+    function draw(){
+      var doc = document.documentElement;
+      var prog = scrollY / Math.max(1, doc.scrollHeight - innerHeight); // 0..1 through the evening
+      var fade = Math.max(0.12, 0.5 - prog * 0.5);                       // strongest at the opening
+      cx.clearRect(0, 0, W, H);
+      var R = Math.min(W, H) * 0.62, ox = W / 2, oy = H * 0.44;
+      for(var i = 0; i < P.length; i++){
+        var p = P[i];
+        var a = p.a0 + prog * 6.28318 * p.drift * 4 + t * (reduce ? 0 : p.drift * 0.055);
+        var r = p.ring * R * (1 + Math.sin(prog * 9 + i) * 0.02);
+        cx.beginPath();
+        cx.arc(ox, oy, r, a, a + p.len);
+        cx.strokeStyle = "rgba(201,162,39," + (fade * (0.10 + p.w * 0.05)).toFixed(3) + ")";
+        cx.lineWidth = p.w;
+        cx.stroke();
+      }
+    }
+    var raf = null, lastActive = Date.now();
+    function wake(){ lastActive = Date.now(); if(!reduce && !raf && !document.hidden){ loop(); } }
+    function loop(){
+      if(Date.now() - lastActive > 10000){ raf = null; return; } // sleep when the room is still
+      t += 1; draw(); raf = requestAnimationFrame(loop);
+    }
+    size(); seed(); draw();
+    addEventListener("resize", function(){ size(); draw(); });
+    if(reduce){ addEventListener("scroll", draw, {passive:true}); }
+    else {
+      loop();
+      addEventListener("scroll", wake, {passive:true});
+      addEventListener("pointermove", wake, {passive:true});
+      addEventListener("keydown", wake);
+    }
+    document.addEventListener("visibilitychange", function(){
+      if(document.hidden){ if(raf) cancelAnimationFrame(raf), raf = null; }
+      else if(!reduce && !raf){ loop(); }
+    });
+  })();
+
+</script>
+</body>
+</html>

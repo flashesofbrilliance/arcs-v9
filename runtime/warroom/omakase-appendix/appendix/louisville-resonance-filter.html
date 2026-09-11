@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCS RESONANCE FILTER · Louisville Universe · Source→Target Lossless Translation</title>
+<style>
+  /* ATOMS — inherited verbatim from the Louisville Codex (canon-locked) */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .bar .state{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.12em}
+
+  .board{max-width:1060px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:1px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .note{font-size:21px;line-height:1.45;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+  .callout{margin-top:12px;padding:10px 12px;border-left:2px solid var(--verm);background:var(--panel);font-size:13px}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+  .grade{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--faint);border-radius:3px;color:var(--graphite)}
+  .grade.A{color:var(--dial);border-color:var(--dial)}
+  .grade.E{color:var(--gold);border-color:var(--gold)}
+  .grade.X{color:var(--red);border-color:var(--red)}
+  .redact{color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:10px;letter-spacing:.18em;color:var(--graphite);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:7px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+  td.mono{font-family:var(--mono);font-size:11px;color:var(--graphite)}
+
+  /* ===== the instrument ===== */
+  .tabs{display:flex;gap:4px;flex-wrap:wrap}
+  .tabs button{background:none;border:1px solid var(--line);color:var(--graphite);font-size:10px;font-weight:600;
+    letter-spacing:.16em;padding:6px 12px;border-radius:3px}
+  .tabs button[aria-selected=true]{color:var(--dial);border-color:var(--verm)}
+  .tabs.payloads button[aria-selected=true]{border-color:var(--gold);color:var(--gold)}
+  .xlate{display:grid;grid-template-columns:230px 1fr;gap:16px;margin-top:14px}
+  @media(max-width:760px){.xlate{grid-template-columns:1fr}}
+  .plist{display:flex;flex-direction:column;gap:4px}
+  .plist button{background:var(--panel2);border:1px solid var(--line);color:var(--graphite);text-align:left;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:9px 11px;border-radius:3px}
+  .plist button[aria-selected=true]{color:var(--dial);border-color:var(--gold)}
+  .plist button .pk{color:var(--verm);margin-right:8px}
+  .out{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:16px;min-height:280px}
+  .out .who{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--verm);margin-bottom:2px}
+  .out .payname{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:12px;color:var(--graphite)}
+  .out .tx{font-size:16px;line-height:1.6;border-left:2px solid var(--gold);padding-left:14px}
+  .out .tx q{quotes:"“" "”"}
+  .out .tx q::before,.out .tx q::after{color:var(--gold)}
+  .lossgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  @media(max-width:760px){.lossgrid{grid-template-columns:1fr}}
+  .lossbox{border:1px dashed var(--line);border-radius:4px;padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.7}
+  .lossbox .h{font-size:9px;letter-spacing:.2em;margin-bottom:6px}
+  .lossbox.cons{border-color:var(--ok)}.lossbox.cons .h{color:var(--ok)}
+  .lossbox.gov{border-color:var(--red)}.lossbox.gov .h{color:var(--red)}
+  .lossbox.load{border-color:var(--gold);grid-column:1/-1}.lossbox.load .h{color:var(--gold)}
+  .lc{font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:1px 6px;border-radius:3px;border:1px solid;margin-right:6px}
+  .lc.ax{color:var(--dial);border-color:var(--dial)}
+  .lc.sz{color:var(--verm);border-color:var(--verm)}
+  .lc.bent{color:var(--red);border-color:var(--red)}
+  .lossbox ul{list-style:none}
+  .lossbox li{padding-left:14px;position:relative;color:var(--graphite)}
+  .lossbox li::before{content:"·";position:absolute;left:2px}
+  .invariant{margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold);
+    border-top:1px dashed var(--line);padding-top:10px}
+  .invariant b{color:var(--verm);letter-spacing:.18em;font-size:9px;display:block;margin-bottom:4px}
+
+  /* ===== five-stratum waterfall: SERIAL-COHERENT: visible set is always a numeric prefix — 00–01(EXEC) · +02(STRATEGIC) · +03(OPERATIONAL) · +04(TACTICAL) · +05(SURGICAL) ===== */
+  .dialset{display:flex;gap:4px;align-items:center}
+  .dialset .dl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);margin-right:2px}
+  .lvslider{display:flex;gap:10px;align-items:center}
+  .lvslider input[type=range]{width:120px;accent-color:var(--gold)}
+  .lvslider .lvname{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);width:96px}
+  body.lv1 #law, body.lv1 #dialdefs, body.lv1 #firewalls, body.lv1 #loadregister{display:none}
+  body.lv2 #dialdefs, body.lv2 #firewalls, body.lv2 #loadregister{display:none}
+  body.lv3 #firewalls, body.lv3 #loadregister{display:none}
+  body.lv4 #loadregister{display:none}
+  .card .lede, .card .abstract{display:none;font-size:12px;color:var(--graphite);line-height:1.55;font-style:italic}
+  body.lv2 .card .cfull, body.lv2 .card .src, body.lv2 .card .abstract{display:none}
+  body.lv2 .card .lede{display:block}
+  body.lv3 .card .cfull, body.lv3 .card .src, body.lv3 .card .lede{display:none}
+  body.lv3 .card .abstract{display:block}
+  body.lv4 .card .src{display:none}
+
+  /* dial strip */
+  .dials{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+  .dials .h{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--faint);margin-bottom:8px}
+  .drow{display:flex;align-items:center;gap:10px;padding:3px 0}
+  .drow .dn{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--graphite);width:104px;flex:none}
+  .drow .track{flex:1;height:4px;background:var(--line);border-radius:2px;position:relative}
+  .drow .track i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--gold)}
+  .drow .dv{font-family:var(--mono);font-size:9px;color:var(--faint);width:130px;flex:none;text-align:right;letter-spacing:.06em}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:12px}
+  .card .n{font-size:10px;letter-spacing:.2em;color:var(--graphite);margin-bottom:6px;font-weight:600}
+  .card p{font-size:12px;color:var(--graphite);line-height:1.55}
+  .card p b{color:var(--dial);font-weight:600}
+  .card .src{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint)}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){.stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}footer{margin-left:34px}.bar .sub{display:none}}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lv1">
+
+<div class="bar" role="banner">
+  <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE PALATE — one dish, four ways">🍣</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> RESONANCE FILTER</span>
+  <span class="sub">LOUISVILLE UNIVERSE · SOURCE→TARGET LOSSLESS TRANSLATION · SERIALIZED 25 JUL 2026</span>
+  <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
+    <span class="dl">STRATUM</span>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">EXEC</span></div>
+  </div>
+  <span class="state" id="barstate">BASELINE · ZACH-INTERNAL</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- 00 THE CLAIM -->
+    <section class="panel" data-th="red" id="claim">
+      <div class="ph"><span class="eyebrow">00 · THE INSTRUMENT</span><h2>One chord, four registers</h2><span class="tag">OPERATOR-DEFINED · JUL 25 2026</span></div>
+      <div class="pb">
+        <p class="note">Translation here is not simplification. It is <span class="accent">re-voicing</span>: the same payload, tuned to each persona's native register — nothing load-bearing lost, everything governed <span class="accent">recorded</span>.</p>
+        <p class="note-sub"><b>Lossless, defined precisely:</b> meaning and load-bearing structure survive every translation intact — the falsifier, the kill line, the grade, the score-back. Content passes through a per-persona <b>firewall</b>: what the Court forbids a register to carry is withheld, and the withholding is printed, never silent. Governed loss is not loss — it is redaction with a receipt. The consonance test: all four renderings of any payload must sound as one chord. If two registers contradict, the translation failed, not the listener.</p>
+      </div>
+    </section>
+
+        <!-- 01 THE TRANSLATOR -->
+    <section class="panel" data-th="gold" id="translator">
+      <div class="ph"><span class="eyebrow">01 · THE TRANSLATOR</span><h2>Payload × persona — tuned live</h2><span class="tag">6 PAYLOADS · 4 REGISTERS · 24 RENDERINGS</span></div>
+      <div class="pb">
+        <div class="tabs" role="tablist" aria-label="Target persona" id="ptabs">
+          <button role="tab" aria-selected="true" data-p="zach">ZACH-INTERNAL</button>
+          <button role="tab" aria-selected="false" data-p="justin">JUSTIN · CEO</button>
+          <button role="tab" aria-selected="false" data-p="stanley">STANLEY · FOUNDER</button>
+          <button role="tab" aria-selected="false" data-p="jeben">JEBEN · SPONSOR</button>
+        </div>
+        <div class="xlate">
+          <div class="plist" role="tablist" aria-label="Payload" id="plist">
+            <button role="tab" aria-selected="true" data-k="note"><span class="pk">P1</span>THE NOTE</button>
+            <button role="tab" aria-selected="false" data-k="ask"><span class="pk">P2</span>THE ASK</button>
+            <button role="tab" aria-selected="false" data-k="econ"><span class="pk">P3</span>THE ECONOMICS</button>
+            <button role="tab" aria-selected="false" data-k="pumps"><span class="pk">P4</span>PUMPS</button>
+            <button role="tab" aria-selected="false" data-k="mango"><span class="pk">P5</span>THE MANGO TEST</button>
+            <button role="tab" aria-selected="false" data-k="product"><span class="pk">P6</span>THE PRODUCT ITSELF</button>
+          </div>
+          <div class="out" aria-live="polite">
+            <div class="who" id="owho"></div>
+            <div class="payname" id="opay"></div>
+            <div class="tx" id="otx"></div>
+            <div class="lossgrid">
+              <div class="lossbox cons"><div class="h">CONSERVED — CROSSED THE FILTER INTACT</div><ul id="ocons"></ul></div>
+              <div class="lossbox gov"><div class="h">GOVERNED — WITHHELD &amp; LOGGED (FIREWALL)</div><ul id="ogov"></ul></div>
+              <div class="lossbox load"><div class="h">RHETORICAL LOAD AUDIT — SIZZLE FLAGGED, AXIOMS BEARING</div><ul id="oload"></ul></div>
+            </div>
+            <div class="invariant"><b>CONSONANCE INVARIANT — EVERY REGISTER MUST CONTAIN THIS</b><span id="oinv"></span></div>
+            <div class="dials"><div class="h">PERSONA DIAL SETTINGS</div><div id="odials"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <!-- 02 CONSERVATION LAW -->
+    <section class="panel" data-th="verm" id="law">
+      <div class="ph"><span class="eyebrow">02 · THE CONSERVATION LAW</span><h2>What no translation may drop</h2><span class="tag">LOSSLESS = THESE SURVIVE</span></div>
+      <div class="pb grid">
+        <div class="card"><div class="n">THE FALSIFIER</div><p>Every payload carries what would prove it wrong. A rendering that cannot fail is flattery, not translation — the O1 distinction ("this one is built to disagree") must survive into every register.</p></div>
+        <div class="card"><div class="n">THE KILL / SCALE LINE</div><p>The pre-agreed exit survives every altitude: month-one stop-loss, Thu-noon kill line, the day-30 read. Worst case travels first in every register where money is spoken.</p></div>
+        <div class="card"><div class="n">THE GRADE</div><p>Evidence class is conserved even when the chip is invisible. Fidelity dials how it <i>shows</i>, never whether it <i>holds</i> — "per Jeben" stays "per Jeben" in every voice.</p></div>
+        <div class="card"><div class="n">THE ATTRIBUTION</div><p>Provenance is load-bearing: the fifteenth rock is Jeben's image, credited in every register that uses it. Mango is Justin's idea, and competes fairly in every telling.</p></div>
+        <div class="card"><div class="n">THE SCORE-BACK</div><p>Every translated claim keeps its date with the record — Fri 2:00 PM, day 30, day 90. A rendering with no score-back date has quietly become a pitch.</p></div>
+        <div class="card"><div class="n">THE FIREWALL RECEIPT</div><p>Whatever a register may not carry is withheld <b>and logged</b> in the loss report. Governed redaction, visible to the operator — the strike stays on the page.</p></div>
+      </div>
+    </section>
+
+    <!-- 03 SEVEN DIALS -->
+    <section class="panel" data-th="gold" id="dialdefs">
+      <div class="ph"><span class="eyebrow">03 · THE SEVEN DIALS</span><h2>Each with its canon grounding</h2><span class="tag">X→GROUNDED PER THE GATE RULE</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>Dial</th><th>What it tunes</th><th>Grounding</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">REGISTER</td><td>The target's native voice and role-language — maker, steward, weaver, auditor. Rhetorical resonance begins here: speak in the materials they already think in.</td><td><span class="grade E">OP</span> operator-defined Jul 25 · Jeben protocol rule 3 (define every term) adjacent</td></tr>
+            <tr><td class="mono">RESOLUTION</td><td>Altitude on the waterfall — Exec → Strategic → Operational → Tactical → Surgical. <b>Adaptive altitude:</b> the filter starts at the persona's native rung and descends only on demand.</td><td><span class="grade">B</span> Artifact Waterfall (Bible C3) · Meta-Audit §6 "word-level resolution"</td></tr>
+            <tr><td class="mono">FIDELITY</td><td>How visibly the evidence discipline shows — grade chips on the sleeve (internal) vs. backing carried invisibly, produced on demand (the DIKW rule: the room only sees wisdom).</td><td><span class="grade">B</span> Grade register (Fact-Check §0) · DIKW ladder (Brief §2)</td></tr>
+            <tr><td class="mono">AMPLITUDE</td><td>Energy of delivery — how hard the note is struck. "Each note's amplitude conditions the next."</td><td><span class="grade">B</span> Notomation §4</td></tr>
+            <tr><td class="mono">FREQUENCY</td><td>Cadence — arc length, how often the turn returns. Chi: match his energy, don't supply it. Short arcs for Justin; long measures for the record.</td><td><span class="grade">B</span> Notomation §5 · Eastern panel (Brief §4)</td></tr>
+            <tr><td class="mono">RESONANCE</td><td>Which of THEIR truths the payload rings against — Pumps for Justin, stewardship for Stanley, his own images for Jeben, the adversarial record for Zach. Rhetorical resonance: constructive interference with what the listener already knows is true.</td><td><span class="grade">B</span> Notomation §5 resonance check · "their own best evidence"</td></tr>
+            <tr><td class="mono">CONSONANCE</td><td>The cross-register agreement test — no rendering may contradict another; consonance is found, never assumed. The chord invariant printed under every translation is the check.</td><td><span class="grade">B</span> Meta-Audit §5 (Six C's) · Notomation §1 (two serializations agreeing)</td></tr>
+          </tbody>
+        </table>
+        <p class="callout" style="font-size:12px"><b style="color:var(--gold)">The gate rule, honored:</b> "rhetorical resonance" and "adaptive altitude" entered as X-adjacent frames and earned grounded seats the only way canon allows — by operator definition, on the record, this page. Five of the seven dials were already latent in the corpus; this instrument names them and welds the labels on.</p>
+      </div>
+    </section>
+
+    <!-- 04 FIREWALLS -->
+    <section class="panel" data-th="red" id="firewalls">
+      <div class="ph"><span class="eyebrow">04 · THE FIREWALL REGISTER</span><h2>The fence — standing per-persona surfaces</h2><span class="tag">COURT CONDITIONS ENFORCED · THE FENCE</span></div>
+      <div class="pb">
+        <p class="callout" style="margin-top:0;font-size:12.5px"><b style="color:var(--gold)">THE FENCE</b> <i>(operator canon, Jul 25)</i> — the firewall in craft terms. <b>Front</b> (Justin &amp; Stanley): beautiful, load-bearing, protective, cone-of-silence preserving — the taste and the value from the first bite, never how the sausage is made, sourced, or cooked. <b>Back</b> (Jeben): the joinery, shown craftsman-to-craftsman. <b>Workshop</b> (Zach): full resolution. A withholding is not concealment; it is finish carpentry — and every one is logged. Its companion rule, THE FLASH (Pardes): the strata are intensities of light, and depth is granted by readiness — the <i>sod</i> is entered with sufficient wisdom or it induces vertigo.</p>
+        <table>
+          <thead><tr><th>Register</th><th>May never carry</th><th>Authority</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">ZACH-INTERNAL</td><td>Nothing — full resolution baseline. Every other rendering is diffed against this one.</td><td>—</td></tr>
+            <tr><td class="mono">JUSTIN</td><td><b>The front of the fence</b> — the taste and the value from the first bite. Never carried: prep-side reads about the person · third-party remarks about him · unconfirmed status · borrowed comps in ROI math · price before "free"</td><td><span class="redact">COURT #1 #4</span> · Fact-Check §2 · funhouse ordering</td></tr>
+            <tr><td class="mono">STANLEY</td><td>Everything on Justin's list · plus: nothing arrives cold — Stanley's renderings travel through Justin (T2), never around him</td><td><span class="redact">COURT #4</span> · tributary T2</td></tr>
+            <tr><td class="mono">JEBEN</td><td><b>The back of the fence.</b> A craftsman who cares how it's built is shown the joinery — seams, threads, the build at RICH — craftsman to craftsman. The shop floor (DEEP: simulations, premortems, the grading bench) stays ours, and the sponsor-recalibration evidence (February detachment · door-opener-not-closer · sponsor-discount premortem) is <b>strategically omitted, logged</b>: findings about the reader arrive as verdicts, not analysis. Courtesies stand: PE thread raised by him, never us · his corrections supersede the rendering</td><td>Go Board §4 · SSOT rule · <span class="redact">JB-CAP</span> · THE FENCE</td></tr>
+          </tbody>
+        </table>
+        <div class="receiptbox"><b>FILTER RECEIPT · RF-01</b><br>EXPECTING — any canon payload can be re-voiced to any seated register with the conservation law intact and the firewall enforced; the four renderings of each payload sound as one chord<br>BREAKS THESIS — a rendering that contradicts another register's rendering · a firewall item spoken in the wrong room · a translation whose falsifier or kill line went missing<br>KILL/SCALE — a failed consonance check re-serializes the payload from the gospels; the filter is corrected, never the record<br>SCORE-BACK — Fri Jul 31, 2:00 PM (first live use) · day 90 with the campaign</div>
+      </div>
+    </section>
+
+    <!-- 05 THE LOAD REGISTER -->
+    <section class="panel" data-th="verm" id="loadregister">
+      <div class="ph"><span class="eyebrow">05 · THE LOAD REGISTER</span><h2>Sizzle vs. axiom — the propaganda differential</h2><span class="tag">OPERATOR-DEFINED · JUL 25 2026</span></div>
+      <div class="pb">
+        <p class="note-sub" style="margin-top:0;font-size:13px">The grade register (A–X) grades <b style="color:var(--dial)">sources</b>. This second axis grades <b style="color:var(--dial)">what the words are doing</b>. Every phrase in a rendering is either bearing evidentiary load or decorating something that does. The law: <b style="color:var(--gold)">sizzle is legal only while an axiom carries the weight and the falsifier stays attached.</b> The moment sizzle bears load, the rendering has bent.</p>
+        <table>
+          <thead><tr><th>Band</th><th>Definition</th><th>Louisville specimen</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lc ax">AX</span></td><td><b>Axiomatic</b> — survives cross-examination stripped of all styling. A/B-grade fact or labeled-E number.</td><td>"Built ~100%, shipped with shells, rebuilt" · the $20K/mo quote · median $628, seed 42</td></tr>
+            <tr><td><span class="lc sz">SZ</span></td><td><b>Sizzle</b> — circumstantial flair; does no evidentiary work; legitimate while anchored to an AX and honestly framed.</td><td>"The fifteenth rock" · "gold seam" · "four clocks striking" · "insurance-shaped"</td></tr>
+            <tr><td><span class="lc bent">BENT</span></td><td><b>Bent narrative / propaganda</b> — sizzle doing load-bearing work. Aimed at others: propaganda. Aimed at yourself: magical thinking.</td><td>"Would have caught Pumps" (unfalsifiable counterfactual — re-cut by the gauntlet) · leading with the 8× best case · comps-as-proof at the wrong scale</td></tr>
+          </tbody>
+        </table>
+        <p class="callout" style="font-size:12.5px"><b style="color:var(--gold)">PHILOSOPHIZED THINKING</b> <i>(operator canon, Jul 25)</i> — the inverse of magical thinking: the same imaginative energy, running the opposite direction. Magical thinking lets the mockup's sizzle stand in for validation; philosophized thinking lets the axiom lead, welds the label on every assumption, attaches the falsifier, and only then permits the flourish. The test is one move: <b style="color:var(--dial)">strip every SZ phrase and read what remains.</b> If the claim still stands, the rendering is philosophized. If it collapses, it was propaganda wearing style — and it gets re-cut, the way the gauntlet re-cut "would have caught it" into "a $2–5K test was available and unpurchased."</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · RESONANCE FILTER · SERIALIZED 25 JUL 2026 · GOSPEL XIV<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE ARTICULATED DISCOVERY KERNEL<br>
+    SEVEN DIALS · FOUR REGISTERS · TWO AXES · ONE CHORD — GOVERNED LOSS IS REDACTION WITH A RECEIPT.<br>
+    TRACEABLE · TRANSPARENT · COMPOSABLE · FALSIFIABLE — CORRECTIONS SUPERSEDE.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var PERSONAS = {
+    zach:{label:"ZACH-INTERNAL · FULL RESOLUTION", dials:[
+      ["REGISTER",5,"FORENSIC / SYSTEMS"],["RESOLUTION",5,"SURGICAL · WORD-LEVEL"],["FIDELITY",5,"GRADES ON SLEEVE"],
+      ["AMPLITUDE",1,"FLAT CALM"],["FREQUENCY",5,"DENSE · LONG MEASURES"],["RESONANCE",5,"ADVERSARIAL RECORD"],["CONSONANCE",5,"MEASURED, NOT ASSUMED"]]},
+    justin:{label:"JUSTIN · MAKER REGISTER", dials:[
+      ["REGISTER",4,"MAKER · PLAIN TALK"],["RESOLUTION",1,"EXEC · DESCENDS ON DEMAND"],["FIDELITY",1,"BACKING INVISIBLE"],
+      ["AMPLITUDE",4,"PUNCHY · THEN SILENCE"],["FREQUENCY",4,"SHORT ARCS · QUICK RETURNS"],["RESONANCE",5,"HIS OWN EVIDENCE"],["CONSONANCE",4,"MATCHES JEBEN'S FRAMING"]]},
+    stanley:{label:"STANLEY · STEWARD REGISTER", dials:[
+      ["REGISTER",3,"STEWARD · WHAT-WE-BUILT"],["RESOLUTION",2,"STRATEGIC"],["FIDELITY",2,"RECORD-FLAVORED"],
+      ["AMPLITUDE",2,"STEADY"],["FREQUENCY",2,"LONGER ARCS"],["RESONANCE",4,"PROTECTION + GOVERNANCE"],["CONSONANCE",5,"MUST MATCH JUSTIN'S VERSION"]]},
+    jeben:{label:"JEBEN · WEAVER REGISTER", dials:[
+      ["REGISTER",4,"WEAVER · CANON-FLUENT"],["RESOLUTION",3,"PATTERN-LEVEL"],["FIDELITY",3,"CANON TERMS NATIVE"],
+      ["AMPLITUDE",3,"WARM"],["FREQUENCY",3,"CONVERSATIONAL"],["RESONANCE",5,"HIS OWN IMAGES, CREDITED"],["CONSONANCE",5,"CANON ITSELF"]]}
+  };
+  var STANDING = {
+    zach:[], 
+    justin:["Prep-side reads about the person (withheld)","Third-party remarks about him (withheld)","Unconfirmed status (confirm first)","Borrowed comps","Grades carried invisibly, produced on demand"],
+    stanley:["All Justin firewall items","Arrives via Justin (T2), never cold"],
+    jeben:["PE thread left for him to raise (aji-keshi)","Rendering yields to his corrections","Sponsor-recalibration evidence omitted + stratum capped at RICH (JB-CAP, Jul 25)"]
+  };
+  var PAYLOADS = {
+    note:{name:"P1 · THE NOTE — the carbon under everything", inv:"Both poles present — making proven, deciding open — and the write-it-down-before-a-dollar-moves rule. Never aimed at a person as diagnosis.",
+      tx:{
+        zach:"<q>Louisville Brands is very good at making things and unproven at deciding which things to make. ARCS makes every big bet write down its assumptions, risks, and exit rule before a dollar moves.</q> Grade B, validated ×4 verbatim, zero contradictions across seven calls. The magnet with two poles; every artifact is this note in a different key.",
+        justin:"<q>You're elite at making — eighteen-second sellouts, number one at Whole Foods. The one muscle nobody your size has built is choosing what to make next, before the money moves. That's the whole thing: the bet gets written down first.</q>",
+        stanley:"<q>The hits prove the making. What the next chapter needs on paper is how the big choices get made — written down before the spend, so what you two built is protected by a record, not just by memory.</q>",
+        jeben:"<q>The magnet's held since March: making proven, deciding unproven. Every thread we've pulled runs between those two poles — which is why nothing ever had to be forced.</q>"},
+      cons:{zach:["Full claim + grade + validation count"],justin:["Both poles (making leads)","Before-a-dollar-moves rule"],stanley:["Both poles","The record as protection"],jeben:["Both poles as field","The notomation claim"]},
+      gov:{zach:[],justin:["'Unproven' never spoken AS diagnosis — the making pole carries the sentence"],stanley:["Diagnosis language absent"],jeben:[]}},
+    ask:{name:"P2 · THE ASK — the zero-slack node", inv:"Free · one live decision · a concrete time proposed · then silence. Two candidate times spoken or the call failed.",
+      tx:{
+        zach:"E5, tengen. Scripted, drilled, one sentence, then the ma — sente gifted. p(session) EV swing $25.4K outranks every economic parameter: conversion beats economics. Chief of Staff standing order: two times spoken or the call failed.",
+        justin:"<q>First session's free, on the next-bag decision — what does late next week look like for you and Stanley?</q> — then nothing. The silence is the offer holding its shape.",
+        stanley:"<q>Justin and I are looking at a working session on the next bag — ninety minutes, ends in a one-page written bet we both sign. First one's free. It works better with you in the room.</q>",
+        jeben:"<q>The door you reopened is booked. One ask on Friday, then the ma — the silence is the space his yes needs. If you're in the room, the fifteenth rock gets credited out loud.</q>"},
+      cons:{zach:["Zero-slack status + sim ranking"],justin:["Free, first","A concrete time","The ma follows"],stanley:["Free","The signed one-pager","His seat at the table (T2)"],jeben:["The ma doctrine","His credit, pre-committed"]},
+      gov:{zach:[],justin:["No system tour — one JTBD (protocol rule 5)"],stanley:["Reaches him through Justin, never cold"],jeben:[]}},
+    econ:{name:"P3 · THE ECONOMICS — insurance-shaped, worst case first", inv:"Worst case travels first. The one load-bearing sentence: the fee pays for itself the first time it stops one bad run or one bad vendor year.",
+      tx:{
+        zach:"Median $628 — insurance-shaped; EV +$25.8K carried by tails. Sim brackets hand-built scenarios (0.7/2.7/7.2× vs 0.3–0.8/~3.5/~8×): two methods, one shape. Comps barred (Court #1). The $20K/mo quote is the only figure permitted to anchor. Worst-first ordering, always.",
+        justin:"<q>Worst case first: the session's free, the test is two to five grand, and if month one isn't obviously worth it, it ends at ten and you keep everything — the receipts, the test data, all of it.</q> Then stop talking.",
+        stanley:"<q>It's structured like insurance: capped, known worst case, an exit rule it wrote for itself. The fee pays for itself the first time it stops one bad production run or one bad vendor year.</q>",
+        jeben:"<q>The Cynic stripped the ROI table to one sentence and it held: pays for itself the first time it stops one bad run or one bad vendor year. Everything else got demoted to appendix — your instinct about keeping it simple was the surviving math.</q>"},
+      cons:{zach:["Full distribution + seed","Anchor discipline"],justin:["Worst case first","Month-one exit","They keep everything"],stanley:["Insurance frame","The one sentence"],jeben:["The one sentence","The gauntlet provenance"]},
+      gov:{zach:[],justin:["Median/EV numbers withheld unless asked — E-grade stays labeled if produced","Comps never enter"],stanley:["Comps never enter"],jeben:[]}},
+    pumps:{name:"P4 · PUMPS — their own gold seam", inv:"It is THEIR evidence, never a gotcha. One change only: the test runs before the spend instead of after.",
+      tx:{
+        zach:"A-grade, Mar 5 verbatim: built ~100%, shipped with shells, rebuilt after launch. n=1 acknowledged (availability bias corrected); reframed from counterfactual to fact — a $2–5K side-by-side test was available and unpurchased. The retrocast: their own history, run in reverse.",
+        justin:"<q>Pumps is your evidence, not mine. The market told you about the shells after the run. The only change on the table: the two-to-five-K test runs before the spend instead of after.</q>",
+        stanley:"<q>The company already paid for that lesson once. This just keeps the lesson bought — the same test, run before the money moves instead of after it's gone.</q>",
+        jeben:"<q>Their own gold seam — the crack that funded the lesson. It shows as kintsugi in the room, never as a gotcha: the case argues itself, and it's theirs.</q>"},
+      cons:{zach:["A-grade sourcing","The reframe (fact, not counterfactual)"],justin:["Ownership stays his","Before-not-after"],stanley:["Lesson-stays-bought frame"],jeben:["Kintsugi framing","Never-a-gotcha rule"]},
+      gov:{zach:[],justin:["No 'would have caught it' counterfactual — T2's repair holds"],stanley:[],jeben:[]}},
+    mango:{name:"P5 · THE MANGO TEST — the diplomacy is the design", inv:"Mango competes fairly — constitutionally protected. Real c-store buyers decide. Results reach Justin privately first.",
+      tx:{
+        zach:"T6 tributary, armed. Court #3: no test design may disadvantage the CEO's concept. 3 concepts × 100–200 real c-store buyers (counter intercepts / pre-order page). CMO condition: results to Justin privately before any room. Either branch scores as system success — the system is indifferent to which.",
+        justin:"<q>Mango goes in the test as a full contender — and if it wins, the record credits your instinct in writing, to the board, better than memory ever could.</q>",
+        stanley:"<q>Every concept enters on equal footing, Justin's included. The read comes from real c-store buyers — the trucker who treats the gas station like a grocery store — and you two see the results before anyone else.</q>",
+        jeben:"<q>The test design is the diplomacy — mango competes fairly, and either branch scores as success. The system is indifferent to which, and that indifference is exactly what makes it safe for him to run.</q>"},
+      cons:{zach:["Court #3 + CMO condition","Buyer spec"],justin:["Fair contention","Instinct gets credit in writing"],stanley:["Equal footing","Private results"],jeben:["Indifference-as-safety insight"]},
+      gov:{zach:[],justin:["The pattern this test quietly protects against — never spoken (COURT #4)"],stanley:["Same withholding"],jeben:[]}},
+    product:{name:"P6 · THE PRODUCT ITSELF — the fifteenth rock", inv:"An outside view, embodied in a one-page artifact that can fail. Attribution conserved: the rock garden is Jeben's image.",
+      tx:{
+        zach:"The quarterly outside read; the receipt archive as diligence room; the thing outside the visible arrangement. Differentiation is adversarial stance: an artifact that can fail (O1). Provenance: Ryōan-ji is Jeben's story — credited every use, every register.",
+        justin:"<q>ARCS is a decision system. One live decision at a time — a 90-minute session that ends with a one-page receipt: what we're choosing, what we're assuming, what would prove us wrong, and the line where we kill it or scale it. Then a small real-world test before any money moves. Pumps is why it exists here: the market told you about the shells after the run. This catches that before.</q>",
+        stanley:"<q>A standing outside read the inside can't produce for itself — and a written record a board can trust more than anyone's memory. It shows up as one page, signed, scored ninety days later.</q>",
+        jeben:"<q>Your rock garden, named back to you: fifteen rocks, fourteen visible from any angle. ARCS is the fifteenth — the product was named in your image, and that's how it gets told in the room.</q>"},
+      cons:{zach:["Adversarial differentiation","Attribution rule"],justin:["The 2-min overview verbatim (canon)","Receipt-can-fail"],stanley:["Outside-read frame","Score-back date"],jeben:["Full attribution, out loud"]},
+      gov:{zach:[],justin:["The rock-garden line held for Jeben-in-room only — his image, his presence"],stanley:[],jeben:[]}}
+  };
+
+  var LOAD = {
+    note:["<span class='lc ax'>AX</span>18-second sellouts · #1 at Whole Foods · Pumps event (all A-grade)","<span class='lc sz'>SZ</span>'the magnet' · 'played in a different key' — anchored to the AX pair","<span class='lc bent'>BENT-CHECK</span>saying 'unproven at deciding' AS diagnosis of a person — the load register forbids it; the poles carry it instead"],
+    ask:["<span class='lc ax'>AX</span>free · 90 minutes · one page · a named next step","<span class='lc sz'>SZ</span>'the ma' / the silence doctrine — conduct, not claim; bears no load","<span class='lc bent'>BENT-CHECK</span>urgency language ('window closing!') would be manufactured kairos — the four clocks stand only because none were manufactured"],
+    econ:["<span class='lc ax'>AX</span>$20K/mo quote (A, the only anchor) · median $628 + EV (E, labeled) · month-one exit terms","<span class='lc sz'>SZ</span>'insurance-shaped' — a frame, kept honest because the median leads","<span class='lc bent'>BENT</span>leading with the 8× best case (optimism bias — barred) · comps-as-proof at the wrong scale (Court #1 — barred)"],
+    pumps:["<span class='lc ax'>AX</span>built ~100% · shipped with shells · rebuilt (Mar 5 verbatim) · a $2–5K test was available and unpurchased (fact)","<span class='lc sz'>SZ</span>'their own gold seam' — kintsugi imagery on an A-grade event","<span class='lc bent'>BENT</span>'would have caught it' — unfalsifiable counterfactual; the gauntlet re-cut it (T2 repair). The re-cut IS philosophized thinking, demonstrated"],
+    mango:["<span class='lc ax'>AX</span>3 concepts × 100–200 real buyers · results private first · either branch scores (pre-registered FR-2)","<span class='lc sz'>SZ</span>'the diplomacy is the design' — anchored to Court #3","<span class='lc bent'>BENT-CHECK</span>a test quietly rigged against mango would be propaganda in reverse — constitutionally barred"],
+    product:["<span class='lc ax'>AX</span>the receipt's fields · the score-back date · month-one stop-loss","<span class='lc sz'>SZ</span>'the fifteenth rock' — pure sizzle, legal because attributed (Jeben's image) and anchored to the artifact-that-can-fail axiom","<span class='lc bent'>BENT-CHECK</span>using the rock line without Jeben present or credited strips its anchor — held for his room only"]
+  };
+  var curP = "zach", curK = "note";
+  var owho=document.getElementById("owho"),opay=document.getElementById("opay"),otx=document.getElementById("otx"),
+      ocons=document.getElementById("ocons"),ogov=document.getElementById("ogov"),oinv=document.getElementById("oinv"),
+      odials=document.getElementById("odials"),oload=document.getElementById("oload"),bar=document.getElementById("barstate");
+  function li(u,arr,empty){u.innerHTML = arr.length ? arr.map(function(x){return "<li>"+x+"</li>"}).join("") : "<li>"+empty+"</li>";}
+  function render(){
+    var p=PERSONAS[curP], pay=PAYLOADS[curK];
+    owho.textContent = "TARGET REGISTER — " + p.label;
+    opay.textContent = pay.name;
+    otx.innerHTML = pay.tx[curP];
+    li(ocons, pay.cons[curP], "—");
+    var gov = STANDING[curP].concat(pay.gov[curP]);
+    li(ogov, gov, "NOTHING — FULL RESOLUTION BASELINE");
+    oinv.textContent = pay.inv;
+    oload.innerHTML = LOAD[curK].map(function(x){return "<li>"+x+"</li>"}).join("");
+    odials.innerHTML = p.dials.map(function(d){
+      return '<div class="drow"><span class="dn">'+d[0]+'</span><div class="track"><i style="width:'+(d[1]*20)+'%"></i></div><span class="dv">'+d[2]+'</span></div>';
+    }).join("");
+    bar.textContent = p.label;
+  }
+  document.getElementById("ptabs").addEventListener("click",function(e){
+    var b=e.target.closest("button[data-p]"); if(!b)return;
+    curP=b.dataset.p;
+    this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-selected",x===b)});
+    render();
+  });
+  document.getElementById("plist").addEventListener("click",function(e){
+    var b=e.target.closest("button[data-k]"); if(!b)return;
+    curK=b.dataset.k;
+    this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-selected",x===b)});
+    render();
+  });
+  render();
+
+  // ===== waterfall slider (no register clamp — the persona tabs are the instrument, not the page register) =====
+  var LVN = ["","EXEC","STRATEGIC","OPERATIONAL","TACTICAL","SURGICAL"];
+  var lvs = document.getElementById("lvs"), lvname = document.getElementById("lvname");
+  lvs.addEventListener("input", function(){
+    var n = Math.max(1, Math.min(5, +lvs.value));
+    document.body.className = document.body.className.replace(/\blv\d\b/, "lv"+n);
+    lvname.textContent = LVN[n];
+  });
+
+  // ===== card disclosure: derive lede + abstract =====
+  document.querySelectorAll(".card").forEach(function(c){
+    var p=c.querySelector("p"); if(!p||p.classList.contains("abstract")||p.classList.contains("lede"))return;
+    p.classList.add("cfull");
+    var t=p.textContent.trim();
+    var sents=t.match(/[^.!?\u2026]+[.!?\u2026]+["')\]]*(?:\s+|$)/g)||[t];
+    var l=document.createElement("p");l.className="lede";l.textContent=(sents[0]||t).trim();
+    var a=document.createElement("p");a.className="abstract";a.textContent=sents.slice(0,3).join("").replace(/\s+/g," ").trim();
+    p.parentNode.insertBefore(l,p); p.parentNode.insertBefore(a,p);
+  });
+})();
+</script>
+<a class="onramp" href="louisville-staged-play.html" title="NEXT · THE REHEARSAL — seven masks, the silence timed">👺</a>
+</body>
+</html>

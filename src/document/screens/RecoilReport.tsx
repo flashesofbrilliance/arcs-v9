@@ -536,9 +536,16 @@ export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
   const lifecycle = readLifecycle(raw)
   const notice = str(raw.notice)
   const significance = isRecord(raw.loadBearingQuote) ? str(raw.loadBearingQuote.significance) : ''
+  // Optional per-action links (parallel to cover.actions). Reports without
+  // cover.actionLinks stay inert — additive, no regression.
+  const actionLinks = isRecord(raw.cover) && Array.isArray(raw.cover.actionLinks) ? raw.cover.actionLinks : []
+  const onAction = (i: number) => {
+    const href = actionLinks[i]
+    if (typeof href === 'string' && href) window.open(href, '_blank', 'noopener,noreferrer')
+  }
   return (
     <div>
-      <CoverBlock {...d.cover} accent={A} />
+      <CoverBlock {...d.cover} accent={A} onAction={onAction} />
 
       {notice && (
         <div style={{ margin: '16px 0' }}>

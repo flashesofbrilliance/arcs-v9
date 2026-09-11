@@ -1,0 +1,48 @@
+{
+  "_doc": "DEWY receipts for the 2026-08-14 Kam live-call forge session (built during the call; captured 2026-08-16). Kam codex family + recoil, gauntlet-hardened, provenance-verified. See ADR-061 (verify flags vs full source) and _STATE/falsification-ledger.jsonl entry EXP-2026-08-14-kam-codex-gauntlet.",
+  "session_ts": "2026-08-14",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-14-kam-codex-family",
+      "surface": "counterpart / forge",
+      "sharp_question": "On a live catch-up with Kam (Ascendancy/Invisible), what is the most useful, honest ARCS artifact to build and show, and how far up the forge pipeline should it go?",
+      "dewy_vector": {
+        "D": "Forge a 3-tab counterpart codex (Read = Aug-14 call scored; Instrument = the method on Zach's own tape; Blueprint = two-tenant lossless-translation decomposition answering Kam's own 'multiplayer is a mess'), enrich from web-sweep topography, then run the full pre-send gauntlet ladder. Deploy live to kam-codex.arcs.care.",
+        "E": "Kam (co-founder Ascendancy + Invisible), Francis Pedraza (decomposed illustratively, public-signal only), Zach.",
+        "W": "Same day (live call), referral-hold horizon (Kam heads-down, just hired head of product; send deferred to his 'extroverted' flip).",
+        "Y": "GREEN — build is grounded, gauntlet-hardened, provenance-verified; artifact is ship-worthy though send is held."
+      },
+      "why": "The strongest move for THIS counterpart was to answer the problem he raised (multiplayer) with his own thesis reflected back — and Francis, whose profile lists Ascendancy in his keiretsu, literally coined 'technology is best when invisible', which is ARCS's NOTOMATION one layer up.",
+      "nci_score": null,
+      "outcome": "Live: kam-codex.arcs.care (pw 'kam') + internal recoil SSOT with kinematic manifold. Commits a07ecb8..d484d15."
+    },
+    {
+      "receipt_id": "2026-08-14-verify-flags-against-full-source",
+      "surface": "governance / method",
+      "sharp_question": "How do we prevent an adversarial gauntlet/audit from injecting false fixes when it was run on an incomplete source?",
+      "dewy_vector": {
+        "D": "Adopt ADR-061: no audit/gauntlet/skeptic flag is applied until re-verified by the operator against the FULL primary source (authoritative transcript + profiles + external-doc fetch); reject over-flags explicitly and log them; never blind-apply a prescribed fix; check quote provenance deterministically.",
+        "E": "The counterpart-gauntlet workflow, the dual-bar-raiser, the deterministic checker (provcheck.py), the operator.",
+        "W": "Standing discipline, effective immediately, generalizes to any promoted ADR/handoff/canon and the meta-audit.",
+        "Y": "GREEN — validated in the same session: caught 3 over-flags incl. the gauntlet's own #1 top-fix; one blind-apply would have replaced a truth with a new fabrication."
+      },
+      "why": "A gauntlet is only as honest as its source-of-truth. An abbreviated scratchpad transcript manufactured a top-ranked false 'fabrication' flag; deterministic re-verification against the re-pulled full transcript + profiles refuted it.",
+      "nci_score": null,
+      "outcome": "ADR-061 written + registered; falsification ledger established (_STATE/falsification-ledger.jsonl) recording both real defects and rejected over-flags."
+    },
+    {
+      "receipt_id": "2026-08-14-falsification-ledger-reconcile",
+      "surface": "building-in-public / flywheel",
+      "sharp_question": "Where do the Kam gauntlet results get logged so the flywheel's test-and-falsify surface stays canonical?",
+      "dewy_vector": {
+        "D": "Append the Kam finding as falsification F32 to the canonical _STATE/falsification-ledger.jsonl (F# schema: claim/test/verdict/delta/fix), regenerate the Hypercube Gauntlet logbook via scripts/gauntlet_logbook.py, and republish the artifact in place. Align main's copy to the canonical schema.",
+        "E": "The canonical falsification ledger + scripts/gauntlet_logbook.py + the published logbook artifact (76ca345d), the building-in-public flywheel, the operator.",
+        "W": "Append-only, ongoing; F32 is the newest row.",
+        "Y": "GREEN — F32 on the tape (32 entries, 15 canon-linked); artifact republished; main copy reconciled."
+      },
+      "why": "I first created a parallel wrong-schema file believing none existed — a source-check (the published artifact + the hypercube-gauntlet branch) falsified that: the canonical ledger already existed with 31 F# entries. Reconciled to it rather than forking a second ledger. (This is ADR-061 applied to my own claim.)",
+      "nci_score": null,
+      "outcome": "F32 appended to canonical ledger; artifact 76ca345d republished (32 falsifications); main's _STATE/falsification-ledger.jsonl aligned to F# schema. NOTE: full script+tape live on branch dazzling-khorana-efca37 (unmerged) — reconcile F32 at that merge."
+    }
+  ]
+}

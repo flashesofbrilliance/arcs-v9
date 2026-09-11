@@ -1,0 +1,33 @@
+{
+  "receipt_id": "receipt_monstro_senior_applied_ai_research_engin_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-07",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "The posting is an engineering-heavy role (distributed systems, FastAPI, React/TypeScript) against a candidate record that is product/GTM/founder, not a software-engineering title track",
+      "caught_by": "honest-grade pass against the JD, stage 0 of TAILOR-NOTES",
+      "gold": "no engineering-seniority claim manufactured; the one real overlap (ARCS agent systems, Grayscale regulated fluency) is shown, and React/TypeScript, FastAPI, and distributed-systems experience are stated as open gaps rather than invented or implied by adjacency"
+    },
+    {
+      "break": "Grayscale bullet risked reading as 'built the compliance/audit tooling' when the actual role was GTM and requirements translation",
+      "caught_by": "red-team pass (hit 5)",
+      "gold": "verb kept honest everywhere it appears: 'translated regulatory requirements,' never 'built the audit tooling' or 'built the compliance system'"
+    },
+    {
+      "break": "Skills line reused from a prior bundle (R, Tableau, Redshift, BigQuery, Salesforce CDP) is not in the record's own SKILLS list and adds unnecessary risk surface on a technical-hire posting",
+      "caught_by": "red-team pass (hit 8)",
+      "gold": "cut entirely from this bundle; only record-listed skills kept on both the resume and the page"
+    },
+    {
+      "break": "Headline needed to name an archetype without implying an engineering title never held",
+      "caught_by": "rule 1 of the forge prompt + red-team pass (hit 9)",
+      "gold": "headline reads 'AI-native builder for regulated, auditable systems'; the req title appears only in the document title and the labeled Target line"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes, zero horizontal overflow at 375/768/790/1280, PDF exactly 2 pages). The defining break of this session was the honesty gap between an engineering-shaped posting and a product/GTM record; it was sealed by stating the gap plainly rather than closing it with invented claims."
+}

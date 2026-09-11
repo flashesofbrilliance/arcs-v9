@@ -1,0 +1,133 @@
+<title>ARCS Field Log — Milestone Map</title>
+<!--
+  DATA-DRIVEN MILESTONE TEMPLATE. Layout is fixed + pre-verified (the tag/heading
+  wrap fix from 2026-08-14 lives here). A renderer injects one JSON blob as
+  window.MILESTONE_DATA (the renderer replaces the DATA marker in the script below); everything
+  else builds from it. Do NOT hand-edit layout per-run — only the data changes.
+  Schema of MILESTONE_DATA:
+    { period:"2026-08-07 → 08-13", span:"one week", head_sha:"abc1234",
+      stats:[{n,l,c}]  // c ∈ green|cyan|gold|violet
+      trace:[["08-07",87],...],  // [dayLabel, commitCount]
+      trace_caption:"…",
+      clusters:[{ title, accent, tag, sub, items:[{weight:"major"|"minor", html}] }],
+      through:{ fronts:[{t,b,c}], punch_html } }
+-->
+<style>
+  :root{
+    --bg:#020408;--surface:#0d1117;--surface-2:#0f1620;--line:#1e293b;
+    --text:#e2e8f0;--muted:#64748b;--dim:#475569;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--violet:#A78BFA;
+    --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Code",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;
+    background-image:radial-gradient(1200px 600px at 78% -10%,rgba(0,240,255,.05),transparent 60%),
+                     radial-gradient(900px 500px at 5% 110%,rgba(167,139,250,.045),transparent 55%);}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(18px,4vw,40px) 80px}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:36px}
+  .kicker{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  h1{font-size:clamp(32px,6vw,58px);line-height:1.02;letter-spacing:-.02em;margin:.1em 0 .3em;text-wrap:balance;font-weight:650}
+  h1 .fade{color:var(--muted);font-weight:400}
+  .lede{max-width:60ch;color:#aeb9c7;font-size:clamp(15px,1.6vw,17px)}
+  .lede b{color:var(--text);font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:30px}
+  .stat{background:var(--surface);padding:18px 20px}
+  .stat .n{font-family:var(--mono);font-size:clamp(22px,3.4vw,30px);font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .trace{margin:44px 0 8px}
+  .trace-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+  .trace-head h2{font-size:15px;font-weight:600;letter-spacing:.01em;margin:0}
+  .trace-head .note{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .bars{display:flex;align-items:flex-end;gap:clamp(4px,1.2vw,11px);height:118px;padding:12px 0 0;border-bottom:1px solid var(--line);background:linear-gradient(to top,rgba(0,240,255,.03),transparent)}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
+  .bar .fill{width:100%;max-width:26px;border-radius:3px 3px 0 0;background:linear-gradient(to top,rgba(0,240,255,.35),var(--cyan));box-shadow:0 0 10px rgba(0,240,255,.18)}
+  .bar.peak .fill{background:linear-gradient(to top,rgba(255,215,0,.35),var(--gold));box-shadow:0 0 14px rgba(255,215,0,.3)}
+  .bar .d{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  .bar .v{font-family:var(--mono);font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .bar.peak .v{color:var(--gold)}
+  .trace-cap{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:10px}
+  .clusters{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
+  @media(max-width:760px){.clusters{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--surface),var(--surface-2));border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
+  .card.span{grid-column:1/-1}
+  .card h3{margin:0 0 3px;font-size:17px;font-weight:640;letter-spacing:-.01em;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;text-wrap:balance}
+  .card h3 .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ac);border:1px solid color-mix(in srgb,var(--ac) 45%,transparent);border-radius:20px;padding:2px 9px;white-space:nowrap;flex:none}
+  .card .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 15px}
+  ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+  li{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;font-size:14.2px;color:#c6d0da}
+  li .mk{margin-top:7px;width:7px;height:7px;border-radius:2px;flex:none}
+  li.major{color:var(--text)}
+  li.major .mk{background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.4);border-radius:50%}
+  li.minor .mk{background:var(--dim);width:5px;height:5px;margin-top:8px}
+  li b{color:#fff;font-weight:620}
+  li .rider{color:var(--muted);font-weight:400}
+  .kbd{font-family:var(--mono);font-size:.86em;background:#0a1119;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--cyan);white-space:nowrap}
+  .through{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:radial-gradient(700px 300px at 100% 0%,rgba(0,255,157,.06),transparent 60%),var(--surface)}
+  .through .inner{padding:26px 26px 28px}
+  .through h3{margin:0 0 12px;font-size:18px;font-weight:640}
+  .fronts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 20px}
+  @media(max-width:620px){.fronts{grid-template-columns:1fr}}
+  .front{border-left:2px solid var(--fc);padding:2px 0 2px 13px}
+  .front .t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fc)}
+  .front .b{font-size:13.5px;color:#c6d0da;margin-top:3px}
+  .punch{font-size:15.5px;color:var(--text);max-width:66ch}
+  .punch b{color:var(--green)}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  @media(prefers-reduced-motion:no-preference){
+    .bar .fill{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes rise{from{transform:scaleY(.02);transform-origin:bottom;opacity:.3}to{transform:scaleY(1);opacity:1}}
+  }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>window.MILESTONE_DATA = {"period": "2026-07-31 → 08-13", "span": "fourteen days", "head_sha": "459d4ad", "title": "The Fortnight", "subtitle": "— what shipped, hardened, and compounded", "lede": "Two weeks that moved on three fronts at once: <b>client surfaces</b> that face money, <b>governance substrate</b> that earns trust, and <b>security</b> that closes ruin. The structural win underneath — the shift from hand-crafted artifacts to <b>rendered families from a single source of truth</b>.", "stats": [{"n": "~500", "l": "commits", "c": "green"}, {"n": "20", "l": "ADRs decided", "c": "cyan"}, {"n": "24", "l": "net-new tools", "c": "gold"}, {"n": "20", "l": "memories kept", "c": "violet"}], "trace": [["31", 57], ["01", 42], ["02", 6], ["03", 30], ["04", 27], ["05", 55], ["06", 20], ["07", 87], ["08", 9], ["09", 39], ["10", 53], ["11", 39], ["12", 0], ["13", 32]], "trace_caption": "Peak 08&#8209;07 (87) — the forge/omakase build crest. One quiet day (08&#8209;12).", "clusters": [{"title": "Engagement surfaces", "accent": "green", "tag": "revenue-facing", "sub": "forge · louisville · omakase · ahmed", "items": [{"weight": "major", "html": "<b>Counterpart-forge became a product</b> — parameterized CLI, the 5-surface family (onedoor · receipt · codex · diamond · profile), gate-hardened into one canonical pipeline. <span class=\"rider\">Robin = platinum master, Yuri = acceptance test.</span>"}, {"weight": "major", "html": "<b>Louisville universe, end to end</b> — pitch suite, The Board cast, tiered Offer, present mode, <b>Phase-2 persistence</b> (SessionReceipt + API + Studio), least-privilege DB role."}, {"weight": "major", "html": "<b>Omakase pipeline generalized</b> — jeben → omakase → louisville; coursed L1/L2/L3, the atom story, the guest's live receipt + take-home gift."}, {"weight": "minor", "html": "Ahmed reconnect — 3-surface ext + the 60-second chronograph onramp (the consumability fix). <span class=\"rider\">Rayan/Periscope one-door.</span>"}]}, {"title": "Product &amp; canon", "accent": "cyan", "tag": "thesis-facing", "sub": "arcs.care family · Tao · pricing · OSS", "items": [{"weight": "major", "html": "<b>Public federated family on arcs.care</b> — playground + monolith + 4 performers, two-layer air-gap."}, {"weight": "major", "html": "<b>Tao / pricing / OSS-family canon</b> — dormant-seed doctrine, free-to-hold/metered-to-fire, the <span class=\"kbd\">_SEEDS</span> bank, the germinate open↔private boundary, the connector pattern."}, {"weight": "minor", "html": "lab-mint factory + serializable state; Rosetta operational-definitions registry."}, {"weight": "minor", "html": "Positioning sharpened — honest resonance engine, not propaganda; magnetic best-fit."}]}, {"title": "Infrastructure &amp; governance", "accent": "gold", "tag": "trust-facing", "sub": "oracle · gauntlets · gates · inchworms", "items": [{"weight": "major", "html": "<b>The sequence oracle</b> — a git-serialized ID authority. <span class=\"kbd\">oracle next adr</span> — no session hand-guesses a number again."}, {"weight": "major", "html": "<b>Forensic ADR reconciliation</b> — 4 auditors traced ~43 refs to ground truth; colliding namespace fixed at forensic grade."}, {"weight": "minor", "html": "Drift machinery — drift-receipt gate, lattice + seedbank inchworms, surface/DEWY watches."}, {"weight": "minor", "html": "Quality gates — temporal-provenance, model-tier routing, hypercube gauntlet + sampler, two-pass fidelity grader."}]}, {"title": "Security", "accent": "red", "tag": "ruin-facing", "sub": "quietly some of the biggest wins", "items": [{"weight": "major", "html": "<b>Closed multiple RUIN-class leaks</b> — jeben thread book, omakase appendix, recoil canvas, <span class=\"kbd\">canon-manifest.json</span> were all world-readable. Pulled off public surfaces."}, {"weight": "major", "html": "<b>CISO/SRE hardening</b> — Studio (append-only, 405s, logging) + Louisville anon API; tenant-wide read gated."}, {"weight": "minor", "html": "Restored a witness receipt clobbered in a merge (lost-update fix); private-repo receipts for chan/status."}]}, {"title": "Meta-capability", "accent": "violet", "tag": "compounding", "span": true, "sub": "the wins that make the next wins cheaper", "items": [{"weight": "major", "html": "<b>Instance → class proved repeatable</b> — forge and omakase each went one-off → parameterized family. The template is now the deliverable."}, {"weight": "minor", "html": "~20 durable memories (fork-when-dense · mechanical-pass-first · git-is-the-write-lock · render-fidelity-is-two-way), 20 ADRs, ~24 tools — substrate compounding, not just shipping."}]}], "through": {"fronts": [{"t": "Money-facing", "b": "forge · louisville · omakase · ahmed — surfaces a counterpart can actually read.", "c": "green"}, {"t": "Trust-facing", "b": "gauntlets · gates · oracle · inchworms — drift becomes a receipt, not a surprise.", "c": "gold"}, {"t": "Ruin-facing", "b": "world-readable leaks closed before they cost anything.", "c": "red"}], "punch_html": "The single largest <b>structural</b> win is the move from hand-crafted artifacts to <b>rendered families from SSOT</b> — the same shift that made the sequence oracle and the OSS-family seed bank possible in a single session at the close of the fortnight."}};</script>
+<script>
+  var ACC={green:"var(--green)",cyan:"var(--cyan)",gold:"var(--gold)",violet:"var(--violet)",red:"var(--red)"};
+  var d=window.MILESTONE_DATA, app=document.getElementById("app");
+  function esc(s){return s;} // data is authored trusted HTML by the compiler
+  // header
+  var stats=d.stats.map(function(s){return '<div class="stat"><div class="n" style="color:'+(ACC[s.c]||'var(--text)')+'">'+s.n+'</div><div class="l">'+s.l+'</div></div>';}).join("");
+  app.innerHTML=
+    '<header><div class="kicker"><span class="dot"></span><span class="eyebrow">ARCS Field Log</span>'+
+    '<span class="eyebrow" style="color:var(--dim)">·</span><span class="mono" style="font-size:12px;color:var(--muted)">'+d.period+' · '+d.span+'</span></div>'+
+    '<h1>'+d.title+' <span class="fade">'+ (d.subtitle||'') +'</span></h1>'+
+    '<p class="lede">'+d.lede+'</p>'+
+    '<div class="stats">'+stats+'</div></header>'+
+    '<section class="trace"><div class="trace-head"><h2>Activity trace</h2><span class="note">commits / day · all branches</span></div>'+
+    '<div class="bars" id="bars"></div><p class="trace-cap">'+(d.trace_caption||'')+'</p></section>'+
+    '<section class="clusters" id="clusters"></section>'+
+    '<section class="through"><div class="inner"><h3>The through-line</h3><div class="fronts" id="fronts"></div>'+
+    '<p class="punch">'+d.through.punch_html+'</p></div></section>'+
+    '<footer><span>ARCS v9 · field log · main @ '+(d.head_sha||'')+'</span><span>internal work-product · rendered at earned fidelity</span></footer>';
+  // bars
+  var max=Math.max.apply(null,d.trace.map(function(x){return x[1]}));
+  var bars=document.getElementById("bars");
+  d.trace.forEach(function(x,i){
+    var h=x[1]===0?2:Math.round(12+(x[1]/max)*100);
+    var b=document.createElement("div"); b.className="bar"+(x[1]===max&&max>0?" peak":"");
+    b.innerHTML='<span class="v">'+x[1]+'</span><span class="fill" style="height:'+h+'px;animation-delay:'+(i*45)+'ms"></span><span class="d">'+x[0]+'</span>';
+    bars.appendChild(b);
+  });
+  // clusters
+  var cl=document.getElementById("clusters");
+  d.clusters.forEach(function(c){
+    var items=c.items.map(function(it){return '<li class="'+it.weight+'"><span class="mk"></span><span>'+it.html+'</span></li>';}).join("");
+    var card=document.createElement("div");
+    card.className="card"+(c.span?" span":""); card.style.setProperty("--ac",ACC[c.accent]||"var(--cyan)");
+    card.innerHTML='<h3>'+c.title+' <span class="tag">'+c.tag+'</span></h3>'+(c.sub?'<p class="sub">'+c.sub+'</p>':'')+'<ul>'+items+'</ul>';
+    cl.appendChild(card);
+  });
+  // fronts
+  var fr=document.getElementById("fronts");
+  d.through.fronts.forEach(function(f){
+    var el=document.createElement("div"); el.className="front"; el.style.setProperty("--fc",ACC[f.c]||"var(--cyan)");
+    el.innerHTML='<div class="t">'+f.t+'</div><div class="b">'+f.b+'</div>'; fr.appendChild(el);
+  });
+</script>

@@ -1,0 +1,204 @@
+{
+  "generated": "2026-08-18",
+  "framework_version": "v1",
+  "method_notes": {
+    "echo_source": "_ARTIFACTS/catalog.json (2026-08-18 09:35): in-degree of declared [[wiki-link]] edges, 183 nodes / 590 edges. Catalog covers memory+seed nodes ONLY; ADRs, scripts, artifacts, tao are not catalog nodes, so their echo=0 is 'not measurable in this instrument', not 'uncited'.",
+    "cost_proxies": "commit counts + first/last commit timestamps from git log (this worktree's visible history); token counts from _STATE/gauntlet-runs.jsonl where logged. NO dollar figures exist in gauntlet-runs.jsonl (tokens + cost_note prose only) — $ marked unlogged.",
+    "depth_twists": "counted only where a handoff explicitly narrates stage pivots; otherwise 'not mechanically available'."
+  },
+  "positions": [
+    {
+      "name": "Comet Technical PMM application",
+      "primary_goal": "Job application sent (resume + cover letter + competency SSOT)",
+      "primary_outcome": "SENT",
+      "outcome_source": "CLAUDE.md handoff v3.38.0 deploy note: 'Comet application: SENT (see v3.37.0)'",
+      "cost_basis": {
+        "commits_this_repo": 1,
+        "commit_span": "8c29af1 2026-08-17 13:28 (proxy: handoff commit only; artifacts untracked in _ARTIFACTS/resume-comet/)",
+        "external_repo_push": "resume-tailor-skill e8e87d1..e41d30a (per handoff v3.37.0)",
+        "gauntlet_$": "unlogged (4-facet panel run, no entry in gauntlet-runs.jsonl)",
+        "session_span_days_proxy": 1
+      },
+      "holdings": [
+        {"id": "atg-offshoot-artifacts-comet-resume-session", "kind": "memory", "minted": "2026-08-17 (mtime)", "echo_now": 0},
+        {"id": "resume-tailor-skill-v0.2-field-tested", "kind": "memory", "minted": "2026-08-17 (mtime)", "echo_now": 3},
+        {"id": "resume-tailor-voice-from-linkedin-export", "kind": "memory", "minted": "2026-08-17 (mtime)", "echo_now": 2},
+        {"id": "orthogonal-echo-proof-point", "kind": "memory", "minted": "2026-08-17 (mtime)", "echo_now": 2},
+        {"id": "resume-tailor skill v0.2 (external repo)", "kind": "skill", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_ARTIFACTS/resume-comet/ (resume 2pp + ATS + cover + competency-model.json)", "kind": "artifact", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node"}
+      ],
+      "totals": {"holdings_n": 6, "echo_sum": 7},
+      "notes": "Bounded delivery that threw off a shipped reusable skill (ATG offshoot). Highest memory-echo of any single-day position."
+    },
+    {
+      "name": "Self-cataloging arc (DRIFT position)",
+      "primary_goal": "Originally 'send resume' per task framing; actual arc = inchworm→catalog→atlas→dolls→ADR-065",
+      "primary_outcome": "LANDED",
+      "outcome_source": "CLAUDE.md handoff v3.38.0 (active pickup point; 'arc closed' per commit af33c9d)",
+      "cost_basis": {
+        "commits": 7,
+        "commit_span": "d0b2713 2026-08-18 09:27 -> af33c9d 2026-08-18 13:04 (~3.6h)",
+        "gauntlet_$": "none logged",
+        "session_span_days_proxy": 1
+      },
+      "depth_twists": "5 handoff-narrated stages (inchworm, catalog, atlas, dolls, doctrine)",
+      "holdings": [
+        {"id": "scripts/memory_index_sync.py", "kind": "tool", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "scripts/memory_catalog_emit.py", "kind": "tool", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node; it EMITS the echo instrument itself"},
+        {"id": "scripts/doll_export.py + doll_sprout.py", "kind": "tool", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_ARTIFACTS/terrain-atlas.html", "kind": "artifact", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_ARTIFACTS/apex-spine.html/.pdf", "kind": "artifact", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "ADR-065", "kind": "adr", "minted": "2026-08-18 (commit 8bc443e)", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "tao-249", "kind": "tao", "minted": "2026-08-18 (tao-proverbs.jsonl minted field)", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "gauntlet-sampling-engine-priced-audits", "kind": "memory", "minted": "2026-08-18 (mtime; minted during this session's 30d sweep)", "echo_now": 1},
+        {"id": "dollar-compression-over-token-compression", "kind": "memory", "minted": "2026-08-18 (mtime)", "echo_now": 1}
+      ],
+      "totals": {"holdings_n": 9, "echo_sum": 2},
+      "notes": "Pure infrastructure/inventory: 9 holdings, near-zero measurable echo TODAY because most holdings live outside the echo instrument (and the instrument is 1 epoch old). The catalog itself is this position's product — it prices everyone else's book."
+    },
+    {
+      "name": "PRL / Todd (paid client delivery)",
+      "primary_goal": "PRL 1.1 chatbot + CRM delivery for paying client",
+      "primary_outcome": "BLOCKED (on Todd's approval); invoice $2,070 wired (commit 563e303)",
+      "outcome_source": "CLAUDE.md handoff v3.35.0 'Blocking: Todd's response on both status pages'; commit 563e303 (live Stripe invoice #NYQRTJPQ-0004, $2,070)",
+      "cost_basis": {
+        "commits": 18,
+        "commit_span": "8df90fe 2026-08-13 20:29 -> 563e303 2026-08-17 20:32 (4 days)",
+        "gauntlet_$": "none logged",
+        "revenue_signal": "$2,070 Stripe invoice referenced in commit 563e303 (mechanical; payment status not verified here)"
+      },
+      "holdings": [
+        {"id": "_STATE/2026-08-17-prl-1-1-session-decisions.dewy.json (5 receipts)", "kind": "dewy", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "prl.arcs.care/status/{crm,troubleshooting,tidio,build} pages", "kind": "artifact", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "Layer-0 recognizer test suite (22,500 cases, recovered from unmerged branch)", "kind": "tool", "minted": "2026-08-17 (commit 06ae515)", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "project_todd_hotes_prl_resins", "kind": "memory", "minted": "pre-window, updated in window", "echo_now": 1},
+        {"id": "prl-sugar-zapier-sandbox-integration", "kind": "memory", "minted": "pre-window", "echo_now": 1}
+      ],
+      "totals": {"holdings_n": 5, "echo_sum": 2},
+      "notes": "Pure delivery: low internal echo by design — the value sink is external (client + revenue), which the echo instrument cannot see."
+    },
+    {
+      "name": "Family surfaces reconcile",
+      "primary_goal": "good/build/lab/playground driven off one _SEEDS bank + drift tripwire",
+      "primary_outcome": "SHIPPED (deployed + curl-verified live)",
+      "outcome_source": "CLAUDE.md handoff v3.36.0 deploy note (commit 704a9be pushed to main, both surfaces curl-confirmed)",
+      "cost_basis": {
+        "commits": 3,
+        "commit_span": "704a9be 2026-08-17 20:15 -> 596ed1c 2026-08-17 20:28 (single evening; upstream design work not separable)",
+        "gauntlet_$": "none logged"
+      },
+      "holdings": [
+        {"id": "scripts/sync_family_roster.py (pre-push tripwire)", "kind": "tool", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node; ratified itself by rejecting ADR-065's own drift (v3.38.0)"},
+        {"id": "public/family-roster.json", "kind": "artifact", "minted": "2026-08-17", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "hero-gradient-clause-owns-line-two", "kind": "memory", "minted": "2026-08-16 (mtime)", "echo_now": 0}
+      ],
+      "totals": {"holdings_n": 3, "echo_sum": 0},
+      "notes": "Cheap position (3 commits) whose tripwire already fired once for real on 2026-08-18 — a compounding return the echo metric does not capture."
+    },
+    {
+      "name": "Gauntlet sampling engine (+ADR-055/060 canon burst)",
+      "primary_goal": "Priced adversarial-audit engine (surrogate/walker/governor/factorial) grounded on real runs",
+      "primary_outcome": "SHIPPED (engine built, 2 live runs logged; ADR-060 downgraded GREEN->YELLOW by its own self-audit)",
+      "outcome_source": "commits 77c8254 'all [H]->built', b135f70, 2f8e8eb; _STATE/gauntlet-runs.jsonl; ADR-060 status=PROVISIONAL in _DECISIONS/index.json",
+      "cost_basis": {
+        "commits": 16,
+        "commit_span": "d7e8013 2026-08-13 21:17 -> 2f8e8eb 2026-08-14 10:13",
+        "tokens_logged": {"wf_719c5843 (opus x7)": 567370, "wf_90b0b237 (haiku x6)": 325445, "wf_56c743ca (haiku x1)": 54429, "engine-live-11 + engine-live-23": "tokens not logged in ledger"},
+        "dollars": "NOT logged anywhere in gauntlet-runs.jsonl — cost_note fields are prose, no $ figures. Token total (logged runs only): 947,244"
+      },
+      "holdings": [
+        {"id": "gauntlet engine scripts + _STATE/gauntlet-runs.jsonl", "kind": "tool", "minted": "2026-08-13/14", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "ADR-060 (Hypercube Gauntlet)", "kind": "adr", "minted": "2026-08-13", "echo_now": 0, "note": "PROVISIONAL after self-audit; not a catalog node"},
+        {"id": "ADR-062 (ouroboros)", "kind": "adr", "minted": "2026-08-16", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "tao-248", "kind": "tao", "minted": "2026-08-13", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "gauntlet-sampling-engine-priced-audits", "kind": "memory", "minted": "2026-08-18 (minted late, during v3.38.0 sweep)", "echo_now": 1},
+        {"id": "artifact-hardening-gauntlet-epochs-kintsugi-ledger", "kind": "memory", "minted": "pre/in-window", "echo_now": 2}
+      ],
+      "totals": {"holdings_n": 6, "echo_sum": 3},
+      "notes": "Only position with real token accounting. Its core empirical finding (the ~54K/subagent floor; agent-count is the cost driver) already reprices every other position's unlogged panel costs."
+    },
+    {
+      "name": "Louisville corpus-atlas pilot",
+      "primary_goal": "Prove the catalog/atlas/spine engines are corpus-generic via a per-client adapter",
+      "primary_outcome": "LANDED",
+      "outcome_source": "commit a8316d6 2026-08-18 13:22 'Louisville pilot — per-client adapter proves the engines are corpus-generic'",
+      "cost_basis": {
+        "commits": 1,
+        "commit_span": "a8316d6 2026-08-18 13:22 (single commit)",
+        "gauntlet_$": "none logged"
+      },
+      "holdings": [
+        {"id": "_ARTIFACTS/louisville-catalog.json", "kind": "artifact", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_ARTIFACTS/louisville-atlas.html", "kind": "artifact", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_ARTIFACTS/louisville-spine.html/.pdf", "kind": "artifact", "minted": "2026-08-18", "echo_now": 0, "note": "not a catalog node"}
+      ],
+      "totals": {"holdings_n": 3, "echo_sum": 0},
+      "notes": "First external mark on the self-cataloging position: the drift arc's tools re-used on a client corpus one session later. Cheapest position in the book (1 commit)."
+    },
+    {
+      "name": "Kam codex (Ascendancy)",
+      "primary_goal": "Counterpart codex shipped to Kam; call scored",
+      "primary_outcome": "SHIPPED 2026-08-16, loop OPEN (awaiting reply)",
+      "outcome_source": "MEMORY.md index: 'Kam / Ascendancy — codex SHIPPED 2026-08-16, loop OPEN'; commits aee8575..d484d15, 5f34544",
+      "cost_basis": {
+        "commits": 12,
+        "commit_span": "aee8575 2026-08-14 14:57 -> c1b21d8 2026-08-16 05:49",
+        "gauntlet_$": "none logged (gauntlet + dual-bar-raiser ran per d484d15; no ledger entry)"
+      },
+      "holdings": [
+        {"id": "ADR-061 (verify flags vs full source)", "kind": "adr", "minted": "2026-08-16 (commit 5f34544)", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_STATE/falsification-ledger.jsonl (established; F32 logged)", "kind": "tool", "minted": "2026-08-16", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "verify-flags-against-full-source", "kind": "memory", "minted": "2026-08-16 (mtime)", "echo_now": 4},
+        {"id": "project_kam_palizban_ascendancy", "kind": "memory", "minted": "in-window", "echo_now": 1},
+        {"id": "kam-codex.arcs.care artifact family", "kind": "artifact", "minted": "2026-08-14", "echo_now": 0, "note": "not a catalog node"}
+      ],
+      "totals": {"holdings_n": 5, "echo_sum": 5},
+      "notes": "Delivery position whose falsification scar (F32 -> ADR-061) became one of the highest-echo memories in the window (4)."
+    },
+    {
+      "name": "Connector fleet + OSS family surfaces (good.arcs.care)",
+      "primary_goal": "Public-goods distribution: 7+ <tool>.arcs.care connectors, good.arcs.care gallery, distribution registry",
+      "primary_outcome": "SHIPPED (fleet live + verified; registry opened)",
+      "outcome_source": "commits d5f1f9f/ced4594 (ADR-063 fleet), d1136f1 'backfill connector fields — 3 fleet subdomains live + verified', 50aef5e",
+      "cost_basis": {
+        "commits": 17,
+        "commit_span": "325d21e 2026-08-13 14:19 -> 062ffb5 2026-08-16 17:50 (4 days)",
+        "gauntlet_$": "none logged"
+      },
+      "holdings": [
+        {"id": "ADR-056 (tie-in connector)", "kind": "adr", "minted": "2026-08-13", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "ADR-063 (fleet visual family)", "kind": "adr", "minted": "2026-08-16", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "_SEEDS/distribution.jsonl (registry)", "kind": "tool", "minted": "2026-08-15", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "oss-family-distribution-registry", "kind": "memory", "minted": "in-window", "echo_now": 0},
+        {"id": "oss-family-seedbank-two-tier-conformance", "kind": "memory", "minted": "in-window", "echo_now": 3},
+        {"id": "oss-family-founder-led-growth-surface", "kind": "memory", "minted": "in-window", "echo_now": 1},
+        {"id": "arcs-tie-in-connector-per-public-good", "kind": "memory", "minted": "in-window", "echo_now": 1},
+        {"id": "building-in-public-flywheel-surface-roles", "kind": "memory", "minted": "in-window", "echo_now": 1},
+        {"id": "seed-bank-germination-conditions", "kind": "memory", "minted": "in-window", "echo_now": 4}
+      ],
+      "totals": {"holdings_n": 9, "echo_sum": 10},
+      "notes": "Highest echo-sum position in the book — the seedbank/conformance memories are already load-bearing for other positions (family surfaces, marketplace)."
+    },
+    {
+      "name": "Witnessed-provenance milestone plan -> ADR-064 inversion",
+      "primary_goal": "Milestone-artifact engine + provenance plan for status.arcs.care",
+      "primary_outcome": "ORIGINAL PLAN FALSIFIED (13/13 panel repair-fail) -> inverted into ADR-064, SHIPPED on status page",
+      "outcome_source": "_STATE/gauntlet-runs.jsonl wf_b1f37548 (advisory-panel, unanimous repair-fail); commits 5425429 (ADR-064), b70ca76, 33a9f0b (F33)",
+      "cost_basis": {
+        "commits": 8,
+        "commit_span": "5ca190b 2026-08-14 10:15 -> b70ca76 2026-08-16 14:26",
+        "tokens_logged": {"wf_b1f37548 (opus x14 advisory panel)": 1184809},
+        "dollars": "not logged"
+      },
+      "holdings": [
+        {"id": "ADR-064 (external corroboration gate)", "kind": "adr", "minted": "2026-08-16", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "scripts/milestone_render.py + wins-map template", "kind": "tool", "minted": "2026-08-14", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "F33 falsification-ledger entry", "kind": "receipt", "minted": "2026-08-16", "echo_now": 0, "note": "not a catalog node"},
+        {"id": "milestone-artifact-engine", "kind": "memory", "minted": "2026-08-14 (mtime)", "echo_now": 0},
+        {"id": "three-modes-inference-corroboration-arc-weld (ADR-064 memory)", "kind": "memory", "minted": "in-window", "echo_now": 0}
+      ],
+      "totals": {"holdings_n": 5, "echo_sum": 0},
+      "notes": "The single largest logged token spend in the window (1.18M, 14 Opus agents) bought a NEGATIVE result — the plan's falsification — which then became canon (ADR-064). Echo=0 today; the value is the avoided build."
+    }
+  ]
+}

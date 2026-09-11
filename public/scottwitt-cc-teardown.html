@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Scott (scottwitt.cc) × ARCS – a teardown and a serialization</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; 
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 22px 90px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:10px 0 8px;font-weight:650}
+  .sub{color:var(--muted)}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  section{margin-top:56px;scroll-margin-top:20px}
+  .pillnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:999px;transition:color .15s,border-color .15s}
+  .pill:hover{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
+  .sechead>div{flex:1;min-width:0}
+  .idx{font-family:var(--mono);color:var(--cyan);font-size:13px}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  h2{font-size:21px;margin:6px 0 0;font-weight:600}
+  h3{font-size:15px;margin:0 0 6px;font-weight:600}
+  p{margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
+  .stripe{border-left:3px solid var(--muted)}
+  .stripe.red{border-left-color:var(--red)}
+  .stripe.gold{border-left-color:var(--gold)}
+  .stripe.green{border-left-color:var(--green)}
+  .stripe.cyan{border-left-color:var(--cyan)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);border-radius:3px;color:var(--muted);white-space:nowrap}
+  .tag.red{color:var(--red);border-color:rgba(255,77,109,.4)}
+  .tag.gold{color:var(--gold);border-color:rgba(255,215,0,.35)}
+  .tag.green{color:var(--green);border-color:rgba(0,255,157,.35)}
+  .tag.cyan{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .cardtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .quote{border-left:3px solid var(--cyan);padding:14px 18px;background:var(--surface);margin:18px 0;font-size:16.5px;font-style:italic;color:var(--text)}
+  .attr{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);font-style:normal;display:block;margin-top:8px;text-transform:uppercase}
+  .grid2{display:grid;grid-template-columns:1fr;gap:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:6px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted)}
+  td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;color:var(--gold)}
+  ul{margin:0 0 14px;padding-left:20px;color:var(--muted)}
+  li{margin-bottom:7px}
+  li strong{color:var(--text)}
+  .band{border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
+  .bandhead{padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .bandbody{padding:16px 18px}
+  .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  a{color:var(--cyan)}
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+  .pw-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+  .pw-form{display:flex;gap:10px;align-items:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
+  .pw-input:focus{border-color:var(--cyan)}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
+  .pw-btn:hover{background:rgba(0,240,255,.14)}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">ARCS × Scott Witt · scottwitt.cc · Aug 2026</div>
+  <h1>Two sites, one person — and they're not telling the same story yet.</h1>
+  <p class="sub">Same teardown method run on parlance.cc, now on scottwitt.cc, then serialized side by side. The point of this exercise isn't to grade either site — it's to see what happens when you read them back to back, the way an investor, client, or collaborator actually would.</p>
+  <div class="meta">METHOD: LIVE SCAN OF SCOTTWITT.CC – HOME, /BIO, /WORK, ROBOTS.TXT, SITEMAP.XML · AUG 19 2026 · SERIALIZED AGAINST PRIOR PARLANCE.CC TEARDOWN + TWO CALLS</div>
+  <nav class="pillnav">
+    <a class="pill" href="#evidence">01 · Evidence</a>
+    <a class="pill" href="#assessment">02 · Assessment</a>
+    <a class="pill" href="#evaluation">03 · Evaluation</a>
+    <a class="pill" href="#synthesis">04 · Synthesis</a>
+    <a class="pill" href="#recap">05 · Recapitulation</a>
+    <a class="pill" href="#next">06 · Next</a>
+  </nav>
+</header>
+
+<section id="evidence">
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Analysis · the raw evidence</div><h2>What scottwitt.cc says today – verbatim inventory</h2></div></div>
+  <p>Also Framer-built, SSG-optimized, seven-plus URLs in sitemap, robots open. Distinct visual and verbal register from parlance.cc — first person, personal, unfiltered where Parlance is corporate and filtered.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Surface</th><th>Verbatim content</th></tr>
+    <tr><td>Hero framing</td><td>"Are you a Creative Director? A Writer? A Strategist? A Photographer? Or Entrepreneur? Yes." — repeated three times on the homepage</td></tr>
+    <tr><td>Self-label</td><td>"Creative Capitalist" — "creativity is the world's most valuable asset class" deployed to "de-risk the enterprise"</td></tr>
+    <tr><td>Opening line</td><td>"Every act of creation begins with an act of destruction."</td></tr>
+    <tr><td>Track record (as listed)</td><td>Built categories • Won elections • Reduced depression • Engineered safeguards • Launched products • Designed medicine • Raised capital • Scaled organizations • Created billions in enterprise value</td></tr>
+    <tr><td>Ask (stated)</td><td>Venture studio company creation, PE portfolio transformation, or brand+creative leadership at an early-stage AI company in consumer, health & longevity, media, or creator economy</td></tr>
+    <tr><td>Modes of practice (/work)</td><td>Creative & brand leadership for "consequential domains": AI Safety, Robotics, HealthTech, Public Impact, New Media — delivered via Story & Narrative Systems, Brand Formation, Product Communications, World Building</td></tr>
+    <tr><td>Case studies (/work/*)</td><td>Constellation, Twill, Fisher Wallace Labs (fwl), Naming, The Marque Longevity Lab, Aescape, SPKR. — seven distinct project pages, more than parlance.cc's index</td></tr>
+    <tr><td>Bio identity markers</td><td>ENFP, Enneagram-7, "Superpower: Provocation" — self-disclosed personality typing on a professional bio page</td></tr>
+    <tr><td>Bio texture</td><td>Street photography, Japanese denim, German cameras, air-cooled Porsches, competitive karaoke, Substack/podcast/book lists updated monthly ("THINGS ON, MAY 2026")</td></tr>
+    <tr><td>Testimonials</td><td>10+ named quotes incl. a Creative Director at Apple, an OpenAI exec, a VP of Brand at Coinbase, and Zach Harris ("the most passionate, focused and intense executive leader I've worked with")</td></tr>
+    <tr><td>Current status (May 2026 entry, still live)</td><td>"Fractional CD & head of Brand [for] a major media company in the creator economy," prepping for three graduations</td></tr>
+  </table></div>
+</section>
+
+<section id="assessment">
+  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Assessment · what it's doing on its own terms</div><h2>scottwitt.cc is a person; parlance.cc is a firm</h2></div></div>
+  <p>Read alone, scottwitt.cc succeeds at something parlance.cc doesn't attempt: it makes you feel like you know Scott before you've talked to him. The Enneagram typing, the denim and camera list, the live-updating "things on" section — these aren't padding, they're doing real trust-building work fast, at the cost of looking unfinished (a May 2026 status note still live in August signals the personal pages update on a slower cadence than the professional ones).</p>
+  <div class="card stripe cyan"><div class="cardtop"><h3>The ask is narrower and more current here than on parlance.cc</h3><span class="tag cyan">Notable</span></div>
+  <p>parlance.cc's homepage presents seven sectors at equal weight with no ranked ask. scottwitt.cc states a specific, dated ask: venture studio, PE portfolio work, or brand+creative lead at an early-stage AI company in four named verticals (consumer, health & longevity, media, creator economy). That's the sharper of the two — and it doesn't fully match either the seven-sector Parlance homepage or the three-sector thesis from the Mar 20 call.</p></div>
+</section>
+
+<section id="evaluation">
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">Evaluation · judged against the standard the sites set for themselves</div><h2>Where each site fails its own stated promise</h2></div></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>scottwitt.cc: "Creative Capitalist" has no capital evidence attached</h3><span class="tag gold">Internal contradiction</span></div>
+  <p>The framing claims creativity is deployed to "de-risk the enterprise" and cites "raised capital" and "created billions in enterprise value" — but none of the seven /work/* case studies visibly show a number, a round size, or an outcome metric as scanned. The claim is capital-flavored; the evidence is craft-flavored.</p></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>parlance.cc: "Narrative Clarity" has the same evidentiary gap</h3><span class="tag gold">Same failure mode, different site</span></div>
+  <p>Flagged in the prior teardown: nine case studies indexed by category and role only, no narrative. This is the identical pattern showing up on both properties — the pitch is proof-by-assertion, the case studies are proof-by-omission.</p></div>
+  <div class="card stripe"><div class="cardtop"><h3>Overlap and divergence in the project lists</h3><span class="tag">Structural</span></div>
+  <p>Constellation, Twill, Fisher Wallace Labs, Naming, and Aescape appear on both sites. The Marque Longevity Lab and SPKR. appear only on scottwitt.cc. WelcomePAC, Reporter, UpTrade, Pedal, and Cars & Bids appear only on parlance.cc's case-study index. Neither site cross-links to the other's project list, so a visitor to one has no way of knowing the fuller record exists on the other.</p></div>
+</section>
+
+<section id="synthesis">
+  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Synthesis · the two properties, serialized</div><h2>What the pair says that neither says alone</h2></div></div>
+  <div class="tablewrap"><table>
+    <tr><th>Dimension</th><th>parlance.cc</th><th>scottwitt.cc</th></tr>
+    <tr><td>Voice</td><td>Corporate, third-person, studio-as-entity</td><td>First-person, personal, unfiltered</td></tr>
+    <tr><td>Positioning</td><td>Three pillars — category creation, narrative clarity, leadership without limits</td><td>"Creative Capitalist" — single umbrella framing</td></tr>
+    <tr><td>Sector scope</td><td>Seven verticals, equal weight, no ranking</td><td>Five "consequential domains" + four verticals in the closing ask — a different five and different four</td></tr>
+    <tr><td>Stated ask</td><td>None explicit — implied via service ladder (advisory → reposition → build)</td><td>Explicit and dated: venture studio, PE transformation, or fractional AI-company brand lead</td></tr>
+    <tr><td>Case studies</td><td>9 tagged, 0 narrated</td><td>7 with dedicated pages, depth unconfirmed without full scan</td></tr>
+    <tr><td>Monetized funnel</td><td>Yes — free 45-min session → $225/30-min Office Hours, live on /scottwitt</td><td>None visible</td></tr>
+    <tr><td>Freshness</td><td>Last-Modified Aug 19, 2026 — same day</td><td>Last-Modified Aug 18, 2026, but content says "May 2026" — personal content updates lag the studio site</td></tr>
+  </table></div>
+  <p style="margin-top:14px">The serialization surfaces one finding neither teardown alone would: <strong>you're running two credibility engines that don't reinforce each other.</strong> parlance.cc sells the studio and its method; scottwitt.cc sells you as a person and collector of taste. A prospect who lands on one has no signal the other exists, and the sector lists, the case-study rosters, and even the stated ask genuinely disagree across the two — not stylistically, but substantively.</p>
+</section>
+
+<section id="recap">
+  <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Recapitulation</div><h2>The single sentence version</h2></div></div>
+  <div class="quote">Two well-made sites, each proving a different third of the same person, and neither one pointing to the other.<span class="attr">the finding this teardown exists to surface</span></div>
+  <p>Everything upstream — the evidence table, the internal-contradiction pairs, the serialized comparison — collapses to that one line. The fix isn't more content on either site; it's deciding which one is the front door and having it say so.</p>
+</section>
+
+<section id="next">
+  <div class="sechead"><span class="idx">06</span><div><div class="seclabel">Next</div><h2>Two honest options, no pitch attached</h2></div></div>
+  <div class="grid2">
+    <div class="card stripe green"><div class="cardtop"><h3>Whenever</h3><span class="tag green">On you</span></div><p>Tell me which site is meant to be the front door — parlance.cc for the studio, scottwitt.cc for you — and whether the sector lists should actually match.</p></div>
+    <div class="card stripe gold"><div class="cardtop"><h3>Anytime</h3><span class="tag gold">Standing</span></div><p>Happy to draft the single cross-link and the narrowed sector language for both, once you've called it.</p></div>
+  </div>
+</section>
+
+<div class="footer"><a href="https://scott.arcs.care" style="color:var(--cyan);text-decoration:none">← one door</a> · Prepared by Zach Harris · ARCS · Aug 19 2026 · Sources: live scan of scottwitt.cc (home, /bio, /work, robots.txt, sitemap.xml) + prior parlance.cc teardown + two calls · Shared privately with Scott Witt</div>
+</div>
+<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
+</html>

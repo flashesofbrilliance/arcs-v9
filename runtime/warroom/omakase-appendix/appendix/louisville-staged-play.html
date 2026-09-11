@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FIFTEENTH ROCK · The Rules of Rhetoric · A Staged Play in Three Acts</title>
+<style>
+  /* ATOMS — inherited from the Louisville Codex (canon-locked) */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .bar .state{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.12em}
+  .dialset{display:flex;gap:4px;align-items:center}
+  .dialset .dl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);margin-right:2px}
+  .dialset button{background:none;border:1px solid var(--line);color:var(--graphite);font-family:var(--mono);
+    font-size:10px;letter-spacing:.14em;padding:4px 10px;border-radius:3px}
+  .dialset button[aria-pressed=true]{color:var(--dial);border-color:var(--verm)}
+  .dialset.reg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+  .fwcount{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--red)}
+  /* five-stratum waterfall, theatrical: EXEC(1) bare dialogue+rules+gates · STRATEGIC(2) +sceneheads/cast · OPERATIONAL(3) +directions · TACTICAL(4) +chorus/receipts · SURGICAL(5) +apparatus */
+  body.lv1 .scenehead, body.lv1 #cast{display:none}
+  body.lv1 .direction, body.lv2 .direction{display:none}
+  body.lv1 .chorus, body.lv2 .chorus, body.lv3 .chorus{display:none}
+  body.lv1 .receiptbox, body.lv2 .receiptbox, body.lv3 .receiptbox{display:none}
+  body.lv1 .callout, body.lv2 .callout, body.lv3 .callout, body.lv4 .callout{display:none}
+  .lvslider{display:flex;gap:10px;align-items:center}
+  .lvslider input[type=range]{width:120px;accent-color:var(--gold)}
+  .lvslider .lvname{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);width:96px}
+  .lvslider input:disabled{opacity:.28;cursor:not-allowed}
+  /* firewall: the rehearsal never crosses the table (F4 · G-2) */
+  body.reg-justin .panel:not(#fwnote), body.reg-stanley .panel:not(#fwnote){display:none}
+  #fwnote{display:none}
+  body.reg-justin #fwnote, body.reg-stanley #fwnote{display:block}
+  /* JB-CAP (operator order Jul 25): JEBEN caps at RICH; sponsor-recalibration lines strategically omitted, logged */
+  body.reg-jeben .callout, body.reg-jeben .card .src{display:none}
+  body.reg-jeben .fw-jeben{display:none}
+  .fw-onlyjeben{display:none}
+  body.reg-jeben .fw-onlyjeben{display:inline}
+  .dialset button:disabled{opacity:.35;cursor:not-allowed}
+  /* ===== card disclosure: headline(1) → +lede(2) → +abstract(3) → +body(4) → +appendix(5) ===== */
+  .card .lede, .card .abstract{display:none;font-size:12px;color:var(--graphite);line-height:1.55;font-style:italic}
+  body.lv2 .card .cfull, body.lv2 .card .src, body.lv2 .card .abstract{display:none}
+  body.lv2 .card .lede{display:block}
+  body.lv3 .card .cfull, body.lv3 .card .src, body.lv3 .card .lede{display:none}
+  body.lv3 .card .abstract{display:block}
+  body.lv4 .card .src{display:none}
+
+
+  .board{max-width:900px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:1px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .note{font-size:21px;line-height:1.45;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+  .callout{margin-top:12px;padding:10px 12px;border-left:2px solid var(--verm);background:var(--panel);font-size:13px}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+  .grade{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--faint);border-radius:3px;color:var(--graphite)}
+  .grade.X{color:var(--red);border-color:var(--red)}
+  .redact{color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:12px}
+  .card .n{font-size:10px;letter-spacing:.2em;color:var(--graphite);margin-bottom:6px;font-weight:600}
+  .card p{font-size:12px;color:var(--graphite);line-height:1.55}
+  .card p b{color:var(--dial);font-weight:600}
+  .card .src{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint)}
+  .card[data-th="red"]{border-left:2px solid var(--red)}
+  .card[data-th="gold"]{border-left:2px solid var(--gold)}
+  .card[data-th="verm"]{border-left:2px solid var(--verm)}
+
+  /* ===== the play ===== */
+  .scenehead{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--verm);margin:20px 0 10px;font-weight:600}
+  .scenehead:first-child{margin-top:0}
+  .direction{font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--graphite);font-style:italic;
+    padding:8px 0 8px 16px;border-left:1px dashed var(--faint);margin:10px 0}
+  .speech{display:flex;gap:14px;padding:8px 0;align-items:baseline}
+  .speech .char{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);flex:none;width:132px;text-align:right;font-weight:600}
+  .speech .char.loki{color:var(--red)}
+  .speech .char.prim{color:var(--verm)}
+  .speech .char.meta{color:var(--dial)}
+  .speech .words{font-size:14.5px;line-height:1.62;flex:1}
+  .speech .words i{color:var(--graphite)}
+  .chorus{margin:16px 0;background:var(--panel2);border:1px solid var(--line);border-left:2px solid var(--verm);border-radius:4px;padding:14px 16px}
+  .chorus .ch{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--verm);margin-bottom:8px;font-weight:600}
+  .chorus p{font-size:13.5px;line-height:1.7;font-style:italic}
+  .chorus p b{color:var(--gold);font-style:normal;font-weight:600}
+  .rule{margin:14px 0;padding:10px 14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    font-family:var(--mono);font-size:11.5px;line-height:1.7}
+  .rule b{color:var(--gold);letter-spacing:.14em}
+  .silence{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.5em;color:var(--faint);padding:22px 0}
+
+  /* fate gates */
+  .gate{border-color:var(--gold)}
+  .gate .ph{border-bottom-color:var(--gold)}
+  .gate .pb{text-align:center}
+  .gate .gq{font-size:15px;line-height:1.6;margin-bottom:14px}
+  .gate button.pass{background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);
+    font-size:11px;letter-spacing:.2em;padding:10px 22px;border-radius:3px}
+  .gate button.pass:hover{background:var(--gold);color:var(--case)}
+  .gate .gstate{margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--graphite)}
+  .locked{display:none}
+  .gate.passed button.pass{border-color:var(--ok);color:var(--ok);pointer-events:none}
+  .gate.passed .gstate{color:var(--ok)}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){
+    .stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}footer{margin-left:34px}
+    .bar .sub{display:none}.speech{flex-direction:column;gap:2px}.speech .char{text-align:left;width:auto}
+  }
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lv1 reg-zach">
+
+<div class="bar" role="banner">
+  <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE REHEARSAL — seven masks, the silence timed">👺</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> STAGED PLAY</span>
+  <span class="sub">THE RULES OF RHETORIC · THREE ACTS · FATE-GATED · SERIALIZED 25 JUL 2026</span>
+  <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
+    <span class="dl">STRATUM</span>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">EXEC</span></div>
+  </div>
+  <div class="dialset reg" role="group" aria-label="Register — the Babel dial">
+    <span class="dl">BABEL</span>
+    <button aria-pressed="true" data-reg="zach">ZACH</button>
+    <button aria-pressed="false" data-reg="justin">JUSTIN</button>
+    <button aria-pressed="false" data-reg="stanley">STANLEY</button>
+    <button aria-pressed="false" data-reg="jeben">JEBEN</button>
+  </div>
+  <span class="state" id="barstate">ACT I · THE ARCHIVE IS LIT</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- PLAYBILL -->
+    <section class="panel" data-th="red">
+      <div class="ph"><span class="eyebrow">PLAYBILL</span><h2>THE FIFTEENTH ROCK — or, The Rules of Rhetoric</h2><span class="tag">A PLAY IN THREE ACTS · TWO FATE GATES</span></div>
+      <div class="pb">
+        <p class="note">Ethos earns the right to speak. Pathos and logos spend it. <span class="accent">Kairos decides when</span> — and fate is just the record, keeping its appointment.</p>
+        <p class="note-sub">The acts are the appeals. The gates between them are the campaign's real gates — no act begins until the one before it files its receipt. The chorus is the Staff of Chiefs, singing standing orders. Everything spoken on this stage is drawn from the write-locked corpus; the play is the rhetoric curriculum performed instead of listed. The stratum dial burns by the Pardes rule: the bare script is light anyone reads by; the critical edition is the <i>sod</i> — study it with sufficient wisdom, or it studies you.</p>
+        <div class="callout" style="font-size:12px"><b style="color:var(--gold)">Canon note:</b> LOKI and the CHORUS hold grounded seats (Gauntlet, Cabinet). The LIBRARIAN, SAGE, WEAVER, JEWELER, SENTRY, CURATOR, ORATOR, and THE PRIMITIVE were seated by operator definition on Jul 25 2026 — each mapped to the canon function it names, marked <span class="grade X">OP·PROV</span> provisional pending the canon creator's confirmation. The gate rule, honored again: named, defined, seated — never smuggled.</div>
+      </div>
+    </section>
+
+    <!-- FIREWALL INTERSTITIAL (table-facing registers only) -->
+    <section class="panel" data-th="red" id="fwnote">
+      <div class="ph"><span class="eyebrow">FIREWALL · THE FENCE</span><h2>The workshop never faces the street</h2><span class="tag">COURT #4 · F4 · G-2 · THE FENCE</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:17px">This rehearsal is the workshop — the sausage being made, sourced, and cooked. What this register is owed is the <span class="accent">front of the fence</span>: beautiful, load-bearing, protective, cone-of-silence preserving. The taste and the value from the first bite. <span class="accent">Nobody standing at the fence wants to see the butcher's bench</span> — and shown it, they would taste nothing else.</p>
+        <p class="note-sub">Every panel withheld and counted above — not hidden, <b>finished</b>. The front they do see is the <b>Braid's JUSTIN register</b> (Gospel XVI, G-2). This panel is the withholding's receipt.</p>
+      </div>
+    </section>
+
+    <!-- CAST -->
+    <section class="panel" data-th="gold" id="cast">
+      <div class="ph"><span class="eyebrow">DRAMATIS PERSONAE</span><h2>Ten voices and a chorus</h2><span class="tag">EACH MAPPED TO ITS CANON SEAT</span></div>
+      <div class="pb grid">
+        <div class="card" data-th="gold"><div class="n">THE LIBRARIAN</div><p>Keeper of the archive — the Thread Book, seven calls, the gospels. Speaks only what a source can carry. <b>Ethos incarnate.</b></p><div class="src">SEAT: SSOT · CALL RECORD · GRADE REGISTER</div></div>
+        <div class="card" data-th="red"><div class="n">THE CURATOR</div><p>Decides what enters the room and what is struck — visibly, never silently. Carries the redaction log like a blade.</p><div class="src">SEAT: REDACTION LOG · CANON LEDGER</div></div>
+        <div class="card" data-th="gold"><div class="n">THE JEWELER</div><p>Cuts the diamond, mends the cracks in gold, leaves every seam showing. Grades each facet before it ships.</p><div class="src">SEAT: THE DIAMOND · KINTSUGI PROTOCOL</div></div>
+        <div class="card" data-th="verm"><div class="n">THE WEAVER</div><p>Holds the three threads — red through-line, gold seam, vermillion commit — and tunes each payload to its listener's register.</p><div class="src">SEAT: THREAD CANON · RESONANCE FILTER</div></div>
+        <div class="card" data-th="red"><div class="n">LOKI</div><p>The adversary. Silent unless invoked; when invoked, he wears the objection tree like a costume rack — seven masks, O1 through O7.</p><div class="src">SEAT: CABINET (GROUNDED) · GAUNTLET STATIONS 3–4</div></div>
+        <div class="card" data-th="verm"><div class="n">THE PRIMITIVE</div><p>The gut. The kitchen moment that invented Mugen. Process is his enemy until the play proves the receipt is how instinct gets credit.</p><div class="src">SEAT: O2 STEELMAN · THE KITCHEN MOMENT</div></div>
+        <div class="card" data-th="gold"><div class="n">THE ORATOR</div><p>The only voice that enters the Friday room. Two minutes, plain words, one ask — then the discipline of saying nothing.</p><div class="src">SEAT: SURGICAL KIT · CONDUCT CARD</div></div>
+        <div class="card"><div class="n">THE SENTRY</div><p>Guards the fate gates. No act begins until the prior act's receipt exists. Off-duty inside the room — his jurisdiction ends at the door.</p><div class="src">SEAT: THROTTLE GATE · DRIFT SENTINEL</div></div>
+        <div class="card"><div class="n">THE SAGE</div><p>The top of the DIKW ladder. Speaks least, last, and only in conduct — when to speak, when to stop, when not to push.</p><div class="src">SEAT: WISDOM RUNG · EASTERN PANEL</div></div>
+        <div class="card" data-th="gold"><div class="n">THE META-OPERATOR</div><p>The author, watching the play from the house. Steps through the fourth wall exactly once, in the epilogue, to audit the performance itself.</p><div class="src">SEAT: META-AUDIT · THE AUDITOR'S OWNED ERRORS</div></div>
+        <div class="card" data-th="verm"><div class="n">THE CHORUS — STAFF OF CHIEFS</div><p>CFO · COO · CMO · General Counsel · Fund · Chief of Staff. They do not act; they sing the standing orders between scenes, strophe and antistrophe.</p><div class="src">SEAT: ROUND TABLE · CABINET (GROUNDED)</div></div>
+      </div>
+    </section>
+
+    <!-- ACT I -->
+    <section class="panel" data-th="gold" id="act1">
+      <div class="ph"><span class="eyebrow">ACT I · ETHOS</span><h2>The Right to Speak</h2><span class="tag">TEMPO: 4/4 CHRONOS · THE ARCHIVE</span></div>
+      <div class="pb">
+        <div class="scenehead">SCENE 1 · THE ARCHIVE, LIT BY ONE LAMP</div>
+        <div class="direction">A long table. Seven transcripts stacked like strata. THE LIBRARIAN stands behind them; THE CURATOR beside, holding a red pen. Far upstage, a diamond on black velvet. The three threads run overhead, taut, into darkness.</div>
+        <div class="speech"><span class="char">LIBRARIAN</span><span class="words">Before anyone speaks to the room, the room's record speaks to us. Five months. Seven calls. March fifth: <i>built the product roughly one hundred percent, shipped with shells, rebuilt after launch.</i> His words, not ours. That is the only kind of sentence allowed to open this play.</span></div>
+        <div class="speech"><span class="char">CURATOR</span><span class="words">And these are the sentences that don't get in. <i>(strikes, aloud, one by one)</i> "Jim from Pepsi" — hedge, F-grade, struck to "a board member named Jim." The round status — spoken nowhere until confirmed. The symptom chart — <i>(the pen stops)</i> — this one never crosses the table at all. Court order. The strike stays visible. Silence is how records lie.</span></div>
+        <div class="speech"><span class="char loki">LOKI</span><span class="words"><i>(from the dark, pleasantly)</i> A consultant curates his own evidence and calls it ethics. Charming. Who audits the librarian?</span></div>
+        <div class="speech"><span class="char">LIBRARIAN</span><span class="words">You do. That is why you have a seat.</span></div>
+
+        <div class="scenehead">SCENE 2 · THE JEWELER'S BENCH</div>
+        <div class="direction">THE JEWELER lifts the diamond. Three flaws catch the light — he turns them TOWARD the audience.</div>
+        <div class="speech"><span class="char">JEWELER</span><span class="words"><span class="fw-jeben">Three inclusions</span><span class="fw-onlyjeben">Two inclusions</span>, kept visible. One: no CPG-holdco receipt yet — the defensibility is rented from the terms until earned from results. Two: the seller's incentive — he profits if you believe him, and says so first. <span class="fw-jeben">Three: the sponsor stepped back in February — the door opens on trust, but the receipt must sell itself. </span> A stone with no visible flaw is glass. These seams are how you know it's real.</span></div>
+        <div class="speech"><span class="char loki">LOKI</span><span class="words">You've made confession into a sales technique.</span></div>
+        <div class="speech"><span class="char">JEWELER</span><span class="words">No — into a <i>testable claim</i>. Confession without a stop-loss is technique. Ours bleeds first: month one, ten thousand, they keep everything. Corrode that.</span></div>
+        <div class="speech"><span class="char loki">LOKI</span><span class="words"><i>(pause)</i> …the tripwire cutting both ways is the only part I can't.</span></div>
+
+        <div class="rule"><b>RULE I — ETHOS PRECEDES LOGOS.</b> The record earns the right to speak before the mouth opens. Character is proven by what you strike from your own case, not what you add to it.</div>
+        <div class="rule"><b>RULE II — SHOW THE SEAMS.</b> A pitch without visible cracks has never been tested. Kintsugi is credibility: the gold goes ON the flaw, in the light.</div>
+
+        <div class="chorus"><div class="ch">CHORUS · STROPHE — THE STAFF OF CHIEFS, SINGING THE STANDING ORDERS</div>
+          <p><b>CFO:</b> Worst case first, whenever price is spoken. <b>COO:</b> One session a month — the plant move eats the rest. <b>CMO:</b> Mango competes fairly, and the results go to him alone. <b>COUNSEL:</b> Every clause wears "draft" until a lawyer blesses it. <b>FUND:</b> No comps in the math until comps exist at this scale. <b>CHIEF OF STAFF:</b> Two candidate times spoken aloud — or the meeting failed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FATE GATE I -->
+    <section class="panel gate" id="gate1">
+      <div class="ph"><span class="eyebrow">FATE GATE I · THE SENTRY'S DOOR</span><h2>Chronos closes on Wednesday</h2><span class="tag" id="g1tag">SEALED</span></div>
+      <div class="pb">
+        <p class="gq"><b>SENTRY:</b> No one enters Act II carrying an unforked pre-read. The breaker was found on the ladder's path and removed — prove the gate's receipt exists, and the door opens. Miss the Thursday-noon kill line, and the Orator walks in with two minutes and a blank stub. The play continues either way. That is what makes it a gate and not a wall.</p>
+        <div class="receiptbox" style="text-align:left"><b>GATE RECEIPT · FG-1</b><br>EXPECTING — Jeben pinged · pre-read forked · out by Wednesday<br>BREAKS THESIS — material Thread Book errors, or silence past Wed<br>KILL/SCALE — Thu noon → overview + stub only (the sim says: sufficient)<br>SCORE-BACK — Fri 31 Jul · 2:00 PM</div>
+        <button class="pass" data-gate="1" data-next="act2" data-state="ACT II · THE ROOM BREATHES">FILE THE RECEIPT · PASS THE GATE</button>
+        <div class="gstate" id="g1state">THE DOOR IS SEALED · ACT II WAITS BEHIND IT</div>
+      </div>
+    </section>
+
+    <!-- ACT II -->
+    <section class="panel locked" data-th="verm" id="act2">
+      <div class="ph"><span class="eyebrow">ACT II · PATHOS &amp; LOGOS</span><h2>The Room</h2><span class="tag">TEMPO: RUBATO · FRIDAY 1:00 PM</span></div>
+      <div class="pb">
+        <div class="scenehead">SCENE 1 · THE WEAVER TUNES THE INSTRUMENT</div>
+        <div class="direction">Downstage, THE WEAVER holds three threads taut between spread hands. THE ORATOR stands center in a bare pool of light. The chorus is seated, dark, upstage.</div>
+        <div class="speech"><span class="char">WEAVER</span><span class="words">Before you speak, know the register you're speaking into. He moves fast. Finishes sentences in his head. His truths are eighteen-second sellouts and a bag of shells he paid to learn from. Speak in <i>his</i> materials — his evidence, his instinct, his buyers. Pathos is not squeezing feeling into the room; it is resonating with the feeling already there.</span></div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">And logos rides under it, two minutes, plain words: one live decision. Ninety minutes. A one-page receipt — what we're choosing, what we're assuming, what would prove us wrong, where we kill it or scale it. A small real test before money moves. Pumps is why: the market told you about the shells <i>after</i> the run. This catches that <i>before</i>.</span></div>
+
+        <div class="scenehead">SCENE 2 · LOKI WEARS THE SEVEN MASKS</div>
+        <div class="direction">LOKI circles the pool of light, changing masks. Each mask is an objection; the ORATOR does not move his feet.</div>
+        <div class="speech"><span class="char loki">LOKI · MASK O1</span><span class="words">"I already use AI. I can mock a bag in ten minutes."</span></div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">And it flatters you. This one is built to disagree — a receipt can <i>fail</i>. That's the feature.</span></div>
+        <div class="speech"><span class="char loki">LOKI · MASK O2</span><span class="words">"Process kills the instinct that built Mugen."</span></div>
+        <div class="speech"><span class="char prim">THE PRIMITIVE</span><span class="words"><i>(rising from the audience, uninvited)</i> He's right to fear you. The kitchen moment owes you nothing. I invented Mugen at a stove, not on a worksheet.</span></div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">The stove stays free. The receipt touches sized bets only — the run, the contract, the move. And when your call wins, the record proves it to the board better than memory ever will. <i>The receipt is how instinct gets credit.</i></span></div>
+        <div class="speech"><span class="char prim">THE PRIMITIVE</span><span class="words"><i>(sits, slowly)</i> …credit. In writing. <i>(beat)</i> Keep the stove out of it and we're square.</span></div>
+        <div class="speech"><span class="char loki">LOKI · MASK O4</span><span class="words">"What's this cost?"</span></div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">Worst case first: session's free. Test, two to five. If month one isn't obviously worth it — it ends at ten, you keep everything. <i>(he stops talking)</i></span></div>
+        <div class="speech"><span class="char loki">LOKI · MASK O5</span><span class="words">"Who else have you done this for?"</span></div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">Family offices. Special situations. A seventy-billion UK fund. Never a company shaped exactly like yours — which is exactly why the first session is free and the exit is month one.</span></div>
+        <div class="speech"><span class="char loki">LOKI</span><span class="words"><i>(removing the last mask)</i> He answered the honest hole with the honest hole. There is nothing here for me to bite.</span></div>
+
+        <div class="scenehead">SCENE 3 · THE ASK, AND THE MA</div>
+        <div class="direction">The light narrows to the ORATOR's face. Somewhere, four clocks strike at once — none of them manufactured.</div>
+        <div class="speech"><span class="char">ORATOR</span><span class="words">First session's free, on the next-bag decision — what does late next week look like for you and Stanley?</span></div>
+        <div class="silence">— THE MA · TEN SECONDS · HEAVIER THAN THE FORTY MINUTES BEFORE IT —</div>
+        <div class="direction">He does not fill it. The silence is not empty; it is the space the yes needs. Whoever fills it first loses the frame. The stage holds. The audience holds. This is the fermata — kairos density: not more time, heavier time.</div>
+
+        <div class="rule"><b>RULE III — NEVER DIAGNOSE THE AUDIENCE.</b> The symptom chart stays on your side of the table. Rhetoric that explains the listener to himself is surgery without anesthetic — and without consent.</div>
+        <div class="rule"><b>RULE IV — WORST CASE FIRST.</b> Pathos collapses the instant the listener suspects the number was dressed. Lead with the wound; the trust does the rest.</div>
+        <div class="rule"><b>RULE V — THE SILENCE AFTER THE ASK BELONGS TO THEM.</b> Sente, gifted. Every reply favors the position; the ma is where the yes lives. Fill it and you have taken his turn — and lost yours.</div>
+
+        <div class="chorus"><div class="ch">CHORUS · ANTISTROPHE — SUNG UNDER THE SILENCE</div>
+          <p>We do not sing to sway him. We sing so the one who speaks <b>stops speaking</b>. Forty minutes were the prelude; the rest is his. The Conductor watches the tempo: if our voice outweighs his by minute ten, cut to the ask. One job. One ask. <b>Then silence.</b></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FATE GATE II -->
+    <section class="panel gate locked" id="gate2">
+      <div class="ph"><span class="eyebrow">FATE GATE II · THE GIFTED TURN</span><h2>Only he can open this door</h2><span class="tag" id="g2tag">SEALED · FROM THE OTHER SIDE</span></div>
+      <div class="pb">
+        <p class="gq"><b>SENTRY:</b> Understand what this gate is: it has no handle on our side. The ask was sente — and then sente was gifted. Yes opens it. A counter-time opens it. An objection opens it, tree in hand. Even "not now" does not seal it — that is seki, mutual life: nobody adds a stone, nothing is lost, the position holds. The only move that loses is pushing the door.</p>
+        <div class="receiptbox" style="text-align:left"><b>GATE RECEIPT · FG-2</b><br>EXPECTING — a session on a calendar within 72h (p=.55 ex-ante)<br>BREAKS THESIS — warmth with no time and no counter: a polite no wearing a maybe<br>KILL/SCALE — two refusals without alternates → the not-yet path · hold · no chase<br>SCORE-BACK — the kifu takes the stone either way</div>
+        <button class="pass" data-gate="2" data-next="act3" data-state="ACT III · THE SCORING">HIS MOVE IS PLAYED · PASS THE GATE</button>
+        <div class="gstate" id="g2state">THE DOOR WAITS · WU WEI HOLDS THE HANDLE</div>
+      </div>
+    </section>
+
+    <!-- ACT III -->
+    <section class="panel locked" data-th="red" id="act3">
+      <div class="ph"><span class="eyebrow">ACT III · KAIROS &amp; FATE</span><h2>The Scoring</h2><span class="tag">TEMPO: THE LONG MEASURES · DAY 30 · DAY 90</span></div>
+      <div class="pb">
+        <div class="scenehead">SCENE 1 · THE LONG MEASURES</div>
+        <div class="direction">The stage is nearly bare. A single page under a single light: the receipt, signed. THE LIBRARIAN enters with the ex-ante ledger; THE JEWELER with scales.</div>
+        <div class="speech"><span class="char">LIBRARIAN</span><span class="words">Day ninety. The predictions were written before the room — fifty-five, sixty-five, seventy percent, each with its name. Now the outcomes stand beside them. Overconfidence gets logged. Underconfidence gets logged. That is the point of ex-ante: hindsight cannot syncopate what was written.</span></div>
+        <div class="speech"><span class="char">JEWELER</span><span class="words">And whichever way the test broke — mango or the field — the record credits the instinct that called it, in writing. Either branch was scored as success. The system was indifferent to which. That indifference is why it was safe to run.</span></div>
+        <div class="speech"><span class="char loki">LOKI</span><span class="words">And if the receipts earned nothing? If the whole engine added zero?</span></div>
+        <div class="speech"><span class="char">SENTRY</span><span class="words">Then the stop-loss fires, the month ends it, and the record shows the method obeyed its own law. That outcome is not the failure of the method. It <i>is</i> the method.</span></div>
+
+        <div class="scenehead">SCENE 2 · THE SAGE SPEAKS (ONCE)</div>
+        <div class="direction">THE SAGE has been onstage the entire play. No one noticed. He steps forward now, and the clocks go quiet.</div>
+        <div class="speech"><span class="char">SAGE</span><span class="words">You asked what fate is, in a system that forbids prophecy. It is this: the one event with a hundred-percent survival rate. Whatever the room said, whatever the test read, whatever the board decides — the record of how it happened remains, in order, forever, and the next stone is played in full view of all of it. Fate is not what happens to you. Fate is what you agreed, in advance, to let the outcome mean.</span></div>
+
+        <div class="rule"><b>RULE VI — EVERY CLAIM CARRIES ITS FALSIFIER.</b> Rhetoric that cannot lose is flattery. The receipt's fourth field — what breaks the thesis — is what separates persuasion from seduction.</div>
+        <div class="rule"><b>RULE VII — KAIROS BEATS CHRONOS, BUT THE CALENDAR CONDUCTS.</b> Four clocks struck at once and none were manufactured. The window was found, not forced — and the gate items still ran 4/4 to Wednesday. Inspiration keeps appointments.</div>
+        <div class="rule"><b>RULE VIII — THE RECORD IS THE ONLY IMMORTAL CHARACTER.</b> Every voice in this play can be wrong. The kifu cannot be unplayed. Write it before the outcome, and even your defeats file receipts.</div>
+
+        <div class="chorus"><div class="ch">CHORUS · EXODOS — ALL SIX, WITH THE PRIMITIVE HUMMING UNDER</div>
+          <p>The seams stay gold. The stove stays free. The strike stays visible. The silence stays his. <b>The outcome files its own receipt on day ninety</b> — and the weave continues, whichever thread it rides.</p>
+        </div>
+
+        <div class="scenehead">EPILOGUE · THE FOURTH WALL</div>
+        <div class="direction">House lights half up. THE META-OPERATOR stands, script in hand, and addresses both stage and audience.</div>
+        <div class="speech"><span class="char meta">META-OPERATOR</span><span class="words">For the record: this play was itself run through the gauntlet it stages. Three of its author's errors are in the corpus, owned and seamed in gold. Its cast holds two grounded seats and eight provisional ones, seated by definition on this date, awaiting the canon creator's correction — which supersedes everything, including the applause. <i>(he closes the script)</i> The play does not end. It scores back.</span></div>
+        <div class="receiptbox"><b>PLAY RECEIPT · SP-01</b><br>EXPECTING — the eight rules survive contact with the Friday room; the provisional seats get confirmed, corrected, or struck by the canon creator<br>BREAKS THESIS — any rule contradicting the corpus it was drawn from · any provisional seat used as if grounded<br>KILL/SCALE — a struck seat exits the cast list visibly, redaction-style; a confirmed seat loses its OP·PROV mark<br>SCORE-BACK — Fri Jul 31 2:00 PM · day 90 with the campaign</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE FIFTEENTH ROCK · A STAGED PLAY IN THREE ACTS · SERIALIZED 25 JUL 2026 · GOSPEL XV<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE ARTICULATED DISCOVERY KERNEL<br>
+    ETHOS → PATHOS/LOGOS → KAIROS &amp; FATE · EIGHT RULES · TWO GATES · ONE SILENCE<br>
+    TRACEABLE · TRANSPARENT · COMPOSABLE · FALSIFIABLE — CORRECTIONS SUPERSEDE, INCLUDING THE APPLAUSE.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // Fate gates: passing reveals the next act (in-memory only — a reload reseals the doors, as chronos intends).
+  var bar = document.getElementById("barstate");
+  document.querySelectorAll("button.pass").forEach(function(b){
+    b.addEventListener("click", function(){
+      var g = b.dataset.gate, next = document.getElementById(b.dataset.next);
+      var gatePanel = b.closest(".gate");
+      gatePanel.classList.add("passed");
+      next.classList.remove("locked");
+      var after = document.getElementById(g === "1" ? "gate2" : "");
+      if(after) after.classList.remove("locked");
+      document.getElementById("g"+g+"state").textContent = (g==="1" ? "RECEIPT FILED · THE DOOR STANDS OPEN · THE ROOM BREATHES AHEAD" : "THE STONE IS PLAYED · THE LONG MEASURES BEGIN");
+      document.getElementById("g"+g+"tag").textContent = "PASSED";
+      bar.textContent = b.dataset.state;
+      b.textContent = g==="1" ? "GATE PASSED · FG-1 FILED" : "GATE PASSED · FG-2 FILED";
+      next.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
+
+  // ===== STRATUM + BABEL dials =====
+  var curReg="zach";
+  function fwapply(){
+    var n = (curReg==="justin"||curReg==="stanley") ? document.querySelectorAll(".panel:not(#fwnote)").length : 0;
+    var m = document.querySelectorAll(".fw-jeben").length;
+    var label = {zach:"THE WORKSHOP · FULL RESOLUTION",
+      jeben:"BACK OF THE FENCE · CAPPED AT OPERATIONAL · "+m+" OMISSIONS LOGGED (JB-CAP)",
+      justin:"FRONT OF THE FENCE · "+n+" WITHHELD · LOGGED",stanley:"FRONT OF THE FENCE · "+n+" WITHHELD · LOGGED"};
+    if(curReg!=="zach"){ bar.textContent = label[curReg]; }
+  }
+  var LVN = ["","EXEC","STRATEGIC","OPERATIONAL","TACTICAL","SURGICAL"];
+  var lvs = document.getElementById("lvs"), lvname = document.getElementById("lvname");
+  function setLv(n){
+    n = Math.max(1, Math.min(curReg==="jeben" ? 3 : 5, n));
+    lvs.value = n;
+    document.body.className = document.body.className.replace(/\blv\d\b/, "lv"+n);
+    lvname.textContent = LVN[n] + (curReg==="jeben" && n===3 ? " \u2308CAP\u2309" : "");
+  }
+  lvs.addEventListener("input", function(){ setLv(+lvs.value); });
+  function jbcap(){
+    if(curReg==="jeben"){ lvs.disabled=false; lvs.max = 3; setLv(Math.min(+lvs.value, 3)); }
+    else if(curReg==="justin"||curReg==="stanley"){ lvs.disabled=true; lvname.textContent="— NOT YET —"; }
+    else { lvs.disabled=false; lvs.max = 5; setLv(+lvs.value); }
+  }
+  document.querySelectorAll(".dialset.reg button").forEach(function(b){
+    b.addEventListener("click",function(){
+      curReg=b.dataset.reg;
+      document.body.classList.remove("reg-zach","reg-justin","reg-stanley","reg-jeben");
+      document.body.classList.add("reg-"+curReg);
+      document.querySelectorAll(".dialset.reg button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+      jbcap();
+      fwapply();
+    });
+  });
+
+  // ===== card collapse init: derive the abstract (lede sentence) from each card body =====
+  function cardInit(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector("p"); if(!p||p.classList.contains("abstract"))return;
+      p.classList.add("cfull");
+      if(!c.querySelector(".abstract")){
+        var a=document.createElement("p");a.className="abstract";
+        p.parentNode.insertBefore(a,p);
+      }
+      if(!c.querySelector(".lede")){
+        var l=document.createElement("p");l.className="lede";
+        p.parentNode.insertBefore(l,c.querySelector(".abstract"));
+      }
+    });
+    cardAbs();
+  }
+  function cardAbs(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector(".cfull"), a=c.querySelector(".abstract"), l=c.querySelector(".lede");
+      if(!p)return;
+      var t=p.textContent.trim();
+      var sents=t.match(/[^.!?\u2026]+[.!?\u2026]+["')\]]*(?:\s+|$)/g)||[t];
+      if(l) l.textContent=(sents[0]||t).trim();
+      if(a) a.textContent=sents.slice(0,3).join("").replace(/\s+/g," ").trim();
+    });
+  }
+  cardInit();
+  setLv(+lvs.value);
+})();
+</script>
+<a class="onramp" href="louisville-braid.html" title="NEXT · THE AUDIT — the demon tastes everything first">👹</a>
+</body>
+</html>

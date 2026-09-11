@@ -1,0 +1,159 @@
+# Counterpart Artifact Family — Blueprint SSOT (floor plan + component sequencing)
+
+_2026-08-05. The reusable pattern behind the Yuri build (recoil reset → codex → meta-cognitive demo),
+generalized from Ahmed + Louisville/Jeben. Refer here before standing up the next counterpart universe.
+This is the "componentize + mechanize on instance #2" artifact ([[build-reusable-decomposable-interoperable-default]])._
+
+## 0. Two seed inputs, always
+1. **Enriched profile SSOT** (public profile scan) — `runtime/recoil/generated/<date>-<name>-enriched-profile.json`.
+   Carries `resolution` (level + caveat + `dial_up_inputs`) as first-class fields: it says out loud "this is
+   public-only, more sources sharpen it, with consent."
+2. **Call transcript** (Granola) — the ground truth. **Attribution discipline: in the transcript `Me`=Zach,
+   `Them`=counterpart.** Never attribute Zach's framing to the counterpart (caught on Yuri; would be false + insulting).
+Light chats (LinkedIn DMs) are context, not a third seed.
+
+## 1. The surfaces, in sequence (the floor plan)
+| Order | Surface | Job (visitor mode) | Lives at |
+|---|---|---|---|
+| A | Enriched profile SSOT | seed input of record | `runtime/recoil/generated/*.json` |
+| B | **Recoil** ("how it works") | show the loop on THEIR own call | `<name>-recoil.arcs.care` |
+| C | **Codex** ("how it scales") | one decision at N altitudes, org-scale | `<name>-codex.arcs.care` |
+| D | **Meta-cognitive demo** ("run on you") | interactive inference ledger + regrade | `<name>-demo.arcs.care` |
+| E | Internal war-room (gated) | Zach's back-of-house | `<name>-war.arcs.care` → `/warroom/*` admin-auth |
+
+## 2. Shared component grammar (the atoms/molecules — reuse verbatim)
+- **Tokens:** ARCS dark cockpit (`--bg #020408`, surface `#0d1117`, border `#1e293b`, text `#e2e8f0`,
+  cyan `#00F0FF`, green `#00FF9D`, gold `#FFD700`, red `#FF4D6D`). Mono for labels, sans for body. Inline styles only.
+- **Progressive disclosure:** section = `headline (.shl) + lede + <details class="deeper">go deeper</details>`, default collapsed. Beats wall-of-text (TL;DR/TL;DV).
+- **Onramp card** ("what this is / who / how to read / how you'd use it") — kills the "too abstract" complaint.
+- **Felt-value card** ("what this changes for you") — pillars tied to concrete stakes, not generic benefits.
+- **`.said` quote callout** — tinted block (NOT border-left >1px; detector flags it). Color by speaker: cyan=Zach's framing, green=counterpart's own words.
+- **Sub-nav + IntersectionObserver scroll-spy**; **Presentation mode** (headline/lede slides, keyboard nav, G=go deeper).
+- **Confidence meter** (honest bar + number, color by value) + **conviction chip** (stable/shifting/flat).
+- **Two-band inference ledger** (public-projected vs reserved-inferred) with clue→inference→conclusion chains + per-row disclosure.
+- **Belief-evolution timeline** (serialized: how a belief moved, with confidence at each t).
+- **pw-gate** (first name), **noindex**, **no em-dashes**, data-driven render + **JSON export** (SSOT→render).
+
+## 3. The narrative spine (every surface)
+orient (onramp) → the mechanism (show, don't tell) → how you'd use it (their world) → the offer (ONE receipt) → the studio → the seed. Land one plane; don't present a menu.
+
+## 4. The air-gap / fence (front vs back)
+Show **shape + value in full**; withhold **the transform** (semantic/NLP parse, scoring, data model). Frame it
+craftsman-to-craftsman. **Dial the fence tighter for resourced counterparts** (e.g. Google) who could rebuild what's shown.
+Internal scoring (NCI, conviction values, kinematics) stays in the war-room. **Role-archetypes only** for real orgs —
+never fabricate interiority about named people ([[internal-external-artifact-air-gap]]).
+
+## 5. Decision log (ADR-candidates for `_DECISIONS/`)
+- **D1 Two-seed grounding + attribution discipline** (whose words is whose).
+- **D2 Fence calibration by counterpart resource** — show more/less mechanism based on rebuild risk.
+- **D3 Real-org fabrication guardrail** — public roles + labelled inference only.
+- **D4 Atomic-confidence calibration** — determinism buys confidence in the *transform/structure* (invariance,
+  round-trip, provenance); *semantic* confidence comes from convergence of independent atoms; *vibes* floored + human-checked. Refuse atomic-vibe overclaim.
+- **D5 Progressive disclosure default** — headline+lede+go-deeper.
+- **D6 Data-driven render + JSON export now; stateful RLS air-gapped tenant deferred to engagement-live.**
+- **D7 Cost discipline** — local iteration, batch deploys, cheapest tier per task; each surface is one file + one build.
+
+## 6. To reuse (next counterpart)
+1. Write the enriched-profile SSOT from the public scan (+ caveat + dial-up inputs).
+2. Run the call; build Recoil (B) on their own transcript.
+3. If org-scale matters, build Codex (C) grounded in their org.
+4. If they want to feel it, build the meta-cognitive demo (D).
+5. Sequence per §3, grammar per §2, fence per §4. Deploy once per surface.
+
+## 7. Forge pipeline — expanded scope (queued into task_56561b51)
+Land each first-shot, no overengineering. The forge pipeline (`/forge`) should carry these:
+- **The page IS the end-to-end loop mechanism.** Parameterize / componentize / templatize / atomize the
+  robin one-door (the current platinum master, `public/robin.html` + `robin-profile.html`) as the internal
+  decision loop: **seed -> canon -> forge -> gauntlet -> closed receipt.** That chain is the templating spine;
+  every counterpart page is that loop instantiated on one SSOT.
+- **Interactive receipt builder, per-tenant.** Wire a **robin tenant of the louisville receipt builder** —
+  the API-backed interactive receipt-close tool. Refs: `src/app/api/louisville/receipts/route.ts`,
+  `scripts/gen_receipt_close.py`, `scripts/receipt_lookup.py`, `public/robin-receipt.html` (forensic close).
+  Goal: file/close a receipt interactively (bet -> score -> JSON), not a hand-authored card. Keep receipts
+  portable JSON (interoperable), stateful RLS air-gapped tenant deferred to engagement-live (D6).
+- **Gauntlet-hardened visual cleanup pass.** Before shipping any generated surface, run the gauntlet
+  (BAR / COURT / LAB / Funhouse) + the mechanical verify (impeccable detector, 0 em-dashes,
+  fabrication/air-gap scan, attribution check). Ref: `_ARCHIVE/handoffs.md` "gauntlet-hardened". This is
+  the automated quality floor for the assembly line, not a manual afterthought.
+- **Efficiency note:** run the fresh forge session model-efficiently (cheaper tier for mechanical stages,
+  higher only for synthesis/verify). Quality floor is non-negotiable; overengineering is the anti-goal.
+
+## 8. Roadmap capabilities (product horizon, surfaced in the Yuri session 2026-08-07)
+The anti-Brooks's-Law family. Brooks's Law bites on two terms: communication (O(n^2) channels) and
+ramp-up time. ARCS attacks both, all on the same staff-of-chiefs substrate. Built into the codex as
+"08 · The synchronization tax" is the diagnostic; these are the generative capabilities to build:
+- **The coordination-cost auditor** (partly shipped in codex §08). Audit every meeting/workstream,
+  challenge each meeting's premise, RACI required-vs-optional, price each at time x loaded rate, run
+  cost-benefit on the program architecture. Prices and prunes the existing coordination graph.
+- **The Composer / Conductor.** The generative twin: given a project heading (desired outcome), design
+  the cadence, beats, pre-work, and outcome-tuned agenda for the most survivable line. Built from
+  existing primitives: staff-of-chiefs (subagent fan) proposes/critiques the rhythm, ROM selects the
+  survivable path, an ex-ante receipt per meeting (if it can't fail it isn't worth holding), phase-lock +
+  harmonics keep the signal consonant across altitudes, inverted-Parkinson's sets outcome-shape first.
+- **The Sage / supercapacitor (ramp-up counter).** The team's old growth (long-tenured, holding the
+  context that reorgs evaporate) become Sage training agents (`arcs_operators_sage.py`) that reorient
+  net-new members down the specialized operator tributaries. Context lives in receipts + the Sage agent,
+  not one person's head, so it survives the reorg and discharges fast (supercapacitor, not slow battery),
+  collapsing onboarding from months to a rapid transfer.
+- **The Gauntlet casting (bias-as-asset).** Cast real team members onto the gauntlet / staff-of-chiefs
+  roles by temperament instead of fighting their biases. The negativity-bias people and habitual devil's
+  advocates become the natural Loki / red-team / blue-team / steel-man / straw-man leads; their
+  contrarian stance is put to productive work arguing the anti-thesis. The choreography graph plays to
+  actual strengths and biases, so the person who always finds the problem leads the pre-mortem, and
+  productive discord is staffed by disposition, not assigned at random.
+
+**All four share one substrate** (the staff-of-chiefs / subagent fan) and together attack both terms of
+Brooks's Law. This is the org-scale product horizon for the coordination-intelligence surface; build it
+in the forge/roadmap, not by bloating a counterpart page.
+
+## 9. Robin = the platinum-master templates (extract, parameterize, regenerate)
+Robin's 4 live surfaces ARE the componentized master. The crispness gap on any HAND-built counterpart
+(Yuri was built one-off this session and drifted from the bar) is the case FOR the pipeline: parameterize
+Robin, pass the counterpart's SSOTs as args, regenerate to this bar. Do not hand-fix; generate.
+- **The 4 templates (`public/robin*.html`):**
+  - `robin.html` — the ONE-DOOR: facesnav ("N reads that feed each other") + one-line seed + **the concrete
+    real-call story** + how-it-works + where-it-goes + how-to-start + for-the-room. Leads with the STORY, not a diagram.
+  - `robin-profile.html` — THE READ OF YOU (registers / altitude / resonance / quiet-signals / loop), enriched from crawl.
+  - `robin-codex.html` — THE RECOIL, **dual-tab**: The Read (game-day tape: the line, vibe/veer, the offer) +
+    The Instrument (how the read is made, run on Zach's own tape, not the counterpart's). Two views, one thing.
+  - `robin-receipt.html` — THE RECEIPT CLOSE: bet filed BEFORE (in the codex) -> scored AFTER, reverse-listening +
+    deep recall, Kairos write-locked, status-at-open -> status-at-close, priors updated. The crispest proof.
+- **Crispness rules (encode as generation constraints):** real-call story + quotes over abstract diagrams;
+  the receipt-close is FIRST-CLASS (predicted-before vs actual-after, scored); a clean **3-read triad**
+  (profile -> recoil -> receipt), not 4+ top-level surfaces; dual Read+Instrument on the recoil.
+- **Method = runtime:** crawl -> profile; serialize transcript -> recoil; ex-ante + reverse-listen -> receipt-close.
+  Pass-through args = the counterpart SSOTs (`<date>-<name>-{profile,recoil,precall}.json`). Scripts:
+  `gen_recoil_artifact.py`, `recoil_brief.py`, `receipt_lookup.py`, + a `gen_receipt_close.py`. UI kit = the
+  shared CSS grammar in §2, extracted to partials once.
+- **N-call adaptivity:** Robin = multi-call arc; single-call counterparts (Yuri) render single-call recoil +
+  receipt-close, no arc. Template branches on call count.
+- **FIRST VALIDATION TARGET: regenerate Yuri to this bar** (profile already regrounded; add a yuri-receipt from
+  the ex-ante `kleban.json` scored against `kleban-recoil.json`; restructure `yuri.html` to lead with the real
+  belief-flip story, not the loop diagram; re-tier codex+demo as the deeper how-it-scales layer). Proving the
+  pipeline ON Yuri, matching Robin's crispness, is the acceptance test.
+
+## 10. UI-kit truing (canonical tokens, one source, no drift) — do FIRST in the CLI session
+Per ADR-009 (canonicalization) + ADR-031 (reconciliation, DECIDED: one DS, use `tokens.ts` exclusively,
+extend not fork). The parameterized generator must consume ONE token SSOT so no surface drifts again.
+- **Canonical token source:** `src/ui-kit/recoil-report/_tokens.css` (== `src/document/tokens.ts`) — the
+  standard ARCS dark-cockpit (#020408 / cyan-green-gold / Geist+Instrument+Bricolage). This is the UI kit
+  the templates import; extract §2 grammar into it, do not re-declare `:root` per page.
+- **Existing componentized kit to true up:** `src/ui-kit/recoil-report/` (01-header … 13-90day-build +
+  `_tokens.css`, example instances chris-lamontagne / cj-brief / chase-intro). The forge renders these
+  components from the counterpart SSOT; they are the recoil-report molecules.
+- **Drift to reconcile:** `public/robin-receipt.html` uses OMAKASE tokens (#0B0B0C / #C9A227 / Helvetica),
+  off-canon. Regenerate it from the canonical kit (omakase house style stays scoped to the omakase/louisville
+  family only, never the counterpart recoil family). Same check across public/ for other counterpart pages.
+- **Data-vis hover-state tooltips:** make the arc/graph tooltip (the `#tip` follow-cursor component in
+  robin.html: `data-tip`/`data-t`/`data-n`, touch-tap fallback, viewport-clamped) a canonical kit component
+  so every recoil/arc chart gets the same working hover + tap behavior. Currently hand-inlined per page.
+
+## 11. Generation honesty gate (non-negotiable)
+When public signal is insufficient to enrich a field or make an assertion confidently, DO NOT fabricate
+and DO NOT import a claim from the master template to fill the gap. Emit an explicit flag:
+**`additional enrichment source inputs required`**, naming the specific inputs that would raise confidence
+(GitHub, X, personal site, Crunchbase, podcasts/talks, prior call transcripts, etc.). Low resolution is
+stated, never hidden. This is D4 (atomic-confidence calibration) + the resolution caveat, made a hard gate:
+a read ships only if it traces to a source; otherwise it ships as a labeled gap with the inputs needed to
+close it. `yuri-profile` is the reference implementation (public-only caveat + first-class dial-up inputs;
+imported Robin reads were struck rather than left asserting).

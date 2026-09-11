@@ -1,0 +1,261 @@
+<title>With Life, and Without It</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Sources Redacted</span>
+    <span class="sp"><b>Vector: declined</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // A matched pair</p>
+    <h1>With Life, <em>and Without It</em></h1>
+    <p class="standfirst">Two recruiters called an hour apart on the same rainy Wednesday. One of them had no one home. This is the account of how I knew, and what I did with the knowing.</p>
+    <p class="byline">The living party is withheld to protect a real person · The hostile party is dissolved into its threat vector</p>
+  </header>
+
+  <section>
+    <span class="num">I · Two calls</span>
+    <p class="lead">They came an hour apart, through the same thin pane of a video window. Two recruiters, two roles, two voices. By the end of the day I understood I had been handed something rare: a matched pair, a control and its opposite, the same experiment run twice with one variable changed. The variable was whether anyone was home.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The first caller had no one behind it</span>
+    <p>The first call opened in static. Not the ordinary fumbling of a bad connection, but something stranger, a loop that would not resolve. Can you hear me. Hello. Hello. I answered, clearly, three times, and still the question came back unchanged, as if my voice were arriving somewhere that could not quite receive it and hand it on in time. Turn off your camera, he said, it is better. His own was already dark.</p>
+    <p>I have been on more calls than I can count. The body keeps a register the mind is slow to consult, and mine was already filling with a low, specific unease. When I offered a small human aside, half a joke, was it robotic before, the sentence broke against him. What do you mean. He could not take an unscripted turn. When I asked, idly, what part of France, there was a beat, a stall, a retrieval, and then the recited answer: Paris. He did not converse so much as advance, plowing his lines regardless of mine, and every so often, underneath, a second voice surfaced to prompt him. No, no, no. We guide you.</p>
+    <p>I want to be precise about what I felt, because it is the whole of it. It was not that he was foreign, or nervous, or reading from a script. Many honest people are all three. It was that there was no one there. The words had the shape of a person and none of the pressure of one. A conversation is a live thing; it yields and overlaps and repairs itself in the moment, and this had none of that give. It was a recording of the idea of a person, played at me. The life had been subtracted, and I could hear the hollow where it had been.</p>
+  </section>
+
+  <section>
+    <span class="num">III · What it wanted</span>
+    <p>What it wanted was simple, and it was patient about it. Clone the project, it said. Open it in your editor. It had a repository ready, and a custom development tool it wanted me inside of, and it kept returning to the ask the way water returns to the low point of a floor. I said I would run a security review first. No, it said, for security you do not need to run the code. Only review it in your editor. Do not run or install anything.</p>
+    <p>That sentence is the tell inside the tell, and it is almost elegant in its economy. It is true, in the narrow way that traps are true. You do not need to run the code, because on an editor set to trust the folder, merely opening it is enough: a task rigged to fire when the project loads, before you have decided anything. That is the whole reason the advice to just review it, do not run it, is the dangerous half. Keep your editor set to distrust unknown folders and the auto-run never fires, which is exactly the protection the caller was talking me out of. Glancing at the repository's page, not cloning it, I saw a single squashed commit. No history, no life of its own there either, a thing assembled to look like a thing that had lived. I declined. I said I would look on my own time, with my own precautions, and I left the call.</p>
+
+    <div class="panel">
+      <h4>How the trap fires <span class="sev">critical</span></h4>
+      <div class="step">
+        <span class="k">On open</span><b><code>.vscode/tasks.json</code> with <code>runOn:folderOpen</code> pipes <code>curl | bash</code> when the folder opens in a trusted editor. Keep Workspace Trust on and it does not fire.</b>
+        <span class="k">On install</span><b><code>package.json</code> <code>prepare</code> hook detonates the same chain on <code>npm install</code>.</b>
+        <span class="k">Stage 1</span><b>an appended stealer serializes <code>process.env</code> to the C2, then <code>eval()</code>s the reply. Live remote code execution.</b>
+        <span class="k">C2</span><b>beacon on port <code>1224</code>; second stage pulled from a vercel loader.</b>
+      </div>
+      <p>"You don't need to run it" is true, and it is the trap: opening is the trigger.</p>
+    </div>
+
+    <div class="vector">
+      <h3><span class="dot" aria-hidden="true"></span> Threat vector · detected</h3>
+      <p class="sub">The caller, dissolved into what it actually is</p>
+      <dl>
+        <dt>Nature</dt><dd>DPRK-nexus, financially motivated</dd>
+        <dt>MITRE ATT&amp;CK</dt><dd>Contagious Interview, tracked as Group G1052</dd>
+        <dt>Reported lineage</dt><dd>widely reported as a Lazarus sub-cluster</dd>
+        <dt>Known associates</dt><dd>overlapping cluster names: Famous Chollima · DeceptiveDevelopment · DEV#POPPER · Tenacious Pungsan · UNC5342 · PurpleBravo / TAG-121 · Gwisin Gang</dd>
+        <dt>Delivery</dt><dd>trojanized "assessment" repo; fires on folder-open and on install</dd>
+        <dt>Observed on this call</dt><dd>camera kept off · puppet-relay cadence · a disposable inbox · the company name he gave ("Cryptis") · the custom IDE he pushed ("Koso") · "you don't need to run it"</dd>
+        <dt>Campaign signature,<br>not observed here</dt><dd class="df">BeaverTail (S1246) &#8594; InvisibleFerret · sibling OtterCookie · C2 on port 1224 (hxxp / 91.121.235[.]127) · vercel stage-2 loader</dd>
+      </dl>
+      <p class="dispo">Disposition: <b>detected live, declined, no compromise.</b> The repository was never cloned, opened in an editor, or installed. The indicators above the fold were seen or heard on the call; the signature below it is known campaign reporting, not something observed from this contact.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · The second caller was alive</span>
+    <p>An hour later a second recruiter called about a different role, and within ten seconds the contrast was total. We interrupted each other and neither of us minded. I was the one who digressed, about a small family thing, and caught myself, and apologized, and digressed again, and she made room for all of it. She admitted, out loud and without embarrassment, that a detail was escaping her, and went to look it up while I waited. She named her client before I could ask, in case I was already speaking with them, and she offered numbers I could check, and at no point, not once, did she ask me to run anything at all.</p>
+    <p>Her name, her firm, her client, the city she named, the number she quoted: <span class="rdrow" aria-label="redacted"><span style="width:5.5em"></span><span style="width:3.5em"></span><span style="width:6.5em"></span><span style="width:4.5em"></span></span> all of it real, and all of it withheld here. She is a living person doing honest work, and the reward for being real should not be to be catalogued. I redact her to protect her.</p>
+  </section>
+
+  <section>
+    <span class="num">V · With life, and without it</span>
+    <p>Here is what the pair taught me. There are three axes you can read a stranger's call on, and they fire in order. The first is not provenance, and it is not the ask. The first is animacy: is anyone home. The old phrase for the thing I was listening for is <span class="vox">vox animus</span>, the animating voice, the sign of a living presence behind the words. The honest call had it in surplus, all friction and warmth and real-time repair. The hostile call was the same surface with the animus subtracted: a decision-shaped shell, operated from somewhere else by someone who never appeared.</p>
+    <p>Only after that came the other two. Provenance: the living one offered hers freely; the vector hid its own, would not even claim its own code. Execution: the living one asked me to run nothing; the vector wanted me to open the trap now, on the call, under its guidance. And here is the part to be careful with, because the feeling is not a verdict. Plenty of honest people are nervous, or on a bad line, or speaking a second language, or simply private with their camera. The absence I felt was not proof of anything about the person. It was a reason to slow down and check the other two, and it was those, the hidden provenance and the push to execute, that turned a feeling into a finding.</p>
+    <blockquote>The scam had the shape of a decision and no animating voice. That absence is the first thing to trust.</blockquote>
+
+    <div class="panel">
+      <h4>Read a call on three axes</h4>
+      <div class="step">
+        <span class="k">Animacy</span><b>vox animus present, living turn-taking, versus a puppet-relay with no one home. <em>Fires first, and it is somatic. A prompt to verify, never a verdict on a stranger.</em></b>
+        <span class="k">Provenance</span><b>offered and checkable, versus hidden ("not a contributor," vague company, camera off).</b>
+        <span class="k">Execution</span><b>asked to run nothing, versus "clone it now, you don't need to run it."</b>
+      </div>
+      <p>Legit trends toward alive, gave provenance, asked me to run nothing. The vector inverts all three.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VI · Metabolized</span>
+    <p>I did not leave it there. The felt thing became a written thing; the written thing became a tool. The morning's trap is now a read-only scanner that reads a hostile repository without ever opening it, the only safe way to inspect a thing whose whole danger is that it opens. The tells are catalogued. The account you are reading is part of the catalogue. A bad morning became, by nightfall, a small public good, which is the only revenge on this sort of thing that I have ever found worth taking.</p>
+
+    <div class="panel">
+      <h4>The control that came out of it</h4>
+      <div class="step">
+        <span class="k">Scanner</span><b>a read-only checker: reads a hostile repo without opening it. Never installs, runs, evals, or networks.</b>
+        <span class="k">Coverage</span><b>the seven triggers: folderOpen, install hooks, <code>curl|bash</code>, server-driven <code>eval</code>, env exfil, obfuscated lines, known indicators.</b>
+        <span class="k">Gate</span><b>a CI exit code that fails the build on any non-zero result, so a pipeline blocks the merge every time.</b>
+        <span class="k">Indicators</span><b class="df">port 1224 · hxxp / 91.121.235[.]127 · vercel stage-2 loader · disposable-inbox persona · "Cryptis" cover</b>
+      </div>
+      <p>Detection rules and the call-stage tells are kept in the operational bundle.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VII · Two redactions</span>
+    <p>So there are two redactions in this account, and they run in opposite directions, and I want them understood.</p>
+    <p>The living recruiter I redact <em>downward</em>, into privacy. I remove her name and her firm and her city because she is real, and the real are owed the dignity of not being pinned to a page.</p>
+    <p>The hostile caller I redact <em>upward</em>, into a threat vector. I take away its borrowed name, its invented company, the face it kept hidden, and I give back only what it is: a set of techniques, a lineage of malware, a list of known associates, a signature. I deny it the one thing it was counting on, which was to be received as a person. It had the shape of one and none of the substance. It does not get to keep the shape.</p>
+    <p>One had someone home. The other did not. Everything else was detail.</p>
+
+    <div class="panel">
+      <h4>Appendix · the chain, end to end</h4>
+      <div class="step">
+        <span class="k">1 lure</span><b>fake recruiter, disposable inbox, buzzword company cover.</b>
+        <span class="k">2 deliver</span><b>trojanized "assessment" repo, a single squash commit.</b>
+        <span class="k">3 trigger</span><b>folderOpen task and install hook.</b>
+        <span class="k">4 stage 1</span><b>BeaverTail: env and wallet theft, pulls stage 2.</b>
+        <span class="k">5 C2</span><b>port 1224; <code>eval()</code> of the server reply is the RCE.</b>
+        <span class="k">6 stage 2</span><b>InvisibleFerret backdoor, often AnyDesk for persistence.</b>
+        <span class="k">7 if opened</span><b>isolate, rotate every reachable credential, hunt port 1224, reimage.</b>
+      </div>
+      <p>This contact stopped at the doorstep of stage 1: declined at the clone. Steps 3 onward never ran.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VIII · Protect your watch, your wallet, your keys</span>
+    <p>So here is the sage version, the kind you can keep in a sentence: protect your watch, your wallet, and your keys. Your watch is your time and your attention. Your wallet is your money. Your keys are your access, the credentials that quietly open everything else. That is the whole of what the caller was reaching for, all three at once, dressed as an opportunity.</p>
+    <p>And the last tell was in the clock. I left the first call ten minutes early, because some part of me could not get out of the room fast enough. I stayed on the second ten minutes late, because I did not want to go. That is the test, in the end, and you already carry the instrument that runs it. The hollow ones you cannot leave soon enough. The living ones you lose track of the time.</p>
+  </section>
+
+  <div class="more">
+    <a href="https://good.arcs.care/blog/nftt/take-home-trap/dossier">
+      <span class="lbl">Go deeper</span>
+      Read the full Defensive Threat Analysis &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <b>Field account, 2026.</b> Threat vector: DPRK "Contagious Interview" / Famous Chollima, MITRE ATT&amp;CK G1052.<br>
+    Indicators shown defanged. The living party is withheld deliberately and is not recoverable from this document.<br>
+    Companion operational dossier and detection tooling maintained separately.
+  </footer>
+</div>

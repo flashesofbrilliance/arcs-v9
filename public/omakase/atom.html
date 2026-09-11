@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Seed, Told Whole /// ARCS</title>
+<meta name="description" content="One sealed decision is a seed. The atom, the lossless cut, the crew, the ladder, and the loop, told as one story.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1FAB4;</text></svg>">
+<style>html{color-scheme:dark;background:#020408}body{margin:0}</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<style>
+  :root{
+    --case:#020408; --panel:#0d1117; --panel2:#0a0e14; --line:#1e293b;
+    --text:#e2e8f0; --muted:#64748b; --dim:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --violet:#9A6FD0; --amber:#E0BE4A; --verm:#E34F1C;
+    --mono: ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} .st *{animation:none!important;transition:none!important}}
+  .st{background:var(--case);color:var(--text);font-family:var(--sans);line-height:1.55;
+    background-image:radial-gradient(1100px 640px at 50% -8%, rgba(0,240,255,.06), transparent 60%);
+    min-height:100%;padding:0 0 110px}
+  .st ::selection{background:rgba(0,240,255,.25);color:#fff}
+  .wrap{max-width:860px;margin:0 auto;padding:0 26px}
+  .st h1,.st h2,.st h3{letter-spacing:-.015em;font-weight:700;text-wrap:balance}
+  .st p{text-wrap:pretty}
+  .c{color:var(--cyan)} .gr{color:var(--green)} .go{color:var(--gold)} .vi{color:var(--violet)} .am{color:var(--amber)}
+
+  /* chapter rail */
+  .rail{position:sticky;top:0;z-index:50;background:rgba(2,4,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .rail-in{max-width:860px;margin:0 auto;padding:11px 26px 10px;display:grid;grid-template-areas:"wm crumb" "dots dots";grid-template-columns:auto 1fr;align-items:center;gap:9px 14px}
+  .wordmark{grid-area:wm}
+  .crumb{grid-area:crumb;justify-self:end;text-align:right}
+  .wordmark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--text)}
+  .wordmark b{color:var(--cyan)}
+  .dots{grid-area:dots;display:flex;gap:4px;align-items:center;justify-content:center}
+  .dots a{width:20px;height:20px;padding:6px;border-radius:50%;background:var(--line);background-clip:content-box;display:inline-block;transition:background .4s,box-shadow .4s}
+  .dots a.on{background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.5)}
+  .dots a:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+  .crumb{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;white-space:nowrap}
+  .crumb a{color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--line)}
+  .crumb a:hover,.crumb a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
+  .crumb .here{color:var(--gold)}
+  .crumb b{color:var(--dim);font-weight:400}
+  @media(max-width:640px){
+    .crumb{white-space:normal;line-height:1.9}
+    .rail-in{gap:7px 10px}
+  }
+
+  .chap{padding:72px 0 20px;scroll-margin-top:64px}
+  .knum{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
+  .chap h2{font-size:clamp(24px,2.6vw + 12px,36px);line-height:1.12;margin:12px 0 10px;max-width:26ch}
+  .lede{font-size:16px;color:#aeb9c7;max-width:66ch;line-height:1.62}
+  .lede b{color:var(--text)}
+  .lede + .lede{margin-top:12px}
+
+  /* the foreword: handed inside the door, before the story */
+  .fw{border:1px dashed rgba(255,215,0,.35);border-radius:14px;padding:20px 22px;margin-bottom:34px;background:linear-gradient(180deg,rgba(255,215,0,.04),transparent 70%);max-width:640px}
+  .fw-k{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);margin-bottom:10px}
+  .fw-p{font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:60ch}
+  .fw-s{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--dim);margin-top:12px}
+
+  /* hero */
+  .top{padding:64px 0 8px}
+  .top h1{font-size:clamp(32px,3.8vw + 14px,50px);line-height:1.05;margin:16px 0 14px;max-width:17ch}
+  .top .sub{font-size:17px;color:var(--muted);max-width:62ch;line-height:1.58}
+  .top .sub b{color:var(--text)}
+  .begin{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--gold);border:1px solid var(--gold);border-radius:3px;padding:13px 26px;text-decoration:none;transition:background .3s,color .3s}
+  .begin:hover,.begin:focus-visible{background:var(--gold);color:var(--case)}
+
+  /* token + receipt cards */
+  .token{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel),var(--panel2));
+    padding:18px 20px;position:relative;overflow:hidden;margin-top:20px;max-width:560px}
+  .token .tk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--cyan);margin-bottom:11px}
+  .token pre{font-family:var(--mono);font-size:11.5px;line-height:1.62;color:#9fb4c9;white-space:pre;overflow-x:auto}
+  .token .k{color:var(--cyan)} .token .s{color:var(--green)} .token .n{color:var(--gold)} .token .cm{color:var(--dim)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .chip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cyan);border:1px solid rgba(0,240,255,.3);border-radius:100px;padding:4px 10px}
+
+  .rcp{max-width:640px;margin-top:20px;border:1px solid rgba(201,162,39,.4);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px}
+  .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px}
+  .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
+  .rcp .rrow:first-of-type{border-top:0}
+  .rcp .rl{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--dim);padding-top:3px}
+  .rcp .rv{font-size:13.5px;color:var(--text);line-height:1.65}
+  .rcp .rv i{color:var(--muted)}
+  @media(max-width:560px){.rcp .rrow{grid-template-columns:1fr;gap:3px}}
+  .hold{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .hold button,.hold a{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--gold);background:none;border:1px solid rgba(201,162,39,.5);border-radius:3px;padding:10px 16px;cursor:pointer;text-decoration:none;transition:background .3s,color .3s}
+  .hold button:hover,.hold a:hover,.hold button:focus-visible,.hold a:focus-visible{background:var(--gold);color:var(--case)}
+  .hold .note{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--dim);width:100%}
+
+  /* dials */
+  .dials{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+  @media(max-width:680px){.dials{grid-template-columns:1fr}}
+  .dial{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--panel),var(--panel2));padding:16px 18px}
+  .dial .dk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--cyan);margin-bottom:8px}
+  .dial h3{font-size:16px;margin-bottom:6px}
+  .dial p{font-size:12.5px;color:#9fb0c0;line-height:1.55}
+  .dial .scale{margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.04em;line-height:1.7}
+  .dial .scale span{color:var(--amber)}
+
+  /* demo: one atom three targets */
+  .demo{border:1px solid var(--line);border-radius:14px;background:var(--panel2);overflow:hidden;margin-top:20px}
+  .src{padding:16px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(0,240,255,.06),transparent)}
+  .src .sk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--cyan);margin-bottom:7px}
+  .src .payload{font-family:var(--mono);font-size:12.5px;color:var(--text);line-height:1.7}
+  .src .payload .lbl{color:var(--cyan)}
+  .src .credit{margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.03em}
+  .targets{display:grid;grid-template-columns:repeat(3,1fr)}
+  @media(max-width:720px){.targets{grid-template-columns:1fr}}
+  .tgt{padding:15px 17px;border-right:1px solid var(--line)}
+  .tgt:last-child{border-right:0}
+  @media(max-width:720px){.tgt{border-right:0;border-bottom:1px solid var(--line)}.tgt:last-child{border-bottom:0}}
+  .tgt .th{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
+  .tgt .tn{font-family:var(--mono);font-size:10px;letter-spacing:.12em;font-weight:700;color:var(--ac)}
+  .tgt .ta{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;color:var(--dim)}
+  .tgt p{font-size:13px;color:#c2ccd6;line-height:1.55}
+  .tgt .keep{margin-top:9px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--green);line-height:1.6}
+  .meter{padding:13px 18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:var(--panel)}
+  .meter .m{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+  .meter .m b{color:var(--green)}
+  .meter .m.warn b{color:var(--amber)}
+
+  /* crew */
+  .crew{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:20px}
+  @media(max-width:640px){.crew{grid-template-columns:1fr}}
+  .op{border:1px solid var(--line);border-left:1px solid var(--ac);border-radius:12px;background:var(--panel);padding:15px 17px;position:relative;overflow:hidden}
+  .op .seal{position:absolute;top:11px;right:14px;font-size:30px;color:var(--ac);opacity:.14;line-height:1;font-weight:700}
+  .op .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:5px}
+  .op h4{font-size:16px;margin-bottom:6px}
+  .op p{font-size:13px;color:#9fb0c0;line-height:1.55}
+  .op .cut{margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+  .op .cut b{color:var(--text)}
+
+  /* ladder */
+  .mag{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+  .mrow{display:grid;grid-template-columns:118px 1fr 92px;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;
+    background:linear-gradient(90deg,rgba(154,111,208,.05),transparent 60%);padding:12px 15px}
+  @media(max-width:560px){.mrow{grid-template-columns:1fr;gap:5px}.mrow .fid{text-align:left}}
+  .mrow .lv{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ac)}
+  .mrow .mc h4{font-size:14px;margin-bottom:2px}
+  .mrow .mc p{font-size:12px;color:#9fb0c0;line-height:1.5}
+  .mrow .fid{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;color:var(--muted);text-align:right;line-height:1.5}
+  .mrow .fid b{color:var(--amber)}
+
+  /* loop diagram + service */
+  .diagram{border:1px solid var(--line);border-radius:14px;background:var(--panel2);padding:18px 16px 12px;margin-top:20px}
+  .dcap{margin-top:12px;font-size:13px;color:var(--muted);line-height:1.6;font-family:var(--mono);letter-spacing:.02em}
+  .dcap b{color:var(--text)}
+  .guards{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .guard{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--green);border:1px solid rgba(0,255,157,.3);border-radius:100px;padding:4px 10px}
+
+  .close{margin-top:56px;border:1px dashed rgba(255,215,0,.45);border-radius:14px;padding:22px 24px;background:linear-gradient(180deg,rgba(255,215,0,.05),transparent 70%)}
+  .close .ck{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:10px}
+  .close p{font-size:16.5px;color:var(--text);line-height:1.62;max-width:64ch}
+  .close b{color:var(--gold)}
+  .cta{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.2em;color:var(--verm);border:1px solid var(--verm);border-radius:3px;padding:14px 24px;text-decoration:none;transition:background .3s,color .3s}
+  .cta:hover,.cta:focus-visible{background:var(--verm);color:var(--case)}
+  .assure{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);margin-top:12px;line-height:1.9}
+
+  .foot{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--dim);line-height:2}
+  .foot b{color:var(--cyan)}
+</style>
+
+<div class="st">
+
+  <nav class="rail" aria-label="Chapters">
+    <div class="rail-in">
+      <span class="wordmark"><b>ARCS</b> · THE SEED, TOLD WHOLE</span>
+      <span class="dots" id="dots"></span>
+      <span class="crumb"><a href="https://louisville.arcs.care">⛩ SUITE</a> <b>›</b> <a href="/omakase">一夜 EVENING</a> <b>›</b> <span class="here">🍵 TEA HOUSE</span></span>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <header class="top" id="ch0">
+      <p style="font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--dim);margin-bottom:18px">躙口 · THE CRAWL DOOR · EVERY GUEST ENTERS LOW, SWORDS STAY OUTSIDE</p>
+      <div class="fw">
+        <p class="fw-k">序 · A FOREWORD · IN PLACE OF A THANK-YOU NOTE</p>
+        <p class="fw-p">Most thank-you notes thank the calendar, not the conversation. This meeting was a long time coming and met the anticipation, so it gets a different kind of acknowledgement. On the call you said that being on camera made you slow down and focus, that you are usually multi-tasking and this time you were not. What you are holding is that moment, returned in kind: everything the hour set in motion, slowed down, focused, and arranged so you can walk it at your own pace. It is not a recap and it is not a pitch. It is the conversation, continued in a form that keeps.</p>
+        <p class="fw-s">WITH GRATITUDE · Z</p>
+      </div>
+      <div class="knum">ARCS · FIELD OS · ONE STORY, SEVEN CHAPTERS</div>
+      <h1>One sealed decision is a <span class="c">seed.</span> Everything else is that seed, <span class="go">arranged.</span></h1>
+      <p class="sub">This is one story told whole: the atom, the one you cut yourself, the lossless cut, the crew that cuts it, the table it feeds, the ladder it climbs, and the loop that closes. <b>Nothing new is invented as it scales.</b> Arrow keys walk it, or just scroll.</p>
+      <a class="begin" href="#ch1">BEGIN · THE ATOM</a>
+    </header>
+
+    <section class="chap" id="ch1">
+      <div class="knum">Chapter 1 · 種 · The atom</div>
+      <h2>A coordinate, frozen in time</h2>
+      <p class="lede">Not a report and not a row in a form. A receipt is a decision's <b>state vector</b>: what is being bet, what would prove it wrong, where it dies or scales, and when it gets scored. Sealed before the outcome, so it cannot be quietly rewritten later.</p>
+      <p class="lede">It is meaningful <b>standalone</b>. Hand someone one receipt and they know the whole decision. That is the atomic test.</p>
+      <div class="token">
+        <div class="tk">THE ATOMIC UNIT · A SEED TOKEN, NOT A DOCUMENT</div>
+<pre><span class="k">{</span>
+  <span class="k">"bet"</span>: <span class="s">"the next bag"</span>,
+  <span class="k">"falsifier"</span>: <span class="s">"rebuy &lt; threshold @ d30"</span>,
+  <span class="k">"killScale"</span>: <span class="s">"below the line, stop"</span>,
+  <span class="k">"scoreBackDate"</span>: <span class="s">"set before a dollar moves"</span>,
+  <span class="k">"status"</span>: <span class="s">"OPEN"</span>,
+  <span class="k">"parentId"</span>: <span class="n">null</span>,       <span class="cm">// lineage in</span>
+  <span class="k">"seedsSessionId"</span>: <span class="n">null</span>  <span class="cm">// lineage out</span>
+<span class="k">}</span></pre>
+      </div>
+      <div class="chips"><span class="chip">SELF-DESCRIBING</span><span class="chip">FALSIFIABLE</span><span class="chip">ADDRESSABLE</span><span class="chip">SEALED</span></div>
+    </section>
+
+    <section class="chap" id="ch2">
+      <div class="knum">Chapter 2 · 客 · The one you cut yourself</div>
+      <h2>This is not a demo. You built this one.</h2>
+      <p class="lede">On the first call, minutes thirty-four to forty-two, you took a live decision of your own and articulated the tripwire yourself, then sharpened it past binary before anyone could. You named the job it does, too: objectivity against emotion, a candid outside read that never makes you look weak for asking. Figures are milled here the way rice is milled for daiginjo; the full-fidelity original keeps in the gated record.</p>
+      <div class="rcp">
+        <p class="rk">領収書 · A DECISION RECEIPT · CUT LIVE · JUL 31 2026</p>
+        <div class="rrow"><span class="rl">THE BET</span><span class="rv">Keep the national sales team at its five-figure monthly retainer through the October gate, held to a six-figure monthly incrementality line.</span></div>
+        <div class="rrow"><span class="rl">THE BANDS</span><span class="rv">Yours, graduated, not binary: below the line, end-of-year notice · at the line, re-compete it · above it, <i>"we let it roll, maybe a bonus."</i></span></div>
+        <div class="rrow"><span class="rl">THE SHARPEN</span><span class="rv">Then you cut it finer unprompted: lower the fixed retainer, raise the commission, focus the two regions that actually win.</span></div>
+        <div class="rrow"><span class="rl">STATUS</span><span class="rv"><span style="color:var(--verm)">UNSEALED</span> · the October gate is on the calendar and waiting for a signature.</span></div>
+      </div>
+      <div class="hold">
+        <button id="hold-btn" type="button">⬇ HOLD IT · SAVE THE RECEIPT AS JSON</button>
+        <span class="note" id="hold-note">A PLAIN, PORTABLE OBJECT · YOURS TO KEEP, MOVE, OR SEAL</span>
+      </div>
+    </section>
+
+    <section class="chap" id="ch3">
+      <div class="knum">Chapter 3 · 削 · The lossless cut</div>
+      <h2>One source. Every target. Nothing load-bearing lost.</h2>
+      <p class="lede">A rendering is the source turned by three dials. Everything else is fixed: the guarantee is not that it reads the same, it is that it <b>means</b> the same, and anything a target cannot carry is withheld out loud, never silently.</p>
+      <div class="dials">
+        <div class="dial"><div class="dk">DIAL 1</div><h3 class="c">Register</h3><p>The target's native voice and role-language. Resonance begins here: speak in the materials they already think in.</p><div class="scale">maker · <span>steward</span> · weaver · auditor</div></div>
+        <div class="dial"><div class="dk">DIAL 2</div><h3 class="c">Altitude</h3><p>How deep it goes. The cut starts at the target's native rung and descends only on demand.</p><div class="scale">Exec → Strategic → <span>Operational</span> → Tactical → Surgical</div></div>
+        <div class="dial"><div class="dk">DIAL 3</div><h3 class="c">Fidelity</h3><p>How visibly the evidence discipline shows. It dials how it shows, never whether it holds.</p><div class="scale">GRAIN · DEGRADED · <span>SHARP</span></div></div>
+      </div>
+      <div class="demo">
+        <div class="src">
+          <div class="sk">SOURCE ATOM · the next bag</div>
+          <div class="payload"><span class="lbl">bet</span> the next flavor, limited c-store run before a full commitment &nbsp;·&nbsp; <span class="lbl">falsifier</span> repeat purchase under the line at day 30 &nbsp;·&nbsp; <span class="lbl">kill/scale</span> below the line, hold size; at or above, next tier</div>
+          <div class="credit">per Jeben: the repeat c-store buyer, the long-haul trucker, is the real customer &nbsp;·&nbsp; credited in every voice</div>
+        </div>
+        <div class="targets">
+          <div class="tgt" style="--ac:#00FF9D">
+            <div class="th"><span class="tn">MAKER</span><span class="ta">operational · grain</span></div>
+            <p>Put the next flavor in a small c-store run first. If the trucker isn't coming back for it by day 30, it isn't the one. Cheap to find out, and per Jeben that repeat buyer is who we're making it for.</p>
+            <div class="keep">holds: line · exit · credit</div>
+          </div>
+          <div class="tgt" style="--ac:#E0BE4A">
+            <div class="th"><span class="tn">STEWARD</span><span class="ta">strategic · degraded</span></div>
+            <p>A sized commitment with a pre-agreed exit: the run scales only if repeat purchase clears the line set today, read at day 30. Board-legible, downside capped, the customer thesis (per Jeben) named up front.</p>
+            <div class="keep">holds: line · exit · credit</div>
+          </div>
+          <div class="tgt" style="--ac:#00F0FF">
+            <div class="th"><span class="tn">AUDITOR</span><span class="ta">surgical · sharp</span></div>
+            <p>Bet: next-bag limited c-store run. Falsifier: repeat-purchase rate under the pre-set line at t+30d, measured not recalled. Kill/scale: below the line hold size, at or above next tier. Customer anchor (per Jeben): repeat c-store buyer.</p>
+            <div class="keep">holds: line · exit · credit</div>
+          </div>
+        </div>
+        <div class="meter">
+          <span class="m">LOAD-BEARING LOST: <b>0</b></span>
+          <span class="m">ATTRIBUTION: <b>preserved</b> (per Jeben, every voice)</span>
+          <span class="m">CONSONANCE: <b>pass</b> (no voice contradicts another)</span>
+          <span class="m warn">WITHHELD: <b>logged, not silent</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chap" id="ch4">
+      <div class="knum">Chapter 4 · 匠 · The cutting crew</div>
+      <h2>Six operators, one cut each</h2>
+      <p class="lede">The source is not paraphrased by one hand. Six operators cut it together, the way an editor and a jeweler cut, each responsible for one property of the final piece.</p>
+      <div class="crew">
+        <div class="op" style="--ac:#9A6FD0"><span class="seal" aria-hidden="true">織</span><div class="role">The Weaver · register</div><h4>Braids source into voice</h4><p>Threads the decision into the target's own materials and role-language, so it arrives as something they already think in.</p><div class="cut"><b>Cuts:</b> the register dial</div></div>
+        <div class="op" style="--ac:#FFD700"><span class="seal" aria-hidden="true">琢</span><div class="role">The Jeweler · essence</div><h4>Diamond-cut to one facet</h4><p>Mills away everything non-essential until only the core signal remains. Seimaibuai: the 100 percent signal at the highest polish.</p><div class="cut"><b>Cuts:</b> the fidelity dial</div></div>
+        <div class="op" style="--ac:#E0BE4A"><span class="seal" aria-hidden="true">古</span><div class="role">The Elder · memory</div><h4>Holds the invariant</h4><p>Remembers what must not be lost. Nothing load-bearing is dropped in any rendering; the precedent and the load survive every cut.</p><div class="cut"><b>Guards:</b> lossless</div></div>
+        <div class="op" style="--ac:#00F0FF"><span class="seal" aria-hidden="true">疑</span><div class="role">The Skeptic · consonance</div><h4>Tests that it still holds</h4><p>No rendering may contradict another. If two registers disagree, the translation failed, not the listener. The falsifier survives translation.</p><div class="cut"><b>Guards:</b> consonance</div></div>
+        <div class="op" style="--ac:#E34F1C"><span class="seal" aria-hidden="true">仮</span><div class="role">Loki · the mask</div><h4>Wears the target's face</h4><p>Dons the register honestly, then turns adversary: is this resonance, or flattery? A rendering that only pleases is theater with a paper trail.</p><div class="cut"><b>Cuts + checks:</b> the mask</div></div>
+        <div class="op" style="--ac:#00FF9D"><span class="seal" aria-hidden="true">衆</span><div class="role">The Curator · synthesis</div><h4>Assembles the surface</h4><p>Composes the cuts into one coherent rendering and logs anything withheld. The multi-perspective read becomes a single, governed page.</p><div class="cut"><b>Composes:</b> the page</div></div>
+      </div>
+    </section>
+
+    <section class="chap" id="ch5">
+      <div class="knum">Chapter 5 · 卓 · The table</div>
+      <h2>Three seats, one note, nothing lost between them</h2>
+      <p class="lede">The proof of the lossless cut is not the demo above; it is the actual table. The same seed, spoken to each seat in its own materials, and no seat's version contradicts another's.</p>
+      <div class="crew" style="grid-template-columns:1fr">
+        <div class="op" style="--ac:#00FF9D"><div class="role">For Justin · the maker</div><h4>The proof is already yours</h4><p>Pumps: built nearly all the way, shipped with the shells on, then rebuilt once the market told you. A small read before the run would have caught the shells. Not a knock; the company's own best evidence that a cheap test before the money moves pays for itself. <b style="color:var(--text)">The receipt taxes bets, not taste. Invention stays free.</b></p></div>
+        <div class="op" style="--ac:#E0BE4A"><div class="role">For Stanley · the steward</div><h4>Discipline a board can read</h4><p>A stack of decision receipts is a written record of what was believed, what was bet, and what actually happened, ninety days later. Written before the outcome, so a miss cannot be quietly rewritten. It reads as institutional care to a board and a fund, and it turns founders' intuition into an asset that outlives any single product.</p></div>
+        <div class="op" style="--ac:#C9A227"><div class="role">For Jeben · the craftsman</div><h4>Wild evidence, credited every time</h4><p>He saw the back of the fence, the labor of love behind the refined thing out front, and named the read for what it is: undiluted proof the learning happened. Every image of his that travels is credited every time it travels. The through line he named holds: great instincts, and one cheap checkpoint before the spend.</p></div>
+      </div>
+    </section>
+
+    <section class="chap" id="ch6">
+      <div class="knum">Chapter 6 · 梯 · The ladder</div>
+      <h2>Atom to page is the same seed at a chosen depth</h2>
+      <p class="lede">Every altitude is the same seed, cut once more. The page is not a different thing from the atom; it is the atom rendered at the reader's depth and fidelity. Walk it up, walk it down, the load never changes.</p>
+      <div class="mag">
+        <div class="mrow" style="--ac:#00F0FF"><div class="lv" style="color:#00F0FF">Atom</div><div class="mc"><h4>The sealed decision</h4><p>One receipt: bet, falsifier, exit, score-back.</p></div><div class="fid">surgical<br><b>SHARP</b></div></div>
+        <div class="mrow" style="--ac:#00FF9D"><div class="lv" style="color:#00FF9D">Molecule</div><div class="mc"><h4>Board read on the atom</h4><p>Advisor lenses derived on one receipt; a single risk row; a re-entry bookmark.</p></div><div class="fid">tactical<br><b>SHARP</b></div></div>
+        <div class="mrow" style="--ac:#FFD700"><div class="lv" style="color:#FFD700">Organism</div><div class="mc"><h4>The ledger / the studio</h4><p>Many atoms plus their board, arranged into a live surface you operate.</p></div><div class="fid">operational<br><b>DEGRADED</b></div></div>
+        <div class="mrow" style="--ac:#9A6FD0"><div class="lv" style="color:#9A6FD0">Template</div><div class="mc"><h4>Brief / working session / debrief</h4><p>A shape the atoms pour into at the target's register.</p></div><div class="fid">strategic<br><b>DEGRADED</b></div></div>
+        <div class="mrow" style="--ac:#FF4D6D"><div class="lv" style="color:#FF4D6D">Page</div><div class="mc"><h4>The surface you walk into</h4><p>The evening itself. Still, underneath, the atom.</p></div><div class="fid">exec<br><b>GRAIN</b></div></div>
+      </div>
+    </section>
+
+    <section class="chap" id="ch7">
+      <div class="knum">Chapter 7 · 円 · The loop</div>
+      <h2>The receipt seeds the next receipt</h2>
+      <p class="lede">Two links make receipts compose without a framework. <b>Lineage in</b>: a receipt can be born from another, so a chain of decisions is a graph you can walk. <b>Lineage out</b>: an open receipt seeds the next working session, whose sealed receipts seed the one after. The loop is closed and directional.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 760 190" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="receipt to agenda to session to receipt loop">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#00F0FF"/>
+            </marker>
+          </defs>
+          <g font-family="ui-monospace,monospace" font-size="12">
+            <rect x="24" y="66" width="150" height="58" rx="11" fill="#0d1117" stroke="#00F0FF" stroke-width="1.4"/>
+            <text x="99" y="90" text-anchor="middle" fill="#e2e8f0" font-weight="700">RECEIPT</text>
+            <text x="99" y="108" text-anchor="middle" fill="#64748b" font-size="10">sealed · OPEN</text>
+            <rect x="305" y="20" width="150" height="52" rx="11" fill="#0d1117" stroke="#00FF9D" stroke-width="1.4"/>
+            <text x="380" y="42" text-anchor="middle" fill="#e2e8f0" font-weight="700">AGENDA</text>
+            <text x="380" y="59" text-anchor="middle" fill="#64748b" font-size="10">open + due-soon</text>
+            <rect x="305" y="118" width="150" height="52" rx="11" fill="#0d1117" stroke="#FFD700" stroke-width="1.4"/>
+            <text x="380" y="140" text-anchor="middle" fill="#e2e8f0" font-weight="700">SESSION</text>
+            <text x="380" y="157" text-anchor="middle" fill="#64748b" font-size="10">the working room</text>
+            <rect x="586" y="66" width="150" height="58" rx="11" fill="#0d1117" stroke="#00F0FF" stroke-width="1.4"/>
+            <text x="661" y="90" text-anchor="middle" fill="#e2e8f0" font-weight="700">RECEIPT'</text>
+            <text x="661" y="108" text-anchor="middle" fill="#64748b" font-size="10">next decision</text>
+            <path d="M174,86 C230,70 260,55 305,48" fill="none" stroke="#00F0FF" stroke-width="1.4" marker-end="url(#ah)"/>
+            <path d="M380,72 L380,116" fill="none" stroke="#00F0FF" stroke-width="1.4" marker-end="url(#ah)"/>
+            <path d="M455,144 C510,130 545,110 586,98" fill="none" stroke="#00F0FF" stroke-width="1.4" marker-end="url(#ah)"/>
+            <path d="M586,104 C470,175 250,175 120,126" fill="none" stroke="#475569" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#ah)"/>
+            <text x="353" y="188" text-anchor="middle" fill="#475569" font-size="9.5">lineage in / lineage out close the loop</text>
+          </g>
+        </svg>
+        <p class="dcap"><b>Live today:</b> every receipt sealed in a session persists tenant-side and composes into the next session's agenda. Receipt to agenda to session to receipt, serialized, no orchestration layer required.</p>
+      </div>
+      <div class="guards">
+        <span class="guard">TENANT-SCOPED · NEVER SHARED</span><span class="guard">LEAST-PRIVILEGE</span><span class="guard">VALIDATED</span><span class="guard">FAIL-CLOSED</span>
+      </div>
+
+      <div class="close">
+        <div class="ck">為 · THE INVARIANT · AND THE DOOR</div>
+        <p>Design one thing well and the system falls out of it. The receipt is <b>atomic</b> enough to stand alone, <b>lossless</b> enough to speak every register, <b>composable</b> enough to seed the next one, and <b>bounded</b> enough to stay yours. Scale is not more machinery. It is the same seed token, arranged. And one of these seeds already exists, half-built, with your name on it and an October gate.</p>
+        <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">SEAL THE ONE YOU STARTED · BEFORE THE OCTOBER GATE</a>
+        <p class="assure">THE SITTING IS $0 · YOU KEEP THE RECEIPT AND THE DATA EITHER WAY · IF OCTOBER PASSES UNSEALED, NOTHING IS LOST BUT THE SCORE</p>
+      </div>
+    </section>
+
+    <div class="foot">
+      ARCS · FIELD OS · THE SEED, TOLD WHOLE<br>
+      <b>ATOM · YOURS · LOSSLESS · CREW · TABLE · LADDER · LOOP</b> · ONE UNIT, EVERY ALTITUDE<br>
+      <span style="display:inline-block;margin-top:10px">RETURN · <a href="/omakase" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)">一夜 THE EVENING</a> &nbsp;·&nbsp; <a href="https://louisville.arcs.care" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)">⛩ THE SUITE</a></span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var CH = ['ch0','ch1','ch2','ch3','ch4','ch5','ch6','ch7'];
+  var dots = document.getElementById('dots');
+  CH.forEach(function(id, i){
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.setAttribute('aria-label', 'Chapter ' + i);
+    dots.appendChild(a);
+  });
+  var links = dots.children;
+  function current(){
+    var mid = window.scrollY + window.innerHeight * 0.4, cur = 0;
+    for (var i = 0; i < CH.length; i++){
+      var el = document.getElementById(CH[i]);
+      if (el && el.offsetTop <= mid) cur = i;
+    }
+    return cur;
+  }
+  function paint(){
+    var cur = current();
+    for (var i = 0; i < links.length; i++) links[i].classList.toggle('on', i === cur);
+  }
+  addEventListener('scroll', paint, {passive:true});
+  addEventListener('resize', paint, {passive:true});
+  paint();
+  addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    var t = e.target && (e.target.tagName || '');
+    if (t === 'INPUT' || t === 'TEXTAREA') return;
+    var fwd = (e.key === 'ArrowRight' || e.key === 'ArrowDown');
+    var nxt = Math.min(CH.length - 1, Math.max(0, current() + (fwd ? 1 : -1)));
+    var el = document.getElementById(CH[nxt]);
+    if (el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+
+  // Chapter 2: hold the receipt. Runtime save when granted; plain data-URL fallback otherwise.
+  var RECEIPT = {
+    kind: 'arcs.receipt',
+    id: 'lvb-2026-07-31-vendor-tripwire',
+    author: 'Justin Delaney',
+    createdLive: '2026-07-31, first call, minutes 34 to 42',
+    bet: 'Keep the national sales team at its five-figure monthly retainer through the October renewal gate, held to a six-figure monthly incrementality line',
+    line: 'A six-figure monthly incrementality floor, measured, not recalled',
+    bands: {
+      belowTheLine: 'end-of-year notice',
+      atTheLine: 're-compete it (RFP)',
+      aboveTheLine: 'let it roll, maybe a bonus'
+    },
+    sharpen: 'Lower the fixed retainer, raise the commission, focus the two regions that actually win',
+    gate: 'October renewal',
+    status: 'UNSEALED',
+    provenance: 'Co-built live by Justin on the Jul 31 2026 call; figures milled for sharing (seimaibuai), full-fidelity original in the gated record',
+    next: 'Seal it: sign, date, and put the score-back on the calendar for the October gate'
+  };
+  var FILENAME = 'lvb-receipt-2026-07-31.json';
+  var btn = document.getElementById('hold-btn');
+  var note = document.getElementById('hold-note');
+  var LABEL = btn.textContent;
+  function fallback(){
+    var a = document.createElement('a');
+    a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(RECEIPT, null, 2));
+    a.download = FILENAME;
+    document.body.appendChild(a); a.click(); a.remove();
+    btn.textContent = '✓ IN YOUR DOWNLOADS';
+    setTimeout(function(){ btn.textContent = LABEL; }, 3000);
+  }
+  btn.addEventListener('click', function(){
+    if (!(window.claude && window.claude.downloads)){ fallback(); return; }
+    btn.disabled = true;
+    window.claude.downloads.save({ filename: FILENAME, data: JSON.stringify(RECEIPT, null, 2) })
+      .then(function(){ btn.disabled = false; btn.textContent = '✓ SAVED'; setTimeout(function(){ btn.textContent = LABEL; }, 3000); })
+      .catch(function(err){
+        btn.disabled = false;
+        var code = err && err.code;
+        if (code === 'declined') return;
+        if (code === 'rate_limited'){ note.textContent = 'ONE SAVE AT A TIME · TRY AGAIN IN A MOMENT'; return; }
+        fallback();
+      });
+  });
+})();
+</script>
+
+</body>
+</html>

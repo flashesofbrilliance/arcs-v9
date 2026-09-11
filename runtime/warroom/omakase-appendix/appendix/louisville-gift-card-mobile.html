@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>土産 · THE GIFT CARD · phone render source</title>
+<style>
+  /* Render source for louisville-gift.pdf. Two fixed 11in x 8.5in pages,
+     printed full-bleed dark via headless Chrome. Not linked from the site. */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#8A8A90; --faint:#5A5A60;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  @page{size:7.66in 4.25in;margin:0}
+  html,body{background:var(--case);font-family:var(--sans);color:var(--dial)}
+  .page{width:7.66in;background:var(--case);position:relative;page-break-after:always;margin:0 auto}
+  .lid.page{height:4.25in;overflow:hidden}
+  .page:last-child{page-break-after:auto}
+
+  /* lacquer frame: double gold hairline inset like a box edge */
+  .frame{position:absolute;inset:0.16in;border:1px solid rgba(201,162,39,.55);pointer-events:none}
+  .frame::after{content:"";position:absolute;inset:4px;border:1px solid rgba(201,162,39,.22)}
+
+  [lang="ja"]{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans);word-break:keep-all;line-break:strict}
+
+  /* ---------- PAGE 1 · THE LID ---------- */
+  .lid{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .lid .enso{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);opacity:.16}
+  .lid .miyage{font-size:28px;color:var(--gold);font-weight:700;letter-spacing:.06em}
+  .lid .eyebrow{font-family:var(--mono);font-size:7.5px;letter-spacing:.24em;color:var(--graphite);margin-top:8px}
+  .lid h1{font-size:15px;font-weight:700;letter-spacing:.04em;margin-top:12px;padding:0 .5in}
+  .lid .serial{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;padding:0 .3in;color:var(--faint);margin-top:6px;line-height:1.9}
+  .lid .morsel{border:1.5px dashed var(--gold);border-radius:6px;padding:12px 20px;margin:14px .6in 0;max-width:none;background:rgba(19,19,21,.6)}
+  .lid .morsel p{font-size:12px;line-height:1.65;font-weight:700}
+  .lid .morsel .accent{color:var(--verm)}
+  .lid .knot{margin-top:12px;font-family:var(--mono);font-size:6.5px;letter-spacing:.2em;color:var(--graphite)}
+  .lid .band{position:absolute;left:0.16in;right:0.16in;bottom:0.22in;display:flex;justify-content:center;gap:14px;
+    font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;color:var(--graphite)}
+  .lid .band b{font-weight:700;color:var(--dial);letter-spacing:.22em}
+
+  /* ---------- PAGE 2 · THE TRAY ---------- */
+  .tray{padding:0.28in 0.32in 0.32in}
+  .th{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .th .k{font-size:20px;color:var(--gold);font-weight:700}
+  .th .t{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--graphite)}
+  .th .r{margin-left:auto;font-family:var(--mono);font-size:6.5px;letter-spacing:.2em;color:var(--faint)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 14px;position:relative;break-inside:avoid;page-break-inside:avoid}
+  .cell::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;border-radius:5px 5px 0 0;background:var(--line)}
+  .cell.gold::before{background:var(--gold)}
+  .cell.verm::before{background:var(--verm)}
+  .cell.red::before{background:var(--red)}
+  .ch{font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;color:var(--gold);font-weight:700;margin-bottom:7px}
+  .ch span{color:var(--faint);letter-spacing:.1em;font-weight:400}
+  .cell p{font-size:10.4px;line-height:1.6;color:var(--dial)}
+  .cell p i{color:var(--graphite)}
+  .cell p b{color:var(--dial)}
+  .cell p .accent{color:var(--verm)}
+  .movecell{grid-column:1 / -1;background:var(--panel2)}
+  .movecell .flow{font-family:var(--mono);font-size:10px;letter-spacing:.06em;line-height:1.9;color:var(--dial)}
+  .movecell .flow b{color:var(--gold)}
+  .movecell .load{margin-top:7px;font-size:11px}
+  .receipt{grid-column:1 / -1;background:var(--pan2,var(--panel2));border:1px dashed var(--gold);border-radius:5px;padding:12px 14px;break-inside:avoid;page-break-inside:avoid;
+    font-family:var(--mono);font-size:8.2px;letter-spacing:.02em;line-height:1.7;color:var(--graphite)}
+  .receipt b{color:var(--gold)}
+  .endblock{break-inside:avoid;page-break-inside:avoid}
+  .tfoot{margin-top:14px;display:block;text-align:center;line-height:2.2;
+    font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--graphite)}
+  .tfoot .sig b{color:var(--dial)}
+  .tfoot a{color:var(--gold);text-decoration:none}
+  .s1{color:var(--red)}.s2{color:var(--gold)}.s3{color:var(--verm)}
+</style>
+<script defer src="/_vercel/insights/script.js"></script></head>
+<body>
+
+<!-- PAGE 1 · THE LID -->
+<div class="page lid">
+  <div class="frame"></div>
+  <svg class="enso" width="620" height="620" viewBox="0 0 620 620" style="width:300px;height:300px" aria-hidden="true">
+    <circle cx="310" cy="310" r="240" fill="none" stroke="#C9A227" stroke-width="22" stroke-linecap="round" stroke-dasharray="1310 200" transform="rotate(-58 310 310)"/>
+  </svg>
+  <span class="miyage" lang="ja">土産</span>
+  <p class="eyebrow">THE GIFT · WHAT THE BOX WAS BUILT TO CARRY</p>
+  <h1>Louisville Brands × ARCS · The Pre-Read</h1>
+  <p class="serial">ONE PAGE BEFORE THE CANON · DIAMOND CUT · EVERY CLAIM CARRIES ITS GRADE<br>
+  SERIALIZED JUL 25 2026 · GOSPEL XVIII · CORRECTIONS SUPERSEDE EVERYTHING ON THIS CARD</p>
+  <div class="morsel"><p>Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>. ARCS makes every big bet write down its assumptions, risks, and exit rule before a dollar moves.</p></div>
+  <p class="knot" lang="ja">折形 · UNFOLD · THE CONTENTS ARE PLATED OVERLEAF</p>
+  <div class="band"><span>ARCS <b><span class="s1">/</span><span class="s2">/</span><span class="s3">/</span></b> OMAKASE</span><span>·</span><span>NAVIGATE TO CLARITY</span></div>
+</div>
+
+<!-- PAGE 2 · THE TRAY -->
+<div class="page tray">
+  <div class="th"><span class="k" lang="ja">折詰</span><span class="t">THE CONTENTS · WORST CASE ALWAYS FIRST</span></div>
+  <div class="grid">
+
+    <div class="cell movecell gold">
+      <div class="ch">THE MOVE <span>· everything compresses to one conversion</span></div>
+      <p class="flow">ONE FREE 60–90 MIN SESSION on the next-bag decision → ONE SIGNED one-page receipt → ONE <b>$2–5K</b> MARKET TEST with real c-store buyers → ONE DAY-30 READ against a pre-agreed line.</p>
+      <p class="load">The zero-slack node is a single sentence on Friday's call, followed by silence. <b>Conversion beats economics: do not defend ROI in the room.</b> <i>(E, seed 42, reproducible)</i></p>
+    </div>
+
+    <div class="cell gold">
+      <div class="ch">THE WINDOW <span>· four clocks, none manufactured</span></div>
+      <p>The door reopened on their time (Justin accepted; <b>Fri Jul 31, 1:00 PM ET</b>) · fresh capital at $2–2.5M/yr <i>(per Jeben, not independently verified)</i> · a live decision: the next bag, the CEO's own question · a one-way door in motion (the Wisconsin move).</p>
+    </div>
+
+    <div class="cell verm">
+      <div class="ch">THE ECONOMICS <span>· worst case first, always</span></div>
+      <p>Session <b>$0</b> · test $2–5K · month-one exit caps the worst case at <b>$10K</b>, and they keep the receipts and the test data either way. <i>The fee pays for itself the first time it stops one bad production run or one bad vendor year.</i> Median simulated outcome ≈ $628, insurance-shaped; the tails carry it.</p>
+    </div>
+
+    <div class="cell red">
+      <div class="ch">THE DISCIPLINE <span>· why this canon can be trusted</span></div>
+      <p>Every claim graded A–X, the F/X material redacted <i>visibly</i> · receipts pre-registered before outcomes (XA-1…5 scored Friday 2:00 PM; FR-1…3 at day 90) · comps barred from ROI math · the seller's incentive disclosed aloud, unprompted. <b>If it cannot fail, it is not a receipt.</b></p>
+    </div>
+
+    <div class="cell red">
+      <div class="ch">THE HONEST HOLES <span>· carried openly</span></div>
+      <p>No CPG-holdco receipt yet: defensibility rented from terms until earned from results · the sponsor opens doors and cannot close deals; the receipt must sell itself · round status unconfirmed (gate item 1).</p>
+    </div>
+
+    <div class="cell gold">
+      <div class="ch">WHAT REMAINS <span>· two human moves</span></div>
+      <p><b>Ping Jeben</b> (accuracy read · round status · key count) and <b>fork the pre-read</b> (out by Wednesday; Thursday-noon kill line → walk in with the two-minute overview and a blank stub). The kernel outranks everything: the Thread Book, read it first.</p>
+    </div>
+
+    <div class="cell verm">
+      <div class="ch">THE ASK <span>· one small thing back</span></div>
+      <p><b>RSVP the $0 session:</b> calendar.app.google/cTQkE1W2D8EPo8q59<br>
+      <b>Thoughts:</b> zach.harris@gmail.com<br>
+      <b>The evening, plated:</b> omakase.arcs.care</p>
+    </div>
+
+    <div class="receipt"><b>PRE-READ RECEIPT · EM-01</b> · EXPECTING: a cold reader reaches fluency in this canon from this card plus the kernel, in under ten minutes. BREAKS THESIS: any claim above found ungraded, or contradicting the corpus. KILL/SCALE: contradictions resolve from the codex, never from memory. SCORE-BACK: FRI JUL 31 · 2:00 PM.</div>
+  </div>
+  <div class="endblock"><div class="tfoot">
+    <span class="sig">ARCS <b><span class="s1">/</span><span class="s2">/</span><span class="s3">/</span></b> OMAKASE · <span lang="ja">物の哀れ</span></span>
+    <span>THE TREE IS THE SEED AND THE SEED IS THE TREE · <span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></span>
+  </div></div>
+</div>
+
+</body>
+</html>

@@ -20,6 +20,7 @@ import { surface, text, signal, font, border, contentContainer } from "@/ui/toke
 import { useVw } from "@/ui/useVw"
 import { decodeShare, shareSeenKey } from "@/lib/shareLink"
 import type { CompassResult } from "@/lib/mockCompass"
+import { track } from "@vercel/analytics"
 
 export default function SharedBriefPage() {
   const router = useRouter()
@@ -76,6 +77,7 @@ export default function SharedBriefPage() {
           // dashboard. Without this, "Sign in to keep" kept nothing and dropped
           // the viewer at app.arcs.care. The shared payload carries no prep;
           // /api/receipts/save handles a null prep context fine.
+          track("receipt_save_clicked", { source: "brief_share" })
           try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: result })) } catch {}
           router.push("/compass?shared=1")
         }}>Sign in to keep</Button>

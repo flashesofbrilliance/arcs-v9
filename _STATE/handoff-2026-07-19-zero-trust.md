@@ -47,7 +47,7 @@
   intent** (P10); anti-fragile immune ledger. Operational patterns: Skeptic Sentinel,
   Dual-Control Handshake, step-up auth roadmap (**decided: magic-link primary, TOTP optional,
   WebAuthn/passkey/YubiKey/Face-Touch-ID endgame**).
-- **ADR-031 — Secrets inventory + rotation** (5 secrets, 2 stores; overdue: Supabase pw, Resend key).
+- **ADR-048 — Secrets inventory + rotation** (5 secrets, 2 stores; overdue: Supabase pw, Resend key).
 - **`_PATTERNS/public-repo-exposure-audit.md`** (J2) — ~18 named-person dossiers + papers in a
   public repo; options A(private repo)/B(split)/C(scrub); **remediation is a human call.**
 - **`_PATTERNS/workflow-cost-ledger.md`** (J4) — seeded + recoil-report run outcome recorded.
@@ -75,7 +75,7 @@ Chan's report — the exact risk the tightening now closes.
 1. **J2 decision** — make the repo private, or split sensitive out (named dossiers + papers). Sharpest edge: the forensic dossiers.
 2. `GITHUB_TOKEN` → Vercel env (tightens /api/pulse to 60s).
 3. `ANTHROPIC_API_KEY` → GitHub Actions Secrets (so security.yml runs) + "require approval for outside collaborators."
-4. Rotate the overdue Supabase DB password + stale Resend MCP key (ADR-031).
+4. Rotate the overdue Supabase DB password + stale Resend MCP key (ADR-048).
 5. Branch-protection on `main` (the trigger half of J14 serializability).
 
 ## Post-handoff commits (continued past the first handoff — see J17, this is the drift it fixes)

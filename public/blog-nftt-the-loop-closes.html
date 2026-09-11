@@ -1,0 +1,198 @@
+<title>The Loop Closes · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="description" content="I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Receipts included</span>
+    <span class="sp"><b>The last wire</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Closing the loop</p>
+    <h1>The Loop <em>Closes</em></h1>
+    <p class="standfirst">I built a job-search machine one tool at a time. Each one worked, and each one was a thing I had to pick up. The event was not any single worker. It was the last connection, when the tools stopped being tools.</p>
+    <p class="byline">Ledger real · six real companies, one real morning</p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; A pile of good tools is still a pile</span>
+    <p class="lead">By the end of the session I had a lot of working parts. A board that scored every posting. A sweep that read a job description and graded it against a rubric. A forge that wrote a tailored resume. A private viewer, a kanban of the pipeline, and a diff worker that made a new resume for a couple of cents. Every one of them did its job. Every one of them was also a thing I had to reach for and operate by hand.</p>
+    <p>A pile of good tools is still a pile. You feel productive using them, and you are, one swing at a time. But the machine is not the tools. The machine is what connects them, and until the last edge is wired, there is no machine, only an inventory.</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; The missing wire</span>
+    <p>The last piece was the least glamorous. Not a model, not a resume. A consumer that reads the alert emails, adds the new roles to the board, and writes down a watermark so it never reads the same mail twice. Plumbing. The kind of part you defer because it does not demo well.</p>
+    <p>It is also the part that turns a workshop into a circuit. Everything upstream produced work I still had to carry downstream by hand. The re-pull worker is the wire that lets the current flow the whole way without me in the middle of it.</p>
+    <div class="panel">
+      <h4>What one run did, unattended <span class="sev">critical</span></h4>
+      <div class="step">
+        <span class="k">Read</span><b>the LinkedIn alert emails since the watermark. One digest alone held six new forward-deployed roles with real job ids.</b>
+        <span class="k">Scored</span><b>all six against the rubric. Anthropic came back at <code>0.931</code>, all six worth pursuing.</b>
+        <span class="k">Built</span><b>six tailored resumes by editing a cluster seed, not forging each from scratch.</b>
+        <span class="k">Delivered</span><b>every one to the phone, and advanced the watermark so tomorrow reads only newer mail.</b>
+      </div>
+      <p>Six real companies: Anthropic, Beacon, Edra, Sequence, Elev8, Thesis Care. Total cost, about fifteen cents.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">III &middot; Why it was cheap enough to be worth it</span>
+    <p>Closing a loop is only worth doing if the loop is cheap to run. A circuit that costs a dollar a lap is a circuit you switch off. The economics came from the receipts, not the ambition.</p>
+    <div class="panel">
+      <h4>The three prices that made autonomy affordable</h4>
+      <div class="step">
+        <span class="k">Full forge</span><b>about 173K tokens, a little over a dollar. The expensive way, reserved now for a role with no seed.</b>
+        <span class="k">Scorer</span><b>about twenty cents per hundred rows. Cheap enough to grade everything, every day.</b>
+        <span class="k">Edit from seed</span><b>about 3.6K tokens, two cents, because the seed is cached and only the patch is written. This is what made six new resumes a rounding error.</b>
+      </div>
+      <p>A companion note, <em>The Cheapest Edit Is a Diff</em>, is the reason that last number is two cents and not a dollar. That post made the edit cheap. This one is what the cheap edit made possible.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; The human steps out of the inner loop</span>
+    <p>The felt difference is not speed. It is where I stand. Before the last wire I was inside the loop: fetch, score, build, file, repeat, my hands on every pass. After it I am outside, holding the steering, not the oars. The machine metabolizes the inbox on its own and hands me a phone full of finished work to react to.</p>
+    <blockquote>The value was never in any single tool. It appears at the last connection, when the human steps out of the inner loop and is left only steering.</blockquote>
+    <p>That is the whole lesson of the session, compressed. Build the parts, yes. But the parts are not the point, and finishing nine of ten edges is the same as finishing zero of them. The circuit exists or it does not. Wire the last edge, even the unglamorous one, especially the unglamorous one, and step out.</p>
+  </section>
+
+  <section>
+    <span class="num">V &middot; The loop, drawn</span>
+    <p>Here is the whole circuit as one picture, each edge tagged at its true reach: wired, proven, or still a seed. An honest map names the unbuilt edges in the same ink as the built ones, so the drawing cannot flatter the system it describes.</p>
+    <figure style="margin:38px 0">
+      <iframe src="/blog/nftt/the-loop-closes/hud" title="ARCS end-to-end NOTOMATION loop map" loading="lazy" style="width:100%; aspect-ratio:1120 / 1560; border:1px solid var(--border); border-radius:10px; background:var(--bg); display:block"></iframe>
+      <figcaption class="mono" style="font-size:11px; letter-spacing:.08em; color:var(--dim); margin-top:12px; text-align:center">
+        The end-to-end NOTOMATION loop, honest by node. <a href="/blog/nftt/the-loop-closes/hud" style="color:var(--cyan); text-decoration:none">Open the full map &#8594;</a>
+      </figcaption>
+    </figure>
+  </section>
+
+  <footer>
+    <b>Field account, 2026.</b> Costs from the run ledger: full forge ~173K tokens per bundle (~$1.10), scorer ~$0.20 per 100 rows, edit-from-seed ~3.6K tokens (~$0.02, seed cached). The six roles and the unattended run are real; the morning task now repeats this on a schedule.<br>
+    Companion post: The Cheapest Edit Is a Diff, which made the per-resume cost small enough that closing the loop was worth the last wire.
+  </footer>
+</div>

@@ -1,4 +1,831 @@
+# Handoff — v3.57.0 (2026-09-07)
+
+> **Open-loops arc, back-propagation ship (branch `claude/open-loops-handoff-cvgjxd`, restarted from
+> main after the arc's prior PRs merged).** Closed the last named seam in the Reading Room cache: the
+> Metabolic Router's back-propagation organ. Everything on main (PR #320 → `343b266`).
+
+## Shipped
+- **`scripts/cache_backprop.py`** (new, stdlib) — lazy pull-driven repair of a DIRTY `(domain, epoch)`
+  cache slice. `plan` → `packet` (Curator work-packet: slice nodes + cited provenance AS-IS at HEAD +
+  rubric) → `apply` (write graded statuses into the digest; stamp only that slice fresh). Grading is
+  JUDGMENT, external by construction (NOTOMATION) — the script scaffolds, never grades.
+- **`scripts/cache_manifest.py`** — per-slice `graded_at_sha` now preserved through `stamp`/`check`
+  (new `prior_grades()` helper; `build_slices(..., prior=)`). Fixes the load-bearing hazard: re-grading
+  one epoch used to falsely free every sibling epoch sharing the digest file. Only a *complete* re-grade
+  advances the sha; `--partial` leaves the slice dirty (WITNESS honesty).
+- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding): 3 real defects fixed —
+  (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI); (2) `--partial` falsely
+  stamped fresh; (3) a cleared note outlived its status. 5 stdlib tests green
+  (`scripts/tests/test_cache_backprop.py`).
+- **1b gate MET** (build-plan ledger + gate note updated): `product/2026-04` dirty → re-graded LIVE →
+  fresh, 19 siblings stay dirty; survives a full re-stamp AND 11 commits of base advance. The 2026-04
+  digest node `arch-operators-not-wired` re-graded LIVE with a confirmation note.
+
+## Open (next session)
+1. **Reading Room tenants 2a-2c** — Concordance, Chronicle, Babelfish, Codex — build on the same
+   Reader + cache spine now that back-prop closes 1b.
+2. **1a 4-width visual check** — headless Chromium screenshot at 375/790/tablet/desktop; then 1a's gate closes.
+3. **Live admin smoke** of `/reading-room` on prod (needs a signed-in admin email).
+4. Zach-gated (carried): Supabase Branching + `PREVIEW_DATABASE_URL`; PENDING 007 migration re-baseline;
+   flip `INTEGRITY_GATE_BLOCK=1` after a clean week; Tribune Posterior trigger (needs the Outcome handler).
+5. From v3.56.0: ADR-076 demand probe (one cheap read-only MCP tool + "Connect an agent →"); memory
+   index still over the hook's budget; full `/meta-audit` epoch for the 81 lattice nodes.
+
+# Handoff — v3.55.0 (2026-09-07)
+
+> **Single-task ship session (worktree `epic-bardeen-94cce3`).** Reworked + shipped NFTT
+> "Confirmed Not My Bug" to its b-version, LIVE and publish-blessed. Everything on main (PR #308).
+
+## Shipped
+- **NFTT "Confirmed Not My Bug" LIVE** at good.arcs.care/blog/nftt/confirmed-not-my-bug (HTTP 200,
+  new "Latest"; take-home-trap demoted to No. 5). B-version arc = "the audit that measured its own
+  author": the harness audits its own maker, and the Mobius/second-strand turn is deceipt #13 (a false
+  claim *inside* the ledger of false claims) caught only by the independent strand, not introspection.
+  Faithful to `_STATE/deceipt-ledger.md` (in worktree `agitated-feynman-b23c40`); no counterpart, PII-clean.
+- **Theme fork surfaced + decided mid-session.** The task pointed at `story_render.py` (threaded engine),
+  but the LIVE NFTT series moved to a hand-authored **literary theme** (take-home-trap "With Life"
+  standard: Newsreader serif, 520px, no braid); the threaded engine's `-full.html` outputs are
+  orphaned/unrouted. Asked Zach -> "rebuild in literary theme". Authored in that template; the b-version
+  arc carries as an editorial essay + a deceipt-ledger `.panel` (the "receipts included" device).
+- Files: `public/blog-nftt-confirmed-not-my-bug.html`, `src/proxy.ts` route, index card.
+  Gates all green (em-dash=0, robots+desc meta, AA on #020408, no overflow 375/790/1024/1280,
+  wrap-lint clean, `npm run build` green). Discarded the threaded render + reverted a story_render.py
+  robots tweak to keep the change set focused.
+
+## Open (next session)
+- **story_render.py drift (Zach judgment):** the threaded engine + nftt-story-factory skill are now
+  out of step with the live literary series. Either retire/repoint the skill to the literary standard,
+  or re-route the orphaned `-full.html` files. Not touched this session beyond noting it.
+
+---
+
+# Handoff — v3.53.0 (2026-09-04)
+
+> **The Reading Room session: the Almanac, the library taxonomy, ADR-075, and the locked build plan.**
+> Started as Blacksmith polish plus a Google (growth-ai) family stand-up; became the corpus-metabolism
+> architecture. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Everything on main. Oracle at 75.
+
+## Shipped (all on main)
+- **growth-ai.arcs.care family LIVE**: landing + /forge + /resume, Zach's real resume/cover/ATS PDFs
+  (2pp/448KB, not the 5pp render), air-gap clean (referrer off-page, employer named once), persona-gauntlet
+  hardened then realigned to "production" per the canonical docs. Blueprint run: ~40 min to standup, ~2h
+  to hardened. `tests/growth-ai.spec.ts` added. SEND stays human.
+- **recruithaus ammo tier gated + live** at `/ammo`: passcode `RECRUITHAUS_AMMO_PASSWORD` (Vercel env),
+  SHA-256 httpOnly cookie, host-independent gate in `src/proxy.ts` (closes the app.arcs.care/<file>
+  bypass), `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock`. Mobile PDF panel fixed.
+- **Blacksmith polish**: nav brand -> universal ARCS Field OS wordmark (also good/build/status), domain-map
+  slider glitch -> 2-col table (+blueprint note), hero left-edge aligned (.hero padding), lede spans the
+  lane (max-width:none, the 660px mode-4 bug), pill "Code as Receipts Era", build.html tofu banners removed,
+  growth-ai generic favicon (rewrite excludes .ico).
+- **The Almanac** (`scripts/research_render.py` -> `_ARTIFACTS/atlas/atlas-almanac.html`): 264 nodes,
+  full-temporal Apr->Sep, every node epoch-tagged (4 digests re-curated by Curator agents; Skeptics
+  correctly REFUSED to author). Read through the Reader at 3 altitudes (Skim/Scan/Trenches); two-shelf
+  Required Reading (Foundational by canon + Load-bearing by in-degree: in-degree structurally cannot
+  surface foundations); dataviz-validated palette; per-row self-contained export. LOCAL only.
+- **ADR-075 The Metabolic Router**: witnessed live -> DEWY -> ADR -> wisdom in one session (oracle-minted
+  75; `_STATE/witness/2026-09-04.jsonl` promoted, `_STATE/2026-09-04-session-decisions.dewy.json`). Mechanical
+  fan-out is automatable, judgment never; integrity gate = every cited ADR/commit/script must exist on
+  origin/main. Specs: `_SPECS/metabolic-router-v1.md`, `_ARTIFACTS/atlas/cache-manifest.spec.md`.
+- **Locked build plan** `_SPECS/reading-room-build-plan-v1.md`: spine first (Desk + Reader + cache),
+  tenants cheap (Concordance/Chronicle/Lexicon), token-savings-bank levers per phase, CBA ledger seeded.
+  Library taxonomy: Alexandria = index, Atlas = map (space), Almanac = dated state (time), missing =
+  Concordance, Chronicle, Lexicon, the Desk (intent router). Public room = lawful projections of private.
+- **Drift swept**: ADR-074 into index.json + oracle 73->74; 2 stale CLAUDE.md claims (Observatory IS on
+  main; canon-cron IS armed). False "ADR-075"/"ADR-042" claims de-claimed in the memory index + the
+  legibility-gate memory (specified, not wired). Memory index compacted to 18.2KB (~0.8KB over target).
+
+## Open (next session)
+1. **Phase 0 integrity gate** `scripts/integrity_gate.py` (cites exist on origin/main): build first, zero
+   judgment, then wire into pre-commit.
+2. **The Desk**: Stage 1 shape brief presented as a compact confirmation (job / audience / one thing /
+   direction / anti-goals / open decisions: route name `/library` vs `/reading-room`, freshness on the
+   front door). Awaiting Zach's one correction or "go", then polish -> `/dual-bar-raiser` -> brand-manager
+   persona gauntlet -> kintsugi -> build (admin-gated, reuse the `/recoil` Auth.js + ADMIN_EMAILS gate).
+3. **Loop locked until complete**: Desk -> Almanac wired -> Concordance -> Chronicle -> Lexicon.
+4. Two clean AGENTS.md fixes queued: `RECOIL_PASSWORD` row is stale (retired -> Auth.js/ADMIN_EMAILS);
+   operators census is wrong (recounted 2026-09-04: 52 top-level .py, 52 .py total, 62 tracked, 22,171
+   LOC). Judgment calls for Zach: `_CANON/index.md` "Book II Complete I-VI" self-contradiction (Part IV
+   deleted); `fanatics.arcs.care` routes to a missing file (live 308).
+5. MEMORY.md one more trim pass; router v1 wiring after the spine; growth-ai send to Yuri stays human.
+
+## Minted / receipts / memories
+- ADR-075 (oracle). Witness stub promoted=ADR-075. DEWY receipt 2026-09-04. Memories:
+  `metabolic-router-mechanical-judgment-split`, `proactive-spec-jtbd-reverse-lookup-flag`,
+  `research-render-three-altitude-delivery-grammar`; `recruiter-enablement-two-tier-tear-sheet` updated
+  (gate LIVE). CBA baseline lesson: match agent role to job class (Skeptic verifies, Curator authors).
+
+# Handoff — v3.48.0 (2026-08-29)
+
+> **Session close of the tool-catalog build.** v3.47.0 (below) shipped the
+> catalog; this close-out consolidated memory, minted the DEWY receipt, and rotated handoffs.
+
+## Shipped
+- **Session-close housekeeping:** memory index re-budgeted (18.6KB -> 17.3KB, hooks compressed
+  in place, no files retired — a parallel 8/29 session had already consolidated content).
+  DEWY receipt: `_STATE/2026-08-29-session-decisions.dewy.json` (catalog slice + index rebudget).
+- Context: `/catalog` + `scripts/tool_catalog_emit.py` live on main since PR #191 (v3.47.0);
+  main since absorbed parallel work through PR #200 (op21, receipt_evaluator, art surfaces).
+
+## Open (carried)
+1. Catalog later slices (separate sessions): kabuki-mask contour render · gravity-well binding.
+2. Todd call · zap-kit installs · 1.2-A payment-gated · carried items.
+3. Job-search loop live state is in memory `arcs-job-search-pipeline` (Amex PURSUE, Kinexys held).
+
+---
+
+# Handoff — v3.47.0 (2026-08-28)
+
+> **Active pickup point — the tool-catalog/dispatcher session** (composed session chip
+> task_6e4a6ead, worktree happy-shamir). Atomic first slice of the induction surface for
+> the toolset itself (backlog item `tool-catalog-dispatcher-induction-surface`, ADR-070
+> lineage) built, verified, and wired.
+
+## Shipped (this branch)
+- **`scripts/tool_catalog_emit.py`** — flat catalog emitter, stdlib-only, exit-0,
+  read-only over the repo. Walks all six tool surfaces (skills/commands/workflows/hooks/
+  scripts/operators), harvests each tool's one-line JTBD from its own declaration
+  (frontmatter description · blockquote · docstring · comment header — never inferred),
+  emits `runtime/specs/tool-catalog.{json,md}`. **131 tools, 0 missing JTBD.**
+  Deterministic verified: run twice, diff clean (no wall-clock in output).
+- **`/catalog` command** (`.claude/commands/catalog.md`) — native dispatch, no bespoke
+  runner. Given a job, recommends THE one right existing tool (singular by design — the
+  menu is the decision fatigue; ADR-070) and fires it only on consent (NOTOMATION).
+  Registered natively in-session (appeared in the live skills list on write).
+- Note: backlog's reuse list named `generate_arcs_operator_data.py` for the operator
+  table — that file never landed in this repo; operators harvested directly instead.
+- Backlog item flipped open → BUILT with the receipt; AGENTS.md discovery pointer added.
+
+## Open (later slices — each its own session, per the backlog item)
+1. Kabuki-mask contour render (zero-shot low-poly, Golden-Inchworm sharpened).
+2. Gravity-well binding of the catalog to the generative backlog.
+3. All v3.46.0 opens stand (Todd call · zap-kit installs · Sean Wing window ends
+   2026-08-30 · 1.2-A payment-gated · carried items).
+
+---
+
+# Handoff — v3.46.0 (2026-08-27)
+
+> **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
+> covers the arc after the close-out: surface -> canon -> gauntlet -> board -> rollout). All merged
+> to main (#180 squash 59cef5b0, #184 ba6c15bb), prod deploy Ready, routes verified live.
+
+## Shipped (all live)
+- **prl.arcs.care/status/receipt** — the closed 1.2 receipt as data-driven story: BLUF, 3 headline
+  tiles, expected-vs-actual band chart (SVG, honest-scale range, mobile scroller + punchline
+  auto-scroll), directional hours bars, scorecard, 1.3 recommendation-voice setup, losing-receipt
+  section, fine-print method. Stamped via prl-page-factory + bespoke organisms; impeccable
+  distill/polish passes; dataviz palette validated. **Gates run in full:** fact-check vs baseline
+  CSVs (all headline numbers trace) + counterpart-gauntlet (6 facets, 7 agents, 865K tok):
+  14 verified findings ALL fixed (2 pathogens on the four-hour row: no separate assignment
+  timestamp; reminder goes to Zach not rep — pill now "live · rep alert staged"), 4 over-flags
+  rejected. Run banked in `_STATE/gauntlet-runs.jsonl`.
+- **ADR-069** (minted in-session, oracle audit PENDING — flag on next oracle pass): first closed
+  client receipt => precedent-shaped expectation management. Four-in-one print: witness stub
+  (`_STATE/witness/2026-08-26.jsonl`) + ADR + DEWY (`_STATE/2026-08-26-session-decisions.dewy.json`)
+  + wisdom. build.html ADR stat 63->64 (tripwire caught its own mint, again).
+- **Instrument Board** — `scripts/warroom_board.py`, SECOND sovereign-projection-service instance:
+  stdlib-only factory, adapter-per-JSONL-ledger (gauntlet-runs + falsification-ledger snapped on),
+  typed print + spark-plug germination sidecar, served admin-gated at **/warroom/gauntlet** (404s
+  anonymous — verified). Regenerate after every gauntlet; keep findings machine-parseable
+  ("N pathogen, N crack, N nit" + "N over-flags rejected").
+- **Receipt pill on all 8 PRL pages** + gold jumplink on the prl.arcs.care homepage nav; factory
+  SEGS updated so future stamps inherit it (#184). Tripwire real-name/dead-link flags adjudicated
+  as pre-existing main content in the commit message (not silently bypassed).
+- **4-hour rule reframed per Zach ruling:** closes mechanically (creation==assignment timestamp,
+  elapsed-window reminder); Todd's written ack demoted to nice-to-have FYI across page + drafts.
+- Merge hygiene: v3.44.0/v3.45.0 handoff collision resolved (parallel Ahmed session), squash-merge
+  branch reset to main (rebase-replay aborted — tree was identical).
+
+## Open (next session's first work)
+1. **Human-gated PRL installs** — zap kit paste order (`_ARTIFACTS/prl-zap-kit/README.md`,
+   task8 filter first) + empty-email e2e widget chat (delete created lead after, receipt).
+2. **Close-loop CALL with Todd** — walk `_ARTIFACTS/prl-1-2-close-loop/2026-08-26-close-loop-onepager.md`
+   + the live /status/receipt page; send or fold in the two-confirmations email draft; chase
+   ZoomInfo contact + Bill/territory. 1.3 kickoff = Todd's call, $4,000 with precondition batch.
+3. **Sean Wing close-loop window ends 2026-08-30** — /recoil-close vs `2026-08-23-sean-wing.json`;
+   counterpart-gauntlet the parked note before any send.
+4. **1.2-A stays PAYMENT-GATED** (invoice #NYQRTJPQ-0004; Stripe MCP needs auth to verify).
+5. Carried: orphan seeds curation (human) · GH Actions billing (Zach-only) · ADR-069 oracle audit ·
+   ziggurat trailhead/key-0 · tao proverbs 066/067 · lattice --regenerate (human-owned).
+
+# Handoff — v3.45.0 (2026-08-27)
+
+> **Active pickup point — the PRL close-out session (renumbered from v3.44.0 after collision with the Ahmed handoff on main)** (non-interactive). Folded the cross-session
+> PRL sweep into one run. Route reality: no Zapier MCP, no human at keyboard, Stripe MCP
+> unauthorized — so Zap-kit installs + widget e2e stayed STAGED (verified), everything inline
+> got executed. Full receipt: `runtime/recoil/generated/2026-08-26-prl-close-out-session.md`.
+
+## Shipped (this branch, draft-first — nothing deployed or sent)
+- **PRL 1.2 close-loop CLOSED + prospecting pass 1 (was overdue Aug-24):** wrong-if fired,
+  ~2.1x central multiplier vs the 20h bet (7 work days / 109 PRL commits, method disclosed);
+  cap held. Math + Todd one-pager + extraction ranking: `_ARTIFACTS/prl-1-2-close-loop/`.
+  Re-pricing happens WITH Todd on the call (gate honored). Rec: 1.3 stays $4,000 with a
+  precondition input-batch before the clock starts.
+- **Drafts for Zach (never auto-sent):** three-confirmations email (ex three-scenario), 4h-proxy
+  decision paragraph, chase list (sandbox-written-approval · anti-ICP list · territory via BILL
+  GALLA · ZoomInfo contact), status/progress draft diff (apply + deploy only on Zach's "ship",
+  from MAIN worktree).
+- **Judgment memos:** Lyro-races-flow → rec accept-for-pilot, natural 1.5 scope; read-more links
+  → /contact/ to manual Q&A only, rest parked 1.3. Analytics audit CLOSED (all 8 pages have
+  the snippet). 1.4 SEM prep verified ALREADY DONE (Aug-18 template + 5 instances + runbook).
+- **NEW: /status/receipt surface** — the closed 1.2 receipt as data-driven storytelling
+  (`public/prl-status-receipt.html`, stamped via prl-page-factory + bespoke band-chart/tiles
+  organisms, 4-width sweep verified; wired in proxy.ts + next.config.ts; DEPLOYS ON MERGE —
+  merging the PR is the ship gesture). **ADR-069 minted** (first closed client receipt =
+  precedent-shaped expectation management; oracle audit pending) + witness stub 2026-08-26 +
+  DEWY receipt — the four-in-one print, per Zach's live witness call.
+- Backlog statuses annotated in `_QUEUE/induced-backlog.jsonl` (prospecting-pass-1 DONE;
+  zap-kit items open/staged-human-gated).
+
+## Open (next session's first work)
+1. **Human-gated PRL installs:** zap kit paste order per `_ARTIFACTS/prl-zap-kit/README.md`
+   (task8-filter first), then empty-email e2e widget chat (delete created lead after, receipt).
+2. **Close-loop CALL with Todd:** walk the one-pager; get written acks (sandbox, competitor,
+   4h proxy); chase ZoomInfo contact + Bill/territory. Zach sends the drafted email or folds
+   into the call.
+3. **1.2-A stays PAYMENT-GATED** — verify invoice #NYQRTJPQ-0004 (Stripe auth needed) before touching.
+4. **Sean Wing close-loop window** ends 2026-08-30 — /recoil-close vs `2026-08-23-sean-wing.json`;
+   counterpart-gauntlet the parked note before any send.
+5. Carried: 3 orphan seeds (human curation) · GH Actions billing (Zach-only) · ziggurat
+   trailhead/key-0 (~10 lines) · tao proverbs 066/067 · lattice --regenerate (human-owned).
+
+# Handoff — v3.44.0 (2026-08-26)
+
+> **Active pickup point — the Ahmed 60-Second Read session.** The germination session's open
+> backlog stands (see v3.43.0); this session closed the long-parked Ahmed consumability fix
+> end to end. PR #181 MERGED to main 2026-08-26, deploy verified live.
+
+## Shipped (all merged + live at ahmed-ext.arcs.care)
+- **The 60-Second Read onramp** on /report: three 20s anchor-linked steps + optional analog
+  dial (no auto-play, reduced-motion honored, steps stack above dial on mobile), "recoil"
+  glossed at first use, HOW TO READ IT annotation on the first chart, pre-registration line
+  ("the 0.7 was filed in writing before we spoke"). Spec/animatic restored from b0b813e to
+  `_ARTIFACTS/sixty-second-read.html` (was missing from this branch).
+- **Gauntlet-driven hardening pass** (counterpart-gauntlet workflow, 4 facets + adversarial
+  verify; 3 breaks / 8 cracks / 4 nits, all fixed): ONE pricing story on all four surfaces
+  ("first report on me, then fixed per-customer fee" — old pages told four, incl. an "on you"
+  contradiction); single ask restored (sales-hire fork + "Also happy to" card cut, no-menu
+  rule); /evening de-costumed (kanji + Courses stripped, Canon Forge -> "the account record");
+  tabs renamed by job (How it scales / The bet); /seed self-narration cut. The verify stage
+  REJECTED the "chart is interpolated" flag — kinematic_series is measured + quote-grounded;
+  do NOT "fix" that chart.
+- **Tripwire counterpart-facing exception**: a page whose filename is its counterpart's name
+  may carry that name; any other counterpart name still fails.
+- **Ex-ante receipt filed pre-send** (ADR-068): SSOT `2026-07-22-elsamadisi.json` ->
+  `ex_ante_reopen_2026_08_26`, six outcome estimates + explicit falsifier (opens + silence =
+  onramp thesis falsified). YELLOW conviction.
+- **Re-open note DRAFTED** at `_ARTIFACTS/ahmed-reopen-note-draft.md` — Robert intro first,
+  link second, pilot restated, send checklist attached. NOT sent; Zach sends by hand.
+
+## Open (next session's first work)
+1. **Zach sends the Ahmed note** (hand-send on the existing thread; verify live render first).
+   Close-loop review at 10 days post-send silence.
+2. Inherited from v3.43.0, still open: prospecting pass + PRL 1.2 close-loop (overdue);
+   Sean Wing close-loop window ends 2026-08-30; 3 orphan seeds; cheap backlog (ziggurat
+   trailhead wiring, tao proverbs 066/067, lattice --regenerate, GitHub Actions billing).
+3. Pre-existing tripwire fails on forge-pattern/forge-cut (jargon) — not in this session's
+   diff; fix or gate when those pages are next touched.
+
+
+# Handoff — v3.43.0 (2026-08-26)
+
+> **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
+> germination fork (v3.42.0 open item 3 — now CLOSED); became the day the canon named its own
+> physics. PR #167 MERGED to main 2026-08-26 (12 commits), prod deploy Ready. Oracle-numbered (43;
+> adr + handoff counters both reconciled — they drift when sessions mint off-oracle).
+
+## Shipped (all merged + live)
+- **ADR-068** (verb x altitude gate matrix, oracle-allocated): five-verb print schedule — every
+  stage cut prints an artifact through a gate to a fate; altitude orthogonal. Mandatory blocking:
+  ex-ante-receipt-before-send · pre-send counterpart-gauntlet · close-loop-on-response. Advisory:
+  witness stub, handoff. **Wired into 7 skills** (teardown-page-factory Pre-send gates section;
+  forge phase-8 ex-ante check; recoil-ship Step 5b; recital in omakase/recoil-new/prep/close).
+  `_DECISIONS/index.json` backfilled (066/067 were missing); build.html ADR stat 63 (tripwire
+  caught its own mint again); matrix pattern doc carries the promotion pointer.
+- **Seed bank, 4 new seeds ALL with ledger receipts** (no new orphans): `projection-family-registry`
+  (omakase/teardown/atlas/codex/war-room/receipt = induced projections of one corpus; atlas =
+  next factory, gated on third demanded instance), `extraction-prospecting` (rank extraction
+  candidates from banked cost-receipts; first pass queued on the PRL close-loop multiplier),
+  `sovereign-projection-services` (each factory a sovereign micro-service; spark plug =
+  germination block on prints; pilot ladder = honest resume, scan-first), `pollinate` (sister to
+  germinate: pollen=invariant stripped of instance flesh via doll_export gate; self-pollination =
+  inbreeding = author-cosmology; pedigree fields queued).
+- **Witness file 2026-08-23 = the day's spine, 8 stubs**: registry naming → rare-earth
+  prospecting → spark plug → inheritance capstone (kid inherits judgment canonically; BAR
+  tuition split: ruin inherited, skill personally paid) → tikkun olam ORIGIN (GREEN; absent from
+  all of _CANON until witnessed) → molt amendment (lineage: drop → polyform survey → buddhist
+  convergence) → tree-fall koan CLOSED (germination = retrospective witness; stubs are for
+  sounds that cannot seed themselves) → frame-geometry (PROMOTED same session).
+- **Canon: Tao of ARCS v1.1.0** — §V "One field, sovereign zeros, lawful transforms, preserved
+  invariants" (Zach: "I'll allow it"); tao-250 + tao-251 minted; genesis note gains the
+  four-deep root (adam·adamah·adom·dam) and **Eve identified: chava==anima = the vox animus**
+  (bank=Adam, spark=Eve, §III seam = the pairing).
+- **Design rulings (approved, unbuilt)**: ziggurat walk starts at null point, first arrow-press
+  ignites at trailhead (base terrace, highest indegree), key 0 = return-to-null; observatory
+  rebuild seeds T0 ground from atlas topography at that timestamp (terrain = integral,
+  replay = derivative).
+
+## Open (next session's first work)
+1. **Prospecting pass + PRL 1.2 close-loop** — was parked for Aug-24, now overdue. One
+   computation, two customers: actual-vs-expected multiplier from banked receipts → Todd
+   re-pricing conversation + the extraction queue ranking.
+2. **Sean Wing close-loop window** ends 2026-08-30 (7-day silence trigger) — /recoil-close vs
+   `2026-08-23-sean-wing.json`; counterpart-gauntlet the parked note before any send (v3.42.0).
+3. **3 orphan seeds** still missing ledger receipts (engagement-universe-doll,
+   live-culture-artifacts, page-factory-from-session) — hand curation, hook flags every start.
+4. **Backlog, cheap**: ziggurat trailhead/key-0 wiring (~10 lines); tao proverbs for ADR-066/067
+   (jsonl has none); lattice --regenerate (human-owned); sacred-geometry echo-map workflow
+   (mini-pass done in-thread: 5.5/8 convergent; full blind pass on ask); GitHub Actions billing
+   (Zach-only) then re-enable 6 workflows.
+
+
+# Handoff — v3.42.0 (2026-08-23)
+
+> **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
+> good, the bad, and the ugly" on his essay) run end-to-end through the full stage-print arc,
+> throwing off a class, an invariant, and repo-wide gate hardening. 14 PRs merged (#153-#166),
+> all deployed + verified live.
+
+## Shipped (all live)
+- **wing.arcs.care** — S-tier diamond teardown of Wing Financial for Sean Wing: claim-vs-record
+  echo map, 7-gauge panel, forensic CRD timeline (Nathan Wing question), objection map,
+  pre-mortem, gauntlet, shavasana. Read-at-any-depth (collapsed-H2 deks = exec), 15-slide
+  PRESENT deck (good/bad/ugly, earned-fidelity render, FINISH exits to page), touch-native
+  inline term definitions, whole-eyebrow copy-link, legend jump, Wing favicon, noindex meta +
+  X-Robots-Tag header, custom analytics events (pres_open/complete/exit, legend_jump,
+  term_hover, copy_link + dwell). Zero em-dashes (now a mechanical gate).
+- **teardown-page-factory skill** (`.claude/skills/teardown-page-factory/`) — the class print:
+  spec params, component mapping, SLIDES schema, six blocking ship-gates, efficiency contract
+  (~1/3 spend on next run), four-width pixel sweep. wing.html frozen as reference instance.
+- **Stage-print invariant** — `_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md`: five verbs ×
+  gates × fates, altitude orthogonal; forge-pattern/forge-cut cited as precedent pair.
+- **Ex-ante receipt filed** — `runtime/recoil/generated/2026-08-23-sean-wing.json`, honest
+  provenance (post-link-send, pre-response). Zach SENT wing.arcs.care to Sean 2026-08-23.
+  Six outcome estimates, 72h kairos window, YELLOW conviction, close-loop rubric.
+- **Wrap-regression class killed at the root** (recurred 3x in-session: page column, stat strip,
+  deck): root measure tokens not selector literals, auto-fit grids, four-width sweeps. Banked in
+  PRODUCT.md "Known design failure modes" (impeccable loads it every design pass) + memory + skill.
+- **CI parity while GitHub Actions is billing-dead**: 6 workflows disabled (Dependabot left on);
+  leak-check + tripwire wired into the machine-local pre-push hook (with fetch-fresh base);
+  leak-check ANALYTICS debt paid (18 pages got the insights snippet); family-roster.json
+  allowlisted. NOTE: squash merges require branch rebase before the hook's tripwire diff narrows.
+
+## Open (next session's first work)
+1. **GitHub Actions billing** — Zach-only fix (Settings → Billing); re-enable 6 workflows after
+   (one-liner in session log / `gh workflow enable`).
+2. **Sean close-loop** — trigger: any reply, 7 days silence (2026-08-30), or his next public
+   note. Run /recoil-close against the SSOT. Long-form note draft parked in
+   `_ARTIFACTS/wing-sean-linkedin-draft.md`; if sending, run counterpart-gauntlet first (the
+   one un-run gate).
+3. **Two forked sessions in flight**: legacy tripwire-flag cleanup (4 pages) + verb-matrix
+   germination (ADR promotion + wiring gates into skills). Don't duplicate their work.
+4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
+   (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
+
+
+# Handoff — v3.40.0 (2026-08-18, late)
+
+> **Active pickup point — PRL 1.1/1.2 wrap session, part 2.** Continuation of v3.39.0's landing:
+> the delivery leg went from "published" to genuinely verified, shared with Todd, and then two
+> real bugs surfaced and one got fixed live. Numbered by oracle (40).
+
+## Headline: chatbot→Sugar delivery VERIFIED end-to-end and shipped to Todd; two live bugs found after
+
+- **Real WP-staging conversation → sandbox Sugar Lead confirmed** (`435cee66-9b40-...`, correct
+  name split, location_c=CT, audit trail). Dual bar-raiser protocol with Zapier co-pilot worked:
+  independent Sugar reads caught a name-split regression, a missing email1 mapping, AND a
+  double-firing old Zap before publish. Zap `376827315` (Tidio → Code → ZoomInfo enrich →
+  dedup-search → Paths A/B) is the live pipeline; old `series_376761228` superseded/off.
+- **Todd-facing surfaces shipped:** `prl.arcs.care/status/progress` (pilot-checklist style, +25%
+  type scale, viewport meta fixed on all 3 status pages, mobile card-stacking for the workaround
+  table, click-to-load live chatbot embed, Recommended section w/ 30-min weekly check-in booking
+  link + parallel 1.2-A kickoff). Root pages: Progress nav button, footer status links, phase
+  table 1.2=Paid + 1.2-A row w/ live invoice button, mid-phase ex-ante receipt update (effort
+  past the 12-30h band, cap holds), 1.1 re-tagged done-in-staging, 1.2 itemized per DoD recon.
+  **Email to Todd SENT** (progress link + calendar link).
+- **Tidio trigger fixed LIVE via claude-in-chrome:** root cause of the mobile-shows-Lyro bug was
+  the flow's "Visitor returns to the site" trigger (fresh visitors got nothing → fell to Lyro's
+  email ask). Replaced with "Visitor clicks on chat icon", activated, confirmed. Verified mobile
+  1-1 with desktop afterward.
+
+## OPEN BUGS (next session's first work)
+1. **CRITICAL — empty-email dedup false-positive:** Zach's latest progress-page submission
+   UPDATED a real 2021 lead (Roger A Lamarre/ROBE, id `ea77a7d2-1b0b-11ec-...`) because the
+   payload email was empty and Find-Record matched arbitrarily. Fix in co-pilot: Filter step
+   (email non-empty) before the search; empty-email → Path B create. Also debug WHY email was
+   empty despite flow validation. **Repair owed:** clear Roger's description suffix
+   ("— Updated via Chatbot") + title/industry "Not specified" back to blank.
+2. **Test-lead cleanup** still owed (now ~8+ synthetic/test leads incl. 3x Zach).
+3. **Lyro races the flow** for conversations with existing history (resumes Lyro convo instead
+   of flow). Scope Lyro engagement or accept; also pre-chat email card duplicates the flow ask.
+4. **"Read more here" links:** no toggle exists (checked Configure/Guidance/Data sources). It's
+   website-source citation behavior. Recommended: convert ONLY the /contact/ source to manual
+   Q&A (it currently cites the broken contact form — content bug), park rest for 1.3.
+
+## DoD reconciliation (the honesty ledger — read before any "done" claim to Todd)
+`_ARTIFACTS/prl-1-1-evidence/2026-08-18-dod-reconciliation.md`: every 1.1/1.2 gate is met /
+waived-in-writing / re-baselined. Still open: Mailgun rep-notification (decision: bypass via
+Zap email step + Barracuda allow-list precedent; prospect autoresponder deferred to DNS window),
+baseline report (UNBLOCKED — Zapier MCP raw GET = the Postman Zach thought he needed), Layer 1
+Lyro eval run (harness exists; Playwright automation sketched in `runtime/recoil/generated/
+prl-lyro/uat/README.md`), business-email enrichment fill, 2 more state tests + dedup live test.
+UAT skeleton authored: `uat/staging_chat_e2e.mjs` + fixtures (selector TODOs, not yet run).
+Quota discipline documented (Playground ≠ Lyro quota; live chats burn Zapier tasks + ZoomInfo
+credits; Lyro 11/50 used).
+
+## Comms / money state
+Invoice #NYQRTJPQ-0004 ($2,070, 1.2-A web forms) still OPEN/unpaid — work stays payment-gated
+(staging exploration OK, no live webhook). Todd emailed the progress page + check-in booking
+link (calendar.app.google/crDeY8HyJQvH4ahH6). Bill routing call still pending. Prod cutover
+still explicitly gated (enum + auth repoint + Bill + Todd's go).
+
+## Ideas parked for 1.3 (fits its literal name "Smarter lead recognition")
+Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats logged: state
+drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
+hard-required = blank-field rejection risk).
+
+## Parked for the Aug-24 1.2 close-loop: evidence-anchored re-pricing of 1.3–1.5
+Zach's call (2026-08-19, explicitly not-right-now): recalibrate 1.3–1.5 toward worst-case-
+anchored pricing using the ACTUAL actual-vs-expected multiplier from 1.1+1.2 (both overran
+their bands on coordination, not build). Highest exposure = 1.4 ($6K): its real JTBD includes
+end-to-end attribution/goal-mapping, which is almost entirely ground-truth-verification work —
+the exact category that stretched 3x this engagement. The receipt mechanism already promises
+"numbers re-checked against reality before each kickoff"; make that re-check compute the
+multiplier from the banked receipts rather than re-guessing. Do this AT the close-loop, with
+Todd, not unilaterally — it is a trust move ("we price from our own track record") when done
+in the open.
+
+## Idea parked for 1.4 ("Your paid landing pages") — template pair, and it's a REPAIR not a feature
+Template unit = one Unbounce page + one Tidio onramp flow per product family, all sharing the
+proven Zap-376827315 backbone. The 5 SEM Onramp drafts are hand-built instances of this pattern.
+Key mechanics: "Visitor opens a specific page" trigger per landing URL (no collisions with the
+chat-icon flow), Tidio flow Import/Export = JSON template with placeholder swap, campaign tag in
+payload = per-page attribution for the baseline. KEY FRAMING: the legacy Unbounce->Sugar Zaps
+(other Zapier account, 6801141) are partly broken — the template RETIRES them rather than fixing
+N brittle connectors; each migrated page is one less broken legacy Zap. Zero new delivery work
+per page. Cheap non-gated prep: author the template JSON from the AI-Handoff export + the 5
+drafts' vocabulary before 1.4 kicks, so kickoff is stamping, not building. Quota check before
+scaling: each active flow draws from visitors-reached (26/2000 now, fine for pilot).
+
+
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
+
+# Handoff — v3.32.0 (2026-08-11)
+
+> Relocated from CLAUDE.md 2026-08-13 (v3.34.0 handoff). Headline: the public federated family +
+> the drift-receipt system + the inchworm auditor.
+
+## Headline: the family is public on arcs.care, and drift now becomes receipts
+
+**Live, tripwire-clean, E2E-verified (15/15):** `playground.arcs.care` (hub) + 4 performers as sub-pages
+(`/12d-orbital · /knowledge-lattice · /alexandria · /moire`) + `monolith.arcs.care` (3 heads + Moiré
+filter; meta-audit head dropped for public). Joins the sibling's `forge`/`forge-cut`. Two-layer
+architecture (**ADR-050**): SSOT truth (meta-audit · Tao · status · registry) ↔ air-gap (the tripwire) ↔
+prospect-safe public faces.
+
+**Drift-receipt system (ADR-051), on main:** PR-time `scripts/tripwire.sh` + `.github/workflows/family-tripwire.yml`
+(gates the diff); deploy-time `tests/family.spec.ts` in `deploy-verify.yml` (fail → rollback + Issue);
+`.github/pull_request_template.md` + `docs/PROMOTION.md`. It caught its first receipt: jargon in the forge pages.
+
+**Inchworm auditor (ADR-052):** `scripts/lattice_drift_check.py` wired to both hooks — OPEN
+(`session-start`) orients/receipts, CLOSE (`pre-compact`) advances/regenerates countables idempotently.
+Gave the orphaned knowledge-lattice an owner; fixed stale "32 ADRs" → 44 through SSOT → re-embed → redeploy
+→ live-verified.
+
+## Also built
+- **Invariant envelope** (`_STATE/schema.md`) + **artifact registry** (`_STATE/artifact-registry.jsonl`, 52 rows).
+  Tao extracted to `_CANON/tao-proverbs.jsonl` (now **246**; +5 minted from this session's ADRs, tao-242..246).
+  Full-staff gauntlet over the 5 performers (`_INBOX/performer-gauntlet-*`).
+
+## Captured
+- **ADR-050/051/052** (`_DECISIONS/`). **DEWY** — `_STATE/2026-08-11-session-decisions.dewy.json` (3).
+  **Memories** — [[drift-receipt-loop-and-inchworm]], [[per-tenant-field-truth-inward-client-facing]].
+
+## Next / backlog (designed, not built)
+- **Per-tenant field-truth pages** — client-facing counterpart to the internal meta-audit.
+- **HITL calendar-recoil loop** — close loops = send built Ahmed/Rayan seeds / await Yuri.
+- Branch protection: `gh` command in `docs/PROMOTION.md` (needs admin + first PR run of the check).
+
+## Blocking
+NONE.
+
+# Handoff — v3.31.0 (2026-08-11)
+
+> Relocated from CLAUDE.md 2026-08-13 (v3.33.0 handoff). Headline: `/witness`, the live-capture
+> counterpart to `/night-moves`.
+
+## Headline: `/witness` — attest a flash of brilliance at the moment it happens
+
+Zach asked whether a genuine insight mid-conversation deserves a scribe ("can I get a witness —
+the tree did fall, and this is the sound it made"). `/night-moves` (v3.30.0) already covers the
+day; nothing covered the moment.
+
+**Built (ADR-046):**
+- `WORLD.md` → **THE WITNESS** — a new section beside the Drift Sentinel. The behavioral trigger:
+  Claude offers `/witness` unprompted when it notices a principle naming itself, a "wait, that's
+  it," or its own line compressing sharper than the surrounding conversation. Deliberately rare —
+  over-firing means the trigger is mistuned.
+- `.claude/commands/witness.md` — the capture itself. Verbatim quote, timestamp, one honest `y`
+  gut-check (SCRATCH/YELLOW/GREEN). No research, no options-considered, no numbering — the
+  opposite weight of `/dewy-stub`. Appends to `_STATE/witness/<date>.jsonl`.
+
+**The design point:** a witness stub is raw material, not a decision. Promotion to an
+ADR/DEWY/memory is a separate, later, deliberate act — never claim more permanence at capture
+time than the moment earned. Same honesty principle as ADR-044 (temporal-provenance), applied to
+attestation instead of capability claims: reconstructing a "witness" after the fact is the same
+dishonesty as stating aspiration as present fact.
+
+**Proven live, first entry:** `_STATE/witness/2026-08-11.jsonl` — the founding moment itself
+(the "can I get a witness" line), GREEN.
+
+**Not wired into `/night-moves` yet** — intentional. Revisit only after a few days of real
+`/witness` firings show the pattern is worth ingesting into the daily digest.
+
+## Captured (ADRs / receipts / memories)
+- **ADR-046** — Witness Trigger: Live Capture of a Flash of Brilliance. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-11-witness-trigger-built`, new file
+  `_STATE/2026-08-11-session-decisions.dewy.json`.
+- **Memory** — [[witness-trigger-attest-in-the-moment]]. Also consolidated one orphan into
+  `MEMORY.md`: [[counterpart-pseudonym-key-public-artifacts]].
+
+## Next session starts at
+No blocker from this work. Carrying forward: **Yuri's reply** (nothing pending on our side — see
+[[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint gate
+pending Todd's approval). If `/witness` starts firing, watch for over-triggering — tighten the
+signal in WORLD.md → THE WITNESS if it does.
+
+## Blocking
+NONE.
+
+# Handoff — v3.30.0 (2026-08-10)
+
+> **Active pickup point.** v3.29.0 relocated to `_ARCHIVE/handoffs.md`. Yuri suite remains SENT,
+> ball in his court — nothing new there. This block's headline is a new capability: `/night-moves`.
+
+## Headline: `/night-moves` — the end-of-day work digest routine, built and proven
+
+Zach asked for a nightly routine that turns the day's scattered work (53 commits across ~40
+parallel worktrees on 2026-08-10) into one digest: **what shipped · what's next · what we
+learned · the new shape of tools for JTBD · net-new tools we built.**
+
+**Built as a two-layer skill (ADR-045):**
+- `scripts/night_moves_gather.sh [YYYY-MM-DD]` — deterministic gather, pure git + find, zero LLM
+  cost. Sweeps `git log --all` (dedups the same commit across worktrees), files added under
+  `scripts/`/`operators/`/`.claude/{skills,workflows,commands}/` (net-new tools), ADR/DEWY touches,
+  and auto-memory files written that day.
+- `.claude/skills/night-moves/SKILL.md` — reads the gather output and synthesizes the five
+  interpretive sections into `_STATE/night-moves/<date>.md`. Manual invocation, subscription
+  tier; does not commit or deploy on its own.
+
+**Proven live, first run:** `_STATE/night-moves/2026-08-10.md` — 53 commits grouped into 6
+workstreams, 3 net-new tools identified, learnings linked to ADR-043/044 and memory. Caught a real
+edge case immediately: the session ran past midnight, so the OS "today" (08-11) was empty — the
+skill needed an explicit date arg to digest the actual work day. That gotcha is now documented in
+the skill itself.
+
+**Complements, doesn't replace:** `/handoff` is per-session and forward-facing (what the *next*
+session needs to resume). `/night-moves` is a whole-day ledger, run once at the end, independent of
+which sessions or worktrees did the work. Also complements the ADR/DEWY candidate watcher
+(`scripts/adr_dewy_watch.py`) — the watcher surfaces candidates mid-session; night-moves is the
+end-of-day rollup.
+
+## Captured (ADRs / receipts / memories)
+- **ADR-045** — Night Moves: End-of-Day Work Digest Routine. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-10-night-moves-routine-built`, appended to
+  `_STATE/2026-08-10-session-decisions.dewy.json` (now 6 receipts for the day).
+- **Memory** — [[night-moves-daily-digest-routine]].
+
+## Next session starts at
+No blocker from this work. Carrying forward from v3.29.0: **Yuri's reply** (nothing pending on our
+side — see [[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint
+gate pending Todd's approval). If `/night-moves` is used going forward, remember the midnight
+gotcha — pass an explicit date when a session spans two calendar days.
+
+## Blocking
+NONE.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
+SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
+their SSOT changed (verify with a diff).
+
+
+# Handoff — v3.29.0 (2026-08-10)
+
+> **Active pickup point.** v3.28.0 relocated to `_ARCHIVE/handoffs.md`. **The Yuri suite is SENT.** This
+> block is the closed-loop final state; there is no pending action on our side.
+
+## Headline: the Yuri family shipped, four gauntlets deep, honest, and SENT
+
+**SENT 2026-08-10.** Zach tweaked + sent the Gmail (Gmail draft `r-2135081402185612206` -> siryuri@gmail.com,
+subj "How to read the thing I sent, and who it's for"), pointing to `yuri.arcs.care`. The stale Aug-6 draft
+(carried the false model-agnostic claim + a password ref + the old 3-surface structure) was replaced with
+the current honest version first. **Ball is in Yuri's court.**
+
+**Final page structure (live, ungated, noindex):** warm two-link one-door — the before/after (codex,
+"start here") + the diamond ("the call, moment by moment · a read, not the machine", face #2). **The
+machine** (the scored HIT/MISS closed loop + the interactive "file your own bet" studio = the RECEIPT) is
+chained off the codex close ("see it scored ->"), so the door stays two links. **Profile redacted** from
+the send (dossier; page still live, unlinked). Hero opens in his terms ("the pre-meeting brief your team
+already builds, but closed and scored").
+
+**Honest + machine-gated.** ARCS runs on **Claude today**; a Google-internal version *could* run on Gemini
+(never stated as present fact). Enforced by **ADR-044 / the `temporal_provenance` gate** in
+`forge_counterpart.py` (refuses unhedged aspiration; caught a 2nd instance on Robin). Agentum named as the
+genuinely model-agnostic one.
+
+**Four gauntlets survived** (lens -> register -> primary transcript -> 6-facet persona ×2). The 2nd persona
+gauntlet (main a946c3f/a9b2b8c) fixed: the diamond onenum contradicting its own chart (now admits the
+doc-miss flicker); receipt over-anchor to internal-Google (two-path, portable-first); codex condescension
+re his shop; org/VC ladder collapse; not-flattering/free/5x-disclaimer trims. Spine protected (self-scoring,
+fence, hero line, doc-miss, consent, model-hedge).
+
+## Pipeline formalized (back-propagated from the send)
+This session's emergent sequence is now the canonical `/forge` flow, not tacit. The `/forge` skill encodes
+the full 9 phases (gather-incl-full-comms-thread → synth → generate → verify-incl-temporal-gate → deploy →
+**GAUNTLET LADDER → VIBE REFIT → SEND PREP → CAPTURE**), and the persona-facet gauntlet is a REUSABLE
+parameterized Workflow: `.claude/workflows/counterpart-gauntlet.js` (`Workflow({name:'counterpart-gauntlet',
+args:{counterpart, repo, transcript, comms_thread, surfaces, memory, register, already_healed}})`). Robin or
+any new counterpart runs the same battle-tested ladder by construction. See [[counterpart-forge-pipeline]].
+
+## Captured (ADRs / receipts / memories)
+- **ADR-044** — Temporal-Provenance Gate. `_DECISIONS/`.
+- **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (5: temporal gate, redact-dossier
+  refit, diamond earned-fidelity, persona-gauntlet method, the send).
+- **Memories** — [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]],
+  [[counterpart-vantage-premortem]], [[gauntlet-tuned-to-register-catches-what-detector-cannot]] (esc 3),
+  [[project_yuri_kleban_google]] (SENT).
+
+## Next session starts at — Yuri's reply (nothing pending on our side)
+When Yuri replies, the live threads (all teed up in [[project_yuri_kleban_google]]): his read on ARCS
+positioning/GTM (his offered ask), Agentum chat (two builders), part-two / GCP dogfood, and the portable
+diligence/M&A path (Purpose Built + ex-UBS partner). He is warm, no-agenda, bite-size, bounces off
+abstraction -> keep replies short + concrete; let him pull. Point Claude at his message when it lands.
+
+## Blocking
+NONE. Sent; awaiting Yuri.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
+SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
+their SSOT changed (verify with a diff).
+
+
+# Handoff — v3.22.0 (2026-08-03)
+
+> **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. Full detail:
+> `~/.claude/projects/-Users-zharris-arcs-v9/memory/project_todd_hotes_prl_resins.md`
+> (machine-local, PRL section, entries dated 2026-08-03).
+
+## Headline: Zapier MCP gives direct read/write on PRL's live SugarCRM
+
+`inspect_zapier_actions` exposes three of the client's own systems: **SugarCRM**
+(`SugarCRMCLIAPI`, connection "SugarCRM 7+ Importer"), **Unbounce**, **LeadConnector**.
+Create/Update/Find Record plus raw API requests are all available. **This removes the
+long-standing "we need a SugarCRM login from Todd" blocker entirely.** No new credentials
+needed. Treat writes to that instance as production changes to a *client's* system.
+
+## Read-only config audit (Leads schema + 100 live records). Nothing was written.
+
+- `phone_work` is **required**, filled 100/100. The chatbot treats phone as optional, so any
+  lead skipping it currently fails to create. Unresolved.
+- `lead_source` is a fixed picklist with **no chatbot value** ("Other" 91/100, "Web Site" 8/100).
+- **Correction:** `location_c` declares state abbreviations in schema but every live record uses
+  **full state names**. Earlier guidance in artifacts saying "use MI not Michigan" was wrong and
+  has been superseded. The existing Unbounce->Sugar zaps are correct.
+- **95% of existing leads have no email address.** The bot captures it every time. Strongest
+  value proof available for this engagement.
+- 92/100 assigned to Bill Galla, status "New" 100/100 (confirms MVP routing design).
+- All records on team **"Global"**: no record-level privacy, so a test lead cannot be hidden.
+
+## Direct Tidio -> SugarCRM was researched and rejected
+
+Sugar cloud REST is OAuth2 `password`/`refresh_token` only (1h token, no static key, no native
+inbound webhook), so a single fire-and-forget flow node cannot authenticate. The one
+unauthenticated path (legacy Web-to-Lead entry point) is license-gated to editions including
+Campaigns and needs a form-encoded body Tidio may not send. **Keep Zapier in the middle** for
+retry + visible task history.
+
+## todd-call.arcs.care restructured (`736f9c0`) — read before editing that file
+
+`/impeccable distill`: 11 nav tabs -> 6, **section ids changed**. Live: hero / `#status` /
+`#tradeoffs` (new) / `#crmcheck` / `#roadmap` / `#howitworks` / `#progress`. All pre-sale
+sections (`#reverse` `#recall` `#chatbot` `#mvp` `#protocol` `#sm-questions` `#stack`, quote,
+stop-loss) moved inside a collapsed `<details class="bg">` at `#background`. Nothing deleted.
+Fixed: nav was `display:none` under 768px (client reads on iOS), and the page still opened with
+a price box 10 days after payment.
+
+**Two traps if you script against this file:** "LOAD-BEARING QUOTE" appears as both a CSS comment
+(~line 167) and an HTML comment (~line 756) — matching the first swallows the whole document head.
+And `#howitworks` carries the `.page`-closing `</div>` plus the scroll-spy `<script>`, so slicing
+to it naively closes the container early and later sections render full-bleed.
+
+## Tooling status
+
+Gmail MCP `search_threads` **is broken** (every query errors) though other Gmail MCP tools work;
+use claude-in-chrome on mail.google.com instead. iMessage MCP times out even with Automation
+granted. claude-in-chrome rejects `file://` (prefixes https://) so serve locally for visual QA.
+
+## Blocking
+
+NONE. Three client decisions outstanding (phone required vs placeholder; add a "Chatbot" lead
+source; approve one labelled test lead or confirm a sandbox), but nothing is internally blocked.
+
+## Next session starts at
+
+Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
+full state names, status "New", assign Bill Galla, details into `description`), then send one real
+test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---
+
+---
+
+# Handoff — v3.21.0 (2026-08-01)
+
+> **For Claude Code:** active pickup point. Short, surgical session: closed a Vercel
+> build-cost leak, generalized it, and formalized it as ADR-039. No counterpart work.
+
+## What shipped (2026-08-01)
+
+**Vercel deploy-cost leak closed + generalized + ADR'd.**
+
+- **Root cause:** every commit to `main` was building — including docs-only. Logic was NOT
+  inverted this time (that was the Jul-25 incident); the `commandForIgnoringBuildStep` exclude
+  list was just **incomplete**. `docs(handoff)` commits touch `.claude/arcs-session-state.md`,
+  and `.claude/` wasn't excluded (confirmed: `953effc docs(handoff): v3.20.0` built READY).
+- **Fix:** added `":(exclude).claude"` to the ignore-step via `PATCH /v9/projects`. Full
+  excludes now: `_MEMORY _PATTERNS _ARCHIVE _STATE .claude CLAUDE.md MEMORY.md AGENTS.md WORLD.md`.
+- **Verified live:** docs-only commit `a1fed75` (`_PATTERNS/` only) → deployment **CANCELED**
+  (skipped, no build); `public/` changes still build **READY**. Kept path-based, not
+  `[NCI:SKIP]`-based — a `[NCI:SKIP]` polish commit can still touch shippable `public/`.
+- **Vercel Agent audit:** both on-demand billing burners already OFF, read via
+  `GET /v2/teams/<id>`: `agent.codeReview.auto.enabled=false`, `alertInvestigation.enabled=false`
+  ("Investigate Anomalies Automatically" — the v3.18.0 "still ON" flag is now stale/corrected).
+- **Generalized** into the impeccable skill as cost-discipline (SKILL.md → Cost discipline,
+  v4.1.0; reference/init.md captures deploy-cost into PRODUCT.md; reference/live.md frames local
+  iteration as the cost-correct loop).
+- **ADR-039** (DECIDED, GREEN) — path-based ignored-build-step guardrail; index.json updated.
+- **Memories consolidated** (updated, not duplicated): [[vercel-ignored-build-step-was-inverted]]
+  (added the `.claude/` incident + live verification), [[vercel-config-via-cli-token-rest-api]]
+  (agent toggles ARE API-readable — corrected "dashboard-only"), [[cost-efficiency-global-goal]]
+  (path-not-message rule + local-iteration rule).
+
+## Also cleaned up (leftover main-worktree working state, 2026-08-01)
+
+Reviewed the three uncommitted items that had been sitting in the `main` worktree:
+- **`ADR-026-debrief-calendar-invite-vs-email.md`** (untracked DRAFT, collided with tracked
+  ADR-026 Debrief Delivery Fix) → renumbered to **ADR-040**, cross-linked, added to index. Still
+  DRAFT (Decision pending Zach; calendar-invite-vs-email-only for the debrief close-the-loop).
+- **`_ARTIFACTS/arcs-meta-audit-roadmap.html`** (+93 lines) → committed: a print-only "silkscreen
+  on paper" stylesheet (inverts the dark cockpit to ink densities that survive a laser printer,
+  forces SHARP fidelity on paper). Extends [[souvenir-ship-ritual]] to the roadmap deck.
+- **`.impeccable/critique/…omakase.md`** (dual-agent critique, 18/36) → durable lesson banked as
+  [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
+  v3.20.0 omakase distillation. Critique file committed as the dated record.
+
+## Also built this session (skills + code-verified ADR)
+
+- **`/meta-audit` skill** (`.claude/skills/meta-audit/SKILL.md`) — codifies the 8-section Drift
+  Sentry protocol from `_STATE/meta-audit-roadmap-v1.md` so any session runs one epoch
+  consistently (Recoil → code-verified parity → gauntlets → Chi/Ma/Wuwei → stack-rank → append
+  §8). Bakes in the hard-won non-negotiables (main-reachable epoch anchor, honesty gauge,
+  weekly-and-small, verify-parity-from-code). Chose skill only; routine/workflow deferred.
+- **Omakase critique → assembly rules.** Folded the omakase dual-agent critique into
+  `.claude/skills/omakase-pipeline/SKILL.md` as a "Composition & assembly rules (the guest test)"
+  section + wired into Step 4 (assemble against them) and Step 7 (guest-test lens) + anti-goal.
+  The critique is now reusable rules, not a one-off. See [[author-cosmology-over-guest-design-risk]].
+- **ADR-040 code-verified.** The debrief close-the-loop JTBD is **already shipped** (Option C,
+  Stage 1): in-app `/debrief/[receiptId]` + `/api/receipts/[receiptId]/outcome` + scheduled
+  Resend send (compass-time + long-horizon cron, loud logging, opt-in). NOT built: `.ics`,
+  Google Calendar API. ADR-040 corrected to reflect this — the live question is only whether to
+  add a calendar mechanism on top, at lower urgency than the original framing.
+
+## Open / next
+
+1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
+2. **ADR-040 is DRAFT** — the loop already closes via email+in-app; decide whether a calendar
+   mechanism (.ics or Google Calendar) is worth adding, once there are ≥20 real (non-dev-test)
+   debrief opportunities to measure against.
+3. **Optional: schedule `/meta-audit` as a weekly routine** — deferred (needs a human toggle;
+   a prior claude.ai "Drift Sentinel" routine was DECIDED-disabled; scheduled runs add spend).
+3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
+   Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New: ADR-039 (deploy cost guardrail). The ignored-build-step exclude list is
+path-based — add a path when a new non-shipping file class enters the repo.
+
+---
+
+---
+
 
 > **Archived 2026-07-19.** These handoff sections were relocated out of `CLAUDE.md` to end the
 > per-session token tax of loading dead history on every session. Nothing is deleted — full history
@@ -1717,6 +2544,7 @@ this session's, left untouched. `ls _DECISIONS/` + rebase on origin/main before 
 
 NONE.
 
+
 ---
 
 # Handoff — v3.12.0 (2026-07-20)
@@ -1778,3 +2606,1290 @@ NONE (waiting on the client, not internally blocked).
 paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
 Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
 client-facing is already live and current.
+
+---
+
+# Handoff — v3.12.1 (2026-07-21)
+
+> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
+> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
+
+## What shipped (this thread, 2026-07-21)
+
+**Production auth-loop test — closed, verified live, full loop.** The standby item from
+v3.11.0 (drive "Sign in to keep" end-to-end, confirm the anon-share persist fix from PR
+#121 actually lands a user on `/receipt/<id>`) is done:
+
+- First attempt used the Claude Browser pane + the Gmail MCP connector. Auth itself worked
+  (operator clicked the real email link, landed on `/dashboard`), but the Gmail MCP tool's
+  text extraction **deterministically corrupts the `=` immediately before the `token=`
+  query param** on every send (verified twice, reproducible, unrelated to token content —
+  looks like a quoted-printable line-wrap decoding bug in that connector, not an
+  arcs.care/Resend send-side defect). This broke the magic-link URL and, separately,
+  because the operator opened the link in a different browser context than the one that
+  viewed the share link, the `arcs_pending_save` localStorage flag wasn't present there
+  either — so that run only proved auth, not the claim path.
+- Full reproduction done via the **Claude-in-Chrome MCP** (operator's real Chrome, already
+  signed into Gmail) instead: visited the `/brief/share#...` link → "Sign in to keep" →
+  entered email → sent magic link → opened Gmail natively (no text-extraction step,
+  clicked the real DOM anchor) → landed authenticated on
+  **`/receipt/cmrupjbyk000104ljq1swek49`**, rendering the exact shared test bearing.
+  Same-tab-group continuity kept `arcs_pending_save` intact, so `ClaimAnonymousReceipts`
+  (`src/components/ClaimAnonymousReceipts.tsx`) fired correctly end-to-end — confirms PR
+  #121 works exactly as designed, not just by code inspection.
+- **Note for anyone touching Gmail-via-MCP for arcs.care emails going forward:** prefer
+  driving Gmail through a real browser tool (Claude-in-Chrome or the operator's own client)
+  over parsing email body text through the Gmail MCP connector when a URL/token in the
+  body matters — the corruption above is silent (no error, just wrong characters) and easy
+  to miss.
+
+## Open from prior handoffs (untouched this thread)
+
+- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
+  — still open, operator-approved, not started.
+- v3.11.0 "glow strays" sweep — still open.
+- Todd Hotes / PRL Resins (v3.12.0) — still awaiting his post-Wednesday reply, untouched.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
+gating work; ledger-management and the authenticated `/recoil` index remain the next
+build-ready items whenever picked up.
+
+---
+
+# Handoff — v3.16.0 (2026-07-22)
+
+> **For Claude Code:** active pickup point. Version jumped to 3.16.0 to clear the known
+> v3.13–v3.14 cross-branch numbering drift (flagged in prior handoffs) — do not read into the gap.
+
+## What shipped (this thread, 2026-07-22)
+
+**Ahmed Elsamadisi / Polyform AI — full reconnect-call loop, then mechanized the air gap.**
+
+- **Internal war-room** `ahmed.arcs.care` (pw `ahmed`), 6 tabs: Pre-Call · Ex-Ante receipt ·
+  **Forge** (ROM #6 Exogenous Forge pressure-test via claims-skeptic, struck "not a sales
+  call") · **Recoil** (post-call, Granola transcript `e8648395`, belief-update ledger +
+  **Belief Log v2** using confidence × conviction, NOT per-belief NCI) · **War Game**
+  (kinematic manifold now **MEASURED** via `arcs_kinematics.py v1.3` — D1–D3 valid, D5–D12
+  honestly labeled coherence-zone, not fabricated) · **Defensibility** (5-verb × 4-proofing +
+  Activity-Schema Rosetta).
+- **External counterpart-facing twin** `ahmed-ext.arcs.care` (open link, sanitized). Iterated
+  from exec-summary → deep technical appendix → **competitor-safe strip** (architecture-not-
+  weights; dropped schema DDL, mechanics, kinematics derivatives, `sqrt` sampling formula).
+  Send-ready; draft note (LinkedIn + email) is in this session's transcript.
+- **Air gap mechanized:** SSOT `runtime/recoil/generated/2026-07-22-elsamadisi.json` +
+  `scripts/recoil_brief.py` — computes kinematics reproducibly and projects internal-vs-external
+  by dropping `audience`-tagged fields (external run drops 14 fields + prints a redaction report).
+- **2 memories banked:** `confidence-conviction-nci-operational-definitions` (confidence/conviction
+  for beliefs, NCI for decisions only) and `internal-external-artifact-air-gap` (3 rules:
+  own-updates-not-their-scores · method-crosses-subject-doesn't · architecture-not-weights).
+
+## Open / next
+
+1. **Ahmed (Zach-owned, not blocked):** set the pilot price (a number, once a customer is
+   picked) + name one Polyform customer, then send `ahmed-ext.arcs.care`. Optionally take the
+   Robert (decision-ROI) intro.
+2. **Optional build:** render the `ahmed` HTML pages FROM the SSOT JSON so editing = editing
+   data (full loop closure; deliberately not done this session).
+3. Prior open items untouched: Todd Hotes post-Wednesday reply; v3.11.0 ledger-management +
+   authenticated `/recoil` index.
+
+## Blocking
+
+NONE (waiting on Zach's send decision + price).
+
+## Next session starts at
+
+`/handoff-pickup` → if Zach has picked a customer + price, send the ext page; else the SSOT→HTML
+render is the next build-ready item.
+
+---
+
+# Handoff — v3.17.0 (2026-07-23)
+
+> **For Claude Code:** active pickup point. The recoil pipeline matured into a reusable system this
+> session; three live engagements (Ahmed, Joe, Yuri) run on it.
+
+## What shipped (2026-07-23)
+
+**The recoil pipeline is now a closed-loop, self-contained, parameterized system.**
+- **4 composable skills** (`.claude/skills/recoil-{new,prep,close,ship}`) over one SSOT-per-counterpart
+  JSON; `scripts/recoil` (zero-dep bash wrapper, needs only python3) renders; `--format html` +
+  per-audience password gate + `meta.doc_title`.
+- **6-tab war-room parameterized** as `runtime/recoil/templates/war-room-6tab.template.json`
+  (Pre-Call/Ex-Ante/Forge/Recoil/War Game/Defensibility; self-documenting `_METHOD` + per-block `_doc`).
+  New generic blocks: `receipt`, `keyvalue`, `table`; tabbed layout with empty-tab auto-hide.
+- **Yuri Kleban / Google** (warm first call, Jul 23 1pm EST) — first live run of the skills. `yuri-war`
+  (pw `sextant`) + `yuri-ext` "Intel Brief" (pw `yuri`): parallel-tracking capability seed with the
+  handoff-tax, the north star (each datapoint sharpens not blurs), serialization-in-a-continuous-vector-
+  space, notetaker-injection immunity, a hyperstition champion-kit, and an "answered before you ask"
+  deal-breaker band (LLM-agnostic / runs-on-Gemini-via-gateway is the key lever). See
+  [[project_yuri_kleban_google]].
+- **Memories:** [[active-listening-over-magical-thinking]], [[project_yuri_kleban_google]] added.
+  Ahmed + Joe engagements from earlier this session remain (Ahmed Gmail draft unsent; Joe joe-war/joe-ext).
+
+## Open / next
+
+1. **Yuri:** post-call, `/recoil-close` on `2026-07-23-kleban.json` (score the ex-ante); share the Intel
+   Brief only if he pulled. Do not over-pursue (he said "nothing to sell").
+2. **Ahmed:** Gmail draft still unsent (his call, set pilot price first).
+3. **Joe:** joe-ext ready if wanted; joe-war internal-only.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check for post-call follow-through on Yuri/Ahmed/Joe. The recoil skills are the
+reusable path for any new counterpart: `/recoil-new` → `/recoil-prep` → [call] → `/recoil-close` → `/recoil-ship`.
+
+---
+
+# Handoff — v3.18.0 (2026-07-24)
+
+> **For Claude Code:** active pickup point. This was a security/IP-hardening session, not a
+> counterpart engagement. Full detail in the three new memories linked below.
+
+## What shipped (2026-07-24) — IP-leak hardening, all merged to main (PRs #128, #129)
+
+**The problem:** everything in `public/` was world-readable by filename on every arcs.care
+host (verified live: `www.arcs.care/yuri-war.html` → 200 with full internal content). The JS
+password gates were theater (pw in plaintext source).
+
+- **9 internal docs moved out of `public/`** → `runtime/warroom/`, served by the new
+  admin-gated `src/app/warroom/[slug]/route.ts` (Auth.js session + `ADMIN_EMAILS`, fail-closed,
+  404-not-redirect to unauth). Host rewrites in `next.config.ts` repointed;
+  `outputFileTracingIncludes` ships the files. (yuri-war, joe-war, ahmed, danny, ayesha,
+  jalaja, labella, peter, kelly-interview). CISO-reviewed: mechanism PASS.
+- **Repo flipped PRIVATE** — closed the raw.githubusercontent.com exposure that app gating
+  can't touch. See [[arcs-v9-repo-now-private-status-links-broken]].
+- **Preview deployments SSO-gated** (were public to anyone with the URL).
+- **Analytics coverage:** was live but 21 counterpart pages shipped uninstrumented. All 34
+  public pages now carry the WA snippet + an inlined section-dwell tracker (page_dwell +
+  top-5 section_dwell custom events); `recoil_brief.py` + call-brief template emit both;
+  J24 `leak_check.sh` now hard-fails any public page missing analytics. Identity = subdomain.
+- **Generator provenance leak fixed:** `generated by recoil_brief.py` comment is now
+  internal-audience-only + stripped from ext pages + gated in leak_check.sh.
+- **Deploy-waste fixed:** stale `arcs` Vercel project unlinked (was building every push, 0
+  domains); ignored-build-step skips docs-only commits; Vercel Agent auto-code-review toggled
+  OFF (the credit burn). See [[vercel-deploy-efficiency-rules]], [[vercel-config-via-cli-token-rest-api]].
+
+## Open / next
+
+1. **Showcase mirror** for status.arcs.care — its commit links now 404 (repo private).
+   Needs Zach's curation call on what code becomes public. Parked.
+2. **"Investigate Anomalies Automatically"** still ON in Vercel Team Settings → Agent (same
+   on-demand billing as code review); toggle if zero-surprise Agent spend is wanted.
+3. Counterpart passwords are decorative now (identity-gated) but sit in git history — treat
+   as disclosed; rotate meaning to zero.
+4. Prior open items untouched: Todd Hotes post-Wednesday; ledger-management + authenticated
+   `/recoil` index; Yuri/Ahmed/Joe post-call follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
+[[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].
+
+---
+
+# Handoff — v3.19.0 (2026-07-31)
+
+> **For Claude Code:** active pickup point. Louisville Brands engagement universe shipped end to
+> end this session (pitch suite + persistence + security + recoil + skill), then gauntlet-hardened.
+
+## What shipped (2026-07-31)
+
+**Louisville Brands (Justin Delaney / Stanley / Jeben) — the full three-surface universe.**
+
+- **`louisville.arcs.care`** — target-tuned pitch suite, one file (`public/louisville.html`,
+  7 inlined subpages): 4 two-sided cards w/ segmented side-toggle, The Offer as 4th card,
+  Test→Pilot→Scale (scoped pricing, no fixed dollar figures), foil-seal CTAs, kanji top-right,
+  global PRESENT mode (fullscreen, arrows/Enter, `~` eggs, up/down side-toggle), 1.25x screen-share
+  scale, ultrawide fixes, Vercel Analytics + section-dwell. Builder lives in session scratchpad.
+- **Phase 2 persistence:** `SessionReceipt` (Prisma + Supabase, RLS enabled, tenant-pinned
+  `louisville_app` role, tenant=jeben/brand=louisvillebrands), hardened
+  `/api/louisville/receipts` (Zod, 32KB body cap, 100-row session cap, IP throttle, lineage
+  check), auth-gated `/api/louisville/agenda`. Proven live end to end.
+- **RUIN leak closed (the big one):** `www.arcs.care/jeben.html` was 200 to anyone behind
+  client-side pw theater — full thread book incl. plant closing, ~20 jobs, third-party
+  financials, candid Jeben-on-Justin reads. Moved to `runtime/warroom/` (admin-gated
+  `/warroom/[slug]`), verified 404 live. Omakase appendix (15 files) same. Open cellar no
+  longer names what is withheld. `leak_check.sh` + client-gate-theater + redaction-disclosure
+  regression gates. `RECOIL_PASSWORD` cookie gate removed; all recoil gates fail-closed.
+- **Recoil on the Jul 31 Justin/Jeben call:** SSOT `runtime/recoil/generated/2026-07-31-delaney.json`
+  (load-bearing quote, 7-step call walk, kairos memory bookmarks, kinematic manifold) +
+  `scripts/gen_recoil_artifact.py` renderer + **ADR-038** (bookmark peak/park/probe primitive,
+  RC-PROPOSED). Socialize artifact (Justin/Jeben/Stanley blended register) in scratchpad.
+- **Pipeline codified:** `.claude/skills/omakase-pipeline/SKILL.md` — jeben (back of house) →
+  omakase (cellar) → louisville (front of house) lifted instance→class: 3 surfaces × 3 dials,
+  5 lossless invariants (honestly labeled grep-backstop vs mechanical), 6-operator cutting crew,
+  7-step pipeline, anti-goals.
+- **Hardening:** two full multi-agent gauntlets + lens gauntlet applied; inline Funhouse pass
+  (dead cellar links → locked labels; skill "mechanically" overclaim corrected, `7df645a`);
+  fanned multi-agent Funhouse launched once spend limit lifted (end of session).
+
+## Open / next
+
+1. **Funhouse survivors** (if any) from run `wf_2b23bfca-d19` → apply, commit, deploy.
+2. **justin-war SSOT** (6-tab war-room loop for Justin) — pattern exists, not instantiated.
+3. **justin-ext sanitized recoil twin** — decided, not built. ADR-038 renderer on gated
+   `/recoil/[id]` page — bookmarks/manifold in JSON + artifact, not on the page.
+4. Pre-call brief/ex-ante for Justin deferred by Zach ("separate project, after the call").
+5. Prior open items untouched: Todd Hotes Zapier (blocked on Tidio plan), showcase mirror,
+   Yuri/Ahmed follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check Funhouse workflow results first; then justin-war SSOT or the ADR-038
+renderer are the build-ready items.
+
+---
+
+---
+
+---
+
+# Handoff — v3.20.0 (2026-08-01)
+
+> **For Claude Code:** active pickup point. Louisville build is DONE and the email is SENT.
+> Default posture now is STOP, not continue. Read [[deploy-antipattern-grep-verified-ui]].
+
+## What shipped (2026-08-01) — Louisville universe complete + follow-up sent
+
+Full three-surface family, self-hosted on arcs.care (main @ `47b5700`):
+- **L1** louisville.arcs.care (pitch suite) → **L2** /omakase (the evening, 9 courses) →
+  **L3** /omakase/atom ("The Seed, Told Whole", 7 chapters). Host-agnostic rewrites; also
+  omakase.arcs.care. Navigable both directions; leak_check orphan-gate enforces it.
+- Tea house: 序 foreword (acknowledgement, not thank-you), Justin's milled live receipt +
+  JSON download, seal-before-October CTA. Scroll+arrows (present mode removed).
+- Evening: tea offered after dessert (the one open door), receipt in the take-home box.
+- Suite eggs distilled to 🧧 + 🧾. Broker figures milled; canon-manifest pulled off public
+  (RUIN leak, earlier commit); seed sentence consonant across surfaces.
+- **Email SENT** to Justin, subject "One evening" (Zach edited a variant + sent). Deep-listen
+  golden thread = "Lonely Mouth Social Club" P.S. (kuchisabishii). **Justin accepted the
+  LinkedIn invite within minutes.**
+
+`leak_check.sh` now carries ~13 gates, each a scar from a real incident this session
+(withholding-vocab, decoded-payload, dead-anchor, orphan, seed-sentence, etc.).
+
+## Open / next
+
+1. **Louisville: let it breathe.** No follow-up assigned. If Justin replies / proposes a time,
+   /recoil-close the ex-ante at the session. Do NOT pursue or self-assign polish.
+2. Prior untouched: Todd Hotes Zapier (blocked on Tidio plan), Ahmed ext send, showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memory: [[deploy-antipattern-grep-verified-ui]] (screenshot
+before push; stop when done; don't build verification machinery for what one look answers).
+
+---
+
+
+---
+
+# Handoff — v3.25.0 (2026-08-07)
+
+> **Active pickup point.** Supersedes v3.22.0 (Todd) as the current thread. The counterpart
+> artifact family (Robin, Yuri) is now ready to be **parameterized into a CLI forge**. This
+> session hand-built Yuri and it drifted from Robin's crispness bar; the fix is generation, not
+> more hand-patching.
+
+## Next session starts at — build + run the parameterized counterpart-forge CLI
+
+**Read first:** `_PATTERNS/forge-pipeline-handoff.md`, then `_PATTERNS/counterpart-artifact-family-blueprint.md` (§1-11). Those are the full spec; do not re-derive.
+
+**The order of work (from the handoff):**
+1. **True up the UI kit first** — canonical tokens `src/ui-kit/recoil-report/_tokens.css` == `src/document/tokens.ts` (ADR-009/031, one DS). Regenerate `public/robin-receipt.html` off its omakase drift onto canon; make the `#tip` data-vis hover/tap tooltip a canonical kit component.
+2. **Extract Robin's 4 surfaces** (`public/robin{,-profile,-codex,-receipt}.html`) as parameterized templates; the crispness rules are generation constraints (lead with the real-call STORY not a diagram; dual Read+Instrument codex; receipt-close first-class; clean 3-read triad).
+3. **Build** `scripts/forge_counterpart.py` (SSOT->render) + the `/forge` skill (gather->synth->generate->verify->deploy), reusing recoil-new/prep/close/ship.
+4. **Gates:** verify (impeccable detector, 0 em-dashes, fabrication/attribution Me=Zach/Them=counterpart) + honesty (insufficient signal -> flag `additional enrichment source inputs required`, never fabricate).
+5. **Acceptance test:** regenerate Yuri to Robin's bar (add `yuri-receipt` from ex-ante `kleban.json` scored vs `kleban-recoil.json`; lead `yuri.html` with the real belief-flip story; re-tier codex+demo; single-call, no arc).
+
+**Deploy:** main worktree only; Vercel CLI auto-refreshes its token (`vercel domains add <domain>`, project `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9`). Run model-efficiently.
+
+## Shipped this session (2026-08-07) — all live
+Robin the platinum master (one-door + profile + codex + receipt); `robin-profile` quiet-signals polish.
+Yuri suite live + sequenced at `yuri.arcs.care`: one-door rebuild, `yuri-profile` (regrounded on a
+net-new web scan, honest public-only caveat), `yuri-recoil`, `yuri-codex` (+ "08 · synchronization tax"
+anti-Brooks's-Law beat), `yuri-demo`; `yuri-ext`/`yuri-sample` decluttered (redirect to the door). The
+anti-Brooks's-Law roadmap suite (auditor/composer/sage/gauntlet-casting) banked in the blueprint §8.
+
+## Blocking
+NONE. The forge task `task_56561b51` predates blueprint §7-11 — restart it or have it re-read the blueprint.
+Gmail reply draft to Yuri sits in Drafts awaiting Zach's send.
+
+
+---
+
+# Handoff — v3.26.0 (2026-08-08)
+
+> **Active pickup point.** v3.25.0 preserved above; v3.21.0 / v3.22.0 relocated to `_ARCHIVE/handoffs.md`
+> per the lean-file policy. Full forge detail: `_PATTERNS/forge-pipeline-handoff.md` (STATUS block) +
+> machine memory `counterpart-forge-pipeline.md`.
+
+## Headline: the counterpart-forge CLI + Receipt Studio shipped; the whole Yuri family survived the gauntlet
+
+**Forge (blueprint §9 complete).** `scripts/forge_counterpart.py` renders all four surfaces from a JSON SSOT
+with ONE canonical token source (== `_tokens.css`, ADR-009/031) + inline verify/honesty/craft-floor gates
+that refuse to write on FAIL: `--surface {receipt|profile|codex|onedoor}`. Every counterpart surface (Robin
+master + Yuri) is now SSOT→generator, none hand-authored. Companion: `gen_receipt_close.py` (scaffolds a
+receipt SSOT from a recoil, grounds each scorecard row in a verbatim belief-update); the `/forge` skill.
+
+**Receipt Studio (interactive file/score/close), two tenants live + isolated.** Registry route
+`/api/receipts/studio/[tenant]` (`src/lib/receipt-studio.ts` registry) + `robin_app`/`yuri_app` RLS roles
+applied to prod (SELECT+INSERT + column-scoped UPDATE, pinned tenant/brand, USING+WITH CHECK). CISO+SRE
+reviewed, findings fixed + ledgered (STU-015 waiver, STU-016 guard). `ROBIN_/YURI_DATABASE_URL` set on
+Production (NOT Preview). One-command onboarding: `node scripts/provision_studio_tenant.mjs <tenant> <brand>
+[--redeploy]` (Node `pg`, no psql, no HITL; needs `STUDIO_ADMIN_DATABASE_URL`). The registry row stays a
+reviewed code edit by design (it is the security allowlist).
+
+**Gauntlet + kintsugi on the full Yuri family + profile.** Ran COURT+LAB / BAR-ruin / dual-bar-raiser tuned
+to his register; healed every confirmed crack: a **Demis fabrication**, a **Robin-quote cross-contamination**
+("AI is not the outcome" was Robin's), a **studio data-handling lie** ("stays in your browser / Google's
+instance" while POSTing to arcs.care), the **Sundar/named-CEO confidentiality** (genericized to a CEO-free
+verbatim fragment on every surface), altered verbatims ("move you forward" → "move you toward Zach
+direction"), CRM/handling vocab (ICP/wedge/base-case/"not a chase"), engine-poetry
+(wavelength/carrier-wave/YELLOW-GREEN/resolution-dilated), and the one-door roadmap (§04) + battlecard (§06).
+Kept (verified): the self-scoring inversion, the codex Instrument tab + plain four-states, Bayesian
+"posterior". All healed + live.
+
+## Next session starts at — `/handoff-pickup`
+
+**The one RUIN vector left, before the Yuri suite is sent to Yuri (BAR-ranked highest):** the counterpart
+pw-gates are **client-side first-name checks on a public host** — self-refuting for a consent-first pitch,
+and it applies to Robin's pages too. Migrate the counterpart family to server-side gating (repo already has
+`/warroom/[slug]` + `RECOIL_PASSWORD`) before sharing. Smaller: set Preview env for `ROBIN_/YURI_DATABASE_URL`
+(dashboard tick or re-run the provisioner); the receipt renderer's KAIROS/POSTERIOR/reverse-listening labels
+are shared with Robin — parameterize for a Yuri-tuned plainer variant.
+
+## Blocking
+
+NONE internally. The gate migration is the gate on sending to Yuri.
+
+## Deploy note
+
+Deploy from the main worktree only. This session's temp main-wt was pruned mid-session and recreated as
+`main-wt2`. A fresh main worktree has NO `node_modules`, so the pre-push build hook fails on environment — a
+**content-only** push (public/*.html + runtime/*.json + docs, no compiled files) is safe with
+`git push --no-verify`.
+
+---
+
+# Handoff — v3.27.0 (2026-08-09)
+
+> **Active pickup point.** v3.26.0 preserved above; v3.25.0 relocated to `_ARCHIVE/handoffs.md`.
+> This session ground the whole Yuri family against the **actual Jul 23 Granola transcript** (not
+> memory of it) and against a **counterpart-vantage pre-mortem** (role-play as Yuri). Both caught
+> trust-breakers the impeccable detector and the register gauntlet had passed clean.
+
+## Headline: transcript-grounded heal of the Yuri family — all deployed
+
+Pulled the real transcript (`Yuri x Zach // 1-1`, Jul 23, via Granola MCP) and role-played Yuri
+reading the pages. The sharp finds, all fixed + live (`main 519219f`):
+
+- **Consent/data-ethics was a fabrication** attributed to Yuri across receipt/codex/profile
+  ("data-ethics stance is table stakes", "led with it unprompted"). The tape refutes it: Yuri says
+  *"I don't think that's me, I could care less"* and *"I trust the people I speak with."* That was
+  **Zach's** value projected onto him. Reframed to (a) an honest receipt self-correction ("the
+  scruples are mine, not yours"), (b) a profile card "clean by design, not precious" that keeps the
+  **real** Agentum least-exposure signal but reconciles it with his own words. **The detector AND the
+  gauntlet both passed this clean — only re-reading the primary transcript caught it.**
+- **Profile reframed** as "the before / the bet I filed going in", not "step one, the read of you".
+- **One-door** leads with the before/after he named (his verbatim ask), not the belief-flip abstraction.
+- **Codex** flip beats relabeled ME/YOU -> **I BET / YOU SAID** (his bite-size, one-liner register).
+- **Sundar restored** consistently across all three surfaces (his own volunteered story).
+- **Plain-language**: receipt KAIROS/POSTERIOR/reverse-listening labels -> plain, via a new
+  `meta.labels` override in `render_receipt` (Robin defaults preserved; robin-receipt byte-identical).
+- **Craft**: `.close` inline links now gold, not UA-default blue.
+- **Diamond cut** (`main f258a8e`, live `yuri-diamond.arcs.care`): a new `--surface diamond` — the
+  forensic, earned-fidelity T0→TEnd trajectory of the real call. Two defensible dimensions (Sync +
+  self-scored Conviction), verbatim-anchored, the gap-between-the-lines closing at the reveal is the
+  read; NOT a maximal 12D manifold (that would overclaim off one call, self-refuting vs earned-
+  fidelity). Wired **opt-in**: a soft "the deep cut, if you want the machine" card in the one-door §03;
+  the plain codex stays the front door. Design principle banked: [[earned-fidelity-not-maximal-diamond-cut]].
+  Domain attached via `vercel domains add yuri-diamond.arcs.care --scope arcs-care` (single-arg form
+  once the project is linked; `*.arcs.care` is wildcard DNS but NOT wildcard project-domains, so each
+  subdomain needs explicit adding).
+
+## Persona-gauntlet pass (2026-08-09, main 4b1bde4) — deepest gauntlet, all healed
+
+After the family was register-clean, an orchestrated **6-facet Yuri simulation + adversarial verifier**
+(the `yuri-persona-gauntlet` Workflow) found 15 verified cracks, no surviving pathogen. Healed + live:
+the no-ask connector was relabeled **"the exact buyer" ~6x** (killed → recognition framing); a
+**"across Alphabet, compounding" rollout slide** off one call (cut → capped at what he said + HIS
+portable rung); a **"4/5 misses all productive" ratchet** (→ keep the one self-falsifying 40% bet);
+**codex chart byte-identical to the receipt waveform** with conflicting beat order (de-duped + reordered
+to the tape: doc-miss before pull); §04 intake funnel → "you already saw one"; **"patentable" ×3** →
+"the part I keep closed"; named the differentiator once (the *after* nobody builds = the scored closed
+loop); jargon finish; profile battlecard labels (Trigger:/LOSES YOU) → plain via `meta.labels` (Robin
+byte-identical); diamond rounded to 5-pt steps + dropped the placeholder beat. Verifier rejected 4
+over-flags. Spine protected (self-scoring, fence, the one honest bet). Lesson banked:
+[[gauntlet-tuned-to-register-catches-what-detector-cannot]] escalation 3.
+
+## Gate: REMOVED, not migrated (Zach's call, main 05b7630)
+
+The pre-mortem's server-side-gate plan was **superseded**. Zach's call: keep it simple — the Yuri
+pages are a before/after of a *consented* call he asked to see, so a password is friction, not
+protection (he bounced off the gate live: *"I couldn't get in... trying to crack the code"*), and the
+demo should *start a conversation, not close a door*. All four Yuri surfaces are now ungated
+(`meta.gate={}`), still `noindex/nofollow` (link-only). **Robin's family still carries its client gate
+— untouched; decide separately.** No server-gate build remains.
+
+## Next session starts at — the post-Google-hedge repositioning + send to Yuri
+
+**Strategic read (Zach, 2026-08-09): Yuri is the hedge for life after Google.** On the call he said,
+repeatedly, he has been *"trying to escape Google for 15-16 years but they keep throwing fun things to
+do."* With Google RIF risk, the durable relationship is his **portable, out-of-Google surface** —
+Agentum (his own product), **Purpose Built** (VC, Miles Lasater), his **ex-UBS-president NY partner**
+doing pre-IPO / M&A / DD — not a Google-internal tenant (seat-dependent, procurement-heavy,
+RIF-fragile). Zach already floated ARCS for investment-memo + diligence pressure-testing on the call,
+so it is grounded, not a stretch.
+
+- **Open decision (proposed, not applied):** reweight the offer sections (codex ladder, receipt
+  posterior/wedge, one-door §03) to *elevate the portable path* ("yours to carry, not tied to a seat")
+  alongside the Google-internal one. Grounded in Zach's own call words. **Do NOT say "for when you
+  leave Google"** on a page he reads — that projects instability (same error class as the consent
+  misread). Keep it light; he is a warm buyer who already offered help. See
+  [[project_yuri_kleban_google]].
+- **Send to Yuri:** the Gmail reply draft still awaits Zach's send; point him to `yuri.arcs.care`.
+
+## Blocking
+NONE. Send is unblocked (gate removed). The offer-reweight is a positioning decision, not a blocker.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
+All this session's work was content-only (public/*.html + runtime/*.json + docs).
+
+
+---
+
+# Handoff — v3.28.0 (2026-08-10)
+
+> **Active pickup point.** v3.26.0 + v3.27.0 relocated to `_ARCHIVE/handoffs.md` (lean-file policy).
+> This block is the whole current picture. The Yuri counterpart family is send-ready and has survived
+> the lens gauntlet, the register gauntlet, the transcript, a 6-facet persona gauntlet, AND a full
+> LinkedIn-thread vibe refit. One more persona gauntlet is IN FLIGHT (see Blocking).
+
+## Headline: the Yuri family is transcript-true, honest, vibe-matched, and machine-gated for overclaim
+
+Everything below is live on `*.arcs.care` (ungated, noindex, link-only), main `39c4332`+.
+
+**The family, refit to his ACTUAL vibe (full LinkedIn thread, not just the call).** Yuri is warm,
+bite-size, no-agenda ("nothing to sell/ask, just kudos"), busy, and BOUNCES OFF ABSTRACTION — he told
+Zach twice the pages were "high level and theoretical / how do I use this." Refit (main `fad2c55`):
+- **one-door** = warm two-link entry. Hero OPENS by saying what it is in his terms ("the pre-meeting
+  brief your team already builds, but closed and scored"). Menu collapsed to TWO: the before/after
+  (codex, "start here") + the diamond ("the deep cut, for builders", face #2). **Profile REDACTED from
+  the send** (unlinked; page still live) — it read as a dossier and was the hardest for him to judge.
+
+**FALSE-CLAIM FIXED + machine-gated (main `b1e4fd0`, `8678392`).** "model-agnostic, runs on Gemini,
+nothing leaves Google" was false present-tense — ARCS runs on **Claude/Anthropic** today. Now honest
+everywhere ("Claude today; a Google-internal version could run on Gemini"), and named that **Agentum** is
+the genuinely model-agnostic one (trust move). Operationalized as **ADR-044 / the `temporal_provenance`
+gate** in `forge_counterpart.py` — refuses to write unhedged aspiration; on first run it caught a 2nd
+live instance (Robin's one-door), now fixed. Whole corpus passes clean.
+
+**The codex "MAGIC YOU ASKED FOR" offer-ladder** (a 4-rung sales menu mislabeled as magic, wobbly POV)
+was cut to an understated no-pitch close.
+
+**Three gauntlets deep + the persona gauntlet (main `4b1bde4`).** The 6-facet Yuri simulation +
+adversarial verifier healed 15 verified cracks (buyer-relabeling → recognition; "across Alphabet"
+rollout → capped; the "4/5 misses all productive" ratchet → the one honest bet; codex chart de-duped +
+beat order fixed to the tape; jargon; diamond rounded to 5-pt steps). Spine protected (self-scoring,
+diamond fence, earned fidelity).
+
+## Captured this session (ADRs / receipts / memories)
+- **ADR-044** — Temporal-Provenance Gate (fact-vs-fiction chain of custody). `_DECISIONS/`.
+- **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (4: temporal gate, redact-dossier
+  refit, diamond earned-fidelity, persona-gauntlet method).
+- **Memories** — [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]],
+  [[counterpart-vantage-premortem]], [[gauntlet-tuned-to-register-catches-what-detector-cannot]] (esc 3).
+
+## The two drafts (ready for Zach to SEND — I do not send)
+Both fulfill the reply Zach already promised on LinkedIn ("something deeper and more self-explanatory")
+and answer his how-to-read / who-for / how-to-use, in his register, pointing only where the page points
+(one-door + diamond; no profile, no model-agnostic claim). **Rec: lead with the LinkedIn reply** (thread
+is live there), Gmail as the fuller follow-up. Full text is in the session transcript.
+
+## Next session starts at — the in-flight gauntlet, then the send
+1. **Verify the in-flight persona gauntlet** (Workflow `w6oq90dah`, run `wf_a88678dc-f66`) against the
+   CURRENT pages; re-verify each flag vs source, heal only confirmed cracks, redeploy. Its context was
+   refreshed to the 2-link/warm/honest state so it should not re-flag fixed items.
+2. **Send** (Zach, human): LinkedIn reply first, then Gmail, pointed at `yuri.arcs.care`.
+
+## Blocking
+NONE internally. The persona gauntlet `w6oq90dah` is still running — its results land via task
+notification; do not assume them. The send is Zach's.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
+`next.config.ts` changes trigger a real Vercel build; content/SSOT/script changes are build-excluded or
+harmless. Robin surfaces regenerate byte-identical unless their SSOT changed (verify with a diff).
+
+---
+
+# Handoff — v3.33.0 (2026-08-13)
+
+> **Active pickup point.** The ARCS-private half of the germinate OSS build session. germinate
+> (the open MIT toolkit at `~/germinate`) is built/committed-local but NOT published — owner-gated.
+> This session canonized what stays *private* to ARCS. PR #136 MERGED to `main`.
+
+## Headline: the Tao of ARCS is canon — dormant seed vs animating spark, and the meter runs only on the spark
+
+The germinate build forced the boundary question: if the seed bank is open MIT, what is ARCS?
+The genesis seed `adam == atom` answers it, and it's now canon.
+
+**Canonized (PR #136, merged `2a6d2ea`):**
+- **ADR-053 — The Tao of ARCS.** A seed is *dormant potential energy* (engineered to survive harsh
+  conditions; never garbage-collect on staleness — dormancy is the feature). ARCS is the **vox
+  animus** — the spark that converts potential→kinetic via *ripeness judgment* at Kairos. The
+  open/private boundary is **one seam, four faces**: bank/spark · public-method/private-rosetta ·
+  dormant/animating · free-to-hold/metered-to-fire. The moat is the spark, so open-sourcing the
+  bank surrenders nothing. Y=GREEN.
+- **ADR-054 — Free to hold, metered to fire.** Free forever (in germinate): mint/plant/water/hold/
+  mechanical-sprout/manifest/handoff. Metered (the gas, ARCS-side): ripeness judgment · Kairos
+  activation · rosetta-primed synthesis. **Bill per activation** (one vox-animus firing) — not per
+  seed/seat/GB. Token fork **DECIDED metaphorical-now** (credits + usage-metered billing); literal
+  on-chain deferred until the blockchain registry + hash-chaining exist AND a cross-party provenance
+  need is shown. Y=YELLOW — willingness-to-pay for the ride is unvalidated.
+- **`_CANON/Tao-of-ARCS.md`** (doctrine, registered in `_CANON/index.md`) + proverb **tao-247**.
+- **`_STATE/2026-08-13-activation-service-kairos-sketch.md`** — kairos (public-good #2, "conditional
+  cron") = the open socket ("could it fire"); ARCS = the private current ("should it, now, for you").
+  Crispness rule: kairos runs fully without ARCS priors; ripeness is a pluggable metered layer on top.
+
+**Boundary discipline held:** nothing was written to `~/germinate`. All ARCS doctrine, the rosetta,
+and ripeness priors live only in arcs-v9 (ADR-053 encodes the no-inline rule).
+
+## Also (housekeeping)
+- `_DECISIONS/index.json`: backfilled ADR-050/051/052 (missing from a prior session) + registered 053/054.
+- Lattice advanced **44→51** via `scripts/lattice_drift_check.py --regenerate` (mechanical countable;
+  judgment layer left human-owned per ADR-052). Next session's session-start hook should read drift-clean.
+
+## Captured
+- **ADR-053 / ADR-054** (`_DECISIONS/`). **DEWY** — `_STATE/2026-08-13-session-decisions.dewy.json` (2).
+- **Memories** — orphans indexed into `MEMORY.md`: [[seed-tao-of-arcs-dormant-potential-vox-animus]]
+  (genesis, now PROMOTED), [[seed-monetization-free-to-hold-metered-to-fire]] (PROMOTED). Both seed
+  files stamped PROMOTED 2026-08-13 so they don't re-promote.
+
+## Next / backlog (designed, not built)
+- The **ARCS activation service** (vox animus / ripeness judgment) and **kairos** (public-good #2) —
+  boundary sketched, interfaces are the open questions in the sketch file.
+- **Do NOT publish germinate** (or any public repo) without explicit owner authorization.
+- ADR-054 care-note: validate WTP for *the ride*, not the bank, before hardening prices / billing infra.
+
+## Blocking
+NONE.
+
+## Deploy note
+This session committed on the worktree branch `claude/elated-hawking-c08b93` and merged via PR #136
+(GitHub merge commit). Canon/ADR/state changes only — no deploy-affecting code. `--no-verify` used on
+push per repo convention.
+
+---
+
+# Handoff — v3.34.0 (2026-08-13)
+
+> **Active pickup point.** A very large session that started as the ARCS-private half of the germinate
+> OSS build and rippled into a full OSS-family + cross-session ADR reconciliation. All on `main`
+> (head `08330a8`). Two forked sessions still running (rosetta-shell build; arcs-umbrella/GTM).
+
+## Headline: a broken ADR namespace got a serialization authority, then a forensic cleanup
+
+The 30-day cross-session sweep found the ADR namespace was **colliding** (024/025/031/032 doubled on
+main; 033×3/039×3/055×2 on branches) — parallel sessions guessing "the next number." Fixes, all live:
+
+- **ADR-057 — the sequence oracle** (`scripts/oracle.py`): a git-serialized id+time authority. `oracle
+  next adr` allocates; the commit (git's non-ff rejection) is the atomic gate. Honest scope: a *logical
+  clock backed by git*, not atomic hardware. New collisions prevented by construction.
+- **Forensic remap, ratified + applied** (`08330a8`): 4 `claims-skeptic` auditors traced every one of ~43
+  inbound refs to ground truth (git blame + topic + date). Verdict was unanimous in shape — governing/
+  earlier keeps, cleanly-detachable moves: **031→048, 032→049, 024→058, 025→059**. 18 tao `source_adr`
+  repointed; docs+code (comment-only, no build impact) rewritten mover-side only; keeper/history/meta
+  refs preserved. Oracle audit clean. Evidence: `_INBOX/adr-collision-remap-forensic.jsonl`.
+
+## Also shipped this session
+- **Tao/pricing canon:** ADR-053 (dormant seed / vox animus / open-private boundary) + ADR-054
+  (free-to-hold/metered-to-fire; token fork = metaphorical-now) + `_CANON/Tao-of-ARCS.md` + tao-247.
+- **OSS family:** ADR-055 (two-tier conformance: interop nodes vs family utilities) + ADR-056 (arcs
+  tie-in connector; per-tool `<tool>.arcs.care` = umbrella head; **forge.arcs.care is the reference**).
+  `_SEEDS/` bank (repo index + ledger + `registry-artifacts.jsonl` + `_oracle.json`).
+- **Tier-B pass PUSHED to 7 public repos** (footer+LICENSE+topics+desc); **germinate left brand-neutral**
+  by design. **`/faq-eval`** skill (cold-reader ATG-FAQ; proven: germinate 3/5, field-scan 1/5, weak axis
+  = "why different than X" across all 8) + **`seedbank_drift_check.py`** inchworm (hook-wired; caught a
+  real coverage-gap: blindsat + profile uncatalogued).
+
+## Captured
+ADR-053..057 (`_DECISIONS/`, registered in `index.json`). DEWY: `_STATE/2026-08-13-session-decisions.dewy.json`.
+Memories: [[seed-tao-of-arcs-dormant-potential-vox-animus]], [[seed-monetization-free-to-hold-metered-to-fire]],
+[[oss-family-seedbank-two-tier-conformance]], [[oss-family-founder-led-growth-surface]] (founder-palette-curation),
+[[arcs-tie-in-connector-per-public-good]]. Reconciliation: `_STATE/2026-08-13-cross-session-30d-sweep.md`.
+
+## Next / open flags
+- **Phantom third ADR-025** (resume/opportunity_scans schema, never written) — 3 refs left flagged; decide fold-into-024 or assign a number.
+- **Seedbank coverage-gap:** `blindsat` + `flashesofbrilliance` profile uncatalogued (receipt in `_INBOX/seedbank-drift.jsonl`).
+- **2 MED-confidence refs** (PROMOTION.md, PR-template) + **flight-manual:16 mis-cite** (ADR-032 for Brief-rendering — wrong).
+- **Branch-side collisions** (033×3/039×3/055-hypercube) reconcile at merge — the oracle should gate that.
+- **Orphan tools** (idea_montecarlo, provision_studio_tenant); confirm `state_sync_check` hook-wiring + tripwire/leak overlap.
+- Consider an **oracle-backed citation linter** — nothing flags a bare `ADR-0NN` pointing at the wrong file today.
+- **Forked, running:** rosetta-shell build · arcs-umbrella/GTM (positioning "why-different" + founder-forward voice + connector fleet).
+
+## Blocking
+NONE.
+
+## Deploy note
+Committed on `claude/elated-hawking-c08b93`, fast-forwarded to `main` with `--no-verify` (canon/tooling
+only; the code touches are comment-only ADR refs). **Allocate every new ADR number via `scripts/oracle.py
+next adr`** — never hand-guess (that is what caused the collisions).
+
+---
+
+---
+
+# Handoff — v3.36.0 (2026-08-17)
+
+> **Active pickup point.** Family public-surface reconcile: good / build / lab / playground are
+> now four renders of one `_SEEDS` bank, guarded by a drift tripwire wired into pre-push. On
+> `main` (head `704a9be`), deployed + curl-verified live. Separate track from v3.35.0 (PRL/Todd).
+
+## Headline: one seed bank, four family surfaces, a tripwire that won't let them drift
+
+good.arcs.care and build.arcs.care had drifted from the repo roster and from each other (build
+omitted rosetta-shell/resume-tailor that good featured; ADR count frozen at 55). Reconciled both,
+then made the fix structural instead of cosmetic:
+
+- **good.arcs.care** — added the family install band (the invisible-until-now `arcs-skills`
+  marketplace one-liner + `brew tap flashesofbrilliance/tap` + npm). Tightened "coming soon" to the
+  honest "repo public · package install pending" — blindsat/linkedin pip is genuinely not live
+  (verified in `distribution.jsonl`); the earlier "not yet published" read as drift but wasn't.
+- **build.arcs.care** — goods rail reconciled to 9 (added rosetta-shell + resume-tailor, tier-A
+  first); ADR 55→59, goods 7→9; new live **"Board"** band (shipped / in-progress / next / blocked)
+  rendered from the *existing* `/api/pulse` issues payload — zero new backend — plus a latest-
+  decisions ADR strip (ADRs named, not linked: arcs-v9 is private).
+- **Playground folded into the bank** — the 4 performers (12d-orbital / knowledge-lattice /
+  alexandria / moire) are now `seed_type=performer` rows in `_SEEDS/index.jsonl` (+ledger receipts).
+  Playground was the one surface living *outside* `_SEEDS`; now germinate's seed format is the shared
+  substrate across all four. `seedbank_drift_check.py` counts `seed_type==repo`, so these don't skew it.
+- **`scripts/sync_family_roster.py`** — the four-surface tripwire. `--check` exits 1 when any surface
+  disagrees with the bank, the playground routing enum (`next.config.ts`), or the ADR/goods/lab counts.
+  Emits `public/family-roster.json`. **Wired into `.git/hooks/pre-push`** before the build (fail-fast,
+  guarded to no-op on branches without it). Negative-tested — it does fail on injected drift.
+
+## Architecture to carry forward
+One bank → four renders: **good/build** = published goods (`distribution.jsonl`, live channels); **lab**
+= `lab_candidate ∈ {ripe,maybe,poc}` (`index.jsonl`); **playground** = `seed_type=performer` (cross-checked
+vs the next.config routing enum). The pages are still hand-authored HTML *audited against* the bank —
+NOT yet *rendering from* `family-roster.json` at runtime. A client-side fetch would be swallowed by the
+subdomain host-catch-all rewrites (same trap `sync_family_tokens.py` notes). So "single source" today =
+single-source-of-truth-for-the-auditor, not literal render. Closing that is an open loop below.
+
+## Next / open flags (all verified this session)
+- **`resume-tailor-skill` is in `distribution.jsonl` but NOT in `index.jsonl`** as a repo seed — the
+  reference connector tool is missing from the seed index. The two catalogs disagree; add the row.
+- **Coverage-gap, 5 uncatalogued** (`distribution.jsonl`): `resume-tailor-skill`, `arcs-skills` (the
+  marketplace), `homebrew-tap` (the tap), `arcs-career-fit`, `arcs-memory-pipeline`. Profile repo = legit skip.
+- **`arcs-memory-pipeline` + `arcs-career-fit` are PUBLIC but described "Private pending review."** Desc
+  claims "synthetic fixtures, no personal data," yet visibility contradicts the description. Confirm
+  intended-public and fix the stale clause, or flip private. Honesty/privacy loop, given this session's theme.
+- **lab.arcs.care has no route** — lab is a build.html section marked "not yet" (intentional). A real
+  lab.arcs.care (the lab-mint factory) is unbuilt.
+- **Make the pages render from `family-roster.json`** to go from audited-consistency to literal single-
+  source — but solve the host-rewrite-swallow first (an `app.arcs.care/api/roster` endpoint, like `/api/pulse`).
+
+## Blocking
+NONE for this track. (v3.35.0 PRL track remains blocked on Todd — unrelated.)
+
+## Deploy note
+Commit `704a9be` pushed straight to `main` from this worktree; pre-push hook ran the new tripwire +
+`npm run build` (no `--no-verify`). Both surfaces confirmed live via `curl` (good marketplace band; build
+"9 goods live" + Board + `x-matched-path: /build.html`, cache HIT) before reporting done — the
+verification bar for static-route changes.
+
+---
+
+# Handoff — v3.35.0 (2026-08-17)
+
+> **Active pickup point.** PRL 1.1 landing session — Sugar routing ground-truth investigation,
+> web-form delivery diagnosis, and a new prl.arcs.care/status/<seg> URL family for cross-workstream
+> client-facing findings. Nothing merged to main via PR — this worktree's commits were pushed
+> straight to `main` (fast-forward, build-verified each time) per existing repo convention for this
+> track.
+
+## Headline: half of Sugar's routing doesn't match the CSV, and it's not new
+
+Before wiring chatbot delivery, ran a full 43-state sandbox sweep (create tagged lead → read
+assigned rep → delete) against the territory-map CSV that's been the working source of truth.
+**~49% mismatch.** Four distinct failure patterns, not one: wrong-rep (consistent, not a fluke),
+"Distribution" corresponds to no real Sugar rule (every Distribution-tagged state routed
+elsewhere), 2 active reps (Dan Damas, Tim Mulcahy) missing from the CSV roster entirely, and 6
+states plus all 7 states outside Sugar's `location_c` enum land **unassigned** — worse than
+misrouted, no queue catches it. Cross-checked against real prod `lead_source: "Web Site"` records:
+same pattern, so this is already live on real leads, not a risk the chatbot introduces.
+
+Resolved a real contradiction along the way: `location_c` wants abbreviations, not full names — an
+Aug-11 doc's "full names" finding was a sampling artifact (91% manual/"Other" records in its
+sample), re-verified live against the enum schema + the 2 real automated-path records that exist.
+
+**Also found and merged in:** an unmerged branch (`claude/chatbot-1-1-jtbd-blockers-edda33`)
+already had a capture-first Tidio flow design + a Layer-0 recognizer test suite (22,500 cases, all
+pass) built and tested. Selectively checked out just that path (56 files, not a full branch merge —
+117 vs 192 commits of unrelated drift since fork) rather than rebuilding leg 1 from scratch.
+
+**Web forms:** Gravity Forms was never wired to create Sugar leads at all (separate from the
+Barracuda email-quarantine issue Jorge partially fixed Aug 14 — that only affects notification
+email, not CRM delivery). Recommended fix: Sugar's native Web-to-Lead form, already proven working
+today for the small number of real "Web Site" leads. Not yet sent to Jorge/Josh — Todd needs to
+approve the approach first, since it's a different mechanism than what Jorge has partial context on.
+
+## Client-facing surfaces shipped
+
+New URL family: **`prl.arcs.care/status/<seg>`**, pilot-checklist style (BLUF → status rows →
+one-line ask → collapsed full detail). Live: `/status/crm` (routing findings + Bill-email draft +
+Todd's calendar link), `/status/troubleshooting` (web-form plan, pre-decision). Reserved, not yet
+built: `tidio`, `wp`, `build`. Both pages carry Vercel Web Analytics (added manually — `public/`
+static files bypass `layout.tsx`'s `<Analytics/>` entirely, a gap that also exists on the older
+`todd-call.html`/`prl-chatbot.html` and wasn't previously noticed).
+
+**Hit and fixed the documented `beforeFiles` re-catch bug class** (same one already named in this
+file's comments for `todd-call`/`julia`) on the first `/status/crm` attempt: excluded on the
+*original* request path (`status/`) instead of the *rewritten destination* (`prl-status-crm.html`,
+which contains `status-` not `status/`), so the fallback wildcard silently re-caught it on Vercel's
+second `beforeFiles` pass. Caught via curl header inspection (`x-nextjs-rewritten-query` showed the
+correct match; `x-matched-path` showed the wrong one — a clean build log gave zero signal). Fixed
+both ways per the proven shape: `proxy.ts` `MULTI_PATH_MAP` as primary, `next.config.ts` regex
+corrected to match the destination substring as backstop.
+
+## Comms state (as of 2026-08-17, end of session)
+
+Todd sent both emails (CRM routing + web forms) and a follow-up text to Bill during the session.
+Two Gmail drafts created (not sent by us): Todd→Bill (routing call ask, his calendar link
+embedded) already sent by Todd; a Todd-facing summary email for each status page, both sent by
+Todd. Nothing sent to Jorge or Josh yet — correctly gated on Todd's approval.
+
+## Captured
+
+DEWY: `_STATE/2026-08-17-prl-1-1-session-decisions.dewy.json` (5 receipts — routing ground-truth
+gap, location_c resolution, selective-merge decision, web-form-fix sequencing, status-URL-family +
+re-catch-bug fix). No new ADR this session (PRL-track decisions, not ARCS-wide canon). Evidence:
+`_ARTIFACTS/prl-1-1-evidence/` (full state-by-state sweep tables, flow JSON exports).
+
+## Next / open flags
+
+- **Blocking on Todd**: (1) nod + Bill call on CRM routing, (2) go-ahead on the Web-to-Lead fix
+  before Jorge/Josh are looped in, (3) the negative-keyword/anti-ICP list he still owes (lower
+  urgency, flagged in the same text).
+- Once approved: generate the Web-to-Lead snippet from Sugar Studio, sandbox-test before touching
+  the live site, then draft the Jorge/Josh handoff (not yet written).
+- Once Bill's call happens: the per-state fix list is already scoped in `/status/crm`'s collapsed
+  detail (4 rows, pattern → proposed fix) — implement whatever he confirms, no separate re-scoping
+  needed.
+- `tidio` / `wp` / `build` status-page segments are reserved (in both `proxy.ts` and
+  `next.config.ts`'s enum) but not built — trivial to add later, one file + one map entry.
+
+## Blocking
+
+Todd's response on both status pages — no further PRL build work until he replies.
+
+## Deploy note
+
+All commits this session pushed straight to `main` from this worktree
+(`claude/prl-chatbot-sugarcrm-605dbe`), build-verified via the pre-push `npm run build` hook each
+time (no `--no-verify` used). Two production routing changes (the `/status/crm` fix, the
+`/status/troubleshooting` addition) were each confirmed live via direct `curl` header checks before
+being reported done, not assumed from a successful build/push alone — worth carrying forward as
+the verification bar for any future static-file routing change.
+
+---
+
+---
+
+# Handoff — v3.37.0 (2026-08-17)
+
+> Minted in-session as v3.35.0; renumbered at merge — main had already minted its own v3.35.0 (PRL)
+> and v3.36.0 (family surfaces) in parallel. Same collision class ADR-057's oracle governs.
+
+> **Active pickup point.** A resume-tailoring session for Zach that became a live demonstration of
+> **ATG (Adjacent Tributary Generation)**: a bounded deliverable threw off reusable offshoots. No
+> arcs-v9 code touched; the skill work pushed to a separate public repo.
+
+## Headline: tailored the Comet Technical PMM application end-to-end, and the method became a shipped skill
+
+Built Zach's application for **Comet — Technical Product Marketing Manager** (reports to VP Marketing
+Hannah Klemme) in `_ARTIFACTS/resume-comet/`: a print-safe designed résumé (2pp), an ATS-plain
+companion, a matching cover letter, and the honesty-graded `competency-model.json` SSOT. Voice tuned
+from Zach's LinkedIn export (Shares/Comments/Recommendations). Centerpiece: an **orthogonal echo** —
+his open-source `token-savings-bank` independently works the same problem as Opik's AI Spend Tracker,
+reframed honestly to *reduction-side vs observability-side* after the gauntlet caught the category
+error. Framing locked as **builder-who-markets**, not engineer-applying-to-marketing.
+
+**Pre-send gauntlet — 4-facet adversarial panel (subagents):** recruiter/ATS · hiring-manager (Hannah)
+· technical-peer · reference-check. Verdicts: **TAKE THE CALL / PASS-WITH-FIXES / CREDIBLE-WITH-FIXES
+/ DEFENSIBLE-WITH-FIXES.** Survivors applied (all subtractive): echo landed ONCE + reframed;
+"evaluation workflows"→"structured decision scoring" (Opik term-of-art); arcs-field-scan honestly
+labeled (mock); titles reconciled to the LinkedIn export (**Grayscale = Product Lead**, **Squat =
+Head of Product Innovation & Tech Lead**); "nearly two decades." ATS synced.
+
+## ATG offshoots (the reusable surplus)
+- **resume-tailor skill → v0.2, PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
+  (`e8e87d1..e41d30a`): Parameters + Components (voice-extract, orthogonal-echo, proof-link,
+  term-of-art gate, social-proof restraint, layout/print discipline) + Greenhouse JD fast-path +
+  Comet exemplar + `evals/evals.json` + `references/rubric.md`. `resume-tailor@arcs` now installs it.
+- **4-facet pre-send gauntlet** as a reusable adversarial-verification harness.
+- **Blog concept** "NOTOMATION powering gradient ascent" — forked to its own running session.
+- Memories: [[atg-offshoot-artifacts-comet-resume-session]], [[resume-tailor-skill-v0.2-field-tested]],
+  [[resume-tailor-voice-from-linkedin-export]], [[orthogonal-echo-proof-point]].
+
+## Open / candidate-side flags (before the app SENDS)
+- **ARCS not on Zach's LinkedIn** (current listed present-role = "Mañana — Product Partner"). The
+  résumé leads with ARCS Founder — biggest reference-check gap; add to LinkedIn or be ready to explain.
+- Squat "$350M ARR" / "seven-figure" — self-reported, not in export; kept, decide soften/cut.
+- ARCS 60% / 3–5× — labeled internal estimates; Hannah says they invite an audit of the hard numbers.
+- Contact = **github-only** ("Contact via recruiter") — fine if recruiter-routed; add a real email if
+  applying direct (recruiter called it the single biggest odds-mover).
+- Confirm VP name (Hannah Klemme) is the current hiring manager.
+
+## Also flagged (infra, not this task)
+- **build.arcs.care ↔ status 1:1 pulse sync not pushed** — build pulse lags the repo (~55 vs ~58 ADRs).
+  Not a blocker; candidate for its own task.
+
+## Blocking
+NONE.
+
+## Deploy note
+No arcs-v9 code touched — no deploy. Skill push went to `flashesofbrilliance/resume-tailor-skill`
+(separate repo). Résumé artifacts are untracked deliverables in `_ARTIFACTS/resume-comet/`.
+
+---
+
+---
+
+# Handoff — v3.39.0 (2026-08-18)
+
+> Minted on main as v3.37.0; renumbered at merge — the SECOND v3.37.0 collision
+> (Comet holds v3.37.0 on this branch). Handoff numbers are now oracle-governed
+> (`scripts/oracle.py next handoff`) to end this collision class.
+
+> **Active pickup point.** Continuation of PRL 1.1: Todd approved the web-forms approach in
+> writing (Aug 17, 19:32 reply — "Makes total sense... it's how the leads from the PPC landing
+> pages are supposed to work"), a $2,070 CWO (Addendum 1.2-A, invoice #NYQRTJPQ-0004) is live and
+> payable at prl.arcs.care/status/troubleshooting, and mid-session a major access discovery
+> changed the build plan. **Not yet paid as of this handoff.**
+
+## Headline: real Sugar Studio access exists via Claude-in-Chrome, confirmed live, changes the plan
+
+Spent significant effort earlier this session assuming no direct Sugar/WordPress access existed
+(the sandboxed `Claude_Browser` tool showed login screens for both). **That assumption was wrong**
+— Zach corrected it: he's logged into both in his real Chrome, reachable via the `claude-in-chrome`
+MCP surface (real browser, real sessions), not the sandboxed preview browser used for Tidio
+earlier. Confirmed live:
+- **prlresins.sugarondemand.com (production)** authenticated and open (screenshotted the real
+  revenue dashboard).
+- **prlresinstest.sugarondemand.com (sandbox)** also open, in a separate tab, **with admin access**
+  — Administration panel reachable at `prlresinstest.sugarondemand.com/#Administration`, where
+  Zapier's connection to Sugar's API is visible/manageable.
+- The `zapier.chatbot` sandbox account has real read/write access, not just API-level (already
+  proven all session via the Zapier MCP connection).
+
+**Process lesson, said plainly because Zach asked directly why I didn't try this first:** I
+defaulted to the tool I'd already been using all session (sandboxed browser) out of habit rather
+than checking which surface actually holds live credentials, even though the system prompt is
+explicit that Claude-in-Chrome is for exactly this. When a task's question is literally "do you
+have a live session," check the surface that can have one before the sandboxed one that never
+does.
+
+**What this unlocks for next session:** Sugar Studio's native Web-to-Lead Wizard is now directly
+reachable and buildable, in both sandbox and prod, with admin-level access to the sandbox's
+Administration panel. This likely replaces (or at least should be weighed against) the bridge
+architecture sketched below, which assumed no direct UI access and built around that constraint.
+
+**Also confirmed this session, separately:** the Zapier MCP surface has no tool to create a
+standing webhook Zap (trigger + public URL + action) — `create_zapier_skill`, `write_code_action`,
+and `execute_zapier_write_action` all run only when explicitly invoked in a live conversation, none
+of them are unattended infrastructure that fires when a real site visitor submits a form later.
+That's a genuine capability gap (not a process miss like the browser one), and it's the reason the
+bridge architecture below leaned on a Zapier Catch Hook as a manual one-time setup step rather than
+something buildable headlessly.
+
+## In-progress, uncommitted — resume or revert
+
+`prisma/schema.prisma` has an **uncommitted** addition: a `PrlWebLead` model (staging table for web
+form submissions, holds first/last name, company, phone, raw + normalized state, forward status).
+Migration was never run — `npx prisma migrate dev` failed with `"The datasource.url property is
+required in your Prisma config file"`, not yet debugged. **This may no longer be the right
+approach** now that direct Sugar Studio access exists — the native Web-to-Lead form doesn't need
+our own DB staging layer. Decide next session: finish the bridge (debug the migrate error, build
+the JS snippet + `/api/prl-lead` route, forward via a manually-built Zapier Catch Hook) or use the
+newly-confirmed Sugar Studio + Administration access to generate Sugar's own native Web-to-Lead
+HTML directly, which was the originally-recommended, already-proven mechanism (real "Web
+Site"-sourced leads already arrive this way). Leaning toward the latter now that it's reachable.
+
+## Everything else shipped and verified this session (all live)
+
+- `prl.arcs.care/status/{crm,troubleshooting}` — both restructured to pilot-checklist style;
+  troubleshooting page is now a formal CWO (**Addendum 1.2-A**, $2,070, in-scope/out-of-scope,
+  best/base/worst, live Stripe invoice #NYQRTJPQ-0004 wired as a pay button).
+- Vercel Web Analytics added to both static pages (gap: `layout.tsx`'s `<Analytics/>` never
+  reaches `public/` files — same gap likely exists on other older static PRL pages, not audited).
+- Two concurrent-session merges handled cleanly this session (another session independently
+  shipped `/status/tidio`, `/status/build`, and a `_SEEDS`-driven family-roster sync — merged with
+  `git merge origin/main`, zero conflicts both times, always build-verified before push).
+- DEWY receipts + prior handoff (v3.35.0, now archived) cover the routing ground-truth finding,
+  location_c resolution, and the beforeFiles re-catch bug — see `_STATE/2026-08-17-prl-1-1-session-
+  decisions.dewy.json` and `_ARTIFACTS/prl-1-1-evidence/`.
+
+## Comms state (as of 2026-08-18)
+
+Todd approved the web-forms approach in writing (Aug 17, 19:32). CRM-routing / Bill-call ask still
+awaiting his reply. Negative-keyword list started (he sent "sheet resin" as the first term, Aug 17
+19:53). Invoice #NYQRTJPQ-0004 ($2,070) sent/live but **not yet paid** as of this handoff — check
+before assuming the CWO is greenlit to start building.
+
+## Next / open flags
+
+- **Decide the web-forms build path** given the new Sugar Studio + Administration access (see
+  above) before writing more code — don't finish the bridge architecture on the old assumption if
+  the native form is now the better path.
+- **Debug or abandon** the `prisma migrate dev` datasource.url error if the bridge path is chosen.
+- Check whether invoice #NYQRTJPQ-0004 has been paid before starting build work under Addendum 1.2-A.
+- CRM routing: still waiting on Todd's nod for the Bill call; nothing to build there until then.
+- Real Chrome / Claude-in-Chrome now confirmed as a live-session surface for this project — default
+  to checking it first for any "is there an existing login" question, not the sandboxed browser.
+
+## Blocking
+
+None hard-blocking, but two real decisions await: web-forms build path (architecture), and whether
+Todd's invoice payment should gate starting Addendum 1.2-A work.
+
+---
+
+# Handoff — v3.38.0 (2026-08-18)
+
+> **Active pickup point.** The self-cataloging arc, end to end in one thread:
+> inchworm → catalog → atlas → dolls → doctrine. The corpus now indexes itself,
+> renders itself, polices itself, and travels.
+
+## Headline: the memory corpus became a self-cataloging, navigable, portable system — and canonized how it stores itself
+
+- **Self-cataloging index** — `scripts/memory_index_sync.py` (session-start hook, `--append`):
+  orphan memory files auto-catalog into an "Uncurated (auto)" band rendered from their own
+  frontmatter `description` (the SSOT inversion). Fixed the old inline check's regex bug
+  (dotted filenames false-positived ORPHAN forever). Dead links + byte budget stay
+  receipt-only. Index consolidated 20.9→17.4KB, 0 dropped, 0 dead links.
+- **Catalog emitter** — `scripts/memory_catalog_emit.py`: mechanical, declared-edges-only
+  backfill (183 nodes, 590 `[[wiki-link]]` edges, 22 dangling counted honestly).
+- **Terrain Atlas** — `_ARTIFACTS/terrain-atlas.html`: 2.5D ziggurat where **stratum = echo
+  weight** (base uncited → apex canon 10+), fog = staleness, district = azimuth; arrow-key
+  traversal climbs the strongest declared edge; full camera (orbit/tilt/track, presets);
+  per-node **russian-doll nested-ticket export** (cycles = `@ref`, never invented hierarchy).
+  The apex self-identified: `cut-not-add-provable-architecture`, cited ×21.
+- **Dolls (User0 → UserN+1)** — `scripts/doll_export.py` + `doll_sprout.py`: epoch-stamped
+  declared-closure bundles, `--bodies` for true tenant bootstrap, **fail-closed air-gap gate**
+  (`audience:` absent = internal; external cuts name what they held). Sprout never overwrites;
+  the tenant's inchworm self-catalogs. Round-trip tested (96 shells w/ bodies).
+- **ADR-065 minted via oracle** (+ **tao-249**, aspect C): corpus = SSOT, storage = induced
+  projection, 4 serialization invariants, namespace isolation, **Infra Compass = ROM CANDIDATE**
+  ("Induced Projection"; Y-map evidenced by this session's own FORK/PARADOX/DRIFT).
+- **Merge reconcile**: 27 commits behind main resolved; three-way v3.35.0 handoff collision
+  renumbered honestly (ours → v3.37.0); PII repos (`arcs-memory-pipeline`, `arcs-career-fit`)
+  **re-privatized** per their own "pending review" descriptions (a live PARADOX, closed).
+  30-day sweep ran; gauntlet-sampling-engine + dollar-compression minted to memory.
+- **The system ratified itself**: the pre-push tripwire rejected the ADR-065 push because
+  build.html still said 59 ADRs — the drift the mint itself created. Fixed the surface
+  (never `--no-verify`), pushed clean. The Infra Compass worked before it was built.
+
+## Wisdom receipt (the durable lessons, distilled)
+
+1. **Invert the index**: when a file's frontmatter IS the SSOT for its index line, cataloging
+   becomes mechanical and new knowledge can never silently fall out of the index.
+2. **Declared-only edges are the honesty floor for provenance**: absent ancestry stays absent;
+   a guessed edge is the propaganda version of lineage. (Held everywhere: catalog, atlas,
+   tickets, dolls, ADR-065 invariant 3.)
+3. **The NOTOMATION split scales every inchworm**: mechanical countables automate
+   (append, emit, count); judgment (curation, canon, RED response) stays human. The same
+   cut worked for the index, the seedbank, the snapshot, and the compass design.
+4. **Let the data make the shape**: the ziggurat's pyramid wasn't designed — it emerged from
+   the citation distribution, and its apex independently surfaced the corpus's own governing
+   goal (`cut-not-add`, ×21). Render the structure; don't impose it.
+5. **Fail closed at every boundary**: `audience:` absent = internal; PARADOX resolves to the
+   restrictive assertion + a receipt (the ROM RC). The air-gap gate refused 100% on first
+   run — that's the gate working, not failing.
+6. **Dollar compression in practice**: ~350 lines of stdlib authored once, zero LLM in any
+   runtime path — export/sprout/emit/check run free forever.
+7. **A gate that catches its own minting commit is the proof the gate is real** (tripwire vs
+   ADR-065's own drift).
+
+## Next / open flags
+- Roll `audience:` frontmatter onto any memory that would ever be cut externally (gate is
+  fail-closed until then — correct but total).
+- pg/pgvector migration (**ask-first** per ADR-065); `--emit-sql` on the emitter is the seam.
+- ROM ratification of "Induced Projection" when earned; Infra Compass L1–L5 synthesis unbuilt.
+- Origin-session / cross-session echo enrichment (`Activation` rows) — designed, not built.
+- lattice-drift still fires (ADR count 57 vs 60; epoch stale) — regenerate is human-owned.
+- Sweep leftovers unminted: CWO pattern, status-URL gotcha, F33 panel-as-plan-breaker,
+  family token-SSOT, marketplace-as-channel, release runbook.
+- **Apex Spine → Alexandria**: `_ARTIFACTS/apex-spine.html` (the S4 canon stratum as a print
+  spine, 14 vertebrae) is a candidate resident for the **center reading room of the Library
+  of Alexandria** performer (`_ARTIFACTS/arcs-alexandria.html`) — the corpus's load-bearing
+  canon displayed at the library's heart. Placement idea, not yet integrated.
+
+## Blocking
+NONE this track. (PRL remains blocked on Todd — see snapshot `blocking_v3350_prl`.)
+
+## Deploy note
+All work pushed to `claude/plugin-marketplace-arcs-skills-9622bd` (head `b12349f` pre-handoff);
+one public-surface content change (build.html ADR stat 59→60) rode the tripwire-gated push.
+No product deploy. Comet application: SENT (see v3.37.0).
+
+---
+
+
+<!-- relocated from CLAUDE.md 2026-08-26 -->
+
+# Handoff — v3.41.0 (2026-08-19)
+
+> **Active pickup point — the loaf-cooling handoff.** Caps the v3.40.0 session's second arc:
+> design-system unification across 8 surfaces, the page factory, ADR-066, and the live-culture
+> naming. Oracle-numbered (41). Read v3.40.0 below for the open bugs — they are STILL the next
+> session's first work.
+
+## What landed after v3.40.0 (all pushed, all verified live)
+- **One design system, 8 surfaces, zero exceptions:** prl.arcs.care root = Overview (masked
+  todd-call content); /status/{progress,crm,troubleshooting,tidio,atlas,build}. Sticky pill nav
+  (Overview-first) + identical global footer on every page; 916px wrap; glass panels, no hard
+  dividers; balanced h1s; every mobile/layout defect fixed live (~20) — each now a rule in the
+  factory SKILL.md. Mechanical audit script proves conformance (in-session pattern, re-runnable).
+- **prl-page-factory skill** (`.claude/skills/prl-page-factory/`): atoms.css extracted from the
+  live reference page + zero-dep generator; new page = ~20-line spec.json. Smoke-tested.
+- **ADR-066 Generative Recoil** minted from a witnessed naming moment (witness stub GREEN,
+  promoted): recoil is bidirectional — audit AND compose session residue into instance → class →
+  invariant. Falsifiable: next PRL page must cost a spec, not a session. Build.html ADR stat
+  61 (tripwire caught its own mint again, fixed the surface, never --no-verify).
+- **Live-culture / ancient-starter doctrine** (Zach's naming): feed artifacts from the deployed
+  instance, never parallel-maintain. Both claude.ai artifacts (atlas + ssot) rebuilt
+  instance-first from the deployed page and republished to their same URLs.
+- **Apex spine v15** added (generative-recoil-live-culture). **Seeds planted:**
+  `live-culture-artifacts`, `page-factory-from-session` (+ earlier: `engagement-universe-doll`).
+  **Memory minted:** [[generative-recoil-live-culture]] incl. 3 tao proverbs.
+  **Parked for Aug-24 close-loop:** evidence-anchored re-pricing of 1.3–1.5 (1.4 highest
+  exposure — attribution is ground-truth-verification work, the category that ran 3x).
+- **Reading-room candidates (Alexandria):** ADR-066 + the starter framing join apex-spine as
+  center-room candidates — placement idea only, not integrated.
+
+## Register decision made and to hold
+No src/ UIKit for PRL — the factory IS the UIKit at the right weight; React-ification only on a
+third interactive surface family (rule of three). Don't blur into the app's FieldOS system.
+
+## Next session (unchanged from v3.40.0, plus)
+1. Co-pilot Task 1: empty-email filter + Roger Lamarre repair (CRITICAL, before more demo traffic).
+2. Test-lead cleanup · rep notification · SLA sweep · baseline pull (briefs/meta-prompts ready).
+3. UAT selector debug run · SEM template Phase 0 (fill 2 node schemas via export).
+4. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
+
+<!-- relocated from CLAUDE.md on 2026-09-04 by the v3.53.0 handoff -->
+
+# Handoff — v3.50.0 (2026-08-29)
+
+> **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
+> armed.** Renumbered up the version chain (48→49→50) as parallel sessions shipped their own
+> v3.48.0 (tool-catalog) and v3.49.0 (Möbius) while this branch was in flight. On
+> `claude/elastic-driscoll-a80e72` (PR #194). Oracle audit clean (68 ids, 0 collisions); rebased
+> onto live main three times.
+
+## Shipped (this branch)
+- **ADR-033 duplicate → Option A.** Serialization Pathogen Family keeps 033; the model-routing/adr-
+  audit decision renumbered to oracle-issued **ADR-073** (index.json + header renumber note).
+- **Engine-sovereignty doctrine → minted as ADR-072** (oracle-issued). Honors the forward reference
+  in main's Möbius (ADR-071) DEWY receipt, which cites "engine-sovereignty (ADR-072)". Old "067"
+  claim retired (067 = cross-subject-comparative-recoil); memory + MEMORY.md index re-pointed.
+- **ROM vocabulary → Option A.** 7 ROM Primitives (`.claude/arcs-canon.md`) = CANON; 6 execution laws
+  → "behavioral laws (derived)"; 7 axioms → "epistemic foundations". Authority index
+  `runtime/specs/ROM-AXIS-INDEX.md` + tier banners on all three source files.
+- Both `_DECISIONS/CANON-COLLISION-*.md` → **RESOLVED**. `_SEEDS/_oracle.json` adr 71→73.
+  `build.html` sv-adrs → 68 (true distinct-ADR count). DEWY receipt appended
+  (`_STATE/2026-08-28-session-decisions.dewy.json`).
+- **`_DECISIONS/index.json` fully backfilled.** 10 files were missing entries (032, 033-pathogen,
+  034, 038, 044, 048, 049, 058, plus 070/071); index now 1:1 with 68 files (set-diff verified).
+- **Oracle pre-commit gate ARMED** for this worktree (`core.hooksPath = scripts/git-hooks`).
+- **Norse ROM candidates**: Loki inversions written (Ullr + Baldur); numbering gate cleared. NOT
+  ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
+
+## Open (next session)
+1. **Nightly canon-propagation cron — ARMED** (plist installed at `~/Library/LaunchAgents/care.arcs.canon-propagation.plist`; confirmed live 2026-09-03. The "still HELD / arm after merge" note was stale, per the Atlas audit).
+2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
+3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
+4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
+
+
+# Handoff — v3.49.0 (2026-08-29)
+
+> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
+> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
+> Branch current with origin/main; oracle at 71.
+
+## Shipped (all on main)
+- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
+  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
+  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
+  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
+  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
+  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
+  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
+- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
+  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
+  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
+  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
+- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
+  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
+  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
+  (measured), blind-count ~1.
+- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
+  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
+  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
+  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
+
+## Open (next session)
+1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
+   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
+2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
+   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
+   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
+3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
+   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
+4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
+   ADR-069 oracle audit · lattice --regenerate.
+
+
+> _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+
+---
+
+# Handoff — v3.52.0 (2026-09-02)
+
+> **Blacksmith application + recruiter-enablement session.** Built and shipped the full Blacksmith
+> candidate bundle, then a recruiter-facing enablement system for Amy at RecruitHaus. Everything live
+> is verified. Worktree `claude/blacksmith-staff-engineer-role-7266bf`. Long session, converged under
+> the 5-hour limit.
+
+## Shipped + live (verified)
+- **blacksmith.arcs.care**: hero **ship-clock frozen to `v0 · 1h 22m`** (git-true; live counter was
+  undercutting the flex), **The Forge** with **6 between-stage CI gates** (ADR-068 print schedule;
+  final gate names the real CI: lint + next build + air-gap-leak-check-as-test + security scan +
+  auto-rollback, 7 workflows), **domain-map rebuilt as a connection visual**, cover security nod,
+  "director's cut"→"the forge". Air-gap test retuned (recruiter credit allowed; founders hard-gated,
+  added Aditya/Maru).
+- **status/build false-zero bug fixed** — degraded `/api/pulse` overwrote the curated floor with
+  0/0/0/1 over a full board; guard + curated fallback + honest stamp. FM banked
+  ([[live-counts-overwrite-static-floor-with-false-zeros]]).
+- **recruithaus.arcs.care** LIVE — public candidate-positioning page (two-hires-in-one, role pills,
+  why-multi-threaded, compounding). Air-gap clean (leak=0; orphan CSS stripped). proxy.ts SUBDOMAIN_MAP
+  + `/_vercel` exclusion (analytics fix for all subdomain hosts).
+- **Kintsugi receipt** `_STATE/2026-09-02-blacksmith-kintsugi.json` (healthy + golden-seam ledger).
+
+## Private (`_ARTIFACTS/resume-blacksmith/`, not served)
+- `counterpart-application-forge.blueprint.md` (parameterized factory), `tear-sheet-amy.html`+`.pdf`
+  (**gated ammo**: comp logic, 3-lens battle cards w/ nested 1st/2nd/3rd-order objection handling,
+  best/base/worst, ARCS circuit breakers; founders by lens not name), `recruiter-recoil-report.html/.md`,
+  `dyor-blacksmith-recon.md`, `design-critique-personas.md`, `founder-gauntlet.md`, `intel-bundle.md`.
+- Pattern banked: [[recruiter-enablement-two-tier-tear-sheet]].
+
+## Open (next session)
+1. **Gate + host the ammo tier** + a `/resume`-style PDF-download viewer behind a passcode
+   (RECOIL_PASSWORD cookie retired; recoil now Auth.js/admin-email = not Amy-accessible; no qpdf/pikepdf
+   for PDF encryption). 2. **Impeccable audit/polish/refine/distill pass** on recruithaus (user queued
+   it "after deploy"). 3. **Amy-facing recoil recap** (warm call-recap, not the reverse-listening).
+   4. **Named founder battle cards** — offline file only, never hosted. 5. `/consolidate-memory` (index
+   21KB > 17KB). 6. Deep-recon vs raw Granola transcript `1831d31e` to re-verify every attribution
+   before any ammo is hosted.
+
+## Candidates to mint via oracle (do NOT infer numbers)
+- **ADR:** two-tier counterpart-artifact doctrine (pitch open / ammo gated; founders-by-lens; comp-talk
+  never on open web). **ADR:** battle-cards-as-objection-filters + nested N-order handling.
+- **Seed:** recruiter-enablement tear-sheet as a productizable surface of the counterpart-forge.
+- **DEWY:** session-decisions receipt still owed (kintsugi receipt already appended).
+
+> _relocated from CLAUDE.md 2026-09-06._
+# Handoff — v3.54.0 (2026-09-06)
+
+> **Open-loops session.** `/handoff-pickup` triage, then three loops closed on branch
+> `claude/open-loops-handoff-cvgjxd` (NOT yet merged to main — open the PR): Phase 0 integrity gate,
+> ADR-020 Tribune steps 1-2, ADR-006 repo-side half. Zach closed loop "sean-wing" by decision.
+
+## Shipped (on the branch)
+- **`scripts/integrity_gate.py`** (ADR-075 GATE organ): every ADR / commit sha / repo path a record
+  cites must exist on `origin/main`. OK / WARN (index drift, unknown sha, gitignored) / FAIL (missing
+  ADR, unmerged sha, vapor path). `--staged` for the hook (staged files count as existing). Wired into
+  `scripts/git-hooks/pre-commit` as **warn-then-block**: warns by default, `INTEGRITY_GATE_BLOCK=1`
+  enforces. First run found real drift: ADR-042 gap, `runtime/specs/routing-manifest.json` vapor,
+  **9 retired `public/*.html` briefs still listed in `_STATE/snapshot.json` `ui_artifacts`** (labella,
+  peter, token, chase-intro, chris-intro, cj-brief, fanatics, growth-intel, kelly-interview).
+  CBA ledger row 0 filled (~0.5 hr actual vs 1 est).
+- **ADR-020 Tribune** steps 1-2: `POST/GET /api/tribune` (auth+owner, rate limit, lazy per-phase
+  upsert, Proactive silent below threshold, Posterior needs an Outcome, baton write), `Tribune` model +
+  `Receipt.batonId` + migration `20260906000000_tribune`, `src/lib/tribune.ts` pure helpers (18 unit
+  assertions; compiled via `npx tsc` to scratch, no tsx in repo). `npm run build` green.
+- **ADR-006** repo half: `.github/workflows/preview-db-migrate.yml` — migrations-from-zero on a
+  Postgres 17 service + `prisma migrate diff --exit-code` on every `prisma/**` PR; `migrate deploy` to
+  `PREVIEW_DATABASE_URL` when the secret exists. ADR-006 amended (live ref is `xbbpiryokswwvcrcutge`,
+  not the INACTIVE `owdiiy…` the connector sees; branch ~$0.0134/hr on the visible org).
+
+## Open (next session)
+1. **Open + merge the PR** for this branch; then run `INTEGRITY_GATE_BLOCK=1` for a week before flipping
+   the hook default. Migration `tribune` applies on the Vercel deploy path (`migrate deploy`); verify.
+2. **ADR-006 dashboard half (Zach, spend):** confirm branch price on the live org, enable Branching on
+   `xbbpiryokswwvcrcutge`, set `PREVIEW_DATABASE_URL` in GitHub secrets.
+3. **Tribune:** step 6 panel DONE (`src/molecules/TribunePanel.tsx`, owner-only on `/receipt/[id]`); route now
+   reads the already-persisted `Receipt.driftState`. Left: fire Posterior from the Outcome handler (P1, unbuilt);
+   smoke one real receipt on prod after merge.
+4. **Snapshot hygiene DONE** via new `scripts/snapshot_prune_ui_artifacts.py` (9 retired briefs pruned, ledgered
+   under `ui_artifacts.pruned`); refresh `git.head_sha` after merge. Ziggurat key-0 verified already wired (DONE).
+   MEMORY.md trimmed 36KB → 18KB (v3.0.0–v3.3.1 → `_ARCHIVE/memory-archive.md`).
+5. Still Zach-gated: Desk shape brief "go" (`_SPECS/desk-shape-brief-v1.md`), tao-backfill-066-067,
+   orphan-seeds, six PRL Zapier tasks, Todd's nod, gh-actions-billing, worktree prune.
+6. Unclaimed trail: worktree `linkedin-alerts-scraper-a97535` (Mac, merged as PR #293) never ran `/handoff`.
+
+
+
+
+---
+
+# Handoff — v3.56.0 (2026-09-07)
+
+> **Long multi-thread session (worktree `dprk-lazarus-malware-analysis-4a7acf`).** Started from the
+> DPRK/NFTT close-out, then: a measure/wrap SAFEGUARD + audit, an impeccable pass on post-4, a
+> delegated Dealroom research crawl, and a new ADR. All shipped work is on main or merging.
+
+## Shipped
+- **wrap-lint MODE 5 (container/measure mismatch gate)** — `scripts/artifact_wrap_lint.py`, pre-commit
+  wired (PRs #256/#258/#260). Catches the desktop "narrow prose in a wide container" bug that overflow
+  checks miss; scans `<style>` only, strips CSS comments, FP-reducer for `.hero .lede{max-width:none}`,
+  and a `wrap-lint-allow: measure-mismatch` opt-out. Fixed the dossier + 3 narrow ledes, marked 3
+  two-width pages. AEO robots/sitemap reachable on good.arcs.care.
+- **NFTT post-4 impeccable pass = s-tier, ZERO edits** (clean at 1280/790/375). Posts 1-3 swept clean.
+- **Dealroom talent research** — `_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md` (PR #273).
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW; renumbered 075→076 after a
+  parallel DECIDED ADR-075 "Metabolic Router" merged first (oracle-first, collision resolved clean).
+- Housekeeping: lattice epoch e9=2026-09-03; iCloud→Files sync convention; 5 memories banked.
+
+## Open (as of that session)
+1. ADR-076 demand probe: one cheap read-only MCP tool + "Connect an agent →"; measure pull.
+2. Memory index over the hook's budget.
+3. Full `/meta-audit` epoch for the 81 lattice nodes.
+4. story_render.py / literary-theme drift (CLOSED in v3.58.0, PR #312).

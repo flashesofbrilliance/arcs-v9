@@ -11,8 +11,8 @@
 | 003 | arcs.care: COCD as first-class UX primitive | `~/arcs-care-local/components/hero.tsx` + `loop-diagram.tsx` | DONE — shipped (arcs-care `0240f18`) | QUARTER | HIGH |
 | 004 | mcp.arcs.care DNS fix | Vercel dashboard → perplexity-mcp → add domain `mcp.arcs.care` | DONE — live, 308 redirect confirmed | TODAY | HIGH |
 | 005 | Vercel Supabase env injection | Vercel → Integrations → Supabase | DONE — execution diverged (manual `vercel env add`, not integration); rotation risk tracked in ADR-005 amendment | TODAY | HIGH |
-| 006 | Supabase Branching for preview DBs | Gate: first external user OR first schema PR | READY — gate condition ("first schema PR") has fired multiple times since (e.g. ADR-026's migration); branching itself not yet set up | QUARTER | MEDIUM |
-| 007 | Prisma migration strategy | `npx prisma db push` → baseline → switch build cmd | DONE — bootstrap complete (amended 2026-05-28) | QUARTER | HIGH |
+| 006 | Supabase Branching for preview DBs | Gate: first external user OR first schema PR | IN_PROGRESS (2026-09-06) — repo half shipped: `preview-db-migrate.yml` (migrations-from-zero + drift check on every prisma PR; `prisma migrate deploy` to `PREVIEW_DATABASE_URL` when set). Dashboard half human-gated: confirm branch price (~$0.0134/hr on the visible org), enable Branching on live ref `xbbpiryokswwvcrcutge`, set the secret. See ADR-006 amendment 2026-09-06 | QUARTER | MEDIUM |
+| 007 | Prisma migration strategy | `npx prisma db push` → baseline → switch build cmd | **REOPENED 2026-09-06** — revisit trigger fired (post-launch schema changes: ADR-026, jobs_board, tribune) but `migrate deploy` was never adopted. `migration_lock.toml` = `sqlite`; April-2026 migrations are SQLite dialect; `migrate deploy` from zero fails P3019 (found by `preview-db-migrate.yml`, PR #297). Prod still applies via `db push`. Human call (destructive to history): re-baseline `prisma/migrations` from the live Postgres (`migrate diff --from-url --to-schema-datamodel` → new `0_init`, lock = postgresql, `migrate resolve --applied`), then switch CI + preview job to `migrate deploy` | QUARTER | HIGH |
 | 008 | RLS policy design | `scripts/rls-policies.sql` | DONE — deny-all policies applied to 9 tables (note: `SageTrace` added later, RLS currently disabled on it per live advisory — needs a follow-up policy) | YEAR | HIGH |
 | 009 | Design system canonicalization | `src/ui/tokens.ts`, `Badge.tsx`, `Button.tsx`, `Card.tsx` | IN_PROGRESS — Tokens/Badge/Button/Card shipped; Panel + Chip not started | QUARTER | MEDIUM (revisit, not STABLE) |
 | 010 | `arcs_dewy` naming collision fix | Python package vs. flat-file shadowing | DONE | QUARTER | HIGH |
@@ -25,7 +25,7 @@
 | 017 | Receipt core schema (canonical field set) | `prisma/schema.prisma`, Supabase direct (arcs.care) | DECIDED | QUARTER | HIGH |
 | 018 | `/helpful` raw-context input model | arcs-care `/helpful` | DRAFT — HELD pending Architect packet from Perplexity Space session | QUARTER | — |
 | 019 | `ReceiptObject` as canonical Python runtime type | `operators/arcs_receipt_core.py` | DECIDED | QUARTER | HIGH |
-| 020 | Tribune Intelligence Layer (Anterior/Proactive/Posterior) | wraps existing Receipt flow, no ReceiptObject mutation | **READY — decided, 50-receipt trigger cleared (184 receipts live), not yet started** | QUARTER | — |
+| 020 | Tribune Intelligence Layer (Anterior/Proactive/Posterior) | wraps existing Receipt flow, no ReceiptObject mutation | **IN_PROGRESS (2026-09-06)** — steps 1+2 shipped: `POST/GET /api/tribune` (auth + owner check, Proactive silence gate, lazy per-phase upsert, baton write) + `Tribune` model/migration + `Receipt.batonId`; `src/lib/tribune.ts` pure helpers (18 unit assertions). Step 6 shipped too: `src/molecules/TribunePanel.tsx` on `/receipt/[id]` (owner-only, one line/phase, board reds, LAB in DEEP); route reads the persisted `Receipt.driftState`. Remaining: Outcome-driven Posterior trigger (needs the Outcome handler, P1 backlog); first live-receipt smoke on prod after merge | QUARTER | — |
 | 022 | `User.emailVerified`/`image` Postgres column debt | migration needed (SQLite-only `d732dad` never ported) | DONE — confirmed live via Supabase MCP `list_tables`: both columns exist on `public.User` | QUARTER | — |
 | 023 | Observability as superionic goal lattice | `runtime/specs/lattice-pressure-rom.json`, `scripts/lattice_sim.py` | GATED — blocked until 100+ receipts give a measurable real-corpus Zipf baseline (184 receipts exist; gate is on baseline measurement, not just count — not yet run) | QUARTER | HIGH |
 | 024 | Resume / arcs-care architecture gates | — | DECIDED | — | — |
@@ -88,4 +88,22 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
-*Last updated: 2026-07-19 (token-efficiency audit session); prior auto-gen 2026-07-01 22:41 UTC*
+---
+
+## Worktree hold branches — ADR number collision (2026-08-03)
+
+Three branches have genuinely unintegrated commits that cannot be merged to main without
+renumbering their ADRs first. Do NOT remove these worktrees — they are the only copy of
+the work. Gate: renumber each to the next available ADR slot before merge.
+
+| Branch | Worktree | Commits | Blocker | Key content |
+|--------|----------|---------|---------|-------------|
+| `claude/harness-build-optimization-f52489` | `token-consumption-improvement-6ba854` | 3 | ADR-038 collision: branch has `exogenous-forge`, main has `recoil-bookmark-primitive` | ROM #6 Exogenous Forge (`_DECISIONS/ADR-038-exogenous-forge.md`), `/thread-recoil` skill (`.claude/skills/thread-recoil/SKILL.md`), Cynic lineage |
+| `claude/elastic-rubin-f22a6e` | `elastic-rubin-f22a6e` | 5 | ADR-039 collision: branch has `refusal-to-overclaim`, main has `deploy-cost-guardrail` | Tao Cellar canon, `ADR-039` brand-promise, `serialize_grade.py` |
+| `claude/decision-geometry-logo-81fb56` | `decision-geometry-logo-81fb56` | 26 | ADR-039/040/041 all collide | Full Tao proverb system (241 proverbs), Tao viz tools, Forge kit, ADR-039/040/041 brand + grid |
+
+**How to unblock:** Check the next available ADR number (`ls _DECISIONS/ | sort`), then renumber
+the collision files in each branch before cherry-picking or rebasing onto main. The three branches
+are independent of each other — renumber in any order.
+
+*Last updated: 2026-08-03 (worktree audit + cleanup session)*

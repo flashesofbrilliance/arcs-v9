@@ -1,0 +1,6 @@
+# Mock SugarCRM REST for the PRL local dev loop. Stdlib only -> no pip install layer.
+FROM python:3.12-slim
+WORKDIR /app
+COPY server.py .
+EXPOSE 8090
+CMD ["python", "server.py"]

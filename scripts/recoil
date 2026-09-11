@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# recoil - self-contained runner for the recoil brief generator.
+# ------------------------------------------------------------------
+# Zero required third-party deps: kinematics fall back to pure stdlib when
+# numpy is absent (identical D1-D3), and use the canonical arcs_kinematics.py
+# engine automatically when numpy is present. So this needs ONLY python3.
+#
+# Install (Homebrew python is fine):
+#   brew install python            # if you don't have python3
+#   ln -s "$(pwd)/scripts/recoil" /usr/local/bin/recoil   # optional, put on PATH
+#
+# Run:
+#   ./scripts/recoil --data runtime/recoil/generated/2026-07-22-elsamadisi.json \
+#       --audience external --format html > public/ahmed-ext.html
+#   ./scripts/recoil --data <json> --audience internal --format md
+#   ./scripts/recoil --data <json> --audience external --format json
+#   ./scripts/recoil --data <json> --set meta.counterpart="Ahmed E."   # pass-through override
+#
+# Env:
+#   PYTHON=/path/to/python3   override the interpreter
+# ------------------------------------------------------------------
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"
+PY="${PYTHON:-python3}"
+
+if ! command -v "$PY" >/dev/null 2>&1; then
+  echo "recoil: python3 not found. Install it (e.g. 'brew install python') or set PYTHON=..." >&2
+  exit 127
+fi
+
+if [ "$#" -eq 0 ]; then
+  sed -n '2,30p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  exit 0
+fi
+
+# operators/ on the path lets the canonical numpy engine load when available;
+# harmless when it isn't (stdlib fallback kicks in).
+export PYTHONPATH="$ROOT/operators${PYTHONPATH:+:$PYTHONPATH}"
+
+exec "$PY" "$HERE/recoil_brief.py" "$@"

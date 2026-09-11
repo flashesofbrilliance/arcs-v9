@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruiter Ammo &middot; Locked</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/blacksmith-favicon.png">
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
+  :root{--ground:#e9eef4;--card:#ffffff;--ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--line:#dde3ea;
+    --accent:#0089a8;--gold:#9a7218;--red:#b0263f;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);
+    color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;padding:24px;}
+  .card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px 28px;box-shadow:0 14px 40px -20px rgba(15,23,32,.32);}
+  .eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  .eyebrow .m{color:var(--accent);}
+  h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;}
+  .sub{font-size:13.5px;line-height:1.55;color:var(--ink2);margin-bottom:20px;}
+  label{display:block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink3);margin-bottom:7px;}
+  input{width:100%;font-family:var(--mono);font-size:15px;color:var(--ink);background:#f7fafc;
+    border:1px solid var(--line);border-radius:9px;padding:12px 13px;transition:.15s;}
+  input:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(0,137,168,.12);}
+  button{width:100%;margin-top:14px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;
+    color:#fff;background:var(--accent);border:none;border-radius:9px;padding:13px;cursor:pointer;transition:.15s;}
+  button:hover{background:#00758f;transform:translateY(-1px);}
+  button:disabled{opacity:.55;cursor:default;transform:none;}
+  .msg{margin-top:13px;font-family:var(--mono);font-size:11.5px;line-height:1.5;min-height:16px;}
+  .msg.err{color:var(--red);} .msg.ok{color:var(--accent);}
+  .foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--ink3);}
+  .foot a{color:var(--accent);text-decoration:none;} .foot a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow"><span class="m">&#9670;</span> RecruitHaus &middot; Candidate Ammo</div>
+    <h1>Passcode required</h1>
+    <p class="sub">This is the gated tier: the comp logic, the founder-lens battle cards, and the nested objection-handling behind the open one-pager. Enter the passcode shared with you to unlock the downloads.</p>
+    <form id="f" autocomplete="off">
+      <label for="p">Passcode</label>
+      <input id="p" name="p" type="password" inputmode="text" autocomplete="off" spellcheck="false" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+      <button id="b" type="submit">Unlock the ammo tier</button>
+      <div class="msg" id="m" role="status" aria-live="polite"></div>
+    </form>
+    <div class="foot">
+      Looking for the open pitch? <a href="/">The candidate one-pager</a> is public, no passcode needed.
+    </div>
+  </div>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+    function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+    var f=document.getElementById('f'), p=document.getElementById('p'), b=document.getElementById('b'), m=document.getElementById('m');
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var code=p.value.trim(); if(!code) return;
+      b.disabled=true; m.className='msg'; m.textContent='Checking...';
+      fetch('/api/recruithaus/unlock',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:code})})
+        .then(function(r){ return r.json().then(function(j){ return {status:r.status, body:j}; }); })
+        .then(function(res){
+          if(res.status===200 && res.body && res.body.ok){
+            m.className='msg ok'; m.textContent='Unlocked. Opening the ammo tier...'; track('ammo_unlock_ok');
+            window.location.href='/ammo';
+          } else if(res.status===503){
+            m.className='msg err'; m.textContent='The gate is not configured yet. Ping Zach to set the passcode.';
+            b.disabled=false;
+          } else {
+            m.className='msg err'; m.textContent='That passcode did not match. Try again.'; track('ammo_unlock_fail');
+            b.disabled=false; p.select();
+          }
+        })
+        .catch(function(){ m.className='msg err'; m.textContent='Network error. Try again.'; b.disabled=false; });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The week my notes started filing themselves (the 90-second version) · NFTT</title>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#020408">
+<meta name="description" content="Notes from the trenches: a corpus that learned to catalog itself, from cold DM to witnessed law.">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root {
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --track-widest:0.14em; --radius-sm:6px; --radius-md:10px;
+    --emboss:inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+    --glass-surface:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+    --tick:linear-gradient(90deg, #FF4D6D, #FFD700, #FF6B2C); --tick-accent:#FF4D6D;
+}
+  a { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--fg1); }
+  a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 2px; }
+  ::selection { background: rgba(0,240,255,.25); }
+  .aside, .plain { margin: 1.4em 0; padding: 1em 1.2em; border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface);
+    border: 1px solid var(--border); box-shadow: var(--emboss);
+    font-style: italic; color: var(--fg2); line-height: 1.7; }
+  .plain { border-color: rgba(0,255,157,.22);
+    background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }
+  .stitch { margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
+    color: var(--fg2); letter-spacing: .01em; }
+  .standfirst { font-size: 1.125rem; line-height: 1.6; font-weight: 500; color: var(--fg2); margin: 0 0 1.8em; }
+  .threadkey { font-family: var(--font-mono); font-size: .8rem; color: var(--fg2);
+    margin: 0 0 2em; padding: .7em .9em; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface); box-shadow: var(--emboss); line-height: 2; }
+  .bq { margin: 1.6em 0; padding: .2em 0 .2em 1.1em; border-left: 1px solid var(--border);
+    font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--fg2); }
+  .dropcap::first-letter { float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
+    font-weight: 600; color: var(--fg1); }
+  .pull { margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); font-size: 1.5rem; line-height: 1.4; font-weight: 600;
+    color: var(--fg1); letter-spacing: -0.015em; }
+  /* section tick = the story's own thread gradient; pull-quote = a single accent. Different
+     ranks, different marks, both driven by the declared palette (never a hardcoded triad). */
+  .pull::before { content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
+    background: var(--tick-accent); }
+  h2::before { content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
+    background: var(--tick); }
+  .arc { margin: 2.2em 0 1.4em; }
+  .arc-cap { margin-top: .5em; }
+  /* vertical arc ladder: the five-second-test form for long arcs */
+  .arc-list { list-style: none; margin: 0; padding: 0; }
+  .arc-row { display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline;
+    column-gap: .8em; padding: 0; }
+  .arc-mark { position: relative; grid-row: 1; display: flex; justify-content: center; padding-top: .15em; }
+  .arc-spine { position: absolute; top: 20px; bottom: -6px; left: 50%; width: 2px;
+    transform: translateX(-50%); background: var(--border); }
+  .arc-label { padding: 0 0 1.15em; line-height: 1.5; color: var(--fg1); }
+  .arc-thread { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em;
+    text-transform: uppercase; white-space: nowrap; opacity: .9; }
+  .endmark { margin: 2.6em 0 0; }
+  nav a { text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+</style>
+<body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
+<main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
+<nav style="margin:0 0 2.2em;padding:.55em .9em;background:var(--glass-surface),var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--emboss);font-family:var(--font-mono);font-size:.78rem;color:var(--fg3)">depth: <span style="color:var(--fg1);font-weight:600">90-second</span> · <a style="text-decoration:none" href="/blog/nftt/post-1/brief">operational</a> · <a style="text-decoration:none" href="/blog/nftt/post-1/full">surgical</a></nav><article>
+<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">Notes from the Trenches // Building in Public: ARCS // Field OS Edition</p>
+<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The week my notes started filing themselves (the 90-second version)</h1>
+<p style="margin:0 0 1.15em;line-height:1.75">A recruiter I didn't know messaged me on a Saturday about a company I'd never heard of.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">99.9% of people archive that message. I ran a ten-minute check instead: does the sender exist, does the role exist somewhere they don't control, and one question no script can answer ("what's the story with the team?"). It passed. Honest answers pass. So do honest gaps, because "I don't know much" is harder to fake than a pitch.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">Then the part that matters. The application took two minutes, run right before the call, because the hours had gone into building a reusable method, not a document. That's the AI unlock most people hold backwards: they speed up the task and re-prompt from scratch every time. The compounding move is to build the machine once and make every future task a two-minute run.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">What happened next was a month of "procrastination":</p>
+<ul style="margin:0 0 1.15em;padding-left:1.3em"><li style="margin:0 0 .8em;line-height:1.7">My notes started filing themselves (the index rebuilds from the files' own headers; nothing can fall out of it)</li><li style="margin:0 0 .8em;line-height:1.7">The links between notes drew a pyramid on their own, and the most-cited idea in my whole archive turned out to be "cut, don't add"</li><li style="margin:0 0 .8em;line-height:1.7">A privacy gate refused 100% of exports on day one, correctly</li><li style="margin:0 0 .8em;line-height:1.7">An audit of my own month found my most expensive AI run bought a negative result, my failure log can commemorate but not calibrate, and my predictions consistently undershoot how warm people are</li></ul>
+<p style="margin:0 0 1.15em;line-height:1.75">And my favorite: the automated check that keeps my public pages honest rejected the very commit that created my doctrine about drift, because that commit had itself caused drift. I built a spell-checker for my own honesty and its first catch was mine, in the sentence announcing it.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">Three lessons I'm keeping: receipts or it didn't happen, because the easiest person to lie to is yourself. Some procrastination is your attention reading a window your calendar has no axis for. And your worst critic makes an excellent employee once you give it a job description.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">The tool that started it all is free: <a href="https://resume-tailor.arcs.care/">resume-tailor.arcs.care</a>. The full field notes, failures included, are one level deeper.</p>
+<p class="endmark" aria-hidden="true"><svg width="69" height="12" viewBox="0 0 69 12"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="#FF4D6D"/><circle cx="29" cy="6" r="5" fill="#FFD700"/><rect x="47.5" y="1.5" width="9" height="9" fill="#FF6B2C"/></svg></p>
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
+</footer>
+</main></body></html>

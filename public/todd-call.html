@@ -1,1179 +1,511 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRL Resins · Chatbot Findings & Proposal · Todd Hotes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRL Chatbot // Where We Are, What's Next</title>
 <style>
-:root {
-  --bg: #020408;
-  --surface: #0d1117;
-  --surface-hi: #111827;
-  --border: #1e293b;
-  --border-hi: #2d3f55;
-  --text: #e2e8f0;
-  --sub: #94a3b8;
-  --muted: #475569;
-  --dim: #334155;
-  --green: #00FF9D;
-  --cyan: #00F0FF;
-  --gold: #FFD700;
-  --red: #FF4D6D;
-  --violet: #A78BFA;
-  --green-glow: 0 0 12px rgba(0,255,157,.35);
-  --cyan-glow: 0 0 12px rgba(0,240,255,.3);
-  --gold-glow: 0 0 10px rgba(255,215,0,.25);
-  --red-glow: 0 0 10px rgba(255,77,109,.25);
-  --mono: 'JetBrains Mono','IBM Plex Mono','Fira Code',ui-monospace,monospace;
-  --sans: system-ui,-apple-system,'Segoe UI',sans-serif;
-  --r: 6px;
-}
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --maroon:#7A1F2B; --red:#d0546b;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{overflow-y:scroll}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:916px;margin:0 auto;padding:0 22px}
 
-*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:11px 22px;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav a{color:var(--muted);font-size:12.5px;font-weight:600;white-space:nowrap;
+    padding:6px 11px;border-radius:8px;letter-spacing:.02em}
+  nav a:hover{color:var(--text);background:var(--surface)}
+  nav a.on{color:var(--bg);background:var(--gold)}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.65;
-  padding-bottom: 80px;
-}
+  /* hero */
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .kick{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .sub{color:var(--muted);font-size:15.5px;margin:10px 0 0}
+  .oneline{margin-top:26px;padding:16px 18px;background:rgba(201,162,39,.06);border:1px solid rgba(201,162,39,.32);
+    border-radius:10px;color:var(--text);font-size:15px}
 
-/* ── STICKY HEADER ── */
-.doc-header {
-  position: sticky; top: 38px; z-index: 100;
-  background: rgba(2,4,8,.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-}
-.doc-header-inner {
-  max-width: 900px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 48px; gap: 16px;
-}
-.doc-mark {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .16em; text-transform: uppercase;
-  color: var(--green);
-}
-.doc-tabs {
-  display: flex; gap: 0;
-}
-.doc-tab {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted);
-  padding: 0 14px; height: 48px;
-  display: flex; align-items: center;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  transition: color .15s, border-color .15s;
-  text-decoration: none;
-}
-.doc-tab:hover { color: var(--sub); }
-.doc-tab.active { color: var(--green); border-bottom-color: var(--green); }
-/* ── STICKY BREADCRUMB ── */
-.crumb-bar {
-  position: sticky; top: 0; z-index: 110;
-  background: linear-gradient(90deg, rgba(0,255,157,.10), rgba(0,240,255,.08));
-  border-bottom: 1px solid rgba(0,240,255,.25);
-  backdrop-filter: blur(12px);
-}
-.crumb-inner {
-  max-width: 900px; margin: 0 auto; padding: 0 24px;
-  display: flex; align-items: center; gap: 10px;
-  height: 38px;
-  font-family: var(--mono); font-size: 10px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  overflow-x: auto; white-space: nowrap;
-}
-.crumb-root { color: var(--dimmed); }
-.crumb-sep { color: var(--dim, #334155); }
-.crumb-seg { color: var(--muted); text-decoration: none; padding: 4px 10px; border-radius: 4px; transition: color .15s, background .15s; }
-.crumb-seg:hover { color: var(--text); background: rgba(255,255,255,.04); }
-.crumb-seg.current { color: #020408; background: var(--green); }
-.crumb-seg.other { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
-.crumb-seg.other:hover { background: rgba(0,240,255,.1); color: var(--cyan); }
+  section{padding:44px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+  .phase-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:20px;margin-bottom:14px}
+  .t-now{background:rgba(63,185,80,.14);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+  .t-next{background:rgba(201,162,39,.14);color:var(--gold-soft);border:1px solid rgba(201,162,39,.3)}
+  .t-later{background:rgba(139,152,169,.12);color:var(--muted);border:1px solid var(--border)}
+  h2{font-size:24px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+  h2 .num{color:var(--gold);font-variant-numeric:tabular-nums}
+  .lede{color:var(--muted);font-size:15px;margin:6px 0 22px}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:24px 0 10px;font-weight:700}
 
-/* ── PAGE ── */
-.page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:7px 0 7px 26px;position:relative;color:var(--text);font-size:15px}
+  ul.clean li:before{content:"";position:absolute;left:4px;top:14px;width:6px;height:6px;border-radius:50%;
+    background:var(--gold)}
+  li.done{color:var(--muted)}
+  li.done:before{content:"✓";background:none;color:var(--green);left:2px;top:6px;font-size:14px;font-weight:700}
+  li.todo:before{background:none;border:1.5px solid var(--dim);width:9px;height:9px;left:3px;top:11px}
 
-/* ── SECTION ── */
-section { padding: 48px 0 0; }
+  table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;white-space:nowrap}
+  td:first-child{font-weight:600;white-space:nowrap}
+  .bbw td:first-child{color:var(--gold-soft)}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
-.section-eyebrow {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.section-title {
-  font-size: 18px; font-weight: 700;
-  color: var(--text); letter-spacing: -.015em;
-  margin-bottom: 20px;
-}
+  .price{font-size:15px;font-weight:700;color:var(--text)}
+  .pill{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:20px;
+    padding:3px 11px;font-size:12.5px;color:var(--muted);margin:2px 4px 2px 0}
+  .pill b{color:var(--gold-soft)}
 
-/* ── DIVIDER ── */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--border) 0%, transparent 70%);
-  margin: 48px 0 0;
-}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:14px 0}
+  .card.warm{border-color:rgba(201,162,39,.42);background:rgba(201,162,39,.05)}
+  .note{color:var(--muted);font-size:14px}
+  .note b{color:var(--text)}
 
-/* ── COVER ── */
-.cover {
-  padding: 40px 0 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  align-items: start;
-}
-.cover-meta { display: flex; flex-direction: column; gap: 6px; }
-.cover-company {
-  font-family: var(--mono);
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--green);
-}
-.cover-title {
-  font-size: 26px; font-weight: 700;
-  color: var(--text); letter-spacing: -.02em; line-height: 1.15;
-}
-.cover-sub {
-  font-family: var(--mono);
-  font-size: 10px; color: var(--muted);
-  letter-spacing: .04em;
-  margin-top: 4px;
-}
-.status-pill {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 7px 14px;
-  background: rgba(0,255,157,.06);
-  border: 1px solid rgba(0,255,157,.25);
-  border-radius: 4px;
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--green); white-space: nowrap;
-}
-.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); animation: pulse 2.5s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .rhythm{display:grid;grid-template-columns:1fr;gap:12px}
+  .rhythm .card{margin:0}
+  .rhythm h4{margin:0 0 4px;font-size:15px}
+  .rhythm p{margin:0;color:var(--muted);font-size:14px}
 
-/* ── LOAD-BEARING QUOTE ── */
-.lbq {
-  margin-top: 28px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 24px 28px;
-  position: relative; overflow: hidden;
-}
-.lbq::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--green), transparent 55%);
-}
-.lbq-label {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 10px;
-}
-.lbq-text {
-  font-size: 16px; font-weight: 500;
-  color: var(--text); line-height: 1.6; font-style: italic;
-}
-.lbq-text::before { content: '\201C'; color: var(--green); font-size: 22px; font-style: normal; vertical-align: -.2em; margin-right: 3px; }
-.lbq-text::after  { content: '\201D'; color: var(--green); font-size: 22px; font-style: normal; vertical-align: -.2em; margin-left: 3px; }
-.lbq-attr {
-  font-family: var(--mono); font-size: 9px;
-  color: var(--dim); letter-spacing: .08em; text-transform: uppercase;
-  margin-top: 12px;
-}
-.lbq-decode {
-  margin-top: 8px; padding-top: 8px;
-  border-top: 1px solid var(--border);
-  font-family: var(--mono); font-size: 9px;
-  color: rgba(0,255,157,.6); letter-spacing: .04em;
-}
+  footer{padding:40px 0 70px;color:var(--dim);font-size:13px}
+  @media(min-width:640px){ .rhythm{grid-template-columns:1fr 1fr} }
 
-/* ── STACK SUMMARY ── */
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 8px; margin-top: 16px;
-}
-.stack-chip {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 10px 14px;
-}
-.stack-chip-label {
-  font-family: var(--mono); font-size: 8px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 4px;
-}
-.stack-chip-value {
-  font-size: 12px; font-weight: 600; color: var(--text);
-}
-.stack-chip.flag { border-color: rgba(255,215,0,.3); }
-.stack-chip.flag .stack-chip-value { color: var(--gold); }
-.stack-chip.ok .stack-chip-value { color: var(--green); }
+  /* receipts */
+  .receipt{border:1px solid var(--border);border-radius:12px;margin:16px 0;overflow:hidden;background:var(--surface)}
+  .receipt.tpl{opacity:.92}
+  .rhead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 18px;
+    background:var(--surface2);border-bottom:1px solid var(--border);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;letter-spacing:.08em;color:var(--gold-soft)}
+  .rstatus{color:var(--green)}
+  .receipt.tpl .rstatus{color:var(--dim)}
+  .rrow{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 18px;border-bottom:1px solid var(--border);font-size:14px}
+  .rrow:last-child{border-bottom:0}
+  .rrow b{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px;font-weight:700}
+  .rrow span{color:var(--text)}
+  .callead{display:block;color:var(--dim);font-size:12px;margin-top:9px}
+  a.cal{display:inline-block;margin-top:5px;color:var(--gold-soft);text-decoration:none;
+    border:1px solid rgba(201,162,39,.4);border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:600}
+  a.cal:hover{background:rgba(201,162,39,.1)}
+  @media(max-width:520px){ .rrow{grid-template-columns:1fr;gap:2px} }
 
-/* ── PROTOCOL PASSES ── */
-.pass-header {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 20px;
-}
-.pass-mode {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 3px;
-}
-.pass-mode.reverse { background: rgba(0,240,255,.1); color: var(--cyan); border: 1px solid rgba(0,240,255,.25); }
-.pass-mode.deep { background: rgba(167,139,250,.1); color: var(--violet); border: 1px solid rgba(167,139,250,.25); }
-.pass-segments {
-  font-family: var(--mono); font-size: 9px;
-  color: var(--muted); letter-spacing: .06em;
-}
-
-.segments { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.seg {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  display: grid; grid-template-columns: 56px 1fr;
-  overflow: hidden;
-}
-.seg-num {
-  background: var(--surface-hi);
-  border-right: 1px solid var(--border);
-  padding: 14px 12px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  gap: 4px;
-  font-family: var(--mono); font-size: 11px; font-weight: 700;
-}
-.seg-num .n { color: var(--cyan); }
-.seg-num .dir { font-size: 8px; color: var(--dim); letter-spacing: .08em; }
-.seg-body { padding: 14px 16px; }
-.seg-beat {
-  font-size: 12px; font-weight: 600; color: var(--text);
-  margin-bottom: 4px; line-height: 1.4;
-}
-.seg-detail { font-size: 12px; color: var(--sub); line-height: 1.6; }
-.seg-signal {
-  display: inline-block; margin-top: 7px;
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  padding: 2px 7px; border-radius: 3px;
-}
-.sig-green { background: rgba(0,255,157,.1); color: var(--green); border: 1px solid rgba(0,255,157,.2); }
-.sig-gold  { background: rgba(255,215,0,.1); color: var(--gold); border: 1px solid rgba(255,215,0,.2); }
-.sig-red   { background: rgba(255,77,109,.1); color: var(--red); border: 1px solid rgba(255,77,109,.2); }
-.sig-cyan  { background: rgba(0,240,255,.08); color: var(--cyan); border: 1px solid rgba(0,240,255,.2); }
-
-/* ── DIVERGENCE CALLOUT ── */
-.divergence {
-  margin-top: 20px;
-  background: rgba(255,215,0,.04);
-  border: 1px solid rgba(255,215,0,.2);
-  border-radius: var(--r);
-  padding: 18px 20px;
-}
-.divergence-label {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 8px;
-}
-.divergence-body { font-size: 13px; color: var(--sub); line-height: 1.65; }
-.divergence-body strong { color: var(--text); font-weight: 600; }
-
-/* ── SIGNAL THREADS ── */
-.threads { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
-.thread {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 14px 16px;
-  display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start;
-}
-.thread-icon {
-  width: 28px; height: 28px; border-radius: 4px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; flex-shrink: 0;
-}
-.thread-icon.risk { background: rgba(255,77,109,.1); }
-.thread-icon.caution { background: rgba(255,215,0,.1); }
-.thread-icon.signal { background: rgba(0,255,157,.08); }
-.thread-icon.info { background: rgba(0,240,255,.08); }
-.thread-title {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 3px;
-}
-.thread-body { font-size: 12px; color: var(--sub); line-height: 1.6; }
-.thread-body strong { color: var(--text); font-weight: 600; }
-
-/* ── RECALL SURPRISES ── */
-.surprises { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
-.surprise {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 12px 16px;
-  display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start;
-}
-.surprise-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; }
-.surprise-dot.new { background: var(--cyan); box-shadow: var(--cyan-glow); }
-.surprise-dot.confirm { background: var(--green); box-shadow: var(--green-glow); }
-.surprise-dot.risk { background: var(--red); box-shadow: var(--red-glow); }
-.surprise-dot.caution { background: var(--gold); box-shadow: var(--gold-glow); }
-.surprise-text { font-size: 12px; color: var(--sub); line-height: 1.6; }
-.surprise-text strong { color: var(--text); font-weight: 600; }
-
-/* ── CHATBOT TABLE ── */
-.cb-table-wrap { overflow-x: auto; margin-top: 16px; border-radius: var(--r); border: 1px solid var(--border); }
-table {
-  width: 100%; border-collapse: collapse;
-  font-size: 11px;
-}
-th {
-  background: var(--surface-hi);
-  font-family: var(--mono); font-size: 8px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted);
-  padding: 10px 12px; text-align: left;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-td {
-  padding: 11px 12px;
-  border-bottom: 1px solid rgba(30,41,59,.4);
-  color: var(--sub);
-  vertical-align: top;
-  line-height: 1.5;
-}
-tr:last-child td { border-bottom: none; }
-tr.recommended td { background: rgba(0,255,157,.03); }
-tr.recommended td:first-child { border-left: 2px solid var(--green); }
-.rec-badge {
-  font-family: var(--mono); font-size: 8px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--green); display: inline-block;
-  padding: 1px 6px; border-radius: 2px;
-  background: rgba(0,255,157,.1); border: 1px solid rgba(0,255,157,.2);
-  margin-left: 5px;
-}
-.cost-hi { color: var(--red); }
-.cost-med { color: var(--gold); }
-.cost-lo { color: var(--green); }
-
-/* ── RECOMMENDATION BOX ── */
-.rec-box {
-  margin-top: 20px;
-  background: rgba(0,255,157,.04);
-  border: 1px solid rgba(0,255,157,.2);
-  border-radius: var(--r);
-  padding: 20px 24px;
-}
-.rec-box-label {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--green); margin-bottom: 8px;
-}
-.rec-box-title {
-  font-size: 15px; font-weight: 700; color: var(--text);
-  margin-bottom: 6px;
-}
-.rec-box-body { font-size: 12px; color: var(--sub); line-height: 1.65; }
-.rec-box-body strong { color: var(--text); font-weight: 600; }
-
-/* ── MVP SCENARIOS ── */
-.scenarios {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px; margin-top: 16px;
-}
-.scenario {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-.scenario.best { border-color: rgba(0,255,157,.25); }
-.scenario.base { border-color: rgba(0,240,255,.2); }
-.scenario.worst { border-color: rgba(255,77,109,.2); }
-.scenario-header {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.scenario-label {
-  font-family: var(--mono); font-size: 8px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.best .scenario-label { color: var(--green); }
-.base .scenario-label { color: var(--cyan); }
-.worst .scenario-label { color: var(--muted); }
-.scenario-price {
-  font-size: 20px; font-weight: 700; letter-spacing: -.02em;
-}
-.best .scenario-price { color: var(--green); }
-.base .scenario-price { color: var(--cyan); }
-.worst .scenario-price { color: var(--sub); }
-.scenario-body { padding: 14px 16px; }
-.scenario-row {
-  font-size: 11px; color: var(--sub); line-height: 1.55;
-  margin-bottom: 8px; padding-bottom: 8px;
-  border-bottom: 1px solid rgba(30,41,59,.4);
-}
-.scenario-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.scenario-row strong { color: var(--text); font-weight: 600; display: block; font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; color: var(--muted); }
-
-/* ── PROTOCOL / NEXT STEPS ── */
-.protocol { display: flex; flex-direction: column; gap: 0; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-.protocol-party { border-bottom: 1px solid var(--border); }
-.protocol-party:last-child { border-bottom: none; }
-.protocol-party-header {
-  padding: 12px 16px;
-  background: var(--surface-hi);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-}
-.protocol-party-name {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--sub);
-}
-.protocol-items { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
-.proto-item {
-  display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: start;
-}
-.proto-arrow {
-  font-family: var(--mono); font-size: 11px; font-weight: 700;
-  color: var(--green); margin-top: 1px;
-}
-.proto-arrow.gold { color: var(--gold); }
-.proto-arrow.dim { color: var(--muted); }
-.proto-text { font-size: 12px; color: var(--sub); line-height: 1.6; }
-.proto-text strong { color: var(--text); font-weight: 600; }
-
-/* ── ARCH INSIGHT ── */
-.arch-callout {
-  margin-top: 20px;
-  background: var(--surface);
-  border: 1px solid rgba(0,240,255,.2);
-  border-radius: var(--r);
-  padding: 18px 20px;
-  position: relative; overflow: hidden;
-}
-.arch-callout::before {
-  content: '';
-  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
-  background: var(--cyan);
-}
-.arch-callout-label {
-  font-family: var(--mono); font-size: 9px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--cyan); margin-bottom: 8px;
-}
-.arch-callout-title {
-  font-size: 14px; font-weight: 700; color: var(--text);
-  margin-bottom: 6px;
-}
-.arch-callout-body { font-size: 12px; color: var(--sub); line-height: 1.65; }
-.arch-callout-body strong { color: var(--text); font-weight: 600; }
-
-/* ── STOP-LOSS ── */
-.stop-loss {
-  margin-top: 28px;
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 18px;
-  border-radius: var(--r);
-  border: 1px solid rgba(0,255,157,.15);
-  background: rgba(0,255,157,.02);
-}
-.sl-text {
-  font-family: var(--mono); font-size: 10px;
-  color: rgba(0,255,157,.65); line-height: 1.55; flex: 1;
-}
-.sl-ts {
-  font-family: var(--mono); font-size: 9px;
-  color: rgba(0,255,157,.25); white-space: nowrap;
-}
-
-/* ── TABLET (≤900px) ── */
-@media (max-width: 900px) {
-  .doc-header { padding: 0 16px; }
-}
-
-/* ── TABLET (≤768px) ── */
-@media (max-width: 768px) {
-  .doc-tabs { display: none; }
-  .scenarios { grid-template-columns: 1fr 1fr; }
-  .stop-loss { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .sl-ts { white-space: normal; }
-}
-
-/* ── MOBILE (≤640px) ── */
-@media (max-width: 640px) {
-  body { font-size: 13px; }
-  .page { padding: 0 14px; }
-  .cover { grid-template-columns: 1fr; }
-  .scenarios { grid-template-columns: 1fr; }
-  .seg { grid-template-columns: 44px 1fr; }
-  .seg-num { padding: 12px 8px; font-size: 10px; }
-  .stack-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-  .lbq { padding: 18px 16px; }
-  .lbq-text { font-size: 14px; }
-  .divergence { padding: 14px 16px; }
-  .rec-box { padding: 16px 18px; }
-  .arch-callout { padding: 14px 16px; }
-  .scenario-header { padding: 10px 14px; }
-  .scenario-body { padding: 12px 14px; }
-  .protocol-party-header { padding: 10px 14px; }
-  .protocol-items { padding: 10px 14px; }
-  .stop-loss { padding: 12px 14px; }
-  th { padding: 8px 10px; }
-  td { padding: 9px 10px; }
-}
-
-/* ── DEAL + PAYMENT TWO-COLUMN ── */
-.buy-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: start; margin-top: 28px; }
-.buy-pay { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.buy-pay stripe-buy-button { width: 100%; }
-@media (max-width: 768px) { .buy-row { grid-template-columns: 1fr; } }
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
+  .bluf{padding:22px 0 8px}
+  .meta{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);font-size:13px;margin-top:10px;letter-spacing:.02em}
 </style>
-<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<!-- STICKY HEADER -->
-<div class="crumb-bar">
-  <div class="crumb-inner">
-    <span class="crumb-root">PRL Resins · Todd Hotes</span>
-    <span class="crumb-sep">/</span>
-    <span class="crumb-seg current">Findings & Proposal</span>
-    <a class="crumb-seg other" href="/teardown">Marketing Teardown →</a>
+
+
+<header id="top"><div class="wrap">
+  <div class="kick"><span class="dot"></span>PRL Resins · Chatbot Program</div>
+  <h1>Where we are, and what's next.</h1>
+  <div class="meta">phase-by-phase &middot; clear numbers &middot; honest ranges &middot; no surprises</div>
+</div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family" style="display:flex;flex-wrap:wrap;gap:6px;margin:0 0 0 -12px">
+  <a href="https://prl.arcs.care" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--gold);color:var(--bg);background:var(--gold)">Overview</a>
+  <a href="https://prl.arcs.care/status/progress" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Progress</a>
+  <a href="https://prl.arcs.care/status/crm" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">CRM routing</a>
+  <a href="https://prl.arcs.care/status/troubleshooting" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Web forms</a>
+  <a href="https://prl.arcs.care/status/tidio" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Tidio delivery</a>
+  <a href="https://prl.arcs.care/status/atlas" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Atlas</a>
+  <a href="https://prl.arcs.care/status/build" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Build</a>
+  <a href="https://prl.arcs.care/status/receipt" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid #C9A227;color:#e3c65a">Receipt</a>
+</nav>
+</div></div>
+<div class="bluf"><div class="wrap"><p style="margin:0;font-size:20px;line-height:1.55"><strong style="color:var(--gold-soft)">The through-line:</strong> every phase makes it <em>simpler</em> for your people, not more complex. The tech gets more invisible over time, riding what your team already does, like a call, a text, or Outlook, so nothing new lands in a rep's routine, and no lead is ever silently dropped by anyone.</p></div></div>
+
+<!-- NOW -->
+<section id="now"><div class="wrap">
+  <span class="phase-tag t-now">Done in staging · verified with a real conversation</span>
+  <h2><span class="num">1.1</span> &nbsp;Go Live, the chatbot itself</h2>
+  <p class="lede">The bot is built, branded in your colors, and tested on a private copy of your site.
+  One step left: turning on lead delivery into SugarCRM.</p>
+
+  <h3>What "done" looks like</h3>
+  <ul class="clean">
+    <li>A test lead runs all the way through and lands in SugarCRM, complete, tagged as Chatbot.</li>
+    <li>It routes to your sales manager (auto-routing by territory ready to switch on later).</li>
+    <li>Safety checks pass, and it goes live on the real site in a window you pick.</li>
+    <li>Nothing on the plant floor, and nothing in any rep's routine, has changed.</li>
+  </ul>
+
+  <h3>Burn-down, what is left to land it</h3>
+  <ul class="clean">
+    <li class="done">Bot built, branded, tested on a private copy</li>
+    <li class="done">Phone required + "Chatbot" label decided</li>
+    <li class="done"><b>Sandbox of SugarCRM landed</b>. A test lead now runs all the way through and lands, tagged Chatbot, routed to your sales manager. Proven end to end in the safe copy.</li>
+    <li class="done"><b>Standing hand-off is ON.</b> Fires automatically on every chat now, proven with a real conversation on the staging site (Aug 18) — deduplicated, enriched with job title + industry, follow-up reminders on a timer.</li>
+    <li class="todo">Add the "Chatbot" lead-source value in production at go-live. Confirmed missing today, so it is a two-minute step at cutover, on the list rather than a surprise.</li>
+    <li class="todo">30-minute session with your sales manager + reports person</li>
+    <li class="todo">Flip live, in your chosen window</li>
+  </ul>
+
+  <h3>Best / base / worst, time to live</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time to live</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>~2 to 3 days</td><td>Delivery already proven in the safe copy; just the standing hand-off + your go-live window</td></tr>
+    <tr><td>Base</td><td>~1 week</td><td>Normal back-and-forth on access + one scheduling round</td></tr>
+    <tr><td>Worst</td><td>2 to 3 weeks</td><td>Access stalls, or a holiday / work-trip window</td></tr>
+  </table></div>
+
+  <div style="margin-top:16px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The bot is already capturing leads. The one missing piece is delivery into your CRM. We also traced why emails have not been landing there: the automated paths do not send the email, even though the field works fine when a value is supplied. The chatbot captures the email on every lead, which closes that gap at the source.</div></div>
+
+  <div class="card"><span class="note"><b>Payment:</b> already paid. Phase 1.1 was the original
+  engagement, nothing further owed to finish it.</span></div>
+</div></section>
+
+<!-- NEXT -->
+<section id="next"><div class="wrap">
+  <span class="phase-tag t-now">Now · most of the build landed</span>
+  <h2><span class="num">1.2</span> &nbsp;Reliable delivery + your four-hour number</h2>
+  <p class="lede">Make lead delivery rock-solid, fill in missing business emails automatically, send the
+  prospect an instant acknowledgment, and start showing time-to-first-touch, the four-hour number you
+  manage to, with a baseline to prove what the chatbot adds.</p>
+
+  <h3>Where 1.2 stands &middot; Aug 18</h3>
+  <ul class="clean">
+    <li class="done"><b>Reliable delivery</b> — done and verified end-to-end with a real staging conversation.</li>
+    <li class="done"><b>Duplicate protection</b> — same person chatting twice updates their lead instead of creating a copy.</li>
+    <li class="done"><b>Enrichment (job title + industry)</b> — auto-fills from ZoomInfo on every new lead; graceful fallback when no match.</li>
+    <li class="done"><b>Follow-up timers</b> — 5-minute heads-up and 4-hour reminder emails per lead; the 4-hour window is a tunable setting.</li>
+    <li class="todo">Rep notification pointed at the right inbox + a spam-filter check (same allow-list fix as Aug 14 if needed)</li>
+    <li class="todo">Business-email fill from enrichment — title/industry proven, the email fill itself not yet demonstrated</li>
+    <li class="todo">Baseline report (the "before" picture: volume, close rate, deal size by region/source) — access confirmed, pull scheduled</li>
+    <li class="todo">Test-lead cleanup in the sandbox so pilot data starts clean</li>
+  </ul>
+
+  <h3>Running in parallel right now (so Monday is a running start)</h3>
+  <ul class="clean">
+    <li>Lining up the data session with your SM + reports person.</li>
+    <li>Preparing the baseline, so we can prove what the chatbot adds cleanly.</li>
+    <li>Mapping the assumptions and unknowns now, so none surprise us mid-phase.</li>
+  </ul>
+
+  <h3>Best / base / worst</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>a few days</td><td>Your CRM already stamps first-touch; baseline pulls clean</td></tr>
+    <tr><td>Base</td><td>~1 to 1.5 weeks</td><td>Normal setup + one data session + enrichment wiring</td></tr>
+    <tr><td>Worst</td><td>~2 weeks</td><td>CRM doesn't capture first-touch (we use an automatic proxy) or messy baseline</td></tr>
+  </table></div>
+
+  <div style="margin-top:16px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">Digging into your current setup, your website is capturing far more real interest than reaches your CRM. Your main lead form is mostly automated spam right now with no working protection, and underneath it we found roughly 29 genuine, high-value inquiries from the last few years that never made it into the system, including a program tied to Tesla and quote requests from names like Siemens and OtterBox. This phase turns on reliable delivery, quiets the noise, and recovers those leads.</div></div>
+
+  <div class="card warm">
+    <span class="price">$4,500</span> &nbsp;<span class="note">fixed for the phase · paid Monday, now underway</span><br>
+    <span class="pill">best case: <b>same price, sooner</b></span>
+    <span class="pill">worst case: <b>still $4,500</b>, the fixed price is the cap</span>
+    <div class="note" style="margin-top:10px">Tool costs (ZoomInfo, email) are billed to PRL directly, outside this number.</div>
+    <div style="margin-top:14px;text-align:center"><span style="display:inline-block;background:rgba(63,185,80,.14);color:#3fb950;border:1px solid rgba(63,185,80,.35);font-weight:700;padding:11px 24px;border-radius:8px;font-size:15px">Paid Monday &middot; Phase 1.2 underway</span><div class="note" style="margin-top:7px;font-size:12px">Thank you. Phase 1.2 is greenlit and in progress.</div></div>
   </div>
+
+  <div class="card" style="border-style:dashed">
+    <span class="phase-tag t-later">Optional add-on &middot; fold into 1.2 &middot; scoped together on our call</span>
+    <h3 style="margin-top:8px">Website form, rebuilt on the path that already works</h3>
+    <p class="note">Digging into the form problem surfaced something useful: the good website leads you do get arrive through <b>Sugar's own built-in web form path</b>, not the broken form plugin. So instead of patching the plugin, we retire it from the lead path entirely and point the contact form at the pipe that is already proven, with spam protection built in. Fewer moving parts, one less vendor dependency, nothing new to buy.</p>
+    <ul class="clean">
+      <li><b>Subtract, don't add:</b> the form plugin comes out of the lead path; Sugar's built-in path takes over.</li>
+      <li><b>Spam handled at the door:</b> honeypot plus a modern bot check on the new form.</li>
+      <li><b>Remove single-person bottlenecks:</b> a PRL-owned test mailbox and a PRL-held sending key, so testing and fixes never wait on any one person being available. Everything stays owned by PRL, documented for handoff.</li>
+    </ul>
+    <p class="note" style="margin-top:10px">We scope best / base / worst for this together on our next call, with the investigation evidence in hand. It rides alongside 1.2, and nothing in 1.1 or 1.2 waits on it.</p>
+  </div>
+</div></section>
+
+<!-- LATER -->
+<section id="later"><div class="wrap">
+  <span class="phase-tag t-later">Later · each its own decision</span>
+  <h2>What comes after: 1.3, 1.4, 1.5</h2>
+  <p class="lede">You greenlight and pay for each only when you are ready. Each ends at a clean, usable
+  stopping point.</p>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.3</span> &nbsp;Smarter lead recognition &nbsp;<span class="price">· $4,000</span></h2>
+    <p class="note">The bot recognizes the resins and competitor grades you actually sell, straight from
+    data already in your CRM, and never guesses a spec or a price.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>data is already in your system</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The real inquiries confirm the plan: buyers name specific grades and competitor materials they want to replace, like Lexan, Valox, and Makrolon. That is exactly what this phase teaches the bot to recognize, so each inquiry reaches the right person faster, and it never guesses a spec.</div></div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.4</span> &nbsp;Your paid landing pages (SEM) &nbsp;<span class="price">· $6,000</span></h2>
+    <p class="note">Each ad campaign page gets its own chatbot opening, tuned to why the visitor came,
+    wired to your CRM, and the bot shows each visitor what fits their job.</p>
+    <span class="pill">best <b>~1 wk</b></span><span class="pill">base <b>~1.5 to 2 wks</b></span><span class="pill">worst <b>~2.5 to 3 wks</b></span>
+    <span class="pill">may open a <b>separate ongoing SEM service</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">Already in motion: your paid landing pages are actively bringing in leads, including campaigns aimed at competitor materials. This phase shapes who arrives and what they see, so your ad spend lands on a funnel that works.</div></div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.5</span> &nbsp;A smarter assistant (AI) &nbsp;<span class="price">· $3,500</span></h2>
+    <p class="note">The bot handles open-ended "help me choose" conversations in its own words, turned on
+    only after its handoff into your CRM is proven, so a good conversation can never fall through.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>stays off until proven</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The guardrail that makes this safe: the assistant answers only from your verified information and never states a spec, certification, or price it is not sure of. It connects the visitor to your specialist instead. We also confirmed directly with Tidio how the AI fits alongside your lead flows: it runs after them, never nested inside them, so your structured lead capture always goes first and the AI only picks up what the flows do not catch. That is exactly the order we want, and part of why it goes on last, and only if the economics make sense.</div></div>
+  </div>
+
+  <div class="card" style="margin-top:22px">
+    <span class="phase-tag t-later" style="margin-bottom:10px">Why this order</span>
+    <h3 style="margin-top:6px">Each step stands on proven ground, so nothing turns turbulent</h3>
+    <p class="note">The order is not arbitrary. Every phase makes the next one safe by
+    removing one thing that could go wrong first. Boring on purpose.</p>
+    <ul class="clean">
+      <li><b>1.1 and 1.2 come first,</b> because everything after them only produces leads, and a lead counts
+      only if it reliably reaches you. We prove delivery and set the before-number, so we can measure what each
+      later step actually adds.</li>
+      <li><b>1.3 makes it smarter</b> at recognizing what a visitor is asking about, using what is already in
+      your CRM. It sharpens the bot without changing anything on the floor.</li>
+      <li><b>1.4 shapes who arrives</b> and what they see on your paid pages, so ad spend lands on a funnel that
+      already works.</li>
+      <li><b>1.5, the AI, goes last and stays optional.</b> It is the most capable and the most uncertain
+      piece, so it is turned on only after delivery is proven, and only if the economics make sense. If they do
+      not, we simply do not turn it on, and everything before it still stands on its own. It also never states
+      a spec, a certification, or a price. It connects the visitor to your specialist for those, so it can
+      never put a wrong number in front of a customer.</li>
+    </ul>
+    <div class="note" style="margin-top:10px"><b>And the price follows the same order.</b> Each phase is
+    re-checked against what the one before it actually took, so a number never lands outside a range you have
+    already seen.</div>
+  </div>
+</div></section>
+
+
+
+<!-- TEAM TASKS (appendix) -->
+<section id="team"><div class="wrap">
+  <details class="brief" style="border:1px solid rgba(255,255,255,.05);border-radius:12px;background:var(--surface)">
+    <summary style="cursor:pointer;padding:13px 18px;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:var(--gold-soft);letter-spacing:.02em">+ Appendix &middot; hand-off tasks for your site and IT people (fine print, reference only)</summary>
+    <div style="padding:4px 18px 20px">
+  <p class="note" style="margin:12px 0 0"><b>Status as of Aug 18:</b> nothing here blocks our work, and nothing has been sent to Jorge or Josh beyond the Barracuda item (resolved). The web-forms fix is now a scoped addendum (see <a href="https://prl.arcs.care/status/troubleshooting">/status/troubleshooting</a>) &mdash; when it kicks off, the snippet task below goes to whoever holds template access, and we drive it. The chatbot delivery pipe no longer depends on any of this: it is built and verified end to end in the sandbox (see <a href="https://prl.arcs.care/status/tidio">/status/tidio</a>).</p>
+  <p class="note" style="margin-top:10px">So no one is asked to act without the full picture: here is the <a href="https://claude.ai/code/artifact/60fbdf00-42ca-4d42-9134-abae5f1687b3" target="_blank" rel="noopener" style="color:#00F0FF;font-weight:600">lead-capture diagnostic runbook</a>. It lays out what we found, what we ruled out and why, and exactly where each person's piece fits into the whole, so the reason behind a task is as clear as the task itself.</p>
+
+  <div class="card" style="margin-top:14px">
+    <span class="phase-tag t-later">Assumptions to confirm</span>
+    <h3 style="margin-top:8px">You built it, so you hold the ground truth. Tell us where we are right, wrong, or out of date.</h3>
+    <p class="note">This is on purpose, not a caveat. We state what we are assuming so the person accountable for each piece can confirm, deny, or correct it before anything changes. It is the same way we checked the CRM side, by reading the live system rather than guessing, so a second set of accountable eyes validates the setup.</p>
+    <p class="note" style="margin-top:12px"><b>What we verified ourselves, read live:</b></p>
+    <ul class="clean">
+      <li>Mailgun is configured on <b>mg.prlresins.com</b> (sending policy, signing key, routing, tracking), read from DNS.</li>
+      <li>The domain's SPF includes Mailgun and Outlook; DMARC is set to reject; Microsoft 365 signing is published; Barracuda fronts inbound mail. All read from DNS.</li>
+      <li>The Gravity Forms spam changes are on the staging copy, not the live site yet, read from the live page.</li>
+      <li><b>Website lead cadence:</b> the CRM holds 216 website-sourced leads all-time but only 3 in the last 30 days (0 in the last 7), read live. Our fresh Aug-14 test submissions (per Jorge's request) did <b>not</b> create a CRM lead even ~1.5 hours later, so this is not delivery lag: either the submissions are being spam-filtered or the form is not writing to the CRM. <b>Josh:</b> please check the Gravity Forms Entries / Spam queue for them, so we can tell which.</li>
+    </ul>
+    <p class="note" style="margin-top:12px"><b>Please confirm, deny, or correct, since you set these up:</b></p>
+    <ul class="clean">
+      <li>Akismet is actually enabled and keyed on the forms.</li>
+      <li><b>reCAPTCHA (confirmed):</b> the forms use a reCAPTCHA v2 checkbox whose key is registered to <b>prlresins.com only</b>. We confirmed by testing that it blocks submissions on the staging domain, so staging forms cannot currently be submitted or tested. <b>Josh:</b> add the staging domain (<b>wfaprlredev26.wpenginepowered.com</b>) to the site key, or disable reCAPTCHA on the staging forms. Please also confirm the key is current.</li>
+      <li><b>Barracuda (resolved by Jorge):</b> the form notifications from <b>notify@websitesforanything.com</b> were being quarantined. Jorge confirmed this, released the held message, and allow-listed the sender, thank you. That restores notifications today; the durable fix remains moving the forms to the authenticated Mailgun sender, which passes everywhere with no per-sender exception.</li>
+      <li>Who owns the Mailgun account, and whether a send-only key can be issued.</li>
+      <li>Who controls the prlresins.com DNS zone.</li>
+      <li>How the site sends mail today (native vs an SMTP plugin), and whether the From address can move to a prlresins.com sender.</li>
+      <li>Whether Microsoft 365 has plus-addressing enabled.</li>
+    </ul>
+  </div>
+
+  <h3>For your site maintainer</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR THE SITE MAINTAINER: Gravity Forms spam protection
+Do these on the staging copy first, then production.
+
+1. Turn on the honeypot
+   WP Admin > Forms > "Material Alternative" > Settings > Form Settings
+   Turn ON "Anti-spam honeypot". Save. Repeat for "Contact Us".
+
+2. Turn on a bot check (reCAPTCHA v3 or Cloudflare Turnstile)
+   WP Admin > Forms > Settings > reCAPTCHA
+   Enter the Site Key and Secret Key (free from the Google reCAPTCHA admin, v3). Save.
+   Open each form, set the CAPTCHA field type to reCAPTCHA. Save.
+   (Note: a reCAPTCHA is already live on the form and is gating submissions today. On the staging domain it errors "Invalid domain for site key", which means the key is registered to prlresins.com only. Josh, please confirm the Site and Secret keys are valid and current, and add the staging domain (wfaprlredev26.wpenginepowered.com) to the site key in the Google reCAPTCHA admin so staging validates too.)
+
+3. Add keyword / blacklist filtering
+   The old "PDF Form" already has the blacklist rules. Copy them to "Material Alternative"
+   and "Contact Us". Block terms like "eric" and "xrumer", and reject any link in the material field.
+
+4. Tighten the material field
+   Make "Which material alternative are you looking for?" required, add a minimum length, reject links / HTML.
+
+5. Confirm the chatbot widget fires on production when we go live.
+
+6. Point the form email at the authenticated sender (this is what fixes leads going to spam)
+   Today the forms send from the old vendor domain (notify@websitesforanything.com), which fails
+   authentication, so notifications get filtered. Move them to the Mailgun sender already set up on
+   mg.prlresins.com, sending as no-reply@prlresins.com. We can do the WordPress wiring with you once
+   IT hands over a send-only key. Please also confirm how the site sends mail today, native or an SMTP plugin.
+
+Highest value: step 6 (delivery), then steps 1 and 2 (spam).</pre>
+  <h3>For IT</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR IT: email deliverability and DNS
+
+1. Email authentication is already in place (we verified it)
+   We read the live DNS: SPF, DKIM, DMARC, and Mailgun (on mg.prlresins.com) are all published and
+   correct, and DMARC is set to reject. No new records are needed. Please confirm this matches your records.
+
+2. Provide a send-only Mailgun key + confirm who owns the Mailgun account
+   So the website can send through the Mailgun that already exists. Send-only, not full account access.
+
+3. Allow-list the Mailgun sender in Barracuda
+   So authenticated mail is delivered, not quarantined. If legitimate form mail has been getting held,
+   this is the most likely reason.
+
+4. Microsoft 365 forwarding + where notifications land
+   Confirm the forwarding set up last week is active, and decide where chatbot and form notifications
+   should land so real leads are seen quickly. Optional: confirm whether Microsoft 365 has plus-addressing
+   enabled (it lets us tag leads by source with no new mailboxes).
+
+Note: the Tidio email setup (domain added, info@prlresins.com added) is complete on our side, and the one
+remaining Tidio email-config step is with Tidio support, which we are handling. It is not an IT task.</pre>
 </div>
-<div class="doc-header">
-  <div class="doc-header-inner">
-    <div class="doc-mark">PRL Resins · Chatbot Proposal</div>
-    <nav class="doc-tabs">
-      <a class="doc-tab active" href="#reverse">Recap</a>
-      <a class="doc-tab" href="#recall">What I Found</a>
-      <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
-      <a class="doc-tab" href="#mvp">Options & Price</a>
-      <a class="doc-tab" href="#protocol">Next Steps</a>
-      <a class="doc-tab" href="#sm-questions">Discovery</a>
-      <a class="doc-tab" href="#howitworks">How It Works</a>
-    </nav>
+  </details>
+</div></section>
+
+<!-- PAYMENT -->
+<section id="pay"><div class="wrap">
+  <span class="phase-tag t-next">Payment</span>
+  <h2>The schedule, so there are no surprises</h2>
+  <p class="lede">Simple rule: each phase is paid just before it kicks off. You always know the number
+  ahead of time, and never pay for a phase you have not greenlit.</p>
+  <div class="scroller"><table>
+    <tr><th>Phase</th><th>What you get</th><th>Amount</th><th>Paid</th><th>Kicks off</th></tr>
+    <tr><td>1.2</td><td>Reliable delivery + the 4-hour number</td><td class="price">$4,500</td><td style="color:var(--green);font-weight:700">Paid &#10003;</td><td>in progress</td></tr>
+    <tr><td style="color:var(--gold-soft)">1.2-A</td><td>Web forms → Sugar delivery <span style="color:var(--muted);font-weight:400">(scoped addendum, out of the original 1.2 → 1.5 path — full detail on <a href="https://prl.arcs.care/status/troubleshooting" style="text-decoration:underline">/status/troubleshooting</a>)</span></td><td class="price">$2,070</td><td style="vertical-align:middle"><a href="https://invoice.stripe.com/i/acct_1TvJIJItTVVJFC6Z/live_YWNjdF8xVHZKSUpJdFRWVkpGQzZaLF9WNW1SdHpMSzRjcmwyOGdwRlpPZ2psV2FNU0dTaVpkLDE3NzU1Mzg0NA0200X9kTcsmt?s=db" target="_blank" rel="noopener" style="display:inline-block;background:var(--gold);color:var(--bg);font-size:13px;font-weight:700;padding:5px 13px;border-radius:6px;text-decoration:none;white-space:nowrap">Pay Invoice #NYQRTJPQ-0004</a></td><td>on approval</td></tr>
+    <tr><td>1.3</td><td>Smarter lead recognition</td><td class="price">$4,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.4</td><td>Your paid landing pages</td><td class="price">$6,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.5</td><td>A smarter assistant</td><td class="price">$3,500</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td></td><td><b>Full path 1.2 → 1.5</b></td><td class="price">$18,000</td><td></td><td></td></tr>
+  </table></div>
+  <div class="card"><span class="note"><b>Two ways to run it, your call.</b>
+  &nbsp;<span class="pill"><b>Pay-as-you-go</b> (recommended), pay each phase before it kicks; stop clean at any boundary.</span>
+  <span class="pill"><b>Commit the full path</b>, one commitment, same $18,000, still stop-anytime.</span>
+  <div style="margin-top:10px"><b>Timeline, honestly:</b> back to back with everything flowing,
+  the whole path is a <b>5 to 6 week best case</b>. Base case runs a bit longer, and it stretches further
+  if access, decisions, or new dependencies slow a phase. When that happens the <b>date moves, the
+  per-phase price does not</b>. Tool costs sit outside these numbers, billed to PRL directly.</div></span></div>
+
+  <h3 style="margin-top:30px">How the price stays fair as we go, the receipt check</h3>
+  <p class="note">The numbers for 1.3, 1.4 and 1.5 above are today's best
+  estimate. They get <b>re-checked against reality</b> before each one starts, so you are never locked
+  into a guess.</p>
+  <ul class="clean">
+    <li>Each phase ends with a short <b>receipt</b>: what we expected versus what it actually took.</li>
+    <li>That receipt sets the next phase's number, always <b>inside the best-to-worst range you already
+      saw</b>. Nothing ever lands outside a range you have not seen.</li>
+    <li>If a phase comes in <b>easier</b>, the next number comes <b>down</b>. If there is more to it, the
+      receipt shows exactly why, and it moves only within that same known range.</li>
+    <li>The phase you are in is a <b>fixed cap</b>, a phase never costs more than its quote. Only the
+      next number can move, and only against real numbers.</li>
+    <li><b>If it goes faster than expected, that surplus is yours.</b> A phase that comes in well under
+      does not just disappear, you either take the next number down, or, if you would rather, we put
+      that saved ground toward <b>more work past 1.5</b>. The better we go, the more we can do together.</li>
+    <li>Each phase makes the next estimate sharper, so the further we go, the <b>more</b> predictable it gets.</li>
+  </ul>
+</div></section>
+
+<!-- NO SURPRISES -->
+<section id="surprises"><div class="wrap">
+  <span class="phase-tag t-later">No surprises</span>
+  <h2>Where costs could move, and how we keep them boring</h2>
+  <p class="lede">The fixed price is the number. Here is the honest picture of what could change it, and
+  how each is contained before it ever reaches you.</p>
+
+  <h3>The min-cost path (always available)</h3>
+  <ul class="clean">
+    <li>If the historical data can't support the full analysis, we ship the live four-hour number and
+    skip the historical chart, no added spend.</li>
+    <li>If sandbox access is slow, we prove everything on one labelled test lead you approve, no new spend.</li>
+    <li>If the AI economics don't check out in 1.5, we simply don't turn it on. The rest stands on its own.</li>
+  </ul>
+
+  <h3>Where it could bubble (and how it's contained)</h3>
+  <ul class="clean">
+    <li><b>Out-of-scope requests</b> (rebuilding CRM reports, full page redesigns, ongoing campaign
+    management), always a named, priced change order first, never silently absorbed.</li>
+    <li><b>Tool costs</b> (ZoomInfo lookups, a higher chat tier for AI volume), capped and surfaced up
+    front, billed to PRL directly, decided by you with the numbers in hand.</li>
+    <li><b>Calendar</b> (a holiday or work trip), shifts the date, not the scope or the price.</li>
+  </ul>
+
+  <div class="rhythm" style="margin-top:22px">
+    <div class="card"><h4>Sandbox-first</h4><p>Nothing blind on your live site or CRM, ever. We prove it in a copy first.</p></div>
+    <div class="card"><h4>Kill switch + rollback</h4><p>If anything looks off, one toggle stops it, and every change is reversible.</p></div>
+    <div class="card"><h4>Phase-gated</h4><p>You always know the number, always get a working result, and can stop clean at any boundary.</p></div>
+    <div class="card"><h4>Pay before kickoff</h4><p>Keeps the momentum honest on both sides, exactly like Monday / Friday.</p></div>
   </div>
-</div>
+</div></section>
 
-<div class="page">
+<!-- RECEIPTS -->
+<section id="receipts"><div class="wrap">
+  <span class="phase-tag t-next">Receipts</span>
+  <h2>The receipt for each phase</h2>
+  <p class="lede">Before a phase starts, we both agree on what we expect. At the check-in we measure what
+  actually happened, and that sets the next phase's number. The check-in date <b>moves with the phase</b>:
+  if we find the data fast it comes earlier, if access or blockers slow us it pushes out. Add it to your
+  calendar so the loop always closes.</p>
 
-  <!-- ── COVER ── -->
-  <div class="cover">
-    <div class="cover-meta">
-      <div class="cover-company">PRL Resins · Todd Hotes</div>
-      <div class="cover-title">Chatbot Findings & Proposal</div>
-      <div class="cover-sub">Follow-up from our two calls on Jul 2 and Jul 9, 2026. Everything here comes from what you shared; nothing invented.</div>
-    </div>
-    <div class="status-pill">
-      <div class="pulse"></div>
-      ACTIVE ENGAGEMENT
-    </div>
-  </div>
-
-  <!-- DEAL + PAYMENT (two columns) -->
-  <div class="buy-row">
-
-    <!-- THE DEAL, IN ONE LOOK -->
-    <div class="rec-box" style="margin:0;">
-      <div class="rec-box-label">The deal, in one look</div>
-      <div class="rec-box-title" style="font-size:17px;line-height:1.45;">A chatbot on your website that captures leads 24/7 and sends each one straight to your sales manager.</div>
-      <div class="rec-box-body" style="margin-top:6px;">We rent a proven tool (Tidio), install it on your WordPress site, and connect it to SugarCRM. No custom software. Nothing rebuilt.</div>
-      <div class="stack-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
-        <div class="stack-chip ok"><div class="stack-chip-label">Cost</div><div class="stack-chip-value" style="font-size:17px;">$1,500</div></div>
-        <div class="stack-chip ok"><div class="stack-chip-label">Time to live</div><div class="stack-chip-value" style="font-size:17px;">~1 week</div></div>
-        <div class="stack-chip ok"><div class="stack-chip-label">Your effort</div><div class="stack-chip-value" style="font-size:17px;">~45 min</div></div>
-      </div>
-    </div>
-
-    <!-- STRIPE BUY BUTTON -->
-    <div class="buy-pay">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);">Ready to start · secure checkout</div>
-      <stripe-buy-button
-        buy-button-id="buy_btn_1TvJmUItTVVJFC6Z4qmJtcLq"
-        publishable-key="pk_live_51TvJIJItTVVJFC6ZMElBfoY85vRzbw6mCH4kXQZXi51EXTxdFxPlItri0QRQKRNltp18VlIIdpmXQAZ8PmTvnZ3400A5KLtzAJ">
-      </stripe-buy-button>
-    </div>
-
-  </div>
-
-  <!-- TO START (full-width lockup below the two columns) -->
-  <div style="margin-top:16px;padding:14px 18px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-    <strong style="color:var(--cyan);">To start, you do one thing:</strong> send me WordPress + SugarCRM access and book 30 minutes for me with your sales manager. I build it from there.
-  </div>
-
-  <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
-  <div class="lbq">
-    <div class="lbq-label">Todd Hotes · Jul 2, 2026</div>
-    <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
-    <div class="lbq-attr">Todd Hotes · PRL Resins CFO / Comptroller</div>
-    <div class="lbq-decode">This is the operating condition everything below is designed around: fast to decide, easy to move, so the plan favors a quick, visible win you can see working before committing further.</div>
-  </div>
-
-  <!-- CONFIRMED STACK -->
-  <div class="divider" id="stack"></div>
-  <section>
-    <div class="section-eyebrow">The setup</div>
-    <div class="section-title">What the chatbot plugs into</div>
-    <div class="stack-grid">
-      <div class="stack-chip ok">
-        <div class="stack-chip-label">Website</div>
-        <div class="stack-chip-value">WordPress 7.0</div>
-      </div>
-      <div class="stack-chip ok">
-        <div class="stack-chip-label">Where leads land</div>
-        <div class="stack-chip-value">SugarCRM</div>
-      </div>
-      <div class="stack-chip flag">
-        <div class="stack-chip-label">Automation</div>
-        <div class="stack-chip-value">Zapier FREE ⚠</div>
-      </div>
-      <div class="stack-chip flag">
-        <div class="stack-chip-label">Today's intake</div>
-        <div class="stack-chip-value">Phone only ⚠</div>
-      </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:12px;max-width:640px;">The rest of the marketing stack (analytics, ad tracking, SEO) is covered in the <strong style="color:var(--sub)">Marketing Teardown</strong>. This page stays on the chatbot.</p>
-  </section>
-
-  <!-- ── REVERSE LISTENING PASS ── -->
-  <div class="divider" id="reverse"></div>
-  <section>
-    <div class="section-eyebrow">Recap</div>
-    <div class="section-title">What we agreed</div>
-
-    <div class="pass-header">
-      <span class="pass-mode reverse">Jul 9 call</span>
-      <span class="pass-segments">Three things, then the plan</span>
-    </div>
-
-    <div class="segments">
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">1</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Start with the chatbot</div>
-          <div class="seg-detail">"I'd love to start with the chatbot. That's going to create the biggest bang on the business side." The most visible, highest-impact piece first; the behind-the-scenes marketing cleanup comes later.</div>
-          <span class="seg-signal sig-cyan">Priority: chatbot first</span>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">2</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Route each lead straight to the sales manager</div>
-          <div class="seg-detail">Not through the three customer-service reps. The chatbot creates one lead in SugarCRM and the sales manager assigns it to the right territory. Your call on Jul 9: "That's probably the way to go." It simplifies every option below.</div>
-          <span class="seg-signal sig-green">Decided: direct to sales manager</span>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">3</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">This page is the follow-up you asked for</div>
-          <div class="seg-detail">The build / buy / rent options and a scoped first version, with a clear recommendation. The bigger "AI that recommends a formulation" idea is real. It's sequenced for later so we don't try to build everything at once.</div>
-          <span class="seg-signal sig-green">Agreed: research + scope</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── DEEP RECALL PASS ── -->
-  <div class="divider" id="recall"></div>
-  <section>
-    <div class="section-eyebrow">What I Found</div>
-    <div class="section-title">What I confirmed, and what surprised me</div>
-
-    <div class="pass-header">
-      <span class="pass-mode deep">Both calls · Jul 2 + Jul 9</span>
-      <span class="pass-segments">The things that shape the plan</span>
-    </div>
-
-    <div class="section-eyebrow" style="margin-top: 16px; margin-bottom: 10px;">The four that shape the chatbot</div>
-    <div class="surprises">
-      <div class="surprise">
-        <div class="surprise-dot confirm"></div>
-        <div class="surprise-text"><strong>WordPress 7.0 is current and clean.</strong> Every serious chatbot plugin works with it, and nothing about your website needs to be rebuilt or replaced.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot confirm"></div>
-        <div class="surprise-text"><strong>SugarCRM is staying.</strong> "Probably here to stay for at least the time I'll be here." It's a stable place to send leads, and it has a direct connection the chatbot can write to.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>Zapier is on the free plan.</strong> That plan is too limited to reliably pass leads along, so the chatbot writes to SugarCRM directly instead, which is actually simpler and cheaper (no monthly middle-man).</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>The sales manager is the natural destination.</strong> He already runs win/loss analysis, so routing each lead to him, instead of three customer-service inboxes, means one clear owner and faster follow-up.</div>
-      </div>
-    </div>
-
-    <div class="section-eyebrow" style="margin-top: 28px; margin-bottom: 10px;">What that means for the build</div>
-    <div class="threads">
-      <div class="thread">
-        <div class="thread-icon caution">📐</div>
-        <div>
-          <div class="thread-title">Keep the first version focused</div>
-          <div class="thread-body">Two different sizes of project. <strong>The chatbot</strong> (question flow, lead capture, hand-off to SugarCRM) is a matter of days. <strong>The AI that recommends formulations</strong> is a much bigger effort (a 3–6 month build on your product-development data). Doing the chatbot first keeps cost and timeline predictable, and gives the bigger build a working foundation to sit on.</div>
-        </div>
-      </div>
-      <div class="thread">
-        <div class="thread-icon signal">🚀</div>
-        <div>
-          <div class="thread-title">Start lean, expand with real leads</div>
-          <div class="thread-body">The fastest way to value is to ship a working chatbot from what you've already told me, then let real leads reveal what to add. <strong>You don't have to get everything perfect before starting.</strong> The first version pays for itself and shows exactly where the next dollar should go.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CHATBOT ANALYSIS ── -->
-  <div class="divider" id="chatbot"></div>
-  <section>
-    <div class="section-eyebrow">Build / Buy / Rent</div>
-    <div class="section-title">How to get the chatbot: three ways, in plain English</div>
-
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;max-width:680px;">
-      There are three ways to put a chatbot on your site. Think of it like getting a delivery van for the business:
-    </p>
-    <div class="stack-grid" style="grid-template-columns:1fr;gap:8px;margin-bottom:4px;">
-      <div class="stack-chip">
-        <div class="stack-chip-label" style="color:var(--red)">Build: custom from scratch</div>
-        <div class="stack-chip-value" style="font-weight:400;color:var(--sub);font-size:12px;">Like having a van built to order. Exactly what you want, but the most time, the most money, and you own every repair. Weeks of developer work.</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label" style="color:var(--gold)">Buy: own a platform license</div>
-        <div class="stack-chip-value" style="font-weight:400;color:var(--sub);font-size:12px;">Like buying the van outright. More control than renting, but a bigger upfront commitment and you're responsible for upkeep.</div>
-      </div>
-      <div class="stack-chip ok">
-        <div class="stack-chip-label" style="color:var(--green)">Rent: subscribe to a ready tool</div>
-        <div class="stack-chip-value" style="font-weight:400;color:var(--text);font-size:12px;">Like leasing the van. A proven product for a low monthly fee, running in days, upgrades and fixes handled by the vendor. Best fit for the first version.</div>
-      </div>
-    </div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;max-width:680px;">
-      For the first version, <strong style="color:var(--text)">renting is the clear winner</strong>. It's fastest to a live result, lowest cost, and nothing to maintain. The real work isn't the software; it's designing the conversation (what the bot asks and where each answer goes). We can always move to Build later if the bigger AI vision needs it.
-    </p>
-
-    <div class="arch-callout">
-      <div class="arch-callout-label">Decided on the Jul 9 call</div>
-      <div class="arch-callout-title">Chatbot sends each lead straight to the sales manager</div>
-      <div class="arch-callout-body">Instead of routing through the three customer-service reps, the chatbot creates <strong>one lead in SugarCRM</strong> and the sales manager assigns it to the right territory rep. Simpler, faster, and one clear owner for follow-up. In short: <strong>chatbot captures the lead → sales manager reviews and routes it → the rep follows up by phone.</strong></div>
-    </div>
-
-    <div class="cb-table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Option</th>
-            <th>Approach</th>
-            <th>Works with WordPress</th>
-            <th>Connects to SugarCRM</th>
-            <th>Monthly cost</th>
-            <th>Time to launch</th>
-            <th>Who can maintain it</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="recommended">
-            <td><strong style="color:var(--text)">Tidio AI</strong><span class="rec-badge">RECOMMENDED</span></td>
-            <td>Rent</td>
-            <td class="cost-lo">Built-in plugin</td>
-            <td>Direct, or via connector</td>
-            <td class="cost-lo">$29–49</td>
-            <td>1–2 days</td>
-            <td class="cost-lo">Easy, visual builder</td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--text)">WP-Bot</strong></td>
-            <td>Rent</td>
-            <td class="cost-lo">Built-in plugin</td>
-            <td>Via connector</td>
-            <td class="cost-lo">$15–30</td>
-            <td>1 day</td>
-            <td class="cost-lo">Easy, limited AI</td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--text)">Intercom</strong></td>
-            <td>Rent</td>
-            <td style="color:var(--sub)">Add a snippet</td>
-            <td>Via connector</td>
-            <td class="cost-med">$74–139</td>
-            <td>2–3 days</td>
-            <td style="color:var(--sub)">Medium</td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--text)">Custom build</strong></td>
-            <td>Build</td>
-            <td style="color:var(--sub)">Add a snippet</td>
-            <td>Direct connection</td>
-            <td class="cost-hi">$50–200 API</td>
-            <td>3–6 weeks</td>
-            <td class="cost-hi">High, needs a developer</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="rec-box">
-      <div class="rec-box-label">Recommendation: first version</div>
-      <div class="rec-box-title">Rent Tidio, install it on WordPress, and connect it directly to SugarCRM</div>
-      <div class="rec-box-body">
-        <strong>Why Tidio:</strong> It installs on your WordPress site in about five minutes. The conversation is built with a drag-and-drop editor, so your team can tweak the questions later without a developer. It remembers returning visitors (which matters for a 6–12 month buying cycle), and it has built-in AI to handle questions the script doesn't cover. It starts around <strong>$29/month</strong>. That's the lowest cost and the fastest path to something live.<br><br>
-        <strong>How leads reach SugarCRM:</strong> Tidio can send each new lead straight into SugarCRM automatically. No middle-man tool, no extra monthly fee, one less thing that can break. (If your SugarCRM setup doesn't allow that direct connection, the fallback is a $20/month connector, still cheap.)<br><br>
-        <strong>Why not build it custom:</strong> A custom bot costs far more and takes weeks. The value isn't in the software. It's in <strong>designing the right conversation</strong>: what the bot asks, and where each answer goes. We nail that on a rented tool now, and can move to something custom later if the bigger AI vision calls for it.
-      </div>
-    </div>
-  </section>
-
-  <!-- ── MVP SCENARIOS ── -->
-  <div class="divider" id="mvp"></div>
-  <section>
-    <div class="section-eyebrow">Options & Price</div>
-    <div class="section-title">Three levels: start small, expand as it proves out</div>
-
-    <div class="scenarios">
-      <div class="scenario best">
-        <div class="scenario-header">
-          <div class="scenario-label">Start here · the chatbot</div>
-          <div class="scenario-price">$1,500</div>
-        </div>
-        <div class="scenario-body">
-          <div class="scenario-row">
-            <strong>Timeline</strong>
-            1 week · 3 sessions × 90 min
-          </div>
-          <div class="scenario-row">
-            <strong>Scope</strong>
-            Tidio installed + the Scenario A/B question flow (from what you've already told me) + creates a lead in SugarCRM + emails the sales manager + tags the right territory
-          </div>
-          <div class="scenario-row">
-            <strong>Trigger</strong>
-            You confirm this week and share website + SugarCRM access; the sales manager is free for one 30-minute call before we start
-          </div>
-          <div class="scenario-row">
-            <strong>Outcome</strong>
-            Live chatbot in 7–10 days, leads flowing to the sales manager, and a short results summary ready
-          </div>
-          <div class="scenario-row">
-            <strong>Risk</strong>
-            The question flow is built from our calls, so real leads may surface a few edge cases to tune. The deeper "needs formulation help" path stays light until your form data is in hand.
-          </div>
-        </div>
-      </div>
-
-      <div class="scenario base">
-        <div class="scenario-header">
-          <div class="scenario-label">Then expand</div>
-          <div class="scenario-price">$3,000–3,500</div>
-        </div>
-        <div class="scenario-body">
-          <div class="scenario-row">
-            <strong>Timeline</strong>
-            3–4 weeks · 5–6 sessions
-          </div>
-          <div class="scenario-row">
-            <strong>Scope</strong>
-            Your product-development form fields mapped, short discovery calls with the sales manager and a CS rep, deeper SugarCRM integration, territory routing, chatbot analytics, and a handoff doc your team can manage
-          </div>
-          <div class="scenario-row">
-            <strong>Trigger</strong>
-            Data and discovery calls lined up within two weeks
-          </div>
-          <div class="scenario-row">
-            <strong>Outcome</strong>
-            A production-grade chatbot with a smarter question flow, measurable lead flow, and a clean handoff doc your team can manage
-          </div>
-          <div class="scenario-row">
-            <strong>Risk</strong>
-            Timeline can slip if the data and discovery calls take longer to line up. The fix: we start the chatbot build in parallel so something is always moving.
-          </div>
-        </div>
-      </div>
-
-      <div class="scenario worst">
-        <div class="scenario-header">
-          <div class="scenario-label">Full vision · later</div>
-          <div class="scenario-price">$6,000–8,000</div>
-        </div>
-        <div class="scenario-body">
-          <div class="scenario-row">
-            <strong>Timeline</strong>
-            8–12 weeks
-          </div>
-          <div class="scenario-row">
-            <strong>Scope</strong>
-            Everything above, plus the AI that recommends a formulation (trained on your product-development data and resin catalog), with follow-up emails/texts and automatic routing to the right rep by territory
-          </div>
-          <div class="scenario-row">
-            <strong>Trigger</strong>
-            The full "recommend a formulation" vision is approved as scope, with clean, organized training data provided and an ongoing arrangement in place.
-          </div>
-          <div class="scenario-row">
-            <strong>Outcome</strong>
-            An AI that recommends formulations on your website. Your full vision realized.
-          </div>
-          <div class="scenario-row">
-            <strong>Risk</strong>
-            High. Needs clean, well-organized data on your resin catalog, and it's a long timeline. Most of the value in the AI layer only shows up after months of real lead data to learn from, which is exactly why we'd do the smaller versions first.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divergence" style="margin-top: 20px;">
-      <div class="divergence-label">↗ Recommended path</div>
-      <div class="divergence-body">
-        <strong>Start with the chatbot ($1,500).</strong> Get it live on the site and let real leads show us what's missing. Then expand in month 2–3, once we've had the short discovery calls. You get a visible win fast, and every next dollar is spent on what the real leads tell us matters.
-      </div>
-    </div>
-  </section>
-
-  <!-- ── PROTOCOL ── -->
-  <div class="divider" id="protocol"></div>
-  <section>
-    <div class="section-eyebrow">Next Steps</div>
-    <div class="section-title">To get the chatbot live, here's all it takes</div>
-
-    <div class="protocol">
-      <div class="protocol-party">
-        <div class="protocol-party-header">
-          <div class="protocol-party-name" style="color:var(--gold);">Todd: your 3 things · about 45 minutes total</div>
-        </div>
-        <div class="protocol-items">
-          <div class="proto-item">
-            <div class="proto-arrow gold">1</div>
-            <div class="proto-text"><strong>WordPress login</strong> so I can install the chatbot. ~5 min to send.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow gold">2</div>
-            <div class="proto-text"><strong>SugarCRM login</strong>, a user that can create leads, so the chatbot can drop them straight in. ~5 min to send.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow gold">3</div>
-            <div class="proto-text"><strong>30 minutes with your sales manager</strong>, one short call so the chatbot's questions match how he actually works.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="protocol-party">
-        <div class="protocol-party-header">
-          <div class="protocol-party-name" style="color:var(--green);">Zach: I handle everything else</div>
-        </div>
-        <div class="protocol-items">
-          <div class="proto-item">
-            <div class="proto-arrow">→</div>
-            <div class="proto-text">Install and set up the chatbot, connect it to SugarCRM, build the two question paths, and send you a one-page scope to confirm before we start. <strong>Live in about a week.</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <p style="font-size:12px;color:var(--muted);line-height:1.65;margin-top:14px;max-width:660px;">Later, <em>only</em> when we start the "recommend a formulation" AI, we'll want your product-development form fields and a website traffic report. An NDA is optional if you'd ever want one, but it's not required. <strong style="color:var(--sub);">Nothing this month waits on any of that.</strong></p>
-  </section>
-
-  <!-- ── SALES-MANAGER QUESTIONS ── -->
-  <div class="divider" id="sm-questions"></div>
-  <section>
-    <div class="section-eyebrow">Phase 1 · Discovery</div>
-    <div class="section-title">Discovery answers, and what's still needed</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      <strong style="color:var(--text)">Todd answered these himself on Jul 20</strong> (thank you). His answers are folded in below and shape the chatbot's fields and routing. A few specifics still need your sales manager or the product data to finalize the build. That short list is at the top, and the button copies it.
-    </p>
-
-    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;transition:opacity .15s;">
-      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy what's still needed</span>
-    </button>
-
-    <!-- STILL NEEDED (outstanding for the sales manager) -->
-    <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;margin-bottom:20px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Still needed from your sales manager</div>
-      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.65;">
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">product-development / application-discovery form</strong> (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.</li>
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">territory map</strong>: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.</li>
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">resin product list and nomenclature</strong>, so the bot recognizes when someone names a resin you sell.</li>
-        <li style="color:var(--muted);">Optional: a handful of the most common questions the bot should be ready to answer up front.</li>
-      </ol>
-    </div>
-
-    <div class="section-eyebrow" style="margin-bottom:12px;">What Todd already answered</div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">The leads you get</div>
-      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know right away?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Contact info, the material they use now or need, the application, and any requirements or specs.</div></li>
-        <li style="margin-bottom:12px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time, or just a waste of it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They usually name a resin we sell (our product nomenclatures for the base resins). That signals a real lead.</div></li>
-        <li>Most of your buyers are engineers. <strong style="color:var(--text);font-weight:600;">Anything you always wish they'd tell you up front?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>The application or spec, an alternative resin they want to replace, or a specific resin they're after.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's reaching out</div>
-      <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or also purchasing or others?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Purchasing, procurement, engineers, chemists, and press operators.</div></li>
-        <li>Some are ready to talk. Some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>When they give specifics, they're actively looking to spec a resin.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Before they'll share their info</div>
-      <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask, or push back on,</strong> before they'll hand over their contact info?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They tend to share it quickly. People searching for us usually already have a need, either replacing an alternative or matching a spec or print.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Getting the lead to you</div>
-      <ol start="7" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Both. Email and straight into the system.</div></li>
-        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Ideally yes, auto-routed to the rep and geolocated by territory. Routing to the sales manager works for now. <span style="color:var(--gold);">(Needs the territory map above.)</span></div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Making your reps look good</div>
-      <ol start="9" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal because a rep didn't call back fast enough?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Probably, but hard to tell.</div></li>
-      </ol>
-    </div>
-
-    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Still needed from your sales manager (PRL Resins chatbot)
-
-Todd answered the discovery questions, thank you. To finalize the chatbot's fields and routing, we still need a few specifics from you or the product data:
-
-1. The product-development / application-discovery form (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.
-2. The territory map: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.
-3. The resin product list and nomenclature, so the bot recognizes when someone names a resin you sell.
-4. Optional: a handful of the most common questions the bot should be ready to answer up front.</textarea>
-  </section>
-
-  <!-- ── HOW IT WORKS ── -->
-  <div class="divider" id="howitworks"></div>
-  <section>
-    <div class="section-eyebrow">Phase 1 · How it works</div>
-    <div class="section-title">How the chatbot will work</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      Based on what you told me, here is the conversation your visitors will have. It stays short so people actually finish it, and it hands your reps a clean, qualified lead.
-    </p>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It greets and sorts the visitor</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">The assistant pops up and asks what brings them in, then offers three quick paths. This screens out the tire-kickers before they reach a rep.</div>
-        <div style="font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px;">
-          &bull; They know the resin or spec they want<br>
-          &bull; They need help finding the right resin<br>
-          &bull; Something else, like a general question
-        </div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It asks only what a rep needs</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">Depending on the path, it gathers the useful basics: the resin or spec, the application, what they use now, and any requirements. Then name, email, phone, company, and their location. Short and painless, since your buyers usually already have a need.</div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It hands your rep a clean lead</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">It creates a lead in SugarCRM, emails the notification, and routes it to the right rep by territory (to the sales manager for the first version). The customer hears that someone will reach out within a few hours.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:6px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-      <strong style="color:var(--cyan);">No lost leads:</strong> if someone leaves halfway, the assistant remembers them. When they come back it picks up where they left off, so a half-finished form does not become a lost lead.
-    </div>
-
-    <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
-      <strong style="color:var(--gold);">To finalize:</strong> three inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and your resin list. Everything else is ready to build whenever you give the go.
-    </div>
-  </section>
-
-  <div class="stop-loss">
-    <div class="pulse"></div>
-    <div class="sl-text">The safety net: even if the data takes longer than expected, we still ship the chatbot ($1,500) from what you've already told me. We don't wait for perfect data to get something live and working.</div>
-    <div class="sl-ts">JUL 9, 2026</div>
+  <div class="receipt">
+    <div class="rhead"><span>RECEIPT · PHASE 1.2</span><span class="rstatus">EX-ANTE · OPEN</span></div>
+    <div class="rrow"><b>The bet</b><span>Reliable delivery + enrichment + the four-hour metric + baseline, at $4,500, about 20 hours of work, kicking Monday Aug 10.</span></div>
+    <div class="rrow"><b>Assumptions</b><span>Your CRM stamps first-touch · the baseline pulls clean · ZoomInfo and Mailgun access in hand.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>actual effort lands outside 12 to 30 hours, or the four-hour metric cannot be built from data you already have.</span></div>
+    <div class="rrow"><b>Mid-phase update &middot; Aug 18</b><span>Calling it early, per the receipt mechanism: <b>effort is trending past the top of the 12&ndash;30 hour band.</b> The build itself went fast &mdash; delivery is done and verified with a real conversation, dedup + enrichment + follow-up timers are live. What blew the estimate was coordination overhead the original bet didn't price: platform plan-tier surprises that forced re-architecture, sandbox access arriving mid-phase, the routing ground-truth investigation (which surfaced a real pre-existing CRM issue worth finding), and vendor back-and-forth on email deliverability. <b>The $4,500 cap holds &mdash; that's what it's for.</b> What moves is the check-in date, not the price or the scope. Two items remain open inside the phase: the baseline report and the rep-notification test.</span></div>
+    <div class="rrow"><b>At risk</b><span>the $4,500 cap and the go-live timeline.</span></div>
+    <div class="rrow"><b>Check-in</b><span>target Monday Aug 24, and it moves with the phase (earlier if the data comes fast, later if access or blockers slow it). We measure expected vs actual, bank the result, and set the 1.3 number.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.2+receipt&amp;dates=20260824/20260825&amp;details=Measure+expected+vs+actual+for+Phase+1.2%2C+bank+the+result%2C+set+the+1.3+number.+Date+may+shift+with+the+phase.+prl.arcs.care">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.2+receipt&amp;startdt=2026-08-24T09:00:00&amp;enddt=2026-08-24T09:30:00&amp;body=Measure+expected+vs+actual+for+Phase+1.2%2C+bank+the+result%2C+set+the+1.3+number.+Date+may+shift+with+the+phase.+prl.arcs.care">Outlook Calendar</a></span></div>
   </div>
 
-</div>
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.3</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Smarter lead recognition, at $4,000, about 18 hours. Number confirmed against the 1.2 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the recognition data in your CRM needs heavy clean-up, or the rep know-how session takes several rounds.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.3 kicks off, cascading from the 1.2 close-loop.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.3+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.3%2C+bank+the+result%2C+set+the+1.4+number.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.3+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.3%2C+bank+the+result%2C+set+the+1.4+number.">Outlook Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.4</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Your paid landing pages, at $6,000, about 26 hours. Number confirmed against the 1.3 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the pages need real rebuilds rather than a chatbot opening, or the access grants lag.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.4 kicks off, cascading from 1.3.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.4+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.4%2C+bank+the+result%2C+set+the+1.5+number.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.4+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.4%2C+bank+the+result%2C+set+the+1.5+number.">Outlook Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.5</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>A smarter assistant, at $3,500, about 14 hours. Number confirmed against the 1.4 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the AI handoff needs a workaround, or the chat plan's conversation cap forces a change.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.5 kicks off, cascading from 1.4.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.5+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.5%2C+bank+the+result.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.5+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.5%2C+bank+the+result.">Outlook Calendar</a></span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care &middot; kept current, no surprises<br>pages: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="https://prl.arcs.care/status/progress">/progress</a> &middot; <a href="https://prl.arcs.care/status/crm">/crm</a> &middot; <a href="https://prl.arcs.care/status/troubleshooting">/troubleshooting</a> &middot; <a href="https://prl.arcs.care/status/tidio">/tidio</a> &middot; <a href="https://prl.arcs.care/status/atlas">/atlas</a> &middot; <a href="https://prl.arcs.care/status/build">/build</a> &middot; <a href="https://prl.arcs.care/status/receipt">/receipt</a></div></footer>
 
 <script>
-// Smooth scroll tab behavior
-document.querySelectorAll('.doc-tab').forEach(tab => {
-  tab.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(tab.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    document.querySelectorAll('.doc-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-  });
-});
 
-// Copy the sales-manager questions as plain text (email-ready)
-function copySmQuestions(){
-  var ta = document.getElementById('smPlain');
-  var label = document.getElementById('copySmLabel');
-  if (!ta) return;
-  var flash = function(msg){
-    if (!label) return;
-    var prev = "Copy what's still needed";
-    label.textContent = msg;
-    setTimeout(function(){ label.textContent = prev; }, 2000);
-  };
-  var fallback = function(){
-    ta.select(); ta.setSelectionRange(0, ta.value.length);
-    try { document.execCommand('copy'); flash('Copied ✓'); }
-    catch (e) { flash('Press ⌘/Ctrl+C'); }
-    window.getSelection().removeAllRanges();
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(ta.value).then(function(){ flash('Copied ✓'); }, fallback);
-  } else {
-    fallback();
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  function onscroll(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+cur.id); });
   }
-}
-
-// Update active tab on scroll
-const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions','howitworks'];
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      document.querySelectorAll('.doc-tab').forEach(t => t.classList.remove('active'));
-      const tab = document.querySelector(`.doc-tab[href="#${entry.target.id}"]`);
-      if (tab) tab.classList.add('active');
-    }
-  });
-}, { threshold: 0.3 });
-sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+  window.addEventListener('scroll',onscroll,{passive:true}); onscroll();
 </script>
 </body>
 </html>

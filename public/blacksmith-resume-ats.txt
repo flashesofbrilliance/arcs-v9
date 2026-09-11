@@ -1,0 +1,52 @@
+ZACH HARRIS
+Staff Product Engineer | Builder and 0-to-1 Product Engineer
+github.com/flashesofbrilliance | linkedin.com/in/zharris | New York Metro (Fairfield County, CT)
+Target role: Staff Product Engineer, Blacksmith
+
+SUMMARY
+Builder who ships, then becomes the tool's most demanding user. Two decades taking technical products from zero to one across regulated finance, AI-native infrastructure, sports, and consumer: the same verticals Blacksmith serves. Not a deck-writer: in the code reviews, sprint planning, and incident response. Currently building ARCS, an LLM-native decision-intelligence platform on Claude with a live MCP server, agentic orchestration, and a public commit trail. A power user of coding agents who delegates to Claude at scale and ships product surfaces in days.
+
+CORE SKILLS
+Languages and Stack: TypeScript, React, Next.js, Tailwind, Node, Python, SQL, Prisma (RLS), shell, Git/CI/CD
+Coding Agents and LLM Systems: Claude (API, tool use, extended thinking), MCP servers, multi-agent orchestration, context management, human-in-the-loop, agent delegation at scale
+Developer Experience and Delivery: zero-to-one product engineering, CI/CD pipelines, clean one-move UX over hard systems, rapid prototyping, build-in-public
+Reliability and Governance: RBAC, regulated release gates, pre-deployment integrity checks, structured decision scoring, conformance and regression suites
+Domain: regulated finance (SEC/FINRA), digital health (HIPAA), sports, consumer
+
+EXPERIENCE
+
+ARCS - LLM-Native Decision-Intelligence Platform
+Founder and Architect | 2025 to Present
+- Architect and build an agentic platform end to end on Claude: MCP server, tool calling, orchestration, and human-in-the-loop, on a Next.js/TypeScript/Tailwind/Prisma surface.
+- Built a custom MCP server and agentic pipelines (Claude API, tool use, extended thinking) across a full decision lifecycle; delegate heavily to coding agents and ship product surfaces in days.
+- Ship and maintain open-source developer tools (good.arcs.care): Claude Code plugins, shell tooling, and dev tooling, each with its own conformance suite.
+- Build in public: a live status log of commits and milestones (status.arcs.care) is the shipping-velocity telemetry.
+
+Grayscale Investments (Digital Currency Group)
+Product Lead | 2024 to 2025
+- Owned the investor-facing platform behind a 7B dollar, 10-product regulated launch; enforced compliance in the product itself.
+- Built RBAC governance and policy-at-the-glass publishing gates so no unapproved content could ship: a pre-deployment integrity check for a high-consequence domain.
+- Ran the cross-functional release train across 4 time zones; cut release-cycle time 35 percent with automated QA and a compliance-in-the-loop cadence.
+
+Women's Tennis Association
+Head of Product and Strategic Partnerships | 2016 to 2018
+- Modernized the stack and built interactive CI/CD pipelines on VS Code with Microsoft as delivery partner.
+- Built real-time fan-behavior scoring at under 120ms for a global consumer platform.
+- Closed the first commercial data partnerships (Twitter, Facebook): 850K dollars plus in year one.
+
+Squat New York (Behavioral Health, 350M dollar ARR)
+Head of Product Innovation and Tech Lead | 2019 to 2020
+- Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff; owned a full content-architecture and CX overhaul (headless CMS).
+
+Children's Tumor Foundation
+Sr. Director, Data and Strategy | 2018 to 2019
+- Built the first enterprise data and decision-intelligence layer (CDP, Salesforce modernization, lifecycle segmentation); drove a 20 percent increase in net-new revenue via data-driven personalization.
+
+Manana - Product Partner (independent practice) | 2020 to Present
+- Embedded zero-to-one product-and-engineering partner in regulated and complex markets: regulatory roadblocks turned into product requirements, shipped in half the expected time.
+- Clients: Twill Health (AI-enabled digital therapeutics, HIPAA), Axon (secure first-responder OTT MVP), GoPro (EMEA/APAC growth under GDPR), Verizon Media (five 5G ventures).
+- Mentor at Cornell Tech and Outlier Ventures (2024); Builder in Residence at A.Team.
+
+EDUCATION
+Oberlin College - BA, Studio Art (Honors)
+MIT - Designing and Building AI Products and Services (2023)

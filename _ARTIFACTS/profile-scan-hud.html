@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+THESIS: a profile rendered as flight instrumentation · the record IS the telemetry.
+Refuses the resume-webpage scroll of same-size cards; every panel is a gauge with a source.
+OWN-WORLD: ARCS dark cockpit · ground #020408, panel #0d1117, bearing cyan #00F0FF,
+conviction green #00FF9D, asset gold #FFD700, constraint orange, risk red #FF4D6D;
+JetBrains Mono = measurement, Inter = prose; earned-fidelity glow, thread-color rails (canon).
+STORY: Zach reads his own master scan as an instrument panel · stated vs observed, four
+threads, dated evidence, capability quadrants, one assertion · every block source-cited,
+honesty flags lit, archetype gate visibly OPEN.
+FIRST VIEWPORT: mast (scan ID + status LEDs) over a live telemetry band, then the
+dual-channel Signal Read comparator.
+FORM: single-file HUD, MUI-grade CSS-custom-property theme, @media print flattens to the
+light framed sheet (the enhanced resume print). Data: runtime/scan/generated/zach.json.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ARCS Profile Scan · Zach Harris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── theme object (MUI-grade token architecture, zero deps) ─────────────── */
+:root{
+  --palette-bg-default:#020408; --palette-bg-paper:#0d1117; --palette-bg-elevated:#111826;
+  --palette-divider:#1e293b; --palette-divider-hi:#2c3b52;
+  --palette-text-primary:#e2e8f0; --palette-text-secondary:#94a3b8; --palette-text-muted:#64748b; --palette-text-faint:#475569;
+  --palette-bearing:#00F0FF; --palette-conviction:#00FF9D; --palette-asset:#FFD700; --palette-constraint:#FF9F45; --palette-risk:#FF4D6D; --palette-steel:#7d8fa3;
+  --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
+  --shape-radius-sm:6px; --shape-radius-md:10px; --shape-radius-lg:14px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
+  --fx-dim:16; --fx-bdr:35; --fx-glow:55; /* hex-alpha suffixes, canon color math */
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+body{min-height:100vh;background:
+  radial-gradient(1100px 500px at 50% -10%, #00F0FF0a 0, transparent 60%),
+  radial-gradient(700px 400px at 90% 20%, #00FF9d06 0, transparent 55%),
+  var(--palette-bg-default);}
+a{color:var(--palette-bearing);text-decoration:none;} a:hover{text-decoration:underline;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 var(--space-5) var(--space-7);}
+
+/* ── atoms ──────────────────────────────────────────────────────────────── */
+.mono{font-family:var(--typo-mono);}
+.eyebrow{font-family:var(--typo-mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
+.src{font-family:var(--typo-mono);font-size:9px;letter-spacing:.05em;color:var(--palette-text-faint);}
+.led{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:1px;margin-right:6px;}
+.led.on{box-shadow:0 0 8px 1px currentColor;background:currentColor;}
+.pill{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 10px;border-radius:4px;border:1px solid var(--palette-divider-hi);color:var(--palette-text-secondary);}
+.pill.solid{background:var(--palette-bearing);color:#03151a;border-color:transparent;}
+
+/* ── molecules ──────────────────────────────────────────────────────────── */
+.panel{background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--palette-bg-paper);
+  border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);
+  box-shadow:inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c;}
+.sec-hd{display:flex;align-items:baseline;gap:12px;margin:var(--space-7) 0 var(--space-4);}
+.sec-hd .n{font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-text-faint);}
+.sec-hd .t{font-family:var(--typo-mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
+.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--palette-divider),transparent);}
+.sec-hd .gloss{font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;color:var(--palette-text-faint);text-transform:uppercase;white-space:nowrap;}
+
+/* mast */
+header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(--palette-divider);}
+.mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
+.mast .sub{max-width:66ch;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}
+.statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
+
+/* telemetry band */
+.telemetry{display:grid;grid-template-columns:repeat(5,1fr);margin-top:var(--space-5);}
+.telemetry .cell{padding:14px 18px;border-left:1px solid var(--palette-divider);}
+.telemetry .cell:first-child{border-left:none;padding-left:0;}
+.telemetry .v{font-family:var(--typo-mono);font-size:26px;font-weight:700;color:var(--palette-text-primary);line-height:1;}
+.telemetry .v b{color:var(--palette-bearing);font-weight:700;}
+.telemetry .k{font-family:var(--typo-mono);font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);margin-top:7px;line-height:1.5;}
+
+/* comparator (signal read) */
+.comparator{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.channel{padding:18px 20px 16px;}
+.channel .ch-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--palette-divider);}
+.channel .ch-hd .eyebrow{color:var(--palette-text-muted);}
+.channel.stated{background:linear-gradient(165deg,#ffffff05,#00000038),var(--palette-bg-default);border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);}
+.channel.observed{border-color:#00F0FF35;box-shadow:inset 0 1px 0 #ffffff0e, 0 0 26px -14px #00F0FF55, 0 14px 34px -22px #000c;}
+.channel.observed .ch-hd{border-bottom-color:#00F0FF2b;}
+.channel.observed .ch-hd .eyebrow{color:var(--palette-bearing);}
+.channel li{list-style:none;position:relative;padding-left:16px;font-size:12.5px;line-height:1.62;color:var(--palette-text-secondary);margin-bottom:10px;text-wrap:pretty;}
+.channel li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;border:1px solid currentColor;opacity:.5;}
+.channel li b{color:var(--palette-text-primary);font-weight:600;}
+.channel .note{font-size:11px;line-height:1.55;color:var(--palette-text-muted);font-style:italic;margin-top:4px;padding-top:10px;border-top:1px dashed var(--palette-divider);}
+
+/* thread rail cards (canon thread grammar) */
+.threads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.thread{position:relative;padding:16px 18px 14px 21px;overflow:hidden;}
+.thread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc);box-shadow:0 0 14px 0 var(--tc);}
+.thread .eyebrow{color:var(--tc);}
+.thread h3{font-size:14.5px;font-weight:650;letter-spacing:-.01em;margin:7px 0 7px;text-wrap:balance;}
+.thread p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
+.thread .src{display:block;margin-top:10px;padding-top:8px;border-top:1px solid var(--palette-divider);}
+
+/* ledger */
+.ledger{width:100%;border-collapse:collapse;font-size:12px;}
+.ledger th{font-family:var(--typo-mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--palette-divider-hi);}
+.ledger td{padding:9px 14px;border-bottom:1px solid var(--palette-divider);vertical-align:top;color:var(--palette-text-secondary);line-height:1.5;}
+.ledger td:first-child{font-family:var(--typo-mono);font-size:10.5px;color:var(--palette-bearing);white-space:nowrap;}
+.ledger td:nth-child(2){color:var(--palette-text-primary);font-weight:550;}
+.ledger tr:last-child td{border-bottom:none;}
+.ledger tr.flag td{background:#FF4D6D0d;}
+.ledger-scroll{overflow-x:auto;}
+
+/* quadrants */
+.quads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.quad{padding:18px 20px 16px;border-top:2px solid var(--qc);}
+.quad .eyebrow{color:var(--qc);}
+.quad h3{font-size:14.5px;font-weight:650;margin:7px 0;text-wrap:balance;}
+.quad p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
+
+/* assertion */
+.assertion{position:relative;padding:26px 30px 22px;border:1px solid #00F0FF35;border-radius:var(--shape-radius-lg);
+  background:linear-gradient(165deg,#00F0FF0e,#00000030 55%),var(--palette-bg-paper);
+  box-shadow:inset 0 1px 0 #ffffff10, 0 0 44px -18px #00F0FF40;}
+.assertion p{font-size:16.5px;line-height:1.72;color:var(--palette-text-primary);font-weight:450;text-wrap:pretty;}
+.assertion cite{display:block;margin-top:14px;font-style:normal;font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--palette-text-muted);}
+
+/* provenance */
+.prov{padding:16px 20px;border:1px dashed var(--palette-divider-hi);border-radius:var(--shape-radius-md);background:#0d111780;}
+.prov p{font-size:11px;line-height:1.7;color:var(--palette-text-muted);}
+.prov b{color:var(--palette-text-secondary);font-weight:600;}
+.prov .eyebrow{color:var(--palette-constraint);display:block;margin-bottom:8px;}
+footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--palette-divider);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--typo-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--palette-text-faint);}
+
+/* ── one authored moment: earned-fidelity resolve (fog → sharp) ─────────── */
+@media (prefers-reduced-motion: no-preference){
+  .resolve{animation:resolve .9s cubic-bezier(.16,1,.3,1) both;}
+  .resolve:nth-of-type(2){animation-delay:.08s}.resolve:nth-of-type(3){animation-delay:.16s}
+  .resolve:nth-of-type(4){animation-delay:.24s}.resolve:nth-of-type(5){animation-delay:.32s}
+  @keyframes resolve{from{opacity:.35;filter:blur(6px) saturate(.6);transform:translateY(6px)}to{opacity:1;filter:none;transform:none}}
+}
+
+@media screen and (max-width:760px){
+  .comparator,.threads,.quads{grid-template-columns:1fr;}
+  .telemetry{grid-template-columns:repeat(2,1fr);row-gap:18px;}
+  .telemetry .cell{border-left:none;padding-left:0;}
+  .statuslights{text-align:left;}
+}
+
+/* ── PRINT: the sheet · flattens to the light framed document ───────────── */
+@page{size:letter;margin:0.45in;}
+@media print{
+  :root{
+    --palette-bg-default:#fff; --palette-bg-paper:#fff; --palette-bg-elevated:#fff;
+    --palette-divider:#dde3ea; --palette-divider-hi:#c9d3de;
+    --palette-text-primary:#0f1720; --palette-text-secondary:#33414f; --palette-text-muted:#5b6b7a; --palette-text-faint:#8a97a4;
+    --palette-bearing:#0089a8; --palette-conviction:#0a8f5b; --palette-asset:#9a7b00; --palette-constraint:#c05e12; --palette-risk:#c22646;
+  }
+  html,body{background:#fff;}
+  body::after{content:"";position:fixed;inset:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
+  .wrap{max-width:none;padding:0 .1in;}
+  .panel,.channel.stated,.channel.observed,.assertion,.prov{background:#fff;box-shadow:none;}
+  .channel.observed{border-color:#0089a8;}
+  .assertion{border-color:#0089a8;}
+  .thread::before{box-shadow:none;}
+  .led.on{box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .resolve{animation:none;}
+  header.mast{padding-top:.1in;}
+  .sec-hd{margin-top:26px;}
+  .thread,.quad,.channel,.assertion,.prov,.telemetry{break-inside:avoid;}
+  .telemetry .v{font-size:21px;}
+  .channel li{font-size:11px;} .thread p,.quad p{font-size:10.5px;}
+  .ledger td,.ledger th{padding:7px 10px;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast resolve">
+    <div class="id">
+      <div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <span class="pill solid">Profile Scan</span><span class="pill">DEEP · Internal · Master read</span>
+        </div>
+        <h1>Zach Harris</h1>
+        <div class="eyebrow" style="color:var(--palette-bearing);margin-top:10px;">ARCS Profile · Thread Analysis</div>
+      </div>
+      <div class="statuslights">
+        <span class="led on" style="color:var(--palette-conviction)"></span>SOURCES · 4 SURFACES LOADED<br>
+        <span class="led on" style="color:var(--palette-asset)"></span>SNAPSHOT · LINKEDIN EXPORT 01-14-2026<br>
+        <span class="led on" style="color:var(--palette-constraint)"></span>FLAGS · 3 DISCREPANCIES LIT<br>
+        <span class="led on" style="color:var(--palette-risk)"></span>ARCHETYPE · GATE OPEN · UNCALIBRATED
+      </div>
+    </div>
+    <p class="sub">The master internal read, assembled from four real data surfaces: the dated LinkedIn export, the resume SSOT (resume.arcs.care), and the honesty-graded competency model. It carries the strengths and the real constraints alike · this is the subject's own instrument, not an outward pitch.</p>
+
+    <div class="telemetry">
+      <div class="cell"><div class="v">16</div><div class="k">dated positions · 2004→now</div></div>
+      <div class="cell"><div class="v">100</div><div class="k">listed skills</div></div>
+      <div class="cell"><div class="v">756</div><div class="k">endorsements banked</div></div>
+      <div class="cell"><div class="v">31</div><div class="k">written recommendations</div></div>
+      <div class="cell"><div class="v"><b>$7B</b></div><div class="k">regulated launches · grayscale</div></div>
+    </div>
+    <div class="src" style="margin-top:10px;">SRC · Positions.csv · Skills.csv · Endorsement_Received_Info.csv · Recommendations_Received.csv · Positions.csv (Grayscale, self-authored)</div>
+  </header>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">01</span><span class="t" style="color:var(--palette-bearing)">Signal Read</span><span class="rule"></span><span class="gloss">stated vs observed</span></div>
+    <div class="comparator">
+      <div class="channel stated">
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-steel)"></span><span class="eyebrow">CH·A — What the profile states</span></div>
+        <ul>
+          <li>Headline: <b>&ldquo;Product | GTM Strategy | AI Lead&rdquo;</b> · a three-token competency label</li>
+          <li>A single visible anchor: <b>Mañana · Product Partner</b>, the present-tense listed role since Jan 2020</li>
+          <li>Self-frame: <b>&ldquo;I build products in spaces where most PMs see &lsquo;blocked.&rsquo;&rdquo;</b> · crypto in regulatory chaos, HealthTech awaiting FDA, real-time sports, first-responder networks</li>
+        </ul>
+        <div class="note">The headline is a competency summary. The dated export is the actual record · and it reads differently.</div>
+        <span class="src" style="display:block;margin-top:10px;">SRC · Profile.csv · Positions.csv</span>
+      </div>
+      <div class="channel observed panel">
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-bearing)"></span><span class="eyebrow">CH·B — What the full record shows</span></div>
+        <ul>
+          <li><b>16 dated positions</b> spanning 2004 → present · a two-decade arc, not a three-line headline</li>
+          <li>The &ldquo;5+ positions&rdquo; job-hopping read does not survive the dates: <b>7 recent entries are concurrent advisory/mentor roles</b> (A.Team, Huddle, FLOC*, Forum Ventures, Le woof, Outlier Ventures, Cornell Tech, 2022–2024) running alongside the Mañana anchor · a portfolio career, not churn</li>
+          <li><b>100 listed skills · 756 endorsements · 31 written recommendations</b> from named colleagues · depth the headline never surfaces</li>
+          <li>The recurring genome across every role: <b>take a transformative idea trapped behind regulatory or technical complexity and turn the constraint into the product</b> · consistent from WTA (2016) to Grayscale (2025)</li>
+        </ul>
+        <span class="src" style="display:block;margin-top:6px;">SRC · Positions.csv · Skills.csv · Endorsement_Received_Info.csv · Recommendations_Received.csv</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">02</span><span class="t" style="color:var(--palette-conviction)">Thread Assessment</span><span class="rule"></span><span class="gloss">red risk · gold asset · green conviction · vermillion constraint</span></div>
+    <div class="threads">
+      <div class="thread panel" style="--tc:var(--palette-risk)">
+        <span class="eyebrow">Red Thread · Recurring Risk</span>
+        <h3>The flagship isn't a listed position, and a credential doesn't match</h3>
+        <p>Two reference-check exposures. ARCS · the résumé's lead and current flagship · is NOT a role in Positions.csv; it appears only inside the free-text summary. A background check keying on listed positions would not find it. And the résumé's &ldquo;MIT xPRO · AI: Implications for Business Strategy&rdquo; credential is absent from Certifications.csv; the export documents Emeritus &ldquo;Designing and Building AI Products and Services&rdquo; (Jun 2023) and Section4 Certified Product Strategist (Mar 2022).</p>
+        <span class="src">FIX · add ARCS as a LinkedIn position; reconcile the AI-credential wording · SRC · Positions.csv · Profile.csv · Certifications.csv</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-asset)">
+        <span class="eyebrow">Gold Thread · Working Asset</span>
+        <h3>756 endorsements, 31 recommendations · already banked</h3>
+        <p>Surfaced social proof, not a future build. Endorsements concentrate on a coherent cluster · Advertising (91), Digital Strategy (71), Marketing (50), Entrepreneurship (49), Strategy (48) · and 31 written recommendations come from named, checkable colleagues, including Inkoo Kang (VP, ETFs, Grayscale), Adam Perlis (CEO, Academy UX), and Margarita Polishchuk (Head of Strategy, Clay).</p>
+        <span class="src">SRC · Endorsement_Received_Info.csv (756 rows) · Recommendations_Received.csv (31 visible)</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-conviction)">
+        <span class="eyebrow">Green Thread · Conviction</span>
+        <h3>One coherent question, answered for 20 years</h3>
+        <p>The load-bearing strength is coherence: every dated role advances the same question · how do you ship a high-stakes product when Legal says &ldquo;we can't&rdquo; and Engineering says &ldquo;impossible&rdquo;? Documented most concretely at Grayscale (2024–2025): product GTM for $7B in new regulated asset launches, 10 products, SEC Reg D/S, governance-at-the-glass CMS · &ldquo;do it right, failure isn't an option&rdquo; work.</p>
+        <span class="src">SRC · Positions.csv (Grayscale description, self-authored) · Profile.csv summary</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-constraint)">
+        <span class="eyebrow">Vermillion · Constraint</span>
+        <h3>The packaging underserves the signal</h3>
+        <p>The external signal lags the record. The headline is a competency list; the platform's own ad-targeting model reads Zach as &ldquo;influences financial opinion,&rdquo; &ldquo;interested in technology media,&rdquo; and &ldquo;interested in a new job&rdquo; · but has no read at all of the AI-native builder identity the résumé leads with. LinkedIn does not yet see the genome the record supports.</p>
+        <span class="src">SRC · Inferences_about_you.csv (8 rows) · Profile.csv headline</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">03</span><span class="t" style="color:var(--palette-steel)">Evidence Ledger</span><span class="rule"></span><span class="gloss">the dated record · Positions.csv</span></div>
+    <div class="panel ledger-scroll">
+      <table class="ledger">
+        <thead><tr><th>Period</th><th>Role</th><th>Organization</th><th>Genome expression</th></tr></thead>
+        <tbody>
+          <tr><td>2004</td><td>Creative Technology · Internship</td><td>Yahoo</td><td>Earliest dated role in the export</td></tr>
+          <tr><td>2007–2008</td><td>Strategic Video · Growth Consultant</td><td>VentureBeat</td><td>Media / growth at the video-ad frontier</td></tr>
+          <tr><td>2010–2011</td><td>GM, Video Ad Network</td><td>Selectable Media</td><td>Ad-tech operating role</td></tr>
+          <tr><td>2012–2016</td><td>Co-Founder · EVP eCommerce</td><td>IBR Shop (D2C)</td><td>First 0→1 founder / commercial build</td></tr>
+          <tr><td>2016–2018</td><td>Head of Product &amp; Strategic Partnerships</td><td>WTA</td><td>Real-time sports product + first commercial partnerships ($850K y1, self-reported via resume SSOT)</td></tr>
+          <tr><td>2018–2019</td><td>Sr Director, Data &amp; Strategy</td><td>Children's Tumor Foundation</td><td>Enterprise data/CDP + segmentation (20% net-new revenue, self-reported)</td></tr>
+          <tr><td>2019–2020</td><td>Head of Product Innovation &amp; Tech Lead</td><td>Squat New York</td><td>Embedded product lead, behavioral-health platform</td></tr>
+          <tr><td>2020–now</td><td>Product Partner (Innovation, GTM, 0→1)</td><td>Mañana</td><td>The anchor engagement · advisory/fractional/embedded; clients incl. Axon, Twill, GoPro, Verizon Media</td></tr>
+          <tr><td>2022–2024</td><td>Advisor · Mentor · Builder-in-Residence</td><td>A.Team · Huddle · FLOC* · Forum · Le woof · Outlier · Cornell Tech</td><td>The 7 concurrent roles the &ldquo;job-hopping&rdquo; read misclassifies</td></tr>
+          <tr><td>2024–2025</td><td>Product Lead</td><td>Grayscale Investments (DCG)</td><td>$7B new regulated asset launches · 10 products · SEC Reg D/S · governance-first GTM</td></tr>
+          <tr class="flag"><td>2025–now</td><td>Founder</td><td>ARCS</td><td>Résumé lead + OSS dev-tool family (github.com/flashesofbrilliance). NOTE · appears only in the profile summary, NOT as a listed LinkedIn position</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">04</span><span class="t" style="color:var(--palette-asset)">Capability Map</span><span class="rule"></span><span class="gloss">core · compound · signal · gap</span></div>
+    <div class="quads">
+      <div class="quad panel" style="--qc:var(--palette-conviction)">
+        <span class="eyebrow">Quadrant A · Core</span>
+        <h3>Regulated / high-constraint 0→1 product &amp; GTM</h3>
+        <p>The load-bearing, most-documented capability: shipping product and go-to-market inside hard constraints. Grayscale is the anchor proof · $7B in new regulated asset launches, 10 products, SEC Reg D/S, compliance-in-the-loop release cadence. Twenty years of compounding practice across crypto, health, sports, and govtech.</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-bearing)">
+        <span class="eyebrow">Quadrant B · Compound</span>
+        <h3>Builder-who-markets · AI-native application layer</h3>
+        <p>The rare differentiator: a GTM operator who also ships LLM-native software. ARCS runs on Claude + a custom MCP server + agentic pipelines; a public OSS dev-tool family lives at github.com/flashesofbrilliance. Speaks the engineer's and the buyer's register with earned credibility · application layer, not model training.</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-asset)">
+        <span class="eyebrow">Quadrant C · Signal</span>
+        <h3>Endorsement &amp; recommendation depth</h3>
+        <p>Banked social proof: 756 endorsements across 82 skills, concentrated on Advertising / Digital Strategy / Marketing / Entrepreneurship / Strategy, plus 31 written recommendations from named colleagues including a Grayscale VP.</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-constraint)">
+        <span class="eyebrow">Quadrant D · Gap</span>
+        <h3>External packaging + uncalibrated archetype</h3>
+        <p>The genome doesn't project yet: the headline is a competency list and ARCS isn't a listed position. And the archetype field stays OPEN by design · of the canon's 4 diagnostic channels (Geometry, Somatic Scan, Mirror Test, Receipts), only Receipts is approximable from LinkedIn data; the other three need a live Calibration Call. No confident archetype is asserted here. <b>Receipts-approximable, pending calibration.</b></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">05</span><span class="t" style="color:var(--palette-bearing)">Key Assertion</span><span class="rule"></span><span class="gloss">the load-bearing sentence</span></div>
+    <div class="assertion">
+      <p>The record is coherent; the packaging is what lags. For two decades · Yahoo to WTA to Grayscale · the same question is answered in a different substrate each time: how do you ship a transformative product when Legal says you can't, Engineering says it's impossible, and the window is closing? The dated export proves the pattern is real and repeated. What underserves it is the external signal · a three-token headline and a flagship that isn't even a listed role · not the genome underneath.</p>
+      <cite>ARCS Profile Scan · Zach Harris · Thread Analysis · LinkedIn export 01-14-2026 + resume SSOT</cite>
+    </div>
+
+    <div class="prov" style="margin-top:24px;">
+      <span class="eyebrow">Provenance · flags lit, not smoothed</span>
+      <p>Every block traces to a named source: the LinkedIn data export dated 01-14-2026 (Positions / Skills / Endorsement / Recommendations / Certifications / Inferences CSVs), the resume SSOT at resume.arcs.care, and the honesty-graded competency model. Counts are from the 01-14-2026 snapshot; the spec's larger figures (765 endorsements, 38 articles) are from a later 06-09-2026 export · both real, different snapshots. Three claims stay flagged: <b>(1)</b> the MIT xPRO credential does not appear in Certifications.csv (the export documents Emeritus Jun 2023 + Section4 Mar 2022); <b>(2)</b> AUM reads $7B in the Grayscale position but $35B in the profile summary · $7B is used here; <b>(3)</b> the 60% / 3–5× ARCS figures are self-reported, not independently verified. The <b>archetype is deliberately not asserted</b> · it waits on a live Calibration Call.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>ARCS Profile Scan · Zach Harris · runtime/scan/generated/zach.json</span>
+    <span>DEEP · Internal · Aug 2026 · render at earned fidelity</span>
+  </footer>
+</div>
+</body>
+</html>

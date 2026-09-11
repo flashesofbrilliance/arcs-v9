@@ -1,0 +1,23 @@
+{
+ "_doc": "DEWY receipt for 2026-08-26 — the first closed client receipt (PRL 1.2) and its promotion to precedent. See ADR-069 and witness stub _STATE/witness/2026-08-26.jsonl.",
+ "session_ts": "2026-08-26",
+ "receipts": [
+  {
+   "receipt_id": "2026-08-26-first-closed-client-receipt",
+   "surface": "engagement / pricing governance",
+   "sharp_question": "What does the first fully-closed ex-ante receipt in a paying engagement change about how expectations are set?",
+   "dewy_vector": {
+    "D": "Canonize ADR-069: expectation management is precedent-shaped. Forward claims cite banked receipts; every phase closes one; losing receipts are publishable; variance is priced as preconditions, not padding.",
+    "E": "Todd/PRL engagement; receipt-calibrated pricing mechanism; prl.arcs.care/status/receipt surface; future engagement-flightops extraction (rule of three).",
+    "W": "YEARS. Revisit if a receipt closes without reshaping the next phase, or a client claim ships uncited.",
+    "Y": "GREEN — mechanism survived a red close: 1.2 wrong-if fired (~2.1x central vs 20h bet), $4,500 cap held, overage converted to priced knowledge (coordination is the variance source)."
+   },
+   "evidence": [
+    "_ARTIFACTS/prl-1-2-close-loop/2026-08-26-close-loop-math.md",
+    "public/todd-call.html ex-ante receipt block (bet/wrong-if/mid-phase update)",
+    "public/prl-status-receipt.html (in build this session)"
+   ],
+   "wisdom": "A receipt mechanism earns trust the first time it closes AGAINST you and behaves as designed. The red first entry is the credibility purchase: it proves the cap, retires 'trust me', and converts loss into the next phase's structure. Decoration closes green; instruments close honest."
+  }
+ ]
+}

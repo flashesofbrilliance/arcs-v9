@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE NOREN · 暖簾 · Walking In</title>
+<style>
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .room{max-width:760px;margin:0 auto;padding:40px 20px 90px;text-align:center}
+
+  /* ===== the noren ===== */
+  .norenwrap{position:relative;width:min(480px,88vw);margin:30px auto 10px;cursor:pointer}
+  .rail{height:6px;background:var(--panel2);border:1px solid var(--line);border-radius:3px}
+  .cloth{display:flex;gap:4px;height:min(300px,56vw);overflow:hidden}
+  .drape{flex:1;background:linear-gradient(180deg,#15151a 0%,#101013 100%);border:1px solid var(--line);border-top:0;
+    border-radius:0 0 4px 4px;position:relative;transition:transform 1.1s cubic-bezier(.6,.05,.3,1)}
+  .drape svg{position:absolute;inset:0;width:300%;height:100%}
+  .drape.d1 svg{left:0} .drape.d2 svg{left:-100%} .drape.d3 svg{left:-200%}
+  .parted .d1{transform:translateX(-84%) rotate(-2deg)}
+  .parted .d2{transform:translateY(-6%) scaleY(.12);opacity:.35}
+  .parted .d3{transform:translateX(84%) rotate(2deg)}
+  .norenword{margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.5em;color:var(--faint)}
+
+  /* ===== stages ===== */
+  .stage{overflow:hidden;max-height:0;opacity:0;transition:max-height 1s ease,opacity .8s ease}
+  .stage.on{max-height:1200px;opacity:1}
+  .big{font-size:34px;line-height:1.3;font-weight:700;letter-spacing:.02em;margin:26px 0 6px}
+  .big .jp{display:block;font-size:40px;color:var(--gold)}
+  .whisper{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--graphite);line-height:2.1}
+  .note{font-size:22px;line-height:1.5;font-weight:700;margin:22px auto;max-width:600px}
+  .note .accent{color:var(--verm)}
+  .morsel{display:inline-block;border:1px dashed var(--gold);border-radius:4px;padding:16px 22px;margin:8px 0}
+
+  .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:20px 0;text-align:left}
+  .door{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+  .door .n{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--verm);margin-bottom:6px}
+  .door b{font-size:13.5px;letter-spacing:.03em;display:block;margin-bottom:4px}
+  .door p{font-size:11.5px;color:var(--graphite);line-height:1.55}
+  .door.kitchen{border-style:dashed;border-color:var(--faint)}
+  .door.kitchen .n{color:var(--faint)}
+
+  .stepbar{margin:26px 0 8px}
+  .stepbar button{background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);
+    font-size:11px;letter-spacing:.24em;padding:13px 30px;border-radius:3px}
+  .stepbar button:hover{background:var(--gold);color:var(--case)}
+  .stepbar button:disabled{border-color:var(--faint);color:var(--faint);cursor:default;background:none}
+
+  .sealline{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gold);line-height:2.2}
+  .bow{font-size:15px;color:var(--graphite);line-height:2}
+  .bow .jp{color:var(--dial);font-size:19px}
+
+  footer{margin-top:44px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<span class="pglyph" title="THE LANTERN — the presentation, ready for the taste" style="position:fixed;left:18px;top:14px;z-index:60">🏮</span>
+<div class="room">
+
+  <!-- STAGE 0 · THE STREET -->
+  <div id="s0">
+    <p class="whisper">A SIDE STREET · AN UNMARKED DOOR · A CLOTH WITH A CIRCLE ON IT</p>
+    <div class="norenwrap" id="noren" role="button" tabindex="0" aria-label="Part the noren and enter">
+      <div class="rail"></div>
+      <div class="cloth" id="cloth">
+        <div class="drape d1"><svg viewBox="0 0 480 300" aria-hidden="true"><circle cx="240" cy="150" r="92" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="500 90" transform="rotate(-58 240 150)" opacity=".8"/></svg></div>
+        <div class="drape d2"><svg viewBox="0 0 480 300" aria-hidden="true"><circle cx="240" cy="150" r="92" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="500 90" transform="rotate(-58 240 150)" opacity=".8"/></svg></div>
+        <div class="drape d3"><svg viewBox="0 0 480 300" aria-hidden="true"><circle cx="240" cy="150" r="92" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="500 90" transform="rotate(-58 240 150)" opacity=".8"/></svg></div>
+      </div>
+      <div class="norenword">暖簾 · PART THE CURTAIN</div>
+    </div>
+    <p class="whisper">師は求める者に現れる — THE DOOR IS FOUND BY THE ONE WHO SEEKS IT</p>
+  </div>
+
+  <!-- STAGE 1 · IRASSHAIMASE -->
+  <div class="stage" id="s1">
+    <p class="big"><span class="jp">いらっしゃいませ</span>WELCOME IN</p>
+    <p class="whisper">THE HOUSE: ARCS × LOUISVILLE BRANDS · ONE COUNTER · NO MENU<br>
+    THE OSHIBORI IS WARM · THE CUTTING BOARD IS CLEAN · THE RECORD IS WRITE-LOCKED</p>
+    <div class="stepbar"><button id="b1">TAKE YOUR SEAT AT THE COUNTER</button></div>
+  </div>
+
+  <!-- STAGE 2 · THE FIRST BITE -->
+  <div class="stage" id="s2">
+    <p class="whisper">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU · THE FIRST SUBLIME BITE</p>
+    <div class="morsel"><p class="note" style="margin:0">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
+    <p class="whisper">ONE SENTENCE · VALIDATED ×4 · ZERO CONTRADICTIONS · EVERYTHING ELSE IS THIS BITE, RE-TASTED</p>
+    <div class="stepbar"><button id="b2">THE MEAL, WHEN YOU ARE READY</button></div>
+  </div>
+
+  <!-- STAGE 3 · THE MEAL -->
+  <div class="stage" id="s3">
+    <p class="whisper">THE HOUSE HAS ROOMS · EACH IS THE SAME MEAL AT A DIFFERENT DEPTH</p>
+    <div class="doors">
+      <div class="door"><div class="n">THE DINING ROOM</div><b>The Omakase</b><p>Nine courses in the chef's order at your tempo — amuse-bouche to dessert. Start here.</p></div>
+      <div class="door"><div class="n">THE RING</div><b>The Ensō</b><p>The meeting bent into a circle — before, during, after; the gap left open for the next decision.</p></div>
+      <div class="door"><div class="n">THE CELLAR</div><b>The Codex</b><p>Every bottle labeled: twenty-two gospels, graded, kifu-locked, redactions visible.</p></div>
+      <div class="door"><div class="n">THE POCKET</div><b>The Pre-Read</b><p>The take-home card — one page, diamond cut, worst case first.</p></div>
+      <div class="door kitchen"><div class="n">THE KITCHEN DOOR</div><b>Filter · Play · Braid · Box</b><p>Staff only. The sausage, the rehearsal, the audit, the joinery. Hidden for, never from.</p></div>
+    </div>
+    <div class="stepbar"><button id="b3">THE LAST BITE</button></div>
+  </div>
+
+  <!-- STAGE 4 · THE LAST BITE -->
+  <div class="stage" id="s4">
+    <p class="whisper">SWEET · SMALL · IT CONTAINS THE FIRST BITE · ONE OCTAVE HIGHER</p>
+    <div class="morsel"><p class="sealline">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja">師は求める者に現れる</span></p></div>
+    <div class="stepbar"><button id="b4">RISE FROM THE COUNTER</button></div>
+  </div>
+
+  <!-- STAGE 5 · THE BOW -->
+  <div class="stage" id="s5">
+    <p class="bow"><span class="jp">とても美味しかったです。ごちそうさまでした。</span><br><i>— the guest: it was sublime; thank you for the meal.</i></p>
+    <p class="big" style="margin-top:18px"><span class="jp">ありがとうございました</span></p>
+    <p class="bow"><i>— the house bows. The noren falls back exactly where you found it.<br>The circle stays open. Come hungry again.</i></p>
+    <div class="stepbar"><button id="b5">舞台裏 · A PEEK BEHIND, IF YOU WISH</button></div>
+  </div>
+
+  <!-- STAGE 6 · THE PEEK (offered only after the bow) -->
+  <div class="stage" id="s6">
+    <p class="whisper">YOU ASKED. THE HOUSE IS HONORED. THE KITCHEN DOOR OPENS — ONLY EVER AFTER THE MEAL.</p>
+    <div class="morsel" style="border-color:var(--verm)"><p class="whisper" style="letter-spacing:.14em;text-align:left">
+    BENEATH THE ONE BITE YOU TASTED FIRST: fourteen accreted layers — seven calls read verbatim · every claim graded A–X · ten thousand simulated futures · a premortem with its countermeasures armed · seven objection masks, oiled and racked · a play rehearsed to the second of silence · receipts written before outcomes, scored after · the seams mended in gold and left showing.<br><br>
+    THE MAGIC WAS ENGINEERED. THAT IS THE SECOND GIFT — the sublime was not luck, and now you know the house will do it again.</p></div>
+    <p class="whisper">THE FIFTEENTH ROCK IS THE GROUND YOU STOOD ON ALL EVENING.</p>
+    <div class="stepbar"><button id="b6" disabled>完 · THE CURTAIN IS STILL</button></div>
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE NOREN · 暖簾 · GOSPEL XXII · SERIALIZED 25 JUL 2026 · THE FRONT DOOR TO THE FAMILY<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE TREE IS THE SEED AND THE SEED IS THE TREE<br>
+    WALKING IN → いらっしゃいませ → FIRST BITE → THE MEAL → LAST BITE → ありがとうございました — CORRECTIONS SUPERSEDE, EVEN THE WELCOME.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // The arc: street → welcome → first bite → the meal → last bite → the bow. One-way, like an evening.
+  var noren = document.getElementById("noren"), cloth = document.getElementById("cloth");
+  var opened = false;
+  function enter(){
+    if(opened) return; opened = true;
+    cloth.classList.add("parted");
+    setTimeout(function(){ show("s1"); }, 700);
+  }
+  noren.addEventListener("click", enter);
+  noren.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); enter(); } });
+  function show(id){
+    var el = document.getElementById(id);
+    el.classList.add("on");
+    el.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+  document.getElementById("b1").addEventListener("click", function(){ this.disabled=true; show("s2"); });
+  document.getElementById("b2").addEventListener("click", function(){ this.disabled=true; show("s3"); });
+  document.getElementById("b3").addEventListener("click", function(){ this.disabled=true; show("s4"); });
+  document.getElementById("b4").addEventListener("click", function(){ this.disabled=true; show("s5"); });
+  document.getElementById("b5").addEventListener("click", function(){ this.disabled=true; show("s6"); });
+})();
+</script>
+</body>
+</html>

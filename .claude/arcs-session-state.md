@@ -1,64 +1,22 @@
-# ARCS Session State
+# ARCS Session State — current sprint snapshot
 
-**Last updated:** 2026-07-22 (v3.13.0)
-**Environment:** Claude Code, worktree `token-consumption-improvement-6ba854`
-**Branch:** `claude/harness-build-optimization-f52489`, pushed to origin (feature branch — not merged, not deployed)
-**Last commits (this thread):** `902fb86` (ROM #6 Exogenous Forge + ADR-038 + `/thread-recoil` skill)
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.59.0; resume seed `_STATE/pickup-prompt.md`.
 
-## v3.13.0 delta — see MEMORY.md [v3.13.0], CLAUDE.md Handoff v3.13.0, `_DECISIONS/ADR-038`
+**As of:** 2026-09-08 · **Branch:** `feat/audit-service` · **Version:** v3.59.0 (ARCS-on-ARCS shipping close)
 
-Harness-engineering repo scout excavated **ROM Primitive #6 (Exogenous Forge)** instead of a build:
-no agent self-validates; hardened claims ground external to the lattice; controls are owned by
-not-the-agent; lens-plural but not relativist. Inscribed in CLAUDE.md + ADR-038 (always/sometimes/
-never). Disease diagnosed (groundlessness + helpfulness-compulsion). **Dogfooded PASS** vs
-`get_deployment(arcs.care)`. Added `/thread-recoil` skill; banked 3 memories; 2 live Artifacts.
-Committed `902fb86`, pushed (feature branch, preview-only). Open: further dogfood targets,
-`/thread-recoil` open-source genericization (held), version-numbering drift (v3.14.0 in git-log).
+## Shipped + verified live this session
+- NFTT "Assets and Liabilities" (good.arcs.care/blog/nftt/assets-and-liabilities) — PR #332
+- Field Instruments public-goods chapter (good.arcs.care/instruments) — PR #337 + routing fix #340
+- Day-151 milestone on status.html; informativeness ratchet real CI arm (informativeness.yml) — PR #337
+- Reproducible DB audit + dead-trio build fix — PR #306
 
-## v3.12.0 delta — see MEMORY.md [v3.12.0] and `project_todd_hotes_prl_resins.md` for full detail
+## Deceipt ledger: 15 (12–15 booked this session; #13/#15 caught by field-contact, not self-review)
 
-Todd Hotes / PRL Resins Phase 1 chatbot proposal build-out. Todd verbally agreed ($1,500) and
-answered discovery questions himself. This thread built the proposal page out for his internal
-buy-in — Discovery section (his answers folded in), How It Works section, live Stripe buy
-button, branch-logic-tree v1 spec (git + Claude Artifact). **Explicit hold:** don't touch his
-WordPress/SugarCRM or start the Tidio build until his go + payment — page updates are NOT held.
-See CLAUDE.md Handoff v3.12.0 for full detail.
+## Next action
+Extract informativeness-auditor into a standalone package (Seed→Proven). Outcome-capture keel (2/247) = P1.
 
-## v3.11.0 delta — see MEMORY.md [v3.11.0] for full detail
-
-First interactive/local session after a run of cloud sessions (which couldn't deploy). Live to `app.arcs.care`.
-
-- **Anon-share "Sign in to keep" persist fix** (PR #121, `403d109`) — closes the core of the
-  v3.9.0 honesty flag. Shared bearing recomposed one-time but sign-in kept nothing; onramp now
-  writes `arcs_pending_save`, `ClaimAnonymousReceipts` claims it post-auth → `/receipt/<id>`.
-- **Design-system glow tuning, two passes** (`8429f2e`, `cfbc483`) — operator: too hot. Halved
-  `signalGlow()` intensity, cut bloom blur ~33% then eased the gauge back, reduced accent-card
-  glow, gave `TrueNorthPanel` real glassmorphism (backdrop-blur + translucent blue), left
-  Field/select alone. Verified via live computed styles, not by eye.
-- **Deploy discipline:** merge-to-main + git-push kept all 29 subdomain aliases intact.
-
-## Open items (operator-approved, not started)
-
-1. **Ledger management** — archive + reset-reflection FIRST, hard-delete last. (WORLD.md: receipts
-   are frozen positions; soft-retire preserves Observatory/lineage, erasure is the escalation.)
-2. **Authenticated `/recoil` index** — ledger of internal recoil/precall briefs behind OAuth.
-   Index existing brief documents FIRST (data in `snapshot.json → ui_artifacts`), DB-backed later.
-
-## Standby (needs operator go)
-
-- **Production auth-loop test** via Gmail connector → fully close v3.9.0 (confirm `zach.harris@gmail.com`;
-  authenticates a session + writes one `EPHEMERAL_SAVE` test receipt).
-- **Glow strays** — sweep hardcoded glows the tokens missed (neutral ∞ gauge, observatory, receipt widget).
-
-## Prior open items — carried, not re-verified this thread
-
-v3.10.0 sweep backlog (52 open riskFlags), ADR-032 duplicate, epistemic/etymology-sequencer
-enforcement; plus standing Sentinel rebuild, SageTrace RLS, B2 cadence/HOLD-gate. Owners hold these — this file is not their ledger.
+## Open (human-gated)
+Memory-index retirement · outcome-capture keel · ROM candidate (live-receipt gate) · flip INTEGRITY_GATE_BLOCK=1 after a clean week
 
 ## Blocking
-
-NONE
-
-## Next session starts at
-
-`/handoff-pickup` → ledger-management (archive/reset) or authenticated `/recoil` index; or run the standby auth-loop test.
+NONE.

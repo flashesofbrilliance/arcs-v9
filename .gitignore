@@ -87,3 +87,13 @@ operators/_torch_distillation_artifacts/
 .mcp.json
 supabase/
 test-results/
+.claude/skills/sbom-payload-scan-workspace/
+
+# progressive-handoff ledger (local crash trail; folded into CLAUDE.md by /handoff)
+_STATE/handoff-progress.jsonl
+_STATE/handoff-progress.md
+.claude/handoff-progress.jsonl
+.claude/handoff-progress.md
+
+# generated job-search output (scored rows, raw digests); the board + _STATE carry the durable record
+runtime/job-search/

@@ -85,6 +85,6 @@ Companion role definitions ship with this ADR: `.claude/agents/{ciso-review, pri
 
 ## Linked receipts / ADRs
 
-- ADR-032 — anonymous receipt remediation (the disclosed defect TC-004 exists to prevent recurring)
+- ADR-049 — anonymous receipt remediation (the disclosed defect TC-004 exists to prevent recurring)
 - ADR-014 — arcs-care CI/CD governance (same circuit-breaker philosophy, applied here to governance itself)
 - `_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md` (the evidence base)

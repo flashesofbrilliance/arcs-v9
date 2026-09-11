@@ -1,4 +1,5 @@
 {
+  "ignoreCommand": "bash scripts/vercel-ignore-build.sh",
   "experimentalServices": {
     "web": {
       "entrypoint": ".",
@@ -24,6 +25,11 @@
       "source": "/teardown",
       "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
       "destination": "/todd-teardown.html"
+    },
+    {
+      "source": "/logictree",
+      "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
+      "destination": "/todd-logictree.html"
     },
     {
       "source": "/runtime",

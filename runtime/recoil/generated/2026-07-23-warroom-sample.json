@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-warroom-sample",
+    "date": "2026-07-23",
+    "counterpart": "sample",
+    "company": "",
+    "segments": 4,
+    "doc_title": "War Room (redacted sample)",
+    "gate": {"external": "yuri"},
+    "provenance": {"audience": "both", "captured": "a redacted sample", "load_bearing_quote": "the format is the point; the specific reads and the method are withheld"}
+  },
+  "kinematic_series": {"dt": 1.0, "series": [
+    {"key": "sample", "audience": "both", "label": "illustrative belief trajectory (not a real read)", "color": "#00F0FF", "points": [0.40, 0.55, 0.50, 0.82], "grounding_quote": "illustrative only: the shape shows resolution climbing and the read correcting"}
+  ]},
+  "page": {
+    "layout": "tabs",
+    "header": {"eyebrow": "ARCS &#183; War Room", "title": "A war room, redacted", "sub": "The six disciplines a partnership brief runs through. The structure is shown so you can see the rigor. The specific reads are blacked out, and the method is withheld."},
+    "tabs": [
+      {"id": "pre", "label": "Pre-Call"},
+      {"id": "exante", "label": "Ex-Ante"},
+      {"id": "forge", "label": "Forge"},
+      {"id": "recoil", "label": "Recoil"},
+      {"id": "wargame", "label": "War Game"},
+      {"id": "defense", "label": "Defensibility"}
+    ],
+    "blocks": [
+      {"tab": "pre", "type": "prose", "audience": "both", "h2": "Pre-Call &#183; orient before contact", "p": ["The first discipline sets a one-sentence posture, reads the register and intent, lists the intel that matters most, and flags the landmines. What you see below is the shape. The specific reads are redacted, because in a real brief they are about the counterpart."]},
+      {"tab": "pre", "type": "keyvalue", "audience": "both", "h2": "Context (redacted)", "rows": [
+        {"k": "Register", "v": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">the read on who they are and what this is</span>"},
+        {"k": "Their goal", "v": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">inferred intent, redacted</span>"},
+        {"k": "Gate", "v": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">predicted state</span>"}
+      ]},
+      {"tab": "pre", "type": "list", "audience": "both", "h2": "Questions to ask (the format, not the file)", "intro": "The kind of question the discipline generates. These are generic and safe to show; the counterpart-specific ones are redacted.", "items": [
+        {"dot": "c", "html": "What would make this a bad use of their time? &#183; look for: whether they self-disqualify."},
+        {"dot": "", "html": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">counterpart-specific question, redacted</span>"}
+      ]},
+
+      {"tab": "exante", "type": "prose", "audience": "both", "h2": "Ex-Ante &#183; a receipt filed before", "p": ["Before the meeting, the read is written down as a falsifiable receipt, so it can be scored afterward instead of rationalized. The fields below are the format. The values are redacted."]},
+      {"tab": "exante", "type": "receipt", "audience": "both", "h2": "Decision receipt (redacted)", "fields": [
+        {"label": "Sharpened question", "value": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">what is actually being decided</span>"},
+        {"label": "Hypothesis / expecting to see", "value": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">the falsifiable prediction</span>"},
+        {"label": "Predicted gate", "value": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">state + why</span>"},
+        {"label": "Pre-committed move", "value": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">what I do regardless of impulse</span>"},
+        {"label": "Falsifier", "value": "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">what would prove me wrong</span>"}
+      ]},
+
+      {"tab": "forge", "type": "prose", "audience": "both", "h2": "Forge &#183; pressure-test the claims", "p": ["Every load-bearing claim is checked against external evidence by an independent skeptic before it is trusted. Each ends up GROUNDED, INFERENCE, or STRUCK. The routing, the operators, and the scoring are the core method and are withheld."]},
+      {"tab": "forge", "type": "table", "audience": "both", "h2": "Claim adjudication (redacted)", "columns": ["Claim", "Ruling", "Why"], "rows": [
+        ["<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">a load-bearing claim</span>", "GROUNDED", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">two-substrate</span>"],
+        ["<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">a claim that did not hold</span>", "STRUCK", "corrected, kept on the record"]
+      ], "note": "Rulings shown; the adjudication engine is withheld."},
+
+      {"tab": "recoil", "type": "prose", "audience": "both", "h2": "Recoil &#183; close the receipt", "p": ["After the meeting, the receipt is scored against reality and each belief is updated with two numbers: confidence (how likely it is true) and conviction (how settled that is). The format is shown; the reads are redacted."]},
+      {"tab": "recoil", "type": "table", "audience": "both", "h2": "Belief log (format shown, reads redacted)", "columns": ["Claim", "Confidence", "Conviction", "Verdict"], "rows": [
+        ["<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">a prior carried in</span>", "0.70 &#8594; 0.25", "HIGH", "FALSIFIED"],
+        ["<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">another read</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">x &#8594; y</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">MED</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">UPGRADE</span>"]
+      ], "note": "One row left illustrative so the confidence-by-conviction format is visible; the rest redacted."},
+      {"tab": "recoil", "type": "worked_example", "audience": "both", "h2": "Belief trajectory (illustrative)", "intro": "How a single read moves across touches. Illustrative, not a real belief.", "close": "The point is the shape: resolution climbs and the read corrects itself on the record. The underlying series and the kinematics are computed, not drawn by hand, but the method behind them is withheld."},
+
+      {"tab": "wargame", "type": "prose", "audience": "both", "h2": "War Game &#183; the adversarial pass", "p": ["The opportunity is scored on a measured manifold, run through an adversarial gauntlet, and pre-mortemed against the counterpart's real objections along the critical path. This tab is where most of the proprietary machinery lives.", "The manifold math, the gauntlet operators (ruin, adversary, constitutional), and the pre-mortem scoring are the core IP and are withheld here. What crosses is only that they exist and what they produce."]},
+      {"tab": "wargame", "type": "table", "audience": "both", "h2": "Pre-mortem (structure shown, content redacted)", "columns": ["Node", "Their objection", "Handling"], "rows": [
+        ["1", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">their real objection</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">the move</span>"],
+        ["...", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">walked to the bottleneck</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">redacted</span>"]
+      ]},
+
+      {"tab": "defense", "type": "prose", "audience": "both", "h2": "Defensibility &#183; translate and stress-test", "p": ["The whole read is translated into the counterpart's own register and stress-tested to survive their scrutiny. The mapping shape is shown with one generic line; the full translation and the proofing matrix are withheld."]},
+      {"tab": "defense", "type": "rosetta", "audience": "both", "h2": "The same model, both directions", "left": "Their world", "right": "This engine", "rows": [
+        ["A framework you already use", "a decision receipt with the same shape"],
+        ["<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">their specific primitive</span>", "<span style=\"background:#1e293b;color:#1e293b;border-radius:2px;\">the equivalent, redacted</span>"]
+      ]},
+      {"tab": "defense", "type": "prose", "audience": "both", "h2": "What is deliberately not here", "p": ["The operators, the scoring, the manifold math, the gauntlet, and the exact prompts are the product, and they are withheld by construction. This sample is the shape of the output, not the machine that makes it. That is the honest line: enough to see the rigor, not enough to rebuild it."]}
+    ]
+  }
+}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE OMAKASE · お任せ · The Louisville Canon, Coursed and Plated</title>
+<style>
+  /* ATOMS — inherited from the Louisville Codex (canon-locked) */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .bar .state{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em}
+
+  .board{max-width:820px;margin:0 auto;padding:34px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:1px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:20px}
+
+  .course{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative;
+    overflow:hidden;max-height:0;opacity:0;transition:max-height .8s ease, opacity .6s ease;border-width:0}
+  .course.served{max-height:2000px;opacity:1;border-width:1px}
+  .course::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .course[data-th="red"]::before{background:var(--red)}
+  .course[data-th="gold"]::before{background:var(--gold)}
+  .course[data-th="verm"]::before{background:var(--verm)}
+  .ch{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ch .kanji{font-size:18px;color:var(--gold)}
+  .ch .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ch h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ch .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .cb{padding:16px 18px}
+  .plate{font-size:16.5px;line-height:1.62}
+  .plate .accent{color:var(--verm)}
+  .plate q{quotes:"“" "”"}
+  .plate q::before,.plate q::after{color:var(--gold)}
+  .pairing{margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--graphite);
+    border-top:1px dashed var(--line);padding-top:10px;line-height:1.9}
+  .pairing b{color:var(--gold);font-weight:600;letter-spacing:.16em}
+  .pairing .doc{color:var(--dial)}
+  a.doc{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)}
+  a.doc:hover{color:var(--dial);border-bottom-color:var(--gold);text-decoration:none}
+  .cdoor{margin-left:10px;font-size:16px;opacity:.18;filter:grayscale(.5);text-decoration:none;
+    transition:opacity .4s,filter .4s,transform .3s}
+  .cdoor:hover,.cdoor:focus-visible{opacity:1;filter:none;transform:translateY(-2px);text-decoration:none}
+
+  .servebar{text-align:center;padding:6px 0}
+  .servebar button{background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);
+    font-size:11px;letter-spacing:.22em;padding:12px 28px;border-radius:3px}
+  .servebar button:hover{background:var(--gold);color:var(--case)}
+  .servebar button:disabled{border-color:var(--ok);color:var(--ok);cursor:default;background:none}
+  .servebar .next{display:block;margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--faint)}
+
+  .memo{font-size:13px;line-height:1.7;color:var(--graphite)}
+  .memo b{color:var(--dial);font-weight:600}
+  .memo .gold{color:var(--gold)}
+  .memo blockquote{border-left:2px solid var(--gold);padding:6px 0 6px 14px;margin:10px 0;color:var(--dial);font-size:14.5px;font-weight:600}
+  .memo .receiptline{margin-top:12px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.8}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){.stack{margin-left:34px}.spine{left:10px}.course::before{left:-22px;width:22px}footer{margin-left:34px}.bar .sub{display:none}}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div class="bar" role="banner">
+  <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE PRESENTATION — the counter is set">🥢</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> OMAKASE</span>
+  <span class="sub">お任せ · THE LOUISVILLE CANON · COURSED &amp; PLATED · SERIALIZED 25 JUL 2026</span>
+  <span class="state" id="barstate">SEATED · THE CHEF CHOOSES</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- SEATING (always served) -->
+    <section class="course served" data-th="red">
+      <div class="ch"><span class="eyebrow">THE SEATING</span><h2>お任せ — "I leave it to you"</h2><span class="tag">GOSPEL XIX · NO MENU IS HANDED</span><a class="cdoor" href="louisville-entrance.html" target="_blank" rel="noopener" title="WALK THROUGH — 🏮 the front door, ready for the taste">🏮</a></div>
+      <div class="cb">
+        <p class="plate">An omakase hands you no menu. The chef courses the work in the one order it should be tasted — <span class="accent">amuse-bouche to the final bite of dessert</span> — each course earned by the last, each plate holding exactly what the palate is ready for. The canon, plated. Press SERVE when ready; the tempo is yours, the sequence is the house's.</p>
+        <p class="pairing">HOUSE RULES — the dining room runs at the guest's tempo but the chef's order. The workshop (every full artifact) is one door away from every plate. Hidden for, never from. Late additions to the cellar (the Ensō, the Glass Box) pour on request — the menu is the chef's; the cellar runs deeper. Guests arriving cold enter through the Noren (the front door) — this room assumes the curtain has already been parted.</p>
+      </div>
+    </section>
+
+    <!-- AMUSE-BOUCHE -->
+    <section class="course" data-th="red" id="c1">
+      <div class="ch"><span class="kanji">先</span><span class="eyebrow">AMUSE-BOUCHE</span><h2>The Note</h2><span class="tag">ONE BITE · THE WHOLE MEAL FORETOLD</span></div>
+      <div class="cb">
+        <p class="plate"><q>Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</q></p>
+        <p class="pairing"><b>PLATED</b> — one sentence, validated ×4 verbatim, zero contradictions. Everything that follows is this bite, re-tasted at depth. <b>PAIR WITH</b> — silence.</p>
+      </div>
+    </section>
+
+    <!-- COURSE I: KERNEL -->
+    <section class="course" data-th="gold" id="c2">
+      <div class="ch"><span class="kanji">一</span><span class="eyebrow">FIRST COURSE</span><h2>The Kernel — the seed course</h2><span class="tag">◉ ORIGIN</span><a class="cdoor" href="louisville-kernel.html" target="_blank" rel="noopener" title="WALK THROUGH — ◉ the kernel itself">◉</a></div>
+      <div class="cb">
+        <p class="plate">The Thread Book, <a href="louisville-kernel.html">shelved in this house</a> — seven calls of wild evidence articulated into one seed: what's live, what's parked, what an engagement is worth, exactly what happens next. <span class="accent">The tree is the seed and the seed is the tree</span> — every later course is this one, unfolded.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <span class="doc">jeben.arcs.care</span> (SSOT · Gospel I) · corrections flowing back into it outrank everything served tonight.</p>
+      </div>
+    </section>
+
+    <!-- COURSE II: CODEX -->
+    <section class="course" data-th="gold" id="c3">
+      <div class="ch"><span class="kanji">二</span><span class="eyebrow">SECOND COURSE</span><h2>The Codex — the cellar</h2><span class="tag">THE INDEX OF EVERYTHING</span><a class="cdoor" href="louisville-codex.html" target="_blank" rel="noopener" title="WALK THROUGH — 🏯 the keep">🏯</a></div>
+      <div class="cb">
+        <p class="plate">Nineteen gospels shelved and graded, the visual grammar codified atom to page, the kifu write-locked, every redaction struck in the open. The cellar the whole kitchen cooks from — and where every doctrine (the Fence, the Flash, the Scar Rule) has its labeled bottle.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <a class="doc" href="louisville-codex.html" target="_blank" rel="noopener">louisville-codex.html</a> (Gospel XII+) · <b>TASTE AT</b> — slide EXEC for the map, SURGICAL for the redaction log.</p>
+      </div>
+    </section>
+
+    <!-- COURSE III: FILTER -->
+    <section class="course" data-th="verm" id="c4">
+      <div class="ch"><span class="kanji">三</span><span class="eyebrow">THIRD COURSE</span><h2>The Filter — the palate course</h2><span class="tag">ONE CHORD · FOUR TONGUES</span><a class="cdoor" href="louisville-resonance-filter.html" target="_blank" rel="noopener" title="WALK THROUGH — 🍣 the palate">🍣</a></div>
+      <div class="cb">
+        <p class="plate">The same payload re-voiced to each listener's native register — seven dials, conserved invariants, every withholding logged. The course that proves the kitchen can serve one dish four ways without losing a gram of what it is. The sizzle never bears the load.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <a class="doc" href="louisville-resonance-filter.html" target="_blank" rel="noopener">louisville-resonance-filter.html</a> (Gospel XIV) · <b>TASTE AT</b> — P4 · Pumps, all four registers in sequence.</p>
+      </div>
+    </section>
+
+    <!-- COURSE IV: PLAY -->
+    <section class="course" data-th="red" id="c5">
+      <div class="ch"><span class="kanji">四</span><span class="eyebrow">FOURTH COURSE</span><h2>The Play — tableside theater</h2><span class="tag">THE CONDUCT, REHEARSED</span><a class="cdoor" href="louisville-staged-play.html" target="_blank" rel="noopener" title="WALK THROUGH — 👺 the rehearsal (household only)">👺</a></div>
+      <div class="cb">
+        <p class="plate">The rules of rhetoric performed: Loki cycling seven objection masks, the Primitive defending the stove, the chorus singing standing orders, and the ma held live on stage — ten seconds heavier than the forty minutes before it. Ethos earns, pathos rides, kairos decides.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <a class="doc" href="louisville-staged-play.html" target="_blank" rel="noopener">louisville-staged-play.html</a> (Gospel XV) · <b>HOUSE NOTE</b> — this course is prepared tableside for the household only; it never leaves the kitchen toward a guest.</p>
+      </div>
+    </section>
+
+    <!-- COURSE V: BRAID -->
+    <section class="course" data-th="gold" id="c6">
+      <div class="ch"><span class="kanji">五</span><span class="eyebrow">FIFTH COURSE</span><h2>The Braid — the plaited course</h2><span class="tag">FACT-CHECKED · GAUNTLET-RUN</span><a class="cdoor" href="louisville-braid.html" target="_blank" rel="noopener" title="WALK THROUGH — 👹 the audit">👹</a></div>
+      <div class="cb">
+        <p class="plate">Record, voice, and conduct woven into one strand and then attacked: six fact-check findings logged (including the auditor's own), six gauntlet stations survived, three binding conditions accepted. The only course with a face fit for the street — its JUSTIN register is the sole table-safe view in the house.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <a class="doc" href="louisville-braid.html" target="_blank" rel="noopener">louisville-braid.html</a> (Gospel XVI) · <b>TASTE AT</b> — Babel dial to JUSTIN, watch the firewall count what it holds.</p>
+      </div>
+    </section>
+
+    <!-- COURSE VI: BOX -->
+    <section class="course" data-th="verm" id="c7">
+      <div class="ch"><span class="kanji">六</span><span class="eyebrow">SIXTH COURSE</span><h2>The Box — the lacquered course</h2><span class="tag">指物 · 秘密箱</span><a class="cdoor" href="louisville-box.html" target="_blank" rel="noopener" title="WALK THROUGH — 🍱 the joinery">🍱</a></div>
+      <div class="cb">
+        <p class="plate">The whole system parameterized into a thirteen-row joinery table, then performed as a secret box opening in four strict moves — omote, joinery, mizuya, kakushi — until the hidden compartment yields the only thing it was built to carry: the Note, intact, and the seal beside it.</p>
+        <p class="pairing"><b>FULL PLATE</b> — <a class="doc" href="louisville-box.html" target="_blank" rel="noopener">louisville-box.html</a> (Gospel XVII) · <b>TASTE AT</b> — the four moves, in order; the box refuses shortcuts.</p>
+      </div>
+    </section>
+
+    <!-- DESSERT -->
+    <section class="course" data-th="gold" id="c8">
+      <div class="ch"><span class="kanji">甘</span><span class="eyebrow">DESSERT</span><h2>The Seal — the final bite</h2><span class="tag">ALPHA = OMEGA</span><a class="cdoor" href="louisville-enso.html" target="_blank" rel="noopener" title="WALK THROUGH — 🖌️ the stroke that drew the circle">🖌️</a></div>
+      <div class="cb">
+        <p class="plate">The tree is the seed and the seed is the tree.<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span> — <span style="color:var(--graphite);font-size:14px">the teacher appears to the one who seeks.</span></p>
+        <p class="pairing"><b>THE LAST TASTE</b> — sweet, small, and it contains the amuse-bouche: the meal ends where it began, one octave higher. What stands between the first bite and this one is not invention but seeking.</p>
+      </div>
+    </section>
+
+    <!-- TAKE-HOME: THE MEMO -->
+    <section class="course" data-th="red" id="c9">
+      <div class="ch"><span class="kanji">包</span><span class="eyebrow">THE TAKE-HOME</span><h2>The Pre-Read — diamond cut, folded for the pocket</h2><span class="tag">GOSPEL XVIII · EM-01</span><a class="cdoor" href="louisville-exec-memo.md" target="_blank" rel="noopener" title="WALK THROUGH — 🥡 the take-home, folded for the pocket">🥡</a></div>
+      <div class="cb memo">
+        <blockquote>Louisville Brands is very good at making things and unproven at deciding which things to make. ARCS makes every big bet write down its assumptions, risks, and exit rule before a dollar moves.</blockquote>
+        <p><b>THE WINDOW</b> — four clocks, none manufactured: the door reopened (<b>Fri Jul 31, 1:00 PM</b>) · fresh capital <span class="gold">(per Jeben)</span> · a live next-bag decision · the Wisconsin one-way door.</p>
+        <p><b>THE MOVE</b> — one free session → one signed receipt → one $2–5K test → one day-30 read. Conversion beats economics; the ask is one sentence, then the ma.</p>
+        <p><b>THE ECONOMICS, WORST FIRST</b> — session $0 · test $2–5K · month-one exit caps $10K, they keep everything. <i>The fee pays for itself the first time it stops one bad run or one bad vendor year.</i></p>
+        <p><b>THE DISCIPLINE</b> — every claim graded A–X · redactions visible · receipts pre-registered before outcomes · comps barred · the seller's incentive spoken aloud. If it cannot fail, it is not a receipt.</p>
+        <p><b>THE HONEST HOLES</b> — no CPG receipt yet (terms rent defensibility) · the sponsor opens doors, cannot close deals · round status unconfirmed.</p>
+        <p><b>WHAT REMAINS</b> — two human moves: ping Jeben · fork the pre-read by Wednesday. Thursday noon is the kill line; the blank stub suffices past it.</p>
+        <div class="receiptline"><b style="color:var(--gold)">EM-01</b> · EXPECTING — cold-reader fluency from this card + the kernel in under ten minutes · BREAKS — any ungraded claim above · KILL/SCALE — contradictions resolve from the codex, never memory · SCORE-BACK — Fri 2:00 PM</div>
+        <p class="pairing" style="margin-top:12px"><b>FULL PLATE</b> — <a class="doc" href="louisville-exec-memo.md" target="_blank" rel="noopener">louisville-exec-memo.md</a> (portable, one page) · hand this before anything else in the canon.</p>
+      </div>
+    </section>
+
+    <!-- SERVE BUTTON -->
+    <div class="servebar">
+      <button id="serve">SERVE THE FIRST COURSE</button>
+      <span class="next" id="nextname">AMUSE-BOUCHE · THE NOTE</span>
+    </div>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE OMAKASE · お任せ · GOSPEL XIX · SERIALIZED 25 JUL 2026<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE TREE IS THE SEED AND THE SEED IS THE TREE · 師は求める者に現れる<br>
+    NINE COURSES · CHEF'S ORDER · GUEST'S TEMPO — THE MEAL ENDS WHERE IT BEGAN, ONE OCTAVE HIGHER. CORRECTIONS SUPERSEDE THE MENU.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var order = ["c1","c2","c3","c4","c5","c6","c7","c8","c9"];
+  var names = ["AMUSE-BOUCHE · THE NOTE","FIRST COURSE · THE KERNEL","SECOND COURSE · THE CODEX","THIRD COURSE · THE FILTER","FOURTH COURSE · THE PLAY","FIFTH COURSE · THE BRAID","SIXTH COURSE · THE BOX","DESSERT · THE SEAL","THE TAKE-HOME · THE PRE-READ"];
+  var i = 0;
+  var btn = document.getElementById("serve"), nn = document.getElementById("nextname"), bar = document.getElementById("barstate");
+  btn.addEventListener("click", function(){
+    if(i >= order.length) return;
+    var c = document.getElementById(order[i]);
+    c.classList.add("served");
+    bar.textContent = names[i];
+    i++;
+    if(i < order.length){
+      btn.textContent = "SERVE THE NEXT COURSE";
+      nn.textContent = "NEXT · " + names[i];
+    } else {
+      btn.textContent = "御馳走様でした · THE MEAL IS COMPLETE";
+      btn.disabled = true;
+      nn.textContent = "THE OUTCOME FILES ITS OWN RECEIPT ON DAY 90";
+      bar.textContent = "完 · 9/9 SERVED";
+    }
+    c.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+})();
+</script>
+<a class="onramp" href="louisville-entrance.html" title="NEXT · THE LANTERN IS LIT — ready for the taste">🏮</a>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Resume · DevGen.AI Lead Product Engineer, Executive Director</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
+    --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
+    --accent:#0089a8;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;margin:0 auto;padding:0.5in 0.58in;background:#fff;box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:30px;font-weight:700;letter-spacing:-.024em;line-height:1;text-wrap:balance;}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:9px;}
+  .target{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:3px 8px;white-space:nowrap;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9.5px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+  .thesis{font-size:11.2px;line-height:1.62;color:var(--ink2);margin-top:14px;text-wrap:pretty;}
+  .thesis b{color:var(--ink);font-weight:600;}
+
+  .sec{display:flex;align-items:center;gap:11px;margin:13px 0 7px;}
+  .sec .lv{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .sec .gloss{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);white-space:nowrap;}
+  .sec .rule{flex:1;height:1px;background:var(--line);}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;}
+  .pillar{font-size:10px;line-height:1.45;color:var(--ink2);padding-bottom:8px;border-bottom:1px solid var(--line2);text-wrap:pretty;}
+  .pillar b{color:var(--ink);font-weight:600;font-size:10.3px;}
+
+  .job{margin-bottom:8px;break-inside:avoid;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
+  .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:4px 0 4px;text-wrap:pretty;} .job-sum b{color:var(--ink);font-weight:600;}
+  ul.bul{list-style:none;} ul.bul li{position:relative;padding-left:13px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:2px;text-wrap:pretty;}
+  ul.bul li::before{content:"";position:absolute;left:0;top:6.5px;width:4px;height:4px;border:1px solid var(--accent);border-radius:50%;} ul.bul li b{color:var(--ink);font-weight:600;}
+  .metric{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:9.5px;}
+
+  .adv{display:grid;grid-template-columns:1fr 1fr;gap:7px 22px;}
+  .adv .job{margin-bottom:0;}
+
+  .oss{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;}
+  .oss .k{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--accent);letter-spacing:.03em;}
+  .oss .v{font-size:9.6px;line-height:1.45;color:var(--ink2);text-wrap:pretty;}
+
+  .skills{display:grid;grid-template-columns:1fr 1fr;gap:9px 24px;}
+  .skill-k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+  .skill-v{font-size:9.5px;line-height:1.48;color:var(--ink2);text-wrap:pretty;}
+
+  .edu{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px 26px;font-size:10px;color:var(--ink2);} .edu b{color:var(--ink);font-weight:600;} .edu .yr{font-family:var(--mono);font-size:8px;color:var(--faint);}
+  footer{margin-top:12px;padding-top:7px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);break-inside:avoid;}
+
+  @page{size:letter;margin:0.42in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;max-width:none;margin:0;padding:0.06in 0.16in;box-shadow:none;}
+    .pb{break-before:page;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">AI-native product engineer · builds the platform, runs the product</div>
+      <div class="target">Target · Staff Product Engineer · Recruithaus / CI Infrastructure Client</div>
+    </div>
+    <div class="contact">
+      New York metro<br><b>zach.harris@gmail.com</b><br>
+      linkedin.com/in/<b>zharris</b><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <p class="thesis"><b>Product engineer who sets technical direction and drives 0-to-1 products from architecture through production.</b> Building ARCS, a decision-intelligence platform on Claude with a custom MCP server, agentic orchestration, and human-in-the-loop control by design, operated end to end: product, engineering, go-to-market, and a family of open-source developer tools other people can install. Power user of coding agents; the open-source commit trail is the evidence. Before that, product lead for a <b>10-product, $7B AUM regulated launch</b> at Grayscale, shipped through release gates with legal, risk, and compliance in the loop. Two decades building intelligence layers from scratch in finance, health, sports, and consumer. The pattern that fits this role: own the architecture, drive 0-to-1 with a small exceptional team, raise the standard for everyone around you.</p>
+
+  <section>
+    <div class="sec"><span class="lv">Fit, ranked for this role</span><span class="gloss">what I would bring as Staff Product Engineer</span><span class="rule"></span></div>
+    <div class="pillars">
+      <div class="pillar"><b>Agentic platform builder and power user.</b> Custom MCP server, Claude tool use, agentic orchestration, and an evidence-gating architecture, in production on my own platform with a public commit trail. Daily operator of coding agents; building a background coding agent is the natural next step from where ARCS already sits.</div>
+      <div class="pillar"><b>Technical direction and individual contribution in one head.</b> Own the architecture, the roadmap, the backlog, and the code. Sets long-term technical direction while staying hands-on in production; the model this role requires from day one.</div>
+      <div class="pillar"><b>Governance as a product feature.</b> Regulated release gates at Grayscale (SEC/FINRA); HIPAA context at Twill; GDPR data sovereignty at GoPro. Controls embedded in delivery, not appended at the end.</div>
+      <div class="pillar"><b>Force multiplier on small, exceptional teams.</b> Shipped MIT-licensed developer tools with their own conformance suites; built the first shared data layer across three business units at CTF. Raises engineering standards through reusable assets and inspectable reference implementations, not headcount.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec"><span class="lv">Experience</span><span class="gloss">0-to-1 platform builds, technical direction, production ownership</span><span class="rule"></span></div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">ARCS <span class="dom">· Decision-Intelligence Platform on Claude</span></div><div class="job-role">Founder and Builder · 2025 to Present</div></div>
+      <div class="job-sum">Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an <b>AI-native analysis pipeline on Claude</b>, and compounding feedback loops that make each subsequent decision sharper. Next.js / TypeScript surface, Python operator layer, Postgres. Operate the full stack, product development through go-to-market; public build trail at github.com/flashesofbrilliance.</div>
+      <ul class="bul">
+        <li>Built the <b>custom MCP server and agentic orchestration layer</b> (Claude API, tool use, function calling); pre- and post-decision capture is handled by agents automatically, with human-in-the-loop control by design.</li>
+        <li>Designed a structured evidence taxonomy and <b>evidence-gating architecture</b>: every output carries a confidence state and a lineage to prior decisions, so the system scaffolds judgment without overruling it.</li>
+        <li>Shipped a family of documented, <b>MIT-licensed open-source developer tools</b> (good.arcs.care), each with its own conformance or regression suite: the reusable-asset pattern that turns one build's work into the next team's starting point.</li>
+        <li>Evaluation and guardrails as first-class: structured scoring, identity/auth and admin allowlists, CI gates (lint, build, leak-check as a test, security scan, auto-rollback) on every merge.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Grayscale Investments <span class="dom">· Digital Currency Group · SEC/FINRA</span></div><div class="job-role">Product Lead, Go-To-Market · 2024 to 2025</div></div>
+      <div class="job-sum">Led go-to-market for <b>10 SEC/FINRA-regulated digital-asset investment products</b> (<span class="metric">$7B AUM</span>): positioning, segmentation, and adoption strategy inside regulated controls and governance.</div>
+      <ul class="bul">
+        <li>Coordinated across product, engineering, legal, risk, and compliance through <b>regulated release gates</b>; translated regulatory requirements into product and go-to-market requirements.</li>
+        <li>Owned positioning, segmentation, and adoption strategy across the institutional and retail investor experience.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Squat New York <span class="dom">· Behavioral Health · $350M ARR client</span></div><div class="job-role">Embedded Product and Tech Lead · 2019 to 2020</div></div>
+      <ul class="bul">
+        <li>Sole technology partner on a <b>seven-figure embedded engagement</b> post-PE acquisition, discovery through QA and handoff; owned roadmap, backlog, and sprint planning for a headless-CMS retooling and full CX overhaul.</li>
+        <li>Aligned engineering, marketing, design, clinical, and operations against one conversion KPI (time-to-interaction) and shipped on schedule.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Children's Tumor Foundation <span class="dom">· Rare-disease research and clinical ops</span></div><div class="job-role">Sr. Director, Data and Strategy · 2018 to 2019</div></div>
+      <ul class="bul">
+        <li>Built the enterprise data infrastructure end to end (CDP evaluation, Salesforce Lightning modernization, lifecycle segmentation): the <b>first shared intelligence layer across 3 business units</b>, marketing, fundraising, and clinical.</li>
+        <li>Drove a <span class="metric">20%</span> increase in net-new revenue through data-driven personalization and cross-BU growth instrumentation.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Women's Tennis Association</div><div class="job-role">Head of Product and Strategic Partnerships · 2016 to 2018</div></div>
+      <ul class="bul">
+        <li>Built the first fan-behavior intelligence layer for a global sports platform: CDP selection and <b>real-time scoring at under 120ms</b>, serving personalized offers during live events.</li>
+        <li>Designed the first commercial data partnerships with Twitter and Facebook (behavioral data flows, attribution, event-driven revenue): <span class="metric">$850K+</span> in year one.</li>
+        <li>Platform load simulation and reliability engineering ahead of the Finals: capacity decisions made on data, not guesses.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pb">
+    <div class="sec"><span class="lv">Advisory and embedded engagements</span><span class="gloss">regulated and complex markets · 2020 to 2023</span><span class="rule"></span></div>
+    <div class="adv">
+      <div class="job">
+        <div class="job-head"><div class="job-co">Twill Health <span class="dom">· Digital therapeutics, HIPAA</span></div><div class="job-role">2021 to 2023</div></div>
+        <ul class="bul"><li>Market viability testing for <b>3 AI-enabled digital-health product lines</b>; KPI frameworks informed the go-forward decision on 2 of 3. Evidence standards in a clinical context.</li></ul>
+      </div>
+      <div class="job">
+        <div class="job-head"><div class="job-co">Axon Enterprise <span class="dom">· GovTech</span></div><div class="job-role">2023</div></div>
+        <ul class="bul"><li>MVP scope, instrumentation requirements, and success metrics for a <b>secure first-responder OTT platform</b>; discovery and business-model validation.</li></ul>
+      </div>
+      <div class="job">
+        <div class="job-head"><div class="job-co">GoPro <span class="dom">· Consumer tech</span></div><div class="job-role">2020 to 2021</div></div>
+        <ul class="bul"><li>Analytics framework for EMEA/APAC growth under <b>GDPR data sovereignty</b>: collection, activation, and attribution across international markets.</li></ul>
+      </div>
+      <div class="job">
+        <div class="job-head"><div class="job-co">Verizon Media <span class="dom">· 5G ventures</span></div><div class="job-role">2021</div></div>
+        <ul class="bul"><li>Quantitative opportunity assessments across <b>five 5G ventures</b>: market sizing, competitive analysis, go/no-go recommendations to the executive team.</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec"><span class="lv">Open source</span><span class="gloss">reusable assets, inspectable code · good.arcs.care</span><span class="rule"></span></div>
+    <div class="oss">
+      <div><div class="k">germinate</div><div class="v">A serializable, provenance-carrying handoff protocol for multi-agent work, so the thread between agents never gets lost.</div></div>
+      <div><div class="k">token-savings-bank</div><div class="v">Model-tier routing, batching, and context discipline for AI coding agents: spend tokens like a budget, not a faucet.</div></div>
+      <div><div class="k">rosetta-shell</div><div class="v">Write a shell script once, run it anywhere: lossless translation across bash, zsh, and POSIX, with a CI portability gate.</div></div>
+      <div><div class="k">arcs-field-scan</div><div class="v">A Next.js app that renders an adaptive profile scan from a LinkedIn profile or PDF.</div></div>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Skills</span><span class="gloss">mapped to the posting</span><span class="rule"></span></div>
+    <div class="skills">
+      <div><div class="skill-k">Generative AI and agentic systems</div><div class="skill-v">Claude (API, tool use, function calling), custom MCP servers, agentic orchestration, prompt engineering, context management, evidence-gating and structured scoring, human-in-the-loop control</div></div>
+      <div><div class="skill-k">Product engineering and platform</div><div class="skill-v">0 to 1 platform build, roadmap and backlog ownership, sprint planning, REST APIs and webhooks, headless CMS and API architecture, CDP architecture, event taxonomy</div></div>
+      <div><div class="skill-k">Engineering stack</div><div class="skill-v">TypeScript / JavaScript, Node, React / Next.js, Python, SQL and Postgres, Git / CI, cloud-hosted production deployment (Vercel, Supabase), Snowflake</div></div>
+      <div><div class="skill-k">Governance in regulated environments</div><div class="skill-v">SEC/FINRA release gates, HIPAA, GDPR data sovereignty, RBAC and identity/auth, data governance, translating regulation into product requirements</div></div>
+      <div><div class="skill-k">Measurement and adoption</div><div class="skill-v">A/B and multivariate experimentation, attribution modeling, forecasting, Segment / mParticle, outcome capture, adoption and ROI framing for senior stakeholders</div></div>
+      <div><div class="skill-k">Force multiplication and standards-raising</div><div class="skill-v">Open-source tooling with conformance suites, technical documentation, reference implementations, mentoring senior engineers, cross-functional alignment across engineering, legal, and operations</div></div>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Education</span><span class="rule"></span></div>
+    <div class="edu">
+      <span><b>Oberlin College</b> · BA, Studio Art (Honors) <span class="yr">2002 to 2006</span></span>
+      <span><b>MIT xPRO</b> · AI: Implications for Business Strategy <span class="yr">Certificate</span></span>
+    </div>
+  </section>
+
+  <footer><span>Zach Harris · github.com/flashesofbrilliance</span><span>Tailored · Staff Product Engineer · Recruithaus / CI Infrastructure Client · September 2026</span></footer>
+</div>
+</body>
+</html>

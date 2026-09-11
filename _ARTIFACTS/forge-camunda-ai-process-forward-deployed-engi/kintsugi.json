@@ -1,0 +1,23 @@
+{
+  "receipt_id": "receipt_camunda_fde_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-07",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "render.sh default input filename (resume-citi-fde-ats.html) did not match this bundle's resume filename on first run",
+      "caught_by": "script error output on first ./render.sh call",
+      "gold": "re-ran with explicit input/output basenames; PDF confirmed 2 pages via pdfinfo"
+    },
+    {
+      "break": "No Playwright binary at repo-root node_modules/.bin; the prompt's stated reference lives at /Users/zharris/arcs-v9/node_modules",
+      "caught_by": "checking both paths before assuming failure",
+      "gold": "loaded chromium from /Users/zharris/arcs-v9/node_modules/playwright directly in the four-width screenshot script"
+    }
+  ],
+  "verdict": "Bundle passes the kintsugi gate: no schema pathogens, no air-gap terms (grep for prior-bundle company names and hiring-manager names returns 0), no em-dashes, PDF verified at exactly 2 pages, four widths screenshotted with no horizontal overflow observed."
+}

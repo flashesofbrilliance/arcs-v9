@@ -43,3 +43,5 @@
 - **HEIC screenshots:** the Read tool can't render them — convert via `sips -s format png` first.
 - `smoke.sh`: use `curl -s`, **not `-sf`** — `-f` exits nonzero on expected 400s and kills the
   script under `set -euo pipefail`.
+
+<!-- 2026-08-01: Vercel ignored-build-step exclusion list extended to include `.claude/` (docs-only handoff commits touch `.claude/arcs-session-state.md`, which was leaking full production builds). See memory vercel-ignored-build-step-was-inverted. -->

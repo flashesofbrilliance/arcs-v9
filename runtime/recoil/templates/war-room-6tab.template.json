@@ -1,0 +1,74 @@
+{
+  "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
+  "_HOW_TO_USE": [
+    "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
+    "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
+    "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
+    "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
+    "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
+    "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
+  ],
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "TEMPLATE-war-room",
+    "date": "{{YYYY-MM-DD}}",
+    "counterpart": "{{NAME}}",
+    "company": "{{COMPANY}}",
+    "segments": 5,
+    "gate": {"internal": "{{NON_GUESSABLE_PW}}"},
+    "provenance": {
+      "audience": "both",
+      "captured": "{{e.g. our call on <date>, ~N min}}",
+      "load_bearing_quote": "{{their single most important verbatim line}}"
+    }
+  },
+  "opportunity": {"audience": "internal", "y_state": "{{GREEN|YELLOW|FORK|DELTA}}", "topology": "{{CONVERGENT|DIVERGENT}}", "nci_prior": 0, "nci_post": 0, "note": "{{one-line decision-level read}}"},
+  "beliefs": [
+    {"id": "P1", "audience": "internal", "claim": "{{a prior you carried in}}", "evidence": "{{verbatim / signal}}", "inference": "EXP", "confidence": [0.5, 0.5], "conviction": "MED", "verdict": "{{UPGRADE|DOWNGRADE|FALSIFIED|NEW}}"}
+  ],
+  "kinematic_series": {"dt": 1.0, "series": [
+    {"key": "belief_a", "audience": "both", "label": "{{a belief tracked over time}}", "color": "#00F0FF", "points": [0.6, 0.55, 0.5, 0.45, 0.2], "grounding_quote": "{{their words}}"}
+  ]},
+  "insights": [
+    {"audience": "both", "plane": "idea", "title": "{{cross-plane insight, safe}}", "text": "{{...}}"},
+    {"audience": "internal", "plane": "counterpart", "title": "{{read about them — INTERNAL ONLY}}", "text": "{{...}}"}
+  ],
+  "next_steps": [{"audience": "internal", "owner": "{{You}}", "text": "{{action}}"}],
+  "redaction_policy": {"rules": ["Method can cross; subject-about-them cannot.", "Show your own updates, never their intent-scores.", "Architecture crosses; weights/sauce do not."]},
+  "page": {
+    "layout": "tabs",
+    "header": {"eyebrow": "ARCS &#183; War Room", "title": "{{NAME}} &#183; {{COMPANY}}", "sub": "{{one-line framing}}"},
+    "tabs": [
+      {"id": "pre", "label": "Pre-Call"},
+      {"id": "exante", "label": "Ex-Ante"},
+      {"id": "forge", "label": "Forge"},
+      {"id": "recoil", "label": "Recoil"},
+      {"id": "wargame", "label": "War Game"},
+      {"id": "defense", "label": "Defensibility"}
+    ],
+    "blocks": [
+      {"tab": "pre", "type": "prose", "audience": "internal", "_doc": "TRUE NORTH: one sentence — the disciplined posture for this interaction.", "h2": "True North", "p": ["{{one-sentence bearing}}"]},
+      {"tab": "pre", "type": "keyvalue", "audience": "internal", "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).", "h2": "Context", "rows": [{"k": "Date", "v": "{{...}}"}, {"k": "Register", "v": "{{warm-peer | cold | recruiting | ...}}"}, {"k": "Their goal", "v": "{{inferred intent}}"}, {"k": "Y-Gate", "v": "{{predicted state}}"}]},
+      {"tab": "pre", "type": "list", "audience": "internal", "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.", "h2": "Intel", "intro": "{{who they are}}", "items": [{"dot": "c", "html": "<strong>{{fact}}</strong> — {{detail}}"}]},
+      {"tab": "pre", "type": "list", "audience": "internal", "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.", "h2": "Questions &amp; landmines", "intro": "{{...}}", "items": [{"dot": "", "html": "{{question}} &#183; look for: {{good answer}}"}, {"dot": "", "html": "<span style='color:var(--red)'>Landmine:</span> {{what to avoid}}"}]},
+
+      {"tab": "exante", "type": "receipt", "audience": "internal", "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.", "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt", "fields": [{"label": "D &#183; Sharpened question", "value": "{{what am I actually deciding}}"}, {"label": "E &#183; Entity", "value": "{{who/what else is in the terrain}}"}, {"label": "W &#183; Window", "value": "{{today/quarter/years}}"}, {"label": "Hypothesis / expecting to see", "value": "{{falsifiable prediction}}"}, {"label": "Predicted Y-gate", "value": "{{GREEN/YELLOW/FORK + why}}"}, {"label": "Pre-committed move", "value": "{{what I will do regardless of impulse}}"}, {"label": "Belief most likely to update", "value": "{{...}}"}, {"label": "Falsifier", "value": "{{what would prove me wrong}}"}]},
+
+      {"tab": "forge", "type": "prose", "audience": "internal", "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.", "h2": "Exhibit 2 &#183; Exogenous Forge", "p": ["Every load-bearing claim run against external substrates ({{sources}}) and adjudicated by an independent skeptic. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected."]},
+      {"tab": "forge", "type": "table", "audience": "internal", "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.", "h2": "Claim adjudication", "columns": ["Claim", "Ruling", "Source force"], "rows": [["{{claim}}", "GROUNDED", "{{two-substrate / verbatim}}"], ["{{claim}}", "STRUCK", "{{why it was overreach}}"]]},
+
+      {"tab": "recoil", "type": "keyvalue", "audience": "internal", "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.", "h2": "Receipt closed &#183; ex-ante vs actual", "rows": [{"k": "Predicted", "v": "{{from Exhibit 1}}"}, {"k": "Actual", "v": "{{what happened}}"}, {"k": "Fork hit", "v": "{{which branch}}"}, {"k": "Load-bearing", "v": "{{their verbatim close}}"}]},
+      {"tab": "recoil", "type": "belief_log", "audience": "internal", "h2": "Belief Log &#183; confidence x conviction"},
+      {"tab": "recoil", "type": "worked_example", "audience": "internal", "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.", "h2": "Belief trajectory", "intro": "{{what moved}}", "close": "{{the honest correction}}"},
+      {"tab": "recoil", "type": "list", "audience": "internal", "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.", "h2": "Kairos, quiet signals &amp; risks", "intro": "{{...}}", "items": [{"dot": "", "html": "<strong>Kairos:</strong> {{peak-resonance moment}}"}, {"dot": "g", "html": "<strong>Quiet signal:</strong> {{non-obvious read}}"}]},
+
+      {"tab": "wargame", "type": "kinematics_table", "audience": "internal", "h2": "Kinematic manifold &#183; measured (D1-D3)"},
+      {"tab": "wargame", "type": "list", "audience": "internal", "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.", "h2": "The gauntlet", "intro": "Adversarial pass on the opportunity, not the person.", "items": [{"dot": "", "html": "<strong>BAR (ruin):</strong> {{the exposed edge}}"}, {"dot": "g", "html": "<strong>LAB &#183; Loki:</strong> {{adversarial read, steel-manned down}}"}, {"dot": "c", "html": "<strong>COURT:</strong> {{constitutional check}}"}]},
+      {"tab": "wargame", "type": "table", "audience": "internal", "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.", "h2": "ATG pre-mortem &#183; critical path x their objections", "columns": ["Node", "Their objection (verbatim)", "Failure mode", "Handling"], "rows": [["1. {{node}}", "{{their words}}", "{{how it dies here}}", "{{your move}}"]]},
+
+      {"tab": "defense", "type": "rosetta", "audience": "internal", "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.", "h2": "The same model, both directions", "left": "Their world", "right": "This engine", "rows": [["{{their primitive}}", "{{your equivalent}}"]]},
+      {"tab": "defense", "type": "table", "audience": "internal", "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).", "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings", "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"], "rows": [["Analyze", "{{...}}", "{{...}}", "{{...}}", "{{...}}"], ["Assess", "{{...}}", "{{...}}", "{{...}}", "{{...}}"], ["Evaluate", "{{...}}", "{{...}}", "{{...}}", "{{...}}"], ["Synthesize", "{{...}}", "{{...}}", "{{...}}", "{{...}}"], ["Recapitulate", "{{...}}", "{{...}}", "{{...}}", "{{...}}"]]},
+      {"tab": "defense", "type": "prose", "audience": "internal", "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.", "h2": "Antifragile core &amp; the lossless test", "p": ["{{why a falsified prior is the highest-information event, not a failure}}", "Lossless test: {{restate the method entirely in their register — if it holds with no jargon, it is defensible to them}}"]}
+    ]
+  }
+}

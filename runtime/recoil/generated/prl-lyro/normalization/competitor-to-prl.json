@@ -1,0 +1,6820 @@
+{
+ "count_keys": 895,
+ "map": {
+  "101": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "SABIC 101": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 101": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 201": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 201": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "201": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 300-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300V-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 300V-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300V-6": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "3105": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 3105": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 3105": [
+   {
+    "prl_grade": "PC-GP1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "141": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 141": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 141": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 241": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "241": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 241": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 300-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300V-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 300V-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300V-10": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "COVESTRO 2605": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2605": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2605": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2805": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2805": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2805": [
+   {
+    "prl_grade": "PC-GP2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LEXAN 121": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 121": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "121": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 221": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "221": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 221": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 300-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 300V-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300V-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300V-15": [
+   {
+    "prl_grade": "PC-GP3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "HF1110": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN HF1110": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC HF1110": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 300-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 300V-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "300V-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 300V-30": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "2405": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2405": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2405": [
+   {
+    "prl_grade": "PC-GP4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "103": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 103": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 103": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "203": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 203": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 203": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "L3": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC L3": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN L3": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "CALIBRE 302-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "302-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302V-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 302V-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "302V-6": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "MAKROLON 3107": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "3107": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 3107": [
+   {
+    "prl_grade": "PC-UV1-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SABIC 143": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 143": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "143": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 243": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "243": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 243": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN LS2": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LS2": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC LS2": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "302-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 302-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302V-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "302V-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 302V-10": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "2607": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2607": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2607": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2807": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2807": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2807": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON AL2647": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "AL2647": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO AL2647": [
+   {
+    "prl_grade": "PC-UV2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "123": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 123": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 123": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 223": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "223": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 223": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN LS1": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC LS1": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LS1": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "302-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 302-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 302V-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "302V-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 302V-15": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "AL2447": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO AL2447": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON AL2447": [
+   {
+    "prl_grade": "PC-UV3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   },
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "HF1130": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC HF1130": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN HF1130": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC LSHF": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LSHF": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN LSHF": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "COVESTRO 2407": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2407": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2407": [
+   {
+    "prl_grade": "PC-UV4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "ZLL01CP": [
+   {
+    "prl_grade": "PC-GP1S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN ZLL01CP": [
+   {
+    "prl_grade": "PC-GP1S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC ZLL01CP": [
+   {
+    "prl_grade": "PC-GP1S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN ZLL12CP": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "ZLL12CP": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC ZLL12CP": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN PCRCT": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "PCRCT": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC PCRCT": [
+   {
+    "prl_grade": "PC-GP2S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC ZLL19CP": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "ZLL19CP": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN ZLL19CP": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "PCRTC": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC PCRTC": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN PCRTC": [
+   {
+    "prl_grade": "PC-GP3S",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 104": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 104": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "104": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 204": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "204": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 204": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 200-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200V-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200V-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 200V-6": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "MAKROLON 3108": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 3108": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "3108": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "3158": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 3158": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 3158": [
+   {
+    "prl_grade": "PC-FD1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LEXAN 144": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 144": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "144": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "244": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 244": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 244": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 200-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200V-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200V-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 200V-10": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "2658": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2658": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2658": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2858": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2858": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2858": [
+   {
+    "prl_grade": "PC-FD2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "124": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 124": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 124": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 224": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "224": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 224": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 200-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 200V-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200V-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200V-15": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "COVESTRO 2558": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2558": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "2558": [
+   {
+    "prl_grade": "PC-FD3",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LEXAN HF1140": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "HF1140": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC HF1140": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "CALIBRE 200-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 200-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 200V-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "200V-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 200V-23": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "2458": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2458": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2458": [
+   {
+    "prl_grade": "PC-FD4",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SABIC 950": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 950": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "950": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO EV10": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV10": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "EV10": [
+   {
+    "prl_grade": "PC-FR1-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "LEXAN 940": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 940": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "940": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO EV20": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "EV20": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV20": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "COVESTRO 6485": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "6485": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 6485": [
+   {
+    "prl_grade": "PC-FR2-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SABIC 920": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "920": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 920": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "COVESTRO 6265": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "6265": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 6265": [
+   {
+    "prl_grade": "PC-FR3-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "950A": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 950A": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 950A": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO EV 30-7": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV 30-7": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "EV 30-7": [
+   {
+    "prl_grade": "PC-FR1A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "LEXAN 940A": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "940A": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 940A": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "EV 30-15": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO EV 30-15": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV 30-15": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "6455": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 6455": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 6455": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "6555": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 6555": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 6555": [
+   {
+    "prl_grade": "PC-FR2A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SABIC 920A": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 920A": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "920A": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "MAKROLON 6255": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "6255": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 6255": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 6355": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "6355": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 6355": [
+   {
+    "prl_grade": "PC-FR3A-D",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "EM1210": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EM1210": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EM1210": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EXL6414": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "EXL6414": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EXL6414": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "1260": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 1260": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 1260": [
+   {
+    "prl_grade": "PC-IM1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "EXL1414": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EXL1414": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EXL1414": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EXL1434": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EXL1434": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "EXL1434": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "IM 401-11": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE IM 401-11": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO IM 401-11": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "COVESTRO 1837": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "1837": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 1837": [
+   {
+    "prl_grade": "PC-IM2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "EM3110": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EM3110": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EM3110": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "EXL1112": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN EXL1112": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC EXL1112": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO IM 401-18": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE IM 401-18": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "IM 401-18": [
+   {
+    "prl_grade": "PC-IM3",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "SABIC 925": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 925": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "925": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 945": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 945": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "945": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "955": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 955": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 955": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "2665": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 2665": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 2665": [
+   {
+    "prl_grade": "PC-FR-UV2",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LUBRICOMP DL001": [
+   {
+    "prl_grade": "PC-FR2-TFE",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC LUBRICOMP DL001": [
+   {
+    "prl_grade": "PC-FR2-TFE",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN LUBRICOMP DL001": [
+   {
+    "prl_grade": "PC-FR2-TFE",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC FL905": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "FL905": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN FL905": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN FL910": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "FL910": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC FL910": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   },
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SF7070": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO SF7070": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE SF7070": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "MAKROLON SF800": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO SF800": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SF800": [
+   {
+    "prl_grade": "PCSF-FR",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "SF7100": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO SF7100": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE SF7100": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "SF810": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON SF810": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO SF810": [
+   {
+    "prl_grade": "PCSF-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LEXAN FL920": [
+   {
+    "prl_grade": "PCSF-FRG20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "FL920": [
+   {
+    "prl_grade": "PCSF-FRG20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC FL920": [
+   {
+    "prl_grade": "PCSF-FRG20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "FL930": [
+   {
+    "prl_grade": "PCSF-FRG30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC FL930": [
+   {
+    "prl_grade": "PCSF-FRG30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN FL930": [
+   {
+    "prl_grade": "PCSF-FRG30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 500": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "500": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 500": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "MAKROLON 9415": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "9415": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 9415": [
+   {
+    "prl_grade": "PC-HM-FR1",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "EV31 G10": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV31 G10": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO EV31 G10": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "8325": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 8325": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 8325": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "MAKROLON 9425": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "9425": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "COVESTRO 9425": [
+   {
+    "prl_grade": "PC-G10",
+    "maker": "COVESTRO",
+    "brand": "MAKROLON"
+   }
+  ],
+  "LEXAN 3412": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 3412": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "3412": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "EV32 GF20": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO EV32 GF20": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE EV32 GF20": [
+   {
+    "prl_grade": "PC-G20",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "3413": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 3413": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 3413": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "CALIBRE EV34 GF30": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO EV34 GF30": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "EV34 GF30": [
+   {
+    "prl_grade": "PC-G30",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "LEXAN 3414": [
+   {
+    "prl_grade": "PC-G40",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "3414": [
+   {
+    "prl_grade": "PC-G40",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 3414": [
+   {
+    "prl_grade": "PC-G40",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "151": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 151": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 151": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "TRINSEO 603-2": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "603-2": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 603-2": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 603-3": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 603-3": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "603-3": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "CALIBRE 603-6": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "TRINSEO 603-6": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "603-6": [
+   {
+    "prl_grade": "PC-BR1",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   },
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "TRINSEO",
+    "brand": "CALIBRE"
+   }
+  ],
+  "153": [
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "LEXAN 153": [
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "SABIC 153": [
+   {
+    "prl_grade": "PC-BR1-UV",
+    "maker": "SABIC",
+    "brand": "LEXAN"
+   }
+  ],
+  "CYCOLAC MG38": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   },
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "MG38": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   },
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC MG38": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   },
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "MG47": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC MG47": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC MG47": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC MG94": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "MG94": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC MG94": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "LUSTRAN LUSTRAN 248": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN 248": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "INEOS LUSTRAN 248": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN 448": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   },
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "448": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "INEOS 448": [
+   {
+    "prl_grade": "ABS-GP1",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "ABSOLAC 100": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "INEOS ABSOLAC 100": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN ABSOLAC 100": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "3504": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "MAGNUM 3504": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "TRINSEO 3504": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "TRINSEO 3513": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "MAGNUM 3513": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "3513": [
+   {
+    "prl_grade": "ABS-GP-IM",
+    "maker": "TRINSEO",
+    "brand": "MAGNUM"
+   }
+  ],
+  "SABIC FR15": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC FR15": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "FR15": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC FR23": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC FR23": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "FR23": [
+   {
+    "prl_grade": "ABS-FR",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC FR15U": [
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "FR15U": [
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC FR15U": [
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "INEOS LUSTRAN 448": [
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN LUSTRAN 448": [
+   {
+    "prl_grade": "ABS-FR-UV(f2)",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "THERMOCOMP AF002": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "SABIC THERMOCOMP AF002": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC THERMOCOMP AF002": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "INEOS ABSOLAC 30GF15": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN ABSOLAC 30GF15": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "ABSOLAC 30GF15": [
+   {
+    "prl_grade": "ABS-G10",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "SABIC THERMOCOMP AF004": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC THERMOCOMP AF004": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "THERMOCOMP AF004": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "ABSOLAC 30GF20": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN ABSOLAC 30GF20": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "INEOS ABSOLAC 30GF20": [
+   {
+    "prl_grade": "ABS-G20",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "SABIC THERMOCOMP AF006": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "THERMOCOMP AF006": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "CYCOLAC THERMOCOMP AF006": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "SABIC",
+    "brand": "CYCOLAC"
+   }
+  ],
+  "ABSOLAC 30GF30": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "LUSTRAN ABSOLAC 30GF30": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "INEOS ABSOLAC 30GF30": [
+   {
+    "prl_grade": "ABS-G30",
+    "maker": "INEOS",
+    "brand": "LUSTRAN"
+   }
+  ],
+  "MC8002": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY MC8002": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC MC8002": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "TRINSEO PULSE 120": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "PULSE 120": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE PULSE 120": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "220": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "TRINSEO 220": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE 220": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "230": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "TRINSEO 230": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE 230": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "COVESTRO T45": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "T45": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T45": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO T65": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "T65": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T65": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "T85": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T85": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO T85": [
+   {
+    "prl_grade": "PC/ABS-GP1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   },
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "C1200HF": [
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C1200HF": [
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C1200HF": [
+   {
+    "prl_grade": "PC/ABS-GP2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "XCY620": [
+   {
+    "prl_grade": "PC/ABS-GP1S",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC XCY620": [
+   {
+    "prl_grade": "PC/ABS-GP1S",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY XCY620": [
+   {
+    "prl_grade": "PC/ABS-GP1S",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C2950": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C2950": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C2950": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C2951": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C2951": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C2951": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C6200": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C6200": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C6200": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C6600": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C6600": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C6600": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   },
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C6800": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C6800": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C6800": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "TRINSEO EMERGE 7100": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE EMERGE 7100": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE 7100": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "BAYBLEND FR3000": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO FR3000": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "FR3000": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND FR3010": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "FR3010": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO FR3010": [
+   {
+    "prl_grade": "PC/ABS-FR1",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "SABIC C2800": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C2800": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C2800": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C2950HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C2950HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C2950HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "EMERGE 7560": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE EMERGE 7560": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "TRINSEO EMERGE 7560": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE/PULSE 7580": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "TRINSEO 7580": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "7580": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "FR3005 HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND FR3005 HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO FR3005 HF": [
+   {
+    "prl_grade": "PC/ABS-FR2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "EMERGE/PULSE EMERGE 7700": [
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "TRINSEO EMERGE 7700": [
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "EMERGE 7700": [
+   {
+    "prl_grade": "PC/ABS-FRUV",
+    "maker": "TRINSEO",
+    "brand": "EMERGE/PULSE"
+   }
+  ],
+  "C4210": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C4210": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "SABIC C4210": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "T88 GF-10": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T88 GF-10": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO T88 GF-10": [
+   {
+    "prl_grade": "PC/ABS-G10",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "SABIC C4220": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "CYCOLOY C4220": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "C4220": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "SABIC",
+    "brand": "CYCOLOY"
+   }
+  ],
+  "T88 GF-20": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO T88 GF-20": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T88 GF-20": [
+   {
+    "prl_grade": "PC/ABS-G20",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO T88 GF-30": [
+   {
+    "prl_grade": "PC/ABS-G30",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "T88 GF-30": [
+   {
+    "prl_grade": "PC/ABS-G30",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND T88 GF-30": [
+   {
+    "prl_grade": "PC/ABS-G30",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "SABIC 731": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "731": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL 731": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "XYRON 500H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 500H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "500H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 600H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 600H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "600H": [
+   {
+    "prl_grade": "PPX-GP1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "NORYL PX0888": [
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "PX0888": [
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC PX0888": [
+   {
+    "prl_grade": "PPX-GP2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL PX0844": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC PX0844": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "PX0844": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "400H": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 400H": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 400H": [
+   {
+    "prl_grade": "PPX-GP3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "EM6100": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC EM6100": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL EM6100": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "EM6101": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL EM6101": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC EM6101": [
+   {
+    "prl_grade": "PPX-GP3-IM",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI 200H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 200H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "200H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 300H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "300H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 300H": [
+   {
+    "prl_grade": "PPX-GP4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "PX1265": [
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC PX1265": [
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL PX1265": [
+   {
+    "prl_grade": "PPX-GP5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL PX1390": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "PX1390": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC PX1390": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   },
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "XYRON 740": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 740": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "740": [
+   {
+    "prl_grade": "PPX-GP6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI SZ800": [
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON SZ800": [
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SZ800": [
+   {
+    "prl_grade": "PPX-GP7",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "NORYL GFN1": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "GFN1": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC GFN1": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "G701H": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON G701H": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI G701H": [
+   {
+    "prl_grade": "PPX-G10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "GFN2": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL GFN2": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC GFN2": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "G702H": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI G702H": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON G702H": [
+   {
+    "prl_grade": "PPX-G20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "NORYL GFN3": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC GFN3": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "GFN3": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "G703H": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON G703H": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI G703H": [
+   {
+    "prl_grade": "PPX-G30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SABIC SE1GFN1": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL SE1GFN1": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SE1GFN1": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "XYRON G701V": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "G701V": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI G701V": [
+   {
+    "prl_grade": "PPX-FRG10",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SE1GFN2": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC SE1GFN2": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL SE1GFN2": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI G702V": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON G702V": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "G702V": [
+   {
+    "prl_grade": "PPX-FRG20",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SE1GFN3": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC SE1GFN3": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL SE1GFN3": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI G703V": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "G703V": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON G703V": [
+   {
+    "prl_grade": "PPX-FRG30",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "NORYL N190X": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "N190X": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC N190X": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "XYRON 100Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "100Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 100Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 240Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "240Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 240Z": [
+   {
+    "prl_grade": "PPX-FR1",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SABIC SE100X": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SE100X": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL SE100X": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "XYRON 100V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "100V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 100V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR4",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 240V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "240V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 240V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 340V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "340V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 340V": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "340W": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 340W": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 340W": [
+   {
+    "prl_grade": "PPX-FR2",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "SE1X": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL SE1X": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC SE1X": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI 500V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 500V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "500V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "540V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 540V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 540V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 640V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "640V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 640V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "740V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 740V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 740V": [
+   {
+    "prl_grade": "PPX-FR3",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "N225X": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC N225X": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL N225X": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI 300Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "300Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 300Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 340Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 340Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "340Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 500Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 500Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "500Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 540Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "540Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "ASAHI 540Z": [
+   {
+    "prl_grade": "PPX-FR5",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   },
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "PX9406": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "SABIC PX9406": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "NORYL PX9406": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "SABIC",
+    "brand": "NORYL"
+   }
+  ],
+  "ASAHI 640Z": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "XYRON 640Z": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "640Z": [
+   {
+    "prl_grade": "PPX-FR6",
+    "maker": "ASAHI",
+    "brand": "XYRON"
+   }
+  ],
+  "CR7020": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY CR7020": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "SABIC CR7020": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "SABIC CR7500": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY CR7500": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "CR7500": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "SABIC CR8510": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "CR8510": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY CR8510": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "LURAN LURAN 757": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "LURAN 757": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "INEOS LURAN 757": [
+   {
+    "prl_grade": "ASA-GP1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "SABIC XP4025": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "XP4025": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY XP4025": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY XP7560": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "SABIC XP7560": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "XP7560": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "LURAN LURAN KR2861": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "LURAN KR2861": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "INEOS LURAN KR2861": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "W85 HI": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND W85 HI": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO W85 HI": [
+   {
+    "prl_grade": "PC/ASA-GP2",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "SABIC XP7550": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY XP7550": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "XP7550": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "LURAN KR2864": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "LURAN LURAN KR2864": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "INEOS LURAN KR2864": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "COVESTRO W85": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND W85": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "W85": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "COVESTRO W90 XG": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "BAYBLEND W90 XG": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "W90 XG": [
+   {
+    "prl_grade": "PC/ASA-GP3",
+    "maker": "COVESTRO",
+    "brand": "BAYBLEND"
+   }
+  ],
+  "SABIC HRA 222": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "HRA 222": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "GELOY HRA 222": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "SABIC",
+    "brand": "GELOY"
+   }
+  ],
+  "INEOS LURAN KR2867": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "LURAN LURAN KR2867": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "LURAN KR2867": [
+   {
+    "prl_grade": "PC/ASA-FR1",
+    "maker": "INEOS",
+    "brand": "LURAN"
+   }
+  ],
+  "SABIC 325": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "VALOX 325": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "325": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "CELANESE 2002-2": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELENEX 2002-2": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "2002-2": [
+   {
+    "prl_grade": "TP-GP1",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "VALOX 310": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "310": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 310": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "BASF B4500": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "ULTRADUR B4500": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "B4500": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "B4520": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "BASF B4520": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "ULTRADUR B4520": [
+   {
+    "prl_grade": "TP-GP2",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "VALOX 357": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 357": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "357": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "VALOX 365": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 365": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "365": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   },
+   {
+    "prl_grade": "TP-FR-IM2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "CELENEX VANDAR 8000": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "VANDAR 8000": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELANESE VANDAR 8000": [
+   {
+    "prl_grade": "TP-FR-IM",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "VALOX 357U": [
+   {
+    "prl_grade": "TP-FR-IM3",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 357U": [
+   {
+    "prl_grade": "TP-FR-IM3",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "357U": [
+   {
+    "prl_grade": "TP-FR-IM3",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "VALOX 310SE0": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "310SE0": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 310SE0": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "CELANESE 2016": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "2016": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELENEX 2016": [
+   {
+    "prl_grade": "TP-FR2",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "VALOX DR51": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC DR51": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "DR51": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "CELENEX 3200": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELANESE 3200": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "3200": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "3201": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELENEX 3201": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELANESE 3201": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "B4300 G3": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "ULTRADUR B4300 G3": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "BASF B4300 G3": [
+   {
+    "prl_grade": "TP-G15",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "VALOX 420": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "SABIC 420": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "420": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "SABIC",
+    "brand": "VALOX"
+   }
+  ],
+  "3300": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELANESE 3300": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELENEX 3300": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "B4300 G6": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "ULTRADUR B4300 G6": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "BASF B4300 G6": [
+   {
+    "prl_grade": "TP-G30",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "CELANESE 3400": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "CELENEX 3400": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "3400": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "CELANESE",
+    "brand": "CELENEX"
+   }
+  ],
+  "BASF B4300 G8": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "ULTRADUR B4300 G8": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "B4300 G8": [
+   {
+    "prl_grade": "TP-G40",
+    "maker": "BASF",
+    "brand": "ULTRADUR"
+   }
+  ],
+  "SABIC 1102": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "1102": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY 1102": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC 1731": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY 1731": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "1731": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC 5220": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "5220": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY 5220": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "5230": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC 5230": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY 5230": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   },
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "UT250": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "COVESTRO UT250": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "MAKROBLEND UT250": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "MAKROBLEND UT403": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "COVESTRO UT403": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "UT403": [
+   {
+    "prl_grade": "PC/TP-GP1",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "UT1018": [
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "MAKROBLEND UT1018": [
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "COVESTRO UT1018": [
+   {
+    "prl_grade": "PC/TP-GP2",
+    "maker": "COVESTRO",
+    "brand": "MAKROBLEND"
+   }
+  ],
+  "XENOY 6620": [
+   {
+    "prl_grade": "PC/TP-GP3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "6620": [
+   {
+    "prl_grade": "PC/TP-GP3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC 6620": [
+   {
+    "prl_grade": "PC/TP-GP3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC VALOX 364": [
+   {
+    "prl_grade": "PC/TP-FR2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY VALOX 364": [
+   {
+    "prl_grade": "PC/TP-FR2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "VALOX 364": [
+   {
+    "prl_grade": "PC/TP-FR2",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "VALOX 3706": [
+   {
+    "prl_grade": "PC/TP-FR3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "SABIC VALOX 3706": [
+   {
+    "prl_grade": "PC/TP-FR3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "XENOY VALOX 3706": [
+   {
+    "prl_grade": "PC/TP-FR3",
+    "maker": "SABIC",
+    "brand": "XENOY"
+   }
+  ],
+  "CELANESE ST7301": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ST7301": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL ST7301": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "AKULON K122": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM K122": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "K122": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM F130": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "F130": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON F130": [
+   {
+    "prl_grade": "NY6-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM K222": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "K222": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON K222": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON F132": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "F132": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM F132": [
+   {
+    "prl_grade": "NY6-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "BST43": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND BST43": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE BST43": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND P1000IX": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE P1000IX": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "P1000IX": [
+   {
+    "prl_grade": "NY6-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ZYTEL 73G15": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "CELANESE 73G15": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "73G15": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "B 15 GF": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND B 15 GF": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE B 15 GF": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "K224-G3": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON K224-G3": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM K224-G3": [
+   {
+    "prl_grade": "NY6-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "73G30": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 73G30": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "CELANESE 73G30": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "70G33": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "CELANESE 70G33": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 70G33": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ASCEND B 33 GF": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "B 33 GF": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE B 33 GF": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "AKULON K224-G7": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "K224-G7": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM K224-G7": [
+   {
+    "prl_grade": "NY6-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "73G45": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "CELANESE 73G45": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 73G45": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "VYDYNE B 45 GF": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "B 45 GF": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND B 45 GF": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "AKULON K224-G8": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM K224-G8": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "K224-G8": [
+   {
+    "prl_grade": "NY6-G43",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "CELANESE 101": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 101": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ASCEND 21 SERIES": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "21 SERIES": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE 21 SERIES": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "AKULON S240": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM S240": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "S240": [
+   {
+    "prl_grade": "NY66-GP1",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "S223": [
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM S223": [
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON S223": [
+   {
+    "prl_grade": "NY66-GP2",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "ST801": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL ST801": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "CELANESE ST801": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ASCEND 47 SERIES": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "47 SERIES": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE 47 SERIES": [
+   {
+    "prl_grade": "NY66-IM1",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   },
+   {
+    "prl_grade": "NY66-IM2",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "CELANESE 70G13": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "70G13": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 70G13": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "R513": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE R513": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND R513": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "DSM S223-G3": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON S223-G3": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "S223-G3": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "DSM M-1016": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "M-1016": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON M-1016": [
+   {
+    "prl_grade": "NY66-G13",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "ASCEND R533": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "VYDYNE R533": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "R533": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "DSM S223-G7": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "S223-G7": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "AKULON S223-G7": [
+   {
+    "prl_grade": "NY66-G33",
+    "maker": "DSM",
+    "brand": "AKULON"
+   }
+  ],
+  "CELANESE 70G43": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "ZYTEL 70G43": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "70G43": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "CELANESE",
+    "brand": "ZYTEL"
+   }
+  ],
+  "VYDYNE R543": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "ASCEND R543": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "R543": [
+   {
+    "prl_grade": "NY66-G43",
+    "maker": "ASCEND",
+    "brand": "VYDYNE"
+   }
+  ],
+  "SABIC 1000": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "1000": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 1000": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "1010": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 1010": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 1010": [
+   {
+    "prl_grade": "PEI-GP1",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2100": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2100": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2100": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2110": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2110": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2110": [
+   {
+    "prl_grade": "PEI-G10",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2200": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2200": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2200": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2210": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2210": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2210": [
+   {
+    "prl_grade": "PEI-G20",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2300": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2300": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2300": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2310": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2310": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2310": [
+   {
+    "prl_grade": "PEI-G30",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2400": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2400": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2400": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "SABIC 2410": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "2410": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ],
+  "ULTEM 2410": [
+   {
+    "prl_grade": "PEI-G40",
+    "maker": "SABIC",
+    "brand": "ULTEM"
+   }
+  ]
+ }
+}

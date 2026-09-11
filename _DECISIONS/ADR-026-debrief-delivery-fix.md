@@ -26,7 +26,7 @@
 ## W — Window
 
 **Horizon:** QUARTER
-**Revisit trigger:** `sage_efficacy.js` produces a result — both cohorts (sage_fired=true, sage_fired=false) each have ≥20 Outcome rows. At that point, re-open ADR-025 Option A (text-derived signal).
+**Revisit trigger:** `sage_efficacy.js` produces a result — both cohorts (sage_fired=true, sage_fired=false) each have ≥20 Outcome rows. At that point, re-open ADR-059 Option A (text-derived signal).
 
 ---
 
@@ -110,6 +110,6 @@ Debrief is purely email-triggered. A user who misses or ignores the email has no
 
 ## Linked receipts / ADRs
 
-- ADR-025 — SAGE signal validation path (this ADR is created by ADR-025 Option C decision)
+- ADR-059 — SAGE signal validation path (this ADR is created by ADR-059 Option C decision)
 - ADR-013 — arcs.care conversion architecture (T+7 email and Resend infrastructure context)
 - ADR-023 — Observability as superionic goal lattice (downstream beneficiary of Outcome data quality)

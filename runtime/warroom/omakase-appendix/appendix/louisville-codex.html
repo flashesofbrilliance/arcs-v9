@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCS CODEX · Louisville Universe · Knowledge Management System</title>
+<style>
+  /* ============================================================
+     LEVEL 1 · ATOMS — the design tokens.
+     Every color, face, and spacing rhythm in the universe lives
+     here as a named variable. Change an atom, and every molecule,
+     organism, template, and page built from it updates coherently.
+     Canon source: louisville-war-room.html (write-locked 24 Jul 2026)
+     ============================================================ */
+  :root{
+    /* surface atoms */
+    --case:#0B0B0C;      /* the case — deepest ground */
+    --panel:#131315;     /* panel — primary surface */
+    --panel2:#17171A;    /* panel-2 — nested surface */
+    --line:#232326;      /* line — hairline borders */
+    /* ink atoms */
+    --dial:#E8E4DA;      /* dial cream — primary ink */
+    --graphite:#7A7A80;  /* graphite — secondary ink */
+    --faint:#4A4A4F;     /* faint — tertiary ink */
+    /* thread atoms (canon per Mar 24 call) */
+    --red:#B4342A;       /* RED — the through-line thread */
+    --gold:#C9A227;      /* GOLD — the kintsugi seam */
+    --verm:#E34F1C;      /* VERMILLION — provisional: committed/gate (definition still X) */
+    --ok:#5C8A4E;        /* OK green — seam closed / alive */
+    /* type atoms */
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ===== command bar (organism, reused from war room) ===== */
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .bar nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+  .bar nav a{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite);
+    padding:4px 8px;border:1px solid transparent;border-radius:3px}
+  .bar nav a:hover{color:var(--dial);border-color:var(--line);text-decoration:none}
+  .bar input[type=search]{background:var(--panel2);border:1px solid var(--line);border-radius:3px;
+    color:var(--dial);font-family:var(--mono);font-size:12px;padding:5px 10px;width:220px}
+  .bar input[type=search]::placeholder{color:var(--faint)}
+  .dialset{display:flex;gap:4px;align-items:center}
+  .dialset .dl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);margin-right:2px}
+  .dialset button{background:none;border:1px solid var(--line);color:var(--graphite);font-family:var(--mono);
+    font-size:10px;letter-spacing:.14em;padding:4px 10px;border-radius:3px}
+  .dialset button[aria-pressed=true]{color:var(--dial);border-color:var(--verm)}
+  .dialset.reg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+  .fwcount{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--red)}
+  .reggrid{display:grid;grid-template-columns:auto 1fr 1fr;gap:3px 4px;align-items:center}
+  .reggrid .rl{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--faint);text-align:right;padding-right:4px}
+  /* five-stratum waterfall, SERIAL-COHERENT (visible set = numeric prefix): EXEC 00·0K·01 · STRATEGIC +02·03 · OPERATIONAL +04–08 · TACTICAL +09–10 · SURGICAL +11–12 */
+  body.lv1 #people, body.lv1 #atoms, body.lv1 .rich{display:none}
+  body.lv1 #molecules, body.lv1 #organisms, body.lv1 #templates, body.lv1 #kifu, body.lv1 #lexicon,
+  body.lv2 #molecules, body.lv2 #organisms, body.lv2 #templates, body.lv2 #kifu, body.lv2 #lexicon{display:none}
+  body.lv1 #grades, body.lv1 #numbers, body.lv2 #grades, body.lv2 #numbers, body.lv3 #grades, body.lv3 #numbers{display:none}
+  body.lv1 #open, body.lv1 #redact, body.lv2 #open, body.lv2 #redact, body.lv3 #open, body.lv3 #redact, body.lv4 #open, body.lv4 #redact{display:none}
+  body.lv1 .deep, body.lv2 .deep, body.lv3 .deep, body.lv4 .deep{display:none}
+  .lvslider{display:flex;gap:10px;align-items:center}
+  .lvslider input[type=range]{width:120px;accent-color:var(--gold)}
+  .lvslider .lvname{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);width:96px}
+  .lvslider input:disabled{opacity:.28;cursor:not-allowed}
+  /* firewall: table-facing registers withhold the whole codex (F4/G-2) */
+  body.reg-justin .panel:not(#fwnote), body.reg-stanley .panel:not(#fwnote){display:none}
+  #fwnote{display:none}
+  body.reg-justin #fwnote, body.reg-stanley #fwnote{display:block}
+  /* JB-CAP (operator order Jul 25): JEBEN caps at RICH; sponsor-recalibration evidence strategically omitted, logged */
+  body.reg-jeben #grades, body.reg-jeben #numbers, body.reg-jeben #open, body.reg-jeben #redact{display:none}
+  body.reg-jeben .fw-jeben{display:none}
+  .fw-onlyjeben{display:none}
+  body.reg-jeben .fw-onlyjeben{display:inline}
+  .dialset button:disabled{opacity:.35;cursor:not-allowed}
+  /* ===== card disclosure: headline(1) → +lede(2) → +abstract(3) → +body(4) → +appendix(5) ===== */
+  .card .lede, .card .abstract{display:none;font-size:12px;color:var(--graphite);line-height:1.55;font-style:italic}
+  body.lv2 .card .cfull, body.lv2 .card .src, body.lv2 .card .abstract{display:none}
+  body.lv2 .card .lede{display:block}
+  body.lv3 .card .cfull, body.lv3 .card .src, body.lv3 .card .lede{display:none}
+  body.lv3 .card .abstract{display:block}
+  body.lv4 .card .src{display:none}
+
+
+  /* ===== board + spine (template) ===== */
+  .board{max-width:1060px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:1px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  /* ===== panel (organism) ===== */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .lvl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:2px 7px;border-radius:3px;
+    border:1px solid var(--faint);color:var(--graphite)}
+  .lvl.atom{color:var(--verm);border-color:var(--verm)}
+  .lvl.mol{color:var(--gold);border-color:var(--gold)}
+  .lvl.org{color:var(--red);border-color:var(--red)}
+  .lvl.tpl{color:var(--dial);border-color:var(--dial)}
+  .lvl.page{color:var(--ok);border-color:var(--ok)}
+
+  /* ===== molecules ===== */
+  .grade{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--faint);border-radius:3px;color:var(--graphite)}
+  .grade.A{color:var(--dial);border-color:var(--dial)}
+  .grade.E{color:var(--gold);border-color:var(--gold)}
+  .grade.X{color:var(--red);border-color:var(--red)}
+  .redact{color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+  .callout{margin-top:12px;padding:10px 12px;border-left:2px solid var(--verm);background:var(--panel);font-size:13px}
+  .note{font-size:21px;line-height:1.45;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+
+  /* ===== token specimen molecules (codex-native) ===== */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .sw{background:var(--panel2);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .sw .chip{height:44px;border-bottom:1px solid var(--line)}
+  .sw .m{padding:8px 10px;font-family:var(--mono);font-size:10px;line-height:1.8;color:var(--graphite)}
+  .sw .m b{display:block;color:var(--dial);font-weight:600;letter-spacing:.08em}
+  .specimen{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:14px;margin-top:10px}
+  .specimen .cap{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--faint);margin-bottom:10px}
+  .typerow{display:flex;gap:16px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .typerow:last-child{border-bottom:0}
+  .typerow .n{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--faint);width:170px;flex:none}
+
+  /* ===== cards / grids (molecules) ===== */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:12px}
+  .card .n{font-size:10px;letter-spacing:.2em;color:var(--graphite);margin-bottom:6px;font-weight:600}
+  .card p{font-size:12px;color:var(--graphite);line-height:1.55}
+  .card p b{color:var(--dial);font-weight:600}
+  .card .src{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint)}
+  .card[data-th]{border-left:2px solid var(--line)}
+  .card[data-th="red"]{border-left-color:var(--red)}
+  .card[data-th="gold"]{border-left-color:var(--gold)}
+  .card[data-th="verm"]{border-left-color:var(--verm)}
+
+  /* ===== tables ===== */
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:10px;letter-spacing:.18em;color:var(--graphite);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:7px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+  td.mono{font-family:var(--mono);font-size:11px;color:var(--graphite)}
+
+  /* ===== kifu (organism) ===== */
+  .cp{font-family:var(--mono);font-size:12px}
+  .cp .row{display:flex;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+  .cp .row:last-child{border-bottom:0}
+  .cp .when{width:88px;color:var(--graphite);flex:none;letter-spacing:.08em}
+  .cp .zero{color:var(--verm);font-weight:600}
+  .cp .slack{margin-left:auto;color:var(--faint);font-size:10px;letter-spacing:.12em;flex:none;text-align:right}
+
+  /* ===== accordion (organism) ===== */
+  details{border-bottom:1px dashed var(--line)}
+  details:last-child{border-bottom:0}
+  summary{padding:11px 0;cursor:pointer;list-style:none;display:flex;gap:12px;align-items:baseline}
+  summary::-webkit-details-marker{display:none}
+  summary .k{font-family:var(--mono);font-size:11px;color:var(--verm);flex:none;width:56px}
+  summary .prob{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--graphite);letter-spacing:.1em;flex:none}
+  details .body{padding:0 0 12px 68px;font-size:13px;color:var(--graphite)}
+  details .body b{color:var(--gold);font-weight:600}
+  details[open] summary .k{color:var(--gold)}
+
+  /* ===== kernel germination ===== */
+  .kernel-seed{background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;padding:14px 16px;margin:12px 0}
+  .kernel-seed .kl{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--gold);margin-bottom:8px;font-weight:600}
+  .kernel-seed q{quotes:"\201C" "\201D";font-size:14px;line-height:1.6;display:block;font-style:italic}
+  .kernel-seed q::before,.kernel-seed q::after{color:var(--gold)}
+  .lineage{font-family:var(--mono);font-size:11px;line-height:2.1;color:var(--graphite)}
+  .lineage .tier{letter-spacing:.2em;font-size:9px;color:var(--faint);padding-top:8px}
+  .lineage .node{padding-left:18px;position:relative}
+  .lineage .node::before{content:"└─";position:absolute;left:0;color:var(--faint)}
+  .lineage .node.seed{color:var(--gold);font-weight:600}
+  .lineage .node.seed::before{content:"◉";color:var(--gold)}
+  .lineage .node b{color:var(--dial);font-weight:600}
+
+  /* ===== search state ===== */
+  .hidden{display:none!important}
+  mark{background:transparent;color:var(--verm);font-weight:700}
+  #noresult{font-family:var(--mono);font-size:12px;color:var(--graphite);padding:20px 0}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){
+    .stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}
+    footer{margin-left:34px}.bar .sub{display:none}.bar input[type=search]{width:100%}
+  }
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+@media(max-width:640px){table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+@media(max-width:640px){.row,.typerow{flex-wrap:wrap}.row .slack,.typerow .slack{margin-left:0;text-align:left;flex-basis:100%}}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lv1 reg-zach">
+
+<div class="bar" role="banner">
+  <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE KEEP — where prep begins: every ingredient archived and graded">🏯</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> CODEX</span>
+  <span class="sub">LOUISVILLE UNIVERSE · KNOWLEDGE MANAGEMENT SYSTEM · SERIALIZED 25 JUL 2026</span>
+  <input type="search" id="q" placeholder="SEARCH THE CANON…" aria-label="Search the canon">
+  <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
+    <span class="dl">STRATUM</span>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">EXEC</span></div>
+  </div>
+  <div class="dialset reg reggrid" role="group" aria-label="Register — the Babel dial, service brigade">
+    <span class="rl">KITCHEN</span>
+    <button aria-pressed="true" data-reg="zach">CHEF · ZACH</button>
+    <button aria-pressed="false" data-reg="jeben">SERVER · JEBEN</button>
+    <span class="rl">DINERS</span>
+    <button aria-pressed="false" data-reg="justin">JUSTIN</button>
+    <button aria-pressed="false" data-reg="stanley">STANLEY</button>
+  </div>
+  <span class="fwcount" id="fwcount">FIREWALL · 0 WITHHELD</span>
+  <nav aria-label="Codex sections">
+    <a href="#ledger">CANON</a><a href="#people">PEOPLE</a><a href="#atoms">ATOMS</a><a href="#molecules">MOLECULES</a><a href="#organisms">ORGANISMS</a><a href="#templates">TEMPLATES</a><a href="#kifu">KIFU</a><a href="#lexicon">LEXICON</a><a href="#grades">GRADES</a><a href="#numbers">NUMBERS</a><a href="#open">OPEN</a><a href="#redact">REDACTED</a>
+  </nav>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- HOW TO READ -->
+    <section class="panel" data-th="red" id="how">
+      <div class="ph"><span class="eyebrow">00 · HOW TO READ THIS CODEX</span><h2>One system, five altitudes</h2><span class="tag">ATOMIC DESIGN × ARCS GRAMMAR</span></div>
+      <div class="pb">
+        <p class="note bx" data-k="cxnote">The visual grammar is itself a <span class="accent">receipt system</span>: every mark on every page is traceable to a named atom, and every atom is traceable to canon.</p>
+        <p class="note-sub">Atomic design (Frost) maps onto the ARCS ladder exactly: <b style="color:var(--verm)">ATOMS</b> are tokens — data. <b style="color:var(--gold)">MOLECULES</b> combine them — information. <b style="color:var(--red)">ORGANISMS</b> are working sections — knowledge. <b style="color:var(--dial)">TEMPLATES</b> are page skeletons, and <b style="color:var(--ok)">PAGES</b> are templates filled with the living canon — wisdom, the only layer that enters the room. Sections 03–06 codify the grammar; 01–02 and 07–12 are the universe indexed through it. The search bar filters every indexed entry. The stratum dial obeys the Pardes rule (see THE FLASH in the lexicon): depth here is luminous intensity, and the deep layer is entered with sufficient wisdom or not at all. Corrections supersede everything on this page.</p>
+      </div>
+    </section>
+
+    <!-- FIREWALL INTERSTITIAL (table-facing registers only) -->
+    <section class="panel" data-th="red" id="fwnote">
+      <div class="ph"><span class="eyebrow">FIREWALL · THE FENCE</span><h2>This register sees the front of the fence</h2><span class="tag">COURT #4 · F4 · G-2 · THE FENCE</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:17px">What this register is owed is the <span class="accent">front of the fence</span>: beautiful, load-bearing, protective, cone-of-silence preserving. The taste and the value in exchange, from the first bite — <span class="accent">never the recipe, the sourcing, or the cooking</span>. This document is the workshop, and the workshop stays on our side of the fence.</p>
+        <p class="note-sub">Every panel withheld and counted above — not hidden, <b>finished</b>. The front they do see is the <b>Braid's JUSTIN register</b> (Gospel XVI, G-2). Governed loss is redaction with a receipt; this panel is the receipt.</p>
+      </div>
+    </section>
+
+    <!-- THE KERNEL -->
+    <section class="panel" data-th="gold" id="kernel">
+      <div class="ph"><span class="eyebrow">0K · THE KERNEL</span><h2>The articulated discovery seed</h2><span class="tag">JEBEN.ARCS.CARE · SSOT · GOSPEL I</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:17px">Everything in this codex — sixteen gospels, the grammar, the fence, the braid — germinated from <a href="louisville-kernel.html" style="color:var(--gold)">one articulated kernel</a>: the Thread Book. The calls were the soil; the Thread Book was the moment the wild evidence was <span class="accent">articulated into a seed</span> — and everything since is that seed unfolding, not new invention.</p>
+        <div class="kernel-seed">
+          <div class="kl">THE KERNEL, IN ITS OWN OPENING WORDS</div>
+          <q>Everything we've discussed about Louisville Brands, pulled from our six calls and put in one place — what's live, what's parked, what an engagement is worth in dollars and time, and exactly what happens next.</q>
+          <div class="kl" style="margin-top:10px">AND THE GENOME EVERY DESCENDANT INHERITS — THE NOTE</div>
+          <q>Louisville Brands is very good at making things and unproven at deciding which things to make.</q>
+        </div>
+        <div class="lineage rich">
+          <div class="tier">THE KERNEL — ARTICULATION (AND THE SOIL IT GREW FROM)</div>
+          <div class="node seed">I · THE THREAD BOOK — jeben.arcs.care · Jul 10, corrected Jul 15 · "written so it can go straight to Justin" · 11 sections, One Clear Note first</div>
+          <div class="node">II · The Debrief — the kernel's own correction pass (Wisconsin, PE thread)</div>
+          <div class="node">III · The Soil — seven calls, Mar 5 → Jul 15 (four verbatim): the wild evidence the kernel articulated</div>
+          <div class="tier">THE UNFOLDING — EVERY GOSPEL A DESCENT LINE FROM THE SEED</div>
+          <div class="node"><b>IV–VII</b> Bible → Gauntlet → Ladder → Fact-Check — the kernel pressure-tested</div>
+          <div class="node"><b>VIII–XI</b> Meta-Audit → Go Board → Diamond → Notomation — the kernel serialized four ways, agreeing</div>
+          <div class="node"><b>XII–XIII</b> War Room → Brief — the kernel operationalized for the room</div>
+          <div class="node"><b>XIV–XVI</b> Filter → Play → Braid — the kernel's grammar made instrument, stage, and weave</div>
+        </div>
+        <p class="callout deep" style="font-size:12px"><b style="color:var(--gold)">The notomation reading:</b> the kernel is the magnet made portable. The Note existed in the calls as field; the Thread Book articulated it — gave it sections, receipts, and a door it could walk through ("straight to Justin"). Articulation is what makes a discovery a kernel: findable, correctable, and able to seed. Nothing downstream outranks it except the corrections that flow back into it.</p>
+        <div class="kernel-seed" style="border-color:var(--verm)">
+          <div class="kl" style="color:var(--verm)">THE SEAL · ALPHA &amp; OMEGA OF THIS THREAD <span style="color:var(--faint)">(OPERATOR CANON · JUL 25)</span></div>
+          <q>The tree is the seed and the seed is the tree.</q>
+          <q lang="ja" style="margin-top:8px">師は求める者に現れる</q>
+          <p style="font-size:12px;color:var(--graphite);margin-top:8px">The teacher appears to the one who seeks. The sixteen gospels are the Thread Book grown visible; the Thread Book is the sixteen gospels folded small — the unfolding was latent in the kernel the whole time, waiting for a field strong enough to organize it. Alpha: one articulated seed. Omega: the same seed, as canopy. What stands between them is not invention but seeking — and the record of the seeking is the tree's own rings.</p>
+        </div>
+      </div>
+    </section>
+
+        <!-- CANON LEDGER -->
+    <section class="panel" data-th="gold" id="ledger">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">01 · CANON LEDGER</span><h2>Every document in the universe, graded</h2><span class="tag">CORRECTIONS SUPERSEDE</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>#</th><th>Gospel</th><th>Lives at</th><th>Holds</th><th>Grade</th></tr></thead>
+          <tbody class="idx">
+            <tr><td class="mono">I</td><td><b>Thread Book (SSOT)</b> <span class="grade E" style="letter-spacing:.1em">◉ KERNEL</span></td><td class="mono">jeben.arcs.care</td><td>The full Louisville record: ledger, priority grid, Five-by-Five, economics, Prove-It Test, Three Paths — written to go straight to Justin (fork required first)</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">II</td><td><b>Jul 15 Debrief</b></td><td class="mono">jeben.arcs.care/debrief</td><td>Wisconsin correction · PE thread (Jeben's ask, parallel) · Hermitage, Iconography, syndicate (parked)</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">III</td><td><b>The Call Record</b></td><td class="mono">Granola · Mar 5 → Jul 15</td><td>Seven calls: Mar 5/17/24/31 verbatim · Apr 21 summary · May 20 lost · Jul 15 ambient only</td><td><span class="grade A">A</span></td></tr>
+            <tr><td class="mono">IV</td><td><b>Minimum Bible</b></td><td class="mono">louisville-minimum-bible.md</td><td>The room · Jeben's protocol · waterfall at five altitudes · economics · critical path (Commit 6 pre-read line superseded by VII)</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">V</td><td><b>The Gauntlet</b></td><td class="mono">louisville-gauntlet.md</td><td>Six stations · funhouse · Court ruling with five binding conditions · thread key canon-corrected</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">VI</td><td><b>Forensic Ladder</b></td><td class="mono">louisville-forensic-ladder.md</td><td>Five rungs · critical path · ranked gaps · seeded Monte Carlo (n=10,000, seed 42) · tributaries · objections · surgical words</td><td><span class="grade E">E</span></td></tr>
+            <tr><td class="mono">VII</td><td><b>Fact-Check &amp; Premortem</b></td><td class="mono">louisville-factcheck-premortem.md</td><td>The grading system · belief log verdicts · the pre-read contradiction catch · the Throttle Gate receipt · redaction log</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">VIII</td><td><b>Meta-Audit</b></td><td class="mono">louisville-meta-audit.md</td><td>Belief revision table · casualties · six C's · auditor's owned errors · the meta-finding (access beats inference)</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">IX</td><td><b>The Go Board</b></td><td class="mono">louisville-go-board.md</td><td>9×9 board state · sente/gote · miai resolution · aji ledger · kifu Moves 1–11 · adaptive time signature</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">X</td><td><b>The Diamond</b></td><td class="mono">louisville-diamond.md</td><td>Nine facets — the whole campaign compressed under kairos lock</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XI</td><td><b>Notomation</b></td><td class="mono">louisville-notomation.md</td><td>The canon term settled · the magnet (two poles) · the filings table · the snapped sequence · resonance check</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XII</td><td><b>The War Room</b></td><td class="mono">louisville-war-room.html</td><td>The interactive board — gate, note, kairos, path, ways, sim, premortem, objections, kit, ledger · source of the visual grammar</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XIII</td><td><b>Pre-Call Brief</b></td><td class="mono">louisville-precall-brief.md</td><td>Ex-ante receipt XA-1…5 · DIKW ladder · cabinet standing orders · Eastern panel · the conduct card</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XIV</td><td><b>The Resonance Filter</b></td><td class="mono">louisville-resonance-filter.html</td><td>Source→target lossless translation: seven dials (grounded per the gate rule) · four registers · conservation law · firewalls · the Load Register (sizzle vs. axiom; philosophized thinking defined) · receipt RF-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XV</td><td><b>The Fifteenth Rock (Staged Play)</b></td><td class="mono">louisville-staged-play.html</td><td>The rules of rhetoric in three acts · ethos/pathos-logos/kairos-fate · two fate gates · Greek chorus (Staff of Chiefs) · eight OP-provisional cast seats · receipt SP-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XVI</td><td><b>The Braid</b></td><td class="mono">louisville-braid.html</td><td>Gospels XII–XV fact-checked (findings F1–F6) and gauntlet-run (conditions G-1/2/3) · strata simple/rich/deep · the Babel dial (global register translation with counted firewall) · build phase closed · receipt BR-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XVII</td><td><b>The Box (指物 · 秘密箱)</b></td><td class="mono">louisville-box.html</td><td>The final artifact — the thread parameterized (13-row joinery table) · the four-move opening sequence (omote → joinery → mizuya → kakushi) · the omotenashi ledger (hidden for, never from) · carries the Note and the seal · receipt BOX-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XVIII</td><td><b>The Pre-Read (Exec Memo)</b></td><td class="mono">louisville-exec-memo.md</td><td>Diamond-cut one-pager — the Note, the window, the move, worst-first economics, the discipline, the honest holes, the two remaining human moves · every claim graded · receipt EM-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XIX</td><td><b>The Omakase (お任せ)</b></td><td class="mono">louisville-omakase.html</td><td>The unified experience — nine courses served in the chef's order at the guest's tempo: amuse-bouche (the Note) → kernel → codex → filter → play → braid → box → dessert (the seal) → take-home (the memo)</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XX</td><td><b>The Ensō (円相)</b></td><td class="mono">louisville-enso.html</td><td>The War Room (XII) bent into a circle — dual-mode: internal T−→T-now meeting ring · external service-design menu peek (what prep is visible on demand, what stays kitchen, the seasoning between courses) · the line vs. the ensō: his stroke, our circle</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XXI</td><td><b>The Glass Box</b></td><td class="mono">louisville-canon-manifest.json</td><td>Machine-readable manifest — classes, instances, variables, tokens, doctrines, and the anti-distortion contract (flattery has no field to live in) · full interoperability/composability/traceability · receipt GB-01</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XXII</td><td><b>The Noren (暖簾)</b></td><td class="mono">louisville-entrance.html</td><td>The front door — the entrance arc: the street → part the curtain → いらっしゃいませ → the first sublime bite (the Note) → the rooms of the house → the last sublime bite (the seal) → とても美味しかったです → ありがとうございました · the curtain falls back where it was found</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XXIII</td><td><b>The ROM (ROM-001)</b></td><td class="mono">arcs-rom-louisville-session.md</td><td>The thread itself, serialized: artifact registry · doctrine registry (12 seated) · bug ledger (8 errors → 8 rules) · session kifu · meta-findings · standing state · receipt ROM-01 · CANDIDATE until the canon creator ratifies</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">XXIV</td><td><b>一夜 · One Evening (arcs-omakase)</b></td><td class="mono">arcs-omakase/index.html</td><td>The full guest arc fused into one continuous luxury experience — こんにちは → 暖簾 → いらっしゃいませ → the courses → the seal → the bow → the earned 舞台裏 → さようなら · nine lanterns · one-way · plié-paced · standing repo with CLAUDE.md carrying the house rules</td><td><span class="grade">B</span></td></tr>
+          </tbody>
+        </table>
+        <p class="callout" style="font-size:12px">Supersession chain on record: VII supersedes IV's Commit 6 (unforked pre-read RESCINDED) · the Thread Book supersedes the Apr 2 Gamma deck as foot-forward (deck remains pricing/structure source of record) · Jeben's corrections supersede everything. Per finding F5 (Braid fact-check): grades on gospels XII–XVI are self-assigned and provisional until the operator countersigns.</p>
+      </div>
+    </section>
+
+        <!-- PEOPLE -->
+    <section class="panel" data-th="red" id="people">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">02 · DRAMATIS PERSONAE</span><h2>The room, the record, the cabinet</h2><span class="tag">SENSITIVITIES LOAD-BEARING</span></div>
+      <div class="pb">
+        <div class="grid idx">
+          <div class="card" data-th="verm"><div class="n">JUSTIN DELANEY · CEO, LOUISVILLE BRANDS</div><p><b>The Friday room.</b> Wants a mango product ("competes fairly" is constitutionally protected). Moves fast, finishes sentences mentally — match his energy, don't supply it. The symptom chart and any decision-pattern analysis <b>never leave Zach's side of the table</b> (Court condition #4). Family loss paused the thread Apr–Jun; never reference the pause.</p><div class="src">GOSPELS I · IV · V · XIII</div></div>
+          <div class="card" data-th="gold"><div class="n">JEBEN BERG · PARTNER/CREATIVE · SPONSOR</div><p>A decade of trust with Zach; built the coaching protocol (Apr 21). <span class="fw-jeben"><b>Semi-detached since February</b> (Mar 31 verbatim, A-grade) — door-opener, not deal-closer; the receipt must sell itself. </span>His corrections supersede everything. The PE thread is his ask — parallel, unmerged. Credited with the fifteenth rock in the room.</p><div class="src">GOSPELS I–III · XIII</div></div>
+          <div class="card"><div class="n">STANLEY · FOUNDER</div><p>Not on the Friday call; part of the eventual room with the board. The ask names him: "what does late next week look like for you and Stanley?" Deferral to Stanley converts to attendance (tributary T2).</p><div class="src">GOSPELS IV · VI</div></div>
+          <div class="card"><div class="n">THE FUND · NEPHEW INVESTOR</div><p>$2–2.5M/yr, adjacent to Brown-Forman + United Rentals-linked money — <b>stands as "per Jeben,"</b> not independently verified. Round status: F-grade, confirm with Jeben before any room use. New money wants to see discipline (Way 2).</p><div class="src">GOSPELS I · VII · X</div></div>
+          <div class="card"><div class="n">A BOARD MEMBER NAMED JIM</div><p>That is the full extent of what the record supports. The "from Pepsi" attribution is F-grade ("or something like that") — <b>redacted from pitch use</b>; the "Pepsi-pedigree board" framing was withdrawn on the record.</p><div class="src">GOSPEL VII · REDACTION LOG</div></div>
+          <div class="card" data-th="red"><div class="n">ZACH HARRIS · OPERATOR</div><p>The ARCS side of the table. Owns the campaign, the errors (owned on the record: thread-key mis-mapping, the pre-read grenade — both kintsugi seams now), and the one job Friday: the ask, then the ma.</p><div class="src">ALL GOSPELS</div></div>
+          <div class="card"><div class="n">HARRY WILSON · THE PRECEDENT</div><p>The Apr 21 coaching was built for his intro; the pre-read pattern converted there. The Harry playbook applies to Justin's meeting shape verbatim.</p><div class="src">GOSPELS III · IV</div></div>
+          <div class="card"><div class="n">JOHN DAILEY · ALEXANDER TECHNOLOGY GROUP</div><p>Apr 14 meeting; Constant Contact contractor role, staffing. The only grounded referent for "ATG" — whether ATG means this engagement or something else is an <b>open canon slot</b>.</p><div class="src">GOSPEL IV · COMMIT 7</div></div>
+          <div class="card" data-th="gold"><div class="n">THE CABINET (INTERNAL ORGANISM)</div><p>CFO · COO · CMO · General Counsel · Fund/Board rep · Chief of Staff — six chairs, each with a binding condition (consensus 3.8/5, proceed). Plus: <b>Loki</b> (adversary, silent unless invoked) · <b>the Conductor</b> (tempo — if Zach out-talks Justin by minute ten, cut to the ask) · <b>Cynic &amp; Stoic</b> (one surviving line) · <b>Drift Sentinel / Throttle Gate</b> (off-duty in the room).</p><div class="src">GOSPELS V · XIII</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATOMS -->
+    <section class="panel" data-th="verm" id="atoms">
+      <div class="ph"><span class="lvl atom">TIER · ATOM</span><span class="eyebrow">03 · ATOMS</span><h2>The tokens — indivisible, canon-locked</h2><span class="tag">SOURCE: WAR ROOM :root</span></div>
+      <div class="pb">
+        <div class="specimen"><div class="cap">SURFACE ATOMS — THE CASE STACK (darkest ground → hairline)</div>
+          <div class="swatches">
+            <div class="sw"><div class="chip" style="background:#0B0B0C"></div><div class="m"><b>--case</b>#0B0B0C · deepest ground</div></div>
+            <div class="sw"><div class="chip" style="background:#131315"></div><div class="m"><b>--panel</b>#131315 · primary surface</div></div>
+            <div class="sw"><div class="chip" style="background:#17171A"></div><div class="m"><b>--panel2</b>#17171A · nested surface</div></div>
+            <div class="sw"><div class="chip" style="background:#232326"></div><div class="m"><b>--line</b>#232326 · hairline border</div></div>
+          </div>
+        </div>
+        <div class="specimen"><div class="cap">INK ATOMS — THREE READING DISTANCES</div>
+          <div class="swatches">
+            <div class="sw"><div class="chip" style="background:#E8E4DA"></div><div class="m"><b>--dial</b>#E8E4DA · primary ink ("dial cream")</div></div>
+            <div class="sw"><div class="chip" style="background:#7A7A80"></div><div class="m"><b>--graphite</b>#7A7A80 · secondary ink</div></div>
+            <div class="sw"><div class="chip" style="background:#4A4A4F"></div><div class="m"><b>--faint</b>#4A4A4F · tertiary ink</div></div>
+          </div>
+        </div>
+        <div class="specimen"><div class="cap">THREAD ATOMS — SEMANTIC, NOT DECORATIVE (CANON: MAR 24 CALL)</div>
+          <div class="swatches">
+            <div class="sw"><div class="chip" style="background:#B4342A"></div><div class="m"><b>--red</b>#B4342A · THE THROUGH-LINE — connective narrative that links findings ("pull on a red thread") · canon-confirmed</div></div>
+            <div class="sw"><div class="chip" style="background:#C9A227"></div><div class="m"><b>--gold</b>#C9A227 · THE KINTSUGI SEAM — where it cracked under test and was repaired stronger, seam left visible · canon-confirmed</div></div>
+            <div class="sw"><div class="chip" style="background:#E34F1C"></div><div class="m"><b>--verm</b>#E34F1C · VERMILLION — woven with red and gold per canon; precise meaning UNDEFINED (grade X) · provisional usage: the committed/gate thread</div></div>
+            <div class="sw"><div class="chip" style="background:#5C8A4E"></div><div class="m"><b>--ok</b>#5C8A4E · SEAM CLOSED / group alive</div></div>
+          </div>
+          <p class="callout" style="font-size:12px">Rule of the grammar: color is never ornament. A red mark claims through-line status; a gold mark claims a visible repair; vermillion marks commitment at a gate. Using a thread color without meaning it is a canon violation.</p>
+        </div>
+        <div class="specimen"><div class="cap">TYPE ATOMS — TWO FACES, ONE DISCIPLINE</div>
+          <div class="typerow"><span class="n">--sans · DISPLAY/BODY</span><span style="font-size:15px">Helvetica Neue — the speaking voice. Body 15px/1.5.</span></div>
+          <div class="typerow"><span class="n">--mono · SERIAL/RECEIPT</span><span style="font-family:var(--mono);font-size:12px;color:var(--gold)">SF MONO — anything serialized, graded, timestamped, or falsifiable renders mono.</span></div>
+          <div class="typerow"><span class="n">EYEBROW SCALE</span><span style="font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600">10PX · TRACKING .18–.24EM · GRAPHITE — the whisper register</span></div>
+          <div class="typerow"><span class="n">NOTE SCALE</span><span style="font-size:21px;font-weight:700">21px/700 — reserved for the One Note register only</span></div>
+        </div>
+        <div class="specimen"><div class="cap">GEOMETRY ATOMS</div>
+          <p style="font-size:12px;color:var(--graphite);line-height:1.8">Radius: 6px panels · 4px nested cards · 3px chips. Borders: 1px solid line for structure, <b style="color:var(--gold)">1px dashed gold</b> for receipts (a receipt is provisional until scored — the dash says so). Board max-width 1060px; the spine reserves 52px of left margin. Stack gap 22px.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOLECULES -->
+    <section class="panel" data-th="gold" id="molecules">
+      <div class="ph"><span class="lvl mol">TIER · MOLECULE</span><span class="eyebrow">04 · MOLECULES</span><h2>Small combinations, each with one job</h2><span class="tag">LIVE SPECIMENS</span></div>
+      <div class="pb">
+        <div class="specimen"><div class="cap">GRADE CHIP — evidence class worn on the sleeve</div>
+          <span class="grade A">A</span> <span class="grade">B</span> <span class="grade">C</span> <span class="grade">D</span> <span class="grade E">E</span> <span class="grade">F</span> <span class="grade X">X</span>
+          <p style="font-size:12px;color:var(--graphite);margin-top:8px">Mono, bordered, 10px. A-grade earns dial ink; E (labeled assumption) earns gold; X (ungrounded) earns red. Every claim in a page-level artifact should be able to produce its chip.</p>
+        </div>
+        <div class="specimen"><div class="cap">RECEIPT BOX — dashed gold, mono, always scoreable</div>
+          <div class="receiptbox" style="margin-top:0"><b>DECISION RECEIPT · SPECIMEN</b><br>EXPECTING — the pre-registered claim<br>BREAKS THESIS — the named falsifier<br>KILL/SCALE — the pre-agreed line<br>SCORE-BACK — the date the receipt is graded</div>
+          <p style="font-size:12px;color:var(--graphite);margin-top:8px">The load-bearing molecule of the whole grammar. Four fields minimum. If it cannot fail, it is not a receipt.</p>
+        </div>
+        <div class="specimen"><div class="cap">EYEBROW + TITLE + TAG — the panel header molecule</div>
+          <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><span class="eyebrow" style="font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600">NN · SERIAL EYEBROW</span><b style="font-size:15px;letter-spacing:.04em">Plain-language title</b><span style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite);margin-left:auto">MONO STATUS TAG</span></div>
+        </div>
+        <div class="specimen"><div class="cap">CALLOUT — vermillion left rule = a committed order</div>
+          <p class="callout" style="margin-top:0"><b style="color:var(--gold)">The board's one order:</b> conversion beats economics. The callout molecule carries standing orders, one per box.</p>
+        </div>
+        <div class="specimen"><div class="cap">REDACTION TAG — the visible strike</div>
+          <span class="redact">REDACTED FROM PITCH USE:</span> <span style="font-size:12px;color:var(--graphite)">redactions stay on the page — removal is recorded, never silent. The record does not permit hindsight rewrites, including its own.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANISMS -->
+    <section class="panel" data-th="red" id="organisms">
+      <div class="ph"><span class="lvl org">TIER · ORGANISM</span><span class="eyebrow">05 · ORGANISMS</span><h2>Working sections — molecules under one contract</h2><span class="tag">INVENTORY</span></div>
+      <div class="pb grid">
+        <div class="card" data-th="gold"><div class="n">THE PANEL</div><p>Header molecule + body, stitched to the spine by a 30px thread tick whose color declares the section's thread. <b>Every organism is a panel first.</b></p><div class="src">SPECIMEN: EVERY SECTION OF THIS CODEX</div></div>
+        <div class="card" data-th="gold"><div class="n">THE GATE</div><p>A panel with gold borders, checkbox items, and a receipt box. Interactive: closing all items closes the seam (state lives in memory only — the page holds no persistence, by design). <b>Blocks the weave until its receipt exists.</b></p><div class="src">SPECIMEN: WAR ROOM · 00 THROTTLE GATE</div></div>
+        <div class="card" data-th="red"><div class="n">THE SPINE</div><p>Three vertical threads running the full board — red, gold, vermillion at x = 0/9/18px. Can render <b>severed</b> (threads cut at a gate) with a knot marking the cut. The page's continuity is drawn, not implied.</p><div class="src">SPECIMEN: LEFT EDGE OF THIS PAGE</div></div>
+        <div class="card" data-th="red"><div class="n">THE LEDGER TABLE</div><p>Mono serials in column one, grade chips in the last. Tables are for serialized records only — prose never renders as a table without a serial column.</p><div class="src">SPECIMEN: 05 · CANON LEDGER BELOW</div></div>
+        <div class="card" data-th="verm"><div class="n">THE ACCORDION</div><p>details/summary rows with mono key (P1, O1…), probability tag right-aligned. Used when items must be armed one at a time — premortems, objection trees.</p><div class="src">SPECIMEN: WAR ROOM 06–07</div></div>
+        <div class="card" data-th="verm"><div class="n">THE KIFU / CRITICAL PATH</div><p>Mono rows: when-column, event, slack tag. The zero-slack node renders vermillion with a star. A rescinded move renders red. <b>Rows are write-locked — reordering is forbidden.</b></p><div class="src">SPECIMEN: 07 · KIFU BELOW</div></div>
+        <div class="card" data-th="gold"><div class="n">THE CLOCK GRID</div><p>auto-fit minmax(200px) cards, mono CLOCK-N eyebrow in vermillion. For kairos signals — independent clocks striking together.</p><div class="src">SPECIMEN: WAR ROOM · 02 KAIROS</div></div>
+        <div class="card" data-th="gold"><div class="n">THE SIM DECK</div><p>Stat rows (dashed underlines, gold values) + distribution bars (faint, vermillion marker at the median) + belief-trajectory sparklines in thread colors. Numbers carry their seed.</p><div class="src">SPECIMEN: WAR ROOM · 05 SIMULATION</div></div>
+        <div class="card" data-th="red"><div class="n">THE SURGICAL KIT</div><p>Card grid at word-level resolution: quote cards (gold quote marks) and stub cards (mono, blank fields). Only what is carried into the room.</p><div class="src">SPECIMEN: WAR ROOM · 08</div></div>
+      </div>
+    </section>
+
+    <!-- TEMPLATES -->
+    <section class="panel" id="templates">
+      <div class="ph"><span class="lvl tpl">TIER · TEMPLATE</span><span class="eyebrow">06 · TEMPLATES</span><h2>Page skeletons — how organisms assemble</h2><span class="tag">TWO CANONICAL FORMS</span></div>
+      <div class="pb grid">
+        <div class="card" data-th="verm"><div class="n">THE BOARD (interactive HTML)</div><p><b>Command bar → spine → stack of panels → mono footer.</b> Sticky bar carries identity + live state (countdown, search). Panels run in serial order (00, 01, 02…), each stitched to the spine. Gate organisms may sever the spine until closed. Footer restates the constitution: TRACEABLE · TRANSPARENT · COMPOSABLE · FALSIFIABLE.</p><div class="src">INSTANCES: WAR ROOM · THIS CODEX</div></div>
+        <div class="card" data-th="gold"><div class="n">THE GOSPEL (markdown doc)</div><p><b>H1 title → H2 subtitle → H3 date/lock line → ruled sections with serial headers</b> (COMMIT n, STATION n, FACET n, RUNG n, MOVE n). Tables for serialized records; a closing italic line stating the write-lock and "corrections supersede." A cold-start header when the doc must stand alone.</p><div class="src">INSTANCES: BIBLE · GAUNTLET · DIAMOND · LADDER · FACT-CHECK · META-AUDIT · GO BOARD · NOTOMATION · BRIEF</div></div>
+      </div>
+      <p class="callout">Template rule: every page-level artifact ends by naming its own supersession condition. An artifact that cannot say what corrects it is not canon.</p>
+    </section>
+
+    <!-- KIFU -->
+    <section class="panel" data-th="verm" id="kifu">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">07 · THE KIFU</span><h2>The write-locked timeline — every stone, in order, forever</h2><span class="tag">A PASS IS A MOVE</span></div>
+      <div class="pb cp idx">
+        <div class="row"><span class="when">MAR 5</span><span>MOVE 1 · Discovery — Louisville enters the record. Pumps verbatim: built ~100%, shipped with shells, rebuilt.</span><span class="slack">● VERBATIM</span></div>
+        <div class="row"><span class="when">MAR 17</span><span>Hotel thread: 45 keys (later conflicts with Jul 15's 47 — logged, unresolved)</span><span class="slack">● VERBATIM</span></div>
+        <div class="row"><span class="when">MAR 24</span><span>MOVE 2 · The demo — Jeben sees the stones work. Thread canon spoken: red = through-line, gold = kintsugi seam, vermillion woven with both.</span><span class="slack">● CANON SOURCE</span></div>
+        <div class="row"><span class="when">MAR 31</span><span>MOVE 3 · The economics — pricing anchored ($20K/mo vendor quote), fund revealed, <span class="fw-jeben">Jeben's February detachment stated first-person, </span>Justin's mango pattern described.</span><span class="slack">● VERBATIM</span></div>
+        <div class="row"><span class="when">APR 2</span><span>MOVE 4 · The Gamma deck — "ARCS × Louisville Brands, a 90-Day Decision System." First shape on the board.</span><span class="slack">● SUPERSEDED AS FOOT-FORWARD</span></div>
+        <div class="row"><span class="when">APR 14</span><span>ATG meeting (John Dailey) — later the only grounded ATG referent</span><span class="slack">OPEN SLOT</span></div>
+        <div class="row"><span class="when">APR 21</span><span>The coaching session — Jeben's protocol, Golden Inchworm, 3-page pre-read pattern (for Harry Wilson; applies verbatim here)</span><span class="slack">D · SUMMARY</span></div>
+        <div class="row"><span class="when">APR–JUN</span><span>MOVE 5 · The long tenuki — the pause honored (family loss). A pass played with intent; wu wei recorded as a move.</span><span class="slack">(PASS)</span></div>
+        <div class="row"><span class="when">MAY 20</span><span>Call lost to time</span><span class="slack">GAP LOGGED</span></div>
+        <div class="row"><span class="when">JUL 10</span><span>MOVE 6 · The Thread Book — thickness placed. SSOT written "so it can go straight to Justin."</span><span class="slack">● SSOT</span></div>
+        <div class="row"><span class="when">JUL 15</span><span>MOVE 7 · Delivery + debrief — Wisconsin correction appears; PE thread raised (Jeben's ask); 47-key figure logged; transcript ambient-only.</span><span class="slack">● ○</span></div>
+        <div class="row"><span class="when">JUL 24</span><span>MOVE 8 · The intro accepted — Justin confirms Fri Jul 31, 1:00 PM. MOVE 9 · The gospels serialized; the breaker (unforked pre-read) found &amp; removed.</span><span class="slack">● THE DOOR STONE</span></div>
+        <div class="row"><span class="when">≤WED JUL 29</span><span>MOVE 10 · The forked pre-read out (gate item 2; Thu-noon kill line → fallback: overview + blank stub)</span><span class="slack">PENDING · GATE</span></div>
+        <div class="row"><span class="when">FRI JUL 31</span><span class="zero">★ MOVE 11 · E5 — tengen. The ask at 1:00 PM, then the gifted sente. Score-back 2:00 PM.</span><span class="slack">ZERO SLACK</span></div>
+        <div class="row"><span class="when">≤2 WKS</span><span>The session (p=.65 pre-registered) → signed receipt → $2–5K test (wks 2–4)</span><span class="slack">DUET</span></div>
+        <div class="row"><span class="when">DAY 30</span><span>The read — data clears the pre-agreed line or it doesn't. Premortem horizon.</span><span class="slack">RECEIPT SCORES</span></div>
+        <div class="row"><span class="when">DAY 90</span><span>FR-1/2/3 + every signed receipt scored: expected vs. actual. The one event with a 100% survival rate.</span><span class="slack">THE PEDAL TONE</span></div>
+      </div>
+    </section>
+
+    <!-- LEXICON -->
+    <section class="panel" data-th="gold" id="lexicon">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">08 · THE LEXICON</span><h2>Canon vocabulary — grounded terms only, attribution attached</h2><span class="tag">X-GRADE TERMS HELD AT §11</span></div>
+      <div class="pb">
+        <div class="grid idx">
+          <div class="card" data-th="red"><div class="n">THE NOTE (THE CARBON / THE MAGNET)</div><p><b>"Very good at making things, unproven at deciding which things to make."</b> Validated ×4 verbatim, zero contradictions. Every artifact is this note played in a different key; in notomation terms it is the field source with two poles (MAKING proven / DECIDING unproven).</p><div class="src">GRADE B · GOSPELS I–XIII</div></div>
+          <div class="card" data-th="gold"><div class="n">DECISION RECEIPT</div><p>One page, written <b>before</b> a dollar moves: decision · options · assumptions · what breaks the thesis · path · kill/scale line · signatures · 90-day score-back. Memory that can't be edited after the fact. If it cannot fail, it is not a receipt. And the deepest reading <i>(operator canon, Jul 25)</i>: <b>the receipt is the scar of the crack before kintsugi</b> — written at the fracture point, where the harden-or-ruin fork is determined. Gold can only be laid along a seam that was recorded when it opened; an unreceipted crack heals crooked, as hindsight.</p><div class="src">THE CORE MOLECULE · ALL GOSPELS · THE SCAR RULE</div></div>
+          <div class="card" data-th="gold"><div class="n">KINTSUGI / GOLD SEAM</div><p>The crack mended stronger, seam left visible. Canon-confirmed (Mar 24). Three seams shown in the room: theirs (Pumps), ours (no CPG receipt), the method's (incentive disclosure). "Wild evidence" (Jeben's term): undiluted proof the learning happened. Precondition <i>(the scar rule, Jul 25)</i>: the seam can only be gilded where the crack was recorded when it opened — the receipt is that record.</p><div class="src">GRADE A · MAR 24 · THE SCAR RULE</div></div>
+          <div class="card" data-th="red"><div class="n">RED THREAD</div><p>The through-line: connective narrative linking findings — "pull on a red thread." Canon-corrected Mar 24 after the auditor's own mis-mapping (owned error #1, now itself a seam).</p><div class="src">GRADE A · MAR 24</div></div>
+          <div class="card" data-th="verm"><div class="n">VERMILLION</div><p>Woven with red and gold per canon — <b>precise meaning still undefined (X)</b>. Provisional working usage: the committed/gate thread. Open inclusion; define it and the grammar re-dyes.</p><div class="src">GRADE X · OPEN</div></div>
+          <div class="card"><div class="n">NOTOMATION</div><p><i>(n., ARCS canon, operator-defined)</i> The anti-automation: scattered wild evidence <b>snapped into sequence by a field</b>, not conveyed through stages. The sequence is revealed, not assembled. Cross-validates the kifu: chronology and resonance agreeing.</p><div class="src">GOSPEL XI</div></div>
+          <div class="card"><div class="n">THE KAIROS WINDOW</div><p>Four independent clocks striking together: the door reopened · fresh capital · a live decision (the next bag) · a one-way door in motion (Wisconsin). None manufactured. Kairos = heavy time; chronos = calendar time.</p><div class="src">GOSPELS X · XII</div></div>
+          <div class="card"><div class="n">MA (間) · THE GIFTED SENTE</div><p>The negative space where the yes lives. After the ask: silence. Whoever fills it first loses the frame. In Go terms: sente deliberately gifted when every continuation favors you.</p><div class="src">GOSPELS IX · XIII</div></div>
+          <div class="card"><div class="n">WU WEI (無為) · TENUKI · AJI</div><p>Non-forcing: the five-month pause as a move (Move 5). Aji: latent potential that ripens by being left alone (PE thread, Hermitage). <b>Aji-keshi — cashing potential early — is the campaign's one forbidden move.</b></p><div class="src">GOSPEL IX</div></div>
+          <div class="card"><div class="n">MIAI · SEKI</div><p>Miai: two points of equal value — next-bag and Wisconsin — so the choosing move belongs to Justin and the anxiety of choosing was the illusion. Seki: mutual life — "not now" holds the position without loss; nobody chases.</p><div class="src">GOSPEL IX</div></div>
+          <div class="card"><div class="n">THE FIFTEENTH ROCK</div><p>Ryōan-ji: fifteen rocks, only fourteen visible from any angle. The product is the one you can't see from inside the room. Provenance: Jeben's story — credited to him whenever used.</p><div class="src">GRADE A · GOSPELS VI · XIII</div></div>
+          <div class="card"><div class="n">THE PROVE-IT TEST</div><p>Week 1: free 60–90 min session → signed receipt. Weeks 2–4: $2–5K market test, 3 concepts × 100–200 real c-store buyers. Day 30: the read. The exact test that would have caught the shells on Pumps.</p><div class="src">GOSPELS I · IV</div></div>
+          <div class="card"><div class="n">THE THREE PATHS</div><p>Branch-based hyperstition: the survivable path (feels slow, compounds) · the treacherous (known risks, unrecorded luck) · the magical-thinking (symptoms feel like rewards — the Pumps route). Symptom chart: Zach's eyes only.</p><div class="src">GOSPEL IV · COMMIT 4</div></div>
+          <div class="card"><div class="n">DIKW LADDER</div><p>Data → Information → Knowledge → Wisdom. Each rung stays at its altitude; the room only ever sees wisdom. (Settled reading of the "Dewy and Wisdom" transcription artifact.)</p><div class="src">GOSPEL XIII</div></div>
+          <div class="card"><div class="n">THE THROTTLE GATE</div><p>Standing rule: when synthesis ramps — multiple new frames in under three turns without decisions — force one Decision Receipt before any new framing. The anti-recursion valve; it fired Jul 24.</p><div class="src">GOSPEL VII · §4</div></div>
+          <div class="card"><div class="n">GOLDEN INCHWORM PROTOCOL</div><p>Sponsor-calibration prep: a snapshot of the counterpart's decision style, value system, stress signature — for the operator's eyes only. Ran for Harry; scheduled Thursday for Justin.</p><div class="src">GOSPELS III · IV</div></div>
+          <div class="card"><div class="n">KUCHISABISHII (口寂しい)</div><p>"Lonely mouth." <b>Attribution split on the record:</b> the concept is Jeben's (A-grade); the Japanese word was supplied by the auditor (E). Usable, honestly framed.</p><div class="src">GOSPEL VII · RE-ATTRIBUTED</div></div>
+          <div class="card"><div class="n">THE ARTIFACT WATERFALL</div><p>One engagement, truth at five altitudes: Exec → Strategic → Operational → Tactical → Surgical. The demo is that all five come from one 90-minute session. Also the Forensic Ladder's five rungs.</p><div class="src">GOSPELS IV · VI</div></div>
+          <div class="card" data-th="gold"><div class="n">FISH AND RICE (THE 25-YEAR DIFFERENTIAL)</div><p><i>(operator canon, Jul 25 — the capstone)</i> <b>The novice sees fish and rice; the teacher sees twenty-five years of perfected craft, invisible.</b> That unseen mass is the entire differential between F-tier and S-tier — on the plate they look almost identical, which is why the plate can never explain the difference and the price of mastery is that it hides itself. Every doctrine in this lexicon restates this once: the Fence hides the years, the Polish is the years, the Fifteenth Ground stands on them, the Peek reveals them only after the taste has already told the truth, and T25 in the descent is both the forge-day and the quarter-century. Grade the plate by the taste; grade the house by what it never needed to show you.</p><div class="src">OPERATOR-DEFINED · THE CAPSTONE · SHOKUNIN TRIAD § · T25</div></div>
+          <div class="card" data-th="verm"><div class="n">THE PLIÉ (NEITHER PUSH NOR PULL)</div><p><i>(operator canon, Jul 25)</i> The campaign's posture, finally named: not pushing (the chase), not pulling (the bait) — <b>the plié: the yield and coil before the spring and weightlessness</b>. The jump's height is decided in the descent. The five-month pause was the bend; the gate and the fork are the coil; the one-sentence ask is the spring; the ma is the <i>ballon</i> — the weightless instant at the top, effortless only because all the work happened below. And the ensō closes it: in ballet, the landing of one jump is the plié of the next. Wu wei, sente-gifted, the seasoning between courses — all of it was choreography.</p><div class="src">OPERATOR-DEFINED · WU WEI § · THE MA § · ENSŌ §</div></div>
+          <div class="card" data-th="gold"><div class="n">THE PEEK (舞台裏 · SUBLIME FIRST, GEARS AFTER)</div><p><i>(operator canon, Jul 25)</i> Prep is never framed as pre-work on a guest surface. The reveal order is reversed: <b>let them enjoy the sublime first, then show the magical gears behind</b> — the backstage tour is offered only after the meal is complete, where it lands as a second gift (the sublime was engineered, not luck) instead of a spoiler. Mechanically: the Ensō's gears column stays sealed until the circle completes at T+90; the Noren's kitchen door opens only after the bow. The craftsman's paradox, resolved: hiding the work is hospitality; revealing it afterward is generosity.</p><div class="src">OPERATOR-DEFINED · ENSŌ SERVICE MODE · NOREN STAGE 6 · OMOTENASHI §</div></div>
+          <div class="card" data-th="verm"><div class="n">THE ACETATE (FLOORS × EXCAVATION)</div><p><i>(operator canon, Jul 25)</i> The strata as <b>isometric acetate transparencies</b>: the core narrative is the base sheet; qualifiers, citations, theses, and meta-commentary are overlays lifted by excavation (the EXEC→SURGICAL zoom). RBAC done honestly: each persona's <b>floor</b> sets which sheets exist in their <b>compiled surface</b> — withheld sheets are never shipped, so the guest sees no counter, no dial, no machinery of omission; their surface is simply whole. The fence, the omission log, and the engineered ma are back-of-house (the fish-stew special is not on the printed menu). Creative license bridges the receipt, the mastery over the rice, and the readiness to give and receive the single morsel.</p><div class="src">OPERATOR-DEFINED · MANIFEST §compilation_targets · SUPERSEDES DISPLAY-LAYER FIREWALLING FOR TABLE-FACING SURFACES</div></div>
+          <div class="card" data-th="gold"><div class="n">THE SHOKUNIN TRIAD (RICE · POLISH · GROUND)</div><p><i>(operator canon, Jul 25)</i> <b>The Rice Rule:</b> every run of the method is a pass at the rice — by the twentieth the student becomes the master; the method stops being followed and starts being held. <b>The Polish (精米歩合):</b> the sublime sake is not different grain but more of the same grain milled away — the canon's quality is the polish ratio, and the wu wei of the outcome is the product of refinement, never the material. <b>The Fifteenth Ground:</b> the visible deliverable is the fifteenth rock — the ground level the guest stands on; beneath it, fourteen accreted layers (core, mantle, crust — the sources, grades, audits, receipts) make the surface feel like bedrock. Build all fifteen; show one. Portable form: the canon-forge skill.</p><div class="src">OPERATOR-DEFINED · CANON-FORGE §CLOSING</div></div>
+          <div class="card" data-th="verm"><div class="n">THE FLASH (THE PARDES RULE)</div><p><i>(operator canon, Jul 25)</i> The strata are not volumes of information but <b>intensities of light — how hot and bright the flash of brilliance burns</b>. SIMPLE is the plain reading, light anyone can study by (<i>peshat</i>). RICH is the patterned light for the practiced eye (<i>remez·derash</i>, folded together). DEEP is the <i>sod</i> — the mystical interior, inception-deep, where the record studies itself. The tradition's warning applies whole: of the four who entered the Pardes, one alone left in peace — <b>depth without sufficient wisdom is vertigo, not insight</b>. The fence and JB-CAP are this rule drawn in software: intensity matched to readiness is care, not concealment.</p><div class="src">PARDES · THE FENCE · JB-CAP · OPERATOR-DEFINED</div></div>
+          <div class="card" data-th="gold"><div class="n">THE FENCE</div><p><i>(operator canon, Jul 25)</i> The firewall in literal craft terms — three surfaces of one build. The <b>FRONT</b> (Justin &amp; Stanley): beautiful, load-bearing, protective, cone-of-silence preserving — the taste and the value from the first bite, never how the sausage is made, sourced, or cooked. The <b>BACK</b> (Jeben): the joinery, shown craftsman-to-craftsman — he cares how the back of the fence is built, so he sees the seams and threads, not the shop floor. The <b>WORKSHOP</b> (Zach): sourcing, butchery, simulation, premortem — full resolution. The Babel dial is this fence, drawn in software.</p><div class="src">JB-CAP · F4 · G-2 · OPERATOR-DEFINED</div></div>
+          <div class="card"><div class="n">THE CONSTITUTION</div><p>Traceable · Transparent · Explainable/Composable · Falsifiable — plus the funhouse review. The Court's question for any artifact: does it obey the constitution it proposes to install?</p><div class="src">GOSPELS V · XII</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRADES -->
+    <section class="panel" id="grades">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">09 · THE GRADE REGISTER</span><h2>Evidence classes — what each can carry</h2><span class="tag">APPLIED TO EVERY CLAIM</span></div>
+      <div class="pb">
+        <table class="idx">
+          <thead><tr><th>Grade</th><th>Evidence class</th><th>Burden it can carry</th></tr></thead>
+          <tbody>
+            <tr><td><span class="grade A">A</span></td><td>Verbatim primary transcript (Mar 5/17/24/31)</td><td>Load-bearing anywhere. Caveat: an A-grade <i>utterance</i> does not make its referent A-grade — hearsay inside a transcript grades at B/F.</td></tr>
+            <tr><td><span class="grade">B</span></td><td>Written document of record (Thread Book, debrief, emails, deck)</td><td>Load-bearing with citation</td></tr>
+            <tr><td><span class="grade">C</span></td><td>Public record (press, LinkedIn, PR)</td><td>Corroboration; never sole support</td></tr>
+            <tr><td><span class="grade">D</span></td><td>Granola AI summary (Apr 21)</td><td>Directional; verbatim available on request</td></tr>
+            <tr><td><span class="grade E">E</span></td><td>Labeled model assumption (Monte Carlo params, sensitivity ranks)</td><td>Load-bearing ONLY with its label welded on</td></tr>
+            <tr><td><span class="grade">F</span></td><td>Secondhand or uncertain recollection inside a source</td><td>Color only; redact from pitch materials</td></tr>
+            <tr><td><span class="grade X">X</span></td><td>Ungrounded in any source available to this record</td><td>Carries nothing. Held at the gate — not rejected, <i>held</i>: define it in canon and it earns a grounded seat.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NUMBERS -->
+    <section class="panel" data-th="gold" id="numbers">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">10 · THE NUMBERS</span><h2>Every load-bearing figure, with its grade</h2><span class="tag">LABELS WELDED ON</span></div>
+      <div class="pb">
+        <table class="idx">
+          <thead><tr><th>Figure</th><th>What it is</th><th>Grade / rule</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">$20K/mo · $240K/yr</td><td>Vendor quote, 300–500 store placements promised — <b>the only figure permitted to anchor</b></td><td><span class="grade A">A</span> Mar 31 verbatim</td></tr>
+            <tr><td class="mono">$2–2.5M/yr</td><td>Fund capital at play (10% better allocation ≈ $200–250K/yr)</td><td>A-utterance · "per Jeben"</td></tr>
+            <tr><td class="mono">~$90K ± $25K</td><td>Assumed Pumps-scale rework cycle — session one's first data demand is the real number</td><td><span class="grade E">E</span> labeled</td></tr>
+            <tr><td class="mono">$5K/$10K/$15K · 90 DAYS</td><td>Tiers per month by depth · first session free · roll-over rule · month-one exit caps worst case at $10K · recommended middle tier $30K total</td><td><span class="grade">B</span> Gamma deck via Thread Book</td></tr>
+            <tr><td class="mono">$2–5K</td><td>The market test — 3 concepts × 100–200 real c-store buyers</td><td><span class="grade">B</span></td></tr>
+            <tr><td class="mono">23 · 22 · 21 /25</td><td>Priority grid: Next Bag · Round &amp; Governance · Vendor Tripwires</td><td><span class="grade">B</span> Thread Book grid</td></tr>
+            <tr><td class="mono">EV +$25.8K · MEDIAN $628</td><td>Monte Carlo n=10,000, seed 42 — insurance-shaped: median breaks even, tails carry it</td><td><span class="grade E">E</span> reproducible</td></tr>
+            <tr><td class="mono">0.7× / 2.7× / 7.2×</td><td>Sim P10/P50/P90 pilot ROI — brackets the hand-built 0.3–0.8× / ~3.5× / ~8×. Two methods, one shape.</td><td><span class="grade E">E</span></td></tr>
+            <tr><td class="mono">p(SESSION) EV SWING $25.4K</td><td>Top sensitivity — beats every economic parameter. Conversion beats economics.</td><td><span class="grade E">E</span> · the board's one order</td></tr>
+            <tr><td class="mono">.65 · .55 · .70</td><td>Pre-registered: FR-1 session+test · FR-2 mango branch · FR-3 exit-rule adoption (scored day 90)</td><td><span class="grade E">E</span> ex-ante</td></tr>
+            <tr><td class="mono">55/60/45/40/35%</td><td>Ex-ante receipt XA-1…XA-5 for the Friday call itself (scored 2:00 PM)</td><td><span class="grade E">E</span> ex-ante</td></tr>
+            <tr><td class="mono">3.8/5</td><td>Round Table consensus — proceed, six conditions absorbed</td><td>Internal</td></tr>
+            <tr><td class="mono">45 vs 47 KEYS</td><td>Hotel key-count — A/B cross-source conflict, logged; cite neither without checking</td><td><span class="redact">CONFLICT</span></td></tr>
+            <tr><td class="mono">~20 JOBS · WISCONSIN</td><td>Plant closing, active restructuring — one-way-door work ARCS respects; never a gotcha</td><td><span class="grade">B</span> Jul 15 correction</td></tr>
+            <tr><td class="mono">18-SECOND SELLOUTS</td><td>Mugen sub-minute drops ($350 × 300) · Nobunaga 15yr/122proof · LVJ #1 jerky at Whole Foods (acq. Sept 2025)</td><td><span class="grade A">A</span> + C corroboration</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- OPEN -->
+    <section class="panel" data-th="verm" id="open">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">11 · OPEN INCLUSIONS</span><h2>Unresolved, on the record, by choice</h2><span class="tag">NONE GATE THE CRITICAL PATH</span></div>
+      <div class="pb grid idx">
+        <div class="card" data-th="verm"><div class="n">VERMILLION'S DEFINITION</div><p>Canon says woven with red and gold; meaning undefined. Owner: Zach. On definition, the thread atom's comment re-dyes and every provisional usage is re-audited.</p></div>
+        <div class="card" data-th="verm"><div class="n">ATG</div><p>Only grounded referent: Alexander Technology Group (John Dailey, Apr 14) — which doesn't fit "demo the artifact waterfall." Define, or confirm the Dailey reading and a fourth waterfall column gets built.</p></div>
+        <div class="card" data-th="verm"><div class="n">IDEA→APEX LOOP</div><p>No definition anywhere in the available record. The Three Paths carry the hyperstition load meanwhile; if it's a distinct stage ladder, Commit 4 restructures around it.</p></div>
+        <div class="card"><div class="n">NAMED COMPS AT SCALE</div><p>Gauntlet condition #1: barred from ROI math until named comps at Louisville's scale exist. One research run away; Fund chair's grade rises 3→5 when it lands.</p></div>
+        <div class="card"><div class="n">ROUND STATUS</div><p>F-grade since late March. Gate item 1: confirm with Jeben. Reframes Way 2's story ("help us raise" vs. "show the new money it's governed well") but doesn't move EV.</p></div>
+        <div class="card"><div class="n">45 VS 47 KEYS · APR 21 VERBATIM</div><p>The key-count conflict awaits Jeben's check. The Apr 21 verbatim transcript is available on request (currently D-grade summary).</p></div>
+        <div class="card"><div class="n">X-GRADE FRAMES HELD AT THE GATE</div><p>5R · 5C-as-hypercube-axes · 5D dimensions · vector collision engine · gravitational mass · potential/kinetic arc weld. Held, not rejected — define any in canon and it earns a grounded seat in the next build. (5W/5H are grounded; "5D signature" exists only as a phrase.)</p></div>
+        <div class="card"><div class="n">THE STANDING STRATEGIC CHALLENGE</div><p>Has Wisconsin overtaken the next bag as the sharpest first cut? Resolved as miai on the Go board — both prepared, Justin's energy chooses — but the Cynic's session on it remains offered and unclaimed.</p></div>
+      </div>
+    </section>
+
+    <!-- REDACTED -->
+    <section class="panel" data-th="red" id="redact">
+      <div class="ph"><span class="lvl page">TIER · PAGE</span><span class="eyebrow">12 · THE REDACTION LOG</span><h2>Removed from pitch use — visibly, never silently</h2><span class="tag">THE STRIKE STAYS ON THE PAGE</span></div>
+      <div class="pb idx">
+        <table>
+          <thead><tr><th>Item</th><th>Why</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>"Jim from Pepsi"</td><td>F-grade hedge ("or something like that"); the "Pepsi-pedigree board" framing overreached its source</td><td><span class="redact">REDACTED</span> — retain as "a board member named Jim"</td></tr>
+            <tr><td>Round status as room-claim</td><td>F-grade since late March</td><td><span class="redact">CONFIRM FIRST</span> — gate item 1</td></tr>
+            <tr><td>Kuchisabishii attribution</td><td>Concept his, word mine</td><td>Re-attributed — usable, honestly framed</td></tr>
+            <tr><td>45-vs-47 keys</td><td>A/B cross-source conflict</td><td><span class="redact">LOGGED</span> — cite neither unchecked</td></tr>
+            <tr><td>The unforked pre-read</td><td>Contains Jeben's verbatim diagnosis of Justin + the symptom chart — first contact would be reading his own diagnosis</td><td><span class="redact">RESCINDED</span> — fork or 3-pager only; the breaker removed from the ladder's path</td></tr>
+            <tr><td>X-grade frames (see §11)</td><td>Ungrounded in the record</td><td><span class="redact">HELD AT GATE</span></td></tr>
+            <tr><td>Sponsor-recalibration evidence in the JEBEN register (February detachment · door-opener-not-closer · sponsor-discount premortem)</td><td>Operator order JB-CAP, Jul 25: strategically omitted from Jeben's view — perspectival findings about the reader arrive as verdicts, not analysis. Retained at full resolution in Zach registers.</td><td><span class="redact">OMITTED · LOGGED</span> — JEBEN register also capped at RICH stratum</td></tr>
+          </tbody>
+        </table>
+        <div class="receiptbox"><b>CODEX RECEIPT · KMS-01</b><br>EXPECTING — this codex serves as the single index to the Louisville universe; new artifacts register in the Canon Ledger and speak the grammar of §01–04<br>BREAKS THESIS — a canon correction from Zach or Jeben that contradicts any indexed entry; any artifact shipped off-grammar without a logged reason<br>KILL/SCALE — if the codex drifts from the corpus, it is re-serialized from the gospels, not patched from memory<br>SCORE-BACK — first canon correction received, or day 90 of the campaign, whichever comes first</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · LOUISVILLE UNIVERSE CODEX · SERIALIZED 25 JUL 2026 · GOSPELS I–XXIV INDEXED<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE TREE IS THE SEED AND THE SEED IS THE TREE · 師は求める者に現れる<br>
+    ATOMS → MOLECULES → ORGANISMS → TEMPLATES → PAGES · DATA → INFORMATION → KNOWLEDGE → WISDOM<br>
+    TRACEABLE · TRANSPARENT · COMPOSABLE · FALSIFIABLE — THE SEAMS STAY GOLD. CORRECTIONS SUPERSEDE.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // Canon search — filters every element inside .idx containers (rows, cards, table rows).
+  // In-memory only; no storage APIs (Claude.ai artifact rule).
+  var q = document.getElementById("q");
+  var items = [];
+  document.querySelectorAll(".idx").forEach(function(c){
+    c.querySelectorAll(".card, .row, tbody tr").forEach(function(r){ items.push(r); });
+  });
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
+  function filter(){
+    var t = q.value.trim().toLowerCase();
+    items.forEach(function(el){
+      var hit = !t || el.textContent.toLowerCase().indexOf(t) !== -1;
+      el.classList.toggle("hidden", !hit);
+    });
+    // hide panels whose indexed content is fully hidden (only panels that contain .idx)
+    panels.forEach(function(p){
+      var idx = p.querySelector(".idx");
+      if(!idx) { p.classList.toggle("hidden", !!t); return; }
+      var any = false;
+      items.forEach(function(el){ if(p.contains(el) && !el.classList.contains("hidden")) any = true; });
+      p.classList.toggle("hidden", !!t && !any);
+    });
+  }
+  q.addEventListener("input", filter);
+
+  // ===== STRATUM + BABEL dials =====
+  var T = {cxnote:{
+    zach:"The visual grammar is itself a <span class='accent'>receipt system</span>: every mark on every page is traceable to a named atom, and every atom is traceable to canon.",
+    jeben:"The grammar is the weave made legible: <span class='accent'>every mark a thread you named</span> — red through-line, gold seam, vermillion held open for your definition. Nothing here outranks your corrections."}};
+  var curReg="zach";
+  function fwapply(){
+    document.querySelectorAll(".bx").forEach(function(el){
+      var v=T[el.dataset.k]; if(!v) return;
+      el.innerHTML = v[curReg] || v.zach;
+    });
+    var n = (curReg==="justin"||curReg==="stanley") ? document.querySelectorAll(".panel:not(#fwnote)").length : 0;
+    var m = document.querySelectorAll(".fw-jeben").length;
+    var label = {zach:"THE WORKSHOP · FULL RESOLUTION",
+      jeben:"BACK OF THE FENCE · CAPPED AT OPERATIONAL · "+m+" OMISSIONS LOGGED (JB-CAP)",
+      justin:"FRONT OF THE FENCE · "+n+" WITHHELD · LOGGED",stanley:"FRONT OF THE FENCE · "+n+" WITHHELD · LOGGED"};
+    document.getElementById("fwcount").textContent = label[curReg];
+  }
+  var LVN = ["","EXEC","STRATEGIC","OPERATIONAL","TACTICAL","SURGICAL"];
+  var lvs = document.getElementById("lvs"), lvname = document.getElementById("lvname");
+  function setLv(n){
+    n = Math.max(1, Math.min(curReg==="jeben" ? 3 : 5, n));
+    lvs.value = n;
+    document.body.className = document.body.className.replace(/\blv\d\b/, "lv"+n);
+    lvname.textContent = LVN[n] + (curReg==="jeben" && n===3 ? " \u2308CAP\u2309" : "");
+  }
+  lvs.addEventListener("input", function(){ setLv(+lvs.value); });
+  function jbcap(){
+    if(curReg==="jeben"){ lvs.disabled=false; lvs.max = 3; setLv(Math.min(+lvs.value, 3)); }
+    else if(curReg==="justin"||curReg==="stanley"){ lvs.disabled=true; lvname.textContent="— NOT YET —"; }
+    else { lvs.disabled=false; lvs.max = 5; setLv(+lvs.value); }
+  }
+  document.querySelectorAll(".dialset.reg button").forEach(function(b){
+    b.addEventListener("click",function(){
+      curReg=b.dataset.reg;
+      document.body.classList.remove("reg-zach","reg-justin","reg-stanley","reg-jeben");
+      document.body.classList.add("reg-"+curReg);
+      document.querySelectorAll(".dialset.reg button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+      jbcap();
+      fwapply();
+    });
+  });
+
+  // ===== card collapse init: derive the abstract (lede sentence) from each card body =====
+  function cardInit(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector("p"); if(!p||p.classList.contains("abstract"))return;
+      p.classList.add("cfull");
+      if(!c.querySelector(".abstract")){
+        var a=document.createElement("p");a.className="abstract";
+        p.parentNode.insertBefore(a,p);
+      }
+      if(!c.querySelector(".lede")){
+        var l=document.createElement("p");l.className="lede";
+        p.parentNode.insertBefore(l,c.querySelector(".abstract"));
+      }
+    });
+    cardAbs();
+  }
+  function cardAbs(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector(".cfull"), a=c.querySelector(".abstract"), l=c.querySelector(".lede");
+      if(!p)return;
+      var t=p.textContent.trim();
+      var sents=t.match(/[^.!?\u2026]+[.!?\u2026]+["')\]]*(?:\s+|$)/g)||[t];
+      if(l) l.textContent=(sents[0]||t).trim();
+      if(a) a.textContent=sents.slice(0,3).join("").replace(/\s+/g," ").trim();
+    });
+  }
+  cardInit();
+  fwapply();
+  setLv(+lvs.value);
+})();
+</script>
+<a class="onramp" href="louisville-resonance-filter.html" title="NEXT · THE PALATE — one dish, four ways">🍣</a>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "cover": {
+    "badges": ["PRL Resins · Vendor Call", "Tidio · Plan Resolved"],
+    "title": "Recoil Report — Jul 31 Tidio Call",
+    "subtitle": "Called expecting to pick a paid tier. Left having confirmed the current plan already does the job — lead delivery to SugarCRM needs no upgrade at all. Two-pass Recoil Protocol read (Deep Recall + Reverse Listening) against the Granola transcript.",
+    "meta": "Call: Jul 31, 2026 · 2:30 PM EDT · ~26 min · Zach Harris + Todd Hotes with D. Triana (Tidio, d.triana@tidio.net)",
+    "actions": ["Wire the flow's API call node", "Await Daniel's discount email"]
+  },
+  "loadBearingQuote": {
+    "text": "We have one opportunity to keep the pricing lower than the 359 a month for sure... This can be done on your existing plan, even on this starter plan.",
+    "attribution": "D. Triana (Tidio rep) · Jul 31, 2026 — correcting the assumption live, screen-sharing the account"
+  },
+  "callWalk": [
+    { "label": "Open", "title": "Framed against overkill, not toward it", "body": "Zach opens the account already upgraded once, then sets the real constraint before Daniel pitches anything: \"I don't want to start with an overkill one just to be clear.\" That line, said before any plan was on the table, is what steered the whole call." },
+    { "label": "Context", "title": "Todd hands over the business model", "body": "Todd explains PRL in full: raw resin pellets sold to injection molders who supply OEMs, formulations built per application (indoor/outdoor, electrical, medical). Customers often know the application, not the resin — PRL formulates. Grounds everything Daniel recommends afterward." },
+    { "label": "Architecture", "title": "Flow-first, AI-as-fallback confirmed", "body": "Daniel walks the flow/AI split: flows are the deterministic lead-gen layer everyone hits first; Lyro AI (once enabled) is the conversational fallback for anyone who skips or exits a flow, and can keep qualifying (\"are you interested in knowing more, or want to be contacted by a sales rep\"). Copilot is a human-agent assist tool, distinct from full AI delegation." },
+    { "label": "Pivot", "title": "The tier question inverts", "body": "Zach asks which tier unlocks the webhook. Daniel corrects the premise on screen: the flow's own \"API call node\" is a native webhook, live on the current plan — same for Zapier-from-flow. Only the AI acting on its own, pushing a lead out without a flow, needs the $359/mo Tidio+ tier. Real-time confusion on screen (\"I think we're looking at the wrong page\") resolves into the opposite of what the call was booked to decide.", "peak": true },
+    { "label": "Close", "title": "Downgrade, not upgrade", "body": "Todd verbally approves dropping the wasteful Starter add-on (human-to-human ticketing, unneeded); Daniel prorates the $490/yr already paid and separately offers to chase a 5–10% account-wide discount for later. Admin access for Todd and the earlier email-DNS support ticket both handed off before the call ends.", "peak": true }
+  ],
+  "signalThreads": [
+    { "label": "REVERSAL", "accent": "gold", "title": "The call inverted its own premise", "body": "Booked to pick a paid tier. Left having confirmed no upgrade is needed for the one thing that actually mattered — lead delivery. The webhook everyone assumed was gated, wasn't.", "note": "Read backward from the close, this is the actual finding of the call, not a side note." },
+    { "label": "TRUST", "accent": "green", "title": "The rep talked the account down, not up", "body": "Mid-call, unprompted: \"I wouldn't recommend going for the growth plan... you can probably just skip this one.\" A vendor steering a customer toward less spend is a real signal, worth remembering the next time pricing comes up." },
+    { "label": "SCOPE", "accent": "cyan", "title": "Flow vs AI is architecture, not upsell noise", "body": "The two-webhook split (flow-level vs AI-level) is a genuine product boundary in Tidio, confirmed on screen, not a sales tactic. Treat it as fact going forward, not as something to re-litigate." },
+    { "label": "OPEN LOOP", "accent": "violet", "title": "Two threads left genuinely open", "body": "BYO-LLM / MCP connection (\"not sure, will get back to you\") and the discount email (\"early next week\") are both unresolved. Neither blocks the build. Track them so they don't silently expire." }
+  ],
+  "scenarios": {
+    "best": { "title": "Wired and proven this week", "body": "The flow's API call node is connected to SugarCRM, one real test lead confirms it lands, and Daniel's discount email arrives on schedule for whenever Tidio+ becomes worth it.", "note": "Nothing here is blocked — this is just execution." },
+    "base": { "title": "Wired now, discount lands whenever", "body": "Webhook wiring proceeds this week regardless of Daniel's follow-up. If the discount email is late or never comes, nothing changes — the current plan already does the job.", "note": "Most likely outcome; the discount was never load-bearing." },
+    "worst": { "title": "The claim doesn't survive contact", "body": "Something about the current plan's flow-level API action turns out to be capped or misconfigured once actually wired, contradicting what was shown on screen.", "note": "Mitigation: send one real lead through before declaring this dependency closed. Don't take the screen-share as proof of production behavior." }
+  },
+  "riskFlags": [
+    { "variant": "caution", "label": "Untested claim", "body": "Daniel's assurance that the API call node works on the current plan was confirmed verbally on a screen-share, not yet tested end-to-end with a live webhook firing into SugarCRM. Verify with one real lead before marking this dependency closed." },
+    { "variant": "info", "label": "Discount is soft-committed", "body": "5–10% offer contingent on manager approval, no firm date beyond \"early next week.\" Not a blocker — track it so it doesn't quietly expire unacknowledged." },
+    { "variant": "info", "label": "BYO-LLM / MCP genuinely unknown", "body": "Daniel could not answer whether PRL could bring its own LLM key or connect an MCP server; he is checking. Low priority — only matters if/when PRL wants to route Tidio through a different model directly." },
+    { "variant": "success", "label": "No plan pressure", "body": "Unusually, the rep actively steered the account away from a bigger plan. Nothing here needs defensive negotiation on the next call." }
+  ],
+  "protocol": [
+    { "label": "Run 01", "title": "Wire the webhook this week", "body": "Use the flow's API call node (or Zapier-from-flow) to POST captured leads to SugarCRM on the current plan. Nothing left blocking this.", "active": true },
+    { "label": "Run 02", "title": "Send one real test lead through", "body": "Confirms Daniel's claim holds in production, not just on his screen-share. Do this before closing the lead-delivery dependency in the build spec." },
+    { "label": "Run 03", "title": "Let the discount email arrive on its own", "body": "No chasing. If silent past roughly a week, one follow-up ping — not urgent, and doesn't block anything either way." },
+    { "label": "Close", "title": "Revisit Tidio+ only once ready to scale into AI qualification", "body": "Not before. The current plan is sufficient for everything Phase 1 needs." }
+  ]
+}

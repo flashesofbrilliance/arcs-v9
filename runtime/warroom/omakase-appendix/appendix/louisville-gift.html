@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>土産 · THE GIFT · Louisville Brands × ARCS · The Pre-Read</title>
+<style>
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold)}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:10px 18px;background:rgba(11,11,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+  .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .sig em{font-style:normal}
+  .print{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--graphite);background:none;border:1px solid var(--line);border-radius:3px;padding:5px 10px;cursor:pointer;font-weight:600}
+  .print:hover{color:var(--gold);border-color:var(--gold)}
+
+  .fold{max-width:660px;margin:0 auto;padding:18px 22px 130px}
+  .origata{text-align:center;margin-bottom:14px}
+  .origata .jp{display:block;font-size:26px;color:var(--gold);font-weight:700;letter-spacing:.04em;font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
+  .origata .en{font-size:10px;letter-spacing:.26em;color:var(--graphite);font-family:var(--mono);margin-top:8px;line-height:1.8}
+  h1{font-size:17px;font-weight:700;letter-spacing:.04em;text-align:center;margin-bottom:4px}
+  .dek{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--graphite);line-height:1.9;margin-bottom:16px}
+
+  .sect{margin:15px 0}
+  .sh{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--gold);font-weight:600;margin-bottom:8px}
+  .sh .g{color:var(--faint);letter-spacing:.1em;font-weight:400}
+  .sect p{font-size:14.5px;color:var(--dial)}
+  .sect p i{color:var(--graphite)}
+  .sect p .accent{color:var(--verm)}
+  .sect .load{color:var(--dial);font-weight:600}
+  .morsel{border:1px dashed var(--gold);border-radius:4px;padding:14px 18px;margin:8px 0}
+  .morsel p{font-size:16px;line-height:1.5;font-weight:700}
+  .morsel p .accent{color:var(--verm)}
+  .movebox{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 16px;margin:8px 0;font-size:14px}
+  .movebox b{color:var(--gold)}
+  .receiptline{background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;padding:12px 14px;font-family:var(--mono);font-size:11px;line-height:1.9;margin-top:28px}
+  .receiptline b{color:var(--gold)}
+  .seal{text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--graphite);margin-top:30px;line-height:2.2}
+  .seal .jp{color:var(--gold)}
+
+  /* RSVP bar: the gift asks for one small thing back */
+  .carry{margin-top:34px}
+  .cacts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .rsvp{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:rgba(11,11,12,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+  .ract{display:inline-block;text-decoration:none;font-family:var(--mono);font-size:10px;letter-spacing:.2em;padding:13px 18px;border-radius:3px;border:1px solid var(--gold);color:var(--gold);transition:background .3s,color .3s}
+  .ract:hover,.ract:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
+  .ract.verm{border-color:var(--verm);color:var(--verm);font-weight:700}
+  .ract.verm:hover,.ract.verm:focus-visible{background:var(--verm);color:var(--case)}
+
+  @page{size:11in 8.5in;margin:0.45in}
+  .pfoot{display:none}
+  @media print{
+    .pfoot{display:block;margin-top:16px;padding-top:8px;border-top:1px solid #ccc;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#666;text-align:center}
+    .pfoot a{color:#8a6d00;text-decoration:none}
+  }
+  @media print{
+    .bar,.rsvp,.carry{display:none}
+    /* two-page landscape artifact: A-side ends at THE ECONOMICS, B-side opens on THE DISCIPLINE */
+    .bside{break-before:page;page-break-before:always}
+    body{font-size:12.5px;line-height:1.45}
+    .fold{max-width:none;padding:0 10px 0}
+    .origata{margin-bottom:8px}
+    .origata .jp{font-size:20px}
+    h1{font-size:15px}
+    .dek{margin-bottom:10px;font-size:8px}
+    .sect{margin:10px 0}
+    .sect p{font-size:12px}
+    .morsel{padding:10px 14px}
+    .morsel p{font-size:13.5px}
+    .movebox{padding:9px 12px;font-size:12px}
+    .receiptline{margin-top:14px;font-size:9.5px;line-height:1.7}
+    .seal{margin-top:14px;font-size:9px}
+    .sh{font-size:9px;margin-bottom:5px}
+    body{background:#fff;color:#111}
+    .fold{padding-bottom:20px}
+    .sect p,.movebox{color:#111}
+    .sh{color:#8a6d00}
+    .morsel p{color:#111}
+    .morsel,.receiptline{border-color:#8a6d00}
+    .movebox{background:#fff;border-color:#ccc}
+    .receiptline{background:#fff;color:#333}
+    a{color:#8a6d00}
+    .sect .load{color:#111}
+    .origata .jp,.seal .jp{color:#8a6d00}
+    .dek,.origata .en,.seal,.sect p i,.sh .g{color:#666}
+  }
+  @media(max-width:420px){.ract{padding:12px 12px;font-size:9px}}
+  /* dark instrument scrollbar, independent of OS theme */
+  html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0B0C}
+  ::-webkit-scrollbar-thumb{background:#232326;border-radius:5px;border:2px solid #0B0B0C}
+  ::-webkit-scrollbar-thumb:hover{background:#4A4A4F}
+  [lang="ja"],.jp,.kanji,.kanji-big,.pglyph{word-break:keep-all;line-break:strict;overflow-wrap:normal}
+</style>
+<script defer src="/_vercel/insights/script.js"></script></head>
+<body>
+
+<div class="bar" role="banner">
+  <a class="ev-return" href="../index.html" title="RETURN · 一夜 · the evening">← 一夜</a>
+  <span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> THE GIFT</span>
+  <a class="print" style="text-decoration:none" href="https://omakase.arcs.care/appendix/louisville-gift.pdf" download>PDF · 11×8.5</a>
+  <a class="print" style="text-decoration:none;margin-left:8px" href="https://omakase.arcs.care/appendix/louisville-gift-mobile.pdf" download>PDF · PHONE</a>
+</div>
+
+<div class="fold">
+  <div class="origata">
+    <span class="jp">土産</span>
+    <p class="en">THE ORIGATA UNFOLDS · WHAT THE BOX WAS BUILT TO CARRY</p>
+  </div>
+
+  <h1>Louisville Brands × ARCS · The Pre-Read</h1>
+  <p class="dek">ONE PAGE BEFORE THE CANON · DIAMOND CUT · EVERY CLAIM CARRIES ITS GRADE<br>SERIALIZED JUL 25 2026 · GOSPEL XVIII · CORRECTIONS SUPERSEDE EVERYTHING ON THIS PAGE</p>
+
+  <div class="sect">
+    <div class="sh">THE NOTE <span class="g">· the carbon under all of it · B, validated ×4 verbatim, zero contradictions</span></div>
+    <div class="morsel"><p>Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>. ARCS makes every big bet write down its assumptions, risks, and exit rule before a dollar moves.</p></div>
+  </div>
+
+  <div class="sect">
+    <div class="sh">THE WINDOW <span class="g">· four clocks, none manufactured</span></div>
+    <p>The door reopened on their time (Justin accepted; <b>Fri Jul 31, 1:00 PM ET</b>) · fresh capital at $2–2.5M/yr <i>(per Jeben, not independently verified)</i> · a live decision (the next bag, the CEO's own question) · a one-way door in motion (the Wisconsin move).</p>
+  </div>
+
+  <div class="sect">
+    <div class="sh">THE MOVE <span class="g">· everything compresses to one conversion</span></div>
+    <div class="movebox">One free 60–90 min session on the next-bag decision → one signed one-page receipt → one <b>$2–5K</b> market test with real c-store buyers → one day-30 read against a pre-agreed line.</div>
+    <p>The zero-slack node is a single sentence on Friday's call, followed by silence. The simulation ranks the session's probability above every economic parameter <i>(E, seed 42, reproducible)</i>: <span class="load">conversion beats economics: do not defend ROI in the room.</span></p>
+  </div>
+
+  <div class="sect">
+    <div class="sh">THE ECONOMICS <span class="g">· worst case first, always</span></div>
+    <p>Session $0 · test $2–5K · month-one exit caps the pilot's worst case at <b>$10K</b>, and they keep the receipts and the test data either way. The one load-bearing sentence, Cynic-stripped: <i>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</i> Median simulated outcome ≈ $628, insurance-shaped; the tails carry it. The 8× best case is never spoken first.</p>
+  </div>
+
+  <div class="sect bside">
+    <div class="sh">THE DISCIPLINE <span class="g">· why this canon can be trusted</span></div>
+    <p>Every claim graded A–X and the F/X material redacted <i>visibly</i> · receipts pre-registered before outcomes (XA-1…5 scored Friday 2:00 PM; FR-1…3 at day 90) · comps barred from ROI math until comps exist at this scale · the seller's incentive disclosed aloud, unprompted · the engagement obeys its own stop-loss. <span class="load">If it cannot fail, it is not a receipt.</span></p>
+  </div>
+
+  <div class="sect">
+    <div class="sh">THE HONEST HOLES <span class="g">· carried openly</span></div>
+    <p>No CPG-holdco receipt yet (defensibility rented from terms until earned from results) · the sponsor opens doors and cannot close deals; the receipt must sell itself · round status unconfirmed (gate item 1).</p>
+  </div>
+
+  <div class="sect">
+    <div class="sh">WHAT REMAINS <span class="g">· two human moves</span></div>
+    <p><b>Ping Jeben</b> (accuracy read · round status · key count) and <b>fork the pre-read</b> (out by Wednesday; Thursday-noon kill line → walk in with the two-minute overview and a blank stub, which the model says is sufficient). The kernel: the Thread Book at <a href="louisville-kernel.html" target="_blank" rel="noopener">the kernel · the Thread Book</a>. Read it first; nothing downstream outranks it except corrections flowing back into it.</p>
+  </div>
+
+  <div class="receiptline"><b>PRE-READ RECEIPT · EM-01</b> · EXPECTING: a cold reader reaches fluency in this canon from this page plus the kernel, in under ten minutes. BREAKS THESIS: any claim above found ungraded, or contradicting the corpus. KILL/SCALE: contradictions resolve from the codex, never from memory. SCORE-BACK: Fri Jul 31 · 2:00 PM.</div>
+
+  <p class="seal">THE TREE IS THE SEED AND THE SEED IS THE TREE · <span class="jp" lang="ja">師は求める者に現れる</span></p>
+  <div class="pfoot">
+    ARCS <b><span style="color:#B4342A">/</span><span style="color:#8a6d00">/</span><span style="color:#E34F1C">/</span></b> OMAKASE · navigate to clarity ·
+    <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a> ·
+    <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59">book the session</a> ·
+    <a href="https://omakase.arcs.care/">omakase.arcs.care</a>
+  </div>
+</div>
+
+<nav class="rsvp" aria-label="Respond to the gift">
+  <a class="ract verm" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">RSVP · BOOK THE SESSION</a>
+  <a class="ract" href="mailto:zach.harris@gmail.com?subject=The%20gift%20%C2%B7%20my%20follow-up&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">EMAIL YOUR FOLLOW-UP</a>
+</nav>
+
+</body>
+</html>

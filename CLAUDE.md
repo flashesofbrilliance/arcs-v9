@@ -8,6 +8,13 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Progressive handoff (2026-09-04):** a global hook checkpoints git state to
+  `_STATE/handoff-progress.jsonl` every turn-with-change, and asks for a `## Delta` in
+  `_STATE/handoff-progress.md` at each compaction. Both are gitignored. `/handoff` folds them
+  into the CLAUDE.md block and marks the ledger claimed; the global SessionStart hook flags any
+  worktree whose trail was never claimed. Compaction never writes CLAUDE.md anymore.
+- **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
+  from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):
   `MEMORY.md`, `SKILL.md`, `_ARCHIVE/handoffs.md`, `_ARCHIVE/memory-archive.md`, `_STATE/*`.
 - There is no "read MEMORY→SKILL→WORLD→AGENTS in order" chain anymore. That mandate cost ~40k
@@ -61,7 +68,8 @@ GREEN=SHARP · YELLOW/FORK=DEGRADED · SCRATCH/DELTA/DRIFT=GRAIN · PARADOX=MOIR
 3. **HYPERSTITION PIPELINE** — Ethereal → Loki Test → Receipt Evaluation → ROM
 4. **GOLDEN INCHWORM** — Red Thread → Golden Thread → Needle (3-pass, non-blocking)
 5. **ORTHOGONAL ECHO DETECTOR** — surface cross-domain kinematic isomorphisms
-6. **EXOGENOUS FORGE** — no agent self-validates; hardened claims ground against something *external to the lattice*, never its own coherence (diamonds validating diamonds = capture); controls that police the agent are owned by *not-the-agent*; signal = derivation-independence graded by substrate-disjointness; lens-plural but not relativist. Subordinate to NOTOMATION. Full always/sometimes/never guardrails: `_DECISIONS/ADR-038-exogenous-forge.md`
+6. **KINTSUGI IMMUNE SYSTEM** — repair seams visibly; no silent patching of integrity failures; show the break and the gold
+7. **WRITE-LOCK** — one-way-door decisions require explicit write-lock declaration before commit; irreversibility is declared, not assumed
 
 ## L0–L7 Stack (current impl: L0–L5 only)
 L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cross-domain · L5=global coherence · L6=ecosystem · L7=meta-governance
@@ -71,11 +79,10 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
-Observatory/replay: the interactive page is **LIVE on main** — `src/app/observatory/page.tsx`
-(commit 4460bce), a real App Router page. NOTE: it uses hardcoded data arrays, not the
-`datasets.json` hot-swap ingestion that lives ONLY in the static `public/observatory/` demo; the old
-static-demo rewrite was removed (see `next.config.ts:6-7`). Hosting new telemetry on it needs
-ingestion code, not free reuse.
+Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
+rewrite). The full interactive Next.js page IS committed on main at `src/app/observatory/page.tsx`
+(landed 2026-06-23, ~1.2k LOC); the old "never pushed" note was stale (Atlas audit 2026-09-03).
+Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -83,6 +90,7 @@ ingestion code, not free reuse.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
 - Inline styles only in components — no Tailwind, no utility classes. Sanctioned exceptions (only these): next/font classes on `<html>`, and the single `src/app/globals.css` (reset + keyframes + font tokens). Tailwind was removed 2026-07-11.
 - No new dependencies without asking.
+- **Self-contained artifact/page CSS: one shared px `--measure` for BODY/card reading text — NEVER `max-width:NNch` per element** (font-dependent → misaligned right edges that read as broken wrapping). **But LEDES are the exception: a hero/section lede spans the full lane width matching its heading (`max-width:none`), never the narrow body measure — a lede narrower than its heading reads as a broken/abridged block with a dead right gutter (`design-full-width-lede-matches-heading`; Zach's standing preference, do NOT "fix" it back to `--measure`).** The "too narrow" symptom is invisible to overflow/clip gates — eyeball lede-vs-heading edges at ~1280px too. Bordered callouts carry the measure on the box, not the inner text. Before shipping any single-file HTML, run the repo's own gate (`scripts/artifact_wrap_lint.py`; `npm test` for `zachharris-xyz`) and sweep 360–1440 incl. the 700–1000 band. Em-dashes 0. Canon: `_PATTERNS/arcs-artifact-css-base.css`; AGENTS.md gotcha #13.
 
 
 # Versioning & handoff policy (amended 2026-07-19)
@@ -104,113 +112,74 @@ ingestion code, not free reuse.
 
 ---
 
-# Handoff — v3.12.1 (2026-07-21)
-
-> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
-> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
-
-## What shipped (this thread, 2026-07-21)
-
-**Production auth-loop test — closed, verified live, full loop.** The standby item from
-v3.11.0 (drive "Sign in to keep" end-to-end, confirm the anon-share persist fix from PR
-#121 actually lands a user on `/receipt/<id>`) is done:
-
-- First attempt used the Claude Browser pane + the Gmail MCP connector. Auth itself worked
-  (operator clicked the real email link, landed on `/dashboard`), but the Gmail MCP tool's
-  text extraction **deterministically corrupts the `=` immediately before the `token=`
-  query param** on every send (verified twice, reproducible, unrelated to token content —
-  looks like a quoted-printable line-wrap decoding bug in that connector, not an
-  arcs.care/Resend send-side defect). This broke the magic-link URL and, separately,
-  because the operator opened the link in a different browser context than the one that
-  viewed the share link, the `arcs_pending_save` localStorage flag wasn't present there
-  either — so that run only proved auth, not the claim path.
-- Full reproduction done via the **Claude-in-Chrome MCP** (operator's real Chrome, already
-  signed into Gmail) instead: visited the `/brief/share#...` link → "Sign in to keep" →
-  entered email → sent magic link → opened Gmail natively (no text-extraction step,
-  clicked the real DOM anchor) → landed authenticated on
-  **`/receipt/cmrupjbyk000104ljq1swek49`**, rendering the exact shared test bearing.
-  Same-tab-group continuity kept `arcs_pending_save` intact, so `ClaimAnonymousReceipts`
-  (`src/components/ClaimAnonymousReceipts.tsx`) fired correctly end-to-end — confirms PR
-  #121 works exactly as designed, not just by code inspection.
-- **Note for anyone touching Gmail-via-MCP for arcs.care emails going forward:** prefer
-  driving Gmail through a real browser tool (Claude-in-Chrome or the operator's own client)
-  over parsing email body text through the Gmail MCP connector when a URL/token in the
-  body matters — the corruption above is silent (no error, just wrong characters) and easy
-  to miss.
-
-## Open from prior handoffs (untouched this thread)
-
-- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
-  — still open, operator-approved, not started.
-- v3.11.0 "glow strays" sweep — still open.
-- Todd Hotes / PRL Resins (v3.12.0) — still awaiting his post-Wednesday reply, untouched.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
-gating work; ledger-management and the authenticated `/recoil` index remain the next
-build-ready items whenever picked up.
-
 ---
 
-# Handoff — v3.13.0 (2026-07-22)
+# Handoff — v3.59.0 (2026-09-08)
 
-> **For Claude Code:** active pickup point. v3.12.0 (Todd Hotes) relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy; v3.12.1 preserved above. **Version note:** a
-> `v3.14.0` label appears in an earlier commit message (`a6d4c20`, a divergent branch) but never
-> entered this worktree's handoff chain — this file's chain is monotonic at v3.13.0; reconcile the
-> numbering at next consolidation. Full session proof: the two live Artifacts + `_DECISIONS/ADR-038`.
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
 
-## What shipped (this thread, 2026-07-22)
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
 
-**ROM Primitive #6 — THE EXOGENOUS FORGE — inscribed, dogfooded, committed** (`902fb86`, on branch
-`claude/harness-build-optimization-f52489`, pushed; preview-only, production untouched).
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
 
-Origin: a "look at this repo (`harness-engineering`), anything useful for ARCS?" scout that
-excavated — via a long adversarial dialectic — a constitutional invariant rather than a build.
-Diagnosis: the agent's opening build-list *was* the failure mode; symptom → mechanism
-(proxy-reward-hacking) → **disease: groundlessness + trained helpfulness-compulsion** (tell:
-recurrence-in-new-costumes).
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
 
-- **ROM #6 in CLAUDE.md** + full always/sometimes/never guardrails in
-  `_DECISIONS/ADR-038-exogenous-forge.md`. Law: *no agent self-validates; hardened claims ground
-  against something external to the lattice; controls that police the agent are owned by
-  not-the-agent; lens-plural but not relativist.* Subordinate to NOTOMATION.
-- **Dogfood — PASS.** Forged the CLAUDE.md domain-topology claim against `get_deployment(arcs.care)`:
-  the 4 documented domains are served, but reality returns **~30 aliases** — the doc had drifted by
-  omission. External grounding caught it; ADR-038 records the run.
-- **`/thread-recoil` skill** (`.claude/skills/thread-recoil/SKILL.md`) — session belief-update
-  ledger, `simple|rich|deep` depth pass-through; self-guards against the disease (only counts
-  externally-forced belief changes). Queued for open-source (pending genericization).
-- **3 memories banked** (auto-memory): `control-integrity-described-vs-wired`,
-  `cognitive-division-of-labor-pruned-lattice`, `external-artifact-eval-ground-and-skeptic-route`.
-- **2 live Artifacts:** Exogenous Forge architecture diagram + belief-update ledger (proof that
-  7/7 priors moved on external data, 0 on internal re-coherence).
+## Open (next session)
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
 
-## Open from this thread
 
-1. **ADR-038 dogfood** — done on (a) domain-topology; operator may add targets (selection-receipt
-   spec / a handoff claim). Not gating.
-2. **`/thread-recoil` open-source** — queued; needs a genericization pass (strip ROM/ADR/DEWY/
-   arcs.care refs) + em-dash/sauce gate before publish. Held (irreversible).
-3. **Version-numbering drift** — `v3.14.0` (git-log) vs `v3.13.0` (this chain); reconcile.
-4. **PR** — feature branch pushed; no PR opened.
+# Handoff — v3.58.0 (2026-09-08)
 
-## Open from prior handoffs (untouched)
+> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
+> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
+> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
 
-- Todd Hotes / PRL Resins (archived v3.12.0) — still awaiting his post-Wednesday reply.
-- v3.11.0 ledger-management + authenticated `/recoil` index — still open.
+## Shipped
+- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
+  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
+  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
+  regenerated. Closes the v3.55.0 `story_render.py` open loop.
+- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
+  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
+  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
+- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
+  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
+  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
+  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
+  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
+- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
+  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
+- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
 
-## Blocking
+## Open (handed to fresh sessions, all started)
+1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
+   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
+2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
+   "Token cost ROI analysis" cloud session, not duplicate.
+3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
+   register decision (insider-dense vs legibility layer) + domain-topology verify first.
+- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
+  abductive profile→role scan.
+- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
 
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. This session's work is committed + pushed on the feature branch (not merged, not
-deployed). If continuing: pick a further ADR-038 dogfood target, or run the `/thread-recoil`
-genericization pass for open-source. Otherwise Todd's reply remains the standing client thread.
+> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._

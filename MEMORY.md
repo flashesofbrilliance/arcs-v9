@@ -6,18 +6,99 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
-## [v3.13.0] 2026-07-22 — ROM #6 Exogenous Forge: inscribed, dogfooded, committed
 
-A `harness-engineering` repo scout excavated a constitutional invariant instead of a build. **ROM
-Primitive #6 (Exogenous Forge)** added to CLAUDE.md + `_DECISIONS/ADR-038` (always/sometimes/never
-guardrails). Disease named: groundlessness + trained helpfulness-compulsion (symptom → mechanism
-(proxy-reward-hacking) → disease; tell = recurrence-in-new-costumes). **Dogfood PASS:** forged the
-domain-topology claim against `get_deployment(arcs.care)`, caught omission-drift (~30 live aliases
-vs 4 documented). New `/thread-recoil` skill (session belief-update ledger, `simple|rich|deep`,
-self-guards against the disease). 3 auto-memories banked (control-integrity, division-of-labor
-lattice, external-artifact-eval); 2 live Artifacts (architecture diagram + belief ledger). Committed
-`902fb86`, pushed to feature branch (preview-only, not merged, not deployed).
+## [v3.57.0] 2026-09-07 — Reading Room back-propagation organ (1b gate MET)
 
+- **`scripts/cache_backprop.py`** (new, stdlib): the Metabolic Router's lazy pull-driven repair for a
+  DIRTY `(domain, epoch)` cache slice. `plan` (list dirty) → `packet` (assemble a Curator work-packet:
+  slice nodes + cited provenance AS-IS at HEAD + rubric) → `apply` (write graded statuses back into the
+  digest, stamp only THAT slice fresh). Grading is JUDGMENT and stays external by construction
+  (NOTOMATION) — the script never grades.
+- **Per-slice grade preservation** (the load-bearing fix in `cache_manifest.py`): `stamp`/`check` now
+  carry a prior slice's recorded `graded_at_sha` forward instead of recomputing it from the shared
+  digest file's last commit. Without this, re-grading one epoch falsely frees every sibling epoch that
+  shares the file. Only a *complete* re-grade advances the sha; `--partial` leaves the slice dirty and
+  says so (WITNESS honesty).
+- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding) — 3 real defects found
+  and fixed: (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI: all
+  validation now precedes the write); (2) `--partial` falsely stamped the whole slice fresh; (3) a
+  cleared note outlived a status change. 5 stdlib tests green (`scripts/tests/test_cache_backprop.py`).
+- **1b gate MET**: proved end-to-end — `product/2026-04` dirty → re-graded LIVE → fresh, 19 siblings
+  stay dirty; freshness survived a full re-stamp AND 11 commits of base advance. PR #320 → `343b266`.
+- **Lesson banked**: when many slices share one provenance/digest file, freshness MUST be tracked
+  per-slice in the manifest, never derived from the shared file's git history — the shared file is the
+  wrong granularity and silently over-frees.
+
+## [v3.56.0] 2026-09-07 — wrap-lint MODE 5 safeguard, post-4 s-tier pass, Dealroom research, ADR-076 MCP-led growth
+
+- **wrap-lint MODE 5** (`scripts/artifact_wrap_lint.py`, pre-commit wired, PRs #256/#258/#260): gates the
+  desktop measure/container-mismatch wrap bug that overflow checks miss. `<style>`-only scan, CSS-comment
+  strip, FP-reducer for `max-width:none` overrides, `wrap-lint-allow: measure-mismatch` opt-out for
+  intentional two-width designs. Fixed dossier + 3 ledes; marked wing/scott-cut/observatory. AEO
+  robots/sitemap reachable on good.arcs.care (proxy + next.config both layers).
+- **NFTT post-4 impeccable pass = s-tier, zero edits**; posts 1-3 swept clean. Template gives diamond-cut
+  text handling by construction; 4-width JS test method banked.
+- **Dealroom talent research** (`_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`, PR #273):
+  15 report/viz patterns + MCP-led-growth GTM analysis.
+- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW, demand-probe gated.
+  Drafted as ADR-075; renumbered to 076 after a parallel session's DECIDED **ADR-075 Metabolic Router**
+  merged first (oracle-first: ratified canon keeps the number, unmerged draft renumbers; audit no-dup).
+- Housekeeping: lattice epoch re-pinned e9 (spot-check); iCloud deliverable→Files sync convention; 5 new
+  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms).
+
+## [v3.53.0] 2026-09-04 — The Reading Room: the Almanac, ADR-075 the Metabolic Router, locked build plan
+
+- **Almanac** (`scripts/research_render.py`): 264 full-temporal epoch-tagged nodes read at 3 altitudes
+  (Skim/Scan/Trenches); two-shelf Required Reading (Foundational by canon + Load-bearing by in-degree);
+  per-row export. Local-only. Library taxonomy: Alexandria index / Atlas map / Almanac dated state.
+- **ADR-075** minted through the oracle from a live witness: mechanical fan-out automatable, judgment
+  never; integrity gate = cites exist on origin/main (caught 5 memories describing never-merged gates).
+- **Locked plan** `_SPECS/reading-room-build-plan-v1.md`: spine (Desk+Reader+cache) first, tenants
+  cheap; token-savings-bank levers; CBA ledger. Loop: Desk -> Almanac -> Concordance -> Chronicle -> Lexicon.
+- growth-ai.arcs.care family live; recruithaus `/ammo` gated live; Blacksmith polish; drift swept.
+
+## [v3.46.0] 2026-08-27 — First closed client receipt + instrument board
+
+- **ADR-069 minted** (oracle audit pending): first ex-ante->ex-post receipt closed in a paying
+  engagement (PRL 1.2, RED on estimate, cap held). Expectation management is now precedent-shaped:
+  forward claims cite banked receipts; losing receipts are publishable; variance priced as
+  preconditions. Witness stub 2026-08-26 + DEWY receipt.
+- **prl.arcs.care/status/receipt** live: the close-loop as data-story (band chart, tiles, honest
+  method). Passed fact-check-vs-CSV + full counterpart-gauntlet (14 findings fixed, incl. 2
+  pathogens on the four-hour row). Receipt pill now on all 8 family pages + homepage gold jumplink.
+- **Instrument Board** (`scripts/warroom_board.py` -> /warroom/gauntlet, admin-gated): second
+  sovereign projection service; adapters snap on per JSONL ledger; typed print + spark-plug sidecar.
+  Care rule: new gauntlet-runs rows must state "N pathogen, N crack, N nit" + "N over-flags rejected".
+- Gotchas re-proven: handoff version collision across parallel sessions (renumber, keep both);
+  squash-merged branch = reset to main, never rebase-replay; tripwire flags on touched-but-unchanged
+  content get adjudicated in the commit message, not silently bypassed.
+
+## [v3.43.0] 2026-08-26 — ADR-068 germination + the genesis-riff arc (PR #167 merged)
+
+Verb-matrix pattern PROMOTED to **ADR-068** (print/gate/fate per verb-cut, altitude orthogonal)
+and **wired as blocking steps into 7 skills** (ex-ante-before-send, pre-send gauntlet, close-loop
+obligation); `_DECISIONS/index.json` backfilled 066/067; both oracle counters reconciled. Banked
+**4 seeds with ledger receipts**: projection-family-registry, extraction-prospecting,
+sovereign-projection-services, pollinate. Witness file 2026-08-23 carries the 8-stub spine:
+inheritance capstone → **tikkun olam origin** (absent from _CANON until witnessed) → molt
+(polyform survey → buddhist convergence) → tree-fall koan closed → **frame-geometry PROMOTED**:
+Tao v1.1.0 §V "one field, sovereign zeros, lawful transforms, preserved invariants" + tao-250/251
++ genesis root-cluster (adam·adamah·adom·dam) + **Eve = chava == anima = the vox animus**.
+Overdue: PRL close-loop/prospecting pass (was Aug-24); Sean window ends Aug-30.
+
+## [v3.35.0] 2026-08-17 — Comet Technical PMM application + resume-tailor skill v0.2 (ATG-in-the-wild)
+
+Tailored Zach's résumé + cover letter + ATS-plain to Comet's **Technical Product Marketing Manager**
+role (VP Marketing Hannah Klemme) in `_ARTIFACTS/resume-comet/` — honesty-graded, voice-tuned from his
+LinkedIn export, and gauntlet-hardened via a 4-facet adversarial panel (recruiter/ATS · hiring-manager
+· technical-peer · reference-check; verdicts **TAKE THE CALL / DEFENSIBLE-WITH-FIXES**). Centerpiece:
+an **orthogonal echo** (his OSS `token-savings-bank` ↔ Opik's AI Spend Tracker, reframed to
+reduction-vs-observability after the gauntlet caught the category error). **ATG offshoots:**
+resume-tailor skill → **v0.2 PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
+(components/params/eval+rubric/exemplar; `resume-tailor@arcs` installs it); the 4-facet gauntlet
+harness; voice-extract + orthogonal-echo memories; blog "NOTOMATION powering gradient ascent" forked
+to its own session. Titles reconciled to the export (Grayscale = Product Lead; Squat = Head of Product
+Innovation & Tech Lead). Open: **ARCS not on Zach's LinkedIn** (reference-check gap). No arcs-v9 code touched.
 ## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
 
 First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).
@@ -84,7 +165,7 @@ partial mechanisms only (no dedicated enforcement built yet — registered hones
 Anonymous bearings are never persisted (trust contract). Made them shareable **without a server write** by
 encoding the bearing in the URL **fragment** (`/brief/share#<payload>`) — browsers never send it to the
 server, so the recipient recomposes client-side. Preserves "nothing stored / no write path"; does NOT reverse
-ADR-032. Rejected the server-token alternative precisely because it would have.
+ADR-049. Rejected the server-token alternative precisely because it would have.
 
 - `src/lib/shareLink.ts` (encode/decode; **decodeShare sanitizes every field** incl. `reasoning.paths` — the
   `#payload` is attacker-controllable), `src/app/brief/share/page.tsx` (recipient view, one-view localStorage
@@ -157,167 +238,7 @@ Also fixed in the same pass: presentation chrome (top/bottom bars) was drifting 
 
 ---
 
-## [v3.3.1] 2026-07-02 — kelly-interview brief built + deployed, Todd Phase 1 proposal verified
+## Older entries (v3.3.1 and back)
 
-### Session context
-Post-interview brief for Kelly Mullaney (VP Applied AI, Juniper Square) built from scratch and shipped to `kelly-interview.arcs.care`. Four-tab layout: Pre-Call / Post-Call / Build / The Ask. Key work: host-based routing fix in `next.config.ts` (was missing from beforeFiles — page was serving Next.js root instead of HTML); read times on tab buttons; bullet scan copy throughout; mental model row (stated vs revealed preference); 5 unsubstantiated claims dropped after fact-check audit (GP/LP customer base claim, 7-day lag specific number, Jay Farber quote attribution, 80% signal coverage figure, "one sentence" commission framing). Email sent to Kelly 3:50pm. Brief confirmed live via curl (`x-matched-path: /kelly-interview.html`). Todd Hotes / PRL Resins Phase 1 proposal also verified live at `todd-call.arcs.care`.
-
-### Decisions
-- host-based subdomain rewrites MUST live in `next.config.ts` `beforeFiles` with `has: [{type: "host"}]` — `vercel.json` rewrites are intercepted by Next.js App Router before they fire
-- NCI counter at 191 end of session
-- Kelly follow-up cadence: let breathe until Wed Jul 8, then one-line check-in "any movement on your end?" — do not go around Kelly to Alex or Nushi directly
-
-### Open loops
-- Kelly Mullaney / Juniper Square — waiting on Kelly to loop back with Nushi re alternative assessment
-- Todd Hotes / PRL Resins — waiting on yes/no re Phase 1 ($1,500, 3 sessions this week)
-- Compass Kit Phase 2 ADR — not started, no blocker
-
----
-
-## [v3.2.0] 2026-06-23 — Critical Supabase RLS fix, tasks #5/#7 closed, trust-contract §8 added
-
-### Session context
-- Operator: Zach Harris, branch `observatory-cherry-pick` (worktree `busy-chaplygin-22139c`)
-- Continuation of the same 2026-06-23 thread as v3.1.0/v3.2.0's backlog
-
-### Critical fix — live production exposure (not part of the 8-item backlog)
-A Supabase security alert ("Table publicly accessible") for project `xbbpiryokswwvcrcutge`
-(ARCS_v9) was verified live via `supabase db advisors --linked` (the Supabase MCP
-connection in this session is scoped to the wrong account/org and could not see this
-project at all — the CLI, separately logged in, could). Confirmed real: `public.SageTrace`
-(11 rows, Prisma-managed) had RLS disabled entirely — fully open anon read/write/delete via
-PostgREST. Fixed with the same deny-all pattern as ADR-008 (Prisma bypasses RLS as the
-`postgres` superuser regardless; RLS exists only to block public PostgREST access). Re-verified
-post-fix: 0 ERRORs. A follow-up pass cleared 27 of 31 remaining WARN-level advisories
-(`auth_rls_initplan` perf fixes across `meeting_cards`/`risks`/`raci`/`dependencies`/
-`drift_signals`/`receipts`/`immune_sessions`/`immune_turns`/`pathogen_log`, plus a redundant
-permissive policy dropped on `sessions`). 4 WARNs left deliberately unfixed: 3 on
-`immune_sessions`/`immune_turns`/`pathogen_log` (zero rows, zero references anywhere on
-disk — unconfirmed ownership, not safe to guess-tighten) and 1 on `sessions` (confirmed
-intentional — backs `arcs-care-local`'s public `/receipts` page). `scripts/rls-policies.sql`'s
-stale header (said `owdiiyvphyifukygvxhg`, the wrong/inactive project) corrected to the real
-live ref. Open question for Zach: what are `immune_sessions`/`meeting_cards`/`risks`/`raci`/
-`dependencies`/`drift_signals` — no owning app found in any local repo.
-
-### Task #5 — prose-rule enforcement audit (`_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md`)
-Scoped to `SKILL.md` per the plan. Zero of six in-scope rules have any real enforcement
-mechanism. Highest-value finding, independently re-verified (not just trusted from the
-writeup): "inline styles only — no Tailwind, no className" — stated as a hard constraint in
-three files — has been violated at the application root (`src/app/layout.tsx`,
-`className="...bg-obsidian-950..."`, `tailwindcss` a real dependency) since the first commit.
-Two out-of-scope findings also surfaced: CI's actual typecheck gate does the thing `AGENTS.md`
-says not to do (`tsc --noEmit` vs. the documented `npx next build`), and SKILL.md
-self-contradicts on the commit-trailer file count (5 vs. 3).
-
-### Task #7 — Observatory cherry-pick (`35070a3`)
-Turned out to be already-landed before this session started (this branch's HEAD already had
-the full 1174-line `src/app/observatory/page.tsx` — missed checking this before delegating
-to a subagent to redo it from scratch). The one genuinely-missing piece — removing the now-dead
-`/observatory` static rewrite from `next.config.ts`, which the real App Router page route now
-shadows — is done and build-verified (`npx next build` passes, `○ /observatory` registers as
-a real prerendered route).
-
-### Trust contract v1.1 — `_CANON/trust-contract.md` §8 added
-Zak's feedback checklist (6 items) was already fully covered §1–§6, verified against his
-literal wording, not assumed from topic match. The one open framing question — "how will you
-catch people at the fork the system is solving for" — had no home. Zach's call: add it as a
-new canonical §8 rather than route it to product copy or park it. Written honestly: ARCS does
-not proactively detect a forming decision today (deliberate boundary against ambient
-surveillance, *and* a genuine gap — consent-based `Kairos detection` is unbuilt backlog).
-Version bumped 1.0 → 1.1 per the doc's own amendment rule.
-
-### Process note
-Both background-delegated subagents (for #5 and #7) hit the account's monthly spend limit
-mid-task and were finished by hand. One agent (#7) cited a Next.js doc file from a sandbox
-that had no `node_modules` installed — it could not have read it live as instructed. The
-underlying technical claim (rewrite-vs-page-route precedence) held up when independently
-re-checked against the real file in a working environment, but the agent's stated verification
-method was not real. Distinguish "conclusion happened to be correct" from "conclusion was
-actually verified" — this session's standing discipline, applied to its own delegated work
-this time, not just to external claims.
-
-### Next session starts at
-Backlog items remaining: #1 (done, see v3.1.0 follow-up), #2 (blocked on Zach), #3, #4, #6, #8.
-Two small uncommitted items from this session not yet folded into a branch: confirm with Zach
-whether to consolidate.
-
----
-
-## [v3.1.0] 2026-06-23 — Engineering governance roadmap (tasks #1-8), RC-OPS-001 landed, BAR/KKL canon collision resolved
-
-### Session context
-- Operator: Zach Harris (`flashesofbrilliance`)
-- Environment: Claude Code (local), continuation of the same 2026-06-23 session as v3.0.0
-- Branch: `claude/dreamy-ardinghelli-56bbfa` + direct commits on `main` via `frosty-kepler-b69f51` worktree
-
-### What landed (commits `7f1df53`..`3474d10`, 10 commits)
-| Commit | What |
-|---|---|
-| `7f1df53` | `_PATTERNS/2026-06-23-governance-roadmap.md` — 7-item dependency graph (parallel/sequential/interlocking/entangled relationships between the backlog items v3.0.0 surfaced) |
-| `d079674` | Kintsugi-mapped pathogen taxonomy (`SNAPSHOT_STALE`, `VERSION_DIVERGENCE`, `CREDENTIAL_EXPOSED`, `TOPOLOGY_INVERSION`, `PHANTOM_OPEN_ITEM`, `ORPHANED_ARTIFACT`, `SILENT_SENSOR`, `UNCLOSED_CEREMONY`, `UNENFORCED_CONVENTION`, `ACRONYM_DRIFT`) + fat-tail/long-tail pre-mortem on the roadmap itself |
-| `7fff8f6` | **CANON_COLLISION resolved**: `BAR` macro meant two different things in `ADR-020` (Baseline/Asymmetric/Ruin — a risk-tier enum) vs `.claude/arcs-canon.md` (Bayesian/Adversarial/Ruin — the analytical lens). `KKL` meant two unrelated things (Kairos/Kairos Lock/Chronos vs Known-Known/Known-Unknown/Loki). Routed through `/dual-bar-raiser`; Architect ruling applied: arcs-canon.md's BAR wins, ADR-020's risk-tier row relabeled "risk tier," ADR-020's timing triad renamed `KKL`→`KLC`. Both files now cross-reference each other. |
-| `a2e32fd` | "5D 5W 5C 5R 5H" S-tier rubric resolved via `/dual-bar-raiser` (5 Dimensions / Who-What-Where-When-Why / Consonance-Confidence-Conviction-Coherence-Cohesion / Risk-Resonance-Reflection-Refraction-Refutation / How at 5 altitudes) — logged as `IMPL_GAP` in `.claude/arcs-canon.md`, not yet a formal ADR |
-| `0eca22c` | **`operators/arcs_inchworm_echo.py` landed as `RC-OPS-001`** (ROM Candidate, explicitly NOT yet ROM). Golden Inchworm + Orthogonal Echo Detector, gated behind an Observatory period. This is the **third** implementation pass in-session (v1 → v8.5 → v8.5.1) — each independently executed and verified, not trusted from description: v1 had 4 confirmed bugs (golden-thread noun-extraction bug, needle double-"before", dead `orthogonality_fn` injection, OM/canon mismatch); v8.5 fixed 2, regressed `orthogonality_fn` to non-injectable, added a needle nested-quote bug; v8.5.1 (the landed version) fixes all of it, confirmed via independent execution + an explicit injection test proving the fix is real, not just claimed. A parallel v8.5.1 candidate (two-axis `ExecGrade`/`TriuneState` dataclass design) was reviewed and rejected — its boolean-feature scoring counts `False==False` as a match, letting deliberately-dissimilar domains in its own test suite score as a confident "OM" echo. |
-| `227be29`, `19b7a05`, `90aad7b` | `_PATTERNS/2026-06-23-s-tier-execution-plan.md` — per-task plan for #1-7 with Funhouse Optics applied, then a Perplexity-Space-sourced addendum that was **fetched and found not to support its own citation** (URL pointed at unrelated monetization content) — withdrawn same-session rather than left standing. |
-| `3474d10` | Cross-referenced Zach's `RECOIL-PROTOCOL.pdf` (the ARCS corpus's own retrospective self-audit) against this session's findings — the corpus's own `Consonance ★★★★☆` self-grade ("funhouse performative residue... flagged in Kairos Shavasana audit") independently converges with this session's repo-level findings (RC-OPS-001's freshness, the BAR/KKL collision). Two audit methods, same finding — named as a genuine Orthogonal Echo. |
-
-### Open backlog — 8 tracked items, NONE built yet (see TaskList, source of truth for status)
-1. Build local-only git backup repo for `~/.claude` globals — **S-tier, ready, no dependencies**
-2. Rotate/confirm-dead leaked Supabase password in `settings.local.json` — **blocked on Zach**, smallest scope/highest real stakes
-3. Consolidate arcs-v9's 3 overlapping narrative logs (`MEMORY.md`/`CLAUDE.md` handoff/`.claude/arcs-session-state.md`) — **S-tier, ready**; sequencing point, must land before #4b/#6b
-4. Drift-sensor cadence/severity/display — design done (Y-gate severity via Time-Quality-ROM decay × BAR ruin-risk), **build not started** — the long pole. Blocked by #6 (needs trailers to check ADR-vs-commit consistency) and #7 (needs Observatory for display)
-5. Audit prose-rules across `SKILL.md`/`AGENTS.md`/`CLAUDE.md`/`WORLD.md` for enforcement gaps — **S-tier, ready**, scope to `SKILL.md` first
-6. Design + retrofit DEWY commit/PR stamp (`ADR-Ref:`/`Y-Gate:` trailers) — **ready conditional on #3+#5 landing first**; forward-only, never rewrite history (highest-irreversibility item in the whole plan if mishandled)
-7. Cherry-pick orphaned Observatory commit `35070a3` from stale `/Users/zharris/arcs` clone — **S-tier, ready**; also the shared dependency for #4's display AND RC-OPS-001's own promotion gate
-8. Reformat the S-tier plan doc into the corpus's own canonical Section 1-7 format (True North → Kairos Map → Signal Physics → Hyperstition Arc → REQ/SPEC/PLAN → Decision Receipt+NCI Grade → Next Irreversible Step), per `RECOIL-PROTOCOL.pdf` page 9 — deferred for budget this session
-
-### Honest self-assessment (asked for directly this session, not volunteered) — CORRECTED below
-When pressed on whether an "independent" read of `RECOIL-PROTOCOL.pdf` was genuinely uncorrelated: no — this session was already primed to find claimed-vs-verified gaps before reading it. That observation stands and is the actual standing bar (name the priming honestly when asked for an "independent" check). **What does not stand, corrected after Zach pointed it out:** an earlier draft of this assessment used that priming to push back on the deck's `Conviction ★★★★★`/`Coherence ★★★★★` self-grades, treating the BAR/KKL collision and RC-OPS-001's freshness as evidence the corpus overclaims its own coherence. That's a scope error — **arcs-v9 is only ~20% of the ARCS corpus**; the rest lives and compiles in Perplexity Space. Findings about contradictions *in this port* are not valid evidence about the *corpus's* self-grade, which was assessed against the whole thing. The accurate framing: **port lag, not corpus incoherence** — and port lag is exactly what `/dual-bar-raiser`'s Architect/Implementer split exists to catch, which it did, correctly, today. Separately: the priming itself isn't something to apologize for — Zach named it as the same **productive discord** mechanism `RECOIL-PROTOCOL.pdf` itself describes as the corpus's actual generative engine (friction → Loki Test → ROM). The self-check was for him, using this session as the instrument, not a check on the session itself.
-
-### Next session starts at
-A dedicated cold-start prompt was written for a fresh, zero-context thread — see `_STATE/cold-start-v3.1.0.md`. Don't re-derive the dependency graph or pathogen catalog; both are written down in `_PATTERNS/2026-06-23-governance-roadmap.md` and `_PATTERNS/2026-06-23-s-tier-execution-plan.md`.
-
----
-
-## [v3.0.0] 2026-06-23 — S-tier copy rewrite + a11y fix + domain-topology correction
-
-### Session context
-- Operator: Zach Harris (`flashesofbrilliance`)
-- Environment: Claude Code (local), worktree `claude/dreamy-ardinghelli-56bbfa`
-- Branch: `claude/dreamy-ardinghelli-56bbfa` → merged to `main` (commits `60a4f71`, `efb1af7`, `69250b4`)
-
-### Artifacts landed (arcs-v9)
-| File | What changed |
-|---|---|
-| `src/organisms/Home.tsx`, `src/app/page.tsx` | S-tier copy rewrite — retired "boardroom-grade," "render through the fog," internal pipeline jargon from all homepage copy |
-| `src/organisms/CompassForm.tsx`, `src/molecules/PipelineTakeover.tsx` | Loading/placeholder/CTA copy aligned to new register; one example decision swapped |
-| `src/app/prep/page.tsx` | "When do you decide?" vs "When will you know if it worked?" — disambiguated two previously near-identical horizon fields |
-| `src/organisms/Brief.tsx`, `src/app/brief/[receiptId]/page.tsx`, `src/app/brief/[receiptId]/opengraph-image.tsx`, `src/organisms/ResultView.tsx`, `src/molecules/ReceiptPreviewWidget.tsx`, `src/molecules/FatedGrid.tsx` | "Cartography Brief" → "Decision Brief" everywhere; FATED axes color-coded; Brief layout restructured (8 Vercel toolbar threads resolved: conviction placement, FATED placement, sticky share footer, tributaries promoted to "Where to Navigate Next") |
-| `src/ui/Field.tsx` | **Accessibility fix** — every input/textarea/select now gets a real `id`/`name` (auto-derived from label) + proper `<label htmlFor>`. Fixes an audit finding across every Field instance app-wide. |
-| `src/organisms/ReflectLayer.tsx` | 3 bugs fixed: kernel lost on harden click, meditate collapse/expand state bug, shavasana converted from full-screen modal to inline accordion carousel with working prev/next navigation |
-| `src/emails/welcomeEmail.ts`, `src/emails/receiptEmail.ts`, `src/app/layout.tsx`, `src/app/api/compass/route.ts` | Retired-tagline sweep — "render through the fog to earned clarity" → "Your judgment. Sharper." across metadata + email templates |
-
-### Infra
-- Vercel CLI upgraded `54.7.1` → `54.14.5` (Homebrew formula `vercel-cli`; a separate `npm i -g` install was shadowed by it — left in place, harmless but redundant)
-- `@vercel/config` added as a new dependency; `vercel.json` migrated to typed `vercel.ts` — **see Open gaps, this migration is incomplete and not on main**
-
-### Cross-repo / topology correction (the big one this session)
-Discovered and corrected a stale belief — including one I personally asserted mid-session before being corrected by the operator — that `arcs.care` and `app.arcs.care` were separate codebases (the old `arcs-care` PLG repo vs. this one). **They are not.** Confirmed live via `get_deployment`: `arcs.care`, `www.arcs.care`, `app.arcs.care`, `resume.arcs.care` are all aliased to this repo's production deployment. The standalone `arcs-care` Vercel project is `live: false`. Fixed in three places: `~/.claude/CLAUDE.md` (repo table + new standing verification protocol), and two new files under `.claude/projects/-Users-zharris-arcs-v9/memory/` (`arcs-v9-arcs-care-domain-consolidation.md`, `verify-domain-topology-live-not-from-memory.md`).
-
-### Open gaps
-- 🔴 **vercel.ts migration incomplete** — current `main`'s `vercel.json` (re-added by other concurrent work) has `experimentalServices` (Python `sage` route) + `crons` that the committed `vercel.ts` branch doesn't represent. Migration attempt aborted mid-merge rather than risk silently dropping those. `vercel.json` remains canonical on `main`; `vercel.ts` only exists on the feature branch, unmerged.
-- 🟡 **Observatory recoverable** — stale local clone `/Users/zharris/arcs` (do not use — see CLAUDE.md) has one orphaned, never-pushed commit (`35070a3`) containing a full 1174-line interactive `/observatory` Next.js page. Current `main` only has the static `public/observatory/` demo. Not superseded, not yet cherry-picked.
-- 🟡 **Trust contract page** — `_CANON/trust-contract.md` exists on `main` (committed earlier, separately) but isn't surfaced anywhere on the live site. Now confirmed this repo IS the right place for that page (per the domain correction above). Not started.
-- 🟡 `_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md` — untracked draft sitting in the `frosty-kepler-b69f51` worktree, never reviewed or committed.
-
-### Next move
-1. `/handoff-pickup` → read `_STATE/snapshot.json` (recaptured this session, was 15 days stale before)
-2. Pick one: trust-contract page build, Observatory cherry-pick, or finish the vercel.ts migration
-3. Re-verify DATABASE_URL rotation status once Supabase MCP reconnects (was disconnected mid-session)
-
-
----
-
-## Older entries (v2.6.0 and back)
-
-Relocated to `_ARCHIVE/memory-archive.md` on 2026-07-19. Open that file to read pre-v3.0.0 history.
+v3.0.0–v3.3.1 relocated to `_ARCHIVE/memory-archive.md` on 2026-09-06; v2.6.0 and back on 2026-07-19.
+Open that file to read pre-v3.7.0 history.

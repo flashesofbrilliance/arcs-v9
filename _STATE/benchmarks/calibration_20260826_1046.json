@@ -1,0 +1,85 @@
+{
+  "run_id": "calibration_20260826_1046",
+  "timestamp": "2026-08-26T10:46:00",
+  "description": "Real audit-bench: adr_audit.py --tier 1 --format json --model <model> across 5 ADRs × 4 models = 20 CIS-pipeline calls.",
+  "harness": "adr_audit.py",
+  "path": "adr_audit.py → cli_arcs_run.py subprocess (CIS pipeline, rule-based, no LLM)",
+  "models_tested": [
+    "upstage/solar-pro4:free",
+    "poolside/laguna-s-2.1:free",
+    "poolside/laguna-xs-2.1:free",
+    "stepfun/step-3.7-flash:free"
+  ],
+  "adrs_tested": [
+    "ADR-004-mcp-arcs-care-dns.md",
+    "ADR-008-rls-policy-design.md",
+    "ADR-029-onboarding-profile-upload.md",
+    "ADR-032-lewoof-bb-dotcom-channel.md",
+    "ADR-030-nested-thread-view.md"
+  ],
+  "tier": 1,
+  "total_calls": 20,
+  "parse_ok_count": 20,
+  "parse_ok_rate": 1.0,
+  "exit_codes": "all 0",
+  "findings": {
+    "model_independence": {
+      "status": "confirmed",
+      "detail": "All 4 models produced identical gate verdicts and CSS values per ADR. The CIS pipeline is rule-based (HC lexical scan + LTE stub sentence-chunking) with no LLM client, so --model has no effect through this path.",
+      "per_adr_css": {
+        "ADR-004-mcp-arcs-care-dns.md": 0.507,
+        "ADR-008-rls-policy-design.md": 0.486,
+        "ADR-029-onboarding-profile-upload.md": 0.546,
+        "ADR-032-lewoof-bb-dotcom-channel.md": 0.557,
+        "ADR-030-nested-thread-view.md": 0.606
+      },
+      "per_model_avg_latency_s": {
+        "upstage/solar-pro4:free": 0.2,
+        "poolside/laguna-s-2.1:free": 0.1,
+        "poolside/laguna-xs-2.1:free": 0.1,
+        "stepfun/step-3.7-flash:free": 0.2
+      }
+    },
+    "gate_coherence": {
+      "status": "perfect",
+      "detail": "All 5 ADRs returned CONSISTENT across all 4 models. Every ADR got gate=critical, overall=fail.",
+      "per_adr_gate": {
+        "ADR-004-mcp-arcs-care-dns.md": "critical",
+        "ADR-008-rls-policy-design.md": "critical",
+        "ADR-029-onboarding-profile-upload.md": "critical",
+        "ADR-032-lewoof-bb-dotcom-channel.md": "critical",
+        "ADR-030-nested-thread-view.md": "critical"
+      }
+    },
+    "parsing": {
+      "status": "clean",
+      "detail": "All 20 calls returned parseable JSON with 1 BAR finding each. CSS extracted via regex from finding text (pattern: 'CSS=0.557.')."
+    }
+  },
+  "call_log": [
+    {"adr": "ADR-004-mcp-arcs-care-dns.md", "model": "upstage/solar-pro4:free", "latency_s": 0.32, "gate": "critical", "css": 0.507, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-004-mcp-arcs-care-dns.md", "model": "poolside/laguna-s-2.1:free", "latency_s": 0.19, "gate": "critical", "css": 0.507, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-004-mcp-arcs-care-dns.md", "model": "poolside/laguna-xs-2.1:free", "latency_s": 0.12, "gate": "critical", "css": 0.507, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-004-mcp-arcs-care-dns.md", "model": "stepfun/step-3.7-flash:free", "latency_s": 0.12, "gate": "critical", "css": 0.507, "findings": 1, "parse_ok": true, "overall": "fail"},
+
+    {"adr": "ADR-008-rls-policy-design.md", "model": "upstage/solar-pro4:free", "latency_s": 0.11, "gate": "critical", "css": 0.486, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-008-rls-policy-design.md", "model": "poolside/laguna-s-2.1:free", "latency_s": 0.11, "gate": "critical", "css": 0.486, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-008-rls-policy-design.md", "model": "poolside/laguna-xs-2.1:free", "latency_s": 0.10, "gate": "critical", "css": 0.486, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-008-rls-policy-design.md", "model": "stepfun/step-3.7-flash:free", "latency_s": 0.11, "gate": "critical", "css": 0.486, "findings": 1, "parse_ok": true, "overall": "fail"},
+
+    {"adr": "ADR-029-onboarding-profile-upload.md", "model": "upstage/solar-pro4:free", "latency_s": 0.12, "gate": "critical", "css": 0.546, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-029-onboarding-profile-upload.md", "model": "poolside/laguna-s-2.1:free", "latency_s": 0.14, "gate": "critical", "css": 0.546, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-029-onboarding-profile-upload.md", "model": "poolside/laguna-xs-2.1:free", "latency_s": 0.11, "gate": "critical", "css": 0.546, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-029-onboarding-profile-upload.md", "model": "stepfun/step-3.7-flash:free", "latency_s": 0.11, "gate": "critical", "css": 0.546, "findings": 1, "parse_ok": true, "overall": "fail"},
+
+    {"adr": "ADR-032-lewoof-bb-dotcom-channel.md", "model": "upstage/solar-pro4:free", "latency_s": 0.13, "gate": "critical", "css": 0.557, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-032-lewoof-bb-dotcom-channel.md", "model": "poolside/laguna-s-2.1:free", "latency_s": 0.12, "gate": "critical", "css": 0.557, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-032-lewoof-bb-dotcom-channel.md", "model": "poolside/laguna-xs-2.1:free", "latency_s": 0.12, "gate": "critical", "css": 0.557, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-032-lewoof-bb-dotcom-channel.md", "model": "stepfun/step-3.7-flash:free", "latency_s": 0.17, "gate": "critical", "css": 0.557, "findings": 1, "parse_ok": true, "overall": "fail"},
+
+    {"adr": "ADR-030-nested-thread-view.md", "model": "upstage/solar-pro4:free", "latency_s": 0.12, "gate": "critical", "css": 0.606, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-030-nested-thread-view.md", "model": "poolside/laguna-s-2.1:free", "latency_s": 0.13, "gate": "critical", "css": 0.606, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-030-nested-thread-view.md", "model": "poolside/laguna-xs-2.1:free", "latency_s": 0.12, "gate": "critical", "css": 0.606, "findings": 1, "parse_ok": true, "overall": "fail"},
+    {"adr": "ADR-030-nested-thread-view.md", "model": "stepfun/step-3.7-flash:free", "latency_s": 0.29, "gate": "critical", "css": 0.606, "findings": 1, "parse_ok": true, "overall": "fail"}
+  ]
+}

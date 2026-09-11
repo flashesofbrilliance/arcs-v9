@@ -1,0 +1,377 @@
+{
+  "generated": "2026-09-07",
+  "repo_head": "d08e81cb1bdc31ff9bd950e0fa30494a377098f6",
+  "dirty_count": 19,
+  "slices": [
+    {
+      "domain": "memories",
+      "epoch": "2026-06",
+      "node_count": 4,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_MEMORY/*.md",
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ]
+    },
+    {
+      "domain": "memories",
+      "epoch": "2026-07",
+      "node_count": 16,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_MEMORY/*.md",
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ]
+    },
+    {
+      "domain": "memories",
+      "epoch": "2026-08",
+      "node_count": 55,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_MEMORY/*.md",
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ]
+    },
+    {
+      "domain": "memories",
+      "epoch": "2026-09",
+      "node_count": 8,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_MEMORY/*.md",
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ]
+    },
+    {
+      "domain": "memories",
+      "epoch": "undated",
+      "node_count": 2,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_MEMORY/*.md",
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "_ARCHIVE/memory-archive.md"
+      ]
+    },
+    {
+      "domain": "handoffs",
+      "epoch": "2026-05",
+      "node_count": 21,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ]
+    },
+    {
+      "domain": "handoffs",
+      "epoch": "2026-06",
+      "node_count": 10,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ]
+    },
+    {
+      "domain": "handoffs",
+      "epoch": "2026-07",
+      "node_count": 12,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ]
+    },
+    {
+      "domain": "handoffs",
+      "epoch": "2026-08",
+      "node_count": 32,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ]
+    },
+    {
+      "domain": "handoffs",
+      "epoch": "2026-09",
+      "node_count": 6,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "CLAUDE.md",
+        "_ARCHIVE/handoffs.md"
+      ]
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-04",
+      "node_count": 1,
+      "graded_at_sha": "229b9e8b8383fc82492c92bb771c8d760320b215",
+      "graded_at": "2026-09-07",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": true,
+      "dirty_files": []
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-05",
+      "node_count": 28,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "AGENTS.md",
+        "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+        "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+        "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+        "_DECISIONS/index.json",
+        "_SEEDS/_oracle.json"
+      ]
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-06",
+      "node_count": 4,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "AGENTS.md",
+        "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+        "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+        "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+        "_DECISIONS/index.json",
+        "_SEEDS/_oracle.json"
+      ]
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-07",
+      "node_count": 4,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "AGENTS.md",
+        "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+        "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+        "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+        "_DECISIONS/index.json",
+        "_SEEDS/_oracle.json"
+      ]
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-08",
+      "node_count": 27,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "AGENTS.md",
+        "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+        "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+        "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+        "_DECISIONS/index.json",
+        "_SEEDS/_oracle.json"
+      ]
+    },
+    {
+      "domain": "product",
+      "epoch": "2026-09",
+      "node_count": 2,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "_DECISIONS/*",
+        "_SEEDS/*",
+        "WORLD.md",
+        "AGENTS.md"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "AGENTS.md",
+        "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md",
+        "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md",
+        "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+        "_DECISIONS/index.json",
+        "_SEEDS/_oracle.json"
+      ]
+    },
+    {
+      "domain": "recoil",
+      "epoch": "2026-06",
+      "node_count": 3,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "runtime/recoil/**",
+        "MEMORY.md",
+        "_PATTERNS/counterpart-*.md",
+        "src/proxy.ts",
+        "src/lib/admin.ts",
+        "src/lib/ammo-gate.ts"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "src/proxy.ts"
+      ]
+    },
+    {
+      "domain": "recoil",
+      "epoch": "2026-07",
+      "node_count": 14,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "runtime/recoil/**",
+        "MEMORY.md",
+        "_PATTERNS/counterpart-*.md",
+        "src/proxy.ts",
+        "src/lib/admin.ts",
+        "src/lib/ammo-gate.ts"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "src/proxy.ts"
+      ]
+    },
+    {
+      "domain": "recoil",
+      "epoch": "2026-08",
+      "node_count": 12,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "runtime/recoil/**",
+        "MEMORY.md",
+        "_PATTERNS/counterpart-*.md",
+        "src/proxy.ts",
+        "src/lib/admin.ts",
+        "src/lib/ammo-gate.ts"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "src/proxy.ts"
+      ]
+    },
+    {
+      "domain": "recoil",
+      "epoch": "2026-09",
+      "node_count": 3,
+      "graded_at_sha": "764ea98a418a11762e4caa9970aaa0f3a7fb3840",
+      "graded_at": "2026-09-04",
+      "scope_globs": [
+        "runtime/recoil/**",
+        "MEMORY.md",
+        "_PATTERNS/counterpart-*.md",
+        "src/proxy.ts",
+        "src/lib/admin.ts",
+        "src/lib/ammo-gate.ts"
+      ],
+      "fresh": false,
+      "dirty_files": [
+        "MEMORY.md",
+        "src/proxy.ts"
+      ]
+    }
+  ]
+}
