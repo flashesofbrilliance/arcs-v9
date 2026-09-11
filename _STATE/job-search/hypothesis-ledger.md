@@ -166,3 +166,23 @@ must be logged as a relationship asset, not a shot.*
 **Not changed:** the pre-registered H3 text, metric, and min_n stay as written; this block adds the
 gate and the field. Read gate unchanged: no verdict before n ≥ 20 resolved warm shots, and the
 `>=2` row needs its own n.
+
+### Amendment 2026-09-11 (c) — HypeLab booked as the second manufactured-role case (H3')
+
+Same skeleton as Fanatics, verified against the two Joe Kim recoil SSOTs and the Oct 2025 sent
+mail (details in `_STATE/job-search/postmortem-fanatics.md`, "Isomorphism: HypeLab"). Warm founder
+entry (Joe Kim, CEO, via Brian Wong) → role "purely opportunistic, not something I've pitched I
+needed" (Oct 21) → GTM role disclosed as already filled (Oct 21, reconfirmed by Ed Oct 29) → deck +
+survey + Day-1 self-pitch sent anyway → co-founder gate never cleared → nine months of silence →
+Jul 2026 reconnect as peer, not candidate.
+
+- Booked: `warm_path=1 · req_reality=1 (effectively 0 after Oct 21) · laneStatus=ghosted ·
+  resolved ~2026-01 (the Jan 1 FTE date lapsing)`. Manufactured-role arm now **n=2, 0 conversions.**
+- HypeLab is the control for H3': register was correct (ad-tech operator to an ad-network CEO) and
+  the gatekeeper was the founder himself, so neither register nor recruiter layer explains the
+  outcome. `req_reality <= 1` does.
+- Resolution rule for warm founder threads at `req_reality <= 1`: silence past ~4 weeks with no
+  owner-side action = `ghosted`, not `applied`. Do not carry these as open.
+- Detector (for the bridge rubric): number of artifacts sent AFTER a `req_reality <= 1` signal.
+  Fanatics 4, HypeLab 3. Any nonzero count is the pattern firing; the correct nonzero artifact is
+  a pilot or a product, never a JD.

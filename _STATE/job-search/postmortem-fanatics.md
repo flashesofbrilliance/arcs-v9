@@ -194,6 +194,63 @@ Operationally, for the bridge rubric (Thread 2) and the ledger (H3'):
 - **Bank the rule the day it is stated.** A post-mortem that arrives 60 days after the outside read
   is reconstruction, not witness.
 
+## Isomorphism: HypeLab (Joe Kim), Oct 2025 to Jul 2026
+
+Added 2026-09-11 after Zach flagged the resemblance. Sources: `runtime/recoil/generated/2026-07-20-joe-kim-hypelab-serialization.json`,
+`runtime/recoil/generated/2026-07-22-kim-multicall.json` (both anchored to Granola transcripts), the
+Oct 19 "HypeLab Strategic Survey" and Oct 22 "Follow-up: Thoughts on Next Steps" sent mail (both
+with Mixmax no-reply pings), the Jul 20 pre-call note pointing Joe at joe.arcs.care.
+
+The same kinematic skeleton, step for step:
+
+| Step | Fanatics | HypeLab |
+|---|---|---|
+| Warm entry via a founder | Chris, off the LinkedIn stunt: "i loved what you built." | Joe (CEO), via LinkedIn plus Brian Wong: "we could talk for hours." |
+| Req never funded | CJ: JD "being defined... not fully baked." | Joe, Oct 21: "a purely opportunistic role, not something that I've pitched I needed... I need to make a case for why I need it." |
+| Disqualifying signal heard live | Level 1, soft: "please be patient." | Level 0, explicit: Oct 21 Joe says they already hired a GTM person; Ed reconfirms Oct 29. |
+| Candidate manufactures the req | Five JD variants, interview probes, 30/60/90, self-authored `JOB_REQ.md`. | 30-card board-facing Gamma "hypelab-gtm-system" with tripwires, a Tally strategic survey, the Oct 22 Day-1 self-pitch ("I'd pay for my salary within 6–12 months"), sent the day after the role-filled disclosure. The multicall SSOT's own line: "Behavior went UP as the signal went DOWN." |
+| Negotiating with no counterparty | Competing offers, "monopoly bypass," base band. | "Q1/Q2 budget windows... each week that passes," a target above Joe's stated ceiling, survey homework before the call. |
+| Gate owner never clears it | Chris silent after Jul 2; Chase never reached. | Ed: "I'll talk to Joe." Routed back to Joe. Never cleared. |
+| Resolution | Polite no in 12 days. | Nine months of silence. |
+| What survived | CJ "stay in touch," Growth+1. | Joe's "shoot the shit"; Jul 22 as peer and advisor. |
+| Scoped pilot available, unused as entry | Day-60 pre-drop brief written as a consequence of hiring. | Advisory → fractional → FTE ladder floated Oct 21; deck's "$45–60K retained value even if it doesn't convert"; hard numbers left as $X/$Y/$Z "pending a terms conversation that never happened." |
+
+**Where they differ, and why it strengthens the rule:**
+
+- **Register was right at HypeLab.** An ad-tech revenue operator pitched to an ad-network CEO who
+  prized the ads + crypto combination. No self-promotion pivot, no wrong room. It still went to
+  zero. HypeLab is therefore the control that isolates `req_reality` from execution: with register
+  fixed, `req_reality <= 1` alone produced the outcome.
+- **Gatekeeper type did not matter.** HypeLab was founder-direct, Fanatics went through Talent.
+  Same result. A missing req is not rescued by skipping the recruiter.
+- **Price was not the common factor.** HypeLab priced under target, Fanatics in range.
+- **Time-to-resolution depends on gatekeeper.** A recruiter with no req sends a polite no in two
+  weeks; a founder with no req goes silent. Treat a warm founder thread at `req_reality <= 1` as
+  resolved after a few weeks of silence, not as open.
+
+**The rule was stated three times in eight days and never reached the ledger:** Boardy, Jul 13
+("champion tied to a defined operating problem"); Hilary, Jul 13 ("let them come back and meet
+the would-be boss"); Zach's own HypeLab recoil, Jul 20 ("A persuasion artifact cannot create
+internal sponsorship that doesn't exist... gate heavy spec work on a confirmed, open req"). The
+Jul 20 recoil is the sharpest statement of H3' in the corpus, written one week after Fanatics
+closed. It reached the ledger on Sep 11.
+
+**The contrast that sharpens the rule.** The Jul 20 joe.arcs.care page was a third pre-call
+artifact push, same reflex. It worked: Joe's Jul 22 response was "would you be interested in
+commercializing this" plus raise-or-bootstrap advice, and the multicall SSOT's next step is an ARV
+sprint on Joe's investor-buyout decision. Same behavior, different frame: product to a peer, not a
+candidacy into a non-req. The lesson is not "stop building artifacts." It is "never point them at a
+role that does not exist." At `req_reality <= 1` the artifact has to be the pilot or the product,
+never the JD.
+
+**Mechanical detector for Thread 2:** count artifacts sent after a `req_reality <= 1` signal.
+Fanatics: four (cj-brief, chase-intro, fanatics chain page, Jul 2 note). HypeLab: three (survey,
+deck, Day-1 self-pitch). Any count above zero after the signal is the pattern firing.
+
+**Booking:** HypeLab enters the ledger as `warm_path=1 · req_reality=1 (effectively 0 after
+Oct 21) · laneStatus=ghosted · resolved ~2026-01 (the FTE date lapsing)`, manufactured-role arm.
+That arm is now n=2, 0 conversions.
+
 ## Reconciling with "Fanatics excluded"
 
 The champion-shortlist exclusion (2026-09-08) and the CLOSED-WARM status (2026-08-28) are
