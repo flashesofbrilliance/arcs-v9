@@ -4,16 +4,34 @@
     {
       "name": "Next.js Dev Server",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
     },
     {
       "name": "Main Worktree Dev (frosty-kepler)",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd /Users/zharris/arcs-v9/.claude/worktrees/frosty-kepler-b69f51 && npm run dev -- --port 3001"],
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/zharris/arcs-v9/.claude/worktrees/frosty-kepler-b69f51 && npm run dev -- --port 3001"
+      ],
       "port": 3001,
       "autoPort": true
+    },
+    {
+      "name": "Artifacts static (zealous-golick)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--directory",
+        "/Users/zharris/arcs-v9/.claude/worktrees/zealous-golick-89e6e6/_ARTIFACTS"
+      ],
+      "port": 8765
     }
   ]
 }

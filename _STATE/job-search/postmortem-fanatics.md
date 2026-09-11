@@ -7,6 +7,8 @@
 > outcome was still a no. It isolates a variable the fit-score does not model: **req_reality**.
 > **Evidence discipline:** every dated claim cites a source. Anything not verifiable is listed under
 > "Unconfirmed", not folded into the narrative.
+> **Visual artifact (earned-fidelity render, internal, unrouted):** `_ARTIFACTS/postmortem-manufactured-role.html`.
+> **Gate shipped:** `scripts/req_reality_gate.py` (pre-commit) + `opportunity.req_reality` in the war-room template.
 
 ## Sources
 
