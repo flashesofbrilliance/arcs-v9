@@ -61,9 +61,20 @@
     {
       "id": "JTBD-006",
       "title": "Triune Productization Proposal Review (User0 -> UserN)",
-      "status": "AWAITING_REVIEW",
+      "status": "APPROVED_WITH_CONDITIONS",
       "doc": "_PROPOSALS/2026-09-12-triune-productization-user0-to-userN.md",
-      "target": "Review decoupled multi-tenant architecture across flashesofbrilliance/resume-tailor-skill, hermes-agent, and arcs-v9"
+      "architect_verdict": {
+        "reviewer": "Claude Code (Architect)",
+        "verdict": "CREDIBLE_NOT_VAPOR",
+        "conforms_to": "_SPECS/job-search-invariant-shape.md (in-authoring by Claude)",
+        "required_gates": [
+          "Gate 1: Normalized opportunity-record schema contract (shared intake join)",
+          "Gate 2: Mechanical PII air-gap test script (fail-closed, exit != 0 on leak)",
+          "Gate 3: Supabase RLS tenant isolation test suite (prove UserN cannot read UserM)",
+          "Gate 4: Dual-manifest in resume-tailor-skill (Claude-plugin + Hermes skill.yaml)",
+          "Gate 5: Falsification/conversion hypothesis loop (H1-H4 ledger integrated)"
+        ]
+      }
     }
   ],
   "invariants": {
