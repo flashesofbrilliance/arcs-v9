@@ -1,222 +1,113 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://arcs.care/schemas/role-dossier-schema-v1.json",
-  "title": "ARCS Role Dossier Schema v1",
-  "description": "Sensor (Perplexity) output contract for external opportunity reconnaissance. Feeds the honesty-graded resume-tailor Falsifier and the Loki/BAR adversarial gauntlet.",
+  "$id": "role-dossier-schema.json",
+  "title": "ARCS Role Dossier Schema v1 (frozen)",
+  "description": "Sensor (Perplexity) output contract for external opportunity reconnaissance. Feeds the honesty-graded resume-tailor Falsifier and the Loki/BAR adversarial gauntlet. Frozen after first dossier (Parloa FDE-US) surfaced two structural gaps; no further per-dossier field additions without a new convergence review.",
   "type": "object",
-  "required": [
-    "dossier_id",
-    "generated_at",
-    "core",
-    "verdict",
-    "evidence"
-  ],
+  "required": ["dossier_id", "generated_at", "core", "extraction_risk", "verdict", "evidence"],
   "properties": {
-    "dossier_id": {
-      "type": "string",
-      "description": "Stable id, e.g. role-<company-slug>-<yyyymmdd>-<hash>"
-    },
-    "generated_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "producer": {
-      "type": "string",
-      "const": "perplexity-scout"
-    },
+    "dossier_id": {"type": "string", "description": "Stable id, e.g. role-<company-slug>-<yyyymmdd>-<hash>"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "producer": {"type": "string", "const": "perplexity-scout"},
     "core": {
       "type": "object",
-      "description": "Stable, always-answerable fields. All required — if unknown, use null with a claim entry explaining why, never omit the key.",
-      "required": [
-        "company",
-        "role_title",
-        "jd_text",
-        "jd_url",
-        "posting_first_seen",
-        "posting_last_seen",
-        "cross_listed"
-      ],
+      "description": "Stable, always-answerable fields. All required - if unknown, use null with a claim entry explaining why, never omit the key.",
+      "required": ["company", "role_title", "jd_text", "jd_url", "posting_first_seen", "posting_last_seen", "cross_listed"],
       "properties": {
-        "company": {
-          "type": "string"
-        },
-        "role_title": {
-          "type": "string"
-        },
-        "jd_text": {
-          "type": "string"
-        },
-        "jd_url": {
-          "type": "string",
-          "format": "uri"
-        },
-        "posting_first_seen": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "date"
-        },
-        "posting_last_seen": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "date"
-        },
+        "company": {"type": "string"},
+        "role_title": {"type": "string"},
+        "jd_text": {"type": "string"},
+        "jd_url": {"type": "string", "format": "uri"},
+        "posting_first_seen": {"type": ["string", "null"], "format": "date"},
+        "posting_last_seen": {"type": ["string", "null"], "format": "date"},
         "cross_listed": {
           "type": "object",
           "properties": {
-            "on_company_careers_page": {
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "aggregator_only": {
-              "type": [
-                "boolean",
-                "null"
-              ]
-            }
+            "on_company_careers_page": {"type": ["boolean", "null"]},
+            "aggregator_only": {"type": ["boolean", "null"]}
+          }
+        }
+      }
+    },
+    "extraction_risk": {
+      "type": "object",
+      "description": "Structural hiring-process asymmetry signals. Distinct from vendor trust signals (data_privacy_signal) - these feed the ternary verdict directly rather than sitting as extension trivia. A positive finding on any leaf should pull the verdict toward TRAP or UNDECIDABLE, and must be traceable via evidence[].",
+      "required": ["evergreen_or_recycled_req", "bench_practice", "unpaid_take_home_scope"],
+      "properties": {
+        "evergreen_or_recycled_req": {
+          "type": ["boolean", "null"],
+          "description": "True if repost_pattern evidence suggests the req is continuously reposted without a genuine, resolvable headcount need."
+        },
+        "bench_practice": {
+          "type": ["string", "null"],
+          "enum": ["none", "suspected", "confirmed", "unknown", null],
+          "description": "Whether the company is known to interview/hire into a bench without a committed placement (common in staffing-adjacent or high-volume FDE-style hiring)."
+        },
+        "unpaid_take_home_scope": {
+          "type": "object",
+          "properties": {
+            "requested": {"type": ["boolean", "null"]},
+            "estimated_hours": {"type": ["number", "null"]},
+            "scope_matches_role": {"type": ["boolean", "null"], "description": "False if the take-home assignment resembles real production work disguised as an assessment."}
           }
         }
       }
     },
     "extension": {
       "type": "object",
-      "description": "Best-effort fields. Every field nullable by design — absence means 'not found', not 'false'. Do not force a value to avoid a null; that reintroduces the false-negative trap.",
+      "description": "Best-effort fields. Every field nullable by design - absence means 'not found', not 'false'. Do not force a value to avoid a null; that reintroduces the false-negative trap.",
       "properties": {
-        "named_hiring_manager": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "hiring_manager_public_commentary": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "salary_band_disclosed": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "salary_realism_flag": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "enum": [
-            "consistent",
-            "mismatch",
-            "unknown",
-            null
-          ]
-        },
-        "recent_team_departures": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "type": "string"
+        "named_hiring_manager": {"type": ["string", "null"]},
+        "hiring_manager_public_commentary": {"type": ["string", "null"]},
+        "salary_band_disclosed": {"type": ["string", "null"]},
+        "salary_realism_flag": {"type": ["string", "null"], "enum": ["consistent", "mismatch", "unknown", null]},
+        "recent_team_departures": {"type": ["array", "null"], "items": {"type": "string"}},
+        "funding_or_layoff_signal": {"type": ["string", "null"]},
+        "unlisted_tech_stack": {"type": ["array", "null"], "items": {"type": "string"}},
+        "repost_pattern": {"type": ["string", "null"]},
+        "data_privacy_signal": {
+          "type": "object",
+          "description": "Nullable. Populate when the role's process names a specific interview-recording/screening vendor (BrightHire, Ribbon, Mercor, Read AI, HireVue, etc). Evidence-graded per vendor, not a single boolean - distinguish stated policy from technical guarantee from breach history.",
+          "properties": {
+            "vendor": {"type": ["string", "null"]},
+            "records_interview": {"type": ["boolean", "null"]},
+            "trains_models_on_candidate_data": {"type": ["string", "null"], "enum": ["no", "yes", "unclear", null]},
+            "retention_controlled_by": {"type": ["string", "null"], "enum": ["employer", "vendor", "fixed_policy", "unclear", null]},
+            "opt_out_available": {"type": ["boolean", "null"]},
+            "known_breach_history": {"type": ["boolean", "null"]}
           }
-        },
-        "funding_or_layoff_signal": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "unlisted_tech_stack": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "repost_pattern": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "description": "e.g. 'reposted 3x since 2026-07-01 under varying titles'"
         }
       }
     },
     "verdict": {
       "type": "object",
-      "required": [
-        "label",
-        "human_premortem_required"
-      ],
+      "required": ["label", "human_premortem_required"],
       "properties": {
         "label": {
           "type": "string",
-          "enum": [
-            "ATTAINABLE",
-            "TRAP",
-            "UNDECIDABLE"
-          ],
+          "enum": ["ATTAINABLE", "TRAP", "UNDECIDABLE"],
           "description": "Enum, never a numeric score. Loki/BAR must be able to re-derive this label independently from evidence[]."
         },
         "human_premortem_required": {
           "type": "boolean",
           "description": "MUST be true whenever label == 'UNDECIDABLE'. May also be true for TRAP if stakes warrant. HITL sovereignty invariant."
         },
-        "rationale": {
-          "type": "string",
-          "description": "One paragraph, plain language, citing evidence[] ids."
-        }
+        "rationale": {"type": "string", "description": "One paragraph, plain language, citing evidence[] ids."}
       }
     },
     "evidence": {
       "type": "array",
-      "description": "Raw claims backing core, extension, and verdict. Every non-null field above must trace to at least one entry here.",
+      "description": "Raw claims backing core, extraction_risk, extension, and verdict. Every non-null field above must trace to at least one entry here.",
       "items": {
         "type": "object",
-        "required": [
-          "claim_id",
-          "field_ref",
-          "value",
-          "retrieved_at",
-          "source_urls"
-        ],
+        "required": ["claim_id", "field_ref", "value", "retrieved_at", "source_urls"],
         "properties": {
-          "claim_id": {
-            "type": "string"
-          },
-          "field_ref": {
-            "type": "string",
-            "description": "Dotted path, e.g. 'extension.named_hiring_manager'"
-          },
+          "claim_id": {"type": "string"},
+          "field_ref": {"type": "string", "description": "Dotted path, e.g. 'extension.data_privacy_signal.trains_models_on_candidate_data'"},
           "value": {},
-          "retrieved_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "source_urls": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uri"
-            },
-            "minItems": 1
-          },
-          "confidence": {
-            "type": "string",
-            "enum": [
-              "direct",
-              "inferred",
-              "stale"
-            ]
-          }
+          "retrieved_at": {"type": "string", "format": "date-time"},
+          "source_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "minItems": 1},
+          "confidence": {"type": "string", "enum": ["direct", "inferred", "stale"]}
         }
       }
     }
