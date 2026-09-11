@@ -1,132 +1,222 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://arcs.care/schemas/role-dossier-schema-v1.json",
-  "title": "Perplexity Scout Role Dossier",
-  "description": "Standard intake contract for external market intelligence & JD reconnaissance feeding the ARCS Falsifier and Loki/BAR gauntlet. Designed with a stable core and nullable best-effort extensions.",
+  "title": "ARCS Role Dossier Schema v1",
+  "description": "Sensor (Perplexity) output contract for external opportunity reconnaissance. Feeds the honesty-graded resume-tailor Falsifier and the Loki/BAR adversarial gauntlet.",
   "type": "object",
   "required": [
-    "schema_version",
     "dossier_id",
-    "retrieved_at",
-    "target_role",
-    "company",
-    "scout_verdict",
-    "raw_sources"
+    "generated_at",
+    "core",
+    "verdict",
+    "evidence"
   ],
   "properties": {
-    "schema_version": {
-      "type": "string",
-      "enum": ["1.0.0"]
-    },
     "dossier_id": {
       "type": "string",
-      "description": "Unique identifier, format: SCOUT-<company_slug>-<role_slug>-<YYYYMMDD>"
+      "description": "Stable id, e.g. role-<company-slug>-<yyyymmdd>-<hash>"
     },
-    "retrieved_at": {
+    "generated_at": {
       "type": "string",
-      "format": "date-time",
-      "description": "ISO-8601 UTC timestamp of reconnaissance pass"
+      "format": "date-time"
     },
-    "scout_verdict": {
-      "type": "object",
-      "required": ["classification", "confidence", "primary_rationale"],
-      "properties": {
-        "classification": {
-          "type": "string",
-          "enum": ["ATTAINABLE", "TRAP", "UNDECIDABLE"],
-          "description": "Ternary verdict mapping to ARCS NULL/OM/UNDEFINED logic"
-        },
-        "confidence": {
-          "type": "string",
-          "enum": ["HIGH", "MEDIUM", "LOW"]
-        },
-        "primary_rationale": {
-          "type": "string",
-          "description": "One concise sentence explaining the ternary verdict"
-        },
-        "flags": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "e.g., 'posting_age_gt_30d', 'repost_pattern_detected', 'aggregator_only', 'salary_transparency_missing'"
-        }
-      }
+    "producer": {
+      "type": "string",
+      "const": "perplexity-scout"
     },
-    "target_role": {
+    "core": {
       "type": "object",
-      "required": ["title", "primary_url", "first_seen_days_ago", "cross_listed_on_careers_page"],
+      "description": "Stable, always-answerable fields. All required — if unknown, use null with a claim entry explaining why, never omit the key.",
+      "required": [
+        "company",
+        "role_title",
+        "jd_text",
+        "jd_url",
+        "posting_first_seen",
+        "posting_last_seen",
+        "cross_listed"
+      ],
       "properties": {
-        "title": { "type": "string" },
-        "primary_url": { "type": "string", "format": "uri" },
-        "first_seen_days_ago": { "type": ["integer", "null"] },
-        "repost_count_observed": { "type": ["integer", "null"] },
-        "cross_listed_on_careers_page": { "type": "boolean" },
-        "raw_jd_text": { "type": ["string", "null"] },
-        "salary_range": {
-          "type": ["object", "null"],
+        "company": {
+          "type": "string"
+        },
+        "role_title": {
+          "type": "string"
+        },
+        "jd_text": {
+          "type": "string"
+        },
+        "jd_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "posting_first_seen": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "posting_last_seen": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "cross_listed": {
+          "type": "object",
           "properties": {
-            "min": { "type": "number" },
-            "max": { "type": "number" },
-            "currency": { "type": "string", "default": "USD" },
-            "interval": { "type": "string", "enum": ["yearly", "hourly"] }
+            "on_company_careers_page": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "aggregator_only": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
           }
         }
       }
     },
-    "company": {
+    "extension": {
       "type": "object",
-      "required": ["name", "domain"],
+      "description": "Best-effort fields. Every field nullable by design — absence means 'not found', not 'false'. Do not force a value to avoid a null; that reintroduces the false-negative trap.",
       "properties": {
-        "name": { "type": "string" },
-        "domain": { "type": "string" },
-        "headcount_trend": {
-          "type": ["string", "null"],
-          "enum": ["GROWING", "FLAT", "DECLINING", "MASS_LAYOFF_RECENT", null]
+        "named_hiring_manager": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
-        "funding_status": {
-          "type": ["string", "null"],
-          "description": "e.g., 'Series B ($35M in 2025)', 'Bootstrapped / Profitable', 'Public'"
+        "hiring_manager_public_commentary": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
-        "recent_adverse_news": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Documented layoffs, executive churn, litigation"
-        }
-      }
-    },
-    "extension_intelligence": {
-      "type": ["object", "null"],
-      "description": "Best-effort fields. Nullable to prevent false-negative stalls.",
-      "properties": {
-        "hiring_manager": {
-          "type": ["object", "null"],
-          "properties": {
-            "name": { "type": "string" },
-            "title": { "type": "string" },
-            "linkedin_url": { "type": "string", "format": "uri" },
-            "public_commentary_summary": { "type": ["string", "null"] }
+        "salary_band_disclosed": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "salary_realism_flag": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "consistent",
+            "mismatch",
+            "unknown",
+            null
+          ]
+        },
+        "recent_team_departures": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
           }
+        },
+        "funding_or_layoff_signal": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "unlisted_tech_stack": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Inferred from GitHub org, eng blog, or adjacent tech postings"
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
         },
-        "team_turnover_signals": {
-          "type": ["string", "null"],
-          "description": "Backfill urgency vs structural instability signals"
+        "repost_pattern": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "e.g. 'reposted 3x since 2026-07-01 under varying titles'"
         }
       }
     },
-    "raw_sources": {
+    "verdict": {
+      "type": "object",
+      "required": [
+        "label",
+        "human_premortem_required"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "enum": [
+            "ATTAINABLE",
+            "TRAP",
+            "UNDECIDABLE"
+          ],
+          "description": "Enum, never a numeric score. Loki/BAR must be able to re-derive this label independently from evidence[]."
+        },
+        "human_premortem_required": {
+          "type": "boolean",
+          "description": "MUST be true whenever label == 'UNDECIDABLE'. May also be true for TRAP if stakes warrant. HITL sovereignty invariant."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "One paragraph, plain language, citing evidence[] ids."
+        }
+      }
+    },
+    "evidence": {
       "type": "array",
-      "minItems": 1,
+      "description": "Raw claims backing core, extension, and verdict. Every non-null field above must trace to at least one entry here.",
       "items": {
         "type": "object",
-        "required": ["url", "retrieved_at", "claim_supported"],
+        "required": [
+          "claim_id",
+          "field_ref",
+          "value",
+          "retrieved_at",
+          "source_urls"
+        ],
         "properties": {
-          "url": { "type": "string", "format": "uri" },
-          "retrieved_at": { "type": "string", "format": "date-time" },
-          "claim_supported": { "type": "string" }
+          "claim_id": {
+            "type": "string"
+          },
+          "field_ref": {
+            "type": "string",
+            "description": "Dotted path, e.g. 'extension.named_hiring_manager'"
+          },
+          "value": {},
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "inferred",
+              "stale"
+            ]
+          }
         }
       }
     }
