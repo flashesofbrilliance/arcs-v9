@@ -114,6 +114,40 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.60.0 (2026-09-11)
+
+> **720-degree brand-coherence session** (worktree `recursing-brattain-190758`, branch
+> `claude/recursing-brattain-190758`). Resumed the parked pitch-us/brand arc; answered the Ahmed
+> heuristics question, ran a live 6-surface coherence audit, blessed one flag, wired 4 of 6 faces.
+
+## Shipped (merged to main)
+- **Empty meta descriptions filled** on resume.arcs.care + status.arcs.care (PR #404, live). These
+  shipped blank, so machines/unfurls/LLMs saw nothing (the "720 serialized-POV" hole). resume's
+  h1/lede already render client-side, so only the machine-read meta was the real gap.
+- **Duality backlinks** on build.arcs.care + good.arcs.care footers (PR #405): each now names the
+  operator and links back to the consulting front door. Cleared one prose em-dash in build.html
+  (data-placeholder `—` glyphs left as the legitimate UI idiom).
+- **Pre-compaction:** SentiLink altitude-descent reorder (PR #389, exec→surgical, ask-first).
+- Banked pickups + pitch bundles to `_ARTIFACTS/` (720-brand-coherence-pickup, pitch-polish-pickup,
+  sentilink/mercury bundles).
+
+## The blessed flag (SSOT, all surfaces echo)
+**"Proof over promises, one operator accountable end to end."** The positioning is a coherent DUALITY
+(independent consulting sprints ⇄ dedicated in-house), one operator + one method (ARCS). Building-in-
+public = pre-empt the "consultant who does not ship" assumption; anti-consultant-who-ships, WITHOUT
+"FDE" or leaning on "engineer". zachharris.xyz is the singular front door + identity SSOT; others echo
+and backlink to it. Full context: memory [[zach-personal-brand-and-job-search-system]].
+
+## Open (next session — pickup: `_ARTIFACTS/720-brand-coherence-pickup.md`)
+1. **zachharris.xyz (separate static repo, NOT this worktree)** — fill empty meta + Case-Studies link
+   to build.arcs.care (public proof, NOT prl). Exact paste-ready copy in the pickup. Run its `npm test`.
+2. **LinkedIn** — 6th face, unreachable by tools; headline still "Product". Get Zach's headline+About,
+   fold into the flag grammar.
+3. **Dropped on purpose:** prl provenance footer (client-confidential, not a billboard).
+- Ahmed's FORMAL delivery heuristics ("the Ahmed order": verdict → 3 reasons → 3 Q+A → tasks →
+  evidence-behind-disclosure → depth-linked; + density budget + legibility gate) live at
+  `_ARTIFACTS/ahmed-feedback-plan-2026-09-03.md` (in worktree `arcs-demo-ahmed-b0db74`). The yardstick.
+
 # Handoff — v3.59.0 (2026-09-08)
 
 > **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
@@ -146,40 +180,3 @@ caught by field-contact, never by my own confidence.
 2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
 3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
 4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
-
-
-# Handoff — v3.58.0 (2026-09-08)
-
-> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
-> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
-> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
-
-## Shipped
-- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
-  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
-  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
-  regenerated. Closes the v3.55.0 `story_render.py` open loop.
-- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
-  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
-  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
-- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
-  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
-  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
-  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
-  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
-- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
-  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
-- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
-
-## Open (handed to fresh sessions, all started)
-1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
-   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
-2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
-   "Token cost ROI analysis" cloud session, not duplicate.
-3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
-   register decision (insider-dense vs legibility layer) + domain-topology verify first.
-- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
-  abductive profile→role scan.
-- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
-
-> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._
