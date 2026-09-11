@@ -99,3 +99,30 @@ Judgment stays human-owned — the ledger reports, Zach decides.
 
 ## Amendments
 _(append dated blocks here; never edit the pre-registered sections above)_
+
+### Amendment 2026-09-11 — outcome backfill (evidence: Gmail inbox sweep)
+
+Backfilled from application-reply emails (not memory, not inference). Only company+role
+matches written to the board; acks (ATS "we received it") are **not** counted as responses.
+
+**Resolved (no-convert) written to board this pass:** Charlie Health (exact role match),
+Sequence Holdings ×2, monday.com (Deployment Architect), Crosby (company match, eng role) →
+all `laneStatus=rejected`. With prior Percepta/Monstro closes → **~9 resolved, 0 responses, 0 wins.**
+
+**Advance-then-reject (flagged, not written):** a Google application reached an **Online Assessment**
+(2026-09-10) and was rejected on results the same day. The email does not name the role, so it was
+NOT attributed to a board row — could be the Lead GenAI FDE (board) or the Sr AI Product Ops Manager
+(Yuri Kleban warm-referral). Needs human attribution.
+
+**Material data-quality finding:** the board's 28 "applied" rows are a large **undercount**. The inbox
+shows applications to many more (Figma, Baseten, Luma, Navan, Higharc, Reindeer, Chalk, Distyl, Parloa,
+Tenex, Arcadia, Chainlink, Tabs, Mirage, Sailor Health, BOI, Raspberry AI, Infillion, Trunk Tools,
+Console, Savvy Wealth, Sharp Electronics, …). **The true denominator is unknown**, so H1–H4 rates are
+not yet computable from the board alone. Fix before any read: reconcile the full applied set from Gmail.
+
+**Early directional read (UNDERPOWERED — not a verdict, n<30, all within the 21d ghost window):**
+first ~9 resolutions are all rejections spanning both tiers; the only application to advance a step
+(Google → assessment) was **prestige**, not IYKYK. No support yet for H1. Do not act on this.
+
+**Warm-path signal (H3):** a real warm path exists and is unused in the funnel data — Yuri Kleban
+(Google) offered a direct referral (2026-09-02). H3 should be run as a deliberate forward test.
