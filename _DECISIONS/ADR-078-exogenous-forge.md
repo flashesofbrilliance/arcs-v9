@@ -1,4 +1,4 @@
-# ADR-038 — THE EXOGENOUS FORGE (ROM Primitive #6)
+# ADR-078 — THE EXOGENOUS FORGE (ROM Primitive #6)
 
 - **Status:** Accepted — ratified by Zach 2026-07-22 (constitutional; the human, as the not-the-agent owner, authorizes the canon change the primitive itself requires).
 - **Supersedes / relates:** subordinate to ROM #1 NOTOMATION; composes with #5 ORTHOGONAL ECHO DETECTOR; enforcement kin to ADR-034 (enforcement-parity ledger).

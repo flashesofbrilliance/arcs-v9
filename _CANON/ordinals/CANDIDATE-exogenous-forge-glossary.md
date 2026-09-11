@@ -10,7 +10,7 @@
 > - **Proposed hash:** `ARCS-ORD-20260722-XXXX-ZH` (PENDING — primary assigns).
 > - **Chains from:** #001 `ARCS-Glossary-v0.1.md` (`ARCS-ORD-20260624-0136-ZH`).
 > - **Source session:** 547bb1c2 (2026-07-22); repo substrate commit `ef40f8a`.
-> - **Governing artifact:** `_DECISIONS/ADR-038-exogenous-forge.md` (full always/sometimes/never law).
+> - **Governing artifact:** `_DECISIONS/ADR-078-exogenous-forge.md` (full always/sometimes/never law).
 
 Portable memory shard capturing the operational vocabulary minted in the 2026-07-22 ARCS thread that
 excavated ROM Primitive #6. Tier 1 doctrine remains upstream and authoritative.

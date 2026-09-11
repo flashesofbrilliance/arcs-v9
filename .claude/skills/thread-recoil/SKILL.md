@@ -8,7 +8,7 @@ description: Produce a belief-update ledger (audit log) for the CURRENT thread/s
 Audits the **current conversation** and emits a belief-update ledger: what priors were held at the
 open, what they became at the close, and — for each shift — **the external data that forced it**.
 
-> **Source of truth for the method:** ROM Primitive #6 (`_DECISIONS/ADR-038-exogenous-forge.md`).
+> **Source of truth for the method:** ROM Primitive #6 (`_DECISIONS/ADR-078-exogenous-forge.md`).
 > This skill is a *dogfood* of the Exogenous Forge: it only counts a belief as "revised" when the
 > revision was forced by something **external to the agent's own coherence** (corpus, adversarial
 > skeptic, external source, or the human as not-the-agent ground). A prior that changed because the
