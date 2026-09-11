@@ -1,0 +1,1552 @@
+{
+ "AKASA": {
+  "ats": "ashby",
+  "display": "AKASA",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 11,
+  "slug": "akasa",
+  "verify": "ok"
+ },
+ "Abridge AI": {
+  "ats": "ashby",
+  "display": "Abridge AI",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 40,
+  "slug": "abridge",
+  "verify": "ok"
+ },
+ "Adyen": {
+  "ats": "greenhouse",
+  "board_name": "Adyen",
+  "display": "Adyen",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 228,
+  "slug": "adyen",
+  "verify": "ok"
+ },
+ "Affirm": {
+  "ats": "greenhouse",
+  "board_name": "Affirm",
+  "display": "Affirm",
+  "lists": [
+   "builtin-nyc-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "builtin-nyc-2026+gptw-parents-2025",
+  "n_reqs": 203,
+  "slug": "affirm",
+  "verify": "ok"
+ },
+ "Aledade": {
+  "ats": "lever",
+  "display": "Aledade",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 36,
+  "slug": "aledade",
+  "verify": "ok"
+ },
+ "Alloy": {
+  "ats": "greenhouse",
+  "board_name": "Alloy",
+  "display": "Alloy",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 25,
+  "slug": "alloy",
+  "verify": "ok"
+ },
+ "Applecart": {
+  "ats": "greenhouse",
+  "board_name": "Applecart",
+  "display": "Applecart",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 16,
+  "slug": "applecart",
+  "verify": "ok"
+ },
+ "Arthur": {
+  "ats": "ashby",
+  "display": "Arthur",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 1,
+  "slug": "arthur",
+  "verify": "ok"
+ },
+ "Asana": {
+  "ats": "greenhouse",
+  "board_name": "Asana",
+  "display": "Asana",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 105,
+  "slug": "asana",
+  "verify": "ok"
+ },
+ "AssemblyAI": {
+  "ats": "greenhouse",
+  "board_name": "AssemblyAI",
+  "display": "AssemblyAI",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "assemblyai",
+  "verify": "ok"
+ },
+ "AvePoint": {
+  "ats": "greenhouse",
+  "board_name": "AvePoint",
+  "display": "AvePoint",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 293,
+  "slug": "avepoint",
+  "verify": "ok"
+ },
+ "Basis": {
+  "ats": "lever",
+  "display": "Basis",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 1,
+  "slug": "basis",
+  "verify": "ok"
+ },
+ "Belvedere Trading": {
+  "ats": "lever",
+  "display": "Belvedere Trading",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 14,
+  "slug": "belvederetrading",
+  "verify": "ok"
+ },
+ "BetterUp": {
+  "ats": "ashby",
+  "display": "BetterUp",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 11,
+  "slug": "betterup",
+  "verify": "ok"
+ },
+ "Betterment": {
+  "ats": "greenhouse",
+  "display": "Betterment",
+  "lists": [
+   "prior-bridge-scan-2026-09-11"
+  ],
+  "lists_tag": "prior-bridge-scan",
+  "n_reqs": 25,
+  "slug": "betterment",
+  "verify": "ok"
+ },
+ "BillionToOne, Inc.": {
+  "ats": "greenhouse",
+  "board_name": "BillionToOne",
+  "display": "BillionToOne, Inc.",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 88,
+  "slug": "billiontoone",
+  "verify": "ok"
+ },
+ "Block": {
+  "ats": "greenhouse",
+  "board_name": "Block",
+  "display": "Block",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 206,
+  "slug": "block",
+  "verify": "ok"
+ },
+ "Bombora": {
+  "ats": "greenhouse",
+  "board_name": "Bombora",
+  "display": "Bombora",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 5,
+  "slug": "bombora",
+  "verify": "ok"
+ },
+ "Box": {
+  "ats": "greenhouse",
+  "board_name": "Box",
+  "display": "Box",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 129,
+  "slug": "boxinc",
+  "verify": "ok"
+ },
+ "Box, Inc.": {
+  "ats": "greenhouse",
+  "board_name": "Box",
+  "display": "Box, Inc.",
+  "lists": [
+   "fortune-100-best-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "fortune-100-best-2026+gptw-parents-2025",
+  "n_reqs": 129,
+  "slug": "boxinc",
+  "verify": "ok"
+ },
+ "Braze": {
+  "ats": "greenhouse",
+  "board_name": "Braze",
+  "display": "Braze",
+  "lists": [
+   "builtin-nyc-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "builtin-nyc-2026+gptw-parents-2025",
+  "n_reqs": 283,
+  "slug": "braze",
+  "verify": "ok"
+ },
+ "Brigit": {
+  "ats": "ashby",
+  "display": "Brigit",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "brigit",
+  "verify": "ok"
+ },
+ "Brilliant Earth": {
+  "ats": "greenhouse",
+  "board_name": "Brilliant Earth",
+  "display": "Brilliant Earth",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 77,
+  "slug": "brilliantearth",
+  "verify": "ok"
+ },
+ "Bubble": {
+  "ats": "ashby",
+  "display": "Bubble",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 8,
+  "slug": "bubble",
+  "verify": "ok"
+ },
+ "CAIS": {
+  "ats": "greenhouse",
+  "board_name": "CAIS",
+  "display": "CAIS",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 12,
+  "slug": "cais",
+  "verify": "ok"
+ },
+ "Cambridge Mobile Telematics": {
+  "ats": "greenhouse",
+  "board_name": "Cambridge Mobile Telematics",
+  "display": "Cambridge Mobile Telematics",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 14,
+  "slug": "cambridgemobiletelematics",
+  "verify": "ok"
+ },
+ "Carbon Direct": {
+  "ats": "greenhouse",
+  "board_name": "Carbon Direct",
+  "display": "Carbon Direct",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "carbondirect",
+  "verify": "ok"
+ },
+ "Carta": {
+  "ats": "greenhouse",
+  "board_name": "Carta",
+  "display": "Carta",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 64,
+  "slug": "carta",
+  "verify": "ok"
+ },
+ "Cedar": {
+  "ats": "ashby",
+  "display": "Cedar",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "cedar",
+  "verify": "ok"
+ },
+ "Celonis": {
+  "ats": "greenhouse",
+  "board_name": "Celonis",
+  "display": "Celonis",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 270,
+  "slug": "celonis",
+  "verify": "ok"
+ },
+ "Chainguard": {
+  "ats": "greenhouse",
+  "board_name": "Chainguard",
+  "display": "Chainguard",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 76,
+  "slug": "chainguard",
+  "verify": "ok"
+ },
+ "Chime": {
+  "ats": "greenhouse",
+  "board_name": "Chime Financial, Inc",
+  "display": "Chime",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 68,
+  "slug": "chime",
+  "verify": "ok"
+ },
+ "Circle": {
+  "ats": "ashby",
+  "display": "Circle",
+  "lists": [
+   "builtin-nyc-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "builtin-nyc-2026+gptw-parents-2025",
+  "n_reqs": 10,
+  "slug": "circle",
+  "verify": "ok"
+ },
+ "Clay": {
+  "ats": "ashby",
+  "display": "Clay",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 57,
+  "slug": "claylabs",
+  "verify": "ok"
+ },
+ "Click Therapeutics": {
+  "ats": "greenhouse",
+  "board_name": "Click Therapeutics",
+  "display": "Click Therapeutics",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "clicktherapeutics",
+  "verify": "ok"
+ },
+ "Cloudflare": {
+  "ats": "greenhouse",
+  "board_name": "Cloudflare",
+  "display": "Cloudflare",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 354,
+  "slug": "cloudflare",
+  "verify": "ok"
+ },
+ "Contentsquare": {
+  "ats": "lever",
+  "display": "Contentsquare",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 26,
+  "slug": "contentsquare",
+  "verify": "ok"
+ },
+ "Crunchyroll": {
+  "ats": "greenhouse",
+  "board_name": "Crunchyroll, LLC",
+  "display": "Crunchyroll",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 69,
+  "slug": "crunchyroll",
+  "verify": "ok"
+ },
+ "DISQO": {
+  "ats": "lever",
+  "display": "DISQO",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 5,
+  "slug": "disqo",
+  "verify": "ok"
+ },
+ "DailyPay": {
+  "ats": "ashby",
+  "display": "DailyPay",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 19,
+  "slug": "dailypay",
+  "verify": "ok"
+ },
+ "Datadog": {
+  "ats": "greenhouse",
+  "board_name": "Datadog",
+  "display": "Datadog",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 448,
+  "slug": "datadog",
+  "verify": "ok"
+ },
+ "Dropbox": {
+  "ats": "greenhouse",
+  "board_name": "Dropbox",
+  "display": "Dropbox",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 41,
+  "slug": "dropbox",
+  "verify": "ok"
+ },
+ "Encore": {
+  "ats": "greenhouse",
+  "board_name": "Encore ",
+  "display": "Encore",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 3,
+  "slug": "encore",
+  "verify": "ok"
+ },
+ "Enigma": {
+  "ats": "greenhouse",
+  "board_name": "Enigma",
+  "display": "Enigma",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 9,
+  "slug": "enigmaio",
+  "verify": "ok"
+ },
+ "Enova": {
+  "ats": "greenhouse",
+  "board_name": "Enova International",
+  "display": "Enova",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 35,
+  "slug": "enova",
+  "verify": "ok"
+ },
+ "Envoy": {
+  "ats": "ashby",
+  "display": "Envoy",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "envoy",
+  "verify": "ok"
+ },
+ "Ethic": {
+  "ats": "greenhouse",
+  "board_name": "ethic.com (new)",
+  "display": "Ethic",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 4,
+  "slug": "ethic",
+  "verify": "ok"
+ },
+ "EvolutionIQ": {
+  "ats": "greenhouse",
+  "board_name": "EvolutionIQ",
+  "display": "EvolutionIQ",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 19,
+  "slug": "evolutioniq",
+  "verify": "ok"
+ },
+ "FanDuel": {
+  "ats": "greenhouse",
+  "board_name": "FanDuel",
+  "display": "FanDuel",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 88,
+  "slug": "fanduel",
+  "verify": "ok"
+ },
+ "FanDuel Group": {
+  "ats": "greenhouse",
+  "board_name": "FanDuel",
+  "display": "FanDuel Group",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 88,
+  "slug": "fanduel",
+  "verify": "ok"
+ },
+ "Fanduel": {
+  "ats": "greenhouse",
+  "board_name": "FanDuel",
+  "display": "Fanduel",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 88,
+  "slug": "fanduel",
+  "verify": "ok"
+ },
+ "Flatiron Health": {
+  "ats": "greenhouse",
+  "board_name": "Flatiron Health",
+  "display": "Flatiron Health",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 28,
+  "slug": "flatironhealth",
+  "verify": "ok"
+ },
+ "Flourish": {
+  "ats": "greenhouse",
+  "board_name": "Flourish",
+  "display": "Flourish",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 4,
+  "slug": "flourish",
+  "verify": "ok"
+ },
+ "Galileo": {
+  "ats": "greenhouse",
+  "board_name": "Galileo",
+  "display": "Galileo",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 13,
+  "slug": "galileo",
+  "verify": "ok"
+ },
+ "GameChanger": {
+  "ats": "ashby",
+  "display": "GameChanger",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "gamechanger",
+  "verify": "ok"
+ },
+ "Genius Sports": {
+  "ats": "greenhouse",
+  "board_name": "Genius Sports",
+  "display": "Genius Sports",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 51,
+  "slug": "geniussports",
+  "verify": "ok"
+ },
+ "Greenhouse": {
+  "ats": "greenhouse",
+  "board_name": "Greenhouse",
+  "display": "Greenhouse",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 18,
+  "slug": "greenhouse",
+  "verify": "ok"
+ },
+ "Greenhouse Software": {
+  "ats": "greenhouse",
+  "board_name": "Greenhouse",
+  "display": "Greenhouse Software",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "greenhouse",
+  "verify": "ok"
+ },
+ "Grow Therapy": {
+  "ats": "ashby",
+  "display": "Grow Therapy",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 30,
+  "slug": "grow-therapy",
+  "verify": "ok"
+ },
+ "Guild": {
+  "ats": "greenhouse",
+  "board_name": "Guild",
+  "display": "Guild",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 5,
+  "slug": "guild",
+  "verify": "ok"
+ },
+ "GumGum": {
+  "ats": "greenhouse",
+  "board_name": "GumGum",
+  "display": "GumGum",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 12,
+  "slug": "gumgum",
+  "verify": "ok"
+ },
+ "Gusto": {
+  "ats": "greenhouse",
+  "board_name": "Gusto, Inc.",
+  "display": "Gusto",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 94,
+  "slug": "gusto",
+  "verify": "ok"
+ },
+ "Gynger": {
+  "ats": "lever",
+  "display": "Gynger",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "gynger",
+  "verify": "ok"
+ },
+ "Hearst": {
+  "ats": "greenhouse",
+  "board_name": "Hearst",
+  "display": "Hearst",
+  "lists": [
+   "ndw-roundtable"
+  ],
+  "lists_tag": "ndw-roundtable",
+  "n_reqs": 53,
+  "slug": "hearst",
+  "verify": "ok"
+ },
+ "Hometap": {
+  "ats": "greenhouse",
+  "board_name": "Hometap",
+  "display": "Hometap",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "hometap",
+  "verify": "ok"
+ },
+ "IEX Group": {
+  "ats": "greenhouse",
+  "board_name": "IEX Group",
+  "display": "IEX Group",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 9,
+  "slug": "iex",
+  "verify": "ok"
+ },
+ "Inato": {
+  "ats": "ashby",
+  "display": "Inato",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 7,
+  "slug": "inato",
+  "verify": "ok"
+ },
+ "Industrious": {
+  "ats": "ashby",
+  "display": "Industrious",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 61,
+  "slug": "industrious",
+  "verify": "ok"
+ },
+ "Instacart": {
+  "ats": "greenhouse",
+  "board_name": "Instacart",
+  "display": "Instacart",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 106,
+  "slug": "instacart",
+  "verify": "ok"
+ },
+ "Invoca": {
+  "ats": "greenhouse",
+  "board_name": "Invoca",
+  "display": "Invoca",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 1,
+  "slug": "invoca",
+  "verify": "ok"
+ },
+ "Ironclad": {
+  "ats": "ashby",
+  "display": "Ironclad",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 34,
+  "slug": "ironcladhq",
+  "verify": "ok"
+ },
+ "January": {
+  "ats": "ashby",
+  "display": "January",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 13,
+  "slug": "january",
+  "verify": "ok"
+ },
+ "Justworks": {
+  "ats": "greenhouse",
+  "display": "Justworks",
+  "lists": [
+   "prior-bridge-scan-2026-09-11"
+  ],
+  "lists_tag": "prior-bridge-scan",
+  "n_reqs": 95,
+  "slug": "justworks",
+  "verify": "ok"
+ },
+ "Kargo": {
+  "ats": "greenhouse",
+  "board_name": "Kargo",
+  "display": "Kargo",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 13,
+  "slug": "kargo",
+  "verify": "ok"
+ },
+ "Kinship": {
+  "ats": "ashby",
+  "display": "Kinship",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 9,
+  "slug": "kinship",
+  "verify": "ok"
+ },
+ "Kizen": {
+  "ats": "greenhouse",
+  "board_name": "Kizen",
+  "display": "Kizen",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "kizen",
+  "verify": "ok"
+ },
+ "Liftoff": {
+  "ats": "greenhouse",
+  "board_name": "Liftoff",
+  "display": "Liftoff",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 19,
+  "slug": "liftoff",
+  "verify": "ok"
+ },
+ "Lumin Digital": {
+  "ats": "ashby",
+  "display": "Lumin Digital",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 11,
+  "slug": "lumin-digital",
+  "verify": "ok"
+ },
+ "Luminary": {
+  "ats": "ashby",
+  "display": "Luminary",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 11,
+  "slug": "luminary",
+  "verify": "ok"
+ },
+ "M13": {
+  "ats": "ashby",
+  "display": "M13",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 2,
+  "slug": "m13",
+  "verify": "ok"
+ },
+ "Madhive": {
+  "ats": "ashby",
+  "display": "Madhive",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 12,
+  "slug": "madhive",
+  "verify": "ok"
+ },
+ "Mercury": {
+  "ats": "greenhouse",
+  "board_name": "Mercury",
+  "display": "Mercury",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 60,
+  "slug": "mercury",
+  "verify": "ok"
+ },
+ "MetLife": {
+  "ats": "lever",
+  "display": "MetLife",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 39,
+  "slug": "metlife",
+  "verify": "ok"
+ },
+ "Miro": {
+  "ats": "ashby",
+  "display": "Miro",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 39,
+  "slug": "miro",
+  "verify": "ok"
+ },
+ "Moloco": {
+  "ats": "greenhouse",
+  "board_name": "Moloco",
+  "display": "Moloco",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 46,
+  "slug": "moloco",
+  "verify": "ok"
+ },
+ "MongoDB": {
+  "ats": "greenhouse",
+  "board_name": "MongoDB",
+  "display": "MongoDB",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 409,
+  "slug": "mongodb",
+  "verify": "ok"
+ },
+ "Movable Ink": {
+  "ats": "greenhouse",
+  "board_name": "Movable Ink",
+  "display": "Movable Ink",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 36,
+  "slug": "movableink",
+  "verify": "ok"
+ },
+ "NextRoll": {
+  "ats": "greenhouse",
+  "board_name": "NextRoll Inc.",
+  "display": "NextRoll",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 1,
+  "slug": "nextrollinc",
+  "verify": "ok"
+ },
+ "Notion": {
+  "ats": "ashby",
+  "display": "Notion",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 127,
+  "slug": "notion",
+  "verify": "ok"
+ },
+ "Nova Credit": {
+  "ats": "greenhouse",
+  "board_name": "Nova Credit",
+  "display": "Nova Credit",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 10,
+  "slug": "novacredit",
+  "verify": "ok"
+ },
+ "Ontra": {
+  "ats": "ashby",
+  "display": "Ontra",
+  "lists": [
+   "builtin-nyc-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "builtin-nyc-2026+gptw-parents-2025",
+  "n_reqs": 8,
+  "slug": "ontra",
+  "verify": "ok"
+ },
+ "Oscar Health": {
+  "ats": "greenhouse",
+  "display": "Oscar Health",
+  "lists": [
+   "prior-bridge-scan-2026-09-11"
+  ],
+  "lists_tag": "prior-bridge-scan",
+  "n_reqs": 283,
+  "slug": "oscar",
+  "verify": "ok"
+ },
+ "Oshi Health": {
+  "ats": "greenhouse",
+  "board_name": "Oshi Health",
+  "display": "Oshi Health",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "oshihealth",
+  "verify": "ok"
+ },
+ "Overjet": {
+  "ats": "ashby",
+  "display": "Overjet",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 22,
+  "slug": "overjet",
+  "verify": "ok"
+ },
+ "PatientPoint": {
+  "ats": "greenhouse",
+  "board_name": "PatientPoint",
+  "display": "PatientPoint",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 33,
+  "slug": "patientpoint",
+  "verify": "ok"
+ },
+ "Peloton": {
+  "ats": "greenhouse",
+  "display": "Peloton",
+  "lists": [
+   "prior-bridge-scan-2026-09-11"
+  ],
+  "lists_tag": "prior-bridge-scan",
+  "n_reqs": 53,
+  "slug": "peloton",
+  "verify": "ok"
+ },
+ "Philo": {
+  "ats": "greenhouse",
+  "board_name": "Philo",
+  "display": "Philo",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "philo",
+  "verify": "ok"
+ },
+ "Placements.io": {
+  "ats": "greenhouse",
+  "board_name": "Placements.io",
+  "display": "Placements.io",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "placementsio",
+  "verify": "ok"
+ },
+ "Prefect": {
+  "ats": "ashby",
+  "display": "Prefect",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 8,
+  "slug": "prefect",
+  "verify": "ok"
+ },
+ "Prose": {
+  "ats": "ashby",
+  "display": "Prose",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 4,
+  "slug": "prose",
+  "verify": "ok"
+ },
+ "Qualtrics": {
+  "ats": "greenhouse",
+  "board_name": "Qualtrics",
+  "display": "Qualtrics",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 48,
+  "slug": "qualtrics",
+  "verify": "ok"
+ },
+ "Radar": {
+  "ats": "greenhouse",
+  "board_name": "RADAR",
+  "display": "Radar",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 11,
+  "slug": "radar",
+  "verify": "ok"
+ },
+ "Ramp": {
+  "ats": "ashby",
+  "display": "Ramp",
+  "lists": [
+   "prior-bridge-scan-2026-09-11"
+  ],
+  "lists_tag": "prior-bridge-scan",
+  "n_reqs": 144,
+  "slug": "ramp",
+  "verify": "ok"
+ },
+ "Regard": {
+  "ats": "ashby",
+  "display": "Regard",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "regard",
+  "verify": "ok"
+ },
+ "Rent the Runway": {
+  "ats": "greenhouse",
+  "board_name": "Rent the Runway",
+  "display": "Rent the Runway",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 23,
+  "slug": "renttherunway",
+  "verify": "ok"
+ },
+ "Riot Games": {
+  "ats": "greenhouse",
+  "board_name": "Riot Games",
+  "display": "Riot Games",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 152,
+  "slug": "riotgames",
+  "verify": "ok"
+ },
+ "Riskified": {
+  "ats": "greenhouse",
+  "board_name": "Riskified",
+  "display": "Riskified",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 25,
+  "slug": "riskified",
+  "verify": "ok"
+ },
+ "Ro": {
+  "ats": "lever",
+  "display": "Ro",
+  "lists": [
+   "builtin-nyc-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "builtin-nyc-2026+gptw-parents-2025",
+  "n_reqs": 47,
+  "slug": "ro",
+  "verify": "ok"
+ },
+ "Runway": {
+  "ats": "ashby",
+  "display": "Runway",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 4,
+  "slug": "runway",
+  "verify": "ok"
+ },
+ "Schr\u00f6dinger Inc.": {
+  "ats": "greenhouse",
+  "board_name": "Schr\u00f6dinger",
+  "display": "Schr\u00f6dinger Inc.",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 21,
+  "slug": "schrdinger",
+  "verify": "ok"
+ },
+ "SeatGeek": {
+  "ats": "greenhouse",
+  "board_name": "SeatGeek",
+  "display": "SeatGeek",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 22,
+  "slug": "seatgeek",
+  "verify": "ok"
+ },
+ "Shields Health Solutions": {
+  "ats": "greenhouse",
+  "board_name": "Shields Health Solutions",
+  "display": "Shields Health Solutions",
+  "lists": [
+   "fortune-100-best-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "fortune-100-best-2026+gptw-parents-2025",
+  "n_reqs": 88,
+  "slug": "shieldshealthsolutions",
+  "verify": "ok"
+ },
+ "Skillsoft": {
+  "ats": "greenhouse",
+  "board_name": "Skillsoft",
+  "display": "Skillsoft",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "skillsoft",
+  "verify": "ok"
+ },
+ "Smartly": {
+  "ats": "greenhouse",
+  "board_name": "Smartly",
+  "display": "Smartly",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 75,
+  "slug": "smartlyio",
+  "verify": "ok"
+ },
+ "Snowflake": {
+  "ats": "ashby",
+  "display": "Snowflake",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 371,
+  "slug": "snowflake",
+  "verify": "ok"
+ },
+ "Sprig": {
+  "ats": "ashby",
+  "display": "Sprig",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "sprig",
+  "verify": "ok"
+ },
+ "Squarespace": {
+  "ats": "greenhouse",
+  "board_name": "Squarespace",
+  "display": "Squarespace",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 28,
+  "slug": "squarespace",
+  "verify": "ok"
+ },
+ "Stellar Development Foundation": {
+  "ats": "ashby",
+  "display": "Stellar Development Foundation",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 32,
+  "slug": "stellar",
+  "verify": "ok"
+ },
+ "Taboola": {
+  "ats": "greenhouse",
+  "board_name": "Taboola",
+  "display": "Taboola",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 84,
+  "slug": "taboola",
+  "verify": "ok"
+ },
+ "Taskrabbit": {
+  "ats": "greenhouse",
+  "board_name": "Taskrabbit",
+  "display": "Taskrabbit",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 14,
+  "slug": "taskrabbit",
+  "verify": "ok"
+ },
+ "The Wonderful Company": {
+  "ats": "ashby",
+  "display": "The Wonderful Company",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 132,
+  "slug": "wonderful",
+  "verify": "ok"
+ },
+ "Thumbtack, Inc.": {
+  "ats": "ashby",
+  "display": "Thumbtack, Inc.",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 40,
+  "slug": "thumbtack",
+  "verify": "ok"
+ },
+ "Tildei": {
+  "ats": "lever",
+  "display": "Tildei",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 1,
+  "slug": "tildei",
+  "verify": "ok"
+ },
+ "Trumid": {
+  "ats": "greenhouse",
+  "board_name": "Trumid",
+  "display": "Trumid",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 7,
+  "slug": "trumid",
+  "verify": "ok"
+ },
+ "Upside": {
+  "ats": "ashby",
+  "display": "Upside",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "upside",
+  "verify": "ok"
+ },
+ "Upstart": {
+  "ats": "greenhouse",
+  "board_name": "Upstart",
+  "display": "Upstart",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 87,
+  "slug": "upstart",
+  "verify": "ok"
+ },
+ "Vendelux": {
+  "ats": "ashby",
+  "display": "Vendelux",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "vendelux",
+  "verify": "ok"
+ },
+ "Vestwell": {
+  "ats": "greenhouse",
+  "board_name": "Vestwell",
+  "display": "Vestwell",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 16,
+  "slug": "vestwell",
+  "verify": "ok"
+ },
+ "VideoAmp": {
+  "ats": "greenhouse",
+  "board_name": "VideoAmp Careers Website ",
+  "display": "VideoAmp",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 6,
+  "slug": "videoamp",
+  "verify": "ok"
+ },
+ "Webflow": {
+  "ats": "greenhouse",
+  "board_name": "Webflow",
+  "display": "Webflow",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 25,
+  "slug": "webflow",
+  "verify": "ok"
+ },
+ "Xero": {
+  "ats": "ashby",
+  "display": "Xero",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 122,
+  "slug": "xero",
+  "verify": "ok"
+ },
+ "Yext": {
+  "ats": "greenhouse",
+  "board_name": "Yext",
+  "display": "Yext",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 20,
+  "slug": "yext",
+  "verify": "ok"
+ },
+ "e.l.f. Beauty": {
+  "ats": "lever",
+  "display": "e.l.f. Beauty",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 78,
+  "slug": "elfbeauty",
+  "verify": "ok"
+ }
+}
