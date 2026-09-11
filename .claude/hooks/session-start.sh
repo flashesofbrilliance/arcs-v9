@@ -101,6 +101,31 @@ except Exception:
   fi
 fi
 
+# Night-moves reminder (NOT automation): prints a days-since-last-digest observation at
+# pickup. Never invokes the skill itself — the digest stays something the owner chooses to
+# generate. Read-only git-mtime check over _STATE/night-moves/*.md; guarded to never fail.
+python3 -c "
+import glob, datetime, os, re
+
+files = glob.glob(os.path.join('$CLAUDE_PROJECT_DIR', '_STATE/night-moves/*.md'))
+dates = []
+for f in files:
+    m = re.search(r'(\d{4}-\d{2}-\d{2})\.md$', f)
+    if m:
+        try:
+            dates.append(datetime.date.fromisoformat(m.group(1)))
+        except ValueError:
+            pass
+
+if not dates:
+    print('night-moves: no digests found yet')
+else:
+    last = max(dates)
+    days = (datetime.date.today() - last).days
+    if days >= 2:
+        print(f'night-moves: {days} days since last digest ({last}) — run /night-moves?')
+" 2>/dev/null || true
+
 # (7) Timecapsule — per-session build-log commit of the memory dir (no-op if unchanged; absent-safe on other machines).
 if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
   _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)
