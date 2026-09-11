@@ -1,24 +1,323 @@
 [
-{"jobid":"4439653884","title":"Deployment Strategist","company":"Charta Health","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4439653884/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4454544237","title":"Forward Deployed Engineer","company":"Optimizely","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4454544237/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4463733302","title":"Expert Forward Deployment Engineer","company":"Luxoft","location":"Jersey City, NJ","url":"https://www.linkedin.com/jobs/view/4463733302/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4439651965","title":"Forward Deployed AI Engineer","company":"Charta Health","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4439651965/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4463742122","title":"Senior Forward Deployment Engineer","company":"Luxoft","location":"Jersey City, NJ","url":"https://www.linkedin.com/jobs/view/4463742122/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4453755191","title":"Sr AI Engineer I","company":"American Express","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4453755191/","firstSeen":"2026-09-07T20:53:11Z"},
-{"jobid":"4427040314","title":"Applied AI Engineer","company":"The D. E. Shaw Group","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4427040314/","firstSeen":"2026-09-07T18:53:12Z"},
-{"jobid":"4454584730","title":"Applied AI/ML Engineer","company":"Confido","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4454584730/","firstSeen":"2026-09-07T18:53:12Z"},
-{"jobid":"4387266476","title":"Founding Engineer - Tower Incubations","company":"Tower Research Capital","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4387266476/","firstSeen":"2026-09-07T18:53:12Z"},
-{"jobid":"4453795302","title":"Software Engineer, Applied AI","company":"Clay","location":"New York City Metropolitan Area","url":"https://www.linkedin.com/jobs/view/4453795302/","firstSeen":"2026-09-07T18:53:12Z"},
-{"jobid":"4461447720","title":"Forward Deployed Engineer","company":"CodeRound AI","location":"New York City Metropolitan Area","url":"https://www.linkedin.com/jobs/view/4461447720/","salary":"$170K-$220K","firstSeen":"2026-09-07T18:53:12Z"},
-{"jobid":"4394476935","title":"Forward-Deployed Engineer","company":"Tessera Labs","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4394476935/","salary":"up to $233K/year","firstSeen":"2026-09-07T16:53:10Z"},
-{"jobid":"4407089211","title":"GTM Engineer","company":"LangChain","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4407089211/","firstSeen":"2026-09-07T16:53:10Z"},
-{"jobid":"4421191279","title":"GTM Engineer: Customer Experience & Lifecycle","company":"Equinix","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4421191279/","firstSeen":"2026-09-07T16:53:10Z"},
-{"jobid":"4408131353","title":"AI Operator, Implementation Delivery","company":"Distyl","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4408131353/","firstSeen":"2026-09-07T16:53:10Z"},
-{"jobid":"4398870270","title":"Growth Operator","company":"Distyl","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4398870270/","firstSeen":"2026-09-07T16:53:10Z"},
-{"jobid":"4441583254","title":"Lead Product Manager","company":"Carta","location":"New York City Metropolitan Area","url":"https://www.linkedin.com/jobs/view/4441583254/","firstSeen":"2026-09-07T14:53:12Z"},
-{"jobid":"4453730648","title":"Principal Product Manager - Conversational AI","company":"Hopper","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4453730648/","firstSeen":"2026-09-07T14:53:12Z"},
-{"jobid":"4451253830","title":"Lead Product Manager","company":"Sunfish","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4451253830/","firstSeen":"2026-09-07T14:53:12Z"},
-{"jobid":"4451276680","title":"Technical Product Manager","company":"David AI","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4451276680/","firstSeen":"2026-09-07T14:53:12Z"},
-{"jobid":"4398620318","title":"Staff Product Manager - Mercury Command","company":"Mercury","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4398620318/","firstSeen":"2026-09-07T14:53:12Z"},
-{"jobid":"4368395074","title":"Director, Product Management - Platforms","company":"Datadog","location":"New York, NY","url":"https://www.linkedin.com/jobs/view/4368395074/","firstSeen":"2026-09-07T14:53:12Z"}
+  {
+    "jobid": "4455285337",
+    "title": "Forward Deployed Engineer - US",
+    "company": "Parloa",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4455285337/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4349060598",
+    "title": "AI Strategist (All Levels)",
+    "company": "Distyl",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4349060598/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4455250277",
+    "title": "Associate Forward Deployed Engineer",
+    "company": "Tenex",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4455250277/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4464370983",
+    "title": "Forward Deployed Engineer",
+    "company": "talentpluto",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464370983/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4464365988",
+    "title": "Forward Deployed Engineer - Tenex",
+    "company": "talentpluto",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464365988/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4464453570",
+    "title": "Deployment Strategist",
+    "company": "Encore AI",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4464453570/",
+    "firstSeen": "2026-09-09T14:53:10Z"
+  },
+  {
+    "jobid": "4455247293",
+    "title": "Senior Forward Deployed Engineer",
+    "company": "Tenex",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4455247293/",
+    "firstSeen": "2026-09-09T16:53:11Z"
+  },
+  {
+    "jobid": "4369286262",
+    "title": "Deployed Engineer (NYC)",
+    "company": "LangChain",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4369286262/",
+    "firstSeen": "2026-09-09T16:53:11Z"
+  },
+  {
+    "jobid": "4386795911",
+    "title": "Forward Deployed Engineer",
+    "company": "Diligent",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4386795911/",
+    "firstSeen": "2026-09-09T18:53:10Z"
+  },
+  {
+    "jobid": "4454222695",
+    "title": "Senior Product Manager, New York",
+    "company": "Fifth Dimension",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4454222695/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4379097963",
+    "title": "Group Product Manager",
+    "company": "Brex",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4379097963/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4399832134",
+    "title": "Lead Product Manager, Agentic Personalization",
+    "company": "Hightouch",
+    "location": "Kings County, NY",
+    "url": "https://www.linkedin.com/jobs/view/4399832134/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4363733644",
+    "title": "Growth PM, Future Platforms | Housing",
+    "company": "EliseAI",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4363733644/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4427240766",
+    "title": "Product Management, Human Data Platform",
+    "company": "Anthropic",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4427240766/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4376395946",
+    "title": "Staff Product Manager",
+    "company": "Brex",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4376395946/",
+    "firstSeen": "2026-09-09T20:53:11Z"
+  },
+  {
+    "jobid": "4416681892",
+    "title": "Forward Deployed Engineer",
+    "company": "Hebbia",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4416681892/",
+    "firstSeen": "2026-09-10T16:53:10Z"
+  },
+  {
+    "jobid": "4416693820",
+    "title": "Solutions Engineer",
+    "company": "Hebbia",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4416693820/",
+    "firstSeen": "2026-09-10T16:53:10Z"
+  },
+  {
+    "jobid": "4463321056",
+    "title": "Forward Deployed Engineer",
+    "company": "Elev8 Recruitment",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4463321056/",
+    "firstSeen": "2026-09-10T16:53:10Z"
+  },
+  {
+    "jobid": "4452523442",
+    "title": "Deployment Strategist",
+    "company": "Moment",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4452523442/",
+    "firstSeen": "2026-09-10T16:53:10Z"
+  },
+  {
+    "jobid": "4464679637",
+    "title": "AI Solutions Engineer (New York)",
+    "company": "Reindeer",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464679637/",
+    "firstSeen": "2026-09-10T16:53:10Z"
+  },
+  {
+    "jobid": "4406555292",
+    "title": "Forward Deployed Engineer",
+    "company": "Chalk",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4406555292/",
+    "firstSeen": "2026-09-10T16:53:10Z",
+    "salary": "$170K-$280K / year"
+  },
+  {
+    "jobid": "4455384619",
+    "title": "Internal AI Innovation Lead",
+    "company": "Navan",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4455384619/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4440095168",
+    "title": "Enterprise AI Product Manager",
+    "company": "The Carlyle Group",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4440095168/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4464664704",
+    "title": "Lead product manager",
+    "company": "WRITER",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464664704/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4455527337",
+    "title": "VP, Product",
+    "company": "Sixfold",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4455527337/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4464629775",
+    "title": "Product Experience Lead",
+    "company": "Seward & Kissel LLP",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4464629775/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4442865604",
+    "title": "Product Senior Lead",
+    "company": "PMG",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4442865604/",
+    "firstSeen": "2026-09-10T18:53:10Z"
+  },
+  {
+    "jobid": "4463537825",
+    "title": "Forward Deployed Engineer (AI & Full-Stack Engineering)",
+    "company": "Carnaby Fox",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4463537825/",
+    "firstSeen": "2026-09-10T20:53:10Z"
+  },
+  {
+    "jobid": "4463558029",
+    "title": "Forward Deployed Engineer (FDE)",
+    "company": "Nexien Inc.",
+    "location": "Englewood Cliffs, NJ",
+    "url": "https://www.linkedin.com/jobs/view/4463558029/",
+    "firstSeen": "2026-09-10T20:53:10Z"
+  },
+  {
+    "jobid": "4464463162",
+    "title": "Member of Technical Staff, Applied AI",
+    "company": "Finch",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464463162/",
+    "firstSeen": "2026-09-10T22:53:10Z"
+  },
+  {
+    "jobid": "4464976036",
+    "title": "Founding Engineer, Applied AI",
+    "company": "Pockyt",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4464976036/",
+    "firstSeen": "2026-09-10T22:53:10Z"
+  },
+  {
+    "jobid": "4464657200",
+    "title": "Forward Deployed Engineer",
+    "company": "Sia",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464657200/",
+    "firstSeen": "2026-09-10T22:53:10Z"
+  },
+  {
+    "jobid": "4416423413",
+    "title": "Applied Research Engineer, Agents",
+    "company": "Hebbia",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4416423413/",
+    "firstSeen": "2026-09-10T22:53:10Z"
+  },
+  {
+    "jobid": "4463533537",
+    "title": "Senior AI Application Engineer",
+    "company": "EVERSANA",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4463533537/",
+    "firstSeen": "2026-09-10T22:53:10Z"
+  },
+  {
+    "jobid": "4433999098",
+    "title": "Forward Deployed Engineer, Command by Asana",
+    "company": "Asana",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4433999098/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  },
+  {
+    "jobid": "4463081613",
+    "title": "Forward Deployed Engineer",
+    "company": "scalr",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4463081613/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  },
+  {
+    "jobid": "4463433805",
+    "title": "Forward Deployed Engineer",
+    "company": "Scout Global",
+    "location": "New York City Metropolitan Area",
+    "url": "https://www.linkedin.com/jobs/view/4463433805/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  },
+  {
+    "jobid": "4465095696",
+    "title": "Forward Deployed Engineer - Tenex",
+    "company": "talentpluto",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4465095696/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  },
+  {
+    "jobid": "4464118919",
+    "title": "Forward Deployed Strategist",
+    "company": "Chalk",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4464118919/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  },
+  {
+    "jobid": "4434892830",
+    "title": "Applied AI Engineer",
+    "company": "Avoca",
+    "location": "New York, NY",
+    "url": "https://www.linkedin.com/jobs/view/4434892830/",
+    "firstSeen": "2026-09-11T12:53:11Z"
+  }
 ]
