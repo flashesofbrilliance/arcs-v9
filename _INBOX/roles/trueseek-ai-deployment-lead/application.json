@@ -1,0 +1,11 @@
+{
+  "applied_at": "2026-09-09",
+  "submission_channel": "linkedin (job id 4463284582)",
+  "submitted_resume_filename": null,
+  "submitted_resume_sha256": null,
+  "source_ref": "user-supplied trial input; application record not yet captured locally",
+  "status_events": [
+    {"date": "2026-09-10", "event": "application viewed (LinkedIn notification)", "evidence": "user-observed; not persisted; NOT selection evidence"}
+  ],
+  "notes": "Which resume cut was submitted is UNKNOWN — no local record. If recoverable from the LinkedIn application, capture filename + sha256 here."
+}

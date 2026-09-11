@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.1.0",
+  "role_slug": "trueseek-ai-deployment-lead",
+  "employer_shown_in_application_confirmation": "TrueSeek",
+  "employer_identity_status": "unresolved",
+  "role_title_shown_in_application_confirmation": "AI Deployment Lead — Private Markets",
+  "primary_jd_title": "Deployment Lead | AI-Native Data Migration & Transformation",
+  "location": "New York, NY",
+  "compensation_as_stated": "$150K–$200K + Bonus",
+  "linkedin_job_id": "4463284582",
+  "canonical_url": "@url:`https://www.linkedin.com/comm/jobs/view/4463284582/`",
+  "observed_at": "2026-09-09",
+  "capture_method": "manual_copy_from_authenticated_linkedin_session",
+  "source_status": "captured_primary_jd",
+  "disposition": "passed_by_owner_2026-09-10 — owner judgment: substantiating evidence would not warrant the time and effort. No outreach, no further review.",
+  "primary_jd_path": "jd.md",
+  "jd_sha256": "5deda8a3ed17fff0b3ed7bad9ee13c5f2399a639b385d88cd8d94011b8068753",
+  "identity_status": "unresolved",
+  "evidence_boundary": [
+    "The supplied JD establishes role requirements and company claims only.",
+    "Employer identity is unresolved until a primary source explicitly links TrueSeek to LinkedIn Job ID 4463284582.",
+    "The LinkedIn application-view event is not evidence of selection intent."
+  ],
+  "unknowns": [
+    "Legal employer identity",
+    "Reporting line",
+    "Specific client portfolio and active engagement count",
+    "Required technical depth beyond the stated workflow",
+    "Work arrangement, travel, and interview process"
+  ]
+}

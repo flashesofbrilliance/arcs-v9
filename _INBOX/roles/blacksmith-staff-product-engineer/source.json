@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "role_slug": "blacksmith-staff-product-engineer",
+  "employer_shown": "Blacksmith",
+  "role_title_shown": "Staff Product Engineer",
+  "channel": "recruiter (Amy Szymarek, RecruitHaus — amy@recruithaus.com)",
+  "linkedin_job_id": null,
+  "canonical_url": "https://blacksmith.arcs.care (candidate bundle; posting URL not captured)",
+  "observed_at": "2026-09-02",
+  "capture_method": "user-shared gmail thread PDF, transcribed excerpts (see correspondence.md)",
+  "source_status": "missing_primary_jd",
+  "jd_sha256": null,
+  "outcome_status": "not_moving_forward_with_interview (recruiter-relayed, 2026-09-09)",
+  "outcome_evidence": "correspondence.md — Amy Szymarek message 2026-09-09 10:04 PM, verbatim reason recorded",
+  "evidence_boundary": [
+    "The stated reason is the recruiter's relay of client feedback; it is not independently verified and not a full account of the decision.",
+    "No hiring-outcome cause is inferred beyond the relayed sentence.",
+    "Family-thread messages (Hila/Dean/Marcia) were a forward Amy did not see; excluded from this packet per privacy boundary — not role correspondence.",
+    "A LinkedIn application view or recruiter warmth is not selection evidence."
+  ],
+  "unknowns": [
+    "Primary JD text (never captured; role now closed)",
+    "Which resume version was submitted via RecruitHaus (bundle points to blacksmith.arcs.care/resume; exact submitted file/hash unconfirmed)",
+    "Whether 'start-up organization that resembles theirs' refers to company stage, size, domain, or operating model",
+    "Paraform pipeline status (asked 2026-09-09; no answer captured in this thread)"
+  ]
+}
