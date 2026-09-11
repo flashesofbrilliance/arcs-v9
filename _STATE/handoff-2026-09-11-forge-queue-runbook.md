@@ -92,6 +92,9 @@ If leaked: fix HTML → re-render `chrome --headless=new --print-to-pdf` → `pd
 
 ## Not-doing / hold
 
+- **Receipt:** `2026-09-10--forge-resync-proof-run--ZH` in `decision_receipt` (this session's
+  merge/commit/build/sweep, confirmed/unconfirmed split). Hosted viewer confirmed auth-gated
+  (agent browser → 307 magic-link); local page PNGs visually verified clean + Tenex-identified.
 - **11 "Other"-cluster queued rows** (Perplexity AI Strategist, Edra AI Strategist, sales-engineer
   shapes): the only Other seed is SentiLink's exec cut — shape-mismatched for these. Options: a
   fresh full forge (expensive), or fold into FDE/Product-Eng if the shape truly fits — judgment
