@@ -207,6 +207,8 @@ The brief and all UI sections render at **earned fidelity** — never at higher 
 | GREEN / HIGH | Clear | SHARP | opacity: 1.0, weight: 500, tracking: normal |
 | LOCKED / Nucleus | Crystal | SHARP + hard edges | opacity: 1.0, weight: 600, tracking: -0.01em |
 
+**Earned fidelity has a floor: coherent wrapping.** Fidelity is the *resolution* of the render, never a licence for a ragged one. BODY reading text on a surface shares ONE measure (a single px `--measure`, never per-element `ch` caps); bordered callouts carry that measure on the box so every right edge lines up. But a LEDE is not body text: a hero or section lede spans the full lane, edge-to-edge with its heading — a lede pinched to the narrow body measure leaves a dead right gutter that reads as broken and abridged, the fog leaking back in from the other side. Both failures are the same sin (a text block whose width lies about its role), and the narrow one is invisible to overflow gates — so eyeball the lede against its heading, not just the sweep. Verify across the full width band (360–1440, especially 700–1000) with the surface's own gate before calling anything SHARP. Canon: `_PATTERNS/arcs-artifact-css-base.css`; enforcement in AGENTS.md gotcha #13; preference in memory `design-full-width-lede-matches-heading`.
+
 ---
 
 ## THE FIRST THING TO BUILD

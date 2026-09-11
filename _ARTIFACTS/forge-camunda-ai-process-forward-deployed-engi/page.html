@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · for Camunda</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Forward-deployed product and AI builder for agentic process orchestration. Every claim graded, red-teamed, and shown with what got cut.">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jbmono.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
+  /* Tokens: src/ui/tokens.ts (surface / border / text / signal / font). Nothing else. */
+  :root{
+    --bg:#020408;--surface:#0d1117;--elev:#111827;--border:#1e293b;--border2:rgba(122,210,255,.38);
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;--fg4:#475569;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+    --measure:68ch;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;overflow-x:clip;}
+  body{overflow-x:hidden;background:var(--bg);}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:var(--mono);}
+  p{text-wrap:pretty;}
+  h1,h2,h3{text-wrap:balance;}
+
+  /* sticky nav */
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(2,4,8,.78);border-bottom:1px solid var(--border);}
+  .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .burger{display:none;background:var(--elev);border:1px solid var(--border);border-radius:7px;color:var(--fg1);font-size:15px;line-height:1;padding:7px 11px;cursor:pointer;}
+  .burger:hover{border-color:var(--cyan);color:var(--cyan);}
+  /* Wordmark lockup mirrors src/ui/Wordmark.tsx: ARCS 800/.22em cyan · FIELD OS 400/.14em dimmed · 1px rule · section label */
+  .wm{display:inline-flex;align-items:center;gap:.75rem;flex-shrink:0;text-decoration:none;}
+  .wm .lk{display:inline-flex;align-items:baseline;gap:.45em;font-family:var(--mono);font-size:.65rem;text-transform:uppercase;white-space:nowrap;}
+  .wm .a{color:var(--cyan);font-weight:800;letter-spacing:.22em;}
+  .wm .f{color:var(--fg3);font-weight:400;letter-spacing:.14em;}
+  .wm .rule{width:1px;height:12px;background:var(--border);}
+  .wm .sec{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;color:var(--fg4);text-transform:uppercase;white-space:nowrap;}
+  @media(max-width:640px){.wm .rule,.wm .sec{display:none;}}
+  .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+  .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg2);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
+  .navlinks a:hover{color:var(--cyan);background:var(--elev);}
+  .navlinks a.dc{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);font-weight:700;}
+  .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
+  .ext::after{content:"\2197";font-family:var(--mono);font-size:.7em;font-weight:700;margin-left:3px;opacity:.6;vertical-align:top;}
+  .navdrop{display:none;}
+  @media(max-width:600px){
+    .burger{display:block;position:relative;z-index:62;}
+    .navdrop{display:block;position:fixed;inset:0;z-index:58;background:rgba(2,4,8,.55);opacity:0;pointer-events:none;transition:opacity .24s ease;}
+    .navin.open .navdrop{opacity:1;pointer-events:auto;}
+    .navlinks{position:fixed;top:0;right:0;height:100dvh;width:min(74%,300px);z-index:60;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;padding:62px 16px 22px;background:rgba(2,4,8,.99);border-left:1px solid var(--border);box-shadow:-24px 0 60px -24px rgba(0,0,0,.75);transform:translateX(105%);transition:transform .24s ease;display:flex;overflow-y:auto;}
+    .navin.open .navlinks{transform:translateX(0);}
+    .navlinks a{padding:12px 12px;font-size:13.5px;border-radius:8px;}
+    .navlinks a.dc{text-align:center;margin-top:8px;}
+  }
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);background:radial-gradient(900px 480px at 16% -12%,rgba(0,240,255,.11),transparent 60%),radial-gradient(760px 420px at 94% -6%,rgba(0,255,157,.07),transparent 55%);}
+  .hero{padding:70px 22px 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;white-space:nowrap;max-width:100%;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex:none;}
+  h1{font-size:clamp(54px,10.5vw,104px);font-weight:800;letter-spacing:-.04em;line-height:.94;margin-top:18px;}
+  .tag{font-size:clamp(21px,3.7vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.06;margin-top:12px;text-wrap:balance;}
+  .tag .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16.5px,2.4vw,21px);line-height:1.62;color:var(--fg2);margin-top:22px;max-width:none;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;white-space:nowrap;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+  .ticker{display:inline-flex;align-items:center;gap:11px;margin-top:26px;max-width:100%;padding:11px 16px;border:1px solid var(--border);border-radius:11px;background:linear-gradient(100deg,rgba(0,255,157,.07),rgba(0,240,255,.045));font-family:var(--mono);font-size:12.5px;line-height:1.35;color:var(--fg2);}
+  .ticker .pulse{flex:none;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-out infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,157,.55);}70%{box-shadow:0 0 0 8px rgba(0,255,157,0);}100%{box-shadow:0 0 0 0 rgba(0,255,157,0);}}
+  .ticker .tk-lbl{flex:none;font-weight:700;letter-spacing:.16em;font-size:10px;color:var(--green);}
+  .ticker .tk-val b{color:var(--fg1);font-weight:700;}
+  @media(max-width:520px){.ticker{font-size:11.5px;gap:9px;padding:10px 13px;}}
+  @media(prefers-reduced-motion:reduce){.ticker .pulse{animation:none;} .pv.on{animation:none;}}
+
+  section{padding:48px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:23px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin-left:auto;white-space:nowrap;}
+  @media(max-width:560px){.sec-lbl .sub{display:none;}}
+  .secnote{font-size:14px;line-height:1.6;color:var(--fg2);max-width:var(--measure);margin-bottom:18px;} .secnote b{color:var(--fg1);font-weight:600;}
+
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .pl3{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .pl3 .pt{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--cyan);}
+  .pl3 .pb{font-size:15px;line-height:1.55;color:var(--fg2);margin-top:9px;} .pl3 .pb b{color:var(--fg1);font-weight:600;}
+
+  /* two-column mapping table: what the posting asks | where I have already done it */
+  .dmap{border:1px solid var(--border);border-radius:14px;padding:2px 20px 8px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .dmap-head{display:grid;grid-template-columns:1fr 1fr;padding:14px 0 11px;border-bottom:1px solid var(--border);}
+  .dmap-head span{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
+  .dmap-head .dh-l{color:var(--gold);padding-right:26px;} .dmap-head .dh-r{color:var(--green);padding-left:26px;border-left:1px solid var(--border);}
+  .drow{display:grid;grid-template-columns:1fr 1fr;align-items:start;padding:16px 0;border-bottom:1px solid var(--border);}
+  .drow:last-child{border-bottom:none;}
+  .dside{min-width:0;}
+  .dside.dl{padding-right:26px;} .dside.dr{padding-left:26px;border-left:1px solid var(--border);}
+  .dside .dv{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
+  .dside .dlogos{font-size:13.5px;line-height:1.5;color:var(--fg2);margin-top:5px;}
+  .dside .dmine{font-size:14px;line-height:1.52;color:var(--fg1);} .dside .dmine b{color:var(--green);font-weight:600;}
+  @media(max-width:640px){
+    .dmap{padding:2px 16px 8px;}
+    .dmap-head{display:none;}
+    .drow{grid-template-columns:1fr;gap:9px;padding:15px 0;}
+    .dside.dl,.dside.dr{padding:0;border-left:none;}
+    .dside.dr .dmine{padding-left:14px;border-left:2px solid;border-image:linear-gradient(180deg,var(--gold),var(--green)) 1;}
+  }
+  .mapnote{font-size:13.5px;line-height:1.55;color:var(--fg2);margin-top:14px;max-width:var(--measure);} .mapnote b{color:var(--fg1);}
+
+  /* The Forge: stage rail + panel */
+  .rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;}
+  .stg{position:relative;text-align:left;border:1px solid var(--border);border-radius:11px;padding:12px 12px 13px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));cursor:pointer;transition:.16s;color:inherit;font-family:inherit;}
+  .stg:hover{border-color:var(--border2);}
+  .stg.on{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 12px 30px -18px rgba(0,240,255,.5);background:linear-gradient(165deg,rgba(0,240,255,.06),rgba(0,0,0,.16));}
+  .stg .sn{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--fg3);letter-spacing:.08em;}
+  .stg.on .sn{color:var(--cyan);}
+  .stg .st{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--fg1);margin-top:6px;white-space:nowrap;}
+  .stg .sd{font-size:10px;line-height:1.4;color:var(--fg2);margin-top:5px;}
+  .panel{margin-top:18px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(168deg,#0d1117,#020408);overflow:hidden;min-height:220px;}
+  .panel .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
+  .panel .bar .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);}
+  .panel .bar .r{font-family:var(--mono);font-size:9.5px;color:var(--fg3);letter-spacing:.06em;white-space:nowrap;}
+  .panel .body{padding:18px 18px 20px;}
+  .pv{display:none;} .pv.on{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .pv p{font-size:14.5px;line-height:1.62;color:var(--fg2);max-width:var(--measure);} .pv p b{color:var(--fg1);font-weight:600;} .pv p+p{margin-top:11px;}
+  .pv .kv{display:grid;grid-template-columns:150px 1fr;gap:7px 16px;margin-top:14px;}
+  @media(max-width:560px){.pv .kv{grid-template-columns:1fr;gap:2px 0;}}
+  .pv .kv .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);padding-top:2px;}
+  .pv .kv .v{font-size:12.5px;line-height:1.55;color:var(--fg2);} .pv .kv .v b{color:var(--fg1);}
+  .pv .gate{display:flex;gap:11px;align-items:flex-start;margin-top:16px;padding:11px 13px;border:1px solid var(--border);border-left:2px solid var(--green);border-radius:0 9px 9px 0;background:linear-gradient(100deg,rgba(0,255,157,.055),transparent 70%);}
+  .pv .gate .gk{flex:none;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.11em;color:var(--green);padding-top:2px;white-space:nowrap;}
+  .pv .gate .gv{font-size:11.5px;line-height:1.5;color:var(--fg2);} .pv .gate .gv b{color:var(--fg1);font-weight:600;}
+  @media(max-width:560px){.pv .gate{flex-direction:column;gap:5px;}}
+  .grade-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 14px;}
+  .gl{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--fg2);white-space:nowrap;}
+  .gl .d{width:9px;height:9px;border-radius:50%;}
+  .d.doc{background:var(--green);box-shadow:0 0 8px var(--green);} .d.self{background:var(--gold);box-shadow:0 0 8px var(--gold);} .d.unv{background:var(--red);box-shadow:0 0 8px var(--red);}
+  .etbl{display:flex;flex-direction:column;gap:7px;}
+  .erow{display:grid;grid-template-columns:15px 1fr 118px;gap:12px;align-items:center;border:1px solid var(--border);border-radius:9px;padding:11px 13px;background:linear-gradient(165deg,rgba(255,255,255,.015),rgba(0,0,0,.14));}
+  @media(max-width:560px){.erow{grid-template-columns:15px 1fr;} .erow .tag{grid-column:2;justify-self:start;margin-top:2px;}}
+  .erow .dot{width:10px;height:10px;border-radius:50%;}
+  .erow .claim{font-size:12.5px;line-height:1.45;color:var(--fg1);} .erow .claim small{display:block;color:var(--fg2);font-size:11px;margin-top:2px;}
+  .erow .tag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;text-align:right;white-space:nowrap;}
+  .tag.doc{color:var(--green);} .tag.self{color:var(--gold);} .tag.unv{color:var(--red);}
+  .cut{display:flex;gap:13px;border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:linear-gradient(165deg,rgba(255,77,109,.04),rgba(0,0,0,.14));}
+  .cut .x{flex-shrink:0;font-family:var(--mono);font-weight:800;color:var(--red);font-size:14px;line-height:1.3;}
+  .cut .t{font-size:12.5px;font-weight:600;color:var(--fg1);} .cut .w{font-size:11.5px;line-height:1.5;color:var(--fg2);margin-top:3px;}
+  .rt{display:flex;gap:13px;border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:12px 14px;margin-bottom:9px;background:linear-gradient(165deg,rgba(255,215,0,.04),rgba(0,0,0,.14));}
+  .rt .h{flex-shrink:0;font-family:var(--mono);font-weight:800;color:var(--gold);font-size:13px;}
+  .rt .t{font-size:12.5px;font-weight:600;color:var(--fg1);} .rt .w{font-size:11.5px;line-height:1.5;color:var(--fg2);margin-top:3px;} .rt .w b{color:var(--fg1);}
+  .airgap{margin-top:26px;border:1px dashed var(--border);border-radius:12px;padding:15px 17px;background:rgba(0,255,157,.03);}
+  .airgap .h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+  .airgap p{font-size:12.5px;line-height:1.6;color:var(--fg2);max-width:var(--measure);} .airgap p b{color:var(--fg1);}
+
+  /* The kitchen: deliverables as plain rows, no tile grid */
+  .kit{border:1px solid var(--border);border-radius:14px;padding:2px 20px 4px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .krow{display:grid;grid-template-columns:190px 1fr auto;gap:16px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--border);}
+  .krow:last-child{border-bottom:none;}
+  .krow .kn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:.03em;white-space:nowrap;}
+  .krow .kd{font-size:13.5px;line-height:1.5;color:var(--fg2);min-width:0;} .krow .kd b{color:var(--fg1);font-weight:600;}
+  .krow .kl{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--fg1);border:1px solid var(--border);background:var(--elev);border-radius:8px;padding:7px 11px;white-space:nowrap;transition:.14s;}
+  .krow .kl:hover{border-color:var(--cyan);color:var(--cyan);}
+  .krow .kl.off{color:var(--fg3);cursor:default;} .krow .kl.off:hover{border-color:var(--border);color:var(--fg3);}
+  @media(max-width:640px){.kit{padding:2px 16px 4px;} .krow{grid-template-columns:1fr;gap:6px;} .krow .kl{justify-self:start;}}
+
+  footer{padding:32px 0 50px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg3);letter-spacing:.03em;}
+  .foot a{color:var(--fg2);} .foot a:hover{color:var(--cyan);}
+  .prov{max-width:1000px;margin:16px auto 0;padding:14px 22px 0;border-top:1px solid var(--border);font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg3);}
+  .prov a{color:var(--fg2);} .prov a:hover{color:var(--cyan);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="navin">
+    <a class="wm" href="/" aria-label="ARCS Field OS"><span class="lk"><span class="a">ARCS</span><span class="f">Field OS</span></span><span class="rule"></span><span class="sec">for Camunda</span></a>
+    <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <div class="navdrop" aria-hidden="true"></div>
+    <div class="navlinks">
+      <a href="https://build.arcs.care">build</a>
+      <a href="https://good.arcs.care">good</a>
+      <a href="https://status.arcs.care">status</a>
+      <a href="https://github.com/flashesofbrilliance">github</a>
+      <a href="#forge">the forge</a>
+      <a class="dc" href="/forge-camunda-fde-resume.pdf">&#9670; r&eacute;sum&eacute; PDF</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>forward-deployed &middot; agentic process orchestration</span>
+    <h1>Zach Harris</h1>
+    <p class="tag"><span class="g">Embeds with the customer. Ships the working process.</span></p>
+    <p class="lede">I sit with the process owners, find <b>where the workflow actually breaks</b>, and build the first version myself. Two decades across finance, health, sports, and consumer, most recently building an AI-native platform on Claude with an MCP server and agentic orchestration, in production. Before that: go-to-market for 10 SEC/FINRA-regulated products, and a seven-figure embedded engagement as the sole product-and-technology partner, discovery through handoff. I translate between non-technical stakeholders and engineering, configure the system myself, and define the KPIs that decide go or no-go.</p>
+    <div class="cta">
+      <a class="btn p" href="/forge-camunda-fde-resume.pdf">&#9670; R&eacute;sum&eacute; (PDF, 2 pages)</a>
+      <a class="btn s" href="#forge">How it was forged &darr;</a>
+    </div>
+    <div class="ticker">
+      <span class="pulse"></span>
+      <span class="tk-lbl">GRADED</span>
+      <span class="tk-val">Every claim on the r&eacute;sum&eacute; is traced to a <b>record of record</b>, graded by how checkable it is, and red-teamed. What got cut is shown below.</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>The seam I sit on</h2><span class="sub">one person, three fluencies</span></div>
+    <div class="pillars">
+      <div class="pl3"><div class="pt">Forward-deployed delivery</div><div class="pb">Embedded as the <b>sole product and tech partner</b> inside a $350M-ARR behavioral-health company, discovery through QA and handoff. Also the founder who builds, deploys, and operates every layer alone.</div></div>
+      <div class="pl3"><div class="pt">Hands-on agentic systems</div><div class="pb">Designed and built an AI-native pipeline on Claude with an <b>MCP server and agentic orchestration</b>, in production. The code is public; the commit trail is live.</div></div>
+      <div class="pl3"><div class="pt">Ambiguity and regulated fluency</div><div class="pb">Shipped inside <b>SEC/FINRA release gates</b> and HIPAA constraints with no playbook handed to me. Translated regulatory requirements into product requirements engineering could build against.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>What the posting asks &harr; where I have done it</h2><span class="sub">mapped to the role</span></div>
+    <div class="dmap">
+      <div class="dmap-head"><span class="dh-l">What the posting asks for</span><span class="dh-r">Where I have already done it</span></div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Deploy and prove, end to end</div><div class="dlogos">Own the journey from first process file to a running, measurably improving production workflow</div></div>
+        <div class="dside dr"><div class="dmine"><b>ARCS</b>: built, deployed, and operate a decision-intelligence platform alone, from first commit to production, with a compounding improvement loop. <b>Squat New York</b>: sole technology partner from discovery through QA and handoff inside a $350M-ARR company.</div></div>
+      </div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Technical depth</div><div class="dlogos">Debug integration failures, build custom agents where platform defaults don't fit, explain generated output to engineers and business leads</div></div>
+        <div class="dside dr"><div class="dmine"><b>ARCS</b>: MCP server and agentic orchestration on Claude, running pre- and post-decision capture in production. <b>GovTech</b>: MVP features, instrumentation, and success metrics for a secure first-responder platform when no platform default fit.</div></div>
+      </div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Stakeholder communication</div><div class="dlogos">Work across engineering, architecture, and business leadership without losing precision</div></div>
+        <div class="dside dr"><div class="dmine"><b>Grayscale</b>: coordinated product, engineering, legal, risk, and compliance through regulated release gates; turned regulatory requirements into buildable ones. <b>Squat New York</b>: aligned engineering, clinical, and operations to ship on schedule.</div></div>
+      </div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Comfort with ambiguity</div><div class="dlogos">Make sound judgment calls without a playbook, document what you learn</div></div>
+        <div class="dside dr"><div class="dmine"><b>ARCS</b>: no inherited spec, no prior playbook. <b>Twill Health</b>: market-viability testing for 3 AI-enabled product lines under HIPAA; the KPI frameworks drove go-forward calls on 2 of 3, documented for the next decision.</div></div>
+      </div>
+    </div>
+    <p class="mapnote"><b>Two honest gaps, stated up front.</b> I have never held the title "Forward Deployed Engineer"; the work above is the archetype. And the regulated-industry depth is SEC/FINRA and HIPAA, not banking specifically.</p>
+  </div>
+</section>
+
+<section id="forge">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>The Forge</h2><span class="sub">click a stage &middot; or use &larr; &rarr;</span></div>
+    <p class="secnote">Instant replay of how this bundle was built: the role read against a record of record, every claim graded by how checkable it is, the weak ones cut, then rendered and red-teamed. <b>The machinery, not the marketing.</b> It is also a working demo of the job: embed, find what holds, ship the version that survives scrutiny.</p>
+    <div class="rail" id="rail">
+      <button class="stg on" data-i="0"><div class="sn">01</div><div class="st">READ</div><div class="sd">role + record of record</div></button>
+      <button class="stg" data-i="1"><div class="sn">02</div><div class="st">GRADE</div><div class="sd">evidence per claim</div></button>
+      <button class="stg" data-i="2"><div class="sn">03</div><div class="st">STRESS-TEST</div><div class="sd">what it refused</div></button>
+      <button class="stg" data-i="3"><div class="sn">04</div><div class="st">ORDER</div><div class="sd">lead with the role</div></button>
+      <button class="stg" data-i="4"><div class="sn">05</div><div class="st">BUILD</div><div class="sd">r&eacute;sum&eacute; &middot; ATS &middot; this page</div></button>
+      <button class="stg" data-i="5"><div class="sn">06</div><div class="st">RED-TEAM</div><div class="sd">subtractive only</div></button>
+    </div>
+
+    <div class="panel">
+      <div class="bar"><span class="l" id="pl">READ</span><span class="r" id="pr">stage 01 of 06</span></div>
+      <div class="body">
+
+        <div class="pv on" data-i="0">
+          <p><b>The posting is the target. A single record of record is the source of truth.</b> Titles, dates, and figures come from the record, not from an older r&eacute;sum&eacute;, so nothing on the page can contradict a background check.</p>
+          <div class="kv">
+            <div class="k">Role read</div><div class="v">Forward-deployed &middot; agentic process orchestration &middot; Java/React &middot; 90-day and 12-month milestones &middot; technical translator &middot; fully remote</div>
+            <div class="k">Record of record</div><div class="v">The canonical r&eacute;sum&eacute; at resume.arcs.care, reconciled line by line</div>
+            <div class="k">Receipts</div><div class="v">Public GitHub, a live commit trail, and a running MCP server that let a claim read as a fact</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; GRADE</span><span class="gv">Titles, dates, and credentials reconciled line by line against the record of record. Nothing advances that could contradict a background check.</span></div>
+        </div>
+
+        <div class="pv" data-i="1">
+          <p><b>Every line gets an evidence grade.</b> Green is public and checkable. Gold is my own number, consistent with the role and the era, but not independently verified. Red is tacit and never becomes a fact with a figure. Nothing is written past its grade.</p>
+          <div class="grade-legend">
+            <span class="gl"><span class="d doc"></span>documented</span>
+            <span class="gl"><span class="d self"></span>self-reported</span>
+            <span class="gl"><span class="d unv"></span>unverifiable</span>
+          </div>
+          <div class="etbl">
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">MCP server and agentic orchestration on Claude, in production<small>public repos, live commit trail</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Titles and dates across ARCS, Grayscale, CTF, WTA<small>match the record of record exactly</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--green)"></span><div class="claim">Go-to-market for 10 SEC/FINRA-regulated products<small>role and count in the record</small></div><div class="tag doc">documented</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">$7B AUM behind the product suite<small>the firm's public figure for the period, not a personal P&amp;L</small></div><div class="tag self">self-reported</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">Seven-figure embedded engagement, $350M-ARR client<small>consistent with the engagement; not externally auditable</small></div><div class="tag self">self-reported</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">20% net-new revenue; &lt;120ms scoring; $850K+ year one<small>internal figures from the CTF and WTA builds</small></div><div class="tag self">self-reported</div></div>
+            <div class="erow"><span class="dot" style="background:var(--gold)"></span><div class="claim">R, Tableau, Redshift, BigQuery on the skills line<small>used in the data-layer work; not on the record's skills list</small></div><div class="tag self">self-reported</div></div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; STRESS-TEST</span><span class="gv">Every claim carries an evidence grade. A claim with no grade cannot pass to the page.</span></div>
+        </div>
+
+        <div class="pv" data-i="2">
+          <p><b>The interesting part of an honest r&eacute;sum&eacute; is what it leaves out.</b> These could not clear the evidence bar, so they were cut from the page and moved to a defend-or-drop list. The refusal is the point.</p>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">&ldquo;60% decision-noise reduction, 3 to 5x time-to-insight&rdquo;</div><div class="w">In the record as an internal estimate with no external check. The softest numbers, so the first to go.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">&ldquo;35% release-cycle reduction&rdquo;</div><div class="w">On an older r&eacute;sum&eacute;, not in the record of record. Cut.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">Two executive-education certificates</div><div class="w">Not in the record of record. Cut until each is linkable.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">&ldquo;Forward Deployed Engineer&rdquo; as a held title</div><div class="w">Never held. The page names the archetype and proves it with the embed and the build. The title is not claimed.</div></div></div>
+          <div class="cut"><span class="x">&#10005;</span><div><div class="t">NLP, model training, cloud-platform certification, payments</div><div class="w">The posting asks; the record cannot support them. Left as open gaps rather than invented.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; ORDER</span><span class="gv">Every claim that fails the evidence bar is removed to the defend-or-drop list before ordering begins.</span></div>
+        </div>
+
+        <div class="pv" data-i="3">
+          <p><b>Order by what the role actually wants, differentiator second.</b> The most checkable and most differentiated claim leads: an agentic system on Claude, built and run in production. Then the embed, then the regulated range. Experience is newest first.</p>
+          <div class="kv">
+            <div class="k">Leads with</div><div class="v"><b>Forward-deployed delivery + hands-on agent systems</b>, because together they are the most differentiated and the most verifiable claim on the page</div>
+            <div class="k">Then</div><div class="v">Regulated fluency (SEC/FINRA, HIPAA) &middot; KPI frameworks that decided go or no-go</div>
+            <div class="k">Framing</div><div class="v">Each posting requirement mapped to one engagement where it was already done, above</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; BUILD</span><span class="gv">The lead is the single most checkable and most differentiated claim. Only then does anything get built.</span></div>
+        </div>
+
+        <div class="pv" data-i="4">
+          <p><b>Three artifacts, one graded record.</b> A print-clean two-page r&eacute;sum&eacute;, a plain-text copy for the applicant tracking system, and this page. Then the rendered pixels get looked at, because page-count is not a pass.</p>
+          <div class="kv">
+            <div class="k">R&eacute;sum&eacute;</div><div class="v">Two pages, print-verified, headline names the archetype rather than the req title</div>
+            <div class="k">ATS copy</div><div class="v">Plain text generated from the same HTML, so the two never drift</div>
+            <div class="k">This page</div><div class="v">Built from the same graded record, checked at four widths</div>
+          </div>
+          <div class="gate"><span class="gk">GATE &rarr; RED-TEAM</span><span class="gv">Rendered pixels verified: both r&eacute;sum&eacute; pages inspected, this page screenshotted at 1280, 790, 768, and 375 with zero horizontal overflow, PDF reachable.</span></div>
+        </div>
+
+        <div class="pv" data-i="5">
+          <p><b>Adversarial, and subtractive only.</b> The draft was read as a skeptical hiring panel would read it. Every hit is checked against the evidence; only true ones change a word. Nothing gets puffed back up.</p>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;You say forward-deployed but never held the title.&rdquo;</div><div class="w">True. Stated plainly on this page instead of buried, with the embed as the proof.</div></div></div>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;Numbers without a source.&rdquo;</div><div class="w">Every self-reported figure is marked gold above and sits on a defend-or-drop list with a ready answer.</div></div></div>
+          <div class="rt"><span class="h">&#9670;</span><div><div class="t">&ldquo;The posting wants payments and cloud; you have neither.&rdquo;</div><div class="w">Correct. Named as gaps, not papered over. Finance depth is regulated digital assets; warehouse experience is Snowflake, Redshift, BigQuery.</div></div></div>
+          <div class="gate"><span class="gk">GATE &rarr; SHIP</span><span class="gv">Air-gap check on this page (no names that are not mine, no internal scoring language), no em-dashes, plain language, then a human decides whether it goes anywhere.</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="airgap">
+      <div class="h">&#9670; what is not on this page</div>
+      <p><b>Nothing about you.</b> This is the honest method applied to my own evidence: the grading, the cuts, the red-team. Reading the room is a private craft, not a thing to publish. The kitchen is open; the surveillance is not.</p>
+    </div>
+  </div>
+</section>
+
+<section id="kitchen" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">04</span><h2>The kitchen</h2><span class="sub">the deliverables, and the live proof</span></div>
+    <div class="kit">
+      <div class="krow"><span class="kn">&#9670; R&eacute;sum&eacute; (PDF)</span><span class="kd"><b>Two pages, print-verified.</b> Headline names the archetype; every claim traced to the record of record.</span><a class="kl" href="/forge-camunda-fde-resume.pdf">open PDF</a></div>
+      <div class="krow"><span class="kn">&#9670; ATS plain text</span><span class="kd">The same r&eacute;sum&eacute; as plain text, generated from the same source, for the applicant tracking system.</span><a class="kl" href="/forge-camunda-fde-resume-ats.txt">open text</a></div>
+      <div class="krow"><span class="kn">&#9670; GitHub</span><span class="kd">The code, the commits, the co-authored-with-Claude provenance.</span><a class="kl" href="https://github.com/flashesofbrilliance">github.com</a></div>
+      <div class="krow"><span class="kn">&#9670; status.arcs.care</span><span class="kd">The live commit trail. Shipping velocity as telemetry, not adjective.</span><a class="kl" href="https://status.arcs.care">open</a></div>
+      <div class="krow"><span class="kn">&#9670; good.arcs.care</span><span class="kd">Open-source developer tools, each with its own conformance suite.</span><a class="kl" href="https://good.arcs.care">open</a></div>
+      <div class="krow"><span class="kn">&#9670; build.arcs.care</span><span class="kd">What is getting built, in the open.</span><a class="kl" href="https://build.arcs.care">open</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>prepared for Camunda &middot; AI process forward deployed engineer</span>
+    <span><a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="https://status.arcs.care">status</a> &middot; <a href="#forge">the forge</a></span>
+  </div>
+  <div class="prov">&#9670; Built in the open. Every r&eacute;sum&eacute; claim is evidence-graded and red-teamed: see exactly how, and what got cut, in <a href="#forge">the Forge</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
+</footer>
+
+<script>
+(function(){
+  var n=6, i=0;
+  var stgs=[].slice.call(document.querySelectorAll('.stg'));
+  var pvs=[].slice.call(document.querySelectorAll('.pv'));
+  var pl=document.getElementById('pl'), pr=document.getElementById('pr');
+  function pad(x){ return (x<10?'0':'')+x; }
+  function show(k){
+    i=(k+n)%n;
+    stgs.forEach(function(s){ s.classList.toggle('on', +s.dataset.i===i); });
+    pvs.forEach(function(p){ p.classList.toggle('on', +p.dataset.i===i); });
+    pl.textContent=stgs[i].querySelector('.st').textContent;
+    pr.textContent='stage '+pad(i+1)+' of '+pad(n);
+  }
+  stgs.forEach(function(s){ s.addEventListener('click', function(){ show(+s.dataset.i); }); });
+  document.addEventListener('keydown', function(e){
+    if (e.key==='ArrowRight') show(i+1);
+    if (e.key==='ArrowLeft') show(i-1);
+  });
+  // external links open in a new tab so the bundle stays open behind them
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';
+    if (/^https?:\/\//.test(h)) { a.target='_blank'; a.rel='noopener noreferrer'; a.classList.add('ext'); }
+  });
+  var burger=document.querySelector('.burger'), navin=document.querySelector('.navin'), drop=document.querySelector('.navdrop');
+  function setMenu(open){ navin.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); burger.innerHTML=open?'✕':'☰'; }
+  if (burger && navin) {
+    burger.addEventListener('click', function(){ setMenu(!navin.classList.contains('open')); });
+    if (drop) drop.addEventListener('click', function(){ setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key==='Escape') setMenu(false); });
+    document.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+  }
+})();
+</script>
+</body>
+</html>

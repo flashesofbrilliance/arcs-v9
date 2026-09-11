@@ -12,6 +12,13 @@ set -euo pipefail
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 
+# Pulse — the global heartbeat (Phase 0). The wall-clock twin of the git-backed oracle:
+# derives each subsystem's freshness from git commit timestamps (tamper-evident OT layer),
+# runs the pulse<->oracle mutual check, and ALARMS on flatline. This is the fix for the
+# drift-sentry that went stale 5 days silently — a quiet operational layer now surfaces at
+# pickup instead of rotting. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
+
 # Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
 # lattice for drift and emit a receipt; do NOT advance here (regeneration is the
 # CLOSE end, in pre-compact). Guarded to never fail the hook.
@@ -92,6 +99,12 @@ except Exception:
   if [ "$narrative_age" != "?" ] && [ "$narrative_age" -gt 3 ]; then
     echo "snapshot: narrative fields (session_summary/next_action/nci_counter) may be stale — run /handoff to refresh"
   fi
+fi
+
+# (7) Timecapsule — per-session build-log commit of the memory dir (no-op if unchanged; absent-safe on other machines).
+if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
+  _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)
+  [ -n "$_tc" ] && echo "timecapsule: memory build-log @ $_tc"
 fi
 
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.

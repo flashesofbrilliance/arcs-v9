@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candidate Ammo &middot; Zach Harris</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/blacksmith-favicon.png">
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
+  :root{--ground:#e9eef4;--card:#ffffff;--ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--line:#dde3ea;
+    --accent:#0089a8;--gold:#9a7218;--goldbg:#fbf3df;--tealbg:#e6f3f6;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+    display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+  .eyebrow{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:11px 18px;background:rgba(233,238,244,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .who{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap;} .who .g{color:var(--accent);}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.02em;
+    padding:9px 13px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;transition:.15s;cursor:pointer;}
+  .btn:hover{border-color:var(--accent);color:var(--accent);}
+  .btn.p{color:#fff;background:var(--accent);border:none;}
+  .btn.p:hover{color:#fff;background:#00758f;transform:translateY(-1px);}
+  .back{font-family:var(--mono);font-size:11px;color:var(--ink3);text-decoration:none;white-space:nowrap;} .back:hover{color:var(--accent);}
+  .wrap{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+  .manifest{padding:16px 18px 6px;max-width:820px;margin:0 auto;width:100%;}
+  .mtag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  .manifest h1{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+  .manifest .lede{font-size:13.5px;line-height:1.55;color:var(--ink2);margin-bottom:14px;max-width:none;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:6px;}
+  @media(max-width:600px){.grid{grid-template-columns:1fr;}}
+  .item{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fcfbf9;}
+  .item .h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+  .item .d{font-size:12.5px;line-height:1.5;color:var(--ink2);}
+  .note{font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--ink3);margin:8px 0 2px;}
+  /* Mobile-first document panel: the reliable way to open/save the PDF on phones,
+     where inline <iframe> PDF preview does not render (iOS Safari) and the
+     download attribute is unreliable. Always visible. */
+  .doc{max-width:820px;margin:6px auto 0;width:100%;padding:0 18px;}
+  .doccard{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;
+    background:var(--tealbg);padding:15px 17px;}
+  .doccard .ic{flex:0 0 auto;width:40px;height:40px;border-radius:9px;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;}
+  .doccard .dt{flex:1 1 180px;min-width:0;}
+  .doccard .dt b{display:block;font-size:14px;font-weight:700;color:var(--ink);}
+  .doccard .dt span{font-family:var(--mono);font-size:10.5px;color:var(--ink3);}
+  .doccard .da{display:flex;gap:9px;flex-wrap:wrap;}
+  /* Inline preview: desktop only (renders nothing useful on mobile browsers). */
+  .frame{display:none;}
+  @media(min-width:760px){
+    .frame{display:block;flex:1 1 auto;border:none;width:100%;min-height:560px;background:#525659;margin-top:14px;}
+  }
+  .fallback{padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--ink3);}
+  .fallback a{color:var(--accent);}
+</style>
+</head>
+<body>
+  <div class="eyebrow">
+    <a class="back" href="/">&#9664; the open pitch</a>
+    <span class="who"><span class="g">&#9670;</span> Zach Harris &middot; Candidate Ammo</span>
+    <div class="btns">
+      <a class="btn p" href="/recruithaus-ammo.pdf" download="Zach-Harris-Candidate-Ammo.pdf">&#8595; Ammo pack (PDF)</a>
+      <a class="btn" href="/recruithaus-ammo.pdf" target="_blank" rel="noopener">Open in tab</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="manifest">
+      <div class="mtag"><span>&#9670;</span> Gated tier &middot; for the offer conversation</div>
+      <h1>Everything to re-sell the hire and hold the comp line</h1>
+      <p class="lede">This is the ammo behind the public one-pager: the comp logic in plain terms, three battle cards tuned to how each founder archetype pushes back, and the follow-ups two and three questions deep. Download the pack, or read it inline below.</p>
+      <div class="grid">
+        <div class="item"><div class="h">Comp logic</div><div class="d">Why one-covers-two makes a top-of-band offer a discount, not a premium, in language you can repeat in the offer call.</div></div>
+        <div class="item"><div class="h">Battle cards &middot; 3 lenses</div><div class="d">Objection filters tuned to the product-and-business, skeptical-systems, and rigor-and-gates founder archetypes.</div></div>
+        <div class="item"><div class="h">Nested 1st / 2nd / 3rd order</div><div class="d">The reflexive objection, the follow-up push, and the closer, so you are not caught flat two questions deep.</div></div>
+        <div class="item"><div class="h">Best / base / worst + circuit breakers</div><div class="d">The honest range on the bet, plus the ARCS guardrails (paid trial, 30/60/90 gate, week-one PR) that make the worst case survivable.</div></div>
+      </div>
+      <p class="note">Founders are referred to by lens, never by name. Keep this link inside the hiring conversation, not on the open web.</p>
+    </div>
+    <div class="doc">
+      <div class="doccard">
+        <div class="ic">PDF</div>
+        <div class="dt"><b>Candidate positioning pack</b><span>3 pages &middot; comp logic, battle cards, objection handling</span></div>
+        <div class="da">
+          <a class="btn p" href="/recruithaus-ammo.pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a class="btn" href="/recruithaus-ammo.pdf" download="Zach-Harris-Candidate-Ammo.pdf">&#8595; Save</a>
+        </div>
+      </div>
+    </div>
+    <iframe class="frame" src="/recruithaus-ammo.pdf#view=FitH" title="Candidate ammo (PDF)"></iframe>
+    <noscript class="fallback">Download the <a href="/recruithaus-ammo.pdf">ammo pack (PDF)</a>.</noscript>
+  </div>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+    function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+    document.addEventListener('click', function(e){
+      var el = e.target.closest && e.target.closest('a[href]'); if(!el) return;
+      var h = el.getAttribute('href')||'', label='';
+      if(h==='/') label='ammo_back_to_pitch';
+      else if(/recruithaus-ammo\.pdf/.test(h)) label = el.hasAttribute('download') ? 'ammo_download_pdf' : 'ammo_open_tab';
+      if(label) track(label);
+    }, true);
+  </script>
+</body>
+</html>

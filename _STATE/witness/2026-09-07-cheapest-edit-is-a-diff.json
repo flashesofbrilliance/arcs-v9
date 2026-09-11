@@ -1,0 +1,9 @@
+{
+  "witnessed_at": "2026-09-07T12:46:19-0400",
+  "trigger": "naming moment + user bless (\"blessed benedicted and witnessed\")",
+  "the_sound_the_tree_made": "The cheapest edit is not a smaller generation, it is a diff. Returning the whole document is proportional to the document; returning only what changed is proportional to the change.",
+  "context": "Built the edit-from-seed forge worker to clear the queue cheaply; it 504'd because it regenerated a full 16K-token resume. The timeout reframed the work: pay for the delta, not the document, which is what makes caching + batching pay off.",
+  "artifact": "public/blog-nftt-cheapest-edit-is-a-diff.html -> good.arcs.care/blog/nftt/cheapest-edit-is-a-diff",
+  "memory": "forge-cost-edit-from-seed-not-full-forge",
+  "status": "verbatim stub, upstream of any ADR/DEWY; promote only if durable"
+}

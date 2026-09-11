@@ -56,13 +56,70 @@ fi
 # are left to the manual sweep / a future net-new-diff check.
 # Skips cleanly when the linter or python3 is absent (older worktrees stay committable).
 if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; then
-  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
   if [ -n "$html" ]; then
     if ! echo "$html" | tr '\n' '\0' | xargs -0 python3 scripts/artifact_wrap_lint.py; then
       echo "✖ commit blocked: wrap-class violation in a NEW public/*.html (see above)." >&2
       echo "  fix the em-dash / ch-cap findings, re-sweep 375/790/desktop, then re-stage." >&2
       exit 1
     fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# informativeness ratchet: when the audit corpus or the gate machinery is staged,
+# block on NEW signal degeneracy beyond the committed baseline
+# (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
+# degeneracy is frozen; a field that carried information going constant blocks.
+# Deterministic, stdlib-only. Skips cleanly if the gate or python3 is absent.
+if [ -f operators/audit_service/informativeness_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  touched=$(git diff --cached --name-only -- \
+    'operators/audit_service/audit_traces.jsonl' \
+    'operators/audit_service/informativeness_gate.py' \
+    'operators/audit_service/informativeness_sensor.py' \
+    'operators/audit_service/informativeness_baseline.json' 2>/dev/null || true)
+  if [ -n "$touched" ]; then
+    if ! python3 operators/audit_service/informativeness_gate.py; then
+      echo "✖ commit blocked: informativeness ratchet — a NEW field went degenerate (see above)." >&2
+      echo "  fix the data path, or if intended add it to informativeness_baseline.json with a note." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# integrity gate (ADR-075 GATE organ, Reading Room Phase 0): every ADR / commit sha /
+# repo path cited by a staged record (_DECISIONS, _MEMORY, _SPECS, _CANON, _STATE, _SEEDS,
+# _PATTERNS, root *.md) must exist on origin/main. See scripts/integrity_gate.py.
+# WARN-THEN-BLOCK rollout: warns by default; set INTEGRITY_GATE_BLOCK=1 to make a FAIL
+# verdict reject the commit. Skips cleanly when the script, python3, or origin/main is absent.
+if [ -f scripts/integrity_gate.py ] && command -v python3 >/dev/null 2>&1 \
+   && git rev-parse --verify -q origin/main >/dev/null 2>&1; then
+  if ! python3 scripts/integrity_gate.py --staged -q; then
+    if [ "${INTEGRITY_GATE_BLOCK:-0}" = "1" ]; then
+      echo "✖ commit blocked: a staged record cites something not on origin/main (DRIFTED-AT-BIRTH)." >&2
+      echo "  fix the cite, or merge what it cites first. Bypass once: INTEGRITY_GATE_BLOCK=0" >&2
+      exit 1
+    fi
+    echo "⚠ pre-commit(integrity-gate): not blocking (set INTEGRITY_GATE_BLOCK=1 to enforce)." >&2
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# wrap-class gate for React/TS surfaces — the artifact_wrap_lint.py sibling for
+# code, not just public/*.html (that gate is blind to .tsx, which is how a ch cap
+# shipped on the jobs board 2026-09-08). Block a commit that ADDS a per-element
+# `ch` cap on text (maxWidth: "NNch"); the rule is one shared px MEASURE. See the
+# intermediate-width-wrap-regression class. Added-lines-only so legacy caps in
+# untouched files never block an unrelated edit. Pure grep, no deps.
+tsx=$(git diff --cached --name-only --diff-filter=ACM -- '*.tsx' '*.ts' 2>/dev/null || true)
+if [ -n "$tsx" ]; then
+  bad=$(git diff --cached -U0 -- '*.tsx' '*.ts' 2>/dev/null | grep -E '^\+' | grep -E 'maxWidth: *"[0-9]+ch"' || true)
+  if [ -n "$bad" ]; then
+    echo "✖ commit blocked: a new per-element ch cap on text (maxWidth:\"NNch\") — use the shared px MEASURE instead." >&2
+    echo "$bad" | sed 's/^/  /' >&2
+    echo "  (intermediate-width-wrap-regression class: ch against mixed font sizes gives each role a different right edge = broken-looking wrap.)" >&2
+    exit 1
   fi
 fi
 

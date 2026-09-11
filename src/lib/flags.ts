@@ -18,6 +18,13 @@ export const flags = {
   // Default OFF → Profile Scan (/scan) is a staging-only surface for scan.arcs.care.
   // Set SCAN_ENABLED=true to render it. See ADR-028.
   scanEnabled: process.env.SCAN_ENABLED === "true",
+  // Default OFF → the in-app outcome-capture nudge (ripe-to-close banner on the
+  // dashboard) is dogfood-gated. Copy is draft-first and must clear a Zach
+  // bless before it reaches any real user, so it ships dark. The DASHBOARD reads
+  // NEXT_PUBLIC_OUTCOME_NUDGE (client-inlined) to mount the banner; this
+  // server-side mirror is for any server gate. Flip both to widen (the
+  // write-lock-paradox governor: narrow default, widen only on evidence).
+  outcomeNudge: process.env.OUTCOME_NUDGE === "true",
 } as const
 
 export type Flags = typeof flags

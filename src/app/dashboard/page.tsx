@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { surface, text, contentContainer, border } from "@/ui/tokens"
+import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
@@ -82,6 +82,20 @@ function DashboardInner() {
       })
       .catch(() => {})
   }, [])
+
+  // Outcome-capture nudge — pull the user toward the receipts most likely to have
+  // landed (ripe/route.ts). Dogfood-gated: mounts only when NEXT_PUBLIC_OUTCOME_NUDGE
+  // is set, so the draft copy reaches no real user before it clears a Zach bless.
+  const outcomeNudgeOn = process.env.NEXT_PUBLIC_OUTCOME_NUDGE === "true"
+  const [ripe, setRipe] = useState<{ id: string; question: string; trueNorth: string }[]>([])
+  const [ripeDismissed, setRipeDismissed] = useState(false)
+  useEffect(() => {
+    if (!outcomeNudgeOn) return
+    fetch("/api/receipts/ripe")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d?.ripe?.length) setRipe(d.ripe) })
+      .catch(() => {})
+  }, [outcomeNudgeOn])
 
   // Returning from /prep with a prepId + question → run the enriched compass once.
   const autoRan = useRef(false)
@@ -175,6 +189,30 @@ function DashboardInner() {
               <Button variant="ghost" size="sm" onClick={() => setOnboardingNudge(null)}>Dismiss</Button>
               <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>
                 {onboardingNudge.hasPdf ? "Add export" : "Set up profile"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {outcomeNudgeOn && ripe.length > 0 && !ripeDismissed && (
+        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
+          {/* DRAFT COPY — dogfood-gated (NEXT_PUBLIC_OUTCOME_NUDGE). Do not ship
+              to real users until Zach blesses the wording. */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
+            border: `1px solid ${border.subtle}`, borderLeft: `3px solid ${signal.cyan}`,
+            borderRadius: 10, padding: "10px 16px",
+          }}>
+            <span style={{ fontSize: 13, color: text.secondary, minWidth: 0 }}>
+              The shoe may have dropped on{" "}
+              <span style={{ color: text.primary }}>&ldquo;{ripe[0].question}&rdquo;</span>. Did it land where the compass pointed?
+              {ripe.length > 1 ? ` (+${ripe.length - 1} more to close)` : ""}
+            </span>
+            <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+              <Button variant="ghost" size="sm" onClick={() => setRipeDismissed(true)}>Not yet</Button>
+              <Button variant="primary" size="sm" onClick={() => router.push(`/debrief/${ripe[0].id}`)}>
+                Log how it landed →
               </Button>
             </div>
           </div>

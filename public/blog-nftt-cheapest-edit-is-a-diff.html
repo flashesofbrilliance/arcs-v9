@@ -1,0 +1,198 @@
+<title>The Cheapest Edit Is a Diff · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="description" content="Chasing token efficiency, I built a worker to edit a resume instead of forging each one from scratch. It timed out, and the timeout taught the real lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Receipts included</span>
+    <span class="sp"><b>Shape &gt; size</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Token budget</p>
+    <h1>The Cheapest Edit <em>Is a Diff</em></h1>
+    <p class="standfirst">I set out to spend tokens like a budget instead of a faucet. I built a worker to edit a resume rather than forge each one from scratch. It failed twice, and the second failure was the one worth keeping.</p>
+    <p class="byline">Ledger real · the failure is quoted, not summarized</p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; The faucet and the budget</span>
+    <p class="lead">The job forge is the expensive part of the machine. It reads a candidate record, reads a posting, and writes a tailored two-page resume plus a landing page. Measured over fourteen runs it costs about a hundred and seventy three thousand tokens each, a little over a dollar a bundle. The scorer that grades every posting, by contrast, costs about twenty cents for a hundred rows. Same machine, two engines, a hundred to one apart in price.</p>
+    <p>When the bill is that lopsided, there is only one place worth optimizing, and only one honest question to ask of it: am I paying premium rates for work that is actually cheap?</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; The seed idea</span>
+    <p>The postings cluster by shape. Forward deployed roles look like each other. Applied AI roles look like each other. Once one strong resume exists in a cluster, the rest are not new documents. They are edits of the first: keep the spine, keep every claim, swap the company and the title, re-point which lines lead so they answer this posting instead of that one.</p>
+    <p>So I built an edit worker. Find the highest-scoring built bundle in the target's cluster, call it the seed, hand its resume and the new posting to the model, and ask for the edited resume back. In theory a third of a full forge, because it reads no reference library and only changes what the new role demands.</p>
+  </section>
+
+  <section>
+    <span class="num">III &middot; It failed twice</span>
+    <p>The first failure was stupid and fast. I named a model that does not exist, and the function threw a five hundred before it did any thinking. One line to fix. The kind of error that is embarrassing precisely because it is cheap.</p>
+    <p>The second failure was slow, and it was expensive, and it was the interesting one.</p>
+    <div class="panel">
+      <h4>The run, on the wire <span class="sev">critical</span></h4>
+      <div class="step">
+        <span class="k">Target</span><b>a forward deployed role, matched to its cluster seed automatically. Correct pairing.</b>
+        <span class="k">Ask</span><b>return the full edited resume, about sixteen thousand tokens of <code>HTML</code>.</b>
+        <span class="k">Result</span><b><code>504 FUNCTION_INVOCATION_TIMEOUT</code>. The model was still writing the document when the sixty second function clock ran out.</b>
+      </div>
+      <p>The edit that was supposed to be cheap had timed out doing the one thing I told it to do: write the whole page again.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; The timeout was the teacher</span>
+    <p>I had framed the edit as a small generation. It is not. Returning the whole resume is work proportional to the resume, whether one line changed or forty did. The size of the output has nothing to do with the size of the change.</p>
+    <p>The cheap thing was never a smaller model or a tighter prompt. It was a different shape. Do not return the document. Return the difference: the new target line, which bullets lead, the handful of reworded hooks. Returning the whole thing is proportional to the document. Returning only what moved is proportional to the change.</p>
+    <blockquote>Efficiency is not a smaller model or fewer tokens. It is changing the shape of the work so you pay for the delta, not the document.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">V &middot; What the diff unlocks</span>
+    <p>Once the answer is a patch and not a page, three things fall out at once, and they are the three levers everyone reaches for and usually applies to the wrong layer.</p>
+    <div class="panel">
+      <h4>One shape change, three wins</h4>
+      <div class="step">
+        <span class="k">Latency</span><b>the output collapses from thousands of tokens to hundreds. No timeout, because there is almost nothing to write.</b>
+        <span class="k">Caching</span><b>the seed resume becomes a stable prefix the model can cache. Edit five roles from one seed and you pay the seed's input tokens once, not five times.</b>
+        <span class="k">Batching</span><b>every role that shares a seed can run in one pass, the seed held constant, only the posting varying.</b>
+      </div>
+      <p>Caching and batching were never the fix on their own. They are what a diff-shaped workload makes possible.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VI &middot; The fix, and the standing rule</span>
+    <p>The route stops returning a page. It returns a small structured patch. The driver applies that patch to the seed on the machine that already holds it, then renders the PDF locally where there is no sixty second clock. Raising the timeout would have worked too, and it would have missed the point. A longer clock buys you the right to keep paying for the whole document. The diff stops you paying for it at all.</p>
+    <p>The rule I am keeping: when work looks repetitive, do not ask which model is cheap enough to do it. Ask what the smallest true unit of the work is, and refuse to send anything larger. The budget was never about the price of a token. It was about the shape of the thing you were buying.</p>
+  </section>
+
+  <footer>
+    <b>Field account, 2026.</b> Costs are from the run ledger: full forge about 173K tokens per bundle, roughly a dollar; scorer about twenty cents per hundred rows; the edit worker built to run near a third of a forge once reshaped as a patch.<br>
+    The failure quoted is a real 504 from a real run. The fix described is the design that replaced it.
+  </footer>
+</div>

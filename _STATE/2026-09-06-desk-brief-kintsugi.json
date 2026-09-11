@@ -1,0 +1,68 @@
+{
+  "receipt_id": "receipt_desk_shape_brief_v1_1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "artifact": "_SPECS/desk-shape-brief-v1.md (v1.3, build-ready)",
+  "gauntlet": {
+    "dual_bar_raiser": {
+      "alpha": "PASS-WITH-FIXES",
+      "beta": "PASS-WITH-FIXES",
+      "combined": "ROM CANDIDATE (falsifiable success condition added)"
+    },
+    "brand_manager_persona": {
+      "verdict": "REVISE -> applied",
+      "personas": [
+        "brand manager",
+        "first-time operator mid-work",
+        "skeptical staff engineer"
+      ]
+    }
+  },
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "material_state": "SOLID",
+    "hierarchy": "template instantiating one page"
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "\u00a74 anti-goal NOT-a-dashboard contradicted by \u00a76 'corpus pulse ... one plot' on the same screen",
+      "caught_by": "brand-manager persona + staff-engineer persona",
+      "gold": "demoted to a one-line mono readout, no plot; the contradiction is named in \u00a76 rather than silently edited away"
+    },
+    {
+      "break": "Focal moment undefined: intent prompts described only as 'large calm targets', never as verbs",
+      "caught_by": "first-time-operator persona",
+      "gold": "five draft questions written in \u00a76 as the heading; the desk never prints 'what are you here to do?'"
+    },
+    {
+      "break": "Name collision: 'the intent router' vs ADR-075's Metabolic Router in the same plan",
+      "caught_by": "\u03b2 Ontological Integrity",
+      "gold": "qualified as the reader's router in \u00a71; seam shown, not renamed silently"
+    },
+    {
+      "break": "No kill condition for 'success = routed without knowing the name'",
+      "caught_by": "\u03b1 Epistemic Ascent (falsifiability)",
+      "gold": "failure condition written into \u00a72"
+    },
+    {
+      "break": "Almanac is LOCAL-only while the desk is hosted; brief implied the local render becomes a served frame without saying how",
+      "caught_by": "\u03b2 kintsugi pass",
+      "gold": "named as an open Phase-1c build seam in \u00a77"
+    },
+    {
+      "break": "Recyclability weak: intents/tenant slots could be hardcoded in the route",
+      "caught_by": "\u03b2 seven-properties check",
+      "gold": "manifest-as-data rule added to \u00a77"
+    }
+  ],
+  "operator_decisions_open": [],
+  "verdict": "Brief passes the kintsugi gate at SOLID with six seams sealed visibly. All three operator decisions closed 2026-09-06; build gated only by plan sequencing (1a/1b before 1c).",
+  "operator_decisions_closed": {
+    "route": "/reading-room",
+    "codex": "full canon",
+    "lexicon": "renamed Babelfish",
+    "decided_by": "Zach 2026-09-06",
+    "freshness": "dated stamp on the shelf slot; re-grade inside the tenant"
+  }
+}

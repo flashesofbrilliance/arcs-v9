@@ -26,6 +26,7 @@ Grounded in: resume SSOT (resume.arcs.care) · profile-scan-hud.html · job-sear
   --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
   --shape-radius-sm:6px; --shape-radius-md:10px; --shape-radius-lg:14px;
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
+  --measure:640px; /* one shared px reading column for all left-aligned prose; never per-element ch caps */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
@@ -58,7 +59,7 @@ header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(
 .mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
 h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
 h1 .b{color:var(--palette-bearing);} h1 .g{color:var(--palette-conviction);}
-.mast .sub{max-width:66ch;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}
+.mast .sub{max-width:none;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}/* hero lede spans the full lane, matching the heading (design-full-width-lede-matches-heading) */
 .statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
 
 .telemetry{display:grid;grid-template-columns:repeat(5,1fr);margin-top:var(--space-5);}
@@ -133,6 +134,12 @@ h1 .b{color:var(--palette-bearing);} h1 .g{color:var(--palette-conviction);}
 .tool{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:600;letter-spacing:.03em;
   color:var(--palette-conviction);background:#00FF9d12;border:1px solid #00FF9d33;border-radius:4px;padding:1px 6px;margin:2px 4px 0 0;white-space:nowrap;}
 .tool.gap{color:var(--palette-constraint);background:#FF9F4512;border-color:#FF9F4533;}
+/* wired-loop schematic */
+.schematic{margin:0 0 var(--space-4);padding:8px 6px 4px;}
+.schematic svg{display:block;width:100%;height:auto;}
+.schematic figcaption{font-family:var(--typo-mono);font-size:9px;letter-spacing:.06em;color:var(--palette-text-faint);text-transform:uppercase;margin-top:6px;padding-left:2px;}
+.sch-t{font-family:var(--typo-sans);font-weight:600;}
+.sch-m{font-family:var(--typo-mono);}
 
 .assertion{position:relative;padding:26px 30px 22px;border:1px solid #00F0FF35;border-radius:var(--shape-radius-lg);
   background:linear-gradient(165deg,#00F0FF0e,#00000030 55%),var(--palette-bg-paper);
@@ -198,17 +205,17 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="statuslights">
         <span class="led on" style="color:var(--palette-conviction)"></span>ARCHETYPES · 4 IN SCOPE<br>
         <span class="led on" style="color:var(--palette-asset)"></span>RUBRIC · v1 CALIBRATED<br>
-        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · CATCHER = GMAIL LABEL · UNWIRED<br>
+        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · GMAIL MCP · WIRED 2026-08-28<br>
         <span class="led on" style="color:var(--palette-bearing)"></span>LOOP · RECOIL-READY
       </div>
     </div>
-    <p class="sub">The ex-ante receipt for the search: the bet, written first. A senior operator-builder who <b style="color:var(--palette-text-primary)">turns AI capability into shipped product inside the customer's weeds</b> — strongest where the stakes are high, the domain is regulated, and breadth (product × engineering × GTM) is the edge, not a liability. This is the subject's own targeting instrument, not an outward pitch.</p>
+    <p class="sub">The ex-ante receipt for the search: the bet, written first. A senior operator-builder who <b style="color:var(--palette-text-primary)">turns AI capability into shipped product inside the customer's weeds</b>. It is strongest where the stakes are high, the domain is regulated, and breadth (product × engineering × GTM) is the edge, not a liability. This is the subject's own targeting instrument, not an outward pitch.</p>
 
     <div class="telemetry">
       <div class="cell"><div class="v"><b>4</b></div><div class="k">archetypes in scope</div></div>
       <div class="cell"><div class="v">6</div><div class="k">must-haves · screen-in</div></div>
       <div class="cell"><div class="v">6</div><div class="k">disqualifiers · screen-out</div></div>
-      <div class="cell"><div class="v">0.70</div><div class="k">pursue band · full omakase</div></div>
+      <div class="cell"><div class="v">0.58</div><div class="k">board cutoff · tiers at 0.80 / 0.70</div></div>
       <div class="cell"><div class="v">20<span style="font-size:15px">yr</span></div><div class="k">senior IC · operator-builder</div></div>
     </div>
     <div class="src" style="margin-top:10px;">SRC · resume.arcs.care (SSOT) · profile-scan-hud.html · memory: icp-is-a-state · positive-screen · risk-register · opportunity-sizing</div>
@@ -232,7 +239,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="thread panel" style="--tc:var(--palette-asset)">
         <span class="eyebrow">Asset · Strong fit</span>
         <h3>AI-Native Product Engineer / Lead</h3>
-        <p>Product × engineering × GTM in one — "breadth is the product." <b>Grayscale</b>: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.</p>
+        <p>Product × engineering × GTM in one: "breadth is the product." <b>Grayscale</b>: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.</p>
         <span class="src">TITLES · AI Product Engineer · Founding PM / Engineer · Product Lead (AI) · Growth Engineer</span>
       </div>
       <div class="thread panel" style="--tc:var(--palette-steel)">
@@ -250,7 +257,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
     <div class="quads">
       <div class="quad panel" style="--qc:var(--palette-bearing)">
         <span class="eyebrow">A · AI-native builder, for real</span>
-        <h3>Ships on Claude / MCP / agents — not demos</h3>
+        <h3>Ships on Claude / MCP / agents: not demos</h3>
         <p>End-to-end LLM-native systems. <b>ARCS</b>: 60% decision-noise reduction, 3–5× time-to-insight, agentic orchestration in production. A GTM operator who also writes the software is the rare pairing.</p>
       </div>
       <div class="quad panel" style="--qc:var(--palette-conviction)">
@@ -266,7 +273,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <div class="quad panel" style="--qc:var(--palette-constraint)">
         <span class="eyebrow">D · Regulated / high-stakes fluency</span>
         <h3>Ships where getting it wrong is expensive</h3>
-        <p>SEC/FINRA (<b>$7B AUM</b>), HIPAA (digital health, <b>$350M ARR</b>), gov (Axon). Twenty years turning the constraint into the product — the genome the record proves.</p>
+        <p>SEC/FINRA (<b>$7B AUM</b>), HIPAA (digital health, <b>$350M ARR</b>), gov (Axon). Twenty years turning the constraint into the product: the genome the record proves.</p>
       </div>
     </div>
   </section>
@@ -275,21 +282,21 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
     <div class="sec-hd"><span class="n">03</span><span class="t" style="color:var(--palette-conviction)">Fit Filter</span><span class="rule"></span><span class="gloss">screen-in · screen-out</span></div>
     <div class="comparator">
       <div class="channel in">
-        <div class="ch-hd"><span class="led on" style="color:var(--palette-conviction)"></span><span class="eyebrow">Must-haves — the deal shape that fits</span></div>
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-conviction)"></span><span class="eyebrow">Must-haves: the deal shape that fits</span></div>
         <ul>
-          <li><b>Build-and-embed</b> role — real building, real ownership; not maintenance or pure management</li>
-          <li><b>AI-native surface</b> — LLMs/agents core to the product or the work, not a bolt-on</li>
+          <li><b>Build-and-embed</b> role: real building, real ownership; not maintenance or pure management</li>
+          <li><b>AI-native surface</b>: LLMs/agents core to the product or the work, not a bolt-on</li>
           <li><b>Senior IC / lead / staff / founding</b> scope with decision latitude (can decide without six approvals)</li>
-          <li><b>Sustainable, experience-valuing culture</b> — positive-screen signals (GPTW/Comparably, family-friendly, tenure mix in senior roles)</li>
+          <li><b>Sustainable, experience-valuing culture</b>: positive-screen signals (GPTW/Comparably, family-friendly, tenure mix in senior roles)</li>
           <li><b>Comp band</b> at senior/staff level</li>
           <li><b>Remote or NY-metro</b> friendly (Fairfield, CT)</li>
         </ul>
       </div>
       <div class="channel out">
-        <div class="ch-hd"><span class="led on" style="color:var(--palette-risk)"></span><span class="eyebrow">Disqualifiers — screen out</span></div>
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-risk)"></span><span class="eyebrow">Disqualifiers: screen out</span></div>
         <ul>
           <li>Pure people-management with <b>no building</b></li>
-          <li><b>"AI" as costume</b> — nothing real for it to do</li>
+          <li><b>"AI" as costume</b>: nothing real for it to do</li>
           <li><b>Junior/entry leveling</b> or "young &amp; scrappy only" framing <span class="src">(risk-register)</span></li>
           <li><b>996 / always-on grind</b>; wide/loose comp banding across locations for one role <span class="src">(risk-register)</span></li>
           <li><b>Keep-the-lights-on maintenance</b> with no decision authority</li>
@@ -307,7 +314,8 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
         <tbody>
           <tr><td class="dim">Role-shape fit</td><td class="w">×5</td><td class="lo">maintenance / management</td><td class="hi">textbook forward-deployed build role</td></tr>
           <tr><td class="dim">AI-native surface</td><td class="w">×4</td><td class="lo">no AI / buzzword</td><td class="hi">agents + LLMs are the product</td></tr>
-          <tr><td class="dim">Strength leverage</td><td class="w">×4</td><td class="lo">hits none</td><td class="hi">regulated fluency · breadth · forward-deployed — 3+ differentiators</td></tr>
+          <tr><td class="dim">Rare combination</td><td class="w">×4</td><td class="lo">a common single-lane profile many applicants share</td><td class="hi">rewards the moat: operator-who-builds × transversal synthesizer × 0→1-under-ambiguity</td></tr>
+          <tr><td class="dim">Domain breadth</td><td class="w">×3</td><td class="lo">single narrow domain</td><td class="hi">regulated fluency across high-stakes domains: SEC/FINRA · HIPAA · gov</td></tr>
           <tr><td class="dim">Scope &amp; authority</td><td class="w">×3</td><td class="lo">narrow, gated</td><td class="hi">broad, autonomous ownership</td></tr>
           <tr><td class="dim">Culture screen</td><td class="w">×3</td><td class="lo">grind / opaque</td><td class="hi">strong public positive-screen signals</td></tr>
           <tr><td class="dim">Comp / level fit</td><td class="w">×2</td><td class="lo">below senior/staff</td><td class="hi">at / above target</td></tr>
@@ -317,7 +325,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       </table>
     </div>
     <div class="gate">
-      <span class="eyebrow">Hard gates — any TRUE ⇒ auto-PASS, score irrelevant</span>
+      <span class="eyebrow">Hard gates: any TRUE ⇒ auto-PASS, score irrelevant</span>
       <p>Junior/entry leveling · pure management with no build · "AI" with nothing to build · grind-culture red flags in reviews. <b>Composite = Σ(score × weight) ÷ max</b>, scored 0–3 per dimension.</p>
     </div>
     <div class="bands">
@@ -340,34 +348,97 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
         <p>Log why (risk-register), move on. The correct output is often "don't invest anything."</p>
       </div>
     </div>
-    <p class="src" style="margin-top:12px;">NCI NOTE · this composite is the pre-work <b style="color:var(--palette-text-secondary)">sizing</b> score, not conviction. Conviction comes after the reads. Weights are a v1 calibration — tune against the first ~20 real alerts.</p>
+    <p class="src" style="margin-top:12px;">NCI NOTE · this composite is the pre-work <b style="color:var(--palette-text-secondary)">sizing</b> score, not conviction. Conviction comes after the reads. Weights are a v1 calibration: tune against the first ~20 real alerts.</p>
   </section>
 
   <section class="resolve">
     <div class="sec-hd"><span class="n">05</span><span class="t" style="color:var(--palette-bearing)">The Wired Loop</span><span class="rule"></span><span class="gloss">rubric → real ARCS tooling</span></div>
+    <figure class="schematic panel">
+      <svg viewBox="0 0 1000 288" role="img" aria-labelledby="wl-t wl-d" preserveAspectRatio="xMidYMid meet">
+        <title id="wl-t">The wired loop: a closed circuit</title>
+        <desc id="wl-d">Ingest, score, then a size gate. No-go parks; pursue runs to tailor and prep-and-close. Closed outcomes recalibrate the rubric, so the tooling is a circuit that runs itself, not a one-way line.</desc>
+        <defs>
+          <pattern id="wl-g" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="var(--palette-divider)" stroke-width="0.5" opacity="0.28"/></pattern>
+          <marker id="wl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-bearing)"/></marker>
+          <marker id="wl-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-conviction)"/></marker>
+          <marker id="wl-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-risk)"/></marker>
+        </defs>
+        <rect x="0.5" y="0.5" width="999" height="287" rx="8" fill="url(#wl-g)" stroke="none"/>
+
+        <!-- NODES (row cy=100) -->
+        <g text-anchor="middle">
+          <!-- ingest -->
+          <rect x="18" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--palette-bearing)" stroke-width="1.2"/>
+          <text class="sch-t" x="93" y="98" fill="var(--palette-text-primary)" font-size="13">Ingest</text>
+          <text class="sch-m" x="93" y="116" fill="var(--palette-text-muted)" font-size="8.5">Gmail MCP</text>
+          <!-- score -->
+          <rect x="206" y="72" width="150" height="56" rx="8" fill="#7d8fa310" stroke="var(--palette-steel)" stroke-width="1.2"/>
+          <text class="sch-t" x="281" y="98" fill="var(--palette-text-primary)" font-size="13">Score</text>
+          <text class="sch-m" x="281" y="116" fill="var(--palette-text-muted)" font-size="8.5">the rubric</text>
+          <!-- size gate (diamond) -->
+          <path d="M468 54 L514 100 L468 146 L422 100 Z" fill="#FFD70012" stroke="var(--palette-asset)" stroke-width="1.4"/>
+          <text class="sch-t" x="468" y="97" fill="var(--palette-text-primary)" font-size="12.5">Size</text>
+          <text class="sch-m" x="468" y="112" fill="var(--palette-asset)" font-size="8">go / no-go</text>
+          <!-- tailor -->
+          <rect x="558" y="72" width="150" height="56" rx="8" fill="#00FF9d0c" stroke="var(--palette-conviction)" stroke-width="1.2"/>
+          <text class="sch-t" x="633" y="98" fill="var(--palette-text-primary)" font-size="13">Tailor</text>
+          <text class="sch-m" x="633" y="116" fill="var(--palette-text-muted)" font-size="8.5">resume-&lt;target&gt;</text>
+          <!-- close -->
+          <rect x="748" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--palette-bearing)" stroke-width="1.2"/>
+          <text class="sch-t" x="823" y="98" fill="var(--palette-text-primary)" font-size="13">Prep &amp; close</text>
+          <text class="sch-m" x="823" y="116" fill="var(--palette-text-muted)" font-size="8.5">recoil-close</text>
+        </g>
+
+        <!-- forward flow -->
+        <g fill="none" stroke="var(--palette-bearing)" stroke-width="1.6">
+          <path d="M168 100 H202" marker-end="url(#wl-a)"/>
+          <path d="M356 100 H418" marker-end="url(#wl-a)"/>
+          <path d="M708 100 H744" marker-end="url(#wl-a)"/>
+        </g>
+        <!-- pursue branch (gate -> tailor) -->
+        <path d="M514 100 H554" fill="none" stroke="var(--palette-conviction)" stroke-width="1.9" marker-end="url(#wl-ag)"/>
+        <text class="sch-m" x="534" y="92" fill="var(--palette-conviction)" font-size="8" font-weight="700" text-anchor="middle">PURSUE</text>
+        <!-- no-go branch (gate top -> park) -->
+        <path d="M468 54 V32 H430" fill="none" stroke="var(--palette-risk)" stroke-width="1.4" marker-end="url(#wl-ar)"/>
+        <g>
+          <rect x="286" y="18" width="140" height="28" rx="14" fill="#FF4D6d0d" stroke="var(--palette-risk)" stroke-width="1.1"/>
+          <text class="sch-m" x="356" y="36" fill="var(--palette-risk)" font-size="8.5" font-weight="700" text-anchor="middle">PARK / PASS · log why</text>
+        </g>
+        <text class="sch-m" x="478" y="46" fill="var(--palette-risk)" font-size="7.5" font-weight="700">NO-GO</text>
+        <!-- cutoff annotation -->
+        <text class="sch-m" x="468" y="162" fill="var(--palette-asset)" font-size="8" text-anchor="middle">0.58 cutoff · tiers .80 / .70</text>
+
+        <!-- HERO: the loop closing (close -> recalibrate score) -->
+        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--palette-conviction)" stroke-width="6" opacity="0.14"/>
+        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--palette-conviction)" stroke-width="2" marker-end="url(#wl-ag)"/>
+        <rect x="392" y="222" width="316" height="28" rx="6" fill="var(--palette-bg-paper)" stroke="var(--palette-conviction)" stroke-width="1"/>
+        <text class="sch-m" x="550" y="240" fill="var(--palette-conviction)" font-size="9.5" font-weight="600" text-anchor="middle">outcomes → belief ledger → recalibrate the rubric</text>
+      </svg>
+      <figcaption>Signal flows left to right. The green arc is the loop closing: closed outcomes recalibrate the rubric, so the search runs itself.</figcaption>
+    </figure>
     <div class="flow">
       <div class="step panel">
-        <h4>Ingest — job alerts land</h4>
-        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. <b>Gap:</b> there is no committed catcher — it's a Gmail label + MCP read (or an external Zapier zap). Formalizing a normalize-step that emits one "opportunity record" per alert is the front-door build.
-          <span class="tool gap">Gmail MCP · label</span><span class="tool gap">TODO: normalize step</span></p>
+        <h4>Ingest: job alerts land</h4>
+        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. Wired 2026-08-28: the Gmail MCP pulls the digests, <b>linkedin_alert_parser.py</b> emits one opportunity record per job, and the Alert Swipe Board carries the scored rows above the 0.58 cutoff in three tiers. This rubric is now data at <b>runtime/specs/target-role-scan.json</b>.
+          <span class="tool">Gmail MCP</span><span class="tool">linkedin_alert_parser.py</span><span class="tool">Alert Swipe Board</span></p>
       </div>
       <div class="step panel">
-        <h4>Score — run the rubric</h4>
+        <h4>Score: run the rubric</h4>
         <p>Each opportunity record → hard gates, then the weighted dimensions → a composite + band. The adversarial substrate can render the go/no-go findings sheet; point it at "this JD vs the target-role profile."
           <span class="tool">this rubric</span><span class="tool">gauntlet_report.py</span><span class="tool">counterpart-gauntlet</span></p>
       </div>
       <div class="step panel">
-        <h4>Size — go/no-go (PURSUE / CONSIDER)</h4>
-        <p>Spin up a recoil engagement per target: the <b>ex-ante bet</b> (stakes · window · expected value) IS the go/no-go. Already proven on a recruiter screen. This is ARCS's core function — size before you invest.
+        <h4>Size: go/no-go (PURSUE / CONSIDER)</h4>
+        <p>Spin up a recoil engagement per target: the <b>ex-ante bet</b> (stakes · window · expected value) IS the go/no-go. Already proven on a recruiter screen. This is ARCS's core function: size before you invest.
           <span class="tool">recoil-new</span><span class="tool">recoil-prep</span><span class="tool">recoil-report.mjs</span></p>
       </div>
       <div class="step panel">
-        <h4>Tailor — PURSUE only</h4>
+        <h4>Tailor: PURSUE only</h4>
         <p>Stand up a <b>resume-&lt;target&gt;/</b> folder tuned to the role's competency model: <code>render.sh</code> → print-safe PDF + page-PNGs (eyeballed) + ATS-plain <code>.txt</code>. One frozen, re-runnable bundle per target.
           <span class="tool">_ARTIFACTS/resume-&lt;target&gt;/</span><span class="tool">render.sh</span><span class="tool">profile-scan-hud</span></p>
       </div>
       <div class="step panel">
-        <h4>Prep &amp; close — the interview cadence</h4>
+        <h4>Prep &amp; close: the interview cadence</h4>
         <p>Before each screen: <b>/precall-brief</b> + the scheduled <b>arcs-precall-brief</b> auto-prep. After: <b>recoil-close</b> scores the ex-ante bet vs reality (belief ledger). A weekly job-search milestone renders the cadence.
           <span class="tool">/precall-brief</span><span class="tool">arcs-precall-brief</span><span class="tool">recoil-close</span><span class="tool">milestone_render.py</span></p>
       </div>
@@ -377,19 +448,19 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   <section class="resolve">
     <div class="sec-hd"><span class="n">06</span><span class="t" style="color:var(--palette-asset)">Key Assertion</span><span class="rule"></span><span class="gloss">the load-bearing sentence</span></div>
     <div class="assertion">
-      <p>The search is not "apply widely." It is <b style="color:var(--palette-bearing)">size ruthlessly, invest only where the genome compounds</b> — forward-deployed, AI-native, high-stakes, breadth-rewarding roles. The rubric is the external brake/throttle: it decides go/no-go before the maximizer redlines on every green light, so full effort goes to the PURSUE handful, not to every alert in the inbox. The strongest résumé in the world tailored to a role that doesn't fit is wasted motion the sizing step exists to prevent.</p>
+      <p>The search is not "apply widely." It is <b style="color:var(--palette-bearing)">size ruthlessly, invest only where the genome compounds</b>: forward-deployed, AI-native, high-stakes, breadth-rewarding roles. The rubric is the external brake/throttle: it decides go/no-go before the maximizer redlines on every green light, so full effort goes to the PURSUE handful, not to every alert in the inbox. The strongest résumé in the world tailored to a role that doesn't fit is wasted motion the sizing step exists to prevent.</p>
       <cite>ARCS Target Scan · Zach Harris · sizing before investment · v1 · Aug 2026</cite>
     </div>
 
     <div class="prov" style="margin-top:24px;">
       <span class="eyebrow">Provenance · flags lit, not smoothed</span>
-      <p>Grounded in named sources: the résumé SSOT (<b>resume.arcs.care</b>), the master <b>profile-scan-hud.html</b> read, and job-search memories (<b>icp-is-a-state</b>, <b>positive-screen</b>, <b>risk-register</b>, <b>opportunity-sizing</b>). Tooling references verified against the repo. Three flags: <b>(1)</b> the "LinkedIn→Gmail job-alert catcher" is <b>not committed code</b> — it is a Gmail label + in-session MCP read (or an external Zapier zap); the normalize step is the front-door build to add. <b>(2)</b> No engine scores <em>job posts</em> today — the gauntlet substrate is the ready-made scorer, needs pointing at "JD vs profile." <b>(3)</b> Rubric weights + band thresholds are a <b>v1 calibration</b> — expected to shift after the first ~20 scored alerts. The archetype channel stays honest: this sizes opportunities, it does not assert a fixed identity.</p>
+      <p>Grounded in named sources: the résumé SSOT (<b>resume.arcs.care</b>), the master <b>profile-scan-hud.html</b> read, and job-search memories (<b>icp-is-a-state</b>, <b>positive-screen</b>, <b>risk-register</b>, <b>opportunity-sizing</b>). Tooling references verified against the repo. Three flags, two of them since closed: <b>(1)</b> the catcher is now committed code (<b>operators/job_search/linkedin_alert_parser.py</b> behind the Gmail MCP, 2026-08-28) and the board at <b>jobs.arcs.care</b> carries the scored rows. <b>(2)</b> Postings are scored by the scheduled loop against this rubric, which is data at <b>runtime/specs/target-role-scan.json</b>; each row opens its own Role Scan at jobs.arcs.care/&lt;jobid&gt;. <b>(3)</b> Rubric weights + band thresholds remain a <b>v1 calibration</b>: 19 rows scored as of 2026-09-05, tune after ~20. The archetype channel stays honest: this sizes opportunities, it does not assert a fixed identity.</p>
     </div>
   </section>
 
   <footer>
     <span>ARCS Target Scan · Zach Harris · _ARTIFACTS/target-role-scan-hud.html</span>
-    <span>Internal · v1 · Aug 2026 · render at earned fidelity</span>
+    <span>Internal · v1.1 · Sep 2026 · rubric as data · render at earned fidelity</span>
   </footer>
 </div>
 </body>

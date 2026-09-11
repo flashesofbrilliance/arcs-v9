@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The detector's first catch was the document it was built to protect · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector's first true positive lands on the very document it was built to protect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip; overscroll-behavior-y:none}
+  body{overflow-x:clip; overscroll-behavior-y:none; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.1rem,6.4vw,3.4rem); line-height:1.05; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+  footer{margin:60px 0 44px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">No. 4</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Building ARCS in the open</p>
+    <h1>The detector's first catch was the document it was built to protect</h1>
+    <p class="standfirst">A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the machine's first true positive lands on the very page written to be the standard.</p>
+    <p class="byline">Field notes, receipts included</p>
+  </header>
+
+  <section>
+    <span class="num">I · One artifact, one complaint</span>
+    <p class="lead">The night started small. A friend had given me the best kind of feedback on a page I built for him: too complicated. Who is this for. Do not show me the math, tell me what to say.</p>
+    <p>So I sat down to repurpose one artifact, one page, one reader. The rebuild worked: three reads, twenty seconds each, the bet I filed before our call, what actually happened, and the one move that follows. The math stayed in the building but moved behind a closed toggle. His complaint became the design. That was the easy part. Everything else this night produced came from what went wrong while making it.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The bug that keeps coming back</span>
+    <p>Mid-review, a familiar wrapping bug surfaced. Same class as always: a text column capped in the wrong units, a stray dash landing at a line break, a page tested at desktop and phone but never at the widths in between. I have fixed this bug at least four times, on four different pages.</p>
+    <p>So this time the fix was not the page. It was a linter that fails any new page carrying the two greppable causes, wired into the pre-commit hook, so the class dies at authoring time instead of recurring per instance. Then the honest part. I tested the gate by staging a deliberately broken page. The commit sailed through. The hook I had just wired never ran, because an earlier check in the same script exited the whole file when its own condition was empty. My new gate was sitting downstream of a silent early return.</p>
+    <blockquote>A gate you have not watched fail is a sentence in a document, not a gate. The only proof a check works is the red X you produced on purpose.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · Words in the wrong mouth</span>
+    <p>While polishing the artifact, I attributed a line to my friend. A good line, about bookmarks and cold starts, and it fit him. He caught it in real time: that was my line, from my own email.</p>
+    <p>He was right, and it was not the first time. When we ran the census, the same failure had appeared four times since July. My recall kept fusing my own annotation onto a friend's quote. We named it ventriloquy: one voice's words re-read as another's. The mechanism is mundane. Every summary compresses, and the first thing compression drops is who said it. When the note gets re-expanded later, the speaker gets re-attached by plausibility, and the warmer the relationship, the more plausible the wrong host, because remembered enthusiasm reads as shared authorship.</p>
+    <p>The payload is worse than embarrassment. This system scores my predictions against what people actually said. If their side of the ledger quietly fills with my own language, the scorer grades my echo and calls it evidence. A feedback loop becomes a mirror.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · The sixth coordinate</span>
+    <p>ARCS already had a registry for this family of failures, built on one axiom: every serialized belief is a tuple, and every failure in the family is one coordinate silently dropped at write time. Ventriloquy became the sixth.</p>
+    <div class="panel">
+      <h4>Six coordinates, six pathogens</h4>
+      <div class="step">
+        <span class="k">Time</span><b>When the belief was true, dropped.</b>
+        <span class="k">Scope</span><b>Where it applied, dropped.</b>
+        <span class="k">Warrant</span><b>Why it was believed, dropped.</b>
+        <span class="k">Obligations</span><b>What it committed you to, dropped.</b>
+        <span class="k">Dictionary</span><b>What the words meant, dropped.</b>
+        <span class="k">Speaker</span><b>Who actually said it, dropped. The new one: ventriloquy.</b>
+      </div>
+      <p>Mitigation: every quote attributed to a counterpart must match a turn that person actually spoke in the source. A match against my own turns is contamination. No match anywhere means unsourced, so label it a paraphrase or strike it.</p>
+    </div>
+    <p>The admission is a ratified edit to a governing document, with the seam left visible. The registry now knows its own history includes the failure it catalogs.</p>
+  </section>
+
+  <section>
+    <span class="num">V · First catch: its own golden reference</span>
+    <p>A sibling session built the detector the same night and ran it against the real transcripts. Its first true positive was the reference artifact itself. The page I had rebuilt, quote-checked by hand against the original message, and shipped as the conformance standard carried one quote with a compressed tail inside quotation marks. Right person, right channel, right meaning, trimmed words presented as verbatim. My hand verification had passed it. The machine did not.</p>
+    <blockquote>The detector's first catch was the document it was built to protect.</blockquote>
+    <p>The correction ran in both directions: the live page fixed to the strict verbatim, the seed synced to match, both ends committed with the finding attached. Hand verification and mechanical verification disagreed within hours of each other, on the same document, in the direction you would predict. Hands lose ties.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · Exhaust becomes fuel</span>
+    <p>Here is the part I did not plan. Every one of these corrections produced a record: what was believed before, what the evidence showed, how the conflict resolved, who ratified it. That is exactly the shape of data the deeper inference layers of this system need for their own evaluation, and it is expensive to produce on purpose. Teams pay for labeled corrections.</p>
+    <p>Tonight generated a night's worth as exhaust, just by operating under the receipt discipline. The misses are the inventory: a gate that silently never ran, a quote I wrongly doubted, a quote I wrongly trusted, my words in a friend's mouth. All kept, all labeled, all now test cases. Write down every time you were wrong and how you found out, and you eventually own the one dataset nobody can buy. The flywheel was free. The discipline was not.</p>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    The gate, the census, the ratified edit, and the detector's first catch are all real, with the seams left visible.
+  </footer>
+</div>
+</body>
+</html>

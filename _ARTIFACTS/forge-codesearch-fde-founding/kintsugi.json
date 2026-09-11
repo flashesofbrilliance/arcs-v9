@@ -1,0 +1,33 @@
+{
+  "receipt_id": "receipt_codesearch_fde_founding_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "The posting requires a literal 2+ year minimum in a named job family (FDE / Customer-Facing SWE / Solution-Sales Engineering) that the candidate never held under any title.",
+      "caught_by": "honest-grade pass against the record of record",
+      "gold": "the seam is claimed (embedded delivery on the same ground), the title and years-minimum are not; the gap is printed on the page itself in the mapping note and the STRESS-TEST stage, matching the scorer's own 'leveling below his band' dock"
+    },
+    {
+      "break": "The JD names a 5-day-onsite, ~20%-travel cadence the candidate has not previously worked in a documented way.",
+      "caught_by": "honest-grade pass",
+      "gold": "named as an open gap on the page instead of invented or left silent"
+    },
+    {
+      "break": "The 'Hands-on Python, REST / HTTP APIs' mapping row rests on an inference (MCP server implies API integration) rather than a verbatim record phrase.",
+      "caught_by": "red-team pass",
+      "gold": "left as the documented MCP-server claim plus the separately documented Python/SQL skills claim; no wording implies the record verbatim used the phrase REST/HTTP"
+    },
+    {
+      "break": "The posting's 'ex-founder' bonus signal does not literally match: the candidate is a current, active founder, not a past one.",
+      "caught_by": "red-team pass",
+      "gold": "framed as 'founder-operator' (accurate and arguably stronger) rather than forced into the posting's exact phrase"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes, no scoring vocabulary on page.html). Four in-flight breaks were sealed with visible gold during this session, documented above."
+}

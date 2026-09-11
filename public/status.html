@@ -574,7 +574,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
+  <div class="eyebrow"><span class="eyebrow-dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--muted);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; Live Build Status</div>
   <h1>Day 0: one empty commit.<br>Day <span id="hero-day">129</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the repository, updated live</div>
   <div class="lede">
@@ -696,7 +696,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION*</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 43-operator library and one engine behind every surface.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt: expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
     </div>
 
@@ -736,7 +736,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      <strong>The one page read</strong> shows 12 milestones, one plain sentence each. Each level down adds
+      <strong>The one page read</strong> shows 13 milestones, one plain sentence each. Each level down adds
       more events and more detail, until <strong>Commits</strong> names the commit behind each milestone.
       Each milestone that a stranger can check without my word carries a <strong>verify</strong> link to the live thing; the internal ones say so.
       Keys 1 to 5 work too.
@@ -839,7 +839,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The core AI runs on a single vendor.</strong></td>
-          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (16.6K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
+          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (~21.9K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
           <td><span class="chip med">MED</span></td>
           <td><span class="chip open">OPEN, HEDGE BUILT</span></td>
         </tr>
@@ -1336,6 +1336,20 @@ var MILESTONES = [
       { sha: "aeaf140", msg: "feat(good): public-goods index, led by the fully-baked tools" },
       { sha: "db41d40", msg: "feat(seeds): the open-source family the index fronts" }
     ]
+  },
+  {
+    date: "DAY 151 · SEP 7", title: "The ledger learns to tell its assets from its liabilities.", rank: 1,
+    alt: [
+      "The system that grades itself was pointed at its own production data, and for the first time it booked the other half of the ledger: not just what it knew, but what it had gotten wrong and stamped as true at the time. Fourteen false receipts, caught and carried rather than deleted.",
+      "A record that only counts its wins is survivorship bias wearing a green badge. This week the liability side opened. A receipt is a claim that survived contact with the ground; a deceipt is one that felt identical when it was written and did not survive. The honest position is the difference between them, not the sum of the wins.",
+      "The audit ran on the live database, not a fixture. It caught a signal rated evidence-backed across forty-five records that was one constant value wearing a decimal point, a field reported as 247-of-247 that was naming the wrong column, and a task called blocked that never was. None of these were caught by looking inward; every one was caught by a query, a failed build, or an independent second pass. The correction is always a move from the asset side to the liability side, never a silent delete.",
+      "The mechanism was wired, not merely written. A deterministic degeneracy sensor became a commit-time gate that blocks a new signal from silently going constant, and the database claims were rewritten as reproducible queries anyone with access can re-run. A zero-liability ledger is the one to distrust: the fourteen entries are the evidence the system was in contact with reality rather than admiring its own coherence. That is the whole promise, corrected from navigate-to-clarity-as-confidence to a clarity that knows its own liabilities."
+    ],
+    commits: [
+      { sha: "79bf6f5", msg: "wire(sensor): informativeness ratchet gate blocks new signal degeneracy" },
+      { sha: "eca36c2", msg: "audit(db): reproducible DB audit, 247/189/2 confirmed, deceipt booked" },
+      { sha: "f2f4378", msg: "fix(build): delete dead scaffolding a prune missed, caught by first real build" }
+    ]
   }
 ];
 
@@ -1674,8 +1688,16 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   // the pulse payload lacks a shipped count (older cache / API hiccup) so the bar
   // never renders empty.
   var SHIP_FALLBACK = 25;
+  // Curated floor, matching the static cards below. The live GitHub-Issues bucketing
+  // is label-dependent and unreliable while the repo is private: if it reports 0
+  // shipped alongside 100+ open issues, the categorization is degraded. In that case
+  // keep the curated floor rather than render a false "0 shipped" over a full board,
+  // and label the stamp honestly (curated, not "live … as of [time]").
+  var CURATED = { shipped: 25, ip: 6, bl: 8, nx: 11 };
   function applyIssues(shipped, ip, bl, nx, truncated) {
-    shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var degraded = (!shipped) && (truncated || (!ip && !bl && (nx || 0) <= 1));
+    if (degraded) { shipped = CURATED.shipped; ip = CURATED.ip; bl = CURATED.bl; nx = CURATED.nx; truncated = true; }
+    else { shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0; }
     var total = shipped + ip + bl + nx;
     set("su-lead-ship", shipped); set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
     set("su-lab-ship", shipped); set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
@@ -1683,7 +1705,9 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
     seg("su-bar-ship", shipped); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
     var floor = truncated ? " · 100+ issues (floor)" : "";
-    set("su-stamp", "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString());
+    set("su-stamp", (degraded
+      ? "Whole board · curated tracker" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next"
+      : "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString()));
   }
   async function loadCommits() {
     try {

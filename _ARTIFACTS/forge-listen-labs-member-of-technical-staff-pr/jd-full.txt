@@ -1,0 +1,66 @@
+TL;DR: 
+We're hiring engineers who can build a complex AI-native product on a small team of former founders and top-tier builders.
+
+Background
+
+As AI gets better at building things, the bottleneck shifts to knowing what to build. We're the bridge between AI systems and what humans actually want. Today our customers are companies. Soon, AIs themselves will be our customers.
+
+Our platform runs AI-moderated video interviews at massive scale. We find the right people from a network of millions, our AI conducts open-ended conversations with thousands of them in parallel, and we surface what to build next. What used to take research teams weeks per study, we do in hours.
+
+Where it's going: every interview feeds a human preference model. We simulate human behavior at scale: how people react to new ideas, how they make decisions, how preferences shape markets, and how change ripples through society. We expose this as the Human API. An AI agent writes code, asks Listen whether users would actually want a feature, gets a grounded answer back, and iterates. Closed-loop product development at AI speed. Every coding agent will eventually need this signal.
+
+Company Highlights
+
+World-Class Team: Founded by serial entrepreneurs — Alfred (Bemlo, YC W22) and Florian (IOI medalist, ICPC World Finalist) — and built with talent from Google, Meta, Tesla, Amazon, Jane Street, and X, alongside Bain, Goldman Sachs, McKinsey, and Sequoia-backed startups like Applied Intuition, Scale AI, and Rippling. Over 30% of our team are former founders, and multiple are competitive programming medalists. 
+
+Hypergrowth: Since launching, Listen has grown annualized revenue 15x and completed over 2 million interviews — backed by $100M in total funding led by Ribbit Capital, with Sequoia, Conviction, and Pear VC participating. 
+
+Traction: Already serving 15% of Fortune 100s. Enterprise wins and expansions across Anthropic, Microsoft, Nestlé, Perplexity, Sweetgreen, and more — with teams telling us research that used to take six to eight weeks now happens in days. 
+
+Technical Challenges
+
+Database of Humanity. Listen maintains a database of millions of people. We match profiles based on voice, face, and device IDs. Those profiles let us see how opinions change over time, prevent fraud, and find any niche audience. 
+
+Emotional Intelligence. There's a gap between what people say and what they think. Our AI interviewer reads tone, hesitation, and facial micro-expressions to go beyond the transcript. We've shipped the first version. We're working on surpassing even the best humans. 
+
+Preference Model. Updating the preference model is a research problem: what we already know, when to refresh it, which questions give the highest signal, and how to quantify the uncertainty in our predictions. 
+
+Human API. A model of millions of humans is only useful if you can call it from where decisions happen. We want to embed this into Slack, Linear, IDEs, and coding agents themselves. Imagine an agent shipping code, asking Listen what humans actually want, taking action, and iterating. 
+
+Agent Evals. Every part of our product is built AI-first. Study Composer helps customers scope and design studies. Research Agent analyzes thousands of responses and writes the report. The ceiling is what McKinsey does for $1M per engagement. The bottleneck is evaluating those qualitative outputs. Once you have the eval, you can hill-climb. 
+
+Who You Are
+
+You solve problems end to end. The team is split vertically, so every engineer owns a part of the product and makes decisions across the LLM pipeline, infrastructure, backend, and UX. 
+
+You're a future or past founder. You scope your own work, think about the customers, and own your decisions. 
+
+You care about getting things right. Moving fast is essential, but a 100% solution is much more powerful than an 80% one. When something breaks, you go to root cause. 
+
+You're excited about pushing LLMs to their limits. We work directly with the frontier model labs on new releases and constantly probe where they break. 
+
+You communicate complex ideas in writing. We work independently with one meeting a week, so writing is how tradeoffs, problems, and decisions get worked through together. 
+
+You're highly technical. Most of our team started coding as teenagers and nerd out on details from language design to compilers. 
+
+Life at Listen Labs
+
+Health, covered: Full medical, dental, and vision. FSA/HSA and life insurance are available too. 
+
+Competitive Compensation: Backed by world-class investors including Sequoia, Ribbit Capital, Conviction, and Pear VC — we hire the best and treat them accordingly, with meaningful equity ownership. 
+
+The range for this role is $180,000 – $300,000 base. Actual compensation is influenced by a wide array of factors, including but not limited to skill set, experience, and work location. If this range doesn't match your expectations, we still encourage you to apply. 
+
+Annual Learning Stipend: Books, courses, conferences, coaching, language lessons — almost anything that makes you sharper. 
+
+Annual Wellness Stipend for your health and headspace: Gym memberships, race fees, massages, ergonomic gear, and more. 
+
+Monthly Stipend for AI tools: A dedicated budget for the software and GPU credits that make you faster. 
+
+Fed, daily: A private chef serves lunch and dinner in our SF office; NYC and London teams get daily meal credit. 
+
+Flexible time off: A take-what-you-need vacation policy. 
+
+We celebrate together: Company offsites (Hawaii this Summer!) and events like our annual holiday party — every win is a team win. 
+
+Room to grow: As an early member of the team, you'll own end-to-end processes from scratch and grow alongside the company.

@@ -79,6 +79,11 @@ jobs:
       - name: Ledger delinquency check
         run: python3 scripts/ledger_check.py
 
+      # NOTE: the informativeness ratchet lives in its own workflow
+      # (.github/workflows/informativeness.yml), because THIS workflow is
+      # currently disabled — its step here would never run. Do not re-add it here
+      # without re-enabling ci.yml.
+
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)
         run: npm run build

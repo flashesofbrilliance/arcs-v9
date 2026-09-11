@@ -200,9 +200,6 @@ h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-backgr
 .s-lab .card{opacity:.62;border-style:dashed;border-color:var(--line-2);background:transparent;cursor:default}
 .s-lab .card .t{font-weight:400;color:var(--fg2)}
 .s-lab .card .chip{border-color:var(--line-2)}
-.s-lab .glass{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.06em;
-  border:1px dashed rgba(255,215,0,.32);border-radius:10px;padding:11px 13px;margin:0 0 9px;
-  opacity:.9;display:flex;gap:8px;align-items:center;background:rgba(255,215,0,.02)}
 
 /* play: SHARP */
 .s-play .card:hover{border-color:rgba(0,240,255,.4);transform:translateY(-1px)}
@@ -237,7 +234,7 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
 <body>
 <div class="wrap">
   <div class="masthead">
-    <span class="kick"><span class="dot"></span> The ARCS family &#183; The Workshop</span>
+    <span class="kick"><span class="dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--fg3);font-weight:400;letter-spacing:.14em">Field OS</span></span> &#183; The Workshop</span>
     <h1>Everything we build,<br><span class="g">out in the open.</span></h1>
     <p class="lede">One front door onto the flywheel: the <a class="lk" href="https://good.arcs.care/" target="_blank" rel="noopener">goods</a> we've already shipped as open
     source, the <a class="lk" href="https://playground.arcs.care/" target="_blank" rel="noopener">playground</a> you can walk into right now, and the <span class="soon" title="not live yet">lab</span> that's still in the
@@ -256,7 +253,7 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     <div class="stats">
       <div class="stat"><div class="stat-val accent" id="sv-commits">1,490</div><div class="stat-label">Commits &#183; since T0, the monorepo's birth</div></div>
       <div class="stat"><div class="stat-val" id="sv-days">128</div><div class="stat-label">Days &#183; T0 = Apr 9, 2026</div></div>
-      <div class="stat"><div class="stat-val" id="sv-adrs">68</div><div class="stat-label">ADRs &#183; decisions logged</div></div>
+      <div class="stat"><div class="stat-val" id="sv-adrs">71</div><div class="stat-label">ADRs &#183; decisions logged</div></div>
       <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production &#183; app.arcs.care</div></div>
     </div>
     <div class="pstrip">
@@ -291,7 +288,7 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
           <b style="color:var(--gold)">061</b> Verify flags against full source <span style="color:var(--line)">&#183;</span>
           <b style="color:var(--gold)">060</b> Hypercube gauntlet arc-weld
         </div>
-        <div class="pl-sub">59 logged since T0 &#183; the decision trail, newest first</div>
+        <div class="pl-sub">69 logged since T0 &#183; the decision trail, newest first</div>
       </div>
     </div>
     <div class="pstrip" style="grid-template-columns:1fr">
@@ -318,7 +315,6 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
       <div class="head"><span class="name">Goods</span><span class="idx">01 &#183; shipped</span></div>
       <p class="what">Open-source tools and skills, live and installable today.</p>
       <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; earned</p>
-      <div class="glass" style="border-color:rgba(0,255,157,.28);color:var(--green);opacity:1;margin-bottom:11px;background:rgba(0,255,157,.03)"><span style="font-family:var(--mono)">◆</span> Install all five skills in Claude Code: <span style="font-family:var(--mono);color:var(--fg1)">/plugin marketplace add flashesofbrilliance/arcs-skills</span></div>
       <div class="cards">
         <a class="card" href="https://github.com/flashesofbrilliance/germinate" target="_blank" rel="noopener"><span class="t">germinate<span class="ar">github &#8599;</span></span><p class="d">The seed bank + germination engine: append-only belief-log, drift-visible manifest, coal&#8594;diamond handoff.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">npm+brew</span> MIT</span></a>
         <a class="card" href="https://github.com/flashesofbrilliance/rosetta-shell" target="_blank" rel="noopener"><span class="t">rosetta-shell<span class="ar">github &#8599;</span></span><p class="d">Lossless shell/env translation (bash 3.2 &#8596; zsh &#8596; POSIX) + CI portability gate.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">npm+brew</span> open source</span></a>
@@ -332,32 +328,38 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
       </div>
     </section>
 
-    <!-- PLAYGROUND: playground.arcs.care hub + 4 performers (next.config.ts host rewrites) -->
-    <section class="stage s-play">
-      <div class="head"><span class="name">Playground</span><span class="idx">02 &#183; try it</span></div>
-      <p class="what">Live performing artifacts &#8212; dogfooded surfaces you can open and drive.</p>
-      <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; live</p>
+    <!-- FIELD NOTES: NFTT essays, published at good.arcs.care/blog/nftt -->
+    <section class="stage s-goods">
+      <div class="head"><span class="name">Field Notes</span><span class="idx">02 &#183; published</span></div>
+      <p class="what">Notes from the trenches: what building this in the open actually taught me.</p>
+      <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; earned</p>
       <div class="cards">
-        <a class="card hub" href="https://playground.arcs.care/" target="_blank" rel="noopener"><span class="t">Playground hub<span class="ar">open &#8599;</span></span><p class="d">The performing-artifacts gallery &#8212; start here.</p></a>
-        <a class="card" href="https://playground.arcs.care/12d-orbital" target="_blank" rel="noopener"><span class="t">12D Orbital<span class="ar">open &#8599;</span></span><p class="d">Twelve-dimensional decision manifold, orbiting.</p></a>
-        <a class="card" href="https://playground.arcs.care/knowledge-lattice" target="_blank" rel="noopener"><span class="t">Knowledge Lattice<span class="ar">open &#8599;</span></span><p class="d">The lattice of what's known, drift-checked.</p></a>
-        <a class="card" href="https://playground.arcs.care/alexandria" target="_blank" rel="noopener"><span class="t">Alexandria<span class="ar">open &#8599;</span></span><p class="d">The library surface &#8212; canon, browsable.</p></a>
-        <a class="card" href="https://playground.arcs.care/moire" target="_blank" rel="noopener"><span class="t">Moir&#233;<span class="ar">open &#8599;</span></span><p class="d">Interference patterns as a paradox render.</p></a>
+        <a class="card" href="https://good.arcs.care/blog/nftt/post-1" target="_blank" rel="noopener"><span class="t">The week my notes started filing themselves<span class="ar">read &#8599;</span></span><p class="d">A corpus that learned to catalog itself, from cold DM to witnessed law.</p></a>
+        <a class="card" href="https://good.arcs.care/blog/nftt/post-2" target="_blank" rel="noopener"><span class="t">The week my own memory tried to make me lie to a friend<span class="ar">read &#8599;</span></span><p class="d">A featherlight respark, a memory caught lying by the record, and provenance-led growth.</p></a>
+        <a class="card" href="https://good.arcs.care/blog/nftt/post-3" target="_blank" rel="noopener"><span class="t">The names were already there. We just could not say them yet.<span class="ar">read &#8599;</span></span><p class="d">Seven vision films made from the corpus foreshadowed the product; the words arrived eight months later.</p></a>
+        <a class="card" href="https://good.arcs.care/blog/nftt/post-4" target="_blank" rel="noopener"><span class="t">The detector's first catch was the document it was built to protect<span class="ar">read &#8599;</span></span><p class="d">A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.</p></a>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND: locked (not yet). Cards are non-linking until the surfaces open. -->
+    <section class="stage s-play">
+      <div class="head"><span class="name">Playground</span><span class="idx">03 &#183; not yet</span></div>
+      <p class="what">Live performing artifacts: dogfooded surfaces in final polish before they open.</p>
+      <p class="fid"><span class="bar"></span> Fidelity: degraded &#183; forming</p>
+      <div class="cards">
+        <div class="card"><span class="t">Playground hub</span><p class="d">The performing-artifacts gallery.</p></div>
+        <div class="card"><span class="t">12D Orbital</span><p class="d">Twelve-dimensional decision manifold, orbiting.</p></div>
+        <div class="card"><span class="t">Knowledge Lattice</span><p class="d">The lattice of what's known, drift-checked.</p></div>
+        <div class="card"><span class="t">Alexandria</span><p class="d">The library surface: canon, browsable.</p></div>
+        <div class="card"><span class="t">Moir&#233;</span><p class="d">Interference patterns as a paradox render.</p></div>
       </div>
     </section>
 
     <!-- LAB: behind glass, parked far-right (zero-action). Nothing minted yet (0 plated); candidates are ripening. -->
     <section class="stage s-lab">
-      <div class="head"><span class="name">Lab</span><span class="idx">03 &#183; in the kitchen</span></div>
-      <p class="what">Experiments being minted. Not public yet &#8212; you're seeing the counter, not the plate.</p>
+      <div class="head"><span class="name">Lab</span><span class="idx">04 &#183; in the kitchen</span></div>
+      <p class="what">Experiments being minted. Not public yet: you're seeing the counter, not the plate.</p>
       <p class="fid"><span class="bar"></span> Fidelity: degraded &#183; forming</p>
-      <div class="glass">&#9634; 0 plated &#183; 4 ripening &#8212; nothing linked out until it's cooked.</div>
-      <div class="cards">
-        <div class="card"><span class="t">arcs-field-scan &#8594; interactive</span><span class="meta"><span class="chip">ripe</span></span></div>
-        <div class="card"><span class="t">rca-skill web surface</span><span class="meta"><span class="chip">maybe</span></span></div>
-        <div class="card"><span class="t">linkedin toolkit mini-app</span><span class="meta"><span class="chip">maybe</span></span></div>
-        <div class="card"><span class="t">readme faq-eval</span><span class="meta"><span class="chip">proven poc</span></span></div>
-      </div>
     </section>
 
   </div>
@@ -365,13 +367,8 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
   <footer>
     <div class="foot">
       <span class="id"><b>ARCS</b> &#183; The Workshop <span class="sep">&#183;</span> Field OS grammar</span>
-      <span class="foot-links">
-        <a href="https://good.arcs.care/" target="_blank" rel="noopener">good.arcs.care</a>
-        <a href="https://playground.arcs.care/" target="_blank" rel="noopener">playground</a>
-        <a href="https://status.arcs.care/" target="_blank" rel="noopener">status</a>
-      </span>
     </div>
-    <p class="foot-fine">Every good is liveness-verified before it's listed. Readiness is the render channel &#8212; sharp = shipped, degraded = forming. The live pulse reads the same source as <span class="mono-k">status.arcs.care</span>, so the numbers match by construction.</p>
+    <p class="foot-fine">Every good is liveness-verified before it's listed. Readiness is the render channel: sharp = shipped, degraded = forming. The live pulse reads the same source as <span class="mono-k">status.arcs.care</span>, so the numbers match by construction.</p>
   </footer>
 </div>
 
@@ -393,12 +390,18 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     if(typeof p.prsOpen==="number")set("pl-prs",String(p.prsOpen));
     if(p.deploy){var st=String(p.deploy.state),cls=st==="success"?"ok":(/fail|error/.test(st)?"err":"pend");
       set("pl-deploy",'<span class="'+cls+'">'+(st==="success"?"live":st)+'</span>');set("pl-deploy-when",rel(p.deploy.date));}
-    // The board — same issues payload as status.arcs.care. Floor when truncated.
-    if(p.issues){var fl=p.issues.truncated?"+":"";
-      set("bd-ship",(p.issues.shipped!=null?p.issues.shipped+fl:"—"));
-      set("bd-prog",(p.issues.inProgress!=null?String(p.issues.inProgress):"—"));
-      set("bd-next",(p.issues.next!=null?String(p.issues.next):"—"));
-      set("bd-block",(p.issues.blocked!=null?String(p.issues.blocked):"—"));}
+    // The board — same issues payload as status.arcs.care. Live buckets are
+    // label-dependent and unreliable while the repo is private: if shipped is 0
+    // alongside 100+ issues, the categorization is degraded, so fall back to the
+    // curated floor (identical to status.arcs.care) rather than render false zeros.
+    if(p.issues){var iss=p.issues,
+      degraded=(!iss.shipped)&&(iss.truncated||(!iss.inProgress&&!iss.blocked&&(iss.next||0)<=1)),
+      b=degraded?{shipped:25,inProgress:6,blocked:8,next:11,truncated:true}:iss,
+      fl=b.truncated?"+":"";
+      set("bd-ship",(b.shipped!=null?b.shipped+fl:"—"));
+      set("bd-prog",(b.inProgress!=null?String(b.inProgress):"—"));
+      set("bd-next",(b.next!=null?String(b.next):"—"));
+      set("bd-block",(b.blocked!=null?String(b.blocked):"—"));}
   }).catch(function(){});
 })();
 </script>

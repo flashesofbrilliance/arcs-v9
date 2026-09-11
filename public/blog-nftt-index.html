@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notes from the Trenches · ARCS</title>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Notes from the Trenches: what building ARCS in the open actually taught me.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#020408;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;--fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
+    --cyan:#00F0FF;--green:#00FF9D;--sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px;}
+  header{border-bottom:1px solid var(--border);background:radial-gradient(800px 400px at 15% -10%,rgba(0,240,255,.09),transparent 60%);}
+  .hero{padding-block:60px 48px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(34px,6vw,54px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:20px;text-wrap:balance;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(15px,2.2vw,18px);line-height:1.6;color:var(--fg2);margin-top:18px;max-width:none;text-wrap:pretty;}
+  main{padding:40px 0 60px;}
+  .post{display:block;border:1px solid var(--border);border-radius:14px;padding:22px 22px 20px;margin-bottom:14px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));transition:.16s;}
+  .post:hover{border-color:var(--cyan);transform:translateY(-2px);}
+  .post .n{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);}
+  .post .t{font-size:clamp(18px,2.6vw,22px);font-weight:700;letter-spacing:-.01em;margin-top:8px;line-height:1.25;text-wrap:balance;} .post:hover .t{color:var(--cyan);}
+  .post .d{font-size:13.5px;line-height:1.55;color:var(--fg3);margin-top:9px;text-wrap:pretty;}
+  .post .r{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--cyan);margin-top:12px;display:inline-block;}
+  footer{border-top:1px solid var(--border);padding:26px 0 46px;}
+  .foot{font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;} .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>good.arcs.care · field notes</span>
+    <h1>Notes from the <span class="g">Trenches</span></h1>
+    <p class="lede">What building ARCS in the open actually taught me. Each post is a real story from the build, with the receipts.</p>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <a class="post" href="/blog/nftt/post-1">
+      <div class="n">No. 1</div>
+      <div class="t">The week my notes started filing themselves</div>
+      <div class="d">A corpus that learned to catalog itself, from cold DM to witnessed law.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/post-2">
+      <div class="n">No. 2</div>
+      <div class="t">The week my own memory tried to make me lie to a friend</div>
+      <div class="d">A featherlight respark, a memory caught lying by the record, and provenance-led growth.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/post-3">
+      <div class="n">No. 3</div>
+      <div class="t">The names were already there. We just could not say them yet.</div>
+      <div class="d">Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/post-4">
+      <div class="n">No. 4</div>
+      <div class="t">The detector's first catch was the document it was built to protect</div>
+      <div class="d">A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/take-home-trap">
+      <div class="n">No. 5</div>
+      <div class="t">With Life, and Without It</div>
+      <div class="d">Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/confirmed-not-my-bug">
+      <div class="n">No. 6</div>
+      <div class="t">Confirmed Not My Bug</div>
+      <div class="d">We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/assets-and-liabilities">
+      <div class="n">No. 7</div>
+      <div class="t">Assets and Liabilities</div>
+      <div class="d">A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/cheapest-edit-is-a-diff">
+      <div class="n">No. 8</div>
+      <div class="t">The Cheapest Edit Is a Diff</div>
+      <div class="d">Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-loop-closes">
+      <div class="n">No. 9</div>
+      <div class="t">The Loop Closes</div>
+      <div class="d">I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-factory-on-itself">
+      <div class="n">No. 10</div>
+      <div class="t">The Factory on Itself</div>
+      <div class="d">The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/probably-confirmation-bias">
+      <div class="n">No. 11</div>
+      <div class="t">Probably Confirmation Bias, Might Delete Later</div>
+      <div class="d">I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/schematic-scaffolds">
+      <div class="n">No. 12</div>
+      <div class="t">The Schematic That Scaffolds In The Missing Pieces</div>
+      <div class="d">I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/ledger-not-story">
+      <div class="n">No. 13</div>
+      <div class="t">The Ledger Is Not the Story</div>
+      <div class="d">I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/pulp-governance">
+      <div class="n">Latest</div>
+      <div class="t">The Ancestry Check</div>
+      <div class="d">A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+  </div>
+</main>
+<style>
+  /* ADR-076 MCP-led-growth demand probe (Stage 0, painted door). Honest framing: the connector
+     does not exist yet; the CTA click is the interest signal, tracked via Vercel custom events. */
+  .mcp-probe{padding:8px 0 44px;}
+  .mp-card{border:1px solid rgba(0,240,255,.28);border-radius:16px;padding:26px 26px 24px;
+    background:radial-gradient(700px 300px at 12% -30%,rgba(0,240,255,.08),transparent 60%),linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));}
+  .mp-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);}
+  .mp-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  .mp-h{font-size:clamp(19px,3vw,25px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-top:12px;color:var(--fg1);text-wrap:balance;}
+  .mp-b{font-size:14.5px;line-height:1.6;color:var(--fg2);margin-top:11px;max-width:none;text-wrap:pretty;} .mp-b b{color:var(--fg1);font-weight:600;}
+  .mp-cta{margin-top:18px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;color:#001014;background:linear-gradient(100deg,var(--cyan),var(--green));border:none;border-radius:10px;padding:12px 20px;cursor:pointer;transition:transform .15s;}
+  .mp-cta:hover{transform:translateY(-1px);}
+  .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
+</style>
+<section class="mcp-probe" aria-label="Connect an agent (demand probe)">
+  <div class="wrap">
+    <div class="mp-card">
+      <div class="mp-eyebrow"><span class="mp-dot"></span>Connect an agent &middot; considering this</div>
+      <h2 class="mp-h">Query these field notes from your AI tools</h2>
+      <p class="mp-b">We are weighing an ARCS connector for Claude, Cursor, and other agents: ask about anything in these notes and get an answer that <b>cites its source, not a guess</b>. It does not exist yet. This is a live demand probe, so if you would use it, say so and we will build it.</p>
+      <button class="mp-cta" id="mpCta" type="button">I'd use this &#8594;</button>
+      <p class="mp-done" id="mpDone" hidden>Noted, thank you. Enough signal and we ship the connector. In the meantime the underlying tools are open at <a href="https://github.com/flashesofbrilliance/arcs-skills">github.com/flashesofbrilliance/arcs-skills</a>.</p>
+    </div>
+  </div>
+</section>
+<script>
+  /* Vercel Web Analytics custom events; guarded so the page is fine if analytics is blocked. */
+  (function(){
+    function ev(name){ try{ window.va && window.va('event', { name: name, data: { surface: 'nftt' } }); }catch(e){} }
+    var card = document.querySelector('.mcp-probe');
+    if (card && 'IntersectionObserver' in window){
+      var seen = false;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting && !seen){ seen = true; ev('mcp_probe_view'); io.disconnect(); } });
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+    var cta = document.getElementById('mpCta'), done = document.getElementById('mpDone');
+    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); if(done){ done.hidden = false; } cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; }); }
+  })();
+</script>
+<footer>
+  <div class="wrap foot"><a href="https://good.arcs.care/">&#9664; good.arcs.care</a> &middot; open-source tools and field notes by ARCS</div>
+</footer>
+</body>
+</html>

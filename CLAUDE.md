@@ -8,6 +8,11 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Progressive handoff (2026-09-04):** a global hook checkpoints git state to
+  `_STATE/handoff-progress.jsonl` every turn-with-change, and asks for a `## Delta` in
+  `_STATE/handoff-progress.md` at each compaction. Both are gitignored. `/handoff` folds them
+  into the CLAUDE.md block and marks the ledger claimed; the global SessionStart hook flags any
+  worktree whose trail was never claimed. Compaction never writes CLAUDE.md anymore.
 - **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
   from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):
@@ -75,8 +80,9 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
 Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
-rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
-from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
+rewrite). The full interactive Next.js page IS committed on main at `src/app/observatory/page.tsx`
+(landed 2026-06-23, ~1.2k LOC); the old "never pushed" note was stale (Atlas audit 2026-09-03).
+Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -84,6 +90,7 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
 - Inline styles only in components — no Tailwind, no utility classes. Sanctioned exceptions (only these): next/font classes on `<html>`, and the single `src/app/globals.css` (reset + keyframes + font tokens). Tailwind was removed 2026-07-11.
 - No new dependencies without asking.
+- **Self-contained artifact/page CSS: one shared px `--measure` for BODY/card reading text — NEVER `max-width:NNch` per element** (font-dependent → misaligned right edges that read as broken wrapping). **But LEDES are the exception: a hero/section lede spans the full lane width matching its heading (`max-width:none`), never the narrow body measure — a lede narrower than its heading reads as a broken/abridged block with a dead right gutter (`design-full-width-lede-matches-heading`; Zach's standing preference, do NOT "fix" it back to `--measure`).** The "too narrow" symptom is invisible to overflow/clip gates — eyeball lede-vs-heading edges at ~1280px too. Bordered callouts carry the measure on the box, not the inner text. Before shipping any single-file HTML, run the repo's own gate (`scripts/artifact_wrap_lint.py`; `npm test` for `zachharris-xyz`) and sweep 360–1440 incl. the 700–1000 band. Em-dashes 0. Canon: `_PATTERNS/arcs-artifact-css-base.css`; AGENTS.md gotcha #13.
 
 
 # Versioning & handoff policy (amended 2026-07-19)
@@ -107,76 +114,72 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.50.0 (2026-08-29)
+# Handoff — v3.59.0 (2026-09-08)
 
-> **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
-> armed.** Renumbered up the version chain (48→49→50) as parallel sessions shipped their own
-> v3.48.0 (tool-catalog) and v3.49.0 (Möbius) while this branch was in flight. On
-> `claude/elastic-driscoll-a80e72` (PR #194). Oracle audit clean (68 ids, 0 collisions); rebased
-> onto live main three times.
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
 
-## Shipped (this branch)
-- **ADR-033 duplicate → Option A.** Serialization Pathogen Family keeps 033; the model-routing/adr-
-  audit decision renumbered to oracle-issued **ADR-073** (index.json + header renumber note).
-- **Engine-sovereignty doctrine → minted as ADR-072** (oracle-issued). Honors the forward reference
-  in main's Möbius (ADR-071) DEWY receipt, which cites "engine-sovereignty (ADR-072)". Old "067"
-  claim retired (067 = cross-subject-comparative-recoil); memory + MEMORY.md index re-pointed.
-- **ROM vocabulary → Option A.** 7 ROM Primitives (`.claude/arcs-canon.md`) = CANON; 6 execution laws
-  → "behavioral laws (derived)"; 7 axioms → "epistemic foundations". Authority index
-  `runtime/specs/ROM-AXIS-INDEX.md` + tier banners on all three source files.
-- Both `_DECISIONS/CANON-COLLISION-*.md` → **RESOLVED**. `_SEEDS/_oracle.json` adr 71→73.
-  `build.html` sv-adrs → 68 (true distinct-ADR count). DEWY receipt appended
-  (`_STATE/2026-08-28-session-decisions.dewy.json`).
-- **`_DECISIONS/index.json` fully backfilled.** 10 files were missing entries (032, 033-pathogen,
-  034, 038, 044, 048, 049, 058, plus 070/071); index now 1:1 with 68 files (set-diff verified).
-- **Oracle pre-commit gate ARMED** for this worktree (`core.hooksPath = scripts/git-hooks`).
-- **Norse ROM candidates**: Loki inversions written (Ullr + Baldur); numbering gate cleared. NOT
-  ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
 
-## Open (next session)
-1. **Nightly canon-propagation cron — still HELD.** Arm after merge: `cp scripts/launchd/care.arcs.canon-propagation.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/care.arcs.canon-propagation.plist`.
-2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
-3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
-4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
 
-
-# Handoff — v3.49.0 (2026-08-29)
-
-> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
-> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
-> Branch current with origin/main; oracle at 71.
-
-## Shipped (all on main)
-- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
-  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
-  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
-  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
-  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
-  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
-  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
-- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
-  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
-  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
-  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
-- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
-  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
-  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
-  (measured), blind-count ~1.
-- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
-  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
-  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
-  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
 
 ## Open (next session)
-1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
-   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
-2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
-   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
-   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
-3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
-   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
-4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
-   ADR-069 oracle audit · lattice --regenerate.
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
 
 
-> _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+# Handoff — v3.58.0 (2026-09-08)
+
+> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
+> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
+> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
+
+## Shipped
+- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
+  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
+  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
+  regenerated. Closes the v3.55.0 `story_render.py` open loop.
+- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
+  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
+  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
+- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
+  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
+  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
+  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
+  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
+- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
+  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
+- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
+
+## Open (handed to fresh sessions, all started)
+1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
+   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
+2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
+   "Token cost ROI analysis" cloud session, not duplicate.
+3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
+   register decision (insider-dense vs legibility layer) + domain-topology verify first.
+- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
+  abductive profile→role scan.
+- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
+
+> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._

@@ -31,8 +31,9 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 | `AUTH_SECRET` | Auth.js v5 session signing |
 | `AUTH_RESEND_KEY` | Magic link emails via Resend |
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
-| `RECOIL_PASSWORD` | Shared cookie gate for the whole `/recoil*` tree (`src/proxy.ts`, private-alpha) |
+| `RECOIL_PASSWORD` | **Retired.** Was a shared cookie gate for `/recoil*`; removed (it sat disclosed in git history). `/recoil` is now gated per-route by Auth.js session + `ADMIN_EMAILS` (`src/lib/admin.ts`), fail-closed. No code reads this var. |
 | `ADMIN_EMAILS` | Comma-separated admin allowlist — interim RBAC for the internal `/recoil` index + reports (`src/lib/admin.ts`). Prod fail-closed if unset; dev passes through |
+| `RECRUITHAUS_AMMO_PASSWORD` | Shared passcode for the gated recruiter ammo tier at `recruithaus.arcs.care/ammo` (`src/lib/ammo-gate.ts` + `src/proxy.ts` + `/api/recruithaus/unlock`). Fail-closed if unset; cookie holds a SHA-256 token, never the passcode |
 
 ---
 
@@ -120,7 +121,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 ### Backlog (not built)
 | Agent / Worker | Type | Priority | Notes |
 |---|---|---|---|
-| Outcome handler | `PATCH /api/receipts/[id]` | P1 | Closes receipt loop, fires `receipt_outcome_matched` |
+| Outcome handler | `POST /api/receipts/[receiptId]/outcome` | ✅ BUILT · gap=capture | **Shipped** (2026-09-02 correction): route + `Outcome` model + debrief-email nudge + drift read (`matched`→LANDED/DRIFTING, status→LOGGED). By design the human supplies `matched`/`regretScore` — a receipt can't close itself (§5.1, *In datis veritas*). NOT wired: any `receipt_outcome_matched` analytics event. **Real P1 gap = capture rate** — 2/247 closed; the harness's validation target (`Outcome.matched`/`regretScore` vs `nciScore`/CSM) exists but n=2. This, not "make SAGE fire," is the keel. See "Receipt save prompt". |
 | Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
 | GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
 | Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
@@ -165,14 +166,15 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | | Prod→op20 adapter | `operators/prod_receipt_to_op20_seed.py` | 4.8KB | Maps prod Receipt columns → op20 54-dim seed (faithful; never fabricates somatic/axiom) | READY |
 | **Total** | see census note ↓ | `operators/` | **~21.9K LOC tracked** | **Atomic design components for L0–L5 decision pipeline** | **PRODUCTION** |
 
-> **File census (authoritative, reconciled 2026-08-28).** The table above is a *curated catalog*
+> **File census (authoritative, reconciled 2026-09-04).** The table above is a *curated catalog*
 > of the core L0–L5 components, not a file count — which is why three different numbers were in
 > circulation (this line said "34 files", the atlas said "38 py files", `ls` showed "44 entries").
-> Counted once against the tracked tree on this branch: **43 top-level `.py` modules · 51 `.py`
-> files total** (recursive, excludes `__pycache__`) **· 60 tracked files total · 21,891 LOC**.
+> Counted once against the tracked tree on main (recounted 2026-09-04): **52 top-level `.py` modules · 52 `.py`
+> files total** (recursive, excludes `__pycache__`) **· 62 tracked files total · 22,171 LOC**.
 > Tracked subdirs: `core/` (7), `docs/` (4), `linkedin_pipeline/` (3). `audit_service/` is a
 > separate WIP thread and is **not** part of this library census. Recount with:
-> `git ls-files 'operators/**/*.py' | grep -v __pycache__ | wc -l`.
+> `git ls-files 'operators/*.py' | wc -l` (top-level) and `git ls-files operators/ | grep '\.py$' | wc -l` (all).
+> (The old `operators/**/*.py` glob only matched files two-plus levels deep, so it could never reproduce the top-level count.)
 
 **Integration status:** Operators are canonical alternative implementation. Not currently wired into compass route (which uses Claude L0–L5). Future integration: custom decision domains, audit hooks, phase gates for high-consequence decisions.
 
@@ -192,6 +194,30 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 10. **Session shell helpers**: `scripts/ship_docs.sh` (push→PR→merge, enforced docs-only gate, hang-kill+retry) · `scripts/sync_worktree.sh` (WIP-commit + merge origin/main, hook-state kept as ours, never stash) · `python3 scripts/oracle.py sync <ns>` (reconcile a lagging counter — counters drift when sessions mint off-oracle; audit first).
 11. **Teleport to terminal when the work is mechanically scorable.** If a pass/fail can be written as a grep, a set-diff, a schema check, a diff, or an operator-client lambda over an `ls`-enum, do it in the shell — don't fan out agents. Reserve agents/LLM for judgment (reading for meaning, emergent tagging, VARIANT-vs-SUPERSEDED, synthesis). Scout deterministically to build the work-list and kill false positives first, then spend agents only on the residue. See memory `when-to-teleport-to-terminal-vs-agents`.
 12. **Oracle-first numbering — NEVER infer an ADR/seed/receipt number.** Parallel sessions across harnesses (Claude Code, Hermes) that guess "highest + 1" collide (ADR-033/067 both doubled this way). Allocate via `python3 scripts/oracle.py next <ns>` and commit `_SEEDS/_oracle.json` — git's non-fast-forward rejection is the atomic lock. A pre-commit hook enforces this: install once with `git config core.hooksPath scripts/git-hooks` (blocks any commit that duplicates an existing ADR number; warns on off-oracle numbers). Run `python3 scripts/oracle.py audit adr` to see collisions/gaps/next-free.
+13. **Self-contained artifacts/pages (single-file HTML) — measure + run the target repo's OWN gates before shipping.** The intermediate-width wrap-regression keeps recurring. Rules, most enforced by `scripts/artifact_wrap_lint.py`: (a) BODY / card reading text uses ONE shared px `--measure` — NEVER a per-element `max-width:NNch` (`ch` gives every text role a different right edge; the misaligned rag reads as broken wrapping); (b) a bordered/filled callout is the card that carries the measure — never separately cap the text inside a card. **(c) LEDES ARE THE EXCEPTION — never cap them at the narrow body measure.** A hero/section lede (and any full-lane intro paragraph) spans the SAME width as its heading / lane (`max-width:none`, inheriting the container). A lede capped narrower than its heading reads as a broken/abridged block with a dead right gutter — Zach flags this every time (memory `design-full-width-lede-matches-heading`; this is a standing preference that OVERRIDES the generic narrow-measure default, NOT a bug to "fix" back to `--measure`). Note the failure symptom "wraps too narrow / early" is invisible to overflow/clip gates (narrow never overflows) — so ALSO eyeball the lede-vs-heading right edges, don't just trust the sweep. Then VERIFY with the target repo's own gate, not an ad-hoc sweep: full band 360–1440 incl. the 700–1000 zone. `zachharris-xyz` has `npm test` / `test:scan` (Playwright regression + axe); ARCS artifacts run `artifact_wrap_lint.py` + a screenshot sweep at ~790px AND a lede-width eyeball at ~1280px. Em-dashes stay at 0. Canon: `_PATTERNS/arcs-artifact-css-base.css`. See memory `intermediate-width-wrap-regression-class`, `design-full-width-lede-matches-heading`, `artifact-text-qa-standards-gate`, `run-the-repos-own-gates-before-shipping`.
+
+---
+
+14. **Run repo scripts from YOUR worktree, never by the main-checkout absolute path.** `/Users/zharris/arcs-v9/scripts/*.py` is whatever branch the main checkout is parked on — often another session's dirty branch with a STALE copy. On 2026-09-08 I linted with the main-checkout `artifact_wrap_lint.py` (a 138-line copy with no MODE 5) while origin/main's is 296 lines and catches the exact narrow-lede-in-wide-container bug; every "wrap-lint clean" was a false pass and the bug shipped repeatedly. Use `./scripts/…` relative to your own worktree (which is cut from origin/main), or verify with `git show origin/main:scripts/<x>` before trusting a result. Same caution for any tool invoked by an `/Users/zharris/arcs-v9/…` absolute path. See memory `run-repo-tools-from-worktree-not-stale-main-checkout`.
+
+15. **Frustration Gate (design pattern, default not favor).** When a bug class is recurring or high-frustration, don't just fix the instance — in the same change add the cheapest mechanical check that FAILS the build on the whole class (grep < static lint < headless assert), prove it fails-on-bad AND passes-on-good, and wire it into the always-run path (`npm test` / pre-commit). A symptom that survives multiple green-gated fixes means the gate is blind or you're solving the wrong problem — that should fire on round 2, not round 15. Full pattern + worked example: `_PATTERNS/2026-09-08-frustration-gate-pattern.md`.
+
+## Receipts or it didn't happen
+
+Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
+`decision_receipt` table (Supabase project `xbbpiryokswwvcrcutge`, ARCS_v9), in the fixed form:
+`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at`
+(+ `source_repo`, `refs[]`). Matched by any verifier against real git/GitHub/Vercel state —
+anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
+
+An action without a logged receipt is not considered complete, regardless of whether the underlying
+merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
+
+> Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
+> or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
+> the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its
+> table was never applied. The first two receipts (rubric v1.3 ship, NFTT PR #394) landed 2026-09-11
+> with `receipt_id`s `2026-09-10--rubric-v1.3-ship--ZH` and `2026-09-10--nftt-ledger-pr--ZH`.
 
 ---
 
