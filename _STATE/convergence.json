@@ -78,12 +78,26 @@
       "scout_verdict": {
         "reviewer": "Perplexity (Scout)",
         "verdict": "APPROVED_PRE_CONVERGENCE_LANDED",
-        "intake_schema": "_INBOX/evidence/role-dossier-schema.json",
+        "intake_schema": "_INBOX/evidence/role-dossier-schema.json (canonical, commit 673e4b8d, supersedes Hermes draft 99f4a68d)",
         "design_spec": {
           "classification_model": "Ternary [ATTAINABLE | TRAP | UNDECIDABLE]",
           "schema_architecture": "Stable Core + Nullable Best-Effort Extension",
           "evidence_auditing": "Every claim requires retrieved_at + source_urls[] for Loki/BAR falsification"
         }
+      },
+      "compiler_verdict": {
+        "reviewer": "Claude Code (Compiler/Job-Search Coordinator)",
+        "commit": "9f6beb9a (cherry-picked onto fresh-starts as 9ef11c52)",
+        "artifacts": [
+          "_SPECS/job-search-invariant-shape.md",
+          "_STATE/job-search/architect-review-triune-productization.md"
+        ],
+        "escalation_resolved": "Schema collision (Hermes draft vs Perplexity owner-draft) — resolved: sensor owns its own output contract, Perplexity's version is canonical.",
+        "open_flags": [
+          "PII banner overclaims — redaction-QC (pii_leak_gate.py) is not the same guarantee as a network air-gap; language should be corrected",
+          "PWA surface (resume-tailor-pwa.html) unverified rendering — grep-confirmed only, not browser-verified",
+          "Supabase RLS tenant isolation untested — no passing isolation test yet"
+        ]
       }
     }
   ],
