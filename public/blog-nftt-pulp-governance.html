@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Ancestry Check · NFTT</title>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Two governance near misses in one night showed why a written rule and a pull request claim both need an independent check before either can become trusted.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Receipts Included</span>
+    <span class="sp"><b>Case: held open</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Two checks in the same night</p>
+    <h1>The <em>Ancestry Check</em></h1>
+    <p class="standfirst">A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question.</p>
+    <p class="byline">Receipts included &#183; Tonal deviation: hard boiled, nonlinear, intentional &#183; The factual fence remains in force</p>
+  </header>
+
+  <section>
+    <span class="num">IV &#183; The door marked exit 1</span>
+    <p class="lead">The terminal gave back one number. Exit 1. No speech. No appeal. A commit called <code>7ab32ec9b71570067fefc62d81373cce0697ea28</code> held the new rule. The rule said a ship event did not count until a receipt existed. The commit existed too. Correct words. Correct repository. Wrong branch.</p>
+    <p>Two ancestry checks asked whether that commit could be reached from <code>main</code> and from <code>origin/main</code>. Both returned exit 1. That was not a minor paperwork problem. It meant the rule was sitting in a room nobody entering through the front door would ever see.</p>
+    <blockquote>A claim can be true on disk and still be absent from the place where truth has to operate.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">I &#183; The briefcase</span>
+    <p>There was an object on the table before there was a clean theory of the evening. It was called a decision receipt. Nobody had to make it mystical. It was a row. It had a question, a horizon, stakes, a mode, confirmed facts, unconfirmed facts, an operator, and an event time. Plain inventory. Heavy little thing.</p>
+    <p>The object was built to stop the oldest con in the room: a completed looking action being mistaken for a completed action. A merge can happen. A deployment can start. A page can look settled. The receipt asks which part was seen, which part was only said, and who is carrying the difference.</p>
+
+    <div class="panel">
+      <h4>The briefcase, opened <span class="sev">fixed form</span></h4>
+      <div class="step">
+        <span class="k">Question</span><b>What was actually decided or shipped.</b>
+        <span class="k">Frame</span><b><code>horizon</code>, <code>stakes</code>, and <code>mode</code>.</b>
+        <span class="k">Evidence</span><b><code>what_confirmed</code> separated from <code>what_unconfirmed</code>.</b>
+        <span class="k">Custody</span><b><code>operator</code> and <code>event_at</code>, with source references where they exist.</b>
+      </div>
+      <p>The row does not make a decision wise. It makes the claims about it inspectable.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">III &#183; A very ordinary name</span>
+    <p>Before the trouble, the branch had an ordinary name: <code>resume-tailors</code>. It was made for resume and ATS work. No smoke. No conspiracy. The kind of name you pass in a terminal without looking twice because it says exactly what it is for.</p>
+    <p>That is why the name matters. A branch is not a neutral shelf. It carries its history with it. Put a lattice fix on a shelf already full of another job and the fix does not arrive alone. It brings the whole shelf to the counter.</p>
+  </section>
+
+  <section>
+    <span class="num">VI &#183; The two line alibi</span>
+    <p>Another pull request was waiting across the room. Its title described a lattice count correction. Its body said: Minimal 2 line diff, no reformatting. The sentence had the clean confidence of a man with a stamped receipt in his pocket.</p>
+    <p>The measured diff disagreed. Eleven commits. Eighty four files. Three thousand nine hundred forty insertions. Two hundred ninety one deletions. The branch merge base with <code>origin/main</code> was <code>f4bcbf19...</code>. The branch was <code>resume-tailors</code>.</p>
+
+    <div class="panel">
+      <h4>What the record said <span class="sev">scope anomaly</span></h4>
+      <div class="step">
+        <span class="k">Stated</span><b>a lattice correction with a minimal two line diff.</b>
+        <span class="k">Measured</span><b><code>11</code> commits, <code>84</code> files, <code>3940</code> insertions, <code>291</code> deletions.</b>
+        <span class="k">Diagnosis</span><b>the resume and ATS branch had been reused for a lattice fix.</b>
+        <span class="k">Disposition</span><b>PR <code>#357</code> closed without merge. The branch and its commits remained intact.</b>
+      </div>
+      <p>The stated diff size was not corrected by prose. It was superseded by the diff.</p>
+    </div>
+
+    <p>The closure has its own decision receipt: <code>2026-09-11--pr-357-scope-anomaly-close--ZH</code>. The receipt records the close, the preserved branch, and the part that was not reconstructed: the original intent behind the reuse. That restraint is not a gap in the story. It is the point of the story.</p>
+  </section>
+
+  <section>
+    <span class="num">II &#183; The repair happens later</span>
+    <p>The stranded rule was not discarded. It was moved to a clean branch cut from <code>origin/main</code> at <code>52a45f9d</code>. Its new commit was <code>860bac743b414e5f98ec2a5cb0d28c301c5bc3e2</code>. It opened as PR <code>#395</code>.</p>
+    <p>Before the push and after the pull request opened, the ancestry check still returned exit 1. Good. That was the expected answer before a merge. The pull request was real and pending, not a story somebody told about a branch. Then it merged into <code>main</code> as <code>06bd757ba01c8362852b150152569214e0d86bf3</code>.</p>
+    <p>The same check returned exit 0 after the merge. A rule that began as a sentence on the wrong branch had finally become reachable where the harness could read it.</p>
+  </section>
+
+  <section>
+    <span class="num">V &#183; The kind of check that does not flatter you</span>
+    <p>These were not two unrelated mistakes. They were the same mistake wearing different coats. One trusted that a rule written in the repository had become active. One trusted that a pull request description had summarized its own contents. In both cases the written claim was plausible. In both cases the independent check was cheaper than the consequences of believing it.</p>
+    <p>An ancestry query does not care how carefully a rule was phrased. Diff stats do not care how modest a pull request sounds. They just count the distance between the claim and the thing.</p>
+    <blockquote>The receipt is not a victory lap. It is the part of the room where the story has to put its hands on the table.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VII &#183; The loose threads stay loose</span>
+    <p>The receipts rule merge has an unresolved deployment thread. The deployment observed for that merge was <code>CANCELED</code>, superseded. This draft does not claim that a later build picked it up. That remains open.</p>
+    <p>The lattice correction is still owed. PR <code>#357</code> was closed without merge. Its lattice change has not yet been re extracted onto a clean branch and re submitted as its own scoped pull request. The resume and ATS work remains on <code>resume-tailors</code>, preserved rather than erased.</p>
+    <p>That is where the night ends. Not clean. Not theatrical. A rule reaches main. A swollen pull request is stopped. Two receipts exist. Two threads remain open. The facts have their own chairs.</p>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt/ledger-not-story">
+      <span class="lbl">The companion piece</span>
+      The Ledger Is Not the Story: holding an outcome apart from a cause until the record can support both &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> &#183; open source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unresolved parts are marked unresolved.
+  </footer>
+</div>
+</body>
+</html>
