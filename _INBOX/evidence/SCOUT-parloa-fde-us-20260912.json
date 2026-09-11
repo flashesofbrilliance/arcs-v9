@@ -1,0 +1,109 @@
+{
+  "dossier_id": "role-parloa-fde-us-20260912",
+  "generated_at": "2026-09-11T17:02:00Z",
+  "producer": "perplexity-scout",
+  "core": {
+    "company": "Parloa",
+    "role_title": "Forward Deployed Engineer - US",
+    "jd_text": "As a Forward Deployed Engineer (FDE) at Parloa, you'll be on the front lines of enterprise AI adoption - delivering cutting-edge technology into some of the most complex environments in the world. Your mission: lead end-to-end deployment projects from an engineering perspective - not just implementing what exists, but engineering what's required to make it succeed at enterprise scale. FDEs are Parloa's in-field product engineers, building custom extensions, integrations, and configurations to close product gaps and meet enterprise requirements. Tech stack: Python, TypeScript, Node.js, OpenAI, Microsoft Azure, Kubernetes, Docker, Terraform, MongoDB, MySQL, Redis, Kafka, MCP. Requirements: 4+ years in software engineering/systems integration/DevOps/data engineering with direct customer impact; CS/Engineering degree; strong plus for AI/LLM systems experience (agent workflows, vector DBs, prompt orchestration). Salary Range: $140,000-$160,000 USD.",
+    "jd_url": "https://www.linkedin.com/jobs/view/4455285337/",
+    "posting_first_seen": "2025-08-18",
+    "posting_last_seen": "2026-09-08",
+    "cross_listed": {
+      "on_company_careers_page": true,
+      "aggregator_only": false
+    }
+  },
+  "extension": {
+    "named_hiring_manager": null,
+    "hiring_manager_public_commentary": "A Parloa PM (Natalie Telson) publicly recruited for the adjacent 'Forward Deployed Engineer, DevOps' req in Jan 2026, describing FDE work culture positively - this is a related but not identical req to the 'Forward Deployed Engineer - US' role assigned here.",
+    "salary_band_disclosed": "$140,000 - $160,000 USD",
+    "salary_realism_flag": "consistent",
+    "recent_team_departures": null,
+    "funding_or_layoff_signal": "Mixed: Parloa raised a $350M Series D in Jan 2026 at a $3B valuation (total raised >$560M) and publicly stated plans to grow headcount from 380 to 600 by end of 2026, focused on developers and sales. Separately, a March 2026 Forbes op-ed headline references Parloa 'conducting its largest round of layoffs in years' in the same paragraph as a discussion of agentic AI efficiency gains - this claim is not corroborated by any dedicated layoff-tracking source found and may be a mis-attributed or contextual reference rather than a confirmed Parloa layoff event. Treat as unresolved.",
+    "unlisted_tech_stack": null,
+    "repost_pattern": "Identical or near-identical JD text and title ('Forward Deployed Engineer - US' / 'Senior Forward Deployed Engineer - US') appears across at least 4 separate job-board listings and job IDs spanning 2025-08-18 through 2026-08-19, in addition to the LinkedIn listing evaluated here. This is consistent with either (a) a genuinely evergreen, continuously-open req class driven by real enterprise deployment demand, or (b) a rolling/recycled posting pattern. The role is still listed as open on Parloa's own Greenhouse board as of 2026-09-08 (3 days before this dossier), which favors (a) but does not fully resolve the ambiguity."
+  },
+  "verdict": {
+    "label": "UNDECIDABLE",
+    "human_premortem_required": true,
+    "rationale": "Strong ATTAINABLE signals: role is cross-listed on Parloa's own Greenhouse ATS (not aggregator-only), confirmed live 3 days before this dossier, salary band is transparent and internally consistent across 5+ independent mirrors, and the company just raised $350M at a $3B valuation with an explicit public commitment to grow engineering/field headcount from 380 to 600 by end of 2026 (evidence e1-e4, e6). Countervailing TRAP-adjacent signals: the identical JD/title has been reposted across at least 4 distinct job IDs over more than a year (evidence e5), which is a classic evergreen-or-recycled-req pattern, and one Forbes piece references Parloa layoffs in the same period without independent corroboration (evidence e7). Because the bullish funding/headcount-growth evidence and the bearish repost/layoff-ambiguity evidence directly conflict and neither fully falsifies the other, this does not cleanly resolve to ATTAINABLE or TRAP under the ternary gate - routing to human premortem per the winnability invariant."
+  },
+  "evidence": [
+    {
+      "claim_id": "e1",
+      "field_ref": "extension.funding_or_layoff_signal",
+      "value": "Parloa raised $350M Series D, Jan 2026, $3B valuation, led by General Catalyst",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://techcrunch.com/2026/01/15/parloa-triples-its-valuation-in-8-months-to-3b-with-350m-raise/",
+        "https://www.prnewswire.com/news-releases/parloa-valued-at-3-billion-with-350m-series-d-to-lead-agentic-ai-for-customer-experience-302662228.html"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e2",
+      "field_ref": "extension.funding_or_layoff_signal",
+      "value": "Parloa plans to grow headcount from 380 to 600 by end of 2026, hiring focused on developers and sales",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://www.siliconrepublic.com/start-ups/german-agentic-ai-parloa-triples-valuation-berlin-funding-investment"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e3",
+      "field_ref": "core.cross_listed.on_company_careers_page",
+      "value": "Forward Deployed Engineer - US listed live on Parloa's own Greenhouse board (Professional Services category), retrieved 2026-09-08 listing snapshot",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://job-boards.eu.greenhouse.io/parloa/jobs/4871790101"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e4",
+      "field_ref": "extension.salary_band_disclosed",
+      "value": "Salary range $140,000-$160,000 USD, consistent across LinkedIn, ZipRecruiter, General Catalyst jobs board, and deployaijobs.com mirrors",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://www.linkedin.com/jobs/view/forward-deployed-engineer-us-at-parloa-4455285337",
+        "https://www.ziprecruiter.com/c/Parloa/Job/Forward-Deployed-Engineer-US/-in-New-York,NY?jid=128e0e89b79c4223",
+        "https://jobs.generalcatalyst.com/companies/parloa/jobs/90479298-forward-deployed-engineer-us"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e5",
+      "field_ref": "extension.repost_pattern",
+      "value": "Identical/near-identical FDE-US JD text and title posted under separate job IDs on 2025-08-18, 2026-08-18/19, and the LinkedIn listing dated 2026-04-21, plus a related 'Senior/Lead Forward Deployed Engineer - US' variant",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://job-boards.greenhouse.io/parloa/jobs/4604587101",
+        "https://jobs.generalcatalyst.com/companies/parloa/jobs/90479298-forward-deployed-engineer-us",
+        "https://deployaijobs.com/jobs/forward-deployed-engineer-us-parloa-new-york-city-new-york-23491/"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e6",
+      "field_ref": "extension.hiring_manager_public_commentary",
+      "value": "Parloa PM Natalie Telson publicly recruiting for adjacent FDE, DevOps req, describing positive team culture",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://www.linkedin.com/posts/natalietelson_calling-all-forward-deployed-engineers-we-activity-7414720257514450944-LeDh"
+      ],
+      "confidence": "inferred"
+    },
+    {
+      "claim_id": "e7",
+      "field_ref": "extension.funding_or_layoff_signal",
+      "value": "Forbes piece references Parloa 'conducting its largest round of layoffs in years' without independent corroboration found elsewhere",
+      "retrieved_at": "2026-09-11T17:02:00Z",
+      "source_urls": [
+        "https://www.forbes.com/councils/forbesbusinessdevelopmentcouncil/2026/03/23/the-era-of-expediency-why-voice-is-becoming-the-fastest-path-to-revenue/"
+      ],
+      "confidence": "stale"
+    }
+  ]
+}
