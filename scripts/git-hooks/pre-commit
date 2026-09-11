@@ -123,4 +123,21 @@ if [ -n "$tsx" ]; then
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# req_reality gate (manufactured-role class: Fanatics Jul-2026, HypeLab Oct-2025).
+# A staged recoil SSOT for a CANDIDACY must carry opportunity.req_reality (0..3) and
+# may not render y_state GREEN at <=1 (no req => no GREEN). Added-or-modified files
+# only; legacy-schema SSOTs warn, never block. Deterministic, stdlib-only.
+# See scripts/req_reality_gate.py and _STATE/job-search/postmortem-fanatics.md.
+if [ -f scripts/req_reality_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  ssots=$(git diff --cached --name-only --diff-filter=ACM -- 'runtime/recoil/generated/*.json' 2>/dev/null || true)
+  if [ -n "$ssots" ]; then
+    if ! echo "$ssots" | tr '\n' '\0' | xargs -0 python3 scripts/req_reality_gate.py; then
+      echo "✖ commit blocked: req_reality gate — a candidacy SSOT is GREEN on a req that is not real, or has no req_reality." >&2
+      echo "  set opportunity.req_reality (0..3) + req_reality_basis from THEIR words; render YELLOW at <=1." >&2
+      exit 1
+    fi
+  fi
+fi
+
 exit 0

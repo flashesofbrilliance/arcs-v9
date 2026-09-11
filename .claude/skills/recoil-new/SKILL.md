@@ -21,7 +21,11 @@ tab must be filed before the note leaves DRAFT, or the close-loop has nothing to
    ```
 3. Fill `meta` immediately: `report_id`, `date`, `counterpart`, `company`, and a **non-guessable**
    internal gate password (NOT their first name — they may be given a sibling `*-ext` link).
-   Leave the rest as `{{placeholders}}` for /recoil-prep.
+   Also set `opportunity.engagement_type` (`candidacy|client|partner|peer`). For a candidacy,
+   `opportunity.req_reality` (0..3) is REQUIRED before the SSOT can be committed
+   (`scripts/req_reality_gate.py`, pre-commit): 0 no JD/no owner met · 1 verbal shape, no JD or
+   budget · 2 JD posted/cut, budget implied · 3 JD + budget + decision-owner met. Unknown at
+   scaffold = 0, corrected on the first screen. Leave the rest as `{{placeholders}}` for /recoil-prep.
 4. Report the file path. That path is the `--data` arg every other recoil skill uses.
 
 ## Guardrails
