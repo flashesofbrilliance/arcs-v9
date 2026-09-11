@@ -61,7 +61,7 @@
     {
       "id": "JTBD-006",
       "title": "Triune Productization Proposal Review (User0 -> UserN)",
-      "status": "APPROVED_WITH_CONDITIONS",
+      "status": "APPROVED_BY_ARCHITECT_AND_SCOUT",
       "doc": "_PROPOSALS/2026-09-12-triune-productization-user0-to-userN.md",
       "architect_verdict": {
         "reviewer": "Claude Code (Architect)",
@@ -74,6 +74,16 @@
           "Gate 4: Dual-manifest in resume-tailor-skill (Claude-plugin + Hermes skill.yaml)",
           "Gate 5: Falsification/conversion hypothesis loop (H1-H4 ledger integrated)"
         ]
+      },
+      "scout_verdict": {
+        "reviewer": "Perplexity (Scout)",
+        "verdict": "APPROVED_PRE_CONVERGENCE_LANDED",
+        "intake_schema": "_INBOX/evidence/role-dossier-schema.json",
+        "design_spec": {
+          "classification_model": "Ternary [ATTAINABLE | TRAP | UNDECIDABLE]",
+          "schema_architecture": "Stable Core + Nullable Best-Effort Extension",
+          "evidence_auditing": "Every claim requires retrieved_at + source_urls[] for Loki/BAR falsification"
+        }
       }
     }
   ],
