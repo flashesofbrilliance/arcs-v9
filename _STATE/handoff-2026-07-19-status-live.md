@@ -74,7 +74,7 @@ The user's north star for status.arcs.care: *true state of now for all systems*.
 | #73 | Add `GITHUB_TOKEN` to Vercel (read-only) | lifts /api/pulse off the rate ceiling — the one thing that makes the live board bulletproof |
 | #72 | Set `INTERNAL_EMAILS` in Vercel | low-pri (code already defaults to zach.harris@gmail.com) |
 | #74 | `ANTHROPIC_API_KEY` in GitHub Actions Secrets | security-review workflow |
-| #75 | Rotate Supabase pw + Resend key | overdue (ADR-031); Resend 401 blocks email |
+| #75 | Rotate Supabase pw + Resend key | overdue (ADR-048); Resend 401 blocks email |
 | #76 | Branch protection on main | **concurrent-session clobber risk — live this session** |
 | #77 | Execute the ADR-036 repo split | closes public exposure of dossiers/papers/patent IP |
 | #78 | Build case-study social-proof section (Dan approved) | then flip CASE_STUDY_APPROVED |

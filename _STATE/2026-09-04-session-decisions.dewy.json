@@ -1,0 +1,25 @@
+{
+  "_doc": "DEWY receipts for the 2026-09-04 reading-room / Almanac session. Promoted from a live witness stub (_STATE/witness/2026-09-04.jsonl) the same session, deliberately, at Zach's call: 'feels like a witness dewy adr wisdom moment right now.' Receipt -> ADR-075 -> wisdom memory metabolic-router-mechanical-judgment-split.",
+  "session_ts": "2026-09-04",
+  "receipts": [
+    {
+      "receipt_id": "2026-09-04-metabolic-router",
+      "surface": "corpus metabolism (the reading room's circulatory system)",
+      "sharp_question": "How does a new primary record reach every organ of the corpus without a human being the pump, while NOTOMATION still holds?",
+      "dewy_vector": {
+        "D": "Split every fan-out step into MECHANICAL (deterministic, idempotent: index, oracle, concordance links, cache-invalidate, re-render, drift-detect -> automated by a router) and JUDGMENT (form classification, canon promotion, public projection, VARIANT-vs-SUPERSEDED, which-factory-accretes -> surfaced into one human queue, never automated). A routing manifest is the SSOT for the fan-out; an integrity gate at write-time verifies every cited ADR/commit/script exists on origin/main.",
+        "E": "_SPECS/metabolic-router-v1.md (spec); _ARTIFACTS/atlas/cache-manifest.spec.md (coupled cache); the existing organs it composes: /witness, oracle.py, the pre-commit hook, lattice/seedbank/memory-sync drift hooks, /canon-review, the Atlas curators, night-moves. Verdict FORK-AND-MOD: nothing net-new, the router is connective tissue.",
+        "W": "YEARS. Operating law for the corpus. Revisit if a run ever auto-promotes to canon (violation), if the integrity gate false-positives on legitimate writes (recalibrate, never remove), or a new organ fits neither class.",
+        "Y": "GREEN / HIGH / STABLE. Proven live twice this session: the corpus went stale in 24h from the author's own fixes (cache-invalidation is real); five load-bearing memories were found describing gates never merged to origin/main (the integrity gate is needed). Falsifier: first metabolize run routes one record to every organ with zero carrying AND catches a planted unmerged cite."
+      },
+      "evidence": [
+        "witness stub _STATE/witness/2026-09-04.jsonl (verbatim, y=GREEN)",
+        "full-temporal Almanac audit 2026-09-04: two DRIFTED nodes self-healed within 24h of the author's fixes, so the graded snapshot went stale in the opposite direction (cache-invalidation demonstrated)",
+        "memories audit 2026-09-04: pull-not-push-pre-render-legibility-gate claims wired ADR-075 + scripts that do not exist (75 was oracle next-free); arcs-coaching-exoskeleton-gtm-wedge cites ADR-042 (a confirmed numbering gap); three memories cite commits not ancestors of origin/main (described-vs-wired)",
+        "the session itself: every nutrient (memory, MEMORY.md line, index.json row, oracle sync, auditor re-run) was hand-carried by the agent acting as the pump",
+        "oracle: python3 scripts/oracle.py next adr -> 75; _SEEDS/_oracle.json committed with the ADR"
+      ],
+      "wisdom": "Semi-automation is honest only when the split between mechanical and judgment is a law, not a vibe: automate exactly the deterministic, idempotent, grep-able steps; surface everything else. The human stops being the pump and keeps being the judge. And verify a record's cites against origin/main at write-time, because a corpus will otherwise accumulate confident descriptions of gates that were never built."
+    }
+  ]
+}

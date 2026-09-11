@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "updated": "2026-09-05",
+  "doc": "What fires when on the jobs board. The swipe route and the pipeline read this; scripts/jobs_trigger_eval.mjs asserts the live rows match it. Tiers come from runtime/specs/target-role-scan.json.",
+  "tiers": {
+    "auto": [1, 2],
+    "confirm": [3],
+    "doc": "A right swipe queues a forge on any tier. On a confirm tier the run is flagged so the watcher asks before spending a cut; on an auto tier it runs as soon as capacity allows."
+  },
+  "rules": [
+    { "id": "right-queues", "when": "swipe right on a scored row with no forge run", "then": "forge run created, status queued, requestedAt = swipe time" },
+    { "id": "right-confirm-tier", "when": "swipe right on a confirm-tier row", "then": "same as right-queues, plus notes = 'below auto tier: confirm before spending a cut'" },
+    { "id": "right-unscored", "when": "swipe right on an UNSCORED row", "then": "swipe recorded, no forge run; the row must be scored first" },
+    { "id": "undo-withdraws", "when": "swipe cleared while the run is still queued", "then": "forge run deleted" },
+    { "id": "left-withdraws", "when": "swipe left while the run is still queued", "then": "forge run deleted" },
+    { "id": "left-keeps-built", "when": "swipe left after the run is past queued", "then": "run kept as is; nothing is hosted" },
+    { "id": "cap-holds", "when": "more queued runs than settings.cap", "then": "extra runs stay queued in requestedAt order, never dropped" },
+    { "id": "light-tier-only", "when": "a run executes from a swipe", "then": "blueprint stages 1, 5, 7, 8, 9 only; stages 2, 3, 4, 6 need a recorded human reply" },
+    { "id": "built-stays-staged", "when": "status built", "then": "landing page in _ARTIFACTS/forge-<slug>/page.html, not in public/; url stays null" },
+    { "id": "live-needs-approval", "when": "status live", "then": "url set only after a human-approved deploy; only then does the board link" }
+  ],
+  "invariants": [
+    { "id": "no-forge-without-right", "check": "every forge run with status queued has a right swipe on its row" },
+    { "id": "no-forge-on-unscored", "check": "no forge run exists on a row with band UNSCORED" },
+    { "id": "confirm-tier-flagged", "check": "every queued run on a confirm-tier row carries the confirm note" },
+    { "id": "live-has-url", "check": "every run with status live has a non-null url" },
+    { "id": "built-has-no-url", "check": "every run with status built has a null url" },
+    { "id": "status-vocab", "check": "every run status is one of queued, gathering, grading, rendering, built, live" },
+    { "id": "why-only-on-left", "check": "a why tag exists only on left swipes" }
+  ]
+}

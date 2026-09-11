@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>ARCS: Day 0 to Today</title>
+<meta name="description" content="ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -48,6 +49,24 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: 820px; }
 .lede strong { color: var(--text); font-weight: 600; }
 
+/* PLAYER / COACH / PACECAR */
+.frame-kicker { font-size: var(--text-md); color: var(--dimmed); font-style: italic; margin-top: -6px; }
+.frame-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.frame-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 15px; border-top: 2px solid; }
+.frame-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; margin-bottom: 6px; }
+.frame-body { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.frame-body strong { color: var(--text); font-weight: 600; }
+@media (max-width: 640px) { .frame-row { grid-template-columns: 1fr; } }
+
+/* ERA SPLIT: ARCS BUILD vs PRIOR TERRAIN */
+.era-head { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; margin-top: 2px; }
+.era-tick { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+.terrain-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; opacity: 0.82; }
+.terrain-cell { background: rgba(13,17,23,0.6); border: 1px solid rgba(30,41,59,0.7); border-left: 2px solid rgba(125,211,252,0.4); border-radius: var(--r-md); padding: 10px 13px; }
+.terrain-val { font-family: var(--mono); font-size: var(--text-base); font-weight: 800; color: var(--steel); letter-spacing: -0.01em; }
+.terrain-label { font-size: var(--text-xs); color: var(--dimmed); line-height: 1.45; margin-top: 4px; }
+@media (max-width: 640px) { .terrain-row { grid-template-columns: repeat(2, 1fr); } }
+
 /* STAT STRIP */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .stat { background: var(--surface); padding: 16px 14px; }
@@ -90,6 +109,13 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .su-zli b { color: var(--text); font-weight: 600; }
 @media (max-width: 640px){ .su-zones { grid-template-columns: 1fr; } }
 
+.su-alarm { border: 1px solid rgba(255,77,109,0.35); border-left: 3px solid var(--red); border-radius: var(--r-md); background: rgba(255,77,109,0.05); padding: 14px 16px; margin-bottom: 14px; }
+.su-alarm .k { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); display: flex; gap: 8px; flex-wrap: wrap; }
+.su-alarm .k .cd { margin-left: auto; color: #ffb3c1; }
+.su-alarm h4 { font-size: var(--text-md); color: #ffd7de; margin: 7px 0 5px; font-weight: 700; }
+.su-alarm p { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.su-alarm b { color: #ff8fa3; }
+
 .su-tw { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); margin-top: 6px; }
 table.su-t { border-collapse: collapse; width: 100%; min-width: 560px; font-size: var(--text-sm); }
 table.su-t th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); font-weight: 700; padding: 9px 10px; border-bottom: 1px solid var(--border); background: var(--surface); }
@@ -107,6 +133,15 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .su-v1 { color: var(--green); font-family: var(--mono); font-size: 10px; }
 .su-v2 { color: var(--gold); font-family: var(--mono); font-size: 10px; }
 .su-v3 { color: var(--dimmed); font-family: var(--mono); font-size: 10px; }
+
+.su-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; }
+.su-card { border: 1px solid rgba(0,255,157,0.22); border-radius: var(--r-md); background: var(--surface2); padding: 12px 13px; }
+.su-card .ix { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+.su-card h5 { font-size: var(--text-sm); color: #eafff6; margin: 4px 0 7px; font-weight: 700; }
+.su-card .r { font-size: var(--text-xs); color: var(--muted); line-height: 1.45; margin: 5px 0; }
+.su-card .r b { display: block; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 1px; }
+.su-card .cpc { font-family: var(--mono); font-size: 9px; color: var(--cyan); }
+@media (max-width: 640px){ .su-cards { grid-template-columns: 1fr; } }
 
 .su-nofile { border: 1px dashed var(--faint); border-radius: var(--r-md); padding: 12px 14px; margin-top: 12px; }
 .su-nofile .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 7px; }
@@ -170,6 +205,17 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .pulse-foot { padding: 8px 16px; font-family: var(--mono); font-size: 9px; color: var(--faint); letter-spacing: 0.04em; border-top: 1px solid var(--border); }
 @media (max-width: 640px){ .pulse-grid { grid-template-columns: repeat(2, 1fr); } }
 
+/* ECHO MAP */
+.echo-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); }
+.echo-cell { padding: 14px 16px; }
+.echo-side-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.echo-text { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.echo-text strong { color: var(--text); font-weight: 600; }
+.echo-mid { display: flex; align-items: center; justify-content: center; color: var(--cyan); font-family: var(--mono); font-size: var(--text-md); border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: rgba(0,240,255,0.03); }
+.echo-why { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid var(--border); font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; background: rgba(0,0,0,0.25); border-radius: 0 0 var(--r-md) var(--r-md); }
+.echo-why strong { color: var(--gold); font-weight: 600; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 6px; }
+
 /* ALTITUDE CONTROL */
 .alt-bar { position: sticky; top: 12px; z-index: 30; display: flex; gap: 6px; align-items: center; background: rgba(13,17,23,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 10px; padding: 8px; margin-top: 14px; flex-wrap: wrap; }
 .alt-btn { flex: 1; min-width: 92px; padding: 9px 8px; background: none; border: 1px solid transparent; border-radius: 7px; cursor: pointer; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); transition: all 0.15s; text-align: center; }
@@ -187,6 +233,135 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .cad-bar.peak { background: linear-gradient(180deg, var(--green), rgba(0,255,157,0.15)); }
 .cad-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--muted); }
 .cad-w { font-family: var(--mono); font-size: var(--text-xs); color: var(--faint); letter-spacing: 0.03em; }
+
+/* PRESENTATION MODE */
+.pres-btn { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--bg); background: var(--cyan); border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+.pres-btn:hover { opacity: 0.85; }
+.pres { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: none; flex-direction: column; }
+.pres.on { display: flex; }
+/* Grid, not space-between: a flex space-between center block re-centers itself relative to
+   the width of the act label and chip, so it visibly drifts left/right as their text length
+   changes slide to slide. A 1fr/auto/1fr grid keeps the middle column pinned to true center
+   regardless of how long the flanking labels are. */
+.pres-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; gap: 12px; }
+/* Explicit grid-column pins (not source-order auto-placement): mobile hides #presstatus,
+   and auto-placement would otherwise shove #preschip into the center column once it does. */
+.pres-top > .pres-act { grid-column: 1; justify-self: start; }
+.pres-top > .pres-status { grid-column: 2; }
+.pres-top > .pres-chip { grid-column: 3; justify-self: end; }
+.pres-act { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; }
+.pres-chip { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; background: var(--glass-surface); }
+.pres-chip.grade-seen { box-shadow: var(--glow-cyan); }
+.pres-chip.grade-heard { box-shadow: var(--emboss); }
+.pres-chip.grade-hyp { box-shadow: var(--deboss); }
+.pres-chip.grade-close { box-shadow: var(--glow-green); }
+/* Earned fidelity - render-resolution scale from colors_and_type.css. True North (headline) exempt. */
+.pres-body.res-sharp { opacity: 1; font-weight: 500; letter-spacing: 0; }
+.pres-body.res-degraded { opacity: 0.85; font-weight: 400; letter-spacing: 0.01em; }
+.pres-body.res-grain { opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }
+/* Fathom rail - one tick per slide; descent = progress through evidence */
+.fathom { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+.fathom i { width: 10px; height: 2px; background: var(--border); border-radius: 1px; transition: all 0.3s var(--ease-luxury); }
+.fathom i.past { background: var(--dimmed); }
+.fathom i.here { width: 18px; background: var(--hl, var(--cyan)); box-shadow: 0 0 8px var(--hl, var(--cyan)); }
+.fathom-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); writing-mode: vertical-rl; margin-top: 8px; }
+/* Chrome auto-hide while presenting */
+.pres-top, .pres-bot { transition: opacity 0.45s var(--ease-luxury); }
+.pres.idle .pres-top, .pres.idle .pres-bot { opacity: 0; pointer-events: none; }
+.pres.idle { cursor: none; }
+/* HorizonDist instrument (src/instrument/HorizonDist.tsx, CSS port) */
+.hdist { display: flex; flex-direction: column; gap: 7px; margin-top: 22px; max-width: 780px; }
+.hdist-row { display: flex; align-items: center; gap: 8px; }
+.hdist-l { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); width: 72px; flex-shrink: 0; letter-spacing: 0.05em; text-transform: uppercase; }
+.hdist-t { flex: 1; height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
+.hdist-f { height: 100%; border-radius: 2px; transition: width 1s ease; }
+.hdist-v { font-family: var(--mono); font-size: var(--text-xs); color: var(--muted); width: 26px; text-align: right; flex-shrink: 0; }
+.pres-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 26px; }
+.pres-slide { max-width: 780px; width: 100%; }
+.pres-h { font-size: var(--text-2xl); font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; }
+.pres-body { font-size: var(--text-base); color: var(--muted); line-height: 1.7; }
+.pres-body strong { color: var(--text); font-weight: 600; }
+/* Same fix as .pres-top: grid keeps the dots+count block pinned to true center regardless
+   of BACK / NEXT+EXIT button widths. */
+.pres-bot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; gap: 12px; }
+/* Explicit grid-column pins for the same reason as .pres-top: mobile hides #presprev/#presnext,
+   and auto-placement would otherwise pull #presmid into column 1. */
+#presprev { grid-column: 1; justify-self: start; }
+#presmid { grid-column: 2; justify-content: center; }
+#presend { grid-column: 3; justify-self: end; }
+.pres-bot button { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
+.pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
+.pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--fogop, 0.85);
+  transition: opacity 0.8s var(--ease-luxury);
+  background: radial-gradient(ellipse 70% 55% at 22% 82%, rgba(148,163,184,0.10), transparent 62%),
+              radial-gradient(ellipse 65% 50% at 82% 14%, rgba(148,163,184,0.08), transparent 62%),
+              radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0,240,255,0.04), transparent 60%);
+  animation: fogdrift 14s ease-in-out infinite alternate; }
+.pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.022;
+  background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
+  background-size: 56px 56px; }
+/* 2.5D isometric ground plane - the observatory floor, receding to the horizon */
+/* perspective() in vh, not a fixed px value: a fixed focal length relative to a box that
+   gets much wider on an ultrawide monitor (or shrinks in CSS-px terms under browser zoom)
+   produces degenerate distortion that swings the far edges of the plane out past the
+   viewport and clips them. A vh-based perspective keeps the same visual angle at any
+   viewport width or zoom level. Overscan widened to -120% for margin at extreme aspect ratios. */
+.pres-floor { position: absolute; left: -120%; right: -120%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
+  background-image: linear-gradient(rgba(125,211,252,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.7) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(70vh) rotateX(64deg);
+  transform-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%); }
+/* Content well - lifts the slide off the terrain so type stays legible */
+.pres-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 62% 68% at 50% 46%, rgba(2,4,8,0.92) 0%, rgba(2,4,8,0.72) 45%, transparent 78%); }
+.pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
+.pres-bezel { position: absolute; inset: 14px; border: 1px solid rgba(30,41,59,0.55); border-radius: 10px; pointer-events: none; z-index: 1; }
+.pres-bezel::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--hl, var(--cyan)); border-left: 2px solid var(--hl, var(--cyan)); border-top-left-radius: 10px; }
+.pres-bezel::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--hl, var(--cyan)); border-right: 2px solid var(--hl, var(--cyan)); border-bottom-right-radius: 10px; }
+.pres-status { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); text-align: center; flex: 1; }
+.pres-status b { color: var(--muted); font-weight: 700; }
+.pres-horizon { display: none; margin-top: 34px; }
+.pres-horizon.on { display: block; }
+.pres-horizon .hz-line { height: 2px; background: linear-gradient(90deg, transparent, var(--green) 30%, var(--cyan) 70%, transparent); }
+.pres-horizon .hz-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
+@keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
+.pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
+.pres-slide { animation: slidein 0.45s var(--ease-luxury); }
+@keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
+/* Interactive moiré topography - two contour-ring systems at different wavelengths.
+   One drifts with the pointer (GPU transform, lerped), one is fixed; their
+   interference is the terrain. Maya Lin wave-field register; MOIRE render state. */
+.pres-topo, .pres-topo2 { position: absolute; inset: -60%; pointer-events: none; z-index: 0; will-change: transform; }
+.pres-topo { background: repeating-radial-gradient(circle at 50% 50%, transparent 0 9px, rgba(125,211,252,0.35) 9px 10px); opacity: 0.055; }
+.pres-topo2 { background: repeating-radial-gradient(circle at 46% 56%, transparent 0 10px, rgba(0,240,255,0.30) 10px 11px); opacity: 0.045; }
+.pres-stat { background: var(--glass-surface), var(--surface2); box-shadow: var(--emboss); }
+@media (max-width: 900px) { .fathom { display: none; } }
+.pres-kicker { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
+/* Divider numeral - decorative display graphic, derived from the largest token (no raw px literal) */
+.pres-num { font-family: var(--mono); font-size: calc(var(--text-3xl) * 2.4); font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
+.pres-div-title { font-size: var(--text-2xl); font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; }
+.pres-div-sub { font-size: var(--text-base); color: var(--muted); max-width: 520px; line-height: 1.6; }
+.pres-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+.pres-stat { border: 1px solid var(--border); border-left: 3px solid var(--hl, var(--cyan)); border-radius: var(--r-md); background: var(--surface2); padding: 14px 16px; }
+.pres-stat b { font-family: var(--mono); font-size: var(--text-xl); font-weight: 800; color: var(--text); display: block; }
+.pres-stat span { font-size: var(--text-sm); color: var(--muted); line-height: 1.5; display: block; margin-top: 4px; }
+.pres-dots { display: flex; gap: 5px; }
+.pres-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
+.pres-dots i.on { background: var(--hl, var(--cyan)); }
+.pres-swipehint { display: none; font-family: var(--mono); font-size: var(--text-xs); color: var(--faint); letter-spacing: 0.08em; }
+@media (max-width: 640px) { .pres-h { font-size: var(--text-xl); } .pres-body { font-size: var(--text-md); } .pres-num { font-size: calc(var(--text-3xl) * 1.5); } .pres-div-title { font-size: var(--text-xl); } .pres-stats { grid-template-columns: 1fr; } }
+/* Mobile presentation controls: swipe is the primary gesture, so the chrome only needs
+   a minimal position readout and an exit. Status strip + BACK/NEXT buttons are noise here. */
+@media (max-width: 640px) {
+  .pres-status, .pres-bot #presprev, .pres-bot #presnext { display: none; }
+  .pres-top { padding: 14px 16px; }
+  .pres-act { font-size: calc(var(--text-xs) * 0.9); }
+  .pres-chip { font-size: calc(var(--text-xs) * 0.85); padding: 3px 7px; }
+  .pres-bot { padding: 14px 16px; }
+  .pres-swipehint { display: block; }
+}
 
 /* PROGRESSIVE DISCLOSURE - collapsible sections + FOCUS mode */
 .section-head { cursor: pointer; user-select: none; }
@@ -305,6 +480,14 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .ms-commit { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); line-height: 1.5; display: flex; gap: 10px; align-items: baseline; }
 .ms-commit a { color: var(--gold); text-decoration: none; flex-shrink: 0; }
 .ms-commit a:hover { text-decoration: underline; }
+.ms-proof { margin-top: 9px; }
+.ms-verify { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .04em;
+  color: var(--cyan); border: 1px solid rgba(0,240,255,.3); border-radius: 5px; padding: 3px 9px;
+  display: inline-block; text-decoration: none; }
+.ms-verify span { color: var(--muted); font-weight: 400; }
+.ms-verify:hover { background: rgba(0,240,255,.06); }
+.ms-selfattest { font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--faint); }
 
 /* LEARNINGS */
 .learn-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
@@ -346,6 +529,10 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 #termtip.on { opacity: 1; }
 .legend-hint { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: -8px; }
 .legend-hint b { color: var(--cyan); border-bottom: 1px dotted rgba(0,240,255,0.55); font-weight: 700; }
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.legend-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
+.legend-term { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.legend-def { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
 
 /* DEPENDENCY MAP */
 .dep-map { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -371,6 +558,14 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   .stats { grid-template-columns: repeat(2, 1fr); }
   .rm-lanes { grid-template-columns: 1fr; }
   .dep-fan { grid-template-columns: 1fr; }
+  .echo-row { grid-template-columns: 1fr; }
+  /* Do not transform:rotate() the mid divider: a rotated box paints visually turned but its
+     layout footprint (the space it reserves in the grid) stays its original wide/short
+     pre-rotation size, so the rotated glyph + its border lines visibly overflow above and
+     below their own cell and look like a disconnected floating icon. Swap the glyph via a
+     pseudo-element instead: no rotation, no layout/paint mismatch. */
+  .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 0; background: none; font-size: 0; }
+  .echo-mid::after { content: "↕"; font-size: var(--text-md); }
   .risk-table .hide-m { display: none; }
   .cad-w { display: none; }
 }
@@ -380,9 +575,9 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
-  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">98</span>: a live product that grades itself.</h1>
-  <div class="byline">Live build status, measured directly from the public repository · July 2026</div>
+  <div class="eyebrow"><span class="eyebrow-dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--muted);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; Live Build Status</div>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">129</span>: a live product that grades itself.</h1>
+  <div class="byline">Live build status, measured directly from the repository, updated live</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
     in production, and <strong>documented from day one so a team could take it over without me in the room</strong>.
@@ -390,9 +585,11 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
   </div>
 
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">129</span> · SINCE APR 2026 · AS OF <span id="et-now">…</span></div>
+
   <div class="stats">
-    <div class="stat"><div class="stat-val accent" id="sv-commits">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
-    <div class="stat"><div class="stat-val" id="stat-days">98</div><div class="stat-label">Days · first commit to now</div></div>
+    <div class="stat"><div class="stat-val accent" id="sv-commits">1,488</div><div class="stat-label">Commits · Day 0 to today</div></div>
+    <div class="stat"><div class="stat-val" id="stat-days">129</div><div class="stat-label">Days · first commit to now</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
@@ -412,7 +609,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="pulse-foot" id="pulse-foot">refreshes on load, on tab focus, and every 5 min · public API, rate-limited</div>
   </div>
 
-  <div class="legend-hint">Product terms look <b>like this</b>. Hover or tap for the plain meaning.</div>
+  <div class="legend-hint">Product terms look <b>like this</b>. Hover or tap for the plain meaning. Full legend at the bottom.</div>
 
   <div class="focus-bar">
     <span class="fb-label">Reading mode</span>
@@ -427,7 +624,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="section-n">01</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>
     </div>
-    <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
+    <div class="section-title">The whole terrain at one glance… shipped, building, blocked, next.</div>
     <div class="section-body">
       <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong><span id="su-lead-ship">25</span> shipped · <span id="su-lead-prog">6</span> in progress · <span id="su-lead-block">8</span> blocked · <span id="su-lead-next">11</span> next</strong> (<span id="su-lead-total">50</span> tracked).</p>
       <div class="su-bar" role="img" aria-label="Distribution of tracked workstreams by status">
@@ -447,15 +644,15 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         <div class="su-zone" style="--zc:var(--green);">
           <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count" id="su-z-ship">25</span></div>
           <div class="su-zone-sub">Superionic · full resolution</div>
-          <div class="su-zli"><b>Compass L0–L5 pipeline</b> — the core engine</div>
-          <div class="su-zli"><b>P4 Vercel production</b> — Prisma 7 + Supabase, 9 tables</div>
+          <div class="su-zli"><b>Compass L0–L5 pipeline</b>… the core engine</div>
+          <div class="su-zli"><b>P4 Vercel production</b>… Prisma 7 + Supabase, 9 tables</div>
           <div class="su-zli"><b>RLS deny-all</b> · Book II canon I–VI · Observatory</div>
           <div class="su-zli"><b>Design system Ph.1</b> · CI/CD breakers · 13 subdomains</div>
         </div>
         <div class="su-zone" style="--zc:var(--gold);">
           <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count" id="su-z-prog">6</span></div>
           <div class="su-zone-sub">Clarity ridge · building</div>
-          <div class="su-zli"><b>Compass Kit Phase 2</b> — kit → app</div>
+          <div class="su-zli"><b>Compass Kit Phase 2</b>… kit → app</div>
           <div class="su-zli"><b>Panel / Chip</b> design-system atoms</div>
           <div class="su-zli"><b>Drift Sentinel</b> · log consolidation · DEWY commit stamp</div>
           <div class="su-zli"><b>ADR-013</b> 30-day conversion clock</div>
@@ -492,7 +689,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="gauge-grid">
       <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRACEABILITY</div><div class="gauge-def">Every answer links back to its receipt. Every claim on this page links to a commit.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRANSPARENCY</div><div class="gauge-def">Reasoning shown, not just conclusions. The build record itself is public.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude. Every product term on this page carries its plain meaning inline, not as a courtesy but as a rule.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude. The legend at the bottom of this page is the rule, not a courtesy.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">EVIDENCE GATING</div><div class="gauge-def">Features switch on at data thresholds, never on enthusiasm. The roadmap below runs on this.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">SOURCE QUALITY GRADING</div><div class="gauge-def">Every input is rated before it is allowed to move a conclusion.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">PROVENANCE</div><div class="gauge-def">Where each fact came from travels with the fact. The source labels on this page are the same machinery.</div></div>
@@ -500,7 +697,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION*</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 43-operator library and one engine behind every surface.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt: expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
     </div>
 
@@ -540,9 +737,10 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      <strong>The one page read</strong> shows 8 milestones, one plain sentence each. Each level down adds
-      more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
-      in the public repo. Keys 1 to 5 work too.
+      <strong>The one page read</strong> shows 13 milestones, one plain sentence each. Each level down adds
+      more events and more detail, until <strong>Commits</strong> names the commit behind each milestone.
+      Each milestone that a stranger can check without my word carries a <strong>verify</strong> link to the live thing; the internal ones say so.
+      Keys 1 to 5 work too.
     </div>
 
     <div class="tele-tabs">
@@ -552,7 +750,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
     <div id="tab-tempo">
       <div class="cadence" id="cadence"></div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO AUGUST · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
       <div class="unlock-chip" id="chip-design">⊙ APR–MAY: FIVE QUIET WEEKS · WHAT THE SILENCE WAS · TAP</div>
       <div class="unlock-card" id="unlock-design">
         <div class="unlock-title">THE GAP IS NOT A GAP. IT IS THE DESIGN BUILD.</div>
@@ -567,7 +765,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES · TAP</div>
       <div class="unlock-card" id="unlock-frontier">
         <div class="unlock-title">BUILDING AT THE EDGE: WITH THE FRONTIER AS IT MOVES.</div>
-        <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline. The seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
+        <div class="unlock-body">In the two weeks up to Day 98 the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline. The seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
       </div>
     </div>
 
@@ -642,7 +840,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The core AI runs on a single vendor.</strong></td>
-          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (16.6K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
+          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (~21.9K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
           <td><span class="chip med">MED</span></td>
           <td><span class="chip open">OPEN, HEDGE BUILT</span></td>
         </tr>
@@ -654,7 +852,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The quality score is still self-graded</strong> until enough outcomes accumulate to calibrate it.</td>
-          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped this week is the correction signal.</td>
+          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped on Day 98 is the correction signal.</td>
           <td><span class="chip low">LOW</span></td>
           <td><span class="chip gated">GATED ON DATA</span></td>
         </tr>
@@ -681,7 +879,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="rm-lanes">
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW · IN PRODUCTION</div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped this week. The system now checks its own predictions against what actually happened, automatically, and writes the result to an audit trail.</div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped Day 98. When an outcome is logged, the system scores its earlier prediction against what actually happened and writes the result to an audit trail; a daily job sends the reminder so the check is not forgotten.</div></div>
         <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome accumulates the evidence base the gated features below are waiting for. It builds itself through normal use.</div></div>
       </div>
       <div class="rm-lane">
@@ -703,10 +901,10 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
     </div>
-    <div class="section-title">The whole roadmap hangs on one dependency. It shipped this week.</div>
+    <div class="section-title">The whole roadmap hangs on one dependency. It shipped on Day 98.</div>
     <div class="section-body">
       Almost everything above waits on the same thing: real decisions with scored outcomes. The loop that
-      produces them went live on Day 98. From here, the roadmap unblocks itself through normal use.
+      produces them went live on Day 98. From here the pieces began to compound: the month since is the milestones below, and the next frontier is choreographing them into deep multi-agent orchestration.
     </div>
     <div class="dep-map">
       <div class="dep-node live">
@@ -748,15 +946,38 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
   </div>
 
-  <!-- 08 EVALS & FALSIFIABILITY -->
+  <!-- 07 LEGEND -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">08</div>
+      <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>
+    </div>
+    <div class="section-title">Every piece of product vocabulary on this page, translated.</div>
+    <div class="legend-grid">
+      <div class="legend-item"><div class="legend-term">ARCS</div><div class="legend-def">The product. A decision intelligence platform: it helps people make calls they can defend later, and keeps the receipts to prove it.</div></div>
+      <div class="legend-item"><div class="legend-term">Decision receipt</div><div class="legend-def">A short record made before acting: what you expect, what could go wrong, what else you considered. Scored later against what really happened.</div></div>
+      <div class="legend-item"><div class="legend-term">Compass</div><div class="legend-def">The main app surface. Ask a question, get an honest read of where you stand and which direction is uphill.</div></div>
+      <div class="legend-item"><div class="legend-term">Brief</div><div class="legend-def">The longer written readout generated from a compass run. Renders only as sharply as the data deserves.</div></div>
+      <div class="legend-item"><div class="legend-term">Confidence gate</div><div class="legend-def">A check every answer passes through that rates how solid it is. Green means firm, yellow means contested, red means do not lean on this. The rating controls the display.</div></div>
+      <div class="legend-item"><div class="legend-term">Written constitution</div><div class="legend-def">A short set of rules the product may never break, written down like law. Rule one: the system never decides for the user.</div></div>
+      <div class="legend-item"><div class="legend-term">Written decision record</div><div class="legend-def">A one-page note on a build choice: what was picked, what was rejected, and what would reopen the question. Industry name: ADR.</div></div>
+      <div class="legend-item"><div class="legend-term">Trust contract</div><div class="legend-def">A public page of specific, checkable promises about how the product handles people's data. Versioned like code, so changes are visible.</div></div>
+      <div class="legend-item"><div class="legend-term">Replay theater</div><div class="legend-def">A viewer for scrubbing back through past decisions like game film: what was known, what was expected, where confidence peaked or collapsed.</div></div>
+      <div class="legend-item"><div class="legend-term">Self-grading loop</div><div class="legend-def">Automation that compares each prediction to the actual outcome and files the result. No human has to remember to run it.</div></div>
+      <div class="legend-item"><div class="legend-term">Calibration data</div><div class="legend-def">The growing set of decisions plus scored outcomes. It is the evidence base that tunes the scoring and unlocks the gated features.</div></div>
+      <div class="legend-item"><div class="legend-term">Live goal map</div><div class="legend-def">A self-updating picture of what the work is actually driving toward, inferred from real decisions instead of declared in a slide.</div></div>
+    </div>
+  </div>
+
+  <!-- 10 EVALS & FALSIFIABILITY -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">09</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">EVALS &amp; FALSIFIABILITY</div>
     </div>
     <div class="section-title">Every headline claim, with the result that would kill it.</div>
     <div class="section-body">
-      <p class="su-lead">The papers make sharp numeric claims — so each is falsifiable. Publishing the tests turns marketing numbers into defensible science and de-risks both the patents and the raise.</p>
+      <p class="su-lead">The papers make sharp numeric claims… so each is falsifiable. Publishing the tests turns marketing numbers into defensible science and de-risks both the patents and the raise.</p>
       <div class="su-tw">
         <table class="su-t">
           <thead><tr><th>Claim</th><th class="n">Metric</th><th>Pre-registered test</th><th>Kill criterion</th></tr></thead>
@@ -777,38 +998,38 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
           <li>Marketing Science / JMR<span>abductive marketing, network effects</span></li>
           <li>KDD · WWW · NeurIPS<span>prediction, federated, causal ML</span></li>
           <li>Management Science<span>decision-receipt framing</span></li>
-          <li>arXiv · SSRN<span>preprint — dated public record</span></li>
+          <li>arXiv · SSRN<span>preprint… dated public record</span></li>
         </ul></div>
         <div class="su-ic"><div class="cat">Institutes</div><ul>
           <li>Marketing Science Institute<span>funds academic marketing research</span></li>
-          <li>Ehrenberg-Bass<span>evidence-based marketing — direct fit</span></li>
+          <li>Ehrenberg-Bass<span>evidence-based marketing… direct fit</span></li>
           <li>Wharton Customer Analytics<span>corporate-data competitions</span></li>
           <li>MIT IDE · Stanford HAI<span>platform economics + AI eval</span></li>
         </ul></div>
-        <div class="su-ic fund"><div class="cat">Funding — non-dilutive</div><ul>
+        <div class="su-ic fund"><div class="cat">Funding… non-dilutive</div><ul>
           <li>NSF SBIR/STTR<span>America's Seed Fund; deep tech</span></li>
           <li>NSF CISE / Convergence<span>research grant w/ academic PI</span></li>
           <li>Sloan Foundation<span>metascience, digital economics</span></li>
           <li>Schmidt Sciences · NBER<span>AI-for-science; working papers</span></li>
         </ul></div>
       </div>
-      <div class="su-note gold"><b>Sequencing</b>File the Tier-1 provisionals (or confirm existing filings) <strong>before</strong> the arXiv/SSRN preprint — a preprint is a public disclosure that restarts the same §102 clock. Patent first, publish second, then approach institutes and grant programs with a dated filing + a pre-registered eval in hand.</div>
+      <div class="su-note gold"><b>Sequencing</b>File the Tier-1 provisionals (or confirm existing filings) <strong>before</strong> the arXiv/SSRN preprint… a preprint is a public disclosure that restarts the same §102 clock. Patent first, publish second, then approach institutes and grant programs with a dated filing + a pre-registered eval in hand.</div>
     </div>
   </div>
 
-  <!-- 09 THE ARCHAEOLOGY -->
+  <!-- 11 THE ARCHAEOLOGY -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">09</div>
+      <div class="section-n">10</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">THE ARCHAEOLOGY</div>
     </div>
     <div class="section-title">Where every pattern lies in the L0–L7 stack.</div>
     <div class="section-body">
-      <p class="su-lead">The patterns aren't at one depth. This is the core sample: each pattern — patent, roadmap item, or eval — embedded at the L-stratum it operates in, from atomic signal at the surface to the unexcavated meta-governance mantle. Fidelity is earned; L6–L7 not yet excavated.</p>
+      <p class="su-lead">The patterns aren't at one depth. This is the core sample: each pattern… patent, roadmap item, or eval… embedded at the L-stratum it operates in, from atomic signal at the surface to the unexcavated meta-governance mantle. Fidelity is earned; L6–L7 not yet excavated.</p>
       <div class="su-core">
         <div class="su-str" style="--acc:#00F0FF;--fid:1;">
           <div class="su-sg"><div class="su-sl">L0</div><div class="su-snm">Atomic signal</div><div class="su-sdp">Topsoil</div></div>
-          <div class="su-sb"><div class="su-sgloss">Raw derivatives — velocity, acceleration.</div><div class="su-chips">
+          <div class="su-sb"><div class="su-sgloss">Raw derivatives… velocity, acceleration.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-p"></span>Derivative primitives</span>
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-x"></span>2nd-deriv detect · drop</span>
             <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Cascade 78%@24h</span>
@@ -842,7 +1063,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </div>
         <div class="su-str" style="--acc:#9BE85C;--fid:.92;">
           <div class="su-sg"><div class="su-sl">L4</div><div class="su-snm">Cross-domain</div><div class="su-sdp">Deep rock</div></div>
-          <div class="su-sb"><div class="su-sgloss">Timing and isomorphism across domains — kairos, orthogonal echo.</div><div class="su-chips">
+          <div class="su-sb"><div class="su-sgloss">Timing and isomorphism across domains… kairos, orthogonal echo.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Kairos convergence · #1</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>ATG tributaries</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Kairos detect · gated</span>
@@ -852,7 +1073,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </div>
         <div class="su-str" style="--acc:#FFD700;--fid:.9;">
           <div class="su-sg"><div class="su-sl">L5</div><div class="su-snm">Global coherence</div><div class="su-sdp">Mantle boundary</div></div>
-          <div class="su-sb"><div class="su-sgloss">The receipt layer — decisions locked, reconciled, compounded. The moat lives here.</div><div class="su-chips">
+          <div class="su-sb"><div class="su-sgloss">The receipt layer… decisions locked, reconciled, compounded. The moat lives here.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Ex-ante receipt · #2</span>
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-p"></span>Abductive · narrow</span>
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-b"></span>Privacy learning · defensive</span>
@@ -868,7 +1089,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </div>
         <div class="su-str unx" style="--acc:#64748b;--fid:.62;">
           <div class="su-sg"><div class="su-sl">L6</div><div class="su-snm">Ecosystem</div><div class="su-sdp">Unexcavated</div></div>
-          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">Multi-party coherence — the ecosystem beyond one decider.</div><div class="su-chips">
+          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">Multi-party coherence… the ecosystem beyond one decider.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>L6 ecosystem engine</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>GIGI substrate</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Shared Court (canon)</span>
@@ -877,7 +1098,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </div>
         <div class="su-str unx" style="--acc:#475569;--fid:.5;">
           <div class="su-sg"><div class="su-sl">L7</div><div class="su-snm">Meta-governance</div><div class="su-sdp">Mantle</div></div>
-          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">The constitution — what governs the governor. NOTOMATION lives here.</div><div class="su-chips">
+          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">The constitution… what governs the governor. NOTOMATION lives here.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>L7 meta-governance</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Constitutional Court</span>
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-p"></span>NOTOMATION / drift sentinel</span>
@@ -899,26 +1120,26 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris</div>
-    <div><strong>Source of every number</strong>: git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a> (public), measured 2026-07-16</div>
+    <div><strong>Source of every number</strong>: the repository's own git history, surfaced live via /api/pulse</div>
     <div><strong>Live product</strong>: <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
   </div>
 
 </div>
 
 <script>
-// Real weekly commit counts, full history (git log, main branch, measured 2026-07-16)
+// Real weekly commit counts, full history (git log, main branch, measured 2026-08-16)
 var CADENCE = [
   { w: "APR", n: 1 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 },
-  { w: "MAY", n: 2 }, { w: "", n: 84 }, { w: "", n: 67 }, { w: "JUN", n: 48 }, { w: "", n: 90 },
-  { w: "", n: 70 }, { w: "JUL", n: 277 }, { w: "", n: 123 }, { w: "NOW", n: 97 }
+  { w: "MAY", n: 2 }, { w: "", n: 84 }, { w: "", n: 66 }, { w: "JUN", n: 48 }, { w: "", n: 90 }, { w: "", n: 71 },
+  { w: "JUL", n: 277 }, { w: "", n: 123 }, { w: "", n: 265 }, { w: "", n: 167 }, { w: "", n: 83 },
+  { w: "AUG", n: 114 }, { w: "NOW", n: 92 }
 ];
 
 // Milestones, Day 0 to today. rank 1 shows on the one-page read; 2 and 3 appear as you go deeper.
 // alt: [one-page, direction, process, detail] narratives; commits shown at the deepest level.
-var GH = "https://github.com/flashesofbrilliance/arcs-v9/commit/";
 var MILESTONES = [
   {
-    date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1,
+    date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1, proof: {url:"https://app.arcs.care", label:"the product it became"},
     alt: [
       "The starting line: a blank app skeleton. No product, no data, no users.",
       "The stack was chosen for boredom on purpose: proven web framework, proven database, simple email login. Every interesting risk in this project lives in the product logic, so everything under it had to be unexciting.",
@@ -930,7 +1151,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1,
+    date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1, proof: {url:"https://app.arcs.care", label:"the live compass"},
     alt: [
       "After five quiet weeks of design, the full working core arrived in one push: ask a question, get a scored answer, keep the <span class='term' data-def='A short record made before acting: what you expect, what could go wrong, what else you considered. Scored later against what really happened.'>receipt</span>.",
       "The bet was to build the spine end to end before polishing any single part. A thin, complete loop beats a deep, half-connected one, because a complete loop can be tested against reality immediately.",
@@ -983,7 +1204,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 48 · MAY 27", title: "A design system, from day one.", rank: 3,
+    date: "DAY 48 · MAY 27", title: "A design system, from day one.", rank: 3, proof: {url:"https://app.arcs.care", label:"the design system, live"},
     alt: [
       "",
       "",
@@ -1008,7 +1229,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1,
+    date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1, proof: {url:"https://app.arcs.care", label:"the platform, live"},
     alt: [
       "The biggest single integration: legal pages (trust, privacy, terms), an interactive <span class='term' data-def='A viewer for scrubbing back through past decisions like game film: what was known, what was expected, and where confidence peaked or collapsed.'>replay theater</span> for past decisions, and the whole engine re-implemented in plain Python as a vendor hedge. Merged and live in production the same day.",
       "This merge is the line where ARCS stopped being an app and became a platform: legal surfaces, observability, and vendor independence are the prerequisites for putting client traffic on something.",
@@ -1023,7 +1244,7 @@ var MILESTONES = [
     date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 1,
     alt: [
       "The commercial motion, proven live: 14+ branded client-facing pages (briefs, proposals, analyses), each stood up in hours on the same engine, demand tested with real clients, not a deck.",
-      "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in this window, all riding the same engine and design system.",
+      "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in that window, all riding the same engine and design system.",
       "A single reusable template with fill-in slots plus a documented publishing routine turned each new client page into a two-hour exercise instead of a project. A consolidation pass then pulled scattered assets from a sibling repository into the main one, with review.",
       "The routine encodes its own past mistakes: which config file actually controls routing, why deploys must run from the main working copy (a wrong-copy deploy once silently dropped every other client page), and how new addresses get attached to the project."
     ],
@@ -1048,15 +1269,87 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1,
+    date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1, proof: {url:"https://app.arcs.care", label:"the product that grades itself"},
     alt: [
-      "As of this week the system checks its own predictions against what actually happened, automatically: it matches calendar events to call transcripts, scores the outcome against the expectation recorded before the call, files an audit record, and sends a one-line summary. No human has to remember to run it.",
+      "Since Day 98 the loop closes on a schedule: when a prediction comes due, a daily job emails a debrief automatically, so none is silently forgotten. When the outcome is logged, it is scored against the expectation recorded beforehand and written to an audit trail. The reminder is automatic; logging the outcome is still a human keystroke.",
       "This is the product thesis completing itself: decision receipts only compound if outcomes get scored against them, and outcome scoring only scales if it does not depend on anyone's discipline. It also generates the calibration data every gated feature is waiting on.",
-      "A scheduled job matches ended calendar events to their transcripts, reads each transcript twice (once backward from the ending, once forward against the pre-call expectation), writes the scored result to a private ledger, and notifies with the deltas. Three real calls were processed autonomously on the first production run, today.",
+      "A scheduled job matches ended calendar events to their transcripts, reads each transcript twice (once backward from the ending, once forward against the pre-call expectation), writes the scored result to a private ledger, and notifies with the deltas. Three real calls were processed autonomously on the first production run, on Day 98.",
       "The job's specification encodes its own failure history: a duplicate-work incident led to a strict naming rule and a check-before-work step, because scheduled runs share no memory with each other. Treating amnesia as a design constraint is what makes unattended automation safe."
     ],
     commits: [
       { sha: "eab39a3", msg: "feat(recoil): first autonomous post-call scoring run, three calls processed" }
+    ]
+  },
+  {
+    date: "DAY 120 · AUG 7", title: "Stop building things by hand. Build the machine that builds them.", rank: 1, proof: {url:"https://good.arcs.care", label:"the generated index"},
+    alt: [
+      "The work crossed a line from craft to manufacturing: instead of hand-building each page and report, one renderer reads a single source of truth and generates a whole family of surfaces. Change the source once, every surface updates.",
+      "Hand-building does not scale and it drifts: ten pages built by hand become ten slightly different pages. A factory keeps them identical by construction and makes the next one nearly free. The bet was to spend the effort once, on the machine, not every time on the output.",
+      "A client page became generated rather than typed; a reusable design pattern was published; a data-driven milestone renderer and a single-source distribution registry followed. Each is the same shape underneath: one source of truth, one renderer, many surfaces.",
+      "The discipline is composability: small, atomic parts assembled by machine, so a change propagates instead of being re-typed. Several of this page's sibling surfaces are generated exactly this way."
+    ],
+    commits: [
+      { sha: "ac96aa9", msg: "feat(forge): full one-door renderer, the page is now generated" },
+      { sha: "b6b1b76", msg: "feat(forge): publish the reusable design pattern" },
+      { sha: "5ca190b", msg: "feat(milestone): data-driven template + renderer" },
+      { sha: "50aef5e", msg: "feat(seeds): single-source distribution registry" }
+    ]
+  },
+  {
+    date: "DAY 124 · AUG 11", title: "The system learns to catch its own insights.", rank: 1,
+    alt: [
+      "A way to capture a flash of insight the moment it lands, not reconstructed hours later, and file it as a durable note that is promoted only if it proves out. Paired with a written philosophy of how knowledge is held and passed on.",
+      "Insight is perishable: the thought that names itself mid-work is usually gone by the time the notes get written. Catching it live and verbatim, then deciding later whether it was durable, keeps the good ones and discards the rest honestly.",
+      "The witness mechanism attests in the moment; a written doctrine sets down how a dormant idea is stored and when it is allowed to animate; every decision and receipt is minted as a reusable seed with the conditions it needs to germinate.",
+      "This is what makes the opening claim real: the thinking behind the build is captured as it happens, so it is inheritable, not locked in one head."
+    ],
+    commits: [
+      { sha: "d32b7fc", msg: "feat(witness): live capture of a flash of brilliance (ADR-046)" },
+      { sha: "d16b377", msg: "feat(canon): the doctrine for how knowledge is held and passed on" },
+      { sha: "325d21e", msg: "chore(seeds): mint each decision as a reusable seed" }
+    ]
+  },
+  {
+    date: "DAY 126 · AUG 13", title: "The system turns its scrutiny on itself.", rank: 1,
+    alt: [
+      "The machinery that records decisions started policing its own integrity: a sequence authority to stop ID collisions, a gate that refuses to ship an aspiration as a present fact, and a self-audit that downgraded one of its own claims from green to yellow.",
+      "A falsifier that will not turn on itself is just propaganda with footnotes. The real test is whether the honesty system will catch and correct its own errors, in public, at cost to its own story.",
+      "A cross-session sweep traced a family of colliding decision IDs to ground truth with four independent auditors and remapped them in one pass (031 to 048, 032 to 049, and more). An adversarial gauntlet was run against the canon itself.",
+      "The economics are logged, not guessed: 947,000 tokens of self-verification across five gauntlet runs, 32 of its own claims stress-tested to falsified, and a 13x correction to its own cost model once the log proved that agent count, not prompt size, drives the bill."
+    ],
+    commits: [
+      { sha: "e5aa6b8", msg: "feat(oracle): sequence oracle + 30-day cross-session reconciliation" },
+      { sha: "08330a8", msg: "refactor(adr): apply the forensic cross-session ID remap" },
+      { sha: "39a5408", msg: "fix(canon): self-audit downgrades a claim green to yellow" },
+      { sha: "c1b21d8", msg: "canon: a falsifier is only honest if it turns on itself" }
+    ]
+  },
+  {
+    date: "DAY 129 · AUG 16", title: "The front door opens, and the telemetry goes live.", rank: 1, proof: {url:"https://good.arcs.care", label:"the front door"},
+    alt: [
+      "A public index of the open tools stood up, and this status page itself became live-computed, reading real numbers from the repository instead of a frozen snapshot. The page you are reading stopped being a photograph and became an instrument.",
+      "A body of work only compounds in the open if there is a door into it. The index gives the open tools one address; the live page makes the build legible to anyone, updated on its own rather than by hand.",
+      "The open tools were grouped behind a single front door, led by the ones that are fully baked, while the private intelligence that orchestrates them was kept deliberately separate. This page was rewired to read its own commit count, day count, and deploy state server-side.",
+      "The number at the top of this page updates itself now. From Day 98 the pieces began to compound; the next frontier is choreographing them into deep multi-agent orchestration, agents nesting several layers deep. That last part is intent, not yet built, and is labeled as such on purpose."
+    ],
+    commits: [
+      { sha: "9098fd4", msg: "feat: first public-goods connector + subdomain" },
+      { sha: "aeaf140", msg: "feat(good): public-goods index, led by the fully-baked tools" },
+      { sha: "db41d40", msg: "feat(seeds): the open-source family the index fronts" }
+    ]
+  },
+  {
+    date: "DAY 151 · SEP 7", title: "The ledger learns to tell its assets from its liabilities.", rank: 1,
+    alt: [
+      "The system that grades itself was pointed at its own production data, and for the first time it booked the other half of the ledger: not just what it knew, but what it had gotten wrong and stamped as true at the time. Fourteen false receipts, caught and carried rather than deleted.",
+      "A record that only counts its wins is survivorship bias wearing a green badge. This week the liability side opened. A receipt is a claim that survived contact with the ground; a deceipt is one that felt identical when it was written and did not survive. The honest position is the difference between them, not the sum of the wins.",
+      "The audit ran on the live database, not a fixture. It caught a signal rated evidence-backed across forty-five records that was one constant value wearing a decimal point, a field reported as 247-of-247 that was naming the wrong column, and a task called blocked that never was. None of these were caught by looking inward; every one was caught by a query, a failed build, or an independent second pass. The correction is always a move from the asset side to the liability side, never a silent delete.",
+      "The mechanism was wired, not merely written. A deterministic degeneracy sensor became a commit-time gate that blocks a new signal from silently going constant, and the database claims were rewritten as reproducible queries anyone with access can re-run. A zero-liability ledger is the one to distrust: the fourteen entries are the evidence the system was in contact with reality rather than admiring its own coherence. That is the whole promise, corrected from navigate-to-clarity-as-confidence to a clarity that knows its own liabilities."
+    ],
+    commits: [
+      { sha: "79bf6f5", msg: "wire(sensor): informativeness ratchet gate blocks new signal degeneracy" },
+      { sha: "eca36c2", msg: "audit(db): reproducible DB audit, 247/189/2 confirmed, deceipt booked" },
+      { sha: "f2f4378", msg: "fix(build): delete dead scaffolding a prune missed, caught by first real build" }
     ]
   }
 ];
@@ -1185,7 +1478,7 @@ function buildCommits(m) {
   var cwrap = document.createElement("div"); cwrap.className = "ms-commits";
   m.commits.forEach(function (c) {
     var row = document.createElement("div"); row.className = "ms-commit";
-    row.innerHTML = '<a href="' + GH + c.sha + '" target="_blank" rel="noopener">' + c.sha + '</a><span>' + c.msg + '</span>';
+    row.innerHTML = '<span class="msha" style="font-family:var(--mono);color:var(--faint)">' + c.sha + '</span><span>' + c.msg + '</span>';
     cwrap.appendChild(row);
   });
   return cwrap;
@@ -1212,6 +1505,10 @@ function render() {
       '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "CORE" : m.rank === 2 ? "PLUS" : "DEEP") + '</span>';
     var body = document.createElement("div"); body.className = "ms-body"; body.innerHTML = text;
     card.appendChild(top); card.appendChild(body);
+    var pf = document.createElement("div"); pf.className = "ms-proof";
+    if (m.proof) { pf.innerHTML = '<a class="ms-verify" href="' + m.proof.url + '" target="_blank" rel="noopener">verify ↗ <span>' + m.proof.label + '</span></a>'; }
+    else { pf.innerHTML = '<span class="ms-selfattest">internal · self-attested</span>'; }
+    card.appendChild(pf);
     if (cfg.commits && m.commits && m.commits.length) {
       card.appendChild(buildCommits(m));
     }
@@ -1243,6 +1540,7 @@ document.querySelectorAll(".alt-btn").forEach(function (b) {
 });
 document.addEventListener("keydown", function (e) {
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (document.getElementById("pres").classList.contains("on")) return;
   var k = e.key;
   if (k >= "1" && k <= "5") { currentAlt = Number(k) - 1; render(); }
 });
@@ -1252,17 +1550,14 @@ render();
 (function () {
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
-  // One summary per section, in DOM order, shown only while that section is folded.
   var TLDRS = [
-    "The whole terrain at a glance: what is shipped, what is building, what is blocked, and what is next.",
-    "Twelve design principles set before the first feature, each enforced in code, plus the loop they run as.",
+    "Twelve design principles set before the first feature, each enforced in code, plus the loop that keeps learning that they run.",
     "Day 0 to today at whatever depth you want, from one plain sentence per milestone down to the actual commits.",
     "Where I was wrong and what changed: delete before you rebuild, enforce don't decorate, honesty over polish.",
-    "What I would tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
+    "What I'd tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
     "One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.",
-    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped this week.",
-    "Every headline claim with its metric and the result that would prove it wrong.",
-    "Where every pattern sits in the L0 to L7 stack, from atomic signal to meta-governance."
+    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.",
+    "Every piece of product vocabulary on this page, translated into plain words."
   ];
   var focusOn = true;
   function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; }
@@ -1373,7 +1668,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
 })();
 </script>
 <script>
-/* Live pulse — reads the PUBLIC repo via the GitHub REST API, no auth/secrets.
+/* Live pulse… reads the PUBLIC repo via the GitHub REST API, no auth/secrets.
    Near-real-time by polling (on load, on tab focus, every 5 min). True push
    (instant on each commit/PR/deploy) would need a webhook + backend. */
 (function () {
@@ -1394,8 +1689,16 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   // the pulse payload lacks a shipped count (older cache / API hiccup) so the bar
   // never renders empty.
   var SHIP_FALLBACK = 25;
+  // Curated floor, matching the static cards below. The live GitHub-Issues bucketing
+  // is label-dependent and unreliable while the repo is private: if it reports 0
+  // shipped alongside 100+ open issues, the categorization is degraded. In that case
+  // keep the curated floor rather than render a false "0 shipped" over a full board,
+  // and label the stamp honestly (curated, not "live … as of [time]").
+  var CURATED = { shipped: 25, ip: 6, bl: 8, nx: 11 };
   function applyIssues(shipped, ip, bl, nx, truncated) {
-    shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var degraded = (!shipped) && (truncated || (!ip && !bl && (nx || 0) <= 1));
+    if (degraded) { shipped = CURATED.shipped; ip = CURATED.ip; bl = CURATED.bl; nx = CURATED.nx; truncated = true; }
+    else { shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0; }
     var total = shipped + ip + bl + nx;
     set("su-lead-ship", shipped); set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
     set("su-lab-ship", shipped); set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
@@ -1403,7 +1706,9 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
     seg("su-bar-ship", shipped); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
     var floor = truncated ? " · 100+ issues (floor)" : "";
-    set("su-stamp", "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString());
+    set("su-stamp", (degraded
+      ? "Whole board · curated tracker" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next"
+      : "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString()));
   }
   async function loadCommits() {
     try {
@@ -1415,7 +1720,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       set("pl-commit-when", rel(c.commit.author.date));
       var link = r.headers.get("Link"), m = link && link.match(/[?&]page=(\d+)>;\s*rel="last"/);
       if (m) { var n = (+m[1]).toLocaleString(); set("pl-count", n); set("sv-commits", n); }
-    } catch (e) { set("pl-commit", "—"); set("pl-count", "—"); }
+    } catch (e) { set("pl-commit", "…"); set("pl-count", "…"); }
   }
   async function loadPRs() {
     try {
@@ -1424,21 +1729,21 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       var d = await r.json();
       set("pl-prs", String(d.length));
       set("pl-prs-sub", d.length ? ("#" + d[0].number + " " + d[0].title.slice(0, 30)) : "none open");
-    } catch (e) { set("pl-prs", "—"); }
+    } catch (e) { set("pl-prs", "…"); }
   }
   async function loadDeploy() {
     try {
       var r = await fetch(API + "/deployments?per_page=1", H);
       if (!r.ok) throw 0;
       var d = await r.json();
-      if (!d.length) { set("pl-deploy", "—"); return; }
+      if (!d.length) { set("pl-deploy", "…"); return; }
       var dep = d[0], s = await fetch(API + "/deployments/" + dep.id + "/statuses?per_page=1", H);
       var st = s.ok ? await s.json() : [], state = st.length ? st[0].state : "pending";
       set("pl-deploy", state.toUpperCase());
       set("pl-deploy-when", rel(dep.created_at));
       var e = $("pl-deploy");
       if (e) e.style.color = state === "success" ? "var(--green)" : (state === "failure" || state === "error") ? "var(--red)" : "var(--gold)";
-    } catch (e) { set("pl-deploy", "—"); }
+    } catch (e) { set("pl-deploy", "…"); }
   }
   async function loadIssues() {
     try {
@@ -1483,7 +1788,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   }
   // Live day-count from T0 (first commit day, 2026-04-09), counted in CALENDAR
   // days on America/New_York (ET) so it rolls over at ET midnight regardless of
-  // the viewer's timezone — not at the commit's time of day. Pure date math, no
+  // the viewer's timezone… not at the commit's time of day. Pure date math, no
   // network. Also stamps the current ET wall-clock next to the era head.
   (function () {
     function etYMD(d) {
@@ -1509,5 +1814,5 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
+</body>
 </html>

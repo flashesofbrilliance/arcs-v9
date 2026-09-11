@@ -1,0 +1,33 @@
+{
+ "print": "instrument-board",
+ "service": "scripts/warroom_board.py",
+ "ts": "2026-08-28",
+ "output": "runtime/warroom/gauntlet.html",
+ "route": "/warroom/gauntlet",
+ "sources": [
+  {
+   "name": "gauntlet-runs",
+   "path": "_STATE/gauntlet-runs.jsonl",
+   "rows": 8
+  },
+  {
+   "name": "falsification-ledger",
+   "path": "_STATE/falsification-ledger.jsonl",
+   "rows": 33
+  }
+ ],
+ "germination": {
+  "soil": [
+   "any new adversarial instrument that writes a JSONL ledger"
+  ],
+  "triggers": [
+   "a third instrument ledger appears -> add one adapter, re-run",
+   "gauntlet-runs grows structured severity fields -> retire the prose regex",
+   "a second tenant wants a board -> extract adapters, pollinate the class"
+  ],
+  "care": [
+   "re-run after every gauntlet; the board is stateless and cheap",
+   "keep findings machine-parseable: state 'N pathogen, N crack, N nit' and 'N over-flags rejected' in every new run row"
+  ]
+ }
+}

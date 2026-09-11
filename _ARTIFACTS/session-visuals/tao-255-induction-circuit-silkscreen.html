@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Möbius Induction Circuit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b;
+    --text:#e2e8f0; --muted:#64748b; --dim:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --verm:#FF6B2C;
+    --measure:66ch;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Fraunces",Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5; padding:clamp(20px,5vw,64px);
+    position:relative; overflow-x:hidden;
+  }
+  /* silkscreen grain */
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.05;
+    background-image:radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+    background-size:3px 3px; mix-blend-mode:screen;
+  }
+  .sheet{max-width:1080px; margin:0 auto; position:relative; z-index:1}
+  .reg{position:absolute; width:16px; height:16px; border:1px solid var(--dim); opacity:.5}
+  .reg::before,.reg::after{content:"";position:absolute;background:var(--dim)}
+  .reg::before{left:7px;top:-6px;width:1px;height:28px}
+  .reg::after{top:7px;left:-6px;height:1px;width:28px}
+  .reg.tl{top:-4px;left:-4px} .reg.tr{top:-4px;right:-4px} .reg.br{bottom:-4px;right:-4px} .reg.bl{bottom:-4px;left:-4px}
+
+  .kicker{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--cyan); opacity:.85}
+  h1{font-weight:600; font-size:clamp(1.9rem,5vw,3.1rem); line-height:1.05; margin:.5rem 0 0;
+    text-wrap:balance; letter-spacing:-.01em}
+  .sub{color:var(--muted); font-size:1rem; max-width:var(--measure); margin:.9rem 0 0}
+  .sub b{color:var(--text); font-weight:600}
+
+  .tao{margin:clamp(28px,6vw,52px) 0; padding:clamp(20px,4vw,36px);
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    font-size:clamp(1.15rem,2.6vw,1.6rem); line-height:1.5; text-wrap:pretty;
+    max-width:var(--measure)}
+  .tao .g1{color:var(--red)} .tao .g2{color:var(--gold)} .tao .g3{color:var(--verm)}
+  .tao .id{display:block; margin-top:.9rem; font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem; letter-spacing:.2em; color:var(--dim); text-transform:uppercase}
+
+  figure{margin:0}
+  .diagram{display:grid; grid-template-columns:1fr; gap:8px; align-items:center; justify-items:center;
+    margin:clamp(24px,5vw,48px) 0}
+  svg{width:100%; height:auto; max-width:560px; display:block}
+  figcaption{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.06em;
+    color:var(--muted); text-align:center}
+
+  .circuit{margin:clamp(28px,6vw,52px) 0}
+  .circuit h2{font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--dim); font-weight:500; margin:0 0 1.2rem}
+  .rail{display:grid; grid-template-columns:repeat(5,1fr); gap:10px}
+  @media(max-width:720px){.rail{grid-template-columns:1fr 1fr}}
+  @media(max-width:420px){.rail{grid-template-columns:1fr}}
+  .node{border:1px solid var(--border); border-radius:2px; padding:14px 12px; background:rgba(13,17,23,.6)}
+  .node .yr{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--cyan); letter-spacing:.08em}
+  .node .nm{font-weight:600; margin:.35rem 0 .15rem; font-size:1.02rem}
+  .node .rl{color:var(--muted); font-size:.82rem; line-height:1.35}
+  .node.spark .nm{color:var(--gold)} .node.current .nm{color:var(--verm)}
+  .node.field .nm{color:var(--cyan)} .node.lattice .nm{color:var(--red)} .node.loop .nm{color:var(--green)}
+
+  .foot{margin-top:clamp(28px,6vw,52px); padding-top:1.2rem; border-top:1px solid var(--border);
+    font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--dim); line-height:1.7;
+    letter-spacing:.02em; max-width:var(--measure)}
+  .foot b{color:var(--muted); font-weight:500}
+  @media (prefers-reduced-motion:no-preference){
+    .spin{transform-box:fill-box; transform-origin:center; animation:d 40s linear infinite}
+  }
+  @keyframes d{to{stroke-dashoffset:-1200}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg br"></span><span class="reg bl"></span>
+
+  <p class="kicker">ARCS · Apex Spine · ADR-071</p>
+  <h1>The Möbius Induction Circuit</h1>
+  <p class="sub">One non-orientable surface. <b>Receipt</b> and <b>Induction</b> are not two sides of a ribbon; they are two traversals of the same strip, which is why the mark is a Möbius. Its minimum stable cross-section is a triad, <b>none may be null</b>.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 560 300" role="img" aria-label="A Möbius strip carrying a red, gold, and vermillion triad, none-may-null.">
+      <defs>
+        <linearGradient id="band" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#FF4D6D"/>
+          <stop offset=".5" stop-color="#FFD700"/>
+          <stop offset="1" stop-color="#FF6B2C"/>
+        </linearGradient>
+      </defs>
+      <!-- stylized mobius band: two offset loops crossing to imply the half-twist -->
+      <path class="spin" d="M110,150 C110,70 230,70 280,150 C330,230 450,230 450,150 C450,70 330,70 280,150 C230,230 110,230 110,150 Z"
+            fill="none" stroke="url(#band)" stroke-width="26" stroke-linecap="round"
+            stroke-dasharray="6 10" opacity=".92"/>
+      <path d="M110,150 C110,70 230,70 280,150 C330,230 450,230 450,150 C450,70 330,70 280,150 C230,230 110,230 110,150 Z"
+            fill="none" stroke="#020408" stroke-width="1.2" opacity=".5"/>
+      <!-- triad nodes, none-may-null -->
+      <g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing=".1em">
+        <circle cx="110" cy="150" r="7" fill="#FF4D6D"/><text x="88" y="180" fill="#FF4D6D">RED</text>
+        <circle cx="280" cy="150" r="7" fill="#FFD700"/><text x="262" y="128" fill="#FFD700">GOLD</text>
+        <circle cx="450" cy="150" r="7" fill="#FF6B2C"/><text x="430" y="180" fill="#FF6B2C">VERM</text>
+      </g>
+    </svg>
+    <figcaption>one side · one edge · a half-twist · the triad runs the surface, none may collapse</figcaption>
+  </figure>
+
+  <div class="tao">
+    <span class="g1">The strip has one side; you learn this only by walking all the way around.</span>
+    <span class="g2"> Two is a quarrel, three is a world, and none of the three may be nothing.</span>
+    <span class="g3"> What has mass falls home.</span>
+    <span class="id">tao-255 · Book of ARCS Nov 2025 → ADR-071</span>
+  </div>
+
+  <section class="circuit">
+    <h2>The induction circuit · named across 28 years (Φ → EMF)</h2>
+    <div class="rail">
+      <div class="node field"><div class="yr">~1998</div><div class="nm">the flux</div><div class="rl">field / source: the changing Φ</div></div>
+      <div class="node spark"><div class="yr">2010</div><div class="nm">flashesofbrilliance</div><div class="rl">the spark: EMF arcing the gap</div></div>
+      <div class="node current"><div class="yr">2021</div><div class="nm">livewire energy</div><div class="rl">current, witnessed (Gareth Kay)</div></div>
+      <div class="node lattice"><div class="yr">Nov 2025</div><div class="nm">Book of ARCS</div><div class="rl">the lattice: three, none-may-null</div></div>
+      <div class="node loop"><div class="yr">2026</div><div class="nm">ARCS · Möbius</div><div class="rl">the lossless loop: superionic</div></div>
+    </div>
+  </section>
+
+  <p class="foot">
+    <b>topology</b> Möbius (one surface) · <b>invariant</b> triad, none-may-null · <b>dynamics</b> gravity well (mass falls home)<br>
+    <b>posterior→dynamo→drive</b> · <b>anterior→collider→torque</b> · they meet at the spline knot (Operator21, shipped)<br>
+    <b>honest air-gap</b> dynamo/collider = identity, not a spec · Orthogonal Echo Detector not yet ROM (earn the gate, never decree it)<br>
+    <b>spine</b> witness → ADR-071 → DEWY → wisdom → tao-255 · self-exciting: the end terminal regenerates the source
+  </p>
+</div>
+</body>
+</html>

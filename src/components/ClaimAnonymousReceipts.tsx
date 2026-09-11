@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { track } from "@vercel/analytics"
 
 // Runs on every page (mounted in the root layout), not just dashboard/brief —
 // the original per-page checks missed the actual magic-link landing page
@@ -27,7 +28,7 @@ export function ClaimAnonymousReceipts() {
     }
 
     const stored = localStorage.getItem("arcs_session_id") ?? readCookie("arcs_session_id")
-    // Phase 2 opt-in save (ADR-032): a bearing stashed by the ephemeral
+    // Phase 2 opt-in save (ADR-049): a bearing stashed by the ephemeral
     // receipt page's "Sign in & save" button, waiting for authentication.
     const rawPending = localStorage.getItem("arcs_pending_save")
     if (!stored && !rawPending) return
@@ -40,7 +41,7 @@ export function ClaimAnonymousReceipts() {
         if (cancelled || !s?.user?.id) return
 
         // (1) Legacy claim — pre-2026-07-13 anonymous receipts (retained per
-        // ADR-032; new anonymous runs persist nothing, so for new sessions
+        // ADR-049; new anonymous runs persist nothing, so for new sessions
         // this is a no-op).
         if (stored) {
           const r = await fetch("/api/receipts/claim", {
@@ -68,9 +69,14 @@ export function ClaimAnonymousReceipts() {
               if (r.ok) {
                 const d = await r.json()
                 localStorage.removeItem("arcs_pending_save")
+                track("receipt_save_completed")
                 if (d?.receipt_id && !cancelled) window.location.assign(`/receipt/${d.receipt_id}`)
+              } else {
+                track("receipt_save_failed", { status: r.status })
               }
             } else {
+              // Pending save expired or malformed — never attempted the write.
+              track("receipt_save_failed", { reason: "expired_or_malformed" })
               localStorage.removeItem("arcs_pending_save")
             }
           } catch {

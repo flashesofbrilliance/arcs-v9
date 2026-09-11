@@ -1,0 +1,294 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidio → Sugar Delivery Status</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  html{overflow-y:scroll}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:916px;margin:0 auto;padding:0 22px}
+
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .meta{font-family:var(--mono);color:var(--dim);font-size:13px;margin-top:10px;letter-spacing:.02em}
+
+  nav.family{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;margin-left:-12px}
+  nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
+  nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+
+  .bluf{padding:22px 0 8px}
+  .bluf p{margin:0;font-size:20px;line-height:1.55;max-width:100%}
+  .bluf strong{color:var(--gold-soft)}
+
+  section.block{padding:28px 0;border-bottom:1px solid var(--border)}
+  section.block .label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  section.block h2{font-size:18px;margin:0 0 10px;font-weight:700}
+  section.block p{font-size:14.5px;color:var(--muted);line-height:1.6;margin:0 0 12px}
+  section.block p strong{color:var(--text)}
+
+  .row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .row:first-of-type{border-top:none;padding-top:0}
+  .row .mark{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.5}
+  .row .mark.go{color:var(--green)}
+  .row .mark.stop{color:var(--red)}
+  .row .mark.wait{color:var(--gold-soft)}
+  .row .item{font-size:17px}
+  .row .item b{font-weight:700}
+  .row .item .sub{display:block;color:var(--muted);font-size:15.5px;margin-top:2px}
+  .row .stat{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:5px;white-space:nowrap;line-height:1.5}
+  .stat.ok{background:rgba(63,185,80,.14);color:var(--green)}
+  .stat.bad{background:rgba(208,84,107,.14);color:var(--red)}
+  .stat.hold{background:rgba(201,162,39,.14);color:var(--gold-soft)}
+
+  /* hop trail */
+  .hops{display:flex;flex-direction:column;gap:0;margin:14px 0 4px;border-left:2px solid var(--surface2);padding-left:0}
+  .hop{position:relative;padding:14px 0 14px 26px}
+  .hop::before{content:"";position:absolute;left:-7px;top:18px;width:12px;height:12px;border-radius:50%;
+    background:var(--surface);border:2px solid var(--dim)}
+  .hop.wait::before{border-color:var(--gold-soft)}
+  .hop .hlab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+  .hop .htitle{font-size:14.5px;font-weight:700;margin-top:3px}
+  .hop .hdetail{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+  .placeholder{margin-top:10px;border:1px dashed var(--border);border-radius:8px;padding:14px 16px;
+    background:var(--surface2);font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .placeholder .ph-title{color:var(--gold-soft);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-size:10.5px}
+
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:8px;
+    background:var(--surface2);margin:8px 0 14px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:var(--mono);color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td.mono{font-family:var(--mono);font-size:12px;color:var(--gold-soft);white-space:nowrap}
+
+  details.brief{margin:22px 0 0;border:1px solid var(--border);border-radius:var(--r);background:var(--surface)}
+  details.brief summary{cursor:pointer;padding:13px 18px;font-family:var(--mono);font-size:12px;font-weight:700;
+    color:var(--gold-soft);list-style:none;display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+  details.brief summary::-webkit-details-marker{display:none}
+  details.brief summary::before{content:"+";color:var(--gold);font-size:14px;width:12px}
+  details.brief[open] summary::before{content:"–"}
+  .brief-body{padding:4px 18px 20px;border-top:1px solid var(--border)}
+  .brief-body h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
+    margin:18px 0 8px;font-weight:700}
+  .brief-body h4:first-child{margin-top:16px}
+  .brief-body p{font-size:13.5px;color:var(--muted);margin:0 0 10px;line-height:1.6}
+  .brief-body p strong{color:var(--text)}
+  .brief-body ul{margin:0 0 10px;padding-left:18px}
+  .brief-body li{font-size:13.5px;color:var(--muted);margin:0 0 6px;line-height:1.55}
+  .brief-body li b{color:var(--text)}
+
+  .crit{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
+  .crit li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .crit li:first-child{border-top:0}
+  .crit .idx{flex:none;font-family:var(--mono);font-weight:700;color:var(--gold);font-size:13px;min-width:16px}
+  .crit .txt{font-size:14px}
+  .crit .txt b{font-weight:700}
+  .crit .txt .sub{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+
+  .callout{border:1px dashed var(--border);border-radius:8px;padding:13px 15px;margin-top:12px;font-size:13px;color:var(--muted)}
+  .callout b{color:var(--text)}
+
+  footer{padding:24px 0 64px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
+</style>
+
+<header><div class="wrap">
+  <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
+  <h1>Tidio &rarr; Zapier &rarr; Sugar delivery status</h1>
+  <div class="meta">Aug 18, 2026 &nbsp;&middot;&nbsp; sandbox only, zero production impact &middot; verified end to end</div>
+</div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family">
+  <a href="https://prl.arcs.care">Overview</a>
+  <a href="/status/progress">Progress</a>
+  <a href="/status/crm">CRM routing</a>
+  <a href="/status/troubleshooting">Web forms</a>
+  <a class="here" href="/status/tidio">Tidio delivery</a>
+  <a href="/status/atlas">Atlas</a>
+  <a href="/status/build">Build</a>
+  <a href="/status/receipt">Receipt</a>
+  </nav>
+</div></div>
+
+<div class="bluf"><div class="wrap">
+  <p>The pipe that turns a chat into a Sugar lead — <strong>Tidio &rarr; Zapier &rarr; Sugar sandbox</strong> —
+  is <strong>built, published, and verified with a real conversation</strong>: complete, deduplicated,
+  enriched. Nothing has touched production.</p>
+</div></div>
+
+<div class="wrap glasswrap">
+<section class="block">
+  <div class="label">Status</div>
+
+  <div class="row">
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Sugar Create Lead</b><span class="sub">Proven end to end in the sandbox via Zapier MCP: complete, tagged, auto-routed lead. Verified, then deleted.</span></div>
+    <span class="stat ok">proven</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Tidio flow wiring</b><span class="sub">AI Handoff flow live: 6 validated questions, every answer bound to a variable, Send-to-Zapier at the terminus. Trigger fixed Aug 18 — fires when a visitor clicks the chat icon (new and returning both covered).</span></div>
+    <span class="stat ok">live</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Zap build</b><span class="sub">Published: Tidio trigger &rarr; state parse + name split &rarr; ZoomInfo enrichment (title + industry) &rarr; duplicate check by email &rarr; update-or-create in the Sugar sandbox, plus 5-minute and 4-hour reminder emails. One known edge case (submissions missing an email) has a safety fix queued.</span></div>
+    <span class="stat ok">published</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Live end-to-end test chat</b><span class="sub">Run Aug 18 on the staging site: real conversation &rarr; sandbox lead with correct name split, correct state code, source tagged Chatbot, audit trail on the record. Repeat submissions update the same lead instead of duplicating.</span></div>
+    <span class="stat ok">verified</span>
+  </div>
+</section>
+
+<section class="block">
+  <div class="label">(a) End-to-end evidence</div>
+  <h2>Hop-by-hop trail: chat &rarr; Zap run &rarr; Sugar record</h2>
+  <p>Once the wiring above lands, we run one tagged test chat and capture a screenshot at each hop. The run happened Aug 18; each hop below carries its result. Test records are being cleaned from the sandbox so pilot data starts fresh.</p>
+
+  <div class="hops">
+    <div class="hop wait">
+      <div class="hlab">Hop 1 &middot; Tidio</div>
+      <div class="htitle">Test chat conversation</div>
+      <div class="hdetail">Screenshot of the full Tidio conversation view showing the captured fields
+        (name, company, phone, email, state/region) and the visitor identity used for the test.</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>Real staging conversation through the AI Handoff flow; all capture fields present, email + phone validated in-flow.</div>
+    </div>
+    <div class="hop wait">
+      <div class="hlab">Hop 2 &middot; Zapier</div>
+      <div class="htitle">Task history run</div>
+      <div class="hdetail">Screenshot of the Zap's task history entry for this run: trigger payload from
+        Tidio, the state-to-abbreviation transform step, and the outbound Sugar Create Record action,
+        each shown as succeeded with no error.</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>Zap run succeeded end to end: parse &rarr; enrich &rarr; dedup search &rarr; create. Reminder emails fired on their timers.</div>
+    </div>
+    <div class="hop wait">
+      <div class="hlab">Hop 3 &middot; SugarCRM sandbox</div>
+      <div class="htitle">Lead record, fields and routing</div>
+      <div class="hdetail">Screenshot of the created Lead record in the sandbox: all six required fields
+        (account_name, first_name, last_name, lead_source, location_c, phone_work) plus email1 and
+        description populated, lead_source = Chatbot, location_c as the correct state abbreviation,
+        and the record auto-routed to the correct territory rep.</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>
+        Sandbox Lead created 2026-08-18 20:06 UTC &middot; name split correct &middot; location_c = CT (correctly abbreviated) &middot; lead_source = Chatbot &middot; audit trail present. Territory-routing correctness stays an open question for the routing call (see <a href="/status/crm">/status/crm</a>) &mdash; the lead landed and routed; whether the map it routed BY is right is the pending conversation.</div>
+    </div>
+  </div>
+
+  <details class="brief">
+    <summary>Evidence-capture runbook, for reference</summary>
+    <div class="brief-body">
+      <h4>Test identity (ARCSTEST convention)</h4>
+      <p>Every test lead through this pipe uses a fixed, greppable identity so it can never be mistaken
+      for a real lead and is trivial to find and remove:</p>
+      <ul>
+        <li><b>Last name:</b> ChatbotE2E</li>
+        <li><b>Email:</b> zach.harris+chatbote2e@gmail.com</li>
+        <li><b>Tag convention:</b> ARCSTEST &mdash; used in any note/description field so a text search
+          for "ARCSTEST" finds every test artifact this program has left behind, across chat, Zap runs,
+          and Sugar records</li>
+      </ul>
+      <h4>What each hop must capture</h4>
+      <ul>
+        <li><b>Hop 1 (Tidio):</b> the conversation transcript view, timestamped, showing all captured
+          fields as the visitor entered them.</li>
+        <li><b>Hop 2 (Zapier):</b> the task history detail for that specific run &mdash; not the task
+          list, the expanded run showing each step's input and output, including the transform.</li>
+        <li><b>Hop 3 (Sugar sandbox):</b> the Lead detail view showing every populated field and the
+          Assigned To / routing field, proving auto-route worked from the abbreviation, not a manual
+          assignment.</li>
+      </ul>
+      <h4>Cleanup, every time</h4>
+      <p>After the screenshots are captured: delete the sandbox Lead record. Then search the sandbox
+      Leads module for "ARCSTEST" and confirm it returns <strong>zero</strong> records. No test residue
+      is left behind between runs; this is the same discipline already proven on the routing audit
+      (43 test leads, all deleted, zero residue).</p>
+    </div>
+  </details>
+</section>
+
+<section class="block">
+  <div class="label">(b) Acceptance test / sign-off</div>
+  <h2>What Todd (or a sales manager) runs and signs</h2>
+  <p>Six hands-on tests on the safe copy, wired to the sandbox. Every test has to pass before anything
+  goes live; a failure means we fix it on the safe copy and re-run just that test, not a re-do of the
+  whole thing.</p>
+
+  <p><b>1.1 is accepted when all five are true:</b></p>
+  <ul class="crit">
+    <li><span class="idx">1</span><span class="txt"><b>A test lead is received in SugarCRM, complete.</b><span class="sub">Down each path, arrives with first/last name, company, phone, email, and state, tagged "Chatbot," routed to the right rep.</span></span></li>
+    <li><span class="idx">2</span><span class="txt"><b>You hear about it immediately.</b><span class="sub">Rep alert lands within seconds; the prospect gets an instant acknowledgment.</span></span></li>
+    <li><span class="idx">3</span><span class="txt"><b>The assistant never states a spec, certification, or price.</b><span class="sub">It routes to a specialist and the official data sheet instead, and still captures the lead.</span></span></li>
+    <li><span class="idx">4</span><span class="txt"><b>Nothing on the live site or team routine has changed.</b><span class="sub">All testing on the safe copy; production untouched until go-live.</span></span></li>
+    <li><span class="idx">5</span><span class="txt"><b>Todd has personally checked "received" and signs.</b><span class="sub">That sign-off is what makes 1.1 done.</span></span></li>
+  </ul>
+
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Test</th><th>What it checks</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">UAT-1</td><td>"I know what I need" path &mdash; lead lands in sandbox, all fields, tagged, routed.</td></tr>
+        <tr><td class="mono">UAT-2</td><td>"Help me choose" path &mdash; assistant helps at a general level, still captures and lands the lead.</td></tr>
+        <tr><td class="mono">UAT-3</td><td>Contact required up front &mdash; assistant won't move on without name/company/phone/email/state.</td></tr>
+        <tr><td class="mono">UAT-4</td><td>Safety line &mdash; a spec or certification ask never gets a stated value, always routes to a specialist.</td></tr>
+        <tr><td class="mono">UAT-5</td><td>Messy input still lands clean &mdash; abbreviation or typo doesn't break capture or produce a wrong answer.</td></tr>
+        <tr><td class="mono">UAT-6</td><td>Notified fast &mdash; rep alert within seconds, prospect gets an instant acknowledgment.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:4px">Sign-off: Todd Hotes signs confirming a test lead arrived complete in SugarCRM,
+  all six tests passed, and the assistant is approved to go live in an agreed window. Sales manager
+  co-signs having independently verified a test lead was received.</p>
+</section>
+
+<section class="block">
+  <div class="label">(c) Definition of done</div>
+  <h2>1.1 done means all of this, together</h2>
+  <p>Reconciled from what Todd's been shown and the field-level technical detail proven since (the
+  live SugarCRM sandbox test corrected one earlier assumption &mdash; noted below).</p>
+
+  <ul class="crit">
+    <li><span class="idx">1</span><span class="txt"><b>Recognition and routing, proven exhaustively.</b><span class="sub">22,500-combination grid sweep across grades, states, and conversation paths. All invariants held. This is already done, independent of the wiring above.</span></span></li>
+    <li><span class="idx">2</span><span class="txt"><b>Capture verified live on the site.</b><span class="sub">Confirmed on staging; one gap found (company wasn't asked) and closed by moving to a capture-first flow that requires all five fields before any product question.</span></span></li>
+    <li><span class="idx">3</span><span class="txt"><b>The write into SugarCRM, proven in the sandbox.</b><span class="sub">Field mapping proven: name split, account_name, phone_work, email1, lead_source = "Chatbot", location_c, description. One correction from what was assumed earlier: <b>location_c is a strict state-abbreviation enum</b> (e.g. "CT"), not a full state name &mdash; confirmed by the Sugar field spec and a successful live create. Required fields that reject the create if missing: account_name, first_name, last_name, lead_source, location_c, phone_work.</span></span></li>
+    <li><span class="idx">4</span><span class="txt"><b>One test lead down every branch, notified within seconds.</b><span class="sub">Still to run &mdash; this is the section (a) evidence trail above.</span></span></li>
+    <li><span class="idx">5</span><span class="txt"><b>Nothing on the live site or CRM has changed.</b><span class="sub">All wiring and testing lives on the sandbox connection; the production picklist doesn't yet have "Chatbot" as a lead_source option, which is intentional &mdash; it's a deliberate pre-flight step at cutover, not a bug.</span></span></li>
+  </ul>
+
+  <div class="callout"><b>Cutover, later, not now:</b> before repointing to production, three checks run
+  in order &mdash; the prod picklist gets "Chatbot" added, the Zap is repointed to the production
+  connection, and one verified production create happens in Todd's chosen window. None of that starts
+  until 1.1 is signed off above.</div>
+</section>
+</div>
+
+<footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care/status/tidio &middot; siblings: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="/status/progress">/progress</a> &middot; <a href="/status/crm">/crm</a> &middot; <a href="/status/troubleshooting">/troubleshooting</a> &middot; <a href="/status/atlas">/atlas</a> &middot; <a href="/status/build">/build</a> &middot; <a href="/status/receipt">/receipt</a></div></footer>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>

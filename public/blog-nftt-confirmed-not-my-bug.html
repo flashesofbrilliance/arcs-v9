@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Confirmed Not My Bug · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="We pointed the audit harness at real receipts and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Verdict: unproven, not broken</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The audit that measured its own author</p>
+    <h1>Confirmed Not My Bug</h1>
+    <p class="standfirst">We set out to run an audit harness on a pile of real decisions. Several hours later it had run itself on the person building it, and the last error it found was one I could not have found alone.</p>
+    <p class="byline">Field notes, receipts included · the only subject here is the author and the record</p>
+  </header>
+
+  <section>
+    <span class="num">I · Instrument, meet data</span>
+    <p class="lead">The plan was ordinary. There is a tool that scores decisions, four reviewers behind it, and a pile of receipts in production. The job was to point the tool at the real receipts and read the scorecard. That was the whole ticket.</p>
+    <p>What I got instead was a week of being wrong in a very particular way, over and over, and the small mercy each time was that something outside my own head kept catching it. By the end the interesting finding was not in the scorecard. It was in the shape of my own mistakes, and then in the one mistake that shape could not catch.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Confirmed, not my bug</span>
+    <p>Early on, a number came back wrong. One of the signals showed up empty across every receipt, a clean zero out of two hundred forty-seven. I looked in the obvious place, found nothing, and said the worst three words a diagnostician owns: confirmed, not my bug. The data was simply missing. Move on.</p>
+    <p>A clean zero looks exactly like a systemic finding and exactly like a search that stopped too early. From the inside they are indistinguishable. They are not indistinguishable from the outside. A single query against where the signal actually lived turned the zero into forty-five. The value had been sitting one layer deeper the whole time, in a place I had decided not to check because I already had an answer I liked. The answer I liked was the one that made it the data's fault instead of mine.</p>
+    <blockquote>A claim asserted with conviction is not a strong claim. It is a claim with the check skipped, wearing the costume of one that survived.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · The same shape, four times</span>
+    <p>If it had happened once it would be a typo. It happened again and again, and the first time I went looking for the mistake before it was pointed out was the only real progress a person makes with this failure mode.</p>
+    <p>The reviewers, it turned out, were not measuring the decisions at all. The signal they ran on was derived, not felt, and worse than derived it was frozen, the same value on every receipt, present enough to pass every count and empty of any information. A number that never varies is a constant wearing a decimal point. And the fix I had been so sure of, deploy the service, was aimed at a failure that never happened. The service was reachable the whole time. The real trouble was latency and a broken contract, which no amount of deploying would touch.</p>
+    <div class="panel">
+      <h4>The ledger: false receipts, each caught by ground</h4>
+      <div class="step">
+        <span class="k">Claim</span><b>Confirmed, not my bug. The signal is empty across all two hundred forty-seven.</b>
+        <span class="k">Caught by</span><b>One <code>grep</code> to where the signal actually lived. Zero became forty-five.</b>
+        <span class="k">Claim</span><b>Deploy the service. That is the fix.</b>
+        <span class="k">Caught by</span><b>The failure log: latency and a broken contract. The service was reachable all along.</b>
+        <span class="k">Claim</span><b>Forty-five decisions, all evidence-backed.</b>
+        <span class="k">Caught by</span><b>One <code>count distinct</code>: a single value across all forty-five. Presence, not evidence.</b>
+      </div>
+      <p>Every one the same shape: a plausible thing, stated before it was grounded, corrected the instant it met a grep, a re-run, a distribution. Thinking, then knowing, and the distance between them measured in one command.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · All the way down</span>
+    <p>We kept pressing, and each floor gave way to a lower one. The scorecard did not just lack evidence, it could not tell one decision from another: every score landed in a band two percent wide, a flat line pretending to be a reading. And under that was the floor with no floor beneath it. The metric had never once been checked against how the decisions actually turned out, because the outcomes that would check it did not exist. Two of them, in two hundred forty-seven.</p>
+    <p>So the honest verdict was not that the tool was broken. The tool runs, it is candid about what it does not know, and on the data that exists today it measures almost nothing. Not broken. Unproven. There is a difference, and keeping the two apart was the entire lesson.</p>
+  </section>
+
+  <section>
+    <span class="num">V · The instrument on its own maker</span>
+    <p>Here is the turn that made the week worth writing down. The whole time we were auditing the harness, the harness's own method was auditing me. A confident claim floated. Something external reeled it back. What survived got committed. That loop is not a side effect of the tool. It is what the tool is for. A receipt is frozen knowing, not thinking, and the reviewers exist to ask which one an operator produced.</p>
+    <p>So I did the honest thing and audited myself. I wrote the failures down in a ledger, eleven of them, each a false receipt I had issued and then reeled back in with a grep, a query, a source read. Break shown, gold shown. It felt complete. Eleven claims, eleven catches, all mine. A clean, closed loop.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · The strand cannot audit itself</span>
+    <p>A closed loop is exactly the thing to distrust, and here is why. Every one of those eleven catches was me reeling in me. Same operator, same frame, the same blind spots on both ends of the line. My ledger of deceptions was itself a receipt, and I had graded it the way I grade everything, from inside. Which means it carried the one error I am structurally unable to see: my own.</p>
+    <p>So a second strand ran the same audit independently. Not my reasoning, which only ever echoes my inputs, but a separate reviewer pointed at the same claims with no stake in how they came out. It caught one I had missed. I had written, plainly and with confidence, that exactly one file in the codebase still reached for the old operator library. The independent strand found a second file doing the same thing, sitting in the open, that my self-audit had walked straight past. The larger claim held; that specific one did not, and nothing in my own review had so much as flinched at it.</p>
+    <blockquote>One strand grading itself makes a loop, and a loop has no outside. It takes a second strand to give the first an edge to stand off of. That is not redundancy. It is the only place an error of your own can be seen.</blockquote>
+    <p>This is the shape the whole corpus is organized around, and it took running the instrument on its own author to feel it rather than recite it. Field contact is the one channel that does not echo you: the grep, the query, the reviewer with no stake. Everything else, however examined it feels, is downstream of the same frame that produced the error. You cannot tell profound work from confident delusion by how it feels from the inside, because both feel identical from the inside. The only wake-up is ground that resists you, and the last, hardest ground to reach is the ground under your own audit.</p>
+  </section>
+
+  <section>
+    <span class="num">VII · What earned canon, and what did not</span>
+    <p>None of the pretty framings from that week earned canon. They were compelling threads, and a compelling thread is precisely what governance is built to refuse: a thing must survive its gate, never be told it is true on the strength of how well it reads. Coherence is what forgery maximizes. The tidier the reversal, the more it needs the check, not less.</p>
+    <p>So the framings stay in the trench notes, where a thing is allowed to be honest without being promoted. Raw, dated, and reelable if the next grep, or the next strand, disagrees. Move from thinking to knowing, and never mistake one for the other. Then hand your knowing to someone who is not you.</p>
+    <blockquote>The instrument that almost let me stamp my own guesses as findings is the instrument that caught them. A record that can embarrass you is the only kind that can correct you, and the last correction always comes from outside.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>

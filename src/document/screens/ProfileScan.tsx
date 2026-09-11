@@ -8,6 +8,7 @@ import { SidelineList } from '../patterns/SidelineList'
 import { DataTable } from '../patterns/DataTable'
 import { SmartGrid } from '../patterns/SmartGrid'
 import { QuoteBlock } from '../patterns/QuoteBlock'
+import { AsideBox } from '../patterns/AsideBox'
 
 export type ScanDepth = 'simple' | 'rich' | 'deep'
 
@@ -152,6 +153,152 @@ export function ProfileScanZach({ depth = 'deep' }: { depth?: ScanDepth } = {}) 
       <Sec id="z-assertion" idx="04" label="Key Assertion" title="The Enrichment Theorem" accent={A}>
         <QuoteBlock accent={A} attribution="ARCS Profile Scan — Zach Harris, Thread Analysis">
           The headline view and the full export are not the same document at different resolutions — the export contains entire signal classes (the authored corpus, full endorsement depth, the platform's own inferences) that the headline never surfaces at all.
+        </QuoteBlock>
+      </Sec>
+    </div>
+  )
+}
+
+// ─── Dynamic variant — real per-subject data, not the static ZACH_PROFILE mock ─
+// Produced by the profile-scan pipeline (see _SPECS/profile-scan-spec-v1.md).
+// A scan file is written to runtime/scan/generated/<scanId>.json, then the
+// /scan/[scanId] route renders it through this tolerant normalizer onto the
+// SAME six canonical sections/patterns as the ProfileScan sample above:
+//   Cover → 01 Signal Read (TwoColumn) → 02 Thread Assessment (SidelineList)
+//   → 03 Evidence Ledger (DataTable) → 04 Capability Map (SmartGrid)
+//   → 05 Key Assertion (QuoteBlock).
+//
+// Governing invariants (spec §"Governing invariants for the block library"):
+// Traceable · Transparent · Factual · thread-color convention
+// (red=risk, gold=working asset, green=conviction, vermillion/orange=constraint).
+// Depth truncates, it does not branch: SIMPLE ⊂ RICH ⊂ DEEP (spec §"Depth
+// model, finalized"). Do NOT change the shared pattern prop contracts — they
+// are also consumed by RecoilReport/Brief/Receipt.
+
+export type ProfileScanRaw = Record<string, unknown>
+
+const P_COLOR_ALIAS: Record<string, string> = {
+  green: T.green, gold: T.gold, red: T.red, cyan: T.cyan,
+  orange: T.orange, vermillion: T.orange, purple: T.purple, steel: T.steel,
+}
+
+function pIsRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null
+}
+function pStr(v: unknown, fallback = ''): string {
+  return typeof v === 'string' ? v : fallback
+}
+function pStrArr(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((s): s is string => typeof s === 'string') : []
+}
+function pColor(v: unknown, fallback: string): string {
+  const s = pStr(v)
+  return P_COLOR_ALIAS[s] ?? (s || fallback)
+}
+
+export interface ProfileScanData {
+  cover: { badges: string[]; title: string; subtitle: string; meta: string; actions: string[] }
+  notice: string
+  signalRead: { left: TwoColumnPanelLike; right: TwoColumnPanelLike }
+  threads: { label?: string; accent: string; title: string; body: string; note?: string }[]
+  evidenceLedger: { columns: string[]; rows: string[][] }
+  capabilityMap: { label?: string; color: string; title: string; body: string }[]
+  keyAssertion: { text: string; attribution: string }
+}
+interface TwoColumnPanelLike { heading?: string; body?: string; items?: string[]; note?: string }
+
+function pPanel(raw: unknown): TwoColumnPanelLike {
+  if (!pIsRecord(raw)) return {}
+  return {
+    heading: pStr(raw.heading) || undefined,
+    body: pStr(raw.body) || undefined,
+    items: pStrArr(raw.items).length ? pStrArr(raw.items) : undefined,
+    note: pStr(raw.note) || undefined,
+  }
+}
+
+function normalizeProfileScan(raw: ProfileScanRaw): ProfileScanData {
+  const rc = pIsRecord(raw.cover) ? raw.cover : {}
+  const sr = pIsRecord(raw.signalRead) ? raw.signalRead : {}
+  const el = pIsRecord(raw.evidenceLedger) ? raw.evidenceLedger : {}
+  const ka = pIsRecord(raw.keyAssertion) ? raw.keyAssertion : {}
+  return {
+    cover: {
+      badges: pStrArr(rc.badges).length ? pStrArr(rc.badges) : ['Profile Scan', ''],
+      title: pStr(rc.title, 'Profile Scan'),
+      subtitle: pStr(rc.subtitle),
+      meta: pStr(rc.meta),
+      actions: pStrArr(rc.actions),
+    },
+    notice: pStr(raw.notice),
+    signalRead: { left: pPanel(sr.left), right: pPanel(sr.right) },
+    threads: (Array.isArray(raw.threads) ? raw.threads : []).filter(pIsRecord).map((t) => ({
+      label: pStr(t.label) || undefined,
+      accent: pColor(t.accent ?? t.color, T.cyan),
+      title: pStr(t.title),
+      body: pStr(t.body),
+      note: pStr(t.note) || undefined,
+    })),
+    evidenceLedger: {
+      columns: pStrArr(el.columns),
+      rows: (Array.isArray(el.rows) ? el.rows : [])
+        .filter(Array.isArray)
+        .map((r) => (r as unknown[]).map((c) => pStr(c))),
+    },
+    capabilityMap: (Array.isArray(raw.capabilityMap) ? raw.capabilityMap : []).filter(pIsRecord).map((c) => ({
+      label: pStr(c.label) || undefined,
+      color: pColor(c.color ?? c.accent, T.fg4),
+      title: pStr(c.title),
+      body: pStr(c.body),
+    })),
+    keyAssertion: { text: pStr(ka.text), attribution: pStr(ka.attribution, 'ARCS Profile Scan · Thread Analysis') },
+  }
+}
+
+export function ProfileScanFromData({ data: raw, depth = 'deep' }: { data: ProfileScanRaw; depth?: ScanDepth }) {
+  const A = T.green
+  const d = normalizeProfileScan(raw)
+  // Depth truncates per spec: SIMPLE = Signal Read + Key Assertion; RICH adds
+  // Thread Assessment + Evidence Ledger; DEEP adds Capability Map.
+  const rawDepth = pStr(raw.depth)
+  const eff: ScanDepth = (rawDepth === 'simple' || rawDepth === 'rich' || rawDepth === 'deep') ? rawDepth : depth
+  const showRich = eff === 'rich' || eff === 'deep'
+  const showDeep = eff === 'deep'
+  return (
+    <div>
+      <CoverBlock {...d.cover} accent={A} />
+
+      {d.notice && (
+        <div style={{ margin: '16px 0' }}>
+          <AsideBox variant="info" label="Provenance & honesty note">{d.notice}</AsideBox>
+        </div>
+      )}
+
+      <Sec id="s-signal" idx="01" label="Signal Read" title="Stated vs. Observed" accent={A}>
+        <TwoColumn accent={A} left={d.signalRead.left} right={d.signalRead.right} />
+      </Sec>
+
+      {showRich && d.threads.length > 0 && (
+        <Sec id="s-threads" idx="02" label="Thread Assessment" title="Four-Thread Read" accent={A}>
+          <SidelineList items={d.threads} />
+        </Sec>
+      )}
+
+      {showRich && d.evidenceLedger.rows.length > 0 && (
+        <Sec id="s-ledger" idx="03" label="Evidence Ledger" title="Dated Career Record" accent={A}>
+          <DataTable columns={d.evidenceLedger.columns} rows={d.evidenceLedger.rows} />
+        </Sec>
+      )}
+
+      {showDeep && d.capabilityMap.length > 0 && (
+        <Sec id="s-capabilities" idx="04" label="Capability Map" title="Core · Compound · Signal · Gap" accent={A}>
+          <SmartGrid cols={2} items={d.capabilityMap} />
+        </Sec>
+      )}
+
+      <Sec id="s-assertion" idx={showDeep ? '05' : '02'} label="Key Assertion" title="The Load-Bearing Read" accent={A}>
+        <QuoteBlock accent={A} attribution={d.keyAssertion.attribution}>
+          {d.keyAssertion.text}
         </QuoteBlock>
       </Sec>
     </div>

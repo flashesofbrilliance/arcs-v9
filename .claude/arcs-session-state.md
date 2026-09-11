@@ -1,30 +1,22 @@
-# ARCS Session State — v3.16.0 (2026-07-22)
+# ARCS Session State — current sprint snapshot
 
-**Environment:** Claude Code (local, interactive), committed via main worktree `frosty-kepler-b69f51`
-**Branch:** `main`, pushed to `origin/main`
-**Head:** `883cf50` — feat(recoil): SSOT engagement data + CLI generator w/ audience projection
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.59.0; resume seed `_STATE/pickup-prompt.md`.
 
-## Current sprint snapshot
+**As of:** 2026-09-08 · **Branch:** `feat/audit-service` · **Version:** v3.59.0 (ARCS-on-ARCS shipping close)
 
-**Just shipped:** Ahmed Elsamadisi / Polyform AI reconnect — full decision loop + air-gap mechanization.
+## Shipped + verified live this session
+- NFTT "Assets and Liabilities" (good.arcs.care/blog/nftt/assets-and-liabilities) — PR #332
+- Field Instruments public-goods chapter (good.arcs.care/instruments) — PR #337 + routing fix #340
+- Day-151 milestone on status.html; informativeness ratchet real CI arm (informativeness.yml) — PR #337
+- Reproducible DB audit + dead-trio build fix — PR #306
 
-- Internal war-room `ahmed.arcs.care` (pw `ahmed`) — 6 tabs (Pre-Call · Ex-Ante · Forge · Recoil ·
-  War Game · Defensibility), measured kinematics via `arcs_kinematics.py`. NEVER send.
-- External twin `ahmed-ext.arcs.care` — sanitized, competitor-safe, send-ready.
-- SSOT + CLI: `runtime/recoil/generated/2026-07-22-elsamadisi.json` + `scripts/recoil_brief.py`
-  (`--audience internal|external`, computes kinematics, mechanical redaction w/ report).
+## Deceipt ledger: 15 (12–15 booked this session; #13/#15 caught by field-contact, not self-review)
 
 ## Next action
+Extract informativeness-auditor into a standalone package (Seed→Proven). Outcome-capture keel (2/247) = P1.
 
-Ahmed (Zach-owned, not blocked): set pilot price + name one customer → send `ahmed-ext.arcs.care`.
-Draft note (LinkedIn + email) is in the session transcript. Optional next build: render the HTML
-pages FROM the SSOT JSON (full loop closure).
+## Open (human-gated)
+Memory-index retirement · outcome-capture keel · ROM candidate (live-receipt gate) · flip INTEGRITY_GATE_BLOCK=1 after a clean week
 
 ## Blocking
-
 NONE.
-
-## New durable memories this session
-
-- `confidence-conviction-nci-operational-definitions` — confidence/conviction for beliefs, NCI for decisions only.
-- `internal-external-artifact-air-gap` — 3 rules for splitting a brief into internal + counterpart-facing.

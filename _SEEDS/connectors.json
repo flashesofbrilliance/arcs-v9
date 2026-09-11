@@ -1,0 +1,307 @@
+{
+ "_doc": "Per-tool copy blocks for the ADR-056 rendered connector fleet. Joined to _SEEDS/distribution.jsonl (the SSOT for repo/url/channels/live/verify) at render time by scripts/connector_render.py. Freeze layout; vary only this data. Every install command below must correspond to a channel that is live:true in distribution.jsonl for the same repo — the renderer enforces this. Copy is grounded in each repo's real README (verified 2026-08-16); anything unverifiable is left as an explicit TODO, never invented.",
+ "tools": {
+  "rosetta-shell": {
+   "badge_kind": "a shell-portability CLI by ARCS",
+   "title_g": "Lossless",
+   "title_rest": "shell portability.",
+   "desc": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
+   "lede": "Write one script; run it <b>byte-identical</b> across bash 3.2, zsh, POSIX sh, and ksh. Think i18n, but for shells… service localization for the scripts that silently break the moment they change environments.",
+   "thesis_label": "The problem",
+   "thesis_sub": "why it exists",
+   "thesis": "A script authored on a modern bash laptop breaks the moment it lands on Apple's frozen <b>bash 3.2</b>, a zsh default, or a dash container. rosetta-shell is the phrasebook that makes it speak each locale… and a conformance runner that <b>proves</b> the shim produces identical output in every shell, instead of hoping it does.",
+   "what_label": "The four moving parts",
+   "what_sub": "what's inside",
+   "what": [
+    {
+     "t": "crossrun",
+     "p": "The gate. Runs your script under every installed shell and reports a pass/fail matrix. Exits nonzero on failure, so it drops straight into CI."
+    },
+    {
+     "t": "lint",
+     "p": "Scans a script for non-portable constructs and names the shim to use… advisory, never rewrites your code."
+    },
+    {
+     "t": "doctor",
+     "p": "Localizes your environment: which shell you're in, which native features are missing."
+    },
+    {
+     "t": "rosetta.sh",
+     "p": "A sourceable shim library… one portable map plus case, echo, and split shims that behave the same everywhere."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "two live channels",
+   "install": {
+    "npm": {
+     "label": "npm",
+     "cmd": "npx @flashesofbrilliance/rosetta-shell"
+    },
+    "homebrew": {
+     "label": "Homebrew (macOS)",
+     "cmd": "brew install flashesofbrilliance/tap/rosetta-shell"
+    }
+   },
+   "tie_in": "Portability-as-proof is the same discipline ARCS applies to decisions: prove a thing survives every environment instead of trusting that it will. rosetta-shell is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "group": "cli"
+  },
+  "germinate": {
+   "badge_kind": "an agent-handoff protocol by ARCS",
+   "title_g": "Durable",
+   "title_rest": "agent handoffs.",
+   "desc": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
+   "lede": "A serializable, provenance-carrying <b>handoff protocol</b> for multi-agent, multi-worktree work. Compact one high-entropy session into a dense seed, and let many workers reconcile <b>through git</b>… without lost updates.",
+   "thesis_label": "The problem",
+   "thesis_sub": "why it exists",
+   "thesis": "An agentic session is high-entropy and ephemeral… a conversation, scratch files, several open worktrees, half-formed understanding. Almost none of it survives to the next session. germinate makes the machinery that keeps ephemeral sessions <b>durable and mergeable</b> the part you carry forward.",
+   "what_label": "The four primitives",
+   "what_sub": "what's inside",
+   "what": [
+    {
+     "t": "belief-log",
+     "p": "Append-only, OpenTelemetry-shaped JSONL that version-tracks understanding: trace, span, confidence, risk, evidence, status. Not the decision… the trace of how conviction moved."
+    },
+    {
+     "t": "manifest",
+     "p": "A registry of every surface (canonical git SSOT plus advisory projections), each stamped with a docset version. A projection older than the header is stale by definition."
+    },
+    {
+     "t": "handoff",
+     "p": "Coal to diamond compaction: a head with forward pickup pointers and a tail with provenance and lineage."
+    },
+    {
+     "t": "serializability check",
+     "p": "Git is the serializer for tracked files; this warns where advisory state escapes the lock. drift-check exits nonzero on drift, so it is a CI gate."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "two live channels",
+   "install": {
+    "npm": {
+     "label": "npm (Node CLI)",
+     "cmd": "npm install -g germinate"
+    },
+    "homebrew": {
+     "label": "Homebrew (macOS, signed Rust binary)",
+     "cmd": "brew install flashesofbrilliance/tap/germinate"
+    }
+   },
+   "tie_in": "germinate makes the boundary between serialized (git-tracked) and advisory (everything else) state visible and enforceable… the same air-gap discipline ARCS runs on its own artifacts. It is one of the open, MIT-licensed public goods in the ARCS family: the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "note_linux": "Homebrew binary is macOS-only; Linux installs via npm.",
+   "group": "cli"
+  },
+  "rca-skill": {
+   "badge_kind": "a Claude Code skill by ARCS",
+   "title_g": "Root cause,",
+   "title_rest": "not symptom.",
+   "desc": "A Claude Code skill that turns \"something broke\" into disciplined root-cause analysis: triage the effort, reproduce the real error, fix the cause not the symptom, verify by driving the failure path, and capture the root cause. An MIT tool in the ARCS family.",
+   "lede": "A Claude Code skill that turns \"something broke\" into a disciplined <b>root-cause analysis</b>… triage the effort, reproduce the real error, separate symptom from cause, fix minimally, and capture what you learned so nobody re-diagnoses it next month.",
+   "thesis_label": "The point",
+   "thesis_sub": "one opinion",
+   "thesis": "It encodes the opinion most debugging workflows skip: <b>decide how much to spend before you start.</b> Not every error deserves a full investigation, so the first move is a triage gate… a five-minute fix routes inline, and subagent fan-out is reserved for the cases that actually need it.",
+   "what_label": "What it makes non-optional",
+   "what_sub": "the discipline",
+   "what": [
+    {
+     "t": "cause, not symptom",
+     "p": "The fix lands on the cause, not a silenced stack trace that goes green and fires again next week from a slightly different angle."
+    },
+    {
+     "t": "capture the root",
+     "p": "Whatever was learned about why it broke gets written down, so the next person doesn't re-derive it from scratch."
+    },
+    {
+     "t": "triage first",
+     "p": "A gate up front decides the spend, so the process itself never becomes the waste."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "git is the channel",
+   "install": {
+    "github": {
+     "label": "user scope · every project",
+     "cmd": "git clone https://github.com/flashesofbrilliance/rca-skill.git ~/.claude/skills/rca"
+    }
+   },
+   "usage": {
+    "label": "then, when something breaks",
+    "code": "run a root-cause analysis on this failure"
+   },
+   "tie_in": "Spend-before-you-start and capture-the-root are the same receipt discipline ARCS runs on every decision. rca is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "group": "skill"
+  },
+  "state-sync-skill": {
+   "badge_kind": "a Claude Code skill by ARCS",
+   "title_g": "Cold starts,",
+   "title_rest": "warm.",
+   "desc": "A Claude Code skill that scaffolds a committed _STATE/snapshot.json so any session restores ground-truth project state from a cheap file read instead of re-deriving it. An MIT tool in the ARCS family.",
+   "lede": "A Claude Code skill that scaffolds a two-surface state-sync pattern for any repo… a single committed <b>_STATE/snapshot.json</b> so any session, local or cloud, restores ground-truth project state from a cheap file read instead of re-deriving it.",
+   "thesis_label": "The point",
+   "thesis_sub": "why it exists",
+   "thesis": "A cold session reconstructs context from scratch: what's deployed, whether local is in sync with origin, what was decided last, what's next. That reconstruction is expensive to redo and easy to get subtly wrong. One JSON file, updated at the end of a session and read at the start of the next, turns it into a <b>fixed, cheap first step.</b>",
+   "what_label": "What it scaffolds",
+   "what_sub": "the pattern",
+   "what": [
+    {
+     "t": "one committed file",
+     "p": "_STATE/snapshot.json is the single source of ground-truth state, tracked in git alongside the code it describes."
+    },
+    {
+     "t": "written at the end",
+     "p": "Updated once per session so the next start reads a fresh, agreed picture rather than a stale assumption."
+    },
+    {
+     "t": "read at the start",
+     "p": "\"Don't make the agent re-derive what a file could just tell it\"… applied to project state instead of code."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "git is the channel",
+   "install": {
+    "github": {
+     "label": "user scope · every project",
+     "cmd": "git clone https://github.com/flashesofbrilliance/state-sync-skill.git ~/.claude/skills/state-sync"
+    }
+   },
+   "usage": {
+    "label": "then, once per project",
+    "code": "set up state sync for this repo"
+   },
+   "tie_in": "A cheap, trustworthy first read is the same move ARCS makes when it rewarms a session from a snapshot. state-sync is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "group": "skill"
+  },
+  "token-savings-bank": {
+   "badge_kind": "a Claude Code skill by ARCS",
+   "title_g": "Spend tokens",
+   "title_rest": "deliberately.",
+   "desc": "A Claude Code skill that installs a budget-mode operating discipline for coding agents: right model tier, batch not drip, small work inline, checkpoint state. An MIT tool in the ARCS family.",
+   "lede": "A Claude Code skill that installs a <b>budget-mode operating discipline</b> for coding agents… pick the right model tier, batch instead of drip, do small work inline instead of spawning subagents, and checkpoint state so nothing gets re-derived.",
+   "thesis_label": "The point",
+   "thesis_sub": "why it exists",
+   "thesis": "Most token waste is not one big mistake… it is a hundred small ones: the strongest model run to reformat a file, ten reads that could have been one, a subagent spawned to answer what a grep would settle. This is a short, explicit checklist that turns those reflexes into <b>deliberate choices</b>… stop paying premium rates for cheap work.",
+   "what_label": "The four reflexes it fixes",
+   "what_sub": "the checklist",
+   "what": [
+    {
+     "t": "right tier",
+     "p": "Match the model to the work in front of you, instead of reaching for the strongest one by default."
+    },
+    {
+     "t": "batch, don't drip",
+     "p": "Group reads and calls into one pass rather than a sequence of round-trips."
+    },
+    {
+     "t": "inline over subagent",
+     "p": "Do small work directly; reserve subagent fan-out for the cases that actually earn it."
+    },
+    {
+     "t": "checkpoint state",
+     "p": "Write state to a file so it is read once, not re-derived from scratch every session."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "git is the channel",
+   "install": {
+    "github": {
+     "label": "user scope · every project",
+     "cmd": "git clone https://github.com/flashesofbrilliance/token-savings-bank.git ~/.claude/skills/token-savings-bank"
+    }
+   },
+   "usage": {
+    "label": "then, on a large or cost-sensitive task",
+    "code": "apply token-savings discipline to this work"
+   },
+   "tie_in": "Cheapest-capable routing and checkpointed state are load-bearing ARCS principles, not afterthoughts. token-savings-bank is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "group": "skill"
+  },
+  "fix-toolbar-comments-skill": {
+   "badge_kind": "a Claude Code skill by ARCS",
+   "title_g": "Clear the",
+   "title_rest": "feedback queue.",
+   "desc": "A Claude Code skill that clears your Vercel Toolbar feedback queue end to end: fetch every open thread, implement the fix, build, commit, deploy, and resolve each one. An MIT tool in the ARCS family.",
+   "lede": "A Claude Code skill that clears your <b>Vercel Toolbar</b> feedback queue end to end… fetch every open comment thread, implement the requested fix, build, commit, deploy to production, and resolve or explain each thread.",
+   "thesis_label": "The point",
+   "thesis_sub": "why it exists",
+   "thesis": "The Toolbar lets anyone drop a comment directly on a live page… a great way to collect feedback and a tedious one to process, one thread at a time. This skill does the <b>whole loop in one pass</b>: open, understand, find the file, change it, redeploy, then go back and resolve.",
+   "what_label": "The loop, in one pass",
+   "what_sub": "end to end",
+   "what": [
+    {
+     "t": "fetch every thread",
+     "p": "Pulls every open Toolbar comment thread instead of you opening them one at a time."
+    },
+    {
+     "t": "fix, build, deploy",
+     "p": "Implements the requested change, builds, commits, and deploys to production."
+    },
+    {
+     "t": "resolve or explain",
+     "p": "Closes each thread, or explains why it was left open… no dangling feedback."
+    }
+   ],
+   "install_label": "Install",
+   "install_sub": "git is the channel",
+   "install": {
+    "github": {
+     "label": "user scope · every project",
+     "cmd": "git clone https://github.com/flashesofbrilliance/fix-toolbar-comments-skill.git ~/.claude/skills/fix-toolbar-comments"
+    }
+   },
+   "usage": {
+    "label": "then, on a project linked to Vercel",
+    "code": "fix the toolbar comments"
+   },
+   "requires": "Requires the Vercel MCP server connected in your Claude Code environment, and a project linked via <span class=\"mono\">vercel link</span>.",
+   "tie_in": "Close-the-loop-in-one-pass is the same subtractive, finish-what-you-start bias ARCS builds into its own workflows. fix-toolbar-comments is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
+   "group": "skill"
+  },
+  "arcs-field-scan": {
+   "badge_kind": "an open web app by ARCS",
+   "title_g": "A LinkedIn profile,",
+   "title_rest": "scanned.",
+   "desc": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
+   "lede": "A simple interactive web app… paste a <b>LinkedIn profile</b> or upload a PDF, and it generates an adaptive ARCS-style field scan. Built as an open, cloneable starter, not a hosted service.",
+   "thesis_label": "What it is",
+   "thesis_sub": "an open starter",
+   "thesis": "A standalone Next.js app you clone and run… the terminal channel is <b>git</b>, by design, because it's a web app rather than a registry package. It currently performs a local mock scan in the browser so the UX can be reviewed immediately.",
+   "what_label": "What it does",
+   "what_sub": "today",
+   "what": [
+    {
+     "t": "paste or upload",
+     "p": "Takes a LinkedIn profile paste or a PDF upload as input."
+    },
+    {
+     "t": "adaptive scan",
+     "p": "Generates an adaptive ARCS-style scan report from that input."
+    },
+    {
+     "t": "local mock, for now",
+     "p": "Runs the scan locally in the browser so the experience can be reviewed immediately… a starter, honest about being one."
+    }
+   ],
+   "install_label": "Run it",
+   "install_sub": "git is the channel",
+   "install": {
+    "github": {
+     "label": "clone and run",
+     "cmd": "git clone https://github.com/flashesofbrilliance/arcs-field-scan\ncd arcs-field-scan && npm i && npm run dev"
+    }
+   },
+   "tie_in": "The field scan is the open, reviewable front of a capability ARCS runs in earnest… the tool is open, the tailored ARCS intelligence that orchestrates it is private. One of the MIT-licensed public goods in the ARCS family.",
+   "group": "web"
+  }
+ },
+ "soon": {
+  "linkedin-connections-toolkit": {
+   "group": "skill",
+   "line": "Stdlib Python CLI that parses your LinkedIn Connections export into four honest views of your network.",
+   "chan": "pip"
+  },
+  "blindsat": {
+   "group": "skill",
+   "line": "A small Python library for privacy-preserving set operations (blind intersection) on data you never reveal.",
+   "chan": "pip"
+  }
+ }
+}

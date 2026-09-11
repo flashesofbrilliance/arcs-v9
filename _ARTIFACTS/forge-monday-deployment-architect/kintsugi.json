@@ -1,0 +1,33 @@
+{
+  "receipt_id": "receipt_monday_deployment_architect_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "The posting's estimation/SOW-authorship requirement had no direct match in the record; a naive tailor pass would have upgraded the Twill/Verizon go-no-go KPI work into a false 'built the estimation model' claim.",
+      "caught_by": "honest-grade pass against the JD hook table",
+      "gold": "kept the resume language narrower than the posting ('KPI frameworks informed go-forward decisions'), and named the gap explicitly in TAILOR-NOTES and on the landing page's mapping note and STRESS-TEST stage"
+    },
+    {
+      "break": "The posting lists five integration standards (REST, GraphQL, webhooks, SCIM, SAML/OAuth) plus MCP; only MCP is genuinely evidenced by the record, and pattern-matching the posting could have pulled the other four onto the skills line.",
+      "caught_by": "evidence-grade pass, stage 2",
+      "gold": "only MCP claimed; the other four named as gaps rather than listed"
+    },
+    {
+      "break": "The posting's AI-quality requirement (evaluation, guardrails, human review, observability) is close enough to Twill's KPI-driven viability testing that the two could be conflated into a false observability/guardrails claim.",
+      "caught_by": "red-team pass",
+      "gold": "Twill described precisely as market-viability testing and go-forward decisions; not upgraded to production observability"
+    },
+    {
+      "break": "Carried-over open question from the prior bundle: the record-of-record URL (resume.arcs.care/resume.pdf) serves the HTML resume, not a PDF.",
+      "caught_by": "inherited from the reference bundle's own kintsugi ledger; re-confirmed, not re-investigated, per the light-tier no-fetch rule",
+      "gold": "left as an unresolved open question in TAILOR-NOTES, same disposition as the reference bundle"
+    }
+  ],
+  "verdict": "Bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes, four widths at zero horizontal overflow, PDF verified at 2 pages). Three in-flight breaks were sealed with visible gold during this session (estimation/SOW overclaim, integration-standard overclaim, AI-quality-observability overclaim); one open question is carried forward from the reference bundle rather than newly investigated."
+}

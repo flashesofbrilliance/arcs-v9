@@ -8,6 +8,13 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Progressive handoff (2026-09-04):** a global hook checkpoints git state to
+  `_STATE/handoff-progress.jsonl` every turn-with-change, and asks for a `## Delta` in
+  `_STATE/handoff-progress.md` at each compaction. Both are gitignored. `/handoff` folds them
+  into the CLAUDE.md block and marks the ledger claimed; the global SessionStart hook flags any
+  worktree whose trail was never claimed. Compaction never writes CLAUDE.md anymore.
+- **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
+  from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):
   `MEMORY.md`, `SKILL.md`, `_ARCHIVE/handoffs.md`, `_ARCHIVE/memory-archive.md`, `_STATE/*`.
 - There is no "read MEMORY→SKILL→WORLD→AGENTS in order" chain anymore. That mandate cost ~40k
@@ -61,6 +68,8 @@ GREEN=SHARP · YELLOW/FORK=DEGRADED · SCRATCH/DELTA/DRIFT=GRAIN · PARADOX=MOIR
 3. **HYPERSTITION PIPELINE** — Ethereal → Loki Test → Receipt Evaluation → ROM
 4. **GOLDEN INCHWORM** — Red Thread → Golden Thread → Needle (3-pass, non-blocking)
 5. **ORTHOGONAL ECHO DETECTOR** — surface cross-domain kinematic isomorphisms
+6. **KINTSUGI IMMUNE SYSTEM** — repair seams visibly; no silent patching of integrity failures; show the break and the gold
+7. **WRITE-LOCK** — one-way-door decisions require explicit write-lock declaration before commit; irreversibility is declared, not assumed
 
 ## L0–L7 Stack (current impl: L0–L5 only)
 L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cross-domain · L5=global coherence · L6=ecosystem · L7=meta-governance
@@ -71,8 +80,9 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
 Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
-rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
-from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
+rewrite). The full interactive Next.js page IS committed on main at `src/app/observatory/page.tsx`
+(landed 2026-06-23, ~1.2k LOC); the old "never pushed" note was stale (Atlas audit 2026-09-03).
+Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -80,6 +90,7 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
 - Inline styles only in components — no Tailwind, no utility classes. Sanctioned exceptions (only these): next/font classes on `<html>`, and the single `src/app/globals.css` (reset + keyframes + font tokens). Tailwind was removed 2026-07-11.
 - No new dependencies without asking.
+- **Self-contained artifact/page CSS: one shared px `--measure` for BODY/card reading text — NEVER `max-width:NNch` per element** (font-dependent → misaligned right edges that read as broken wrapping). **But LEDES are the exception: a hero/section lede spans the full lane width matching its heading (`max-width:none`), never the narrow body measure — a lede narrower than its heading reads as a broken/abridged block with a dead right gutter (`design-full-width-lede-matches-heading`; Zach's standing preference, do NOT "fix" it back to `--measure`).** The "too narrow" symptom is invisible to overflow/clip gates — eyeball lede-vs-heading edges at ~1280px too. Bordered callouts carry the measure on the box, not the inner text. Before shipping any single-file HTML, run the repo's own gate (`scripts/artifact_wrap_lint.py`; `npm test` for `zachharris-xyz`) and sweep 360–1440 incl. the 700–1000 band. Em-dashes 0. Canon: `_PATTERNS/arcs-artifact-css-base.css`; AGENTS.md gotcha #13.
 
 
 # Versioning & handoff policy (amended 2026-07-19)
@@ -101,175 +112,74 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.16.0 (2026-07-22)
-
-> **For Claude Code:** active pickup point. Version jumped to 3.16.0 to clear the known
-> v3.13–v3.14 cross-branch numbering drift (flagged in prior handoffs) — do not read into the gap.
-
-## What shipped (this thread, 2026-07-22)
-
-**Ahmed Elsamadisi / Polyform AI — full reconnect-call loop, then mechanized the air gap.**
-
-- **Internal war-room** `ahmed.arcs.care` (pw `ahmed`), 6 tabs: Pre-Call · Ex-Ante receipt ·
-  **Forge** (ROM #6 Exogenous Forge pressure-test via claims-skeptic, struck "not a sales
-  call") · **Recoil** (post-call, Granola transcript `e8648395`, belief-update ledger +
-  **Belief Log v2** using confidence × conviction, NOT per-belief NCI) · **War Game**
-  (kinematic manifold now **MEASURED** via `arcs_kinematics.py v1.3` — D1–D3 valid, D5–D12
-  honestly labeled coherence-zone, not fabricated) · **Defensibility** (5-verb × 4-proofing +
-  Activity-Schema Rosetta).
-- **External counterpart-facing twin** `ahmed-ext.arcs.care` (open link, sanitized). Iterated
-  from exec-summary → deep technical appendix → **competitor-safe strip** (architecture-not-
-  weights; dropped schema DDL, mechanics, kinematics derivatives, `sqrt` sampling formula).
-  Send-ready; draft note (LinkedIn + email) is in this session's transcript.
-- **Air gap mechanized:** SSOT `runtime/recoil/generated/2026-07-22-elsamadisi.json` +
-  `scripts/recoil_brief.py` — computes kinematics reproducibly and projects internal-vs-external
-  by dropping `audience`-tagged fields (external run drops 14 fields + prints a redaction report).
-- **2 memories banked:** `confidence-conviction-nci-operational-definitions` (confidence/conviction
-  for beliefs, NCI for decisions only) and `internal-external-artifact-air-gap` (3 rules:
-  own-updates-not-their-scores · method-crosses-subject-doesn't · architecture-not-weights).
-
-## Open / next
-
-1. **Ahmed (Zach-owned, not blocked):** set the pilot price (a number, once a customer is
-   picked) + name one Polyform customer, then send `ahmed-ext.arcs.care`. Optionally take the
-   Robert (decision-ROI) intro.
-2. **Optional build:** render the `ahmed` HTML pages FROM the SSOT JSON so editing = editing
-   data (full loop closure; deliberately not done this session).
-3. Prior open items untouched: Todd Hotes post-Wednesday reply; v3.11.0 ledger-management +
-   authenticated `/recoil` index.
-
-## Blocking
-
-NONE (waiting on Zach's send decision + price).
-
-## Next session starts at
-
-`/handoff-pickup` → if Zach has picked a customer + price, send the ext page; else the SSOT→HTML
-render is the next build-ready item.
-
 ---
 
-# Handoff — v3.17.0 (2026-07-23)
+# Handoff — v3.59.0 (2026-09-08)
 
-> **For Claude Code:** active pickup point. The recoil pipeline matured into a reusable system this
-> session; three live engagements (Ahmed, Joe, Yuri) run on it.
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
 
-## What shipped (2026-07-23)
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
 
-**The recoil pipeline is now a closed-loop, self-contained, parameterized system.**
-- **4 composable skills** (`.claude/skills/recoil-{new,prep,close,ship}`) over one SSOT-per-counterpart
-  JSON; `scripts/recoil` (zero-dep bash wrapper, needs only python3) renders; `--format html` +
-  per-audience password gate + `meta.doc_title`.
-- **6-tab war-room parameterized** as `runtime/recoil/templates/war-room-6tab.template.json`
-  (Pre-Call/Ex-Ante/Forge/Recoil/War Game/Defensibility; self-documenting `_METHOD` + per-block `_doc`).
-  New generic blocks: `receipt`, `keyvalue`, `table`; tabbed layout with empty-tab auto-hide.
-- **Yuri Kleban / Google** (warm first call, Jul 23 1pm EST) — first live run of the skills. `yuri-war`
-  (pw `sextant`) + `yuri-ext` "Intel Brief" (pw `yuri`): parallel-tracking capability seed with the
-  handoff-tax, the north star (each datapoint sharpens not blurs), serialization-in-a-continuous-vector-
-  space, notetaker-injection immunity, a hyperstition champion-kit, and an "answered before you ask"
-  deal-breaker band (LLM-agnostic / runs-on-Gemini-via-gateway is the key lever). See
-  [[project_yuri_kleban_google]].
-- **Memories:** [[active-listening-over-magical-thinking]], [[project_yuri_kleban_google]] added.
-  Ahmed + Joe engagements from earlier this session remain (Ahmed Gmail draft unsent; Joe joe-war/joe-ext).
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
 
-## Open / next
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
 
-1. **Yuri:** post-call, `/recoil-close` on `2026-07-23-kleban.json` (score the ex-ante); share the Intel
-   Brief only if he pulled. Do not over-pursue (he said "nothing to sell").
-2. **Ahmed:** Gmail draft still unsent (his call, set pilot price first).
-3. **Joe:** joe-ext ready if wanted; joe-war internal-only.
+## Open (next session)
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
 
-## Blocking
 
-NONE.
+# Handoff — v3.58.0 (2026-09-08)
 
-## Next session starts at
+> **ARCS-on-ARCS design session (worktree `competent-kirch-7c6e0f`, branch `claude/epic-bardeen-94cce3`).**
+> Started as an NFTT ship + drift-closure, opened into a full living-system architecture, closed by
+> polishing the Target Scan schematic. All shipped work on main; forward work handed to fresh sessions.
 
-`/handoff-pickup` → check for post-call follow-through on Yuri/Ahmed/Joe. The recoil skills are the
-reusable path for any new counterpart: `/recoil-new` → `/recoil-prep` → [call] → `/recoil-close` → `/recoil-ship`.
+## Shipped
+- **NFTT threaded→literary drift CLOSED** (PR #312): retired the threaded `story_render.py` engine +
+  schema + `.story.md` sources + 4 orphaned `-full.html` to `_ARCHIVE/nftt-threaded-engine/`; repointed
+  `nftt-story-factory` skill to the literary standard (template+checklist, no engine); tool-catalog
+  regenerated. Closes the v3.55.0 `story_render.py` open loop.
+- **NFTT "The Factory on Itself" LIVE** at good.arcs.care/blog/nftt/the-factory-on-itself (PR #348) —
+  self-referential: the factory writes its own retirement. New index Latest; `the-loop-closes` → No. 9.
+  Blessed + witnessed (`_STATE/witness/2026-09-08.jsonl`).
+- **Living-system spec + e2e map** (PR #349): `_SPECS/self-serve-atlas-scan-v1.md` (DRAFT/YELLOW) +
+  `_ARTIFACTS/arcs-e2e-notomation-map-hud.html`. Two-order abductive profile→role self-serve scan
+  (portable input = Resume + LinkedIn PDF + LinkedIn export = User1), per-tenant Supabase-RLS atlas with
+  earned-fidelity progression, local-first/air-gapped-after-sync, git-anchored pulse⇄oracle heartbeat
+  (OT-layer proof-of-life, kintsugi/pathogen immune response, local/global time-signature alignment).
+- **Wired-loop schematic** distilled into `target-role-scan-hud.html` §05 (feedback loop as hero) +
+  **all 22 em-dashes swept** to colons (PR #351). Internal artifact (noindex, unrouted).
+- ADR-076 audit reconciled, no dup (oracle counter=76). Memory banked: `look-out-before-look-in`.
 
----
+## Open (handed to fresh sessions, all started)
+1. **Pulse Phase-0 heartbeat** (task_3fdd97bf): build `_STATE/pulse.json` + mutual-check guard per the
+   spec; fixes the stale drift-sentry / disabled pollers. Load-bearing for the e2e map's freshness.
+2. **Kaizen window-cost job** (task_23dfd53b): recurring; scoped to reconcile with the existing
+   "Token cost ROI analysis" cloud session, not duplicate.
+3. **zachharris.xyz/scan deploy** (task_7215ccad): cross-project (domain not served by this repo);
+   register decision (insider-dense vs legibility layer) + domain-topology verify first.
+- ADR candidates (allocate via `scripts/oracle.py next adr`): global pulse⇄oracle heartbeat; two-order
+  abductive profile→role scan.
+- Carried from v3.57.0: Reading Room tenants 2a-2c; ADR-076 demand probe; memory index over budget.
 
-# Handoff — v3.18.0 (2026-07-24)
-
-> **For Claude Code:** active pickup point. This was a security/IP-hardening session, not a
-> counterpart engagement. Full detail in the three new memories linked below.
-
-## What shipped (2026-07-24) — IP-leak hardening, all merged to main (PRs #128, #129)
-
-**The problem:** everything in `public/` was world-readable by filename on every arcs.care
-host (verified live: `www.arcs.care/yuri-war.html` → 200 with full internal content). The JS
-password gates were theater (pw in plaintext source).
-
-- **9 internal docs moved out of `public/`** → `runtime/warroom/`, served by the new
-  admin-gated `src/app/warroom/[slug]/route.ts` (Auth.js session + `ADMIN_EMAILS`, fail-closed,
-  404-not-redirect to unauth). Host rewrites in `next.config.ts` repointed;
-  `outputFileTracingIncludes` ships the files. (yuri-war, joe-war, ahmed, danny, ayesha,
-  jalaja, labella, peter, kelly-interview). CISO-reviewed: mechanism PASS.
-- **Repo flipped PRIVATE** — closed the raw.githubusercontent.com exposure that app gating
-  can't touch. See [[arcs-v9-repo-now-private-status-links-broken]].
-- **Preview deployments SSO-gated** (were public to anyone with the URL).
-- **Analytics coverage:** was live but 21 counterpart pages shipped uninstrumented. All 34
-  public pages now carry the WA snippet + an inlined section-dwell tracker (page_dwell +
-  top-5 section_dwell custom events); `recoil_brief.py` + call-brief template emit both;
-  J24 `leak_check.sh` now hard-fails any public page missing analytics. Identity = subdomain.
-- **Generator provenance leak fixed:** `generated by recoil_brief.py` comment is now
-  internal-audience-only + stripped from ext pages + gated in leak_check.sh.
-- **Deploy-waste fixed:** stale `arcs` Vercel project unlinked (was building every push, 0
-  domains); ignored-build-step skips docs-only commits; Vercel Agent auto-code-review toggled
-  OFF (the credit burn). See [[vercel-deploy-efficiency-rules]], [[vercel-config-via-cli-token-rest-api]].
-
-## Open / next
-
-1. **Showcase mirror** for status.arcs.care — its commit links now 404 (repo private).
-   Needs Zach's curation call on what code becomes public. Parked.
-2. **"Investigate Anomalies Automatically"** still ON in Vercel Team Settings → Agent (same
-   on-demand billing as code review); toggle if zero-surprise Agent spend is wanted.
-3. Counterpart passwords are decorative now (identity-gated) but sit in git history — treat
-   as disclosed; rotate meaning to zero.
-4. Prior open items untouched: Todd Hotes post-Wednesday; ledger-management + authenticated
-   `/recoil` index; Yuri/Ahmed/Joe post-call follow-through.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
-[[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].
-
----
-
-# Handoff — v3.23.0 (2026-08-01)
-
-> **Primary pickup is NOT this repo** — the session's build lives in `~/arcs-mini`
-> (private, `flashesofbrilliance/arcs-mini`). Start at **`~/arcs-mini/HANDOFF.md`**.
-
-## What shipped (2026-08-01)
-Built the **arcs-mini estate**: 4 live surfaces — tripwire · meeting-vector · grader ·
-corpus.arcs.care (all HTTP 200), each 3 faces (UI/REST/MCP) on a shared receipt spine.
-**Zero-trust BYO corpus** (`storeFor(req)`, no key custody), **Kairos + wave-spotter + Atlas**,
-and `@arcs/kit` PLG trio (built, unwired). Deployed via Vercel Hobby (free; concurrentBuilds:1 →
-deploy sequentially).
-
-**arcs-v9 canon this session** (branch `claude/elastic-rubin-f22a6e`, HEAD `3515757`):
-ADR-039 (refusal-to-overclaim IS the product), DEWY receipt `2026-08-01-brand-promise-dewy.json`,
-Tao **cellar** (3 RC-grade candidates awaiting front-of-house lock), `scripts/serialize_grade.py`
-+ delaney forkgrade ledger (adversarially audited).
-
-## Open / next (see arcs-mini/HANDOFF.md for JIT tasks)
-1. Wire `PlgFooter` into the 4 surfaces (batched, sequential deploy).
-2. Build the **B2B/Vault sister app** — circle-of-trust + multisig + KYC/KYB/KYT/KYR, regtech
-   WORM/10yr durability bar. Hedge: B2C short + B2B long, one substrate.
-
-## Waiting on Zach
-Stripe link (`NEXT_PUBLIC_STRIPE_LINK` → $99 live) · Fri **2026-08-07** omakase re-check
-(cloud routine `trig_01HXQpweUrnFNxMeUvzifPT8`) · lock the 3 Tao verses to front-of-house.
-
-## Blocking
-NONE.
-
-## Next session starts at
-`~/arcs-mini/HANDOFF.md` (JIT anchor). New memories: build-reusable-decomposable-interoperable-default,
-brand-promise-refusal-to-overclaim, hedged-parallel-path-b2c-b2b, plan-generalize-omakase-site.
+> _v3.57.0 (Reading Room / integrity gate) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.56.0 (DPRK · wrap-lint MODE-5 · post-4 s-tier · ADR-076) relocated to `_ARCHIVE/handoffs.md` on 2026-09-08; v3.55.0/3.54.0/3.53.0 relocated earlier._

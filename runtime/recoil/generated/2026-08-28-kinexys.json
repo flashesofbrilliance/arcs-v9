@@ -1,0 +1,124 @@
+{
+  "_SSOT": "ARCS 6-tab war-room for the Kinexys Digital Assets PM (VP) pursuit at JPMorganChase. Application already submitted 2026-08. Sizing + prep, not a person-counterpart. Grounded in LinkedIn 4440525172 JD + resume.arcs.care.",
+  "meta": {
+    "report_id": "kinexys-jpm-vp-2026-08-28",
+    "date": "2026-08-28",
+    "counterpart": "Kinexys Digital Assets — PM (VP)",
+    "company": "JPMorganChase",
+    "segments": 5,
+    "gate": {"internal": "kinexys-dlt-forge-7719"},
+    "provenance": {
+      "audience": "both",
+      "captured": "JD read 2026-08-28 (LinkedIn job 4440525172); application already submitted",
+      "load_bearing_quote": "Strong working knowledge of Web3, banking, finance, and payments ecosystems ... a technical understanding of cryptocurrency technology fundamentals"
+    }
+  },
+  "opportunity": {"audience": "internal", "y_state": "GREEN", "topology": "CONVERGENT", "nci_prior": 0, "nci_post": 0, "note": "Strongest DOMAIN fit of the 2026-08 batch: Grayscale ($7B regulated digital-assets launch, SEC/FINRA) maps 1:1 to Kinexys DLT/payments. The bet is 'domain fluency + regulated shipping', not the AI-native archetype."},
+  "beliefs": [
+    {"id": "P1", "audience": "internal", "claim": "My Grayscale digital-assets/regulated record is a top-decile domain match for this role", "evidence": "JD requires 'Web3, banking, finance, payments ecosystems' + 'cryptocurrency technology fundamentals'; Grayscale = $7B AUM, 10-product regulated crypto launch, SEC/FINRA", "inference": "GROUNDED", "confidence": [0.8, 0.8], "conviction": "HIGH", "verdict": "NEW"},
+    {"id": "P2", "audience": "internal", "claim": "The gating risk is org-shape (JPM matrix) not domain or level", "evidence": "JD preferred-qual: 'experience in highly matrixed, complex organizations'; my strongest recent work is high-autonomy (ARCS solo, Squat sole-partner)", "inference": "EXP", "confidence": [0.55, 0.55], "conviction": "MED", "verdict": "NEW"},
+    {"id": "P3", "audience": "internal", "claim": "AI-native is NOT the surface here — do not lead with the MCP/agent story", "evidence": "JD is DLT/blockchain product; no LLM/agent requirement. Archetype rubric would score this lower on AI-native, higher on strength-leverage", "inference": "GROUNDED", "confidence": [0.7, 0.7], "conviction": "HIGH", "verdict": "NEW"}
+  ],
+  "kinematic_series": {"dt": 1.0, "series": [
+    {"key": "domain_fit", "audience": "both", "label": "Belief: domain fluency carries this", "color": "#00FF9D", "points": [0.6, 0.72, 0.8], "grounding_quote": "Grayscale $7B regulated digital-assets launch maps to Kinexys DLT/payments"},
+    {"key": "org_fit_risk", "audience": "internal", "label": "Risk: matrixed-org friction", "color": "#FF4D6D", "points": [0.4, 0.5, 0.55], "grounding_quote": "preferred: experience in highly matrixed, complex organizations"}
+  ]},
+  "insights": [
+    {"audience": "both", "plane": "idea", "title": "Regulated digital-assets shipping is a scarce genome", "text": "Very few product leaders have shipped a 10-product, $7B regulated crypto suite inside SEC/FINRA controls. That is the exact terrain Kinexys operates in. The differentiator is not 'crypto-curious' — it is 'has already shipped compliant digital-assets product at institutional scale.'"},
+    {"audience": "internal", "plane": "counterpart", "title": "JPM is buying de-risking, not vision", "text": "At a bank, a VP PM in a digital-assets group is hired to ship inside heavy governance without breaking anything — cost, risk, reliability metrics are named in the JD before customer value. Lead with 'policy-at-the-glass / compliance-in-the-loop' proof, not 0-to-1 founder energy."}
+  ],
+  "next_steps": [
+    {"audience": "internal", "owner": "Zach", "text": "If a screen lands: reframe the resume's lead from MCP/agents to the Grayscale regulated digital-assets record (P3). The resume-amex-mcp tailor is WRONG for this one — needs a resume-kinexys / regulated-digital-assets cut."},
+    {"audience": "internal", "owner": "Zach", "text": "Pre-empt the matrix-org objection (P2): have one crisp story of shipping through a big-org compliance/legal/risk gauntlet on schedule (Grayscale release train, 4 time zones, -35% cycle time)."},
+    {"audience": "internal", "owner": "Zach", "text": "Warm-path check: query LinkedIn network for JPM/Kinexys connections before the recruiter call (application already in — a referral still helps surface it)."}
+  ],
+  "redaction_policy": {"rules": ["Method can cross; subject-about-them cannot.", "Show your own updates, never their intent-scores.", "Architecture crosses; weights/sauce do not."]},
+  "page": {
+    "layout": "tabs",
+    "header": {"eyebrow": "ARCS &#183; War Room", "title": "Kinexys Digital Assets &#183; JPMorganChase", "sub": "PM (VP) pursuit &#183; application submitted &#183; ex-ante sizing + screen prep"},
+    "tabs": [
+      {"id": "pre", "label": "Pre-Call"},
+      {"id": "exante", "label": "Ex-Ante"},
+      {"id": "forge", "label": "Forge"},
+      {"id": "recoil", "label": "Recoil"},
+      {"id": "wargame", "label": "War Game"},
+      {"id": "defense", "label": "Defensibility"}
+    ],
+    "blocks": [
+      {"tab": "pre", "type": "prose", "audience": "internal", "h2": "True North", "p": ["Show up as the one candidate who has already shipped regulated digital-assets product at institutional scale — calm, governance-fluent, de-risking. Not the AI-native founder; the safe pair of hands who also builds."]},
+      {"tab": "pre", "type": "keyvalue", "audience": "internal", "h2": "Context", "rows": [
+        {"k": "Role", "v": "Kinexys Digital Assets — Product Manager, VP (JPMorganChase, Commercial & Investment Bank)"},
+        {"k": "Location / comp", "v": "New York, NY &#183; $133K–$215K base &#183; 8+ yrs PM"},
+        {"k": "Register", "v": "Recruiting — big-bank, governance-first, matrixed"},
+        {"k": "Their goal", "v": "Ship DLT/digital-assets/payments product inside heavy compliance without breaking anything (cost/risk/reliability named before customer value)"},
+        {"k": "Predicted Y-Gate", "v": "GREEN on domain fit; YELLOW on org-shape fit"}
+      ]},
+      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Intel", "intro": "Kinexys = JPM's blockchain / digital-assets division (formerly Onyx): DLT, tokenization, Web3 banking rails, payments.", "items": [
+        {"dot": "c", "html": "<strong>Domain 1:1 with Grayscale</strong> — regulated digital-assets product at institutional scale is the exact genome; very few PMs have actually shipped it."},
+        {"dot": "g", "html": "<strong>JD orders cost/risk/reliability BEFORE customer value</strong> — this is a de-risking hire; governance is the product."},
+        {"dot": "g", "html": "<strong>Preferred: matrixed-org experience</strong> — the tell that internal navigation, not raw building, is the day-job."},
+        {"dot": "", "html": "<strong>VP at a bank ≈ senior IC/lead</strong> — appropriate level for a 20-yr operator; not a demotion despite 'mid-senior' label."}
+      ]},
+      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Questions &amp; landmines", "intro": "Steer toward domain proof; pre-empt the matrix objection.", "items": [
+        {"dot": "", "html": "Ask: how much of this role is net-new product vs. hardening existing rails? &#183; look for: real 0→1 surface, not pure backlog-tending."},
+        {"dot": "", "html": "Ask: where does the compliance/legal/risk gate sit in the SDLC? &#183; look for: a mature 'compliance-in-the-loop' cadence I can plug into."},
+        {"dot": "", "html": "<span style='color:var(--red)'>Landmine:</span> leading with the ARCS MCP/agent story — wrong surface here; it reads as off-domain enthusiasm. Lead Grayscale."},
+        {"dot": "", "html": "<span style='color:var(--red)'>Landmine:</span> founder/high-autonomy framing that signals 'won't thrive in a matrix.' Show I ship THROUGH governance, not around it."}
+      ]},
+
+      {"tab": "exante", "type": "receipt", "audience": "internal", "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt", "fields": [
+        {"label": "D &#183; Sharpened question", "value": "Given the application is already in, how much prep/energy do I invest in Kinexys, and how do I show up if a screen lands?"},
+        {"label": "E &#183; Entity", "value": "JPMorganChase / Kinexys hiring team + recruiter; competing candidates likely ex-bank DLT PMs"},
+        {"label": "W &#183; Window", "value": "Days-to-weeks (recruiter screen timing); pursuit is warm/low-cost since already applied"},
+        {"label": "Hypothesis / expecting to see", "value": "Domain fit gets me past the first screen; the friction (if any) is org-shape fit ('will a builder-founder tolerate JPM's matrix?'), not qualifications."},
+        {"label": "Predicted Y-gate", "value": "GREEN on domain (Grayscale = 1:1), YELLOW overall (matrix-org fit is the live uncertainty)"},
+        {"label": "Pre-committed move", "value": "INVEST LIGHT until a human responds: (1) build a regulated-digital-assets resume cut (not the MCP tailor), (2) prep the one big-org-governance shipping story, (3) check warm paths. Do NOT over-invest before a signal."},
+        {"label": "Belief most likely to update", "value": "P2 — whether org-shape is actually a problem for them (or only my projection). A warm recruiter tone would downgrade the risk fast."},
+        {"label": "Falsifier", "value": "Auto-reject / no response within ~3 weeks ⇒ domain fit did NOT carry it (P1 falsified — likely level/comp banding or an internal candidate), and the resume lead needs rethinking."}
+      ]},
+
+      {"tab": "forge", "type": "prose", "audience": "internal", "h2": "Exhibit 2 &#183; Exogenous Forge", "p": ["Load-bearing claims about fit, run against the actual JD (LinkedIn 4440525172) and the resume SSOT. GROUNDED = both substrates force it. INFERENCE = my read. STRUCK = overreach."]},
+      {"tab": "forge", "type": "table", "audience": "internal", "h2": "Claim adjudication", "columns": ["Claim", "Ruling", "Source force"], "rows": [
+        ["Grayscale digital-assets record is a direct domain match", "GROUNDED", "JD 'Web3/banking/finance/payments + crypto fundamentals' × resume '$7B, 10-product regulated crypto launch, SEC/FINRA'"],
+        ["This is a de-risking / governance-first hire", "GROUNDED", "JD lists 'cost, functionality, risk, and reliability' as tracked metrics; digital-assets group inside a regulated bank"],
+        ["The MCP/agent story is an asset here", "STRUCK", "No LLM/agent surface in the JD; leading with it is off-domain. It is at most a footnote on 'modern product instincts'."],
+        ["Matrix-org fit is a real risk", "INFERENCE", "My read from the 'highly matrixed' preferred-qual + my high-autonomy recent history; not forced — could be a non-issue"]
+      ]},
+
+      {"tab": "recoil", "type": "keyvalue", "audience": "internal", "h2": "Receipt closed &#183; ex-ante vs actual", "rows": [
+        {"k": "Predicted", "v": "GREEN domain / YELLOW org-fit; domain carries the first screen"},
+        {"k": "Actual", "v": "{{PENDING — no screen yet; close after recruiter response or the 3-week falsifier fires}}"},
+        {"k": "Fork hit", "v": "{{PENDING}}"},
+        {"k": "Load-bearing", "v": "{{PENDING — their verbatim from the screen}}"}
+      ]},
+      {"tab": "recoil", "type": "belief_log", "audience": "internal", "h2": "Belief Log &#183; confidence x conviction"},
+      {"tab": "recoil", "type": "worked_example", "audience": "internal", "h2": "Belief trajectory", "intro": "Domain-fit conviction rising as the JD confirmed the Grayscale mapping; matrix-risk still unresolved.", "close": "{{PENDING — the honest correction after a real signal}}"},
+      {"tab": "recoil", "type": "list", "audience": "internal", "h2": "Kairos, quiet signals &amp; risks", "intro": "Watch-list for the screen.", "items": [
+        {"dot": "g", "html": "<strong>Quiet signal:</strong> JD naming cost/risk/reliability before customer value = they fear a cowboy. Counter-signal early."},
+        {"dot": "", "html": "<span style='color:var(--red)'>Risk:</span> comp band tops at $215K — below the Amex role; fine, but note if it caps negotiation."},
+        {"dot": "", "html": "<span style='color:var(--red)'>Risk:</span> internal-candidate incumbency is common for JPM VP reqs; a no-response is more likely 'internal fill' than 'unqualified'."}
+      ]},
+
+      {"tab": "wargame", "type": "kinematics_table", "audience": "internal", "h2": "Kinematic manifold &#183; measured (D1-D3)"},
+      {"tab": "wargame", "type": "list", "audience": "internal", "h2": "The gauntlet", "intro": "Adversarial pass on the opportunity, not the person.", "items": [
+        {"dot": "", "html": "<strong>BAR (ruin):</strong> low ruin — application already submitted, sunk cost is near-zero. The only real cost is over-investing prep on a role that may be an internal fill. Cap prep until a human responds."},
+        {"dot": "g", "html": "<strong>LAB &#183; Loki:</strong> 'You're a founder who'll suffocate in a bank's matrix and leave in 18 months.' Steel-manned down: true risk, but Grayscale (DCG-owned, regulated) proves I ship inside institutional governance — name it before they raise it."},
+        {"dot": "c", "html": "<strong>COURT:</strong> honesty check — the Grayscale claims are documented/self-reported and true; do NOT stretch 'crypto fundamentals' into implying protocol-engineering depth I don't have. Product + regulated shipping is the honest lane."}
+      ]},
+      {"tab": "wargame", "type": "table", "audience": "internal", "h2": "ATG pre-mortem &#183; critical path x their objections", "columns": ["Node", "Their objection (verbatim-shape)", "Failure mode", "Handling"], "rows": [
+        ["1. Resume screen", "'Reads as an AI/agents person, not a digital-assets banker'", "Off-domain first impression; auto-filed", "Ship a regulated-digital-assets resume cut that LEADS with Grayscale; MCP/agents demoted to a line"],
+        ["2. Recruiter screen", "'Why leave founding ARCS for a big bank?'", "Reads as flight-risk / stopgap", "Frame: want to ship regulated digital-assets product at institutional scale again — the genome, not a pause"],
+        ["3. Hiring-manager", "'Can you operate in a highly matrixed org?'", "Autonomy history reads as matrix-allergic", "The Grayscale release-train story: 4 time zones, compliance-in-the-loop, -35% cycle — shipped THROUGH governance"],
+        ["4. Level / comp", "'VP band tops at $215K'", "Comp mismatch vs. senior expectations", "VP-at-bank ≈ senior lead; treat as fit if the mandate is real; don't anchor on the Amex top"]
+      ]},
+
+      {"tab": "defense", "type": "rosetta", "audience": "internal", "h2": "The same model, both directions", "left": "Kinexys / JPM world", "right": "Zach's record", "rows": [
+        ["Distributed-ledger / tokenization product", "Shipped a 10-product regulated digital-assets suite (Grayscale, $7B AUM)"],
+        ["Governance, risk, reliability as first-class metrics", "Policy-at-the-glass publishing controls + RBAC built into the product; compliance-in-the-loop release cadence"],
+        ["Web3 / banking / payments ecosystems", "Regulated fintech + payments-adjacent partnerships (WTA data/API deals); SEC/FINRA operating context"],
+        ["Highly matrixed, complex org", "Cross-functional release train across 4 time zones, aligning legal/risk/compliance/eng on schedule"]
+      ]},
+      {"tab": "defense", "type": "prose", "audience": "internal", "h2": "Antifragile core &amp; the lossless test", "p": ["If the 3-week falsifier fires (no response), that is high-information, not failure: it says domain fit alone doesn't clear JPM's filter and the resume lead (or an internal-fill reality) is the real variable — which sharpens every future bank application.", "Lossless test: restated in JPM's register — 'a product leader who has already shipped compliant digital-assets product at institutional scale, and de-risks delivery inside heavy governance.' No ARCS jargon required; it holds. Defensible."]}
+    ]
+  }
+}

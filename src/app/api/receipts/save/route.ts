@@ -5,7 +5,7 @@ import { computeYGate } from "@/lib/ygate"
 
 export const dynamic = "force-dynamic"
 
-// Phase 2 of the trust-contract conformance work (ADR-032): opt-in save for
+// Phase 2 of the trust-contract conformance work (ADR-049): opt-in save for
 // anonymous (ephemeral) bearings. Anonymous runs persist NOTHING server-side —
 // the full compass response lives only in the visitor's browser. If they choose
 // to keep it, they sign in and this endpoint persists the bearing they already

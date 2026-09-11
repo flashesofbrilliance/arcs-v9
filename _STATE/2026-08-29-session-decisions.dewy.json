@@ -1,0 +1,37 @@
+{
+ "_doc": "DEWY receipt for 2026-08-29 — close of the tool-catalog/dispatcher session (backlog item tool-catalog-dispatcher-induction-surface, PR #191) plus the session-close housekeeping (memory index re-budgeted, handoff v3.48.0).",
+ "session_ts": "2026-08-29",
+ "receipts": [
+  {
+   "receipt_id": "2026-08-29-tool-catalog-atomic-slice",
+   "surface": "tooling / induction surface (ADR-070)",
+   "sharp_question": "Does the toolset's own induction surface start as a flat harvested catalog + native dispatch, or as the contoured render?",
+   "dewy_vector": {
+    "D": "Atomic first slice only: flat emitter (scripts/tool_catalog_emit.py, 131 tools, JTBDs harvested never inferred, deterministic) + /catalog native command with SINGULAR recommendation. Kabuki contour render and gravity-well binding stay separate sessions.",
+    "E": "The six tool surfaces (skills/commands/workflows/hooks/scripts/operators); Claude Code native dispatch; the generative backlog as future binding target.",
+    "W": "MONTHS — revisit when the catalog is stale-prone (new-tool velocity) or when a later slice lands.",
+    "Y": "GREEN — earned fidelity honored: run-twice diff clean, 0 missing JTBD, command registered natively in-session; merged main via PR #191, deploy green."
+   },
+   "evidence": [
+    "scripts/tool_catalog_emit.py",
+    ".claude/commands/catalog.md",
+    "runtime/specs/tool-catalog.json",
+    "_QUEUE/induced-backlog.jsonl (item flipped BUILT with receipt)"
+   ],
+   "wisdom": "The menu IS the decision fatigue: an induction surface that answers with one tool, not a list, is the product thesis applied to the workshop itself. Also: a backlog's reuse list is a claim to verify — generate_arcs_operator_data.py never existed here; harvest rules beat phantom dependencies."
+  },
+  {
+   "receipt_id": "2026-08-29-memory-index-rebudget",
+   "surface": "memory hygiene",
+   "sharp_question": "How to bring MEMORY.md back under the 17408B budget without losing recall hooks?",
+   "dewy_vector": {
+    "D": "Compress hooks in place (drop restated detail that lives in the topic files), retire nothing — a parallel session had already consolidated content same-day.",
+    "E": "MEMORY.md index; ~188 topic files; the session-start memory-sync tripwire.",
+    "W": "Until the tripwire fires again.",
+    "Y": "GREEN — 18627B → 17305B, all links preserved."
+   },
+   "evidence": ["~/.claude/projects/-Users-zharris-arcs-v9/memory/MEMORY.md"],
+   "wisdom": "When the index is over budget but freshly consolidated, the cut is bytes-per-hook, not files: the hook's job is to jog recall into the topic file, not to carry the content."
+  }
+ ]
+}

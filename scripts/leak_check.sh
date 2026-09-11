@@ -24,7 +24,10 @@
 # Usage: bash scripts/leak_check.sh   (run from repo root; CI runs it in ci.yml)
 set -euo pipefail
 
-SURFACE_GLOB="public/*.html"
+# Recursive (gauntlet fix wf_2b23bfca-d19): public/*.html missed every
+# subdirectory surface (omakase/, compass-kit/, observatory/) — the blindness
+# that let canon-manifest.json ship world-readable. templates/ is excluded
+# (not subdomain-served) but held to the analytics bar below.
 IGNORE_FILE="scripts/.leakignore"
 
 # ── Denylist ─────────────────────────────────────────────────────────────────
@@ -64,13 +67,20 @@ PATTERNS=(
 ALT="$(IFS='|'; echo "${PATTERNS[*]}")"
 
 # ── Scan ─────────────────────────────────────────────────────────────────────
-shopt -s nullglob
-FILES=( $SURFACE_GLOB )
-shopt -u nullglob
+FILES=()
+while IFS= read -r f; do FILES+=("$f"); done < <(find public -name '*.html' -type f ! -path 'public/templates/*' | sort)
 
 if [ "${#FILES[@]}" -eq 0 ]; then
-  echo "⚠ J24: no files match '$SURFACE_GLOB' — external surfaces moved/renamed?"
-  echo "  Treating as a misconfiguration, not a pass. Update SURFACE_GLOB if intended."
+  echo "⚠ J24: no *.html files found under public/ — external surfaces moved/renamed?"
+  echo "  Treating as a misconfiguration, not a pass."
+  exit 2
+fi
+
+# Meta-assertion: the scanned set must equal the full recursive census, so a
+# future re-narrowing of the file list cannot pass silently.
+CENSUS="$(find public -name '*.html' -type f ! -path 'public/templates/*' | wc -l | tr -d ' ')"
+if [ "${#FILES[@]}" != "$CENSUS" ]; then
+  echo "✘ J24 meta: scanned ${#FILES[@]} surfaces but census says ${CENSUS} — surface list narrowed?"
   exit 2
 fi
 
@@ -123,4 +133,156 @@ if [ -n "$MISSING" ]; then
 fi
 
 echo "  ✔ analytics — every public page carries the Web Analytics snippet."
+
+# Stray-source gate (added 2026-07-31, ADR-034 finding IP-014): everything under
+# public/ is served world-readable by filename. The HTML checks above only cover
+# *.html; a source/doctrine file (*.py, *.md) sitting in public/ is served in the
+# clear yet never scanned. Two ARCS recoil files (arcs_recoil_canvas.py with real
+# counterpart PII + arcs_recoil_philosophy.md method doctrine) leaked exactly this
+# way. Source/doc files belong in runtime/ or docs/, never in public/.
+# Recursive since the gauntlet fix: canon-manifest.json (a *.json holding the
+# per-counterpart withholding plan) sat in public/omakase/docs/ untouched by the
+# old maxdepth-1 *.py/*.md gate. Dangerous classes are py/md/sh/json anywhere
+# under public/. Known intentionally-served exceptions are allowlisted here,
+# visibly, with why:
+#   - public/observatory/*.json      demo datasets the static observatory loads
+#   - public/compass-kit/README.md   published design-kit doc, part of the kit
+STRAY_ALLOW='^public/(observatory/(data\.[a-z0-9.-]+\.json|datasets\.json)|compass-kit/README\.md|family-roster\.json)$'
+STRAY="$(find public -type f \( -name '*.py' -o -name '*.md' -o -name '*.sh' -o -name '*.json' \) 2>/dev/null | grep -vE "$STRAY_ALLOW" || true)"
+if [ -n "$STRAY" ]; then
+  STRAY_COUNT="$(echo "$STRAY" | grep -c . || true)"
+  echo ""
+  echo "  ✘ STRAY SOURCE: ${STRAY_COUNT} source/doc file(s) served world-readable in public/:"
+  echo "$STRAY" | sed 's/^/      /'
+  echo ""
+  echo "  Move them out of public/ (runtime/ or docs/). public/ is for served assets only."
+  exit 1
+fi
+
+echo "  ✔ no-stray-source — public/ holds no world-readable *.py/*.md files."
+
+# Client-gate theater check (added 2026-07-31, gauntlet RUIN finding): a
+# client-side password in a public/ page hides a div, it does not gate the page.
+# public/jeben.html shipped its full confidential Thread Book behind val==='berg'
+# and served 200 to anyone. Internal surfaces belong in runtime/warroom/ behind
+# the admin-gated /warroom/[slug] route (Auth.js + ADMIN_EMAILS), never here.
+# Counterpart-facing deliverables (ext/proposal/intro pages) may carry a decorative
+# soft gate: they are meant to be shared, so the gate is a velvet rope, not a lock.
+# The hard failure is reserved for INTERNAL-class pages (thread book, war room,
+# recoil, debrief) whose content must never be world-readable.
+THEATER="$(grep -rlE "val ?=== ?'[a-z]+'|checkPw\(\)" public --include='*.html' 2>/dev/null || true)"
+INTERNAL_THEATER="$(echo "$THEATER" | grep -iE "thread|war|recoil|debrief|jeben" || true)"
+if [ -n "$INTERNAL_THEATER" ]; then
+  echo ""
+  echo "  ✘ CLIENT-GATE THEATER on an INTERNAL page (a client gate is not a gate):"
+  echo "$INTERNAL_THEATER" | sed 's/^/      /'
+  echo ""
+  echo "  Move it to runtime/warroom/ and serve via /warroom/[slug] (Auth.js + ADMIN_EMAILS)."
+  exit 1
+fi
+if [ -n "$THEATER" ]; then
+  THEATER_N="$(echo "$THEATER" | grep -c . || true)"
+  echo "  ⚠ soft-gate note — ${THEATER_N} counterpart-facing page(s) use a decorative client gate (shareable by design; treat those passwords as disclosed)."
+fi
+echo "  ✔ no-internal-client-gate-theater — no internal page hides behind a fake gate."
+
+# Redaction-policy disclosure check (gauntlet HIGH finding): an OPEN surface may
+# state THAT withholding happens and its policy, but must never name the withheld
+# subject content about a counterpart (that tells them what is being said about
+# them). The cellar leaked "symptom chart" / "Jeben-on-Justin verbatim" this way.
+DISCLOSE="$(grep -rliE "symptom chart|-on-[A-Z][a-z]+ verbatim|diagnosis aimed at" public --include='*.html' --include='*.json' --include='*.js' --include='*.txt' --include='*.svg' 2>/dev/null || true)"
+if [ -n "$DISCLOSE" ]; then
+  echo ""
+  echo "  ✘ REDACTION DISCLOSURE: open page(s) name withheld subject-about-them content:"
+  echo "$DISCLOSE" | sed 's/^/      /'
+  echo ""
+  echo "  Abstract to role-generic (\"prep-side reads about the person, withheld\")."
+  echo "  The specific loss log belongs in the gated back of house."
+  exit 1
+fi
+echo "  ✔ no-redaction-disclosure — no open page names what is withheld about a counterpart."
+
+# Withholding-plan vocabulary gate (gauntlet fix): the canon-manifest leak
+# published fence/omission machinery by name. None of these strings is ever
+# legitimate on a served surface.
+PLANVOCAB="$(grep -rlF -e 'JB-CAP' -e 'compilation_targets' -e '"omissions"' -e '"fence"' public 2>/dev/null || true)"
+if [ -n "$PLANVOCAB" ]; then
+  echo ""
+  echo "  ✘ WITHHOLDING-PLAN VOCAB served under public/:"
+  echo "$PLANVOCAB" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-withholding-plan-vocab — no fence/omission machinery on a served surface."
+
+# Decoded-payload gate (gauntlet fix): louisville.html inlines subpages as
+# base64, so raw-byte greps never see their text — 'the plant is moving'
+# shipped exactly this way. Denylist must run on DECODED payload text.
+if [ -f public/louisville.html ]; then
+  DECODED_HITS="$(python3 - << 'PYEOF'
+import re, base64, json, sys
+raw = open('public/louisville.html', encoding='utf-8').read()
+m = re.search(r'PAGES\s*=\s*(\{.*?\});', raw, re.S)
+if not m:
+    print('PAYLOAD-GATE-MISCONFIG: PAGES map not found'); sys.exit(0)
+text = ''.join(base64.b64decode(v).decode('utf-8', 'replace')
+               for v in json.loads(m.group(1)).values()).lower()
+banned = ['plant is moving', 'plant closing', 'wisconsin', 'jobs affected',
+          '20 jobs', 'symptom chart', 'magical thinking', 'the tiers,',
+          # third-party broker terms, genericized 2026-07-31 (Zach's call, no waiver)
+          '$20k', '$240k', '300–500 stores', '300-500 stores']
+for t in banned:
+    if t in text:
+        print(f'louisville.html decoded payload contains banned term: {t!r}')
+PYEOF
+)"
+  if [ -n "$DECODED_HITS" ]; then
+    echo ""
+    echo "  ✘ DECODED PAYLOAD LEAK in louisville.html inlined subpages:"
+    echo "$DECODED_HITS" | sed 's/^/      /'
+    exit 1
+  fi
+  # Retired-framing guard on the shell (raw bytes; payload side covered above).
+  if grep -qiF 'the tiers,' public/louisville.html; then
+    echo "  ✘ RETIRED FRAMING: 'the tiers' back in louisville.html shell copy."
+    exit 1
+  fi
+fi
+echo "  ✔ decoded-payloads — no banned term inside louisville.html inlined subpages."
+
+# Louisville seed-sentence consonance (Zach's ruling 2026-08-01): the canonical open form
+# is "Louisville is great at making things. The open question is which to make next."
+# The retired harsh form must not recur on any Louisville-facing surface.
+HARSH="$(grep -rlF 'unproven at deciding' public/louisville.html public/omakase/ 2>/dev/null || true)"
+if [ -n "$HARSH" ]; then
+  echo "  ✘ SEED-SENTENCE DRIFT: retired harsh form back on a Louisville surface:"
+  echo "$HARSH" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ seed-sentence — Louisville surfaces carry the canonical softened form."
+
+# Orphan gate (2026-08-01): every sub-door in the Louisville universe must carry a
+# visible return path to its parent (L3 -> L2 -> L1). A page a guest can enter but
+# not walk back out of is an orphan; the pattern holds across ALL sub doors.
+ORPHANS=""
+for f in public/omakase/*.html; do
+  [ "$f" = "public/omakase/index.html" ] && REQ='louisville.arcs.care' || REQ='href="/omakase"'
+  grep -qF "$REQ" "$f" || ORPHANS="$ORPHANS$f\n"
+done
+if [ -n "$ORPHANS" ]; then
+  echo "  ✘ ORPHANED SUB-DOOR: page(s) with no return path to their parent:"
+  printf "$ORPHANS" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-orphans — every omakase sub-door carries a return path to its parent."
+
+# Dead-anchor theater gate (gauntlet fix): an href=\"#\" on a guest surface is
+# either broken or a fake gate; gated things must LOOK locked (span.locked).
+DEADANCHOR="$(grep -n 'href="#"' public/omakase/index.html 2>/dev/null || true)"
+if [ -n "$DEADANCHOR" ]; then
+  echo ""
+  echo "  ✘ DEAD ANCHOR on the omakase guest surface (convert to span.locked):"
+  echo "$DEADANCHOR" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-dead-anchors — no hollow href=\"#\" on the cellar surface."
 exit 0

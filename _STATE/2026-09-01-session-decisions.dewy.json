@@ -1,0 +1,41 @@
+{
+ "_doc": "DEWY receipt — 2026-09-01 PRL pre-call session. Fulcrum: read-only sandbox inspection of PRL's Sugar custom code, which re-profiles engagement risk. Also: catch-up/exec-overview page built (uncommitted, resume-tailors).",
+ "session_ts": "2026-09-01",
+ "receipts": [
+  {
+   "receipt_id": "2026-09-01-prl-sugar-custom-code-collision-surface",
+   "surface": "PRL engagement / CRM integration risk (ADR-074 draft)",
+   "sharp_question": "Does PRL's custom Sugar code collide with the chatbot's lead create/dedup/route path, and does the work require Sugar Professional Services?",
+   "dewy_vector": {
+    "D": "No. All five installed custom packages (wBenchmarkTargetTemplate, OrderHistorySetRLI, OpenOrdersSetProduct, SalesNumbersSetAccountRel, wGlobalSearch) are before-save logic hooks on the revenue/order/account side; NONE touches Leads. Chatbot lead path is clear; proceed additive-only; no PS purchase needed. The same revenue hooks explain the $43.7M/48%-no-lead-source gap.",
+    "E": "PRL Sugar sandbox (prlresinstest, read-only Module Loader); W-Systems custom build (builders Fred Block + Amy Jaeger gone); Kim Borst PS docs; Ken Clark PS-steer; the chatbot lead-write path.",
+    "W": "NOW for the lead-work clearance (drives the 1 PM call + 1.3 scope); the attribution-layer implication is a MONTHS-out design boundary for the revenue-attribution phase.",
+    "Y": "YELLOW->GREEN-leaning — verified at the package layer via Module Loader; residual GATE before prod cutover = confirm no SugarBPM process / web logic hook touches Lead create/dedup (~10 min)."
+   },
+   "evidence": [
+    "memory: prl-sugar-custom-code-collision-map",
+    "_DECISIONS/ADR-074-prl-sugar-custom-code-collision-surface.md",
+    "Sugar Module Loader read-only 2026-09-01",
+    "_ARTIFACTS/prl-baseline/ (942 leads / 4,238 opps / $43.7M / 48% blank lead_source)"
+   ],
+   "wisdom": "The vendor's paid-services steer was a re-explanation of their own undocumented build; inspecting the sandbox directly answered it for free AND split the risk cleanly (lead path clear, revenue path is the real complexity). Look at the artifact yourself before buying the map to it."
+  },
+  {
+   "receipt_id": "2026-09-01-prl-catchup-exec-overview",
+   "surface": "PRL client surface (prl.arcs.care catch-up / program-at-a-glance)",
+   "sharp_question": "How does Todd re-orient after 5 days away when prl.arcs.care has grown to 8 surfaces?",
+   "dewy_vector": {
+    "D": "A single exec-overview: BLUF + an owner-colored interactive timeline (program-at-a-glance) + 5-day recap + one-decision + serial short-list + a where-to-look-by-question map. Built in the frozen prl-page-factory system, honest week-buckets (no invented dates), gold bars = on-Todd.",
+    "E": "Todd (drummer/polyrhythmic tracker); the 8 status surfaces; the Aug-26 receipt close; the 1.3-now-or-after decision.",
+    "W": "This week — it is the pre-read for the 1 PM call.",
+    "Y": "YELLOW — built + QA'd desktop/mobile, but UNCOMMITTED on resume-tailors (not main), NOT deployed; IA still open (fold program-at-a-glance into /progress vs standalone); 1.2-A price to confirm ($2,000 vs $2,070)."
+   },
+   "evidence": [
+    "public/prl-status-catchup.html (untracked)",
+    "next.config.ts + src/proxy.ts (modified, uncommitted)",
+    ".claude/skills/prl-page-factory"
+   ],
+   "wisdom": "The fix for surface-sprawl is not a 9th surface; it is an exec altitude of an existing one. Program-at-a-glance wants to be the top of /progress, not a standalone page."
+  }
+ ]
+}

@@ -17,17 +17,17 @@ datasource db {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  emailVerified DateTime?
-  name          String?
-  image         String?
-  tier          String    @default("FREE")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  receipts      Receipt[]
-  sessions      Session[]
-  accounts      Account[]
+  id                 String         @id @default(cuid())
+  email              String?        @unique
+  emailVerified      DateTime?
+  name               String?
+  image              String?
+  tier               String         @default("FREE")
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  receipts           Receipt[]
+  sessions           Session[]
+  accounts           Account[]
   // Progressive-disclosure email reminders: the first debrief is always sent
   // (it's the core close-the-loop promise — see debriefEmail.ts). Every
   // subsequent debrief requires explicit opt-in, set via the link in that
@@ -35,7 +35,7 @@ model User {
   // debriefOptIn gates everything after it. Default false — silence unless
   // asked for, the opposite of the prior auto-send-every-receipt behavior.
   firstDebriefSentAt DateTime?
-  debriefOptIn       Boolean   @default(false)
+  debriefOptIn       Boolean        @default(false)
   profileUpload      ProfileUpload?
   scanSignals        ScanSignal[]
 }
@@ -46,33 +46,33 @@ model User {
 // pointer + lightweight status so the dashboard can nudge a skipped user
 // later without re-asking blindly.
 model ProfileUpload {
-  id          String    @id @default(cuid())
-  userId      String    @unique
-  user        User      @relation(fields: [userId], references: [id])
-  pdfUrl      String?   // LinkedIn "Save to PDF" profile export
-  exportUrl   String?   // Full LinkedIn data export ZIP
-  skipped     Boolean   @default(false)
-  uploadedAt  DateTime?
-  createdAt   DateTime  @default(now())
+  id         String    @id @default(cuid())
+  userId     String    @unique
+  user       User      @relation(fields: [userId], references: [id])
+  pdfUrl     String? // LinkedIn "Save to PDF" profile export
+  exportUrl  String? // Full LinkedIn data export ZIP
+  skipped    Boolean   @default(false)
+  uploadedAt DateTime?
+  createdAt  DateTime  @default(now())
 }
 
 model PrepSession {
   id               String    @id @default(cuid())
-  stakes           String?   // LOW | MEDIUM | HIGH
-  horizon          String?   // TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
+  stakes           String? // LOW | MEDIUM | HIGH
+  horizon          String? // TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
   protecting       String    @default("[]") // JSON: ["cash","time","reputation",...]
-  confidence       Int?      // 1–5 (1=lost, 5=just need confirmation)
-  entity           String?   // named party — populates brief stakeholder rows
-  adversarialInput String?   // "Strongest case against your instinct"
-  outcomeHorizon   String?   // natural language: "when do you expect the shoe to drop?"
+  confidence       Int? // 1–5 (1=lost, 5=just need confirmation)
+  entity           String? // named party — populates brief stakeholder rows
+  adversarialInput String? // "Strongest case against your instinct"
+  outcomeHorizon   String? // natural language: "when do you expect the shoe to drop?"
   createdAt        DateTime  @default(now())
   receipts         Receipt[]
 }
 
 model Receipt {
-  id             String   @id @default(cuid())
-  userId         String?
-  user           User?    @relation(fields: [userId], references: [id])
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
   // ── DEWY Schema identity (dewy-receipt-schema-v1.json) ────────────────────
   // receiptId: formatted ID = ARCS-ORIENT-[ISO8601]-[8-char hash]. Null on
@@ -82,61 +82,61 @@ model Receipt {
   // surface: which ARCS surface produced this receipt (always ORIENT for now).
   // validationState: HOLD/REJECT gate result. Only PASS records carry full decomposition.
   // sessionTs: L5 freeze time. Distinct from createdAt (DB write time).
-  receiptId        String?  @unique   // ARCS-ORIENT-[ISO8601]-[8-char hash]
-  schemaVersion    String   @default("0.1.0") // dewy-receipt-schema-v1.json version
-  surface          String   @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT | EPHEMERAL_SAVE (post-auth save of an anonymous bearing, client-attested — ADR-032)
-  validationState  String   @default("PASS")   // PASS | HOLD | REJECT
-  sessionTs        DateTime? // L5 freeze time (set explicitly; not DB write time)
+  receiptId       String?   @unique // ARCS-ORIENT-[ISO8601]-[8-char hash]
+  schemaVersion   String    @default("0.1.0") // dewy-receipt-schema-v1.json version
+  surface         String    @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT | EPHEMERAL_SAVE (post-auth save of an anonymous bearing, client-attested — ADR-049)
+  validationState String    @default("PASS") // PASS | HOLD | REJECT
+  sessionTs       DateTime? // L5 freeze time (set explicitly; not DB write time)
 
   // ── D · Decision ──────────────────────────────────────────────────────────
   // decision: legacy field (pre-schema). Maps to schema `sharp_question`.
   // sharpQuestion: canonical schema field name. Prefer this for new writes.
   // dewyVector: full DEWY {D,E,W,Y} JSON object (TEXT). Set by L1.
-  decision       String           // legacy: sharpened question (maps to sharp_question)
-  sharpQuestion  String?          // schema canonical: atomic question from L0 (≤280 chars)
-  dewyVector     String?          // JSON: {D, E:{self,other,entity_overflow}, W:{horizon,lock_date,inferred}, Y:{polarity,conviction,stability}}
-  trueNorth      String           // compass True North output
+  decision        String // legacy: sharpened question (maps to sharp_question)
+  sharpQuestion   String? // schema canonical: atomic question from L0 (≤280 chars)
+  dewyVector      String? // JSON: {D, E:{self,other,entity_overflow}, W:{horizon,lock_date,inferred}, Y:{polarity,conviction,stability}}
+  trueNorth       String // compass True North output
   // whyBullets: legacy field. Maps to schema `why` (string[]).
-  whyBullets     String           // JSON: string[] — maps to schema `why`
-  loki           String?          // strongest counter-argument to true_north (schema: loki)
-  bar            String?          // JSON: {ruin_risk, asymmetry, reversibility} (schema: bar)
-  nciScore       Int              // 0–100 composite coherence score (schema: nci_score.composite)
-  nciGrade       String?          // human-readable grade, e.g. "B+ — Conviction is weak lens"
-  nciByLens      String?          // JSON: {clarity,conviction,coherence,consequence,cadence} — 0-20 each
-  coherencePct   Int?             // 0–100 question coherence (how well-formed the input is)
-  isSatoshi      Boolean          @default(false) // category-defining / rare move flag
-  clarityMode    String           @default("SIMPLE") // SIMPLE | RICH | DEEP (schema: clarity_mode)
-  fidelityHeader String?          // shown at top of Brief when render_resolution != SHARP
-  fated          String?          // JSON: {facts,assumptions,tradeoffs,emotions,direction}
-  paths          String?          // JSON: [{id,title,detail,tag,status}]
-  court          String?          // JSON: [{name,verdict,detail}] — null unless ruin detected
-  courtVerdict   String?          // one-sentence court ruling
+  whyBullets      String // JSON: string[] — maps to schema `why`
+  loki            String? // strongest counter-argument to true_north (schema: loki)
+  bar             String? // JSON: {ruin_risk, asymmetry, reversibility} (schema: bar)
+  nciScore        Int // 0–100 composite coherence score (schema: nci_score.composite)
+  nciGrade        String? // human-readable grade, e.g. "B+ — Conviction is weak lens"
+  nciByLens       String? // JSON: {clarity,conviction,coherence,consequence,cadence} — 0-20 each
+  coherencePct    Int? // 0–100 question coherence (how well-formed the input is)
+  isSatoshi       Boolean @default(false) // category-defining / rare move flag
+  clarityMode     String  @default("SIMPLE") // SIMPLE | RICH | DEEP (schema: clarity_mode)
+  fidelityHeader  String? // shown at top of Brief when render_resolution != SHARP
+  fated           String? // JSON: {facts,assumptions,tradeoffs,emotions,direction}
+  paths           String? // JSON: [{id,title,detail,tag,status}]
+  court           String? // JSON: [{name,verdict,detail}] — null unless ruin detected
+  courtVerdict    String? // one-sentence court ruling
   // nciSelfGrade: per canon §1.2 Kintsugi/NCI self-grade — Claude's own
   // honest assessment of its output, not a hidden audit (unlike SageTrace).
   // JSON: {factual,sources,honesty,action: bool, notes: string}
-  nciSelfGrade   String?          // JSON: {factual,sources,honesty,action,notes}
-  mode           String           // QUICKMOVE | PLAN | COURT (schema: mode)
-  doorClass      String?          // ONE_WAY | TWO_WAY
+  nciSelfGrade    String? // JSON: {factual,sources,honesty,action,notes}
+  mode            String // QUICKMOVE | PLAN | COURT (schema: mode)
+  doorClass       String? // ONE_WAY | TWO_WAY
   // macroTags: legacy field. Maps to schema `macros_run` (LAB|BAR|KKL|ATG).
-  macroTags      String           @default("[]") // JSON: string[] — maps to schema `macros_run`
-  atgTributaries String?          // JSON: [{type,label,prompt}] — ATG follow-up prompts
-  rawResponse    String?          // full Claude JSON for deep reasoning
-  inferredFields String           @default("[]") // JSON: string[] — auto-inferred fields (schema: inferred_fields)
-  collisionFields String          @default("[]") // JSON: string[] — collision-resolved fields (schema: collision_fields)
+  macroTags       String  @default("[]") // JSON: string[] — maps to schema `macros_run`
+  atgTributaries  String? // JSON: [{type,label,prompt}] — ATG follow-up prompts
+  rawResponse     String? // full Claude JSON for deep reasoning
+  inferredFields  String  @default("[]") // JSON: string[] — auto-inferred fields (schema: inferred_fields)
+  collisionFields String  @default("[]") // JSON: string[] — collision-resolved fields (schema: collision_fields)
 
   // ── E · Entity ────────────────────────────────────────────────────────────
-  entity         String?          // named party (from prep or extracted from decision)
-  stakeholders   String?          // JSON — populated by brief generation
+  entity       String? // named party (from prep or extracted from decision)
+  stakeholders String? // JSON — populated by brief generation
 
   // ── W · Window ────────────────────────────────────────────────────────────
   // window: legacy field (pre-schema enum values: THIS_WEEK etc.).
   // horizon: canonical schema field (TODAY|WEEK|QUARTER|YEAR|YEARS).
-  window         String           // legacy: TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
-  horizon        String?          // schema canonical: TODAY | WEEK | QUARTER | YEAR | YEARS
-  stakes         String?          // LOW | MEDIUM | HIGH | EXISTENTIAL (schema: stakes)
-  protecting     String           @default("[]") // JSON: string[] (from prep chips)
-  horizonLocked  Boolean          @default(false)
-  driftState     String?          // ON_TRACK | DRIFTING | LOCKED | LANDED (schema: drift_state)
+  window        String // legacy: TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
+  horizon       String? // schema canonical: TODAY | WEEK | QUARTER | YEAR | YEARS
+  stakes        String? // LOW | MEDIUM | HIGH | EXISTENTIAL (schema: stakes)
+  protecting    String  @default("[]") // JSON: string[] (from prep chips)
+  horizonLocked Boolean @default(false)
+  driftState    String? // ON_TRACK | DRIFTING | LOCKED | LANDED (schema: drift_state)
 
   // ── Y · Yellow Gate — Conviction Trajectory Layer ────────────────────────
   // Y is a 3-vector: polarity × conviction × stability → computed summary state
@@ -152,49 +152,52 @@ model Receipt {
   // SCRATCH  → scratchpad, hidden from session history, feeds pattern layer
   // PARADOX  → options non-separable, Curator auto-invoked
   // DELTA    → conviction collapsed, tracks the inflection point
-  yPolarity         String           @default("SCRATCH") // schema: dewy_vector.Y.polarity
-  yConviction       String           @default("LOW")     // schema: dewy_vector.Y.conviction — LOW|MEDIUM|HIGH
-  yStability        String           @default("SHIFTING") // schema: dewy_vector.Y.stability — SHIFTING|CONTESTED|STABLE
-  yState            String           @default("SCRATCH") // computed summary state
-  yGateScore        String?          // JSON: {polarity,conviction,stability,render_resolution,visual_treatment} (schema: y_gate_score)
-  yConvictionPrev   String?          // prior conviction state (null if seed)
-  yDeltaTrigger     String?          // what caused conviction to move
-  yConditions       String           @default("[]") // JSON: [{dim,label,severity}]
-  yOverride         Boolean          @default(false)
-  yOverrideAt       DateTime?
-  yOverrideNote     String?
-  promotedTo        String?          // if SCRATCH: id of Receipt it was promoted into
+  yPolarity       String    @default("SCRATCH") // schema: dewy_vector.Y.polarity
+  yConviction     String    @default("LOW") // schema: dewy_vector.Y.conviction — LOW|MEDIUM|HIGH
+  yStability      String    @default("SHIFTING") // schema: dewy_vector.Y.stability — SHIFTING|CONTESTED|STABLE
+  yState          String    @default("SCRATCH") // computed summary state
+  yGateScore      String? // JSON: {polarity,conviction,stability,render_resolution,visual_treatment} (schema: y_gate_score)
+  yConvictionPrev String? // prior conviction state (null if seed)
+  yDeltaTrigger   String? // what caused conviction to move
+  yConditions     String    @default("[]") // JSON: [{dim,label,severity}]
+  yOverride       Boolean   @default(false)
+  yOverrideAt     DateTime?
+  yOverrideNote   String?
+  promotedTo      String? // if SCRATCH: id of Receipt it was promoted into
 
   // ── Kinematic / Manifold ──────────────────────────────────────────────────
-  gradientMagnitude  Float   @default(0.5) // |∇C(x)| — 0=flat, 1=steep ascent
-  gradientDirection  String  @default("{}") // JSON: unit vector across DEWY dims
-  flowTopology       String  @default("CONVERGENT") // CONVERGENT|DIVERGENT|LOOPING|CLIFF
-  manifoldCurvature  String  @default("MODERATE")   // STEEP|MODERATE|FLAT|INVERTED
-  renderResolution   String  @default("SHARP")      // SHARP|DEGRADED|GRAIN|MOIRE (schema: render_resolution)
+  gradientMagnitude Float  @default(0.5) // |∇C(x)| — 0=flat, 1=steep ascent
+  gradientDirection String @default("{}") // JSON: unit vector across DEWY dims
+  flowTopology      String @default("CONVERGENT") // CONVERGENT|DIVERGENT|LOOPING|CLIFF
+  manifoldCurvature String @default("MODERATE") // STEEP|MODERATE|FLAT|INVERTED
+  renderResolution  String @default("SHARP") // SHARP|DEGRADED|GRAIN|MOIRE (schema: render_resolution)
 
   // ── Lineage ───────────────────────────────────────────────────────────────
-  sessionId      String           // groups full decision thread
-  parentId       String?          // null = seed receipt (schema: parent_receipt_id → parentId)
-  parentTributaryIndex Int?       // 0|1|2 = which tributary spawned this receipt; null if seed
-  version        Int              @default(0) // lineage counter (not schema version — see schemaVersion)
-  forkPath       String?          // which path was chosen if parent was FORK state
-  mergedFrom     String           @default("[]") // JSON: string[] receipt ids
+  sessionId            String // groups full decision thread
+  parentId             String? // null = seed receipt (schema: parent_receipt_id → parentId)
+  parentTributaryIndex Int? // 0|1|2 = which tributary spawned this receipt; null if seed
+  version              Int     @default(0) // lineage counter (not schema version — see schemaVersion)
+  forkPath             String? // which path was chosen if parent was FORK state
+  mergedFrom           String  @default("[]") // JSON: string[] receipt ids
 
   // ── Relations ─────────────────────────────────────────────────────────────
-  prepId         String?          // schema: prep_session_id → prepId
-  prep           PrepSession?     @relation(fields: [prepId], references: [id])
-  parent         Receipt?         @relation("lineage", fields: [parentId], references: [id])
-  children       Receipt[]        @relation("lineage")
-  outcome        Outcome?
-  brief          Brief?
-  guide          PrepGuide?
-  sageTrace      SageTrace? // invisible — never `include`d by client-facing routes; query directly for the efficacy study
+  prepId        String? // schema: prep_session_id → prepId
+  prep          PrepSession? @relation(fields: [prepId], references: [id])
+  parent        Receipt?     @relation("lineage", fields: [parentId], references: [id])
+  children      Receipt[]    @relation("lineage")
+  outcome       Outcome?
+  brief         Brief?
+  guide         PrepGuide?
+  sageTrace     SageTrace? // invisible — never `include`d by client-facing routes; query directly for the efficacy study
+  tribunes      Tribune[]    @relation("tribuneReceipt") // ADR-020: up to 3 rows (anterior/proactive/posterior); annotates, never mutates
+  batonId       String? // ADR-020: forward chain link — the successor receipt this one hands the baton to (nullable, additive)
+  batonTribunes Tribune[]    @relation("tribuneBaton")
 
-  createdAt      DateTime         @default(now())
-  reviewDate     DateTime?
-  status         String           @default("OPEN") // OPEN | LOGGED | EXPIRED
-  reminderDate   String?          // ISO date string — when to send outcome follow-up email
-  debriefSentAt  DateTime?        // set once the debrief email is sent/scheduled; prevents double-send between compass-time scheduling and the long-horizon cron (ADR-026)
+  createdAt     DateTime  @default(now())
+  reviewDate    DateTime?
+  status        String    @default("OPEN") // OPEN | LOGGED | EXPIRED
+  reminderDate  String? // ISO date string — when to send outcome follow-up email
+  debriefSentAt DateTime? // set once the debrief email is sent/scheduled; prevents double-send between compass-time scheduling and the long-horizon cron (ADR-026)
 
   @@index([userId])
   @@index([sessionId])
@@ -209,8 +212,8 @@ model Brief {
   id               String   @id @default(cuid())
   receiptId        String   @unique
   receipt          Receipt  @relation(fields: [receiptId], references: [id])
-  situationFraming String   // generated prose, stored once
-  entityAnalysis   String?  // JSON: {role,leverage_theirs,leverage_yours,alignment,alignment_read,signal_to_watch,risk_surface}
+  situationFraming String // generated prose, stored once
+  entityAnalysis   String? // JSON: {role,leverage_theirs,leverage_yours,alignment,alignment_read,signal_to_watch,risk_surface}
   generatedAt      DateTime @default(now())
 }
 
@@ -225,30 +228,192 @@ model SageTrace {
   id            String   @id @default(cuid())
   receiptId     String   @unique
   receipt       Receipt  @relation(fields: [receiptId], references: [id])
-  fired         Boolean  // true = SAGE call succeeded and its signal was used
-  signal        String?  // JSON: raw SAGE response — null when fired=false
-  failureReason String?  // e.g. "unreachable", "non-200:401", "SAGE_URL unset" — null when fired=true
-  latencyMs     Int?     // SAGE call duration — null when fired=false
+  fired         Boolean // true = SAGE call succeeded and its signal was used
+  signal        String? // JSON: raw SAGE response — null when fired=false
+  failureReason String? // e.g. "unreachable", "non-200:401", "SAGE_URL unset" — null when fired=true
+  latencyMs     Int? // SAGE call duration — null when fired=false
   createdAt     DateTime @default(now())
 
   @@index([fired])
 }
 
 model PrepGuide {
-  id                String   @id @default(cuid())
-  receiptId         String   @unique
-  receipt           Receipt  @relation(fields: [receiptId], references: [id])
-  mode              String   // RECON | ACTIVE | LEAD
-  guideTitle        String   @default("")
-  betLabel          String   @default("")
-  totalPrepHours    String   @default("")
-  stages            String   // JSON: StageData[]
-  stageLog          String   @default("[]") // JSON: {stageId,completedAt,verdict,vibe}[]
-  outcomeStatement  String   @default("") // "By end of T1, Marcus has confirmed we're in the final shortlist"
-  leadingIndicator  String   @default("") // signal that appears BEFORE outcome is confirmed
-  kpiLabel          String   @default("") // measurable proxy: "Offer received / Intro to team / Budget mentioned"
-  failureSignal     String   @default("") // early warning the effort is going wrong
-  generatedAt       DateTime @default(now())
+  id               String   @id @default(cuid())
+  receiptId        String   @unique
+  receipt          Receipt  @relation(fields: [receiptId], references: [id])
+  mode             String // RECON | ACTIVE | LEAD
+  guideTitle       String   @default("")
+  betLabel         String   @default("")
+  totalPrepHours   String   @default("")
+  stages           String // JSON: StageData[]
+  stageLog         String   @default("[]") // JSON: {stageId,completedAt,verdict,vibe}[]
+  outcomeStatement String   @default("") // "By end of T1, Marcus has confirmed we're in the final shortlist"
+  leadingIndicator String   @default("") // signal that appears BEFORE outcome is confirmed
+  kpiLabel         String   @default("") // measurable proxy: "Offer received / Intro to team / Budget mentioned"
+  failureSignal    String   @default("") // early warning the effort is going wrong
+  generatedAt      DateTime @default(now())
+}
+
+// ─── Job-search board (jobs.arcs.care) ──────────────────────────────────────
+// The ingest→score→swipe→forge loop, moved off the claude.ai artifact store
+// (2026-09-05). One row per LinkedIn job id (or manual-<id> for hand-added
+// rows). JSON fields (dims, gates, jdHits) are TEXT per the repo rule.
+
+model JobOpportunity {
+  jobid         String       @id
+  title         String
+  company       String
+  location      String?
+  url           String
+  alertQuery    String?
+  alertLocation String?
+  source        String       @default("linkedin_alert_digest")
+  firstSeen     DateTime
+  seenCount     Int          @default(1)
+  salary        String? // digest-subject salary string, lead job only
+  composite     Float?
+  band          String       @default("UNSCORED") // PURSUE | CONSIDER | PASS | UNSCORED
+  dims          String? // TEXT json {role_shape:0-3, ...}
+  gates         String? // TEXT json [string]
+  assessment    String?
+  atsClass      String? // old | new | unk
+  atsName       String?
+  companyType   String? // startup | scaleup | enterprise
+  compBand      String?
+  workLocation  String?
+  hmKind        String? // explicit | implicit | unknown
+  hmText        String?
+  contactType   String? // portal | form | email | referral | unverified
+  contactDetail String?
+  contactUrl    String?
+  nextStep      String?
+  jdHits        String? // TEXT json {A:[...],B:[...],C:[...],D:[...]}
+  unscoredWhy   String?
+  scoredAt      DateTime?
+  laneStage     String?   // manual kanban override: research|qualify|apply|interview|outcome
+  laneStatus    String?   // fate within the stage: applied|screened|declined|offer|reject|withdrawn
+  laneMovedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  swipe         JobSwipe?
+  forge         ForgeRun?
+  scores        Score[]
+  correction    Correction?
+  laneOutcome   LaneOutcome?
+
+  @@index([band, composite])
+  @@index([firstSeen])
+}
+
+model JobSwipe {
+  jobid     String         @id
+  job       JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  direction String // r | l
+  why       String? // left-swipe reason tag
+  at        DateTime       @default(now())
+  userId    String?
+}
+
+model ForgeRun {
+  jobid         String         @id
+  job           JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  status        String // queued | gathering | grading | rendering | built | live
+  url           String?
+  resumeUrl     String?
+  hmKind        String?
+  hmText        String?
+  contactType   String?
+  contactDetail String?
+  contactUrl    String?
+  notes         String?
+  requestedAt   DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model JobBoardSetting {
+  key   String @id
+  value String
+}
+
+// --- Compass Lane surfaces (additive; job-search is lane instance 1) ---
+
+// A stream the lane ingests from. Rows, not config: a dead feed shows its error
+// here and never silently empties the board. (Sources surface.)
+model Source {
+  key        String    @id // linkedin_alert_digest | ashby_board | ...
+  label      String
+  adapter    String // gmail_digest | ashby | greenhouse | manual
+  status     String    @default("proposed") // live | detected | proposed | paused
+  lastRunAt  DateTime?
+  lastError  String?
+  watermark  DateTime? // newest message processed; progressive sweep reads after this
+  pollWindow String? // human note, e.g. "weekday 08:15 ET"
+  note       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+// A user-filed "run a search" over a date range. Executed asynchronously by the
+// sweep; rows land in Research. (Sources surface, run history.)
+model IngestRequest {
+  id          String    @id @default(cuid())
+  sourceKey   String // which Source
+  fromDate    String? // ISO date (query window start)
+  toDate      String?
+  query       String?
+  status      String    @default("queued") // queued | running | done | failed
+  rowsAdded   Int?
+  note        String?
+  requestedAt DateTime  @default(now())
+  completedAt DateTime?
+  requestedBy String?
+
+  @@index([sourceKey, requestedAt])
+}
+
+// One score of a candidate against a target version. Backfilled by COPY off the
+// inline JobOpportunity fields (never a re-score), tagged target_version.
+model Score {
+  id            String         @id @default(cuid())
+  jobid         String
+  job           JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  targetVersion String // e.g. "1.1"
+  composite     Float?
+  band          String // PURSUE | CONSIDER | PASS | UNSCORED
+  dims          String? // TEXT json
+  gates         String? // TEXT json
+  assessment    String?
+  scoredAt      DateTime?
+  createdAt     DateTime       @default(now())
+
+  @@unique([jobid, targetVersion])
+  @@index([jobid])
+}
+
+// Wayfinder course-correction record. Required on a reject or pivot, optional on
+// a win. What the learning loop reads. (Debrief surface.)
+model Correction {
+  jobid     String         @id
+  job       JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  learned   String // "today I learned"
+  pattern   String? // "recognizes pattern"
+  avoid     String? // "will avoid"
+  logic     String? // "decision logic"
+  links     String? // TEXT json [url]
+  createdAt DateTime       @default(now())
+}
+
+// The lane close: outcome vs the ex-ante score. Distinct from the compass
+// Outcome (which binds to Receipt). (Debrief surface, recapitulate stage.)
+model LaneOutcome {
+  jobid              String         @id
+  job                JobOpportunity @relation(fields: [jobid], references: [jobid], onDelete: Cascade)
+  fate               String // closed:won | closed:lost | closed:learned
+  predictedComposite Float?
+  actualDims         String? // TEXT json (actual per-dim)
+  actualNote         String?
+  honestyLabel       String? // correct | over | under
+  closedAt           DateTime       @default(now())
 }
 
 model Outcome {
@@ -260,6 +425,36 @@ model Outcome {
   regretScore Int
   learning    String?
   loggedAt    DateTime @default(now())
+}
+
+// ── ADR-020 Tribune Intelligence Layer ─────────────────────────────────────
+// Three-phase annotation (ANTERIOR pre-mortem / PROACTIVE kinematic / POSTERIOR
+// post-mortem) that WRAPS a Receipt. The Receipt stays the sealed canonical
+// object (ADR-019); a Tribune row is commentary with a FK, never a mutation.
+// Proactive is silent below threshold: risk tier RUIN, drift ≥ DERAILMENT, or
+// |NCI delta| > 15 within the session (src/lib/tribune.ts shouldSpeak).
+// JSON columns are TEXT (house rule: JSON.stringify/parse at the boundary).
+model Tribune {
+  id           String   @id @default(cuid())
+  receiptId    String
+  receipt      Receipt  @relation("tribuneReceipt", fields: [receiptId], references: [id], onDelete: Cascade)
+  phase        String // anterior | proactive | posterior
+  riskTier     String? // baseline | asymmetric | ruin  (ADR-020 "evidence bar tier" = risk-tier enum, not BAR macro)
+  labResult    String? // JSON: {loki, advisors, bayesian}
+  courtInvoked Boolean  @default(false)
+  driftState   String? // from Drift Sentinel via ygate: ON_TRACK | DRIFTING | LOCKED | LANDED (+ DERAILMENT when wired)
+  nciDelta     Float? // NCI at open vs. at decision point (session-scoped)
+  clarityMode  String   @default("SIMPLE") // SIMPLE | RICH | DEEP
+  batonId      String? // forward chain link to the successor receipt
+  baton        Receipt? @relation("tribuneBaton", fields: [batonId], references: [id])
+  boardVotes   String? // JSON: {detective, accountant, loki, sentry, alchemist, elder} -> green|red
+  content      String // JSON: phase-specific generated content (see src/lib/tribune.ts TribuneContent)
+  model        String? // which model generated it (observability; never exposed as authority)
+  createdAt    DateTime @default(now())
+
+  @@unique([receiptId, phase]) // one row per phase per receipt; regenerate = upsert
+  @@index([receiptId])
+  @@index([batonId])
 }
 
 model Account {
@@ -303,13 +498,13 @@ model Annotation {
   id          String   @id @default(cuid())
   userId      String?
   receiptId   String
-  surface     String   @default("BRIEF")  // BRIEF | RECEIPT
+  surface     String   @default("BRIEF") // BRIEF | RECEIPT
   anchorText  String
   preContext  String   @default("")
   postContext String   @default("")
-  type        String   // THOUGHT | COMMENT | REACTION
+  type        String // THOUGHT | COMMENT | REACTION
   body        String
-  linkedRef   String?  // JSON: { type: "RECEIPT"|"ADR"|"ATG_TRIBUTARY"|"WISDOM", id: string, label: string }
+  linkedRef   String? // JSON: { type: "RECEIPT"|"ADR"|"ATG_TRIBUTARY"|"WISDOM", id: string, label: string }
   kernel      String?
   hardened    Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -354,53 +549,53 @@ model Lead {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model ScanSignal {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   // Lineage — mirrors Receipt.parentId pattern for versioning
-  version         Int      @default(1)
-  parentSignalId  String?
-  parent          ScanSignal?  @relation("SignalLineage", fields: [parentSignalId], references: [id])
-  children        ScanSignal[] @relation("SignalLineage")
+  version        Int          @default(1)
+  parentSignalId String?
+  parent         ScanSignal?  @relation("SignalLineage", fields: [parentSignalId], references: [id])
+  children       ScanSignal[] @relation("SignalLineage")
 
   // Discriminator — what kind of scan produced this signal
   // "profile" | "network" | "pair" | "recoil"
-  signalType      String   @default("profile")
+  signalType String @default("profile")
 
   // Calibration basis — what generated this version of the signal
   // "cold_read" | "feedback_v1" | "feedback_v2" | "receipts_n"
-  calibrationBasis String   @default("cold_read")
+  calibrationBasis String @default("cold_read")
 
   // Source artifacts (Vercel Blob URLs, not the file bytes themselves)
   // TEXT: JSON [{type: "linkedin_pdf"|"export_zip"|"csv"|"other", url: string, uploadedAt: string}]
-  sourceBlobUrls  String?
+  sourceBlobUrls String?
 
   // Generated output artifact (full scan document) — Vercel Blob URL
-  outputBlobUrl   String?
+  outputBlobUrl String?
 
   // ── Core carrier fields (all TEXT JSON — consistent with repo convention) ──
 
   // [{type: "Builder"|"Navigator"|"Illuminator"|..., weight: 0-1, confidence: "HIGH"|"MEDIUM"|"LOW"}]
-  archetypeStack  String   @default("[]")
+  archetypeStack String @default("[]")
 
   // {red: {assessment, evidence, locked: bool},
   //  gold: {assessment, evidence, locked: bool},
   //  green: {assessment, evidence, locked: bool},
   //  vermillion: {assessment, evidence, locked: bool}}
-  genomeThreads   String   @default("{}")
+  genomeThreads String @default("{}")
 
   // {stated: string[], observed: string[], gap: string}
-  signalContrast  String   @default("{}")
+  signalContrast String @default("{}")
 
   // The single most diagnostic data point — the thing that makes the genome provable
-  loadBearingPoint String   @default("")
+  loadBearingPoint String @default("")
 
   // What the signal underserves in its current external packaging
-  packagingGap    String   @default("")
+  packagingGap String @default("")
 
   // [{period, role, domain, expression, verified: bool}]
-  evidenceLedger  String   @default("[]")
+  evidenceLedger String @default("[]")
 
   // LinkedIn ad-targeting inferences — the platform's own model of the person
   // JSON: [{category, value}] — only present for LinkedIn export scans
@@ -413,14 +608,14 @@ model ScanSignal {
   // ── Recalibration state ───────────────────────────────────────────────────
 
   // CLEAR | WATCH | DRIFT — mirrors Accumulation Protocol (Book II Part V)
-  driftState      String   @default("CLEAR")
+  driftState String @default("CLEAR")
 
   // Receipts logged since last recalibration — recalibration prompt at threshold
-  receiptsSince   Int      @default(0)
+  receiptsSince Int @default(0)
 
   // How many receipts before NOTOMATION-compliant recalibration nudge fires
   // (default 5 — per Accumulation Protocol §5.3 delta gate cadence)
-  deltaThreshold  Int      @default(5)
+  deltaThreshold Int @default(5)
 
   // ── Vector space ─────────────────────────────────────────────────────────
   // Serialized float array for the composite signal embedding.
@@ -432,12 +627,12 @@ model ScanSignal {
   // ── Extensibility escape hatch ────────────────────────────────────────────
   // Open JSON bag — future fields added here without a schema migration.
   // Graduated to top-level columns once access patterns are stable.
-  metadata        String?
+  metadata String?
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  feedback        ScanFeedback[]
+  feedback ScanFeedback[]
 
   @@index([userId])
   @@index([parentSignalId])
@@ -447,12 +642,12 @@ model ScanSignal {
 }
 
 model ScanFeedback {
-  id           String     @id @default(cuid())
-  signalId     String
-  signal       ScanSignal @relation(fields: [signalId], references: [id])
+  id       String     @id @default(cuid())
+  signalId String
+  signal   ScanSignal @relation(fields: [signalId], references: [id])
 
   // Which recalibration pass this feedback belongs to (v1 = first reaction read)
-  feedbackVersion Int     @default(1)
+  feedbackVersion Int @default(1)
 
   // ── Five-axis payload (single JSON field — all 5 axes + intensity) ─────────
   // Not per-axis columns: adding a 6th axis or changing axis names requires zero
@@ -469,12 +664,12 @@ model ScanFeedback {
   //   contextual: { valence: "current"|"stale"|"partial", intensity: "strong"|"moderate"|"flat", note: string }
   //   rhetorical: { valence: "lands"|"misses"|"partial", intensity: "strong"|"moderate"|"flat", note: string }
   // }
-  payload      String     @default("{}")
+  payload String @default("{}")
 
   // Derived scalars — computed from payload at write time for query efficiency.
   // Never used as the source of truth; always re-derivable from payload.
-  overallIntensity   String?  // "strong" | "moderate" | "flat"
-  deltaGateDecision  String?  // "LOCK" | "WATCH" | "HOLD" | "REFRAME"
+  overallIntensity  String? // "strong" | "moderate" | "flat"
+  deltaGateDecision String? // "LOCK" | "WATCH" | "HOLD" | "REFRAME"
 
   // Annotation artifacts — Vercel Blob URLs for any annotated documents
   // JSON: [{type: "annotated_scan"|"voice_memo"|string, url: string}]
@@ -484,8 +679,8 @@ model ScanFeedback {
   // Embedding of the feedback payload for semantic similarity across recalibrations.
   feedbackEmbedding String?
 
-  metadata     String?
-  createdAt    DateTime   @default(now())
+  metadata  String?
+  createdAt DateTime @default(now())
 
   @@index([signalId])
   @@index([deltaGateDecision])
@@ -497,28 +692,28 @@ model ScanFeedback {
 // counterpart working sessions (jeben → louisvillebrands). Receipt → agenda →
 // session → receipt, serialized.
 model SessionReceipt {
-  id             String   @id @default(cuid())
-  tenant         String                      // "jeben"
-  brand          String                      // "louisvillebrands"
-  sessionId      String                      // groups a working session
-  author         String                      // JUSTIN | JEBEN | ZACH (human authors)
-  bet            String                      // the decision
+  id             String           @id @default(cuid())
+  tenant         String // "jeben"
+  brand          String // "louisvillebrands"
+  sessionId      String // groups a working session
+  author         String // JUSTIN | JEBEN | ZACH (human authors)
+  bet            String // the decision
   assumptions    String?
-  falsifier      String                      // required: "if it can't fail it isn't a receipt"
+  falsifier      String // required: "if it can't fail it isn't a receipt"
   killScale      String?
   atRisk         String?
-  scoreBackDate  DateTime                    // required
-  status         String   @default("OPEN")   // OPEN | SCORED | KILLED | SCALED
+  scoreBackDate  DateTime // required
+  status         String           @default("OPEN") // OPEN | SCORED | KILLED | SCALED
   outcome        String?
   variance       String?
   lesson         String?
-  parentId       String?                     // lineage: this receipt seeded from another
+  parentId       String? // lineage: this receipt seeded from another
   parent         SessionReceipt?  @relation("lineage", fields: [parentId], references: [id])
   children       SessionReceipt[] @relation("lineage")
-  seedsSessionId String?                     // the next session this receipt seeds into
-  payload        Json?                       // full receipt + derived board reads
-  userId         String?                     // set on auth (ADR-016 claim); null when anon
-  createdAt      DateTime @default(now())
+  seedsSessionId String? // the next session this receipt seeds into
+  payload        Json? // full receipt + derived board reads
+  userId         String? // set on auth (ADR-016 claim); null when anon
+  createdAt      DateTime         @default(now())
   sealedAt       DateTime?
 
   @@index([tenant, brand, sessionId])

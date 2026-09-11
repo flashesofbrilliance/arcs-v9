@@ -1,0 +1,313 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRM Delivery Status</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  html{overflow-y:scroll}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:916px;margin:0 auto;padding:0 22px}
+
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .meta{font-family:var(--mono);color:var(--dim);font-size:13px;margin-top:10px;letter-spacing:.02em}
+
+  .bluf{padding:22px 0 8px}
+  .bluf p{margin:0;font-size:20px;line-height:1.55;max-width:100%}
+  .bluf strong{color:var(--gold-soft)}
+
+  .checklist{padding:0}
+  .checklist .label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  .row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .row:first-of-type{border-top:none;padding-top:0}
+  .row .mark{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.5}
+  .row .mark.go{color:var(--green)}
+  .row .mark.stop{color:var(--red)}
+  .row .mark.wait{color:var(--gold-soft)}
+  .row .item{font-size:17px}
+  .row .item b{font-weight:700}
+  .row .item .sub{display:block;color:var(--muted);font-size:15.5px;margin-top:2px}
+  .row .stat{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:5px;white-space:nowrap;line-height:1.5}
+  .stat.ok{background:rgba(63,185,80,.14);color:var(--green)}
+  .stat.bad{background:rgba(208,84,107,.14);color:var(--red)}
+  .stat.hold{background:rgba(201,162,39,.14);color:var(--gold-soft)}
+
+  .ask{padding:0}
+  .ask .label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  .yes-line{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid rgba(201,162,39,.35);
+    border-radius:var(--r);padding:16px 18px}
+  .yes-line .word{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--bg);background:var(--gold);
+    border-radius:6px;padding:9px 16px;letter-spacing:.03em;flex-shrink:0;text-decoration:none;white-space:nowrap}
+  .yes-line .word:hover{background:var(--gold-soft)}
+  .yes-line p{margin:0;font-size:14px;color:var(--text)}
+  .ask .why{margin:14px 0 0;font-size:13.5px;color:var(--muted)}
+
+  details.brief{margin:22px 0 0;border:1px solid var(--border);border-radius:var(--r);background:var(--surface)}
+  details.brief summary{cursor:pointer;padding:13px 18px;font-family:var(--mono);font-size:12px;font-weight:700;
+    color:var(--gold-soft);list-style:none;display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+  details.brief summary::-webkit-details-marker{display:none}
+  details.brief summary::before{content:"+";color:var(--gold);font-size:14px;width:12px}
+  details.brief[open] summary::before{content:"–"}
+  .brief-body{padding:4px 18px 20px;border-top:1px solid var(--border)}
+  .brief-body h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
+    margin:18px 0 8px;font-weight:700}
+  .brief-body h4:first-child{margin-top:16px}
+  .brief-body p{font-size:13.5px;color:var(--muted);margin:0 0 10px;line-height:1.6}
+  .brief-body p strong{color:var(--text)}
+
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:8px;
+    background:var(--surface2);margin:8px 0 14px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:var(--mono);color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td.state{font-family:var(--mono);font-weight:700;color:var(--gold-soft);white-space:nowrap}
+  td.expect{color:var(--muted)}
+  td.actual.flag{color:var(--red);font-weight:600}
+  td.actual.blank{color:var(--dim);font-style:italic}
+
+  footer{padding:24px 0 64px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  nav.family{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;margin-left:-12px}
+  nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
+  nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
+</style>
+
+<header><div class="wrap">
+  <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
+  <h1>CRM delivery status</h1>
+  <div class="meta">Aug 17, 2026 &nbsp;·&nbsp; updated Sep 1 &nbsp;·&nbsp; sandbox-tested, zero production impact</div>
+</div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family">
+  <a href="https://prl.arcs.care">Overview</a>
+  <a href="/status/progress">Progress</a>
+  <a class="here" href="/status/crm">CRM routing</a>
+  <a href="/status/troubleshooting">Web forms</a>
+  <a href="/status/tidio">Tidio delivery</a>
+  <a href="/status/atlas">Atlas</a>
+  <a href="/status/build">Build</a>
+  <a href="/status/receipt">Receipt</a>
+  </nav>
+</div></div>
+
+<div class="bluf"><div class="wrap">
+  <p>Chatbot's ready to deliver leads. One thing needs your call first: <strong>the CRM's
+  routing about half of all states to the wrong person, or nobody</strong>, and it's been that
+  way already, on real leads, before we touched anything.</p>
+</div></div>
+
+<div class="checklist"><div class="wrap">
+  <div class="label">Status</div>
+
+  <div class="row">
+    <span class="mark go">✓</span>
+    <div class="item"><b>Lead creation</b><span class="sub">Chat → complete, tagged Sugar lead. Proven end to end.</span></div>
+    <span class="stat ok">done</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">✓</span>
+    <div class="item"><b>Capture flow</b><span class="sub">Name/company/phone/email up front, no lead lost to an early exit. Built, tested.</span></div>
+    <span class="stat ok">ready</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">✓</span>
+    <div class="item"><b>Safe against your custom build</b><span class="sub">Checked your CRM's customization directly: it is all on the revenue and order side, not on leads, so the routing changes here are additive-only and touch none of it. No Sugar consulting needed.</span></div>
+    <span class="stat ok">confirmed</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">→</span>
+    <div class="item"><b>Web forms</b><span class="sub">Not delivering leads. Fix confirmed: same Sugar API path the chatbot already uses, just triggered by the form instead of the chat. Building now, in parallel, doesn't wait on anything below.</span></div>
+    <span class="stat hold">in progress</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">!</span>
+    <div class="item"><b>Rep routing</b><span class="sub">~49% of states mismatch the territory list. 6 states get no rep at all. Daily safety-net sweep going live now so nothing sits unassigned while we align on the real fix.</span></div>
+    <span class="stat hold">your call + stopgap live</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">i</span>
+    <div class="item"><b>Staging test</b><span class="sub">Chat there today logs to Tidio only, no lead, no email yet. Expected, not a bug: delivery is paused between tests and the flow only fires on a first visit. To see the full chain, a human flips delivery on, runs a fresh-session chat, and watches the lead land in Sugar. That visual sanity check is required before we call it live.</span></div>
+    <span class="stat hold">heads up</span>
+  </div>
+</div></div>
+
+<div class="ask"><div class="wrap">
+  <div class="label">The ask</div>
+  <div class="yes-line">
+    <a class="word" href="mailto:?subject=Quick%20call%20on%20CRM%20lead%20routing%3F&amp;body=Hi%20Bill%2C%0A%0AWant%20to%20grab%2030%20minutes%20with%20you%20and%20me%20together%20to%20walk%20through%20how%20leads%20are%20getting%20routed%20to%20reps%20today%3F%20We%27ve%20been%20testing%20the%20chatbot%20delivery%20and%20noticed%20a%20few%20states%20aren%27t%20landing%20where%20the%20territory%20list%20says%20they%20should.%20Want%20to%20compare%20notes%20and%20make%20sure%20we%27re%20both%20working%20off%20the%20same%20picture%20before%20anything%20changes.%0A%0ANothing%20to%20fix%20before%20we%20talk%2C%20just%20want%20your%20read%20on%20a%20few%20states.%0A%0AHere%27s%20my%20calendar%20if%20easier%20than%20back-and-forth%3A%20https%3A%2F%2Fcalendar.app.google%2FZdXPEaZZgejyT3xU6%0A%0ALet%20me%20know%20what%20time%20works.%0A%0ATodd">Draft to Bill</a>
+    <p>Opens an email draft, addressed and worded, with your calendar link included, you fill in
+    Bill's address and hit send (or edit it first). That's the only thing we need from you right
+    now.</p>
+  </div>
+  <p class="why">Why a call, not a fix: we don't know if the spreadsheet or the CRM is right,
+    and only Bill can say. Two safety nets ship regardless of the call's outcome: a fallback
+    owner on new chatbot leads, and a daily sweep that catches any unassigned lead, any source,
+    starting now.</p>
+
+  <details class="brief">
+    <summary>Full briefing, for reference</summary>
+    <div class="brief-body">
+
+      <h4>What we tested</h4>
+      <p>43 sandbox test leads, one per state, tagged "Chatbot," immediately deleted after
+      reading back the assigned rep. Compared against the territory list. Zero production
+      impact, zero residue.</p>
+
+      <h4>What broke, in detail</h4>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Pattern</th><th>Implication</th><th>How we discovered it</th><th>Proposed fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="state">A</td>
+              <td>Leads reach the wrong person, follow-up is delayed or never happens, possible missed sale.</td>
+              <td>Sandbox test leads per state, compared against the territory list. Wrong every time, not a one-off.</td>
+              <td>Confirm the right rep with Bill, update Sugar's assignment config to match.</td>
+            </tr>
+            <tr>
+              <td class="state">B</td>
+              <td>"Distribution" may be silently broken everywhere, not just the states we tested.</td>
+              <td>Every state the list marks Distribution routed to Bill or another named rep. Zero landed on Distribution/Nicole.</td>
+              <td>Confirm with Bill what Distribution is supposed to do, then wire it correctly or retire the category.</td>
+            </tr>
+            <tr>
+              <td class="state">C</td>
+              <td>If the list is used for anything else, onboarding, coverage, audits, it's already wrong and nobody flagged it.</td>
+              <td>Test leads for several states came back owned by Dan Damas and Tim Mulcahy, names that don't appear on the list at all.</td>
+              <td>Confirm with Bill and add them with their real territories.</td>
+            </tr>
+            <tr>
+              <td class="state">D</td>
+              <td>Worst case: a real lead has no owner, no queue, easy to lose entirely, invisible until someone goes looking.</td>
+              <td>6 of 43 states tested, plus every state Sugar's picklist doesn't have as an option at all, created a valid lead with a blank owner field.</td>
+              <td>Independent of the Bill call: fallback owner on new chatbot leads, plus a daily sweep catching any unassigned lead, any source.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="scroller">
+        <table>
+          <thead><tr><th>State</th><th>List says</th><th>Sugar did</th></tr></thead>
+          <tbody>
+            <tr><td class="state">TX</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">AL</td><td class="expect">Christian</td><td class="actual flag">Bill Galla</td></tr>
+            <tr><td class="state">FL</td><td class="expect">Howard</td><td class="actual">Howard Altman</td></tr>
+            <tr><td class="state">GA</td><td class="expect">Kathy</td><td class="actual flag">Christian Cassel</td></tr>
+            <tr><td class="state">AZ</td><td class="expect">Distribution</td><td class="actual flag">Bill Galla</td></tr>
+            <tr><td class="state">NY</td><td class="expect">Rob / Howard</td><td class="actual">Robert Spano</td></tr>
+            <tr><td class="state">CT</td><td class="expect">Lynn</td><td class="actual">Lynn Winston</td></tr>
+            <tr><td class="state">AR</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">CA</td><td class="expect">Distribution</td><td class="actual flag">Lynn Winston</td></tr>
+            <tr><td class="state">CO</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">IA</td><td class="expect">Steve</td><td class="actual flag">Dan Damas (not on list)</td></tr>
+            <tr><td class="state">IL</td><td class="expect">Pat / Kathy</td><td class="actual">Kathy Brown</td></tr>
+            <tr><td class="state">IN</td><td class="expect">Pat</td><td class="actual flag">Tim Mulcahy (not on list)</td></tr>
+            <tr><td class="state">KS</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">KY</td><td class="expect">Christian</td><td class="actual">Christian Cassel</td></tr>
+            <tr><td class="state">LA</td><td class="expect">Steve</td><td class="actual blank">Unassigned</td></tr>
+            <tr><td class="state">MA</td><td class="expect">Lynn</td><td class="actual">Lynn Winston</td></tr>
+            <tr><td class="state">MD</td><td class="expect">Lynn</td><td class="actual flag">Christian Cassel</td></tr>
+            <tr><td class="state">ME</td><td class="expect">Lynn</td><td class="actual">Lynn Winston</td></tr>
+            <tr><td class="state">MI</td><td class="expect">Pat</td><td class="actual flag">Tim Mulcahy (not on list)</td></tr>
+            <tr><td class="state">MN</td><td class="expect">Pat / Kathy</td><td class="actual flag">Dan Damas (not on list)</td></tr>
+            <tr><td class="state">MO</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">MS</td><td class="expect">Christian</td><td class="actual blank">Unassigned</td></tr>
+            <tr><td class="state">MT</td><td class="expect">Distribution</td><td class="actual blank">Unassigned</td></tr>
+            <tr><td class="state">NC</td><td class="expect">Christian / Kathy</td><td class="actual">Christian Cassel</td></tr>
+            <tr><td class="state">ND</td><td class="expect">Pat</td><td class="actual flag">Dan Damas (not on list)</td></tr>
+            <tr><td class="state">NE</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">NH</td><td class="expect">Lynn</td><td class="actual">Lynn Winston</td></tr>
+            <tr><td class="state">NJ</td><td class="expect">Howard</td><td class="actual">Howard Altman</td></tr>
+            <tr><td class="state">NV</td><td class="expect">Distribution</td><td class="actual flag">Bill Galla</td></tr>
+            <tr><td class="state">OH</td><td class="expect">Rob</td><td class="actual">Robert Spano</td></tr>
+            <tr><td class="state">OK</td><td class="expect">Steve</td><td class="actual">Steve Fabrizius</td></tr>
+            <tr><td class="state">OR</td><td class="expect">Distribution</td><td class="actual flag">Lynn Winston</td></tr>
+            <tr><td class="state">PA</td><td class="expect">Rob / Howard</td><td class="actual">Robert Spano</td></tr>
+            <tr><td class="state">RI</td><td class="expect">Howard</td><td class="actual flag">Lynn Winston</td></tr>
+            <tr><td class="state">SC</td><td class="expect">Christian / Kathy</td><td class="actual">Christian Cassel</td></tr>
+            <tr><td class="state">TN</td><td class="expect">Christian</td><td class="actual">Christian Cassel</td></tr>
+            <tr><td class="state">UT</td><td class="expect">Distribution</td><td class="actual blank">Unassigned</td></tr>
+            <tr><td class="state">VA</td><td class="expect">Christian</td><td class="actual">Christian Cassel</td></tr>
+            <tr><td class="state">VT</td><td class="expect">Lynn</td><td class="actual">Lynn Winston</td></tr>
+            <tr><td class="state">WA</td><td class="expect">Distribution</td><td class="actual flag">Lynn Winston</td></tr>
+            <tr><td class="state">WI</td><td class="expect">Pat / Kathy</td><td class="actual">Kathy Brown</td></tr>
+            <tr><td class="state">WY</td><td class="expect">Distribution</td><td class="actual blank">Unassigned</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Call agenda (30 min, discovery only)</h4>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>What</th><th>Why it matters</th><th>Outcome desired</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Walk the mismatch table</td>
+              <td>We're guessing which side is right, the spreadsheet or Sugar. Bill isn't.</td>
+              <td>One confirmed answer per state, no more inference from samples.</td>
+            </tr>
+            <tr>
+              <td>Surface what's changed</td>
+              <td>Dan and Tim are live owners on several states and aren't on the list at all, so something moved and the paperwork didn't follow.</td>
+              <td>Territory list reflects who's actually working what, today.</td>
+            </tr>
+            <tr>
+              <td>Understand how assignment works</td>
+              <td>Automated rule, manual habit, or a mix decides whether a gap is a quick config change or something someone's been handling by hand.</td>
+              <td>Know what's fixable in Sugar vs. what depends on a person doing something undocumented.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px">Not on the agenda: fixing anything live, or scoping the chatbot build.</p>
+
+      <h4>After the call</h4>
+      <p>Whatever Bill confirms becomes a short list: update the wrong states, decide what
+      Distribution means (or retire it), add Dan and Tim to the list. Actually fixing Sugar's
+      configuration sits outside what 1.1 and 1.2 cover, delivery and the four-hour number, not
+      CRM housekeeping, so it's separate, new work. Nothing to decide on that today, we'd just
+      scope it once we know what needs doing.</p>
+
+      <h4>Scope</h4>
+      <p>None of this blocks the chatbot or delays anything already in motion. All testing was
+      sandbox-only; nothing here touched a real lead, rep, or customer.</p>
+
+    </div>
+  </details>
+</div></div>
+
+<footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care/status/crm &middot; siblings: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="/status/progress">/progress</a> &middot; <a href="/status/troubleshooting">/troubleshooting</a> &middot; <a href="/status/tidio">/tidio</a> &middot; <a href="/status/atlas">/atlas</a> &middot; <a href="/status/build">/build</a> &middot; <a href="/status/receipt">/receipt</a></div></footer>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>

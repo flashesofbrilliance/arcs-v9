@@ -1,0 +1,33 @@
+{
+  "receipt_id": "receipt_bain_ai_eng_lead_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "The JD's core technical stack (RAG, fine-tuning, embeddings, hybrid retrieval, LLM-specific evaluation metrics, GenAIOps, guardrails, HITL, APIs/CI/CD) has no support in the record of record",
+      "caught_by": "honest-grade pass against jd-full.txt requirement list",
+      "gold": "gap stated directly in TAILOR-NOTES, red-team.md, and the page's honest-gaps note, rather than papered over with adjacent-sounding phrasing"
+    },
+    {
+      "break": "Posting is leveled for 3-5+ years hands-on IC engineering; candidate has roughly one year hands-on with the claimed AI stack inside a twenty-year, Director-and-above career, matching the scorer's own docked-scope note",
+      "caught_by": "reading the scorer assessment against the record's role dates",
+      "gold": "no years-of-AI-experience figure stated on the resume; the mismatch is named plainly in TAILOR-NOTES section 5 and in the page's honest-gaps note, left as a human judgment call rather than resolved by wording"
+    },
+    {
+      "break": "\"Tool use and function calling\" phrasing on the skills line mirrors JD language rather than the record's verbatim terms",
+      "caught_by": "red-team pass comparing skills line against record SKILLS list",
+      "gold": "graded self-reported with an explicit defend answer (built directly against Claude's tool-use API, no named orchestration framework) rather than left unmarked"
+    },
+    {
+      "break": "Air-gap risk: page.html could carry another bundle's company name, a hiring-manager name, comp figures, or scoring vocabulary if copied carelessly from the Citi reference",
+      "caught_by": "grep audit for em-dashes, tier/band/composite/pursue, comp figures, 'citi', and the record-of-record URL",
+      "gold": "page greps clean on every forbidden term; hiring-manager.json states kind:unknown with no guessed name"
+    }
+  ],
+  "verdict": "Final bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes). The largest break in this bundle is not a production mistake but the honest content itself: a real gap between the posting's technical ask and the record's evidence, and a leveling mismatch the scorer already flagged. Both are surfaced with visible gold rather than concealed."
+}

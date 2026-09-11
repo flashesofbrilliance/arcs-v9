@@ -11,13 +11,31 @@ set -euo pipefail
 # (2) Memory 1-1 audit: flag orphan memory files (on disk, missing from MEMORY.md index)
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
-MEMDIR="$HOME/.claude/projects/-Users-zharris-arcs-v9/memory"
-if [ -f "$MEMDIR/MEMORY.md" ]; then
-  orphans=$(comm -23 \
-    <(ls -1 "$MEMDIR"/*.md 2>/dev/null | xargs -n1 basename 2>/dev/null | grep -v '^MEMORY.md$' | sort) \
-    <(grep -oE '\]\([a-zA-Z0-9_-]+\.md\)' "$MEMDIR/MEMORY.md" | tr -d ']()' | sort -u) 2>/dev/null || true)
-  if [ -z "${orphans:-}" ]; then echo "memory: 1-1 OK"; else echo "memory: ORPHANS (not in MEMORY.md) -> $(echo $orphans | tr '\n' ' ')"; fi
-fi
+
+# Pulse — the global heartbeat (Phase 0). The wall-clock twin of the git-backed oracle:
+# derives each subsystem's freshness from git commit timestamps (tamper-evident OT layer),
+# runs the pulse<->oracle mutual check, and ALARMS on flatline. This is the fix for the
+# drift-sentry that went stale 5 days silently — a quiet operational layer now surfaces at
+# pickup instead of rotting. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/pulse.py" check 2>/dev/null || true
+
+# Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
+# lattice for drift and emit a receipt; do NOT advance here (regeneration is the
+# CLOSE end, in pre-compact). Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
+
+# Seed-bank inchworm — OPEN end (ADR-055/056). Check the _SEEDS registry invariants
+# (valid JSONL, orphan seeds, broken local paths, staleness, repo-coverage gap) and
+# emit a receipt; curation stays human-owned. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
+
+# Memory-index inchworm — self-cataloging: orphan files auto-append into an
+# "Uncurated (auto)" band rendered from their own frontmatter description (the
+# SSOT for an index line). Detection + append are mechanical; curation (grouping,
+# merging, retiring, size trims) stays human-owned — the script only ever ADDS.
+# Replaces the old inline comm check, whose regex missed dotted filenames
+# (*-v0.2-*.md) and false-positived ORPHANS. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/memory_index_sync.py" --append 2>/dev/null || true
 
 # Snapshot auto-refresh (mechanical fields only — local file, never committed/pushed
 # by this hook). Narrative fields (session_summary, next_action, nci_counter,
@@ -81,6 +99,12 @@ except Exception:
   if [ "$narrative_age" != "?" ] && [ "$narrative_age" -gt 3 ]; then
     echo "snapshot: narrative fields (session_summary/next_action/nci_counter) may be stale — run /handoff to refresh"
   fi
+fi
+
+# (7) Timecapsule — per-session build-log commit of the memory dir (no-op if unchanged; absent-safe on other machines).
+if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
+  _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)
+  [ -n "$_tc" ] && echo "timecapsule: memory build-log @ $_tc"
 fi
 
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.

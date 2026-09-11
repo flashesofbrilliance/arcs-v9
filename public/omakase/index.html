@@ -24,6 +24,13 @@
   /* progress: nine lantern dots along the top, lit as the evening advances */
   .lanterns{position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:14px;
     padding:16px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px)}
+  .lanterns .subnav{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;color:var(--faint);white-space:nowrap}
+  .lanterns .subnav a{color:var(--graphite);text-decoration:none;border-bottom:1px dashed var(--line)}
+  .lanterns .subnav a:hover,.lanterns .subnav a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
+  .lanterns .subnav .here{color:var(--gold)}
+  .lanterns .subnav b{color:var(--faint);font-weight:400}
+  .lanterns{position:sticky}
+  @media(max-width:640px){.lanterns{flex-wrap:wrap;row-gap:8px}.lanterns .subnav{position:static;transform:none;width:100%;text-align:center}}
   .lantern{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .8s,box-shadow .8s}
   .lantern.lit{background:var(--gold);box-shadow:0 0 8px rgba(201,162,39,.5)}
   .lantern.now{animation:lpulse 1.7s ease-in-out infinite}
@@ -71,7 +78,9 @@
   /* easter eggs: visible only after 完, faint until sought (the teacher appears to the one who seeks) */
   /* walk-through doors: every course opens into the room it was cooked in */
   .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
-  .door:hover,.door:focus-visible{opacity:1;border-color:var(--gold);text-decoration:none}
+  .door.locked{cursor:default;color:var(--faint);opacity:.55}
+  .door.tea{opacity:.85}
+  .door.tea:hover,.door.tea:focus-visible{opacity:1;border-color:var(--gold);border-style:solid}
 
   /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
@@ -103,6 +112,14 @@
   .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:8.5px}
   .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
   .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
+  .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:9px}
+  .rcp{max-width:620px;margin:26px auto 0;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px;text-align:left}
+  .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px;text-align:center}
+  .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
+  .rcp .rrow:first-of-type{border-top:0}
+  .rcp .rl{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--faint);padding-top:3px}
+  .rcp .rv{font-size:13.5px;color:var(--dial);line-height:1.65}
+  @media(max-width:560px){.rcp .rrow{grid-template-columns:1fr;gap:3px}}
   .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
   /* the loading stroke: one enso draws itself in ink, breathes, and dissolves into the street.
      Pure CSS timeline (self-clearing without JS); shown once per session; reduced-motion skips it. */
@@ -131,7 +148,7 @@
 
 <div id="loader" aria-hidden="true"><svg viewBox="0 0 200 200"><circle class="stroke" cx="100" cy="100" r="76" transform="rotate(-58 100 100)"/></svg></div>
 <canvas id="silk" aria-hidden="true"></canvas>
-<div class="lanterns" aria-hidden="true" id="lanterns"></div>
+<div class="lanterns" id="lanternbar"><span class="subnav"><a href="https://louisville.arcs.care">⛩ SUITE</a> <b>›</b> <span class="here">一夜 EVENING</span> <b>›</b> <a href="/omakase/atom">🍵 TEA HOUSE</a></span><span aria-hidden="true" id="lanterns" style="display:flex;gap:14px"></span></div>
 
 <div class="evening">
 
@@ -148,7 +165,7 @@
       </div>
     </div>
     <p class="quiet">暖簾 · A CLOTH WITH A CIRCLE ON IT · PART IT</p>
-    <p class="voice" style="font-size:14px;color:var(--graphite);max-width:470px;margin-top:30px">Inside, one sentence is waiting: <i>Louisville Brands is very good at making things and unproven at deciding which things to make.</i></p>
+    <p class="voice" style="font-size:14px;color:var(--graphite);max-width:470px;margin-top:30px">Inside, one sentence is waiting: <i>Louisville is great at making things. The open question is which to make next.</i></p>
   </section>
 
   <!-- 1 · いらっしゃいませ -->
@@ -161,9 +178,9 @@
     <div class="alley">
       <button class="alleyk" id="alleyk" aria-expanded="false" aria-controls="alleymap">路地 · THE SIDE STREETS · EVERY ROOM OPENS ON AN ALLEY</button>
       <div class="alleymap" id="alleymap">
-        <p class="ao"><b>2ND ORDER · THE ROOMS</b><a href="appendix/louisville-kernel.html" target="_blank" rel="noopener">◉ the seed</a><a href="appendix/louisville-gift.html" target="_blank" rel="noopener">🥡 the gift</a><a href="appendix/louisville-omakase.html" target="_blank" rel="noopener">🥢 the menu</a></p>
-        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><a href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 the codex</a><a href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 the filter</a><a href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 the box</a><a href="appendix/louisville-enso.html" target="_blank" rel="noopener">🖌️ the war room</a></p>
-        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><a href="appendix/louisville-braid.html" target="_blank" rel="noopener">👹 the audit</a><a href="appendix/louisville-staged-play.html" target="_blank" rel="noopener">👺 the rehearsal</a><a href="appendix/louisville-entrance.html" target="_blank" rel="noopener">🏮 the entrance</a></p>
+        <p class="ao"><b>2ND ORDER · THE ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 ◉ the seed</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥡 the gift</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥢 the menu</span></p>
+        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 🏯 the codex</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍣 the filter</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍱 the box</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🖌️ the war room</span></p>
+        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><span class="locked" title="Back of house · gated (ask for access)">🔒 👹 the audit</span><span class="locked" title="Back of house · gated (ask for access)">🔒 👺 the rehearsal</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🏮 the entrance</span></p>
         <p class="an">THE MAP IS A FOLKSONOMY, NOT A MENU: EVERY NET NEW DATA POINT RE-CUTS THE TERRAIN, AND THE ALLEYS MOVE WITH IT. THE DEEPEST SUBCULTURE IS ALWAYS ONE DOOR FURTHER.</p>
       </div>
     </div>
@@ -174,9 +191,9 @@
     <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">一口に　今宵のすべて　灯りけり</span><span class="men">IN ONE BITE, ALL OF TONIGHT IS LIT</span></p>
     <span class="kanji-big">先</span>
     <p class="en">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU</p>
-    <div class="morsel"><p class="note">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
+    <div class="morsel"><p class="note">Louisville is great at <span class="accent">making things</span>. The open question is <span class="accent">which to make next</span>.</p></div>
     <p class="quiet">ONE SENTENCE · EVERYTHING TONIGHT IS THIS BITE, RE-TASTED</p>
-    <div><a class="door" href="appendix/louisville-gift.html" target="_blank" rel="noopener">🥡 POCKET THE NOTE · THE PRE-READ</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥡 POCKET THE NOTE · THE PRE-READ</span></div>
     <div class="step"><button data-next="sc3">THE NEXT PIECE</button></div>
   </section>
 
@@ -186,7 +203,7 @@
     <span class="kanji-big">種</span>
     <p class="en">THE SEED COURSE</p>
     <p class="voice">Everything served tonight grew from one articulated seed: seven conversations of wild evidence, pulled into one place: what's live, what's parked, what it's worth, what happens next. <span class="accent">The tree is the seed and the seed is the tree.</span> Every later course is this one, unfolded.</p>
-    <div><a class="door" href="appendix/louisville-kernel.html" target="_blank" rel="noopener">◉ TASTE THE SEED ITSELF · THE THREAD BOOK</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 ◉ TASTE THE SEED ITSELF · THE THREAD BOOK</span></div>
     <div class="step"><button data-next="sc4">THE NEXT PIECE</button></div>
   </section>
 
@@ -196,7 +213,27 @@
     <span class="kanji-big">蔵</span>
     <p class="en">THE CELLAR COURSE · ONE RECORD, THREE ROOMS</p>
     <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open. The same truth is cut for each palate at the table, and a lacquered box carries <span class="accent">one small thing of great value</span> intact to the right hands. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
-    <div><a class="door" href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 THE CODEX</a> <a class="door" href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 THE FILTER</a> <a class="door" href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 THE BOX</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏯 THE CODEX</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍣 THE FILTER</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍱 THE BOX</span></div>
+    <div class="step"><button data-next="scR">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- R · the guest's course: the receipt Justin cut live on the first call.
+       Figures milled for the open room (seimaibuai); the full-fidelity original
+       lives in the gated record. Source: runtime/recoil/generated/2026-07-31-delaney.json -->
+  <section class="scene" id="scR">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">客の手が　庖丁を取り　一皿成る</span><span class="men">THE GUEST TAKES THE KNIFE · ONE DISH APPEARS</span></p>
+    <span class="kanji-big">客</span>
+    <p class="en">THE GUEST'S COURSE · THE DISH YOU CUT YOURSELF</p>
+    <p class="voice">On the first call, the guest stepped behind the counter. A live decision, his own numbers, and he articulated the tripwire himself, then sharpened it past binary before the chef could. <span class="accent">This is that dish, plated as it was cut</span>, figures milled for the open room the way rice is milled for daiginjo. The unmilled original keeps in the cellar.</p>
+    <div class="rcp">
+      <p class="rk">領収書 · A DECISION RECEIPT · CUT LIVE · JUL 31 2026 · MINUTES 34 TO 42</p>
+      <div class="rrow"><span class="rl">THE BET</span><span class="rv">Keep the national sales team at its five-figure monthly retainer through the October gate, held to a six-figure monthly incrementality line.</span></div>
+      <div class="rrow"><span class="rl">THE BANDS</span><span class="rv">His own, graduated, not binary: below the line, end-of-year notice · at the line, re-compete it · above it, <i>"we let it roll, maybe a bonus."</i></span></div>
+      <div class="rrow"><span class="rl">THE SHARPEN</span><span class="rv">Then he cut it finer unprompted: lower the fixed retainer, raise the commission, focus the two regions that actually win.</span></div>
+      <div class="rrow"><span class="rl">STATUS</span><span class="rv"><span style="color:var(--verm)">UNSEALED</span> · the October gate is on the calendar and waiting for a signature.</span></div>
+    </div>
+    <p class="quiet">THE HOUSE DID NOT COOK THIS ONE · THE GUEST DID · THE HOUSE ONLY KEPT THE RECEIPT</p>
+    <p class="ao" style="margin-top:18px"><a href="data:application/json;charset=utf-8,%7B%0A%20%20%22kind%22%3A%20%22arcs.receipt%22%2C%0A%20%20%22id%22%3A%20%22lvb-2026-07-31-vendor-tripwire%22%2C%0A%20%20%22author%22%3A%20%22Justin%20Delaney%22%2C%0A%20%20%22createdLive%22%3A%20%222026-07-31%2C%20first%20call%2C%20minutes%2034%20to%2042%22%2C%0A%20%20%22bet%22%3A%20%22Keep%20the%20national%20sales%20team%20at%20its%20five-figure%20monthly%20retainer%20through%20the%20October%20renewal%20gate%2C%20held%20to%20a%20six-figure%20monthly%20incrementality%20line%22%2C%0A%20%20%22line%22%3A%20%22A%20six-figure%20monthly%20incrementality%20floor%2C%20measured%2C%20not%20recalled%22%2C%0A%20%20%22bands%22%3A%20%7B%0A%20%20%20%20%22belowTheLine%22%3A%20%22end-of-year%20notice%22%2C%0A%20%20%20%20%22atTheLine%22%3A%20%22re-compete%20it%20%28RFP%29%22%2C%0A%20%20%20%20%22aboveTheLine%22%3A%20%22let%20it%20roll%2C%20maybe%20a%20bonus%22%0A%20%20%7D%2C%0A%20%20%22sharpen%22%3A%20%22Lower%20the%20fixed%20retainer%2C%20raise%20the%20commission%2C%20focus%20the%20two%20regions%20that%20actually%20win%22%2C%0A%20%20%22gate%22%3A%20%22October%20renewal%22%2C%0A%20%20%22status%22%3A%20%22UNSEALED%22%2C%0A%20%20%22provenance%22%3A%20%22Co-built%20live%20by%20Justin%20on%20the%20Jul%2031%202026%20call%3B%20figures%20milled%20for%20the%20open%20page%20%28seimaibuai%29%2C%20full-fidelity%20original%20in%20the%20gated%20record%22%2C%0A%20%20%22next%22%3A%20%22Seal%20it%3A%20sign%2C%20date%2C%20and%20put%20the%20score-back%20on%20the%20calendar%20for%20the%20October%20gate%22%0A%7D" id="rcpdl" download="lvb-receipt-2026-07-31.json">⬇ TAKE IT WITH YOU · THE RECEIPT AS JSON</a></p>
     <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
   </section>
 
@@ -208,7 +245,7 @@
     <p class="voice">This meal is not a line with an end. It is a circle with a gap. The meeting, the test, the read, the scored record: each returns. <i>The landing of one course is the plié of the next.</i></p>
     <div class="ringmark"><svg viewBox="0 0 300 220" role="img" aria-label="An open circle over a horizontal stroke"><path d="M40 118 C 110 104, 210 102, 268 112 C 210 118, 120 124, 70 124 Z" fill="var(--dial)" opacity=".85"/><circle cx="150" cy="112" r="72" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="392 66" transform="rotate(-58 150 112)" opacity=".95"/></svg></div>
     <p class="quiet">THE LINE IS HIS · THE CIRCLE IS OURS · THE GAP STAYS OPEN</p>
-    <div><a class="door" href="appendix/louisville-enso.html" target="_blank" rel="noopener">🖌️ ENTER THE WAR ROOM · THE ENSŌ</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🖌️ ENTER THE WAR ROOM · THE ENSŌ</span></div>
     <div class="step"><button data-next="sc8">THE LAST BITE</button></div>
   </section>
 
@@ -219,7 +256,8 @@
     <p class="en">DESSERT · SWEET · SMALL · IT CONTAINS THE FIRST BITE</p>
     <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
     <p class="quiet">THE MEAL ENDS WHERE IT BEGAN · ONE OCTAVE HIGHER</p>
-    <div><a class="door" href="appendix/louisville-omakase.html" target="_blank" rel="noopener">🥢 SEE THE MEAL PLATED · THE MENU</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥢 SEE THE MEAL PLATED · THE MENU</span></div>
+    <div><a class="door tea" href="/omakase/atom" title="After the meal, tea · the seed told whole">🍵 お茶 · TEA IS OFFERED · THE TEA HOUSE IS OPEN</a></div>
     <div class="step"><button data-next="sc9">RISE FROM THE COUNTER</button></div>
   </section>
 
@@ -241,26 +279,27 @@
     <p class="voice"><i>Thank you for dining at <span style="color:var(--gold)">Dojo Kuchisabishii</span> <span lang="ja" style="color:var(--gold)">口寂しい</span>, the lonely mouth: the name for wanting one more taste after the meal is done. The noren hangs exactly where you found it. The gap in the circle waits for your next decision. Come again soon, and come hungry.</i></p>
     <div class="gift">
       <p class="glbl">土産 · THE TAKE-HOME · WHAT THE BOX WAS BUILT TO CARRY</p>
-      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
-      <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">RSVP · BOOK THE SESSION</a>
-      <p class="assure">THE SESSION IS $0 · A MONTH-ONE EXIT CAPS YOUR WORST CASE AT $10K · YOU KEEP THE RECEIPTS AND THE TEST DATA EITHER WAY</p>
-      <p class="qlinks"><a href="appendix/louisville-gift.html" target="_blank" rel="noopener">THE GIFT · THE PRE-READ</a> · <a href="appendix/louisville-gift-mobile.pdf" download>THE POCKET CARD · PDF</a> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
+      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville is great at <span class="accent">making things</span>. The open question is <span class="accent">which to make next</span>.</p></div>
+      <p class="voice" style="font-size:16px;max-width:560px;margin-top:22px">🍱 And inside the box, one small thing of great value: <span class="accent">the dish you cut yourself</span>. The sales-team tripwire, your bands, your sharpen, anchored to the October gate you named. It is the smallest thing served tonight and the most valuable, because the house did not make it. You did. It is unsealed. <i>One sitting seals it: your receipt, run live, scored before the October call.</i></p>
+      <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">SEAL THE ONE YOU STARTED · BEFORE THE OCTOBER GATE</a>
+      <p class="assure">THE SITTING IS $0 · A MONTH-ONE EXIT CAPS YOUR WORST CASE AT $10K · YOU KEEP THE RECEIPTS AND THE TEST DATA EITHER WAY · IF OCTOBER PASSES UNSEALED, NOTHING IS LOST BUT THE SCORE</p>
+      <p class="qlinks"><span class="locked" title="Back of house · gated (ask for access)">🔒 THE GIFT · THE PRE-READ</span> · <span class="locked" title="Back of house · gated (ask for access)">🔒 THE POCKET CARD · PDF</span> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
     </div>
     <p class="quiet" style="margin-top:34px">完</p>
-    <div><a class="door" href="appendix/louisville-entrance.html" target="_blank" rel="noopener">🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</span></div>
   </section>
 
 </div>
 
 <footer>
-  <span lang="ja" style="color:var(--gold)">物の哀れ</span> <b><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></b> MONO NO AWARE 🏮 ARCS OMAKASE
+  <span lang="ja" style="color:var(--gold)">物の哀れ</span> <b><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></b> MONO NO AWARE 🏮 ARCS OMAKASE<br><span style="display:inline-block;margin-top:8px">⛩ <a href="https://louisville.arcs.care" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)">THE SUITE · LOUISVILLE</a> · 🍵 <a href="/omakase/atom" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)">THE TEA HOUSE · THE ATOM</a></span>
 </footer>
 
 <script>
 (function(){
   // One evening: nine lanterns, one-way stages, guest-paced (the plié: nothing advances itself).
-  var SCENES = ["sc0","sc1","sc2","sc3","sc4","sc7","sc8","sc9","sc11"];
-  var LANTERN_COUNT = 8; // one lantern per station after the street
+  var SCENES = ["sc0","sc1","sc2","sc3","sc4","scR","sc7","sc8","sc9","sc11"];
+  var LANTERN_COUNT = 9; // one lantern per station after the street
   var lan = document.getElementById("lanterns");
   for(var i=0;i<LANTERN_COUNT;i++){ var d=document.createElement("span"); d.className="lantern"; lan.appendChild(d); }
   var lanterns = lan.children;

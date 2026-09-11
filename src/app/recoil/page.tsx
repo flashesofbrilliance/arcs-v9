@@ -63,7 +63,7 @@ function listReports(): ReportListItem[] {
 export default async function RecoilIndexPage() {
   // ADR-001 doctrine: prod enforces identity, dev passes through. A signed-in
   // non-admin gets a 404 (don't reveal the surface exists); no session → sign in.
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "development") {   // fail-closed: unset/test/preview/staging all gate (matches /warroom)
     const session = await auth()
     if (!session?.user?.email) redirect("/compass?next=/recoil")
     if (!isAdmin(session)) notFound()

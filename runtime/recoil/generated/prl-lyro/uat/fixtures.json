@@ -1,0 +1,42 @@
+[
+  {
+    "fixture": "new-lead",
+    "need": "Looking for a replacement resin for an automotive part",
+    "name": "Sarah Chen",
+    "email": "sarah.chen.uat1@example.com",
+    "phone": "555-111-2222",
+    "company": "Chen Manufacturing",
+    "state": "Michigan",
+    "expect": { "dedup": false, "first_name": "Sarah", "last_name": "Chen", "location_c": "MI" }
+  },
+  {
+    "fixture": "dedup-repeat",
+    "need": "Following up on my earlier question",
+    "name": "Sarah Chen",
+    "email": "sarah.chen.uat1@example.com",
+    "phone": "555-111-2222",
+    "company": "Chen Manufacturing",
+    "state": "Michigan",
+    "expect": { "dedup": true, "first_name": "Sarah", "last_name": "Chen", "location_c": "MI" }
+  },
+  {
+    "fixture": "state-ca-distribution",
+    "need": "Need a spec sheet for a polycarbonate grade",
+    "name": "Miguel Torres",
+    "email": "miguel.torres.uat2@example.com",
+    "phone": "555-333-4444",
+    "company": "Torres Plastics",
+    "state": "California",
+    "expect": { "dedup": false, "first_name": "Miguel", "last_name": "Torres", "location_c": "CA" }
+  },
+  {
+    "fixture": "state-ny-split",
+    "need": "Quote request for nylon resin",
+    "name": "Dana Whitfield",
+    "email": "dana.whitfield.uat3@example.com",
+    "phone": "555-555-6666",
+    "company": "Whitfield Components",
+    "state": "New York",
+    "expect": { "dedup": false, "first_name": "Dana", "last_name": "Whitfield", "location_c": "NY" }
+  }
+]

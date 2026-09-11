@@ -1,0 +1,1038 @@
+{
+ "schema": "tool-catalog-v1",
+ "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
+ "counts": {
+  "command": 13,
+  "hook": 2,
+  "operator": 43,
+  "script": 71,
+  "skill": 15,
+  "workflow": 2
+ },
+ "total": 146,
+ "missing_jtbd": 0,
+ "tools": [
+  {
+   "kind": "skill",
+   "name": "cruft-sweep",
+   "path": ".claude/skills/cruft-sweep/SKILL.md",
+   "jtbd": "Survey, classify, and safely reclaim stale git worktrees in a many-worktree repo, and spread shared files across them. Use when worktrees accumulate (\"clean up worktrees\", \"prune stale branches\", \"spread this to other worktrees\"), before a ",
+   "invoke": "/cruft-sweep"
+  },
+  {
+   "kind": "skill",
+   "name": "fold",
+   "path": ".claude/skills/fold/SKILL.md",
+   "jtbd": "Reverse-ATG session decomposition. When a session has grown dense with threads from more than one domain, sweep its residue, sort by domain gravity, and re-serialize each cluster into a self-contained composed session (spawn_task chip) whos",
+   "invoke": "/fold"
+  },
+  {
+   "kind": "skill",
+   "name": "forge",
+   "path": ".claude/skills/forge/SKILL.md",
+   "jtbd": "Forge a counterpart's clean surface family (recoil / codex / receipt-close / diamond) from their SSOTs to Robin's crispness bar, then take it all the way to a send-worthy, register-fit, honesty-gated artifact. Full sequence — gather (incl. ",
+   "invoke": "/forge"
+  },
+  {
+   "kind": "skill",
+   "name": "meta-audit",
+   "path": ".claude/skills/meta-audit/SKILL.md",
+   "jtbd": "Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an ap",
+   "invoke": "/meta-audit"
+  },
+  {
+   "kind": "skill",
+   "name": "nci-scoring",
+   "path": ".claude/skills/nci-scoring/SKILL.md",
+   "jtbd": "Score a code change/commit/diff against the ARCS Commit-NCI rubric (ADR-035) and its thresholds. Use when the user asks to \"score this,\" \"what's the NCI,\" rate a diff/commit/PR before committing or merging, or references NCI, drift, or the ",
+   "invoke": "/nci-scoring"
+  },
+  {
+   "kind": "skill",
+   "name": "nftt-story-factory",
+   "path": ".claude/skills/nftt-story-factory/SKILL.md",
+   "jtbd": "Stamp a data-driven ARCS story (Notes-from-the-Trenches class) at good.arcs.care/blog/nftt/<slug> from a story envelope + prose. The extensible successor to the post-1/post-2 render — threads (palette + node shapes) and the narrative arc ar",
+   "invoke": "/nftt-story-factory"
+  },
+  {
+   "kind": "skill",
+   "name": "night-moves",
+   "path": ".claude/skills/night-moves/SKILL.md",
+   "jtbd": "End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for",
+   "invoke": "/night-moves"
+  },
+  {
+   "kind": "skill",
+   "name": "omakase-pipeline",
+   "path": ".claude/skills/omakase-pipeline/SKILL.md",
+   "jtbd": "Turn one engagement corpus into the three-surface artifact family — back-of-house SSOT (gated), the canon/cellar (coursed narrative), and a target-tuned front-of-house suite at 25th-polish essence. The instance→class generalization of jeben",
+   "invoke": "/omakase-pipeline"
+  },
+  {
+   "kind": "skill",
+   "name": "prl-page-factory",
+   "path": ".claude/skills/prl-page-factory/SKILL.md",
+   "jtbd": "Stamp a new PRL client-facing status page (or edit an existing one) that conforms exactly to the proven prl.arcs.care design system — atomic design layers at Todd's register (pilot-checklist, BLUF-first, plain language), spanning the exec→s",
+   "invoke": "/prl-page-factory"
+  },
+  {
+   "kind": "skill",
+   "name": "recoil-close",
+   "path": ".claude/skills/recoil-close/SKILL.md",
+   "jtbd": "T-zero phase (the loop-closing moment). After the call, pull the transcript, score the ex-ante receipt against reality, and fill the Forge / Recoil / War Game / Defensibility tabs. Use right after a call you ran /recoil-prep on.",
+   "invoke": "/recoil-close"
+  },
+  {
+   "kind": "skill",
+   "name": "recoil-new",
+   "path": ".claude/skills/recoil-new/SKILL.md",
+   "jtbd": "Scaffold a new counterpart engagement SSOT from the 6-tab war-room template. Use at the very start of a new relationship/deal you'll track over calls. Creates runtime/recoil/generated/<date>-<name>.json ready for /recoil-prep.",
+   "invoke": "/recoil-new"
+  },
+  {
+   "kind": "skill",
+   "name": "recoil-prep",
+   "path": ".claude/skills/recoil-prep/SKILL.md",
+   "jtbd": "T-minus phase. Gather context (calendar, gmail, granola, gamma, profile) for a counterpart and fill the Pre-Call + Ex-Ante tabs of their engagement SSOT, then render the internal war-room shell. Use before a call.",
+   "invoke": "/recoil-prep"
+  },
+  {
+   "kind": "skill",
+   "name": "recoil-ship",
+   "path": ".claude/skills/recoil-ship/SKILL.md",
+   "jtbd": "T-plus phase. Project the internal war-room SSOT into a counterpart-safe external artifact, safety-scan it, deploy it, and draft the accompanying note (never sent automatically). Use when you're ready to share something with the counterpart",
+   "invoke": "/recoil-ship"
+  },
+  {
+   "kind": "skill",
+   "name": "sbom-payload-scan",
+   "path": ".claude/skills/sbom-payload-scan/SKILL.md",
+   "jtbd": ">",
+   "invoke": "/sbom-payload-scan"
+  },
+  {
+   "kind": "skill",
+   "name": "teardown-page-factory",
+   "path": ".claude/skills/teardown-page-factory/SKILL.md",
+   "jtbd": "Stamp a counterpart-facing S-tier diamond teardown surface at <name>.arcs.care from source teardown MDs — the wing.arcs.care pattern (Chan build-record skeleton re-cut as claim-vs-record teardown with PRESENT mode). Use whenever a founder/c",
+   "invoke": "/teardown-page-factory"
+  },
+  {
+   "kind": "command",
+   "name": "arcs-brand-manager",
+   "path": ".claude/commands/arcs-brand-manager.md",
+   "jtbd": "Forked from Anthropic's `brand-guidelines` skill, adapted into an ARCS-specific brand",
+   "invoke": "/arcs-brand-manager"
+  },
+  {
+   "kind": "command",
+   "name": "canon-review",
+   "path": ".claude/commands/canon-review.md",
+   "jtbd": "description: Batch-review the canon-propagation queue — quick yes/no multi-picker over DEROT / ESCALATE / FORK items, then apply the yes'd ones",
+   "invoke": "/canon-review"
+  },
+  {
+   "kind": "command",
+   "name": "catalog",
+   "path": ".claude/commands/catalog.md",
+   "jtbd": "Given a stated job, recommend THE one right existing tool and (with consent) run it.",
+   "invoke": "/catalog"
+  },
+  {
+   "kind": "command",
+   "name": "drift-check",
+   "path": ".claude/commands/drift-check.md",
+   "jtbd": "Run the ARCS drift audit on demand (instead of waiting for the 04:00 UTC sentinel). Read-only:",
+   "invoke": "/drift-check"
+  },
+  {
+   "kind": "command",
+   "name": "faq-eval",
+   "path": ".claude/commands/faq-eval.md",
+   "jtbd": "Cold-reader ATG-FAQ coverage eval for a README (or any public-facing artifact). Simulates a",
+   "invoke": "/faq-eval"
+  },
+  {
+   "kind": "command",
+   "name": "handoff-pickup",
+   "path": ".claude/commands/handoff-pickup.md",
+   "jtbd": "Runs at the START of a new session to orient quickly without re-reading everything.",
+   "invoke": "/handoff-pickup"
+  },
+  {
+   "kind": "command",
+   "name": "handoff",
+   "path": ".claude/commands/handoff.md",
+   "jtbd": "Runs the ARCS handoff protocol. Execute this at the END of every session before closing.",
+   "invoke": "/handoff"
+  },
+  {
+   "kind": "command",
+   "name": "nci-commit",
+   "path": ".claude/commands/nci-commit.md",
+   "jtbd": "Score the staged diff against Commit-NCI (ADR-035), then commit with the `[NCI:XX]` tag — or",
+   "invoke": "/nci-commit"
+  },
+  {
+   "kind": "command",
+   "name": "precall-brief",
+   "path": ".claude/commands/precall-brief.md",
+   "jtbd": "Pre-meeting trigger companion to `/teardown`. Where `/teardown` needs a website URL and a",
+   "invoke": "/precall-brief"
+  },
+  {
+   "kind": "command",
+   "name": "rca",
+   "path": ".claude/commands/rca.md",
+   "jtbd": "On-demand root-cause analysis for a specific error. Invoke this ONLY when an error is worth the",
+   "invoke": "/rca"
+  },
+  {
+   "kind": "command",
+   "name": "recoil-report",
+   "path": ".claude/commands/recoil-report.md",
+   "jtbd": "Generates an ARCS Recoil Report from a Granola call transcript, builds it into a deployed",
+   "invoke": "/recoil-report"
+  },
+  {
+   "kind": "command",
+   "name": "teardown",
+   "path": ".claude/commands/teardown.md",
+   "jtbd": "Given a person's website + a bio/LinkedIn PDF, produces two gauntlet-hardened artifacts: a",
+   "invoke": "/teardown"
+  },
+  {
+   "kind": "command",
+   "name": "witness",
+   "path": ".claude/commands/witness.md",
+   "jtbd": "Can I get a witness?\" — a one-shot, in-the-moment capture. The opposite of `/dewy-stub`:",
+   "invoke": "/witness"
+  },
+  {
+   "kind": "workflow",
+   "name": "counterpart-gauntlet",
+   "path": ".claude/workflows/counterpart-gauntlet.js",
+   "jtbd": "Parameterized pre-send gauntlet for ANY counterpart artifact family: simulate the counterpart across N facets at high burden of proof, then adversarially verify + synthesize register-tuned fixes. Pass the counterpart via args.",
+   "invoke": "Workflow scriptPath=.claude/workflows/counterpart-gauntlet.js"
+  },
+  {
+   "kind": "workflow",
+   "name": "recoil-report",
+   "path": ".claude/workflows/recoil-report.mjs",
+   "jtbd": "Multi-agent recoil report: gather signals, analyze through ARCS operator lenses, adversarially verify every claim, synthesize a provenance-graded report",
+   "invoke": "Workflow scriptPath=.claude/workflows/recoil-report.mjs"
+  },
+  {
+   "kind": "hook",
+   "name": "pre-compact",
+   "path": ".claude/hooks/pre-compact.sh",
+   "jtbd": "PreCompact hook — ARCS v9",
+   "invoke": "(automatic — hook)"
+  },
+  {
+   "kind": "hook",
+   "name": "session-start",
+   "path": ".claude/hooks/session-start.sh",
+   "jtbd": "SessionStart hook — ARCS v9",
+   "invoke": "(automatic — hook)"
+  },
+  {
+   "kind": "script",
+   "name": "archetype_scan.py",
+   "path": "scripts/archetype_scan.py",
+   "jtbd": "ARCS Archetype Scan — Resonance Scoring & Force-Directed Graph",
+   "invoke": "python3 scripts/archetype_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "arcs_cli.py",
+   "path": "scripts/arcs_cli.py",
+   "jtbd": "arcs_cli.py — ARCS 5-Verb Pipeline",
+   "invoke": "python3 scripts/arcs_cli.py"
+  },
+  {
+   "kind": "script",
+   "name": "arcs_core.py",
+   "path": "scripts/arcs_core.py",
+   "jtbd": "arcs_core.py — ARCS Personal Data Science Kernel (Pass 1 MVP)",
+   "invoke": "python3 scripts/arcs_core.py"
+  },
+  {
+   "kind": "script",
+   "name": "artifact_wrap_lint.py",
+   "path": "scripts/artifact_wrap_lint.py",
+   "jtbd": "artifact_wrap_lint.py — pre-publish gate for the intermediate-width wrap-regression class.",
+   "invoke": "python3 scripts/artifact_wrap_lint.py"
+  },
+  {
+   "kind": "script",
+   "name": "blog_provenance.py",
+   "path": "scripts/blog_provenance.py",
+   "jtbd": "blog_provenance — emit/verify a provenance manifest for a hand-synthesized artifact.",
+   "invoke": "python3 scripts/blog_provenance.py"
+  },
+  {
+   "kind": "script",
+   "name": "blog_render.py",
+   "path": "scripts/blog_render.py",
+   "jtbd": "blog_render — render a Notes-from-the-Trenches markdown post to a FieldOS-styled static HTML page.",
+   "invoke": "python3 scripts/blog_render.py"
+  },
+  {
+   "kind": "script",
+   "name": "branch_hygiene_check.py",
+   "path": "scripts/branch_hygiene_check.py",
+   "jtbd": "branch_hygiene_check — surface cross-harness worktree/branch hazards.",
+   "invoke": "python3 scripts/branch_hygiene_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "build_observatory.py",
+   "path": "scripts/build_observatory.py",
+   "jtbd": "build_observatory.py — generates the ARCS Observatory data layer from REAL repo data.",
+   "invoke": "python3 scripts/build_observatory.py"
+  },
+  {
+   "kind": "script",
+   "name": "calendar_scan.py",
+   "path": "scripts/calendar_scan.py",
+   "jtbd": "calendar_scan.py — ARCS Calendar Gauntlet",
+   "invoke": "python3 scripts/calendar_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "canon_propagation_check.py",
+   "path": "scripts/canon_propagation_check.py",
+   "jtbd": "canon_propagation_check — a propagation sentinel for first-order sources of truth.",
+   "invoke": "python3 scripts/canon_propagation_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "canon_propagation_nightly.sh",
+   "path": "scripts/canon_propagation_nightly.sh",
+   "jtbd": "canon_propagation_nightly — evening cron entry for the canon-propagation sentinel.",
+   "invoke": "scripts/canon_propagation_nightly.sh"
+  },
+  {
+   "kind": "script",
+   "name": "connector_render.py",
+   "path": "scripts/connector_render.py",
+   "jtbd": "connector_render — render the ADR-056 <tool>.arcs.care connector fleet from SSOT.",
+   "invoke": "python3 scripts/connector_render.py"
+  },
+  {
+   "kind": "script",
+   "name": "corpus_adapter_jeben.py",
+   "path": "scripts/corpus_adapter_jeben.py",
+   "jtbd": "corpus_adapter_jeben.py — adapter #2: Jeben engagement corpus → catalog.",
+   "invoke": "python3 scripts/corpus_adapter_jeben.py"
+  },
+  {
+   "kind": "script",
+   "name": "corpus_adapter_louisville.py",
+   "path": "scripts/corpus_adapter_louisville.py",
+   "jtbd": "corpus_adapter_louisville.py — pilot adapter: Louisville engagement corpus → catalog.",
+   "invoke": "python3 scripts/corpus_adapter_louisville.py"
+  },
+  {
+   "kind": "script",
+   "name": "corrections_link.py",
+   "path": "scripts/corrections_link.py",
+   "jtbd": "corrections_link.py — git-ground the believability ledger's \"unlinked corrections\".",
+   "invoke": "python3 scripts/corrections_link.py"
+  },
+  {
+   "kind": "script",
+   "name": "cruft_sweep.py",
+   "path": "scripts/cruft_sweep.py",
+   "jtbd": "cruft_sweep — survey, classify, and safely reclaim stale git worktrees.",
+   "invoke": "python3 scripts/cruft_sweep.py"
+  },
+  {
+   "kind": "script",
+   "name": "deploy-prod.sh",
+   "path": "scripts/deploy-prod.sh",
+   "jtbd": "deploy-prod.sh — always run this instead of `vercel --prod`",
+   "invoke": "scripts/deploy-prod.sh"
+  },
+  {
+   "kind": "script",
+   "name": "doll_export.py",
+   "path": "scripts/doll_export.py",
+   "jtbd": "doll_export.py — cut a russian-doll seed bundle from the corpus (User0 side).",
+   "invoke": "python3 scripts/doll_export.py"
+  },
+  {
+   "kind": "script",
+   "name": "doll_sprout.py",
+   "path": "scripts/doll_sprout.py",
+   "jtbd": "doll_sprout.py — germinate a doll into a tenant memory dir (UserN+1 side).",
+   "invoke": "python3 scripts/doll_sprout.py"
+  },
+  {
+   "kind": "script",
+   "name": "echo_detector_dogfood.py",
+   "path": "scripts/echo_detector_dogfood.py",
+   "jtbd": "echo_detector_dogfood.py — falsifiable seaworthiness test for the Orthogonal Echo",
+   "invoke": "python3 scripts/echo_detector_dogfood.py"
+  },
+  {
+   "kind": "script",
+   "name": "event_rules.py",
+   "path": "scripts/event_rules.py",
+   "jtbd": "event_rules.py — declarative rule engine for the ARCS Observatory.",
+   "invoke": "python3 scripts/event_rules.py"
+  },
+  {
+   "kind": "script",
+   "name": "export_apollo.py",
+   "path": "scripts/export_apollo.py",
+   "jtbd": "ARCS → Apollo.io Enrichment Export",
+   "invoke": "python3 scripts/export_apollo.py"
+  },
+  {
+   "kind": "script",
+   "name": "forensic_scan.py",
+   "path": "scripts/forensic_scan.py",
+   "jtbd": "ARCS v9 Deep Forensic Scan",
+   "invoke": "python3 scripts/forensic_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "forge_counterpart.py",
+   "path": "scripts/forge_counterpart.py",
+   "jtbd": "forge_counterpart.py -- the parameterized counterpart-forge generator.",
+   "invoke": "python3 scripts/forge_counterpart.py"
+  },
+  {
+   "kind": "script",
+   "name": "fork_lineage_check.sh",
+   "path": "scripts/fork_lineage_check.sh",
+   "jtbd": "Fork Lineage drift check (J17) — conditional action.",
+   "invoke": "scripts/fork_lineage_check.sh"
+  },
+  {
+   "kind": "script",
+   "name": "gauntlet_report.py",
+   "path": "scripts/gauntlet_report.py",
+   "jtbd": "gauntlet_report — render an ARCS gauntlet scar-log (adversarial findings) to a printable",
+   "invoke": "python3 scripts/gauntlet_report.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_receipt_close.py",
+   "path": "scripts/gen_receipt_close.py",
+   "jtbd": "gen_receipt_close.py -- scaffold a receipt-close SSOT by scoring an ex-ante",
+   "invoke": "python3 scripts/gen_receipt_close.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_recoil_artifact.py",
+   "path": "scripts/gen_recoil_artifact.py",
+   "jtbd": "Render an ARCS-canon Recoil Report HTML artifact from a generated report JSON.",
+   "invoke": "python3 scripts/gen_recoil_artifact.py"
+  },
+  {
+   "kind": "script",
+   "name": "github_ingest.py",
+   "path": "scripts/github_ingest.py",
+   "jtbd": "github_ingest.py — plug-and-play GitHub → ARCS Observatory dataset builder.",
+   "invoke": "python3 scripts/github_ingest.py"
+  },
+  {
+   "kind": "script",
+   "name": "gravity_well_fork_scan.py",
+   "path": "scripts/gravity_well_fork_scan.py",
+   "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
+   "invoke": "python3 scripts/gravity_well_fork_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "hypercube_sampler.py",
+   "path": "scripts/hypercube_sampler.py",
+   "jtbd": "hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)",
+   "invoke": "python3 scripts/hypercube_sampler.py"
+  },
+  {
+   "kind": "script",
+   "name": "idea_montecarlo.py",
+   "path": "scripts/idea_montecarlo.py",
+   "jtbd": "I.D.E.A. Monte Carlo — Instantiate · Disrupt · Evaluate · Anneal",
+   "invoke": "python3 scripts/idea_montecarlo.py"
+  },
+  {
+   "kind": "script",
+   "name": "integrity_gate.py",
+   "path": "scripts/integrity_gate.py",
+   "jtbd": "integrity_gate.py — the Metabolic Router's GATE organ (ADR-075, Reading Room Phase 0).",
+   "invoke": "python3 scripts/integrity_gate.py"
+  },
+  {
+   "kind": "script",
+   "name": "lattice_drift_check.py",
+   "path": "scripts/lattice_drift_check.py",
+   "jtbd": "lattice_drift_check — a drift detector for the orphaned knowledge lattice.",
+   "invoke": "python3 scripts/lattice_drift_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "lattice_sim.py",
+   "path": "scripts/lattice_sim.py",
+   "jtbd": "lattice_sim.py — Structural load test for the superionic goal lattice (ADR-023).",
+   "invoke": "python3 scripts/lattice_sim.py"
+  },
+  {
+   "kind": "script",
+   "name": "leak_check.sh",
+   "path": "scripts/leak_check.sh",
+   "jtbd": "scripts/leak_check.sh — External-surface leak check (J24).",
+   "invoke": "scripts/leak_check.sh"
+  },
+  {
+   "kind": "script",
+   "name": "ledger_check.py",
+   "path": "scripts/ledger_check.py",
+   "jtbd": "Enforcement-parity ledger gate (ADR-034).",
+   "invoke": "python3 scripts/ledger_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "listening_scan.py",
+   "path": "scripts/listening_scan.py",
+   "jtbd": "listening_scan.py — ARCS Listening Gauntlet",
+   "invoke": "python3 scripts/listening_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "memory_catalog_emit.py",
+   "path": "scripts/memory_catalog_emit.py",
+   "jtbd": "memory_catalog_emit.py — the ½ punch: mechanical, declared-edges-only backfill.",
+   "invoke": "python3 scripts/memory_catalog_emit.py"
+  },
+  {
+   "kind": "script",
+   "name": "memory_index_sync.py",
+   "path": "scripts/memory_index_sync.py",
+   "jtbd": "memory_index_sync.py — self-cataloging inchworm for the memory index.",
+   "invoke": "python3 scripts/memory_index_sync.py"
+  },
+  {
+   "kind": "script",
+   "name": "milestone_render.py",
+   "path": "scripts/milestone_render.py",
+   "jtbd": "milestone_render — inject a data JSON into the fixed milestone template.",
+   "invoke": "python3 scripts/milestone_render.py"
+  },
+  {
+   "kind": "script",
+   "name": "network_scan.py",
+   "path": "scripts/network_scan.py",
+   "jtbd": "ARCS Network Topology Scan — Deep Write Lock Analysis",
+   "invoke": "python3 scripts/network_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "network_scan_full.py",
+   "path": "scripts/network_scan_full.py",
+   "jtbd": "ARCS Network Scan — Full Portable Edition",
+   "invoke": "python3 scripts/network_scan_full.py"
+  },
+  {
+   "kind": "script",
+   "name": "night_moves_gather.sh",
+   "path": "scripts/night_moves_gather.sh",
+   "jtbd": "night_moves_gather.sh — deterministic raw material for the /night-moves digest.",
+   "invoke": "scripts/night_moves_gather.sh"
+  },
+  {
+   "kind": "script",
+   "name": "oracle.py",
+   "path": "scripts/oracle.py",
+   "jtbd": "oracle — a sequence + time authority for the distributed multi-session model.",
+   "invoke": "python3 scripts/oracle.py"
+  },
+  {
+   "kind": "script",
+   "name": "reader_scan.py",
+   "path": "scripts/reader_scan.py",
+   "jtbd": "reader_scan.py — ARCS Reader Gauntlet",
+   "invoke": "python3 scripts/reader_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "receipt_lookup.py",
+   "path": "scripts/receipt_lookup.py",
+   "jtbd": "receipt_lookup.py — the Detective query over the internal recoil ledger.",
+   "invoke": "python3 scripts/receipt_lookup.py"
+  },
+  {
+   "kind": "script",
+   "name": "receipt_outcome_resolver.py",
+   "path": "scripts/receipt_outcome_resolver.py",
+   "jtbd": "receipt_outcome_resolver.py — the receipt-side resolver for the believability ledger.",
+   "invoke": "python3 scripts/receipt_outcome_resolver.py"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_brief.py",
+   "path": "scripts/recoil_brief.py",
+   "jtbd": "recoil_brief.py -- single-source-of-truth generator for a recoil brief.",
+   "invoke": "python3 scripts/recoil_brief.py"
+  },
+  {
+   "kind": "script",
+   "name": "reel_in_scan.py",
+   "path": "scripts/reel_in_scan.py",
+   "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
+   "invoke": "python3 scripts/reel_in_scan.py"
+  },
+  {
+   "kind": "script",
+   "name": "research_render.py",
+   "path": "scripts/research_render.py",
+   "jtbd": "research_render.py — render a digest node schema as an ALMANAC read through the READER.",
+   "invoke": "python3 scripts/research_render.py"
+  },
+  {
+   "kind": "script",
+   "name": "sage_distillation_data.py",
+   "path": "scripts/sage_distillation_data.py",
+   "jtbd": "scripts/sage_distillation_data.py — shared synthetic dataset for the SAGE",
+   "invoke": "python3 scripts/sage_distillation_data.py"
+  },
+  {
+   "kind": "script",
+   "name": "score_me.py",
+   "path": "scripts/score_me.py",
+   "jtbd": "ARCS Forensic Score — single contact receipt",
+   "invoke": "python3 scripts/score_me.py"
+  },
+  {
+   "kind": "script",
+   "name": "seedbank_drift_check.py",
+   "path": "scripts/seedbank_drift_check.py",
+   "jtbd": "seedbank_drift_check — an inchworm drift detector for the _SEEDS bank.",
+   "invoke": "python3 scripts/seedbank_drift_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "ship_docs.sh",
+   "path": "scripts/ship_docs.sh",
+   "jtbd": "ship_docs.sh — push committed docs-only work, open a PR, merge it. One command",
+   "invoke": "scripts/ship_docs.sh"
+  },
+  {
+   "kind": "script",
+   "name": "smoke.sh",
+   "path": "scripts/smoke.sh",
+   "jtbd": "scripts/smoke.sh — ADR-016 acceptance gate",
+   "invoke": "scripts/smoke.sh"
+  },
+  {
+   "kind": "script",
+   "name": "snapshot_prune_ui_artifacts.py",
+   "path": "scripts/snapshot_prune_ui_artifacts.py",
+   "jtbd": "snapshot_prune_ui_artifacts.py — keep _STATE/snapshot.json `ui_artifacts` honest.",
+   "invoke": "python3 scripts/snapshot_prune_ui_artifacts.py"
+  },
+  {
+   "kind": "script",
+   "name": "state_sync_check.py",
+   "path": "scripts/state_sync_check.py",
+   "jtbd": "State-sync drift check — advisory only, never fails the build.",
+   "invoke": "python3 scripts/state_sync_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "sugar_bulk.py",
+   "path": "scripts/sugar_bulk.py",
+   "jtbd": "sugar_bulk — build Sugar /rest/v11/bulk payloads and parse saved MCP results.",
+   "invoke": "python3 scripts/sugar_bulk.py"
+  },
+  {
+   "kind": "script",
+   "name": "sync_family_roster.py",
+   "path": "scripts/sync_family_roster.py",
+   "jtbd": "sync_family_roster.py — one seed bank (_SEEDS), four family surfaces, kept honest.",
+   "invoke": "python3 scripts/sync_family_roster.py"
+  },
+  {
+   "kind": "script",
+   "name": "sync_family_tokens.py",
+   "path": "scripts/sync_family_tokens.py",
+   "jtbd": "sync_family_tokens.py — one canonical token source for the arcs.care family surfaces.",
+   "invoke": "python3 scripts/sync_family_tokens.py"
+  },
+  {
+   "kind": "script",
+   "name": "sync_worktree.sh",
+   "path": "scripts/sync_worktree.sh",
+   "jtbd": "sync_worktree.sh — bring a session worktree up to date with origin/main, safely.",
+   "invoke": "scripts/sync_worktree.sh"
+  },
+  {
+   "kind": "script",
+   "name": "teardown_eval.py",
+   "path": "scripts/teardown_eval.py",
+   "jtbd": "teardown_eval.py - deterministic gate harness for /teardown and /precall-brief artifacts.",
+   "invoke": "python3 scripts/teardown_eval.py"
+  },
+  {
+   "kind": "script",
+   "name": "tf_sage_distillation.py",
+   "path": "scripts/tf_sage_distillation.py",
+   "jtbd": "scripts/tf_sage_distillation.py — TensorFlow distillation of SAGE's kinematic classifier.",
+   "invoke": "python3 scripts/tf_sage_distillation.py"
+  },
+  {
+   "kind": "script",
+   "name": "tool_catalog_emit.py",
+   "path": "scripts/tool_catalog_emit.py",
+   "jtbd": "tool_catalog_emit.py — flat tool-catalog emitter (atomic first slice, ADR-070 induction surface).",
+   "invoke": "python3 scripts/tool_catalog_emit.py"
+  },
+  {
+   "kind": "script",
+   "name": "torch_sage_distillation.py",
+   "path": "scripts/torch_sage_distillation.py",
+   "jtbd": "scripts/torch_sage_distillation.py — PyTorch distillation of SAGE's kinematic classifier.",
+   "invoke": "python3 scripts/torch_sage_distillation.py"
+  },
+  {
+   "kind": "script",
+   "name": "tripwire.sh",
+   "path": "scripts/tripwire.sh",
+   "jtbd": "Prospect-safety tripwire for public/ front-ends. Grep-only (no browser), fast,",
+   "invoke": "scripts/tripwire.sh"
+  },
+  {
+   "kind": "script",
+   "name": "vercel-debug.sh",
+   "path": "scripts/vercel-debug.sh",
+   "jtbd": "scripts/vercel-debug.sh — Vercel CLI debugging wrapper",
+   "invoke": "scripts/vercel-debug.sh"
+  },
+  {
+   "kind": "script",
+   "name": "vercel-ignore-build.sh",
+   "path": "scripts/vercel-ignore-build.sh",
+   "jtbd": "ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that",
+   "invoke": "scripts/vercel-ignore-build.sh"
+  },
+  {
+   "kind": "script",
+   "name": "warroom_board.py",
+   "path": "scripts/warroom_board.py",
+   "jtbd": "warroom_board.py — sovereign projection service: the instrument board.",
+   "invoke": "python3 scripts/warroom_board.py"
+  },
+  {
+   "kind": "script",
+   "name": "watchdog.sh",
+   "path": "scripts/watchdog.sh",
+   "jtbd": "scripts/watchdog.sh — Default stop-rule for any long-running task (J21).",
+   "invoke": "scripts/watchdog.sh"
+  },
+  {
+   "kind": "operator",
+   "name": "adr_audit.py",
+   "path": "operators/adr_audit.py",
+   "jtbd": "adr_audit.py — ADR quality-gate wrapper",
+   "invoke": "python3 operators/adr_audit.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_api.py",
+   "path": "operators/arcs_api.py",
+   "jtbd": "arcs_api.py — ARCS v9 FastAPI Backend",
+   "invoke": "python3 operators/arcs_api.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_backup.py",
+   "path": "operators/arcs_backup.py",
+   "jtbd": "ARCS backup — AES-256-GCM encrypted snapshot to iCloud Drive.",
+   "invoke": "python3 operators/arcs_backup.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_battery.py",
+   "path": "operators/arcs_battery.py",
+   "jtbd": "ARCS battery routing — three operating modes.",
+   "invoke": "python3 operators/arcs_battery.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_cis.py",
+   "path": "operators/arcs_cis.py",
+   "jtbd": "arcs_cis.py — ARCS Cognitive Interface System (CIS)",
+   "invoke": "python3 operators/arcs_cis.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_constitutional_court.py",
+   "path": "operators/arcs_constitutional_court.py",
+   "jtbd": "arcs_constitutional_court.py",
+   "invoke": "python3 operators/arcs_constitutional_court.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_dewy_log.py",
+   "path": "operators/arcs_dewy_log.py",
+   "jtbd": "DEWY — Decision Evidence Weight Yield",
+   "invoke": "python3 operators/arcs_dewy_log.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_diagnostic.py",
+   "path": "operators/arcs_diagnostic.py",
+   "jtbd": "ARCS INIT Diagnostic Tool",
+   "invoke": "python3 operators/arcs_diagnostic.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_hc.py",
+   "path": "operators/arcs_hc.py",
+   "jtbd": "arcs_hc.py — ARCS Hemisphere Checker (HC)",
+   "invoke": "python3 operators/arcs_hc.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_inchworm_echo.py",
+   "path": "operators/arcs_inchworm_echo.py",
+   "jtbd": "arcs_inchworm_echo.py — ARCS v9",
+   "invoke": "python3 operators/arcs_inchworm_echo.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_init_bundles.py",
+   "path": "operators/arcs_init_bundles.py",
+   "jtbd": "Bootstrap ARCS bundle schemas in GIGI.",
+   "invoke": "python3 operators/arcs_init_bundles.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_kinematics.py",
+   "path": "operators/arcs_kinematics.py",
+   "jtbd": "arcs_kinematics.py",
+   "invoke": "python3 operators/arcs_kinematics.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_kintsugi.py",
+   "path": "operators/arcs_kintsugi.py",
+   "jtbd": "arcs_kintsugi.py",
+   "invoke": "python3 operators/arcs_kintsugi.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_lte.py",
+   "path": "operators/arcs_lte.py",
+   "jtbd": "arcs_lte.py — ARCS Lossless Translation Engine (LTE)",
+   "invoke": "python3 operators/arcs_lte.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_no_go_inventory.py",
+   "path": "operators/arcs_no_go_inventory.py",
+   "jtbd": "ARCS v9 — No-Go Inventory (NGI) v1.0",
+   "invoke": "python3 operators/arcs_no_go_inventory.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operator20.py",
+   "path": "operators/arcs_operator20.py",
+   "jtbd": "arcs_operator20.py — Phase 5 Folksonomy Cultivator (Operator 20)",
+   "invoke": "python3 operators/arcs_operator20.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operator21.py",
+   "path": "operators/arcs_operator21.py",
+   "jtbd": "arcs_operator21.py",
+   "invoke": "python3 operators/arcs_operator21.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operator_contract.py",
+   "path": "operators/arcs_operator_contract.py",
+   "jtbd": "arcs_operator_contract.py",
+   "invoke": "python3 operators/arcs_operator_contract.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operator_kairos.py",
+   "path": "operators/arcs_operator_kairos.py",
+   "jtbd": "arcs_operator_kairos.py",
+   "invoke": "python3 operators/arcs_operator_kairos.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operators_bar.py",
+   "path": "operators/arcs_operators_bar.py",
+   "jtbd": "arcs_operators_bar.py",
+   "invoke": "python3 operators/arcs_operators_bar.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operators_curator.py",
+   "path": "operators/arcs_operators_curator.py",
+   "jtbd": "arcs_operators_curator.py",
+   "invoke": "python3 operators/arcs_operators_curator.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operators_lab.py",
+   "path": "operators/arcs_operators_lab.py",
+   "jtbd": "arcs_operators_lab.py",
+   "invoke": "python3 operators/arcs_operators_lab.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_operators_sage.py",
+   "path": "operators/arcs_operators_sage.py",
+   "jtbd": "arcs_operators_sage.py",
+   "invoke": "python3 operators/arcs_operators_sage.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_pipeline_v1.py",
+   "path": "operators/arcs_pipeline_v1.py",
+   "jtbd": "arcs_pipeline_v1.py",
+   "invoke": "python3 operators/arcs_pipeline_v1.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_primitives.py",
+   "path": "operators/arcs_primitives.py",
+   "jtbd": "arcs_primitives.py",
+   "invoke": "python3 operators/arcs_primitives.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_primitives_bridge.py",
+   "path": "operators/arcs_primitives_bridge.py",
+   "jtbd": "arcs_primitives_bridge.py",
+   "invoke": "python3 operators/arcs_primitives_bridge.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_receipt_core.py",
+   "path": "operators/arcs_receipt_core.py",
+   "jtbd": "ARCS v9 — receipt-core (Python)",
+   "invoke": "python3 operators/arcs_receipt_core.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_rom.py",
+   "path": "operators/arcs_rom.py",
+   "jtbd": "arcs_rom.py",
+   "invoke": "python3 operators/arcs_rom.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_runtime_service.py",
+   "path": "operators/arcs_runtime_service.py",
+   "jtbd": "arcs_runtime_service.py — Phase 5 Ballet-Style Runtime Daemon",
+   "invoke": "python3 operators/arcs_runtime_service.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_seed_bar.py",
+   "path": "operators/arcs_seed_bar.py",
+   "jtbd": "Seed the ARCS template library with 12 BAR (Belief-Action-Rationale) templates.",
+   "invoke": "python3 operators/arcs_seed_bar.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_store.py",
+   "path": "operators/arcs_store.py",
+   "jtbd": "arcs_store.py",
+   "invoke": "python3 operators/arcs_store.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_substrate.py",
+   "path": "operators/arcs_substrate.py",
+   "jtbd": "ARCS substrate client — thin REST wrapper around GIGI.",
+   "invoke": "python3 operators/arcs_substrate.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_trace.py",
+   "path": "operators/arcs_trace.py",
+   "jtbd": "arcs_trace.py — Phase 5 Observability Layer",
+   "invoke": "python3 operators/arcs_trace.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_trace_loki.py",
+   "path": "operators/arcs_trace_loki.py",
+   "jtbd": "arcs_trace_loki.py — Phase 5 Loki Debug Layer",
+   "invoke": "python3 operators/arcs_trace_loki.py"
+  },
+  {
+   "kind": "operator",
+   "name": "arcs_yoav_store.py",
+   "path": "operators/arcs_yoav_store.py",
+   "jtbd": "arcs_yoav_store.py — Phase 5 Global Serializability Layer",
+   "invoke": "python3 operators/arcs_yoav_store.py"
+  },
+  {
+   "kind": "operator",
+   "name": "cli_arcs_run.py",
+   "path": "operators/cli_arcs_run.py",
+   "jtbd": "cli_arcs_run.py — ARCS v9 Decision CLI",
+   "invoke": "python3 operators/cli_arcs_run.py"
+  },
+  {
+   "kind": "operator",
+   "name": "kryptonite_scorer.py",
+   "path": "operators/kryptonite_scorer.py",
+   "jtbd": "ARCS Operator: KryptoniteScorer",
+   "invoke": "python3 operators/kryptonite_scorer.py"
+  },
+  {
+   "kind": "operator",
+   "name": "operator_client.py",
+   "path": "operators/operator_client.py",
+   "jtbd": "operator_client.py — ARCS operator invocation wrapper",
+   "invoke": "python3 operators/operator_client.py"
+  },
+  {
+   "kind": "operator",
+   "name": "pipeline_runner.py",
+   "path": "operators/pipeline_runner.py",
+   "jtbd": "pipeline_runner.py — ARCS pipeline wrapper",
+   "invoke": "python3 operators/pipeline_runner.py"
+  },
+  {
+   "kind": "operator",
+   "name": "prod_receipt_to_op20_seed.py",
+   "path": "operators/prod_receipt_to_op20_seed.py",
+   "jtbd": "prod_receipt_to_op20_seed — faithful adapter: prod Prisma Receipt -> op20 seed dict.",
+   "invoke": "python3 operators/prod_receipt_to_op20_seed.py"
+  },
+  {
+   "kind": "operator",
+   "name": "receipt_evaluator.py",
+   "path": "operators/receipt_evaluator.py",
+   "jtbd": "receipt_evaluator.py — KINTSUGI phase-gate wrapper",
+   "invoke": "python3 operators/receipt_evaluator.py"
+  },
+  {
+   "kind": "operator",
+   "name": "seed_test_receipts.py",
+   "path": "operators/seed_test_receipts.py",
+   "jtbd": "Seed test receipts via POST /question-compass for /guide[receiptId] fixtures.",
+   "invoke": "python3 operators/seed_test_receipts.py"
+  },
+  {
+   "kind": "operator",
+   "name": "waveform_optimizer.py",
+   "path": "operators/waveform_optimizer.py",
+   "jtbd": "ARCS Operator: WaveformOptimizer",
+   "invoke": "python3 operators/waveform_optimizer.py"
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "id": "2026-08-05-kleban-enriched-profile",
+    "counterpart": "Yuri Kleban",
+    "company": "Google / Alphabet",
+    "date": "2026-08-05",
+    "role": "seed input #1 of the Yuri engagement (paired with the Jul 23 call transcript + LinkedIn DMs)",
+    "sources": ["public LinkedIn profile export (Profile 2026-08-05)", "Sundar Pichai public LinkedIn (target-profile reference)"]
+  },
+  "resolution": {
+    "level": "LOW — public LinkedIn only",
+    "caveat": "This is only what is visible publicly on LinkedIn. It is a first diagnostic, not the full terrain. Every read below is bounded by that.",
+    "dial_up_inputs": [
+      "GitHub (code, cadence, what he actually builds vs describes)",
+      "X / Twitter (real-time interests, who he engages)",
+      "personal site / blog / Substack (stated thesis in his own words)",
+      "Crunchbase / AngelList (angel + advisory portfolio, check sizes)",
+      "Cultured Meat Symposium (cms20.com) + Purpose Built profiles (network + values)",
+      "Agentum (theagentum.com) product surface (what he is building now)"
+    ],
+    "note": "Each added source raises resolution and fidelity on the terrain, per the articulated-discovery thesis. Consent-first: only with his opt-in."
+  },
+  "identity": {
+    "title": "Global Product Lead Manager, Partnerships — Google/Alphabet (Jun 2022–present)",
+    "tenure_google": "~15 years",
+    "location": "Mountain View, CA (visits Google NY constantly)",
+    "languages": ["Hebrew (native)", "English (native)", "Russian (native)"],
+    "origin": "Born USSR/Russia → Israel (10 yrs) → Chicago",
+    "personal": "New dad: twins (~5) + baby (~7–15 mo). Foodie. Self-describes 3 jobs: father, Google, meeting-interesting-people."
+  },
+  "career_arc_one_thread": "Fifteen years building INTERNAL TOOLS/PLATFORMS that empower teams, measured on productivity-per-person, $-per-rep, CSAT, and tool consolidation. Ads (Account Strategist → Global Tech Lead/Innovation → Platforms PgM: reduced internal tools ~55%, deprecated ~30%, ~1.8K Googlers, ~10K advertiser interactions/wk) → Cloud (Revenue Platforms PM → Sr PM; part of the TK/Kurian turnaround, last place → #2/3) → Partnerships (Product Lead → Global Product Lead Manager: team of ~20, tools for the partnerships org across all of Alphabet, briefs for senior leaders/execs). He IS the ARCS category.",
+  "thesis_fit": "Not a fan, a practitioner + the exact ICP. He automated the Sundar exec-brief by hand (data science, no AI, 2020; stitched first + third party data; 'his mind was blown, he didn't know it was mostly non-humans'). ARCS is what he already built, five years early, now closing the loop and scoring it.",
+  "side_and_network": {
+    "agentum": "theagentum.com — his current side project: bring technical + non-technical people to use agents for productivity (lovable + openclaw vibe). Structurally adjacent to ARCS.",
+    "purpose_built": "Venture Partner — helps founder-material people find next steps.",
+    "cultured_meat_symposium": "Co-organizer (cms20.com), 8 yrs — clean meat / future food.",
+    "advisory": "Long-running growth-hacker/advisor to many startups (Strikingly, WorkTies, Codesign, SaySo, JigTalk, CampusKudos, Astreas, Birdstop).",
+    "business_partner": "Ex-UBS president (20 yrs), NY — pulled out of retirement to help pre-IPO companies. Zach floated him for investment-memo / diligence / M&A pressure-testing."
+  },
+  "operating_signals": [
+    "Three conversation types he runs: (1) growth-hacking / agentic ('what agents have you built'), (2) connecting people (no percentage, no ask — e.g. CPO of Pinterest), (3) invest / break-into-VCs / M&A.",
+    "Consent-first / data-ethics is table stakes for him ('you're doing the right thing'). Parents read every T&C.",
+    "Warm connector energy: 'be selfish, what would get you to the next step, I want to help move you forward.' Gave 'nothing to sell/ask' energy — let him pull, do not over-pursue.",
+    "Guards MNPI (close to the Apple/Gemini/Siri rollout per prior memory) — never ask him to cross it."
+  ],
+  "terrain_reads": [
+    "READ: model-agnostic / runs-on-Gemini is likely the deal-maker for a Google adopter, and doubly so given Agentum.",
+    "READ: register is peer / champion / potential internal-dogfood, not a buyer today.",
+    "READ: he is technical AND Google-resourced — show shape and value, keep the transform under the fence (craftsman-to-craftsman).",
+    "READ (per Zach, unconfirmed): drawn in by Zach's serialized Apple articles + predictions, esp. the 'Project Titan forgetting machine' piece — a forgetting machine is the inverse of ARCS, which banks the correction and compounds."
+  ]
+}

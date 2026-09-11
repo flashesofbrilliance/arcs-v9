@@ -1,0 +1,40 @@
+{
+  "_note": "Extensible anti-ICP / negative-keyword exclusions. ONE shared source for BOTH the chatbot recognizer (exclusions.py) AND the Gravity Forms spam/quality filter. Adding an entry changes behavior with no code change. Todd's list (Aug 10 ask) drops into todd_provided and is picked up automatically.",
+  "_updated": "2026-08-10",
+
+  "hard_spam_signals": {
+    "_note": "Generic web-form spam (Todd's site was ~96% this). Honeypot + a bot check catches most automated spam before this; the keyword list is the backstop for what gets through. Match = block/quarantine, do not create a lead.",
+    "keywords": [
+      "seo", "backlink", "back link", "link building", "guest post", "guest blogging",
+      "increase your ranking", "rank higher", "first page of google", "web design",
+      "website design", "redesign your website", "digital marketing", "marketing services",
+      "lead generation service", "grow your sales", "boost your traffic", "affordable price",
+      "investment opportunity", "loan", "crypto", "bitcoin", "forex", "gift card",
+      "work from home", "make money", "click here", "limited time offer", "unsubscribe"
+    ]
+  },
+
+  "anti_icp_keywords": {
+    "_note": "Real people, wrong fit. PRL compounds resin PELLETS; it does not make sheet/rod/film/finished stock. Match = do not discard; PREQUAL + soft-route ('we make X, are you sure?') and tag low-intent so reps triage. This is Todd's 'sheet seekers' problem from the Aug 10 call.",
+    "entries": [
+      {"match": ["sheet", "sheet stock", "sheet resin", "resin sheet", "plastic sheet", "sheet polycarbonate", "polycarbonate sheet", "sheet nylon", "nylon sheet", "extruded sheet", "cast sheet"], "reason": "PRL makes moldable pellets/compounds, not sheet stock", "action": "prequal"},
+      {"match": ["plexiglass", "acrylic sheet", "lexan sheet", "makrolon sheet"], "reason": "Sheet/glazing product, not a moldable compound", "action": "prequal"},
+      {"match": ["rod", "tube", "film", "finished part", "molded part for sale"], "reason": "Finished/semi-finished form, not raw compound", "action": "prequal"}
+    ]
+  },
+
+  "todd_provided": {
+    "_pending": "AWAITING Todd (Aug 10 ask): his negative keywords/exclusions + real garbage-lead examples. Add each as {\"match\":[...], \"reason\":\"...\", \"action\":\"prequal|block\"} here. The engine + the Gravity Forms blocklist pick these up with no code change.",
+    "entries": []
+  },
+
+  "form_factor_clarifier": {
+    "_note": "Optional required field on the chatbot AND the Gravity Form, so a wrong-fit self-selects before it becomes a lead. Directly encodes the pellets-not-sheets distinction.",
+    "label": "What form do you need the material in?",
+    "options": [
+      {"value": "pellets", "label": "Pellets / compound (what we make)", "fit": true},
+      {"value": "sheet_rod_film", "label": "Sheet, rod, or film", "fit": false, "action": "prequal"},
+      {"value": "not_sure", "label": "Not sure", "fit": true, "action": "route"}
+    ]
+  }
+}

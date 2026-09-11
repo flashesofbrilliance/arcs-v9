@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Scott × ARCS – stated vs revealed</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+  :root{--bg:#020408;--surface:#0d1117;--surface2:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  html{background:var(--bg)} body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 22px 90px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:10px 0 8px;font-weight:650}
+  .sub{color:var(--muted)}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  section{margin-top:56px;scroll-margin-top:20px}
+  .pillnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:999px}
+  .pill:hover{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
+  .sechead>div{flex:1;min-width:0}
+  .idx{font-family:var(--mono);color:var(--cyan);font-size:13px}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  h2{font-size:21px;margin:6px 0 0;font-weight:600} h3{font-size:15px;margin:0 0 6px;font-weight:600}
+  p{margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
+  .stripe{border-left:3px solid var(--muted)} .stripe.red{border-left-color:var(--red)} .stripe.gold{border-left-color:var(--gold)} .stripe.green{border-left-color:var(--green)} .stripe.cyan{border-left-color:var(--cyan)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);border-radius:3px;color:var(--muted);white-space:nowrap}
+  .tag.red{color:var(--red);border-color:rgba(255,77,109,.4)} .tag.gold{color:var(--gold);border-color:rgba(255,215,0,.35)} .tag.green{color:var(--green);border-color:rgba(0,255,157,.35)} .tag.cyan{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .cardtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .quote{border-left:3px solid var(--cyan);padding:14px 18px;background:var(--surface);margin:18px 0;font-size:16.5px;font-style:italic}
+  .attr{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);font-style:normal;display:block;margin-top:8px;text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:6px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted)}
+  td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  ul{margin:0 0 14px;padding-left:20px;color:var(--muted)} li{margin-bottom:7px} li strong{color:var(--text)}
+  .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  a{color:var(--cyan)}
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+  .pw-title{font-size:20px;font-weight:700;color:var(--text)}
+  .pw-form{display:flex;gap:10px;align-items:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">ARCS × Scott Witt · Stated vs Revealed · Aug 2026</div>
+  <h1>What you say you want, and what three years of decisions actually chased.</h1>
+  <p class="sub">Not a new scan — a recombination of what's already on record: parlance.cc, scottwitt.cc, and our two calls, read against each other for where the stated ask and the revealed pattern line up, and where they pull in different directions. Framed plainly rather than dressed up: this is a stated-vs-revealed pass, not a magic operator stack.</p>
+  <div class="meta">SOURCES: PARLANCE.CC + /SCOTTWITT (LIVE SCAN) · SCOTTWITT.CC HOME/BIO/WORK (LIVE SCAN) · MAR 20 CALL NOTES · FIVE-PAGER SENT SAME-DAY · NO NEW OUTREACH OR THIRD-PARTY DATA USED</div>
+  <nav class="pillnav">
+    <a class="pill" href="#method">00 · Method</a>
+    <a class="pill" href="#stated">01 · Stated</a>
+    <a class="pill" href="#revealed">02 · Revealed</a>
+    <a class="pill" href="#delta">03 · The Delta</a>
+    <a class="pill" href="#pattern">04 · The Pattern</a>
+    <a class="pill" href="#next">05 · Next</a>
+  </nav>
+</header>
+
+<section id="method">
+  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">Honest framing first</div><h2>What this actually is</h2></div></div>
+  <p>"Fan out every primitive" isn't a real operation on the material available — there's no hidden dataset to orchestrate, just three documents: two of your sites and two conversations. What's genuinely useful is the oldest trick in behavioral analysis: <strong>compare what someone says they want against what their choices actually optimized for</strong>, across enough time and enough surfaces that the pattern isn't noise. That's what follows.</p>
+</section>
+
+<section id="stated">
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Stated</div><h2>What you've said, in your own words, across three surfaces</h2></div></div>
+  <div class="tablewrap"><table>
+    <tr><th>Surface</th><th>Stated preference</th></tr>
+    <tr><td>Mar 20 call</td><td>Three sectors named with real conviction: authenticity/provenance, fashion tech, AI-and-job-displacement/upskilling</td></tr>
+    <tr><td>parlance.cc homepage</td><td>Seven sectors, equal weight: Responsible AI, HealthTech, Public Impact, Consumer Lifestyle, Future of Food, Future of Work, Future of Media</td></tr>
+    <tr><td>scottwitt.cc /work</td><td>Five "consequential domains": AI Safety, Robotics, HealthTech, Public Impact, New Media</td></tr>
+    <tr><td>scottwitt.cc homepage close</td><td>Explicit ask: venture studio, PE portfolio transformation, or fractional brand/creative lead — four verticals: consumer, health & longevity, media, creator economy</td></tr>
+    <tr><td>scottwitt.cc /bio, May 2026</td><td>"Primary Focus: Fractional CD & head of Brand [for] a major media company in the creator economy"</td></tr>
+  </table></div>
+  <p style="margin-top:14px">Four stated-preference sets, four different sector lists. That's not a contradiction so much as evidence the "stated" layer itself is unsettled — it shifts depending on which surface and which month you're reading.</p>
+</section>
+
+<section id="revealed">
+  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Revealed</div><h2>What the actual engagement record shows</h2></div></div>
+  <p>Nine (parlance.cc) and seven (scottwitt.cc) named case studies overlap on five: Constellation, Twill, Fisher Wallace Labs, Naming, Aescape. That overlap set is the real revealed pattern — it's what you've actually built repeat structure around, independent of what either homepage currently says the focus is.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Engagement</th><th>Sector</th><th>Role weight</th></tr>
+    <tr><td>Twill</td><td>Health & Wellness</td><td>Highest — former Chief Brand Officer, full-time</td></tr>
+    <tr><td>Aescape</td><td>Health & Wellness</td><td>High — Fractional CBO</td></tr>
+    <tr><td>Fisher Wallace Labs</td><td>Health & Wellness</td><td>Medium — Advisor</td></tr>
+    <tr><td>Constellation</td><td>AI Safety / Public Impact</td><td>High — Fractional CBO</td></tr>
+    <tr><td>Naming</td><td>Cross-sector</td><td>Medium — Operator, brand sprints</td></tr>
+  </table></div>
+  <p style="margin-top:14px">Three of the five overlap engagements are Health & Wellness. That's a heavier, more concentrated revealed pattern than any of the four stated-sector lists show — HealthTech appears on every stated list, but never as the plurality it actually is in the work itself.</p>
+</section>
+
+<section id="delta">
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">The delta</div><h2>Three places stated and revealed pull apart</h2></div></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>1 · Health & Wellness is the revealed center of gravity, not the stated one</h3><span class="tag gold">Largest delta</span></div>
+  <p>It's one line among five to seven on every stated list, but it's the sector with your longest tenure (Twill, full-time CBO), your current fractional role (Aescape), and your longest-running advisory relationship (Fisher Wallace Labs). The stated framing spreads attention across AI/Public Impact/Media; the revealed record concentrates in health.</p></div>
+  <div class="card stripe cyan"><div class="cardtop"><h3>2 · The Mar 20 conviction sectors haven't produced a case study yet</h3><span class="tag cyan">Forward-leaning, not yet revealed</span></div>
+  <p>Authenticity/provenance and fashion tech — named with real energy on the call — don't map onto any of the twelve named engagements across both sites. AI-and-displacement is closer, given the Twill-era material and the Apple tenure, but still isn't a labeled case study anywhere. This is the one delta that reads as genuine forward interest rather than an unresolved framing problem.</p></div>
+  <div class="card stripe"><div class="cardtop"><h3>3 · The stated ask ("single ambitious mission") sits next to a revealed pattern of parallel fractional roles</h3><span class="tag">Behavioral, not sector-based</span></div>
+  <p>scottwitt.cc states readiness to "commit to a single ambitious mission." The revealed record — Aescape (Fractional CBO) concurrent with advisory work at Fisher Wallace Labs, plus the mentorship/office-hours funnel on parlance.cc — shows a portfolio operating mode maintained even while the stated preference points toward single-mission focus.</p></div>
+</section>
+
+<section id="pattern">
+  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">The pattern</div><h2>What actually pulls, versus what gets said</h2></div></div>
+  <div class="quote">The revealed field points to health/wellness brand leadership at senior-operator altitude, run in parallel across two or three relationships at once — not the single, sector-diversified mission the stated language describes.<span class="attr">synthesis, not a quote from you — flag if this reads wrong</span></div>
+  <p>None of this says the stated preferences are wrong or performative — stated intent legitimately runs ahead of revealed history, especially for the newer conviction sectors from the Mar 20 call. The useful move is naming the gap rather than picking a side: if health/wellness is where the gravity actually is, the next case study or client conversation is probably more valuable there than in a seventh listed vertical with no engagement behind it yet.</p>
+</section>
+
+<section id="next">
+  <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>One question, no build required to answer it</h2></div></div>
+  <div class="card stripe green"><div class="cardtop"><h3>Whenever</h3><span class="tag green">On you</span></div><p>Is the health/wellness concentration the actual center you want to build the next chapter around, or is it gravity from past roles you're intentionally moving away from? That answer changes which sector list on which site should lead.</p></div>
+</section>
+
+<div class="footer"><a href="https://scott.arcs.care" style="color:var(--cyan);text-decoration:none">← one door</a> · Prepared by Zach Harris · ARCS · Aug 19 2026 · Sources: parlance.cc, scottwitt.cc, Mar 20 call, five-pager · Shared privately with Scott Witt</div>
+</div>
+<script>(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
+</html>

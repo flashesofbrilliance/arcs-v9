@@ -19,6 +19,12 @@
 | **ARCS-Canon-v2-0-Complete.md** | CANONICAL | Glossary, full system reference (v2.0 frozen) |
 | **ARCS-Canon-v1-1.md** | CANONICAL | Earlier version (v1.1, kept for lineage) |
 
+## Doctrine
+
+| File | Status | Covers |
+|------|--------|--------|
+| **Tao-of-ARCS.md** | CANONICAL (v1.0.0) | Dormant potential (seed) vs animating spark (vox animus); the open germinate ↔ private ARCS boundary; free-to-hold/metered-to-fire. Genesis seed `adam==atom`. See ADR-053/054. |
+
 ## Theories & Manifestos
 
 | File | Status | Covers |
@@ -50,6 +56,6 @@
 ---
 
 **Index last updated:** 2026-06-30  
-**Canonical Book II:** Complete (Parts I-VI)  
+**Canonical Book II:** Complete (Parts I-III, V-VI); Part IV (Sessions API) DRAFT, unwritten (no file ever added; corrected 2026-09-04 per the Almanac audit)  
 **Governance coverage:** Complete (Parts II-III); Operational (Part V)  
 **Implementation gates:** See _DECISIONS/ADR-023 (100+ receipts) + ADR-013 (30-day Lab inquiry threshold)

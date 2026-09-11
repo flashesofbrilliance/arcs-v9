@@ -1,0 +1,33 @@
+{
+  "receipt_id": "receipt_monday_fde_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-06",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "Reference bundle (citi-fde) used the ARCS FieldOS compass-kit look for page.html; the blueprint for this pass requires the Blacksmith grammar instead",
+      "caught_by": "prompt rule 2 read against the citi-fde precedent before writing page.html",
+      "gold": "page.html rebuilt on public/blacksmith.html's token set and section grammar (nav, hero+ticker, pillars, domain map, ledger, gaps, proof, footer), not copied from the citi-fde landing page"
+    },
+    {
+      "break": "The record of record's SKILLS array does not list a programming language, but the JD's strongest secondary hook (TypeScript/JavaScript, React or Node) needed an honest answer",
+      "caught_by": "cross-check of record SKILLS against the JD requirements list",
+      "gold": "added a narrowly-scoped, checkable claim (\"TypeScript and JavaScript, Next.js, ARCS platform, public repo\") pointed at the public GitHub repo rather than asserting general language fluency; graded and flagged in TAILOR-NOTES and red-team as the single highest-risk new claim"
+    },
+    {
+      "break": "An early draft of page.html's claims-ledger row for $7B AUM read as unqualified; the red-team pass initially logged that no ledger existed on this bundle, which was stale once the ledger section was added",
+      "caught_by": "self-review while writing red-team.md against the finished page.html",
+      "gold": "ledger row explicitly binds the figure to \"the firm's public figure for the period, not a personal P&L\"; red-team note corrected to match the finished page rather than left stale"
+    },
+    {
+      "break": "Two internal notes (TAILOR-NOTES.md, red-team.md) used em-dashes, violating the plain-language rule",
+      "caught_by": "grep sweep for the em-dash character across all bundle files before finishing",
+      "gold": "both files rewritten with commas; page.html and resume-monday-fde.html were already clean"
+    }
+  ],
+  "verdict": "Bundle passes the kintsugi gate (no schema pathogens, no air-gap terms, no em-dashes, no scoring vocabulary on page.html); four in-flight breaks were sealed with visible gold during the session, documented above."
+}

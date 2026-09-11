@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Scott (Parlance) × ARCS – a teardown and a map</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; 
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 22px 90px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:10px 0 8px;font-weight:650}
+  .sub{color:var(--muted)}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  section{margin-top:56px;scroll-margin-top:20px}
+  .pillnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:999px;transition:color .15s,border-color .15s}
+  .pill:hover{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
+  .sechead>div{flex:1;min-width:0}
+  .idx{font-family:var(--mono);color:var(--cyan);font-size:13px}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  h2{font-size:21px;margin:6px 0 0;font-weight:600}
+  h3{font-size:15px;margin:0 0 6px;font-weight:600}
+  p{margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
+  .stripe{border-left:3px solid var(--muted)}
+  .stripe.red{border-left-color:var(--red)}
+  .stripe.gold{border-left-color:var(--gold)}
+  .stripe.green{border-left-color:var(--green)}
+  .stripe.cyan{border-left-color:var(--cyan)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);border-radius:3px;color:var(--muted);white-space:nowrap}
+  .tag.red{color:var(--red);border-color:rgba(255,77,109,.4)}
+  .tag.gold{color:var(--gold);border-color:rgba(255,215,0,.35)}
+  .tag.green{color:var(--green);border-color:rgba(0,255,157,.35)}
+  .tag.cyan{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .cardtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .quote{border-left:3px solid var(--cyan);padding:14px 18px;background:var(--surface);margin:18px 0;font-size:16.5px;font-style:italic;color:var(--text)}
+  .attr{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);font-style:normal;display:block;margin-top:8px;text-transform:uppercase}
+  .grid2{display:grid;grid-template-columns:1fr;gap:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:6px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted)}
+  td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;color:var(--gold)}
+  ul{margin:0 0 14px;padding-left:20px;color:var(--muted)}
+  li{margin-bottom:7px}
+  li strong{color:var(--text)}
+  .band{border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
+  .bandhead{padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .bandbody{padding:16px 18px}
+  .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  a{color:var(--cyan)}
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+  .pw-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+  .pw-form{display:flex;gap:10px;align-items:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
+  .pw-input:focus{border-color:var(--cyan)}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
+  .pw-btn:hover{background:rgba(0,240,255,.14)}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">ARCS × Scott Witt · Parlance · Aug 2026</div>
+  <h1>Ahead of the next call, I pulled parlance.cc apart the way Parlance pulls a brand story apart.</h1>
+  <p class="sub">Same move I ran on Kiko before catching up with Danny — the site as evidence, not a compliment or a critique on its own. Three parts: what parlance.cc actually says today, the gaps between the site and the story you tell in person, and a couple of honest observations on where your own "narrative clarity" pitch and this site might not fully agree with each other yet.</p>
+  <div class="meta">METHOD: LIVE SCAN OF PARLANCE.CC – HOMEPAGE, /SCOTTWITT, /PROJECTS/CASESTUDIES, ROBOTS.TXT, SITEMAP.XML (RESPONSE HEADERS, RENDERED COPY) · AUG 19 2026 · CROSS-REFERENCED AGAINST OUR TWO CALLS</div>
+  <nav class="pillnav">
+    <a class="pill" href="#favor">00 · Favor</a>
+    <a class="pill" href="#evidence">01 · Evidence</a>
+    <a class="pill" href="#gaps">02 · Gaps</a>
+    <a class="pill" href="#quickwins">03 · Quick Wins</a>
+    <a class="pill" href="#interlock">04 · Interlock</a>
+    <a class="pill" href="#next">05 · Next</a>
+  </nav>
+</header>
+
+<section id="favor">
+  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One hygiene item, no call required to act on it</h2></div></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>Case-study pages carry titles/roles but no narrative</h3><span class="tag gold">Cheap fix</span></div>
+  <p>/projects/casestudies lists nine engagements — Aescape, Fisher Wallace Labs, WelcomePAC, Naming, Reporter, Twill, UpTrade, Pedal, Cars &amp; Bids — each with a category and a role (Operator, Advisor, CoFounder), but no visible case-study body copy loaded on the page as scanned. For a studio whose entire pitch is "narrative clarity" and "simplifying the complex," a project index that's all label and no story is the one page most likely to undercut the thesis on contact. Might just be a rendering/JS-load quirk on the scan's end rather than a real gap — worth you checking live.</p></div>
+</section>
+
+<section id="evidence">
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What parlance.cc says today – the complete inventory</h2></div></div>
+  <p>Built on Framer, SSG-optimized, single sitemap of seven URLs, robots.txt open to all crawlers — clean, small, deliberate surface. Here's the full read as a first-time visitor sees it:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Surface</th><th>Verbatim content</th></tr>
+    <tr><td>Positioning (hero)</td><td>Three pillars, stated as equal weight: "Category Creation," "Narrative Clarity," "Leadership Without Limits"</td></tr>
+    <tr><td>Focus sectors</td><td>Responsible AI, HealthTech, Public Impact, Consumer Lifestyle, Future of Food, Future of Work, Future of Media — seven named verticals, no ranking or emphasis between them</td></tr>
+    <tr><td>Service ladder</td><td>01 Extend Leadership Capacity (advisory, fractional exec, mentorship) · 02 Clarify &amp; Re-Position Brand (narrative, naming, positioning) · 03 Build a World Around Your Story (full-stack creative direction)</td></tr>
+    <tr><td>Projects (home)</td><td>Constellation (AI Safety, Fractional CBO), Aescape (HealthTech, Fractional CBO), WelcomePAC (Public Impact, Fractional CBO), Twill (HealthTech, Fmr. CBO), Fisher Wallace Labs (HealthTech, Advisor) — five surfaced on the homepage</td></tr>
+    <tr><td>Full case-study index</td><td>Nine engagements at /projects/casestudies, each tagged category + role, no body copy visibly loaded per project</td></tr>
+    <tr><td>Tagline (repeated)</td><td>"Complex challenge. Accepted." — stated twice, mid-page, no elaboration</td></tr>
+    <tr><td>Organizations supported</td><td>Twelve logos/names listed with no context: Constellation, Aescape, Harlowe, Eidra, Fisher Wallace Labs, Welcome PAC, Reporter, Uptrade, AXS TV, Pedal, TCG, Since Tomorrow</td></tr>
+    <tr><td>Founder bio (/scottwitt)</td><td>"Recovering perfectionist," fmr. Apple Creative Director, CBO at venture-backed startups, Cannes Titanium Lion + D&amp;AD Black Pencil winner, two decades across streaming music/connected fitness/digital therapeutics/sustainable fashion</td></tr>
+    <tr><td>Mentorship offer (/scottwitt)</td><td>Free 45-min "First Session" (navigating transitions, confidential oversharing, professional story, CV feedback) → paid $225/30-min "Office Hours" (pitch deck review, creative feedback, presentation prep, consultative POV)</td></tr>
+    <tr><td>Signature line</td><td>"Creating breakthroughs is what you do. Helping people understand them is what I do."</td></tr>
+  </table></div>
+  <p style="margin-top:14px">The raw material is strong and unusually well-labeled for a solo studio site — the three-pillar service ladder maps cleanly to a real buying journey (advisory → repositioning → full build), and the free-session-to-paid-office-hours funnel on /scottwitt is a genuinely working structure, not just an idea. The gap is less about what exists and more about which of these seven verticals and nine case studies is actually the wedge, versus everything being presented at equal volume.</p>
+</section>
+
+<section id="gaps">
+  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Four gaps, ranked by what they cost you</h2></div></div>
+
+  <div class="card stripe gold"><div class="cardtop"><h3>1 · Seven focus sectors, presented with equal weight, no stated wedge</h3><span class="tag gold">Coherence</span></div>
+  <p>Responsible AI, HealthTech, Public Impact, Consumer Lifestyle, Future of Food, Future of Work, Future of Media — all seven get identical visual and narrative treatment on the homepage. But on our Mar 20 call, you named three sectors unprompted and with real conviction — authenticity/provenance, fashion tech, and AI-and-job-displacement/upskilling — as the ones "interesting to me at least at the jump." That's a materially narrower, sharper list than what the site currently shows a visitor. The site reads as "we cover everything adjacent to brand and mission"; the call revealed something closer to a real thesis.</p></div>
+
+  <div class="card stripe gold"><div class="cardtop"><h3>2 · Case studies are indexed but not told</h3><span class="tag gold">Credibility</span></div>
+  <p>Nine real, named engagements — Aescape, Twill, WelcomePAC, Fisher Wallace Labs, Cars &amp; Bids, Pedal — exist as tags (category + role) with no visible narrative of what actually happened or what changed. For a studio selling "narrative clarity" as a core service, a case-study index with no narrative is the single page most likely to contradict the pitch on contact.</p></div>
+
+  <div class="card stripe cyan"><div class="cardtop"><h3>3 · The mentorship funnel already matches a pitch you haven't fully adopted</h3><span class="tag cyan">Cross-referenced against Mar 20 call</span></div>
+  <p>/scottwitt already runs a free-session-to-paid-tier structure — free 45-min First Session, then $225/30-min Office Hours. That's structurally the same mechanism proposed in the ARCS five-pager sent same-day after the Mar 20 call: stop giving away discovery calls, build a paid springboard. The site shows you'd already half-built it. Worth naming plainly: this isn't a pitch for something new, it's confirmation the model you were already running has legs.</p></div>
+
+  <div class="card stripe"><div class="cardtop"><h3>4 · "Complex challenge. Accepted." carries no proof point next to it</h3><span class="tag">Discoverability</span></div>
+  <p>The line appears twice mid-page with no example, case, or metric attached — a strong tagline sitting in isolation rather than anchored to one of the nine real engagements that could substantiate it directly.</p></div>
+</section>
+
+<section id="quickwins">
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">Quick wins</div><h2>Same thesis, more evidence of it</h2></div></div>
+  <div class="quote">"I'm the guide who un-complicates. I specialize in the consequential and the complex."<span class="attr">your own self-description — the exact sentence the case-study pages should be proving, not just asserting</span></div>
+  <ul>
+    <li><strong>Narrow the seven sectors to the three you named live.</strong> Authenticity/provenance, fashion tech, AI-and-displacement/upskilling — stated with real conviction on the Mar 20 call, absent as a distinct grouping on the homepage today.</li>
+    <li><strong>Attach one paragraph of real narrative to three case studies, not nine.</strong> Twill (Chief Brand Officer, not just advisor) and Aescape (Fractional CBO) are the two with the most seniority attached — those are the ones a visitor most wants the actual story on.</li>
+    <li><strong>State the mentorship funnel's own thesis on the homepage.</strong> "Free session earns trust, paid office hours monetize judgment" is already true of /scottwitt — it's just not named as a repeatable model anywhere else on the site.</li>
+    <li><strong>Pair "Complex challenge. Accepted." with one specific example.</strong> A single sentence — which challenge, which client, what changed — turns the tagline from an assertion into a data point.</li>
+  </ul>
+  <p class="mono">The delta in one line: today the site lists what Parlance has touched. The next version shows which three things it's actually built a repeatable method for.</p>
+</section>
+
+<section id="interlock">
+  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where the read and the record agree</div><h2>Public record confirms the live-call read, not a new discovery.</h2></div></div>
+  <p>This section is intentionally short — the site doesn't reveal anything the calls didn't already surface, which is itself the finding. The three-sector thesis from Mar 20, the "guide who un-complicates" self-framing, and the already-built free-to-paid mentorship ladder are all independently confirmed by parlance.cc. The one open thread, flagged as inference rather than fact: 8 years scaling creative systems at Apple, paired with the Twill-era AI-displacement material referenced elsewhere in this corpus, reads less like unfamiliarity with automation and more like direct, personal knowledge of what gets automated first — worth you telling me if that's a fair read.</p>
+</section>
+
+<section id="next">
+  <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
+  <div class="grid2">
+    <div class="card stripe green"><div class="cardtop"><h3>Whenever</h3><span class="tag green">On you</span></div><p>None of this is a pitch — it's the same teardown treatment Danny got on Kiko, applied to your own site. Tell me what's wrong or what I've missed.</p></div>
+    <div class="card stripe gold"><div class="cardtop"><h3>Anytime</h3><span class="tag gold">Standing</span></div><p>If it's useful to sit down on the case-study copy or the sector narrowing together, say the word.</p></div>
+  </div>
+</section>
+
+<div class="footer"><a href="https://scott.arcs.care" style="color:var(--cyan);text-decoration:none">← one door</a> · Prepared by Zach Harris · ARCS · Aug 19 2026 · Sources: live scan of parlance.cc (homepage, /scottwitt, /projects/casestudies, robots.txt, sitemap.xml) + our two calls · Shared privately with Scott Witt</div>
+</div>
+<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
+</html>
