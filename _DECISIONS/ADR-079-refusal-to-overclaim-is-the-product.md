@@ -1,4 +1,4 @@
-# ADR-039 — The refusal to overclaim is the product (survivability, not immunity)
+# ADR-079 — The refusal to overclaim is the product (survivability, not immunity)
 
 **Status:** Accepted (RC-grade brand-positioning decision) · **Date:** 2026-08-01
 **Related:** ADR-017 (receipt schema), WORLD.md (BAR/free-solo), `/terms` ("a covenant, not a
