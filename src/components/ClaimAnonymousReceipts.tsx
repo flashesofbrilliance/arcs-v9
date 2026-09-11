@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { track } from "@vercel/analytics"
 
 // Runs on every page (mounted in the root layout), not just dashboard/brief —
 // the original per-page checks missed the actual magic-link landing page
@@ -68,9 +69,14 @@ export function ClaimAnonymousReceipts() {
               if (r.ok) {
                 const d = await r.json()
                 localStorage.removeItem("arcs_pending_save")
+                track("receipt_save_completed")
                 if (d?.receipt_id && !cancelled) window.location.assign(`/receipt/${d.receipt_id}`)
+              } else {
+                track("receipt_save_failed", { status: r.status })
               }
             } else {
+              // Pending save expired or malformed — never attempted the write.
+              track("receipt_save_failed", { reason: "expired_or_malformed" })
               localStorage.removeItem("arcs_pending_save")
             }
           } catch {
