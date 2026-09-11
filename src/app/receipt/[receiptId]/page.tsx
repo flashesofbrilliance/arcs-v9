@@ -15,6 +15,7 @@ import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult } from "@/lib/mockCompass"
 import { encodeShare } from "@/lib/shareLink"
+import { track } from "@vercel/analytics"
 
 function safeParse<T>(v: unknown, fallback: T): T {
   if (typeof v !== "string") return (v as T) ?? fallback
@@ -221,6 +222,7 @@ export default function ReceiptPage() {
                 // (sessionStorage is tab-scoped — a magic-link click opens a
                 // new tab and would lose it), then route to sign-in. The
                 // post-auth consumer (ClaimAnonymousReceipts) persists it.
+                track("receipt_save_clicked", { receiptId })
                 const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
                 if (raw) {
                   try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: JSON.parse(raw) })) } catch {}
