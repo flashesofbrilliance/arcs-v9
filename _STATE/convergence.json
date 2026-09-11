@@ -49,6 +49,21 @@
       "title": "LinkedIn Export Mining & Warm Referral Matcher",
       "status": "READY_FOR_HERMES",
       "target": "Extract Complete_LinkedInDataExport_09-11-2026.zip.zip and run network_scan_full.py cross-referenced to jobs.arcs.care"
+    },
+    {
+      "id": "JTBD-005",
+      "title": "Job-Search Lane & Bridge-Scan Integration",
+      "status": "IN_PROGRESS_PARALLEL_CLAUDE",
+      "branch": "claude/jobs-arcs-care-batch-trigger-3da902",
+      "integration_target": "main (Separate Product Lane)",
+      "notes": "Thread 2 authoring sibling spec runtime/specs/bridge-scan.json (DO NOT flag as collision in worktree sweep). Standardizing row schema with source='bridge_scan' to unify with Perplexity intake dossiers in _INBOX/evidence/."
+    },
+    {
+      "id": "JTBD-006",
+      "title": "Triune Productization Proposal Review (User0 -> UserN)",
+      "status": "AWAITING_REVIEW",
+      "doc": "_PROPOSALS/2026-09-12-triune-productization-user0-to-userN.md",
+      "target": "Review decoupled multi-tenant architecture across flashesofbrilliance/resume-tailor-skill, hermes-agent, and arcs-v9"
     }
   ],
   "invariants": {
