@@ -2,26 +2,16 @@
   "captured_at": "2026-09-08T12:45:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f12a1f15",
-    "head_message": "feat(sentilink): reorder pitch as an altitude descent (ask-first, Ahmed grammar) [NCI:SKIP]",
+    "head_sha": "0dc43d58",
+    "head_message": "Merge pull request #405 from flashesofbrilliance/claude/recursing-brattain-190758",
     "branch": "feat/audit-service",
-    "in_sync_with_origin": false,
+    "in_sync_with_origin": true,
     "note": "all substantive work merged to main via PRs #306/#332/#337/#340; branch ahead only on session hook-state + this handoff",
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/handoff-progress.jsonl",
-      "_STATE/pulse.json",
-      "_STATE/snapshot.json",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/720-brand-coherence-pickup.md",
-      "_ARTIFACTS/forge-mercury-open-call/",
-      "_ARTIFACTS/forge-sentilink-new-leader-pitch-us/cover-sentilink-new-leader-pitch-us.html",
-      "_ARTIFACTS/forge-sentilink-new-leader-pitch-us/cover-sentilink-new-leader-pitch-us.txt",
-      "_ARTIFACTS/mercury-bundle/",
-      "_ARTIFACTS/pitch-polish-pickup.md",
-      "_ARTIFACTS/sentilink-bundle/"
+      "_STATE/pulse.json"
     ]
   },
   "vercel": {
@@ -44,5 +34,5 @@
   "session_summary": "ARCS-on-ARCS shipping close (v3.59.0): shipped + verified live the NFTT 'Assets and Liabilities' essay, the Field Instruments public-goods chapter, the Day-151 status milestone, and the informativeness ratchet with a REAL CI arm (moved off the disabled ci.yml). Deceipt ledger now 15; #13/#15 caught by field-contact, not self-review.",
   "next_action": "Extract informativeness-auditor from the harness into a standalone package (Seed->Proven graduation, tracked on good.arcs.care/instruments); the outcome-capture keel (2/247 closed) remains the P1.",
   "blocking": "NONE (memory-index retirement + keel work are human-owned/gated, not blockers)",
-  "git_refreshed_at": "2026-09-11T14:17:45Z"
+  "git_refreshed_at": "2026-09-11T16:30:23Z"
 }
