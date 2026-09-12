@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "_doc": "Triune harness convergence anchor \u2014 shared rendezvous plane for Claude Code, Hermes, and Perplexity across worktrees and profiles. Commit and push to propagate.",
-  "updated_at": "2026-09-12T01:19:44Z",
-  "global_beat": 4,
+  "updated_at": "2026-09-12T01:20:15Z",
+  "global_beat": 5,
   "head": {
     "branch": "fresh-starts",
     "sha": "(see git log; this commit)",
@@ -59,7 +59,13 @@
       "status": "IN_PROGRESS_PARALLEL_CLAUDE",
       "branch": "claude/jobs-arcs-care-batch-trigger-3da902",
       "integration_target": "main (Separate Product Lane)",
-      "notes": "Thread 2 authoring sibling spec runtime/specs/bridge-scan.json (DO NOT flag as collision in worktree sweep). Standardizing row schema with source='bridge_scan' to unify with Perplexity intake dossiers in _INBOX/evidence/."
+      "notes": "Thread 2 authoring sibling spec runtime/specs/bridge-scan.json (DO NOT flag as collision in worktree sweep). Standardizing row schema with source='bridge_scan' to unify with Perplexity intake dossiers in _INBOX/evidence/.",
+      "bridge_index": {
+        "status": "LANDED",
+        "branch": "claude/bridge-employer-index (37badfc2, base main)",
+        "proof": "branch claude/bridge-employer-index (37badfc2): _STATE/job-search/employer-index/README.md; 133 boards, 578 winnable reqs live as source=bridge_scan UNSCORED",
+        "note": "Thread 1 of the 3-way fork; Thread 2 (bridge-scan-rubric) scores the UNSCORED rows. runtime/specs/bridge-scan.json is Thread 2's, not a collision."
+      }
     },
     {
       "id": "JTBD-006",
@@ -104,19 +110,17 @@
       }
     },
     {
-      "id": "JTBD-005",
-      "title": "Bridge employer-quality index -> jobs.arcs.care",
-      "status": "LANDED",
-      "proof": "branch claude/bridge-employer-index (37badfc2): _STATE/job-search/employer-index/README.md; 133 boards, 578 winnable reqs live as source=bridge_scan UNSCORED",
-      "owner": "claude_code"
-    },
-    {
-      "id": "JTBD-006",
-      "title": "Scout intake gate: dossier schema drift",
-      "status": "OPEN_FOR_PERPLEXITY",
-      "proof": "scripts/scout_dossier_ingest.py validate _INBOX/evidence/SCOUT-parloa-fde-us-20260912.json -> INVALID: missing required extraction_risk",
-      "target": "Perplexity re-emits the Parloa dossier with extraction_risk {evergreen_or_recycled_req, bench_practice, unpaid_take_home_scope} + evidence refs; then `scout_dossier_ingest.py post` lands it as source=perplexity_scout",
-      "owner": "perplexity"
+      "id": "JTBD-007",
+      "title": "Scout intake gate (schema-drift validator) + Parloa re-emit",
+      "status": "GATE_LANDED_PARLOA_REEMIT_OPEN",
+      "proof": "scripts/scout_dossier_ingest.py {validate|map|post} <dossier> \u2014 stdlib walker over role-dossier-schema.json (required/enum/const/date + HITL invariant + evidence field_ref resolution)",
+      "target": "Perplexity re-emits SCOUT-parloa-fde-us (predates the v1 freeze at 4d5338aa) with extraction_risk; then `scout_dossier_ingest.py post` lands valid dossiers on jobs.arcs.care as source=perplexity_scout (skips existing jobids).",
+      "owner": "perplexity",
+      "validation": {
+        "SCOUT-blacksmith-staff-product-engineer-20260911.json": "valid",
+        "SCOUT-parloa-fde-us-20260912.json": "INVALID: $: missing required 'extraction_risk'",
+        "SCOUT-trueseek-ai-deployment-lead-20260911.json": "valid"
+      }
     }
   ],
   "invariants": {
