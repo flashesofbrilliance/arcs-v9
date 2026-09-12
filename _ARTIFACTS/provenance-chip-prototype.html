@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Provenance Chips · Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020408; --plane:#0c141d; --plane2:#0a1a24; --line:#1c2836; --line2:#26374a;
+  --text:#e6edf5; --muted:#8ea0b6; --dim:#5a6b7f;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+  --mono:'JetBrains Mono',ui-monospace,monospace; --serif:'Newsreader',Georgia,serif;
+  --measure:760px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);line-height:1.55;
+  background:radial-gradient(1200px 720px at 50% -12%,rgba(0,240,255,.05),rgba(2,4,8,0) 62%),var(--bg);
+  padding:52px 20px 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:800px;margin:0 auto}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:500;letter-spacing:-.02em;margin:10px 0 8px}
+.intro{color:var(--muted);font-size:1rem;max-width:var(--measure)}
+.intro b{color:var(--gold);font-weight:500}
+
+.shelf{margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+
+/* a chip = a composable utility atom */
+.chip{border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:linear-gradient(158deg,var(--plane),var(--plane2));display:flex;flex-direction:column}
+.chip-head{padding:16px 16px 14px}
+.chip-tag{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--green);display:flex;justify-content:space-between;gap:8px}
+.chip-tag .reach{color:var(--dim)}
+.chip-name{font-size:1.18rem;font-weight:500;margin:8px 0 5px;letter-spacing:-.01em}
+/* SIMPLE tier, always visible */
+.chip-simple{color:var(--text);font-size:.95rem;max-width:var(--measure)}
+.chip-run{display:flex;gap:8px;margin-top:12px}
+.chip-run a{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--cyan);
+  border:1px solid var(--line2);border-radius:7px;padding:7px 11px;transition:border-color .3s,color .3s}
+.chip-run a:hover{border-color:var(--cyan)}
+.chip-run a.gh{color:var(--muted)}
+
+/* fold tiers: rich, then deep(provenance) */
+details.tier{border-top:1px solid var(--line)}
+details.tier>summary{list-style:none;cursor:pointer;padding:12px 16px;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent,var(--cyan));display:flex;align-items:center;justify-content:space-between;gap:8px;
+  transition:background .3s}
+details.tier>summary::-webkit-details-marker{display:none}
+details.tier>summary:hover{background:rgba(255,255,255,.015)}
+details.tier .crease{color:var(--dim);transition:transform .45s cubic-bezier(.2,.7,.2,1),color .4s;display:inline-block}
+details.tier[open]>summary .crease{transform:rotate(45deg);color:var(--accent,var(--cyan))}
+.tier.rich{--accent:var(--cyan)} .tier.deep{--accent:var(--gold)}
+.tier-body{overflow:hidden;padding:0 16px 15px;color:var(--muted);font-size:.9rem;max-width:var(--measure)}
+details.tier[open] .tier-body{animation:unfold .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes unfold{from{opacity:0;transform:perspective(800px) rotateX(-8deg) translateY(-5px);transform-origin:top}
+  to{opacity:1;transform:perspective(800px) rotateX(0) translateY(0);transform-origin:top}}
+@media (prefers-reduced-motion:reduce){details.tier[open] .tier-body{animation:none}details.tier .crease{transition:none}}
+.tier-body b{color:var(--text);font-weight:500}
+/* provenance line: the literature that ships with the utility */
+.prov{margin-top:10px;border-left:2px solid var(--gold);padding:8px 0 8px 12px;background:rgba(255,215,0,.03)}
+.prov .lit{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.prov .born{color:var(--text);font-size:.9rem;margin:5px 0 6px;font-family:var(--serif)}
+.prov a{font-family:var(--mono);font-size:11px;color:var(--gold)}
+.prov .soon{color:var(--dim);font-family:var(--mono);font-size:10px}
+
+.legend{margin-top:34px;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.03em;
+  line-height:1.7;border-top:1px solid var(--line);padding-top:18px}
+.legend b{color:var(--muted);font-weight:500}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Provenance Chips</div>
+  <h1>Utilities that ship with their literature</h1>
+  <p class="intro">Each chip reads <b>simple, then rich, then deep</b>. Simple is the tool. Rich is how it works. Deep is its provenance: the notes from the trenches on the conditions it was born in. Use it shallow, or sound its origin.</p>
+
+  <div class="shelf">
+
+    <!-- CHIP 1: resume-tailor (real public good) -->
+    <div class="chip">
+      <div class="chip-head">
+        <div class="chip-tag"><span>Utility</span><span class="reach">proven</span></div>
+        <div class="chip-name">resume-tailor</div>
+        <div class="chip-simple">Turn one record into a role-tuned resume, from a single profile-scan source of truth.</div>
+        <div class="chip-run"><a href="https://resume-tailor.arcs.care">open &#8599;</a><a class="gh" href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a></div>
+      </div>
+      <details class="tier rich">
+        <summary><span>Rich &#183; how it works</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">Reads a LinkedIn export plus a profile scan, tailors against one job description, and emits HTML, PDF, and an ATS-plain text. Field-tested at v0.2. The record stays the source of truth; each output is a re-fold of it, never a rewrite.</div>
+      </details>
+      <details class="tier deep">
+        <summary><span>Deep &#183; provenance</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">
+          <div class="prov">
+            <div class="lit">The literature</div>
+            <div class="born">Born in the 2026-08 job-search sprint, from one lesson: read the JD, not the title. An old batch scored zero clean fits because the tool matched titles; the fix was to tailor against the actual job to be done.</div>
+            <a href="https://good.arcs.care/blog/nftt">notes from the trenches &#8599;</a> &nbsp;<span class="soon">provenance post: to serialize</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- CHIP 2: arcs-field-scan -->
+    <div class="chip">
+      <div class="chip-head">
+        <div class="chip-tag"><span>Utility</span><span class="reach">proven</span></div>
+        <div class="chip-name">arcs-field-scan</div>
+        <div class="chip-simple">Read personal history across domains into archetype dimensions you can act on.</div>
+        <div class="chip-run"><a href="https://arcs-field-scan.arcs.care">open &#8599;</a><a class="gh" href="https://github.com/flashesofbrilliance/arcs-field-scan">github</a></div>
+      </div>
+      <details class="tier rich">
+        <summary><span>Rich &#183; how it works</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">Scanners pull observable signal from calendar, reading, network, and forensic sources, then a kernel folds them into a coherence read. Stdlib-only, local-first, nothing leaves the machine.</div>
+      </details>
+      <details class="tier deep">
+        <summary><span>Deep &#183; provenance</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">
+          <div class="prov">
+            <div class="lit">The literature</div>
+            <div class="born">Born from the profile-scan work: the insight that a record should be derived from evidence, not asserted. The scan is the fold underneath every resume that shows the work.</div>
+            <a href="https://good.arcs.care/blog/nftt">notes from the trenches &#8599;</a> &nbsp;<span class="soon">provenance post: to serialize</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- CHIP 3: rosetta-shell -->
+    <div class="chip">
+      <div class="chip-head">
+        <div class="chip-tag"><span>Utility</span><span class="reach">proven</span></div>
+        <div class="chip-name">rosetta-shell</div>
+        <div class="chip-simple">One command surface that speaks many tools, so you stop context-switching syntax.</div>
+        <div class="chip-run"><a href="https://rosetta-shell.arcs.care">open &#8599;</a><a class="gh" href="https://github.com/flashesofbrilliance/rosetta-shell">github</a></div>
+      </div>
+      <details class="tier rich">
+        <summary><span>Rich &#183; how it works</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">A translation layer over disparate CLIs: one grammar, many backends. You learn the shell once and it maps to whatever tool sits underneath.</div>
+      </details>
+      <details class="tier deep">
+        <summary><span>Deep &#183; provenance</span><span class="crease">&#9671;</span></summary>
+        <div class="tier-body">
+          <div class="prov">
+            <div class="lit">The literature</div>
+            <div class="born">The birth conditions here are not yet instructive enough to earn a post. Honest state: no provenance literature, and none manufactured to fake one.</div>
+            <span class="soon">no provenance post (by design, not omission)</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <b>The chip contract:</b><br>
+    simple = run it &nbsp;·&nbsp; rich = understand it &nbsp;·&nbsp; deep = read where it was born<br>
+    provenance is opt-in depth, never a gate on use &nbsp;·&nbsp; a chip earns literature only where the birth was instructive (chip 3 shows the honest empty state)
+  </div>
+
+</div>
+</body>
+</html>
