@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Cover letter · Group Product Manager, Lucie Platform · Oscar Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* forge-render · cover letter print sheet · v1.0. Same identity header and tokens as resume-print.css
+     so the résumé and the letter read as one bundle. One page, letter measure, no decoration. */
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#4f5f6e;
+    --line:#dde3ea;--paper:#fff;
+    --accent:#0089a8;--accent-text:#007a96;
+    --measure:6.4in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;min-height:11in;margin:0 auto;padding:0.6in 0.7in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;}
+  .tagline{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-top:8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+
+  .re{margin:22px 0 16px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text);}
+  .re span{color:var(--ink3);font-weight:500;}
+  .letter{flex:1;}
+  .letter p{max-width:var(--measure);font-size:11px;line-height:1.62;color:var(--ink2);margin:0 0 11px;text-wrap:pretty;orphans:3;widows:3;}
+  .letter p.sign{margin-top:18px;color:var(--ink);font-weight:600;}
+  .letter p.sign small{display:block;font-weight:400;color:var(--ink3);font-family:var(--mono);font-size:9px;letter-spacing:.02em;margin-top:3px;}
+
+  footer{margin-top:18px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);}
+
+  @page{size:letter;margin:0.5in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;min-height:0;max-width:none;margin:0;padding:0.1in 0.2in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">AI-native product builder · expert-user workflows</div>
+    </div>
+    <div class="contact">
+      New York City<br><a href="mailto:zach.harris@gmail.com"><b>zach.harris@gmail.com</b></a><br>
+      <a href="https://www.linkedin.com/in/zharris">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <div class="re">Re <span>·</span> Group Product Manager, Lucie Platform <span>·</span> Oscar Health</div>
+  <div class="letter">
+    <p>Hi Oscar Health team,</p>
+    <p>I build enrollment and marketplace platforms end to end, for consumers and partners who need infrastructure that works on their behalf. That is the short version of why the Lucie Platform role stopped me.</p>
+    <p>Here is the longer one. Lucie is not a feature. It is enrollment infrastructure that has to serve three distinct principals at once: consumers shopping cold, brokers who need speed and confidence, and employers with their own compliance surface. Getting that right means the platform has to be coherent at the seam between all three, not just functional at each endpoint. I have spent two decades building at exactly that kind of seam: at the WTA I built real-time consumer-behavior scoring at under 120ms serving personalized offers inside a live usage window, which is the same problem as a marketplace that has to feel instant when a member is mid-decision. At Grayscale I translated SEC/FINRA regulatory requirements into product requirements engineering could build against and coordinated legal, risk, and compliance through regulated release gates. EDE platform compliance is a different rulebook, but the motion is the same: hold the regulatory line without making it the user's problem.</p>
+    <p>A few things I noticed that made me want to write.</p>
+    <p>The enrollment platform is the part of Lucie that almost no one sees and everyone depends on. The broker experience, the consumer checkout, the employer flow: they are all downstream of whether the platform underneath them is reliable, instrumented, and honest about its own state. I built ARCS from zero to production owning roadmap, architecture, and evaluation framework without a full supporting cast, and the discipline I developed there was the same one: clean surface, hard interior, and a quality loop that tells you when something is drifting before a user finds it first.</p>
+    <p>On the people-management side: I have coached and partnered with PM teams across embedded engagements at Twill Health and Axon, run market-viability testing that killed one of three AI product lines before it consumed further engineering time, and held direct technical tradeoff conversations on interface design and capability scoping. I know what it looks like to give a PM team the context and cover to move fast inside a regulated environment.</p>
+    <p>The bundle at zachharris.xyz pulls the proof together. Happy to go deep on any of it.</p>
+    <p class="sign">Zach Harris<small>zachharris.xyz · github.com/flashesofbrilliance</small></p>
+  </div>
+  <footer><span>Zach Harris · zachharris.xyz</span><span>Oscar Health · 2026</span></footer>
+</div>
+</body>
+</html>

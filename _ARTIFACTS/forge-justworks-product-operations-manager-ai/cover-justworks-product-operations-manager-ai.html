@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Cover letter · Product Operations Manager, AI &amp; Systems · Justworks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* forge-render · cover letter print sheet · v1.0. Same identity header and tokens as resume-print.css
+     so the résumé and the letter read as one bundle. One page, letter measure, no decoration. */
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#4f5f6e;
+    --line:#dde3ea;--paper:#fff;
+    --accent:#0089a8;--accent-text:#007a96;
+    --measure:6.4in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;min-height:11in;margin:0 auto;padding:0.6in 0.7in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;}
+  .tagline{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-top:8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+
+  .re{margin:22px 0 16px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text);}
+  .re span{color:var(--ink3);font-weight:500;}
+  .letter{flex:1;}
+  .letter p{max-width:var(--measure);font-size:11px;line-height:1.62;color:var(--ink2);margin:0 0 11px;text-wrap:pretty;orphans:3;widows:3;}
+  .letter p.sign{margin-top:18px;color:var(--ink);font-weight:600;}
+  .letter p.sign small{display:block;font-weight:400;color:var(--ink3);font-family:var(--mono);font-size:9px;letter-spacing:.02em;margin-top:3px;}
+
+  footer{margin-top:18px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);}
+
+  @page{size:letter;margin:0.5in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;min-height:0;max-width:none;margin:0;padding:0.1in 0.2in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">Revenue and GTM systems operator who builds</div>
+    </div>
+    <div class="contact">
+      New York City<br><a href="mailto:zach.harris@gmail.com"><b>zach.harris@gmail.com</b></a><br>
+      <a href="https://www.linkedin.com/in/zharris">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <div class="re">Re <span>·</span> Product Operations Manager, AI &amp; Systems <span>·</span> Justworks</div>
+  <div class="letter">
+    <p>Hi Justworks team,</p>
+    <p>I build the internal systems and AI-native tooling that make organizations operate at a higher level. That is the short version of why this role fits.</p>
+    <p>Here is the longer one. Most product operations reqs are really a question about who owns the seams: between how work gets planned and how it actually gets done, between the knowledge that lives in someone's head and the knowledge that lives in a system, between a good AI experiment and an AI workflow that runs in production. I have spent two decades on those seams. At Grayscale I led go-to-market for ten SEC/FINRA-regulated products, owning the data contracts and field-mapping logic that kept product, engineering, legal, risk, and compliance telling the same story through regulated release gates. At a three-business-unit nonprofit I built the enterprise data layer from nothing, CDP evaluation through Salesforce Lightning modernization, and net-new revenue moved twenty percent because the segmentation finally matched the lifecycle.</p>
+    <p>A few things I noticed that made me want to write.</p>
+    <p>Justworks operates across FinTech, Healthcare, and HR Tech simultaneously, which means the product organization is navigating three different compliance registers at once. That is not a process problem, it is a systems problem. I have built data contracts and field-mapping logic across SEC/FINRA and HIPAA environments, and I know what it costs when the knowledge layer is not structured to carry that context across teams.</p>
+    <p>The role asks for someone who can build AI-powered workflows that reduce the administrative layer of product work, spec-to-GTM translation, customer signal synthesis, automated progress reporting. I built ARCS, an LLM-native decision pipeline on Claude with a live MCP server and agentic orchestration, and I use it to make exactly that kind of work run on its own. Not a prototype. In production. I am not applying as an AI engineer. I am the operator who can bring that tooling into your product organization's workflows without waiting on a platform team.</p>
+    <p>The knowledge layer piece is the one I find most underestimated. Roadmap data, decision logs, project status, structured for both human and AI consumption, that is infrastructure design, not documentation. I have built it before, and I know the adoption problem is harder than the build.</p>
+    <p>On me: SQL, Python, Snowflake, Segment, Salesforce. I have shipped zero to one under SEC/FINRA and HIPAA, and I do not just draw the process map. I am in the admin panel, the data contract, and the compliance sign-off.</p>
+    <p>Happy to go deep on any of it.</p>
+    <p class="sign">Zach Harris<small>zachharris.xyz · github.com/flashesofbrilliance</small></p>
+  </div>
+  <footer><span>Zach Harris · zachharris.xyz</span><span>Justworks · 2026</span></footer>
+</div>
+</body>
+</html>

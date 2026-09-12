@@ -16,6 +16,7 @@
 //   node scripts/jobs_bridge_sweep.mjs --all                   # re-score every bridge row (re-runnable)
 //   node scripts/jobs_bridge_sweep.mjs --report                # rank what is already scored, no fetch/model
 //   node scripts/jobs_bridge_sweep.mjs --jobid bridge-x-1234   # re-score one row
+//   node scripts/jobs_bridge_sweep.mjs --dump-jd --all --top 20  # write jd-full.txt per row into _ARTIFACTS/forge-<slug>/ (no model); feeds forge_edit_from_seed
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE (default https://jobs.arcs.care).
 
 import fs from "node:fs"
@@ -28,6 +29,10 @@ const LIMIT = Number(arg("--limit", 0)) || 0
 const BATCH = Number(arg("--batch", 8))
 const TOP = Number(arg("--top", 20))
 const ONLY = arg("--jobid", null)
+const DUMP = has("--dump-jd")
+// must match scripts/forge_edit_from_seed.mjs slugify so the JD lands in the bundle dir the edit worker uses
+const slugify = (r) => `${r.company} ${r.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40).replace(/-$/, "")
+const bundleSlug = (r) => { const s = slugify(r); const d = path.join("_ARTIFACTS", `forge-${s}`); const f = path.join(d, "jobid.txt"); if (fs.existsSync(f) && fs.readFileSync(f, "utf8").trim() !== String(r.jobid)) return `${s}-${String(r.jobid).slice(-4)}`; return s }
 const BASE = process.env.JOBS_BASE || "https://jobs.arcs.care"
 const TOKEN = process.env.JOBS_PIPELINE_TOKEN
 if (!TOKEN) { console.error("JOBS_PIPELINE_TOKEN required"); process.exit(2) }
@@ -150,6 +155,7 @@ async function main() {
   const bridge = rows.filter((r) => r.source === "bridge_scan")
   if (REPORT) return printRank(bridge, TOP)
   let todo = ONLY ? bridge.filter((r) => r.jobid === ONLY) : ALL ? bridge : bridge.filter((r) => r.band === "UNSCORED")
+  if (DUMP) todo = [...todo].filter((r) => r.composite != null).sort((a, b) => b.composite - a.composite).slice(0, TOP)
   if (LIMIT) todo = todo.slice(0, LIMIT)
   console.log(`bridge rows: ${bridge.length} · to score: ${todo.length}${DRY ? " (DRY)" : ""}`)
 
@@ -158,6 +164,7 @@ async function main() {
   console.log(`JDs fetched: ${fetched} ${JSON.stringify(byAts)} · fetch-failed: ${failed.length}`)
   failed.forEach((r) => console.log(`  no-fetch ${r.jobid} ${r.url}`))
   const scorable = todo.filter((r) => r.jd)
+  if (DUMP) { for (const r of scorable) { const d = path.join("_ARTIFACTS", `forge-${bundleSlug(r)}`); fs.mkdirSync(d, { recursive: true }); fs.writeFileSync(path.join(d, "jd-full.txt"), r.jd); fs.writeFileSync(path.join(d, "jobid.txt"), r.jobid + "\n"); console.log(`  jd -> ${d}/jd-full.txt (${r.jd.length} chars) ${r.jobid}`) } return }
   if (DRY) { scorable.slice(0, 3).forEach((r) => console.log(`\n--- ${r.jobid} (${r.jd.length} chars, ${r.ats})\n${r.jd.slice(0, 500)}`)); console.log(`\nDRY: would score ${scorable.length} in ${Math.ceil(scorable.length / BATCH)} batches.`); return }
 
   let scored = 0, inTok = 0, outTok = 0, cacheRead = 0; const out = []

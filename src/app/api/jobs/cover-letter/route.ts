@@ -14,18 +14,27 @@ import { callerFor } from "@/lib/jobs"
 export const dynamic = "force-dynamic"
 export const maxDuration = 60
 
-type Body = { jobid: string; title: string; company: string; jd: string; seedCover: string; resumeText?: string }
+type Body = { jobid: string; title: string; company: string; jd: string; seedCover: string; resumeText?: string; frame?: string }
+
+// Candidate frame line in the hard rules. Default is the FDE / applied-AI frame
+// (unchanged); "bridge" is the operator frame for the bridge lane (stable
+// operator roles where the AI build is the differentiator, not the job).
+const FRAMES: Record<string, string> = {
+  default: "he is a forward-deployed product-and-AI builder, army of one, two decades across tech/data/commercial ops, ships an LLM-native platform (ARCS) on Claude with a live MCP server.",
+  bridge: "he is a revenue and GTM systems OPERATOR who also builds: two decades across tech/data/commercial ops in regulated companies (SEC/FINRA at Grayscale, HIPAA digital health), led go-to-market for 10 regulated products, built an enterprise data layer (CDP, Salesforce) that lifted net-new revenue 20%, and built an LLM-native pipeline (ARCS) on Claude with a live MCP server which he uses to bring AI automation INTO operating workflows. He is NOT applying as an AI engineer; the AI build is the differentiator, the operator record is the job. Keep the register senior-operator, not startup-engineer.",
+}
 
 function seedVoice() {
   // fallback voice notes if no seed passed
   return "Opener: 'I build the tool, then become its most demanding user.' Then 2-3 observations specific to THIS company's product/moat, grounded in the JD. Then the quiet overlap: ARCS is a CI for decisions (state the bet, keep the receipt, check if it panned out). Then 'on me': in the code reviews, sprint planning, incident response; framework-agnostic; zero-to-one under SEC/FINRA and HIPAA; army of one punching above weight. Sign off as Zach Harris, zachharris.xyz."
 }
 
-const SYSTEM = `You write a cover letter for Zach Harris for ONE role, in his voice, modeled on a reference cover you are given. This is voice-modeled, not copied: keep his constant beats, write the role-specific middle fresh from THIS job description.
+const SYSTEM_FOR = (frame: string) => `You write a cover letter for Zach Harris for ONE role, in his voice, modeled on a reference cover you are given. This is voice-modeled, not copied: keep his constant beats, write the role-specific middle fresh from THIS job description.
 
 HARD RULES (correctness over polish):
 - Never fabricate an employer, title, figure, or credential. Only claims consistent with the reference cover and the resume text may appear. If unsure, leave it out.
-- Never claim a title Zach did not hold; he is a forward-deployed product-and-AI builder, army of one, two decades across tech/data/commercial ops, ships an LLM-native platform (ARCS) on Claude with a live MCP server.
+- Never claim a title Zach did not hold; ${FRAMES[frame] ?? FRAMES.default}
+- Tools and platforms: you may name the COMPANY'S stack from the JD only as THEIR need or context ("the HubSpot-to-Salesforce seam you describe"). Never state or imply Zach has hands-on experience with a tool, platform, language, or framework unless that exact tool appears in the resume text (Salesforce, Snowflake, Segment, SQL, Python, Claude, MCP and the others listed there). No "I have built flows in Apex", no "I have run Outreach sequences", nothing of that shape for a tool the resume does not list.
 - Do NOT include any medical, injury, surgery, or personal-availability note. That is situational and Zach adds it by hand per application. Omit it entirely.
 - Plain language. NO em-dashes anywhere (use commas or periods). No scoring vocabulary (tier, band, composite, pursue). Address the company by name; never invent a hiring manager's name.
 - Ground the 2-3 middle observations in the JD: name the company's actual product, moat, or problem, and connect it to Zach's real experience. Specific beats flattering.
@@ -40,11 +49,12 @@ export async function POST(req: NextRequest) {
   if (!b?.jobid || !b?.jd) return NextResponse.json({ error: "jobid, jd required" }, { status: 400 })
   if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json({ error: "writer unavailable (no key)" }, { status: 503 })
 
+  const frame = typeof b.frame === "string" && FRAMES[b.frame] ? b.frame : "default"
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const msg = await anthropic.messages.create({
     model: "claude-sonnet-4-6", max_tokens: 2000, temperature: 0.4,
     system: [
-      { type: "text", text: SYSTEM },
+      { type: "text", text: SYSTEM_FOR(frame) },
       { type: "text", text: `REFERENCE COVER (voice + structure model; do not copy its company-specific content):\n${(b.seedCover || seedVoice()).slice(0, 12000)}`, cache_control: { type: "ephemeral" } },
     ],
     messages: [{ role: "user", content: `Role: ${b.title} @ ${b.company} (jobid ${b.jobid})\n\n--- JD ---\n${b.jd.slice(0, 6000)}\n\n--- Zach's resume text for this role (claims must stay consistent with this) ---\n${(b.resumeText || "").slice(0, 8000)}\n\nWrite the cover for ${b.company}.` }],

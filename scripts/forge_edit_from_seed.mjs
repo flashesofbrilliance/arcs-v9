@@ -12,6 +12,8 @@
 //   node scripts/forge_edit_from_seed.mjs --jobid <id> [--seed <slug>]
 //   node scripts/forge_edit_from_seed.mjs --auto            # top queued in a seeded cluster
 //   node scripts/forge_edit_from_seed.mjs --jobid <id> --dry-run   # pick seed + fetch JD, no model
+//   node scripts/forge_edit_from_seed.mjs --jobid <id> --seed-dir forge-bridge-operator-seed --cluster Bridge
+//       # seed from any bundle directory under _ARTIFACTS (a hand-built archetype seed that has no board row)
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE.
 
 import fs from "node:fs"
@@ -21,6 +23,8 @@ import { execSync } from "node:child_process"
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
 const DRY = has("--dry-run")
+const SEED_DIR = arg("--seed-dir", null)
+const CLUSTER = arg("--cluster", null)
 const BASE = process.env.JOBS_BASE || "https://jobs.arcs.care"
 const TOKEN = process.env.JOBS_PIPELINE_TOKEN
 if (!TOKEN) { console.error("JOBS_PIPELINE_TOKEN required"); process.exit(2) }
@@ -36,8 +40,10 @@ const shape = (r) => {
   return "Other"
 }
 const slugify = (r) => `${r.company} ${r.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40).replace(/-$/, "")
+const bundleSlug = (r) => { const s = slugify(r); const d = path.join("_ARTIFACTS", `forge-${s}`); const f = path.join(d, "jobid.txt"); if (fs.existsSync(f) && fs.readFileSync(f, "utf8").trim() !== String(r.jobid)) return `${s}-${String(r.jobid).slice(-4)}`; return s }
 const strip = (html) => { const m = html.match(/<div class="show-more-less-html__markup[^"]*">([\s\S]*?)<\/div>/); const b = m ? m[1] : html; return b.replace(/<[^>]+>/g, "\n").replace(/&[a-z]+;/g, " ").replace(/\n\s*\n+/g, "\n\n").trim() }
 async function fetchJD(r) {
+  if (fs.existsSync(path.join("_ARTIFACTS", `forge-${bundleSlug(r)}`, "jd-full.txt"))) return fs.readFileSync(path.join("_ARTIFACTS", `forge-${bundleSlug(r)}`, "jd-full.txt"), "utf8")
   try { if (/^\d+$/.test(r.jobid)) { const x = await fetch(`https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${r.jobid}`, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch { /* */ }
   try { if (r.url) { const x = await fetch(r.url, { headers: { "user-agent": "Mozilla/5.0" } }); if (x.ok) { const t = strip(await x.text()); if (t.length > 200) return t } } } catch { /* */ }
   return null
@@ -69,9 +75,10 @@ async function main() {
   if (!targets.length) { console.error("no matching target (no seed for its cluster?)"); process.exit(1) }
 
   for (const t of targets) {
-    const sh = shape(t); const seed = arg("--seed", null) ? Object.values(seedByShape).find((s) => s.slug === arg("--seed", null)) : seedByShape[sh]
+    const sh = CLUSTER || shape(t)
+    const seed = SEED_DIR ? { slug: String(SEED_DIR).replace(/^forge-/, ""), dir: String(SEED_DIR), jobid: null } : arg("--seed", null) ? Object.values(seedByShape).find((s) => s.slug === arg("--seed", null)) : seedByShape[sh]
     if (!seed) { console.error(`${t.jobid}: no seed for cluster ${sh}`); continue }
-    const slug = slugify(t)
+    const slug = bundleSlug(t)
     console.log(`target ${t.jobid} [${sh}] ${t.company} · ${t.title}\n  seed: ${seed.slug} (${seed.dir})`)
     const seedHtml = readSeedHtml(seed.dir); if (!seedHtml) { console.error("  seed has no resume HTML"); continue }
     const jd = await fetchJD(t); if (!jd) { console.error("  JD fetch failed"); continue }
@@ -91,6 +98,7 @@ async function main() {
     const d = path.join("_ARTIFACTS", `forge-${slug}`); fs.mkdirSync(d, { recursive: true })
     fs.writeFileSync(path.join(d, `resume-${slug}.html`), html)
     fs.writeFileSync(path.join(d, "jd-full.txt"), jd)
+    fs.writeFileSync(path.join(d, "jobid.txt"), t.jobid + "\n")
     fs.writeFileSync(path.join(d, "TAILOR-NOTES.md"), `# ${t.company} · ${t.title}\n\nEDIT-FROM-SEED of \`${seed.slug}\` (cluster ${sh}). ${new Date().toISOString()}\n\n${e.tailorDelta || ""}\n\nAssessment: ${e.assessment || ""}\n`)
     fs.writeFileSync(path.join(d, "hiring-manager.json"), JSON.stringify(e.hiringManager || { kind: "unknown", text: null }, null, 1))
     fs.writeFileSync(path.join(d, "contact.json"), JSON.stringify(e.contact || { type: "unverified", detail: null }, null, 1))

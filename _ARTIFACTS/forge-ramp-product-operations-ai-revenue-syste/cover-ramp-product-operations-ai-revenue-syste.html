@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Cover letter · Product Operations | AI Revenue Systems · Ramp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* forge-render · cover letter print sheet · v1.0. Same identity header and tokens as resume-print.css
+     so the résumé and the letter read as one bundle. One page, letter measure, no decoration. */
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#4f5f6e;
+    --line:#dde3ea;--paper:#fff;
+    --accent:#0089a8;--accent-text:#007a96;
+    --measure:6.4in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;min-height:11in;margin:0 auto;padding:0.6in 0.7in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;}
+  .tagline{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-top:8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+
+  .re{margin:22px 0 16px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text);}
+  .re span{color:var(--ink3);font-weight:500;}
+  .letter{flex:1;}
+  .letter p{max-width:var(--measure);font-size:11px;line-height:1.62;color:var(--ink2);margin:0 0 11px;text-wrap:pretty;orphans:3;widows:3;}
+  .letter p.sign{margin-top:18px;color:var(--ink);font-weight:600;}
+  .letter p.sign small{display:block;font-weight:400;color:var(--ink3);font-family:var(--mono);font-size:9px;letter-spacing:.02em;margin-top:3px;}
+
+  footer{margin-top:18px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);}
+
+  @page{size:letter;margin:0.5in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;min-height:0;max-width:none;margin:0;padding:0.1in 0.2in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">Revenue and GTM systems operator who builds</div>
+    </div>
+    <div class="contact">
+      New York City<br><a href="mailto:zach.harris@gmail.com"><b>zach.harris@gmail.com</b></a><br>
+      <a href="https://www.linkedin.com/in/zharris">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <div class="re">Re <span>·</span> Product Operations | AI Revenue Systems <span>·</span> Ramp</div>
+  <div class="letter">
+    <p>Hi Ramp team,</p>
+    <p>I build the data contracts, scoring systems, and agentic tooling that GTM teams run on, and I own those systems end to end. That is the short version of why this role fits.</p>
+    <p>Here is the longer one. Most revenue operations problems are really questions about who owns the seams: between the data platform and the agents that reason over it, between what the scoring model says and what the rep actually does, between a playbook that worked last quarter and the signal that says it stopped working. I have spent two decades on those seams. At Grayscale I led go-to-market for ten SEC/FINRA-regulated products and owned the data contracts and field-mapping logic that kept ten systems telling the same story. At a three-business-unit nonprofit I built the enterprise data layer from nothing, CDP selection through Salesforce modernization, and net-new revenue moved twenty percent because the segmentation finally matched the lifecycle.</p>
+    <p>A few things I noticed that made me want to write.</p>
+    <p>Ramp's framing of the GTM platform as a learning loop is the part most companies get wrong. They ship the agent, skip the eval framework, and wonder why adoption stalls. The role you describe, owning account scoring and routing, defining data contracts, and instrumenting whether the tools are actually driving rep behavior, is exactly the sequence I ran at ARCS: scoring and enrichment first, feedback capture second, recalibration third. The difference at Ramp is that your users are down the hall and the feedback cycle is days, not quarters. That is a better environment to close the loop fast, and it is the kind of iteration discipline I want to be inside.</p>
+    <p>The SDR, Solutions, and channel agent workflows you describe as greenfield are also the highest-context, hardest-to-hallucinate-safely part of the stack. I built ARCS on Claude with a live MCP server and agentic orchestration, and the judgment I developed there was almost entirely about where to trust the model and where to put a human in the loop. That is not an engineering problem. It is an operator problem, and it is the one this role is actually solving.</p>
+    <p>On me: I am in the data contract, the CRM admin panel, the eval framework, and the forecast review, not just the process map. SQL, Python, Snowflake, Segment, Salesforce. I have shipped zero to one under SEC/FINRA and HIPAA, which is the part of the job that usually gets underestimated.</p>
+    <p>Happy to go deep on any of it.</p>
+    <p class="sign">Zach Harris<small>zachharris.xyz · github.com/flashesofbrilliance</small></p>
+  </div>
+  <footer><span>Zach Harris · zachharris.xyz</span><span>Ramp · 2026</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Cover letter · Senior Product Manager - Fleet and Lifecycle Management · Datadog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* forge-render · cover letter print sheet · v1.0. Same identity header and tokens as resume-print.css
+     so the résumé and the letter read as one bundle. One page, letter measure, no decoration. */
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#4f5f6e;
+    --line:#dde3ea;--paper:#fff;
+    --accent:#0089a8;--accent-text:#007a96;
+    --measure:6.4in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;min-height:11in;margin:0 auto;padding:0.6in 0.7in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;}
+  .tagline{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);margin-top:8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+
+  .re{margin:22px 0 16px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text);}
+  .re span{color:var(--ink3);font-weight:500;}
+  .letter{flex:1;}
+  .letter p{max-width:var(--measure);font-size:11px;line-height:1.62;color:var(--ink2);margin:0 0 11px;text-wrap:pretty;orphans:3;widows:3;}
+  .letter p.sign{margin-top:18px;color:var(--ink);font-weight:600;}
+  .letter p.sign small{display:block;font-weight:400;color:var(--ink3);font-family:var(--mono);font-size:9px;letter-spacing:.02em;margin-top:3px;}
+
+  footer{margin-top:18px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);}
+
+  @page{size:letter;margin:0.5in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;min-height:0;max-width:none;margin:0;padding:0.1in 0.2in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">AI-native product builder · expert-user workflows</div>
+    </div>
+    <div class="contact">
+      New York City<br><a href="mailto:zach.harris@gmail.com"><b>zach.harris@gmail.com</b></a><br>
+      <a href="https://www.linkedin.com/in/zharris">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <div class="re">Re <span>·</span> Senior Product Manager - Fleet and Lifecycle Management <span>·</span> Datadog</div>
+  <div class="letter">
+    <p>Hi Datadog team,</p>
+    <p>I build complex, cross-functional products for technical operators who need infrastructure visibility and control at scale. That is the short version of why this role fits.</p>
+    <p>Here is the longer one.</p>
+    <p>The fleet and lifecycle management problem is, at its core, a sequencing and scope problem: how do you expand a unified control plane to cover an ever-growing set of software components, each with its own operational model, without fracturing the experience for the operator standing in front of it? I have lived that problem. At ARCS I own the full roadmap, architecture tradeoffs, and phased capability expansion across a product that serves both human operators and AI agents acting programmatically on their behalf. The MCP server and tool-calling interfaces I built were not afterthoughts; they were first-class surfaces, because I knew automated tooling would need to operate the same control plane a human uses. That is exactly the dual-audience design challenge you describe for fleet.</p>
+    <p>Two things in the JD made me want to write specifically.</p>
+    <p>First, the framing of "what does managed mean for each new component" is the right question, and it is a harder one than it looks. Consistency of experience and consistency of operational model are not the same thing, and collapsing them is how unified platforms become lowest-common-denominator platforms. At Twill Health I ran exactly this sequencing exercise across three AI-enabled product lines: drove go-forward on two, killed the third before it consumed further engineering time. The discipline is the same: define what managed means for this component, validate it with design partners, then sequence it in.</p>
+    <p>Second, the cross-team alignment piece is real work. I have driven roadmap alignment across engineering, design, and go-to-market without direct authority, at ARCS as a solo operator and in embedded engagements at Axon and Twill where I did not own the engineering org. The skill is translating ambiguity into a sequenced plan that multiple teams can build against, and then holding the narrative steady as priorities shift.</p>
+    <p>Datadog's moat in observability is the unified surface: one place, full stack, no context switching. Fleet is the extension of that promise to the software layer itself. I would want to own that.</p>
+    <p>The bundle at the link below has the live commit trail and the director's cut of how ARCS was built. Happy to go deep on any of it.</p>
+    <p class="sign">Zach Harris<small>zachharris.xyz · github.com/flashesofbrilliance</small></p>
+  </div>
+  <footer><span>Zach Harris · zachharris.xyz</span><span>Datadog · 2026</span></footer>
+</div>
+</body>
+</html>

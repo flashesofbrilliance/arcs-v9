@@ -84,7 +84,13 @@ export async function POST(req: NextRequest) {
         unscoredWhy: r.unscoredWhy ?? r.why ?? null,
         scoredAt: r.scoredAt ? new Date(r.scoredAt) : (r.composite != null ? new Date() : null),
       }
-      await prisma.jobOpportunity.upsert({ where: { jobid: String(r.jobid) }, create: { jobid: String(r.jobid), ...data }, update: data })
+      // A re-ingest that carries no score must not clobber a score already on the row
+      // (2026-09-11: a bridge_scan re-upsert reset 64 scored rows to UNSCORED). On UPDATE,
+      // scoring fields are only written when the payload actually carries a composite or band.
+      const carriesScore = r.composite != null || (r.band && r.band !== "UNSCORED")
+      const { composite, band, dims, gates, assessment, scoredAt, unscoredWhy, ...rest } = data
+      const update = carriesScore ? data : rest
+      await prisma.jobOpportunity.upsert({ where: { jobid: String(r.jobid) }, create: { jobid: String(r.jobid), ...data }, update })
       n++
     }
     return NextResponse.json({ upserted: n })
