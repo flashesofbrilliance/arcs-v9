@@ -79,14 +79,19 @@ summary:hover{background:rgba(255,255,255,.015)}
   .crease{transition:none}
 }
 
-/* nested sub-fold (resume: record -> scan -> target-fit) */
-.subfold{border:1px solid var(--line);border-radius:9px;margin-top:14px;overflow:hidden;
-  background:rgba(0,240,255,.02)}
+/* nested sub-fold (a deeper fathom) */
+.subfold{border:1px solid var(--line);border-left:2px solid var(--accent,var(--cyan));
+  border-radius:0 9px 9px 0;margin-top:14px;overflow:hidden;background:rgba(0,240,255,.022)}
 .subfold summary{padding:12px 15px}
-.subfold .role{font-size:9.5px;color:var(--cyan)}
-.subfold .sv{color:var(--text);font-size:.9rem;margin-top:5px;font-family:var(--serif)}
+.subfold .sv{color:var(--text);font-size:.92rem;margin-top:5px;font-family:var(--serif)}
 .subfold .fold{padding:0 15px}
-.subfold .fold-inner{font-size:.9rem;padding:12px 0 15px}
+.subfold .fold-inner{font-size:.92rem;padding:12px 0 15px}
+/* fathom tag: the sounding depth of this plane */
+.fathom{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);display:flex;align-items:center;
+  justify-content:space-between;gap:10px}
+.fathom .n{color:var(--accent,var(--cyan))}
+.fathom .crease{font-size:11px}
 
 .legend{margin-top:34px;font-family:var(--mono);font-size:11px;color:var(--dim);
   letter-spacing:.03em;line-height:1.7;border-top:1px solid var(--line);padding-top:18px}
@@ -126,25 +131,41 @@ summary:hover{background:rgba(255,255,255,.015)}
         <div class="verdict">Applied AI. Decision intelligence. Forward-deployed. ARCS on Claude, MCP, and agents.</div>
       </summary>
       <div class="fold"><div class="fold-inner">
-        <p>The full-time path: the shipped record for a hiring manager who wants one accountable builder in regulated-capital reality. This facet folds again, into the evidence beneath the record.</p>
-
+        <!-- fathom 2 -->
         <details class="subfold">
           <summary>
-            <div class="role"><span>Fold deeper &#183; the scan behind the record</span><span class="crease">&#9671;</span></div>
-            <div class="sv">How the record was derived, not just asserted.</div>
+            <div class="fathom"><span><span class="n">Fathom 2</span> &#183; strategic</span><span class="mono" style="color:var(--dim)">2 of 5 &#9671;</span></div>
+            <div class="sv">The full-time path: one accountable builder where getting it wrong is expensive.</div>
           </summary>
           <div class="fold"><div class="fold-inner">
-            <p>A profile scan reads the raw history into archetype dimensions; a target-role scan grades a specific opening against them. The resume is the top plane; the scan is the fold underneath that shows the work.</p>
-          </div></div>
-        </details>
-
-        <details class="subfold">
-          <summary>
-            <div class="role"><span>Fold deeper &#183; the target-fit</span><span class="crease">&#9671;</span></div>
-            <div class="sv">Tuned per role, from the same source of truth.</div>
-          </summary>
-          <div class="fold"><div class="fold-inner">
-            <p>Each application is a re-fold of one record against one job to be done. Same operator, same evidence, angled to catch that role's light. Read the JD, not the title.</p>
+            <!-- fathom 3 -->
+            <details class="subfold">
+              <summary>
+                <div class="fathom"><span><span class="n">Fathom 3</span> &#183; operational</span><span class="mono" style="color:var(--dim)">3 of 5 &#9671;</span></div>
+                <div class="sv">The record is derived, not asserted: a scan reads the history into archetype dimensions.</div>
+              </summary>
+              <div class="fold"><div class="fold-inner">
+                <!-- fathom 4 -->
+                <details class="subfold">
+                  <summary>
+                    <div class="fathom"><span><span class="n">Fathom 4</span> &#183; tactical</span><span class="mono" style="color:var(--dim)">4 of 5 &#9671;</span></div>
+                    <div class="sv">Each application re-folds one record against one role. Read the JD, not the title.</div>
+                  </summary>
+                  <div class="fold"><div class="fold-inner">
+                    <!-- fathom 5 -->
+                    <details class="subfold">
+                      <summary>
+                        <div class="fathom"><span><span class="n">Fathom 5</span> &#183; surgical</span><span class="mono" style="color:var(--dim)">the floor</span></div>
+                        <div class="sv">The receipt: ARCS on Claude with a custom MCP server, generating this record from one profile-scan source of truth.</div>
+                      </summary>
+                      <div class="fold"><div class="fold-inner">
+                        <p style="color:var(--dim);font-size:.86rem">You sounded the floor. Every plane above rested on this one. Nothing deeper was hidden, there simply is no deeper.</p>
+                      </div></div>
+                    </details>
+                  </div></div>
+                </details>
+              </div></div>
+            </details>
           </div></div>
         </details>
       </div></div>
@@ -171,6 +192,16 @@ summary:hover{background:rgba(255,255,255,.015)}
       </summary>
       <div class="fold"><div class="fold-inner">
         <p>Proof in motion. Readiness is the render channel, and the numbers are liveness-verified, not asserted. This is the facet that pre-empts the one doubt a buyer always has: a consultant who advises but never ships.</p>
+
+        <details class="subfold">
+          <summary>
+            <div class="fathom"><span><span class="n">Deeper</span> &#183; notes from the trenches</span><span class="mono" style="color:var(--dim)">good.arcs.care/blog/nftt &#9671;</span></div>
+            <div class="sv">Not just what shipped, but how it actually went. The literary field notes.</div>
+          </summary>
+          <div class="fold"><div class="fold-inner">
+            <p>NFTT is the reflective voice of the build: receipts-included essays on the calls, the bugs, and the decisions, written plainly. Proof that the operator does not only ship but reasons in the open. The anti-consultant tell, the trenches are documented, not spun.</p>
+          </div></div>
+        </details>
       </div></div>
     </details>
 
