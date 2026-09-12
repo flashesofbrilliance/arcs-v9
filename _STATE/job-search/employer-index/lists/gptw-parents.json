@@ -1,0 +1,612 @@
+{
+  "list": "GPTW Best Workplaces for Parents",
+  "edition": "2025",
+  "sources": [
+    "https://www.greatplacetowork.com/best-workplaces-parents",
+    "https://www.greatplacetowork.com/best-workplaces/parents/2025"
+  ],
+  "complete": true,
+  "note": "This is the 2025 edition (published Nov 2025), the most recent published as of 2026-09-11; a 2026 edition has not yet been released (the GPTW page shows an open 'APPLY FOR 2026' call). Data extracted from the page's embedded schema.org ItemList JSON-LD (ground truth, not scraped visible text), covering both the Large (1,000+ employees) and Small and Medium (10-999 employees) categories, 70 + 30 = 100 companies total, matching each list's own declared numberOfItems.",
+  "companies": [
+    {
+      "rank": 1,
+      "name": "American Express",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 2,
+      "name": "NVIDIA",
+      "category": "large",
+      "hq": "Santa Clara, CA"
+    },
+    {
+      "rank": 3,
+      "name": "Hilton",
+      "category": "large",
+      "hq": "McLean, VA"
+    },
+    {
+      "rank": 4,
+      "name": "USI",
+      "category": "large",
+      "hq": "Valhalla, NY"
+    },
+    {
+      "rank": 5,
+      "name": "Deloitte",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 6,
+      "name": "Kimley-Horn",
+      "category": "large",
+      "hq": "Raleigh, NC"
+    },
+    {
+      "rank": 7,
+      "name": "Cisco",
+      "category": "large",
+      "hq": "San Jose, CA"
+    },
+    {
+      "rank": 8,
+      "name": "Bain & Company, Inc.",
+      "category": "large",
+      "hq": "Boston, MA"
+    },
+    {
+      "rank": 9,
+      "name": "Fannie Mae",
+      "category": "large",
+      "hq": "Washington, DC"
+    },
+    {
+      "rank": 10,
+      "name": "Synchrony",
+      "category": "large",
+      "hq": "Stamford, CT"
+    },
+    {
+      "rank": 11,
+      "name": "The Progressive Corporation",
+      "category": "large",
+      "hq": "Mayfield Village, OH"
+    },
+    {
+      "rank": 12,
+      "name": "Plante & Moran, PLLC",
+      "category": "large",
+      "hq": "Southfield, MI"
+    },
+    {
+      "rank": 13,
+      "name": "Scripps Health",
+      "category": "large",
+      "hq": "San Diego, CA"
+    },
+    {
+      "rank": 14,
+      "name": "Baird",
+      "category": "large",
+      "hq": "Milwaukee, WI"
+    },
+    {
+      "rank": 15,
+      "name": "Ryan, LLC",
+      "category": "large",
+      "hq": "Plano, TX"
+    },
+    {
+      "rank": 16,
+      "name": "Salesforce",
+      "category": "large",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 17,
+      "name": "CrowdStrike",
+      "category": "large",
+      "hq": "Sunnyvale, CA"
+    },
+    {
+      "rank": 18,
+      "name": "Zillow Group",
+      "category": "large",
+      "hq": "Seattle, WA"
+    },
+    {
+      "rank": 19,
+      "name": "Stryker",
+      "category": "large",
+      "hq": "Portage, MI"
+    },
+    {
+      "rank": 20,
+      "name": "Insmed",
+      "category": "large",
+      "hq": "Bridgewater, NJ"
+    },
+    {
+      "rank": 21,
+      "name": "Alston & Bird LLP",
+      "category": "large",
+      "hq": "Atlanta, GA"
+    },
+    {
+      "rank": 22,
+      "name": "Power Home Remodeling",
+      "category": "large",
+      "hq": "Chester, PA"
+    },
+    {
+      "rank": 23,
+      "name": "Wegmans Food Markets, Inc.",
+      "category": "large",
+      "hq": "Rochester, NY"
+    },
+    {
+      "rank": 24,
+      "name": "Affirm",
+      "category": "large",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 25,
+      "name": "AbbVie",
+      "category": "large",
+      "hq": "North Chicago, IL"
+    },
+    {
+      "rank": 26,
+      "name": "Modern Technology Solutions, Inc.",
+      "category": "large",
+      "hq": "Alexandria, VA"
+    },
+    {
+      "rank": 27,
+      "name": "Harbor Freight Tools",
+      "category": "large",
+      "hq": "Calabasas, CA"
+    },
+    {
+      "rank": 28,
+      "name": "Rocket Companies",
+      "category": "large",
+      "hq": "Detroit, MI"
+    },
+    {
+      "rank": 29,
+      "name": "Ally Financial Inc.",
+      "category": "large",
+      "hq": "Detroit, MI"
+    },
+    {
+      "rank": 30,
+      "name": "Capital One",
+      "category": "large",
+      "hq": "McLean, VA"
+    },
+    {
+      "rank": 31,
+      "name": "Pinnacle Financial Partners",
+      "category": "large",
+      "hq": "Atlanta, GA"
+    },
+    {
+      "rank": 32,
+      "name": "CarMax",
+      "category": "large",
+      "hq": "Richmond, VA"
+    },
+    {
+      "rank": 33,
+      "name": "Bank of America",
+      "category": "large",
+      "hq": "Charlotte, NC"
+    },
+    {
+      "rank": 34,
+      "name": "Marriott International",
+      "category": "large",
+      "hq": "Bethesda, MD"
+    },
+    {
+      "rank": 35,
+      "name": "PricewaterhouseCoopers LLP",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 36,
+      "name": "Camden Property Trust",
+      "category": "large",
+      "hq": "Houston, TX"
+    },
+    {
+      "rank": 37,
+      "name": "EY",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 38,
+      "name": "SailPoint",
+      "category": "large",
+      "hq": "Austin, TX"
+    },
+    {
+      "rank": 39,
+      "name": "SentinelOne",
+      "category": "large",
+      "hq": "Mountain View, CA"
+    },
+    {
+      "rank": 40,
+      "name": "Box, Inc.",
+      "category": "large",
+      "hq": "Redwood City, CA"
+    },
+    {
+      "rank": 41,
+      "name": "Shields Health Solutions",
+      "category": "large",
+      "hq": "Stoughton, MA"
+    },
+    {
+      "rank": 42,
+      "name": "PrimeLending, A Plains Capital Company",
+      "category": "large",
+      "hq": "Dallas, TX"
+    },
+    {
+      "rank": 43,
+      "name": "KPMG LLP",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 44,
+      "name": "Alnylam Pharmaceuticals",
+      "category": "large",
+      "hq": "Cambridge, MA"
+    },
+    {
+      "rank": 45,
+      "name": "CHG Healthcare Services",
+      "category": "large",
+      "hq": "Midvale, UT"
+    },
+    {
+      "rank": 46,
+      "name": "Merck",
+      "category": "large",
+      "hq": "Rahway, NJ"
+    },
+    {
+      "rank": 47,
+      "name": "United Therapeutics Corporation",
+      "category": "large",
+      "hq": "Silver Spring, MD"
+    },
+    {
+      "rank": 48,
+      "name": "Crum & Forster",
+      "category": "large",
+      "hq": "Morristown, NJ"
+    },
+    {
+      "rank": 49,
+      "name": "GuideWell Mutual Holding Corporation",
+      "category": "large",
+      "hq": "Jacksonville, FL"
+    },
+    {
+      "rank": 50,
+      "name": "Instacart",
+      "category": "large",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 51,
+      "name": "HPE",
+      "category": "large",
+      "hq": "Houston, TX"
+    },
+    {
+      "rank": 52,
+      "name": "Intuit Inc.",
+      "category": "large",
+      "hq": "Mountain View, CA"
+    },
+    {
+      "rank": 53,
+      "name": "Mutual of Omaha",
+      "category": "large",
+      "hq": "Omaha, NE"
+    },
+    {
+      "rank": 54,
+      "name": "FanDuel Group",
+      "category": "large",
+      "hq": "New York City, NY"
+    },
+    {
+      "rank": 55,
+      "name": "Northwell Health",
+      "category": "large",
+      "hq": "New Hyde Park, NY"
+    },
+    {
+      "rank": 56,
+      "name": "Symetra",
+      "category": "large",
+      "hq": "Bellevue, WA"
+    },
+    {
+      "rank": 57,
+      "name": "ServiceNow",
+      "category": "large",
+      "hq": "Santa Clara, CA"
+    },
+    {
+      "rank": 58,
+      "name": "First American Financial Corporation",
+      "category": "large",
+      "hq": "Santa Ana, CA"
+    },
+    {
+      "rank": 59,
+      "name": "BDO USA",
+      "category": "large",
+      "hq": "Chicago, IL"
+    },
+    {
+      "rank": 60,
+      "name": "Mastercard",
+      "category": "large",
+      "hq": "Purchase, NY"
+    },
+    {
+      "rank": 61,
+      "name": "Schneider Electric Holdings, Inc.",
+      "category": "large",
+      "hq": "Boston, MA"
+    },
+    {
+      "rank": 62,
+      "name": "Neurocrine Biosciences",
+      "category": "large",
+      "hq": "San Diego, CA"
+    },
+    {
+      "rank": 63,
+      "name": "Dynatrace",
+      "category": "large",
+      "hq": "Boston, MA"
+    },
+    {
+      "rank": 64,
+      "name": "Braze",
+      "category": "large",
+      "hq": "New York City, NY"
+    },
+    {
+      "rank": 65,
+      "name": "Insperity",
+      "category": "large",
+      "hq": "Kingwood, TX"
+    },
+    {
+      "rank": 66,
+      "name": "Voya Financial",
+      "category": "large",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 67,
+      "name": "American Fidelity Assurance Company",
+      "category": "large",
+      "hq": "Oklahoma City, OK"
+    },
+    {
+      "rank": 68,
+      "name": "Perkins Coie (now Ashurst Perkins Coie)",
+      "category": "large",
+      "hq": "Seattle, WA"
+    },
+    {
+      "rank": 69,
+      "name": "Aledade",
+      "category": "large",
+      "hq": "Bethesda, MD"
+    },
+    {
+      "rank": 70,
+      "name": "IHG Hotels & Resorts",
+      "category": "large",
+      "hq": "Atlanta, GA"
+    },
+    {
+      "rank": 1,
+      "name": "WestPac Wealth Partners",
+      "category": "small-medium",
+      "hq": "San Diego, CA"
+    },
+    {
+      "rank": 2,
+      "name": "Mercury",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 3,
+      "name": "Webflow",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 4,
+      "name": "Chainguard",
+      "category": "small-medium",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 5,
+      "name": "Lumin Digital",
+      "category": "small-medium",
+      "hq": "San Ramon, CA"
+    },
+    {
+      "rank": 6,
+      "name": "Ro",
+      "category": "small-medium",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 7,
+      "name": "Greenhouse",
+      "category": "small-medium",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 8,
+      "name": "Cambridge Mobile Telematics",
+      "category": "small-medium",
+      "hq": "Cambridge, MA"
+    },
+    {
+      "rank": 9,
+      "name": "Ontra",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 10,
+      "name": "BeatBox Beverages",
+      "category": "small-medium",
+      "hq": "Austin, TX"
+    },
+    {
+      "rank": 11,
+      "name": "Colorado Housing and Finance Authority",
+      "category": "small-medium",
+      "hq": "Denver, CO"
+    },
+    {
+      "rank": 12,
+      "name": "Basis",
+      "category": "small-medium",
+      "hq": "Chicago, IL"
+    },
+    {
+      "rank": 13,
+      "name": "Hayden Homes",
+      "category": "small-medium",
+      "hq": "Redmond, OR"
+    },
+    {
+      "rank": 14,
+      "name": "e.l.f. Beauty",
+      "category": "small-medium",
+      "hq": "Oakland, CA"
+    },
+    {
+      "rank": 15,
+      "name": "Lucid Software Inc.",
+      "category": "small-medium",
+      "hq": "South Jordan, UT"
+    },
+    {
+      "rank": 16,
+      "name": "Invoca",
+      "category": "small-medium",
+      "hq": "Santa Barbara, CA"
+    },
+    {
+      "rank": 17,
+      "name": "180 Medical",
+      "category": "small-medium",
+      "hq": "Oklahoma City, OK"
+    },
+    {
+      "rank": 18,
+      "name": "BillionToOne, Inc.",
+      "category": "small-medium",
+      "hq": "Menlo Park, CA"
+    },
+    {
+      "rank": 19,
+      "name": "Marsh McLennan Agency, Midwest Region",
+      "category": "small-medium",
+      "hq": "Schaumburg, IL"
+    },
+    {
+      "rank": 20,
+      "name": "Forge Group LLC",
+      "category": "small-medium",
+      "hq": "Reston, VA, VA"
+    },
+    {
+      "rank": 21,
+      "name": "Shawmut Design and Construction",
+      "category": "small-medium",
+      "hq": "New York, NY"
+    },
+    {
+      "rank": 22,
+      "name": "Ironclad",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 23,
+      "name": "First American Equipment Finance",
+      "category": "small-medium",
+      "hq": "Victor, NY"
+    },
+    {
+      "rank": 24,
+      "name": "Northwood Investors",
+      "category": "small-medium",
+      "hq": "Denver, CO"
+    },
+    {
+      "rank": 25,
+      "name": "Circle",
+      "category": "small-medium",
+      "hq": "New York City, NY"
+    },
+    {
+      "rank": 26,
+      "name": "Invisors",
+      "category": "small-medium",
+      "hq": "Atlanta, GA"
+    },
+    {
+      "rank": 27,
+      "name": "Knollwood Life Plan Community",
+      "category": "small-medium",
+      "hq": "Washington, DC, DC"
+    },
+    {
+      "rank": 28,
+      "name": "RAMS",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    },
+    {
+      "rank": 29,
+      "name": "Guild",
+      "category": "small-medium",
+      "hq": "Denver, CO"
+    },
+    {
+      "rank": 30,
+      "name": "Thumbtack, Inc.",
+      "category": "small-medium",
+      "hq": "San Francisco, CA"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+ "BCG X": {
+  "ats": "greenhouse",
+  "board_name": "Bohen Consulting Group   ",
+  "display": "BCG X",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 3,
+  "slug": "bcg",
+  "verify": "DROPPED-collision"
+ },
+ "Blue Shield of California": {
+  "ats": "lever",
+  "display": "Blue Shield of California",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "disabilityin-dei-2026"
+  ],
+  "lists_tag": "disabilityin-dei-2026",
+  "n_reqs": 9,
+  "slug": "blue",
+  "verify": "DROPPED-collision"
+ },
+ "Capital One": {
+  "ats": "lever",
+  "display": "Capital One",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026",
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "fortune-100-best-2026+gptw-parents-2025",
+  "n_reqs": 40,
+  "slug": "capital",
+  "verify": "DROPPED-collision"
+ },
+ "Charles Schwab": {
+  "ats": "greenhouse",
+  "board_name": "charles",
+  "display": "Charles Schwab",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "ndw-roundtable"
+  ],
+  "lists_tag": "ndw-roundtable",
+  "n_reqs": 3,
+  "slug": "charles",
+  "verify": "DROPPED-collision"
+ },
+ "Clearwater Analytics": {
+  "ats": "greenhouse",
+  "board_name": "Clearwater",
+  "display": "Clearwater Analytics",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 15,
+  "slug": "clearwater",
+  "verify": "DROPPED-collision"
+ },
+ "David Weekley Homes": {
+  "ats": "greenhouse",
+  "board_name": "DAVID",
+  "display": "David Weekley Homes",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 8,
+  "slug": "david",
+  "verify": "DROPPED-collision"
+ },
+ "General Dynamics": {
+  "ats": "greenhouse",
+  "board_name": "General Interest ",
+  "display": "General Dynamics",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "ndw-roundtable"
+  ],
+  "lists_tag": "ndw-roundtable",
+  "n_reqs": 1,
+  "slug": "general",
+  "verify": "DROPPED-collision"
+ },
+ "New York Life Insurance Company": {
+  "ats": "greenhouse",
+  "board_name": "Sonja Inc.  ",
+  "display": "New York Life Insurance Company",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 1,
+  "slug": "new",
+  "verify": "DROPPED-collision"
+ },
+ "S&P Global Inc.": {
+  "ats": "greenhouse",
+  "board_name": "Socialpoint",
+  "display": "S&P Global Inc.",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 9,
+  "slug": "spcareers",
+  "verify": "DROPPED-collision"
+ },
+ "SAS": {
+  "ats": "greenhouse",
+  "board_name": "Superior Alarm Systems",
+  "display": "SAS",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "ndw-roundtable"
+  ],
+  "lists_tag": "ndw-roundtable",
+  "n_reqs": 3,
+  "slug": "sas",
+  "verify": "DROPPED-collision"
+ },
+ "Share Local Media": {
+  "ats": "ashby",
+  "display": "Share Local Media",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 9,
+  "slug": "share",
+  "verify": "DROPPED-collision"
+ },
+ "Tri Pointe Homes, Inc.": {
+  "ats": "lever",
+  "display": "Tri Pointe Homes, Inc.",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 14,
+  "slug": "tri",
+  "verify": "DROPPED-collision"
+ },
+ "US Bank": {
+  "ats": "greenhouse",
+  "board_name": "itel - United States",
+  "display": "US Bank",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "ndw-roundtable"
+  ],
+  "lists_tag": "ndw-roundtable",
+  "n_reqs": 1,
+  "slug": "us",
+  "verify": "DROPPED-collision"
+ },
+ "USI": {
+  "ats": "greenhouse",
+  "board_name": "United Services, Inc.",
+  "display": "USI",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "gptw-parents-2025"
+  ],
+  "lists_tag": "gptw-parents-2025",
+  "n_reqs": 7,
+  "slug": "usi",
+  "verify": "DROPPED-collision"
+ },
+ "Veterans United Home Loans": {
+  "ats": "greenhouse",
+  "board_name": "IntelliDyne Jobs for Veterans",
+  "display": "Veterans United Home Loans",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 10,
+  "slug": "veterans",
+  "verify": "DROPPED-collision"
+ },
+ "W.W. Grainger, Inc.": {
+  "ats": "greenhouse",
+  "board_name": "Weight Watchers",
+  "display": "W.W. Grainger, Inc.",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "fortune-100-best-2026"
+  ],
+  "lists_tag": "fortune-100-best-2026",
+  "n_reqs": 81,
+  "slug": "ww",
+  "verify": "DROPPED-collision"
+ },
+ "Wise": {
+  "ats": "greenhouse",
+  "board_name": "Wise Worksite Field Sales ",
+  "display": "Wise",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "wise",
+  "verify": "DROPPED-collision"
+ },
+ "Zeta Global": {
+  "ats": "lever",
+  "display": "Zeta Global",
+  "dropped_why": "board belongs to a different company (eyeballed sample titles 2026-09-11)",
+  "lists": [
+   "builtin-nyc-2026"
+  ],
+  "lists_tag": "builtin-nyc-2026",
+  "n_reqs": 18,
+  "slug": "zeta",
+  "verify": "DROPPED-collision"
+ }
+}
