@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Identity Origami · Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020408; --plane:#0c141d; --plane2:#0a1a24; --line:#1c2836; --line2:#26374a;
+  --text:#e6edf5; --muted:#8ea0b6; --dim:#5a6b7f;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --serif:'Newsreader',Georgia,serif;
+  --measure:760px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);line-height:1.55;
+  background:radial-gradient(1200px 720px at 50% -12%,rgba(0,240,255,.055),rgba(2,4,8,0) 62%),var(--bg);
+  padding:52px 20px 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:800px;margin:0 auto}
+.mono{font-family:var(--mono)}
+
+/* folded hero (the whole object, collapsed) */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--cyan)}
+.name{font-size:clamp(2rem,5.4vw,3.1rem);font-weight:500;letter-spacing:-.02em;margin:10px 0 8px}
+.flag{font-size:clamp(1.2rem,2.7vw,1.55rem);font-weight:500;line-height:1.3;max-width:none}
+.flag b{color:var(--green);font-weight:500}
+.opening{color:var(--muted);font-size:1rem;margin-top:14px;max-width:var(--measure)}
+.opening .k{color:var(--gold)}
+.hint{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--dim);margin-top:20px}
+
+/* the stack of facet planes */
+.stack{margin-top:30px;display:flex;flex-direction:column;gap:12px}
+
+/* one facet = a folded plane. summary is the crease you press. */
+.facet{border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:linear-gradient(158deg,var(--plane) 0%,var(--plane2) 100%);
+  position:relative;transition:border-color .5s ease}
+.facet::before{content:"";position:absolute;top:0;left:0;bottom:0;width:2px;
+  background:var(--accent,var(--cyan));opacity:.5;transition:opacity .5s ease}
+.facet[open]::before{opacity:1}
+.facet[open]{border-color:var(--line2)}
+.facet.front{--accent:var(--gold)} .facet.path{--accent:var(--cyan)} .facet.proof{--accent:var(--green)}
+
+summary{list-style:none;cursor:pointer;padding:18px 20px;display:block;
+  transition:background .4s ease}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:rgba(255,255,255,.015)}
+.role{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent,var(--cyan));display:flex;align-items:center;
+  justify-content:space-between;gap:12px}
+/* the fold affordance: a quiet diamond that rotates when open */
+.crease{color:var(--dim);font-size:12px;transition:transform .5s cubic-bezier(.2,.7,.2,1),color .4s;
+  display:inline-block}
+.facet[open] .crease{transform:rotate(45deg);color:var(--accent,var(--cyan))}
+.face-name{font-size:1.32rem;font-weight:500;letter-spacing:-.01em;margin:7px 0 5px}
+.face-name .host{font-family:var(--mono);font-size:.76rem;font-weight:400;color:var(--muted);letter-spacing:0}
+/* the VERDICT: visible while folded. this carries the takeaway (rule 1). */
+.verdict{color:var(--text);font-size:1rem;max-width:var(--measure)}
+
+/* the fold: optional depth, revealed on open. hinges from the crease (rule 2 + 3). */
+.fold{padding:0 20px;max-width:var(--measure)}
+.fold-inner{overflow:hidden;color:var(--muted);font-size:.95rem;
+  border-top:1px solid var(--line);margin-top:2px;padding:16px 0 20px}
+.fold-inner p+p{margin-top:10px}
+.fold-inner b{color:var(--text);font-weight:500}
+.facet[open] .fold-inner{animation:unfold .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes unfold{
+  from{opacity:0;transform:perspective(900px) rotateX(-9deg) translateY(-6px);transform-origin:top}
+  to{opacity:1;transform:perspective(900px) rotateX(0) translateY(0);transform-origin:top}
+}
+@media (prefers-reduced-motion:reduce){
+  .facet[open] .fold-inner{animation:none}
+  .crease{transition:none}
+}
+
+/* nested sub-fold (resume: record -> scan -> target-fit) */
+.subfold{border:1px solid var(--line);border-radius:9px;margin-top:14px;overflow:hidden;
+  background:rgba(0,240,255,.02)}
+.subfold summary{padding:12px 15px}
+.subfold .role{font-size:9.5px;color:var(--cyan)}
+.subfold .sv{color:var(--text);font-size:.9rem;margin-top:5px;font-family:var(--serif)}
+.subfold .fold{padding:0 15px}
+.subfold .fold-inner{font-size:.9rem;padding:12px 0 15px}
+
+.legend{margin-top:34px;font-family:var(--mono);font-size:11px;color:var(--dim);
+  letter-spacing:.03em;line-height:1.7;border-top:1px solid var(--line);padding-top:18px}
+.legend b{color:var(--muted);font-weight:500}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- FOLDED STATE: the whole object at rest. reads in ten seconds, zero clicks. -->
+  <div class="eyebrow">Composite Identity</div>
+  <h1 class="name">Zach Harris</h1>
+  <p class="flag"><b>Proof over promises.</b> One operator, accountable end to end.</p>
+  <p class="opening">Five facets of one operator. The whole story is legible folded. <span class="k">Unfold any facet to the depth you want</span>, or read the verdicts and move on.</p>
+  <p class="hint">press a crease &#9671; to unfold &nbsp;·&nbsp; nothing is hidden, folds only add resolution</p>
+
+  <div class="stack">
+
+    <!-- FRONT DOOR -->
+    <details class="facet front">
+      <summary>
+        <div class="role"><span>The person &#183; consulting</span><span class="crease">&#9671;</span></div>
+        <div class="face-name">zachharris.xyz</div>
+        <div class="verdict">Wall Street quality, Main Street prices. The person you talk to is the person doing the work.</div>
+      </summary>
+      <div class="fold"><div class="fold-inner">
+        <p>The singular front door and the identity SSOT. Plain-spoken, no jargon, built for the buyer who has no time to figure out AI. Advisory, fractional, or deployed, one accountable operator, no middle layer.</p>
+        <p><b>The crease line:</b> every other facet flies this same flag and folds back to here.</p>
+      </div></div>
+    </details>
+
+    <!-- RECORD (nested origami) -->
+    <details class="facet path">
+      <summary>
+        <div class="role"><span>The record &#183; in-house path</span><span class="crease">&#9671;</span></div>
+        <div class="face-name">resume.arcs.care</div>
+        <div class="verdict">Applied AI. Decision intelligence. Forward-deployed. ARCS on Claude, MCP, and agents.</div>
+      </summary>
+      <div class="fold"><div class="fold-inner">
+        <p>The full-time path: the shipped record for a hiring manager who wants one accountable builder in regulated-capital reality. This facet folds again, into the evidence beneath the record.</p>
+
+        <details class="subfold">
+          <summary>
+            <div class="role"><span>Fold deeper &#183; the scan behind the record</span><span class="crease">&#9671;</span></div>
+            <div class="sv">How the record was derived, not just asserted.</div>
+          </summary>
+          <div class="fold"><div class="fold-inner">
+            <p>A profile scan reads the raw history into archetype dimensions; a target-role scan grades a specific opening against them. The resume is the top plane; the scan is the fold underneath that shows the work.</p>
+          </div></div>
+        </details>
+
+        <details class="subfold">
+          <summary>
+            <div class="role"><span>Fold deeper &#183; the target-fit</span><span class="crease">&#9671;</span></div>
+            <div class="sv">Tuned per role, from the same source of truth.</div>
+          </summary>
+          <div class="fold"><div class="fold-inner">
+            <p>Each application is a re-fold of one record against one job to be done. Same operator, same evidence, angled to catch that role's light. Read the JD, not the title.</p>
+          </div></div>
+        </details>
+      </div></div>
+    </details>
+
+    <!-- HUB -->
+    <details class="facet path">
+      <summary>
+        <div class="role"><span>The hub &#183; network</span><span class="crease">&#9671;</span></div>
+        <div class="face-name">LinkedIn <span class="host">in/zharris</span></div>
+        <div class="verdict">Two explicit paths, one builder. Full-time or independent, named in the About.</div>
+      </summary>
+      <div class="fold"><div class="fold-inner">
+        <p>The connective hub. Dual-audience by design: an applied-AI, forward-deployed builder who routes each visitor to whichever door fits, <b>resume.arcs.care</b> or <b>zachharris.xyz</b>.</p>
+      </div></div>
+    </details>
+
+    <!-- WORKSHOP -->
+    <details class="facet proof">
+      <summary>
+        <div class="role"><span>The workshop &#183; building in public</span><span class="crease">&#9671;</span></div>
+        <div class="face-name">build.arcs.care</div>
+        <div class="verdict">Everything I build, live. Sharp means shipped, dim means forming.</div>
+      </summary>
+      <div class="fold"><div class="fold-inner">
+        <p>Proof in motion. Readiness is the render channel, and the numbers are liveness-verified, not asserted. This is the facet that pre-empts the one doubt a buyer always has: a consultant who advises but never ships.</p>
+      </div></div>
+    </details>
+
+    <!-- GOODS -->
+    <details class="facet proof">
+      <summary>
+        <div class="role"><span>Open goods &#183; shipped</span><span class="crease">&#9671;</span></div>
+        <div class="face-name">good.arcs.care</div>
+        <div class="verdict">Open, MIT-licensed tools you can run yourself.</div>
+      </summary>
+      <div class="fold"><div class="fold-inner">
+        <p>The receipts anyone can inspect: rosetta-shell, germinate, resume-tailor, arcs-field-scan, and the skills family. The tools are open; the method is the intelligence that shapes them. Proof you do not have to take on faith.</p>
+      </div></div>
+    </details>
+
+  </div>
+
+  <div class="legend">
+    <b>The three rules this prototype holds:</b><br>
+    1 &#183; folded, every facet already shows its verdict (the takeaway needs no click)<br>
+    2 &#183; unfolding is optional depth, never a gate (the whole story reads at rest)<br>
+    3 &#183; the fold is quiet, a plane hinging from its crease, not a card flipping
+  </div>
+
+</div>
+</body>
+</html>
