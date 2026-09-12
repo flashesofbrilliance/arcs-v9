@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "_doc": "Triune harness convergence anchor — shared rendezvous plane for Claude Code, Hermes, and Perplexity across worktrees and profiles. Commit and push to propagate.",
-  "updated_at": "2026-09-12T03:50:00Z",
-  "global_beat": 3,
+  "_doc": "Triune harness convergence anchor \u2014 shared rendezvous plane for Claude Code, Hermes, and Perplexity across worktrees and profiles. Commit and push to propagate.",
+  "updated_at": "2026-09-12T01:19:44Z",
+  "global_beat": 4,
   "head": {
     "branch": "fresh-starts",
-    "sha": "d59c7cc8",
+    "sha": "(see git log; this commit)",
     "remote": "origin/fresh-starts"
   },
   "roles": {
@@ -17,7 +17,7 @@
     "claude_code": {
       "mode": "architect_compiler",
       "focus": "high-altitude architecture, ADR resolution, PR branches, worktree audit/reconciliation, type contracts",
-      "active_branch": "fresh-starts"
+      "active_branch": "claude/bridge-employer-index (+ renumber-* PR branches); fresh-starts anchor updated from a detached worktree"
     },
     "hermes": {
       "mode": "operator_actuator",
@@ -35,14 +35,17 @@
     {
       "id": "JTBD-002",
       "title": "Worktree & ADR-Collision Audit",
-      "status": "READY_FOR_CLAUDE",
-      "target": "Audit 71 worktrees, renumber colliding ADRs 038-041 on hold branches, identify dead trees for pruning"
+      "status": "PRS_OPEN_AWAITING_MERGE",
+      "target": "Audit 71 worktrees, renumber colliding ADRs 038-041 on hold branches, identify dead trees for pruning",
+      "proof": "_STATE/worktree-audit-2026-09-11.md + PRs #408 (oracle 78-81), #409 (ADR-078), #410 (ADR-079), #413 (ADR-080/081/041)",
+      "note": "74 worktrees swept by patch-id: 14 prunable, 8 ghost-history, 33 unmerged-stale, 18 active. Nothing pruned (human-owned). 3 hold branches renumbered via oracle and merged with main on new branches."
     },
     {
       "id": "JTBD-003",
       "title": "Substrate Placement Landing",
-      "status": "READY_FOR_CLAUDE",
-      "target": "Cherry-pick b0d8b5c1 (operators/README composition boundary) to main"
+      "status": "PR_OPEN_AWAITING_MERGE",
+      "target": "Cherry-pick b0d8b5c1 (operators/README composition boundary) to main",
+      "proof": "PR #407 (cherry-pick b0d8b5c1 onto claude/operators-composition-boundary)"
     },
     {
       "id": "JTBD-004",
@@ -92,13 +95,28 @@
           "_SPECS/job-search-invariant-shape.md",
           "_STATE/job-search/architect-review-triune-productization.md"
         ],
-        "escalation_resolved": "Schema collision (Hermes draft vs Perplexity owner-draft) — resolved: sensor owns its own output contract, Perplexity's version is canonical.",
+        "escalation_resolved": "Schema collision (Hermes draft vs Perplexity owner-draft) \u2014 resolved: sensor owns its own output contract, Perplexity's version is canonical.",
         "open_flags": [
-          "PII banner overclaims — redaction-QC (pii_leak_gate.py) is not the same guarantee as a network air-gap; language should be corrected",
-          "PWA surface (resume-tailor-pwa.html) unverified rendering — grep-confirmed only, not browser-verified",
-          "Supabase RLS tenant isolation untested — no passing isolation test yet"
+          "PII banner overclaims \u2014 redaction-QC (pii_leak_gate.py) is not the same guarantee as a network air-gap; language should be corrected",
+          "PWA surface (resume-tailor-pwa.html) unverified rendering \u2014 grep-confirmed only, not browser-verified",
+          "Supabase RLS tenant isolation untested \u2014 no passing isolation test yet"
         ]
       }
+    },
+    {
+      "id": "JTBD-005",
+      "title": "Bridge employer-quality index -> jobs.arcs.care",
+      "status": "LANDED",
+      "proof": "branch claude/bridge-employer-index (37badfc2): _STATE/job-search/employer-index/README.md; 133 boards, 578 winnable reqs live as source=bridge_scan UNSCORED",
+      "owner": "claude_code"
+    },
+    {
+      "id": "JTBD-006",
+      "title": "Scout intake gate: dossier schema drift",
+      "status": "OPEN_FOR_PERPLEXITY",
+      "proof": "scripts/scout_dossier_ingest.py validate _INBOX/evidence/SCOUT-parloa-fde-us-20260912.json -> INVALID: missing required extraction_risk",
+      "target": "Perplexity re-emits the Parloa dossier with extraction_risk {evergreen_or_recycled_req, bench_practice, unpaid_take_home_scope} + evidence refs; then `scout_dossier_ingest.py post` lands it as source=perplexity_scout",
+      "owner": "perplexity"
     }
   ],
   "invariants": {
