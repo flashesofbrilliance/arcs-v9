@@ -8,6 +8,17 @@ values: lighter surface, warmer text, brighter muted) so serif prose and mono in
 file. Blocks: mast · cold-open · wager (new) · movement · beats(06) · twin(14) · count(08)+power
 badge (new) · instrument (new) · pull-quote · old-story · rule(09) · tributaries (new) · thread (new,
 back+forward) · sources. Dictionary rule: no ARCS vocabulary in rendered copy.
+KINTSUGI SEAMS (ROM #6: repair visibly, never patch silently). Break -> repair -> guard:
+  1 ten small mono labels at 2.5 to 4.3:1 contrast -> --label token (6.1:1) -> design detector in pre-commit
+  2 eyebrow label above the h1 (floor ban) -> removed; the heading carries itself -> detector
+  3 zero-offset cyan glow on the topbar dot -> removed -> detector
+  4 three typefaces (Inter, Newsreader, JetBrains) -> two: serif for what happened, mono for what it measured -> ledger
+  5 five bordered cards competing with the two instruments -> tributaries as hairline rows, thread as plain rows, score as one cyan rule -> ledger
+  6 pull-quote repeated the rule strip -> lifted the surviving line from section II instead -> ledger
+  7 tributary buttons were CSS grids; the bare text node became a third grid item in the 18px dot column, one word per line -> content wrapped in one span -> inspection round (not yet mechanized)
+  8 forty-odd labels at 9 to 10px under an 11px functional-text floor -> every label raised to 11px+, tracking eased, three long uppercase labels shortened -> detector in pre-commit
+  accepted, not repaired: the 3px left rail on kit beat rows is the kit's own primitive (06); the detector's default disagrees; the decision belongs to the design system, booked in the ledger
+Ledger: _PATTERNS/kintsugi-visual-grammar-seams.md
 -->
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +26,7 @@ back+forward) · sources. Dictionary rule: no ARCS vocabulary in rendered copy.
 <title>Warmth Routes You</title>
 <meta name="description" content="Two robots booked a meeting and nobody in it could have a job. Today I learned the difference between being liked and being hired.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -60,63 +71,71 @@ back+forward) · sources. Dictionary rule: no ARCS vocabulary in rendered copy.
 }
 /* READING LAYER: the NFTT No. 21 values, added as tokens rather than forked as a second :root. */
 :root { --surface-reading:#0b1017; --text-reading:#e7ecf3; --muted-reading:#9aa8bc; --cyan-dim:#3aa8b4; --redact:#26303d; --border-2:#2a3a4d;
-        --font-serif:'Newsreader',Georgia,'Times New Roman',serif; --font-sans:'Inter',system-ui,sans-serif; --font-display:'Newsreader',Georgia,serif; --measure:40rem; }
+        --font-serif:'Newsreader',Georgia,'Times New Roman',serif; --font-sans:'Newsreader',Georgia,serif; --font-display:'Newsreader',Georgia,serif; --measure:40rem;
+        --label:#8797ad; /* small mono labels: 6.1:1 on bg, 5.7:1 on surface-reading (AA for small text) */ }
 
 * { box-sizing:border-box; margin:0; padding:0; }
-html { background:var(--bg); color:var(--text-reading); font-family:var(--font-serif); -webkit-font-smoothing:antialiased; }
+button, input { font:inherit; }
+html { background:var(--bg); color:var(--text-reading); font-family:var(--font-serif); -webkit-font-smoothing:antialiased; scrollbar-color:var(--border-2) var(--bg); caret-color:var(--cyan); }
+::selection { background:rgba(0,240,255,.22); color:var(--text-reading); }
+.mono, .td-val, .badge, .topbar, .receipt-table { font-variant-numeric:tabular-nums; }
 body { min-height:100vh; background:var(--bg); }
-a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
-.wrap { max-width:44rem; margin:0 auto; padding:28px 24px 72px; display:flex; flex-direction:column; gap:28px; }
+a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; text-underline-offset:.16em; }
+.wrap { max-width:44rem; margin:0 auto; padding:28px 24px 72px; display:flex; flex-direction:column; gap:20px; }
+/* ma: prose and instruments breathe apart; things inside a group stay tight */
+.wrap > section { margin-top:28px; } .wrap > section + section { margin-top:12px; }
+.wrap > .wager, .wrap > .instrument, .wrap > blockquote { margin:20px 0; }
+.mast { display:flex; flex-direction:column; gap:12px; }
 p { max-width:var(--measure); text-wrap:pretty; } h1,h2,h3 { text-wrap:balance; }
 .mono { font-family:var(--font-mono); }
 
 /* mast: NFTT topbar fused with kit 01 badges */
-.topbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-reading); }
-.topbar .dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:var(--cyan-glow); }
-.topbar .sp { margin-left:auto; color:var(--dimmed); }
+.topbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--label); }
+.topbar .dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); }
+.topbar .sp { margin-left:auto; color:var(--label); }
 .badges { display:flex; gap:8px; flex-wrap:wrap; }
-.badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:9.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:4px 10px; border-radius:var(--r-sm); border:1px solid; white-space:nowrap; }
+.badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:var(--r-sm); border:1px solid; white-space:nowrap; }
 .badge.light { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
 .badge.light.green { border-color:var(--green); color:var(--green); background:var(--green-bg); }
 .badge.light.red { border-color:var(--red); color:var(--red); background:var(--red-bg); }
 .badge.power { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
-.eyebrow { font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); max-width:none; }
 h1 { font-family:var(--font-serif); font-weight:500; font-size:clamp(34px,6vw,54px); line-height:1.02; letter-spacing:-.02em; color:var(--text-reading); }
 h1 em { font-style:italic; color:var(--cyan); }
 .standfirst { max-width:none; font-size:20px; line-height:1.45; font-style:italic; color:var(--muted-reading); transition:opacity .2s, filter .2s; }
 .standfirst.grain { opacity:.72; filter:blur(.6px); font-weight:400; }
-.byline { font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; color:var(--dimmed); text-transform:uppercase; max-width:none; }
+.byline { font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; max-width:none; }
 
 /* movements */
-section h2 { font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:12px; }
+section h2 { font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:12px; }
 section h2 .num { color:var(--cyan); margin-right:8px; }
 section p { font-size:17.5px; line-height:1.62; color:var(--text-reading); margin-bottom:14px; }
 section p.lead::first-letter { font-size:3.1em; line-height:.8; float:left; margin:6px 10px 0 0; color:var(--cyan); font-weight:500; }
 blockquote { border-left:2px solid var(--cyan); padding:6px 0 6px 18px; font-size:19px; line-height:1.45; font-style:italic; color:var(--text-reading); max-width:var(--measure); }
-blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:10px; letter-spacing:.08em; color:var(--dimmed); text-transform:uppercase; }
-.section-label { font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; max-width:none; }
+blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; }
+h2.section-label { font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--label); margin-bottom:12px; max-width:none; }
 
 /* wager (new) */
 .wager { border:1px solid var(--border-2); border-radius:var(--r-lg); background:var(--surface-reading); padding:18px 20px; }
 .wager .q { font-size:17px; line-height:1.5; color:var(--text-reading); margin-bottom:14px; max-width:none; }
 .wager .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-.wager button { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:9px 16px; border-radius:var(--r-sm); border:1px solid var(--border-2); background:var(--surface-2); color:var(--text-reading); cursor:pointer; }
+.wager button { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; min-height:44px; padding:0 18px; border-radius:var(--r-sm); border:1px solid var(--border-2); background:var(--surface-2); color:var(--text-reading); cursor:pointer; transition:border-color .15s, color .15s; }
+.wager button:hover { border-color:var(--cyan-dim); }
 .wager button:focus-visible, .instrument input:focus-visible, .trib button:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
 .wager button.on { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-bg); }
-.wager label { font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; color:var(--muted-reading); text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.wager label { font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; display:flex; align-items:center; gap:8px; min-height:44px; }
 .wager input[type=range] { width:140px; accent-color:var(--cyan); }
-.wager .stored { font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; color:var(--dimmed); margin-top:10px; }
+.wager .stored { font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); margin-top:8px; }
 
 /* kit 06 beats + fidelity */
 .beat-list { display:flex; flex-direction:column; gap:8px; }
 .beat-item { display:flex; align-items:flex-start; gap:14px; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 16px; position:relative; overflow:hidden; transition:opacity .25s; }
 .beat-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--beat-color,var(--border)); }
-.beat-number { width:26px; height:26px; border-radius:50%; background:var(--beat-color,var(--muted)); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--font-sans); font-size:12px; font-weight:700; color:var(--bg); }
+.beat-number { width:26px; height:26px; border-radius:50%; background:var(--beat-color,var(--muted)); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--bg); }
 .beat-content { flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
-.beat-title { font-family:var(--font-sans); font-size:14px; font-weight:600; color:var(--beat-color,var(--text-reading)); }
+.beat-title { font-family:var(--font-serif); font-size:16px; font-weight:600; letter-spacing:-.005em; color:var(--beat-color,var(--text-reading)); }
 .beat-body { font-family:var(--font-serif); font-size:15px; line-height:1.55; color:var(--muted-reading); max-width:none; }
 .beat-body q { font-style:italic; color:var(--text-reading); quotes:"\201C" "\201D"; }
-.beat-tag { flex-shrink:0; font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:.1em; padding:3px 8px; border-radius:var(--r-sm); border:1px solid var(--beat-color,var(--border)); color:var(--beat-color,var(--muted)); background:rgba(255,255,255,.03); white-space:nowrap; }
+.beat-tag { flex-shrink:0; font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.06em; padding:3px 8px; border-radius:var(--r-sm); border:1px solid var(--beat-color,var(--border)); color:var(--beat-color,var(--label)); white-space:nowrap; }
 .beat-cyan{--beat-color:var(--cyan)} .beat-green{--beat-color:var(--green)} .beat-gold{--beat-color:var(--gold)} .beat-red{--beat-color:var(--red)} .beat-steel{--beat-color:var(--dimmed)}
 .fid-sharp{opacity:1} .fid-degraded{opacity:.85} .fid-grain{opacity:.68}
 @media (max-width:640px){ .beat-item{flex-wrap:wrap} .beat-tag{order:3} }
@@ -124,8 +143,8 @@ blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); f
 /* kit 14 twin */
 .fidelity-twin { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
 .twin-cell { padding:12px 14px; border:1px solid var(--border); border-radius:var(--r-sm); background:var(--surface-2); transition:opacity .25s; }
-.twin-label { font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:6px; display:block; }
-.twin-cell p { font-family:var(--font-sans); font-size:12.5px; line-height:1.55; color:var(--muted-reading); max-width:none; margin:0; }
+.twin-label { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; display:block; }
+.twin-cell p { font-family:var(--font-serif); font-size:14px; line-height:1.5; color:var(--muted-reading); max-width:none; margin:0; }
 .twin-cell p b { color:var(--text-reading); }
 .twin-cell.as-rendered { border-color:var(--green); background:var(--green-bg); } .twin-cell.as-rendered .twin-label { color:var(--green); }
 .twin-cell.as-earned { border-color:var(--gold); background:var(--gold-bg); } .twin-cell.as-earned .twin-label { color:var(--gold); }
@@ -135,7 +154,7 @@ blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); f
 .receipt-table { width:100%; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; border-collapse:collapse; }
 .receipt-table tr { border-bottom:1px solid rgba(30,41,59,.6); } .receipt-table tr:last-child { border-bottom:none; }
 .receipt-table td { padding:11px 16px; vertical-align:top; }
-.td-key { font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em; white-space:nowrap; width:34%; border-right:1px solid var(--border); }
+.td-key { font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--label); letter-spacing:.03em; white-space:nowrap; width:34%; border-right:1px solid var(--border); }
 .td-val { font-family:var(--font-mono); font-size:12.5px; color:var(--text-reading); line-height:1.5; }
 .td-val .big { font-size:22px; font-weight:700; line-height:1; margin-right:8px; }
 @media (max-width:640px){ .receipt-table,.receipt-table tbody,.receipt-table tr,.receipt-table td{display:block;width:100%} .td-key{border-right:none;border-bottom:1px dashed var(--border);white-space:normal} }
@@ -145,7 +164,8 @@ blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); f
 .instrument { border:1px solid var(--border-2); border-radius:var(--r-lg); background:var(--surface-reading); padding:18px 20px; }
 .instrument .q { font-size:16.5px; line-height:1.5; color:var(--text-reading); margin-bottom:12px; max-width:none; }
 .instrument input[type=range] { width:100%; accent-color:var(--gold); }
-.instrument .levels { display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:9px; letter-spacing:.06em; color:var(--dimmed); text-transform:uppercase; margin-top:4px; }
+.instrument .levels { display:flex; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); text-transform:uppercase; margin-top:6px; }
+@media (max-width:640px){ .instrument .levels { flex-wrap:wrap; } .instrument .levels span { flex:1 1 45%; } }
 .instrument .read { margin-top:12px; display:grid; grid-template-columns:1fr; gap:8px; }
 .instrument .line { font-family:var(--font-mono); font-size:11.5px; line-height:1.5; padding:9px 12px; border-radius:var(--r-sm); border:1px solid var(--border); background:var(--surface-2); color:var(--muted-reading); }
 .instrument .line.ok { border-color:var(--green); color:var(--green); background:var(--green-bg); }
@@ -155,43 +175,51 @@ blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); f
 /* kit 09 rule */
 .banked-lesson { padding:14px 20px; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); font-family:var(--font-serif); font-size:16.5px; line-height:1.55; color:var(--muted-reading); text-align:center; font-style:italic; max-width:none; }
 .banked-lesson strong { color:var(--text-reading); font-style:normal; }
-.banked-lesson .proof { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:10px; letter-spacing:.08em; color:var(--dimmed); text-transform:uppercase; }
+.banked-lesson .proof { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; }
 
 /* tributaries + thread (new) */
-.trib { display:grid; grid-template-columns:1fr; gap:10px; }
-.trib button { text-align:left; font-family:var(--font-serif); font-size:16px; line-height:1.45; padding:14px 16px; border-radius:var(--r-md); border:1px solid var(--border); background:var(--surface-reading); color:var(--text-reading); cursor:pointer; }
-.trib button .k { display:block; font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:6px; }
-.trib button.on { border-color:var(--cyan); background:var(--cyan-bg); }
-.trib-note { font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; color:var(--dimmed); margin-top:10px; }
-.thread { border:1px solid var(--border); border-radius:var(--r-md); background:var(--surface-reading); padding:14px 18px; display:grid; grid-template-columns:1fr; gap:10px; }
-.thread .t { font-family:var(--font-serif); font-size:15px; line-height:1.5; color:var(--muted-reading); max-width:none; }
-.thread .t .k { font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan-dim); display:block; margin-bottom:3px; }
+/* tributaries: a list, not three cards. Hairlines carry the separation; the chosen row lights its dot. */
+.trib { display:flex; flex-direction:column; border-top:1px solid var(--border); }
+.trib button { display:grid; grid-template-columns:18px 1fr; gap:14px; align-items:start; text-align:left; width:100%; font-family:var(--font-serif); font-size:16.5px; line-height:1.45; padding:14px 4px; min-height:44px; border:0; border-bottom:1px solid var(--border); background:transparent; color:var(--text-reading); cursor:pointer; transition:background .15s; }
+.trib button:hover { background:var(--surface-reading); }
+.trib button::before { content:''; width:10px; height:10px; margin-top:7px; border-radius:50%; border:1px solid var(--border-2); transition:background .15s, border-color .15s; }
+.trib button.on::before { background:var(--cyan); border-color:var(--cyan); }
+.trib button .t { min-width:0; }
+.trib button .k { display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:4px; }
+.trib-note { font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); margin-top:10px; }
+/* thread: plain rows above the footer */
+.thread { display:grid; grid-template-columns:1fr; gap:14px; padding-top:4px; }
+.thread .t { font-family:var(--font-serif); font-size:15.5px; line-height:1.5; color:var(--muted-reading); max-width:none; }
+.thread .t .k { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan-dim); display:block; margin-bottom:3px; }
 .thread .t.fwd .k { color:var(--gold); }
-.result { border:1px solid var(--cyan); border-radius:var(--r-md); background:var(--cyan-bg); padding:14px 18px; font-family:var(--font-serif); font-size:16.5px; line-height:1.55; color:var(--text-reading); max-width:none; }
-.result .k { font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:6px; }
-footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; line-height:1.8; color:var(--dimmed); }
+/* the reader's score: one cyan hairline, no box */
+.result { border-top:1px solid var(--cyan); padding-top:14px; font-family:var(--font-serif); font-size:16.5px; line-height:1.55; color:var(--text-reading); max-width:none; }
+.result .k { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:6px; }
+footer .seam { color:var(--gold); display:block; margin-bottom:10px; }
+footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em; line-height:1.75; color:var(--label); }
 @media (prefers-reduced-motion: reduce){ .standfirst,.beat-item,.twin-cell{transition:none} }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 
+<header class="mast">
 <div class="topbar"><span class="dot"></span><span>Today I Learned</span><span>//</span><span>Ep 01</span><span class="sp">Sibling of Notes from the Trenches</span></div>
-<div class="badges"><span class="badge light" id="light">YELLOW LIGHT</span><span class="badge power">NOT ENOUGH DATA · TRIED TWICE</span><span class="badge" style="border-color:var(--border-2);color:var(--muted-reading)">SOURCES: MY OWN INBOX</span></div>
+<div class="badges"><span class="badge light" id="light">YELLOW LIGHT</span><span class="badge power">NOT ENOUGH DATA · TRIED TWICE</span></div>
 
 <div>
-  <div class="eyebrow">On being liked, being hired, and the difference</div>
-  <h1 style="margin-top:10px">Warmth <em>routes</em> you.<br>Only a job hires you.</h1>
+  <h1>Warmth <em>routes</em> you.<br>Only a job hires you.</h1>
   <p class="standfirst grain" id="standfirst">Today I learned that two robots can set up a meeting and nobody in it can have a job. The boss's robot posted a puzzle. My robot solved it. Two weeks later the nicest person at the company wrote to say no thank you. Nobody lied. There was just no job, and every tool I own had told me that, and I colored the whole thing green anyway.</p>
   <p class="byline">Names withheld, roles kept · no money figures · every quote verbatim from my own mail and call notes</p>
 </div>
+</header>
 
 <!-- WAGER (new): predict before the reveal -->
-<div class="wager" id="wager">
-  <div class="section-label">Before you keep reading, guess</div>
+<div class="wager" id="wager" role="group" aria-labelledby="wagerLabel">
+  <h2 class="section-label" id="wagerLabel">Before you keep reading, guess</h2>
   <p class="q">The boss of a big team says, in writing, that he wants me to meet his top guy. The recruiter likes me. The money is fine. She invites me to their secret bar. <b>Do I have a job within a month?</b></p>
   <div class="row">
-    <button data-a="yes">Yes</button><button data-a="no">No</button>
+    <button type="button" data-a="yes" aria-pressed="false">Yes</button><button type="button" data-a="no" aria-pressed="false">No</button>
     <label>How sure <input type="range" id="sure" min="50" max="100" value="70"> <span id="sureVal">70%</span></label>
   </div>
   <div class="stored" id="stored">Your guess is kept in this browser only, and scored at the bottom. I said yes, at about seventy percent.</div>
@@ -208,12 +236,12 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   <h2><span class="num">II</span>What everyone was careful with</h2>
   <p>Here is the strange part, and it isn't anyone's fault. Everybody in this story was careful with time. Their own. The first call was booked for forty-five minutes and cut to fifteen before it started. The recruiter's thirty minutes ended because she was already late to the next thing. The boss's one request was for something easier to forward, which means: I like this, please do the part where I have to explain it. All of that is reasonable. Busy people ration their minutes. That's what busy means.</p>
   <p>And then there's my time, which the same people handed out like it was free, because to them it was. Stay in touch. Send me a brief. Let's see how things evolve. Nobody says "there is no job" to a person they like, because it sounds unkind. So they say the kind thing, which costs them nothing and costs the person hearing it about two weeks. The nicer people are, the longer the no takes to arrive, and the longer it takes, the more websites you build while you wait.</p>
-  <p>I'd like to say I was the exception. I sent the recruiter homework before our call and five versions of her own job description after it. I guarded my minutes and spent theirs, same as everyone. Time was the only thing in this story anybody spent freely, and it was always somebody else's.</p>
+  <p>I'd like to say I was the exception. I sent the recruiter homework before our call and five versions of her own job description after it. I guarded my minutes and spent theirs, same as everyone.</p>
 </section>
 
 <!-- BEATS (kit 06) at earned fidelity + TWIN (kit 14) -->
 <div>
-  <div class="section-label">What happened · each row drawn as sharp as it deserved</div>
+  <h2 class="section-label">What happened</h2>
   <div class="beat-list" id="beats">
     <div class="beat-item beat-green fid-sharp" data-earned="sharp"><div class="beat-number">1</div><div class="beat-content"><div class="beat-title">Day 1 · the call, and the deck that night</div><div class="beat-body">He named where he'd start me. He asked for something in writing. I sent it before midnight and told him the mandate mattered more than the title.</div></div><div class="beat-tag">WARM</div></div>
     <div class="beat-item beat-green fid-sharp" data-earned="sharp"><div class="beat-number">2</div><div class="beat-content"><div class="beat-title">Day 5 · <q>loved what you built</q></div><div class="beat-body">He introduced the recruiter and asked, in writing, for me to meet his top guy. She sent a booking link within two hours. This was the high-water mark, and it was entirely warmth. Nobody mentioned a job.</div></div><div class="beat-tag">VOUCHED</div></div>
@@ -230,7 +258,7 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
 
 <!-- COUNT (kit 08) + power badge -->
 <div>
-  <div class="section-label">The count</div>
+  <h2 class="section-label">The count</h2>
   <table class="receipt-table"><tbody>
     <tr><td class="td-key">times I've done this</td><td class="td-val"><span class="big" style="color:var(--gold)">2</span>once here, once with a founder the year before</td></tr>
     <tr><td class="td-key">someone important vouched</td><td class="td-val"><span class="big" style="color:var(--green)">2 of 2</span></td></tr>
@@ -244,19 +272,19 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
 </div>
 
 <!-- INSTRUMENT (new): the tripwire, operable -->
-<div class="instrument" id="instrument">
-  <div class="section-label">Try the tripwire · slide it and watch the page above change</div>
-  <p class="q">Is there actually a job? Set the dial to where the story was on Day 7 and see what I'd have been allowed to draw.</p>
+<div class="instrument" id="instrument" role="group" aria-labelledby="instLabel">
+  <h2 class="section-label" id="instLabel">Try the tripwire</h2>
+  <p class="q">Is there actually a job? Slide the dial and watch the page above change. Day 7 was a one.</p>
   <input type="range" id="dial" min="0" max="3" value="1" step="1" aria-label="Is there actually a job, from 0 to 3">
   <div class="levels"><span>0 · nobody who can hire</span><span>1 · described, not written</span><span>2 · written down</span><span>3 · written, funded, met</span></div>
-  <div class="read">
+  <div class="read" aria-live="polite">
     <div class="line" id="lineLight"></div>
     <div class="line" id="lineTrip"></div>
     <div class="line" id="lineAllowed"></div>
   </div>
 </div>
 
-<blockquote>Being liked gets you in the room. Only a real job gets you hired. The nicer the room, the longer it takes to find that out.<cite>the line that has to survive</cite></blockquote>
+<blockquote>Time was the only thing in this story anybody spent freely, and it was always somebody else's.<cite>the line that has to survive</cite></blockquote>
 
 <section>
   <h2><span class="num">III</span>The old story</h2>
@@ -274,17 +302,17 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
 <div class="banked-lesson"><strong>The rule.</strong> Being liked gets you in the room. Only a real job gets you hired. I built a tripwire that won't let me color anything green when there's no job under it. It's thirty-one lines long and it would have stopped me both times before I made a single thing. I built it two months after three different people, one of them my wife, told me the rule inside of eight days. This week's time I fooled myself: this one.<span class="proof">Proof · the tripwire lives at commit 1586a7ab · the write-up at 131f55b7</span></div>
 
 <!-- WAGER RESULT -->
-<div class="result" id="result" hidden><span class="k">Your guess, scored</span><span id="resultText"></span></div>
+<div class="result" id="result" hidden aria-live="polite"><span class="k">Your guess, scored</span><span id="resultText"></span></div>
 
 <!-- TRIBUTARIES (new) -->
 <div>
-  <div class="section-label">Three questions to ask next · pick one, it becomes the next episode</div>
-  <div class="trib" id="trib">
-    <button data-t="meta"><span class="k">Underneath</span>How many other rules are sitting in my inbox, already said out loud, waiting for me to catch up?</button>
-    <button data-t="challenge"><span class="k">Against me</span>Is a friend with no job really worth more than a stranger with one, or is that what I tell myself so I can keep building websites?</button>
-    <button data-t="adjacent"><span class="k">Sideways</span>What if I'd offered to do the first sixty days as a project instead of asking for the job, and who has done that and gotten hired?</button>
+  <h2 class="section-label" id="tribLabel">Three questions to ask next</h2>
+  <div class="trib" id="trib" role="group" aria-labelledby="tribLabel">
+    <button type="button" data-t="meta" aria-pressed="false"><span class="t"><span class="k">Underneath</span>How many other rules are sitting in my inbox, already said out loud, waiting for me to catch up?</span></button>
+    <button type="button" data-t="challenge" aria-pressed="false"><span class="t"><span class="k">Against me</span>Is a friend with no job really worth more than a stranger with one, or is that what I tell myself so I can keep building websites?</span></button>
+    <button type="button" data-t="adjacent" aria-pressed="false"><span class="t"><span class="k">Sideways</span>What if I'd offered to do the first sixty days as a project instead of asking for the job, and who has done that and gotten hired?</span></button>
   </div>
-  <div class="trib-note" id="tribNote">Your pick is kept in this browser only.</div>
+  <div class="trib-note" id="tribNote">Pick one. It becomes the next episode. Your pick is kept in this browser only.</div>
 </div>
 
 <!-- THREAD (new): back + forward -->
@@ -293,8 +321,8 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   <div class="t fwd"><span class="k">Forward · Ep 02</span>I Copied the Copy: I built the same page twice in one day, and the first one passed every test I had. That's a fact about the tests.</div>
 </div>
 
-<footer>Built only from my own inbox and call notes. Names withheld; roles kept. No money figures. Every quote is verbatim. The other case, the founder the year before, is told in the count and not by name.<br>Proof of the tripwire: commit 1586a7ab. Proof of the write-up: 131f55b7. Not advice about your job search. A story with a spreadsheet.</footer>
-</div>
+<footer><span class="seam">Repaired before shipping, and kept on the record: ten labels too dim to read, a label sitting on top of the title, a glow, a third typeface, three cards that did not need to be cards, a line said twice, a list that fell apart one word per line, and forty labels a size too small to read. Eight seams. The record of each is in the source.</span><br>Built only from my own inbox and call notes. Names withheld; roles kept. No money figures. Every quote is verbatim. The other case, the founder the year before, is told in the count and not by name. Not advice about your job search. A story with a spreadsheet.</footer>
+</main>
 
 <script>
 (function(){
@@ -308,9 +336,9 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   sure.addEventListener('input',function(){sureVal.textContent=sure.value+'%'});
   var ans=ls.get('til01.answer'); var s=ls.get('til01.sure');
   document.querySelectorAll('#wager button').forEach(function(b){
-    if(ans===b.dataset.a) b.classList.add('on');
+    if(ans===b.dataset.a){b.classList.add('on');b.setAttribute('aria-pressed','true')}
     b.addEventListener('click',function(){
-      document.querySelectorAll('#wager button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+      document.querySelectorAll('#wager button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false')}); b.classList.add('on'); b.setAttribute('aria-pressed','true');
       ls.set('til01.answer',b.dataset.a); ls.set('til01.sure',sure.value); ans=b.dataset.a; s=sure.value;
       stored.textContent='Kept: '+b.dataset.a.toUpperCase()+', '+sure.value+'% sure. Scored at the bottom.'; score();
     });
@@ -327,8 +355,9 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   var dial=document.getElementById('dial'), light=document.getElementById('light');
   var L=document.getElementById('lineLight'), T=document.getElementById('lineTrip'), A=document.getElementById('lineAllowed');
   var beats=document.querySelectorAll('#beats .beat-item');
+  var names=['nobody who can hire','described, not written','written down','written, funded, met'];
   function setDial(v){
-    v=+v;
+    v=+v; dial.setAttribute('aria-valuetext',names[v]);
     var green=v>=3, yellow=v===2;
     light.textContent= green?'GREEN LIGHT':(yellow?'YELLOW LIGHT':'NO GREEN LIGHT · LEVEL '+v);
     light.className='badge light'+(green?' green':(yellow?'':' red'));
@@ -349,8 +378,8 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   // tributaries
   var pick=ls.get('til01.trib'), note=document.getElementById('tribNote');
   document.querySelectorAll('#trib button').forEach(function(b){
-    if(pick===b.dataset.t) b.classList.add('on');
-    b.addEventListener('click',function(){document.querySelectorAll('#trib button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');ls.set('til01.trib',b.dataset.t);note.textContent='Kept. You picked "'+b.querySelector('.k').textContent+'". That is your vote for Ep 02.';});
+    if(pick===b.dataset.t){b.classList.add('on');b.setAttribute('aria-pressed','true')}
+    b.addEventListener('click',function(){document.querySelectorAll('#trib button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false')});b.classList.add('on');b.setAttribute('aria-pressed','true');ls.set('til01.trib',b.dataset.t);note.textContent='Kept. You picked "'+b.querySelector('.k').textContent+'". That is your vote for Ep 02.';});
   });
   if(pick) note.textContent='Kept. You picked "'+(document.querySelector('#trib button.on .k')||{}).textContent+'". That is your vote for Ep 02.';
 })();
