@@ -106,6 +106,6 @@ the work. Gate: renumber each to the next available ADR slot before merge.
 the collision files in each branch before cherry-picking or rebasing onto main. The three branches
 are independent of each other — renumber in any order.
 
-**RESOLVED 2026-09-11 (Triune Stream A):** all three renumbered via `scripts/oracle.py` (ADR-078 exogenous-forge · ADR-079 refusal-to-overclaim · ADR-080 instance-to-class · ADR-081 kairos-detector · ADR-041 kept, free on main), each merged with main on a new branch with state files taking main's version. PRs: #408 (oracle counter, merge first) · #409 · #410 · #413. Full sweep of all 74 worktrees: `_STATE/worktree-audit-2026-09-11.md`. Original hold worktrees become removable once their PR merges.
+**RESOLVED 2026-09-11 (Triune Stream A):** all three renumbered via `scripts/oracle.py` (ADR-078 exogenous-forge · ADR-079 refusal-to-overclaim · ADR-080 instance-to-class · ADR-081 kairos-detector · ADR-041 kept, free on main), each merged with main on a new branch with state files taking main's version. PRs #408 · #409 · #410 · #413 ALL MERGED to main 2026-09-11/12 (5bf0e574, 109d080c, 90acca7c, 904bd607); receipt `2026-09-11--triune-hold-branch-and-bridge-merges--ZH`. Full sweep of all 74 worktrees: `_STATE/worktree-audit-2026-09-11.md`. Original hold worktrees become removable once their PR merges.
 
 *Last updated: 2026-09-11 (Triune Stream A; prior 2026-08-03 worktree audit)*

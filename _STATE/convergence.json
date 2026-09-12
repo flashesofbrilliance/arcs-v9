@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "_doc": "Triune harness convergence anchor \u2014 shared rendezvous plane for Claude Code, Hermes, and Perplexity across worktrees and profiles. Commit and push to propagate.",
-  "updated_at": "2026-09-12T01:20:15Z",
-  "global_beat": 5,
+  "updated_at": "2026-09-12T01:46:21Z",
+  "global_beat": 6,
   "head": {
     "branch": "fresh-starts",
-    "sha": "(see git log; this commit)",
+    "sha": "(this commit)",
     "remote": "origin/fresh-starts"
   },
   "roles": {
@@ -35,17 +35,17 @@
     {
       "id": "JTBD-002",
       "title": "Worktree & ADR-Collision Audit",
-      "status": "PRS_OPEN_AWAITING_MERGE",
+      "status": "LANDED",
       "target": "Audit 71 worktrees, renumber colliding ADRs 038-041 on hold branches, identify dead trees for pruning",
-      "proof": "_STATE/worktree-audit-2026-09-11.md + PRs #408 (oracle 78-81), #409 (ADR-078), #410 (ADR-079), #413 (ADR-080/081/041)",
+      "proof": "merged to main: #408 oracle 77->81 (5bf0e574), #409 ADR-078 (109d080c), #410 ADR-079 (90acca7c), #413 ADR-080/081+041 (904bd607). Audit: _STATE/worktree-audit-2026-09-11.md. Original hold worktrees now removable (human-owned).",
       "note": "74 worktrees swept by patch-id: 14 prunable, 8 ghost-history, 33 unmerged-stale, 18 active. Nothing pruned (human-owned). 3 hold branches renumbered via oracle and merged with main on new branches."
     },
     {
       "id": "JTBD-003",
       "title": "Substrate Placement Landing",
-      "status": "PR_OPEN_AWAITING_MERGE",
+      "status": "LANDED",
       "target": "Cherry-pick b0d8b5c1 (operators/README composition boundary) to main",
-      "proof": "PR #407 (cherry-pick b0d8b5c1 onto claude/operators-composition-boundary)"
+      "proof": "#407 merged to main (5f62c9b8): operators/README.md 'Composition Boundary \u2014 Agentic Harness' section"
     },
     {
       "id": "JTBD-004",
@@ -61,9 +61,9 @@
       "integration_target": "main (Separate Product Lane)",
       "notes": "Thread 2 authoring sibling spec runtime/specs/bridge-scan.json (DO NOT flag as collision in worktree sweep). Standardizing row schema with source='bridge_scan' to unify with Perplexity intake dossiers in _INBOX/evidence/.",
       "bridge_index": {
-        "status": "LANDED",
+        "status": "LANDED_ON_MAIN",
         "branch": "claude/bridge-employer-index (37badfc2, base main)",
-        "proof": "branch claude/bridge-employer-index (37badfc2): _STATE/job-search/employer-index/README.md; 133 boards, 578 winnable reqs live as source=bridge_scan UNSCORED",
+        "proof": "#415 merged (19e2bc7b): scripts/bridge_index_scan.py + _STATE/job-search/employer-index/; 578 reqs live as bridge_scan",
         "note": "Thread 1 of the 3-way fork; Thread 2 (bridge-scan-rubric) scores the UNSCORED rows. runtime/specs/bridge-scan.json is Thread 2's, not a collision."
       }
     },
@@ -128,5 +128,6 @@
     "pulse_clock": "_STATE/pulse.json",
     "master_queue": "_QUEUE/PENDING.md",
     "receipt_ledger": "decision_receipt (Supabase xbbpiryokswwvcrcutge)"
-  }
+  },
+  "main_head": "19e2bc7b"
 }
