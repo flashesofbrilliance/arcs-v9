@@ -140,4 +140,34 @@ if [ -f scripts/req_reality_gate.py ] && command -v python3 >/dev/null 2>&1; the
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# token-source gate (re-authored-palette class, 2026-09-11): a staged single-file HTML
+# surface that paints an ARCS signal hex in a custom property must inherit
+# src/ui-kit/recoil-report/_tokens.css (linked, or inlined verbatim with its sentinel
+# line), never re-declare the palette under its own names. Added-or-modified files;
+# a file whose HEAD version already violated only WARNS (ratchet). Stdlib-only.
+# See scripts/token_source_gate.py and memory arcs-fieldos-design-system.
+if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 'public/*.html' 'public/**/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    tmpd=$(mktemp -d); args=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      headf="-"
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        headf="$tmpd/$(echo "$f" | tr '/' '_')"; git show "HEAD:$f" > "$headf" 2>/dev/null || headf="-"
+      fi
+      args="$args $f $headf"
+    done <<< "$pages"
+    # shellcheck disable=SC2086
+    if ! python3 scripts/token_source_gate.py --pair $args; then
+      rm -rf "$tmpd"
+      echo "✖ commit blocked: token-source gate — a NEW page re-authors the ARCS palette instead of inheriting _tokens.css (see above)." >&2
+      echo "  inline src/ui-kit/recoil-report/_tokens.css verbatim (keep its header line) or <link> it; do not rename tokens." >&2
+      exit 1
+    fi
+    rm -rf "$tmpd"
+  fi
+fi
+
 exit 0
