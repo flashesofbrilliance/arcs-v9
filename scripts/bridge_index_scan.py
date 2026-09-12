@@ -190,11 +190,13 @@ def probe_one(name: str, explicit: dict | None = None):
     return {"ats": None, "slug": None, "n": 0, "tried": len(tried)}
 
 
-def cmd_probe(path: str, hints_path: str | None = None):
+def cmd_probe(path: str, hints_path: str | None = None, retry_misses: bool = False, workers: int = 8):
+    """Resolve names -> boards. Cached hits are never re-probed; cached misses are re-probed only
+    with --retry-misses (or when a hint exists for them)."""
     names = [l.strip() for l in (sys.stdin if path == "-" else open(path)) if l.strip() and not l.startswith("#")]
     hints = json.loads(Path(hints_path).read_text()) if hints_path else {}
     cache = load_cache()
-    todo = [n for n in names if n not in cache or (cache[n].get("ats") is None and n in hints)]
+    todo = [n for n in names if n not in cache or (cache[n].get("ats") is None and (retry_misses or n in hints))]
     print(f"probe: {len(names)} names, {len(todo)} to probe ({len(names) - len(todo)} cached)", file=sys.stderr)
 
     def work(n):
@@ -202,7 +204,7 @@ def cmd_probe(path: str, hints_path: str | None = None):
         r["probed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         return n, r
 
-    with ThreadPoolExecutor(max_workers=8) as ex:
+    with ThreadPoolExecutor(max_workers=workers) as ex:
         for i, (n, r) in enumerate(ex.map(work, todo), 1):
             cache[n] = r
             tag = f"{r['ats']}/{r['slug']} n={r['n']}" if r["ats"] else "MISS"
@@ -211,7 +213,7 @@ def cmd_probe(path: str, hints_path: str | None = None):
                 save_cache(cache)
     save_cache(cache)
     # second pass: re-probe misses serially (rate-limit / transient protection)
-    misses = [n for n in todo if not cache[n].get("ats")]
+    misses = [] if retry_misses else [n for n in todo if not cache[n].get("ats")]
     if misses:
         print(f"re-probing {len(misses)} misses serially", file=sys.stderr)
         for n in misses:
@@ -459,7 +461,8 @@ if __name__ == "__main__":
     if not a:
         sys.exit(__doc__)
     if a[0] == "probe":
-        hits = cmd_probe(a[1], a[2] if len(a) > 2 else None)
+        pos = [x for x in a[1:] if not x.startswith("--")]
+        hits = cmd_probe(pos[0], pos[1] if len(pos) > 1 else None, retry_misses="--retry-misses" in a, workers=4 if "--retry-misses" in a else 8)
         print(json.dumps(hits, indent=1, sort_keys=True))
     elif a[0] == "pull":
         cmd_pull(a[1], a[2])

@@ -34,7 +34,7 @@ report form (12 names via company press releases); Built In NYC pages paginate b
 | winnable after title/level/location filter (`reqs.jsonl`) | 578 across 84 employers |
 | ingested to live board 2026-09-11 (new rows) | 578 |
 
-Unresolved names (257) are mostly Workday/SuccessFactors/iCIMS corporates (Fortune-100 /
+Unresolved names (256; re-probed in full with `probe --retry-misses` on 2026-09-11, 0 recovered, so these are genuine no-public-board employers) are mostly Workday/SuccessFactors/iCIMS corporates (Fortune-100 /
 GPTW-Parents heavy) and law/accounting firms. They are real employers on real lists but have no
 public JSON board, so they are out of scope for this mechanism. A future thread can cover them via
 Workday's `/wday/cxs/.../jobs` POST endpoint. List: see `unresolved.txt`.
