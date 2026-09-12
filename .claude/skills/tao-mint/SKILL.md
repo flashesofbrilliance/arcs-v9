@@ -37,7 +37,7 @@ Five aspects (kimonos) x five verbs = 25 cells:
 3. **Net-new only.** Dedup against the SSOT: a proverb that restates an existing one is *sediment,
    not signal* (the water rule). Only genuinely new drops are minted. If a mint run yields nothing
    new, that is an honest zero, not a failure.
-4. **Custody on every proverb** (ADR-040/041): each carries `{aspect, verb, source, minted}`. No
+4. **Custody on every proverb** (ADR-081/041): each carries `{aspect, verb, source, minted}`. No
    custody, no mint.
 5. **Voice:** serif-register, carried-in-the-mouth, plain language, NO em-dashes (DESIGN.md
    Three-Voice + PRODUCT.md). A proverb is a truth shaped to be passed down, not a clever line.

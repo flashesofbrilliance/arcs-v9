@@ -4,7 +4,7 @@
 > **Date:** 2026-08-01
 > **Commit:** (set at merge)
 > **Y:** GREEN / HIGH / STABLE (principle) · YELLOW on enforcement
-> **Relates to:** ADR-040 (the amp's gain-staging + custody rods, lifted here), ADR-039
+> **Relates to:** ADR-081 (the amp's gain-staging + custody rods, lifted here), ADR-080
 > (instance→class), the "honest gauges keep tildes" ROM invariant, `/impeccable` (molt behavior),
 > the casting metaphor, `_PATTERNS/2026-07-10-quiet-signals.md` (leads-not-verdicts), the
 > enforcement-parity ledger (ADR-034).
@@ -24,9 +24,9 @@ Every belief/number carries two possible values, audited at the **atomic (per-be
 The standard (the SEC rule, applied to beliefs):
 1. **Label the non-GAAP** — the tilde. ("Honest gauges keep tildes at any resolution" — the existing
    ROM invariant; this promotes it to an enforced standard.)
-2. **Reconcile it to its nearest GAAP measure** — the chain of custody (ADR-040). No custody, no
+2. **Reconcile it to its nearest GAAP measure** — the chain of custody (ADR-081). No custody, no
    number.
-3. **Never give non-GAAP more prominence than GAAP** — gain-staging (ADR-040). The assessed view is
+3. **Never give non-GAAP more prominence than GAAP** — gain-staging (ADR-081). The assessed view is
    never broadcast louder than the audited one.
 
 **The failure mode this prevents:** *unlabeled* non-GAAP presented *as* GAAP — an assessed number
@@ -48,7 +48,7 @@ Two rules make the molt safe and right-sized:
   grain's core — chosen per-artifact, right-sized (the 25th-polish essence), never a uniform
   mass-polish that over-strips some things and under-strips others.
 
-**The molt is operationalized by RECAPITULATE (the 5-verb terminal, ADR-040), run in deep KAIROS
+**The molt is operationalized by RECAPITULATE (the 5-verb terminal, ADR-081), run in deep KAIROS
 mode.** Recapitulate is not a chronos summary; it is the high-coherence-depth pass (`TimeMode.KAIROS`)
 that executes the molt as **scan → audit → distill**: *scan* the whole field at depth, *audit*
 GAAP/non-GAAP (custody-backed vs assessed-formwork), *distill* to the load-bearing grain (the sake
@@ -83,7 +83,7 @@ consolidator at dawn (molt).
 ## W — Window
 
 Honesty clause: now, always. Molt clause: at each consolidation boundary. **Immediate application:**
-ADR-040 accreted exploratory formwork across this session's edits — it is a candidate for a considered
+ADR-081 accreted exploratory formwork across this session's edits — it is a candidate for a considered
 molt-pass *once its concrete sets* (the Kairos-circuit ideas stop moving), not before.
 
 ## Y — Y-Gate: GREEN / HIGH / STABLE (principle) · YELLOW (enforcement)

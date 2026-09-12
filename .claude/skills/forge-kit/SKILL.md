@@ -6,7 +6,7 @@ description: Magnetically scaffold a whole engagement macro-construction — foo
 # /forge-kit — one intake, four stations, a whole universe forked
 
 > **Blueprint status:** DESIGN (composition + protocol). It orchestrates existing tools; it does
-> not replace them. Governed by ADR-039 (instance→class self-promotion).
+> not replace them. Governed by ADR-080 (instance→class self-promotion).
 > **Relationship:** `tool-forge` forges the **micro** (one self-contained CLI package).
 > `omakase-pipeline` produces the **three-surface universe** (back-of-house SSOT → cellar/canon →
 > front-of-house suite). **forge-kit is the orchestrator between them** — it composes
@@ -54,7 +54,7 @@ fall back to `recoil-prep` scans and note the tuning is *modeled, not asked*.
 ## The Fish Finder — classify the water before you open the tackle box
 
 Before picking gear, read what kind of fishing this is. The **fish finder** = the Kairos detector
-(ADR-040) + the intake; the **tackle box** = this kit. Bringing the wrong tackle IS the waste. Three
+(ADR-081) + the intake; the **tackle box** = this kit. Bringing the wrong tackle IS the waste. Three
 modes, read from stakes × reversibility · relationship horizon · target-specificity · crew/effort:
 
 | Mode | Water | Tackle (which stations) |
@@ -96,5 +96,5 @@ ruin-stakes decision (Tao vii; core-function ADR). Cook to the stakes; plate to 
 - Don't fork all four stations by reflex — size first; most guests are not a full tasting.
 - Don't tune from the model alone when you can ask (intake > audience-model projection).
 - Don't leak the cellar into the front of house — recipes/receipts/experiments stay internal.
-- Don't author from scratch what a template already casts — fork it (ADR-039).
+- Don't author from scratch what a template already casts — fork it (ADR-080).
 - Don't skip the screenshot before deploying the experience.

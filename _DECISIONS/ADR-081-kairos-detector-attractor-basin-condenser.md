@@ -1,4 +1,4 @@
-# ADR-040 — Kairos Detector / Attractor-Basin Condenser (the signal-condensation primitive)
+# ADR-081 — Kairos Detector / Attractor-Basin Condenser (the signal-condensation primitive)
 
 > **Status:** RC — PROPOSED (blueprint; design before machinery)
 > **Date:** 2026-08-01

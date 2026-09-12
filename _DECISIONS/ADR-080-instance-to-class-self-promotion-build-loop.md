@@ -1,4 +1,4 @@
-# ADR-039 — Instance→Class Self-Promotion Build Loop (preferred build pattern)
+# ADR-080 — Instance→Class Self-Promotion Build Loop (preferred build pattern)
 
 > **Status:** RC — PROPOSED
 > **Date:** 2026-08-01

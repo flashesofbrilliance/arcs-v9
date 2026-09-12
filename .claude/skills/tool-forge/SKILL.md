@@ -5,7 +5,7 @@ description: Forge a new self-contained CLI tool package (deps · args · passth
 
 # /tool-forge — instance → class, as a repeatable act
 
-> **Governing decision:** ADR-039 (Instance→Class Self-Promotion Build Loop).
+> **Governing decision:** ADR-080 (Instance→Class Self-Promotion Build Loop).
 > **Reference instance this class is lifted from:** `tools/recoil-report/` — the Shannon recoil
 > report (one instance) promoted into a parameterized package (the class), Aug 2026.
 > **Sibling exemplar:** `omakase-pipeline` (jeben→omakase→louisville).
@@ -13,13 +13,13 @@ description: Forge a new self-contained CLI tool package (deps · args · passth
 ## When to use
 
 - A concrete artifact or ad-hoc script exists and a **second real (or imminent) use** has appeared —
-  promote it instead of forking it (ADR-039 step 2).
+  promote it instead of forking it (ADR-080 step 2).
 - You want a new capability to be a **composable, interoperable microservice** from day one: a
   file-based contract, `data in → validated data / rendered output out`, callable from a shell, a
   workflow, or another tool.
 
 **Do NOT use** to package genuinely one-off work. Promotion is a response to repetition, not a
-substitute for judging whether repetition exists (ADR-039 honest edge). No second case → leave it an
+substitute for judging whether repetition exists (ADR-080 honest edge). No second case → leave it an
 instance.
 
 ## The fixed contract (what "self-contained package" means here)
@@ -84,7 +84,7 @@ tools/<tool-name>/
 
 - No third-party deps without asking (stdlib-only default).
 - No hidden writes — every runtime file is named and explicit.
-- No premature forging — promote on the second case, not the first (ADR-039).
+- No premature forging — promote on the second case, not the first (ADR-080).
 - No over-strict schema — permissive-but-load-bearing beats brittle; tolerate sibling shapes and
   degrade gracefully rather than reject (see recoil-report's three-shape tolerance).
 - No external references in standalone rendered output — self-contained means self-contained.
