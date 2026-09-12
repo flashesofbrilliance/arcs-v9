@@ -207,8 +207,8 @@
     "file": "ADR-024-resume-arcs-care-architecture-gates.md"
   },
   {
-    "id": "ADR-025a",
-    "title": "ADR-025a — ARCS Go-Live: Provisional Logic for the Public Launch",
+    "id": "ADR-025",
+    "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -216,13 +216,13 @@
     "file": "ADR-025-arcs-go-live-provisional-logic.md"
   },
   {
-    "id": "ADR-025b",
-    "title": "ADR-025b — SAGE Signal Validation Path",
+    "id": "ADR-059",
+    "title": "ADR-059 — SAGE Signal Validation Path",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
     "gate": "see content",
-    "file": "ADR-025-sage-signal-validation-path.md"
+    "file": "ADR-059-sage-signal-validation-path.md"
   },
   {
     "id": "ADR-026",
@@ -295,5 +295,347 @@
     "stability": "STABLE",
     "gate": "revisit for cross-device one-time or share analytics",
     "file": "ADR-037-stateless-anonymous-share.md"
+  },
+  {
+    "id": "ADR-039",
+    "title": "ADR-039 — Deploy Cost Guardrail: Path-Based Ignored-Build-Step",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit when a new non-shipping file class enters the repo",
+    "file": "ADR-039-deploy-cost-guardrail-ignored-build-step.md"
+  },
+  {
+    "id": "ADR-040",
+    "title": "ADR-040 — Debrief Close-the-Loop: Calendar Invite vs. Email Only",
+    "status": "DRAFT",
+    "y_state": "SCRATCH",
+    "stability": "SHIFTING",
+    "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
+    "file": "ADR-040-debrief-calendar-invite-vs-email.md"
+  },
+  {
+    "id": "ADR-045",
+    "title": "ADR-045 — Night Moves: End-of-Day Work Digest Routine",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if a nightly schedule is added or worktree/git topology changes",
+    "file": "ADR-045-night-moves-digest-routine.md"
+  },
+  {
+    "id": "ADR-046",
+    "title": "ADR-046 — Witness Trigger: Live Capture of a Flash of Brilliance",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "SHIFTING",
+    "gate": "revisit after a few days of real /witness firings",
+    "file": "ADR-046-witness-trigger-live-capture.md"
+  },
+  {
+    "id": "ADR-050",
+    "title": "ADR-050 — The federated family + the SSOT/front-end air-gap",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if the public-family topology or the SSOT air-gap changes",
+    "file": "ADR-050-federated-family-airgap.md"
+  },
+  {
+    "id": "ADR-051",
+    "title": "ADR-051 — Drift receipts: every gate is a detector, every failure a receipt",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if the tripwire/deploy-verify gates change",
+    "file": "ADR-051-drift-receipt-gate.md"
+  },
+  {
+    "id": "ADR-052",
+    "title": "ADR-052 — Inchworm drift-auditor for orphaned artifacts",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if a new owner-less artifact needs an auditor",
+    "file": "ADR-052-inchworm-drift-auditor.md"
+  },
+  {
+    "id": "ADR-053",
+    "title": "ADR-053 — The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "durable doctrine; revisit only if germinate’s open/private boundary is renegotiated",
+    "file": "ADR-053-tao-of-arcs-dormant-potential-vox-animus.md"
+  },
+  {
+    "id": "ADR-054",
+    "title": "ADR-054 — Free to hold, metered to fire: the ARCS activation pricing model",
+    "status": "DECIDED",
+    "y_state": "YELLOW",
+    "stability": "SHIFTING",
+    "gate": "validate willingness-to-pay for the ride (ripeness/Kairos activation) before hardening prices; revisit token fork when blockchain registry + hash-chaining exist",
+    "file": "ADR-054-free-to-hold-metered-to-fire-pricing.md"
+  },
+  {
+    "id": "ADR-055",
+    "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if germinate SPEC changes or a repo changes tier",
+    "file": "ADR-055-oss-family-two-tier-conformance.md"
+  },
+  {
+    "id": "ADR-056",
+    "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "SHIFTING",
+    "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
+    "file": "ADR-056-arcs-tie-in-connector-pattern.md"
+  },
+  {
+    "id": "ADR-057",
+    "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "the ADR-id authority going forward; revisit if a real NTP/atomic time source is added",
+    "file": "ADR-057-sequence-oracle.md"
+  },
+  {
+    "id": "ADR-060",
+    "title": "ADR-060 — The Hypercube Gauntlet: decision-shaping as an arc weld",
+    "status": "PROVISIONAL",
+    "y_state": "YELLOW",
+    "stability": "CONTESTED",
+    "gate": "model canon (self-audited GREEN->YELLOW); every buildable it implies is a separate gated bet. Sampling engine BUILT (scripts/hypercube_sampler.py); renumbered 055->060 via oracle after collision with merged OSS-family ADR-055",
+    "file": "ADR-060-hypercube-gauntlet-arc-weld.md"
+  },
+  {
+    "id": "ADR-061",
+    "title": "ADR-061 — Verify every audit/gauntlet flag against the full primary source before applying",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "standing discipline; validated on the Kam codex gauntlet (caught 3 over-flags incl. the synth's own #1). Deterministic checker: provcheck.py. Ledger: _STATE/falsification-ledger.jsonl",
+    "file": "ADR-061-verify-flags-against-full-source.md"
+  },
+  {
+    "id": "ADR-062",
+    "title": "ADR-062 — The ouroboros: a falsifier is only honest if it turns on itself",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "recursive self-application as the honesty test of any falsifier; demonstrated by F6 + F32 on the falsification ledger. Witnessed 2026-08-16.",
+    "file": "ADR-062-ouroboros-recursive-self-falsification.md"
+  },
+  {
+    "id": "ADR-063",
+    "title": "ADR-063 — The public-goods connector fleet is its own locked visual family",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "canon neutrals + Inter/JetBrains; extended accents grouped by tool kind (skill cyan/green, cli violet, web amber), scoped to *.arcs.care connectors only, never product surfaces. Recorded 2026-08-16.",
+    "file": "ADR-063-public-goods-connector-visual-family.md"
+  },
+  {
+    "id": "ADR-064",
+    "title": "ADR-064 — External corroboration is the milestone gate; impact is the rank",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "external-corroboration (reviewer-clickable proof the author does not custody) gates milestone eligibility; rank = materiality x external-verifiability; witness/echo/oracle stack cut from v1. Survivor of the 14-agent panel that falsified the witnessed-provenance design (F33). 2026-08-16.",
+    "file": "ADR-064-external-corroboration-milestone-gate.md"
+  },
+  {
+    "id": "ADR-065",
+    "title": "ADR-065 — Corpus is SSOT; storage is induced projection; the Infra Compass reads the field",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "doctrine GREEN (4 serialization invariants, namespace isolation, doll pair w/ fail-closed air-gap); instrument (Infra Compass L1-L5 synthesis) = ROM CANDIDATE designed-not-built, YELLOW until built. Oracle-allocated. Recorded 2026-08-18.",
+    "file": "ADR-065-corpus-ssot-induced-projection-infra-compass.md"
+  },
+  {
+    "id": "ADR-066",
+    "title": "ADR-066 — Generative Recoil: reverse-listen a session, compose instance → class → invariant",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "recoil is bidirectional (audit + generative); instance=frozen live artifact, class=mechanized stamp, invariant=never-relearn rules; rule of three gates generalization; dots connect backward only. Falsifiable: next PRL page costs a spec, not a session. Oracle-allocated. Recorded 2026-08-19.",
+    "file": "ADR-066-generative-recoil-instance-class-invariant.md"
+  },
+  {
+    "id": "ADR-067",
+    "title": "ADR-067 — Cross-subject comparative recoil: independently-derived beats corroborated across counterparts",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "OBSERVED-TWICE",
+    "gate": "cross-counterpart convergence of independently-scored beat shapes is itself a receipt-worthy signal (instrument finds transferable pattern, not overfit); stays internal, never surfaced to counterparts. Number confirmed clean by oracle audit 2026-08-23. Recorded 2026-08-19.",
+    "file": "ADR-067-cross-subject-comparative-recoil.md"
+  },
+  {
+    "id": "ADR-068",
+    "title": "ADR-068 — The verb × altitude gate matrix: every stage cut prints an artifact, through a gate, to a fate",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "five-verb print schedule (print+gate+fate per cut, altitude orthogonal); mandatory blocking: ex-ante receipt before send, pre-send gauntlet, close-loop on response; advisory: witness stub, handoff. Invariant print of the ADR-066 ladder (wing → teardown-page-factory → matrix). Oracle-allocated (counter reconciled 65→67 first). Recorded 2026-08-23.",
+    "file": "ADR-068-verb-altitude-gate-matrix.md"
+  },
+  {
+    "id": "ADR-069",
+    "title": "ADR-069 — First closed client receipt: expectation management moves from promise to precedent",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "first ex-ante->ex-post receipt closed in a paying engagement, RED on estimate, cap held; forward claims must cite banked receipts; variance priced as preconditions not padding; losing receipts publishable. Minted in-session, oracle audit pending. Recorded 2026-08-26.",
+    "file": "ADR-069-first-closed-client-receipt-precedent.md"
+  },
+  {
+    "id": "ADR-031",
+    "title": "ADR-031 — Design system reconciliation",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-031-design-system-reconciliation.md"
+  },
+  {
+    "id": "ADR-073",
+    "title": "ADR-073 — Route ADR-audit harness default to laguna-xs-2.1:free",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": "STABLE",
+    "gate": "5 ADRs corpus-scale coherence check",
+    "file": "ADR-073-model-routing-adr-audit-default.md"
+  },
+  {
+    "id": "ADR-072",
+    "title": "ADR-072 — Engine-Sovereignty Gradient (engines are tenants, the receipt history is the freehold)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "falsifier: first JEPA prototype consumes receipt corpus as-is (projection, no mutation)",
+    "file": "ADR-072-engine-sovereignty-gradient.md"
+  },
+  {
+    "id": "ADR-070",
+    "title": "ADR-070 — ARCS is two surfaces: the Receipt (deductive record) and the Induction (abductive instrument-forging)",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-070-arcs-two-surface-receipt-and-induction.md"
+  },
+  {
+    "id": "ADR-071",
+    "title": "ADR-071 — The Möbius invariant: one non-orientable surface, a triune load-bearing minimum, held honest by the prototype's own gravity",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-071-mobius-one-surface-triune-invariant-gravity-well.md"
+  },
+  {
+    "id": "ADR-032",
+    "title": "ADR-032 — Zero-Trust Posture (governing)",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": "GOVERNING",
+    "gate": "see content",
+    "file": "ADR-032-zero-trust-posture.md"
+  },
+  {
+    "id": "ADR-033",
+    "title": "ADR-033 — The Serialization Pathogen Family (tuple axiom + membership registry)",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-033-serialization-pathogen-family.md"
+  },
+  {
+    "id": "ADR-034",
+    "title": "ADR-034 — Enforcement Parity: Internal Invariants Get the Same Gates as Client Artifacts",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-034-enforcement-parity.md"
+  },
+  {
+    "id": "ADR-038",
+    "title": "ADR-038 — Recoil Bookmark Primitive (lightweight moment-flag vs. full kinematic manifold)",
+    "status": "PROPOSED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-038-recoil-bookmark-primitive.md"
+  },
+  {
+    "id": "ADR-044",
+    "title": "ADR-044 — Temporal-Provenance Gate: capability claims carry fact-vs-fiction chain of custody",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-044-temporal-provenance-gate.md"
+  },
+  {
+    "id": "ADR-048",
+    "title": "ADR-048 — Secrets Inventory & Rotation",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-048-secrets-inventory-rotation.md"
+  },
+  {
+    "id": "ADR-049",
+    "title": "ADR-049 — Anonymous Receipt Remediation: Conform Forward, No Retroactive Purge, Opt-In Save",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-049-anonymous-receipt-remediation.md"
+  },
+  {
+    "id": "ADR-058",
+    "title": "ADR-058 — CALIBRATE / IDEA Construction",
+    "status": "DRAFT",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-058-CALIBRATE-IDEA-Construction.md"
+  },
+  {
+    "id": "ADR-074",
+    "title": "ADR-074 — PRL Sugar custom-code collision surface: chatbot lead path is clear; attribution rides W-Systems hooks",
+    "status": "DRAFT",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-074-prl-sugar-custom-code-collision-surface.md"
+  },
+  {
+    "id": "ADR-075",
+    "title": "ADR-075 — The Metabolic Router (mechanical fan-out is automatable; judgment is not)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "falsifier: first metabolize run routes a record to every organ with zero human carrying AND the integrity gate catches a planted cite to an unmerged commit",
+    "file": "ADR-075-metabolic-router-mechanical-judgment-split.md"
+  },
+  {
+    "id": "ADR-076",
+    "title": "ADR-076 — MCP-Led Growth: the attribution wedge (MCP is the free land, the API is the paid expand)",
+    "status": "DRAFT",
+    "y_state": "YELLOW",
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-076-mcp-led-growth-attribution-wedge.md"
   }
 ]

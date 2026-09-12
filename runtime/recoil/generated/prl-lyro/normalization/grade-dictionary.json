@@ -1,0 +1,1729 @@
+{
+ "count": 150,
+ "grades": [
+  {
+   "grade": "PC-GP1-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "General Purpose, Low Flow, UL",
+   "aliases": [
+    "PC GP1",
+    "PC GP1 D",
+    "PC-GP1",
+    "PC-GP1-D",
+    "PCGP1D"
+   ]
+  },
+  {
+   "grade": "PC-GP2-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "General Purpose, Mid Flow, UL",
+   "aliases": [
+    "PC GP2",
+    "PC GP2 D",
+    "PC-GP2",
+    "PC-GP2-D",
+    "PCGP2D"
+   ]
+  },
+  {
+   "grade": "PC-GP3-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "General Purpose, High Flow, UL",
+   "aliases": [
+    "PC GP3",
+    "PC GP3 D",
+    "PC-GP3",
+    "PC-GP3-D",
+    "PCGP3D"
+   ]
+  },
+  {
+   "grade": "PC-GP4",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "General Purpose, Easy Flow, UL",
+   "aliases": [
+    "PC GP4",
+    "PC-GP4",
+    "PCGP4"
+   ]
+  },
+  {
+   "grade": "PC-UV1-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "UV-Stabilized, Low Flow, UL",
+   "aliases": [
+    "PC UV1",
+    "PC UV1 D",
+    "PC-UV1",
+    "PC-UV1-D",
+    "PCUV1D"
+   ]
+  },
+  {
+   "grade": "PC-UV2-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "UV-Stabilized, Mid Flow, UL",
+   "aliases": [
+    "PC UV2",
+    "PC UV2 D",
+    "PC-UV2",
+    "PC-UV2-D",
+    "PCUV2D"
+   ]
+  },
+  {
+   "grade": "PC-UV3-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "UV-Stabilized, High Flow, UL",
+   "aliases": [
+    "PC UV3",
+    "PC UV3 D",
+    "PC-UV3",
+    "PC-UV3-D",
+    "PCUV3D"
+   ]
+  },
+  {
+   "grade": "PC-UV4",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "UV-Stabilized, Easy Flow",
+   "aliases": [
+    "PC UV4",
+    "PC-UV4",
+    "PCUV4"
+   ]
+  },
+  {
+   "grade": "PC-GP1S",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Sustainable, >50% Recycled, Low Flow",
+   "aliases": [
+    "PC GP1S",
+    "PC-GP1S",
+    "PCGP1S"
+   ]
+  },
+  {
+   "grade": "PC-GP2S",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Sustainable, >50% Recycled, Mid Flow",
+   "aliases": [
+    "PC GP2S",
+    "PC-GP2S",
+    "PCGP2S"
+   ]
+  },
+  {
+   "grade": "PC-GP3S",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Sustainable, >50% Recycled, High Flow",
+   "aliases": [
+    "PC GP3S",
+    "PC-GP3S",
+    "PCGP3S"
+   ]
+  },
+  {
+   "grade": "PC-FD1",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "FDA-Compliant Feedstock, Low Flow",
+   "aliases": [
+    "PC FD1",
+    "PC-FD1",
+    "PCFD1"
+   ]
+  },
+  {
+   "grade": "PC-FD2",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "FDA-Compliant Feedstock, Mid Flow",
+   "aliases": [
+    "PC FD2",
+    "PC-FD2",
+    "PCFD2"
+   ]
+  },
+  {
+   "grade": "PC-FD3",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "FDA-Compliant Feedstock, High Flow",
+   "aliases": [
+    "PC FD3",
+    "PC-FD3",
+    "PCFD3"
+   ]
+  },
+  {
+   "grade": "PC-FD4",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "FDA-Compliant Feedstock, Easy Flow",
+   "aliases": [
+    "PC FD4",
+    "PC-FD4",
+    "PCFD4"
+   ]
+  },
+  {
+   "grade": "PC-FR1-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Improved FR, Low Flow, UL",
+   "aliases": [
+    "PC FR1",
+    "PC FR1 D",
+    "PC-FR1",
+    "PC-FR1-D",
+    "PCFR1D"
+   ]
+  },
+  {
+   "grade": "PC-FR2-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Improved FR, Mid Flow, UL",
+   "aliases": [
+    "PC FR2",
+    "PC FR2 D",
+    "PC-FR2",
+    "PC-FR2-D",
+    "PCFR2D"
+   ]
+  },
+  {
+   "grade": "PC-FR3-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Improved FR, High Flow, UL",
+   "aliases": [
+    "PC FR3",
+    "PC FR3 D",
+    "PC-FR3",
+    "PC-FR3-D",
+    "PCFR3D"
+   ]
+  },
+  {
+   "grade": "PC-FR1A-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Flame Retardant, Low Flow, UL",
+   "aliases": [
+    "PC FR1A",
+    "PC FR1A D",
+    "PC-FR1A",
+    "PC-FR1A-D",
+    "PCFR1AD"
+   ]
+  },
+  {
+   "grade": "PC-FR2A-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Flame Retardant, Mid Flow, UL",
+   "aliases": [
+    "PC FR2A",
+    "PC FR2A D",
+    "PC-FR2A",
+    "PC-FR2A-D",
+    "PCFR2AD"
+   ]
+  },
+  {
+   "grade": "PC-FR3A-D",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Flame Retardant, High Flow, UL",
+   "aliases": [
+    "PC FR3A",
+    "PC FR3A D",
+    "PC-FR3A",
+    "PC-FR3A-D",
+    "PCFR3AD"
+   ]
+  },
+  {
+   "grade": "PC-IM1",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Low Temp Impact Modified, Low Flow",
+   "aliases": [
+    "PC IM1",
+    "PC-IM1",
+    "PCIM1"
+   ]
+  },
+  {
+   "grade": "PC-IM2",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Low Temp Impact Modified, Mid Flow",
+   "aliases": [
+    "PC IM2",
+    "PC-IM2",
+    "PCIM2"
+   ]
+  },
+  {
+   "grade": "PC-IM3",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Low Temp Impact Modified, High Flow",
+   "aliases": [
+    "PC IM3",
+    "PC-IM3",
+    "PCIM3"
+   ]
+  },
+  {
+   "grade": "PC-IM4",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Low Temp Impact Modified, Easy Flow",
+   "aliases": [
+    "PC IM4",
+    "PC-IM4",
+    "PCIM4"
+   ]
+  },
+  {
+   "grade": "PC-FR-UV2",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Non-Halogen FR, UV-Stabilized, Mid Flow, UL",
+   "aliases": [
+    "PC FR UV2",
+    "PC-FR-UV2",
+    "PCFRUV2"
+   ]
+  },
+  {
+   "grade": "PC-FR2-TFE",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "5% PTFE Filled, FR, Mid Flow, UL",
+   "aliases": [
+    "PC FR2 TFE",
+    "PC-FR2-TFE",
+    "PCFR2TFE"
+   ]
+  },
+  {
+   "grade": "PCSF-FR",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Structural Foam, 5% Glass Fiber, UL",
+   "aliases": [
+    "PCSF FR",
+    "PCSF-FR",
+    "PCSFFR"
+   ]
+  },
+  {
+   "grade": "PCSF-FR1",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Structural Foam, 10% Glass Fiber, UL",
+   "aliases": [
+    "PCSF FR1",
+    "PCSF-FR1",
+    "PCSFFR1"
+   ]
+  },
+  {
+   "grade": "PCSF-FRG20",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Structural Foam, 20% Glass Fiber",
+   "aliases": [
+    "PCSF FRG20",
+    "PCSF-FRG20",
+    "PCSFFRG20"
+   ]
+  },
+  {
+   "grade": "PCSF-FRG30",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Structural Foam, 30% Glass Fiber",
+   "aliases": [
+    "PCSF FRG30",
+    "PCSF-FRG30",
+    "PCSFFRG30"
+   ]
+  },
+  {
+   "grade": "PC-HM-FR1",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Flame Retardant, 10% Glass Fiber, UL",
+   "aliases": [
+    "PC HM FR1",
+    "PC-HM-FR1",
+    "PCHMFR1"
+   ]
+  },
+  {
+   "grade": "PC-G10",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "10% Glass Fiber, UL",
+   "aliases": [
+    "PC G10",
+    "PC-G10",
+    "PCG10"
+   ]
+  },
+  {
+   "grade": "PC-G20",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "20% Glass Fiber, UL",
+   "aliases": [
+    "PC G20",
+    "PC-G20",
+    "PCG20"
+   ]
+  },
+  {
+   "grade": "PC-G30",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "30% Glass Fiber, UL",
+   "aliases": [
+    "PC G30",
+    "PC-G30",
+    "PCG30"
+   ]
+  },
+  {
+   "grade": "PC-G40",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "40% Glass Fiber",
+   "aliases": [
+    "PC G40",
+    "PC-G40",
+    "PCG40"
+   ]
+  },
+  {
+   "grade": "PC-BR1",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Branched for Extrusion and Blow Molding",
+   "aliases": [
+    "PC BR1",
+    "PC-BR1",
+    "PCBR1"
+   ]
+  },
+  {
+   "grade": "PC-BR1-UV",
+   "family_code": "PC",
+   "family_name": "Polycarbonate",
+   "description": "Branched for Extrusion and Blow Molding, UV-Stabilized, UL",
+   "aliases": [
+    "PC BR1 UV",
+    "PC-BR1-UV",
+    "PCBR1UV"
+   ]
+  },
+  {
+   "grade": "ABS-GP1",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "ABS GP1",
+    "ABS-GP1",
+    "ABSGP1"
+   ]
+  },
+  {
+   "grade": "ABS-GP-IM",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, Impact Modified",
+   "aliases": [
+    "ABS GP IM",
+    "ABS-GP-IM",
+    "ABSGPIM"
+   ]
+  },
+  {
+   "grade": "ABS-FR",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "Flame Retardant, UL",
+   "aliases": [
+    "ABS FR",
+    "ABS-FR",
+    "ABSFR"
+   ]
+  },
+  {
+   "grade": "ABS-FR-UV(f2)",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "Flame Retardant, UV-Stabilized, UL",
+   "aliases": [
+    "ABS FR UV(F2)",
+    "ABS-FR-UV(F2)",
+    "ABSFRUV(F2)"
+   ]
+  },
+  {
+   "grade": "ABS-G10",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 10% Glass Fiber",
+   "aliases": [
+    "ABS G10",
+    "ABS-G10",
+    "ABSG10"
+   ]
+  },
+  {
+   "grade": "ABS-G20",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 20% Glass Fiber",
+   "aliases": [
+    "ABS G20",
+    "ABS-G20",
+    "ABSG20"
+   ]
+  },
+  {
+   "grade": "ABS-G30",
+   "family_code": "ABS",
+   "family_name": "Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 30% Glass Fiber",
+   "aliases": [
+    "ABS G30",
+    "ABS-G30",
+    "ABSG30"
+   ]
+  },
+  {
+   "grade": "PC/ABS-GP1",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, Mid Flow",
+   "aliases": [
+    "PC ABS-GP1",
+    "PC/ABS GP1",
+    "PC/ABS-GP1",
+    "PC/ABSGP1",
+    "PCABS-GP1"
+   ]
+  },
+  {
+   "grade": "PC/ABS-GP2",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, High Flow, UL",
+   "aliases": [
+    "PC ABS-GP2",
+    "PC/ABS GP2",
+    "PC/ABS-GP2",
+    "PC/ABSGP2",
+    "PCABS-GP2"
+   ]
+  },
+  {
+   "grade": "PC/ABS-GP1S",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "Sustainable, >50% Recycled, Mid Flow",
+   "aliases": [
+    "PC ABS-GP1S",
+    "PC/ABS GP1S",
+    "PC/ABS-GP1S",
+    "PC/ABSGP1S",
+    "PCABS-GP1S"
+   ]
+  },
+  {
+   "grade": "PC/ABS-FR1",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "Flame Retardant, Mid Flow, UL",
+   "aliases": [
+    "PC ABS-FR1",
+    "PC/ABS FR1",
+    "PC/ABS-FR1",
+    "PC/ABSFR1",
+    "PCABS-FR1"
+   ]
+  },
+  {
+   "grade": "PC/ABS-FR2",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "Flame Retardant, High Flow, UL",
+   "aliases": [
+    "PC ABS-FR2",
+    "PC/ABS FR2",
+    "PC/ABS-FR2",
+    "PC/ABSFR2",
+    "PCABS-FR2"
+   ]
+  },
+  {
+   "grade": "PC/ABS-FRUV",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "Flame Retardant, UV-Stabilized, UL",
+   "aliases": [
+    "PC ABS-FRUV",
+    "PC/ABS FRUV",
+    "PC/ABS-FRUV",
+    "PC/ABSFRUV",
+    "PCABS-FRUV"
+   ]
+  },
+  {
+   "grade": "PC/ABS-G10",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 10% Glass Fiber",
+   "aliases": [
+    "PC ABS-G10",
+    "PC/ABS G10",
+    "PC/ABS-G10",
+    "PC/ABSG10",
+    "PCABS-G10"
+   ]
+  },
+  {
+   "grade": "PC/ABS-G20",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 20% Glass Fiber",
+   "aliases": [
+    "PC ABS-G20",
+    "PC/ABS G20",
+    "PC/ABS-G20",
+    "PC/ABSG20",
+    "PCABS-G20"
+   ]
+  },
+  {
+   "grade": "PC/ABS-G30",
+   "family_code": "PC/ABS",
+   "family_name": "Polycarbonate/Acrylonitrile Butadiene Styrene",
+   "description": "General Purpose, 30% Glass Fiber",
+   "aliases": [
+    "PC ABS-G30",
+    "PC/ABS G30",
+    "PC/ABS-G30",
+    "PC/ABSG30",
+    "PCABS-G30"
+   ]
+  },
+  {
+   "grade": "ASA-GP1",
+   "family_code": "ASA",
+   "family_name": "Acrylonitrile Styrene Acrylate",
+   "description": "General Purpose, Outdoor Weatherable",
+   "aliases": [
+    "ASA GP1",
+    "ASA-GP1",
+    "ASAGP1"
+   ]
+  },
+  {
+   "grade": "PC/ASA-GP2",
+   "family_code": "PC/ASA",
+   "family_name": "Polycarbonate/Acrylonitrile Styrene Acrylate",
+   "description": "General Purpose, Blend, Mid Flow",
+   "aliases": [
+    "PC ASA-GP2",
+    "PC/ASA GP2",
+    "PC/ASA-GP2",
+    "PC/ASAGP2",
+    "PCASA-GP2"
+   ]
+  },
+  {
+   "grade": "PC/ASA-GP3",
+   "family_code": "PC/ASA",
+   "family_name": "Polycarbonate/Acrylonitrile Styrene Acrylate",
+   "description": "General Purpose, Blend, High Flow",
+   "aliases": [
+    "PC ASA-GP3",
+    "PC/ASA GP3",
+    "PC/ASA-GP3",
+    "PC/ASAGP3",
+    "PCASA-GP3"
+   ]
+  },
+  {
+   "grade": "PC/ASA-FR1",
+   "family_code": "PC/ASA",
+   "family_name": "Polycarbonate/Acrylonitrile Styrene Acrylate",
+   "description": "Non-Halogen FR, Blend, UL",
+   "aliases": [
+    "PC ASA-FR1",
+    "PC/ASA FR1",
+    "PC/ASA-FR1",
+    "PC/ASAFR1",
+    "PCASA-FR1"
+   ]
+  },
+  {
+   "grade": "PEI-GP1",
+   "family_code": "PEI",
+   "family_name": "Polyetherimide",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "PEI GP1",
+    "PEI-GP1",
+    "PEIGP1"
+   ]
+  },
+  {
+   "grade": "PEI-G10",
+   "family_code": "PEI",
+   "family_name": "Polyetherimide",
+   "description": "10% Glass Fiber, UL",
+   "aliases": [
+    "PEI G10",
+    "PEI-G10",
+    "PEIG10"
+   ]
+  },
+  {
+   "grade": "PEI-G20",
+   "family_code": "PEI",
+   "family_name": "Polyetherimide",
+   "description": "20% Glass Fiber, UL",
+   "aliases": [
+    "PEI G20",
+    "PEI-G20",
+    "PEIG20"
+   ]
+  },
+  {
+   "grade": "PEI-G30",
+   "family_code": "PEI",
+   "family_name": "Polyetherimide",
+   "description": "30% Glass Fiber, UL",
+   "aliases": [
+    "PEI G30",
+    "PEI-G30",
+    "PEIG30"
+   ]
+  },
+  {
+   "grade": "PEI-G40",
+   "family_code": "PEI",
+   "family_name": "Polyetherimide",
+   "description": "40% Glass Fiber, UL",
+   "aliases": [
+    "PEI G40",
+    "PEI-G40",
+    "PEIG40"
+   ]
+  },
+  {
+   "grade": "PPX-GP1",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 265\u00b0F, UL",
+   "aliases": [
+    "PPX GP1",
+    "PPX-GP1",
+    "PPXGP1"
+   ]
+  },
+  {
+   "grade": "PPX-GP2",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 250\u00b0F",
+   "aliases": [
+    "PPX GP2",
+    "PPX-GP2",
+    "PPXGP2"
+   ]
+  },
+  {
+   "grade": "PPX-GP3",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 235\u00b0F",
+   "aliases": [
+    "PPX GP3",
+    "PPX-GP3",
+    "PPXGP3"
+   ]
+  },
+  {
+   "grade": "PPX-GP3-IM",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Impact Modified, HDT of 235\u00b0F",
+   "aliases": [
+    "PPX GP3 IM",
+    "PPX-GP3-IM",
+    "PPXGP3IM"
+   ]
+  },
+  {
+   "grade": "PPX-GP4",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 210\u00b0F",
+   "aliases": [
+    "PPX GP4",
+    "PPX-GP4",
+    "PPXGP4"
+   ]
+  },
+  {
+   "grade": "PPX-GP5",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 270\u00b0F",
+   "aliases": [
+    "PPX GP5",
+    "PPX-GP5",
+    "PPXGP5"
+   ]
+  },
+  {
+   "grade": "PPX-GP6",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 290\u00b0F",
+   "aliases": [
+    "PPX GP6",
+    "PPX-GP6",
+    "PPXGP6"
+   ]
+  },
+  {
+   "grade": "PPX-GP7",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "General Purpose, HDT of 300\u00b0F",
+   "aliases": [
+    "PPX GP7",
+    "PPX-GP7",
+    "PPXGP7"
+   ]
+  },
+  {
+   "grade": "PPX-GP1-(color)-EN",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Extrusion Grade, HDT of 265\u00b0F, UL",
+   "aliases": [
+    "PPX GP1 (COLOR) EN",
+    "PPX-GP1-(COLOR)-EN",
+    "PPXGP1(COLOR)EN"
+   ]
+  },
+  {
+   "grade": "PPX-G10",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "10% Glass Fiber",
+   "aliases": [
+    "PPX G10",
+    "PPX-G10",
+    "PPXG10"
+   ]
+  },
+  {
+   "grade": "PPX-G20",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "20% Glass Fiber",
+   "aliases": [
+    "PPX G20",
+    "PPX-G20",
+    "PPXG20"
+   ]
+  },
+  {
+   "grade": "PPX-G30",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "30% Glass Fiber, UL",
+   "aliases": [
+    "PPX G30",
+    "PPX-G30",
+    "PPXG30"
+   ]
+  },
+  {
+   "grade": "PPX-FRG10",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "FR, 10% Glass Fiber, V-1, UL",
+   "aliases": [
+    "PPX FRG10",
+    "PPX-FRG10",
+    "PPXFRG10"
+   ]
+  },
+  {
+   "grade": "PPX-FRG20",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "FR, 20% Glass Fiber, V-1, UL",
+   "aliases": [
+    "PPX FRG20",
+    "PPX-FRG20",
+    "PPXFRG20"
+   ]
+  },
+  {
+   "grade": "PPX-FRG30",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "FR, 30% Glass Fiber, V-1, UL",
+   "aliases": [
+    "PPX FRG30",
+    "PPX-FRG30",
+    "PPXFRG30"
+   ]
+  },
+  {
+   "grade": "PPX-SF1",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Structural Foam, Easy Flow, UL",
+   "aliases": [
+    "PPX SF1",
+    "PPX-SF1",
+    "PPXSF1"
+   ]
+  },
+  {
+   "grade": "PPX-SF2",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Structural Foam, Mid Flow, UL",
+   "aliases": [
+    "PPX SF2",
+    "PPX-SF2",
+    "PPXSF2"
+   ]
+  },
+  {
+   "grade": "PPX-MF-FR1",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "FR, Mineral, V-0, HDT of 190\u00b0F",
+   "aliases": [
+    "PPX MF FR1",
+    "PPX-MF-FR1",
+    "PPXMFFR1"
+   ]
+  },
+  {
+   "grade": "PPX-MF-FR3",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "FR, Mineral, V-0, HDT of 230\u00b0F, UL",
+   "aliases": [
+    "PPX MF FR3",
+    "PPX-MF-FR3",
+    "PPXMFFR3"
+   ]
+  },
+  {
+   "grade": "PPX-FR1",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-0, HDT of 190\u00b0F, UL",
+   "aliases": [
+    "PPX FR1",
+    "PPX-FR1",
+    "PPXFR1"
+   ]
+  },
+  {
+   "grade": "PPX-FR2",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-1, HDT of 210\u00b0F, UL",
+   "aliases": [
+    "PPX FR2",
+    "PPX-FR2",
+    "PPXFR2"
+   ]
+  },
+  {
+   "grade": "PPX-FR3",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-1, HDT of 265\u00b0F, UL",
+   "aliases": [
+    "PPX FR3",
+    "PPX-FR3",
+    "PPXFR3"
+   ]
+  },
+  {
+   "grade": "PPX-FR4",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-1, HDT of 185\u00b0F",
+   "aliases": [
+    "PPX FR4",
+    "PPX-FR4",
+    "PPXFR4"
+   ]
+  },
+  {
+   "grade": "PPX-FR5",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-0, HDT of 225\u00b0F, UL",
+   "aliases": [
+    "PPX FR5",
+    "PPX-FR5",
+    "PPXFR5"
+   ]
+  },
+  {
+   "grade": "PPX-FR6",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Flame Retardant, V-0, HDT of 260\u00b0F, UL",
+   "aliases": [
+    "PPX FR6",
+    "PPX-FR6",
+    "PPXFR6"
+   ]
+  },
+  {
+   "grade": "PPX-FR1-(color)-EN",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Extrusion, Flame Retardant, V-0, HDT of 190\u00b0F, UL",
+   "aliases": [
+    "PPX FR1 (COLOR) EN",
+    "PPX-FR1-(COLOR)-EN",
+    "PPXFR1(COLOR)EN"
+   ]
+  },
+  {
+   "grade": "PPX-FR2-(color)-EN",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Extrusion, Flame Retardant, V-1, HDT of 210\u00b0F, UL",
+   "aliases": [
+    "PPX FR2 (COLOR) EN",
+    "PPX-FR2-(COLOR)-EN",
+    "PPXFR2(COLOR)EN"
+   ]
+  },
+  {
+   "grade": "PPX-FR3-(color)-EN",
+   "family_code": "PPX",
+   "family_name": "Modified Polyphenylene Ether",
+   "description": "Extrusion, Flame Retardant, V-1, HDT of 265\u00b0F, UL",
+   "aliases": [
+    "PPX FR3 (COLOR) EN",
+    "PPX-FR3-(COLOR)-EN",
+    "PPXFR3(COLOR)EN"
+   ]
+  },
+  {
+   "grade": "PPX/NY-GP1",
+   "family_code": "PPX/Nylon",
+   "family_name": "Modified Polyphenylene Ether/Nylon Blend",
+   "description": "General Purpose, Blend NY66, Good Chemical Resistance",
+   "aliases": [
+    "PPX NY-GP1",
+    "PPX/NY GP1",
+    "PPX/NY-GP1",
+    "PPX/NYGP1",
+    "PPXNY-GP1"
+   ]
+  },
+  {
+   "grade": "PPX/NY-GP2",
+   "family_code": "PPX/Nylon",
+   "family_name": "Modified Polyphenylene Ether/Nylon Blend",
+   "description": "High Heat, Blend NY66, Good Chemical Resistance",
+   "aliases": [
+    "PPX NY-GP2",
+    "PPX/NY GP2",
+    "PPX/NY-GP2",
+    "PPX/NYGP2",
+    "PPXNY-GP2"
+   ]
+  },
+  {
+   "grade": "PPX/NY-G10",
+   "family_code": "PPX/Nylon",
+   "family_name": "Modified Polyphenylene Ether/Nylon Blend",
+   "description": "General Purpose, Blend NY66, 10% Glass Fiber",
+   "aliases": [
+    "PPX NY-G10",
+    "PPX/NY G10",
+    "PPX/NY-G10",
+    "PPX/NYG10",
+    "PPXNY-G10"
+   ]
+  },
+  {
+   "grade": "PPX/NY-G20",
+   "family_code": "PPX/Nylon",
+   "family_name": "Modified Polyphenylene Ether/Nylon Blend",
+   "description": "General Purpose, Blend NY66, 20% Glass Fiber",
+   "aliases": [
+    "PPX NY-G20",
+    "PPX/NY G20",
+    "PPX/NY-G20",
+    "PPX/NYG20",
+    "PPXNY-G20"
+   ]
+  },
+  {
+   "grade": "PPX/NY-G30",
+   "family_code": "PPX/Nylon",
+   "family_name": "Modified Polyphenylene Ether/Nylon Blend",
+   "description": "General Purpose, Blend NY66, 30% Glass Fiber",
+   "aliases": [
+    "PPX NY-G30",
+    "PPX/NY G30",
+    "PPX/NY-G30",
+    "PPX/NYG30",
+    "PPXNY-G30"
+   ]
+  },
+  {
+   "grade": "TP-GP1",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, Lubricant, Mold Release",
+   "aliases": [
+    "TP GP1",
+    "TP-GP1",
+    "TPGP1"
+   ]
+  },
+  {
+   "grade": "TP-GP2",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "TP GP2",
+    "TP-GP2",
+    "TPGP2"
+   ]
+  },
+  {
+   "grade": "TP-FR-IM",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "FR, Impact Modified, Low Flow, UL",
+   "aliases": [
+    "TP FR IM",
+    "TP-FR-IM",
+    "TPFRIM"
+   ]
+  },
+  {
+   "grade": "TP-FR-IM2",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "FR, Impact Modified, Low Flow, UL",
+   "aliases": [
+    "TP FR IM2",
+    "TP-FR-IM2",
+    "TPFRIM2"
+   ]
+  },
+  {
+   "grade": "TP-FR-IM3",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "FR, Impact Modified, Low Flow, UL",
+   "aliases": [
+    "TP FR IM3",
+    "TP-FR-IM3",
+    "TPFRIM3"
+   ]
+  },
+  {
+   "grade": "TP-FR2",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, UL",
+   "aliases": [
+    "TP FR2",
+    "TP-FR2",
+    "TPFR2"
+   ]
+  },
+  {
+   "grade": "TP-G15",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, 15% Glass Fiber",
+   "aliases": [
+    "TP G15",
+    "TP-G15",
+    "TPG15"
+   ]
+  },
+  {
+   "grade": "TP-G20",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, 20% Glass Fiber",
+   "aliases": [
+    "TP G20",
+    "TP-G20",
+    "TPG20"
+   ]
+  },
+  {
+   "grade": "TP-G30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, 30% Glass Fiber, UL",
+   "aliases": [
+    "TP G30",
+    "TP-G30",
+    "TPG30"
+   ]
+  },
+  {
+   "grade": "TP-G40",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "General Purpose, 40% Glass Fiber",
+   "aliases": [
+    "TP G40",
+    "TP-G40",
+    "TPG40"
+   ]
+  },
+  {
+   "grade": "TP-FR-G7.5",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, 7.5% Glass Fiber, UL",
+   "aliases": [
+    "TP FR G7.5",
+    "TP-FR-G7.5",
+    "TPFRG7.5"
+   ]
+  },
+  {
+   "grade": "TP-FR-G15",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, 15% Glass Fiber, UL",
+   "aliases": [
+    "TP FR G15",
+    "TP-FR-G15",
+    "TPFRG15"
+   ]
+  },
+  {
+   "grade": "TP-FR-G30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, 30% Glass Fiber, UL",
+   "aliases": [
+    "TP FR G30",
+    "TP-FR-G30",
+    "TPFRG30"
+   ]
+  },
+  {
+   "grade": "TP-IG30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Reduced Warpage, 30% Glass Fiber",
+   "aliases": [
+    "TP IG30",
+    "TP-IG30",
+    "TPIG30"
+   ]
+  },
+  {
+   "grade": "TP-IGFR-G30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "FR, Reduced Warpage, 30% Glass Fiber, UL",
+   "aliases": [
+    "TP IGFR G30",
+    "TP-IGFR-G30",
+    "TPIGFRG30"
+   ]
+  },
+  {
+   "grade": "TPSF-G10",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Structural Foam, 10% Glass Fiber",
+   "aliases": [
+    "TPSF G10",
+    "TPSF-G10",
+    "TPSFG10"
+   ]
+  },
+  {
+   "grade": "TPSF-G30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Structural Foam, 30% Glass Fiber",
+   "aliases": [
+    "TPSF G30",
+    "TPSF-G30",
+    "TPSFG30"
+   ]
+  },
+  {
+   "grade": "TPSF-FRG10",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Structural Foam, FR, 10% Glass Fiber, UL",
+   "aliases": [
+    "TPSF FRG10",
+    "TPSF-FRG10",
+    "TPSFFRG10"
+   ]
+  },
+  {
+   "grade": "TPSF-FR1G30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Structural Foam, FR, 30% Glass Fiber, UL",
+   "aliases": [
+    "TPSF FR1G30",
+    "TPSF-FR1G30",
+    "TPSFFR1G30"
+   ]
+  },
+  {
+   "grade": "TP-HG15",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "15% Glass Fiber Alloy",
+   "aliases": [
+    "TP HG15",
+    "TP-HG15",
+    "TPHG15"
+   ]
+  },
+  {
+   "grade": "TP-HG30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "30% Glass Fiber Alloy",
+   "aliases": [
+    "TP HG30",
+    "TP-HG30",
+    "TPHG30"
+   ]
+  },
+  {
+   "grade": "TP-HG40",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "40% Glass Fiber Alloy",
+   "aliases": [
+    "TP HG40",
+    "TP-HG40",
+    "TPHG40"
+   ]
+  },
+  {
+   "grade": "TP-FRHG15",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, 15% Glass Fiber Alloy",
+   "aliases": [
+    "TP FRHG15",
+    "TP-FRHG15",
+    "TPFRHG15"
+   ]
+  },
+  {
+   "grade": "TP-FRHG30",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "Flame Retardant, 30% Glass Fiber Alloy",
+   "aliases": [
+    "TP FRHG30",
+    "TP-FRHG30",
+    "TPFRHG30"
+   ]
+  },
+  {
+   "grade": "TP-GFMF1",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "FR, 40% Glass Fiber and Mineral, UL",
+   "aliases": [
+    "TP GFMF1",
+    "TP-GFMF1",
+    "TPGFMF1"
+   ]
+  },
+  {
+   "grade": "TP-GFMF2",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "40% Glass Fiber and Mineral",
+   "aliases": [
+    "TP GFMF2",
+    "TP-GFMF2",
+    "TPGFMF2"
+   ]
+  },
+  {
+   "grade": "TP-GFMF3",
+   "family_code": "PBT",
+   "family_name": "Polybutylene Terephthalate",
+   "description": "30% Glass Fiber and Mineral",
+   "aliases": [
+    "TP GFMF3",
+    "TP-GFMF3",
+    "TPGFMF3"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP1",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "General Purpose, Good Chemical Resistance",
+   "aliases": [
+    "PC TP-GP1",
+    "PC/TP GP1",
+    "PC/TP-GP1",
+    "PC/TPGP1",
+    "PCTP-GP1"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP2",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "High Impact, Excellent Chemical Resistance, UL",
+   "aliases": [
+    "PC TP-GP2",
+    "PC/TP GP2",
+    "PC/TP-GP2",
+    "PC/TPGP2",
+    "PCTP-GP2"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP3",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "High Impact, Superior Chemical Resistance",
+   "aliases": [
+    "PC TP-GP3",
+    "PC/TP GP3",
+    "PC/TP-GP3",
+    "PC/TPGP3",
+    "PCTP-GP3"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP2-G20",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "20% Glass Fiber, Excellent Chemical Resistance",
+   "aliases": [
+    "PC TP-GP2-G20",
+    "PC/TP GP2 G20",
+    "PC/TP-GP2-G20",
+    "PC/TPGP2G20",
+    "PCTP-GP2-G20"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP3-G10",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "10% Glass Fiber, Superior Chemical Resistance",
+   "aliases": [
+    "PC TP-GP3-G10",
+    "PC/TP GP3 G10",
+    "PC/TP-GP3-G10",
+    "PC/TPGP3G10",
+    "PCTP-GP3-G10"
+   ]
+  },
+  {
+   "grade": "PC/TP-GP3-G30",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "30% Glass Fiber, Superior Chemical Resistance",
+   "aliases": [
+    "PC TP-GP3-G30",
+    "PC/TP GP3 G30",
+    "PC/TP-GP3-G30",
+    "PC/TPGP3G30",
+    "PCTP-GP3-G30"
+   ]
+  },
+  {
+   "grade": "PC/TP-FR2",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "High Impact, FR, Excellent Chemical Resistance, UL",
+   "aliases": [
+    "PC TP-FR2",
+    "PC/TP FR2",
+    "PC/TP-FR2",
+    "PC/TPFR2",
+    "PCTP-FR2"
+   ]
+  },
+  {
+   "grade": "PC/TP-FR3",
+   "family_code": "PC/Polyester",
+   "family_name": "Polycarbonate/Polyester",
+   "description": "Flame Retardant, Superior Chemical Resistance, High Impact",
+   "aliases": [
+    "PC TP-FR3",
+    "PC/TP FR3",
+    "PC/TP-FR3",
+    "PC/TPFR3",
+    "PCTP-FR3"
+   ]
+  },
+  {
+   "grade": "NY6-GP1",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "NY6 GP1",
+    "NY6-GP1",
+    "NY6GP1"
+   ]
+  },
+  {
+   "grade": "NY6-GP2",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "NY6 GP2",
+    "NY6-GP2",
+    "NY6GP2"
+   ]
+  },
+  {
+   "grade": "NY6-IM1",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, Impact Modified",
+   "aliases": [
+    "NY6 IM1",
+    "NY6-IM1",
+    "NY6IM1"
+   ]
+  },
+  {
+   "grade": "NY6-G13",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, 13% Glass Fiber",
+   "aliases": [
+    "NY6 G13",
+    "NY6-G13",
+    "NY6G13"
+   ]
+  },
+  {
+   "grade": "NY6-G33",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, 33% Glass Fiber",
+   "aliases": [
+    "NY6 G33",
+    "NY6-G33",
+    "NY6G33"
+   ]
+  },
+  {
+   "grade": "NY6-G43",
+   "family_code": "NY6",
+   "family_name": "Polyamide 6 (Nylon 6)",
+   "description": "General Purpose, 43% Glass Fiber",
+   "aliases": [
+    "NY6 G43",
+    "NY6-G43",
+    "NY6G43"
+   ]
+  },
+  {
+   "grade": "NY66-GP1",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "NY66 GP1",
+    "NY66-GP1",
+    "NY66GP1"
+   ]
+  },
+  {
+   "grade": "NY66-GP2",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "General Purpose, UL",
+   "aliases": [
+    "NY66 GP2",
+    "NY66-GP2",
+    "NY66GP2"
+   ]
+  },
+  {
+   "grade": "NY66-IM1",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified",
+   "aliases": [
+    "NY66 IM1",
+    "NY66-IM1",
+    "NY66IM1"
+   ]
+  },
+  {
+   "grade": "NY66-IM2",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, UL",
+   "aliases": [
+    "NY66 IM2",
+    "NY66-IM2",
+    "NY66IM2"
+   ]
+  },
+  {
+   "grade": "NY66-G13",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "General Purpose, 13% Glass Fiber",
+   "aliases": [
+    "NY66 G13",
+    "NY66-G13",
+    "NY66G13"
+   ]
+  },
+  {
+   "grade": "NY66-G33",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "General Purpose, 33% Glass Fiber",
+   "aliases": [
+    "NY66 G33",
+    "NY66-G33",
+    "NY66G33"
+   ]
+  },
+  {
+   "grade": "NY66-G43",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "General Purpose, 43% Glass Fiber",
+   "aliases": [
+    "NY66 G43",
+    "NY66-G43",
+    "NY66G43"
+   ]
+  },
+  {
+   "grade": "NY66-IM1-G13",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, 13% Glass Fiber",
+   "aliases": [
+    "NY66 IM1 G13",
+    "NY66-IM1-G13",
+    "NY66IM1G13"
+   ]
+  },
+  {
+   "grade": "NY66-IM1-G33",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, 33% Glass Fiber",
+   "aliases": [
+    "NY66 IM1 G33",
+    "NY66-IM1-G33",
+    "NY66IM1G33"
+   ]
+  },
+  {
+   "grade": "NY66-IM-G40",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, 40% Glass Fiber",
+   "aliases": [
+    "NY66 IM G40",
+    "NY66-IM-G40",
+    "NY66IMG40"
+   ]
+  },
+  {
+   "grade": "NY66-IM2-G13",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, 13% Glass Fiber",
+   "aliases": [
+    "NY66 IM2 G13",
+    "NY66-IM2-G13",
+    "NY66IM2G13"
+   ]
+  },
+  {
+   "grade": "NY66-IM2-G33",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Impact Modified, 33% Glass Fiber",
+   "aliases": [
+    "NY66 IM2 G33",
+    "NY66-IM2-G33",
+    "NY66IM2G33"
+   ]
+  },
+  {
+   "grade": "NY66-MD1",
+   "family_code": "NY66",
+   "family_name": "Polyamide 6/6 (Nylon 6/6)",
+   "description": "Molybdenum Disulfide Lubricant",
+   "aliases": [
+    "NY66 MD1",
+    "NY66-MD1",
+    "NY66MD1"
+   ]
+  }
+ ]
+}

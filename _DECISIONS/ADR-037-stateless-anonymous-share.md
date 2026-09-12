@@ -4,22 +4,22 @@
 > **Date:** 2026-07-19
 > **Commit:** (set at merge)
 > **Y:** GREEN / HIGH / STABLE
-> **Relates to:** ADR-016 (anonymous compass), ADR-032 (anonymous-storage defect + repair seam)
+> **Relates to:** ADR-016 (anonymous compass), ADR-049 (anonymous-storage defect + repair seam)
 
 ## D — The Decision
 
 **Sharp question:** Anonymous bearings are never persisted (trust contract: "no auth = no write path").
 So `/brief/[id]` 404s for a recipient, and anonymous threads have no shareable/return path. How do we
 make an anonymous bearing shareable **without** re-introducing the exact anonymous-storage defect that
-ADR-032 fixed and publicly disclosed?
+ADR-049 fixed and publicly disclosed?
 
 **Decision:** Encode the bearing into the **URL fragment** (`/brief/share#<payload>`). Browsers never
 send the fragment to the server, Referer headers, or logs — so the recipient's browser recomposes the
 brief entirely client-side with **zero server write**. The published "nothing is stored / no write path"
-claims remain literally true; ADR-032 is **not** reversed.
+claims remain literally true; ADR-049 is **not** reversed.
 
 Rejected alternative: a server-side one-time-token store. It would deliver hard-enforced "one view," but
-requires an anonymous server write — reversing ADR-032 and forcing a trust-contract amendment. Not worth
+requires an anonymous server write — reversing ADR-049 and forcing a trust-contract amendment. Not worth
 it; the stateless design meets the goal at no privacy cost.
 
 ## E — Entity / System
@@ -53,7 +53,7 @@ was explicitly chosen.
   row + a MEMORY.md entry. The derived pages then match it: `/trust` §01 carve-out (footer bumped to v1.3);
   `/privacy` row (footer bumped to v1.1). Wording avoids overclaiming — the one-view flag is per-device/soft,
   not "enforced."
-- **Server-side claims unchanged** — no DB row, no reversal of ADR-032. A `privacy-review` pass verifies
+- **Server-side claims unchanged** — no DB row, no reversal of ADR-049. A `privacy-review` pass verifies
   code-vs-claims before merge.
 - **Soft one-time:** cannot be enforced across devices/cache-clears (no server state). Accepted.
 - `/terms`: reviewed — no change required (existing user-shared-content terms cover it).

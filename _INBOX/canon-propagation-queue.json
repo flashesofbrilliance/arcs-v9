@@ -1,0 +1,13 @@
+{
+  "ts": "2026-08-28T11:46:03-04:00",
+  "verdict": "DRIFT",
+  "items": [
+    {
+      "id": "invariant-non-sycophantic",
+      "kind": "judgment",
+      "default": "no",
+      "title": "cross-harness invariant drift: 'non-sycophantic / bear-case-first'",
+      "proposal": "shared operating invariant 'non-sycophantic / bear-case-first' is present in Hermes USER.md but MISSING from Claude always-loaded files (AGENTS/WORLD/CLAUDE.md) — the two harnesses will behave differently on the monorepo"
+    }
+  ]
+}

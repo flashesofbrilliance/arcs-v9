@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rosetta-shell · lossless</title>
+<meta name="description" content="Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
+    --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;--fg4:#4a5a6d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
+    --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
+    --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:var(--mono);}
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 420px at 20% -10%,var(--glowA),transparent 60%),radial-gradient(700px 380px at 92% 0,var(--glowB),transparent 55%);}
+  .hero{padding-block:66px 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:22px;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16px,2.5vw,20px);line-height:1.58;color:var(--fg2);max-width:640px;margin-top:22px;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  /* full-width lede matches heading… hero lede spans the container, not a narrow column */
+  .hero .lede{max-width:none;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  section{padding:52px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:24px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:22px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  .thesis{font-size:clamp(19px,3vw,25px);line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--fg1);max-width:780px;}
+  .thesis b{color:var(--green);font-weight:600;}
+  .thesis small{display:block;font-size:13.5px;font-weight:400;color:var(--fg3);margin-top:16px;line-height:1.65;}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
+  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
+  .grade{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .grade .g{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);}
+  .grade p{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+
+  .oneshot{position:relative;border:1px solid var(--border2);border-radius:13px;background:linear-gradient(165deg,#0c1219,#080d13);box-shadow:0 12px 34px -18px rgba(0,240,255,.25);overflow:hidden;}
+  .oneshot .bar{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
+  .oneshot .bar .l{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
+  .oneshot .cp{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
+  .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
+  .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
+  .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
+  .oneshot code .v{color:var(--gold);}
+
+  .install-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.install-grid{grid-template-columns:1fr;}}
+  .install-grid.one{grid-template-columns:1fr;max-width:620px;}
+  .chan h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-bottom:8px;}
+
+  pre.blk{background:var(--elev);border:1px solid var(--border);border-radius:11px;padding:15px 17px;overflow-x:auto;}
+  pre.blk code{font-family:var(--mono);font-size:12.5px;color:var(--green);line-height:1.7;white-space:pre-wrap;}
+  .note{font-size:12.5px;line-height:1.55;color:var(--fg3);margin-top:14px;} .note b{color:var(--fg2);font-weight:600;}
+
+  footer{padding:34px 0 48px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+  :root{--cyan:#A78BFA;--green:#6D8BFF;--btn2:#7C6BF0;--glowA:rgba(167,139,250,.11);--glowB:rgba(109,139,255,.075);--kickbrd:rgba(167,139,250,.36);--btnglow:rgba(167,139,250,.5);--glowsoft:rgba(167,139,250,.25);--barbg:rgba(167,139,250,.045);}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>rosetta-shell · a shell-portability CLI by ARCS</span>
+    <h1><span class="g">Lossless</span> shell portability.</h1>
+    <p class="lede">Write one script; run it <b>byte-identical</b> across bash 3.2, zsh, POSIX sh, and ksh. Think i18n, but for shells… service localization for the scripts that silently break the moment they change environments.</p>
+    <div class="cta">
+      <a class="btn p" href="#start">↓ Install</a>
+      <a class="btn s" href="https://github.com/flashesofbrilliance/rosetta-shell">◇ GitHub</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>The problem</h2><span class="sub">why it exists</span></div>
+    <p class="thesis">A script authored on a modern bash laptop breaks the moment it lands on Apple's frozen <b>bash 3.2</b>, a zsh default, or a dash container. rosetta-shell is the phrasebook that makes it speak each locale… and a conformance runner that <b>proves</b> the shim produces identical output in every shell, instead of hoping it does.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>The four moving parts</h2><span class="sub">what&#x27;s inside</span></div>
+    <div class="grades">
+      <div class="grade"><div class="g">● crossrun</div><p>The gate. Runs your script under every installed shell and reports a pass/fail matrix. Exits nonzero on failure, so it drops straight into CI.</p></div>
+      <div class="grade"><div class="g">● lint</div><p>Scans a script for non-portable constructs and names the shim to use… advisory, never rewrites your code.</p></div>
+      <div class="grade"><div class="g">● doctor</div><p>Localizes your environment: which shell you&#x27;re in, which native features are missing.</p></div>
+      <div class="grade"><div class="g">● rosetta.sh</div><p>A sourceable shim library… one portable map plus case, echo, and split shims that behave the same everywhere.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>Install</h2><span class="sub">two live channels</span></div>
+    <div class="install-grid">
+      <div class="chan">
+        <h3>npm</h3>
+        <div class="oneshot">
+          <div class="bar"><span class="l">◈ npm</span><button class="cp" data-cmd="npx @flashesofbrilliance/rosetta-shell" onclick="copyCmd(this)">copy</button></div>
+          <pre><code>npx @flashesofbrilliance/rosetta-shell</code></pre>
+        </div>
+      </div>
+      <div class="chan">
+        <h3>Homebrew (macOS)</h3>
+        <div class="oneshot">
+          <div class="bar"><span class="l">◈ homebrew</span><button class="cp" data-cmd="brew install flashesofbrilliance/tap/rosetta-shell" onclick="copyCmd(this)">copy</button></div>
+          <pre><code>brew install flashesofbrilliance/tap/rosetta-shell</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">04</span><h2>Part of the ARCS family</h2><span class="sub">the tie-in</span></div>
+    <p class="thesis">Portability-as-proof is the same discipline ARCS applies to decisions: prove a thing survives every environment instead of trusting that it will. rosetta-shell is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>rosetta-shell · a public good by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="https://github.com/flashesofbrilliance/rosetta-shell">github</a> · <a href="https://arcs.care">arcs.care</a></span>
+  </div>
+</footer>
+
+<script>
+  function copyFlash(b,ok){
+    if(!b) return; if(b._t) clearTimeout(b._t); if(!b._o) b._o=b.textContent;
+    b.textContent = ok ? 'copied ✓' : 'select + copy';
+    b.style.color = ok ? '#00FF9D' : '#FFD700';
+    b._t=setTimeout(function(){b.textContent=b._o;b.style.color='';},1800);
+  }
+  function legacyCopy(t){
+    try{ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length);
+      var ok=document.execCommand('copy'); document.body.removeChild(ta); return ok;
+    }catch(e){ return false; }
+  }
+  function copyCmd(btn){
+    var t=btn.getAttribute('data-cmd')||'';
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){copyFlash(btn,true);},
+        function(){ copyFlash(btn, legacyCopy(t)); });
+    } else { copyFlash(btn, legacyCopy(t)); }
+  }
+</script>
+</body>
+</html>

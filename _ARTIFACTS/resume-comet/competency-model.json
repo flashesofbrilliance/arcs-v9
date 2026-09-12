@@ -1,0 +1,129 @@
+{
+  "subject": "Zach Harris",
+  "generated": "2026-08-17",
+  "honesty_policy": {
+    "verifiability_grades": {
+      "documented": "public / inspectable (live URL, public AUM, cert, repo, GitHub org)",
+      "self-reported": "subject's figure; plausible, not independently verified",
+      "unverifiable": "tacit / subjective"
+    },
+    "proficiency_scale": "0-5, PROVISIONAL hypothesis for the falsifier to confirm, never asserted as fact",
+    "rule": "Nothing appears on a public artifact unless verifiability is 'documented' or 'self-reported'. Impressive-but-false is a ruin vector (background + reference checks). Defensibly-true beats impressive."
+  },
+  "target_role": {
+    "company": "Comet",
+    "title": "Technical Product Marketing Manager",
+    "req_id": "gh_jid=7798929003",
+    "location": "USA Remote / Europe Remote",
+    "reports_to": "VP of Marketing",
+    "jd_keywords": [
+      "product marketing", "messaging", "positioning", "Opik", "LLM", "open source",
+      "personas: LLM Engineers / ML-AI Researchers / Data Scientists",
+      "content creation", "case studies", "one-pagers", "website copy", "blog / long-form",
+      "sales enablement", "demo videos", "talk tracks", "discovery scripts", "FAQs",
+      "competitive messaging", "strategic partnerships", "events", "thought leadership",
+      "Python", "PyTorch", "Keras", "TensorFlow", "collaborate with data scientists / engineers",
+      "project management", "self-starter", "ownership"
+    ]
+  },
+  "lead_with_strengths_order": ["pmm_gtm", "ai_native_builder", "technical_content", "data_instrumentation"],
+  "domains": [
+    {
+      "id": "pmm_gtm",
+      "name": "Product Marketing, Positioning & Go-To-Market",
+      "jd_relevance": 95,
+      "why_leads": "Literal JD match. The role is product marketing; the subject has led GTM/positioning for regulated product suites and commercial partnerships across five industries.",
+      "levels": {
+        "exec": "Takes technical products to market: positioning, segmentation, and adoption strategy.",
+        "strategic": "Owned GTM for a 10-product regulated suite ($7B AUM) inside SEC/FINRA controls.",
+        "operational": "Positioning, segmentation, adoption across the investor experience; cross-functional with product, legal, risk, compliance.",
+        "tactical": "Commercial partnership design (WTA x Twitter/Facebook), attribution models, event-driven revenue.",
+        "surgical": "$850K+ year-one commercial revenue from first social distribution partnerships (WTA)."
+      },
+      "competencies": [
+        {"skill": "Product positioning & messaging", "type": "hard", "evidence": "Grayscale GTM lead across 10 regulated products; WTA product & partnerships", "verifiability": "self-reported", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "lead", "why": "the role's core", "how": "headline the resume"}},
+        {"skill": "Go-to-market strategy", "type": "hard", "evidence": "Grayscale Product Lead, GTM 2024-25; cross-vertical consulting GTM", "verifiability": "self-reported", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "lead", "why": "core", "how": "headline"}},
+        {"skill": "Regulated / high-trust product context", "type": "hard", "evidence": "Grayscale ($7B AUM, SEC/FINRA); public figures", "verifiability": "documented", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "support", "why": "Comet sells trust/reliability for AI apps; regulated-product credibility transfers", "how": "one supporting line"}},
+        {"skill": "Strategic partnerships", "type": "hard", "evidence": "WTA: Twitter/Facebook commercial partnerships, $850K+ y1", "verifiability": "self-reported", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "support", "why": "JD lists partnerships messaging", "how": "one bullet"}}
+      ]
+    },
+    {
+      "id": "ai_native_builder",
+      "name": "AI-Native / LLM Product Building (application layer)",
+      "jd_relevance": 90,
+      "why_leads": "The rare differentiator: a marketer who ships LLM-native software and open-source developer tools, so speaks the language of Comet's personas (LLM engineers, data scientists) with earned credibility. Comet's own product (Opik) is open source.",
+      "levels": {
+        "exec": "Builds LLM-native products, not just the story around them.",
+        "strategic": "Founded ARCS, a decision-intelligence platform built on Claude + MCP + agentic pipelines.",
+        "operational": "Ships open-source developer tools (npm / Homebrew / a Claude Code plugin marketplace), each with its own conformance suite.",
+        "tactical": "MCP server + agentic orchestration handling automated pre/post-decision capture.",
+        "surgical": "Public GitHub org (flashesofbrilliance) with the shipped tool family."
+      },
+      "competencies": [
+        {"skill": "LLM-native application development (Claude, MCP, agentic pipelines)", "type": "hard", "evidence": "ARCS platform; MCP server; open-source dev-tool family", "verifiability": "documented", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "lead", "why": "credibility with the target personas + open-source alignment with Opik", "how": "second headline strength"}},
+        {"skill": "Open-source developer tooling", "type": "hard", "evidence": "rosetta-shell, germinate, arcs-skills plugin marketplace (github.com/flashesofbrilliance)", "verifiability": "documented", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "support", "why": "Opik is OSS; PMM-for-OSS-dev-tools is the exact motion", "how": "Open-source line + skills"}},
+        {"skill": "AI/ML product exposure (industry)", "type": "hard", "evidence": "Twill Health: 3 AI-enabled digital-health product lines (2021-23); ARCS 2025-present", "verifiability": "self-reported", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "support", "why": "JD wants AI/ML industry time", "how": "frame as exposure-since-2021, LLM-concentrated since 2025"}},
+        {"skill": "MIT xPRO — AI: Implications for Business Strategy", "type": "hard", "evidence": "certificate", "verifiability": "documented", "proficiency_provisional": 2, "confirmed": false,
+          "disclosure": {"when": "support", "why": "formal AI credential offsets non-CS degree", "how": "credentials line"}}
+      ]
+    },
+    {
+      "id": "technical_content",
+      "name": "Technical Content & Communication for Developer Audiences",
+      "jd_relevance": 85,
+      "why_leads": "JD is heavy on content creation, sales enablement, and tailoring technical concepts for diverse audiences. Subject demonstrably translates technical -> multiple registers (building-in-public, client-facing artifacts, this resume family).",
+      "levels": {
+        "exec": "Translates technical depth into content that lands for both engineers and buyers.",
+        "strategic": "Building-in-public practice: ships tools and the narrative/docs/positioning around them.",
+        "operational": "Client-facing GTM content and enablement across engagements.",
+        "tactical": "One-pagers, case-study framing, competitive positioning, website/product copy.",
+        "surgical": "Published developer-tool READMEs + conformance docs; interactive resume artifacts."
+      },
+      "competencies": [
+        {"skill": "Technical writing / content for developer audiences", "type": "hard", "evidence": "OSS tool docs; building-in-public; GTM content across roles", "verifiability": "documented", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "lead", "why": "core JD duty", "how": "pillar + bullet"}},
+        {"skill": "Sales enablement (talk tracks, FAQs, competitive messaging)", "type": "hard", "evidence": "GTM roles (Grayscale, consulting)", "verifiability": "self-reported", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "support", "why": "JD lists it explicitly", "how": "skills + one bullet"}},
+        {"skill": "Audience-tailored communication", "type": "soft", "evidence": "cross-functional work with eng/legal/risk/clinical; multi-register artifacts", "verifiability": "self-reported", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "support", "why": "'tailor technical concepts for diverse audiences'", "how": "thesis"}}
+      ]
+    },
+    {
+      "id": "data_instrumentation",
+      "name": "Data, Analytics & Instrumentation",
+      "jd_relevance": 65,
+      "why_leads": "Supports 'proficiency in data science tools' and 'collaborate with data scientists and engineers'. Not a headline for a marketing role, but real depth that makes the technical-PMM claim credible.",
+      "levels": {
+        "exec": "Fluent enough in data tooling to work shoulder-to-shoulder with data scientists.",
+        "strategic": "Built CDP/CRM and instrumentation layers end-to-end across orgs.",
+        "operational": "Event taxonomy, experimentation, forecasting, attribution.",
+        "tactical": "SQL, Python; Snowflake/Segment/Salesforce CDP.",
+        "surgical": "WTA real-time fan-behavior scoring at <120ms; CTF 20% net-new revenue via segmentation."
+      },
+      "competencies": [
+        {"skill": "Python", "type": "hard", "evidence": "self-reported toolkit; ARCS build scripts", "verifiability": "self-reported", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "support", "why": "JD 'preferred'; the ONLY listed DS language backed by evidence", "how": "skills line"}},
+        {"skill": "SQL / data modeling / CDP", "type": "hard", "evidence": "CTF, WTA, Grayscale, consulting", "verifiability": "self-reported", "proficiency_provisional": 4, "confirmed": false,
+          "disclosure": {"when": "support", "why": "collaborate-with-data-scientists", "how": "skills line"}},
+        {"skill": "Experimentation / attribution / forecasting", "type": "hard", "evidence": "multiple GTM/data roles", "verifiability": "self-reported", "proficiency_provisional": 3, "confirmed": false,
+          "disclosure": {"when": "support", "why": "analytical credibility", "how": "skills line"}}
+      ]
+    }
+  ],
+  "practice_list": [
+    {"domain": "ai_native_builder", "gap": "JD lists 'hands-on LLM Engineering' as a plus. Subject's depth is application/orchestration (Claude, MCP, agentic) and OSS dev tooling, NOT model training/fine-tuning. Claim the application layer; never imply ML research engineering. Interview line: 'I build LLM-native products and dev tooling; I'm not training or fine-tuning models.'", "priority": "high"},
+    {"domain": "ai_native_builder", "gap": "'At least 2 years in AI/ML with LLM concentration.' Real AI/ML industry exposure since ~2021 (Twill AI-health); LLM-concentrated ~1yr (ARCS) + MIT AI cert. Do NOT assert '2 years LLM'. Frame: AI/ML since 2021, LLM-native building since 2025.", "priority": "medium"},
+    {"domain": "data_instrumentation", "gap": "JD prefers PyTorch/Keras/TensorFlow. No evidence of any. Python is backed; the three frameworks are not. Do not list them. If asked: honest 'Python yes; I haven't shipped in PyTorch/TF.'", "priority": "medium"},
+    {"domain": "technical_content", "gap": "JD: 'Represent Comet at conferences / meetups' (events + thought leadership). No documented public speaking record. Claim building-in-public + published content, not a speaking history. Prep: name it as a growth area you'd ramp into.", "priority": "medium"},
+    {"domain": "pmm_gtm", "gap": "Headline metrics (60% decision-noise reduction, $850K y1, 20% revenue lift) are self-reported / internal estimates. Grayscale $7B AUM + 10 products are public. Keep self-reported figures modest and labeled; be ready to explain method.", "priority": "low"},
+    {"domain": "ai_native_builder", "gap": "Degree is BA Studio Art (Oberlin), not the 'preferred' BS in Data Science/CS. Offset with MIT AI cert + demonstrated shipped technical work. It's preferred, not required.", "priority": "low"},
+    {"domain": "pmm_gtm", "gap": "Titles/dates in this SSOT come from the subject's own resume, not a LinkedIn export. Confirm exact titles/dates against the LinkedIn export before submitting (skill rule: export overrides prior resumes on facts).", "priority": "medium"}
+  ]
+}

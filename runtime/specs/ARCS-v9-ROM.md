@@ -1,7 +1,13 @@
-# ARCS v9 ROM
+# ARCS v9 ROM — Behavioral Laws (derived)
 
-Status: draft ROM starter  
-Purpose: non-negotiable execution laws for ARCS v9
+> **Tier: DERIVED behavioral laws** (not canon). Per the ROM-vocabulary ruling (2026-08-28, Option A —
+> see `runtime/specs/ROM-AXIS-INDEX.md`), the CANON axis is the **7 ROM Primitives** in
+> `.claude/arcs-canon.md`. The ROM-1…ROM-6 below are the *derived execution/behavioral layer*, not
+> primitives. When someone asks "what are the ROM primitives?", the answer is the 7 in arcs-canon.md,
+> not these 6.
+
+Status: derived behavioral laws (was "draft ROM starter")
+Purpose: non-negotiable execution laws for ARCS v9, derived from the 7 ROM Primitives
 
 ## What belongs here
 ROM contains universal behavior that should not vary by user taste or current mood. Changing ROM should feel like a firmware bump, not a preference tweak. [file:2][file:3]

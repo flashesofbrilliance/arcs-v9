@@ -157,7 +157,7 @@ export default async function InternalPage() {
         </div>
 
         <div style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
-          Sources: ADR-031/032 · ARCS Yellow + White papers (internal drafts) · USPTO/CPC + live prior-art · triage for counsel, not legal advice.
+          Sources: ADR-048/032 · ARCS Yellow + White papers (internal drafts) · USPTO/CPC + live prior-art · triage for counsel, not legal advice.
         </div>
       </div>
     </main>

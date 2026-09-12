@@ -3,11 +3,14 @@
     "id": "RC-OPS-001",
     "name": "Golden Inchworm + Orthogonal Echo Detector",
     "file": "operators/arcs_inchworm_echo.py",
-    "status": "READY_FOR_PERIOD",
-    "gate": "Observatory period (no RC promotions until period + 100 receipts)",
+    "status": "GRADUATION_INITIATED",
+    "gate": "Corrected 2026-08-29: NOT corpus-count. Four criteria (see receipt): (1) resolve ROM-vocabulary canon collision; (2) detector precision adv-FP<=0.10 @ recall>=0.80 via injectable signature_fn/orthogonality_fn; (3) K>=3 blind source-independent hindsight-confirmed echoes, zero false-positives; (4) Observatory period served. The old 'period + 100 receipts' was the Folksonomy candidate's gate, inherited by accident.",
     "description": "Golden Inchworm (Red Thread \u2192 Golden Thread \u2192 Needle, 3-pass) + Orthogonal Echo Detector (cross-domain kinematic isomorphisms)",
     "source_rom": "_CANON/book-ii/part-ii-core-rom-axioms.md (Golden Inchworm + Orthogonal Echo primitives)",
     "ready_since": "2026-06-23",
+    "graduation_initiated_at": "2026-08-29",
+    "graduation_receipt": "_STATE/2026-08-29-rc-ops-001-graduation-initiation.md",
+    "criteria_status": {"rom_vocab_resolved": false, "detector_precision": "FAIL (adv-FP 1.0 @ default; dogfood 2026-08-29)", "blind_echo_count": 1, "observatory_period_served": false},
     "promoted_at": null
   }
 ]

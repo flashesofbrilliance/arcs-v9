@@ -1,0 +1,4 @@
+{"ts": "2026-09-08T15:59:37Z", "global_beat": 0, "type": "pulse-check-receipt", "verdict": "OK", "flatlines": [], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 76 >= disk high-water 76"]}
+{"ts": "2026-09-09T13:47:02Z", "global_beat": 1, "type": "pulse-check-receipt", "verdict": "OK", "flatlines": [], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 77 >= disk high-water 77"]}
+{"ts": "2026-09-11T14:17:43Z", "global_beat": 3, "type": "pulse-check-receipt", "verdict": "ALARM", "flatlines": [{"subsystem": "commits", "beats_since": 2, "max_beats": 1}], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 77 >= disk high-water 77"]}
+{"ts": "2026-09-11T14:17:44Z", "global_beat": 3, "type": "pulse-check-receipt", "verdict": "ALARM", "flatlines": [{"subsystem": "commits", "beats_since": 2, "max_beats": 1}], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 77 >= disk high-water 77"]}

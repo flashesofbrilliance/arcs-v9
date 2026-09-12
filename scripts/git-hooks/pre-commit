@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# pre-commit — oracle guard: reject a commit that introduces a DUPLICATE ADR number.
+#
+# Root cause of the 2026 ADR-number collisions: parallel sessions/harnesses (Claude Code,
+# Hermes) mint numbers by inference instead of `oracle next adr`. The oracle is a git-backed
+# logical clock, but it is advisory — this hook makes bypassing it UN-COMMITTABLE, harness-
+# agnostic (git runs it regardless of which agent staged the files).
+#
+# Install once (propagates to all worktrees — they share the common .git):
+#   git config core.hooksPath scripts/git-hooks
+#
+# Blocks only when a NEWLY-ADDED _DECISIONS/ADR-<n>-*.md reuses a number that already exists
+# in HEAD. Pre-existing collisions do NOT block unrelated commits (only new dups are gated).
+# Also WARNS (non-blocking) when a new ADR's number exceeds the committed oracle counter
+# (_SEEDS/_oracle.json) — the signal that it was minted off-oracle.
+set -euo pipefail
+
+added=$(git diff --cached --name-only --diff-filter=A -- '_DECISIONS/ADR-*.md' 2>/dev/null || true)
+# NB: do NOT `exit 0` here when $added is empty — later guards (wrap-class) must still run.
+if [ -n "$added" ]; then
+  # existing ADR numbers already in HEAD (the committed tree)
+  existing=$(git ls-tree -r --name-only HEAD -- _DECISIONS 2>/dev/null \
+    | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//' | sort -u || true)
+
+  oracle_counter=$(git show HEAD:_SEEDS/_oracle.json 2>/dev/null \
+    | grep -oE '"adr"[[:space:]]*:[[:space:]]*[0-9]+' | grep -oE '[0-9]+$' || echo 0)
+
+  fail=0
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    n=$(basename "$f" | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//')
+    [ -z "$n" ] && continue
+    if echo "$existing" | grep -qx "$n"; then
+      echo "✖ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") already exists in HEAD — this commit would DUPLICATE it." >&2
+      echo "  file: $f" >&2
+      echo "  fix:  run 'python3 scripts/oracle.py next adr' for a fresh number, rename the file, commit _SEEDS/_oracle.json." >&2
+      fail=1
+    elif [ "${oracle_counter:-0}" -gt 0 ] && [ "$n" -gt "$oracle_counter" ]; then
+      echo "⚠ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") is above the committed oracle counter ($oracle_counter) — looks minted off-oracle. Not blocking, but verify with 'python3 scripts/oracle.py audit adr'." >&2
+    fi
+  done <<< "$added"
+
+  [ "$fail" -eq 1 ] && { echo "✖ commit blocked: duplicate ADR number. (canon-collision-escalate: allocate via the oracle, don't reuse.)" >&2; exit 1; }
+fi
+
+# ---------------------------------------------------------------------------
+# wrap-class guard: reject NEWLY-ADDED public/*.html that carry the
+# intermediate-width wrap-regression class (em-dash in rendered copy, or a
+# per-role `max-width:NNch` on text). See scripts/artifact_wrap_lint.py and
+# memory intermediate-width-wrap-regression-class.
+#
+# ADDED-only, by design — mirrors the oracle guard above: a brand-new artifact
+# (the recurrence population: each self-contained page re-authors CSS fresh)
+# must be born clean, but the repo's large pre-existing em-dash debt does NOT
+# block an unrelated edit to a legacy page. Regressions inside modified files
+# are left to the manual sweep / a future net-new-diff check.
+# Skips cleanly when the linter or python3 is absent (older worktrees stay committable).
+if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$html" ]; then
+    if ! echo "$html" | tr '\n' '\0' | xargs -0 python3 scripts/artifact_wrap_lint.py; then
+      echo "✖ commit blocked: wrap-class violation in a NEW public/*.html (see above)." >&2
+      echo "  fix the em-dash / ch-cap findings, re-sweep 375/790/desktop, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# informativeness ratchet: when the audit corpus or the gate machinery is staged,
+# block on NEW signal degeneracy beyond the committed baseline
+# (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
+# degeneracy is frozen; a field that carried information going constant blocks.
+# Deterministic, stdlib-only. Skips cleanly if the gate or python3 is absent.
+if [ -f operators/audit_service/informativeness_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  touched=$(git diff --cached --name-only -- \
+    'operators/audit_service/audit_traces.jsonl' \
+    'operators/audit_service/informativeness_gate.py' \
+    'operators/audit_service/informativeness_sensor.py' \
+    'operators/audit_service/informativeness_baseline.json' 2>/dev/null || true)
+  if [ -n "$touched" ]; then
+    if ! python3 operators/audit_service/informativeness_gate.py; then
+      echo "✖ commit blocked: informativeness ratchet — a NEW field went degenerate (see above)." >&2
+      echo "  fix the data path, or if intended add it to informativeness_baseline.json with a note." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# integrity gate (ADR-075 GATE organ, Reading Room Phase 0): every ADR / commit sha /
+# repo path cited by a staged record (_DECISIONS, _MEMORY, _SPECS, _CANON, _STATE, _SEEDS,
+# _PATTERNS, root *.md) must exist on origin/main. See scripts/integrity_gate.py.
+# WARN-THEN-BLOCK rollout: warns by default; set INTEGRITY_GATE_BLOCK=1 to make a FAIL
+# verdict reject the commit. Skips cleanly when the script, python3, or origin/main is absent.
+if [ -f scripts/integrity_gate.py ] && command -v python3 >/dev/null 2>&1 \
+   && git rev-parse --verify -q origin/main >/dev/null 2>&1; then
+  if ! python3 scripts/integrity_gate.py --staged -q; then
+    if [ "${INTEGRITY_GATE_BLOCK:-0}" = "1" ]; then
+      echo "✖ commit blocked: a staged record cites something not on origin/main (DRIFTED-AT-BIRTH)." >&2
+      echo "  fix the cite, or merge what it cites first. Bypass once: INTEGRITY_GATE_BLOCK=0" >&2
+      exit 1
+    fi
+    echo "⚠ pre-commit(integrity-gate): not blocking (set INTEGRITY_GATE_BLOCK=1 to enforce)." >&2
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# wrap-class gate for React/TS surfaces — the artifact_wrap_lint.py sibling for
+# code, not just public/*.html (that gate is blind to .tsx, which is how a ch cap
+# shipped on the jobs board 2026-09-08). Block a commit that ADDS a per-element
+# `ch` cap on text (maxWidth: "NNch"); the rule is one shared px MEASURE. See the
+# intermediate-width-wrap-regression class. Added-lines-only so legacy caps in
+# untouched files never block an unrelated edit. Pure grep, no deps.
+tsx=$(git diff --cached --name-only --diff-filter=ACM -- '*.tsx' '*.ts' 2>/dev/null || true)
+if [ -n "$tsx" ]; then
+  bad=$(git diff --cached -U0 -- '*.tsx' '*.ts' 2>/dev/null | grep -E '^\+' | grep -E 'maxWidth: *"[0-9]+ch"' || true)
+  if [ -n "$bad" ]; then
+    echo "✖ commit blocked: a new per-element ch cap on text (maxWidth:\"NNch\") — use the shared px MEASURE instead." >&2
+    echo "$bad" | sed 's/^/  /' >&2
+    echo "  (intermediate-width-wrap-regression class: ch against mixed font sizes gives each role a different right edge = broken-looking wrap.)" >&2
+    exit 1
+  fi
+fi
+
+exit 0

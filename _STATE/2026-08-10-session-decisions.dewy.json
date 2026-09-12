@@ -1,0 +1,127 @@
+{
+  "_doc": "DEWY decision receipts for the 2026-08-09/10 Yuri-family session, dogfooding runtime/specs/dewy-receipt-schema-v1.json (core fields). Hand-filed, not compass-generated. See ADR-044 for the headline decision.",
+  "session_ts": "2026-08-10",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-10-temporal-provenance-gate",
+      "surface": "meta / forge",
+      "sharp_question": "How do we stop ARCS stating aspirational capabilities as present fact?",
+      "dewy_vector": {
+        "D": "Capability claims carry temporal placement (NOW/NEXT/ASPIRATIONAL); fiction = not-NOW; enforce by a gate that refuses to write unhedged aspiration.",
+        "E": "scripts/forge_counterpart.py::temporal_provenance + run_gates; all counterpart surfaces.",
+        "W": "DURABLE (extends ADR-039). Revisit when ARCS ships a genuinely model-agnostic runtime.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "ARCS runs on Claude today; a Google-internal version could run on Gemini. Never render aspiration as present fact.",
+      "why": "The model-agnostic false claim was aspiration leaking into the present tense with nothing to catch it; a technical counterpart catches what we miss.",
+      "loki": "Could this false-positive a legit hedged claim? Mitigated by Agentum-exception + generous hedge window + tuneable lists.",
+      "bar": "A false capability claim to a builder inverts trust (whole-relationship ruin). Gate caught a 2nd live instance (Robin) on first run.",
+      "horizon": "DURABLE",
+      "stakes": "HIGH",
+      "mode": "COURT",
+      "adr": "ADR-044"
+    },
+    {
+      "receipt_id": "2026-08-10-redact-dossier-two-link-warm",
+      "surface": "yuri one-door",
+      "sharp_question": "Given the full LinkedIn thread, does the artifact family fit Yuri's actual vibe?",
+      "dewy_vector": {
+        "D": "Refit to a warm, bite-size, no-agenda reader who bounces off abstraction: redact the profile (dossier) from the send, collapse the menu to two (before/after + diamond), warm the entry, and open by telling him what it is in his terms (a pre-meeting brief, closed and scored).",
+        "E": "yuri.html + facesnav; profile page kept live but unlinked.",
+        "W": "This-send tactical (per-recipient), grounded in his verbatim 'high level and theoretical / how do I use this'.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "For a warm no-agenda guy who told you it was too abstract, give one clear thing, not a universe.",
+      "why": "He said twice it was too abstract and asked for how-to-read / who-for / an example; the read-of-himself was the hardest to judge.",
+      "loki": "Does redacting the profile lose the 'read of you' value? No — he asked for the before/after of the CALL, not a portrait of himself.",
+      "bar": "Over-building for a busy bite-size reader = he bounces and never gets to the good part.",
+      "horizon": "WEEK",
+      "stakes": "MED",
+      "mode": "STANDARD",
+      "memory": "[[met-at-your-level-onramp-design-principle]]"
+    },
+    {
+      "receipt_id": "2026-08-09-diamond-earned-fidelity",
+      "surface": "yuri-diamond (--surface diamond)",
+      "sharp_question": "Would a full-manifold diamond-cut recoil of the call be valuable, or an overclaim?",
+      "dewy_vector": {
+        "D": "Ship the diamond cut as EARNED-fidelity, not maximal: 2 defensible dimensions (Sync + self-scored Conviction), verbatim-anchored, the gap-between-lines is the read, resolution said out loud, fence intact; surface it for the builder (the closed-loop 'after' he never built), not the front door for everyone.",
+        "E": "render_diamond in forge_counterpart.py; yuri-diamond.arcs.care.",
+        "W": "DURABLE design principle.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Render only what one call honestly supports; depth is a gift, not a flex.",
+      "why": "A full 12D manifold off one 30-min call self-refutes against earned-fidelity/refusal-to-overclaim; two honest dimensions do not.",
+      "loki": "Is it a fancy chart or the real thing? Verbatim-anchored + self-scored + fence = earned, per all gauntlet facets.",
+      "bar": "A pixel-precise chart implies measurement it does not have; mitigated by rounding to 5-pt steps + a loud fidelity fence.",
+      "horizon": "DURABLE",
+      "stakes": "MED",
+      "mode": "STANDARD",
+      "memory": "[[earned-fidelity-not-maximal-diamond-cut]]"
+    },
+    {
+      "receipt_id": "2026-08-09-persona-facet-gauntlet",
+      "surface": "meta / QA method",
+      "sharp_question": "Before sending a counterpart artifact, how do we catch what the register/lens gauntlet misses?",
+      "dewy_vector": {
+        "D": "Run a 6-facet counterpart-persona simulation (builder/practitioner/skeptic/connector/hedge/bite-size) + an adversarial verifier that rejects over-flags, grounded in the primary transcript + memory; verify each surviving flag against source before healing.",
+        "E": "yuri-persona-gauntlet Workflow.",
+        "W": "DURABLE method for pre-send QA of any counterpart family.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "The deepest check is BEING the counterpart across facets at high burden of proof; neither detector nor register-lens gauntlet is enough alone.",
+      "why": "It caught framing/mechanism cracks (buyer-relabeling, the ratchet, chart chronology conflict) the lens + register gauntlets passed clean.",
+      "loki": "Over-flagging risk? The verifier rejected 4 over-flags (e.g. 'two lines are really one'); I re-verify each against source.",
+      "bar": "Self-review is the weakest check; a builder catches hand-waving in 2s.",
+      "horizon": "DURABLE",
+      "stakes": "MED",
+      "mode": "COURT",
+      "memory": "[[gauntlet-tuned-to-register-catches-what-detector-cannot]] (escalation 3)"
+    },
+    {
+      "receipt_id": "2026-08-10-yuri-send-final-structure",
+      "surface": "yuri family / send",
+      "sharp_question": "After 4 gauntlets, what is the final structure sent to Yuri, and is it sent?",
+      "dewy_vector": {
+        "D": "Two-link warm one-door (before/after=codex + diamond-as-a-read); the machine (scored closed-loop + file-your-own-bet = the RECEIPT) chained off the codex close; profile redacted; all honest, machine-gated for overclaim (ADR-044). SENT via Gmail 2026-08-10 after replacing the stale draft that carried the false model-agnostic claim.",
+        "E": "yuri.arcs.care family; Gmail draft r-2135081402185612206 -> sent to siryuri@gmail.com.",
+        "W": "Ball in Yuri's court; part-two / guidance / Agentum threads live.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Deliver the before/after he asked for, in his register, honest, and let him pull.",
+      "why": "He asked for the magic (before/after) + gave the decisive note (too abstract, how do I read it); the family answers that and survived 4 gauntlets.",
+      "loki": "Machine reachable for the builder? Yes (receipt chained off codex). Anything overclaimed? Gated by temporal_provenance.",
+      "bar": "A false claim to a builder = whole-relationship ruin; caught + gated before send.",
+      "horizon": "DONE (sent)",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": "ADR-044",
+      "memory": "[[project_yuri_kleban_google]]"
+    },
+    {
+      "receipt_id": "2026-08-10-night-moves-routine-built",
+      "surface": "meta / tooling",
+      "sharp_question": "How does Zach keep a legible daily record across ~40 parallel worktrees without hand-compiling it?",
+      "dewy_vector": {
+        "D": "Build /night-moves: a deterministic gather script (git log --all + net-new-tool/ADR/DEWY/memory detection, zero LLM cost) + a skill that synthesizes 5 sections (shipped/next/learned/tool-shape/net-new tools) into a dated ledger.",
+        "E": "scripts/night_moves_gather.sh + .claude/skills/night-moves/SKILL.md; writes _STATE/night-moves/<date>.md.",
+        "W": "DURABLE. Revisit if a nightly schedule is added or git/worktree topology changes.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Cheap, repeatable, git-and-memory-grounded daily digest, manually invoked — matches the /handoff capture-then-narrate pattern.",
+      "why": "53 commits landed today across parallel worktrees with no single artifact capturing 'what happened' as distinct from /handoff's per-session resume state.",
+      "loki": "Skipped on a busy night when most valuable? Mitigated by optional date arg — back-fillable next run. Proven live: this session crossed midnight and had to be pointed at 2026-08-10 explicitly.",
+      "bar": "Low — a missed digest loses a record, not a decision; no ruin vector.",
+      "horizon": "DURABLE",
+      "stakes": "LOW",
+      "mode": "STANDARD",
+      "adr": "ADR-045"
+    }
+  ]
+}

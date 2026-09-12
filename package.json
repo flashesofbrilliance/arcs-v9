@@ -14,7 +14,8 @@
     "db:generate": "npx prisma generate",
     "db:reset": "npx prisma migrate reset --force",
     "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close",
-    "test:smoke": "playwright test"
+    "test:smoke": "playwright test",
+    "test:almanac": "playwright test tests/almanac.spec.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "report_id": "2026-08-05-daniels-onedoor",
+    "counterpart": "Robin Daniels",
+    "company": "Zensai",
+    "doc_title": "Robin · one door",
+    "gate": {"external": "robin"}
+  },
+  "header": {
+    "eyebrow": "Robin · one door",
+    "title": "One line, our recent arc, and the coach it turned into.",
+    "sub": "Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
+  },
+  "blocks": [
+    {"type": "facesnav", "label": "Three reads, each one feeds the next", "faces": [
+      {"href": "https://robin-profile.arcs.care", "led": "g", "title": "The read of you", "desc": "who you are, built from your own voice"},
+      {"href": "https://robin-codex.arcs.care", "led": "o", "title": "The recoil of our calls", "desc": "the serialized October and November calls, moment by moment"},
+      {"href": "https://robin-receipt.arcs.care", "led": "r", "title": "The receipt of our last call", "tag": "in full resolution", "desc": "today&rsquo;s call: the bet I filed before it, then scored against what actually happened"}
+    ]},
+    {"type": "seed", "k": "01 · the one line", "h2": "The taste you already have.",
+     "quote": "Pick a use case and then go hard at that. Pick one, and fucking nail that one.",
+     "attr": "You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.",
+     "cta": {"href": "https://robin-codex.arcs.care#read", "label": "Open the read &rarr;"}},
+    {"type": "whole_story", "k": "02 · the whole story", "h2": "Three of our calls, as one arc.",
+     "intro": "This is the part you cannot get anywhere else: not one call, but the trajectory across these three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.",
+     "manifold": {
+       "dividers": [5, 9],
+       "call_labels": [{"label": "Call 1 &middot; Oct 23", "from": 0, "to": 4}, {"label": "Call 2 &middot; Nov 13", "from": 5, "to": 8}, {"label": "Call 3 &middot; Aug 5", "from": 9, "to": 14}],
+       "points": [
+         {"v": 66.2, "color": "#64748b", "tip": {"t": "C1 open", "n": "Warm reconnect"}},
+         {"v": 88.0, "color": "#00FF9D", "r": 6, "tip": {"t": "C1 peak", "n": "The Holy Grail moment"}},
+         {"v": 82.3, "color": "#FFD700", "r": 6, "tip": {"t": "C1 gift", "n": "You gave me the strategy: pick one"}},
+         {"v": 77.6, "color": "#64748b", "tip": {"t": "C1 ikigai", "n": "Shared history, Ikigai"}},
+         {"v": 51.1, "color": "#FF4D6D", "r": 6, "tip": {"t": "C1 veer", "n": "First time I lost you"}},
+         {"v": 43.5, "color": "#94a3b8", "tip": {"t": "C2 ask", "n": "I asked you to champion it"}},
+         {"v": 29.3, "color": "#FF4D6D", "r": 6, "tip": {"t": "C2 entropy", "n": "I opened on physics"}},
+         {"v": 26.5, "color": "#64748b", "tip": {"t": "C2 demo", "n": "A long demo I carried"}},
+         {"v": 17.0, "color": "#FF4D6D", "r": 6, "tip": {"t": "C2 exit", "n": "The lowest point, a flat exit"}},
+         {"v": 66.2, "color": "#64748b", "tip": {"t": "C3 warm", "n": "Warm from the first minute"}},
+         {"v": 78.5, "color": "#94a3b8", "tip": {"t": "C3 advice", "n": "I named your advice back"}},
+         {"v": 81.4, "color": "#94a3b8", "tip": {"t": "C3 how", "n": "You asked how it works"}},
+         {"v": 84.2, "color": "#94a3b8", "tip": {"t": "C3 deploy", "n": "You asked how it plugs in"}},
+         {"v": 91.8, "color": "#FFD700", "r": 6, "tip": {"t": "C3 high point", "n": "A coach you wish you had"}},
+         {"v": 70.9, "color": "#64748b", "tip": {"t": "C3 close", "n": "Warm: let me get back to you"}}
+       ]
+     },
+     "caption": "The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3, when you called it a coach you wish you had) are the same relationship three weeks and nine months apart. That delta is the coachable story.",
+     "beat_meta": [
+       {"group": "Call 1", "cards": [
+         {"tag": "YOUR COACHING", "bc": "#00FF9D", "label": "Hard to put you in a box", "lesson": "Naming the constraint as a compliment. Your signature reframe."},
+         {"tag": "THE TELL", "bc": "#FF4D6D", "label": "The nod-along", "lesson": "Filler agreement is the earliest disengagement tell. Drop altitude when you hear it."},
+         {"tag": "&#8627; THE UNLOCK", "bc": "#FFD700", "unlock": true, "label": "Pick one, nail it", "lesson": "Your own coaching move: compress to one wedge. Training signal, not just advice."}
+       ]},
+       {"group": "Call 2", "cards": [
+         {"tag": "THE TELL", "bc": "#FF4D6D", "label": "The one-word collapse", "lesson": "&lsquo;Close. Ly. Follow.&rsquo; Word-count collapse is the loudest silence. Yield, do not push."},
+         {"tag": "THE RECOVERY", "bc": "#94a3b8", "label": "The coffee-maker joke", "lesson": "When the pitch channel is dead, the human channel is still open. Pivot to human."},
+         {"tag": "&#8627; THE UNLOCK", "bc": "#FFD700", "unlock": true, "label": "The clean exit", "lesson": "An exit with no &lsquo;send me more&rsquo; is a soft no. The warmth was politeness, not interest."}
+       ]},
+       {"group": "Call 3", "cards": [
+         {"tag": "BUYING SIGNAL", "bc": "#00F0FF", "label": "&lsquo;How does it do this?&rsquo;", "lesson": "A how-does-it-work question is an invitation. It means value already landed."},
+         {"tag": "BUYING SIGNAL", "bc": "#00F0FF", "label": "&lsquo;Can it tap into Zoom/Teams?&rsquo;", "lesson": "Pricing the how. They bought the what. Move to integration."},
+         {"tag": "YOUR OWN PATTERN", "bc": "#FFD700", "label": "The marathon wall", "lesson": "You named your own overconfidence pattern. It mirrors your own patterns back to you."},
+         {"tag": "A YES, WAITING", "bc": "#00FF9D", "label": "&lsquo;Let me get back to you&rsquo;", "lesson": "A soft close after real engagement is a yes waiting, not a no. You meant more than you said."},
+         {"tag": "&#8627; THE UNLOCK", "bc": "#FFD700", "unlock": true, "label": "&lsquo;A coach you wish you had&rsquo;", "lesson": "You named the category and the frame. When they own it, stop pitching."}
+       ]}
+     ],
+     "volley": {
+       "h": "Every idea was a volley. Here it is in four boxes.",
+       "intro": "I floated a kernel, you built on it or reframed it, and I either caught your polish or sailed off to intergalactic. Read another way, this is you coaching me, and the whole lesson lives in the bottom-right box.",
+       "rows": [
+         {"label": "ME &rarr;", "vlc": "#64748b", "cells": [
+           {"quadl": "what I put out", "qc": "#64748b", "text": "A kernel, usually too big. The everything-platform. The coherence engine. Five use cases in one breath, then physics."},
+           {"quadl": "what I was going for", "qc": "#64748b", "text": "Your buy-in. I wanted you to see the whole thing at once and carry it inside for me."}
+         ]},
+         {"label": "YOU &rarr;", "vlc": "#00F0FF", "cells": [
+           {"quadl": "what you said", "qc": "#00F0FF", "text": "Short and generous on call one: &lsquo;Holy Grail... pick one and nail it.&rsquo; Shorter and flatter on call two: &lsquo;Close. Ly. Follow.&rsquo;"},
+           {"quadl": "what you meant", "qc": "#FFD700", "text": "Call one: the idea is real, now narrow it. Call two: you have lost me, and I am too polite to say it outright."}
+         ]}
+       ],
+       "shouldhave": {"label": "&darr; THE LEARNING &middot; WHAT I SHOULD HAVE HEARD, HAD I BEEN LISTENING", "text": "What I should have heard, if I had been actively listening: your word count was the whole message. When you got shorter, the thread was already dead. When you got specific and generous (&lsquo;pick one, nail it&rsquo;), that was the one to keep. You told me every time. I just kept talking."}
+     }},
+    {"type": "compose", "k": "03 · how the brief is built", "h2": "The pre-call brief is composed, not guessed.",
+     "intro": "Before a call, the seed is built by merging two kinds of source input: a read of the public profile, and a read of each prior call. Nothing is invented. Here is what actually went into yours.",
+     "inputs": [
+       {"tag": "YOUR PROFILE", "ic": "#FFD700", "h": "Your enriched profile", "p": "Storyteller-operator, elevator-pitch champion. Resonates with personal pain, one narrow retellable idea, movement over features, humor. Two registers: tactical GTM craft and high-altitude roadmap-for-life meaning. Read: meet him at ground altitude, let him climb.", "link": {"href": "https://robin-profile.arcs.care", "label": "see the profile read"}},
+       {"tag": "OUR OCTOBER CALL", "ic": "#00FF9D", "h": "The October call", "p": "Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley.", "link": {"href": "https://robin-codex.arcs.care#read", "label": "see the actual read"}},
+       {"tag": "OUR NOVEMBER CALL", "ic": "#FF4D6D", "h": "The November call", "p": "Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.", "link": {"href": "https://robin-codex.arcs.care#read", "label": "see the actual read"}}
+     ],
+     "merge": "&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;",
+     "out": {"h": "The pre-call brief (a bet, written down first)", "p": "Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held."},
+     "receipt": {"id": "RECEIPT &middot; PRE-CALL BRIEF", "status": "WRITTEN BEFORE &middot; SCORED AFTER", "rows": [
+       {"k": "The bet", "v": "Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further."},
+       {"k": "80% odds", "v": "He engages with the coaching frame"},
+       {"k": "55% odds", "v": "Most likely outcome: warm but slow, a soft yes"},
+       {"k": "40% odds", "v": "Good case: he retells it in his own words"},
+       {"k": "Filed", "v": "Aug 5, 2026"},
+       {"k": "Score-back", "v": "about two weeks after the call, to score this against what actually happened"}
+     ], "seal": "WRITTEN BEFORE THE CALL &middot; SCORED AFTER &middot; IF IT CANNOT FAIL, IT ISN&rsquo;T A RECEIPT"},
+     "download": {"filename": "robin-precall-receipt.json", "uid": "robin-revisit-20260826T160000Z",
+       "receipt": {"receipt_type": "pre-call brief (written before the call)", "counterpart": "Robin Daniels", "filed": "2026-08-05", "bet": "Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further.", "predictions": [{"claim": "He engages with the coaching frame", "confidence": 0.8}, {"claim": "Most likely outcome: warm but slow, a soft yes", "confidence": 0.55}, {"claim": "Good case: he retells it in his own words", "confidence": 0.4}], "revisit": "about two weeks after the call, to score this against what actually happened", "note": "A receipt is just a JSON object. You file the bet before, score it after, and the gap is the learning."},
+       "revisit": {"title": "ARCS revisit: score the pre-call bet (Robin + Zach)", "start": "20260826T160000Z", "end": "20260826T163000Z", "details": "Revisit the pre-call brief filed 2026-08-05 and score it against what actually happened. The full read: robin.arcs.care"}},
+     "receipt_hint": ["Set a time to revisit and score it &middot; a suggested time, adjust to whatever you two agree", "Illustrative: this one is filled in by hand to show the shape."],
+     "receipt_link": {"href": "https://robin-receipt.arcs.care", "label": "zoom in to full resolution"},
+     "ledger": {"h": "Receipts compound. The belief ledger, T0 to T1.", "intro": "One receipt is a snapshot. The value is the ledger: each call is evidence, and the beliefs update. Here is what our last call moved, from the prior I held before it (T0) to the belief after it (T1).", "rows": [
+       {"label": "The wedge for you", "t0": {"text": "hiring / people-tech", "pct": "60%"}, "t1": {"text": "coaching", "pct": "85%", "up": true}, "moved": "You named the coaching category yourself. The prior flipped."},
+       {"label": "Your stance", "t0": {"text": "warm but slow, a soft maybe", "pct": "55%"}, "t1": {"text": "warm, real interest, a deferred yes", "pct": "78%", "up": true}, "moved": "Buy-signal questions, and you mapped it to Zensai&rsquo;s own strategy."},
+       {"label": "Said vs meant", "t0": {"text": "unknown", "pct": "50%"}, "t1": {"text": "you mean more than you say", "pct": "80%", "up": true}, "moved": "Your soft close sat on top of real engagement underneath."},
+       {"label": "My altitude risk", "t0": {"text": "likely to open too high and lose you", "pct": "75%"}, "t1": {"text": "held; I caught my own drift", "pct": "30%", "up": true}, "moved": "I felt the jargon coming and pulled back mid-sentence."}
+     ], "note": "That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives."},
+     "board": {"h": "The staff of chiefs reads the receipt.", "intro": "A receipt scored by the person who filed it is worth little; you are attached to it working. So before the read is cut, a small board of advisors argues over it. Their divergent takes are the correction for your own bias, blind spots, revisionist memory, and love of the project.", "chiefs": [
+       {"who": "The Skeptic", "cc": "#94a3b8", "text": "&lsquo;Warm but slow&rsquo; is hard to lose. Sharpen the falsifier: name the exact thing that would prove the bet wrong, or it isn&rsquo;t a receipt."},
+       {"who": "Loki", "cc": "#FF4D6D", "text": "You already decided call three went well. Are you filing a bet, or blessing a memory? If the score-back can&rsquo;t move you, this is theater."},
+       {"who": "The Sentry", "cc": "#FFD700", "text": "You are grading your own predictions and you want them right. The first trust gate is self-skepticism, not challenged conviction. Flag the emotional attachment."},
+       {"who": "The Accountant", "cc": "#00FF9D", "text": "Two calls of relationship equity on the books. Over-reading a soft yes spends it. Price the downside, not just the upside case."},
+       {"who": "The Elder", "cc": "#00F0FF", "text": "This is a years-long peer relationship. Score it honestly, then let it breathe. The receipt matters less than the friendship it is filed against."}
+     ], "open": "This board is open and configurable. Each chief is a subagent with a delegated point of view, all tuned to the same decision from a different vantage. Five here; there could be fifty. You compose the ones the problem needs, and swap them as its shape changes.", "cut": {"label": "HOW THE CUT IS MADE", "text": "None of them cuts the analysis alone. Where they agree, conviction hardens. Where they diverge, the disagreement is the signal. The five-verb loop, analyze, assess, evaluate, synthesize, recapitulate, is where those voices get weighed into one honest read, corrected for the bias of the person who filed it."}}},
+    {"type": "howitworks", "k": "04 · how it works", "h2": "How it works, and how it scales.", "cards": [
+      {"h3": "A tool that sharpens you, not a copy of you", "p": "It does not copy you or replace your judgment. It makes you sharper at your own job, and you still drive. It is the simple idea you already believe: AI is an input, not the answer."},
+      {"h3": "The instrument, under the hood", "p": "The four things it listens for, the checks that keep a read honest, and where I draw the line. You get the whole taste; the recipe stays mine.", "link": {"href": "https://robin-codex.arcs.care#instrument", "label": "See the instrument"}},
+      {"h3": "1 to Few to Many", "p": "One: your own tape. Few: your team gets the read before and after every call. Many: the coaching category you named, Gong and Salesloft and the rest. Your judgment, made portable and compounding."},
+      {"h3": "The one thing I would do next", "p": "A Coach&rsquo;s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide."}
+    ]},
+    {"type": "horizon", "k": "05 · where it goes", "h2": "The map sharpens with every read.",
+     "intro": "A note-taker hands you a flat transcript at the same focal length every time. This is the opposite bet: a terrain that gains resolution with each conversation and each cut. A few places it goes, once there are enough reads to correlate against. Forward-looking, not built yet, but this is the direction.",
+     "seeds": [
+       {"h3": "Overlay the outcomes", "p": "Put closed-won and closed-lost on the same timescale as these reads. The leading and lagging indicators of account health and deal jeopardy start to surface, the ones a flat note-taker never catches because it is not looking for topography, only transcribing words."},
+       {"h3": "The world is not flat", "p": "It has a terrain of high ground, fog, and hidden weak spots. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives."},
+       {"h3": "A record versus a leading indicator", "p": "Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it."}
+     ]},
+    {"type": "start", "k": "06 · how to start", "h2": "What it takes to run this on one of your calls.",
+     "intro": "The whole point is that it is a tiny, non-invasive lift. You send three things, I send back a zero-point knowledge drop: the enriched starting read, like this one, on a call that matters to you. Nothing touches your systems.",
+     "needs": [
+       {"h3": "1 &middot; a call transcript", "p": "A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start."},
+       {"h3": "2 &middot; the LinkedIn profile", "p": "The other person&rsquo;s profile as a PDF. That is the enriched-profile input you saw feed the brief above."},
+       {"h3": "3 &middot; any intel (optional)", "p": "Whatever GTM context you already have: CRM notes, deal stage, who was in the room. Optional, it just sharpens the read."}
+     ],
+     "close": "That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep."},
+    {"type": "trust", "k": "07 · for the room", "h2": "The objections, answered before they are raised.",
+     "intro": "If you socialize this, here is the same reassurance in each chief&rsquo;s language. The short version: it reads recordings you already have, nothing is stored or sent, nothing touches your systems. Fuller trust summary at arcs.care.",
+     "prows": [
+       {"who": "Security / CISO", "obj": "Where does our call data go?", "ans": "Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It runs on Claude today; an internal version could run air-gapped on your own stack, so nothing would leave Zensai."},
+       {"who": "Finance / CFO", "obj": "What is the cost and the lock-in?", "ans": "The pilot is free and there is nothing to integrate or maintain. One call proves the value. No contract, no lock-in."},
+       {"who": "Revenue / CRO", "obj": "Will it slow my team down?", "ans": "It is invisible. It reads recordings after the fact, so there is zero behavior change and nothing for a rep to learn or click."},
+       {"who": "People / CHSO", "obj": "Is this surveillance?", "ans": "The opposite. What gets scored is the rep&rsquo;s own performance, to help them, opt-in. It is coaching, not a scorecard. Your own human-first idea, applied."},
+       {"who": "CEO", "obj": "Does this advance our position?", "ans": "It is the coaching layer in the category you are already moving into, and it strengthens the human-success story rather than bolting something on."},
+       {"who": "Legal", "obj": "Consent and ownership?", "ans": "Consent-first, nothing leaves, and you keep the file and the data. The read is yours; the method stays mine."}
+     ]}
+  ],
+  "foot": "ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING"
+}

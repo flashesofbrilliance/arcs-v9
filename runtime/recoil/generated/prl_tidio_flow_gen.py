@@ -204,7 +204,9 @@ def build_full():
 
     # Callback path - fast human  (all session variables -> carried in webhook, no property binding)
     fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
-    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb_email", validation="phone")
+    fb.ask("cb_email", "And your email, in case we can't catch you by phone?", "email", "cb3",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
     fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
     fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
                "few hours. No phone trees.")
@@ -217,7 +219,7 @@ def build_full():
     fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email")
     fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
            error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
     fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
@@ -226,42 +228,319 @@ def build_full():
     return fb.build()
 
 
-def build_sem_onramp():
-    """URL-triggered onramp for the SABIC-alternatives SEM landing page (Unbounce).
-    Fires when the visitor is on a URL containing 'sabic-alternatives'; opens with a
-    SABIC-specific greeting and captures a high-intent replacement lead. All session
-    variables (ride the webhook, same as the main flow)."""
-    fb = FlowBuilder("PRL Resins - SEM Onramp (SABIC alternatives)")
+# The five SEM onramps scoped in the build spec. Each is triggered by its own URL slug,
+# so they never collide with each other or with the onFirstVisit main flow.
+SEM_ONRAMPS = {
+    "sabic": dict(
+        slug="sabic-alternatives",
+        label="SABIC alternatives",
+        hello="Looking to move off a SABIC grade? Tell me which one you're running (Lexan, "
+              "Ultem, Noryl, Valox) and I'll get you to a specialist who can match it.",
+        ask="Which SABIC grade are you replacing?"),
+    "lexan": dict(
+        slug="lexan",
+        label="Lexan / Makrolon polycarbonate",
+        hello="Need a Lexan-class polycarbonate? We compound PC to match. Tell me the grade "
+              "or the spec you have to hit.",
+        ask="Which polycarbonate grade are you running today?"),
+    "ultem": dict(
+        slug="ultem",
+        label="Ultem PEI",
+        hello="Looking for an Ultem-class PEI? Tell me the grade or the spec and I'll get you "
+              "to someone who can match it.",
+        ask="Which PEI grade or spec are you working to?"),
+    "noryl": dict(
+        slug="noryl",
+        label="Noryl modified PPE",
+        hello="Need a Noryl-class PPE? Tell me the grade or what the part has to do.",
+        ask="Which Noryl grade are you replacing?"),
+    "valox": dict(
+        slug="valox",
+        label="Valox PBT",
+        hello="Replacing a Valox PBT? Tell me the grade or the requirement driving it.",
+        ask="Which Valox grade are you running today?"),
+}
+
+
+def build_sem_onramp(key="sabic"):
+    """URL-triggered onramp for a paid-search landing page (Unbounce).
+
+    Fires when the visitor is on a URL containing this onramp's slug, opens with a
+    competitor-specific greeting, and captures a high-intent replacement lead. All fields are
+    session variables, so they ride the webhook exactly like the main flow.
+
+    NOTE: the Unbounce landing pages sit on the LIVE prlresins.com domain. Adding the Tidio
+    snippet there is a production change and needs Todd's go-ahead. The flow itself is safe to
+    import and leave inactive until then.
+
+    NOTE: these ask for the grade and conditions but deliberately never offer a match. Per the
+    Aug 3 audit the cross-reference tables are page images, so nothing can look up an
+    equivalent yet. The onramp's job is to capture intent and route, not to answer.
+    """
+    cfg = SEM_ONRAMPS[key]
+    fb = FlowBuilder(f"PRL Resins - SEM Onramp ({cfg['label']})")
 
     fb.trigger("t", "hello", ttype="onUrlOpened",
-               extra={"url": "sabic-alternatives", "match": "partial", "frequency": "once24"})
-    fb.message("hello",
-        "Looking to move off a SABIC grade? Tell me which one you're running (Lexan, Ultem, "
-        "Noryl, Valox) and I'll match it to a PRL equivalent and get you to a specialist fast.",
-        nxt="s1")
-    fb.ask("s1", "Which SABIC grade are you replacing?", "current_resin", "s2")
+               extra={"url": cfg["slug"], "match": "partial", "frequency": "once24"})
+    fb.message("hello", cfg["hello"], nxt="s1")
+    fb.ask("s1", cfg["ask"], "current_resin", "s2")
     fb.ask("s2", "What are you making with it?", "application", "s3")
-    fb.ask("s3", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
-           "requirements", "cap_name")
-    fb.ask("cap_name", "Great. Who should we get this to?", "name", "cap_email")
-    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+    fb.ask("s3", "What does the part have to stand up to? Temperature range, outdoor exposure, "
+           "chemicals, or a listing you need to hold.", "requirements", "cap_name")
+    fb.ask("cap_name", "Great. Who should we put this together for?", "name", "cap_email")
+    fb.ask("cap_email", "Where should we send it?", "email", "cap_phone", validation="email",
            error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
     fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close",
-        "Thanks! A PRL resin specialist will reach out shortly with a match, usually within a "
-        "few hours. A real person, no phone trees.")
+        "Thanks. A PRL resin specialist will follow up shortly with a match for your "
+        "conditions, usually within a few hours. A real person, no phone trees.")
 
     return fb.build(first_trigger="onUrlOpened")
+
+
+def build_ai_handoff():
+    """AI -> flow delivery bridge (v2, added 2026-08-03 after the Lyro purchase).
+
+    WHY THIS EXISTS
+    ---------------
+    On the Jul 31 call Daniel confirmed a hard product boundary: the FLOW-level webhook
+    works on any plan, but the AI (Lyro) pushing a captured lead to SugarCRM on its own
+    requires the higher Tidio+ tier. PRL bought Flows + Lyro, NOT Tidio+.
+
+    So with Lyro enabled, a visitor who converses only with the AI is qualified and then
+    goes nowhere: no Sugar lead is created. That is a lead-loss path, the exact failure
+    this project exists to prevent.
+
+    This flow closes it. Lyro's job ends at HANDOFF, not at capture. The AI answers and
+    qualifies, then steers the visitor into this short flow, whose webhook delivers the
+    lead through the already-proven flow path. The rep also has the full AI transcript in
+    the Tidio inbox, so this only needs to capture what SugarCRM structurally requires.
+
+    TRIGGER: must be set in the Tidio UI. The correct trigger-type string for a keyword or
+    quick-reply match was NOT verified against a Tidio export, so it is deliberately left
+    as onFirstVisit here and MUST be changed after import, or it will collide with the main
+    flow. Confirm the mechanism with Tidio support: whether Lyro can hand off to a flow
+    directly, or whether it must steer the visitor to click a quick reply.
+
+    NOTE ON PHONE: kept required, not optional. The SugarCRM audit (2026-08-03) found
+    phone_work is a required field on Leads, filled on 100/100 live records. If Todd
+    decides to allow blank phones, relax this here AND in build_full()/build_sem_onramp().
+    """
+    fb = FlowBuilder("PRL Resins - AI Handoff (lead delivery bridge)")
+
+    fb.trigger("t", "hello")  # <-- CHANGE TRIGGER IN TIDIO UI BEFORE ACTIVATING
+    # VALUE EXCHANGE, not a form ask. The side-by-side PRL gates behind qualification is the
+    # single best thing to trade for contact details, and the trade self-qualifies: someone
+    # who gives an email to receive a named-grade comparison has told us what they run, that
+    # they are actively evaluating, and that they are serious. That is Todd's own qualifier
+    # ("a real lead names a resin PRL sells") arriving for free.
+    # It also asks for CONDITIONS, which is the field a specialist most needs and the one a
+    # generic form never captures.
+    fb.message("hello",
+        "Good news, we compound an equivalent to that. Our specialists can put a side by side "
+        "in front of you, tested against the conditions your part actually sees.", nxt="h_need")
+    fb.ask("h_need", "Which grade are you running today, and what does the part have to stand "
+           "up to? Temperature range, outdoor exposure, chemicals, any listing you need to hold.",
+           "desired_resin_or_spec", "cap_name")
+    fb.ask("cap_name", "Great. Who should we put this together for?", "name", "cap_email")
+    fb.ask("cap_email", "Where should we send it?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Best number, in case a question comes up while they build it?",
+           "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close",
+        "Done. A PRL resin specialist will send that over shortly, usually within a few "
+        "hours. A real person, no phone trees.")
+
+    return fb.build()
+
+
+def build_full_ai():
+    """Main flow, AI-forward variant (v2, 2026-08-03). Non-destructive: build_full() is
+    untouched and remains what is live.
+
+    WHY
+    ---
+    v1 funnels every visitor through the rigid decision tree, so Lyro is only reached by
+    people who escape it. That inverts the value of the Flows + Lyro purchase: the
+    improvisation capability is the reason for the upgrade, and almost nobody would meet it.
+
+    The split below keeps a rigid path where SPEED wins and hands to the AI where JUDGMENT
+    wins. Someone who already knows their grade wants four questions and out. Someone
+    describing a part and its requirements is having a conversation, and a three-question
+    form is the wrong instrument for that.
+
+    MECHANISM
+    ---------
+    Per Daniel (Jul 31): the flow runs first and Lyro takes over when the flow ends or is
+    interrupted. So "hand to AI" is implemented as ending the flow on an open invitation,
+    not as a special node type. Lyro then picks up the conversation.
+
+    DELIVERY
+    --------
+    AI-path visitors do NOT pass through the capture form, so their lead reaches SugarCRM
+    only via build_ai_handoff(). That makes the handoff mechanism load-bearing in this
+    variant. Do not activate this variant until the handoff is verified working, or
+    "Help me choose" becomes a lead-loss path.
+    """
+    fb = FlowBuilder("PRL Resins - Lead Capture (AI-forward)")
+
+    fb.trigger("t", "hello")
+    fb.message("hello",
+        "Hi, thanks for stopping by. Looking for a resin, a spec match, or an alternative to "
+        "what you're running now? I'll get you to the right person fast.", nxt="menu")
+    fb.decision("menu", "What brings you in?", [
+        ("I know what I need", "a1"),        # rigid: speed
+        ("Help me choose", "ai_choose"),     # AI: judgment
+        ("Have someone call me", "cb1"),     # rigid: pure capture
+        ("Guides and resources", "res1"),
+        ("Something else", "ai_open"),       # AI: open ended
+    ])
+
+    # --- AI handoff points: flow ends, Lyro takes over ---
+    fb.message("ai_choose",
+        "Happy to help you narrow it down. Tell me what you're making and what the part has "
+        "to stand up to. Heat, impact, outdoor exposure, chemicals, a regulatory listing, "
+        "whatever matters most. I'll work through it with you.")
+    fb.message("ai_open",
+        "Go ahead and ask. If it's something I can't answer I'll get you to a specialist.")
+
+    # Resources path
+    fb.message("res1",
+        "Here are some quick resources:\n"
+        "- Product Selection Guide: https://prlresins.com/polymer-product-catalog/\n"
+        "- Browse our resins: https://prlresins.com/products/\n"
+        "- Quality guarantee: https://prlresins.com/quality-guarantee/\n"
+        "- Find us / contact: https://prlresins.com/contact/", nxt="res2")
+    fb.message("res2",
+        "Anything you want to dig into, just ask. Or call 1-800-243-5176 to reach a person.")
+
+    # Branch A - knows what they need (rigid, unchanged from v1)
+    fb.ask("a1", "Great. Which resin or spec are you after?", "desired_resin_or_spec", "a2")
+    fb.decision("a2", "Are you replacing a resin you run now?", [
+        ("Yes", "a2y"), ("No", "a3")])
+    fb.ask("a2y", "What are you using today?", "current_resin", "a3")
+    fb.ask("a3", "What are you making with it?", "application", "a4")
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+           "requirements", "cap_name")
+
+    # Callback path (rigid, unchanged)
+    fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb_email", validation="phone")
+    fb.ask("cb_email", "And your email, in case we can't catch you by phone?", "email", "cb3",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
+    fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
+               "few hours. No phone trees.")
+
+    # Shared contact capture
+    fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email")
+    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
+               "within a few hours. A real person, no phone trees.")
+
+    return fb.build()
+
+
+def build_full_capture_first():
+    """Capture-first, REQUIRED variant (2026-08-09, Zach's call). Non-destructive: build_full()
+    remains what is live.
+
+    WHY
+    ---
+    Live-staging Layer-2 test (2026-08-09) showed the Lyro-driven capture asked only Name/Email/
+    Phone and SKIPPED company -> a lead with no account_name FAILS Sugar's required field. It also
+    captured only after answering, so a mid-conversation bail loses the lead. This variant fixes
+    both: contact is a REQUIRED flow gate collected UP FRONT, before any qualifying question, so
+      (1) the lead is never lost on bail,
+      (2) anonymous fishing is screened before it consumes answers,
+      (3) capture runs as a quota-free FLOW step before Lyro (saves the 50/mo for real Q&A).
+    All four Sugar-required fields (name, company, phone, email) + state are collected; validation
+    on phone/email blocks junk. Fields are session variables carried in the webhook (no contact-
+    property binding -> no activation errors). getUserInput inherently blocks until answered, which
+    is what makes each field 'required' (the only escape is closing the widget).
+    """
+    fb = FlowBuilder("PRL Resins - Lead Capture (capture-first, required)")
+
+    fb.trigger("t", "hello")
+    fb.message("hello",
+        "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, a few "
+        "quick details so they can follow up. We only use these to have someone reach out.", nxt="cap_name")
+
+    # ---- REQUIRED capture gate (before any questions) ----
+    # Order secures a REACHABLE channel FIRST (email, then phone), so a mid-capture bail still leaves an
+    # actionable lead. Company + state come after. State asks for a US STATE specifically (the resolver
+    # rejects regions/placeholders -> re-ask), and phone/email are format-validated.
+    fb.ask("cap_name", "Who am I speaking with? First and last name.", "name", "cap_email")
+    fb.ask("cap_email", "Best email to reach you? A specialist will follow up here.", "email", "cap_phone",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "And the best phone number to reach you?", "phone", "cap_company",
+           validation="phone", error="That doesn't look like a phone number. Mind trying again?")
+    fb.ask("cap_company", "What company are you with?", "company", "cap_terr")
+    fb.ask("cap_terr", "And which US state are you in?", "territory", "menu")
+
+    # ---- intent read + qualifying questions (contact already secured) ----
+    fb.decision("menu", "Thanks! What brings you in today?", [
+        ("I know what I need", "a1"),
+        ("Help me choose", "b1"),
+        ("Just have someone reach out", "done"),
+        ("Guides and resources", "res1"),
+        ("Something else", "c1"),
+    ])
+
+    # Branch A - knows what they need
+    fb.ask("a1", "Which resin or spec are you after?", "desired_resin_or_spec", "a2")
+    fb.decision("a2", "Replacing a resin you run now?", [("Yes", "a2y"), ("No", "a3")])
+    fb.ask("a2y", "What are you using today?", "current_resin", "a3")
+    fb.ask("a3", "What are you making with it?", "application", "a4")
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing. "
+           "Your specialist confirms the exact current numbers so you're never working off a stale spec.",
+           "requirements", "done")
+
+    # Branch B - help me choose
+    fb.ask("b1", "What are you making?", "application", "b2")
+    fb.ask("b2", "What matters most? Heat, impact, UV for outdoor, chemical resistance, color, or cost.",
+           "requirements", "b3")
+    fb.decision("b3", "Running a resin now you'd want to match or improve on?", [
+        ("Yes", "b3y"), ("No", "done")])
+    fb.ask("b3y", "What are you running now?", "current_resin", "done")
+
+    # Branch C - something else
+    fb.ask("c1", "Happy to help. What can I point you to?", "question", "done")
+
+    # Resources
+    fb.message("res1",
+        "Here are some quick resources:\n"
+        "- Product Selection Guide: https://prlresins.com/polymer-product-catalog/\n"
+        "- Browse our resins: https://prlresins.com/products/\n"
+        "- Quality guarantee: https://prlresins.com/quality-guarantee/\n"
+        "- Find us / contact: https://prlresins.com/contact/", nxt="done")
+
+    fb.message("done",
+        "Perfect, you're all set. A PRL resin specialist will follow up shortly, usually within a few "
+        "hours, with the exact current specs and the official data sheet for what you need. A real "
+        "person, no phone trees.")
+
+    return fb.build()
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
-    ap.add_argument("--flow", choices=["full", "sem"], default="full")
+    ap.add_argument("--flow", choices=["full", "full-ai", "capture-first", "sem", "ai"] + [f"sem:{k}" for k in SEM_ONRAMPS], default="full")
     args = ap.parse_args()
-    data = build_sem_onramp() if args.flow == "sem" else build_full()
+    if args.flow.startswith("sem:"):
+        data = build_sem_onramp(args.flow.split(":", 1)[1])
+    else:
+        data = {"sem": build_sem_onramp, "ai": build_ai_handoff, "capture-first": build_full_capture_first,
+                "full-ai": build_full_ai, "full": build_full}[args.flow]()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")

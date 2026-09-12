@@ -1,0 +1,11 @@
+{
+  "description": "Persistent evidence store for ARCS model-routing calibration runs.",
+  "schema_version": "1.0",
+  "created": "2026-08-26",
+  "purpose": "Historized calibration envelopes + routing table so benchmark data survives session boundaries and informs future routing decisions.",
+  "files": {
+    "calibration_YYYYMMDD_HHMMSS.json": "One file per calibration run. Contains: model, adrs tested, tiers tested, per-call results (gate_verdict, css, latency_s, parse_ok, exit_code), timestamp, corpus summary.",
+    "routing_table.json": "Current routing decision + per-model summary stats (avg latency, parse success rate, coherence vs reference). Updated after each calibration run.",
+    "index.json": "Manifest of all calibration runs: filename, date, models tested, adrs tested, outcome summary."
+  }
+}

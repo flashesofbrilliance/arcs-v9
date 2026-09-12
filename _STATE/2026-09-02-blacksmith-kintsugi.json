@@ -1,0 +1,38 @@
+{
+  "receipt_id": "receipt_blacksmith_bundle_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-09-02",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "Air-gap leak: recruiter name slipped into persuasion copy on a public page",
+      "caught_by": "constitutional court (claims-skeptic)",
+      "gold": "removed to 'one person, three fluencies'; air-gap now enforced as a CI test"
+    },
+    {
+      "break": "Ship-clock counted up forever from the call (would read 'Nd' and undercut the flex)",
+      "caught_by": "user review",
+      "gold": "frozen to git-true 'v0 in 1h 22m from first call'; live timers removed"
+    },
+    {
+      "break": "Overclaimed Forge counts ('12 graded / 5 cut')",
+      "caught_by": "constitutional court",
+      "gold": "corrected to 'every claim graded / 4 claims cut'"
+    },
+    {
+      "break": "Stale naming 'director's cut' after rename to 'the forge'",
+      "caught_by": "grep audit",
+      "gold": "unified to 'the forge' across footer + subhead"
+    },
+    {
+      "break": "Four resume claims could not clear the evidence bar",
+      "caught_by": "honest-grade pass",
+      "gold": "cut to a defend-or-drop list, shown on purpose in the Forge STRESS-TEST stage"
+    }
+  ],
+  "verdict": "Final receipt passes the kintsugi gate (no schema pathogens); five in-flight breaks were sealed with visible gold during the session, documented above."
+}

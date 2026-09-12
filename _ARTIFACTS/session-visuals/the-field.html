@@ -1,0 +1,267 @@
+<title>The Field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#020408; --surface:#0b1017; --surface-2:#0e141c; --hairline:#1b2431; --hairline-2:#243044;
+    --text:#e6ecf4; --muted:#8a99ae; --dim:#54627a;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --crimson:#FF4D6D; --violet:#9D7BFF;
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --measure:640px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* wrap-safe base (rules 1/1a/1b) */
+  p{max-width:var(--measure);text-wrap:pretty}
+  h1,h2,h3{text-wrap:balance}
+  .lab,.eyebrow{max-width:none;text-wrap:balance}
+  @media(max-width:640px){.lab,.eyebrow{letter-spacing:.08em}}
+  .card{max-width:calc(var(--measure) + 48px)}
+  .card p{max-width:none}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--cyan);display:flex;gap:.7em;align-items:center;justify-content:center;flex-wrap:wrap}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+  /* hero field */
+  .hero{position:relative;margin-top:26px;border:1px solid var(--hairline);border-radius:5px;overflow:hidden;background:#010306}
+  #field{display:block;width:100%;height:auto}
+  .hero .title{position:absolute;left:0;right:0;top:26px;text-align:center;pointer-events:none}
+  .hero h1{font-family:var(--serif);font-weight:600;font-style:italic;font-size:clamp(42px,8vw,92px);line-height:.9;margin:0;color:#fff;letter-spacing:-.01em;text-shadow:0 0 40px rgba(0,240,255,.25)}
+  .hero .sub{font-family:var(--mono);font-size:clamp(11px,2vw,13px);color:var(--muted);letter-spacing:.06em;margin-top:14px}
+  .polekey{position:absolute;bottom:16px;left:0;right:0;display:flex;justify-content:space-between;padding:0 clamp(14px,4vw,48px);font-family:var(--mono);font-size:11px;pointer-events:none}
+  .polekey .n{color:var(--cyan)} .polekey .s{color:var(--gold);text-align:right}
+  .polekey b{display:block;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+
+  header{padding:64px 0 8px;text-align:center}
+
+  section{padding:40px 0;border-top:1px solid var(--hairline)}
+  .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:0 0 18px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(25px,4.6vw,36px);margin:0 0 12px;color:#fff;letter-spacing:-.01em}
+  p.lead{font-size:17px;color:var(--text)}
+  .em{color:var(--gold)} .cy{color:var(--cyan)} .gn{color:var(--green)} .cr{color:var(--crimson)}
+
+  /* flux-over-time strip */
+  .flux{border:1px solid var(--hairline);border-radius:4px;background:var(--surface-2);padding:20px 20px 12px;overflow-x:auto}
+  .flux svg{display:block;min-width:640px;width:100%;height:auto}
+
+  /* physics-to-session key */
+  .key{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden}
+  .cell{background:var(--surface);padding:16px 16px}
+  .cell .phys{font-family:var(--serif);font-style:italic;font-size:19px;color:#fff;margin:0 0 3px}
+  .cell .arrow{font-family:var(--mono);color:var(--dim);font-size:11px;margin:0 0 7px}
+  .cell .sess{font-size:13.5px;color:var(--muted);margin:0}
+  .cell .sess b{color:var(--text);font-weight:500}
+
+  /* the fold — 5 flux tubes */
+  .foldwrap{border:1px solid var(--hairline);border-radius:4px;background:var(--surface-2);padding:8px 12px;overflow-x:auto}
+  .foldwrap svg{display:block;min-width:600px;width:100%;height:auto}
+
+  footer{border-top:1px solid var(--hairline);padding:30px 0 56px;text-align:center}
+  footer .stamp{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:1.9}
+  footer b{color:var(--cyan)}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow"><span>ARCS</span><span class="dot"></span><span>Session as a Dipole</span><span class="dot"></span><span style="color:var(--dim)">2025-12 → 2026-08-28</span></div>
+    <div class="hero">
+      <canvas id="field" width="1040" height="620" aria-label="A magnetic dipole field: field lines emanate from the Induction pole (left), arc through the space, and return to the Receipt pole (right); iron filings reveal the field's shape"></canvas>
+      <div class="title">
+        <h1>The Field</h1>
+        <div class="sub">a magnet has two poles &nbsp;·&nbsp; ARCS has two surfaces &nbsp;·&nbsp; they are the same drawing</div>
+      </div>
+      <div class="polekey">
+        <div class="n"><b>Induction</b>north · forges outward</div>
+        <div class="s"><b>Receipt</b>south · records inward</div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="lab">The reading</p>
+    <h2>The two poles are the two surfaces</h2>
+    <p class="lead">A field line leaves the <span class="cy">Induction pole</span>, curves out through the world where the work happens, and returns to the <span class="em">Receipt pole</span>. That is the whole instrument in one shape: induction forges the tool for a job it recognized before you could name it; receipt records what came back. Forge, arc, return. The field is a closed loop because a decision that is forged but never recorded, or recorded but never forged, is a broken magnet.</p>
+    <p>You cannot see a magnetic field. You see iron filings. This session had <span class="gn">247 of them</span> — the receipts in the production database — and they are the canonical filings: the most structured evidence making the field legible, alongside transcripts, artifacts, and witnessed decisions. Fragments of the eventual architecture appeared across the corpus from December onward; the later receipt trail made their relationship testable. That is the shape the hyperstition finding takes when it is made legible, and it stays falsifiable against future evidence.</p>
+  </section>
+
+  <section>
+    <p class="lab">Field strength over time</p>
+    <h2>On one day, accumulated domains acquired a shared name</h2>
+    <p>Over eight months the field strengthened the way a ferromagnet does: scattered domains slowly snapping into alignment, then a sudden coherence. The vision films are the weak early field. The forensic recall aligned the domains. And on 2026-08-28 the field organized around a name.</p>
+    <div class="flux" id="fluxwrap"></div>
+  </section>
+
+  <section>
+    <p class="lab">The physics is the session</p>
+    <h2>Every term maps to a real event</h2>
+    <div class="key">
+      <div class="cell"><p class="phys">The two poles</p><p class="arrow">dipole →</p><p class="sess">The <b>two surfaces</b>: Induction (abductive, forges) and Receipt (deductive, records). ADR-070.</p></div>
+      <div class="cell"><p class="phys">Iron filings</p><p class="arrow">reveal the field →</p><p class="sess"><b>247 receipts</b> in prod. The field was invisible until the filings made it legible — the hyperstition point.</p></div>
+      <div class="cell"><p class="phys">Domain alignment</p><p class="arrow">over time →</p><p class="sess">The <b>eight-month naming lag</b>. Scattered vision-film domains slowly aligned into coherence, then snapped.</p></div>
+      <div class="cell"><p class="phys">Flux density peaks</p><p class="arrow">where lines bunch →</p><p class="sess"><b>Kairos moments</b>: the right thing at the right moment, where the field gradient spikes.</p></div>
+      <div class="cell"><p class="phys">Opposing field</p><p class="arrow">applied to test →</p><p class="sess">The <b>war game</b>. Five hostile facets pressure-tested the claim; it survived a defined hostile-facet gauntlet. Its real-world durability remains an open test.</p></div>
+      <div class="cell"><p class="phys">Flux tubes escaping</p><p class="arrow">past the pole →</p><p class="sess">The <b>fold</b>: five field lines leave the closed loop to seed their own fields — the composed sessions.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="lab">The fold</p>
+    <h2>Five lines left the loop</h2>
+    <p>A closed field keeps its lines. But at the end this one opened: five flux tubes broke past the Receipt pole and escaped to seed their own fields. That is the fold, and it is why the trunk went quiet. Each tube carries the session's charge into its own domain, on clean priors.</p>
+    <div class="foldwrap" id="foldwrap"></div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="stamp">
+        a dipole rendered from the session itself &nbsp;·&nbsp; <b>Induction ⟶ world ⟶ Receipt</b><br>
+        forge, arc, return &nbsp;·&nbsp; the filings are receipts &nbsp;·&nbsp; the claim survived a hostile-facet gauntlet &nbsp;·&nbsp; 2026&#8209;08&#8209;28
+      </p>
+      <p class="stamp" style="margin-top:1.2em;opacity:.72;font-size:.82em;line-height:1.6;border-top:1px solid rgba(255,255,255,.12);padding-top:1em">
+        <b>Status:</b> Derived field model, grounded in ADR-070, production receipts, and the 2026&#8209;08&#8209;28 session fold. It is a navigation metaphor, not causal proof; its claims remain falsifiable against future receipt, transcript, and outcome evidence.
+      </p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // ---------- deterministic PRNG ----------
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+  // ---------- the dipole field hero ----------
+  (function(){
+    var cv=document.getElementById('field'), ctx=cv.getContext('2d');
+    var W=cv.width, H=cv.height;
+    var reduce=matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var N={x:W*0.30,y:H*0.52,q:+1}, S={x:W*0.70,y:H*0.52,q:-1};
+    function fieldAt(x,y){
+      var ex=0,ey=0;
+      var dx=x-N.x,dy=y-N.y,r2=dx*dx+dy*dy,r=Math.sqrt(r2)||1e-6,k=N.q/(r2*r); ex+=k*dx;ey+=k*dy;
+      dx=x-S.x;dy=y-S.y;r2=dx*dx+dy*dy;r=Math.sqrt(r2)||1e-6;k=S.q/(r2*r); ex+=k*dx;ey+=k*dy;
+      return [ex,ey];
+    }
+    function streamline(a0){
+      var r0=16, x=N.x+Math.cos(a0)*r0, y=N.y+Math.sin(a0)*r0, pts=[[x,y]], ds=3.2;
+      for(var i=0;i<1400;i++){
+        var f=fieldAt(x,y), m=Math.hypot(f[0],f[1])||1e-9;
+        x+=f[0]/m*ds; y+=f[1]/m*ds; pts.push([x,y]);
+        if(Math.hypot(x-S.x,y-S.y)<r0+2) {pts.push([S.x,S.y]);break;}
+        if(x<-60||x>W+60||y<-60||y>H+60) break;
+      }
+      return pts;
+    }
+    // seed streamlines evenly around north
+    var LINES=[], NL=15;
+    for(var i=0;i<NL;i++){ var a=(-Math.PI/2)+(i+0.5)/NL*Math.PI*2; LINES.push(streamline(a)); }
+    // iron filings (deterministic)
+    var rnd=mulberry32(70428), FIL=[];
+    for(var k=0;k<1500;k++){
+      var fx=rnd()*W, fy=rnd()*H, f=fieldAt(fx,fy), mag=Math.hypot(f[0],f[1]);
+      if(mag<2.2e-5) continue;
+      FIL.push({x:fx,y:fy,ang:Math.atan2(f[1],f[0]),op:Math.min(.55,mag*9000)});
+      if(FIL.length>820) break;
+    }
+    function pole(p,color,glow){
+      var g=ctx.createRadialGradient(p.x,p.y,1,p.x,p.y,34);
+      g.addColorStop(0,glow); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.beginPath();ctx.arc(p.x,p.y,34,0,7);ctx.fill();
+      ctx.fillStyle=color; ctx.beginPath();ctx.arc(p.x,p.y,6.5,0,7);ctx.fill();
+    }
+    function render(prog){
+      ctx.clearRect(0,0,W,H);
+      // filings
+      for(var i=0;i<FIL.length;i++){
+        var fl=FIL[i], op=fl.op*Math.min(1,prog*1.3);
+        if(op<=.01) continue;
+        var c=Math.cos(fl.ang)*3.2, s=Math.sin(fl.ang)*3.2;
+        ctx.globalAlpha=op; ctx.strokeStyle='#7fb8d8'; ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(fl.x-c,fl.y-s);ctx.lineTo(fl.x+c,fl.y+s);ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+      // streamlines with gradient
+      for(var L=0;L<LINES.length;L++){
+        var pts=LINES[L]; if(pts.length<2) continue;
+        var drawTo=Math.max(2,Math.floor(pts.length*Math.min(1,prog*1.15)));
+        var grad=ctx.createLinearGradient(N.x,N.y,S.x,S.y);
+        grad.addColorStop(0,'rgba(0,240,255,0.55)'); grad.addColorStop(.5,'rgba(255,215,0,0.35)'); grad.addColorStop(1,'rgba(255,215,0,0.5)');
+        ctx.strokeStyle=grad; ctx.lineWidth=1.4; ctx.globalAlpha=.9;
+        ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+        for(var j=1;j<drawTo;j++) ctx.lineTo(pts[j][0],pts[j][1]);
+        ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+      pole(N,'#00F0FF','rgba(0,240,255,0.22)');
+      pole(S,'#FFD700','rgba(255,215,0,0.20)');
+    }
+    if(reduce){ render(1); return; }
+    var start=null;
+    function frame(t){ if(!start)start=t; var p=Math.min(1,(t-start)/1800); render(1-Math.pow(1-p,3)); if(p<1)requestAnimationFrame(frame); }
+    requestAnimationFrame(frame);
+  })();
+
+  // ---------- flux-over-time strip (SVG) ----------
+  (function(){
+    var W=1000,H=200,pad=44;
+    // flux density samples across the timeline (0..1 strength)
+    var pts=[
+      {t:'2025-12',x:0.00,v:0.10,l:'corpus hums'},
+      {t:'2026-01',x:0.20,v:0.24,l:'7 vision films'},
+      {t:'03',x:0.36,v:0.22,l:'Decision Physics'},
+      {t:'08-27',x:0.60,v:0.40,l:'forensic recall'},
+      {t:'08-28',x:0.74,v:0.96,l:'ADR-070 · magnetize'},
+      {t:'war game',x:0.84,v:0.70,l:'hostile-facet gauntlet'},
+      {t:'ship',x:0.90,v:0.88,l:'field holds'},
+      {t:'fold',x:1.00,v:0.62,l:'lines escape'}
+    ];
+    function X(x){return pad+x*(W-pad*2)} function Y(v){return H-28-v*(H-58)}
+    var d='M '+X(pts[0].x)+' '+Y(pts[0].v);
+    for(var i=1;i<pts.length;i++){var p0=pts[i-1],p1=pts[i];var cx=(X(p0.x)+X(p1.x))/2;d+=' C '+cx+' '+Y(p0.v)+' '+cx+' '+Y(p1.v)+' '+X(p1.x)+' '+Y(p1.v);}
+    var area=d+' L '+X(1)+' '+(H-28)+' L '+X(0)+' '+(H-28)+' Z';
+    var marks='';
+    for(var j=0;j<pts.length;j++){
+      var p=pts[j], col = p.v>0.9?'#00FF9D':(p.l.indexOf('polarity')>=0?'#FF4D6D':(p.l.indexOf('escape')>=0?'#9D7BFF':'#FFD700'));
+      marks+='<circle cx="'+X(p.x)+'" cy="'+Y(p.v)+'" r="3.5" fill="'+col+'"/>';
+      marks+='<line x1="'+X(p.x)+'" y1="'+Y(p.v)+'" x2="'+X(p.x)+'" y2="'+(H-28)+'" stroke="'+col+'" stroke-opacity="0.18" stroke-width="1"/>';
+      var anchor = j===0?'start':(j===pts.length-1?'end':'middle');
+      marks+='<text x="'+X(p.x)+'" y="'+(Y(p.v)-9)+'" fill="'+col+'" font-family="IBM Plex Mono,monospace" font-size="9.5" text-anchor="'+anchor+'">'+p.l+'</text>';
+      marks+='<text x="'+X(p.x)+'" y="'+(H-12)+'" fill="#54627a" font-family="IBM Plex Mono,monospace" font-size="9" text-anchor="'+anchor+'">'+p.t+'</text>';
+    }
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Field strength over time, spiking at ADR-070 on 2026-08-28">'
+      +'<defs><linearGradient id="fx" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD700" stop-opacity="0.28"/><stop offset="1" stop-color="#FFD700" stop-opacity="0"/></linearGradient></defs>'
+      +'<path d="'+area+'" fill="url(#fx)"/><path d="'+d+'" fill="none" stroke="#FFD700" stroke-width="1.6"/>'+marks+'</svg>';
+    document.getElementById('fluxwrap').innerHTML=svg;
+  })();
+
+  // ---------- the fold: 5 flux tubes ----------
+  (function(){
+    var W=1000,H=250, ox=90, oy=H/2;
+    var tubes=[
+      {c:'#00F0FF',l:'canon rulings + guards',dy:-96},
+      {c:'#FFD700',l:'operators + op20 fidelity',dy:-48},
+      {c:'#00FF9D',l:'tool catalog + dispatcher',dy:0},
+      {c:'#9D7BFF',l:'hyperstition miss-column',dy:48},
+      {c:'#FF4D6D',l:'worktree prune',dy:96}
+    ];
+    var paths='';
+    for(var i=0;i<tubes.length;i++){
+      var t=tubes[i], ex=W-260, ey=oy+t.dy;
+      paths+='<path d="M '+ox+' '+oy+' C '+(ox+220)+' '+oy+' '+(ex-230)+' '+ey+' '+ex+' '+ey+'" fill="none" stroke="'+t.c+'" stroke-width="1.8" stroke-opacity="0.85"/>';
+      paths+='<circle cx="'+ex+'" cy="'+ey+'" r="3.5" fill="'+t.c+'"/>';
+      paths+='<text x="'+(ex+12)+'" y="'+(ey+3.5)+'" fill="'+t.c+'" font-family="IBM Plex Mono,monospace" font-size="11">'+t.l+'</text>';
+    }
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five flux tubes leaving the Receipt pole, one per composed session">'
+      +'<defs><radialGradient id="rp"><stop offset="0" stop-color="#FFD700" stop-opacity="0.5"/><stop offset="1" stop-color="#FFD700" stop-opacity="0"/></radialGradient></defs>'
+      +'<circle cx="'+ox+'" cy="'+oy+'" r="30" fill="url(#rp)"/><circle cx="'+ox+'" cy="'+oy+'" r="6.5" fill="#FFD700"/>'
+      +'<text x="'+ox+'" y="'+(oy+48)+'" fill="#FFD700" font-family="IBM Plex Mono,monospace" font-size="10" text-anchor="middle">RECEIPT POLE</text>'
+      +paths+'</svg>';
+    document.getElementById('foldwrap').innerHTML=svg;
+  })();
+})();
+</script>

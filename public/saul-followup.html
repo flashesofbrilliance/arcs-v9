@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">
+<title>Saul × Starpilot · Follow-up</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html{color-scheme:light dark}
+:root{--ground:#F4F6F2;--paper:#FFFFFF;--ink:#1A2129;--ink-2:#4B5560;--ink-3:#7A848E;--rule:#D9DED8;--accent:#D8552B;--accent-soft:#FBE9E1;--depth:#2E6F6A;--depth-soft:#E3F0EE;--gold:#B8860B;--gold-soft:#F3E9C9;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--sans:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;--serif:'Instrument Serif',Georgia,serif;--measure:660px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#12171C;--paper:#1A2028;--ink:#E9ECEA;--ink-2:#B4BCC3;--ink-3:#7F8A94;--rule:#2C343C;--accent:#F0774C;--accent-soft:#3A2119;--depth:#5FB3AB;--depth-soft:#173230;--gold:#D4A63A;--gold-soft:#3A2F12}}
+:root[data-theme="dark"]{--ground:#12171C;--paper:#1A2028;--ink:#E9ECEA;--ink-2:#B4BCC3;--ink-3:#7F8A94;--rule:#2C343C;--accent:#F0774C;--accent-soft:#3A2119;--depth:#5FB3AB;--depth-soft:#173230;--gold:#D4A63A;--gold-soft:#3A2F12}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+main{max-width:760px;margin:0 auto;padding:40px 20px 72px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow b{color:var(--accent);font-weight:500}
+.eyebrow a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,46px);line-height:1.05;margin:26px 0 8px;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--depth)}
+.thesis{font-size:18px;color:var(--ink-2);max-width:var(--measure);margin:0 0 26px}
+section{padding:24px 0;border-top:1px solid var(--rule)}
+h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px}
+.lede{color:var(--ink-2);margin:0 0 16px;max-width:var(--measure)}
+p,li{max-width:var(--measure)}
+ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+b{font-weight:600}
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;margin:18px 0 0;font-family:var(--mono);font-size:12px}
+.nav a{color:var(--ink-3);text-decoration:none;border-bottom:1px solid var(--rule)}
+.nav a:hover{color:var(--accent);border-color:var(--accent)}
+/* timeline */
+.tl{display:grid;gap:10px}
+.tl li{display:grid;grid-template-columns:88px 1fr;gap:12px;background:var(--paper);border:1px solid var(--rule);padding:12px 14px}
+.tl .t{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:2px}
+/* drafts */
+.draft{background:var(--paper);border:1px solid var(--rule);padding:16px 18px;margin-bottom:12px}
+.draft .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.draft .k b{color:var(--depth)}
+.draft p{margin:0 0 8px;font-size:15px}
+.slot{font-family:var(--mono);font-size:.9em;color:var(--accent);background:var(--accent-soft);padding:1px 5px;border-radius:3px}
+/* forked cards */
+.fork{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 16px;margin-bottom:12px}
+.fork .obj{font-family:var(--serif);font-size:21px;line-height:1.25;margin:0 0 10px}
+.branch{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:8px 0;border-top:1px dashed var(--rule);font-size:14.5px}
+.branch .k{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding-top:3px}
+.b1 .k{color:var(--depth)} .b2 .k{color:var(--gold)} .b3 .k{color:var(--accent)} .b0 .k{color:var(--ink-3)}
+/* anticipatory */
+.ant li{background:var(--paper);border:1px solid var(--rule);padding:12px 14px;font-size:14.5px}
+.ant li b{display:block;margin-bottom:3px}
+/* checklist */
+.chk li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:15px}
+.chk .box{width:14px;height:14px;border:1.5px solid var(--ink-3);border-radius:3px;margin-top:5px}
+footer{margin-top:44px;font-family:var(--mono);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (max-width:520px){.tl li,.branch{grid-template-columns:1fr;gap:4px}}
+</style>
+</head>
+<body><main>
+<header><span class="eyebrow"><a href="/">← prep</a> · Saul Miller · <b>Follow-up</b> · Starpilot</span><span class="eyebrow"><a href="/resume">resume bundle →</a></span></header>
+<h1>The call is the opening move.<br><em>This is the rest of the game.</em></h1>
+<p class="thesis">Everything here is for after you hang up: what to send and when, how each objection forks depending on how John responds, the objections he has not raised yet but is holding, and the loop-close checklist. Nothing on this page states a Starpilot fact you did not hear from them.</p>
+<nav class="nav"><a href="#clock">the clock</a><a href="#drafts">notes to send</a><a href="#forks">forked battle cards</a><a href="#ant">objections he has not said yet</a><a href="#close">close the loop</a></nav>
+
+<section id="clock"><h2>The clock after the call</h2><p class="lede">Speed is a signal to a founder who posts against bureaucracy. Slow follow-up reads as a slow operator.</p>
+<ul class="tl">
+  <li><span class="t">within 2 h</span><span>Write down every number he said: hours, cost per hour, countries, rejection rate, headcount. That list is your only source for Starpilot facts from now on.</span></li>
+  <li><span class="t">within 24 h</span><span>Send the note. One thing he said, one thing you would do first, one number of yours. Under 150 words.</span></li>
+  <li><span class="t">within 72 h</span><span>If he named a real problem, send one page: the day-30 plan for that problem with a dashboard sketch. Unasked, short, specific. This is the founder-hungry proof the posting asks for.</span></li>
+  <li><span class="t">day 5</span><span>No reply: one line, no pressure, one new fact of yours. Then stop. Founders answer when they answer.</span></li>
+  <li><span class="t">any time</span><span>References: line up two people who saw you build, not just run. One who reports to you, one you reported to.</span></li>
+</ul></section>
+
+<section id="drafts"><h2>Notes to send</h2><p class="lede">Three registers. Pick the one that matches how the call actually went. Fill the slots with what he really said.</p>
+<div class="draft"><div class="k"><b>strong call</b> · he leaned in</div>
+<p>John, thanks for the time. The number that stuck with me was <span class="slot">[his number: cost per usable hour, rejection rate, or hours per month]</span>. If I were starting Monday, the first thing I would build is <span class="slot">[one instrument: the per-site turnaround dashboard, the rejection-by-cause view, the launch checklist]</span>, because it is the lever behind that number.</p>
+<p>On the part I have not done, <span class="slot">[customs / entity setup]</span>, here is how I would close it in the first 30 days: <span class="slot">[one sentence, one date]</span>.</p>
+<p>My own number from Sama, for the record: <span class="slot">[one real number]</span>. Happy to go deeper on any of it. Saul</p></div>
+<div class="draft"><div class="k"><b>neutral call</b> · hard to read</div>
+<p>John, thanks for walking me through the machine. Two things I took away: <span class="slot">[fact one]</span> and <span class="slot">[fact two]</span>. The question I keep coming back to is <span class="slot">[one operational question from the call]</span>. If useful, I can send a one-page view on how I would approach it. Either way, appreciated the directness. Saul</p></div>
+<div class="draft"><div class="k"><b>recover</b> · a moment went badly</div>
+<p>John, thanks for the conversation. One answer I gave deserved a sharper version: when you asked about <span class="slot">[the moment]</span>, the honest answer is <span class="slot">[the true, short answer]</span>. I would rather you have the clear version than the fast one. The rest of what I said stands. Saul</p></div>
+</section>
+
+<section id="forks"><h2>Forked battle cards</h2><p class="lede">Each objection has a branch for how he plays it: he raises it, you pre-empt it, he pushes back on your bridge, and he pushes again. The third push means concede the point and move to what you can prove.</p>
+
+<div class="fork"><p class="obj">You have never launched a country from zero.</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“Correct. Sama's countries existed when I got there. I built the operation inside them and I built Change Machine's operation from nothing. Entity setup is counsel plus a checklist. First hires and first sites are the part I have done.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Say it in the fit section before he asks. A named gap is a strength; a discovered gap is a liability.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>“Checklist is easy to say.” Answer: “Then let me earn it on Turkey. I go on the ground for the opening weeks, and you judge the first 10,000 hours, not the resume.”</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Concede: “If from-zero entity work is the deciding criterion, I am not the strongest candidate on that line. On every other line in the posting I am. Your call which one you are hiring for.”</span></div></div>
+
+<div class="fork"><p class="obj">You have never shipped hardware across borders.</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“I have not. Week one I hire a logistics lead and set one tracked flow: ship, repair, return. Day 30 you get turnaround per site.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Ask first: “How are cameras moving today, and where do they get stuck?” His answer tells you whether this is a real gap or a solved problem.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>“We cannot afford a logistics hire.” Answer: “Then it is me and a freight forwarder for the first country, and I document it into the playbook so the second country does not need me.”</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Concede and reframe: “Agreed it is a gap. It is the most learnable gap on the list, and it is not the one that loses hours. Rejected hours and slow sites lose hours. That part I know cold.”</span></div></div>
+
+<div class="fork"><p class="obj">Ten years at one company. Are you hungry?</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“Seven roles, two VP seats, three functions. I stayed because the scope kept doubling. I am leaving because it stopped.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Do not pre-empt this one. Pre-empting a tenure question sounds defensive. Let him ask.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>“Big-company VPs do not sit in a field in Vietnam.” Answer: “I was the escalation point for 25 engagements across four continents. Field is where the escalations were.” Then one concrete field story.</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Concede the frame, keep the fact: “You will only know by watching. Put me on the Turkey launch and decide from that.”</span></div></div>
+
+<div class="fork"><p class="obj">We need cheap, fast, and precise, with nine people.</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“Retention is the unit-cost lever. Local workforce, local pay, and people who stay produce cheap hours that stay high quality. That is the Sama model and it is your model.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Ask his cost per usable hour and his rejection rate before you say anything about cost. Then talk about the gap between the two.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>“Sama had hundreds of people and margin to spare.” Answer: “Sama had SLAs with a quarter of the Fortune 50 and profitability targets. Nobody spared margin. I can show you the reporting we ran it on.”</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Stop defending Sama. “Fair. Tell me your number and I will tell you what I would cut first.” Then listen.</span></div></div>
+
+<div class="fork"><p class="obj">Can you actually work with our engineers?</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“I ran product for the platform your kind of engineers built. My SQL is <span class="slot">[true level]</span>. I will own my dashboards by day 30 without pulling an engineer off capture.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Bring one dashboard you built and the decision it changed. Show, do not claim.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>He asks a technical question directly. Answer at your true level, then: “Here is how I would get the rest.” Never bluff a CTO.</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Concede: “If you need an engineer in this seat, I am not one. If you need an operator engineers trust because he reads their numbers and does not waste their time, that is the job I have done for ten years.”</span></div></div>
+
+<div class="fork"><p class="obj">Precision is the moat and human review is the bottleneck.</p>
+<div class="branch b0"><span class="k">he raises it</span><span>“Keep precision, remove the bottleneck: calibration per site, tracker health before capture, auto-reject rules, sampled audit instead of full review.”</span></div>
+<div class="branch b1"><span class="k">you pre-empt</span><span>Ask the retargeting acceptance rate and hours delivered versus captured. If he does not have the number, that is your first dashboard.</span></div>
+<div class="branch b2"><span class="k">he pushes back</span><span>“Sampling will miss errors.” Answer: “Sampling with rejection-by-cause tracking finds the site or the device that produces them. Full review finds the same errors slower and hides the cause.”</span></div>
+<div class="branch b3"><span class="k">he pushes again</span><span>Defer to his technical lead: “Hisham owns the precision bar. I own getting there at scale. I will not set the bar; I will hit it cheaper.”</span></div></div>
+</section>
+
+<section id="ant"><h2>Objections he has not said yet</h2><p class="lede">Anticipatory. He may be holding any of these. Have the answer ready and do not volunteer it unless the door opens.</p>
+<ul class="ant">
+  <li><b>Comp.</b> The band tops at $250k base. If your Sama number was higher, decide now whether equity and ownership make up the gap. Never negotiate in the first call; do say “the range works as a starting point” only if it does.</li>
+  <li><b>Travel and Brooklyn.</b> Weeks at a time in three regions, in person in Brooklyn. A conditional answer reads as a no. Decide before the call and say it plainly.</li>
+  <li><b>Overqualified for the seat, underqualified for the hardware.</b> Both at once. Answer: “The seat is the whole machine. I have run the whole machine. The hardware is the newest part and the most learnable.”</li>
+  <li><b>Why not hire a founder.</b> The posting says ex-founders will feel at home. Answer: “A founder starts things. You need someone who starts five and hands each one off. Handing off is the hard part, and it is what I have done seven times.”</li>
+  <li><b>Sama references.</b> He may know people there. Assume he will call. Line up your own references first.</li>
+  <li><b>Why did you leave Sama in July.</b> One sentence, forward-looking, the same sentence every time.</li>
+  <li><b>Age and energy, unspoken.</b> Nobody will say it. Answer it with tempo: fast follow-up, short answers, a plan with dates.</li>
+  <li><b>Start date and notice.</b> Have a date. A founder hears a vague start date as a vague yes.</li>
+</ul></section>
+
+<section id="close"><h2>Close the loop</h2><p class="lede">The posting asks for three things. Make sure each has left your hands before the process moves.</p>
+<ul class="chk">
+  <li><span class="box"></span><span>The largest physical operation you launched or scaled, with a scale number.</span></li>
+  <li><span class="box"></span><span>The hardest problem, in one paragraph, with what changed.</span></li>
+  <li><span class="box"></span><span>The number that proves you fixed it. Before and after.</span></li>
+  <li><span class="box"></span><span>Your gaps, named by you first, each with a day-30 deliverable.</span></li>
+  <li><span class="box"></span><span>One dashboard you built, shown, with the decision it changed.</span></li>
+  <li><span class="box"></span><span>The operating rhythm proposal: what you decide, what he decides, how often.</span></li>
+  <li><span class="box"></span><span>A plain answer on travel and in-person.</span></li>
+  <li><span class="box"></span><span>Ask for the next step by name: “What is the next conversation, and with whom?”</span></li>
+</ul></section>
+<footer><span>for Saul only · built 2026-09-03 · sources: the posting, your LinkedIn, the CEO's public profile and posts</span><span><a href="/" style="color:inherit">prep</a> · <a href="/resume" style="color:inherit">bundle</a></span></footer>
+</main></body></html>

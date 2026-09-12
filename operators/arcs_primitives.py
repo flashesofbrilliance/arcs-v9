@@ -59,6 +59,30 @@ LABEL_GOOD_PROCESS_BAD_LUCK = "good_process_bad_luck"
 LABEL_DUMB                = "dumb"
 LABEL_EXPERIMENTAL        = "experimental"
 
+# ── Farm league canonicality tiers ────────────────────────────────────────────
+# Operators graduate through these tiers before reaching canonical status.
+# Each operator carries a current tier + a promotion path; promotion is opt-in,
+# never automatic. Pollination (cross-operator finding exchange) is permitted
+# between operators at the same tier or one tier apart.
+#
+# SEMANTICS (from session pickup, encoded 2026-08-24):
+#   SEED        — provisional, not committed to main. Built on disk, executed,
+#                 findings logged. May be wrong. Lowest burden of proof.
+#   LAB         — can exchange findings with other LAB-tier operators via
+#                 pollination. Survived one structured review pass.
+#   PLAYGROUND  — can be tested in the wild against real decision contexts.
+#                 Findings are visible, not hidden.
+#   GEMINATE_CANDIDACY — candidate for dual-instance replication test.
+#                 Two independent instances run the same operator on the same
+#                 inputs; results must converge within tolerance before graduation.
+#   CANONICAL  — (implicit) reached when GEMINATE replication passes.
+#                 Not represented as a label here — operators either are or aren't.
+
+LABEL_SEED         = "seed"
+LABEL_LAB          = "lab"
+LABEL_PLAYGROUND   = "playground"
+LABEL_GEMINATE     = "geminate_candidacy"
+
 
 # ─────────────────────────────────────────────
 # INPUT PRIMITIVE: CoherenceSignal

@@ -1,0 +1,40 @@
+{
+  "_doc": "Per-instance parameter sets for template.flow.json. Swap {{PLACEHOLDER}} -> value, import each as its own flow. LANDING_URL values are placeholders until the Unbounce pages' final URLs are confirmed — do not guess-publish. Vocabulary sourced from the 5 hand-built SEM Onramp drafts.",
+  "instances": [
+    {
+      "PRODUCT_FAMILY": "SABIC alternatives",
+      "CAMPAIGN_TAG": "sem-sabic-alt",
+      "LANDING_URL": "TODO-unbounce-url",
+      "OPENER_LINE": "Running a SABIC grade and hit an allocation, price, or lead-time wall? We match drop-in alternatives fast — a specialist can confirm fit today.",
+      "NEED_QUESTION": "Which SABIC grade are you running now (or what spec does it need to hit)?"
+    },
+    {
+      "PRODUCT_FAMILY": "Lexan / Makrolon polycarbonate",
+      "CAMPAIGN_TAG": "sem-pc-lexan-makrolon",
+      "LANDING_URL": "TODO-unbounce-url",
+      "OPENER_LINE": "Looking for Lexan or Makrolon — or a polycarbonate that matches it without the wait? Tell us the grade and we'll get you to a PC specialist fast.",
+      "NEED_QUESTION": "Which PC grade (Lexan/Makrolon number) or spec are you after?"
+    },
+    {
+      "PRODUCT_FAMILY": "Ultem PEI",
+      "CAMPAIGN_TAG": "sem-ultem-pei",
+      "LANDING_URL": "TODO-unbounce-url",
+      "OPENER_LINE": "Ultem availability or pricing sending you looking? We stock PEI and matched high-heat alternatives — a specialist can confirm equivalence today.",
+      "NEED_QUESTION": "Which Ultem grade are you running, or what temp/spec does the part need?"
+    },
+    {
+      "PRODUCT_FAMILY": "Noryl modified PPE",
+      "CAMPAIGN_TAG": "sem-noryl-ppe",
+      "LANDING_URL": "TODO-unbounce-url",
+      "OPENER_LINE": "Need Noryl or a modified-PPE equivalent? Tell us the grade or the electrical/dimensional spec and we'll route you straight to the right person.",
+      "NEED_QUESTION": "Which Noryl grade or PPE spec are you working against?"
+    },
+    {
+      "PRODUCT_FAMILY": "Valox PBT",
+      "CAMPAIGN_TAG": "sem-valox-pbt",
+      "LANDING_URL": "TODO-unbounce-url",
+      "OPENER_LINE": "Valox on allocation or quoted long? We match PBT grades — connectors, automotive, glass-filled — with a specialist callback in hours.",
+      "NEED_QUESTION": "Which Valox grade or PBT spec are you after?"
+    }
+  ]
+}

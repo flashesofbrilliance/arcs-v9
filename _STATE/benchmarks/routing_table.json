@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "description": "Current model-routing decision + per-model summary stats from calibration runs.",
+  "routing_decision": {
+    "harness": "adr_audit.py",
+    "default_model": "poolside/laguna-xs-2.1:free",
+    "calibration_reference": "upstage/solar-pro4:free",
+    "decision_adr": "ADR-033",
+    "decision_date": "2026-08-26",
+    "status": "DECIDED",
+    "caveat": "CIS pipeline currently runs rule-based (no LLM client, llm_client=None). --model flag is wired but has no effect through adr_audit.py → cli_arcs_run.py path. All 4 models produce identical rule-based envelopes (confirmed by calibration_20260826_1046: 20/20 calls, identical CSS per ADR). The 5.4× timing story (22.6s vs 122s) comes from the hermes chat + bare prompt path (narrow bench), not the adr_audit.py path. See ADR-033 Context point 1."
+  },
+  "models": {
+    "poolside/laguna-xs-2.1:free": {
+      "status": "candidate_default",
+      "narrow_bench_tier3_latency_s": 22.6,
+      "narrow_bench_tier3_pure_json": true,
+      "narrow_bench_gate_verdict": "halt",
+      "adr_audit_rule_based_latency_s_avg": 0.12,
+      "adr_audit_rule_based_css_identical_across_models": true,
+      "notes": "5.4x faster than solar-pro4:free on Tier 3 bare-prompt path. Pure JSON. Rule-based CIS: identical to all models."
+    },
+    "upstage/solar-pro4:free": {
+      "status": "calibration_reference",
+      "narrow_bench_tier3_latency_s": 122.0,
+      "narrow_bench_tier3_pure_json": false,
+      "narrow_bench_gate_verdict": "halt",
+      "adr_audit_rule_based_latency_s_avg": 0.16,
+      "adr_audit_rule_based_css_identical_across_models": true,
+      "adr_audit_tier1_css": 0.557,
+      "adr_audit_tier2_css_bar": 0.557,
+      "adr_audit_tier2_css_kintsugi": 0.574,
+      "notes": "Current Hermes default. Prose-wrapped JSON on bare prompt. Rule-based CIS: identical to all models."
+    },
+    "poolside/laguna-s-2.1:free": {
+      "status": "not_tested_at_scale_bare_prompt",
+      "adr_audit_rule_based_latency_s_avg": 0.14,
+      "notes": "Larger sibling of laguna-xs. Rule-based CIS: identical to all models."
+    },
+    "stepfun/step-3.7-flash:free": {
+      "status": "not_tested_at_scale_bare_prompt",
+      "adr_audit_rule_based_latency_s_avg": 0.17,
+      "notes": "Multimodal MoE. Rule-based CIS: identical to all models."
+    }
+  },
+  "calibration_runs": [
+    {
+      "run_id": "calibration_20260826_1046",
+      "date": "2026-08-26T10:46:00",
+      "description": "Real audit-bench: adr_audit.py --tier 1 --format json --model <model> across 5 ADRs × 4 models = 20 CIS-pipeline calls.",
+      "models_tested": 4,
+      "adrs_tested": 5,
+      "total_calls": 20,
+      "parse_ok_rate": 1.0,
+      "key_finding": "Model independence confirmed — all 4 models produce identical gate verdicts and CSS values per ADR. CIS pipeline is rule-based with no LLM client.",
+      "file": "calibration_20260826_1046.json"
+    }
+  ],
+  "last_updated": "2026-08-26"
+}

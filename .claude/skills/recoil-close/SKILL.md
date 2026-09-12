@@ -6,6 +6,8 @@ description: T-zero phase (the loop-closing moment). After the call, pull the tr
 # /recoil-close — score the ex-ante, fill the back four tabs
 
 This is where the loop closes: the pre-call receipt gets scored against what actually happened.
+(ADR-068: this is the close-loop print — mandatory once the counterpart has responded, for
+every send that filed an ex-ante. An ex-ante left unscored after a response is a drift receipt.)
 
 ## Step 1 — pull the transcript
 `get_meeting_transcript` for the call (match by attendee + end time). Large transcripts save to a file;

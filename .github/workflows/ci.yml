@@ -7,9 +7,22 @@ name: CI
 # this repo (AGENTS.md: `npx next build`, not `tsc --noEmit` — TS5090 baseUrl
 # false positives); the former separate tsc step contradicted that rule and was
 # removed 2026-07-11 (audit finding #3).
+# Cost gate (2026-08-19): doc-only pushes to main skip the whole workflow —
+# 224 CI runs in 19 days were mostly handoffs/ADRs/state files that can't
+# break a build. public/** is deliberately NOT ignored so the leak-check
+# hard gate still fires on every prospect-facing surface change. PRs are
+# unaffected (paths-ignore applies to the push trigger only).
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "_DECISIONS/**"
+      - "_STATE/**"
+      - "_ARCHIVE/**"
+      - "_PATTERNS/**"
+      - "_INBOX/**"
+      - ".claude/**"
   pull_request:
 
 concurrency:
@@ -65,6 +78,11 @@ jobs:
       # exit via a mechanism or dated waiver within their severity SLA.
       - name: Ledger delinquency check
         run: python3 scripts/ledger_check.py
+
+      # NOTE: the informativeness ratchet lives in its own workflow
+      # (.github/workflows/informativeness.yml), because THIS workflow is
+      # currently disabled — its step here would never run. Do not re-add it here
+      # without re-enabling ci.yml.
 
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)

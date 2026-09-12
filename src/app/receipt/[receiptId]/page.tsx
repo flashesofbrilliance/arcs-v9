@@ -10,10 +10,12 @@ import { Button } from "@/ui/Button"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
 import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
+import { TribunePanel } from "@/molecules/TribunePanel"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult } from "@/lib/mockCompass"
 import { encodeShare } from "@/lib/shareLink"
+import { track } from "@vercel/analytics"
 
 function safeParse<T>(v: unknown, fallback: T): T {
   if (typeof v !== "string") return (v as T) ?? fallback
@@ -216,10 +218,11 @@ export default function ReceiptPage() {
                 NOT STORED — this bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
               </span>
               <Button variant="ghost" size="sm" onClick={() => {
-                // Opt-in save (ADR-032): stash the bearing in localStorage
+                // Opt-in save (ADR-049): stash the bearing in localStorage
                 // (sessionStorage is tab-scoped — a magic-link click opens a
                 // new tab and would lose it), then route to sign-in. The
                 // post-auth consumer (ClaimAnonymousReceipts) persists it.
+                track("receipt_save_clicked", { receiptId })
                 const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
                 if (raw) {
                   try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: JSON.parse(raw) })) } catch {}
@@ -260,6 +263,13 @@ export default function ReceiptPage() {
               }}
             />
           </div>
+
+          {/* Tribune — ADR-020: three-phase annotation, owner-only, persisted receipts only */}
+          {!isEphemeral && (
+            <div style={{ marginBottom: "2rem" }}>
+              <TribunePanel receiptId={receipt.id} />
+            </div>
+          )}
 
           {/* Why bullets */}
           {why.length > 0 && (

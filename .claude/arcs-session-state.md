@@ -1,28 +1,22 @@
-# ARCS Session State — v3.24.0 (2026-08-01, Sat night)
+# ARCS Session State — current sprint snapshot
 
-**Branch:** `claude/decision-geometry-logo-81fb56` (NOT main) · **HEAD:** `7e56a7b` · **Blocking:** NONE
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.59.0; resume seed `_STATE/pickup-prompt.md`.
 
-## This session (philosophy → product → purpose marathon; mostly user-level memory)
+**As of:** 2026-09-08 · **Branch:** `feat/audit-service` · **Version:** v3.59.0 (ARCS-on-ARCS shipping close)
 
-A Logo-origin riff became a coherent spine, banked across ~9 auto-memories (`~/.claude/projects/-Users-zharris-arcs-v9/memory/`, NOT repo-visible):
+## Shipped + verified live this session
+- NFTT "Assets and Liabilities" (good.arcs.care/blog/nftt/assets-and-liabilities) — PR #332
+- Field Instruments public-goods chapter (good.arcs.care/instruments) — PR #337 + routing fix #340
+- Day-151 milestone on status.html; informativeness ratchet real CI arm (informativeness.yml) — PR #337
+- Reproducible DB audit + dead-trio build fix — PR #306
 
-- **Design north-star** [[met-at-your-level-onramp-design-principle]] — met-at-level → suspend disbelief → transported by own interactivity → flow; telos = **reflect the geometry, say-it-without-saying-it**; apophatic ("helps shape without saying/being/pushing/pulling"); `~ → Mañana → Ark → ARCS`; sensor-suite; cairn; boat/harbor; pre-K↔luddite-elder span.
-- **Architecture/moat** [[context-manifold-as-model-agnostic-attractor-basin]] — authored-not-learned state space = model-agnostic basin (LLM/JEPA); falsifiability = invariant fulcrum for both FMs; custody-not-clergy self-correcting gospel; Ark recovered-not-invented; net-new DEEMED-not-CLAIMED via judging panel; point→vector.
-- **Purpose** [[arcs-purpose-inherit-tacit-wisdom-first-author-not-last]] — inherit tacit wisdom, first author not last; unify 3 severed legacies by subtraction; knowledge work = compounding craft; legacy-vault + opportunity-cost investment bank.
+## Deceipt ledger: 15 (12–15 booked this session; #13/#15 caught by field-contact, not self-review)
 
-## Repo commits (small)
+## Next action
+Extract informativeness-auditor into a standalone package (Seed→Proven). Outcome-capture keel (2/247) = P1.
 
-- `3a80376` — meta-audit `_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md` + "white water" proverb (SSOT → 242).
-- `7e56a7b` — Views of the Corpus tooltip + keyboard-walk (`scripts/gen_tao_views.py`; verified local, no deploy).
+## Open (human-gated)
+Memory-index retirement · outcome-capture keel · ROM candidate (live-receipt gate) · flip INTEGRITY_GATE_BLOCK=1 after a clean week
 
-## In-chat, not filed
-
-Claude-design prompt for a 60–75s product-marketing video (3-planes/legacy-vault, fog→sharp snap-into-focus). In transcript. Build only on Zach's go (budget-gated).
-
-## Next (unchanged priorities + new)
-
-1. Cost-leak fix (separate session): `vercel.json` `ignoreCommand` PATH-based + tripwire.
-2. Todd/PRL — Zapier blocked on Tidio plan upgrade.
-3. **New build-ready:** legacy-vault + opportunity-cost investment bank (Outcome handler + recoil loop + portfolio view); marketing video.
-4. Tao hosting via JIT loop; ratify ADR-039/040/041.
-5. Housekeeping: relocate v3.16–v3.20 handoffs to `_ARCHIVE/handoffs.md`; watch mega-memory sizes (basin ~22KB, met-at-level ~20KB).
+## Blocking
+NONE.

@@ -5,6 +5,13 @@ description: Turn one engagement corpus into the three-surface artifact family �
 
 # /omakase-pipeline — one corpus, three fences, lossless at every altitude
 
+> **ADR-068 print schedule:** Step 1 = analyze (source-traceability gate; unsourced claims
+> die here). Steps 2-4 = assess + synthesize per surface. Step 5-6 = ship gates (ship/hold).
+> Step 7 = evaluate (gauntlet; pass/conditional/fail). If any surface is SENT to a
+> counterpart (not just deployed), the recapitulate gates apply: ex-ante receipt filed
+> before the send (`/recoil-new` Ex-Ante tab), pre-send `counterpart-gauntlet`, and the
+> close-loop obligation (`/recoil-close` owed on reply). Deploying is not sending.
+
 > **Provenance (the instance this class is lifted from):** jeben.arcs.care (back of house)
 > → omakase.arcs.care (the cellar/canon) → louisville.arcs.care (front of house, the
 > target-tuned elevated state). Built Jul 2026; hardened by CISO review, two multi-agent
@@ -44,6 +51,39 @@ Enforce these on every surface. Invariants 1, 2, 4, 5 are checked by Step 5's gr
    weights don't. Any front-of-house surface is scanned before publish (grep the danger
    terms: candid reads, criticism of the counterpart, recoil internals).
 
+## Composition & assembly rules (the guest test)
+
+These are the critique findings from the omakase.arcs.care dual-agent review (2026-07-25),
+lifted from one-off feedback into **assembly rules** the pipeline enforces on every coursed
+or front-of-house surface. The named dominant failure mode is
+**author-cosmology-over-guest** ([[author-cosmology-over-guest-design-risk]]): a surface
+that serves the maker's meaning-making over the guest's job-to-be-done. Craft is necessary,
+not sufficient — a surface can be beautifully authored and still fail this test.
+
+Apply as composition rules while assembling (Step 3–4), and as a gate before ship (Step 7):
+
+1. **Thesis before the curtain.** The load-bearing claim must reach a bounce-path visitor
+   *before* any narrative device. Empty bounce path = fail. (The evaluator forwards a PDF,
+   not the theater, if the thesis is gated behind an entrance sequence.)
+2. **One primary door.** A finale/CTA offers exactly ONE primary action, with a reassurance
+   line beside it. Collapse option-forests (an 11-option finale → one door; eggs/extras →
+   a single secondary affordance). Disabled ghost buttons are dead weight — cut them.
+3. **One claim, one course.** N metaphors for a single claim = one course with N doors, not
+   N courses. Merge metaphor-redundancy; match structure to substance (e.g. 9 scenes ↔ 9
+   lanterns, not 12).
+4. **Forward-this, not a PDF.** For each persona, ask: would they forward *this surface*, or
+   extract a plain summary and forward that? If the latter, the theater is in the way of the
+   value — mill it down (seimaibuai) until the surface itself is the forwardable thing.
+5. **Guest altitude, not author altitude.** Never render above the guest's altitude
+   ([[met-at-your-level-onramp-design-principle]]); the self-referential cosmology that
+   thrills the maker reads as "theater over my problem" to the buyer.
+6. **Reachability of the payoff.** The gift / kernel / real value must not sit 4+ interactions
+   deep. Count taps to the payoff per persona; if it's buried, promote it.
+
+Run these as a **persona pass**: walk each target persona (maker / steward / weaver /
+auditor / evaluator) through the assembled surface and record where each rule breaks. A rule
+break is a P0/P1, not a nitpick.
+
 ## The cutting crew (the six operators, one cut each)
 
 Weaver → register · Jeweler → fidelity/essence · Elder → the lossless invariant ·
@@ -68,6 +108,9 @@ weights, DDL, or tunable params. This is the "one craftsman to another" register
 **Step 4 — Tune the front of house (essence, open).** The target-tuned suite at 25th polish:
 the taste and the value, never the recipe. Register-cut per persona (maker / steward /
 weaver / auditor), altitude at Exec/Operational, fidelity GRAIN. Cone-of-silence preserving.
+**Assemble against the Composition & assembly rules above** — thesis before the curtain, one
+primary door, one-claim-one-course, forward-this-not-a-PDF. These are compositional
+constraints during assembly, not polish applied afterward.
 
 **Step 5 — Run the consonance + air-gap check across all three.** Prove lossless: the same
 load-bearing content resolves in every surface; attribution preserved; the loss report is
@@ -79,10 +122,12 @@ method-only; front of house open. Verify gates live (`curl` an unauth request �
 redirect/404). Never a shared password (that was removed; identity gating only).
 
 **Step 7 — Harden (the gauntlet).** Fan out a multi-agent critique (LAB / BAR / COURT /
-funhouse / KKL lenses) → adversarially verify → distill surviving findings → apply. This is
-the "25th polish" bar: iterate the distillation until the corpus is a self-contained
-internal/external universe with no load lost and no leak. See `/code-review ultra` or a
-Workflow gauntlet.
+funhouse / KKL lenses) → adversarially verify → distill surviving findings → apply. **Include
+the guest-test persona pass** (Composition & assembly rules above) as an explicit lens — it
+catches author-cosmology-over-guest, which the security/ruin lenses miss. This is the "25th
+polish" bar: iterate the distillation until the corpus is a self-contained internal/external
+universe with no load lost, no leak, and no theater in front of the value. See `/code-review
+ultra` or a Workflow gauntlet.
 
 ## Anti-goals
 
@@ -91,3 +136,6 @@ Workflow gauntlet.
 - Silent redaction (a surface that drops something without logging it).
 - A shared-password gate on any internal surface (identity gating only).
 - Register drift: the same fact contradicting itself across surfaces.
+- Author-cosmology-over-guest: the maker's self-referential theater in front of the guest's
+  value (thesis gated behind a curtain, option-forest finales, N metaphors for one claim,
+  payoff buried 4+ taps deep). Beautiful and still wrong — the guest test is a ship gate.

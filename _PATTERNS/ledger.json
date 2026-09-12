@@ -99,6 +99,20 @@
       "severity": "high",
       "summary": "public/arcs_recoil_canvas.py + public/arcs_recoil_philosophy.md were served world-readable by filename on every arcs.care host (same exposure class as the 2026-07-24 war-room HTML move). canvas.py hardcoded real Fanatics counterpart names + private per-person assessments + recoil stop-loss/NCI method; philosophy.md is the internal Forensic Cartography method doctrine. The J24 leak_check only scanned public/*.html, so these non-HTML source/doc files slipped the gate.",
       "exit": { "type": "guard", "ref": "Both files git-mv'd public/ -> runtime/recoil/ (unserved). scripts/leak_check.sh hardened with a stray-source gate that fails CI on any *.py/*.md directly under public/, closing the recurrence class.", "date": "2026-07-31" }
+    },
+    {
+      "id": "STU-015",
+      "filed": "2026-08-07",
+      "severity": "low",
+      "summary": "Receipt Studio (/api/receipts/studio/[tenant]): the sessionId bearer now grants WRITE (PATCH close/score), not just READ, and travels in the GET query string (?sessionId=), so a Referer/proxy-log/history leak is a write capability. Accepted for the robin tenant (Zach's own demo receipts, non-attributable). CISO review finding B, 2026-08-07.",
+      "exit": { "type": "waiver", "reason": "Blast radius is one non-sensitive demo tenant. MUST NOT generalize to a user-attributable/sensitive tenant without moving the token to a header/cookie or a POST body. Re-review before onboarding any such tenant.", "expires": "2026-11-05" }
+    },
+    {
+      "id": "STU-016",
+      "filed": "2026-08-07",
+      "severity": "low",
+      "summary": "In-memory per-instance throttle Map on the studio route (and its louisville precedent) is bounded only by instance lifetime x unique IPs — a rotating-IP scraper can grow it. SRE review finding F3, 2026-08-07.",
+      "exit": { "type": "guard", "ref": "Both anon routes now opportunistically evict expired entries when hits.size>5000: src/app/api/receipts/studio/[tenant]/route.ts and src/app/api/louisville/receipts/route.ts throttled(). Bounded.", "date": "2026-08-07" }
     }
   ]
 }

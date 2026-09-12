@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-kleban-onedoor",
+    "counterpart": "Yuri Kleban",
+    "company": "Google",
+    "doc_title": "Yuri · one door",
+    "gate": {}
+  },
+  "header": {
+    "eyebrow": "Yuri · one door",
+    "title": "One call, and the one belief it flipped.",
+    "sub": "It's the pre-meeting brief your team already builds, but closed and scored: the bet I filed on you before we talked, graded against what actually changed after. That's the before and after you asked to see. Two quick reads, at your own pace."
+  },
+  "blocks": [
+    {
+      "type": "facesnav",
+      "label": "Start with the before and after. The diamond maps the call, moment by moment.",
+      "faces": [
+        {
+          "href": "https://yuri-codex.arcs.care",
+          "led": "o",
+          "title": "The before and after of our call",
+          "desc": "the bet I filed before we spoke and what changed. this is the one you asked for",
+          "tag": "start here"
+        },
+        {
+          "href": "https://yuri-diamond.arcs.care",
+          "led": "c",
+          "title": "The whole call, mapped",
+          "tag": "the call, moment by moment",
+          "desc": "one line, hello to goodbye, and the sentence the bet flipped on. a read, not the machine"
+        }
+      ]
+    },
+    {
+      "type": "seed",
+      "k": "01 · the one line",
+      "h2": "The thing you asked to see.",
+      "quote": "it&rsquo;d be great to see your hypothesis on me before and what happened after our conversation, that&rsquo;s the magic",
+      "attr": "You, Jul 23. You named the deliverable yourself: the before and after. This door opens on exactly that.",
+      "cta": {
+        "href": "https://yuri-codex.arcs.care#read",
+        "label": "Open the before and after &rarr;"
+      }
+    },
+    {
+      "type": "story",
+      "k": "02 · the belief that flipped",
+      "h2": "I filed a bet on you before we talked. The one I flagged as most likely wrong broke hardest.",
+      "intro": "Before the call I wrote down a falsifiable bet, and flagged the belief I thought most likely to be wrong: that the overlap between us was thin. It is the one that broke, in the best possible direction. Here is that one.",
+      "beats": [
+        {
+          "dir": "flip",
+          "k": "The whole read flipped",
+          "before": "Maybe a Google team could use this, someday.",
+          "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it into briefs for execs before they meet people",
+          "after": "You already run this problem, the one I'm building for. Confidence in a real fit went from a hedge to near-certain."
+        }
+      ],
+      "caption": "Three more beliefs moved too: warmer than I bet, practitioner not skeptic, and the doc-miss you caught. They're all in the before and after."
+    },
+    {
+      "type": "howitworks",
+      "k": "03 · how it works",
+      "h2": "How it works, and where it could go.",
+      "cards": [
+        {
+          "h3": "A tool that sharpens you, not a copy of you",
+          "p": "It does not copy you or replace your judgment; it makes you sharper at your own job, and you still drive."
+        },
+        {
+          "h3": "The instrument, under the hood",
+          "p": "The states it listens for, the checks that keep a read honest, and where the fence is. You get the whole taste and the whole value; the transform, the scoring underneath, is the part I keep closed for now.",
+          "link": {
+            "href": "https://yuri-codex.arcs.care",
+            "label": "See the instrument"
+          }
+        },
+        {
+          "h3": "What I'd do next, if you want it",
+          "p": "One real before and after on a call that matters to you. Everything after that is a conversation, not a menu."
+        }
+      ]
+    },
+    {
+      "type": "start",
+      "k": "04 · how to start",
+      "h2": "What it takes to run this on one of your calls.",
+      "intro": "You already saw a real one, on you, up top, nothing to do here. But if you ever want one on a call of yours, it is a five-minute lift and nothing touches your systems. Here is all it would take, whenever, no rush.",
+      "needs": [
+        {
+          "h3": "1 · a call transcript",
+          "p": "A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start."
+        },
+        {
+          "h3": "2 · the profile",
+          "p": "The other person's public profile, the enriched-profile input you saw feed this read. Honest about what public signal can and cannot see."
+        },
+        {
+          "h3": "3 · any intel (optional)",
+          "p": "Whatever context you already have: deal stage, who was in the room, what the relationship is. Optional; it just sharpens the read."
+        }
+      ],
+      "close": "That is the whole lift. I build the before and the after, yours to keep. And separately, whenever, I would love to hear how Agentum is going, two builders, no agenda."
+    }
+  ],
+  "foot": "ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE"
+}

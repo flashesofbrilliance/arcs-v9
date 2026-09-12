@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Wing · S-Tier Diamond Teardown</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFQSURBVHgB7ZdNasMwEIWf7LgOpQabXKw9Ru9QumoP0ZSuuyr0CFkX2l276boUAiGbEJKNnBFWyA8eESmTOAQ/kLEx0nwaP0sjVZLQoCI0rBbgfABcVtaOdx0ISSngcQB8/gFJbANrIL8Enq8riEgdEOD9B7h7pZsetbUZR3OCo+f+TX0/MYD/CV0yaso2K90FxjO+n5gH6tK70zs0LG8AztDZBYLk7QGTzacP4He0cnsaVyZEAIQ3gAl++0KZKLCZjhgb5jsYgJl5mduAAvL2QCJs29P9Czi3p2JLV6UOF9z46e0bGNIKF1vMq9S6Xej7swAm+MMAuKe1vcy2yFIEud0LwOiLdrWyJxusTqwHEsE0BwEcSyyAFizWgyqigvbxaFbt5/vIjJF3PQH0soIhA46n7v3cJTNOQSVZ31GSKe5kxHUIBeHGUu3RDA2rBVgAOtZUSsFNYTQAAAAASUVORK5CYII=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- wrap-lint-allow: measure-mismatch (intentional two-width: reading-measure body prose beside wider data/grids; not a broken document column) -->
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+  --verm: #FF6B35;
+  --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
+  --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  --text-xs: 10px; --text-sm: 12px; --text-md: 14px; --text-base: 16px;
+  --text-lg: 18px; --text-xl: 22px; --text-2xl: 32px; --text-3xl: 48px;
+  --track-wide: 0.04em; --track-wider: 0.08em;
+  --emboss: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+  --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
+  /* One reading measure for the whole column: ch-caps on mixed font sizes misalign right edges */
+  --measure: 700px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 56px 24px 80px; line-height: 1.5; overflow-x: hidden; }
+.page { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+a { color: var(--cyan); }
+
+.eyebrow { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2.2s ease-in-out infinite; }
+/* Whole eyebrow row copies the link; the chip is the affordance and lights up from anywhere on the row */
+.eyebrow:hover #copylink { color: var(--cyan); border-color: rgba(0,240,255,0.45); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; text-wrap: balance; max-width: var(--measure); }
+.byline { font-size: var(--text-md); color: var(--dimmed); }
+.byline strong { color: var(--muted); font-weight: 600; }
+/* 72ch measure: the 820px page well runs ~95ch at 16px, past the readable band */
+.lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: var(--measure); }
+.lede strong { color: var(--text); font-weight: 600; }
+
+/* THREAD KEY */
+.threads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.thread { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 15px; border-top: 2px solid; }
+.thread-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; margin-bottom: 6px; }
+.thread-body { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.thread-body strong { color: var(--text); font-weight: 600; }
+@media (max-width: 640px) { .threads { grid-template-columns: 1fr; } }
+
+/* STAT STRIP */
+/* auto-fit, not fixed 4-col: fixed columns + one breakpoint clip mono values at the
+   in-between widths (700-1000px) that presets don't test. minmax floor fits the longest value. */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.stat { background: var(--surface); padding: 16px 14px; }
+.stat-val { font-family: var(--mono); font-size: var(--text-xl); font-weight: 700; color: var(--text); }
+.stat-val.accent { color: var(--green); }
+.stat-val.warn { color: var(--red); }
+.stat-val.gold { color: var(--gold); }
+.stat-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); margin-top: 4px; line-height: 1.4; }
+
+/* SECTION */
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 26px; }
+/* nowrap: with flex-wrap the toggle fell to its own row whenever the pill wrapped on mobile */
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; user-select: none; }
+.section-head .section-label { min-width: 0; }
+.section-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
+.section-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
+.section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; cursor: pointer; text-wrap: balance; max-width: var(--measure); }
+/* Collapsed cards: title steps down to H3 scale at heavier weight; glass frosting lifts the folded stack */
+.section.collapsed .section-title { font-size: calc(var(--text-base) * 0.95); font-weight: 800; letter-spacing: -0.005em; margin-bottom: 4px; }
+.section.collapsed { background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.22)), var(--surface); box-shadow: var(--emboss); transition: border-color 0.15s var(--ease-luxury); }
+.section.collapsed:hover { border-color: rgba(148,163,184,0.45); }
+.section.collapsed .section-label { font-weight: 700; }
+/* Rag control on all reading text */
+.section-body, .sec-tldr, .gauge-def, .learn-body, .echo-text, .thread-body, .legend-def, .ms-body, .echo-why { text-wrap: pretty; }
+.section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; max-width: var(--measure); }
+.section-body strong { color: var(--text); font-weight: 600; }
+.sec-toggle { margin-left: auto; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--dimmed); transition: transform 0.25s var(--ease-luxury); flex-shrink: 0; }
+.section.collapsed .sec-toggle { transform: rotate(-90deg); }
+.sec-body { overflow: hidden; transition: max-height 0.4s var(--ease-luxury), opacity 0.3s var(--ease-luxury); }
+.section.collapsed .sec-body { max-height: 0 !important; opacity: 0; }
+.sec-tldr { display: none; font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; margin-top: 6px; max-width: var(--measure); cursor: pointer; }
+.section.collapsed .sec-tldr { display: block; }
+.focus-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface2); box-shadow: var(--emboss); }
+.focus-bar .fb-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wider); color: var(--dimmed); text-transform: uppercase; }
+.focus-btn { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wide); color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px 11px; cursor: pointer; transition: all 0.15s; }
+.focus-btn:hover { color: var(--text); border-color: var(--dimmed); }
+.focus-btn.active { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+
+/* ECHO MAP: claim vs public record */
+.echo-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); }
+.echo-cell { padding: 14px 16px; }
+.echo-side-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.echo-text { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.echo-text strong { color: var(--text); font-weight: 600; }
+.echo-mid { display: flex; align-items: center; justify-content: center; color: var(--cyan); font-family: var(--mono); font-size: var(--text-md); border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: rgba(0,240,255,0.03); }
+.echo-why { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid var(--border); font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; background: rgba(0,0,0,0.25); border-radius: 0 0 var(--r-md) var(--r-md); }
+.echo-why strong { color: var(--gold); font-weight: 600; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 6px; }
+@media (max-width: 640px) {
+  .echo-row { grid-template-columns: 1fr; }
+  .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 0; background: none; font-size: 0; }
+  .echo-mid::after { content: "↕"; font-size: var(--text-md); }
+}
+
+/* INSTRUMENT PANEL */
+.gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.gauge { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; position: relative; }
+.gauge-dot { position: absolute; top: 12px; right: 12px; width: 7px; height: 7px; border-radius: 50%; }
+.gauge-name { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 5px; padding-right: 16px; }
+.gauge-def { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.gauge-def strong { color: var(--text); font-weight: 600; }
+@media (max-width: 640px) { .gauge-grid { grid-template-columns: 1fr 1fr; } }
+
+/* TABLES */
+.risk-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.risk-table th { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.risk-table td { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; padding: 11px 10px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+.risk-table td strong { color: var(--text); font-weight: 600; }
+.chip { display: inline-block; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; }
+.chip.high { color: var(--red); background: rgba(255,77,109,0.09); border: 1px solid rgba(255,77,109,0.3); }
+.chip.med { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
+.chip.low { color: var(--steel); background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.3); }
+.chip.yes { color: var(--green); background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.3); }
+.chip.no { color: var(--red); background: rgba(255,77,109,0.09); border: 1px solid rgba(255,77,109,0.3); }
+.tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tbl-scroll .risk-table { min-width: 560px; }
+
+/* GAP CARDS / GAUNTLET ROWS */
+.learn-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.learn { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: var(--r-md); padding: 13px 16px; }
+.learn.red { border-left-color: var(--red); }
+.learn.verm { border-left-color: var(--verm); }
+.learn.green { border-left-color: var(--green); }
+.learn-title { font-size: var(--text-md); font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.learn-title .k { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; color: var(--dimmed); margin-right: 8px; }
+.learn-body { font-size: var(--text-sm); color: var(--muted); line-height: 1.6; }
+.learn-body strong { color: var(--text); font-weight: 600; }
+
+/* FORENSIC TIMELINE */
+.ms-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
+.ms-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.ms-date { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--cyan); letter-spacing: 0.06em; flex-shrink: 0; }
+.ms-title { font-size: var(--text-md); font-weight: 700; color: var(--text); }
+.ms-body { font-size: var(--text-sm); color: var(--muted); line-height: 1.6; margin-top: 7px; }
+.ms-body strong { color: var(--text); font-weight: 600; }
+
+/* LEGEND + TOOLTIP */
+.term { border-bottom: 1px dotted rgba(0,240,255,0.55); cursor: help; }
+#termtip { position: fixed; z-index: 95; max-width: min(280px, calc(100vw - 20px)); width: max-content;
+  background: #0b1420; border: 1px solid rgba(0,240,255,0.35); border-radius: 8px; padding: 10px 12px;
+  font-family: var(--sans); font-size: var(--text-sm); font-weight: 400; color: var(--muted); line-height: 1.5;
+  text-align: left; opacity: 0; pointer-events: none; transition: opacity 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+#termtip.on { opacity: 1; }
+/* Touch tooltip alternative: tapping a term expands its plain-words definition inline, below the paragraph */
+.term-inline { margin: 8px 0 4px; padding: 9px 12px; background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-sm); font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.term-inline b { color: var(--cyan); font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-right: 8px; }
+.legend-hint { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: -8px; }
+.legend-hint b { color: var(--cyan); border-bottom: 1px dotted rgba(0,240,255,0.55); font-weight: 700; }
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.legend-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
+.legend-term { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.legend-def { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+@media (max-width: 640px) { .legend-grid { grid-template-columns: 1fr; } }
+
+.footer { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); line-height: 1.9; }
+.footer strong { color: var(--muted); }
+
+/* PRESENTATION MODE (chan.arcs.care system, ported) */
+.pres-btn { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--bg); background: var(--cyan); border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+.pres-btn:hover { opacity: 0.85; }
+.pres { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: none; flex-direction: column; }
+.pres.on { display: flex; }
+.pres-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; gap: 12px; }
+.pres-top > .pres-act { grid-column: 1; justify-self: start; }
+.pres-top > .pres-status { grid-column: 2; }
+.pres-top > .pres-chip { grid-column: 3; justify-self: end; }
+.pres-act { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; }
+.pres-chip { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)); }
+.pres-body.res-sharp { opacity: 1; font-weight: 500; letter-spacing: 0; }
+.pres-body.res-degraded { opacity: 0.85; font-weight: 400; letter-spacing: 0.01em; }
+/* Grain slides run weight 300 light-on-dark: compensate with leading as well as tracking */
+.pres-body.res-grain { opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; line-height: 1.78; }
+.fathom { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+.fathom i { width: 10px; height: 2px; background: var(--border); border-radius: 1px; transition: all 0.3s var(--ease-luxury); }
+.fathom i.past { background: var(--dimmed); }
+.fathom i.here { width: 18px; background: var(--hl, var(--cyan)); box-shadow: 0 0 8px var(--hl, var(--cyan)); }
+.fathom-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); writing-mode: vertical-rl; margin-top: 8px; }
+.pres-top, .pres-bot { transition: opacity 0.45s var(--ease-luxury); }
+.pres.idle .pres-top, .pres.idle .pres-bot { opacity: 0; pointer-events: none; }
+.pres.idle { cursor: none; }
+.pres-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 26px; }
+.pres-slide { max-width: 780px; width: 100%; animation: slidein 0.45s var(--ease-luxury); }
+@keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
+/* Deck shares the page's --measure token: per-region literal caps (62ch / 520px) re-created the misaligned-edge class inside PRESENT */
+.pres-h { font-size: var(--text-2xl); font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; text-wrap: balance; max-width: var(--measure); }
+/* 62ch measure: the slide well is 780px (~90ch at 16px), past the readable band */
+.pres-body { font-size: var(--text-base); color: var(--muted); line-height: 1.7; max-width: var(--measure); text-wrap: pretty; }
+.pres-body strong { color: var(--text); font-weight: 600; }
+.pres-bot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; gap: 12px; }
+#presprev { grid-column: 1; justify-self: start; }
+#presmid { grid-column: 2; justify-content: center; }
+#presend { grid-column: 3; justify-self: end; }
+.pres-bot button { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
+.pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
+.pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--fogop, 0.85);
+  transition: opacity 0.8s var(--ease-luxury);
+  background: radial-gradient(ellipse 70% 55% at 22% 82%, rgba(148,163,184,0.10), transparent 62%),
+              radial-gradient(ellipse 65% 50% at 82% 14%, rgba(148,163,184,0.08), transparent 62%),
+              radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0,240,255,0.04), transparent 60%);
+  animation: fogdrift 14s ease-in-out infinite alternate; }
+.pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.022;
+  background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
+  background-size: 56px 56px; }
+@keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
+.pres-floor { position: absolute; left: -120%; right: -120%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
+  background-image: linear-gradient(rgba(125,211,252,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.7) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(70vh) rotateX(64deg);
+  transform-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%); }
+.pres-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 62% 68% at 50% 46%, rgba(2,4,8,0.92) 0%, rgba(2,4,8,0.72) 45%, transparent 78%); }
+.pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
+.pres-bezel { position: absolute; inset: 14px; border: 1px solid rgba(30,41,59,0.55); border-radius: 10px; pointer-events: none; z-index: 1; }
+.pres-bezel::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--hl, var(--cyan)); border-left: 2px solid var(--hl, var(--cyan)); border-top-left-radius: 10px; }
+.pres-bezel::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--hl, var(--cyan)); border-right: 2px solid var(--hl, var(--cyan)); border-bottom-right-radius: 10px; }
+.pres-status { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); text-align: center; }
+.pres-status b { color: var(--muted); font-weight: 700; }
+.pres-horizon { display: none; margin-top: 34px; }
+.pres-horizon.on { display: block; }
+.pres-horizon .hz-line { height: 2px; background: linear-gradient(90deg, transparent, var(--green) 30%, var(--cyan) 70%, transparent); }
+.pres-horizon .hz-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
+.pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
+.pres-topo, .pres-topo2 { position: absolute; inset: -60%; pointer-events: none; z-index: 0; will-change: transform; }
+.pres-topo { background: repeating-radial-gradient(circle at 50% 50%, transparent 0 9px, rgba(125,211,252,0.35) 9px 10px); opacity: 0.055; }
+.pres-topo2 { background: repeating-radial-gradient(circle at 46% 56%, transparent 0 10px, rgba(0,240,255,0.30) 10px 11px); opacity: 0.045; }
+.pres-kicker { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
+.pres-num { font-family: var(--mono); font-size: calc(var(--text-3xl) * 2.4); font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
+.pres-div-title { font-size: var(--text-2xl); font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; text-wrap: balance; }
+.pres-div-sub { font-size: var(--text-base); color: var(--muted); max-width: var(--measure); line-height: 1.6; text-wrap: pretty; }
+.pres-dots { display: flex; gap: 5px; }
+.pres-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
+.pres-dots i.on { background: var(--hl, var(--cyan)); }
+.pres-swipehint { display: none; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; white-space: nowrap; }
+/* dimmed/muted, not faint: #475569 on #020408 is ~3.1:1, under the 4.5:1 floor at 10px */
+.pres-keyhint { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; white-space: nowrap; }
+.pres-keyhint b { color: var(--muted); font-weight: 700; }
+.pres-chip { white-space: nowrap; }
+#prescount { white-space: nowrap; }
+/* Tablet: the full status strip + act + chip can't share one row without wrapping the chip */
+@media (max-width: 900px) { .fathom { display: none; } .pres-status { display: none; } }
+@media (max-width: 640px) {
+  .pres-h { font-size: var(--text-xl); }
+  .pres-body { font-size: var(--text-md); }
+  .pres-num { font-size: calc(var(--text-3xl) * 1.5); }
+  .pres-div-title { font-size: var(--text-xl); }
+  .pres-status, .pres-bot #presprev, .pres-bot #presnext { display: none; }
+  .pres-top { padding: 14px 16px; }
+  .pres-act { font-size: calc(var(--text-xs) * 0.9); }
+  .pres-chip { font-size: calc(var(--text-xs) * 0.85); padding: 3px 7px; }
+  .pres-bot { padding: 14px 16px; }
+  .pres-swipehint { display: block; }
+  .pres-keyhint { display: none; }
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: var(--text-xl); }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat-val { font-size: var(--text-lg); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="eyebrow" id="eyebrowrow" style="cursor:pointer;" title="Copy wing.arcs.care to clipboard"><span class="eyebrow-dot"></span>WING TEARDOWN · AGENTIC RIA · READ AT ANY DEPTH
+    <button id="copylink" type="button" style="margin-left:auto;font-family:var(--mono);font-size:var(--text-xs);font-weight:700;letter-spacing:0.1em;color:var(--muted);background:none;border:1px solid var(--border);border-radius:var(--r-sm);padding:4px 9px;cursor:pointer;">🔗 COPY LINK</button></div>
+  <h1>Founder wrote an essay.<br>Here's what the public record says back.</h1>
+  <div class="byline" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+    <span>prepared by <strong>Zach Harris</strong> · ARCS · August 2026 · on Sean Wing's "The End of Managing Money Alone"</span>
+    <button class="pres-btn" id="presopen">▶ PRESENT</button>
+  </div>
+  <div class="lede">
+    Sean asked for direct, unfiltered feedback, <strong>"the good, the bad, and the ugly"</strong>, because he
+    "can't do anything with compliments." This report honors that request. Every claim below is traceable
+    to a source: Sean's published note, SEC/FINRA public filings, or independent market coverage.
+    His essay runs on a Waze metaphor, always-on and recalculating; this report answers in that register:
+    <strong>recalculating routes, not re-litigating the destination</strong>.
+  </div>
+
+  <div class="threads">
+    <div class="thread" style="border-top-color: var(--gold);">
+      <h3 class="thread-label" style="color: var(--gold);">GOLD · DOUBLE DOWN</h3>
+      <div class="thread-body">Real SEC registration. Corroborated <strong>$124T</strong> market math. An unclaimed, sharper category name.</div>
+    </div>
+    <div class="thread" style="border-top-color: var(--red);">
+      <h3 class="thread-label" style="color: var(--red);">RED · LOAD-BEARING</h3>
+      <div class="thread-body"><strong>Zero</strong> public traction numbers. <strong>Zero</strong> named pilots. One unexplained entity overlap.</div>
+    </div>
+    <div class="thread" style="border-top-color: var(--verm);">
+      <h3 class="thread-label" style="color: var(--verm);">VERMILLION · FIX NOW</h3>
+      <div class="thread-body">One written disclosure statement costs <strong>an afternoon</strong> and removes the most exposed gap.</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val accent">CRD #333826</div><div class="stat-label">SEC-registered RIA · verified · eff. Feb 10, 2025</div></div>
+    <div class="stat"><div class="stat-val accent">$124T</div><div class="stat-label">Wealth transfer by 2048 · Cerulli · corroborated</div></div>
+    <div class="stat"><div class="stat-val warn">~$128K / 2</div><div class="stat-label">AUM / employees · last public ADV filing</div></div>
+    <div class="stat"><div class="stat-val gold">1 afternoon</div><div class="stat-label">Cost of the cheapest, most exposed fix</div></div>
+  </div>
+
+  <div class="focus-bar">
+    <span class="fb-label">Reading mode</span>
+    <button class="focus-btn active" id="fb-focus">◇ FOCUS · ONE AT A TIME</button>
+    <button class="focus-btn" id="fb-expand">▾ EXPAND ALL</button>
+    <span class="fb-label" style="color:var(--faint);">terms <span class="term" data-def="Exactly like this. Dotted terms throughout the report show a plain-words definition on hover or tap. Every term is also collected in the legend at the end of the page." style="color:var(--cyan);font-weight:700;">like this</span> show plain meanings · <a href="#legend" id="legendjump" style="color:var(--cyan);text-decoration:none;border-bottom:1px dotted rgba(0,240,255,0.55);">full legend</a></span>
+  </div>
+
+  <!-- 01 CLAIM vs RECORD -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">01</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">WHERE THE ESSAY AND THE PUBLIC RECORD MEET</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Three headline claims checked against SEC/FINRA filings and independent coverage: the license is real, the market number is real, the scale claim isn't there yet.</div>
+    <div class="sec-body">
+    <h2 class="section-title">Two things can both be true: a well-argued essay, and gaps worth naming before anyone signs.</h2>
+    <div class="section-body">
+      When a founder's story and the public record agree, that's real strength. When they diverge,
+      that's the actual work. Each row below is one claim, checked.
+    </div>
+    <div class="echo-rows">
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">CLAIM, BY THE ESSAY</div><div class="echo-text">Wing is <strong>"built, tested, and regulated,"</strong> ready to serve people <strong>"at population scale."</strong></div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">PUBLIC RECORD</div><div class="echo-text">Wing Financial Inc. is a real, <span class="term" data-def="A firm legally licensed and supervised by the U.S. Securities and Exchange Commission to give financial advice as a fiduciary, legally required to act in the client's best interest.">SEC-registered investment adviser</span> (<strong>CRD #333826</strong>, approved February 10, 2025). The registration claim checks out. But the same public filing reports roughly <strong>$128,000 in assets under management and 2 employees</strong>, a long way from "population scale."</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>The license is real and worth crediting plainly. The scale claim is the one line a diligence reader will test first, and it doesn't hold up yet.</div>
+      </div>
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">CLAIM, BY THE ESSAY</div><div class="echo-text">The market opportunity is enormous: <strong>$124 trillion transferring by 2048</strong>, "hundreds of millions" of potential users.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">PUBLIC RECORD</div><div class="echo-text">The $124 trillion figure is a real <strong>Cerulli Associates estimate</strong>, independently repeated across multiple outlets.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>This is the one big number in the essay that's fully sourced and checks out cleanly. Credit where it's due. Sean did the homework on the macro slide.</div>
+      </div>
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">CLAIM, IMPLIED</div><div class="echo-text">Wing is a <strong>standalone, self-contained new company</strong>.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">PUBLIC RECORD</div><div class="echo-text">A "Wing Financial Inc." SEC registration <strong>existed once before and was terminated in 2023</strong>, with the current entity approved fresh in 2025 under the same name. Separately, a person named Nathan Wing runs an unregistered capital vehicle called Wing Capital Group in the same city as Wing's registered address, with <strong>no public disclosure of any relationship either way</strong>.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Neither fact proves anything wrong. But unexplained, both are exactly what a compliance officer is trained to flag first. And the fix (a plain written statement) costs almost nothing.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 02 INSTRUMENT PANEL -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">02</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">THE INSTRUMENT PANEL</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Seven gauges a credible fintech-AI pitch needs. Wing reads green on two (license, market size), amber-to-red on the other five.</div>
+    <div class="sec-body">
+    <h2 class="section-title">What a credible pitch needs, checked one gauge at a time.</h2>
+    <div class="section-body">
+      Borrowing the same "calibrate before flight" logic any serious build review uses: these are the checks
+      that matter most for a fintech-AI pitch, and where Wing currently stands on each.
+    </div>
+    <div class="gauge-grid">
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">PROOF OF SCALE</h4><div class="gauge-def">Does traction match the claim? <strong>Not yet</strong>: public <span class="term" data-def="Assets under management: the total dollar value of client money a firm actively manages or advises on. The standard measure of real scale in this industry.">AUM</span>/employee numbers are far below the "population scale" language.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><h4 class="gauge-name" style="color:var(--green);">REGULATORY STANDING</h4><div class="gauge-def">Is the license real? <strong>Yes, verifiably</strong>: SEC-registered RIA, CRD #333826, effective February 10, 2025.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">ENTITY CLARITY</h4><div class="gauge-def">All related people/companies disclosed? <strong>Not yet</strong>: the prior terminated filing and the same-surname capital vehicle are both unexplained.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><h4 class="gauge-name" style="color:var(--green);">MARKET SIZING</h4><div class="gauge-def">Is the opportunity real? <strong>Yes</strong>: the $124T wealth-transfer figure is independently corroborated.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><h4 class="gauge-name" style="color:var(--gold);">COMPETITIVE POSITION</h4><div class="gauge-def"><strong>Behind on capital and disclosed traction</strong>: Farther has a $72M Series C; Morgan Stanley opened a $1.2T platform to outside AI agents in mid-2026.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><h4 class="gauge-name" style="color:var(--gold);">NAMING / PROMISE FIT</h4><div class="gauge-def"><strong>Partial</strong>: the real promise is "you no longer have to be the one watching". "Your Money, Alive" fits the mechanics better than "Live Your Money."</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">DISCLOSURE COMPLETENESS</h4><div class="gauge-def">Conflicts, referral fees, custody/execution partners named? <strong>No</strong>. Each is a standard early question from a compliance reviewer.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 03 KAIROS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">03</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">KAIROS · WHY THIS LANDS NOW</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">The timing case is real: agentic AI named the year's defining wealth trend, PE roll-ups past 51% of RIA deals, Morgan Stanley already moving. The same forces compress Wing's window.</div>
+    <div class="sec-body">
+    <h2 class="section-title">Three converging market moments, each independently verifiable.</h2>
+    <div class="learn-rows">
+      <div class="learn green"><h3 class="learn-title">Agentic AI is being named the defining wealth-management trend of this specific year</h3><div class="learn-body">by the industry press covering the space. Wing's "Financial Superintelligence" framing is riding a wave rather than creating one from nothing. Good timing, but also a crowded on-ramp.</div></div>
+      <div class="learn green"><h3 class="learn-title">PE-backed aggregators crossed 51% of all RIA acquisitions</h3><div class="learn-body">The independent-RIA channel Wing depends on for advisor partnerships is consolidating fast. The pool of independent decision-makers Wing needs to sell into is <strong>shrinking in real time</strong>.</div></div>
+      <div class="learn green"><h3 class="learn-title">Morgan Stanley opened its $1.2T wealth platform to external AI agents in June 2026</h3><div class="learn-body">The single clearest signal that incumbents are not waiting to be disrupted. They are absorbing the "agentic" playbook directly, on infrastructure and distribution scale no startup can match.</div></div>
+      <div class="learn red"><h3 class="learn-title">The red thread through all three</h3><div class="learn-body">The same forces that create the opening (incumbents moving, aggregators consolidating) also <strong>compress Wing's window</strong> to establish category ownership before "agentic" gets templated by a better-capitalized player.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 04 COMPETITIVE LANDSCAPE -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">04</div>
+      <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">COMPETITIVE LANDSCAPE · THREE FRONTS</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Independent challengers (Farther, $72M ahead), PE roll-ups buying the same advisor relationships, and incumbents with the playbook. Wing's durable wedge: first and best at the trust/audit layer.</div>
+    <div class="sec-body">
+    <h2 class="section-title">Agentic RIA, contested from three directions at once.</h2>
+    <div class="tbl-scroll"><table class="risk-table">
+      <tr><th>Front</th><th>Representative player</th><th>Their advantage</th><th>Wing's relative position</th></tr>
+      <tr><td><strong>Independent agentic-RIA challengers</strong></td><td>Wing, Farther</td><td>Farther raised a $72M Series C vs. Wing's public ADV showing ~$128K AUM and 2 employees</td><td>Behind on funding and reported scale</td></tr>
+      <tr><td><strong>PE-backed aggregators</strong></td><td>RIA roll-ups, now 51%+ of RIA M&amp;A</td><td>Acquisition capital, existing AUM, existing compliance infrastructure</td><td>Competing for the same advisor relationships these aggregators are actively buying</td></tr>
+      <tr><td><strong>Incumbent private banks / wirehouses</strong></td><td>Morgan Stanley (agentic platform opened June 2026)</td><td>Balance sheet, existing client base, regulatory infrastructure already built</td><td>Only durable wedge: being first and best at the trust/audit layer before incumbents template it</td></tr>
+    </table></div>
+    <div class="learn-rows">
+      <div class="learn"><h3 class="learn-title">Gold thread: a free, high-leverage asset is sitting on the table</h3><div class="learn-body">The category name <strong><span class="term" data-def="A registered investment adviser whose advice is generated and delivered by AI systems that act continuously, not a chatbot that answers questions when asked.">"agentic RIA"</span></strong> is sharper and more defensible than "Financial Superintelligence": it borrows regulatory legitimacy from "RIA" while still signaling differentiation. It surfaced in this analysis, not in the essay, and it's unclaimed.</div></div>
+      <div class="learn red"><h3 class="learn-title">Red thread: zero proof points in an industry that competes on them</h3><div class="learn-body">Wing has not yet named a single pilot advisory firm, client logo, or AUM figure publicly. Farther leads with dollar-specific traction.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 05 POSITIONING -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">05</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">BRAND &amp; POSITIONING TEARDOWN</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">By April Dunford's five-component test the positioning is coherent and differentiated. The crack is entirely in the Proof column, and it's fixable with disclosure, not rebranding.</div>
+    <div class="sec-body">
+    <h2 class="section-title">April Dunford's five components, applied in her mandatory sequence.</h2>
+    <div class="learn-rows">
+      <div class="learn"><h3 class="learn-title"><span class="k">1</span>Competitive alternatives</h3><div class="learn-body">Sean names two explicitly (DIY finance apps: Quicken/Mint/Monarch; human advisors: "James") and dismisses a third implicitly (generalist chatbots). The essay treats these as solved-and-abandoned rather than as the live alternatives a buyer is actually choosing between today.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">2</span>Unique attributes</h3><div class="learn-body">Continuous monitoring, proactive surfacing, SEC fiduciary wrapper, domain-specialized "WingMate" agents.</div></div>
+      <div class="learn red"><h3 class="learn-title"><span class="k">3</span>Value / proof: this is the crack</h3><div class="learn-body">Three of four attributes rest on anecdote (the James story) rather than data; <strong>only the SEC registration itself is independently verifiable</strong>.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">4</span>Target customer</h3><div class="learn-body">The essay never resolves whether the primary buyer is the mass-affluent consumer or the enterprise advisory firm; it reads as B2B2C distribution wrapped in B2C mission language.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">5</span>Market category</h3><div class="learn-body">"Financial Superintelligence" is a high-risk category-creation move: it requires educating the market from zero and shares vocabulary with AGI discourse Wing doesn't control.</div></div>
+      <div class="learn green"><h3 class="learn-title">Naming verdict: "Your Money, Alive" over "Live Your Money™"</h3><div class="learn-body">"Live Your Money" grammatically commands the <strong>user</strong> to act, which contradicts the product's real promise (the system acts so the user doesn't have to). "Your Money, Alive" inverts the grammar correctly: the money becomes the active subject, matching the "silence reassures you" ideal Sean himself describes. The invariant truth under both: Wing's actual promise is <strong>vigilance-as-a-service</strong>: "you no longer have to be the one watching."</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 06 FORENSIC RECORDS -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">06</div>
+      <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">FORENSIC RECORDS CHECK</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Two SEC filings under the identical company name, and a same-surname, same-city capital vehicle with no stated relationship. An information vacuum, not an accusation, and the cheapest fix on the list.</div>
+    <div class="sec-body">
+    <h2 class="section-title">Filings, entities, and the Nathan Wing question.</h2>
+    <div class="section-body">
+      Independently verified via SEC <span class="term" data-def="The SEC's public Investment Adviser Public Disclosure database, where anyone can look up a registered adviser's filings and history.">IAPD</span> and FINRA public records. None of this is evidence of wrongdoing; all of it is exactly what Item 10 of <span class="term" data-def="The standard disclosure document every SEC-registered adviser must file publicly, listing ownership, fees, conflicts of interest, and business details.">Form ADV</span> Part 2A is designed to force into the open.
+    </div>
+    <div class="ms-list">
+      <div class="ms"><div class="ms-top"><div class="ms-date">2021</div><h3 class="ms-title">Company founded</h3></div><div class="ms-body">"Institutionalized over the past year" in the essay quietly concedes the prior 3–4 years were pre-product.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">AUG 16, 2023</div><h3 class="ms-title">Prior "Wing Financial Inc." registration terminated</h3></div><div class="ms-body">A prior, separate entity, <strong>CRD #321886</strong>, had its SEC registration terminated. Two distinct SEC filings under the identical company name is a factual, sourced, chain-of-custody question, and a first-question item for any diligence file.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">FEB 10, 2025</div><h3 class="ms-title">Current Wing Financial Inc. approved</h3></div><div class="ms-body"><strong>CRD #333826</strong>, SEC-registered investment adviser, based in Newport Beach, CA, reporting ~$128K AUM and 2 employees at last filing.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">UNRESOLVED</div><h3 class="ms-title">The Nathan Wing question</h3></div><div class="ms-body"><strong>Nathan Wing</strong>, Principal at <strong>Wing Capital Group</strong> (Newport Beach, CA, the same city as Wing Financial's registered address), publicly describes managing "$100 million in available equity." No SEC or FINRA registration record exists for Wing Capital Group under Nathan Wing, distinct from unrelated similarly-named entities ("Wings Capital Partners LLC," "Welwing Capital Group"). The surname and city overlap with <strong>zero public disclosure of relationship or non-relationship</strong> is an information vacuum, not evidence of wrongdoing.</div></div>
+    </div>
+    <div class="learn-rows">
+      <div class="learn verm"><h3 class="learn-title">Vermillion thread: highest priority</h3><div class="learn-body">This entity ambiguity is the <strong>cheapest, fastest fix available and the most costly to leave silent</strong>, because silence defaults to the worst-faith interpretation in any institutional diligence process.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 07 OBJECTION MAP -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">07</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROUND-TABLE OBJECTION MAP</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Six objections a buy-side compliance round-table raises before approving a pilot. Five are fixable with disclosure or documentation. One, the scale claim, only real growth fixes.</div>
+    <div class="sec-body">
+    <h2 class="section-title">What a compliance or legal reviewer says before approving a pilot.</h2>
+    <div class="tbl-scroll"><table class="risk-table">
+      <tr><th>Seat</th><th>Objection</th><th>Severity</th><th>Fixable by disclosure?</th></tr>
+      <tr><td><strong>Compliance / CCO</strong></td><td>Dual "Wing Financial Inc." SEC filings (terminated 2023 / approved 2025) need explanation</td><td><span class="chip med">MED</span></td><td><span class="chip yes">YES</span> one plain written explanation</td></tr>
+      <tr><td><strong>Legal</strong></td><td>Possible undisclosed related-party question re: Nathan Wing / Wing Capital Group</td><td><span class="chip med">MED</span></td><td><span class="chip yes">YES</span> a written statement either way resolves it</td></tr>
+      <tr><td><strong>Regulatory / Risk</strong></td><td>Custody and execution counterparty for WingMate-generated recommendations is unstated</td><td><span class="chip med">MED</span></td><td><span class="chip yes">YES</span> with documentation</td></tr>
+      <tr><td><strong>CSIO / Sales Eng</strong></td><td>No public SOC 2 report or supervisory-review evidence for AI-generated advice</td><td><span class="chip med">MED</span></td><td><span class="chip yes">YES</span> with documentation</td></tr>
+      <tr><td><strong>Legal (Marketing Rule)</strong></td><td>Advisor-referral flow may be a compensated <span class="term" data-def="A legal requirement to publicly state it when a company pays someone (or gets paid) for referring clients to a financial adviser.">solicitor arrangement</span> requiring disclosure under Rule 206(4)-1</td><td><span class="chip low">LOW–MED</span></td><td><span class="chip yes">YES</span> state it plainly if applicable</td></tr>
+      <tr><td><strong>CCO (scale)</strong></td><td>"Population scale" claim vs. ~$128K AUM / 2-employee ADV filing</td><td><span class="chip high">HIGH</span></td><td><span class="chip no">NO</span> requires real growth, not documentation</td></tr>
+    </table></div>
+    <div class="learn-rows">
+      <div class="learn red"><h3 class="learn-title">Insurmountable without social proof: no document fixes these</h3><div class="learn-body">The scale-claim-vs.-filing gap (only actual AUM and client growth resolves it), and the "built and deployed" claim absent any named pilot firm or testimonial (only named references resolve it).</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 08 PRE-MORTEM -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">08</div>
+      <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">QUIET SIGNALS · FALSIFIABILITY · PRE-MORTEM</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">What the essay doesn't say, the four tests that would prove or break each claim, and six failure modes with early-warning signs, plus the conditions outside Wing's control.</div>
+    <div class="sec-body">
+    <h2 class="section-title">What the essay doesn't say, and how each claim would be tested.</h2>
+    <div class="section-body">
+      <strong>Quiet signals:</strong> no advisor-firm names, no client logos, no dollar figures anywhere in the essay;
+      the advisor-referral sentence, arguably the actual distribution and regulatory-pressure-release mechanism,
+      gets one line instead of a headline.
+    </div>
+    <div class="learn-rows">
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 1</span>Live, paying advisory firms in production today</h3><div class="learn-body">Not pilots or LOIs. The most testable claim, and the one that unlocks the rest.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 2</span>Data ingestion beyond brokerage/bank balances</h3><div class="learn-body">Tax filings, estate documents, insurance policies: the actual test of the "entire financial life" claim.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 3</span>Is "productive silence" provable?</h3><div class="learn-body">Via an audit artifact, or is it indistinguishable from product abandonment?</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 4</span>Are advisor referrals compensated?</h3><div class="learn-body">If so, that likely requires specific disclosure under SEC marketing rules.</div></div>
+    </div>
+    <div class="tbl-scroll"><table class="risk-table">
+      <tr><th>Failure mode</th><th>Trigger</th><th>Early warning sign</th></tr>
+      <tr><td><strong>Regulatory arbitrage collapse</strong></td><td>SEC defines "agentic advice" formally</td><td>Enforcement action naming AI-driven discretionary advice</td></tr>
+      <tr><td><strong>Trust-through-silence backfires</strong></td><td>WingMate misses a real costly event during a "quiet" period</td><td>Churn spike tied to an unflagged life event</td></tr>
+      <tr><td><strong>Advisor channel conflict</strong></td><td>Firms see WingMates as AUM-fee threat, not augmentation</td><td>Slow pilot-to-contract conversion</td></tr>
+      <tr><td><strong>Entity-identity confusion</strong></td><td>Dual CRD filings + unresolved Nathan Wing overlap surfaces in diligence</td><td>Compliance team flags CRD history during a deal</td></tr>
+      <tr><td><strong>Data completeness ceiling</strong></td><td>Aggregation APIs can't reach estate/tax/insurance documents</td><td>Roadmap stalls at brokerage/bank-only coverage</td></tr>
+      <tr><td><strong>Category templating</strong></td><td>"Agentic" + "fiduciary" language adopted by Morgan Stanley or similar before Wing scales</td><td>Competitor press release with near-identical framing within 2–3 quarters</td></tr>
+    </table></div>
+    <div class="learn-rows">
+      <div class="learn"><h3 class="learn-title">Outside Wing's control: what would need to be true first</h3><div class="learn-body">Regulators staying quiet on AI-generated advice rules mid-pilot · data partners opening deeper access (tax, estate, insurance) · advisory firms broadly concluding AI agents are additive, not threatening. Industry-wide conditions, not execution gaps.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 09 GAUNTLET -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">09</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">THE GAUNTLET · FULL RUN</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Adversarial, Bayesian, and optics passes all converge: Wing clears the product-truth bar, not yet the proof-truth bar. A conditional pass, not a fail. One claim is the pathogen.</div>
+    <div class="sec-body">
+    <h2 class="section-title">Eight adversarial lenses, one conditional pass.</h2>
+    <div class="learn-rows">
+      <div class="learn"><h3 class="learn-title"><span class="k">RISK</span>The highest risk is not technical</h3><div class="learn-body">It's <strong>evidentiary silence meeting institutional-grade diligence</strong> at exactly the moment (PE consolidation, incumbent entry) when Wing needs speed of trust, not speed of feature-shipping.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TIME</span>Sequence the fixes by cost</h3><div class="learn-body">The entity-disclosure fix costs an afternoon. The AUM/traction gap costs months of real growth. Cheap fix first, hard fix in parallel.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">THREE READS</span>Adversarial · advisor · Bayesian</h3><div class="learn-body">A skeptic assumes undisclosed related-party dealing until told otherwise. A friendly RIA principal would forgive early-stage AUM but not an unexplained CRD gap. Bayesian: the base rate for founder-surname overlaps being innocuous is high, but the base rate for diligence teams accepting silence on it is low.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">OPTICS</span>Five mirrors</h3><div class="learn-body">Convex (Sean's view): "built, tested, regulated, ready." Concave (a CCO's view): "unproven scale wrapped in confident language." Parabolic (market's view): "another AI-wealth entrant in a suddenly crowded field." Anterior (founding story): genuine personal pain point, credible origin. Posterior (twelve months out): either a named-pilot company or a cautionary case study. The essay alone doesn't determine which.</div></div>
+      <div class="learn green"><h3 class="learn-title"><span class="k">DUAL BAR</span>One bar cleared, one not. A conditional pass, not a fail</h3><div class="learn-body">Bar 1, product truth: is the fiduciary/agentic architecture real? <strong>Yes, verifiably</strong>. SEC registration is a genuine gate few competitors clear. Bar 2, proof truth: is the scale claim real? <strong>Not yet demonstrated publicly.</strong></div></div>
+      <div class="learn red"><h3 class="learn-title"><span class="k">PATHOGEN</span>One claim can infect all the others</h3><div class="learn-body"><strong>"Population scale."</strong> If growth data never materializes, every other claim (superintelligence, hyper-personalization, prosperity for hundreds of millions) collapses with it. They're all downstream of scale.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">INVERSE</span>Working backward from "what would make a CCO say yes"</h3><div class="learn-body">Named pilot · disclosed entity relationships · documented supervisory architecture · clear custody/execution counterparty. <strong>None require new invention</strong>. All are documentation and disclosure Sean already has access to.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">KINTSUGI</span>The cracks are not disqualifying</h3><div class="learn-body">Thin proof, entity ambiguity, unresolved target-customer tension: this is the normal shape of a pre-Series-B fintech file. <strong>Naming them in gold seams, not hiding them, turns vulnerability into evidence of rigor.</strong></div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 10 SHAVASANA -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">10</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">SHAVASANA · WHAT IT ALL HANGS ON</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">Almost every open concern traces to one missing thing: public proof that real firms use Wing today. The cheapest fix needs no new data and is available this afternoon.</div>
+    <div class="sec-body">
+    <h2 class="section-title">The one thing this whole story hangs on.</h2>
+    <div class="section-body">
+      Almost every open concern above traces back to one missing thing: <strong>public proof that real people
+      and real advisory firms are using Wing today.</strong> Once that exists, even a single named pilot with a
+      real number attached, most other objections become far easier to answer, because the burden shifts from
+      "prove this works" to "explain these details."
+    </div>
+    <div class="learn-rows">
+      <div class="learn verm"><h3 class="learn-title">Available today, no new data needed</h3><div class="learn-body">A plain written statement resolving the Nathan Wing / Wing Capital Group question and the two-filing history. The cheapest fix on the list, and currently the most exposed gap.</div></div>
+      <div class="learn red"><h3 class="learn-title">Needs real growth first</h3><div class="learn-body">Any claim of scale, population-level reach, or "consortium of enterprise advisory firms." No document substitutes for this.</div></div>
+      <div class="learn green"><h3 class="learn-title">And the asset Sean doesn't yet own</h3><div class="learn-body">The <strong>"agentic RIA"</strong> category name and the <strong>vigilance-as-a-service</strong> reframe of his own tagline ("Your Money, Alive"). Free, differentiated, and defensible: a gift sitting next to the hard questions. Which of these does he want a diligence team to find first, and which does he want to get ahead of in his next public note?</div></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 11 LEGEND -->
+  <div class="section" id="legend">
+    <div class="section-head">
+      <div class="section-n">11</div>
+      <div class="section-label" style="color:var(--dimmed);border-color:var(--border);background:rgba(148,163,184,0.05);">LEGEND</div>
+      <div class="sec-toggle">▼</div>
+    </div>
+    <div class="sec-tldr">The plain meaning of every industry term used above.</div>
+    <div class="sec-body">
+    <div class="legend-grid">
+      <div class="legend-item"><h4 class="legend-term">Agentic RIA</h4><div class="legend-def">A registered investment adviser whose advice is generated and delivered by AI systems that act continuously, not a chatbot that answers questions when asked.</div></div>
+      <div class="legend-item"><h4 class="legend-term">SEC-registered investment adviser</h4><div class="legend-def">A firm legally licensed and supervised by the U.S. SEC to give financial advice as a fiduciary, legally required to act in the client's best interest.</div></div>
+      <div class="legend-item"><h4 class="legend-term">CRD number</h4><div class="legend-def">A unique ID the securities industry uses to track every registered firm and individual; used here to trace Wing's registration history precisely.</div></div>
+      <div class="legend-item"><h4 class="legend-term">AUM</h4><div class="legend-def">Assets under management: the total dollar value of client money a firm actively manages or advises on. The standard measure of real scale in this industry.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Form ADV</h4><div class="legend-def">The standard disclosure document every SEC-registered adviser must file publicly: ownership, fees, conflicts of interest, business details.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Fiduciary</h4><div class="legend-def">Legally obligated to act in the client's best interest, not just give reasonable advice.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Diligence</h4><div class="legend-def">The process of fact-checking a company's claims before an institution partners with, invests in, or pilots its product.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Category creation</h4><div class="legend-def">Inventing a new name for a type of product instead of describing it in terms customers already understand. Risky because it requires teaching the market from scratch.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Solicitor / referral disclosure</h4><div class="legend-def">A legal requirement to state it publicly when a company pays (or gets paid) for referring clients to a financial adviser.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Positioning</h4><div class="legend-def">How a company explains what it does and why it's different, in a way a customer immediately understands.</div></div>
+    </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Sources:</strong> Sean Wing, "The End of Managing Money Alone" (LinkedIn, Aug 2026) · SEC IAPD / FINRA public records (CRD #333826, CRD #321886) · Cerulli Associates wealth-transfer estimate, independently repeated across outlets · public coverage of Farther's Series C and Morgan Stanley's June 2026 agentic platform opening.<br>
+    <strong>Register:</strong> Every question raised here is a diligence question, not an allegation. The entity observations are information vacuums the public record leaves open, exactly the kind a written statement closes.<br>
+    <strong>Prepared by</strong> Zach Harris · ARCS · analysis of public records, at Sean's request for the good, the bad, and the ugly · HORIZON · CLEAR
+  </div>
+
+</div>
+
+<div class="pres" id="pres">
+  <div class="pres-floor"></div>
+  <div class="pres-topo2"></div>
+  <div class="pres-topo" id="prestopo"></div>
+  <div class="pres-bezel" id="presbezel"></div>
+  <div class="fathom" id="fathom"></div>
+  <div class="pres-hairline" id="preshair"></div>
+  <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-status" id="presstatus"></div><div class="pres-chip" id="preschip"></div></div>
+  <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div><div class="pres-horizon" id="preshorizon"><div class="hz-line"></div><div class="hz-label">HORIZON · CLEAR</div></div></div></div>
+  <div class="pres-bot">
+    <button id="presprev">← BACK</button>
+    <div id="presmid" style="display:flex;align-items:center;gap:14px;"><div class="pres-swipehint">← SWIPE →</div><div class="pres-keyhint"><b>←</b> <b>→</b> / <b>SPACE</b> NAVIGATE · <b>ESC</b> EXITS</div><div class="pres-dots" id="presdots"></div><div id="prescount"></div></div>
+    <div id="presend" style="display:flex;gap:8px;"><button id="presnext">NEXT →</button><button id="presexit">EXIT ✕</button></div>
+  </div>
+</div>
+
+<div id="termtip"></div>
+
+<script>
+/* Collapsible sections + focus/expand modes (chan.html pattern) */
+(function () {
+  var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
+  var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
+  var focusOn = true;
+  function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; setAria(sec); }
+  function collapse(sec, instant) {
+    if (instant) { sec.classList.add("collapsed"); sec._body.style.maxHeight = "0"; setAria(sec); return; }
+    sec._body.style.maxHeight = sec._body.scrollHeight + "px";
+    requestAnimationFrame(function () { sec.classList.add("collapsed"); sec._body.style.maxHeight = "0"; });
+    setAria(sec);
+  }
+  function setAria(sec) {
+    var head = sec.querySelector(".section-head");
+    if (head) head.setAttribute("aria-expanded", String(!sec.classList.contains("collapsed")));
+  }
+  function toggle(sec) {
+    if (sec.classList.contains("collapsed")) {
+      open(sec);
+      if (focusOn) sections.forEach(function (o) { if (o !== sec) { collapse(o); setAria(o); } });
+    } else collapse(sec);
+    setAria(sec);
+  }
+  sections.forEach(function (sec, idx) {
+    sec._body = sec.querySelector(".sec-body");
+    var head = sec.querySelector(".section-head");
+    var tldr = sec.querySelector(".sec-tldr");
+    /* The H2 stays visible when folded: pull it out of the collapsible body, above the tldr */
+    var title = sec._body ? sec._body.querySelector(".section-title") : null;
+    if (title && tldr) sec.insertBefore(title, tldr);
+    /* Keyboard path: headers are real toggles */
+    if (head) {
+      head.setAttribute("tabindex", "0");
+      head.setAttribute("role", "button");
+      head.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(sec); }
+      });
+    }
+    [head, title, tldr].forEach(function (el) { if (el) el.addEventListener("click", function () { toggle(sec); }); });
+    setAria(sec);
+  });
+  expandBtn.addEventListener("click", function () {
+    focusOn = false;
+    expandBtn.classList.add("active"); focusBtn.classList.remove("active");
+    sections.forEach(open);
+  });
+  focusBtn.addEventListener("click", function () {
+    focusOn = true;
+    focusBtn.classList.add("active"); expandBtn.classList.remove("active");
+    sections.forEach(function (s, i) { i === 0 ? open(s) : collapse(s); });
+  });
+  sections.forEach(function (s, i) { i === 0 ? open(s) : collapse(s, true); });
+  /* Legend jump: open the (collapsed) legend section, then scroll to it */
+  var lj = document.getElementById("legendjump"), legendSec = document.getElementById("legend");
+  if (lj && legendSec) lj.addEventListener("click", function (e) {
+    e.preventDefault();
+    open(legendSec);
+    if (focusOn) sections.forEach(function (o) { if (o !== legendSec) collapse(o); });
+    legendSec.scrollIntoView({ behavior: "smooth", block: "start" });
+    track("legend_jump");
+  });
+})();
+
+/* Presentation mode: THE GOOD / THE BAD / THE UGLY (chan.arcs.care system, Wing deck) */
+var CH = { good: "#00FF9D", bad: "#FFD700", ugly: "#FF4D6D", close: "#00F0FF" };
+var SUBJECT = "WING"; // chassis: each clone sets its own subject/counterpart label (was a hardcoded leak)
+var SLIDES = [
+  { act: "OPENING", ac: CH.close, chip: "METHOD", g: "close",
+    h: "The good, the bad, and the ugly. In that order.",
+    b: "<strong>You asked for it straight, so here it is straight.</strong><br><br>Three passes: what the public record verifies, what it cannot verify yet, and what it leaves open. Every slide is labeled with where it comes from: your essay, SEC/FINRA filings, or independent market coverage. The full sourced teardown sits underneath this deck." },
+  { div: true, num: "01", ac: CH.good, chip: "VERIFIED · PUBLIC RECORD", g: "good", act: "ACT I",
+    h: "The good.",
+    b: "The claims that check out cleanly against independent sources. Credit where it's due, stated plainly." },
+  { act: "ACT I · THE GOOD", ac: CH.good, chip: "VERIFIED · PUBLIC RECORD", g: "good",
+    h: "The license is real.",
+    b: "Wing Financial Inc. is a genuine SEC-registered investment adviser: <strong>CRD #333826, approved February 10, 2025</strong>.<br><br>A fiduciary wrapper is a gate most \"AI wealth\" entrants never clear. This is the strongest card in the deck, and it is fully yours." },
+  { act: "ACT I · THE GOOD", ac: CH.good, chip: "VERIFIED · PUBLIC RECORD", g: "good",
+    h: "The market math checks out.",
+    b: "<strong>$124 trillion transferring by 2048</strong> is a real Cerulli Associates estimate, independently repeated across multiple outlets.<br><br>You did the homework on the macro slide. It is the one big number in the essay that survives a diligence pass untouched." },
+  { act: "ACT I · THE GOOD", ac: CH.good, chip: "VERIFIED · MARKET COVERAGE", g: "good",
+    h: "The timing case is real.",
+    b: "Agentic AI is being named the defining wealth-management trend of this specific year by the industry press.<br><br>The wave exists. Your essay is riding it, not inventing it. That is good timing, and also a crowded on-ramp." },
+  { div: true, num: "02", ac: CH.bad, chip: "GAP · LOAD-BEARING", g: "bad", act: "ACT II",
+    h: "The bad.",
+    b: "What the record cannot verify yet. None of it is fixable by writing. All of it is fixable by growth and named proof." },
+  { act: "ACT II · THE BAD", ac: CH.bad, chip: "GAP · LOAD-BEARING", g: "bad",
+    h: "Zero proof points, in an industry that competes on them.",
+    b: "No pilot firm named. No client logo. No dollar figure anywhere in the essay.<br><br>Meanwhile the public ADV shows <strong>~$128K AUM and 2 employees</strong>, and Farther leads the category with a $72M Series C and dollar-specific traction. \"Population scale\" is the first line a diligence team will test." },
+  { act: "ACT II · THE BAD", ac: CH.bad, chip: "GAP · LOAD-BEARING", g: "bad",
+    h: "The window is compressing.",
+    b: "PE-backed aggregators now take <strong>51%+ of all RIA acquisitions</strong>: your advisor channel is consolidating in real time.<br><br>Morgan Stanley opened its <strong>$1.2T platform to outside AI agents in June 2026</strong>. The forces creating your opening are the same forces closing it." },
+  { act: "ACT II · THE BAD", ac: CH.bad, chip: "PATHOGEN", g: "bad",
+    h: "One claim can infect all the others.",
+    b: "<strong>\"Population scale.\"</strong><br><br>If growth data never materializes, every other claim in the essay collapses with it: superintelligence, hyper-personalization, prosperity for hundreds of millions. They are all downstream of scale. Guard this one claim and the rest hold." },
+  { div: true, num: "03", ac: CH.ugly, chip: "FORENSIC · UNRESOLVED", g: "ugly", act: "ACT III",
+    h: "The ugly.",
+    b: "Two facts the public record leaves open. Neither proves anything wrong. Both are exactly what a compliance officer finds first." },
+  { act: "ACT III · THE UGLY", ac: CH.ugly, chip: "FORENSIC · UNRESOLVED", g: "ugly",
+    h: "Two SEC filings, one company name.",
+    b: "A prior \"Wing Financial Inc.\" (<strong>CRD #321886</strong>) had its registration <strong>terminated August 2023</strong>. Yours (<strong>CRD #333826</strong>) was approved fresh in 2025 under the same name.<br><br>A factual, sourced, chain-of-custody question. One written sentence of history closes it." },
+  { act: "ACT III · THE UGLY", ac: CH.ugly, chip: "FORENSIC · UNRESOLVED", g: "ugly",
+    h: "The Nathan Wing question.",
+    b: "An unregistered capital vehicle called <strong>Wing Capital Group</strong>, run by a Nathan Wing, operates in the same city as your registered address, publicly citing \"$100 million in available equity.\" No public statement of relationship or non-relationship exists either way.<br><br>An information vacuum, not an accusation. But in institutional diligence, <strong>silence defaults to the worst-faith read</strong>." },
+  { act: "THE FIX", ac: CH.close, chip: "SEQUENCE BY COST", g: "close",
+    h: "One afternoon versus months.",
+    b: "The entity disclosure costs you <strong>an afternoon</strong>: one plain written statement covering the filing history and the Wing Capital Group question.<br><br>The traction gap costs <strong>months of real growth</strong>: one named pilot with a real number attached.<br><br>Cheap fix first. Hard fix in parallel. The burden then shifts from \"prove this works\" to \"explain these details.\"" },
+  { act: "THE GIFT", ac: CH.close, chip: "YOURS TO KEEP", g: "close",
+    h: "Two assets you don't yet own.",
+    b: "<strong>The category name: \"agentic RIA.\"</strong> It borrows legitimacy from a term regulators already respect, instead of AGI vocabulary you don't control. It is sharper than \"Financial Superintelligence\" and it is unclaimed.<br><br><strong>The tagline: \"Your Money, Alive.\"</strong> Your real promise is vigilance as a service: you no longer have to be the one watching. The system is the active party, not the user. That inversion is your whole product." },
+  { act: "YOUR MOVE", ac: CH.close, chip: "THE SURGICAL QUESTION", g: "close", horizon: true,
+    h: "Which of these do you want a diligence team to find first?",
+    b: "And which do you want to get ahead of in your next public note?<br><br>Every claim in this deck is sourced on the page underneath: <strong>wing.arcs.care</strong>" }
+];
+function track(n, d) { (window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); })("event", { name: n, data: d || {} }); }
+var presIdx = 0, presEl = document.getElementById("pres");
+var presCompleted = false;
+(function () {
+  var dots = document.getElementById("presdots"), rail = document.getElementById("fathom");
+  SLIDES.forEach(function () {
+    dots.appendChild(document.createElement("i"));
+    rail.appendChild(document.createElement("i"));
+  });
+  var lbl = document.createElement("div"); lbl.className = "fathom-label"; lbl.id = "fathomlbl";
+  rail.appendChild(lbl);
+})();
+var idleTimer = null;
+function presWake() {
+  presEl.classList.remove("idle");
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(function () { if (presEl.classList.contains("on")) presEl.classList.add("idle"); }, 2600);
+}
+["mousemove", "touchstart", "keydown"].forEach(function (ev) {
+  presEl.addEventListener(ev, presWake, { passive: true });
+});
+(function () {
+  var topo = document.getElementById("prestopo");
+  var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+  function tick() {
+    cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
+    topo.style.transform = "translate(" + cx.toFixed(2) + "px," + cy.toFixed(2) + "px)";
+    raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(tick) : null;
+  }
+  function aim(x, y) {
+    tx = (x / window.innerWidth - 0.5) * 60;
+    ty = (y / window.innerHeight - 0.5) * 60;
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  presEl.addEventListener("mousemove", function (e) { aim(e.clientX, e.clientY); }, { passive: true });
+  presEl.addEventListener("touchmove", function (e) { aim(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+})();
+function presRender() {
+  var s = SLIDES[presIdx];
+  document.getElementById("presact").textContent = s.act;
+  document.getElementById("presact").style.color = s.ac;
+  var chip = document.getElementById("preschip");
+  chip.textContent = s.chip; chip.style.color = s.ac; chip.style.borderColor = s.ac;
+  presEl.style.setProperty("--fogop", (0.85 - 0.75 * (presIdx / (SLIDES.length - 1))).toFixed(2));
+  document.querySelectorAll("#fathom i").forEach(function (t, i) {
+    t.className = i < presIdx ? "past" : i === presIdx ? "here" : "";
+    t.style.setProperty("--hl", s.ac);
+  });
+  document.getElementById("fathomlbl").textContent = "FATHOM " + (presIdx + 1) + " OF " + SLIDES.length;
+  document.getElementById("preshair").style.setProperty("--hl", s.ac);
+  var num = document.getElementById("presnum");
+  num.textContent = s.div ? s.num : "";
+  num.style.display = s.div ? "" : "none";
+  num.style.setProperty("--hl", s.ac);
+  document.getElementById("preskick").textContent = s.div ? s.act : "";
+  document.getElementById("preskick").style.display = s.div ? "" : "none";
+  var h = document.getElementById("presh");
+  h.textContent = s.h;
+  h.className = s.div ? "pres-div-title" : "pres-h";
+  var body = document.getElementById("presbody");
+  body.innerHTML = s.b;
+  /* Earned fidelity: verified renders sharp, gaps degraded, unresolved forensic grain */
+  var res = s.g === "ugly" ? " res-grain" : s.g === "bad" ? " res-degraded" : " res-sharp";
+  body.className = s.div ? "pres-div-sub" : "pres-body" + res;
+  document.getElementById("prescount").textContent = (presIdx + 1) + " / " + SLIDES.length;
+  document.getElementById("presbezel").style.setProperty("--hl", s.ac);
+  document.getElementById("presstatus").innerHTML =
+    "MODE <b>TEARDOWN</b> · " + SUBJECT + " <b>PUBLIC RECORD</b> · FIX <b>" + s.chip.split(" ·")[0] + "</b> · SWEEP <b>" + (presIdx + 1) + "/" + SLIDES.length + "</b>";
+  document.getElementById("preshorizon").classList.toggle("on", !!s.horizon);
+  document.querySelectorAll("#presdots i").forEach(function (d, i) {
+    d.classList.toggle("on", i === presIdx);
+    d.style.setProperty("--hl", s.ac);
+  });
+  var slide = document.getElementById("presslide");
+  slide.style.animation = "none"; void slide.offsetWidth; slide.style.animation = "";
+  /* Last slide: NEXT becomes FINISH (advancing exits to the page); keyhint says so */
+  var last = presIdx === SLIDES.length - 1;
+  if (last && !presCompleted) { presCompleted = true; track("pres_complete"); }
+  document.getElementById("presnext").textContent = last ? "FINISH ✓" : "NEXT →";
+  var kh = document.querySelector(".pres-keyhint");
+  if (kh) kh.innerHTML = last
+    ? "<b>→</b> / <b>SPACE</b> RETURNS TO THE PAGE · <b>ESC</b> EXITS"
+    : "<b>←</b> <b>→</b> / <b>SPACE</b> NAVIGATE · <b>ESC</b> EXITS";
+}
+function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); track("pres_open"); }
+function presExit() { presEl.classList.remove("on"); presEl.classList.remove("idle"); clearTimeout(idleTimer); track("pres_exit", { at: presIdx + 1 }); }
+function presStep(d) {
+  /* Advancing past the final slide returns to the page (normal mode) */
+  if (d > 0 && presIdx === SLIDES.length - 1) { presExit(); return; }
+  presIdx = Math.min(SLIDES.length - 1, Math.max(0, presIdx + d)); presRender();
+}
+document.getElementById("presopen").addEventListener("click", presOpen);
+document.getElementById("presexit").addEventListener("click", presExit);
+document.getElementById("presprev").addEventListener("click", function () { presStep(-1); });
+document.getElementById("presnext").addEventListener("click", function () { presStep(1); });
+document.addEventListener("keydown", function (e) {
+  if (!presEl.classList.contains("on")) return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); presStep(1); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); presStep(-1); }
+  else if (e.key === "Escape") presExit();
+});
+var swipeX = null;
+presEl.addEventListener("touchstart", function (e) { swipeX = e.changedTouches[0].clientX; }, { passive: true });
+presEl.addEventListener("touchend", function (e) {
+  if (swipeX === null) return;
+  var dx = e.changedTouches[0].clientX - swipeX; swipeX = null;
+  if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
+}, { passive: true });
+
+/* Copy-link behavior: whole eyebrow row copies the canonical URL, chip flashes confirmation */
+(function () {
+  var btn = document.getElementById("copylink"), row = document.getElementById("eyebrowrow");
+  if (!btn) return;
+  (row || btn).addEventListener("click", function () {
+    var url = "https://wing.arcs.care";
+    function done() {
+      btn.textContent = "📋 COPIED ✓"; btn.style.color = "var(--green)"; btn.style.borderColor = "rgba(0,255,157,0.4)";
+      setTimeout(function () { btn.textContent = "🔗 COPY LINK"; btn.style.color = ""; btn.style.borderColor = ""; }, 1600);
+      track("copy_link");
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done);
+    else { var ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); done(); }
+  });
+})();
+
+/* Term tooltips: single viewport-clamped fixed element */
+(function () {
+  var tip = document.getElementById("termtip");
+  var seenTerms = {};
+  function show(el) {
+    var t = el.textContent.trim().slice(0, 40);
+    if (!seenTerms[t]) { seenTerms[t] = 1; track("term_hover", { term: t }); }
+    tip.textContent = el.getAttribute("data-def");
+    tip.classList.add("on");
+    var r = el.getBoundingClientRect(), tw = tip.offsetWidth;
+    var x = Math.min(Math.max(10, r.left + r.width / 2 - tw / 2), window.innerWidth - tw - 10);
+    var y = r.top - tip.offsetHeight - 8;
+    if (y < 8) y = r.bottom + 8;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  /* Coarse pointers get inline definitions below the paragraph; hover pointers get the floating tip.
+     Checked per-event, not at load: convertibles switch, and bind-time detection misses. */
+  function isCoarse() { return window.matchMedia && window.matchMedia("(hover: none)").matches; }
+  function inlineToggle(el) {
+    var block = el.closest(".gauge-def,.echo-text,.echo-why,.learn-body,.legend-def,.thread-body,.sec-tldr,.section-body,.ms-body,.fb-label") || el.parentElement;
+    var next = block.nextElementSibling;
+    var wasOwn = next && next.className === "term-inline" && next._for === el;
+    document.querySelectorAll(".term-inline").forEach(function (d) { d.remove(); });
+    if (wasOwn) return;
+    var t = el.textContent.trim();
+    if (!seenTerms[t.slice(0, 40)]) { seenTerms[t.slice(0, 40)] = 1; track("term_hover", { term: t.slice(0, 40) }); }
+    var d = document.createElement("div");
+    d.className = "term-inline"; d._for = el;
+    var b = document.createElement("b"); b.textContent = t;
+    d.appendChild(b); d.appendChild(document.createTextNode(el.getAttribute("data-def")));
+    block.insertAdjacentElement("afterend", d);
+  }
+  document.querySelectorAll(".term").forEach(function (el) {
+    el.addEventListener("mouseenter", function () { if (!isCoarse()) show(el); });
+    el.addEventListener("mouseleave", function () { tip.classList.remove("on"); });
+    el.addEventListener("click", function (e) {
+      e.stopPropagation(); e.preventDefault();
+      if (isCoarse()) { tip.classList.remove("on"); inlineToggle(el); }
+      else tip.classList.contains("on") ? tip.classList.remove("on") : show(el);
+    });
+  });
+  document.addEventListener("click", function () { tip.classList.remove("on"); });
+})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.section-title'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script>
+</body>
+</html>

@@ -153,7 +153,7 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
-| 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-032's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
-| 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-032. |
+| 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-049's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
+| 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-049. |
 | 1.1 | 2026-06-23 | Added §8 — answers Zak's "how will you catch people at the fork" question (previously unaddressed; verified against the full June 16–22 feedback checklist, all six original items were already covered §1–§6) |
 | 1.0 | 2026-06-22 | Initial canonical version |

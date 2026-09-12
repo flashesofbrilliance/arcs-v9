@@ -1,0 +1,31 @@
+name: Informativeness ratchet (audit signal degeneracy)
+
+# PR-time degeneracy gate for the audit corpus. Deterministic, stdlib-Python,
+# seconds to run, no npm / Playwright / DB — so it is cheap by construction and
+# safe to run on every PR that touches the audit service. Blocks merge only on
+# NEW signal degeneracy beyond the committed baseline
+# (operators/audit_service/informativeness_baseline.json); pre-existing debt is
+# frozen and visible, a field that carried information going constant fails.
+#
+# Why a dedicated workflow: the full CI workflow (ci.yml) is disabled (its
+# fe-smoke Playwright job is expensive), so its copy of this step never runs.
+# This path-filtered micro-workflow is the live CI arm — it fires exactly when
+# the audit corpus or the gate machinery changes, and nowhere else. The other
+# arm is the local pre-commit hook (scripts/git-hooks/pre-commit).
+
+on:
+  pull_request:
+    paths:
+      - "operators/audit_service/**"
+      - ".github/workflows/informativeness.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Informativeness ratchet
+        run: python3 operators/audit_service/informativeness_gate.py

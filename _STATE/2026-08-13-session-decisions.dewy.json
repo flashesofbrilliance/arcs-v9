@@ -1,0 +1,50 @@
+{
+  "_doc": "DEWY receipts for 2026-08-13 — ARCS-private strategy/canon thread from the germinate OSS build session. See ADR-053 (Tao of ARCS boundary) and ADR-054 (free-to-hold/metered-to-fire pricing).",
+  "session_ts": "2026-08-13",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-13-tao-of-arcs-boundary",
+      "surface": "canon / strategy",
+      "sharp_question": "If germinate is genuinely open (MIT), what exactly stays private as ARCS — and why does open-sourcing the bank not surrender the moat?",
+      "dewy_vector": {
+        "D": "Canonize the genesis doctrine adam==atom: a seed is dormant potential energy (never GC'd); ARCS is the vox animus that converts potential->kinetic via ripeness judgment at Kairos. The open/private boundary is one seam, four faces (bank/spark, public-method/private-rosetta, dormant/animating, free-to-hold/metered-to-fire).",
+        "E": "germinate (open toolkit), ARCS (private spark), future competitors, prospects",
+        "W": "DURABLE — doctrine, not a status snapshot; does not expire.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "The moat is the spark, not the substrate. Any competitor can hold the same seeds; only ARCS fires them with tailored ripeness judgment — so open-sourcing the bank is moat-safe by construction.",
+      "why": "The germinate build forced the boundary question; without a crisp answer we risk leaking ARCS doctrine into the clean-room repo OR refusing to open-source anything. The adam==atom seed had survived one session's use, meeting its own promotion rule.",
+      "loki": "Risk that 'the spark is private' is hand-wavy and the real moat is nothing. Mitigated: the spark is concretely the ripeness judgment + private rosetta priors, which the open generic contract deliberately cannot do.",
+      "bar": "Low — canonizing doctrine costs nothing and prevents a real leak (ARCS specifics into MIT repo).",
+      "horizon": "DURABLE",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": "ADR-053",
+      "canon": "_CANON/Tao-of-ARCS.md",
+      "memory": "[[seed-tao-of-arcs-dormant-potential-vox-animus]]",
+      "proverb": "tao-247"
+    },
+    {
+      "receipt_id": "2026-08-13-free-to-hold-metered-to-fire",
+      "surface": "pricing / business model",
+      "sharp_question": "How do we monetize without adding the very friction the open-source public-good goal was meant to avoid?",
+      "dewy_vector": {
+        "D": "Monetize the spark, never the bank. Free forever: mint/plant/water/hold/mechanical-sprout/manifest/handoff. Metered (gas): ripeness judgment + Kairos activation + rosetta-primed synthesis. Bill per activation (one vox-animus firing), not per seed/seat/GB. Token fork DECIDED: metaphorical credits now; literal on-chain deferred until the blockchain registry + hash-chaining exist AND a cross-party provenance need is demonstrated.",
+        "E": "commercial germinate users (free), ARCS paying users, future on-chain roadmap",
+        "W": "DURABLE strategy frame; prices unhardened until willingness-to-pay for the ride is validated.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Nobody rides for free — but holding potential energy is free; only igniting it runs the meter.",
+      "why": "Resolves the standing tension: you can't monetize the open tool without friction, so don't — put revenue on the spark's gas, keep the bank open.",
+      "loki": "Willingness-to-pay for ripeness/Kairos activation is UNVALIDATED — this is the YELLOW. Validate demand for the ride, not the bank, before hardening prices.",
+      "bar": "Low to capture; medium to act on — do not build billing infra before validating the ride's demand.",
+      "horizon": "DURABLE",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": "ADR-054",
+      "memory": "[[seed-monetization-free-to-hold-metered-to-fire]]"
+    }
+  ]
+}

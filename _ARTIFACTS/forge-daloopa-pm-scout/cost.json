@@ -1,0 +1,5 @@
+{
+ "est_tokens_before": 90000,
+ "notes": "Estimate written 2026-09-07 before stage 1. Light-tier forge (stages 1,5,7,8,9) with every input pre-staged (JD, record, reference bundle) so no fetch/search/screenshot exploration was needed beyond the mandated four-width check. Bulk of cost is reading the reference bundle (page.html, TAILOR-NOTES, red-team, render.sh) once to lock the shape contract, then generation. | Actual: ~9 tool-call turns; reads of jd/record/reference bundle (~35k), resume HTML write + render + 2 page-image reads (~20k), TAILOR-NOTES/red-team/json writes (~15k), page.html copy+edits+four screenshots+two image reads (~25k).",
+ "actual_tokens": 95000
+}

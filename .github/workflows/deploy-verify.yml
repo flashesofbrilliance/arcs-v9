@@ -33,20 +33,77 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Cost gate (2026-08-19): 242 verify runs in 19 days, most triggered by
+      # doc-only deploys that cannot change runtime behavior. Diff the deployed
+      # commit against the previous READY production deployment; if nothing in
+      # src/, public/, prisma/, next.config.ts, or package*.json changed, skip
+      # the expensive E2E (npm ci + Playwright + smokes).
+      #
+      # Convention: this step communicates ONLY via the `skip` output — never
+      # via its exit code (the ignored-build-step exit-code convention was
+      # inverted once before; outputs are unambiguous). It FAILS OPEN: any
+      # error computing the diff (API down, missing secret, unknown sha)
+      # leaves skip=false and the full verify runs. Unrelated to Vercel's
+      # ignored-build-step — this gate never decides whether a deploy builds,
+      # only whether we re-run E2E against one that is already live.
+      - name: Gate — diff vs previous READY prod deploy
+        id: gate
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          CURRENT_SHA: ${{ github.event.deployment.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          echo "skip=false" >> "$GITHUB_OUTPUT"   # fail-open default
+
+          deploys=$(curl -sf --max-time 20 \
+            "https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&teamId=${VERCEL_ORG_ID}&target=production&state=READY&limit=10" \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}") || { echo "Vercel API unavailable — running full verify"; exit 0; }
+
+          prev_sha=$(echo "$deploys" | python3 -c '
+          import json, sys, os
+          cur = os.environ["CURRENT_SHA"]
+          for d in json.load(sys.stdin).get("deployments", []):
+              sha = (d.get("meta") or {}).get("githubCommitSha")
+              if sha and sha != cur:
+                  print(sha)
+                  break
+          ') || { echo "Could not parse deployments — running full verify"; exit 0; }
+          [ -n "$prev_sha" ] || { echo "No prior READY deploy found — running full verify"; exit 0; }
+
+          changed=$(gh api "repos/${{ github.repository }}/compare/${prev_sha}...${CURRENT_SHA}" \
+            --jq '.files[].filename') || { echo "Compare API failed — running full verify"; exit 0; }
+          [ -n "$changed" ] || { echo "Empty diff (or truncated compare) — running full verify"; exit 0; }
+
+          echo "Changed files since ${prev_sha}:"
+          echo "$changed"
+          if echo "$changed" | grep -qE '^(src/|public/|prisma/|next\.config\.ts$|package\.json$|package-lock\.json$)'; then
+            echo "Runtime-relevant changes detected — running full verify"
+          else
+            echo "Doc-only deploy — skipping E2E verify"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-node@v4
+        if: steps.gate.outputs.skip != 'true'
         with:
           node-version: 22
           cache: npm
 
       - name: Install
+        if: steps.gate.outputs.skip != 'true'
         run: npm ci
 
       - name: Install Playwright browsers
+        if: steps.gate.outputs.skip != 'true'
         run: npx playwright install --with-deps chromium
 
       # ADR-016 API assertions against the real live deployment.
       - name: API smoke (scripts/smoke.sh)
         id: api_smoke
+        if: steps.gate.outputs.skip != 'true'
         run: |
           chmod +x scripts/smoke.sh
           PROD_URL="$TARGET_URL" bash scripts/smoke.sh
@@ -55,6 +112,7 @@ jobs:
       # FE render/console-error assertions against the same live deployment.
       - name: FE smoke (Playwright)
         id: fe_smoke
+        if: steps.gate.outputs.skip != 'true'
         run: npm run test:smoke
         env:
           SMOKE_BASE_URL: ${{ env.TARGET_URL }}
