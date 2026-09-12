@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+THESIS: a post-mortem rendered at earned fidelity. Two warm-path candidacies (Fanatics Jul 2026,
+HypeLab Oct 2025) that went to zero because the req was never real. The instrument saw it
+(30% prior, 5% scenario, a level-1 answer on the call) and the render ignored it (SHARP, NCI 88).
+So this page renders every row at the fidelity it EARNED, and shows the Jul 1 screen twice.
+OWN-WORLD: ARCS dark cockpit, ground #020408, panel #0d1117, bearing cyan, conviction green,
+asset gold, constraint orange, risk red; JetBrains Mono = measurement, Inter = prose.
+GROUNDED IN: _STATE/job-search/postmortem-fanatics.md (Gmail-verified 2026-09-11), the two
+Joe Kim recoil SSOTs, hypothesis-ledger.md H3', scripts/req_reality_gate.py.
+INTERNAL: noindex, unrouted. Names are real; this page does not leave the repo.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Manufactured Role · Post-mortem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --palette-bg-default:#020408; --palette-bg-paper:#0d1117; --palette-bg-elevated:#111826;
+  --palette-divider:#1e293b; --palette-divider-hi:#2c3b52;
+  --palette-text-primary:#e2e8f0; --palette-text-secondary:#94a3b8; --palette-text-muted:#64748b; --palette-text-faint:#475569;
+  --palette-bearing:#00F0FF; --palette-conviction:#00FF9D; --palette-asset:#FFD700; --palette-constraint:#FF9F45; --palette-risk:#FF4D6D; --palette-steel:#7d8fa3;
+  --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
+  --shape-radius-sm:6px; --shape-radius-md:10px;
+  --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
+  --measure:640px; /* one shared px reading column; text inside a panel fills the panel (rule 1b) */
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+body{min-height:100vh;background:radial-gradient(1100px 500px at 50% -10%, #FF4D6d0a 0, transparent 60%),radial-gradient(700px 400px at 90% 20%, #00F0FF06 0, transparent 55%),var(--palette-bg-default);}
+a{color:var(--palette-bearing);text-decoration:none;} a:hover{text-decoration:underline;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 var(--space-5) var(--space-7);}
+p,li{text-wrap:pretty;} h1,h2,h3,h4{text-wrap:balance;}
+.mono{font-family:var(--typo-mono);}
+.eyebrow{font-family:var(--typo-mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;max-width:none;text-wrap:balance;}
+@media (max-width:640px){.eyebrow{letter-spacing:.07em;} .statuslights{text-align:left;}}
+.src{font-family:var(--typo-mono);font-size:9px;letter-spacing:.05em;color:var(--palette-text-faint);}
+.pill{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:4px;border:1px solid var(--palette-divider-hi);color:var(--palette-text-secondary);white-space:nowrap;}
+.pill.risk{color:var(--palette-risk);border-color:#FF4D6d55;} .pill.ok{color:var(--palette-conviction);border-color:#00FF9d55;} .pill.gold{color:var(--palette-asset);border-color:#FFD70055;} .pill.cyan{color:var(--palette-bearing);border-color:#00F0FF55;}
+.panel{background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--palette-bg-paper);border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);box-shadow:inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c;}
+.sec-hd{display:flex;align-items:baseline;gap:12px;margin:var(--space-7) 0 var(--space-4);}
+.sec-hd .n{font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-text-faint);}
+.sec-hd .t{font-family:var(--typo-mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
+.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--palette-divider),transparent);}
+.sec-hd .gloss{font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;color:var(--palette-text-faint);text-transform:uppercase;white-space:nowrap;}
+@media (max-width:640px){.sec-hd .gloss{display:none;}}
+
+header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(--palette-divider);}
+.mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
+h1 .r{color:var(--palette-risk);} h1 .b{color:var(--palette-bearing);}
+.mast .sub{max-width:none;font-size:14px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);} /* hero lede spans the full lane, matching the heading */
+.statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
+.led{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:1px;margin-right:6px;background:currentColor;box-shadow:0 0 8px 1px currentColor;}
+
+.telemetry{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:var(--space-5);border-top:1px solid var(--palette-divider);}
+.telemetry .cell{padding:14px 18px 14px 0;}
+.telemetry .v{font-family:var(--typo-mono);font-size:26px;font-weight:700;line-height:1;}
+.telemetry .v b{color:var(--palette-bearing);font-weight:700;} .telemetry .v.r{color:var(--palette-risk);} .telemetry .v.g{color:var(--palette-conviction);} .telemetry .v.a{color:var(--palette-asset);}
+.telemetry .k{font-family:var(--typo-mono);font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);margin-top:7px;line-height:1.5;}
+
+/* earned-fidelity render scale (WORLD.md): the row's text is rendered at what the data deserved */
+.fid-sharp{opacity:1;font-weight:500;letter-spacing:0;}
+.fid-degraded{opacity:.85;font-weight:400;letter-spacing:.01em;}
+.fid-grain{opacity:.70;font-weight:300;letter-spacing:.02em;}
+.fid-key{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--palette-text-muted);margin-bottom:var(--space-4);}
+.fid-key span::before{content:"";display:inline-block;width:18px;height:2px;margin-right:6px;vertical-align:middle;background:currentColor;}
+
+/* gate bands */
+.bands{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4);}
+.band{padding:16px 18px;border-top:2px solid var(--bc);position:relative;}
+.band .eyebrow{color:var(--bc);}
+.band .lv{font-family:var(--typo-mono);font-size:30px;font-weight:700;margin:6px 0 4px;color:var(--bc);}
+.band h3{font-size:14px;font-weight:600;margin-bottom:6px;}
+.band p{font-size:12px;line-height:1.6;color:var(--palette-text-secondary);}
+.band .mark{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+.band .rule-line{font-family:var(--typo-mono);font-size:10px;color:var(--palette-text-muted);margin-top:10px;padding-top:8px;border-top:1px dashed var(--palette-divider);line-height:1.5;}
+
+/* timeline: rail + rows */
+.tl{position:relative;padding-left:22px;}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--palette-conviction),var(--palette-asset) 45%,var(--palette-risk));opacity:.6;}
+.row{position:relative;padding:14px 18px 12px;margin-bottom:10px;}
+.row::before{content:"";position:absolute;left:-20px;top:20px;width:9px;height:9px;border-radius:50%;background:var(--rc,var(--palette-steel));box-shadow:0 0 10px 0 var(--rc,transparent);}
+.row .when{font-family:var(--typo-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--rc,var(--palette-text-muted));display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.row h3{font-size:14px;font-weight:600;margin:6px 0 6px;}
+.row p{font-size:12.5px;line-height:1.62;color:var(--palette-text-secondary);}
+.row p b{color:var(--palette-text-primary);font-weight:600;}
+.row q{font-style:italic;color:var(--palette-text-primary);quotes:"\201C" "\201D";}
+.row .twin{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-top:10px;}
+.row .twin > div{padding:12px 14px;border:1px solid var(--palette-divider);border-radius:var(--shape-radius-sm);}
+.row .twin .as-rendered{border-color:#00FF9d40;background:#00FF9d08;}
+.row .twin .as-earned{border-color:#FFD70040;background:#FFD70008;}
+.row .twin .eyebrow{display:block;margin-bottom:6px;}
+.row .twin .as-rendered .eyebrow{color:var(--palette-conviction);} .row .twin .as-earned .eyebrow{color:var(--palette-asset);}
+@media (max-width:900px){.row .twin{grid-template-columns:1fr;}}
+.row .src{display:block;margin-top:8px;}
+
+/* isomorphism rows */
+.iso{display:grid;grid-template-columns:150px 1fr 1fr;gap:1px;background:var(--palette-divider);border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);overflow:hidden;}
+.iso > div{background:var(--palette-bg-paper);padding:12px 14px;font-size:12px;line-height:1.58;color:var(--palette-text-secondary);}
+.iso .h{font-family:var(--typo-mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);background:var(--palette-bg-elevated);}
+.iso .step{font-weight:600;color:var(--palette-text-primary);}
+.iso q{font-style:italic;color:var(--palette-text-primary);quotes:"\201C" "\201D";}
+@media (max-width:900px){.iso{grid-template-columns:1fr;} .iso .h{display:none;} .iso .step{background:var(--palette-bg-elevated);} .iso .fan::before{content:"Fanatics · ";font-family:var(--typo-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--palette-bearing);} .iso .hyp::before{content:"HypeLab · ";font-family:var(--typo-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--palette-asset);}}
+
+.quads{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-4);}
+.quad{padding:18px 20px 16px;border-top:2px solid var(--qc);}
+.quad .eyebrow{color:var(--qc);}
+.quad h3{font-size:14.5px;font-weight:650;margin:7px 0;}
+.quad p,.quad li{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);}
+.quad ul{list-style:none;margin-top:8px;} .quad li{position:relative;padding-left:14px;margin-bottom:7px;}
+.quad li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--qc);opacity:.7;}
+.quad p b,.quad li b{color:var(--palette-text-primary);font-weight:600;}
+
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-4);}
+.quote{padding:18px 20px 14px;position:relative;}
+.quote::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc);box-shadow:0 0 14px 0 var(--tc);}
+.quote .eyebrow{color:var(--tc);}
+.quote blockquote{font-size:13px;line-height:1.6;color:var(--palette-text-primary);margin:8px 0 10px;font-style:italic;}
+.quote .who{font-family:var(--typo-mono);font-size:10px;color:var(--palette-text-muted);letter-spacing:.05em;}
+.lag{margin-top:var(--space-4);padding:14px 18px;border:1px solid #FFD70035;border-radius:var(--shape-radius-md);background:#FFD70008;font-size:12.5px;line-height:1.6;color:var(--palette-text-secondary);}
+.lag b{color:var(--palette-asset);font-family:var(--typo-mono);}
+
+.gate{padding:16px 18px;border:1px solid #FF4D6d35;border-radius:var(--shape-radius-md);background:#FF4D6d0d;}
+.gate .eyebrow{color:var(--palette-risk);display:block;margin-bottom:8px;}
+.gate p{font-size:12.5px;line-height:1.6;color:var(--palette-text-secondary);} .gate b{color:var(--palette-text-primary);}
+pre.term{margin-top:var(--space-4);padding:14px 16px;background:#000;border:1px solid var(--palette-divider);border-radius:var(--shape-radius-sm);font-family:var(--typo-mono);font-size:10.5px;line-height:1.6;color:var(--palette-text-secondary);overflow-x:auto;white-space:pre;}
+pre.term .ok{color:var(--palette-conviction);} pre.term .no{color:var(--palette-risk);} pre.term .wn{color:var(--palette-asset);}
+.wired{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-4);margin-top:var(--space-4);}
+.wire{padding:14px 16px;}
+.wire .eyebrow{color:var(--palette-bearing);} .wire h4{font-size:13px;font-weight:600;margin:6px 0 5px;} .wire p{font-size:11.5px;line-height:1.55;color:var(--palette-text-secondary);} .wire code{font-family:var(--typo-mono);font-size:10.5px;color:var(--palette-text-primary);}
+
+.unconf{padding:16px 18px;} .unconf ul{list-style:none;} .unconf li{position:relative;padding-left:16px;font-size:12px;line-height:1.6;color:var(--palette-text-secondary);margin-bottom:6px;}
+.unconf li::before{content:"?";position:absolute;left:0;top:0;font-family:var(--typo-mono);color:var(--palette-text-faint);}
+footer{margin-top:var(--space-7);padding-top:var(--space-4);border-top:1px solid var(--palette-divider);font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.05em;color:var(--palette-text-faint);line-height:1.8;}
+@media print{html,body{background:#fff;color:#111;} .panel,.iso>div{background:#fff;box-shadow:none;border-color:#ccc;} .fid-grain,.fid-degraded{opacity:1;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="id">
+    <div>
+      <div class="eyebrow" style="color:var(--palette-risk)">ARCS · Post-mortem · Manufactured-role class</div>
+      <h1 style="margin-top:10px">Warmth <span class="r">routes</span> you.<br>Only a req <span class="b">hires</span> you.</h1>
+    </div>
+    <div class="statuslights">
+      <div><span class="led" style="color:var(--palette-conviction)"></span>GATE SHIPPED · scripts/req_reality_gate.py</div>
+      <div><span class="led" style="color:var(--palette-asset)"></span>LEDGER H3' · n=2 · 0 conversions</div>
+      <div><span class="led" style="color:var(--palette-bearing)"></span>GMAIL-VERIFIED · 2026-09-11</div>
+    </div>
+  </div>
+  <p class="sub">Two warm-path candidacies, Fanatics Collectibles (Jun to Jul 2026) and HypeLab (Oct 2025), with real rapport, real founder sponsorship, and the rare fit both counterparts named out loud. Both resolved to zero. Not because of fit, not because of warmth, and at HypeLab not even because of register. Because the req was never real, the instrument said so, and the render ignored it. This page is rendered at the fidelity each row earned, which is the whole point.</p>
+  <div class="telemetry">
+    <div class="cell"><div class="v g">2<b>/2</b></div><div class="k">warm path · founder-level entry</div></div>
+    <div class="cell"><div class="v a">1</div><div class="k">req_reality · both cases (verbal shape, no JD)</div></div>
+    <div class="cell"><div class="v r">0<b>/2</b></div><div class="k">conversions · manufactured-role arm</div></div>
+    <div class="cell"><div class="v">4<b>+3</b></div><div class="k">artifacts sent after the "not real" signal</div></div>
+    <div class="cell"><div class="v a">3<b>/8d</b></div><div class="k">rule stated 3× in 8 days · Jul 13 to 20</div></div>
+    <div class="cell"><div class="v r">60<b>d</b></div><div class="k">days until it reached the ledger</div></div>
+  </div>
+</header>
+
+<div class="sec-hd"><span class="n">01</span><span class="t">The gate</span><span class="rule"></span><span class="gloss">req_reality · 0 to 3 · upstream of warmth and fit</span></div>
+<div class="bands">
+  <div class="panel band" style="--bc:var(--palette-risk)"><div class="eyebrow">Level 0</div><div class="lv">0</div><h3>No JD, no owner met</h3><p>A post, a probe, a "have your agent talk to my agent." Nothing to attach a person to.</p><div class="rule-line">no GREEN · no artifacts as JD · no negotiation</div></div>
+  <div class="panel band" style="--bc:var(--palette-constraint)"><div class="eyebrow">Level 1</div><div class="lv">1</div><h3>Verbal shape, no JD or budget</h3><p>"Being defined." "Purely opportunistic." "Not fully baked, please be patient."</p><div class="mark"><span class="pill cyan">Fanatics · Jul 1</span><span class="pill gold">HypeLab · Oct 21</span></div><div class="rule-line">no GREEN · pilot or product only · no negotiation</div></div>
+  <div class="panel band" style="--bc:var(--palette-asset)"><div class="eyebrow">Level 2</div><div class="lv">2</div><h3>JD posted or cut, budget implied</h3><p>A req exists somewhere a recruiter can point to. Warmth starts to multiply here.</p><div class="rule-line">warm_path counts · candidacy artifacts allowed</div></div>
+  <div class="panel band" style="--bc:var(--palette-conviction)"><div class="eyebrow">Level 3</div><div class="lv">3</div><h3>JD + budget + decision-owner met</h3><p>The person who can say yes has said the words to you. GREEN is available.</p><div class="rule-line">GREEN available · full forge</div></div>
+</div>
+
+<div class="sec-hd"><span class="n">02</span><span class="t">Fanatics · at earned fidelity</span><span class="rule"></span><span class="gloss">every row rendered at what the data deserved</span></div>
+<div class="fid-key"><span class="fid-sharp">sharp · green</span><span class="fid-degraded">degraded · yellow</span><span class="fid-grain">grain · fog</span></div>
+<div class="tl">
+  <div class="panel row fid-sharp" style="--rc:var(--palette-conviction)"><div class="when">Jun 25 · 3:00 PM · call with Chris <span class="pill ok">warmth real</span></div><h3>Chris names Instant Rips, asks for "something in writing," says roles are fluid.</h3><p>Same night, the Bubblegum Problem email and deck: <q>Call it Growth Intelligence, FDE, or something you haven't named yet, honestly I'm not caught up on titles. The mandate matters more.</q> The deck's last page re-cut Chris's own hiring site as a prompt-injection scenario.</p><span class="src">gmail 19f018d834006f23 · Lamontagne SSOT</span></div>
+  <div class="panel row fid-sharp" style="--rc:var(--palette-conviction)"><div class="when">Jun 29 · 2:20 PM · Chris replies <span class="pill ok">sponsor confirmed</span></div><h3><q>i loved what you built.</q> Introduces CJ. Asks in writing for Zach to meet Chase.</h3><p>CJ sends a Calendly within two hours. This is the high-water mark of the whole engagement and it is entirely warmth. No req is mentioned by anyone.</p><span class="src">gmail 19f149c86d92efa5</span></div>
+  <div class="panel row" style="--rc:var(--palette-asset)"><div class="when">Jul 1 · 12:30 PM · 30-min screen with CJ <span class="pill gold">the inflection</span></div><h3>Zach asks the gate question. CJ answers it honestly. The render ignores the answer.</h3>
+    <p class="fid-degraded">Zach: <q>I didn't quite understand from my chat with Chris if this is like a real thing or if you guys were in exploratory stages.</q> CJ: <q>a little bit of both. We are going to have a need. Chris and I and his HR business partner are in the process of really defining what the job description can be. He just kind of wanted to see what type of response he would get.</q> Later: <q>I'll just ask for your patience because I don't have it fully baked right now.</q> The role forming: performance marketing, lifecycle, growth data. A growth-operator exec.</p>
+    <div class="twin">
+      <div class="as-rendered"><span class="eyebrow">As rendered · Jul 1 recoil</span><p class="fid-sharp"><b>NCI 88 · GREEN / HIGH / STABLE · SHARP.</b> "Screen passed. CJ is an advocate, not a gatekeeper. Path to Chase is clear." Role-fluidity logged as gold DIRECTIONAL: "structural optionality."</p></div>
+      <div class="as-earned"><span class="eyebrow">As earned · req_reality 1</span><p class="fid-degraded"><b>YELLOW / DEGRADED.</b> "Advocate confirmed. Req unconfirmed. Path to Chase owned by Chris, not CJ." Pre-call prior on an active req: 30%. Scenario tree's 5% branch: "stalls at Talent, no open req."</p></div>
+    </div>
+    <p class="fid-degraded" style="margin-top:10px">Final third of the call, from the transcript: competing offers "after the fourth," a "monopoly bypass" ask, the Chase intro "to get that in motion," the base band, Fan Fest passes. Each answered with a version of "not baked yet." CJ closes six minutes into her next call.</p><span class="src">granola transcript via gmail 19f5c4ac51e3babb · Masopust SSOT · go-bag</span></div>
+  <div class="panel row fid-degraded" style="--rc:var(--palette-constraint)"><div class="when">Jul 1 to 2 · the artifact push <span class="pill risk">4 after the signal</span></div><h3>Five candidate-written req variants. Candidate-written interview probes. A 30/60/90 for a GM never contacted. Six subdomains. A note to Chris.</h3><p><q>This req was written by the person applying for it. That's intentional.</q> Chris never replies to the Jul 2 note. Mixmax fires on Jul 4.</p><span class="src">_ARCHIVE/fanatics-pages · JOB_REQ.md · gmail 19f237639ecb183e</span></div>
+  <div class="panel row fid-grain" style="--rc:var(--palette-steel)"><div class="when">Jul 2 to 12 · silence</div><h3>No mail in either direction. The Jul 8 stop-loss ("reopen with Chris directly") never fires.</h3><p>CJ's "early next week the latest" circle-back does not arrive. The person who could open the req or the Chase door has gone quiet, and the record shows nobody checks.</p><span class="src">gmail search, all three addresses</span></div>
+  <div class="panel row fid-degraded" style="--rc:var(--palette-asset)"><div class="when">Jul 13 · 12:56 PM · Hilary reads the transcript <span class="pill gold">6 hours before the no</span></div><h3><q>I wouldn't focus on other roles or rushing people in an Introduction, or pushing salary. Let them come back and actually meet and have a meeting with would-be boss.</q></h3><p>An independent read, from the transcript alone, without knowing the outcome. It names all three moves.</p><span class="src">gmail 19f5c68ff3659e5a</span></div>
+  <div class="panel row fid-sharp" style="--rc:var(--palette-risk)"><div class="when">Jul 13 · 6:53 PM · CJ <span class="pill risk">resolved · rejected</span></div><h3><q>This decision is much more about timing and the opportunities we have available than it is about your capabilities. While we don't have a role in mind that's the right fit today, we would very much like to stay in touch.</q></h3><p>Boardy, the same night: <q>they liked the work but never found a concrete mandate that matched your shape... you need an executive champion tied to a defined operating problem, not an exploratory growth-intelligence concept looking for a home. The useful takeaway is the same one we already had.</q></p><span class="src">gmail 19f5db040cf63cdc</span></div>
+  <div class="panel row fid-grain" style="--rc:var(--palette-steel)"><div class="when">Jul 15 · close</div><h3>Zach replies warmly, asks about Growth+1, forwards to Chris: "Hope this isn't goodbye." Archives all six pages within the hour.</h3><p>No reply from either. No Growth+1 invite ever arrives by email. A call with Chase never happened; the five-stage pipeline stopped at stage two.</p><span class="src">gmail · commits ac7ad9ae, 650b4e38</span></div>
+</div>
+
+<div class="sec-hd"><span class="n">03</span><span class="t">Isomorphism · HypeLab</span><span class="rule"></span><span class="gloss">same skeleton · register fixed · founder as gatekeeper</span></div>
+<div class="iso">
+  <div class="h">Step</div><div class="h" style="color:var(--palette-bearing)">Fanatics · Jun to Jul 2026</div><div class="h" style="color:var(--palette-asset)">HypeLab · Oct 2025</div>
+  <div class="step">Warm entry via a founder</div><div class="fan">Chris, off the LinkedIn stunt. <q>i loved what you built.</q></div><div class="hyp">Joe (CEO), via LinkedIn plus Brian Wong. <q>We could talk for hours.</q></div>
+  <div class="step">Req never funded</div><div class="fan">CJ: JD <q>being defined... not fully baked.</q></div><div class="hyp">Joe, Oct 21: <q>a purely opportunistic role, not something that I've pitched I needed. I need to make a case for why I need it.</q></div>
+  <div class="step">Disqualifying signal, heard live</div><div class="fan">Level 1, soft: <q>please be patient.</q></div><div class="hyp">Level 0, explicit: Oct 21 Joe says they already hired a GTM person. Ed reconfirms Oct 29.</div>
+  <div class="step">Candidate manufactures the req</div><div class="fan">Five JD variants, interview probes, 30/60/90, self-authored JOB_REQ.md.</div><div class="hyp">30-card board-facing Gamma with tripwires, a Tally survey, the Oct 22 Day-1 self-pitch (<q>I'd pay for my salary within 6 to 12 months</q>) sent the day after the role-filled disclosure. <q>Behavior went UP as the signal went DOWN.</q></div>
+  <div class="step">Negotiating with no counterparty</div><div class="fan">Competing offers, "monopoly bypass," base band.</div><div class="hyp">"Q1/Q2 budget windows, each week that passes," a target above Joe's stated ceiling, survey homework before the call.</div>
+  <div class="step">Gate owner never clears it</div><div class="fan">Chris silent after Jul 2. Chase never reached.</div><div class="hyp">Ed: <q>I'll talk to Joe.</q> Routed back to Joe. Never cleared.</div>
+  <div class="step">Resolution</div><div class="fan">Polite no in 12 days.</div><div class="hyp">Nine months of silence.</div>
+  <div class="step">What survived</div><div class="fan">CJ "stay in touch," Growth+1.</div><div class="hyp">Joe's "shoot the shit." Jul 22 as peer and advisor: <q>would you be interested in commercializing this?</q></div>
+  <div class="step">Scoped pilot available, unused as the entry</div><div class="fan">The Day-60 pre-drop brief, written as a consequence of hiring.</div><div class="hyp">Advisory to fractional to FTE ladder floated Oct 21; the deck's "$45 to 60K retained value even if it doesn't convert"; hard numbers left as $X/$Y/$Z.</div>
+</div>
+<div class="quads" style="margin-top:var(--space-4)">
+  <div class="panel quad" style="--qc:var(--palette-bearing)"><div class="eyebrow">Why HypeLab is the control</div><h3>Register was right. It still went to zero.</h3><p>An ad-tech revenue operator pitched to an ad-network CEO who prized the ads + crypto pair. No self-promotion pivot, no wrong room. With register fixed and the founder himself as gatekeeper, <b>req_reality alone</b> produced the outcome. Price was not the common factor either: HypeLab under target, Fanatics in range.</p></div>
+  <div class="panel quad" style="--qc:var(--palette-asset)"><div class="eyebrow">The contrast that sharpens the rule</div><h3>The Jul 20 joe.arcs.care page was the same reflex. It worked.</h3><p>Pre-call artifact, framed as product to a peer instead of candidacy into a non-req. Joe's response was curiosity about commercializing ARCS and raise-or-bootstrap advice. <b>Artifacts are not the error. Pointing them at a role that does not exist is.</b> At level 1 or below, the artifact has to be the pilot or the product, never the JD.</p></div>
+</div>
+
+<div class="sec-hd"><span class="n">04</span><span class="t">Root cause · separated</span><span class="rule"></span><span class="gloss">A sufficient alone · B raised the price of a yes</span></div>
+<div class="quads">
+  <div class="panel quad" style="--qc:var(--palette-risk)"><div class="eyebrow">A · req reality · out of Zach's control</div><h3>There was no req. A recruiter cannot mint a VP function on a candidate's behalf.</h3><ul>
+    <li>Chris's post was, per CJ, a probe to <b>"see what type of response he would get."</b></li>
+    <li>The forming role was a growth-operator exec. The pitched role was a new function: <b>"A new function that doesn't exist yet."</b></li>
+    <li>Chris asked in writing for a Chase meeting, then went silent. The block was upstream of CJ.</li>
+    <li><b>Verdict:</b> sufficient on its own. No execution change turns "JD being defined" into a hire inside a Talent screen.</li></ul></div>
+  <div class="panel quad" style="--qc:var(--palette-constraint)"><div class="eyebrow">B · execution and register · in Zach's control</div><h3>"Cards hot" did not cause the no. It raised the price of a yes.</h3><ul>
+    <li><b>Wrong axis.</b> CJ conceded the AI axis in minute eight ("that's incredible"). Every further demonstration on it bought nothing. The unconceded axis was the mandate.</li>
+    <li><b>Negotiating before there was a counterparty.</b> Offers, band, process, passes. Each met with "not baked yet."</li>
+    <li><b>Self-authoring the req and the rubric</b> for the person whose job is to write them.</li>
+    <li><b>Maximal ask, no scoped fallback.</b> The Day-60 pilot was in the plan as a reward, never offered as the entry.</li>
+    <li><b>Stop-loss unexecuted. Warmth mis-scored as fit. Rule unbanked for 60 days.</b></li></ul></div>
+</div>
+
+<div class="sec-hd"><span class="n">05</span><span class="t">Three statements · eight days</span><span class="rule"></span><span class="gloss">the rule existed on Jul 13 · it reached the ledger Sep 11</span></div>
+<div class="quotes">
+  <div class="panel quote" style="--tc:var(--palette-asset)"><div class="eyebrow">Jul 13 · 12:56 PM · Hilary</div><blockquote>Let them come back and actually meet and have a meeting with would-be boss. Maybe wait a day to see if they write you.</blockquote><div class="who">from the transcript, six hours before the no</div></div>
+  <div class="panel quote" style="--tc:var(--palette-risk)"><div class="eyebrow">Jul 13 · 9:50 PM · Boardy</div><blockquote>You need an executive champion tied to a defined operating problem, not an exploratory growth-intelligence concept looking for a home. The useful takeaway is the same one we already had.</blockquote><div class="who">same night as CJ's email</div></div>
+  <div class="panel quote" style="--tc:var(--palette-bearing)"><div class="eyebrow">Jul 20 · Zach's own HypeLab recoil</div><blockquote>A persuasion artifact cannot create internal sponsorship that doesn't exist. Read the disqualifying signal and stop; gate heavy spec work on a confirmed, open req.</blockquote><div class="who">the sharpest statement of H3' in the corpus, one week after Fanatics closed</div></div>
+</div>
+<div class="lag">Three independent readers, one rule, <b>8 days</b>. Time from the first statement to the ledger: <b>60 days</b>. A post-mortem that arrives two months after the outside read is reconstruction, not witness. The fix for that is the same as the fix for the class: a gate that fires at the moment the answer lands, not a memory that hopes to be recalled.</div>
+
+<div class="sec-hd"><span class="n">06</span><span class="t">Wired</span><span class="rule"></span><span class="gloss">the cheapest mechanical check that fails the whole class</span></div>
+<div class="gate"><span class="eyebrow">scripts/req_reality_gate.py · pre-commit · stdlib</span><p>A staged candidacy SSOT must carry <b>opportunity.req_reality</b> (0 to 3) with the counterpart's words as basis, and <b>may not render y_state GREEN at level 1 or below.</b> Legacy-schema SSOTs warn, never block. Non-candidacy engagements are never gated on this. Proven fails-on-bad and passes-on-good before wiring:</p>
+<pre class="term"><span class="no">✖ req_reality_gate FAIL bad-green-rr1.json</span>   y_state GREEN with req_reality=1. No req =&gt; no GREEN.
+<span class="no">✖ req_reality_gate FAIL bad-missing.json</span>     candidacy with no opportunity.req_reality (0..3).
+<span class="ok">✓ req_reality_gate PASS good-green-rr3.json</span>  y_state=GREEN req_reality=3
+<span class="ok">✓ req_reality_gate PASS good-yellow-rr1.json</span> y_state=YELLOW req_reality=1
+<span class="wn">⚠ req_reality_gate WARN 2026-07-01-masopust.json</span>  legacy schema rendered GREEN with no req_reality (Fanatics-shaped)
+<span class="wn">⚠ req_reality_gate WARN 2026-06-25-lamontagne.json</span> legacy schema rendered GREEN with no req_reality (Fanatics-shaped)</pre></div>
+<div class="wired">
+  <div class="panel wire"><div class="eyebrow">Template</div><h4>The field exists now</h4><p><code>opportunity.engagement_type</code>, <code>req_reality</code>, <code>req_reality_basis</code> in the 6-tab war-room template, with the scale in its <code>_doc</code>.</p></div>
+  <div class="panel wire"><div class="eyebrow">/recoil-prep</div><h4>First question on the screen</h4><p>"Does this land in an existing function, or is it bespoke and still being architected?" Predicted Y-gate cannot be GREEN at level 1. Pre-committed move at level 1: pilot or product, never a JD or a comp move.</p></div>
+  <div class="panel wire"><div class="eyebrow">/recoil-close</div><h4>Re-score from the transcript</h4><p>Quote the line that sets the level. Log <code>artifacts_after_signal</code>. Warm founder threads at level 1 resolve to ghosted after four weeks of silence.</p></div>
+  <div class="panel wire"><div class="eyebrow">/forge</div><h4>No candidacy forge below level 2</h4><p>At level 1 forge the pilot or product surface instead: the scoped deliverable a champion can green-light without creating a req.</p></div>
+  <div class="panel wire"><div class="eyebrow">Ledger H3'</div><h4>2×2 cut, manufactured-role arm</h4><p><code>warm_path × req_reality</code>. Warm-path advantage is read only on the level-2-plus row. Fanatics and HypeLab booked at level 1, n=2, 0 conversions.</p></div>
+  <div class="panel wire"><div class="eyebrow">Queued · Thread 2</div><h4>Board rubric and champion dims</h4><p><code>req_reality</code> as a gate in the jobs-board bridge rubric and an on-call dim in the champion-fit heuristic. Detector: artifacts after a level-1 signal.</p></div>
+</div>
+
+<div class="sec-hd"><span class="n">07</span><span class="t">Unconfirmed</span><span class="rule"></span><span class="gloss">do not cite as fact</span></div>
+<div class="panel unconf"><ul>
+  <li>Whether the Growth+1 invite or Fan Fest passes ever reached Zach by a channel other than email. No email exists.</li>
+  <li>Whether Chris read the Jul 2 note or the Jul 15 forward. Mixmax pings confirm no reply, not non-receipt.</li>
+  <li>Whether Chris and HR ever cut the growth-leader JD after Jul 13.</li>
+</ul></div>
+
+<footer>
+  SOURCES · gmail threads 19f5db040cf63cdc, 19f5c4ac51e3babb, 19f018d834006f23, 19f237639ecb183e (pulled live 2026-09-11) · runtime/recoil/generated/2026-06-25-lamontagne.json, 2026-07-01-masopust.json, 2026-07-20-joe-kim-hypelab-serialization.json, 2026-07-22-kim-multicall.json · _STATE/job-search/postmortem-fanatics.md · hypothesis-ledger.md H3' amendments (b)(c) · scripts/req_reality_gate.py<br>
+  INTERNAL · noindex · unrouted · names are real · rendered at earned fidelity · em-dashes 0
+</footer>
+</div>
+</body>
+</html>

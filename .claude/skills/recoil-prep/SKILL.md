@@ -26,6 +26,13 @@ Into `runtime/recoil/generated/<id>.json`:
   This is what /recoil-close scores later. Do not skip it. (ADR-068: this is the mandatory
   ex-ante print; its fates are scored/unscored, and unscored is a drift receipt.)
 - Set `meta.provenance` (sources + one load-bearing prior quote if any).
+- **Candidacy only: `opportunity.req_reality` (0..3) + `req_reality_basis` (their words).** If the
+  gathered record does not settle it, the FIRST question on the call is the probe: *"does this land
+  in an existing function, or is it bespoke and still being architected?"* Then honor the answer:
+  predicted Y-gate cannot be GREEN at `req_reality <= 1`; at `<= 1` the pre-committed move is a
+  scoped pilot or a product ask, never a JD, a 30/60/90 for an unmet decision-owner, or a comp /
+  leverage / process move (there is no counterparty yet). Gate: `scripts/req_reality_gate.py`
+  (pre-commit). Class post-mortem: `_STATE/job-search/postmortem-fanatics.md`.
 
 ## Step 3 — render
 ```bash

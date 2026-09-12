@@ -126,3 +126,63 @@ first ~9 resolutions are all rejections spanning both tiers; the only applicatio
 
 **Warm-path signal (H3):** a real warm path exists and is unused in the funnel data — Yuri Kleban
 (Google) offered a direct referral (2026-09-02). H3 should be run as a deliberate forward test.
+
+### Amendment 2026-09-11 (b) — H3 precondition: warm must be INTO a real, defined, funded req (worked example: Fanatics)
+
+**Why this amendment:** H3 as registered ("warm-path applications out-convert cold") has one
+resolved warm-path case in the whole record, and it is a loss. Fanatics (Jun 24 to Jul 15, 2026):
+founder-level intro (Chris Lamontagne, who in writing asked for Zach to meet Chase) → talent screen
+passed (CJ Masopust, recoil NCI 88 GREEN) →
+"thanks but no thanks" on Jul 13, 12 days later, with a hiring-manager conversation that never
+happened. Full grounded post-mortem: `_STATE/job-search/postmortem-fanatics.md`.
+
+**What it isolates:** warmth was real and verified (intro within 4 days, Calendly within 2 hours,
+community invites). The outcome still resolved as no-convert because **there was no req**: no JD,
+no comp sign-off, no decision-owner reached. Boardy's same-night read: "liked the work but never
+found a concrete mandate that matched your shape." The fit-score and the recoil both saw the gap
+(go-bag prior "active req attached: 30%"; scenario tree gave 5% to "stalls at Talent, no open req";
+the req question was asked live and answered "being defined") and rendered SHARP anyway.
+
+**H3 refined (H3'):** *Warm-path out-converts cold ONLY when the warm path lands INTO a req with
+`req_reality >= 2`. At `req_reality <= 1`, warmth predicts goodwill and referrals, not offers, and
+must be logged as a relationship asset, not a shot.*
+
+- New required field on every warm shot: `req_reality` (0 = no JD/no owner met · 1 = verbal shape,
+  no JD or budget · 2 = JD posted or cut, budget implied · 3 = JD + budget + decision-owner met).
+- Cut for H3' becomes 2×2: `warm_path {>=1, 0}` × `req_reality {>=2, <=1}`. The H3 comparison is
+  read on the `req_reality >= 2` row only. The `<=1` row is reported separately as the
+  "manufactured-role" arm and is expected to be ~0 regardless of warmth (Fanatics n=1).
+- Decision rule addendum: if the `<=1` arm stays ~0 while the `>=2` arm shows warm ≫ cold, the lever
+  is "warm INTO real reqs" (relationship manufacturing pointed at posted mandates), NOT
+  "manufacture the role through the relationship." Pilot/contract asks are the conversion path for
+  `<=1`, tracked as a distinct outcome (`pilot`), not as an application.
+- Fanatics is booked as: `warm_path=1 · req_reality=1 · laneStatus=rejected · resolved 2026-07-13`
+  (transcript-verified 2026-09-11: Zach asked "real thing or exploratory?" on the Jul 1 screen; CJ:
+  JD being defined, "not fully baked"; CJ's Jul 13 no: "we don't have a role in mind that's the
+  right fit today")
+  in the manufactured-role arm. It stands as a standing exclusion on the champion shortlist for the
+  same reason (no req to target), with the door warm.
+
+**Not changed:** the pre-registered H3 text, metric, and min_n stay as written; this block adds the
+gate and the field. Read gate unchanged: no verdict before n ≥ 20 resolved warm shots, and the
+`>=2` row needs its own n.
+
+### Amendment 2026-09-11 (c) — HypeLab booked as the second manufactured-role case (H3')
+
+Same skeleton as Fanatics, verified against the two Joe Kim recoil SSOTs and the Oct 2025 sent
+mail (details in `_STATE/job-search/postmortem-fanatics.md`, "Isomorphism: HypeLab"). Warm founder
+entry (Joe Kim, CEO, via Brian Wong) → role "purely opportunistic, not something I've pitched I
+needed" (Oct 21) → GTM role disclosed as already filled (Oct 21, reconfirmed by Ed Oct 29) → deck +
+survey + Day-1 self-pitch sent anyway → co-founder gate never cleared → nine months of silence →
+Jul 2026 reconnect as peer, not candidate.
+
+- Booked: `warm_path=1 · req_reality=1 (effectively 0 after Oct 21) · laneStatus=ghosted ·
+  resolved ~2026-01 (the Jan 1 FTE date lapsing)`. Manufactured-role arm now **n=2, 0 conversions.**
+- HypeLab is the control for H3': register was correct (ad-tech operator to an ad-network CEO) and
+  the gatekeeper was the founder himself, so neither register nor recruiter layer explains the
+  outcome. `req_reality <= 1` does.
+- Resolution rule for warm founder threads at `req_reality <= 1`: silence past ~4 weeks with no
+  owner-side action = `ghosted`, not `applied`. Do not carry these as open.
+- Detector (for the bridge rubric): number of artifacts sent AFTER a `req_reality <= 1` signal.
+  Fanatics 4, HypeLab 3. Any nonzero count is the pattern firing; the correct nonzero artifact is
+  a pilot or a product, never a JD.
