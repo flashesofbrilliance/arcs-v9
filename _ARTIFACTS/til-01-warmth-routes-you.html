@@ -9,6 +9,7 @@ file. Blocks: mast · cold-open · wager (new) · movement · beats(06) · twin(
 badge (new) · instrument (new) · pull-quote · old-story · rule(09) · tributaries (new) · thread (new,
 back+forward) · sources. Dictionary rule: no ARCS vocabulary in rendered copy.
 KINTSUGI SEAMS (ROM #6: repair visibly, never patch silently). Break -> repair -> guard:
+  10 cold open: blurred standfirst that sharpened on scroll, with a tiny caps byline under it, read as a rendering fault (Zach) -> blur and byline removed; earned fidelity is expressed in the beats, provenance in the footer -> ledger
   1 ten small mono labels at 2.5 to 4.3:1 contrast -> --label token (6.1:1) -> design detector in pre-commit
   2 eyebrow label above the h1 (floor ban) -> removed; the heading carries itself -> detector
   3 zero-offset cyan glow on the topbar dot -> removed -> detector
@@ -101,9 +102,7 @@ p { max-width:var(--measure); text-wrap:pretty; } h1,h2,h3 { text-wrap:balance; 
 .badge.power { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
 h1 { font-family:var(--font-serif); font-weight:500; font-size:clamp(34px,6vw,54px); line-height:1.02; letter-spacing:-.02em; color:var(--text-reading); }
 h1 em { font-style:italic; color:var(--cyan); }
-.standfirst { max-width:none; font-size:20px; line-height:1.45; font-style:italic; color:var(--muted-reading); transition:opacity .2s, filter .2s; }
-.standfirst.grain { opacity:.72; filter:blur(.6px); font-weight:400; }
-.byline { font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; max-width:none; }
+.standfirst { max-width:none; font-size:21px; line-height:1.45; font-style:italic; color:var(--muted-reading); margin-top:14px; }
 
 /* movements */
 section h2 { font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:12px; }
@@ -197,7 +196,7 @@ h2.section-label { font-family:var(--font-mono); font-size:11.5px; font-weight:6
 .result .k { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:6px; }
 footer .seam { color:var(--gold); display:block; margin-bottom:10px; }
 footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em; line-height:1.75; color:var(--label); }
-@media (prefers-reduced-motion: reduce){ .standfirst,.beat-item,.twin-cell{transition:none} }
+@media (prefers-reduced-motion: reduce){ .beat-item,.twin-cell{transition:none} }
 </style>
 </head>
 <body>
@@ -209,8 +208,7 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
 
 <div>
   <h1>Warmth <em>routes</em> you.<br>Only a job hires you.</h1>
-  <p class="standfirst grain" id="standfirst">Today I learned that two robots can set up a meeting and nobody in it can have a job. The boss's robot posted a puzzle. My robot solved it. Two weeks later the nicest person at the company wrote to say no thank you. Nobody lied. There was just no job, and every tool I own had told me that, and I colored the whole thing green anyway.</p>
-  <p class="byline">Names withheld, roles kept · no money figures · every quote verbatim from my own mail and call notes</p>
+  <p class="standfirst" id="standfirst">Today I learned that two robots can set up a meeting and nobody in it can have a job. The boss's robot posted a puzzle. My robot solved it. Two weeks later the nicest person at the company wrote to say no thank you. Nobody lied. There was just no job, and every tool I own had told me that, and I colored the whole thing green anyway.</p>
 </div>
 </header>
 
@@ -321,16 +319,12 @@ footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(-
   <div class="t fwd"><span class="k">Forward · Ep 02</span>I Copied the Copy: I built the same page twice in one day, and the first one passed every test I had. That's a fact about the tests.</div>
 </div>
 
-<footer><span class="seam">Repaired before shipping, and kept on the record: ten labels too dim to read, a label sitting on top of the title, a glow, a third typeface, three cards that did not need to be cards, a line said twice, a list that fell apart one word per line, and forty labels a size too small to read. Eight seams. The record of each is in the source.</span><br>Built only from my own inbox and call notes. Names withheld; roles kept. No money figures. Every quote is verbatim. The other case, the founder the year before, is told in the count and not by name. Not advice about your job search. A story with a spreadsheet.</footer>
+<footer><span class="seam">Repaired before shipping, and kept on the record: ten labels too dim to read, a label sitting on top of the title, a glow, a third typeface, three cards that did not need to be cards, a line said twice, a list that fell apart one word per line, forty labels a size too small to read, and an opening paragraph blurred on purpose that looked blurred by accident. Nine seams. The record of each is in the source.</span><br>Built only from my own inbox and call notes. Names withheld; roles kept. No money figures. Every quote is verbatim. The other case, the founder the year before, is told in the count and not by name. Not advice about your job search. A story with a spreadsheet.</footer>
 </main>
 
 <script>
 (function(){
   var ls={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-  // cold open sharpens on scroll (readable at rest)
-  var sf=document.getElementById('standfirst');
-  function sharpen(){ if(window.scrollY>160){sf.classList.remove('grain')} else {sf.classList.add('grain')} }
-  window.addEventListener('scroll',sharpen,{passive:true}); sharpen();
   // wager
   var sure=document.getElementById('sure'), sureVal=document.getElementById('sureVal'), stored=document.getElementById('stored');
   sure.addEventListener('input',function(){sureVal.textContent=sure.value+'%'});
