@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# recoil-report - self-contained runner for the ARCS recoil-report CLI.
+# ------------------------------------------------------------------
+# Zero third-party deps: pure python3 stdlib. Needs ONLY python3.
+# Bundled resources travel with the package: schema/, sample/.
+#
+# Install (optional, put on PATH):
+#   ln -s "$(pwd)/tools/recoil-report/recoil-report" /usr/local/bin/recoil-report
+#
+# Usage:
+#   recoil-report segments 28
+#   recoil-report validate runtime/recoil/generated/2026-07-31-shannon.json
+#   recoil-report new 2026-08-01-smith --set meta.callTitle="Smith x Zach"
+#   recoil-report new 2026-08-01-smith --out -                  # scaffold to stdout
+#   recoil-report render runtime/recoil/generated/2026-07-31-shannon.json --out /tmp/shannon.html
+#   recoil-report render <json> --set cover.nci=72 --out -      # pass-through override
+#
+# Env:
+#   PYTHON=/path/to/python3   override the interpreter
+# ------------------------------------------------------------------
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PY="${PYTHON:-python3}"
+
+if ! command -v "$PY" >/dev/null 2>&1; then
+  echo "recoil-report: python3 not found. Install it (e.g. 'brew install python') or set PYTHON=..." >&2
+  exit 127
+fi
+
+if [ "$#" -eq 0 ]; then
+  sed -n '2,27p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  exit 0
+fi
+
+exec "$PY" "$HERE/recoil_report.py" "$@"
