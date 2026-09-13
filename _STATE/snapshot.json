@@ -2,10 +2,14 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "57b952f",
-    "head_message": "fix(resume): render overview in TrueNorthPanel bezel card, not plain text",
+    "head_sha": "609b58a",
+    "head_message": "docs(handoff): recover missing v3.4.0 section (PRL Resins proposal) [NCI:SKIP]",
     "in_sync_with_origin": false,
-    "dirty_files": []
+    "dirty_files": [
+      ".claude/settings.json",
+      "_STATE/snapshot.json",
+      "public/danny.html"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -143,5 +147,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-15T21:56:40Z"
+  "git_refreshed_at": "2026-07-16T12:16:38Z"
 }

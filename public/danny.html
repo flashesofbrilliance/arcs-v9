@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Danny Quick / Kiko — ARCS Pre-Call Brief</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 100px; }
+.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.card-body { padding: 18px 20px; }
+
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* SCROLL-SPY NAV */
+.jump-nav { position: sticky; top: 12px; z-index: 50; display: flex; gap: 6px; background: rgba(13,17,23,0.85); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 6px; overflow-x: auto; }
+.jump-link { flex: 1; text-align: center; white-space: nowrap; padding: 9px 10px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); text-decoration: none; border-radius: var(--r-md); transition: color 0.15s, background 0.15s; }
+.jump-link.active { color: var(--cyan); background: rgba(0,240,255,0.08); }
+
+.section-anchor { scroll-margin-top: 70px; }
+.section-title { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 2px; }
+.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+.conf-rows, .intel-rows, .q-rows, .verdict-rows, .next-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 90px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.conf-val strong { font-weight: 600; }
+.conf-val a { color: var(--cyan); }
+
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+.q-tag { display:inline-block; font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; border: 1px solid rgba(0,240,255,0.35); color: var(--cyan); margin-left: 8px; vertical-align: 2px; }
+
+.verdict-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.verdict-row:last-child { border-bottom: none; }
+.verdict-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.verdict-body { flex: 1; }
+.verdict-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.verdict-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.verdict-text strong { color: var(--text); font-weight: 600; }
+
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 56px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 20px; }
+.pill { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: flex-start; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+
+.footer-note { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--dimmed); padding-top: 12px; }
+
+/* PASSWORD GATE */
+#pw-gate { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px; outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn { background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md); color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s; }
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 640px) {
+  body { padding: 28px 16px 60px; }
+  .conf-key { width: 74px; }
+  .next-owner { width: 46px; }
+  .jump-nav { gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
+  <div class="pw-title">Danny Quick / Kiko</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+
+<script>
+if (sessionStorage.getItem('danny-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'quick') {
+    sessionStorage.setItem('danny-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPw(); });
+</script>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">Pre-Call Brief · Kiko</div>
+    <div class="masthead-name">Danny Quick</div>
+    <div class="masthead-sub">Founder, Kiko Creators · meetkiko.com</div>
+  </div>
+
+  <div class="rule-glow"></div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 16, 2026 · PRE-CALL</div>
+
+  <nav class="jump-nav" id="jump-nav">
+    <a class="jump-link" href="#briefing">Briefing</a>
+    <a class="jump-link" href="#teardown">Teardown</a>
+    <a class="jump-link" href="#scan">Tech Scan</a>
+    <a class="jump-link" href="#audit">Stated vs Revealed</a>
+    <a class="jump-link" href="#agenda">Agenda</a>
+  </nav>
+
+  <div class="notice">
+    <div class="notice-icon">&#9888;</div>
+    <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD. This brief is a pre-call working document — no transcript exists yet. Bio facts below are sourced directly from Danny's exported LinkedIn profile (verified 2026-07-15) and a live technical scan of meetkiko.com (2026-07-16). Earlier drafts of this brief cited an unrelated "Stacks/Snacks" press mention that does not appear on his actual LinkedIn — <strong style="color:var(--red)">retracted below</strong>, not repeated.</div>
+  </div>
+
+  <!-- ============ BRIEFING ============ -->
+  <section id="briefing" class="section-anchor">
+    <div class="section-title">Who You're Talking To</div>
+    <div class="section-sub">Danny Quick — operator background, second act, building in public</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Track Record — per LinkedIn, verified 2026-07-15</div></div>
+    <div class="conf-rows">
+      <div class="conf-row"><div class="conf-key">Now (1)</div><div class="conf-val"><strong>Founder, Kiko Creators</strong> — Apr 2026–present (4 months, brand-new). "Distribution is the only moat. Kiko turns creators into your most valuable growth channel." Note: title is <strong>Founder</strong>, not CEO/Co-Founder as earlier drafted.</div></div>
+      <div class="conf-row"><div class="conf-key">Now (2)</div><div class="conf-val"><strong>Principal, H2O Studios</strong> — Jan 2025–present (1yr 7mo), concurrent with Kiko. "A growth studio for founders making a dent — building Agents around the GTM playbooks that win." He is running two ventures simultaneously right now — same shape as the LaBella multi-venture pattern.</div></div>
+      <div class="conf-row"><div class="conf-key">Before</div><div class="conf-val"><strong>CEO &amp; Co-Founder, Galaxy</strong> (Shop Galaxy) — Jul 2019–Jun 2024, 5 years. Fashion resale marketplace, backed by <strong>Floodgate, Homebrew, Maveron, Banana Capital, Snapchat, RGH Capital</strong> and others. This is his one prior venture with real institutional backing and a 5-year run — the anchor credential, not Kiko.</div></div>
+      <div class="conf-row"><div class="conf-key">Before that</div><div class="conf-val"><strong>Head of Product, Parkwood Entertainment</strong> (Beyoncé's company) — May 2017–Jun 2019.</div></div>
+      <div class="conf-row"><div class="conf-key">Earlier</div><div class="conf-val">PM at The Fancy (2016–17); Head of Product &amp; Growth at Disruptive Multimedia / <strong>SuperPhone</strong> (2014–16) — an artist-to-fan/audience texting product. This is where the "artist SMS tool" origin story actually belongs, not a separate "Stacks" venture.</div></div>
+      <div class="conf-row"><div class="conf-key">Education</div><div class="conf-val">Temple University (Film + Media) · NYU Bootcamp (Computer Science) · General Assembly (Data Analytics) — a builder who picked up CS and data skills after a media degree, not a CS-first founder.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">What the Resume Shape Says</div></div>
+    <div class="card-body" style="font-size:13px;color:var(--text);line-height:1.6;">
+      Kiko Creators is <strong>4 months old</strong> and he's running it alongside a second active venture (H2O Studios) that predates it by a year. His one venture with real institutional capital (Floodgate, Homebrew, Maveron, Snapchat) and a multi-year run is Galaxy/Shop Galaxy, not Kiko — and that one ended in mid-2024, roughly 22 months before Kiko started. Read together: this is early innings for Kiko specifically, run by someone with one real "scaled and sustained a company" data point, currently splitting attention across two active things. Worth listening for whether Kiko is the primary bet or one of two parallel bets.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Kiko — What It Is</div></div>
+    <div class="conf-rows">
+      <div class="conf-row"><div class="conf-key">Positioning</div><div class="conf-val">"THE OLD PLAYBOOK STOPPED WORKING / EVERY COMPANY IS SHOUTING, NOBODY'S LISTENING / TRUST IS THE NEW DISTRIBUTION." Sells against paid-ad fatigue, pitches creator trust as the new distribution channel.</div></div>
+      <div class="conf-row"><div class="conf-key">Product 1</div><div class="conf-val"><strong>Creator Sourcing</strong> — AI-driven outreach across YouTube/TikTok/IG at scale ("we talk to thousands of creators on your behalf"), delivering a living, pre-vetted, pre-negotiated shortlist ranked by real performance data. From $200/mo.</div></div>
+      <div class="conf-row"><div class="conf-key">Product 2</div><div class="conf-val"><strong>Viral Intelligence</strong> — weekly "Viral Brief" identifying outlier videos/posts and why they won; Short-Form Analysis from $100/mo, first report free.</div></div>
+      <div class="conf-row"><div class="conf-key">Product 3</div><div class="conf-val"><strong>Growth Partner</strong> — fractional, full-stack execution ("not an agency, just outcomes") running the entire creator-growth engine end to end: creators, UGC, paid, clipping, influencers.</div></div>
+      <div class="conf-row"><div class="conf-key">Proof claim</div><div class="conf-val">"Team has built and scaled creator marketing programs to $100M+." Human-in-the-loop claim: "our team in NYC and LA review and approve every AI interaction."</div></div>
+      <div class="conf-row"><div class="conf-key">GTM motion</div><div class="conf-val">27-entry public comparison hub ("Kiko vs Everybody") pitting Kiko against named competitors (e.g. HypeAudience) — an SEO/category-capture play, not just a features page.</div></div>
+      <div class="conf-row"><div class="conf-key">Funding</div><div class="conf-val" style="color:var(--gold)">UNCONFIRMED. Public funding databases return an unrelated Indian company also named "Kiko" (quick-commerce, SOSV-backed) — do not cite that data as Danny's company. No verified funding figure found for meetkiko.com. Ask directly if relevant.</div></div>
+    </div>
+  </div>
+
+  <!-- ============ TEARDOWN ============ -->
+  <section id="teardown" class="section-anchor">
+    <div class="section-title">meetkiko.com — Teardown</div>
+    <div class="section-sub">Read as a GTM/decision artifact, not a design critique — same discipline as the Evidiam teardown</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">What's Working</div></div>
+    <div class="intel-rows">
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text"><strong>A real enemy, named early.</strong> "Every company is shouting, nobody's listening / trust is the new distribution" gives the visitor a villain (paid ads, spray-and-pray) before it pitches the product. That's a positioning move most B2B SaaS sites skip.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text"><strong>Three products, three buying temperatures.</strong> Sourcing ($200/mo self-serve) → Intelligence ($100/mo, first free) → Growth Partner (fractional, sales-led). That's a real low-to-high-commitment ladder, not one undifferentiated offer.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text"><strong>The comparison hub is a distribution asset.</strong> 27 named head-to-heads is a deliberate SEO/category-ownership bet — visitors searching "[competitor] alternative" land directly on Kiko's framing of the category.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text"><strong>Live data as trust signal.</strong> The creator-rolodex module shows a named creator (Alex Chen), vetted status, real metrics (4.2M avg views, $4.20 CPM, 34% outlier rate, $600 rate) — concrete numbers beat generic "AI-powered" claims.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">What to Probe</div></div>
+    <div class="intel-rows">
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>ICP is implicit, never stated.</strong> Nowhere on the page does it say who Kiko is for — brand size, category, budget range. A DTC founder and a Fortune 500 CMO would both read this page and not know if they're the target. Worth asking: who converts today, and who bounces?</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>Three products, one page, no default path.</strong> A first-time visitor has to choose between Sourcing / Intelligence / Growth Partner with almost no guidance on which one matches their stage. That's a real decision-architecture problem — ARCS-adjacent, not cosmetic.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>"$100M+ scaled" is unattributed.</strong> No named brands, no case study, no logo wall visible in the crawled copy. For a page whose entire thesis is "trust is the new distribution," the site's own trust signals are thin relative to the claim.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>Pricing is a floor, not a plan.</strong> "$200/mo" and "$100/mo" read as anchors/teasers rather than real self-serve checkout — worth confirming whether anyone actually signs up at that price without a sales call, or if it's lead-gen theater.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--red)"></div><div class="intel-text"><strong>"AI does outreach + negotiation" is the highest-liability claim on the page.</strong> Automated negotiation and contracting with third-party creators is where brand-safety and legal exposure concentrate — exactly the kind of claim Steve LaBella's playbook says gets discounted as "just a website" but is actually a business-decision fork: how much of "negotiation" is actually AI vs. human-reviewed before it's binding?</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">The Fork Underneath the Site</div></div>
+    <div class="card-body" style="font-size:13px;color:var(--text);line-height:1.6;">
+      Kiko is selling three different companies stapled together: a data/API tool (Sourcing), a content/insights subscription (Intelligence), and a service business (Growth Partner). Each has a different sales cycle, different margin structure, and different scaling ceiling. The site doesn't say which one is the actual growth engine for Kiko itself — the one they're pouring GTM energy into — versus which ones are wedge/trust-builder offers. <strong>That's the real pre-call question, not the pixel-level copy.</strong>
+    </div>
+  </div>
+
+  <!-- ============ TECHNICAL SCAN ============ -->
+  <section id="scan" class="section-anchor">
+    <div class="section-title">ARCS Technical Scan — meetkiko.com</div>
+    <div class="section-sub">Live probe of the production site, 2026-07-16 — response headers, rendering, SEO surface. Same method as the Fractional.City teardown, lighter pass.</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Findings</div></div>
+    <div class="intel-rows">
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text"><strong>Server-rendered and AI/crawler-legible — the opposite of Fractional's problem.</strong> Real Next.js SSR: correct <code>&lt;title&gt;</code>, a real meta description ("Buy trust, not just attention. Creator growth infrastructure built for scale."), OG title/description/image all populated. <code>/robots.txt</code> and <code>/sitemap.xml</code> both resolve 200. Google, ChatGPT, and Perplexity all get real content when they crawl this — a genuine strength worth naming out loud on the call.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>No Content-Security-Policy or X-Frame-Options / frame-ancestors header.</strong> The response headers show <code>x-content-type-options: nosniff</code> and a real <code>referrer-policy</code>, but no CSP and no clickjacking protection — the page can currently be iframed by any third-party site. Low urgency for a marketing page with no login form, but worth a mention since it's a 10-minute Cloudflare-rules fix (same "small, cheap, worth doing" register as the Firestore fix flagged for Daniel).</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>Wildcard CORS (<code>access-control-allow-origin: *</code>) on the HTML document itself.</strong> Unusual — that header normally belongs on an API response, not a rendered page. Harmless today since the page holds no session/auth state, but it's a sign the Cloudflare/hosting config was copied from an API route rather than tuned per-route.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text"><strong>Zero HTML forms on the homepage.</strong> No signup form found anywhere in the rendered DOM — confirms the teardown's "pricing is a floor, not a plan" read from a different angle. The $200/mo and $100/mo self-serve prices aren't wired to an actual checkout on this page; every path is a CTA into something off-page (GET STARTED / SEE THE DATA / GET HANDPICKED CREATORS). Good Q1 corroboration: if self-serve isn't even buildable from the homepage yet, Growth Partner (sales-led) is very likely the real revenue engine today.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--cyan)"></div><div class="intel-text"><strong>Clean console, no JS errors on load.</strong> No broken client-side state, no failed critical requests (one aborted duplicate video preload, non-issue). Site is technically well-built for its age — consistent with an experienced product operator building it, not an outsourced template.</div></div>
+    </div>
+  </div>
+
+  <!-- ============ STATED VS REVEALED ============ -->
+  <section id="audit" class="section-anchor">
+    <div class="section-title">Stated vs. Revealed Audit — Run This Live</div>
+    <div class="section-sub">Same protocol as the Daniel Crabtree call. Ask the stated-preference question, then listen for what his actual behavior/spend/roadmap reveals against it.</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Question Bank</div></div>
+    <div class="q-rows">
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">1</div><div class="q-text">"Which of the three products — Sourcing, Intelligence, Growth Partner — is actually driving revenue today?"<span class="q-tag">STATED VS REVEALED</span></div></div>
+        <div class="q-look">LISTEN FOR: does the answer match what the homepage emphasizes first (Creator Sourcing)? If Growth Partner (the highest-touch, least scalable offer) is actually the revenue engine, the self-serve products are lead-gen theater, not real product lines — changes what "product" conversation is even worth having.</div>
+      </div>
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">2</div><div class="q-text">"Who's your best customer right now — what size company, what category?"<span class="q-tag">ICP TEST</span></div></div>
+        <div class="q-look">LISTEN FOR: a fast, specific answer (name/category/size) = real ICP clarity he just hasn't written down. A vague or shifting answer ("honestly kind of everyone") = the site's missing ICP isn't a copy gap, it's a strategy gap.</div>
+      </div>
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">3</div><div class="q-text">"How much of 'negotiation' and 'contracts' is actually AI-executed vs. human-reviewed before it's binding?"<span class="q-tag">RISK PROBE</span></div></div>
+        <div class="q-look">LISTEN FOR: precise operational detail (a named review step, a person's role) = mature ops. Hand-waving toward "the team reviews everything" without specifics = the highest-liability page claim may be aspirational, not shipped.</div>
+      </div>
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">4</div><div class="q-text">"What did you build this week that you're most excited about?"<span class="q-tag">VELOCITY READ</span></div></div>
+        <div class="q-look">LISTEN FOR: this is the LaBella-pattern question that surfaced real signal last time ("we built that this week" re: compliance review). If Danny answers with a feature, not a GTM/sales motion, product velocity is outpacing distribution — same shape as Steve's Tallin situation. If he answers with a GTM experiment instead, the constraint has already shifted to distribution and he knows it.</div>
+      </div>
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">5</div><div class="q-text">"What's the thing on the roadmap you're NOT prioritizing right now, even though people ask for it?"<span class="q-tag">DEFERRAL MAP</span></div></div>
+        <div class="q-look">LISTEN FOR: this maps directly onto the site's missing pieces — case studies, named ICP, self-serve checkout depth. If those show up unprompted as "yeah, we know, just haven't gotten to it," that confirms the teardown findings are real gaps, not intentional restraint.</div>
+      </div>
+      <div class="q-row">
+        <div class="q-top"><div class="q-n">6</div><div class="q-text">"If I sent you one customer tomorrow, what size deal would make you drop everything?"<span class="q-tag">STAKES CALIBRATION</span></div></div>
+        <div class="q-look">LISTEN FOR: a fast, concrete dollar or logo answer = he's fundraising/revenue-pressured and knows his number. Deflection or "any customer helps" = earlier stage than the site's confident copy implies, or he doesn't want to reveal the number to a near-stranger yet (also a signal).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Reading the Gaps — Pattern From Prior Calls</div></div>
+    <div class="verdict-rows">
+      <div class="verdict-row">
+        <div class="verdict-badge" style="border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);color:var(--green)">CONFIRMS</div>
+        <div class="verdict-body"><div class="verdict-label">Stated priority = revealed priority</div><div class="verdict-text">If the product he's proudest of this week is also the one driving actual revenue and matches the homepage's lead offer — high coherence, low FORK risk. Treat his stated roadmap as reliable going forward.</div></div>
+      </div>
+      <div class="verdict-row">
+        <div class="verdict-badge" style="border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);color:var(--gold)">WATCH</div>
+        <div class="verdict-body"><div class="verdict-label">Product-velocity / distribution mismatch</div><div class="verdict-text">Like Steve LaBella's "we built that this week" pattern — if Danny lights up about shipping speed but goes vague on GTM/ICP, the constraint isn't product, it's distribution. Any engagement pitch should target the fork he's actually stuck on, not the one the site copy implies.</div></div>
+      </div>
+      <div class="verdict-row">
+        <div class="verdict-badge" style="border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);color:var(--red)">RED FLAG</div>
+        <div class="verdict-body"><div class="verdict-label">Liability claim without operational backing</div><div class="verdict-text">If Q3 (AI negotiation/contracts) gets a hand-wave instead of a specific review step, the site is overclaiming on the exact surface — automated deal-making with third parties — where overclaiming is costliest. Don't let this pass unprobed even if the call is warm.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ AGENDA ============ -->
+  <section id="agenda" class="section-anchor">
+    <div class="section-title">Proposed Agenda</div>
+    <div class="section-sub">~30 min, same shape as the LaBella call structure</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Call Flow</div></div>
+    <div class="next-rows">
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">0–5</div><div class="next-text">Catch-up / rapport. Let Danny set his own agenda first, same as LaBella did — note where it diverges from this brief, that divergence is itself signal.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">5–10</div><div class="next-text">Kiko state-of-the-union in his words — what's working, what he's proud of this week (Question 4).</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">10–18</div><div class="next-text">Run the stated-vs-revealed question bank (1–3, 5) conversationally, not as an interview script — let answers reorder the sequence.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">18–24</div><div class="next-text">Surface the teardown findings as business-decision framing (ICP clarity, product-ladder sequencing, the AI-negotiation risk surface) — never as "your website" feedback. Frame per the LaBella lesson: he'll discount pure site critique.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">24–30</div><div class="next-text">Name the fork explicitly (stakes calibration, Question 6) and land on one concrete next step — an intro, a follow-up artifact, or a scoped ask. Nothing vague on the calendar.</div></div>
+    </div>
+  </div>
+
+  <div class="stop-loss">
+    <div class="sl-label">STOP-LOSS</div>
+    <div class="sl-text">If Danny frames this as "just get me creator intros / investor intros" within the first 10 minutes (LaBella pattern), don't force a product conversation — pivot to network-exchange mode and let the stated-vs-revealed read happen passively across the rest of the call instead of by direct question.</div>
+  </div>
+
+  <div class="footer-note">ARCS · Private Brief · Generated 2026-07-15 for the 2026-07-16 call</div>
+
+</div>
+
+<script>
+(function() {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.jump-link'));
+  var sections = links.map(function(l) { return document.querySelector(l.getAttribute('href')); });
+  function onScroll() {
+    var pos = window.scrollY + 100;
+    var activeIdx = 0;
+    sections.forEach(function(s, i) { if (s && s.offsetTop <= pos) activeIdx = i; });
+    links.forEach(function(l, i) { l.classList.toggle('active', i === activeIdx); });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
