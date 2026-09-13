@@ -3,16 +3,12 @@
   "repo": "flashesofbrilliance/arcs-v9",
   "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md \u2014 GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "22781915",
-    "head_message": "feat(blog): posts 2-4 in the literary theme + mobile scroll/footer lock on all NFTT pages [NCI:SKIP]",
-    "in_sync_with_origin": false,
+    "head_sha": "47c572a1",
+    "head_message": "docs(plan): lock the Reading Room build plan v1 (spine first, tenants cheap) + CBA ledger [NCI:SKIP] (#278)",
+    "in_sync_with_origin": true,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/snapshot.json",
-      "public/blog-nftt-take-home-trap-full.html",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/blog/take-home-trap.linkedin.md"
+      "_INBOX/seedbank-drift.jsonl"
     ]
   },
   "vercel": {
@@ -202,7 +198,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-09-03T02:03:00Z",
+  "git_refreshed_at": "2026-09-04T18:50:50Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
