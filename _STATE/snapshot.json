@@ -2,11 +2,13 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "325d21e",
-    "head_message": "chore(seeds): Phase-2 Tier-B applied (7 repos live) + mint rosetta-shell seed [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "c1b21d8",
+    "head_message": "canon(ADR-062): the ouroboros \u2014 a falsifier is only honest if it turns on itself [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "_INBOX/lattice-drift.jsonl"
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -185,7 +187,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-13T18:34:26Z",
+  "git_refreshed_at": "2026-08-17T13:16:23Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
