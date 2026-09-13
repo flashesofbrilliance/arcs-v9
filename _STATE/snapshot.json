@@ -1,15 +1,14 @@
 {
   "captured_at": "2026-08-27T00:29:09-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
-  "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md — GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
+  "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md \u2014 GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "2cf1e4cf",
-    "head_message": "art: The Field \u2014 the session visualized as a magnetic dipole [NCI:SKIP]",
+    "head_sha": "15ea2440",
+    "head_message": "chore(state): bump ADR stat 66->67 for parallel ADR landing [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/witness/2026-08-28.jsonl",
       "runtime/specs/knowledge-lattice-v1.json"
     ]
   },
@@ -200,7 +199,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-29T03:15:10Z",
+  "git_refreshed_at": "2026-08-29T04:24:14Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
