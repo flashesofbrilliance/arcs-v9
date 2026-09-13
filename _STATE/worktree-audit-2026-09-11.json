@@ -817,7 +817,15 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "UNMERGED-stale"
+   "classification": "UNMERGED-stale",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "pass": 2,
+    "bundle": "~/arcs-worktree-bundles/decision-geometry-logo-81fb56.bundle",
+    "tip": "eabee6f4",
+    "landed_via": "#413 (ADR-080/081/041)",
+    "ancestor_of_main": true
+   }
   },
   {
    "worktree": "nervous-babbage-fae433",
@@ -981,7 +989,15 @@
    "dirty_files": [
     "claude/launch.json"
    ],
-   "classification": "UNMERGED-stale"
+   "classification": "UNMERGED-stale",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "pass": 2,
+    "bundle": "~/arcs-worktree-bundles/elastic-rubin-f22a6e.bundle",
+    "tip": "7744f565",
+    "landed_via": "#410 (ADR-079); uncommitted .claude/launch.json (3 arcs-mini launch entries) saved as elastic-rubin-f22a6e.uncommitted.patch",
+    "ancestor_of_main": true
+   }
   },
   {
    "worktree": "vp-data-ops-interview-prep-658fe3",
@@ -1176,7 +1192,15 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "UNMERGED-stale"
+   "classification": "UNMERGED-stale",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "pass": 2,
+    "bundle": "~/arcs-worktree-bundles/token-consumption-improvement-6ba854.bundle",
+    "tip": "6a8010ad",
+    "landed_via": "#409 (ADR-078)",
+    "ancestor_of_main": true
+   }
   },
   {
    "worktree": "happy-shamir-1c8b30",
@@ -1400,6 +1424,19 @@
    ],
    "manifest": "~/arcs-worktree-bundles/MANIFEST-2026-09-13.tsv",
    "receipt": "2026-09-13--prune-merged-worktrees-bundle-first--ZH"
+  },
+  {
+   "date": "2026-09-13",
+   "event": "pass 2: the 3 original ADR-collision hold worktrees",
+   "worktrees_before": 62,
+   "worktrees_after": 59,
+   "removed": [
+    "token-consumption-improvement-6ba854",
+    "elastic-rubin-f22a6e",
+    "decision-geometry-logo-81fb56"
+   ],
+   "verification": "each hold branch tip is an ancestor of origin/main (the renumbered branches were cut from these tips and merged); git cherry real=0; work-file diff vs main empty",
+   "receipt": "2026-09-13--prune-hold-worktrees-pass2--ZH"
   }
  ]
 }

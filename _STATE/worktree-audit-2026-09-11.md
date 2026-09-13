@@ -178,3 +178,19 @@ The audit is a snapshot; two "prunable" trees became active within 48 hours. Re-
 time, never prune from a stored classification. Remaining for a per-branch keep/land/drop call:
 33 UNMERGED-stale + 8 GHOST-history + the 3 original hold worktrees (their work is on main via
 #409/#410/#413; they are now candidates for the next prune pass).
+
+### Pass 2 (same day) — the 3 original ADR-collision hold worktrees removed. Worktrees **62 → 59**
+
+Verified at action time: each hold-branch tip is an **ancestor of `origin/main`** (the renumbered
+branches were cut from these exact tips and merged via #409/#410/#413), `git cherry` real=0, and the
+work-file diff against main is empty. Bundled + verified before removal; branch refs kept.
+Receipt: `2026-09-13--prune-hold-worktrees-pass2--ZH`.
+
+| worktree | branch | tip | landed via |
+|---|---|---|---|
+| token-consumption-improvement-6ba854 | `claude/harness-build-optimization-f52489` | 6a8010ad | #409 (ADR-078) |
+| elastic-rubin-f22a6e | `claude/elastic-rubin-f22a6e` | 7744f565 | #410 (ADR-079); uncommitted .claude/launch.json (3 arcs-mini launch entries) saved as elastic-rubin-f22a6e.uncommitted.patch |
+| decision-geometry-logo-81fb56 | `claude/decision-geometry-logo-81fb56` | eabee6f4 | #413 (ADR-080/081/041) |
+
+PENDING.md "Worktree hold branches" note ("Do NOT remove these worktrees — they are the only copy
+of the work") is now moot: the work is on main and in the bundles.
