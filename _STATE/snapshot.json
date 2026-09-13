@@ -2,11 +2,12 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "35fc2e7",
-    "head_message": "fix(governance): pay down false-claim debt \u2014 remove Tailwind, align docs/CI to reality [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "e30d745",
+    "head_message": "chore(adr): add read-only dry-run sync script for _DECISIONS/index.json",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "_STATE/snapshot.json"
+      "_STATE/snapshot.json",
+      "src/app/api/annotations/link-search/route.ts"
     ]
   },
   "vercel": {
@@ -145,5 +146,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-12T13:25:15Z"
+  "git_refreshed_at": "2026-07-14T16:11:58Z"
 }

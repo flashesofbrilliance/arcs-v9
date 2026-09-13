@@ -7,11 +7,23 @@ import path from "path"
 export const dynamic = "force-dynamic"
 
 // ADR index — read once at module load from _DECISIONS/ directory
+//
+// _DECISIONS/ holds real ADRs alongside two non-decision doc types that
+// share the directory for convenience: _TEMPLATE.md (the scaffold new ADRs
+// are copied from) and RECOIL-REPORT-*.md (call recoil reports). Neither is
+// a decision record, so neither should surface as type ADR in link-search.
+function isRealAdrFile(filename: string): boolean {
+  if (!filename.endsWith(".md")) return false
+  if (filename === "_TEMPLATE.md") return false
+  if (/^RECOIL-REPORT-/.test(filename)) return false
+  return true
+}
+
 function getAdrList(): Array<{ id: string; label: string }> {
   try {
     const dir = path.join(process.cwd(), "_DECISIONS")
     return fs.readdirSync(dir)
-      .filter((f) => f.endsWith(".md"))
+      .filter(isRealAdrFile)
       .map((f) => ({
         id: f,
         label: f.replace(/\.md$/, "").replace(/-/g, " "),
