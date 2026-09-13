@@ -87,6 +87,8 @@ const POSTS = {
   'tuning-into-the-distortion-field': { href: '/blog/nftt/tuning-into-the-distortion-field', title: `Tuning into the Distortion Field`,
     desc: `A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.`,
     img: IMG.tuning, alt: `A composite portrait dissolving into a distortion field, force leaving a wave.` },
+  'the-lock-that-was-already-there': { href: '/blog/nftt/the-lock-that-was-already-there', title: `The Lock That Was Already There`,
+    desc: `Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.` },
 };
 
 // ---- SECTIONS + default LAYOUT (overridable by nftt_index_layout.json) --------------------
