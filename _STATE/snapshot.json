@@ -2,10 +2,13 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "665a386",
-    "head_message": "Merge pull request #58 \u2014 filled centered LED dots on jeben.arcs.care",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "bdec97b",
+    "head_message": "feat(briefs): brief_render.py \u2014 parameterized artifacts with runnable CLI provenance [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_DECISIONS/ADR-032-parameterized-brief-generation.md",
+      "_MANUAL/"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -148,5 +151,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-10T23:50:53Z"
+  "git_refreshed_at": "2026-07-12T02:26:45Z"
 }

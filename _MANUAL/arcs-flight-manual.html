@@ -1,0 +1,519 @@
+<!--
+  ARCS FLIGHT MANUAL — artifact source (living document)
+  Published as a claude.ai Artifact; keep this file and the deployed artifact in sync.
+  To revise: edit this file, add a row to the Revision Log (Rev B, C, ...), mark new/changed
+  sections with class="revbar", then redeploy with the Artifact tool to the SAME URL
+  (recorded in ~/.claude/projects/-Users-zharris-arcs-v9/memory/arcs-flight-manual-artifact.md).
+  This file is an artifact body fragment — no <!DOCTYPE>/<html>/<head>/<body> tags by design.
+-->
+<title>ARCS Flight Manual</title>
+<style>
+  :root {
+    --bg: #020408; --surface: #0d1117; --surface2: #111820;
+    --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+    --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+    --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  html { background: var(--bg); }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.55; }
+
+  .frame { display: grid; grid-template-columns: 190px minmax(0, 720px); gap: 40px;
+           max-width: 990px; margin: 0 auto; padding: 48px 24px 120px; }
+  @media (max-width: 820px) {
+    .frame { display: block; padding: 32px 18px 90px; }
+    nav.tabs { position: static !important; display: flex; overflow-x: auto; gap: 6px;
+               padding-bottom: 14px; margin-bottom: 22px; border-bottom: 1px solid var(--border); }
+    nav.tabs a { white-space: nowrap; border-left: none !important;
+                 border-bottom: 2px solid transparent; padding: 6px 10px !important; }
+  }
+
+  nav.tabs { position: sticky; top: 32px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
+  nav.tabs a { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+               text-transform: uppercase; color: var(--dimmed); text-decoration: none;
+               padding: 7px 12px; border-left: 2px solid var(--border); }
+  nav.tabs a:hover { color: var(--cyan); border-left-color: var(--cyan); }
+  nav.tabs a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+  nav.tabs .tab-sec { color: var(--muted); font-size: 9px; padding: 14px 12px 4px; border-left: 2px solid transparent; }
+
+  /* ── title block ─────────────────────────────── */
+  .plate { border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
+           padding: 28px 28px 22px; margin-bottom: 14px; }
+  .plate-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+                   text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+  h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; text-wrap: balance; }
+  .plate-sub { font-size: 14px; color: var(--dimmed); max-width: 58ch; }
+  .plate-meta { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 20px; padding-top: 16px;
+                border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10px;
+                letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .plate-meta b { color: var(--text); font-weight: 700; }
+
+  /* ── sections ────────────────────────────────── */
+  section { margin-top: 52px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--border);
+              padding-bottom: 10px; margin-bottom: 22px; }
+  .sec-num { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+             color: var(--cyan); }
+  h2 { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-transform: uppercase; }
+  h3 { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+       text-transform: uppercase; color: var(--text); margin: 34px 0 12px; }
+  h3 .pid { color: var(--cyan); margin-right: 10px; }
+  p { margin: 0 0 14px; max-width: 66ch; }
+  p.tight { margin-bottom: 6px; }
+  .lead { color: var(--dimmed); font-size: 13px; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface2);
+         border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; }
+
+  /* ── callouts (aviation convention) ──────────── */
+  .callout { border: 1px solid; border-radius: 4px; padding: 12px 16px; margin: 16px 0;
+             font-size: 13px; max-width: 66ch; }
+  .callout .co-label { font-family: var(--mono); font-size: 10px; font-weight: 700;
+                       letter-spacing: 0.18em; display: block; margin-bottom: 5px; }
+  .warning { border-color: rgba(255,77,109,0.4); background: rgba(255,77,109,0.06); }
+  .warning .co-label { color: var(--red); }
+  .caution { border-color: rgba(255,215,0,0.35); background: rgba(255,215,0,0.05); }
+  .caution .co-label { color: var(--gold); }
+  .note { border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.05); }
+  .note .co-label { color: var(--cyan); }
+
+  /* ── checklists: challenge ···· response ────── */
+  .ck { border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
+        margin: 14px 0 26px; counter-reset: ck; }
+  .ck-row { display: flex; align-items: baseline; gap: 10px; padding: 11px 18px;
+            border-bottom: 1px solid rgba(30,41,59,0.5); counter-increment: ck; }
+  .ck-row:last-child { border-bottom: none; }
+  .ck-row::before { content: counter(ck); font-family: var(--mono); font-size: 10px; font-weight: 700;
+                    color: var(--dimmed); width: 16px; flex-shrink: 0; }
+  .ck-item { font-size: 13px; color: var(--text); }
+  .ck-dots { flex: 1; border-bottom: 1px dotted var(--muted); min-width: 24px;
+             transform: translateY(-3px); }
+  .ck-act { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--green);
+            text-align: right; max-width: 46%; }
+  .ck-sub { padding: 0 18px 12px 44px; font-size: 12px; color: var(--dimmed); }
+  .ck-sub pre { margin-top: 6px; }
+
+  /* ── command blocks ──────────────────────────── */
+  pre { font-family: var(--mono); font-size: 12px; line-height: 1.7; background: var(--surface2);
+        border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px;
+        overflow-x: auto; margin: 12px 0 18px; color: var(--dimmed); }
+  pre .cmd { color: var(--cyan); }
+  pre .ok { color: var(--green); }
+  pre .err { color: var(--red); }
+  pre .cm { color: var(--muted); }
+
+  /* ── tables ──────────────────────────────────── */
+  .tbl-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--border); border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em;
+       text-transform: uppercase; color: var(--muted); text-align: left;
+       padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top;
+       color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  td.mono, th.mono { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+  td .dim { color: var(--dimmed); }
+  tr td:first-child { font-variant-numeric: tabular-nums; }
+
+  /* ── revision-bar convention (change marking) ── */
+  .revbar { border-left: 2px solid var(--gold); padding-left: 16px; }
+
+  .footer { margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--border);
+            font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="frame">
+  <nav class="tabs" aria-label="Manual sections">
+    <a href="#revlog">Rev Log</a>
+    <span class="tab-sec">Sections</span>
+    <a href="#sec1">1 · General</a>
+    <a href="#sec2">2 · Limitations</a>
+    <a href="#sec3">3 · Normal Proc</a>
+    <a href="#sec4">4 · Abnormal Proc</a>
+    <a href="#sec5">5 · Systems</a>
+    <a href="#sec6">6 · Reference</a>
+  </nav>
+
+  <main>
+    <div class="plate">
+      <div class="plate-eyebrow">ARCS Field OS · Operations</div>
+      <h1>Flight Manual</h1>
+      <div class="plate-sub">Operating procedures, limitations, and systems descriptions for ARCS
+        artifact tooling. A living document: each new system that ships adds a section and a
+        revision-log row.</div>
+      <div class="plate-meta">
+        <span>Doc <b>ARCS-FM-001</b></span>
+        <span>Revision <b>A</b></span>
+        <span>Issue date <b>2026-07-10</b></span>
+        <span>Source <b>arcs-v9 / _MANUAL/</b></span>
+      </div>
+    </div>
+
+    <div class="callout note" id="revlog" style="margin-top:0;">
+      <span class="co-label">Note</span>
+      Text added or changed in the latest revision is marked with a gold change bar in the left
+      margin. Rev A is the initial issue; nothing is barred.
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Rev</th><th>Date</th><th>Sections affected</th><th>Summary</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">A</td><td class="mono">2026-07-10</td><td class="mono">All</td>
+            <td>Initial issue. Brief Rendering System (ADR-032): <code>brief_render.py</code>,
+                params contract, provenance tiers, drift check.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════ SECTION 1 ════════════════ -->
+    <section id="sec1">
+      <div class="sec-head"><span class="sec-num">SEC 1</span><h2>General</h2></div>
+
+      <p>ARCS produces <strong>artifacts</strong> — call briefs, reports, and decision receipts
+      served as static pages on <code>*.arcs.care</code>. This manual covers how those artifacts
+      are built, verified, and deployed. It is written for whoever is operating the tooling next:
+      Zach, or a cold-started Claude session with no memory of the last one.</p>
+
+      <h3>1.1 &nbsp;Governing law</h3>
+      <p>One rule outranks everything else in this manual:</p>
+      <div class="callout note">
+        <span class="co-label">Note — Prime Directive</span>
+        <strong>Every provenance claim on an ARCS artifact must be executable.</strong> If a page
+        says a command produced it, running that command must reproduce the page byte-for-byte.
+        Never stamp an artifact with tooling that does not exist — that is provenance theater, and
+        the first technical viewer who tries it converts a transparency claim into a credibility
+        hole. (ADR-032.)
+      </div>
+
+      <h3>1.2 &nbsp;Callout conventions</h3>
+      <p class="tight">This manual uses aviation callout semantics:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Callout</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td class="mono" style="color:var(--red);">WARNING</td>
+                <td>Disregarding this will damage a live client surface or leak protected information.</td></tr>
+            <tr><td class="mono" style="color:var(--gold);">CAUTION</td>
+                <td>Disregarding this causes rework, drift, or a broken deploy.</td></tr>
+            <tr><td class="mono" style="color:var(--cyan);">NOTE</td>
+                <td>Amplifying information: why the procedure is shaped this way.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.3 &nbsp;Operating environment</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Canonical repo</td><td class="mono">flashesofbrilliance/arcs-v9 &nbsp;→&nbsp; /Users/zharris/arcs-v9</td></tr>
+            <tr><td>Production</td><td class="mono">app.arcs.care <span class="dim">(+ arcs.care, www, resume — one deployment)</span></td></tr>
+            <tr><td>Runtime for tooling</td><td class="mono">Python 3.8+, stdlib only <span class="dim">— no pip installs</span></td></tr>
+            <tr><td>Artifact registry</td><td class="mono">_STATE/snapshot.json → ui_artifacts</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warning">
+        <span class="co-label">Warning</span>
+        <code>/Users/zharris/arcs</code> (no <code>-v9</code>) is a stale clone of this repo. Never
+        operate from it. Verify domain-to-project claims live via <code>get_deployment(domain)</code>
+        before relaying them — memory tables drift silently.
+      </div>
+    </section>
+
+    <!-- ════════════════ SECTION 2 ════════════════ -->
+    <section id="sec2">
+      <div class="sec-head"><span class="sec-num">SEC 2</span><h2>Limitations</h2></div>
+      <p class="lead">Operating limits. These are not style preferences; each one exists because
+      violating it has already caused, or provably would cause, an incident.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Limit</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">L-1</td>
+                <td>Client-facing briefs carry <code>provenance: "receipt"</code> only. The
+                    <code>full</code> tier (visible CLI card) is internal artifacts only.</td>
+                <td>Exposing internal command surface on a client page violates the engagement
+                    redaction rules (no vendor/tooling stack on target pages).</td></tr>
+            <tr><td class="mono">L-2</td>
+                <td>Params files live in <code>briefs/</code> — never under <code>public/</code>.</td>
+                <td>Everything in <code>public/</code> is served. Params contain the gate password
+                    and pre-redaction content.</td></tr>
+            <tr><td class="mono">L-3</td>
+                <td>Rendered HTML is never hand-edited. All changes go through the params file.</td>
+                <td>Hand edits are drift by definition; <code>--check</code> will flag the file and
+                    the next render will silently destroy the edit.</td></tr>
+            <tr><td class="mono">L-4</td>
+                <td>Adoption is forward-only. The 13 pre-ADR-032 briefs are not backfilled unless
+                    one becomes an active demo.</td>
+                <td>They are bespoke, diverged, and live in front of clients. Extraction is
+                    clobber-risk for near-zero payoff.</td></tr>
+            <tr><td class="mono">L-5</td>
+                <td>Production deploys run from the main worktree
+                    (<code>/Users/zharris/arcs-v9</code> checkout of <code>main</code>) — never
+                    from a feature worktree.</td>
+                <td>Each worktree has its own <code>next.config.ts</code>; deploying from one
+                    silently drops every other subdomain's rewrite.</td></tr>
+            <tr><td class="mono">L-6</td>
+                <td>Engagement artifacts get a redaction scan before every deploy: no comp bands,
+                    no vendor stack, no back-links to internal pages, no verbatim attributed quotes.</td>
+                <td>Standing security constraint from the Fanatics engagement; generalized to all
+                    client artifacts.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ════════════════ SECTION 3 ════════════════ -->
+    <section id="sec3">
+      <div class="sec-head"><span class="sec-num">SEC 3</span><h2>Normal Procedures</h2></div>
+
+      <h3><span class="pid">N-1</span>Create a new call brief (CLI path — preferred)</h3>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Params file</span><span class="ck-dots"></span>
+          <span class="ck-act">AUTHOR briefs/&lt;name&gt;.params.json</span></div>
+        <div class="ck-sub">Copy <code>briefs/demo.params.json</code> as the schema reference.
+          Set <code>name</code> (lowercase first name = gate password), <code>slug</code> (output
+          file stem), and the four tab card arrays.</div>
+        <div class="ck-row"><span class="ck-item">Provenance tier</span><span class="ck-dots"></span>
+          <span class="ck-act">SET per L-1</span></div>
+        <div class="ck-sub">External viewer → <code>"receipt"</code>. Internal/demo → <code>"full"</code>.
+          Omitted defaults to <code>receipt</code> (fail-safe).</div>
+        <div class="ck-row"><span class="ck-item">Render</span><span class="ck-dots"></span>
+          <span class="ck-act">RUN from repo root</span></div>
+        <div class="ck-sub"><pre style="margin-bottom:0;"><span class="cmd">$ python3 scripts/brief_render.py --params briefs/&lt;name&gt;.params.json</span>
+rendered public/&lt;slug&gt;.html (17980 bytes, provenance=full)</pre></div>
+        <div class="ck-row"><span class="ck-item">Output</span><span class="ck-dots"></span>
+          <span class="ck-act">INSPECT in browser</span></div>
+        <div class="ck-sub">Serve via <code>npm run dev</code>, open <code>/&lt;slug&gt;.html</code>.
+          Gate password is the <code>name</code> field.</div>
+        <div class="ck-row"><span class="ck-item">Integrity</span><span class="ck-dots"></span>
+          <span class="ck-act">--check · EXIT 0</span></div>
+        <div class="ck-row"><span class="ck-item">Registry</span><span class="ck-dots"></span>
+          <span class="ck-act">UPDATE snapshot.json → ui_artifacts</span></div>
+        <div class="ck-row"><span class="ck-item">Commit</span><span class="ck-dots"></span>
+          <span class="ck-act">PARAMS + HTML TOGETHER</span></div>
+        <div class="ck-sub">Both files in one commit, or drift detection loses its anchor.</div>
+      </div>
+
+      <h3><span class="pid">N-2</span>Amend a generated brief</h3>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Edit target</span><span class="ck-dots"></span>
+          <span class="ck-act">PARAMS FILE ONLY (L-3)</span></div>
+        <div class="ck-row"><span class="ck-item">Re-render</span><span class="ck-dots"></span>
+          <span class="ck-act">RUN N-1 render step</span></div>
+        <div class="ck-row"><span class="ck-item">Verify</span><span class="ck-dots"></span>
+          <span class="ck-act">--check · EXIT 0</span></div>
+      </div>
+
+      <h3><span class="pid">N-3</span>Verify artifact integrity (drift check)</h3>
+      <pre><span class="cmd">$ python3 scripts/brief_render.py --params briefs/&lt;name&gt;.params.json --check</span>
+<span class="ok">OK — public/&lt;slug&gt;.html matches its params (no drift)</span></pre>
+      <p class="lead">Run before any deploy that touches generated briefs, and any time a
+      generated page looks different from what its params say.</p>
+
+      <h3><span class="pid">N-4</span>Deploy a brief to a subdomain</h3>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Worktree</span><span class="ck-dots"></span>
+          <span class="ck-act">CONFIRM main checkout (L-5)</span></div>
+        <div class="ck-sub"><code>git worktree list</code> — find the worktree on <code>main</code>
+          (historically <code>frosty-kepler-b69f51</code>). Never deploy from a feature worktree.</div>
+        <div class="ck-row"><span class="ck-item">Rewrite</span><span class="ck-dots"></span>
+          <span class="ck-act">ADD to next.config.ts beforeFiles</span></div>
+        <div class="ck-sub"><code>{ source: '/', destination: '/&lt;slug&gt;.html', has: [{ type: 'host', value: '&lt;name&gt;.arcs.care' }] }</code></div>
+        <div class="ck-row"><span class="ck-item">Redaction scan</span><span class="ck-dots"></span>
+          <span class="ck-act">COMPLETE per L-6</span></div>
+        <div class="ck-row"><span class="ck-item">Commit &amp; push</span><span class="ck-dots"></span>
+          <span class="ck-act">MAIN · AUTO-DEPLOYS</span></div>
+        <div class="ck-row"><span class="ck-item">Domain</span><span class="ck-dots"></span>
+          <span class="ck-act">VERIFY 200 on &lt;name&gt;.arcs.care</span></div>
+        <div class="ck-sub">If the subdomain 404s, it may need assignment to the arcs-v9 Vercel
+          project in the dashboard.</div>
+      </div>
+    </section>
+
+    <!-- ════════════════ SECTION 4 ════════════════ -->
+    <section id="sec4">
+      <div class="sec-head"><span class="sec-num">SEC 4</span><h2>Abnormal Procedures</h2></div>
+
+      <h3><span class="pid">A-1</span>DRIFT DETECTED — <code>--check</code> exits 1</h3>
+      <pre><span class="err">brief_render: error: --check: public/&lt;slug&gt;.html has drifted from its params</span></pre>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Cause</span><span class="ck-dots"></span>
+          <span class="ck-act">IDENTIFY — git diff the HTML</span></div>
+        <div class="ck-sub">Either someone hand-edited the output (most likely), or the template /
+          generator changed since last render.</div>
+        <div class="ck-row"><span class="ck-item">Hand edit worth keeping?</span><span class="ck-dots"></span>
+          <span class="ck-act">PORT into params, re-render</span></div>
+        <div class="ck-row"><span class="ck-item">Hand edit accidental?</span><span class="ck-dots"></span>
+          <span class="ck-act">RE-RENDER — overwrites it</span></div>
+        <div class="ck-row"><span class="ck-item">Template/generator changed?</span><span class="ck-dots"></span>
+          <span class="ck-act">RE-RENDER ALL generated briefs</span></div>
+      </div>
+      <div class="callout caution">
+        <span class="co-label">Caution</span>
+        Re-rendering destroys hand edits without asking. Decide what the edit was before running
+        the render.
+      </div>
+
+      <h3><span class="pid">A-2</span>Unresolved placeholders / missing tab</h3>
+      <pre><span class="err">brief_render: error: params.tabs missing tab 'agenda'</span>
+<span class="err">brief_render: error: unresolved placeholders after render: {{YGATE}}</span></pre>
+      <p>The renderer refuses to write partial output. All four tabs (<code>pre / recoil / post /
+      agenda</code>) need at least one card; all eight metadata fields are required. Fix the params
+      file — never relax the guard.</p>
+
+      <h3><span class="pid">A-3</span>Unknown card type</h3>
+      <pre><span class="err">brief_render: error: unknown card type 'bogus'</span></pre>
+      <p>Card <code>type</code> must be one of the six in section 5.3. For a section shape none of
+      them fit, use <code>"type": "html"</code> — the escape hatch exists so bespoke content never
+      requires editing the output by hand.</p>
+
+      <h3><span class="pid">A-4</span>Subdomains dropped after a deploy</h3>
+      <div class="callout warning">
+        <span class="co-label">Warning</span>
+        Symptom: previously-live <code>*.arcs.care</code> briefs suddenly 404. Cause: a deploy ran
+        from a feature worktree whose <code>next.config.ts</code> lacks the other rewrites (L-5
+        violation).
+      </div>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Recovery</span><span class="ck-dots"></span>
+          <span class="ck-act">REDEPLOY from main worktree</span></div>
+        <div class="ck-row"><span class="ck-item">Confirm</span><span class="ck-dots"></span>
+          <span class="ck-act">200 on ALL registered subdomains</span></div>
+        <div class="ck-sub">The full roster is in <code>_STATE/snapshot.json → ui_artifacts.call_briefs</code>.</div>
+      </div>
+    </section>
+
+    <!-- ════════════════ SECTION 5 ════════════════ -->
+    <section id="sec5">
+      <div class="sec-head"><span class="sec-num">SEC 5</span><h2>Systems Description</h2></div>
+
+      <h3>5.1 &nbsp;Brief Rendering System (ADR-032)</h3>
+      <p>A deterministic, stdlib-only renderer. Same params + same template ⇒ byte-identical
+      output, which is what makes the embedded provenance <em>provable</em> rather than asserted:
+      anyone with the repo can re-run the printed command and diff.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Path</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Renderer</td><td class="mono">scripts/brief_render.py</td>
+                <td>params + template → HTML; validates; refuses partial output</td></tr>
+            <tr><td>Canonical template</td><td class="mono">public/templates/call-brief-template.html</td>
+                <td>v1.1 · atoms + tab markers; hand-authoring path still valid</td></tr>
+            <tr><td>Params (source of truth)</td><td class="mono">briefs/&lt;name&gt;.params.json</td>
+                <td>Open JSON contract; git-tracked; never served</td></tr>
+            <tr><td>Output</td><td class="mono">public/&lt;slug&gt;.html</td>
+                <td>Generated artifact — read-only by convention (L-3)</td></tr>
+            <tr><td>Proof artifact</td><td class="mono">public/demo-brief.html</td>
+                <td>Self-referential demo; footer shows the command that made it</td></tr>
+            <tr><td>Registry</td><td class="mono">_STATE/snapshot.json → ui_artifacts</td>
+                <td>Roster of live briefs + authoring workflow</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5.2 &nbsp;Provenance system</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tier</th><th>Audience</th><th>Renders as</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">full</td><td>Internal / demo</td>
+                <td>Visible card: the exact CLI invocation, template version + SHA-256, params
+                    SHA-256, and the byte-for-byte reproducibility claim</td></tr>
+            <tr><td class="mono">receipt</td><td>Client-facing <span class="dim">(default)</span></td>
+                <td>One mono footer line — <code>ARCS · call-brief-template v1.1 · params
+                    43380f7e24e0 · Jul 10, 2026</code> — no command surface</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lead">Both tiers also embed a machine-readable HTML comment
+      (<code>arcs:brief-render …</code>) with template version and both hashes.</p>
+
+      <h3>5.3 &nbsp;Card types</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Fields</th><th>Use for</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">text</td><td class="mono">title, text</td><td>True North, prose blocks</td></tr>
+            <tr><td class="mono">conf</td><td class="mono">title, rows[key, val | badge]</td>
+                <td>Context / logistics; <code>badge</code> renders the Y-gate pill</td></tr>
+            <tr><td class="mono">intel</td><td class="mono">title, rows[color, text]</td>
+                <td>Key facts with colored dot markers</td></tr>
+            <tr><td class="mono">questions</td><td class="mono">title, rows[text, look_for?]</td>
+                <td>Numbered questions; auto-numbered</td></tr>
+            <tr><td class="mono">next</td><td class="mono">title, rows[owner, color, text]</td>
+                <td>Action items by owner</td></tr>
+            <tr><td class="mono">html</td><td class="mono">title, html</td>
+                <td>Escape hatch — any bespoke section</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lead">Colors: <code>cyan · green · gold · red · muted · dimmed</code> → the
+      template's CSS variables. Text values are trusted HTML fragments — author-controlled, never
+      user input.</p>
+
+      <h3>5.4 &nbsp;Design tokens (shared with all ARCS surfaces)</h3>
+      <pre>bg <span class="cm">#020408</span> · surface <span class="cm">#0d1117</span> · border <span class="cm">#1e293b</span> · text <span class="cm">#e2e8f0</span>
+cyan <span class="cm">#00F0FF</span> · green <span class="cm">#00FF9D</span> · gold <span class="cm">#FFD700</span> · red <span class="cm">#FF4D6D</span></pre>
+    </section>
+
+    <!-- ════════════════ SECTION 6 ════════════════ -->
+    <section id="sec6">
+      <div class="sec-head"><span class="sec-num">SEC 6</span><h2>Reference</h2></div>
+
+      <h3>6.1 &nbsp;Adjacent system: arcs_cli.py — the 5-verb pipeline</h3>
+      <p>The design precedent for the renderer. <code>scripts/arcs_cli.py</code> reasons over
+      scanner JSON envelopes through five composable verbs — <code>analyze · assess · evaluate ·
+      synthesize · recapitulate</code> — each runnable standalone, chained via <code>--pipe</code>.
+      Open question on file (ADR-032): whether <code>brief_render</code> graduates into it as a
+      sixth verb or stays standalone.</p>
+
+      <h3>6.2 &nbsp;Related documents</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Document</th><th>Path</th></tr></thead>
+          <tbody>
+            <tr><td>ADR-032 — Parameterized brief generation</td>
+                <td class="mono">_DECISIONS/ADR-032-parameterized-brief-generation.md</td></tr>
+            <tr><td>Params schema reference</td><td class="mono">briefs/demo.params.json</td></tr>
+            <tr><td>World / tonal register</td><td class="mono">WORLD.md</td></tr>
+            <tr><td>Agent &amp; DevOps handbook</td><td class="mono">AGENTS.md</td></tr>
+            <tr><td>Artifact registry</td><td class="mono">_STATE/snapshot.json → ui_artifacts</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>6.3 &nbsp;Manual maintenance procedure</h3>
+      <div class="ck">
+        <div class="ck-row"><span class="ck-item">Source of truth</span><span class="ck-dots"></span>
+          <span class="ck-act">EDIT _MANUAL/arcs-flight-manual.html</span></div>
+        <div class="ck-row"><span class="ck-item">Revision log</span><span class="ck-dots"></span>
+          <span class="ck-act">ADD row · bump Rev letter</span></div>
+        <div class="ck-row"><span class="ck-item">Changed sections</span><span class="ck-dots"></span>
+          <span class="ck-act">MARK class="revbar"</span></div>
+        <div class="ck-sub">Remove the previous revision's bars first — bars always mark only the
+          latest revision.</div>
+        <div class="ck-row"><span class="ck-item">Publish</span><span class="ck-dots"></span>
+          <span class="ck-act">REDEPLOY to the SAME artifact URL</span></div>
+        <div class="ck-sub">The URL is recorded in project memory
+          (<code>arcs-flight-manual-artifact.md</code>). A new URL is a new manual — don't fork it.</div>
+        <div class="ck-row"><span class="ck-item">Commit</span><span class="ck-dots"></span>
+          <span class="ck-act">SOURCE + REV in one commit</span></div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>ARCS-FM-001 · Rev A · 2026-07-10</span>
+      <span>Render through the fog to earned clarity</span>
+    </div>
+  </main>
+</div>
