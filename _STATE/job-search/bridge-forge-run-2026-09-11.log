@@ -1,0 +1,107 @@
+=== bridge-justworks-288a7b90 (bridge)
+target bridge-justworks-288a7b90 [Bridge] Justworks · Product Operations Manager, AI & Systems
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-ramp-d3f7e478 (bridge)
+target bridge-ramp-d3f7e478 [Bridge] Ramp · GTM Senior Business Systems Analyst, Pre-Sales
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1516 out=1831
+=== bridge-ramp-4d4aff34 (bridge)
+target bridge-ramp-4d4aff34 [Bridge] Ramp · GTM Senior Business Systems Analyst – Channel Sales
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  applied 7/8 edits (1 find-strings not located)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1504 out=1966
+=== bridge-squarespace-120c23ef (bridge)
+target bridge-squarespace-120c23ef [Bridge] Squarespace · Business Development Manager, AI Discoverability and Scheduling Partnerships
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1221 out=2191
+=== bridge-betterment-713e3b2f (bridge)
+target bridge-betterment-713e3b2f [Bridge] Betterment · Business Systems Architect, GTM Systems
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1319 out=1888
+=== bridge-datadog-277566b0 (bridge)
+target bridge-datadog-277566b0 [Bridge] Datadog · Director, GTM Enablement Operations
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1204 out=2145
+=== bridge-ramp-0e3ae333 (bridge)
+target bridge-ramp-0e3ae333 [Bridge] Ramp · GTM Business Systems Analyst – Post Sales
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1365 out=2060
+=== bridge-ramp-815eb8e2 (bridge)
+target bridge-ramp-815eb8e2 [Bridge] Ramp · AI Solutions Strategist
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1439 out=1950
+=== bridge-datadog-86380633 (pm)
+target bridge-datadog-86380633 [PM] Datadog · Senior Product Manager - Search
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1178 out=2039
+=== bridge-betterment-020e3c01 (bridge)
+target bridge-betterment-020e3c01 [Bridge] Betterment · Sr. Manager, Revenue Operations - Deal Desk & GTM Process Improvement
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1376 out=2028
+=== bridge-ramp-2562ca30 (bridge)
+target bridge-ramp-2562ca30 [Bridge] Ramp · Product Operations | AI Revenue Systems
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1441 out=1849
+=== bridge-datadog-cec857b5 (bridge)
+target bridge-datadog-cec857b5 [Bridge] Datadog · Senior Product Solutions Architect - AI Agent
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-oscar-2138aa07 (pm)
+target bridge-oscar-2138aa07 [PM] Oscar Health · Senior Product Manager, Marketplace
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  applied 6/7 edits (1 find-strings not located)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1322 out=2190
+=== bridge-squarespace-7dd86108 (bridge)
+target bridge-squarespace-7dd86108 [Bridge] Squarespace · GTM Marketing Programs Manager
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1375 out=1873
+=== bridge-datadog-5ad18c6f (pm)
+target bridge-datadog-5ad18c6f [PM] Datadog · Senior Product Manager - Data Agent
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+=== RESUME PASS Fri Sep 11 21:24:50 EDT 2026
+=== bridge-justworks-288a7b90 (bridge) attempt 1
+target bridge-justworks-288a7b90 [Bridge] Justworks · Product Operations Manager, AI & Systems
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1311 out=2132
+=== bridge-datadog-cec857b5 (bridge) attempt 1
+target bridge-datadog-cec857b5 [Bridge] Datadog · Senior Product Solutions Architect - AI Agent
+  seed: bridge-operator-seed (forge-bridge-operator-seed)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1347 out=1956
+=== bridge-datadog-5ad18c6f (pm) attempt 1
+target bridge-datadog-5ad18c6f [PM] Datadog · Senior Product Manager - Data Agent
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1369 out=2244
+=== bridge-oscar-980da572 (pm) attempt 1
+target bridge-oscar-980da572 [PM] Oscar Health · Group Product Manager, Lucie Platform
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1093 out=1658
+=== bridge-peloton-70f616cc (pm) attempt 1
+target bridge-peloton-70f616cc [PM] Peloton · Lead Product Manager
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1320 out=2039
+=== bridge-mongodb-89ad67ea (pm) attempt 1
+target bridge-mongodb-89ad67ea [PM] MongoDB · Senior Product Manager, Post Sales
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-mongodb-89ad67ea (pm) attempt 2
+target bridge-mongodb-89ad67ea [PM] MongoDB · Senior Product Manager, Post Sales
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-mongodb-89ad67ea (pm) attempt 3
+target bridge-mongodb-89ad67ea [PM] MongoDB · Senior Product Manager, Post Sales
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-datadog-35a76832 (pm) attempt 1
+target bridge-datadog-35a76832 [PM] Datadog · Senior Product Manager - Fleet and Lifecycle Management
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  edit failed: 502 {"error":"editor returned unparseable output"}
+=== bridge-datadog-35a76832 (pm) attempt 2
+target bridge-datadog-35a76832 [PM] Datadog · Senior Product Manager - Fleet and Lifecycle Management
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1324 out=2114
+=== bridge-datadog-03026f87 (pm) attempt 1
+target bridge-datadog-03026f87 [PM] Datadog · Senior Product Manager - Bits Agent Builder
+  seed: mercury-staff-product-manager-mercury-co (forge-mercury-staff-product-manager-mercury-co)
+  BUILT (edit-from-seed): 2 pages, air-gap clean, mirrored. tokens in=1324 out=2103
+=== RESUME PASS DONE Fri Sep 11 21:32:26 EDT 2026
