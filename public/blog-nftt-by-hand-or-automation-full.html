@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>By hand or with automation · NFTT</title>
+<meta name="theme-color" content="#020408">
+<meta name="description" content="Notes from the trenches: a data founder asked one operational question I never answered. The answer is three commands, one JSON per account, and a human who reviews instead of executes.">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root {
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --track-widest:0.14em; --radius-sm:6px; --radius-md:10px;
+    --emboss:inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+    --glass-surface:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+    --tick:linear-gradient(90deg, #FF4D6D, #FFD700, #FF6B2C); --tick-accent:#FF4D6D;
+}
+  a { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--fg1); }
+  a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 2px; }
+  ::selection { background: rgba(0,240,255,.25); }
+  .aside, .plain { margin: 1.4em 0; padding: 1em 1.2em; border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface);
+    border: 1px solid var(--border); box-shadow: var(--emboss);
+    font-style: italic; color: var(--fg2); line-height: 1.7; }
+  .plain { border-color: rgba(0,255,157,.22);
+    background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }
+  .stitch { margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
+    color: var(--fg2); letter-spacing: .01em; }
+  .standfirst { font-size: 1.125rem; line-height: 1.6; font-weight: 500; color: var(--fg2); margin: 0 0 1.8em; }
+  .threadkey { font-family: var(--font-mono); font-size: .8rem; color: var(--fg2);
+    margin: 0 0 2em; padding: .7em .9em; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface); box-shadow: var(--emboss); line-height: 2; }
+  .bq { margin: 1.6em 0; padding: .2em 0 .2em 1.1em; border-left: 1px solid var(--border);
+    font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--fg2); }
+  .dropcap::first-letter { float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
+    font-weight: 600; color: var(--fg1); }
+  .pull { margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); font-size: 1.5rem; line-height: 1.4; font-weight: 600;
+    color: var(--fg1); letter-spacing: -0.015em; }
+  /* section tick = the story's own thread gradient; pull-quote = a single accent. Different
+     ranks, different marks, both driven by the declared palette (never a hardcoded triad). */
+  .pull::before { content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
+    background: var(--tick-accent); }
+  h2::before { content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
+    background: var(--tick); }
+  .arc { margin: 2.2em 0 1.4em; }
+  .arc-cap { margin-top: .5em; }
+  /* vertical arc ladder: the five-second-test form for long arcs */
+  .arc-list { list-style: none; margin: 0; padding: 0; }
+  .arc-row { display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline;
+    column-gap: .8em; padding: 0; }
+  .arc-mark { position: relative; grid-row: 1; display: flex; justify-content: center; padding-top: .15em; }
+  .arc-spine { position: absolute; top: 20px; bottom: -6px; left: 50%; width: 2px;
+    transform: translateX(-50%); background: var(--border); }
+  .arc-label { padding: 0 0 1.15em; line-height: 1.5; color: var(--fg1); }
+  .arc-thread { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em;
+    text-transform: uppercase; white-space: nowrap; opacity: .9; }
+  .endmark { margin: 2.6em 0 0; }
+  nav a { text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+</style>
+<body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
+<main style="max-width:680px;margin:0 auto;padding:64px 22px 96px">
+<article>
+<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">NOTES FROM THE TRENCHES // BUILDING IN PUBLIC: ARCS // FIELD OS EDITION
+## By hand or with automation</p>
+<p class="standfirst">A founder who runs a data team asked me, on a call in July, one plain question about how the work gets done. I answered with a philosophy. Six weeks and two "hard to follow" emails later, this is the answer I owed him. Three threads: <strong>red</strong> is what he actually asked, in his words. <strong>Gold</strong> is the commands that answer it. <strong>Vermillion</strong> is the seam where a thing done by hand became a thing a machine can repeat.</p>
+<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The question</h1>
+<p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red: "I don't know if you do it by hand or with automation."</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">That is the whole ask. He was not asking about my method. He was asking what a partner needs to know before he offers something to his own customers: what does he hand over, what happens to it, how long does it take, and what comes back.</p>
+<p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Verm: I answered with the word notation and a metaphor about a human on a bike. He said "all right, that makes sense," which is what a polite person says when it does not.</em></p>
+<p class="standfirst">In plain terms: when someone asks whether a thing is manual or automated, they are asking whether they can resell it. Answer that.</p>
+<div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · asks</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#FFD700"/></svg>gold · commands</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#FF6B2C"/></svg>vermillion · seams</span></div>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The wrong answer, kept</h2>
+<p class="dropcap" style="margin:0 0 1.15em;line-height:1.75">I could quietly delete the bad answer and write the good one. The record says otherwise, so the bad one stays. The recoil report I sent him after the call had a chart of my own beliefs moving over the length of our conversation. He wrote back: "It has lots of information but hard to follow." I rebuilt the page. He wrote back again: "I honestly think I am still so lost in your offering and the page."</p>
+<p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red: "time series per customer is really helpful and the aggregation is also really helpful."</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">He had told me his format on the call. Rows over time, per customer, then a roll-up. I sent him curves and a dial. Twice.</p>
+<blockquote class="pull">The bet is filed before. The transcript is filed as it happens. Neither can be edited after. That is what makes the score checkable, and it is also what lets a machine do most of the work.</blockquote>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">One JSON per account</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">Here is the honest answer to his question. The state of any relationship I track is one file.</p>
+<blockquote class="bq">runtime/recoil/generated/DATE-ACCOUNT.json</blockquote>
+<p style="margin:0 0 1.15em;line-height:1.75">It holds the pre-call bet with a number on each line, the beliefs, and every update with the quoted line that moved it. A new call is a new row. Nothing in it is typed twice.</p>
+<p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold: python3 scripts/recoil_brief.py --data runtime/recoil/generated/DATE-ACCOUNT.json --audience external --format html</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">One flag decides who is allowed to see what. The internal audience gets conviction scores and the war-game tabs. The external audience gets the rows and the quotes. Same file, two renders, and the leak check runs on the external one before it leaves.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">The seam is the --set flag. It takes key.path=value and overrides one field without opening the file. That is the difference between a template and a form letter: the shape holds, the values pass through.</p>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Score the bet</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">After the call, the transcript comes in from the recorder. The bet already exists, so scoring is subtraction, not storytelling.</p>
+<p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold: python3 scripts/gen_receipt_close.py --recoil runtime/recoil/generated/DATE-ACCOUNT.json --ex-ante runtime/recoil/generated/DATE-ACCOUNT.json --out _STATE/receipt-close.json</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">The output is a scaffold with one row per belief: the number before, the number after, the line that moved it. On our call, one of my beliefs went from seventy to twenty-five percent when he said his media proposal was a side project. That row is the most useful thing in the file, and no one wrote it by hand.</p>
+<div class="plain">In plain terms: the human does not score the call. The human reads the score and decides what to do Monday.</div>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Render, then review</h2>
+<p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold: python3 scripts/forge_counterpart.py --surface receipt --data _STATE/receipt-close.json --out public/customer-receipt.html</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">The forge is a factory. It has stamped four different people's pages from the same template with different data. The surface flag picks the shape: a receipt, a codex, a one-door decision page. The verify-only flag runs the honesty gates on an existing file without rendering anything, which is how a page gets checked before it is sent.</p>
+<p class="stitch"><span style="color:#FF6B2C" aria-hidden="true">&#9473;&#9473;</span> <em>Verm: this is the seam his question was really about. Automation runs the three steps. A person reviews the output once, at the end, and sends it by hand. He described his own company the same way on the call: "the human being is often doing the review, not the execution." Same shape. I should have said so.</em></p>
+<figure class="arc" role="img" aria-label="from hand to pipeline: 6 stops"><div style="overflow-x:auto;padding-bottom:4px;scrollbar-color:#1e293b #020408"><svg width="706" height="118" viewBox="0 0 706 118" font-family="ui-monospace,monospace"><defs><filter id="underlit" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="1.5" stdDeviation="3" flood-opacity="0.55"/></filter></defs><line x1="48" y1="56" x2="658" y2="56" stroke="#1e293b" stroke-width="2"/><g><title>1. the question (red · asks)</title><circle cx="48" cy="59" r="9" fill="#FF4D6D" opacity="0.18" filter="url(#underlit)"/><path d="M48 50.0 L54.0 56 L48 62.0 L42.0 56 Z" fill="#FF4D6D"/><text x="48" y="26" text-anchor="start" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">the question</text></g><g><title>2. the wrong answer (vermillion · seams)</title><circle cx="170" cy="59" r="9" fill="#FF6B2C" opacity="0.18" filter="url(#underlit)"/><rect x="165.0" y="51.0" width="10.0" height="10.0" fill="#FF6B2C"/><text x="170" y="92" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">the wrong answer</text></g><g><title>3. one JSON per account (gold · commands)</title><circle cx="292" cy="59" r="9" fill="#FFD700" opacity="0.18" filter="url(#underlit)"/><circle cx="292" cy="56" r="5.5" fill="#FFD700"/><text x="292" y="26" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">one JSON per account</text></g><g><title>4. score the bet (gold · commands)</title><circle cx="414" cy="59" r="9" fill="#FFD700" opacity="0.18" filter="url(#underlit)"/><circle cx="414" cy="56" r="5.5" fill="#FFD700"/><text x="414" y="92" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">score the bet</text></g><g><title>5. render, then review (gold · commands)</title><circle cx="536" cy="59" r="9" fill="#FFD700" opacity="0.18" filter="url(#underlit)"/><circle cx="536" cy="56" r="5.5" fill="#FFD700"/><text x="536" y="26" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">render, then review</text></g><g><title>6. his format, not mine (red · asks)</title><circle cx="658" cy="59" r="9" fill="#FF4D6D" opacity="0.18" filter="url(#underlit)"/><path d="M658 50.0 L664.0 56 L658 62.0 L652.0 56 Z" fill="#FF4D6D"/><text x="658" y="92" text-anchor="end" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">his format, not mine</text></g></svg></div></figure><figcaption class="arc-cap"><div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · asks</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#FFD700"/></svg>gold · commands</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#FF6B2C"/></svg>vermillion · seams</span></div></figcaption>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">His format, not mine</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">The last command is the one that keeps me honest about the rest.</p>
+<p class="stitch"><span style="color:#FFD700" aria-hidden="true">&#9473;&#9473;</span> <em>Gold: python3 scripts/tool_catalog_emit.py</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">It emits every tool in the repo with the one job it does, harvested from the tool's own declaration, never inferred. As of this week it opens with a named family: the receipt loop, in stage order. Before, the bet. During, the transcript. After, the score. Share, the gauntlet and the page. Compounds, the account record that gets one row longer every call.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">He asked what he hands over and what comes back. He hands over an export of a customer's sales calls, one row per call. What comes back is a table per deal, rows over time, then a roll-up across the book. His format. It was always his format; the commands were built for it. I just kept showing him the chart instead of the rows.</p>
+<blockquote class="pull">A question you did not answer is a row in the account record with a red number next to it. Keep it. It is the most useful row you have.</blockquote>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The braid, for the record</h2>
+<svg width="200" height="36" viewBox="0 0 200 36" aria-hidden="true" style="display:block;margin:.2em 0 1.2em"><polyline points="0,18.0 6,21.7 12,24.8 18,26.6 24,26.9 30,25.6 36,22.9 42,19.3 48,15.5 54,12.1 60,9.8 66,9.0 72,9.8 78,12.1 84,15.5 90,19.3 96,22.9 102,25.6 108,26.9 114,26.6 120,24.8 126,21.7 132,18.0 138,14.3 144,11.2 150,9.4 156,9.1 162,10.4 168,13.1 174,16.7 180,20.5 186,23.9 192,26.2 198,27.0" fill="none" stroke="#FF4D6D" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,25.8 6,23.2 12,19.7 18,15.9 24,12.4 30,10.0 36,9.0 42,9.6 48,11.8 54,15.1 60,18.9 66,22.5 72,25.3 78,26.8 84,26.7 90,25.1 96,22.1 102,18.4 108,14.7 114,11.5 120,9.5 126,9.0 132,10.2 138,12.8 144,16.3 150,20.1 156,23.6 162,26.0 168,27.0 174,26.4 180,24.2 186,20.9 192,17.1 198,13.5" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><polyline points="0,10.2 6,9.0 12,9.5 18,11.5 24,14.7 30,18.4 36,22.1 42,25.1 48,26.7 54,26.8 60,25.3 66,22.5 72,18.9 78,15.1 84,11.8 90,9.6 96,9.0 102,10.0 108,12.4 114,15.9 120,19.7 126,23.2 132,25.8 138,27.0 144,26.5 150,24.5 156,21.3 162,17.6 168,13.9 174,10.9 180,9.3 186,9.2 192,10.7 198,13.5" fill="none" stroke="#FF6B2C" stroke-width="2.5" stroke-linecap="round" opacity=".9"/></svg>
+<p style="margin:0 0 1.15em;line-height:1.75">Two asks, verbatim, both answerable in a sentence. Five commands that already existed when he asked. One seam, the flag that passes a value through a fixed shape. That is what turns by hand into mechanical without turning the person into a bystander.</p>
+<div class="aside">Every quoted line above is verbatim from the recorded call or the email thread, checked against the raw transcript on the day this was written. Anything not in quotation marks is my read.</div>
+<p class="endmark" aria-hidden="true"><svg width="69" height="12" viewBox="0 0 69 12"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="#FF4D6D"/><circle cx="29" cy="6" r="5" fill="#FFD700"/><rect x="47.5" y="1.5" width="9" height="9" fill="#FF6B2C"/></svg></p>
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
+</footer>
+</main></body></html>

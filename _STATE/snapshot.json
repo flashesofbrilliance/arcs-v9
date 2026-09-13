@@ -3,16 +3,15 @@
   "repo": "flashesofbrilliance/arcs-v9",
   "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md \u2014 GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "22781915",
-    "head_message": "feat(blog): posts 2-4 in the literary theme + mobile scroll/footer lock on all NFTT pages [NCI:SKIP]",
+    "head_sha": "2cda1b26",
+    "head_message": "data(gone-in-30s): all retry batches merged; retry-remaining.json queued for sequential pass [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/seedbank-drift.jsonl",
       "_STATE/snapshot.json",
-      "public/blog-nftt-take-home-trap-full.html",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/blog/take-home-trap.linkedin.md"
+      "scripts/cold_reader_gate.py",
+      "public/blog-nftt-by-hand-or-automation-full.html"
     ]
   },
   "vercel": {
@@ -202,7 +201,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-09-03T02:03:00Z",
+  "git_refreshed_at": "2026-09-03T20:52:30Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
