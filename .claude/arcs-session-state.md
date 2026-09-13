@@ -1,22 +1,19 @@
 # ARCS Session State — current sprint snapshot
 
-> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.59.0; resume seed `_STATE/pickup-prompt.md`.
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.61.0; resume seed `_STATE/pickup-prompt.md`.
 
-**As of:** 2026-09-08 · **Branch:** `feat/audit-service` · **Version:** v3.59.0 (ARCS-on-ARCS shipping close)
+**As of:** 2026-09-13 · **Branch:** `main` (HEAD `ad4f084f`, all session PRs merged) · **Version:** v3.61.0
 
-## Shipped + verified live this session
-- NFTT "Assets and Liabilities" (good.arcs.care/blog/nftt/assets-and-liabilities) — PR #332
-- Field Instruments public-goods chapter (good.arcs.care/instruments) — PR #337 + routing fix #340
-- Day-151 milestone on status.html; informativeness ratchet real CI arm (informativeness.yml) — PR #337
-- Reproducible DB audit + dead-trio build fix — PR #306
+## Shipped this session
+- Bridge employer index: 578 `bridge_scan` rows live on jobs.arcs.care (PR #415)
+- ADR-078/079/080/081 + 041 landed from the 3 hold branches (PRs #408–#413); composition boundary (#407)
+- Scout dossier intake gate + worktree patch-id audit on main (#416); seed bank clean (#418, #419, #421)
+- 8 decision_receipt rows; convergence.json beat 6 on fresh-starts
 
-## Deceipt ledger: 15 (12–15 booked this session; #13/#15 caught by field-contact, not self-review)
-
-## Next action
-Extract informativeness-auditor into a standalone package (Seed→Proven). Outcome-capture keel (2/247) = P1.
-
-## Open (human-gated)
-Memory-index retirement · outcome-capture keel · ROM candidate (live-receipt gate) · flip INTEGRITY_GATE_BLOCK=1 after a clean week
+## Next unblocked
+1. Thread 2 scores the 578 bridge rows (branch `claude/bridge-scan-rubric`), then reconcile the H1–H4 denominator.
+2. Human prune call: 14 MERGED-prunable + 3 landed hold worktrees (`_STATE/worktree-audit-2026-09-11.md`).
+3. Workday adapter for 256 unresolved employers · Parloa re-emit (Perplexity).
 
 ## Blocking
-NONE.
+NONE

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-01T00:00:00Z",
+  "title": "Design System: ARCS",
+  "extensions": {
+    "colorMeta": {
+      "true-north-cyan": { "role": "primary", "displayName": "True North Cyan", "canonical": "#00F0FF", "tonalRamp": ["#001417", "#002a30", "#004249", "#006b76", "#009aa8", "#00c5d6", "#00F0FF", "#7ff7ff"] },
+      "coherent-green": { "role": "secondary", "displayName": "Coherent Green", "canonical": "#00FF9D", "tonalRamp": ["#00170e", "#002d1c", "#00492e", "#007349", "#00a468", "#00d488", "#00FF9D", "#7fffce"] },
+      "locked-gold": { "role": "secondary", "displayName": "Locked Gold", "canonical": "#FFD700", "tonalRamp": ["#1a1600", "#332c00", "#4d4200", "#7a6900", "#a89000", "#d6b800", "#FFD700", "#ffe87f"] },
+      "ruin-red": { "role": "secondary", "displayName": "Ruin Red", "canonical": "#FF4D6D", "tonalRamp": ["#1f0810", "#3d0f1f", "#5c172e", "#8a2345", "#b82f5c", "#e63e70", "#FF4D6D", "#ff9db0"] },
+      "conviction-violet": { "role": "tertiary", "displayName": "Conviction Violet", "canonical": "#A78BFA", "tonalRamp": ["#140f26", "#241a45", "#352764", "#4f3a96", "#6a4ec8", "#8a6fe0", "#A78BFA", "#cbb8fc"] },
+      "paradox-magenta": { "role": "tertiary", "displayName": "Paradox Magenta", "canonical": "#E879F9", "tonalRamp": ["#210a24", "#3f1444", "#5e1e65", "#8d2d98", "#bb3cca", "#d556e4", "#E879F9", "#f2b8fb"] },
+      "obsidian-bg": { "role": "neutral", "displayName": "Obsidian", "canonical": "#020408", "tonalRamp": ["#020408", "#0a0e14", "#0d1117", "#111827", "#1e293b", "#475569", "#94a3b8", "#e2e8f0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Canon Serif", "purpose": "Proverbs, canon headers, load-bearing quotes. The oral-history register." },
+      "body": { "displayName": "Reading Sans", "purpose": "All prose and reading." },
+      "label": { "displayName": "Instrument Mono", "purpose": "Instrument labels, section indices, gauge units. Uppercase, tracked." }
+    },
+    "shadows": [
+      { "name": "signal-glow", "value": "0 0 34px rgba(0,240,255,0.07)", "purpose": "Restrained bloom under an active bearing or panel. Depth via light, not cast shadow." },
+      { "name": "locked-bloom", "value": "0 0 54px rgba(0,240,255,0.16)", "purpose": "The crystalline 'superionic' locked state: light through fixed form. Pairs with border-color rgba(0,240,255,0.6)." },
+      { "name": "glow-green", "value": "0 0 34px rgba(0,255,157,0.28)", "purpose": "Coherence/GREEN readout bloom." },
+      { "name": "glow-gold", "value": "0 0 34px rgba(255,215,0,0.26)", "purpose": "Court/LOCKED readout bloom." },
+      { "name": "glow-red", "value": "0 0 34px rgba(255,77,109,0.26)", "purpose": "Ruin/alert readout bloom." }
+    ],
+    "motion": [
+      { "name": "drift", "value": "rotateY over ~180s linear, phase += 0.0035/frame", "purpose": "The mark's default idle rotation; held to a still frame under prefers-reduced-motion." },
+      { "name": "fog-clear", "value": "opacity/filter 0.2s ease", "purpose": "Earned-fidelity transitions: fog lowers, sharpness rises." },
+      { "name": "mark-reveal", "value": "transform rotate over 1.6-2s cubic-bezier(0.22,1,0.36,1)", "purpose": "The Mobius/wordmark reveal easing." }
+    ],
+    "breakpoints": [
+      { "name": "form", "value": "768px" },
+      { "name": "document", "value": "768px (max-width 960)" },
+      { "name": "reading", "value": "760px (Tao/canon column)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "The Mark",
+      "kind": "custom",
+      "refersTo": "brand-mark",
+      "description": "The ARCS Mobius/fog/horizon signature. The tilde extruded through the manifold onto an earned gold horizon.",
+      "html": "<div class=\"ds-mark\"><span class=\"ds-mark-glyph\">⊕</span><span class=\"ds-wordmark\"><b>ARCS</b></span></div>",
+      "css": ".ds-mark{display:flex;flex-direction:column;align-items:center;gap:1rem}.ds-mark-glyph{font-size:2rem;color:#FFD700;display:inline-block;transition:transform 2s cubic-bezier(.22,1,.36,1)}.ds-mark:hover .ds-mark-glyph{transform:rotate(360deg)}.ds-wordmark{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.75rem;font-weight:700;letter-spacing:.28em;color:#e2e8f0;margin-left:.28em}.ds-wordmark b{color:#00F0FF;font-weight:700}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The default button: transparent on obsidian, hairline border, mono uppercase label; hover shifts to True North Cyan.",
+      "html": "<button class=\"ds-btn-ghost\">RUN COMPASS</button>",
+      "css": ".ds-btn-ghost{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:none;border:1px solid #1e293b;border-radius:3px;color:#94a3b8;padding:.4rem .65rem;cursor:pointer;transition:border-color .2s,color .2s}.ds-btn-ghost:hover{border-color:#00F0FF;color:#00F0FF}.ds-btn-ghost:focus-visible{outline:1px solid #00F0FF;outline-offset:-1px}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat instrument panel on obsidian; hairline border, mono signal title, depth via glow only.",
+      "html": "<div class=\"ds-panel\"><h2 class=\"ds-panel-title\">TRUE NORTH</h2><p class=\"ds-panel-body\">Close the loop before adding any new organ.</p></div>",
+      "css": ".ds-panel{background:#0d1117;border:1px solid #1e293b;border-radius:6px;padding:20px 22px}.ds-panel-title{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#00F0FF;margin:0 0 12px}.ds-panel-body{font-family:'Inter',system-ui,sans-serif;font-size:.9rem;color:#e2e8f0;margin:0;line-height:1.6}"
+    },
+    {
+      "name": "Instrument Gauge",
+      "kind": "custom",
+      "refersTo": "gauge",
+      "description": "A numeric readout: mono unit label above, tabular-nums value colored by state. Assessed values carry a leading tilde and dim one step.",
+      "html": "<div class=\"ds-gauge\"><span class=\"ds-gauge-unit\">NCI</span><div class=\"ds-gauge-val\">84</div></div><div class=\"ds-gauge ds-assessed\"><span class=\"ds-gauge-unit\">DONE-STATE</span><div class=\"ds-gauge-val\">~42%</div></div>",
+      "css": ".ds-gauge{display:inline-block;border:1px solid #1e293b;background:#0d1117;border-radius:6px;padding:.6rem .9rem;min-width:104px;margin-right:.7rem}.ds-gauge-unit{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.625rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#475569}.ds-gauge-val{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;color:#00FF9D}.ds-assessed .ds-gauge-val{color:#FFD700;opacity:.85}"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Mono micro-label with a signal-tinted border and ~7% fill. Tint carries the state.",
+      "html": "<span class=\"ds-chip ds-chip-ok\">HELD</span> <span class=\"ds-chip ds-chip-stale\">VIOLATED</span>",
+      "css": ".ds-chip{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.58rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 7px;white-space:nowrap}.ds-chip-ok{color:#00FF9D;background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.35)}.ds-chip-stale{color:#FF4D6D;background:rgba(255,77,109,.07);border:1px solid rgba(255,77,109,.4)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Render Through the Fog",
+    "overview": "ARCS renders at earned fidelity. Every surface is only as sharp as the evidence deserves, and it never lies about how certain it is. Clarity is not granted at load; it is earned as the fog lowers and the terrain resolves. The world is obsidian and single-theme, a dark cockpit read under pressure: calm, precise, serious play. Color is never ornament; each hue is a state. Depth is made of light, not cast shadow. The signature is the mark: a Mobius strip (the tilde extruded) rising from a fog field onto a clean gold horizon.",
+    "keyCharacteristics": [
+      "Earned fidelity: four render states (SHARP / DEGRADED / GRAIN / MOIRE) that degrade legibility to match evidence.",
+      "Obsidian, single-theme, dark-cockpit; no light mode.",
+      "Semantic color: every accent is a state, used on <=10% of a screen.",
+      "Glow, not shadow: depth is luminance, not cast darkness.",
+      "Mono for instruments, serif for canon, sans for the body.",
+      "The tilde is the atomic glyph and the honesty marker."
+    ],
+    "rules": [
+      { "name": "The Semantic Color Rule", "body": "Color is state, never decoration. Cyan is bearing, green is coherence, gold is locked, red is ruin, violet is conviction-shift, magenta is paradox. If a color would not survive being read as its state, it does not belong on the screen.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Any single signal color occupies <=10% of a screen. Rarity is the legibility.", "section": "colors" },
+      { "name": "The Glow-Not-Shadow Rule", "body": "Depth is made of light, never of cast darkness. A surface at rest is flat. Elevation is a signal-colored glow that appears as a response to state, not an ambient default.", "section": "elevation" },
+      { "name": "The Three-Voice Rule", "body": "Mono = instrument, Sans = reading, Serif = canon. Never cross them: a proverb never renders in mono, a gauge label never in serif.", "section": "typography" },
+      { "name": "The Graded-Legend Rule", "body": "Mono labels use six graded tiers: as a tier rises, size increases and tracking decreases while weight holds, so a heading never reads like a field label.", "section": "typography" }
+    ],
+    "dos": [
+      "Do render at earned fidelity: match the surface's sharpness to the evidence (SHARP only when GREEN/LOCKED).",
+      "Do keep assessed values marked with a leading tilde and dimmed one step.",
+      "Do use color as state only, on <=10% of a screen.",
+      "Do convey depth with signal-colored glow as a response to state; keep surfaces flat at rest.",
+      "Do separate the three voices strictly: mono for instruments, sans for reading, serif for canon.",
+      "Do give every interactive element a visible cyan focus ring."
+    ],
+    "donts": [
+      "Don't render SHARP on thin evidence; a coarse honest reading beats a confident fabrication.",
+      "Don't use a signal color decoratively, or let one flood the screen.",
+      "Don't use cast drop-shadows for elevation.",
+      "Don't set the wordmark or a proverb in the wrong voice.",
+      "Don't use em-dashes anywhere; prefer commas, colons, periods, or the interpunct.",
+      "Don't introduce a light theme."
+    ]
+  }
+}

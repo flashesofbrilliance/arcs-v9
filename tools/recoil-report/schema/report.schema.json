@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "arcs:recoil-report:v1",
+  "title": "ARCS Recoil Report",
+  "description": "Canonical shape for a post-call recoil report JSON, as consumed by the /recoil/[reportId] Next.js route and the standalone HTML renderer. Permissive by design (extra keys allowed); requires the load-bearing sections so `validate` catches a dropped section or a typo'd key.",
+  "type": "object",
+  "required": ["reportId", "meta", "cover", "loadBearingQuote", "callWalk", "signalThreads", "scenarios", "riskFlags", "protocol"],
+  "properties": {
+    "reportId": { "type": "string", "description": "Short slug, conventionally <callDate>-<counterpart-surname> — matches the filename." },
+    "notice": { "type": "string", "description": "Optional visibility banner, e.g. 'PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD'." },
+    "meta": {
+      "type": "object",
+      "description": "Provenance + cadence. Freeform, but these are the conventional keys.",
+      "required": ["callTitle", "callDate"],
+      "properties": {
+        "callTitle": { "type": "string" },
+        "counterpart": { "type": "string" },
+        "counterpartRole": { "type": "string" },
+        "callDate": { "type": "string" },
+        "callTime": { "type": "string" },
+        "durationMinutes": { "type": "number" },
+        "segmentCount": { "type": "number" },
+        "protocol": { "type": "string" },
+        "prePrepSession": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "cover": {
+      "type": "object",
+      "description": "The one-screen verdict. Either the yGate/nci/headline shape (canonical) or the badges/title shape (legacy delaney) — renderer tolerates both.",
+      "properties": {
+        "yGate": { "type": "string", "enum": ["GREEN", "YELLOW", "FORK", "SCRATCH", "DELTA", "DRIFT", "PARADOX", "RED"] },
+        "conviction": { "type": "string" },
+        "stability": { "type": "string" },
+        "renderState": { "type": "string", "enum": ["SHARP", "DEGRADED", "GRAIN", "MOIRE"] },
+        "nci": { "type": "number" },
+        "headline": { "type": "string" },
+        "subline": { "type": "string" },
+        "badges": { "type": "array", "items": { "type": "string" } },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" }
+      }
+    },
+    "loadBearingQuote": {
+      "type": "object",
+      "required": ["text", "attribution"],
+      "properties": {
+        "text": { "type": "string" },
+        "attribution": { "type": "string" },
+        "significance": { "type": "string" }
+      }
+    },
+    "callWalk": {
+      "type": "array",
+      "description": "Ordered segments. Each needs a label and a body (summary|body).",
+      "items": {
+        "type": "object",
+        "required": ["label"],
+        "properties": {
+          "segment": { "type": "number" },
+          "label": { "type": "string" },
+          "time": { "type": "string" },
+          "direction": { "type": "string" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "body": { "type": "string" },
+          "divergenceFlag": { "type": "string" },
+          "peak": { "type": "boolean" }
+        }
+      }
+    },
+    "signalThreads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "color": { "type": "string" },
+          "accent": { "type": "string" },
+          "strength": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "body": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "scenarios": {
+      "description": "Either an array of {id,label,description,...} or an object {best,base,worst}. Renderer tolerates both.",
+      "type": ["array", "object"]
+    },
+    "riskFlags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "type": "string" },
+          "variant": { "type": "string" },
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "body": { "type": "string" },
+          "action": { "type": "string" }
+        }
+      }
+    },
+    "protocol": {
+      "description": "Either the {passes[],immediateActions[]} object (canonical) or an array of {label,title,body} steps. Renderer tolerates both.",
+      "type": ["object", "array"]
+    },
+    "kinematics": {
+      "type": "object",
+      "description": "Optional measured manifold sparkline (delaney shape). points:[{t,v,kind,note}].",
+      "properties": {
+        "points": { "type": "array", "items": { "type": "object" } }
+      }
+    }
+  }
+}

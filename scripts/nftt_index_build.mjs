@@ -505,8 +505,20 @@ ${readerHTML}
       }, { threshold: 0.4 });
       io.observe(card);
     }
+    /* Owned record alongside the Vercel event: POST /api/probe (our table, deduped by a random
+       visitor id kept in this browser; survives blockers that eat /_vercel/insights). */
+    var ls = { get:function(k){ try{ return localStorage.getItem(k) }catch(e){ return null } }, set:function(k,v){ try{ localStorage.setItem(k,v) }catch(e){} } };
+    var vid = ls.get('arcs_vid');
+    if (!vid){ vid = 'v-' + Math.random().toString(36).slice(2,10) + '-' + Date.now().toString(36); ls.set('arcs_vid', vid); }
+    function own(action){
+      try{ fetch('/api/probe', { method:'POST', keepalive:true, headers:{ 'content-type':'application/json' },
+        body: JSON.stringify({ probe:'mcp-connector', action:action, surface:'nftt', vid:vid, path:location.pathname }) }).catch(function(){}); }catch(e){}
+    }
     var cta = document.getElementById('mpCta'), done = document.getElementById('mpDone');
-    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); if(done){ done.hidden = false; } cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; }); }
+    function markDone(){ if(done){ done.hidden = false; } if(cta){ cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; } }
+    if (ls.get('mp_voted_mcp-connector')){ markDone(); }
+    if (card && !sessionStorage.getItem('mp_viewed')){ try{ sessionStorage.setItem('mp_viewed','1') }catch(e){}; own('view'); }
+    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); own('interest'); ls.set('mp_voted_mcp-connector','1'); markDone(); }); }
   })();
 </script>
 <script>${editorJS}</script>

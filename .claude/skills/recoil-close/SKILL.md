@@ -27,6 +27,12 @@ omission-drift. This is ROM #6, the Exogenous Forge — a claim stands only if s
 - **Belief trajectory** (`kinematic_series`): confidence over segments/calls; `scripts/recoil` computes
   the chart + D1-D3 kinematics.
 - Kairos / quiet signals / risk flags (`list`).
+- **Candidacy only: re-score `opportunity.req_reality` from the transcript** (quote the line that
+  sets it into `req_reality_basis`) and log `artifacts_after_signal` = artifacts sent after the
+  first `<= 1` signal. GREEN is not available at `<= 1` regardless of rapport; headline must carry
+  the gate state ("advocate confirmed, req unconfirmed"). Warmth (invites, "stay in touch") is a
+  relationship asset, not fit evidence. Warm founder threads at `<= 1` resolve to `ghosted` after
+  ~4 weeks of silence, not `open`.
 
 ## Step 4 — WAR GAME (tab 5)
 Kinematic manifold (auto), the gauntlet (BAR ruin edge / LAB Loki-Advisor-Bayesian / COURT), and the

@@ -1,0 +1,79 @@
+{
+  "reportId": "YYYY-MM-DD-counterpart",
+  "notice": "PRIVATE · INTERNAL ONLY · DO NOT FORWARD",
+  "meta": {
+    "callTitle": "Counterpart x You // Call",
+    "counterpart": "Full name — who they are and current context",
+    "counterpartRole": "Role / org / relevant state",
+    "callDate": "YYYY-MM-DD",
+    "callTime": "10:30 AM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": "none — or the id of the ex-ante PrepSession scored against",
+    "note": "One-line provenance / caveat."
+  },
+  "cover": {
+    "yGate": "YELLOW",
+    "conviction": "MEDIUM",
+    "stability": "STABLE",
+    "renderState": "DEGRADED",
+    "nci": 60,
+    "headline": "One-line verdict of the call.",
+    "subline": "Two-to-four sentence expansion: what landed, what the compounding causes were, the correct read."
+  },
+  "loadBearingQuote": {
+    "text": "The single most important thing they actually said, verbatim.",
+    "attribution": "GRANOLA TRANSCRIPT · NAME (ORG) · YYYY-MM-DD",
+    "significance": "Why this quote is load-bearing — what it reveals that nothing else does."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "RAPPORT OPEN",
+      "time": "0–6 min",
+      "direction": "FORWARD",
+      "summary": "What happened in this segment.",
+      "divergenceFlag": "LOW — forward vs backward read agree."
+    },
+    {
+      "segment": 2,
+      "label": "THE HINGE",
+      "time": "6–20 min",
+      "direction": "FORWARD",
+      "summary": "The turning point of the call.",
+      "divergenceFlag": "HIGH — where forward and backward reads diverge."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "THREAD_ONE",
+      "label": "Short thread name",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "What this signal is and why it matters."
+    }
+  ],
+  "scenarios": [
+    { "id": "A", "probability": 70, "label": "BASE — most likely", "description": "What happens by default.", "trigger": "What sets it off.", "watch": "The leading indicator to watch." }
+  ],
+  "riskFlags": [
+    {
+      "id": "RISK_ONE",
+      "severity": "HIGH",
+      "label": "The one risk that matters most",
+      "description": "What the risk is.",
+      "action": "The concrete move that addresses it."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      { "name": "Reverse Listening", "direction": "End → Start", "keyFinding": "What reading the call backward revealed." },
+      { "name": "Deep Recall", "direction": "Start → End", "keyFinding": "What the call scored against the pre-call expectation." }
+    ],
+    "immediateActions": [
+      "First concrete next action.",
+      "Second concrete next action."
+    ]
+  }
+}

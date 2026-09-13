@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · for SentiLink</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jbmono.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2');}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/jbmono.woff2') format('woff2');}
+  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  html{overflow-x:clip;}
+  body{overflow-x:hidden;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:var(--mono);}
+
+  /* sticky nav */
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(2,4,8,.78);border-bottom:1px solid var(--border);}
+  .navin{position:relative;max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .burger{display:none;background:var(--elev);border:1px solid var(--border2);border-radius:7px;color:var(--fg1);font-size:15px;line-height:1;padding:7px 11px;cursor:pointer;}
+  .burger:hover{border-color:var(--cyan);color:var(--cyan);}
+  /* Universal ARCS Field OS wordmark (mirrors src/ui/Wordmark.tsx): ARCS heavy+wide, FIELD OS lighter+dimmer. Public surface, so no auth controls. */
+  .wm{display:inline-flex;align-items:baseline;gap:.45em;font-family:var(--mono);font-size:11px;text-transform:uppercase;white-space:nowrap;text-decoration:none;flex-shrink:0;}
+  .wm .a{color:var(--cyan);font-weight:800;letter-spacing:.22em;}
+  .wm .f{color:var(--fg4);font-weight:400;letter-spacing:.14em;}
+  .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+  .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
+  .navlinks a:hover{color:var(--cyan);background:var(--elev);}
+  .navlinks a.dc{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);font-weight:700;}
+  .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
+  .ext::after{content:"\2197";font-family:var(--mono);font-size:.7em;font-weight:700;margin-left:3px;opacity:.6;vertical-align:top;}
+  .navlinks a.dc.ext::after{opacity:.75;}
+  .navdrop{display:none;}
+  @media(max-width:600px){
+    .burger{display:block;position:relative;z-index:62;}
+    .navdrop{display:block;position:fixed;inset:0;z-index:58;background:rgba(2,4,8,.55);opacity:0;pointer-events:none;transition:opacity .24s ease;}
+    .navin.open .navdrop{opacity:1;pointer-events:auto;}
+    .navlinks{position:fixed;top:0;right:0;height:100dvh;width:min(74%,300px);z-index:60;
+      flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;
+      padding:62px 16px 22px;background:rgba(4,7,13,.99);border-left:1px solid var(--border2);
+      box-shadow:-24px 0 60px -24px rgba(0,0,0,.75);
+      transform:translateX(105%);transition:transform .24s ease;display:flex;overflow-y:auto;}
+    .navin.open .navlinks{transform:translateX(0);}
+    .navlinks a{padding:12px 12px;font-size:13.5px;border-radius:8px;}
+    .navlinks a.dc{text-align:center;margin-top:8px;}
+  }
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 480px at 16% -12%,rgba(0,240,255,.11),transparent 60%),radial-gradient(760px 420px at 94% -6%,rgba(0,255,157,.07),transparent 55%);}
+  .hero{padding:70px 22px 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(54px,10.5vw,104px);font-weight:800;letter-spacing:-.04em;line-height:.94;margin-top:18px;text-wrap:balance;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .tag{font-size:clamp(21px,3.7vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.06;margin-top:12px;text-wrap:balance;}
+  .tag .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16.5px,2.4vw,21px);line-height:1.62;color:var(--fg2);margin-top:22px;max-width:none;text-wrap:pretty;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  /* hero ship-clock: the live proof of velocity, surfaced as a cockpit readout */
+  .ticker{display:inline-flex;align-items:center;gap:11px;margin-top:26px;max-width:100%;
+    padding:11px 16px;border:1px solid var(--border2);border-radius:11px;
+    background:linear-gradient(100deg,rgba(0,255,157,.07),rgba(0,240,255,.045));
+    font-family:var(--mono);font-size:12.5px;line-height:1.35;color:var(--fg2);}
+  .ticker .pulse{flex:none;width:8px;height:8px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-out infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,157,.55);}70%{box-shadow:0 0 0 8px rgba(0,255,157,0);}100%{box-shadow:0 0 0 0 rgba(0,255,157,0);}}
+  .ticker .tk-lbl{flex:none;font-weight:700;letter-spacing:.16em;font-size:10px;color:var(--green);}
+  .ticker .tk-val b{color:var(--fg1);font-weight:700;}
+  @media(max-width:520px){.ticker{font-size:11.5px;gap:9px;padding:10px 13px;}}
+  @media(prefers-reduced-motion:reduce){.ticker .pulse{animation:none;}}
+
+  section{padding:48px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:23px;font-weight:700;letter-spacing:-.01em;text-wrap:balance;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  @media(max-width:560px){.sec-lbl .sub{display:none;}}
+
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:720px){.pillars{grid-template-columns:1fr;}}
+  .pl3{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .pl3 .pt{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--cyan);}
+  .pl3 .pb{font-size:15px;line-height:1.55;color:var(--fg2);margin-top:9px;} .pl3 .pb b{color:var(--fg1);font-weight:600;}
+
+  /* domain map as an actual mapping: their world → bridge → my shipped work */
+  /* Two-column mapping table: what the customers build | where I've shipped.
+     A clean vertical divider between the columns, row separators, no connector. */
+  .dmap{border:1px solid var(--border);border-radius:14px;padding:2px 20px 8px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .dmap-head{display:grid;grid-template-columns:1fr 1fr;padding:14px 0 11px;border-bottom:1px solid var(--border);}
+  .dmap-head span{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
+  .dmap-head .dh-l{color:var(--gold);padding-right:26px;} .dmap-head .dh-r{color:var(--green);padding-left:26px;border-left:1px solid var(--border);}
+  .drow{display:grid;grid-template-columns:1fr 1fr;align-items:start;padding:16px 0;border-bottom:1px solid var(--border);}
+  .drow:last-child{border-bottom:none;}
+  .dside{min-width:0;}
+  .dside.dl{padding-right:26px;} .dside.dr{padding-left:26px;border-left:1px solid var(--border);}
+  .dside .dv{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
+  .dside .dlogos{font-size:13.5px;line-height:1.5;color:var(--fg2);margin-top:5px;}
+  .dside .dmine{font-size:14px;line-height:1.52;color:var(--fg1);} .dside .dmine b{color:var(--green);font-weight:600;}
+  @media(max-width:640px){
+    .dmap{padding:2px 16px 8px;}
+    .dmap-head{display:none;}
+    .drow{grid-template-columns:1fr;gap:9px;padding:15px 0;}
+    .dside.dl,.dside.dr{padding:0;border-left:none;}
+    .dside.dr .dmine{padding-left:14px;border-left:2px solid;border-image:linear-gradient(180deg,var(--gold),var(--green)) 1;}
+  }
+  .mapnote{font-size:13.5px;line-height:1.55;color:var(--fg3);margin-top:14px;} .mapnote b{color:var(--fg2);}
+
+  .proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:720px){.proof{grid-template-columns:1fr 1fr;}}
+  .pl{display:block;border:1px solid var(--border);border-radius:12px;padding:16px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));transition:.15s;}
+  .pl:hover{border-color:var(--cyan);transform:translateY(-2px);}
+  .pl .pn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:.03em;}
+  .pl .pd{font-size:13px;line-height:1.5;color:var(--fg3);margin-top:7px;}
+
+  .dccard{position:relative;overflow:hidden;border:1px solid var(--border2);border-radius:16px;padding:28px 26px;
+    background:radial-gradient(600px 300px at 12% 0,rgba(0,240,255,.10),transparent 60%),linear-gradient(168deg,#0c1219,#080d13);}
+  .dccard h3{font-size:23px;font-weight:800;letter-spacing:-.02em;}
+  .dccard h3 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .dccard p{font-size:15px;line-height:1.6;color:var(--fg2);margin-top:12px;max-width:none;text-wrap:pretty;} .dccard p b{color:var(--fg1);}
+  .dccard .cta{margin-top:20px;}
+
+  footer{padding:32px 0 50px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.03em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+  .prov{max-width:1000px;margin:16px auto 0;padding:14px 22px 0;border-top:1px solid var(--border);font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);}
+  .prov a{color:var(--fg3);} .prov a:hover{color:var(--cyan);}
+  .attrib{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);}
+  .attrib b{color:var(--fg2);font-weight:600;}
+  .clock{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);} .clock b{color:var(--green);font-weight:700;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="navin">
+    <a class="wm" href="/" aria-label="ARCS Field OS"><span class="a">ARCS</span><span class="f">Field OS</span></a>
+    <button class="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <div class="navdrop" aria-hidden="true"></div>
+    <div class="navlinks">
+      <a class="hidemob" href="https://build.arcs.care">build</a>
+      <a class="hidemob" href="https://good.arcs.care">good</a>
+      <a class="hidemob" href="https://status.arcs.care">status</a>
+      <a href="https://github.com/flashesofbrilliance">github</a>
+      <a class="hidemob" href="https://www.zachharris.xyz">zachharris.xyz</a>
+      <a href="/resume">r&eacute;sum&eacute;</a>
+      <a class="dc" href="/forge">&#9670; The Forge</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>new leader / pitch us &middot; program integrity</span>
+    <h1>Zach Harris</h1>
+    <p class="tag"><span class="g">Stands up regulated markets. Builds in public.</span></p>
+    <p class="lede">Two decades shipping 0&rarr;1 across regulated financial services (<b>Grayscale</b>: $7B in SEC/FINRA-regulated launches, 10 products) and regulated health (HIPAA). I build AI-native systems on Claude and MCP: <b>ARCS</b> is in production. I'm the operator who stands up a new regulated line, holding build, compliance, and go-to-market in one head, working <b>with</b> SentiLink's fraud science, not replacing it.</p>
+    <div class="cta">
+      <a class="btn p" href="/forge">&#9670; See how it was forged</a>
+      <a class="btn s" href="#kitchen">The proof &darr;</a>
+    </div>
+    <div class="ticker">
+      <span class="pulse"></span>
+      <span class="tk-lbl">SHIPPED</span>
+      <span class="tk-val">ARCS is <b>live in production</b> on Claude and a custom MCP server. Built and polished in the open, commit by commit at status.arcs.care.</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>The seam I sit on</h2><span class="sub">one person, three fluencies</span></div>
+    <div class="pillars">
+      <div class="pl3"><div class="pt">Bilingual bridge</div><div class="pb">I hold the <b>regulated business case</b> and the build in one head. A new regulated line needs the buyer, the compliance path, and the product co-designed together, not handed across teams.</div></div>
+      <div class="pl3"><div class="pt">Builds AI-native, not just specs it</div><div class="pb">A live <b>MCP server</b>, agentic orchestration, and <b>ARCS in production</b>, with a build trail you can click at status.arcs.care. Provenance, not adjective.</div></div>
+      <div class="pl3"><div class="pt">Ships where getting it wrong is expensive</div><div class="pb"><b>Compliance-in-the-loop</b>, regulated 0&rarr;1, in the open. Where a mistake is costly, compliance is the product, not an afterthought.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>What SentiLink's world requires &harr; where I've shipped</h2><span class="sub">regulated-market range</span></div>
+    <div class="dmap">
+      <div class="dmap-head"><span class="dh-l">What SentiLink's world requires</span><span class="dh-r">Where I've already shipped</span></div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Regulated financial services</div><div class="dlogos">13 of the top 15 US banks &middot; 500+ financial institutions</div></div>
+        <div class="dside dr"><div class="dmine"><b>Grayscale</b>: go-to-market for $7B in SEC/FINRA-regulated launches, 10 products, compliance-in-the-loop.</div></div>
+      </div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">AI-native fraud/identity signals</div><div class="dlogos">real-time scoring &middot; enrollment identity &middot; AI-era detection</div></div>
+        <div class="dside dr"><div class="dmine"><b>ARCS</b>: an agentic decision platform on Claude with a live MCP server. I ship AI-native systems in production.</div></div>
+      </div>
+      <div class="drow">
+        <div class="dside dl"><div class="dv">Government / public-sector programs</div><div class="dlogos">the Program Integrity beachhead</div></div>
+        <div class="dside dr"><div class="dmine"><b>Axon</b> (public-safety / law-enforcement tech, government-adjacent): real-time platforms, secure OTT. Plus HIPAA-regulated health product testing.</div></div>
+      </div>
+    </div>
+    <p class="mapnote"><b>An operator who has shipped in these exact regulated and public-sector domains is better for having lived them.</b> The missing piece SentiLink needs to stand up Program Integrity is the market-standup operator, which is this.</p>
+  </div>
+</section>
+
+<section id="kitchen">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>The kitchen</h2><span class="sub">live proof, not screenshots</span></div>
+    <div class="proof">
+      <a class="pl" href="https://github.com/flashesofbrilliance"><div class="pn">&#9670; GitHub</div><div class="pd">The code, the commits, the co-authored-with-Claude provenance.</div></a>
+      <a class="pl" href="https://status.arcs.care"><div class="pn">&#9670; status.arcs.care</div><div class="pd">The live commit trail. Shipping velocity as telemetry.</div></a>
+      <a class="pl" href="https://good.arcs.care"><div class="pn">&#9670; good.arcs.care</div><div class="pd">Open-source developer tools, each with a conformance suite.</div></a>
+      <a class="pl" href="https://build.arcs.care"><div class="pn">&#9670; build.arcs.care</div><div class="pd">What's getting built, in the open.</div></a>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="dccard">
+      <h3>The <span class="g">Forge</span></h3>
+      <p>Curious how this page was built? An <b>honest, agentic pipeline</b> ingested the opportunity, graded every claim by how checkable it is, red-teamed the draft, and shows you <b>everything it refused to say</b>. The machinery, not the marketing. It also happens to be a working demo of the operator skill this line needs: build the surface, gate the claims, ship in the open.</p>
+      <div class="cta"><a class="btn p" href="/forge">&#9670; Open the Forge</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>prepared for SentiLink &middot; New Leader / Program Integrity</span>
+    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/forge">the forge</a></span>
+  </div>
+  <div class="prov">&#9670; Built in the open. Every claim is evidence-graded and red-teamed: see exactly how, and what got cut, in <a href="/forge">the Forge</a>. Source, provenance, and the live commit trail via <a href="https://github.com/flashesofbrilliance">GitHub</a> and <a href="https://status.arcs.care">status.arcs.care</a>.</div>
+</footer>
+<script>
+  // External links (and the cross-page /resume, /forge) open in a new tab
+  // so the bundle stays open behind them: none of those pages navigate back here.
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href') || '';
+    if (/^https?:\/\//.test(h)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; a.classList.add('ext'); }
+  });
+  // right-side drawer menu on small viewports
+  var burger = document.querySelector('.burger'), navin = document.querySelector('.navin'), drop = document.querySelector('.navdrop');
+  function setMenu(open){ navin.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); burger.innerHTML = open ? '✕' : '☰'; }
+  if (burger && navin) {
+    burger.addEventListener('click', function(){ setMenu(!navin.classList.contains('open')); });
+    if (drop) drop.addEventListener('click', function(){ setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+    document.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+  }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+  function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+  document.addEventListener('click', function(e){
+    var el = e.target.closest && e.target.closest('a[href], .stg'); if(!el) return;
+    if(el.classList && el.classList.contains('stg')){ var st=el.querySelector('.st'); track('stage:'+(st?st.textContent.trim().toLowerCase():el.getAttribute('data-i'))); return; }
+    var h = el.getAttribute('href')||'', label='';
+    if(h==='/') label='back_to_bundle';
+    else if(h==='/forge') label='open_forge';
+    else if(h==='/resume') label='open_resume';
+    else if(/blacksmith-resume\.pdf/.test(h)) label='download_resume_pdf';
+    else if(/blacksmith-cover\.pdf/.test(h)) label='download_cover';
+    else if(/ats\.txt/.test(h)) label='download_ats';
+    else if(/github/.test(h)) label='out_github';
+    else if(/status\./.test(h)) label='out_status';
+    else if(/good\./.test(h)) label='out_good';
+    else if(/build\./.test(h)) label='out_build';
+    else if(/playground\./.test(h)) label='out_playground';
+    else if(/zachharris/.test(h)) label='out_zachharris';
+    else if(/^https?:/.test(h)) label='out_other';
+    if(label) track(label);
+  }, true);
+</script>
+</body>
+</html>

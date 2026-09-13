@@ -1,0 +1,81 @@
+<!-- @dsCard group="Recoil Report" name="Earned-Fidelity Twin" subtitle="As rendered vs as earned · the same moment at two render states · req_reality gate" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+
+/* The primitive: one moment, two render states side by side. Left = what the instrument
+   printed. Right = what the data earned (WORLD.md render scale). Use it in a post-mortem
+   or a recoil-close whenever the printed Y-state disagrees with the gate state
+   (e.g. GREEN printed at req_reality <= 1). Never show only the flattering half. */
+.fidelity-twin { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.twin-cell {
+  padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+.twin-label {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 6px; display: block;
+}
+.twin-cell p { font-family: var(--font-sans); font-size: 12px; line-height: 1.6; color: var(--dimmed); }
+.twin-cell p b { color: var(--text); font-weight: 600; }
+
+/* AS RENDERED: the printed state's own signal colour (here GREEN) */
+.twin-cell.as-rendered { border-color: var(--green); background: var(--green-bg); }
+.twin-cell.as-rendered .twin-label { color: var(--green); }
+/* AS EARNED: the gate state's colour (here YELLOW/gold) */
+.twin-cell.as-earned { border-color: var(--gold); background: var(--gold-bg); }
+.twin-cell.as-earned .twin-label { color: var(--gold); }
+/* RED variant when the earned state is a stop */
+.twin-cell.as-earned.stop { border-color: var(--red); background: var(--red-bg); }
+.twin-cell.as-earned.stop .twin-label { color: var(--red); }
+
+/* earned-fidelity text scale, for the surrounding row (WORLD.md) */
+.fid-sharp { opacity: 1; } .fid-degraded { opacity: .85; } .fid-grain { opacity: .70; }
+
+@media (max-width: 640px) { .fidelity-twin { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="section-label">§ Earned-fidelity twin · Jul 1 screen · GREEN printed at req_reality 1</div>
+  <div class="fidelity-twin">
+    <div class="twin-cell as-rendered">
+      <span class="twin-label">As rendered · Jul 1 recoil</span>
+      <p><b>NCI 88 · GREEN / HIGH / STABLE · SHARP.</b> "Screen passed. CJ is an advocate, not a gatekeeper. Path to Chase is clear." Role fluidity logged as gold DIRECTIONAL, "structural optionality."</p>
+    </div>
+    <div class="twin-cell as-earned">
+      <span class="twin-label">As earned · req_reality 1</span>
+      <p><b>YELLOW / DEGRADED.</b> "Advocate confirmed. Req unconfirmed. Path to Chase owned by Chris, not CJ." Pre-call prior on an active req: 30%. Scenario tree's 5% branch: "stalls at Talent, no open req."</p>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="section-label">§ Variant · earned state is a stop</div>
+  <div class="fidelity-twin">
+    <div class="twin-cell as-rendered">
+      <span class="twin-label">As rendered · Oct 21 2025</span>
+      <p><b>PEAK · numbers on the table.</b> Comp floated unprompted; "close a $2M budget and you've got the job."</p>
+    </div>
+    <div class="twin-cell as-earned stop">
+      <span class="twin-label">As earned · req_reality 0</span>
+      <p><b>RED / STOP.</b> "We also hired another person on the business team... to do the go-to-market engineering." The seat was filled the same call. Any artifact after this line is spend into a non-req.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

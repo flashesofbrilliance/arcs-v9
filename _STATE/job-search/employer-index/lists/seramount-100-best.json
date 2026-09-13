@@ -1,0 +1,26 @@
+{
+  "list": "Seramount 100 Best Companies",
+  "edition": "2026",
+  "sources": [
+    "https://seramount.com/best-companies/",
+    "https://www.bakerdonelson.com/baker-donelson-named-in-top-10-of-seramounts-2026-100-best-companies",
+    "https://www.grantthornton.com/insights/press-releases/2026/june/gt-named-one-of-seramount-best-companies",
+    "https://www.lowenstein.com/news-insights/firm-news/lowenstein-ranked-among-seramount-s-100-best-companies-for-working-parents-and-caregivers",
+    "https://global.lockton.com/us/en/news-insights/lockton-recognized-by-seramount-with-two-2026-workplace-honors",
+    "https://i95business.com/releases/8009",
+    "https://www.stocktitan.net/news/WHR/whirlpool-corporation-recognized-by-seramount-for-workplace-hymop5aajshv.html",
+    "https://www.relias.com/press-room/seramount-honors-relias-in-100-best-companies-list-for-sixth-consecutive-year",
+    "https://www.globenewswire.com/news-release/2024/07/16/2913857/0/en/SERAMOUNT-REVEALS-THE-2024-100-BEST-COMPANIES.html"
+  ],
+  "complete": false,
+  "note": "Only 7 of 100 names retrieved. Seramount (formerly Working Mother 100 Best; workingmother.com now redirects to seramount.com, publication defunct) does NOT publish a public master roster of all 100 honorees for any recent edition. Verified directly: seramount.com/best-companies/ (rendered via browser, JS included) shows only program description, no company list. Seramount's own official master 'reveals' press release format (confirmed via the 2024 GlobeNewswire release, the most recent one findable by search) names only the Top 10 (alphabetical) plus aggregate benefit statistics -- it explicitly does NOT enumerate all 100 names, and no equivalent 'SERAMOUNT REVEALS THE 2025/2026 100 BEST COMPANIES' master release could be located via web search (it may not have been issued, or is not indexed). The remaining companies below were confirmed one at a time from each company's own 2026 self-announcement press release (the only public channel disclosing individual 2026 membership). A candidate 8th name, BDO USA, was excluded after verification showed its retrievable press release was actually the 2023 edition, not 2026. Company names given are verbatim as published in each source; 'top10' is set true only where the source itself states Top 10 placement (Baker Donelson). The overall 2026 Top 10 roster (all ten names) was not retrievable -- no 2026 equivalent of the 2024 Top-10-naming reveal release was found.",
+  "companies": [
+    {"name": "Grant Thornton", "top10": false},
+    {"name": "Baker Donelson", "top10": true},
+    {"name": "Lowenstein Sandler LLP", "top10": false},
+    {"name": "Lockton", "top10": false},
+    {"name": "CLA (CliftonLarsonAllen LLP)", "top10": false},
+    {"name": "Whirlpool Corporation", "top10": false},
+    {"name": "Relias LLC", "top10": false}
+  ]
+}

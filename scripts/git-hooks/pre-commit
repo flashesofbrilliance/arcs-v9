@@ -123,4 +123,95 @@ if [ -n "$tsx" ]; then
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# req_reality gate (manufactured-role class: Fanatics Jul-2026, HypeLab Oct-2025).
+# A staged recoil SSOT for a CANDIDACY must carry opportunity.req_reality (0..3) and
+# may not render y_state GREEN at <=1 (no req => no GREEN). Added-or-modified files
+# only; legacy-schema SSOTs warn, never block. Deterministic, stdlib-only.
+# See scripts/req_reality_gate.py and _STATE/job-search/postmortem-fanatics.md.
+if [ -f scripts/req_reality_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  ssots=$(git diff --cached --name-only --diff-filter=ACM -- 'runtime/recoil/generated/*.json' 2>/dev/null || true)
+  if [ -n "$ssots" ]; then
+    if ! echo "$ssots" | tr '\n' '\0' | xargs -0 python3 scripts/req_reality_gate.py; then
+      echo "✖ commit blocked: req_reality gate — a candidacy SSOT is GREEN on a req that is not real, or has no req_reality." >&2
+      echo "  set opportunity.req_reality (0..3) + req_reality_basis from THEIR words; render YELLOW at <=1." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# token-source gate (re-authored-palette class, 2026-09-11): a staged single-file HTML
+# surface that paints an ARCS signal hex in a custom property must inherit
+# src/ui-kit/recoil-report/_tokens.css (linked, or inlined verbatim with its sentinel
+# line), never re-declare the palette under its own names. Added-or-modified files;
+# a file whose HEAD version already violated only WARNS (ratchet). Stdlib-only.
+# See scripts/token_source_gate.py and memory arcs-fieldos-design-system.
+if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 'public/*.html' 'public/**/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    tmpd=$(mktemp -d); args=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      headf="-"
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        headf="$tmpd/$(echo "$f" | tr '/' '_')"; git show "HEAD:$f" > "$headf" 2>/dev/null || headf="-"
+      fi
+      args="$args $f $headf"
+    done <<< "$pages"
+    # shellcheck disable=SC2086
+    if ! python3 scripts/token_source_gate.py --pair $args; then
+      rm -rf "$tmpd"
+      echo "✖ commit blocked: token-source gate — a NEW page re-authors the ARCS palette instead of inheriting _tokens.css (see above)." >&2
+      echo "  inline src/ui-kit/recoil-report/_tokens.css verbatim (keep its header line) or <link> it; do not rename tokens." >&2
+      exit 1
+    fi
+    rm -rf "$tmpd"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
+# staged single-file pages when the launcher is installed on this machine. NEW pages block on
+# any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already
+# carried findings only WARN (ratchet). Machines without the launcher skip cleanly; the seam is
+# caught on the next machine that has it. Ledger: _PATTERNS/kintsugi-visual-grammar-seams.md
+IMP="$HOME/.claude/skills/impeccable/scripts/impeccable"
+if [ -x "$IMP" ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' 'public/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      # NB: the launcher exits non-zero WHEN IT HAS FINDINGS. Never append a fallback to its
+      # output (a trailing "[]" made the JSON unparseable and the count silently 0 on 2026-09-11,
+      # seam 9 in the ledger). Capture regardless of exit code; a parse failure is loud, never 0.
+      out=$("$IMP" detect --json "$f" 2>/dev/null || true)
+      n=$(printf '%s' "$out" | python3 -c 'import sys,json
+try: print(len(json.load(sys.stdin)))
+except Exception: print("ERR")' 2>/dev/null || echo ERR)
+      if [ "$n" = "ERR" ]; then
+        echo "⚠ pre-commit(kintsugi): could not parse detector output for $f. NOT silently passing: run '$IMP detect --json $f' by hand before you rely on this commit." >&2
+        continue
+      fi
+      [ "${n:-0}" -eq 0 ] && continue
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        tmp=$(mktemp); git show "HEAD:$f" > "$tmp" 2>/dev/null
+        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -f "$tmp"
+        hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
+try: print(len(json.load(sys.stdin)))
+except Exception: print(0)' 2>/dev/null || echo 0)
+        if [ "${hn:-0}" -gt 0 ]; then
+          echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD already had $hn. Not blocking (ratchet). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
+          continue
+        fi
+      fi
+      echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s) and its HEAD version had none (or it is new)." >&2
+      printf '%s' "$out" | python3 -c 'import sys,json
+for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("snippet") or "")[:90])' >&2
+      echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
+      exit 1
+    done <<< "$pages"
+  fi
+fi
+
 exit 0

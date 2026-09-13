@@ -32,6 +32,11 @@ to the bar — generate to it. The receipt surface is fully mechanized in
 ## Pipeline: gather -> synth -> generate -> verify -> deploy
 
 ### 1. gather (cheap tier) — reuse the recoil skills
+- **Candidacy gate before any forge spend:** the SSOT's `opportunity.req_reality` must be `>= 2`
+  to forge a candidacy family (recoil/codex/receipt into a role). At `<= 1` forge the PILOT or
+  PRODUCT surface instead (a scoped deliverable the champion can green-light without creating a
+  req). Manufactured-role class: Fanatics (4 artifacts into a non-req), HypeLab (3).
+  `_STATE/job-search/postmortem-fanatics.md`; gate `scripts/req_reality_gate.py`.
 - New relationship: `/recoil-new` scaffolds `runtime/recoil/generated/<date>-<name>.json`.
 - Before a call: `/recoil-prep` fills Pre-Call + Ex-Ante (this is the **bet, filed before**).
 - After the call: `/recoil-close` pulls the transcript, scores ex-ante vs reality, fills the recoil.

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+THESIS: a post-mortem rendered at earned fidelity, assembled from the ARCS Recoil Report UI kit
+(src/ui-kit/recoil-report), not re-authored. The kit's own demo content was the Fanatics case at its
+high-water mark (NCI 91 SHARP, HM·Chase active, stop-loss armed). This page is that demo data, closed.
+TOKENS: src/ui-kit/recoil-report/_tokens.css inlined VERBATIM below (sentinel header line kept; the
+token-source gate keys on it). One documented override: --font-sans -> Inter, per the DS adherence
+rule (Inter + JetBrains Mono are the only permitted faces; see chan.arcs.care conformance pass).
+KIT PRIMITIVES USED: 01-recoil-header · 06-beat-stepper · 08-receipt-table · 09-stop-loss-footer ·
+10-pipeline-stage-tracker. NET-NEW PRIMITIVE: 14-earned-fidelity-twin (candidate for /design-sync).
+GROUNDED IN: _STATE/job-search/postmortem-fanatics.md (Gmail-verified 2026-09-11), the two Joe Kim
+recoil SSOTs, hypothesis-ledger.md H3', scripts/req_reality_gate.py.
+INTERNAL: noindex, unrouted. Names are real; this page does not leave the repo.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Manufactured Role</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* DS adherence override (documented in the header comment): Inter is the permitted sans. */
+:root { --font-sans: 'Inter', system-ui, sans-serif; --font-display: 'Inter', system-ui, sans-serif; --measure: 640px; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color: var(--text); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+body { min-height: 100vh; background: var(--bg); }
+a { color: var(--cyan); text-decoration: none; } a:hover { text-decoration: underline; }
+p, li { text-wrap: pretty; } h1, h2, h3 { text-wrap: balance; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-direction: column; gap: 20px; }
+
+/* kit: shared */
+.section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; max-width: none; text-wrap: balance; }
+.section-label .gloss { color: var(--dimmed); float: right; letter-spacing: .08em; white-space: nowrap; }
+@media (max-width: 640px) { .section-label .gloss { display: none; } .section-label { letter-spacing: .07em; } }
+.divider { height: 1px; background: var(--border); }
+
+/* kit: 01-recoil-header */
+.recoil-header { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.recoil-header::before { content: ''; width: 4px; flex-shrink: 0; background: var(--gold); }
+.header-arcs { padding: 16px 24px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); min-width: 120px; }
+.arcs-mark { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--cyan); letter-spacing: -0.02em; line-height: 1; }
+.arcs-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px; }
+.header-center { flex: 1; padding: 14px 24px; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+.receipt-id { font-family: var(--font-mono); font-size: 11px; color: var(--dimmed); letter-spacing: 0.04em; }
+.y-gate-badge { display: inline-flex; align-items: center; background: var(--green-bg); border: 1px solid var(--green); border-radius: var(--r-sm); padding: 4px 12px; font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: var(--green); letter-spacing: 0.08em; width: fit-content; }
+.y-gate-badge.yellow { background: var(--gold-bg); border-color: var(--gold); color: var(--gold); }
+.header-nci { padding: 14px 28px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; border-left: 1px solid var(--border); gap: 2px; }
+.nci-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+.nci-value { font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--green); line-height: 1; }
+.nci-value.yellow { color: var(--gold); }
+.nci-render { font-family: var(--font-mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.08em; }
+.mode-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; }
+.mode-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+@media (max-width: 640px) { .recoil-header { flex-wrap: wrap; } .header-arcs { border-right: none; border-bottom: 1px solid var(--border); width: 100%; } .header-nci { border-left: none; border-top: 1px solid var(--border); width: 100%; align-items: flex-start; } }
+
+/* page: title + lede (lede spans the full lane, matching the heading) */
+h1 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 40px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.06; margin-top: 8px; }
+h1 .r { color: var(--red); } h1 .b { color: var(--cyan); }
+.lede { max-width: none; font-size: 14px; line-height: 1.7; color: #94a3b8; margin-top: 12px; }
+
+/* kit: 08-receipt-table */
+.receipt-table { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; border-collapse: collapse; }
+.receipt-table tr { border-bottom: 1px solid rgba(30,41,59,0.6); }
+.receipt-table tr:last-child { border-bottom: none; }
+.receipt-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.receipt-table td { padding: 11px 16px; vertical-align: top; }
+.td-key { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; white-space: nowrap; width: 22%; border-right: 1px solid var(--border); }
+.td-val { font-family: var(--font-mono); font-size: 12px; color: var(--text); line-height: 1.5; }
+.td-val.north { color: var(--cyan); font-weight: 600; } .td-val.warn { color: var(--gold); } .td-val.stop { color: var(--red); }
+.td-val.prose { font-family: var(--font-sans); font-size: 12.5px; color: #94a3b8; line-height: 1.6; }
+.td-val.prose b { color: var(--text); font-weight: 600; }
+.td-val .big { font-family: var(--font-mono); font-size: 22px; font-weight: 700; line-height: 1; }
+.td-val q { font-style: italic; color: var(--text); quotes: "\201C" "\201D"; }
+.td-val .case { display: block; margin-bottom: 6px; } .td-val .case:last-child { margin-bottom: 0; }
+.td-val .case::before { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; margin-right: 8px; }
+.td-val .fan::before { content: "Fanatics"; color: var(--cyan); } .td-val .hyp::before { content: "HypeLab"; color: var(--gold); }
+.thresh-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; border-radius: var(--r-sm); font-family: var(--font-mono); font-size: 11px; font-weight: 700; border: 1px solid; white-space: nowrap; }
+.thresh-chip.proceed { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.thresh-chip.hold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.thresh-chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.table-scroll { overflow-x: auto; }
+@media (max-width: 640px) { .receipt-table, .receipt-table tbody, .receipt-table tr, .receipt-table td { display: block; width: 100%; } .td-key { border-right: none; border-bottom: 1px dashed var(--border); white-space: normal; padding-bottom: 6px; } }
+
+/* kit: 06-beat-stepper */
+.beat-list { display: flex; flex-direction: column; gap: 8px; }
+.beat-item { display: flex; align-items: flex-start; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 16px; position: relative; overflow: hidden; }
+.beat-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--beat-color, var(--border)); }
+.beat-number { width: 28px; height: 28px; border-radius: 50%; background: var(--beat-color, var(--muted)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: var(--bg); }
+.beat-content { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.beat-title { font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--beat-color, var(--text)); }
+.beat-body { font-family: var(--font-mono); font-size: 11px; color: var(--dimmed); line-height: 1.5; }
+.beat-body.prose { font-family: var(--font-sans); font-size: 12.5px; color: #94a3b8; line-height: 1.6; }
+.beat-body q { font-style: italic; color: var(--text); quotes: "\201C" "\201D"; }
+.beat-body b { color: var(--text); font-weight: 600; }
+.beat-src { font-family: var(--font-mono); font-size: 9px; letter-spacing: .05em; color: var(--muted); margin-top: 4px; }
+.beat-tag { flex-shrink: 0; font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border-radius: var(--r-sm); border: 1px solid var(--beat-color, var(--border)); color: var(--beat-color, var(--muted)); background: rgba(255,255,255,0.03); white-space: nowrap; }
+.beat-cyan { --beat-color: var(--cyan); } .beat-green { --beat-color: var(--green); } .beat-gold { --beat-color: var(--gold); } .beat-red { --beat-color: var(--red); } .beat-steel { --beat-color: var(--dimmed); }
+@media (max-width: 640px) { .beat-item { flex-wrap: wrap; } .beat-tag { order: 3; } }
+
+/* earned-fidelity render scale (WORLD.md) applied to beat rows */
+.fid-sharp { opacity: 1; } .fid-degraded { opacity: .85; } .fid-grain { opacity: .70; }
+.fid-degraded .beat-title, .fid-grain .beat-title { font-weight: 500; }
+.fid-key { display: flex; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: -4px 0 12px; }
+.fid-key span::before { content: ""; display: inline-block; width: 18px; height: 2px; margin-right: 6px; vertical-align: middle; background: currentColor; }
+
+/* kit: 14-earned-fidelity-twin (net-new; see src/ui-kit/recoil-report/14-earned-fidelity-twin.html) */
+.fidelity-twin { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.twin-cell { padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--surface-2); }
+.twin-cell .twin-label { font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.twin-cell p { font-family: var(--font-sans); font-size: 12px; line-height: 1.6; color: #94a3b8; }
+.twin-cell p b { color: var(--text); font-weight: 600; }
+.twin-cell.as-rendered { border-color: var(--green); background: var(--green-bg); } .twin-cell.as-rendered .twin-label { color: var(--green); }
+.twin-cell.as-earned { border-color: var(--gold); background: var(--gold-bg); } .twin-cell.as-earned .twin-label { color: var(--gold); }
+@media (max-width: 900px) { .fidelity-twin { grid-template-columns: 1fr; } }
+
+/* kit: 10-pipeline-stage-tracker */
+.pipeline { display: flex; align-items: flex-start; gap: 0; position: relative; }
+.pipeline::before { content: ''; position: absolute; top: 18px; left: 18px; right: 18px; height: 1px; background: var(--border); z-index: 0; }
+.stage { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 1; }
+.stage-node { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; font-weight: 700; border: 1px solid; flex-shrink: 0; }
+.stage-body { text-align: center; }
+.stage-name { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.stage-date { font-family: var(--font-mono); font-size: 9px; color: var(--dimmed); margin-top: 3px; }
+.stage-note { font-family: var(--font-sans); font-size: 10px; color: var(--muted); margin-top: 4px; max-width: 120px; text-align: center; line-height: 1.4; }
+.stage-done .stage-node { background: rgba(0,255,157,0.1); border-color: var(--green); color: var(--green); } .stage-done .stage-name { color: var(--green); }
+.stage-pending .stage-node { background: var(--surface); border-color: var(--border); color: var(--dimmed); } .stage-pending .stage-name { color: var(--muted); }
+.stage-blocked .stage-node { background: rgba(255,77,109,0.08); border-color: var(--red); color: var(--red); box-shadow: var(--red-glow); } .stage-blocked .stage-name { color: var(--red); }
+@media (max-width: 640px) { .pipeline { flex-wrap: wrap; row-gap: 18px; } .pipeline::before { display: none; } .stage { flex: 1 1 45%; } }
+
+/* kit: 09-stop-loss-footer */
+.stop-loss { border-radius: var(--r-md); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid; flex-wrap: wrap; }
+.sl-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 240px; }
+.sl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sl-text { font-family: var(--font-mono); font-size: 12px; line-height: 1.5; }
+.sl-timestamp { font-family: var(--font-mono); font-size: 10px; flex-shrink: 0; white-space: nowrap; }
+.sl-triggered { background: rgba(255,77,109,0.12); border-color: var(--red); box-shadow: var(--red-glow); }
+.sl-triggered .sl-dot { background: var(--red); } .sl-triggered .sl-text { color: var(--text); } .sl-triggered .sl-timestamp { color: var(--red); }
+.sl-trigger-badge { font-family: var(--font-mono); font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-sm); background: var(--red); color: var(--bg); letter-spacing: 0.1em; flex-shrink: 0; }
+.banked-lesson { padding: 12px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 12.5px; color: var(--dimmed); font-style: italic; text-align: center; letter-spacing: 0.02em; line-height: 1.6; }
+.banked-lesson strong { color: var(--text); font-style: normal; }
+
+/* page: gate proof (terminal) */
+pre.term { padding: 14px 16px; background: #000; border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font-mono); font-size: 10.5px; line-height: 1.6; color: #94a3b8; overflow-x: auto; white-space: pre; }
+pre.term .ok { color: var(--green); } pre.term .no { color: var(--red); } pre.term .wn { color: var(--gold); }
+footer { padding-top: 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .05em; color: var(--muted); line-height: 1.8; }
+@media print { html, body { background: #fff; color: #111; } .fid-grain, .fid-degraded { opacity: 1; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 01 recoil-header · POST-MORTEM mode · the kit demo header (NCI 91 SHARP, fanatics-cj001) closed -->
+<div class="recoil-header">
+  <div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Post-mortem</div></div>
+  <div class="header-center">
+    <div class="receipt-id">ARCS-POSTMORTEM-2026-09-11 · manufactured-role · fanatics-cj001 + hypelab-2025 · n=2</div>
+    <div class="y-gate-badge yellow">YELLOW / DEGRADED / REQ UNCONFIRMED</div>
+    <div class="mode-pill"><div class="mode-dot" style="background:var(--gold)"></div>RE-SCORED · GATE SHIPPED · scripts/req_reality_gate.py</div>
+  </div>
+  <div class="header-nci"><div class="nci-label">NCI · JUL 1 · AS RENDERED</div><div class="nci-value yellow">88</div><div class="nci-render" style="color:var(--gold)">EARNED: DEGRADED</div></div>
+</div>
+
+<div>
+  <h1>Warmth <span class="r">routes</span> you.<br>Only a req <span class="b">hires</span> you.</h1>
+  <p class="lede">Two warm-path candidacies, Fanatics Collectibles (Jun to Jul 2026) and HypeLab (Oct 2025), with real rapport, real founder sponsorship, and the rare fit both counterparts named out loud. Both resolved to zero. Not because of fit, not because of warmth, and at HypeLab not even because of register. Because the req was never real, the instrument said so, and the render ignored it. Every row below is rendered at the fidelity it earned. The kit primitives on this page shipped with this same case as their demo content, at the high-water mark; this is that demo data, closed.</p>
+</div>
+
+<!-- 08 receipt-table · the telemetry -->
+<div>
+  <div class="section-label">§ Telemetry <span class="gloss">manufactured-role arm · ledger H3'</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">warm_path</td><td class="td-val"><span class="big" style="color:var(--green)">2 / 2</span> &nbsp; founder-level entry in both cases</td></tr>
+    <tr><td class="td-key">req_reality</td><td class="td-val"><span class="big" style="color:var(--gold)">1</span> &nbsp; verbal shape, no JD, no budget, in both cases</td></tr>
+    <tr><td class="td-key">conversions</td><td class="td-val"><span class="big" style="color:var(--red)">0 / 2</span></td></tr>
+    <tr><td class="td-key">artifacts after signal</td><td class="td-val"><span class="big">4 + 3</span> &nbsp; sent after the "not real" answer landed</td></tr>
+    <tr><td class="td-key">rule stated</td><td class="td-val"><span class="big" style="color:var(--gold)">3× in 8 days</span> &nbsp; Jul 13 to Jul 20, three independent readers</td></tr>
+    <tr><td class="td-key">reached the ledger</td><td class="td-val"><span class="big" style="color:var(--red)">60 days</span> &nbsp; Sep 11</td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- 06 beat-stepper · the gate, four levels -->
+<div>
+  <div class="section-label">§ The gate · req_reality <span class="gloss">0 to 3 · upstream of warmth and fit</span></div>
+  <div class="beat-list">
+    <div class="beat-item beat-red"><div class="beat-number">0</div><div class="beat-content"><div class="beat-title">No JD, no decision-owner met</div><div class="beat-body">A post, a probe, a "have your agent talk to my agent." Nothing to attach a person to.</div></div><div class="beat-tag">NO GREEN</div></div>
+    <div class="beat-item beat-gold"><div class="beat-number">1</div><div class="beat-content"><div class="beat-title">Verbal shape, no JD or budget</div><div class="beat-body">"Being defined." "Purely opportunistic." "Not fully baked, please be patient." Fanatics Jul 1. HypeLab Oct 21.</div></div><div class="beat-tag">PILOT ONLY</div></div>
+    <div class="beat-item beat-gold"><div class="beat-number">2</div><div class="beat-content"><div class="beat-title">JD posted or cut, budget implied</div><div class="beat-body">A req exists somewhere a recruiter can point to. Warmth starts to multiply here.</div></div><div class="beat-tag">WARM COUNTS</div></div>
+    <div class="beat-item beat-green"><div class="beat-number">3</div><div class="beat-content"><div class="beat-title">JD + budget + decision-owner met</div><div class="beat-body">The person who can say yes has said the words to you. GREEN is available.</div></div><div class="beat-tag">GREEN OK</div></div>
+  </div>
+</div>
+
+<!-- 10 pipeline-stage-tracker · the kit demo pipeline, as it actually resolved -->
+<div>
+  <div class="section-label">§ Pipeline stage · Fanatics <span class="gloss">the kit's own demo strip, closed</span></div>
+  <div class="pipeline">
+    <div class="stage stage-done"><div class="stage-node">✓</div><div class="stage-body"><div class="stage-name">Sponsor</div><div class="stage-date">Jun 25</div><div class="stage-note">Chris Lamontagne. Warm intro, asked for Chase in writing.</div></div></div>
+    <div class="stage stage-done"><div class="stage-node">✓</div><div class="stage-body"><div class="stage-name">Talent Screen</div><div class="stage-date">Jul 1</div><div class="stage-note">CJ Masopust. "JD being defined, not fully baked."</div></div></div>
+    <div class="stage stage-blocked"><div class="stage-node">✕</div><div class="stage-body"><div class="stage-name">HM · Chase</div><div class="stage-date">never</div><div class="stage-note">No booking, no thread, no SSOT. Chris silent after Jul 2.</div></div></div>
+    <div class="stage stage-pending"><div class="stage-node">4</div><div class="stage-body"><div class="stage-name">Loop</div><div class="stage-date">n/a</div><div class="stage-note">Unreached.</div></div></div>
+    <div class="stage stage-pending"><div class="stage-node">5</div><div class="stage-body"><div class="stage-name">Offer</div><div class="stage-date">n/a</div><div class="stage-note">"We don't have a role in mind that's the right fit today."</div></div></div>
+  </div>
+</div>
+
+<!-- 06 beat-stepper + 14 twin · the timeline at earned fidelity -->
+<div>
+  <div class="section-label">§ Fanatics · timeline at earned fidelity <span class="gloss">every row rendered at what the data deserved</span></div>
+  <div class="fid-key"><span class="fid-sharp">sharp</span><span class="fid-degraded">degraded</span><span class="fid-grain">grain</span></div>
+  <div class="beat-list">
+    <div class="beat-item beat-green fid-sharp"><div class="beat-number">1</div><div class="beat-content"><div class="beat-title">Jun 25 · call with Chris. Warmth real.</div><div class="beat-body prose">Chris names Instant Rips, asks for "something in writing," says roles are fluid. Same night, the Bubblegum Problem email and deck: <q>Call it Growth Intelligence, FDE, or something you haven't named yet, honestly I'm not caught up on titles. The mandate matters more.</q></div><div class="beat-src">gmail 19f018d834006f23 · Lamontagne SSOT</div></div><div class="beat-tag">SPONSOR</div></div>
+    <div class="beat-item beat-green fid-sharp"><div class="beat-number">2</div><div class="beat-content"><div class="beat-title">Jun 29 · Chris replies. <q>i loved what you built.</q></div><div class="beat-body prose">Introduces CJ. Asks in writing for Zach to meet Chase. CJ sends a Calendly within two hours. This is the high-water mark of the whole engagement and it is entirely warmth. No req is mentioned by anyone.</div><div class="beat-src">gmail 19f149c86d92efa5</div></div><div class="beat-tag">INTRO</div></div>
+    <div class="beat-item beat-gold fid-degraded"><div class="beat-number">3</div><div class="beat-content"><div class="beat-title">Jul 1 · 30-min screen with CJ. The inflection.</div><div class="beat-body prose">Zach asks the gate question: <q>I didn't quite understand from my chat with Chris if this is like a real thing or if you guys were in exploratory stages.</q> CJ: <q>a little bit of both. We are going to have a need. Chris and I and his HR business partner are in the process of really defining what the job description can be. He just kind of wanted to see what type of response he would get.</q> Later: <q>I'll just ask for your patience because I don't have it fully baked right now.</q> The forming role: performance marketing, lifecycle, growth data.</div>
+      <div class="fidelity-twin">
+        <div class="twin-cell as-rendered"><span class="twin-label">As rendered · Jul 1 recoil</span><p><b>NCI 88 · GREEN / HIGH / STABLE · SHARP.</b> "Screen passed. CJ is an advocate, not a gatekeeper. Path to Chase is clear." Role fluidity logged as gold DIRECTIONAL, "structural optionality."</p></div>
+        <div class="twin-cell as-earned"><span class="twin-label">As earned · req_reality 1</span><p><b>YELLOW / DEGRADED.</b> "Advocate confirmed. Req unconfirmed. Path to Chase owned by Chris, not CJ." Pre-call prior on an active req: 30%. Scenario tree's 5% branch: "stalls at Talent, no open req."</p></div>
+      </div>
+      <div class="beat-body prose" style="margin-top:8px">Final third of the call, from the transcript: competing offers "after the fourth," a "monopoly bypass" ask, the Chase intro "to get that in motion," the base band, Fan Fest passes. Each answered with a version of "not baked yet." CJ closes six minutes into her next call.</div><div class="beat-src">granola transcript via gmail 19f5c4ac51e3babb · Masopust SSOT · go-bag</div></div><div class="beat-tag">REQ = 1</div></div>
+    <div class="beat-item beat-gold fid-degraded"><div class="beat-number">4</div><div class="beat-content"><div class="beat-title">Jul 1 to 2 · the artifact push. Four after the signal.</div><div class="beat-body prose">Five candidate-written req variants. Candidate-written interview probes. A 30/60/90 for a GM never contacted. Six subdomains. A note to Chris. <q>This req was written by the person applying for it. That's intentional.</q> Chris never replies to the Jul 2 note; Mixmax fires on Jul 4.</div><div class="beat-src">_ARCHIVE/fanatics-pages · JOB_REQ.md · gmail 19f237639ecb183e</div></div><div class="beat-tag">CARDS HOT</div></div>
+    <div class="beat-item beat-steel fid-grain"><div class="beat-number">5</div><div class="beat-content"><div class="beat-title">Jul 2 to 12 · silence.</div><div class="beat-body prose">No mail in either direction. CJ's "early next week the latest" circle-back does not arrive. The Jul 8 stop-loss never fires. The person who could open the req or the Chase door has gone quiet, and the record shows nobody checks.</div><div class="beat-src">gmail search, all three addresses</div></div><div class="beat-tag">NO SIGNAL</div></div>
+    <div class="beat-item beat-gold fid-degraded"><div class="beat-number">6</div><div class="beat-content"><div class="beat-title">Jul 13 · 12:56 PM · Hilary reads the transcript. Six hours before the no.</div><div class="beat-body prose"><q>I wouldn't focus on other roles or rushing people in an Introduction, or pushing salary. Let them come back and actually meet and have a meeting with would-be boss.</q> An independent read, from the transcript alone, without knowing the outcome. It names all three moves.</div><div class="beat-src">gmail 19f5c68ff3659e5a</div></div><div class="beat-tag">WITNESS</div></div>
+    <div class="beat-item beat-red fid-sharp"><div class="beat-number">7</div><div class="beat-content"><div class="beat-title">Jul 13 · 6:53 PM · CJ. Resolved, rejected.</div><div class="beat-body prose"><q>This decision is much more about timing and the opportunities we have available than it is about your capabilities. While we don't have a role in mind that's the right fit today, we would very much like to stay in touch.</q> Boardy, the same night: <q>they liked the work but never found a concrete mandate that matched your shape... you need an executive champion tied to a defined operating problem, not an exploratory growth-intelligence concept looking for a home. The useful takeaway is the same one we already had.</q></div><div class="beat-src">gmail 19f5db040cf63cdc</div></div><div class="beat-tag">REJECTED</div></div>
+    <div class="beat-item beat-steel fid-grain"><div class="beat-number">8</div><div class="beat-content"><div class="beat-title">Jul 15 · close.</div><div class="beat-body prose">Zach replies warmly, asks about Growth+1, forwards to Chris: "Hope this isn't goodbye." Archives all six pages within the hour. No reply from either. No Growth+1 invite ever arrives by email.</div><div class="beat-src">gmail · commits ac7ad9ae, 650b4e38</div></div><div class="beat-tag">CLOSED WARM</div></div>
+  </div>
+</div>
+
+<!-- 09 stop-loss-footer · TRIGGERED, not executed -->
+<div>
+  <div class="stop-loss sl-triggered">
+    <div class="sl-left"><div class="sl-dot"></div><div class="sl-text">STOP-LOSS · No Chase intro calendar by Jul 8 → reopen with Chris directly. Written Jun 25. The trigger date passed with no mail sent to Chris or CJ.</div></div>
+    <div class="sl-trigger-badge">NOT EXECUTED</div>
+    <div class="sl-timestamp">07.08.2026 · TRIGGERED · 0 ACTIONS</div>
+  </div>
+</div>
+
+<!-- 08 receipt-table · isomorphism -->
+<div>
+  <div class="section-label">§ Isomorphism · HypeLab <span class="gloss">same skeleton · register fixed · founder as gatekeeper</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">Warm entry via a founder</td><td class="td-val prose"><span class="case fan">Chris, off the LinkedIn stunt. <q>i loved what you built.</q></span><span class="case hyp">Joe (CEO), via LinkedIn plus Brian Wong. <q>We could talk for hours.</q></span></td></tr>
+    <tr><td class="td-key">Req never funded</td><td class="td-val prose"><span class="case fan">CJ: JD <q>being defined... not fully baked.</q></span><span class="case hyp">Joe, Oct 21: <q>a purely opportunistic role, not something that I've pitched I needed. I need to make a case for why I need it.</q></span></td></tr>
+    <tr><td class="td-key">Disqualifier, heard live</td><td class="td-val prose"><span class="case fan">Level 1, soft: <q>please be patient.</q></span><span class="case hyp">Level 0, explicit: Oct 21 Joe says they already hired a GTM person. Ed reconfirms Oct 29.</span></td></tr>
+    <tr><td class="td-key">Candidate manufactures the req</td><td class="td-val prose"><span class="case fan">Five JD variants, interview probes, 30/60/90, self-authored JOB_REQ.md.</span><span class="case hyp">30-card board-facing Gamma with tripwires, a Tally survey, the Oct 22 Day-1 self-pitch (<q>I'd pay for my salary within 6 to 12 months</q>) sent the day after the role-filled disclosure. <q>Behavior went UP as the signal went DOWN.</q></span></td></tr>
+    <tr><td class="td-key">Negotiating with no counterparty</td><td class="td-val prose"><span class="case fan">Competing offers, "monopoly bypass," base band.</span><span class="case hyp">"Q1/Q2 budget windows, each week that passes," a target above Joe's stated ceiling, survey homework before the call.</span></td></tr>
+    <tr><td class="td-key">Gate owner never clears it</td><td class="td-val prose"><span class="case fan">Chris silent after Jul 2. Chase never reached.</span><span class="case hyp">Ed: <q>I'll talk to Joe.</q> Routed back to Joe. Never cleared.</span></td></tr>
+    <tr><td class="td-key">Resolution</td><td class="td-val prose"><span class="case fan">Polite no in 12 days.</span><span class="case hyp">Nine months of silence.</span></td></tr>
+    <tr><td class="td-key">What survived</td><td class="td-val prose"><span class="case fan">CJ "stay in touch," Growth+1.</span><span class="case hyp">Joe's "shoot the shit." Jul 22 as peer and advisor: <q>would you be interested in commercializing this?</q></span></td></tr>
+    <tr><td class="td-key">Pilot available, unused as entry</td><td class="td-val prose"><span class="case fan">The Day-60 pre-drop brief, written as a consequence of hiring.</span><span class="case hyp">Advisory to fractional to FTE ladder floated Oct 21; "5 to 60K retained value even if it doesn't convert"; hard numbers left as //.</span></td></tr>
+    <tr><td class="td-key">Why HypeLab is the control</td><td class="td-val prose"><b>Register was right and it still went to zero.</b> An ad-tech revenue operator pitched to an ad-network CEO who prized the ads + crypto pair, with the founder himself as gatekeeper. With register and gatekeeper fixed, req_reality alone produced the outcome. Price was not the common factor either: HypeLab under target, Fanatics in range.</td></tr>
+    <tr><td class="td-key">The contrast</td><td class="td-val prose"><b>The Jul 20 joe.arcs.care page was the same reflex, and it worked.</b> Pre-call artifact framed as product to a peer instead of candidacy into a non-req. Joe's response: curiosity about commercializing ARCS. Artifacts are not the error. Pointing them at a role that does not exist is.</td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- 08 receipt-table · root cause, separated -->
+<div>
+  <div class="section-label">§ Root cause · separated <span class="gloss">A sufficient alone · B raised the price of a yes</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">A · req reality</td><td class="td-val prose"><b>Out of Zach's control. Sufficient on its own.</b> Chris's post was, per CJ, a probe to "see what type of response he would get." The forming role was a growth-operator exec; the pitched role was "a new function that doesn't exist yet." A recruiter cannot mint a VP function on a candidate's behalf. Chris asked in writing for a Chase meeting, then went silent. No execution change turns "JD being defined" into a hire inside a Talent screen.</td></tr>
+    <tr><td class="td-key">B · execution</td><td class="td-val prose"><b>In Zach's control. Did not cause the no; raised the price of a yes.</b> Wrong axis (CJ conceded the AI axis in minute eight; the unconceded axis was the mandate). Negotiating before there was a counterparty. Self-authoring the req and the rubric for the person whose job is to write them. Maximal ask with no scoped fallback; the Day-60 pilot was in the plan as a reward, never offered as the entry. Stop-loss unexecuted. Warmth mis-scored as fit. Rule unbanked for 60 days.</td></tr>
+    <tr><td class="td-key">Verdict</td><td class="td-val north">Manufactured role. Not a fit loss, not a warmth loss. A render that ignored a level-1 answer to a question that was asked.</td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- 08 receipt-table · three statements, eight days -->
+<div>
+  <div class="section-label">§ Three statements · eight days <span class="gloss">the rule existed on Jul 13 · it reached the ledger Sep 11</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">Jul 13 · 12:56 PM · Hilary</td><td class="td-val prose"><q>Let them come back and actually meet and have a meeting with would-be boss. Maybe wait a day to see if they write you.</q> From the transcript, six hours before the no.</td></tr>
+    <tr><td class="td-key">Jul 13 · 9:50 PM · Boardy</td><td class="td-val prose"><q>You need an executive champion tied to a defined operating problem, not an exploratory growth-intelligence concept looking for a home. The useful takeaway is the same one we already had.</q></td></tr>
+    <tr><td class="td-key">Jul 20 · HypeLab recoil</td><td class="td-val prose"><q>A persuasion artifact cannot create internal sponsorship that doesn't exist. Read the disqualifying signal and stop; gate heavy spec work on a confirmed, open req.</q> Zach's own instrument, one week after Fanatics closed.</td></tr>
+  </tbody></table></div>
+  <div class="banked-lesson" style="margin-top:8px"><strong>Banked lesson:</strong> a post-mortem that arrives 60 days after the outside read is reconstruction, not witness. The fix for that is the same as the fix for the class: a gate that fires the moment the answer lands, not a memory that hopes to be recalled.</div>
+</div>
+
+<!-- 08 receipt-table · wired -->
+<div>
+  <div class="section-label">§ Wired <span class="gloss">the cheapest mechanical check that fails the whole class</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">Gate</td><td class="td-val prose"><b>scripts/req_reality_gate.py</b>, pre-commit, stdlib. A staged candidacy SSOT must carry <b>opportunity.req_reality</b> (0 to 3) with the counterpart's words as basis, and may not render y_state GREEN at level 1 or below. Legacy-schema SSOTs warn, never block.</td></tr>
+    <tr><td class="td-key">Template</td><td class="td-val prose"><b>engagement_type</b>, <b>req_reality</b>, <b>req_reality_basis</b> in the 6-tab war-room template, with the scale in its _doc.</td></tr>
+    <tr><td class="td-key">/recoil-prep</td><td class="td-val prose">First question on a candidacy screen: "does this land in an existing function, or is it bespoke and still being architected?" Predicted Y-gate cannot be GREEN at level 1. Pre-committed move at level 1: pilot or product, never a JD or a comp move.</td></tr>
+    <tr><td class="td-key">/recoil-close</td><td class="td-val prose">Re-score the level from the transcript, quote the line that sets it, log artifacts_after_signal. Warm founder threads at level 1 resolve to ghosted after four weeks of silence.</td></tr>
+    <tr><td class="td-key">/forge</td><td class="td-val prose">No candidacy forge below level 2. At level 1 forge the pilot or product surface instead.</td></tr>
+    <tr><td class="td-key">Ledger H3'</td><td class="td-val prose">warm_path × req_reality, 2×2. Warm-path advantage is read only on the level-2-plus row. Fanatics and HypeLab booked at level 1: n=2, 0 conversions.</td></tr>
+    <tr><td class="td-key">Queued · Thread 2</td><td class="td-val prose">req_reality as a gate in the jobs-board bridge rubric and an on-call dim in the champion-fit heuristic. Detector: artifacts after a level-1 signal.</td></tr>
+    <tr><td class="td-key">Thresholds</td><td class="td-val" style="display:flex;gap:8px;flex-wrap:wrap"><span class="thresh-chip proceed">req 3 · GREEN OK</span><span class="thresh-chip hold">req 2 · WARM COUNTS</span><span class="thresh-chip red">req ≤1 · PILOT ONLY</span></td></tr>
+  </tbody></table></div>
+  <pre class="term" style="margin-top:8px"><span class="no">✖ req_reality_gate FAIL bad-green-rr1.json</span>   y_state GREEN with req_reality=1. No req =&gt; no GREEN.
+<span class="no">✖ req_reality_gate FAIL bad-missing.json</span>     candidacy with no opportunity.req_reality (0..3).
+<span class="ok">✓ req_reality_gate PASS good-green-rr3.json</span>  y_state=GREEN req_reality=3
+<span class="ok">✓ req_reality_gate PASS good-yellow-rr1.json</span> y_state=YELLOW req_reality=1
+<span class="wn">⚠ req_reality_gate WARN 2026-07-01-masopust.json</span>  legacy schema rendered GREEN with no req_reality (Fanatics-shaped)
+<span class="wn">⚠ req_reality_gate WARN 2026-06-25-lamontagne.json</span> legacy schema rendered GREEN with no req_reality (Fanatics-shaped)</pre>
+</div>
+
+<!-- 08 receipt-table · unconfirmed -->
+<div>
+  <div class="section-label">§ Unconfirmed <span class="gloss">do not cite as fact</span></div>
+  <div class="table-scroll"><table class="receipt-table"><tbody>
+    <tr><td class="td-key">Growth+1 / Fan Fest</td><td class="td-val prose">Whether either reached Zach by a channel other than email. No email exists.</td></tr>
+    <tr><td class="td-key">Chris read?</td><td class="td-val prose">Whether Chris read the Jul 2 note or the Jul 15 forward. Mixmax pings confirm no reply, not non-receipt.</td></tr>
+    <tr><td class="td-key">JD ever cut?</td><td class="td-val prose">Whether Chris and HR ever cut the growth-leader JD after Jul 13.</td></tr>
+  </tbody></table></div>
+</div>
+
+<footer>
+  SOURCES · gmail threads 19f5db040cf63cdc, 19f5c4ac51e3babb, 19f018d834006f23, 19f237639ecb183e (pulled live 2026-09-11) · runtime/recoil/generated/2026-06-25-lamontagne.json, 2026-07-01-masopust.json, 2026-07-20-joe-kim-hypelab-serialization.json, 2026-07-22-kim-multicall.json · _STATE/job-search/postmortem-fanatics.md · hypothesis-ledger.md H3' (b)(c) · scripts/req_reality_gate.py<br>
+  BUILT FROM · src/ui-kit/recoil-report/_tokens.css (verbatim) · primitives 01 · 06 · 08 · 09 · 10 · net-new 14-earned-fidelity-twin · INTERNAL · noindex · unrouted · em-dashes in rendered copy: 0
+</footer>
+</div>
+</body>
+</html>
