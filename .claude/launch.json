@@ -32,6 +32,13 @@
         "/Users/zharris/arcs-v9/.claude/worktrees/zealous-golick-89e6e6/_ARTIFACTS"
       ],
       "port": 8765
+    },
+    {
+      "name": "Static public/ (nftt preview)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5055", "--directory", "public"],
+      "port": 5055,
+      "autoPort": true
     }
   ]
 }
