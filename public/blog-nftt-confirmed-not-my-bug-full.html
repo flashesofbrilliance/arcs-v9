@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confirmed Not My Bug · NFTT</title>
+<meta name="theme-color" content="#020408">
+<meta name="description" content="Confirmed Not My Bug">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root {
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --track-widest:0.14em; --radius-sm:6px; --radius-md:10px;
+    --emboss:inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+    --glass-surface:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+    --tick:linear-gradient(90deg, #FF4D6D, #00F0FF, #00FF9D); --tick-accent:#FF4D6D;
+}
+  a { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--fg1); }
+  a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 2px; }
+  ::selection { background: rgba(0,240,255,.25); }
+  .aside, .plain { margin: 1.4em 0; padding: 1em 1.2em; border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface);
+    border: 1px solid var(--border); box-shadow: var(--emboss);
+    font-style: italic; color: var(--fg2); line-height: 1.7; }
+  .plain { border-color: rgba(0,255,157,.22);
+    background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }
+  .stitch { margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
+    color: var(--fg2); letter-spacing: .01em; }
+  .standfirst { font-size: 1.125rem; line-height: 1.6; font-weight: 500; color: var(--fg2); margin: 0 0 1.8em; }
+  .threadkey { font-family: var(--font-mono); font-size: .8rem; color: var(--fg2);
+    margin: 0 0 2em; padding: .7em .9em; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface); box-shadow: var(--emboss); line-height: 2; }
+  .bq { margin: 1.6em 0; padding: .2em 0 .2em 1.1em; border-left: 1px solid var(--border);
+    font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--fg2); }
+  .dropcap::first-letter { float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
+    font-weight: 600; color: var(--fg1); }
+  .pull { margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); font-size: 1.5rem; line-height: 1.4; font-weight: 600;
+    color: var(--fg1); letter-spacing: -0.015em; }
+  /* section tick = the story's own thread gradient; pull-quote = a single accent. Different
+     ranks, different marks, both driven by the declared palette (never a hardcoded triad). */
+  .pull::before { content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
+    background: var(--tick-accent); }
+  h2::before { content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
+    background: var(--tick); }
+  .arc { margin: 2.2em 0 1.4em; }
+  .arc-cap { margin-top: .5em; }
+  /* vertical arc ladder: the five-second-test form for long arcs */
+  .arc-list { list-style: none; margin: 0; padding: 0; }
+  .arc-row { display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline;
+    column-gap: .8em; padding: 0; }
+  .arc-mark { position: relative; grid-row: 1; display: flex; justify-content: center; padding-top: .15em; }
+  .arc-spine { position: absolute; top: 20px; bottom: -6px; left: 50%; width: 2px;
+    transform: translateX(-50%); background: var(--border); }
+  .arc-label { padding: 0 0 1.15em; line-height: 1.5; color: var(--fg1); }
+  .arc-thread { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em;
+    text-transform: uppercase; white-space: nowrap; opacity: .9; }
+  .endmark { margin: 2.6em 0 0; }
+  nav a { text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+</style>
+<body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
+<main style="max-width:680px;margin:0 auto;padding:64px 22px 96px">
+<article>
+<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">NOTES FROM THE TRENCHES // running the instrument on its own maker
+## Confirmed Not My Bug</p>
+<p class="standfirst">Three threads braid this one. Thinking is the plausible claim, the one that feels true before anything touches it. Reeling is the moment external ground yanks it back. Knowing is what survives the yank. We set out to operationalize an audit harness and, several hours later, had run it on ourselves instead.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">The plan was ordinary. There is a tool that scores decisions, four reviewers behind it, and a pile of receipts in production. The job was to point the tool at the real receipts and read the scorecard. Instrument, meet data.</p>
+<p class="standfirst">In plain terms: we thought we were checking the decisions. We were about to find out the tool could not yet check anything, and neither could I.</p>
+<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The first float</h1>
+<p style="margin:0 0 1.15em;line-height:1.75">Early on, a number came back wrong. One of the signals showed up empty across every receipt, a clean zero out of two hundred forty seven. I looked in the obvious place, found nothing, and said it out loud with the worst three words a diagnostician owns: confirmed, not my bug. The data was simply missing. Move on.</p>
+<p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Thinking: a clean zero looks exactly like a systemic finding and exactly like a search that stopped too early. From the inside they are indistinguishable.</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">They are not indistinguishable from the outside. A single query against where the signal actually lived turned the zero into forty five. The value had been sitting one layer deeper the whole time, in a place I had decided not to check because I already had an answer I liked. The answer I liked was the one that made it the data's fault instead of mine.</p>
+<p class="stitch"><span style="color:#00F0FF" aria-hidden="true">&#9473;&#9473;</span> <em>Reeling: the culture came back positive. It was my bug.</em></p>
+<blockquote class="pull">A claim asserted with conviction is not a strong claim. It is a claim with the check skipped, wearing the costume of one that survived.</blockquote>
+<div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>thinking · the float</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#00F0FF"/></svg>reeling · the ground</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#00FF9D"/></svg>knowing · the floor</span></div>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The pattern, not the incident</h2>
+<p class="dropcap" style="margin:0 0 1.15em;line-height:1.75">If it had happened once it would be a typo. It happened four times, and the fourth time I went looking for it before it was pointed out, which is the only real progress a person makes with this failure mode.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">The reviewers, it turned out, were not measuring the decisions at all. The signal they ran on was derived, not felt. Then it was worse than derived: it was frozen, the same value on every receipt, present enough to pass every count and empty of any information. A number that never varies is a constant wearing a decimal point. And the fix I had been so sure of, deploy the service, was aimed at a failure that never happened. The service was reachable the whole time. The real trouble was latency and a broken contract, which no amount of deploying would touch.</p>
+<p class="stitch"><span style="color:#00F0FF" aria-hidden="true">&#9473;&#9473;</span> <em>Reeling: I read the actual failure reasons instead of guessing the root. The root I had prescribed treatment for did not exist.</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">Every one of these was the same shape. A plausible thing, stated before it was grounded, corrected the instant it met a grep, a re-run, a distribution. Thinking, then knowing, and the distance between them measured in one command.</p>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">All the way down</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">We kept pressing. Each floor gave way to a lower one. The scorecard did not just lack evidence, it could not tell one decision from another: every score landed in a band two percent wide, a flat line pretending to be a reading. And under that was the floor with no floor beneath it. The metric had never once been checked against how the decisions actually turned out, because the outcomes that would check it did not exist. Two of them, in two hundred forty seven.</p>
+<div class="plain">In plain terms: the tool runs, it is honest about what it does not know, and on the data that exists today it measures almost nothing. Not broken. Unproven. There is a difference, and keeping the two apart was the entire lesson.</div>
+<figure class="arc arc-ladder" role="img" aria-label="the descent to bedrock: 10 stops"><ol class="arc-list"><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">confirmed not my bug</span><span class="arc-thread" style="color:#FF4D6D">the float</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#00F0FF"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">grep the real source</span><span class="arc-thread" style="color:#00F0FF">the ground</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#00FF9D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">axioms were in sage_signal</span><span class="arc-thread" style="color:#00FF9D">the floor</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">deploy is the fix</span><span class="arc-thread" style="color:#FF4D6D">the float</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#00F0FF"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">read the failure reasons</span><span class="arc-thread" style="color:#00F0FF">the ground</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#00FF9D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">latency, never deploy</span><span class="arc-thread" style="color:#00FF9D">the floor</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3.0 L15.0 9 L9 15.0 L3.0 9 Z" fill="#FF4D6D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">forty-five decisions, evidenced</span><span class="arc-thread" style="color:#FF4D6D">the float</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4.0" y="4.0" width="10.0" height="10.0" fill="#00F0FF"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">count the distinct values</span><span class="arc-thread" style="color:#00F0FF">the ground</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#00FF9D"/></svg><span class="arc-spine" aria-hidden="true"></span></span><span class="arc-label">zero informative, all degenerate</span><span class="arc-thread" style="color:#00FF9D">the floor</span></li><li class="arc-row"><span class="arc-mark"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="5.5" fill="#00FF9D"/></svg></span><span class="arc-label">unfalsifiable until outcomes</span><span class="arc-thread" style="color:#00FF9D">the floor</span></li></ol></figure>
+<p class="stitch"><span style="color:#00FF9D" aria-hidden="true">&#9473;&#9473;</span> <em>Knowing: the deepest bottleneck was never deploy, nor even capturing the signal. It was capturing outcomes. Without them nothing downstream can be validated, only asserted.</em></p>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The instrument on its own maker</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">Here is the turn that made the day worth writing down. The whole time we were auditing the harness, the harness's own method was auditing me. A confident claim floated. Something external reeled it back. What survived got committed. That loop is not a side effect of the tool. It is what the tool is for. A receipt is frozen knowing, not thinking, and the reviewers exist to ask which one an operator produced.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">So the exercise stopped being instrument versus data and became the instrument run on its own maker. Every reel-in was the product working, live, on the person building it. The corpus did not just contain this pattern. It is organized around it, a whole vocabulary of named mechanisms whose only job is to keep good intentions off the road that ends in ruin.</p>
+<blockquote class="pull">Move from thinking to knowing, and never mistake one for the other. The product's one sentence and the session's one lesson turned out to be the same sentence.</blockquote>
+<p style="margin:0 0 1.15em;line-height:1.75">None of the pretty framings from that day earned canon. They were compelling threads, and a compelling thread is precisely what governance is built to refuse: a thing must survive its gate, never be told it is true on the strength of how well it reads. So the framings stay here, in the trench notes, where a thing is allowed to be honest without being promoted. That is the correct home for it. Raw, dated, and reelable if the next grep disagrees.</p>
+<p class="endmark" aria-hidden="true"><svg width="69" height="12" viewBox="0 0 69 12"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="#FF4D6D"/><rect x="24.5" y="1.5" width="9" height="9" fill="#00F0FF"/><circle cx="52" cy="6" r="5" fill="#00FF9D"/></svg></p>
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
+</footer>
+</main></body></html>
