@@ -2,14 +2,11 @@
   "captured_at": "2026-07-20T19:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "0977ac2",
-    "head_message": "fix(status): roll day-count at ET midnight + stamp current ET time [NCI:SKIP] (#126)",
-    "in_sync_with_origin": true,
+    "head_sha": "833667b",
+    "head_message": "docs(handoff): v3.12.2 \u2014 mobile tributary-button wrap fix + layout smoke test [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "_STATE/snapshot.json",
-      "playwright.config.ts",
-      "src/organisms/Home.tsx",
-      "tests/layout.spec.ts"
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -168,5 +165,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-21T14:40:57Z"
+  "git_refreshed_at": "2026-07-21T18:12:57Z"
 }
