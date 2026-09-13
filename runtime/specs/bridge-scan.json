@@ -1,7 +1,7 @@
 {
  "spec_id": "bridge-scan",
- "version": "1.0",
- "score_version": "bridge-1.0",
+ "version": "1.1",
+ "score_version": "bridge-1.1",
  "lane": "bridge",
  "registered": "2026-09-11",
  "source": "_STATE/job-search/hypothesis-ledger.md (bridge lane); Fanatics lesson (req_reality anchor)",
@@ -28,8 +28,8 @@
     "key": "level_fit",
     "label": "Level fit",
     "weight": 4,
-    "anchor0": "junior / entry / associate / coordinator, OR VP+ / C-level where a twenty-year operator without that title history is an outside shot",
-    "anchor3": "senior / staff / lead / senior manager / director: exactly where two decades of operator experience lands and is credible on paper"
+    "anchor0": "junior / entry / associate / coordinator, OR VP / SVP / EVP / C-level where a twenty-year operator without that title history is an outside shot. Senior Director and Director are inside the target, not above it",
+    "anchor3": "senior / staff / lead / senior manager / director / senior director: exactly where two decades of operator experience lands and is credible on paper"
    },
    {
     "key": "shape_fit",
@@ -92,7 +92,9 @@
    "A generic title (Product Manager, Program Manager, Analyst) at a large brand is a stampede by default unless the JD narrows the shape to something few applicants have.",
    "Do not reward AI-nativeness for its own sake here. Reward the case where the company is adopting AI and needs an operator who can also build.",
    "GATE DISCIPLINE: a gate fires ONLY when the posting literally matches it (a talent-community / evergreen posting; a title or level line that says junior/associate/entry, or VP/SVP/Chief; an explicit on-site-only location outside the NY metro; an explicit PhD / publications / research-scientist bar; a quota-carrying individual sales rep). A Senior Product Manager posting is NOT a VP+ gate and NOT an AI-lab gate. When in doubt, do not fire a gate: score the relevant dimension low instead. A false gate costs more than a low score.",
-   "Datadog / MongoDB / Ramp style Senior PM postings: elite-eng employer but the PM pool is a stampede, not an AI-lab bar. Score competition_density 0-1 and leave gates empty."
+   "Datadog / MongoDB / Ramp style Senior PM postings: elite-eng employer but the PM pool is a stampede, not an AI-lab bar. Score competition_density 0-1 and leave gates empty.",
+   "LEVEL GATE: 'VP+ / C-level leveling' fires ONLY on titles containing VP, Vice President, SVP, EVP, Chief, or C-suite. Senior Director, Director, Head of, and Group/Principal titles are inside the level target: never gate them, score level_fit 2-3.",
+   "AI-LAB GATE: 'AI-lab or research-scientist hiring bar' fires ONLY when the posting requires a research record (PhD, first-author publications, Research Scientist / Member of Technical Staff at a lab, training models at scale). A Senior / Staff AI Engineer, Applied AI Engineer, or ML Engineer req at a product company is the OTHER lane, not a gate: leave gates empty and score shape_fit 0-1 and competition_density 0-1 so it falls to PASS or CONSIDER on the numbers."
   ],
   "bands": {
    "pursue": 0.7,
@@ -117,7 +119,12 @@
   "expect": {
    "eval-bridge-good": "PURSUE or CONSIDER, no gates",
    "eval-bridge-bad-phantom": "PASS via gate 'evergreen / talent-community / no live req' or req_reality <= 1",
-   "eval-bridge-bad-stampede": "PASS via gate 'AI-lab or research-scientist hiring bar' or competition_density = 0"
+   "eval-bridge-bad-stampede": "PASS via gate 'AI-lab or research-scientist hiring bar' or competition_density = 0",
+   "eval-bridge-good-senior-director": "PURSUE or CONSIDER, no gates (Senior Director is inside the level target)"
   }
+ },
+ "changelog": {
+  "1.1": "2026-09-13: gate discipline. (a) 'VP+ / C-level leveling' fires only on VP, SVP, EVP, or C-level titles; Senior Director / Director / Head of are INSIDE the level target. (b) 'AI-lab or research-scientist hiring bar' fires only when the posting REQUIRES a research record (PhD, publications, research-scientist title, model training at scale); an AI Engineer / Applied AI Engineer / ML Engineer title at a non-lab company is NOT the gate: leave gates empty and score shape_fit and competition_density low instead. Both misfires observed on the v1.0 pass (MongoDB Senior Director gated as VP+; Ramp Applied AI Engineer and Oscar Staff AI Engineer gated as AI-lab).",
+  "1.0": "2026-09-11: initial win-probability lens."
  }
 }
