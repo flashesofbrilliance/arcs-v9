@@ -20,3 +20,4 @@
 {"ts": "2026-09-02", "check": "seedbank-drift", "index_rows": 31, "ledger_rows": 63, "stale_days": 0, "drifted": 0, "findings": [], "regenerated": false}
 {"ts": "2026-09-04", "check": "seedbank-drift", "index_rows": 31, "ledger_rows": 63, "stale_days": 2, "drifted": 0, "findings": [], "regenerated": false}
 {"ts": "2026-09-05", "check": "seedbank-drift", "index_rows": 31, "ledger_rows": 63, "stale_days": 3, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-09-07", "check": "seedbank-drift", "index_rows": 31, "ledger_rows": 63, "stale_days": 5, "drifted": 0, "findings": [], "regenerated": false}
