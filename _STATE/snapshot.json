@@ -2,10 +2,12 @@
   "captured_at": "2026-08-04T00:39:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "bd97977",
-    "head_message": "feat(todd): add AI-forward flow variant, put Lyro where judgment is needed [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "c6e4464b",
+    "head_message": "chore(doctrine): pollinate /fold + session scripts from main [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -180,7 +182,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-04T00:08:04Z",
+  "git_refreshed_at": "2026-08-29T19:40:59Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
