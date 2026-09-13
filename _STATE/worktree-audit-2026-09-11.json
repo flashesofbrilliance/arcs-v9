@@ -495,7 +495,12 @@
    "ghost_rewritten": 1,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/blacksmith-staff-engineer-role-7266bf.bundle",
+    "tip": "481433ff"
+   }
   },
   {
    "worktree": "arcs-v9-nftt-pulp-code-fix",
@@ -512,7 +517,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/arcs-v9-nftt-pulp-code-fix.bundle",
+    "tip": "9b61ea6d"
+   }
   },
   {
    "worktree": "arcs-v9-nftt-pulp-governance",
@@ -529,7 +539,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/arcs-v9-nftt-pulp-governance.bundle",
+    "tip": "62aa60ac"
+   }
   },
   {
    "worktree": "arcs-v9-nftt-pulp-wrap-fix",
@@ -546,7 +561,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/arcs-v9-nftt-pulp-wrap-fix.bundle",
+    "tip": "bce97ad3"
+   }
   },
   {
    "worktree": "arcs-v9-receipts-standing-rule",
@@ -563,7 +583,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/arcs-v9-receipts-standing-rule.bundle",
+    "tip": "860bac74"
+   }
   },
   {
    "worktree": "jobsrun",
@@ -580,7 +605,11 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "entry-pruned",
+    "note": "directory already absent; tip 074b1120 on origin/main; no bundle"
+   }
   },
   {
    "worktree": "book-of-arcs-surface-d5e217",
@@ -597,7 +626,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/book-of-arcs-surface-d5e217.bundle",
+    "tip": "074b1120"
+   }
   },
   {
    "worktree": "l0-l5-question-compass-swap-e1d16c",
@@ -614,7 +648,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/l0-l5-question-compass-swap-e1d16c.bundle",
+    "tip": "065c7f3b"
+   }
   },
   {
    "worktree": "nftt-gravity-wells",
@@ -631,7 +670,10 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "already-removed-by-another-session"
+   }
   },
   {
    "worktree": "nftt-ledger-not-story",
@@ -648,7 +690,10 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "already-removed-by-another-session"
+   }
   },
   {
    "worktree": "recruiter-call-prep-56ea4e",
@@ -665,7 +710,13 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "held",
+    "reclassified": "ACTIVE-recent",
+    "real_unmerged_now": 1,
+    "note": "Monstro AIME session close"
+   }
   },
   {
    "worktree": "recursing-brattain-190758",
@@ -682,7 +733,13 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "held",
+    "reclassified": "ACTIVE-recent",
+    "real_unmerged_now": 5,
+    "note": "identity/brand prototypes (composite-identity map, identity-origami, five-fathom sounding, provenance chip, attraction rules)"
+   }
   },
   {
    "worktree": "relaxed-hellman-8b918d",
@@ -699,7 +756,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/relaxed-hellman-8b918d.bundle",
+    "tip": "49c9c606"
+   }
   },
   {
    "worktree": "serene-cohen-05e7fe",
@@ -716,7 +778,12 @@
    "ghost_rewritten": 0,
    "dirty_real": 0,
    "dirty_files": [],
-   "classification": "MERGED-prunable"
+   "classification": "MERGED-prunable",
+   "prune_2026_09_13": {
+    "action": "removed",
+    "bundle": "/Users/zharris/arcs-worktree-bundles/serene-cohen-05e7fe.bundle",
+    "tip": "50247ccd"
+   }
   },
   {
    "worktree": "chatbot-1-1-jtbd-blockers-edda33",
@@ -1301,6 +1368,38 @@
     "src/document/screens/RecoilReport.tsx"
    ],
    "classification": "UNMERGED-stale"
+  }
+ ],
+ "amendments": [
+  {
+   "date": "2026-09-13",
+   "event": "prune of the MERGED-prunable class",
+   "worktrees_before": 72,
+   "worktrees_after": 62,
+   "removed": [
+    "arcs-v9-nftt-pulp-code-fix",
+    "arcs-v9-nftt-pulp-governance",
+    "arcs-v9-nftt-pulp-wrap-fix",
+    "arcs-v9-receipts-standing-rule",
+    "blacksmith-staff-engineer-role-7266bf",
+    "book-of-arcs-surface-d5e217",
+    "l0-l5-question-compass-swap-e1d16c",
+    "relaxed-hellman-8b918d",
+    "serene-cohen-05e7fe"
+   ],
+   "held": [
+    "recruiter-call-prep-56ea4e",
+    "recursing-brattain-190758"
+   ],
+   "already_gone": [
+    "nftt-gravity-wells",
+    "nftt-ledger-not-story"
+   ],
+   "entry_pruned": [
+    "jobsrun"
+   ],
+   "manifest": "~/arcs-worktree-bundles/MANIFEST-2026-09-13.tsv",
+   "receipt": "2026-09-13--prune-merged-worktrees-bundle-first--ZH"
   }
  ]
 }
