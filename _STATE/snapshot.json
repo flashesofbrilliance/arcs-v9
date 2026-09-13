@@ -2,12 +2,13 @@
   "captured_at": "2026-07-20T12:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "efc836a",
-    "head_message": "docs(meta-audit): retire Hard Fork #06 [NCI:SKIP] (other thread; this session's deliverables: 403d109 persist fix + 8429f2e/cfbc483 glow)",
-    "in_sync_with_origin": true,
+    "head_sha": "494c08b",
+    "head_message": "style(todd-call): two-column deal + payment row, tighter top of proposal [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, other thread)",
-      "test_prisma_direct.js (untracked, other thread)"
+      "_STATE/snapshot.json",
+      "next.config.ts",
+      "public/resume-google-gtm.html"
     ]
   },
   "vercel": {
@@ -166,5 +167,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T21:15:29Z"
+  "git_refreshed_at": "2026-07-20T18:14:26Z"
 }
