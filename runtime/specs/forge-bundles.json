@@ -2,6 +2,13 @@
   "version": "1.0",
   "doc": "jobid -> staged forge bundle under _ARTIFACTS. Read by /jobs/[jobid]/forge (admin-gated private viewer). Bundles are never served from public/; hosting a page publicly stays a separate human-approved step.",
   "bundles": {
+    "4172881368": {
+      "dir": "forge-the-d-e-shaw-group-start-up-ventures-pro",
+      "slug": "the-d-e-shaw-group-start-up-ventures-pro",
+      "resume": "resume-the-d-e-shaw-group-start-up-ventures-pro.pdf",
+      "resume_pdf": "resume-the-d-e-shaw-group-start-up-ventures-pro.pdf",
+      "resume_txt": "resume-the-d-e-shaw-group-start-up-ventures-pro-ats.txt"
+    },
     "4266778287": {
       "dir": "forge-norm-ai-fde",
       "slug": "norm-ai-fde",
@@ -473,6 +480,174 @@
       "resume": "resume-langchain-gtm-engineer.pdf",
       "resume_pdf": "resume-langchain-gtm-engineer.pdf",
       "resume_txt": "resume-langchain-gtm-engineer-ats.txt"
+    },
+    "4455250277": {
+      "dir": "forge-tenex-associate-forward-deployed-enginee",
+      "slug": "tenex-associate-forward-deployed-enginee",
+      "resume": "resume-tenex-associate-forward-deployed-enginee.pdf",
+      "resume_pdf": "resume-tenex-associate-forward-deployed-enginee.pdf",
+      "resume_txt": "resume-tenex-associate-forward-deployed-enginee-ats.txt"
+    },
+    "4463602341": {
+      "dir": "forge-everet-marsh-forward-deployed-engineer-n",
+      "slug": "everet-marsh-forward-deployed-engineer-n",
+      "resume": "resume-everet-marsh-forward-deployed-engineer-n.pdf",
+      "resume_pdf": "resume-everet-marsh-forward-deployed-engineer-n.pdf",
+      "resume_txt": "resume-everet-marsh-forward-deployed-engineer-n-ats.txt"
+    },
+    "4423531210": {
+      "dir": "forge-tenex-forward-deployed-engineer",
+      "slug": "tenex-forward-deployed-engineer",
+      "resume": "resume-tenex-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-tenex-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-tenex-forward-deployed-engineer-ats.txt"
+    },
+    "4446256482": {
+      "dir": "forge-edra-ai-engineer-new-york",
+      "slug": "edra-ai-engineer-new-york",
+      "resume": "resume-edra-ai-engineer-new-york.pdf",
+      "resume_pdf": "resume-edra-ai-engineer-new-york.pdf",
+      "resume_txt": "resume-edra-ai-engineer-new-york-ats.txt"
+    },
+    "4463387277": {
+      "dir": "forge-datasnipper-forward-deployed-engineer",
+      "slug": "datasnipper-forward-deployed-engineer",
+      "resume": "resume-datasnipper-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-datasnipper-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-datasnipper-forward-deployed-engineer-ats.txt"
+    },
+    "4460495189": {
+      "dir": "forge-radical-ai-product-manager",
+      "slug": "radical-ai-product-manager",
+      "resume": "resume-radical-ai-product-manager.pdf",
+      "resume_pdf": "resume-radical-ai-product-manager.pdf",
+      "resume_txt": "resume-radical-ai-product-manager-ats.txt"
+    },
+    "4462855924": {
+      "dir": "forge-newrocket-forward-deployed-ai-engineer-a",
+      "slug": "newrocket-forward-deployed-ai-engineer-a",
+      "resume": "resume-newrocket-forward-deployed-ai-engineer-a.pdf",
+      "resume_pdf": "resume-newrocket-forward-deployed-ai-engineer-a.pdf",
+      "resume_txt": "resume-newrocket-forward-deployed-ai-engineer-a-ats.txt"
+    },
+    "4442928661": {
+      "dir": "forge-anthropic-product-manager-research-code",
+      "slug": "anthropic-product-manager-research-code",
+      "resume": "resume-anthropic-product-manager-research-code.pdf",
+      "resume_pdf": "resume-anthropic-product-manager-research-code.pdf",
+      "resume_txt": "resume-anthropic-product-manager-research-code-ats.txt"
+    },
+    "4464365988": {
+      "dir": "forge-talentpluto-forward-deployed-engineer-te",
+      "slug": "talentpluto-forward-deployed-engineer-te",
+      "resume": "resume-talentpluto-forward-deployed-engineer-te.pdf",
+      "resume_pdf": "resume-talentpluto-forward-deployed-engineer-te.pdf",
+      "resume_txt": "resume-talentpluto-forward-deployed-engineer-te-ats.txt"
+    },
+    "4461400030": {
+      "dir": "forge-lawnstarter-principal-product-manager",
+      "slug": "lawnstarter-principal-product-manager",
+      "resume": "resume-lawnstarter-principal-product-manager.pdf",
+      "resume_pdf": "resume-lawnstarter-principal-product-manager.pdf",
+      "resume_txt": "resume-lawnstarter-principal-product-manager-ats.txt"
+    },
+    "4464370983": {
+      "dir": "forge-talentpluto-forward-deployed-engineer",
+      "slug": "talentpluto-forward-deployed-engineer",
+      "resume": "resume-talentpluto-forward-deployed-engineer.pdf",
+      "resume_pdf": "resume-talentpluto-forward-deployed-engineer.pdf",
+      "resume_txt": "resume-talentpluto-forward-deployed-engineer-ats.txt"
+    },
+    "4460998073": {
+      "dir": "forge-traba-product-manager-ai-agents",
+      "slug": "traba-product-manager-ai-agents",
+      "resume": "resume-traba-product-manager-ai-agents.pdf",
+      "resume_pdf": "resume-traba-product-manager-ai-agents.pdf",
+      "resume_txt": "resume-traba-product-manager-ai-agents-ats.txt"
+    },
+    "4407175659": {
+      "dir": "forge-rillet-applied-ai-engineer",
+      "slug": "rillet-applied-ai-engineer",
+      "resume": "resume-rillet-applied-ai-engineer.pdf",
+      "resume_pdf": "resume-rillet-applied-ai-engineer.pdf",
+      "resume_txt": "resume-rillet-applied-ai-engineer-ats.txt"
+    },
+    "4443901488": {
+      "dir": "forge-rippling-product-lead-talent-products",
+      "slug": "rippling-product-lead-talent-products",
+      "resume": "resume-rippling-product-lead-talent-products.pdf",
+      "resume_pdf": "resume-rippling-product-lead-talent-products.pdf",
+      "resume_txt": "resume-rippling-product-lead-talent-products-ats.txt"
+    },
+    "4450453140": {
+      "dir": "forge-humana-lead-ai-technical-product-manager",
+      "slug": "humana-lead-ai-technical-product-manager",
+      "resume": "resume-humana-lead-ai-technical-product-manager.pdf",
+      "resume_pdf": "resume-humana-lead-ai-technical-product-manager.pdf",
+      "resume_txt": "resume-humana-lead-ai-technical-product-manager-ats.txt"
+    },
+    "4446157704": {
+      "dir": "forge-niural-ai-director-of-product",
+      "slug": "niural-ai-director-of-product",
+      "resume": "resume-niural-ai-director-of-product.pdf",
+      "resume_pdf": "resume-niural-ai-director-of-product.pdf",
+      "resume_txt": "resume-niural-ai-director-of-product-ats.txt"
+    },
+    "4461681319": {
+      "dir": "forge-eversana-senior-ai-application-engineer",
+      "slug": "eversana-senior-ai-application-engineer",
+      "resume": "resume-eversana-senior-ai-application-engineer.pdf",
+      "resume_pdf": "resume-eversana-senior-ai-application-engineer.pdf",
+      "resume_txt": "resume-eversana-senior-ai-application-engineer-ats.txt"
+    },
+    "4453704360": {
+      "dir": "forge-citi-ai-product-capability-manager-globa",
+      "slug": "citi-ai-product-capability-manager-globa",
+      "resume": "resume-citi-ai-product-capability-manager-globa.pdf",
+      "resume_pdf": "resume-citi-ai-product-capability-manager-globa.pdf",
+      "resume_txt": "resume-citi-ai-product-capability-manager-globa-ats.txt"
+    },
+    "4398626776": {
+      "dir": "forge-bloomberg-product-management-lead-data-a",
+      "slug": "bloomberg-product-management-lead-data-a",
+      "resume": "resume-bloomberg-product-management-lead-data-a.pdf",
+      "resume_pdf": "resume-bloomberg-product-management-lead-data-a.pdf",
+      "resume_txt": "resume-bloomberg-product-management-lead-data-a-ats.txt"
+    },
+    "4432702753": {
+      "dir": "forge-mercury-open-call-for-founders-founding",
+      "slug": "mercury-open-call-for-founders-founding",
+      "resume": "resume-mercury-open-call-for-founders-founding.pdf",
+      "resume_pdf": "resume-mercury-open-call-for-founders-founding.pdf",
+      "resume_txt": "resume-mercury-open-call-for-founders-founding-ats.txt"
+    },
+    "manual-1788887798166": {
+      "dir": "forge-monstro-ai-marketing-engineer",
+      "slug": "monstro-ai-marketing-engineer",
+      "resume": "resume-monstro-ai-marketing-engineer.pdf",
+      "resume_pdf": "resume-monstro-ai-marketing-engineer.pdf",
+      "resume_txt": "resume-monstro-ai-marketing-engineer-ats.txt"
+    },
+    "4454207190": {
+      "dir": "forge-fifth-dimension-founding-technical-pre-s",
+      "slug": "fifth-dimension-founding-technical-pre-s",
+      "resume": "resume-fifth-dimension-founding-technical-pre-s.pdf",
+      "resume_pdf": "resume-fifth-dimension-founding-technical-pre-s.pdf",
+      "resume_txt": "resume-fifth-dimension-founding-technical-pre-s-ats.txt"
+    },
+    "4427882805": {
+      "dir": "forge-edra-ai-strategist-new-york",
+      "slug": "edra-ai-strategist-new-york",
+      "resume": "resume-edra-ai-strategist-new-york.pdf",
+      "resume_pdf": "resume-edra-ai-strategist-new-york.pdf",
+      "resume_txt": "resume-edra-ai-strategist-new-york-ats.txt"
+    },
+    "4444041313": {
+      "dir": "forge-perplexity-ai-strategist-financial-servi",
+      "slug": "perplexity-ai-strategist-financial-servi",
+      "resume": "resume-perplexity-ai-strategist-financial-servi.pdf",
+      "resume_pdf": "resume-perplexity-ai-strategist-financial-servi.pdf",
+      "resume_txt": "resume-perplexity-ai-strategist-financial-servi-ats.txt"
     }
   }
 }

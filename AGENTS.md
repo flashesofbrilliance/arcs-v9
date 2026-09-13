@@ -198,6 +198,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 ---
 
+14a. **Cross-harness reconciliation: never trust `~/.hermes/state.db`'s sessions table alone to answer "did Hermes do X."** It does not reliably record `git_repo_root`/`git_branch` for sessions that touched a repo — querying it directly undercounts real work (confirmed 2026-09-13: it showed zero arcs-v9 sessions while `session_search`'s FTS index surfaced real, repo-committing Hermes work from 2026-09-11, e.g. the cross-harness handoff push at commit `6c19ec6f`). Use `session_search` (FTS-backed, ground truth) to verify a harness's history before asserting "never happened" — a SQL-table absence is not proof of absence.
+
 14. **Run repo scripts from YOUR worktree, never by the main-checkout absolute path.** `/Users/zharris/arcs-v9/scripts/*.py` is whatever branch the main checkout is parked on — often another session's dirty branch with a STALE copy. On 2026-09-08 I linted with the main-checkout `artifact_wrap_lint.py` (a 138-line copy with no MODE 5) while origin/main's is 296 lines and catches the exact narrow-lede-in-wide-container bug; every "wrap-lint clean" was a false pass and the bug shipped repeatedly. Use `./scripts/…` relative to your own worktree (which is cut from origin/main), or verify with `git show origin/main:scripts/<x>` before trusting a result. Same caution for any tool invoked by an `/Users/zharris/arcs-v9/…` absolute path. See memory `run-repo-tools-from-worktree-not-stale-main-checkout`.
 
 15. **Frustration Gate (design pattern, default not favor).** When a bug class is recurring or high-frustration, don't just fix the instance — in the same change add the cheapest mechanical check that FAILS the build on the whole class (grep < static lint < headless assert), prove it fails-on-bad AND passes-on-good, and wire it into the always-run path (`npm test` / pre-commit). A symptom that survives multiple green-gated fixes means the gate is blind or you're solving the wrong problem — that should fire on round 2, not round 15. Full pattern + worked example: `_PATTERNS/2026-09-08-frustration-gate-pattern.md`.
@@ -218,6 +220,25 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 > `PLAN`, `COURT`}. Anything else is rejected by a CHECK constraint (`QUARTER`/`MEDIUM` failed once).
 > `what_confirmed`, `what_unconfirmed`, `refs` are `text[]`; `event_at` is timestamptz.
 >
+> Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
+> or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
+> the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its
+> table was never applied. The first two receipts (rubric v1.3 ship, NFTT PR #394) landed 2026-09-11
+> with `receipt_id`s `2026-09-10--rubric-v1.3-ship--ZH` and `2026-09-10--nftt-ledger-pr--ZH`.
+
+---
+
+## Receipts or it didn't happen
+
+Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
+`decision_receipt` table (Supabase project `xbbpiryokswwvcrcutge`, ARCS_v9), in the fixed form:
+`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at`
+(+ `source_repo`, `refs[]`). Matched by any verifier against real git/GitHub/Vercel state —
+anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
+
+An action without a logged receipt is not considered complete, regardless of whether the underlying
+merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
+
 > Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
 > or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
 > the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its

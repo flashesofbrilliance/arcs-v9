@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_doc": "Triune harness convergence anchor \u2014 shared rendezvous plane for Claude Code, Hermes, and Perplexity across worktrees and profiles. Commit and push to propagate.",
+  "updated_at": "2026-09-12T01:46:21Z",
+  "global_beat": 6,
+  "head": {
+    "branch": "fresh-starts",
+    "sha": "(this commit)",
+    "remote": "origin/fresh-starts"
+  },
+  "roles": {
+    "perplexity": {
+      "mode": "scout",
+      "focus": "external sensory ground truth, company intelligence, exec dossiers, hiring signals",
+      "inbox_path": "_INBOX/evidence/"
+    },
+    "claude_code": {
+      "mode": "architect_compiler",
+      "focus": "high-altitude architecture, ADR resolution, PR branches, worktree audit/reconciliation, type contracts",
+      "active_branch": "claude/bridge-employer-index (+ renumber-* PR branches); fresh-starts anchor updated from a detached worktree"
+    },
+    "hermes": {
+      "mode": "operator_actuator",
+      "focus": "local execution, desktop manipulation, pulse/oracle heartbeat, scanner execution, OT canary",
+      "active_profile": "arcs"
+    }
+  },
+  "active_jtbd": [
+    {
+      "id": "JTBD-001",
+      "title": "Cross-Harness State Sync & Convergence Anchor",
+      "status": "LANDED",
+      "proof": "_STATE/convergence.json, _STATE/handoff-2026-09-11-cross-harness-pickup.md"
+    },
+    {
+      "id": "JTBD-002",
+      "title": "Worktree & ADR-Collision Audit",
+      "status": "LANDED",
+      "target": "Audit 71 worktrees, renumber colliding ADRs 038-041 on hold branches, identify dead trees for pruning",
+      "proof": "merged to main: #408 oracle 77->81 (5bf0e574), #409 ADR-078 (109d080c), #410 ADR-079 (90acca7c), #413 ADR-080/081+041 (904bd607). Audit: _STATE/worktree-audit-2026-09-11.md. Original hold worktrees now removable (human-owned).",
+      "note": "74 worktrees swept by patch-id: 14 prunable, 8 ghost-history, 33 unmerged-stale, 18 active. Nothing pruned (human-owned). 3 hold branches renumbered via oracle and merged with main on new branches."
+    },
+    {
+      "id": "JTBD-003",
+      "title": "Substrate Placement Landing",
+      "status": "LANDED",
+      "target": "Cherry-pick b0d8b5c1 (operators/README composition boundary) to main",
+      "proof": "#407 merged to main (5f62c9b8): operators/README.md 'Composition Boundary \u2014 Agentic Harness' section"
+    },
+    {
+      "id": "JTBD-004",
+      "title": "LinkedIn Export Mining & Warm Referral Matcher",
+      "status": "READY_FOR_HERMES",
+      "target": "Extract Complete_LinkedInDataExport_09-11-2026.zip.zip and run network_scan_full.py cross-referenced to jobs.arcs.care"
+    },
+    {
+      "id": "JTBD-005",
+      "title": "Job-Search Lane & Bridge-Scan Integration",
+      "status": "IN_PROGRESS_PARALLEL_CLAUDE",
+      "branch": "claude/jobs-arcs-care-batch-trigger-3da902",
+      "integration_target": "main (Separate Product Lane)",
+      "notes": "Thread 2 authoring sibling spec runtime/specs/bridge-scan.json (DO NOT flag as collision in worktree sweep). Standardizing row schema with source='bridge_scan' to unify with Perplexity intake dossiers in _INBOX/evidence/.",
+      "bridge_index": {
+        "status": "LANDED_ON_MAIN",
+        "branch": "claude/bridge-employer-index (37badfc2, base main)",
+        "proof": "#415 merged (19e2bc7b): scripts/bridge_index_scan.py + _STATE/job-search/employer-index/; 578 reqs live as bridge_scan",
+        "note": "Thread 1 of the 3-way fork; Thread 2 (bridge-scan-rubric) scores the UNSCORED rows. runtime/specs/bridge-scan.json is Thread 2's, not a collision."
+      }
+    },
+    {
+      "id": "JTBD-006",
+      "title": "Triune Productization Proposal Review (User0 -> UserN)",
+      "status": "APPROVED_BY_ARCHITECT_AND_SCOUT",
+      "doc": "_PROPOSALS/2026-09-12-triune-productization-user0-to-userN.md",
+      "architect_verdict": {
+        "reviewer": "Claude Code (Architect)",
+        "verdict": "CREDIBLE_NOT_VAPOR",
+        "conforms_to": "_SPECS/job-search-invariant-shape.md (in-authoring by Claude)",
+        "required_gates": [
+          "Gate 1: Normalized opportunity-record schema contract (shared intake join)",
+          "Gate 2: Mechanical PII air-gap test script (fail-closed, exit != 0 on leak)",
+          "Gate 3: Supabase RLS tenant isolation test suite (prove UserN cannot read UserM)",
+          "Gate 4: Dual-manifest in resume-tailor-skill (Claude-plugin + Hermes skill.yaml)",
+          "Gate 5: Falsification/conversion hypothesis loop (H1-H4 ledger integrated)"
+        ]
+      },
+      "scout_verdict": {
+        "reviewer": "Perplexity (Scout)",
+        "verdict": "APPROVED_PRE_CONVERGENCE_LANDED",
+        "intake_schema": "_INBOX/evidence/role-dossier-schema.json (canonical, commit 673e4b8d, supersedes Hermes draft 99f4a68d)",
+        "design_spec": {
+          "classification_model": "Ternary [ATTAINABLE | TRAP | UNDECIDABLE]",
+          "schema_architecture": "Stable Core + Nullable Best-Effort Extension",
+          "evidence_auditing": "Every claim requires retrieved_at + source_urls[] for Loki/BAR falsification"
+        }
+      },
+      "compiler_verdict": {
+        "reviewer": "Claude Code (Compiler/Job-Search Coordinator)",
+        "commit": "9f6beb9a (cherry-picked onto fresh-starts as 9ef11c52)",
+        "artifacts": [
+          "_SPECS/job-search-invariant-shape.md",
+          "_STATE/job-search/architect-review-triune-productization.md"
+        ],
+        "escalation_resolved": "Schema collision (Hermes draft vs Perplexity owner-draft) \u2014 resolved: sensor owns its own output contract, Perplexity's version is canonical.",
+        "open_flags": [
+          "PII banner overclaims \u2014 redaction-QC (pii_leak_gate.py) is not the same guarantee as a network air-gap; language should be corrected",
+          "PWA surface (resume-tailor-pwa.html) unverified rendering \u2014 grep-confirmed only, not browser-verified",
+          "Supabase RLS tenant isolation untested \u2014 no passing isolation test yet"
+        ]
+      }
+    },
+    {
+      "id": "JTBD-007",
+      "title": "Scout intake gate (schema-drift validator) + Parloa re-emit",
+      "status": "GATE_LANDED_PARLOA_REEMIT_OPEN",
+      "proof": "scripts/scout_dossier_ingest.py {validate|map|post} <dossier> \u2014 stdlib walker over role-dossier-schema.json (required/enum/const/date + HITL invariant + evidence field_ref resolution)",
+      "target": "Perplexity re-emits SCOUT-parloa-fde-us (predates the v1 freeze at 4d5338aa) with extraction_risk; then `scout_dossier_ingest.py post` lands valid dossiers on jobs.arcs.care as source=perplexity_scout (skips existing jobids).",
+      "owner": "perplexity",
+      "validation": {
+        "SCOUT-blacksmith-staff-product-engineer-20260911.json": "valid",
+        "SCOUT-parloa-fde-us-20260912.json": "INVALID: $: missing required 'extraction_risk'",
+        "SCOUT-trueseek-ai-deployment-lead-20260911.json": "valid"
+      }
+    }
+  ],
+  "invariants": {
+    "oracle_lock": "_SEEDS/_oracle.json",
+    "pulse_clock": "_STATE/pulse.json",
+    "master_queue": "_QUEUE/PENDING.md",
+    "receipt_ledger": "decision_receipt (Supabase xbbpiryokswwvcrcutge)"
+  },
+  "main_head": "19e2bc7b"
+}

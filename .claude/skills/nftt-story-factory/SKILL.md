@@ -10,9 +10,33 @@ take-home-trap "With Life" standard. You clone the template chrome, write the es
 sections, wire the route, add the index card, pass the gates, ship. There is no renderer and no
 JSON envelope in this path.
 
-- **Gold standard (chrome + register):** `public/blog-nftt-take-home-trap.html`
+- **Platinum master (chrome + register):** `public/blog-nftt-take-home-trap.html` — same naming
+  convention as `forge`'s Robin platinum master: the canonical reference, verified fresh below,
+  never trusted from memory of a past session.
 - **Latest worked example (this recipe, gauntlet-clean):** `public/blog-nftt-confirmed-not-my-bug.html`
 - **Closest reflective-voice peer:** `public/blog-nftt-post-2.html`
+- **Optional hero-image layer** (`.cover` treatment, added 2026-09-13): a subset of posts
+  (`the-instinct-before-it-had-a-name`, `the-method-that-was-already-built`,
+  `the-pre-mortem-that-asked-to-be-wrong`, `the-same-rigor-applied-to-slang`,
+  `four-dates-one-thesis-three-confirmations`, `closing-the-loop-receipts`,
+  `tuning-into-the-distortion-field`) carry a hero JPEG; most posts (including the platinum
+  master) do not. Hero art is an optional enhancement, not a required part of the base template —
+  confirm current usage with the freshness check below rather than assuming either way.
+
+**0. Freshness check — run this FIRST, every time, before cloning anything.** A hardcoded
+filename above can go stale the moment someone ships a template change on a different branch
+that hasn't reached yours yet (this happened 2026-09-13: the hero-image layer landed on
+`origin/main` and other branches while this worktree's branch had none of it, and the drafted
+post silently used the older-looking pattern with no error). Don't trust the list above from
+memory; verify against the shared remote first:
+```bash
+git fetch origin main -q
+git diff HEAD origin/main --stat -- 'public/blog-nftt-*.html' 'public/blog-nftt-*.jpg'
+```
+Empty output means this worktree's copies are current, clone as documented above. Non-empty
+output means something changed upstream that this worktree doesn't have — `git show
+origin/main:<path>` the changed files before deciding what to clone from, and consider whether
+your worktree needs a broader sync first (see [[pathogen-detection-via-temporal-paradox-pre-merge]]).
 
 > The data-driven THREADED engine (`story_render.py` + `.story.md` envelopes + `-full.html`
 > renders) was **retired 2026-09-07** and lives in `_ARCHIVE/nftt-threaded-engine/` (see its

@@ -47,7 +47,7 @@
 
   .job{margin-bottom:6px;break-inside:avoid;}
   .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
-  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .glyph{color:var(--accent);margin-right:7px;font-weight:400;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co.gs::before,.job-co.gh::before{content:"";display:inline-block;width:6px;height:6px;transform:rotate(45deg);margin-right:8px;position:relative;top:-1px;}.job-co.gs::before{background:var(--accent);}.job-co.gh::before{border:1.2px solid var(--accent);width:5px;height:5px;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
   .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
   .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:4px 0 4px 15px;text-wrap:pretty;} .job-sum b{color:var(--ink);font-weight:600;}
   ul.bul{list-style:none;margin-left:15px;} ul.bul li{position:relative;padding-left:14px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:1.5px;text-wrap:pretty;}
@@ -63,7 +63,7 @@
 
   .telem{background:linear-gradient(165deg,#f5fafc,#e9f3f8);border:1px solid #d3e1ea;border-radius:9px;padding:13px 16px 14px;color:var(--ink2);box-shadow:inset 0 1px 0 #fff,0 8px 20px -16px rgba(15,23,32,.2);}
   .telem-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;}
-  .telem-top .t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);} .telem-top .win{font-family:var(--mono);font-size:8.5px;color:var(--faint);}
+  .telem-top .t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);}.telem-top .t.dot::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:7px;position:relative;top:-1px;} .telem-top .win{font-family:var(--mono);font-size:8.5px;color:var(--faint);}
   .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;} .stat{border-left:1px solid #d3e1ea;padding-left:10px;} .stat:first-child{border-left:none;padding-left:0;}
   .stat .n{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);line-height:1;} .stat .k{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:6px;line-height:1.4;}
 
@@ -75,8 +75,8 @@
   @media print{
     html{background:#fff;} body{padding:0;margin:0;}
     .sheet{width:auto;max-width:none;margin:0;padding:0.26in 0.32in;border-radius:0;background:#fff;box-shadow:none;}
-    .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;border-top:1px solid var(--line2);padding-top:6px;}
-    .telem{background:#f5fafc !important;border:1px solid #d3e1ea;}
+    .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;padding-top:6px;}
+    .telem{background:#fff !important;border:1px solid #d3e1ea;box-shadow:none !important;}
     .page-frame{display:block;position:fixed;top:0;left:0;right:0;bottom:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
     *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   }
@@ -100,7 +100,7 @@
   </header>
   <p class="thesis"><b>Builder-founder and senior go-to-market operator.</b> Nearly two decades of 0-to-1 across regulated finance, sports, health, and consumer: taking technical products to market and building the bridge between technical and non-technical teams. Most recently building <b>LLM-native software in the open</b>: ARCS, a decision-intelligence platform on Claude and MCP, plus a family of open-source developer tools. I write for technical audiences because I ship for them. LLM engineers, data scientists, and ML researchers are the people I build with and for.</p>
 
-  <!-- 01 STRATEGIC — pillars ranked by jd_relevance -->
+  <!-- 01 STRATEGIC - pillars ranked by jd_relevance -->
   <section class="card">
     <div class="sec"><span class="lv"><span class="n">01</span>Strategic</span><span class="gloss">what I own, ranked for this role</span><span class="rule"></span><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
     <div class="pillars">
@@ -116,7 +116,7 @@
     <div class="sec"><span class="lv"><span class="n">02</span>Operational · Experience</span><span class="gloss">full-time &amp; forward-deployed</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
 
     <div class="job">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> ARCS <span class="dom">— Decision-Intelligence Platform (LLM-native)</span></div><div class="job-role">Founder · 2025&ndash;Present</div></div>
+      <div class="job-head"><div class="job-co gs">ARCS <span class="dom">&ndash; Decision-Intelligence Platform (LLM-native)</span></div><div class="job-role">Founder · 2025&ndash;Present</div></div>
       <div class="job-sum">A decision-intelligence platform plus an <b>open-source developer-tool family</b>, built on Claude. Own product, positioning, technical narrative, and go-to-market end to end.</div>
       <ul class="bul">
         <li>Ship and market <b>open-source Claude Code tools</b> (good.arcs.care), including <b>token-savings-bank</b>, a token-budgeting discipline for LLM coding agents. Marketing OSS dev tools to engineers is exactly this role's motion.</li>
@@ -126,7 +126,7 @@
     </div>
 
     <div class="job">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Grayscale Investments <span class="dom">— Digital Currency Group</span></div><div class="job-role">Product Lead · 2024&ndash;2025</div></div>
+      <div class="job-head"><div class="job-co gs">Grayscale Investments <span class="dom">&ndash; Digital Currency Group</span></div><div class="job-role">Product Lead · 2024&ndash;2025</div></div>
       <div class="job-sum">Go-to-market for <b>10 SEC/FINRA-regulated</b> digital-asset products (<span class="metric">$7B AUM</span>): positioning, segmentation, and adoption inside regulated controls.</div>
       <ul class="bul">
         <li>Owned positioning, segmentation, and adoption across the investor experience; built the behavioral segmentation model behind investor targeting and personalized positioning.</li>
@@ -135,7 +135,7 @@
     </div>
 
     <div class="job">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Squat New York <span class="dom">— Behavioral Health ($350M ARR)</span></div><div class="job-role">Head of Product Innovation &amp; Tech Lead · 2019&ndash;2020</div></div>
+      <div class="job-head"><div class="job-co gs">Squat New York <span class="dom">&ndash; Behavioral Health ($350M ARR)</span></div><div class="job-role">Head of Product Innovation &amp; Tech Lead · 2019&ndash;2020</div></div>
       <div class="job-sum">Sole product and technology partner on a <b>seven-figure</b> embedded engagement, discovery through handoff.</div>
       <ul class="bul">
         <li>Owned roadmap and a full <b>content-architecture</b> and CX overhaul (headless CMS); accelerated time-to-interaction as the primary conversion KPI, aligning engineering, design, clinical, and operations to ship on schedule.</li>
@@ -143,7 +143,7 @@
     </div>
 
     <div class="job">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Children's Tumor Foundation</div><div class="job-role">Sr. Director, Data &amp; Strategy · 2018&ndash;2019</div></div>
+      <div class="job-head"><div class="job-co gs">Children's Tumor Foundation</div><div class="job-role">Sr. Director, Data &amp; Strategy · 2018&ndash;2019</div></div>
       <div class="job-sum">Built the first enterprise data and decision-intelligence layer this mission-driven org had, then turned it into revenue.</div>
       <ul class="bul">
         <li>Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a <span class="metric">20%</span> increase in net-new revenue via data-driven personalization.</li>
@@ -151,7 +151,7 @@
     </div>
 
     <div class="job">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Women's Tennis Association</div><div class="job-role">Head of Product &amp; Strategic Partnerships · 2016&ndash;2018</div></div>
+      <div class="job-head"><div class="job-co gs">Women's Tennis Association</div><div class="job-role">Head of Product &amp; Strategic Partnerships · 2016&ndash;2018</div></div>
       <ul class="bul">
         <li>Closed the first commercial data partnerships with Twitter and Facebook (attribution, event-driven revenue): <span class="metric">$850K+</span> in year one.</li>
         <li>Led CDP selection and built real-time fan-behavior scoring at <span class="metric">&lt;120ms</span> for a global consumer sports platform.</li>
@@ -159,23 +159,23 @@
     </div>
   </section>
 
-  <!-- SELECT CONSULTING — distinct advisory band (P2) -->
+  <!-- SELECT CONSULTING - distinct advisory band (P2) -->
   <section class="card" style="break-inside:avoid;">
     <div class="sec"><span class="lv"><span class="n">03</span>Advisory · Fractional Consulting</span><span class="gloss">product &amp; go-to-market · 2020&ndash;2024</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
     <div class="job" style="margin-bottom:6px;">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Twill Health <span class="dom">— HealthTech (HIPAA)</span></div><div class="job-role">2021&ndash;2023</div></div>
+      <div class="job-head"><div class="job-co gh">Twill Health <span class="dom">&ndash; HealthTech (HIPAA)</span></div><div class="job-role">2021&ndash;2023</div></div>
       <ul class="bul"><li>Market-viability testing and positioning for <b>3 AI-enabled digital-health product lines</b>; findings drove go-forward decisions on two of three.</li></ul>
     </div>
     <div class="job" style="margin-bottom:6px;">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Verizon Media <span class="dom">— 5G Innovation Ventures</span></div><div class="job-role">2020&ndash;2021</div></div>
+      <div class="job-head"><div class="job-co gh">Verizon Media <span class="dom">&ndash; 5G Innovation Ventures</span></div><div class="job-role">2020&ndash;2021</div></div>
       <ul class="bul"><li>Quantitative opportunity assessments across <b>five 5G product ventures</b>: market sizing, competitive analysis, and go/no-go investment recommendations.</li></ul>
     </div>
     <div class="job" style="margin-bottom:6px;">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> GoPro <span class="dom">— Consumer Tech</span></div><div class="job-role">2020&ndash;2021</div></div>
+      <div class="job-head"><div class="job-co gh">GoPro <span class="dom">&ndash; Consumer Tech</span></div><div class="job-role">2020&ndash;2021</div></div>
       <ul class="bul"><li>Built the growth and measurement framework for <b>EMEA/APAC expansion</b>, navigating GDPR data-sovereignty across international markets.</li></ul>
     </div>
     <div class="job" style="margin-bottom:0;">
-      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Axon Enterprises <span class="dom">— GovTech</span></div><div class="job-role">2023</div></div>
+      <div class="job-head"><div class="job-co gh">Axon Enterprises <span class="dom">&ndash; GovTech</span></div><div class="job-role">2023</div></div>
       <ul class="bul"><li>Defined launch strategy, KPI taxonomy, and go-live criteria for a <b>secure first-responder OTT MVP</b>.</li></ul>
     </div>
   </section>
@@ -211,11 +211,11 @@
     </div>
   </section>
 
-  <!-- 04 SURGICAL — receipts (documented / public) -->
+  <!-- 04 SURGICAL - receipts (documented / public) -->
   <section class="card" style="break-inside:avoid;">
     <div class="sec"><span class="lv"><span class="n">05</span>Surgical</span><span class="gloss">the receipts</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
     <div class="telem">
-      <div class="telem-top"><div class="t">&#9679; Shipped &amp; public</div><div class="win"><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/flashesofbrilliance</a></div></div>
+      <div class="telem-top"><div class="t dot">Shipped &amp; public</div><div class="win"><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/flashesofbrilliance</a></div></div>
       <div class="stats">
         <div class="stat"><div class="n">3+</div><div class="k">OSS dev tools shipped</div></div>
         <div class="stat"><div class="n">10</div><div class="k">regulated products, GTM</div></div>
@@ -226,7 +226,7 @@
     </div>
   </section>
 
-  <!-- PUBLIC GOODS — product-marketing showcase (proof of PMM craft, fills P2) -->
+  <!-- PUBLIC GOODS - product-marketing showcase (proof of PMM craft, fills P2) -->
   <section class="card" style="break-inside:avoid;">
     <div class="sec"><span class="lv">Public Goods</span><span class="gloss">open-source, positioned · <a href="https://good.arcs.care" style="color:inherit;">good.arcs.care</a></span><span class="rule"></span></div>
     <div class="cardlede">A sample of shipped, MIT-licensed tools, each positioned for the developer who would actually use it. Product marketing applied to my own work, with the whole build tracked in public at <a href="https://build.arcs.care" style="color:var(--accent);">build.arcs.care</a>.</div>
@@ -254,9 +254,9 @@
   <section class="card" style="break-inside:avoid;">
     <div class="sec"><span class="lv">Education &amp; Credentials</span><span class="rule"></span></div>
     <div class="edu-line" style="flex-direction:column;gap:5px;">
-      <span><b>Oberlin College</b> — BA, Studio Art (Honors) <span class="yr">2002&ndash;2006</span> · <span style="color:var(--ink3);">design-first foundation applied to developer experience and data visualization</span></span>
-      <span><b>MIT xPRO</b> — AI: Implications for Business Strategy &middot; Designing &amp; Building AI Products &amp; Services <span class="yr">Certificates</span> · <span style="color:var(--ink3);">AI strategy, product instrumentation, applied AI product development</span></span>
-      <span><b>Section4</b> — Certified Product Strategist <span class="yr">2022</span> · <span style="color:var(--ink3);">product strategy &amp; positioning · Credly-verified</span></span>
+      <span><b>Oberlin College</b> &ndash; BA, Studio Art (Honors) <span class="yr">2002&ndash;2006</span> · <span style="color:var(--ink3);">design-first foundation applied to developer experience and data visualization</span></span>
+      <span><b>MIT xPRO</b> &ndash; AI: Implications for Business Strategy &middot; Designing &amp; Building AI Products &amp; Services <span class="yr">Certificates</span> · <span style="color:var(--ink3);">AI strategy, product instrumentation, applied AI product development</span></span>
+      <span><b>Section4</b> &ndash; Certified Product Strategist <span class="yr">2022</span> · <span style="color:var(--ink3);">product strategy &amp; positioning · Credly-verified</span></span>
     </div>
   </section>
 

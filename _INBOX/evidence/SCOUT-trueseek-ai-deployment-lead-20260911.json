@@ -1,0 +1,91 @@
+{
+  "dossier_id": "role-trueseek-ai-deployment-lead-20260911",
+  "generated_at": "2026-09-11T17:34:00Z",
+  "producer": "perplexity-scout",
+  "core": {
+    "company": "TrueSeek",
+    "role_title": "AI Deployment Lead - Private Markets",
+    "jd_text": "AI Deployment Lead - Private Markets at TrueSeek: Deployment Lead role focused on AI-native data migration & transformation. Description emphasizes a lean, founder-led operating model ('the founders are running every customer'). Deployment leads act as the driving force behind delivering TrueSeek's AI-powered data platform into customers' hands, working directly on private-markets data migration and transformation engagements.",
+    "jd_url": "https://www.linkedin.com/jobs/view/ai-deployment-lead-private-markets-at-trueseek-4463284582",
+    "posting_first_seen": "2026-08-28",
+    "posting_last_seen": "2026-09-08",
+    "cross_listed": {
+      "on_company_careers_page": null,
+      "aggregator_only": null
+    }
+  },
+  "extraction_risk": {
+    "evergreen_or_recycled_req": null,
+    "bench_practice": "unknown",
+    "unpaid_take_home_scope": {
+      "requested": null,
+      "estimated_hours": null,
+      "scope_matches_role": null
+    }
+  },
+  "extension": {
+    "named_hiring_manager": null,
+    "hiring_manager_public_commentary": null,
+    "salary_band_disclosed": "Ranges reported inconsistently across listings: $140K-$220K (LinkedIn, 2026-08-28, San Francisco Bay Area) vs $150K-$200K + bonus (LinkedIn, 2026-09-08, New York, NY)",
+    "salary_realism_flag": "unknown",
+    "recent_team_departures": null,
+    "funding_or_layoff_signal": null,
+    "unlisted_tech_stack": null,
+    "repost_pattern": "Same specific, niche title ('AI Deployment Lead - Private Markets') posted twice under separate LinkedIn job IDs (4458612964 and 4463284582) 11 days apart, with different locations claimed (San Francisco Bay Area vs New York, NY) and different salary bands. Could indicate genuine multi-market expansion at a small, founder-led startup, or could indicate a single role being re-marketed across locations to widen the candidate funnel. company careers page (trueseek.com/careers) could not be independently verified - fetch attempt failed.",
+    "data_privacy_signal": {
+      "vendor": null,
+      "records_interview": null,
+      "trains_models_on_candidate_data": null,
+      "retention_controlled_by": null,
+      "opt_out_available": null,
+      "known_breach_history": null
+    }
+  },
+  "verdict": {
+    "label": "UNDECIDABLE",
+    "human_premortem_required": true,
+    "rationale": "Insufficient and partially contradictory evidence to resolve the winnability gate. The same niche title was posted twice within 11 days under separate job IDs with inconsistent location (SF vs NY) and salary band ($140-220K vs $150-200K+bonus) claims (evidence e1, e2), which is consistent with either legitimate multi-market hiring at a small founder-led company or a funnel-widening repost pattern - this cannot be distinguished from public evidence alone. No funding, headcount, or company-careers-page cross-listing could be independently verified (the trueseek.com/careers page did not load), leaving core viability signals (funding runway, real vs. aggregator-only listing) as unknown rather than resolved. Because there is no positive evidence to counterbalance the ambiguity, this does not clear the bar for ATTAINABLE and is not conclusively enough evidence to call TRAP either - routing to human premortem, ideally informed by a direct LinkedIn/company outreach check that fetch tools could not complete."
+  },
+  "evidence": [
+    {
+      "claim_id": "e1",
+      "field_ref": "extension.repost_pattern",
+      "value": "AI Deployment Lead - Private Markets posted 2026-08-28 (San Francisco Bay Area, $140K-$220K)",
+      "retrieved_at": "2026-09-11T17:34:00Z",
+      "source_urls": [
+        "https://www.linkedin.com/jobs/view/ai-deployment-lead-private-markets-at-trueseek-4458612964"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e2",
+      "field_ref": "extension.repost_pattern",
+      "value": "AI Deployment Lead - Private Markets reposted 2026-09-08 (New York, NY, $150K-$200K + bonus), separate job ID",
+      "retrieved_at": "2026-09-11T17:34:00Z",
+      "source_urls": [
+        "https://www.linkedin.com/jobs/view/ai-deployment-lead-private-markets-at-trueseek-4463284582"
+      ],
+      "confidence": "direct"
+    },
+    {
+      "claim_id": "e3",
+      "field_ref": "core.cross_listed.on_company_careers_page",
+      "value": "Attempt to fetch trueseek.com/careers to verify direct company-page cross-listing failed (page did not load via available tools)",
+      "retrieved_at": "2026-09-11T17:34:00Z",
+      "source_urls": [
+        "https://trueseek.com/careers"
+      ],
+      "confidence": "stale"
+    },
+    {
+      "claim_id": "e4",
+      "field_ref": "core.company",
+      "value": "TrueSeek HQ listed as Phoenix, AZ on LinkedIn company page; small, founder-led team per job posting language",
+      "retrieved_at": "2026-09-11T17:34:00Z",
+      "source_urls": [
+        "https://www.linkedin.com/company/trueseek"
+      ],
+      "confidence": "inferred"
+    }
+  ]
+}

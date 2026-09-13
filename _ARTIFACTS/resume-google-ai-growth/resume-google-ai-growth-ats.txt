@@ -1,0 +1,161 @@
+ZACH HARRIS
+
+ Growth & Agentic-Ops Builder, Turns AI Capability Into Shipped Growth Systems
+
+ New York City metro (hybrid-ready)
+
+zach.harris@gmail.com
+
+linkedin.com/in/zharris
+
+github.com/flashesofbrilliance
+
+SUMMARY
+
+ A growth-product operator who engineers agentic systems and ships them into production. I collapse the latency between strategy and execution. I built ARCS, a production AI-native platform on Claude with a custom MCP server, agentic pipelines, retrieval and context management, and an evaluation layer that decides when deterministic context is enough versus when LLM reasoning is required. On the growth side I have driven net-new revenue through personalization and lifecycle systems across CDP and MarTech stacks, and I structure content and information architecture so systems can actually use it. Twenty years of product, growth, and cross-functional delivery, aligning product, legal, and brand, with the design foundation to make agentic experiences coherent, not just functional.
+
+CORE STRENGTHS
+
+
+
+- Agentic systems & LLM orchestration: custom MCP server, agentic pipelines, retrieval and context management, and an evaluation layer for deterministic-vs-LLM reasoning and diagnosing failed runs.
+
+- Growth product & MarTech: net-new revenue via personalization and lifecycle systems; CDP architecture, attribution, and data/API partnerships that moved real numbers.
+
+- Information architecture for agents: structuring, tagging, and chunking content so retrieval and semantic systems can use it: headless content architecture, with a design-first foundation.
+
+- Cross-functional & system-level: aligns product, legal, and brand; sees agentic ecosystems as interrelated systems and mitigates unintended harm.
+
+EXPERIENCE
+
+
+
+ARCS, Production AI-Native Decision Platform
+
+ Founder & Builder, 2025 to Present
+
+ Built and run an agentic platform end to end on Claude. It uses the same primitives this role operates: agent orchestration, retrieval, and an evaluation layer that decides when to trust an output.
+
+
+
+- Built a custom MCP server and agentic pipelines (tool use, function calling, extended thinking) with retrieval and context management, structuring and chunking context so the system retrieves the right thing at the right step.
+
+- Evaluation as the core discipline: evidence-gating and structured scoring decide when deterministic context is enough versus when LLM reasoning is required, and diagnose failed runs and awkward handoffs. That is the reliability layer an agentic ecosystem needs to be trusted.
+
+- Shipped MIT-licensed tools that codify the discipline (token budgeting and model-tier routing, an agent handoff protocol), and build and test code quickly while keeping reusable structure. Public at good.arcs.care.
+
+
+
+Grayscale Investments, Digital Assets (SEC/FINRA)
+
+ Product Lead, 2024 to 2025
+
+ Product Lead for the customer-facing surfaces (institutional and retail), on the team launching $7B in digital assets to capital markets. Growth product at institutional scale.
+
+
+
+- Ran the cross-functional release train across 4 time zones and cut cycle time 35% with automation and a compliance-in-the-loop cadence, aligning product, legal, and risk end to end.
+
+
+
+Squat New York, Content Architecture ($350M ARR client)
+
+ Head of Product Innovation & Tech Lead, 2019 to 2020
+
+ Sole product-and-technology partner on a seven-figure embedded engagement.
+
+
+
+- Delivered a full content and information-architecture overhaul (headless CMS/API), structuring content and metadata so systems, not just people, could use it, aligning engineering, design, and operations against a conversion KPI.
+
+
+
+Children's Tumor Foundation, Growth & MarTech
+
+ Sr. Director, Data & Strategy, 2018 to 2019
+
+ Built the organization's first growth-intelligence and MarTech capability from scratch.
+
+
+
+- Stood up the CDP, Salesforce, and lifecycle-segmentation architecture across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue through data-driven personalization: the growth-via-personalization motion this team is built on.
+
+
+
+Women's Tennis Association, Data Partnerships & Growth
+
+ Head of Product & Strategic Partnerships, 2016 to 2018
+
+
+
+- Closed the first commercial data/API partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one; led CDP selection and built real-time behavior scoring at <120ms.
+
+ADVISORY AND FRACTIONAL CONSULTING
+
+
+
+Twill Health, Digital Therapeutics (HIPAA)
+
+ Advisory engagement, 2021 to 2023
+
+
+
+- Built the KPI and evaluation frameworks that drove go-forward decisions across 3 AI-enabled product lines: diagnosing what was working and why, at a system level.
+
+
+
+Verizon Media, 5G Innovation Ventures
+
+ Advisory engagement, 2020 to 2021
+
+
+
+- Quantitative strategy and analytics across five product ventures: market sizing, competitive analysis, and go/no-go recommendations to the executive team.
+
+
+
+GoPro, Consumer Growth
+
+ Advisory engagement, 2020 to 2021
+
+
+
+- Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.
+
+SKILLS
+
+ Agentic Systems & LLM Orchestration: Agent orchestration & tool use, prompt design & chaining, retrieval & context management (RAG-style), deterministic-vs-LLM reasoning, Claude (API, tool use, extended thinking), model-tier routing, custom MCP servers
+
+ Growth Product & MarTech: Personalization & lifecycle systems, CDP architecture (Segment, Salesforce), attribution & experimentation, data/API partnerships, net-new-revenue growth, journey & funnel design
+
+ Information Architecture & Content Systems: Content structuring, metadata tagging & chunking, headless CMS / content architecture, semantic & retrieval-ready data, UX strategy, design-first foundation
+
+ Evaluation & Agent Reliability: Evidence-gating & structured scoring, diagnosing failed agent runs & handoffs, conformance / regression suites, root-cause analytics, ship-measure-learn loops
+
+ Cross-Functional & Strategy: Product, legal, brand alignment, management-consulting-style strategy & analytics, system-level thinking, technical to non-technical translation, harm mitigation
+
+ Engineering & Build: Python, TypeScript / JavaScript, Node, SQL, REST APIs & webhooks, Git / CI, rapid build-and-test with reusable structure, cloud deployment (Vercel, Supabase)
+
+OPEN SOURCE
+
+
+
+- token-savings-bank: Spend tokens like a budget, not a faucet: model-tier routing, batching, and context discipline for AI agents.
+
+- germinate: Never lose the thread between agents: a serializable, provenance-carrying handoff protocol for multi-agent work.
+
+- rosetta-shell: Write a workflow script once, run it anywhere: lossless translation across bash, zsh, and POSIX, with a CI gate.
+
+- arcs-field-scan: A Next.js app that renders an adaptive profile-scan from a LinkedIn profile or PDF.
+
+SELECTED RESULTS
+
+ +20% net-new revenue, personalization; $850K y1 data/API partnerships; 1 production AI platform, built; $7B regulated launch; 20 yr product & growth.
+
+EDUCATION AND CREDENTIALS
+
+ Oberlin College, BA, Studio Art (Honors) 2002 to 2006
+
+ MIT xPRO, AI: Implications for Business Strategy, Designing & Building AI Products & Services Certificates
+
+ Section4, Certified Product Strategist 2022

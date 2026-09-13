@@ -21,7 +21,8 @@ weeds** — strongest where the stakes are high, the domain is regulated, and br
    commercial. Evidence: Squat NY — sole product+tech partner on a seven-figure embedded engagement
    ($350M-ARR client), discovery → QA → handoff, on schedule.
 3. **Regulated / high-stakes fluency.** Ships where getting it wrong is expensive. Evidence: Grayscale
-   ($7B AUM, 10-product regulated launch, SEC/FINRA, RBAC + policy-at-the-glass publishing controls);
+   (Product Lead for the customer-facing surfaces, institutional and retail, on the team that launched
+   $7B in digital assets to capital markets; SEC/FINRA; RBAC + policy-at-the-glass publishing controls);
    HIPAA digital therapeutics; Axon (gov). Twenty years turning the constraint into the product.
 4. **Product × GTM breadth.** Decision → revenue in one head. Evidence: Grayscale +20% net-new revenue
    via data personalization; WTA first commercial data partnerships (Twitter/Facebook), $850K+ y1.
@@ -51,3 +52,6 @@ RBAC/authorization + Auth.js identity in ARCS is the honest mapping).
 - `_ARTIFACTS/resume-clinical-ai/` — AI Product Engineer (Clinical AI). Reference render.
 - `_ARTIFACTS/resume-amex-mcp/` — Director, Product Development · MCP Platform & Agent Ecosystem
   (American Express, LinkedIn 4431293229). Top PURSUE of the 2026-08-28 scan (composite 0.87).
+- `_ARTIFACTS/resume-trinity-fdgenai/` — Associate Director, Forward Deployed GenAI (Trinity Life
+  Sciences, LinkedIn 4420203328). Top PURSUE of the 2026-08-31 retargeted-alert scan (composite
+  0.917; tied with Citi 4450095632 and Morgan Stanley 4459454074, broken on role-shape purity).
