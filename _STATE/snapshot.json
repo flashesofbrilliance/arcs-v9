@@ -2,10 +2,12 @@
   "captured_at": "2026-07-20T19:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "84e73a3",
-    "head_message": "docs(handoff): refresh arcs-session-state.md for v3.12.0 [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "0f2a8cc",
+    "head_message": "fix(status): roll day-count at ET midnight + stamp current ET time [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -163,5 +165,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-21T13:16:54Z"
+  "git_refreshed_at": "2026-07-21T16:58:28Z"
 }
