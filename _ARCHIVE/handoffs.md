@@ -1,4 +1,41 @@
 
+> _Relocated from CLAUDE.md on 2026-09-13 (2-live handoff policy)._
+
+# Handoff — v3.59.0 (2026-09-08)
+
+> **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).
+> Drove loop-closing to proof, then shipped a run of live surfaces. Resume seed:
+> `_STATE/pickup-prompt.md`. Deceipt ledger now **15** (`_STATE/deceipt-ledger.md`).
+
+## Shipped + verified live
+- **NFTT "Assets and Liabilities"** (good.arcs.care/blog/nftt/assets-and-liabilities) — double-entry
+  ledger essay (receipts=assets, deceipts=liabilities), companion to confirmed-not-my-bug. PR #332.
+- **Field Instruments public-goods chapter** (good.arcs.care/instruments) — atomized microservices
+  reach-tagged at true tier (Wired / Proven / Seed), no fake install paths. PR #337 (+ routing fix #340).
+- **Day-151 milestone** on `status.html`; its cited commit SHAs preserved via a `--merge` (not squash).
+- **Informativeness ratchet — real CI arm.** Was wired into the DISABLED `ci.yml` (never ran, deceipt
+  #15); moved to a dedicated cheap `informativeness.yml` (pull_request, path-filtered, stdlib-only) +
+  the pre-commit arm. Reproducible DB audit (247/189/2) + dead-trio build fix landed in PR #306.
+
+## Deceipts booked (12–15)
+#12 outcome-grep mislabeled "DB-blocked"; #13 claims-skeptic caught a 2nd operator ref; #14 "247/247
+horizon" was actually `window` (horizon all-NULL); #15 CI ratchet wired to a dead workflow. #13 and
+#15 were caught by the INDEPENDENT strand / Zach's "show me", NOT by self-review.
+
+## Key lesson
+**"Wired" must mean wired to something that RUNS, verified by a run — not the presence of a step.**
+Two defects (the "running in production" overclaim, the `next.config` /instruments re-catch) were both
+caught by field-contact, never by my own confidence.
+
+## Open (next session)
+1. **Extract `informativeness-auditor`** from the harness into a standalone package (the Seed→Proven
+   graduation the instruments page tracks).
+2. **Outcome-capture keel** — the P1 gap (2/247 closed); chip spawned, still the keel.
+3. Memory index near budget (6 retired this session, Zach-approved); retirement stays human-owned.
+4. ROM candidate (calibration method) parked at the gate; graduates only on a live receipt.
+
+---
+
 > _Relocated from CLAUDE.md on 2026-09-11 (2-live handoff policy)._
 
 # Handoff — v3.58.0 (2026-09-08)

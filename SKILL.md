@@ -190,6 +190,7 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 
 ## Changelog
 
+- **v3.61.0** (2026-09-13): +`scripts/bridge_index_scan.py` (bridge employer index → board); +`scripts/scout_dossier_ingest.py` (Perplexity dossier intake gate); AGENTS.md receipt enums; ADR-078..081 landed from hold branches.
 - **v3.53.0** (2026-09-04): +`scripts/research_render.py` (the Reader: 3-altitude Almanac over the digest node schema); ADR-075 Metabolic Router doctrine (mechanical vs judgment; integrity gate spec'd); `_SPECS/reading-room-build-plan-v1.md` locked; `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock` passcode gate.
 
 | Version | Date | Change |

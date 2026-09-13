@@ -7,6 +7,20 @@
 
 ---
 
+## [v3.61.0] 2026-09-13 — Bridge employer index live · Triune Stream A/B/C landed · seed bank clean
+
+- **`scripts/bridge_index_scan.py`** (new, stdlib): curated employer lists → public ATS boards → winnable
+  reqs → jobs.arcs.care. 578 rows live as `bridge_scan` UNSCORED across 84 employers; index at
+  `_STATE/job-search/employer-index/`. Ingest skips existing jobids (API upsert would reset scores).
+- **ADR-078/079/080/081 + 041 on main** — the three 2026-08-03 hold branches renumbered through the
+  oracle and merged (#408–#413); `_STATE/worktree-audit-2026-09-11.md` is the patch-id sweep of all 74 worktrees.
+- **`scripts/scout_dossier_ingest.py`** (new): Perplexity dossier gate (validate/map/post). Caught real
+  drift on first use (Parloa lacks `extraction_risk`).
+- **Seed bank**: +4 candidates, 2 orphans receipted, 4 broken locals fixed; drift check OK (41/80).
+- **Receipts**: 8 `decision_receipt` rows this session; AGENTS.md now documents the CHECK enums.
+- Cross-harness: `_STATE/convergence.json` on `fresh-starts` beat 6; Hermes owns JTBD-004, Perplexity JTBD-007.
+- Next: Thread 2 scores the bridge rows; human prune call on 17 worktrees; Workday adapter seed.
+
 ## [v3.57.0] 2026-09-07 — Reading Room back-propagation organ (1b gate MET)
 
 - **`scripts/cache_backprop.py`** (new, stdlib): the Metabolic Router's lazy pull-driven repair for a
