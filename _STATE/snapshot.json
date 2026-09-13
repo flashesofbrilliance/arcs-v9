@@ -2,17 +2,30 @@
   "captured_at": "2026-09-08T12:45:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "2dcec25a",
-    "head_message": "merge origin/main; keep session hook receipts [NCI:SKIP merge]",
-    "branch": "feat/audit-service",
+    "head_sha": "3879bcdd",
+    "head_message": "Merge remote-tracking branch 'origin/main' into claude/recruiter-call-prep-56ea4e",
+    "branch": "claude/recruiter-call-prep-56ea4e",
     "in_sync_with_origin": false,
-    "note": "all substantive work merged to main via PRs #306/#332/#337/#340; branch ahead only on session hook-state + this handoff"
+    "note": "branch is ~100 behind main; ALL substantive work already merged to main via PRs #384/#386/#390/#391. Branch dirty only on auto-generated _STATE/_INBOX hook churn. Worktree mission complete, safe to prune.",
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/handoff-progress.jsonl",
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "note": "LAST-KNOWN, not re-verified this session (verify live with get_deployment before relying)",
     "project": "arcs-v9",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "note": "prod reachable via Supabase MCP (read-only). Reproducible audit committed: _STATE/2026-09-05-db-audit-reproducible.md",
@@ -20,7 +33,8 @@
     "role": "arcs_app",
     "live_facts_2026_09_05": "Receipt 247 (189 = top user / founder dogfood); Outcome 2 (both self-graded, ~0 externally-validated); window 247/247; doorClass 88 ONE_WAY / 159 TWO_WAY; horizon column all-NULL (unused)"
   },
-  "session_summary": "ARCS-on-ARCS shipping close (v3.59.0): shipped + verified live the NFTT 'Assets and Liabilities' essay, the Field Instruments public-goods chapter, the Day-151 status milestone, and the informativeness ratchet with a REAL CI arm (moved off the disabled ci.yml). Deceipt ledger now 15; #13/#15 caught by field-contact, not self-review.",
-  "next_action": "Extract informativeness-auditor from the harness into a standalone package (Seed->Proven graduation, tracked on good.arcs.care/instruments); the outcome-capture keel (2/247 closed) remains the P1.",
-  "blocking": "NONE (memory-index retirement + keel work are human-owned/gated, not blockers)"
+  "session_summary": "Monstro AI Marketing Engineer end-to-end. Built the full application bundle (_ARTIFACTS/forge-monstro-ai-marketing-engineer/: tailored resume+cover+ATS, battle card, TAILOR-NOTES, contact.json). Hosted monstro.arcs.care: PRESENT-mode root singular artifact + /full detailed pitch + /resume + /cover, routed in proxy.ts; wildcard did NOT auto-attach, needed `vercel domains add monstro.arcs.care --scope arcs-care`. Backfilled the job-board grade for jobid manual-1788887798166 (was a manual 0.99 placeholder with null dims) to a real 0.864 PURSUE with full dims. Fixed jobs role-scan status-row alignment (left-align). CLOSED THE LOOP: call rescheduled Sep 9 then role filled Sep 10 before any conversation -> LaneOutcome closed:learned, honesty unresolved. PRs #384/#386/#390/#391 all merged to main.",
+  "next_action": "This worktree's mission (Monstro recruiter prep) is COMPLETE. Nothing open here; worktree is a prune candidate. The one live thread is relational, not code: Alka Pande is a WARM Monstro contact who will refer adjacent Applied AI Eng/GTM roles (memory project_monstro_aime_closed_alka_warm) — re-warm before any future Monstro apply. Also flagged for Zach: his Mixmax wraps sent links in a user.mxpalm.com tracker (disable in Mixmax settings).",
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-13T14:57:00Z"
 }
