@@ -5,11 +5,11 @@
   "command": 13,
   "hook": 2,
   "operator": 43,
-  "script": 71,
-  "skill": 15,
+  "script": 94,
+  "skill": 19,
   "workflow": 2
  },
- "total": 146,
+ "total": 173,
  "missing_jtbd": 0,
  "tools": [
   {
@@ -35,6 +35,13 @@
   },
   {
    "kind": "skill",
+   "name": "forge-kit",
+   "path": ".claude/skills/forge-kit/SKILL.md",
+   "jtbd": "Magnetically scaffold a whole engagement macro-construction — food, experience, tuned-explanation (oriented by a guest intake), and gift — by forking existing ARCS templates in one move. The macro BETWEEN tool-forge (one CLI) and a full bes",
+   "invoke": "/forge-kit"
+  },
+  {
+   "kind": "skill",
    "name": "meta-audit",
    "path": ".claude/skills/meta-audit/SKILL.md",
    "jtbd": "Run one epoch of the ARCS Meta-Audit (the Drift Sentry) over the full corpus and the live code — Recoil passes, a code-verified parity matrix, the BAR/COURT/LAB/KKL/FUN-HOUSE gauntlets, Chi/Ma/Wuwei, a stack-ranked next-move list, and an ap",
@@ -51,7 +58,7 @@
    "kind": "skill",
    "name": "nftt-story-factory",
    "path": ".claude/skills/nftt-story-factory/SKILL.md",
-   "jtbd": "Stamp a data-driven ARCS story (Notes-from-the-Trenches class) at good.arcs.care/blog/nftt/<slug> from a story envelope + prose. The extensible successor to the post-1/post-2 render — threads (palette + node shapes) and the narrative arc ar",
+   "jtbd": "Author and ship an NFTT post (Notes-from-the-Trenches class) at good.arcs.care/blog/nftt/<slug> in the LITERARY theme (the take-home-trap \"With Life\" standard) — a hand-authored editorial essay from a shared HTML template, routed via src/pr",
    "invoke": "/nftt-story-factory"
   },
   {
@@ -112,10 +119,31 @@
   },
   {
    "kind": "skill",
+   "name": "tao-mint",
+   "path": ".claude/skills/tao-mint/SKILL.md",
+   "jtbd": "Mint net-new Tao of ARCS proverbs from a source (an ADR, a session recapitulation, a decision) via the deep-kairos recapitulate pass, per the ADR-041 5x5 grid (D/R/W/C/H x Analyze/Assess/Evaluate/Synthesize/Recapitulate). Appends load-beari",
+   "invoke": "/tao-mint"
+  },
+  {
+   "kind": "skill",
    "name": "teardown-page-factory",
    "path": ".claude/skills/teardown-page-factory/SKILL.md",
    "jtbd": "Stamp a counterpart-facing S-tier diamond teardown surface at <name>.arcs.care from source teardown MDs — the wing.arcs.care pattern (Chan build-record skeleton re-cut as claim-vs-record teardown with PRESENT mode). Use whenever a founder/c",
    "invoke": "/teardown-page-factory"
+  },
+  {
+   "kind": "skill",
+   "name": "thread-recoil",
+   "path": ".claude/skills/thread-recoil/SKILL.md",
+   "jtbd": "Produce a belief-update ledger (audit log) for the CURRENT thread/session — the open→close belief-diff plus, for each prior that moved, the external data that moved it. Use when the user asks for \"the recoil on this thread,\" a belief-change",
+   "invoke": "/thread-recoil"
+  },
+  {
+   "kind": "skill",
+   "name": "tool-forge",
+   "path": ".claude/skills/tool-forge/SKILL.md",
+   "jtbd": "Forge a new self-contained CLI tool package (deps · args · passthrough params · resources · schema · README) in the canonical ARCS shape, or promote an existing one-off script instance→class. Use when a concrete artifact/script is about to ",
+   "invoke": "/tool-forge"
   },
   {
    "kind": "command",
@@ -266,6 +294,13 @@
   },
   {
    "kind": "script",
+   "name": "believability_ledger.py",
+   "path": "scripts/believability_ledger.py",
+   "jtbd": "believability_ledger.py — the one construct in the audit stack that is falsifiable",
+   "invoke": "python3 scripts/believability_ledger.py"
+  },
+  {
+   "kind": "script",
    "name": "blog_provenance.py",
    "path": "scripts/blog_provenance.py",
    "jtbd": "blog_provenance — emit/verify a provenance manifest for a hand-synthesized artifact.",
@@ -287,10 +322,31 @@
   },
   {
    "kind": "script",
+   "name": "bridge_index_scan.py",
+   "path": "scripts/bridge_index_scan.py",
+   "jtbd": "Bridge employer-index scan: curated employer lists -> ATS boards -> winnable reqs -> live board.",
+   "invoke": "python3 scripts/bridge_index_scan.py"
+  },
+  {
+   "kind": "script",
    "name": "build_observatory.py",
    "path": "scripts/build_observatory.py",
    "jtbd": "build_observatory.py — generates the ARCS Observatory data layer from REAL repo data.",
    "invoke": "python3 scripts/build_observatory.py"
+  },
+  {
+   "kind": "script",
+   "name": "cache_backprop.py",
+   "path": "scripts/cache_backprop.py",
+   "jtbd": "cache_backprop.py — the Metabolic Router's back-propagation organ (ADR-075; build plan 1b).",
+   "invoke": "python3 scripts/cache_backprop.py"
+  },
+  {
+   "kind": "script",
+   "name": "cache_manifest.py",
+   "path": "scripts/cache_manifest.py",
+   "jtbd": "cache_manifest.py — the Almanac cache manifest (Reading Room build plan row 1b).",
+   "invoke": "python3 scripts/cache_manifest.py"
   },
   {
    "kind": "script",
@@ -312,6 +368,20 @@
    "path": "scripts/canon_propagation_nightly.sh",
    "jtbd": "canon_propagation_nightly — evening cron entry for the canon-propagation sentinel.",
    "invoke": "scripts/canon_propagation_nightly.sh"
+  },
+  {
+   "kind": "script",
+   "name": "claim_check.py",
+   "path": "scripts/claim_check.py",
+   "jtbd": "Governance claim-check scaffold.",
+   "invoke": "python3 scripts/claim_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "concordance_render.py",
+   "path": "scripts/concordance_render.py",
+   "jtbd": "concordance_render.py — the Concordance: where does concept X appear across the corpus.",
+   "invoke": "python3 scripts/concordance_render.py"
   },
   {
    "kind": "script",
@@ -406,6 +476,27 @@
   },
   {
    "kind": "script",
+   "name": "forge_finalize.sh",
+   "path": "scripts/forge_finalize.sh",
+   "jtbd": "forge_finalize.sh <jobid> <slug> <actual_tokens> \"<note>\" — mechanical close of a light-tier forge run:",
+   "invoke": "scripts/forge_finalize.sh"
+  },
+  {
+   "kind": "script",
+   "name": "forge_finalize_one.sh",
+   "path": "scripts/forge_finalize_one.sh",
+   "jtbd": "forge_finalize_one.sh <jobid> <slug> <tokens> \"<note>\" — lean per-bundle close:",
+   "invoke": "scripts/forge_finalize_one.sh"
+  },
+  {
+   "kind": "script",
+   "name": "forge_mirror_icloud.sh",
+   "path": "scripts/forge_mirror_icloud.sh",
+   "jtbd": "forge_mirror_icloud.sh — mirror every built forge bundle into iCloud Drive",
+   "invoke": "scripts/forge_mirror_icloud.sh"
+  },
+  {
+   "kind": "script",
    "name": "fork_lineage_check.sh",
    "path": "scripts/fork_lineage_check.sh",
    "jtbd": "Fork Lineage drift check (J17) — conditional action.",
@@ -431,6 +522,34 @@
    "path": "scripts/gen_recoil_artifact.py",
    "jtbd": "Render an ARCS-canon Recoil Report HTML artifact from a generated report JSON.",
    "invoke": "python3 scripts/gen_recoil_artifact.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_tailor_icons.py",
+   "path": "scripts/gen_tailor_icons.py",
+   "jtbd": "Generate resume-tailor PWA icons — diamond glyph with 'RT' mark, distinct from personal-resume icons.",
+   "invoke": "python3 scripts/gen_tailor_icons.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_tao_alchemist.py",
+   "path": "scripts/gen_tao_alchemist.py",
+   "jtbd": "Generate the Alchemist reaction chamber from the Tao SSOT.",
+   "invoke": "python3 scripts/gen_tao_alchemist.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_tao_corpus.py",
+   "path": "scripts/gen_tao_corpus.py",
+   "jtbd": "Generate the browsable Tao corpus artifact from the SSOT.",
+   "invoke": "python3 scripts/gen_tao_corpus.py"
+  },
+  {
+   "kind": "script",
+   "name": "gen_tao_views.py",
+   "path": "scripts/gen_tao_views.py",
+   "jtbd": "Generate the 'Views of the Corpus' artifact from the Tao SSOT.",
+   "invoke": "python3 scripts/gen_tao_views.py"
   },
   {
    "kind": "script",
@@ -539,6 +658,20 @@
   },
   {
    "kind": "script",
+   "name": "nftt-gates.sh",
+   "path": "scripts/nftt-gates.sh",
+   "jtbd": "Vendor-neutral NFTT ship-gate checks. Callable from Claude hooks,",
+   "invoke": "scripts/nftt-gates.sh"
+  },
+  {
+   "kind": "script",
+   "name": "nftt_dropcap_lint.py",
+   "path": "scripts/nftt_dropcap_lint.py",
+   "jtbd": "nftt_dropcap_lint.py — catch the drop-cap \"eats the space\" render bug.",
+   "invoke": "python3 scripts/nftt_dropcap_lint.py"
+  },
+  {
+   "kind": "script",
    "name": "night_moves_gather.sh",
    "path": "scripts/night_moves_gather.sh",
    "jtbd": "night_moves_gather.sh — deterministic raw material for the /night-moves digest.",
@@ -550,6 +683,20 @@
    "path": "scripts/oracle.py",
    "jtbd": "oracle — a sequence + time authority for the distributed multi-session model.",
    "invoke": "python3 scripts/oracle.py"
+  },
+  {
+   "kind": "script",
+   "name": "probe_tally.py",
+   "path": "scripts/probe_tally.py",
+   "jtbd": "probe_tally: read the owned demand-probe counts and let the backlog row move with them.",
+   "invoke": "python3 scripts/probe_tally.py"
+  },
+  {
+   "kind": "script",
+   "name": "pulse.py",
+   "path": "scripts/pulse.py",
+   "jtbd": "pulse — the global heartbeat: a wall-clock clock that is the oracle's second strand.",
+   "invoke": "python3 scripts/pulse.py"
   },
   {
    "kind": "script",
@@ -588,10 +735,24 @@
   },
   {
    "kind": "script",
+   "name": "req_reality_gate.py",
+   "path": "scripts/req_reality_gate.py",
+   "jtbd": "req_reality gate (Frustration Gate for the manufactured-role failure class).",
+   "invoke": "python3 scripts/req_reality_gate.py"
+  },
+  {
+   "kind": "script",
    "name": "research_render.py",
    "path": "scripts/research_render.py",
    "jtbd": "research_render.py — render a digest node schema as an ALMANAC read through the READER.",
    "invoke": "python3 scripts/research_render.py"
+  },
+  {
+   "kind": "script",
+   "name": "resume_ats_render.py",
+   "path": "scripts/resume_ats_render.py",
+   "jtbd": "resume_ats_render — turn a designed ARCS resume into an ATS-safe companion.",
+   "invoke": "python3 scripts/resume_ats_render.py"
   },
   {
    "kind": "script",
@@ -609,10 +770,31 @@
   },
   {
    "kind": "script",
+   "name": "scout_dossier_ingest.py",
+   "path": "scripts/scout_dossier_ingest.py",
+   "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
+   "invoke": "python3 scripts/scout_dossier_ingest.py"
+  },
+  {
+   "kind": "script",
+   "name": "second_pass_ledger.py",
+   "path": "scripts/second_pass_ledger.py",
+   "jtbd": "Second-pass validator for the 2026 rejection ground-truth ledger.",
+   "invoke": "python3 scripts/second_pass_ledger.py"
+  },
+  {
+   "kind": "script",
    "name": "seedbank_drift_check.py",
    "path": "scripts/seedbank_drift_check.py",
    "jtbd": "seedbank_drift_check — an inchworm drift detector for the _SEEDS bank.",
    "invoke": "python3 scripts/seedbank_drift_check.py"
+  },
+  {
+   "kind": "script",
+   "name": "serialize_grade.py",
+   "path": "scripts/serialize_grade.py",
+   "jtbd": "serialize_grade.py — grade a serialized pre-call briefing against the outcome.",
+   "invoke": "python3 scripts/serialize_grade.py"
   },
   {
    "kind": "script",
@@ -683,6 +865,13 @@
    "path": "scripts/tf_sage_distillation.py",
    "jtbd": "scripts/tf_sage_distillation.py — TensorFlow distillation of SAGE's kinematic classifier.",
    "invoke": "python3 scripts/tf_sage_distillation.py"
+  },
+  {
+   "kind": "script",
+   "name": "token_source_gate.py",
+   "path": "scripts/token_source_gate.py",
+   "jtbd": "token_source_gate: single-file HTML surfaces inherit the ARCS tokens, they do not re-author them.",
+   "invoke": "python3 scripts/token_source_gate.py"
   },
   {
    "kind": "script",
