@@ -2,13 +2,12 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3385c55",
-    "head_message": "fix(resume-tailor): hero lede spans full width (matches heading) [NCI:SKIP]",
+    "head_sha": "16f77de",
+    "head_message": "chore(audit): weekly drift audit 2026-08-17 [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "runtime/specs/knowledge-lattice-v1.json"
+      "_INBOX/seedbank-drift.jsonl"
     ]
   },
   "vercel": {
@@ -187,7 +186,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-16T10:29:53Z",
+  "git_refreshed_at": "2026-08-17T13:36:15Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
