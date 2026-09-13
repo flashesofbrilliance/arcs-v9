@@ -1,32 +1,16 @@
 {
-  "captured_at": "2026-09-08T12:45:00-04:00",
+  "captured_at": "2026-09-13T11:07:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f12a1f15",
-    "head_message": "feat(sentilink): reorder pitch as an altitude descent (ask-first, Ahmed grammar) [NCI:SKIP]",
-    "branch": "feat/audit-service",
-    "in_sync_with_origin": false,
-    "note": "all substantive work merged to main via PRs #306/#332/#337/#340; branch ahead only on session hook-state + this handoff",
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/handoff-progress.jsonl",
-      "_STATE/pulse.json",
-      "_STATE/snapshot.json",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/720-brand-coherence-pickup.md",
-      "_ARTIFACTS/forge-mercury-open-call/",
-      "_ARTIFACTS/forge-sentilink-new-leader-pitch-us/cover-sentilink-new-leader-pitch-us.html",
-      "_ARTIFACTS/forge-sentilink-new-leader-pitch-us/cover-sentilink-new-leader-pitch-us.txt",
-      "_ARTIFACTS/mercury-bundle/",
-      "_ARTIFACTS/pitch-polish-pickup.md",
-      "_ARTIFACTS/sentilink-bundle/"
-    ]
+    "head_sha": "ad4f084f",
+    "head_message": "Merge pull request #421 from flashesofbrilliance/claude/receipt-constraints-and-seed-2026-09-13",
+    "in_sync_with_origin": true,
+    "dirty_files": []
   },
   "vercel": {
-    "note": "LAST-KNOWN, not re-verified this session (verify live with get_deployment before relying)",
     "project": "arcs-v9",
+    "latest_deploy_url": "https://arcs-v9-pgy6cn5i1-arcs-care.vercel.app",
+    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
@@ -36,13 +20,24 @@
     ]
   },
   "database": {
-    "note": "prod reachable via Supabase MCP (read-only). Reproducible audit committed: _STATE/2026-09-05-db-audit-reproducible.md",
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "live_facts_2026_09_05": "Receipt 247 (189 = top user / founder dogfood); Outcome 2 (both self-graded, ~0 externally-validated); window 247/247; doorClass 88 ONE_WAY / 159 TWO_WAY; horizon column all-NULL (unused)"
+    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
+    "port": 6543,
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Account",
+      "Session",
+      "VerificationToken",
+      "decision_receipt"
+    ]
   },
-  "session_summary": "ARCS-on-ARCS shipping close (v3.59.0): shipped + verified live the NFTT 'Assets and Liabilities' essay, the Field Instruments public-goods chapter, the Day-151 status milestone, and the informativeness ratchet with a REAL CI arm (moved off the disabled ci.yml). Deceipt ledger now 15; #13/#15 caught by field-contact, not self-review.",
-  "next_action": "Extract informativeness-auditor from the harness into a standalone package (Seed->Proven graduation, tracked on good.arcs.care/instruments); the outcome-capture keel (2/247 closed) remains the P1.",
-  "blocking": "NONE (memory-index retirement + keel work are human-owned/gated, not blockers)",
-  "git_refreshed_at": "2026-09-11T14:17:45Z"
+  "open_adrs": [],
+  "session_summary": "Bridge employer index (578 reqs live) + Triune Stream A/B/C (ADR-078..081 landed, worktree patch-id audit, scout intake gate) + seed bank clean; 8 receipts.",
+  "next_action": "Thread 2 scores the 578 bridge_scan rows with rubric v1.0, then reconcile the H1-H4 denominator.",
+  "blocking": "NONE",
+  "handoff_version": "v3.61.0"
 }
