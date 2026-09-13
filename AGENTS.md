@@ -213,6 +213,11 @@ anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do n
 An action without a logged receipt is not considered complete, regardless of whether the underlying
 merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
 
+> **Column constraints (verified 2026-09-11 via `pg_constraint`):** `horizon` ∈ {`today`, `this-week`,
+> `this-quarter`, `1-3y`} · `stakes` ∈ {`low`, `medium`, `high`, `critical`} · `mode` ∈ {`QUICKMOVE`,
+> `PLAN`, `COURT`}. Anything else is rejected by a CHECK constraint (`QUARTER`/`MEDIUM` failed once).
+> `what_confirmed`, `what_unconfirmed`, `refs` are `text[]`; `event_at` is timestamptz.
+>
 > Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
 > or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
 > the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its
