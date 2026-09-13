@@ -110,9 +110,69 @@
       <span class="r">Read &#8594;</span>
     </a>
     <a class="post" href="/blog/nftt/schematic-scaffolds">
-      <div class="n">Latest</div>
+      <div class="n">No. 12</div>
       <div class="t">The Schematic That Scaffolds In The Missing Pieces</div>
       <div class="d">I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/ledger-not-story">
+      <div class="n">No. 13</div>
+      <div class="t">The Ledger Is Not the Story</div>
+      <div class="d">I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/pulp-governance">
+      <div class="n">No. 14</div>
+      <div class="t">The Ancestry Check</div>
+      <div class="d">A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/second-pass">
+      <div class="n">No. 15</div>
+      <div class="t">The Second Pass</div>
+      <div class="d">An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-instinct-before-it-had-a-name">
+      <div class="n">No. 16</div>
+      <div class="t">The Instinct Before It Had a Name</div>
+      <div class="d">Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/four-dates-one-thesis-three-confirmations">
+      <div class="n">No. 17</div>
+      <div class="t">Four Dates, One Thesis, Three Confirmations</div>
+      <div class="d">A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-pre-mortem-that-asked-to-be-wrong">
+      <div class="n">No. 18</div>
+      <div class="t">The Pre-Mortem That Asked to Be Wrong</div>
+      <div class="d">Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-same-rigor-applied-to-slang">
+      <div class="n">No. 19</div>
+      <div class="t">The Same Rigor, Applied to Slang</div>
+      <div class="d">Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/the-method-that-was-already-built">
+      <div class="n">No. 20</div>
+      <div class="t">The Method That Was Already Built</div>
+      <div class="d">Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/closing-the-loop-receipts">
+      <div class="n">No. 21</div>
+      <div class="t">Closing the Loop: Receipts on Three Predictions</div>
+      <div class="d">Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record.</div>
+      <span class="r">Read &#8594;</span>
+    </a>
+    <a class="post" href="/blog/nftt/tuning-into-the-distortion-field">
+      <div class="n">Latest</div>
+      <div class="t">Tuning into the Distortion Field</div>
+      <div class="d">A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.</div>
       <span class="r">Read &#8594;</span>
     </a>
   </div>
@@ -155,8 +215,20 @@
       }, { threshold: 0.4 });
       io.observe(card);
     }
+    /* Owned record alongside the Vercel event: POST /api/probe (our table, deduped by a random
+       visitor id kept in this browser; survives blockers that eat /_vercel/insights). */
+    var ls = { get:function(k){ try{ return localStorage.getItem(k) }catch(e){ return null } }, set:function(k,v){ try{ localStorage.setItem(k,v) }catch(e){} } };
+    var vid = ls.get('arcs_vid');
+    if (!vid){ vid = 'v-' + Math.random().toString(36).slice(2,10) + '-' + Date.now().toString(36); ls.set('arcs_vid', vid); }
+    function own(action){
+      try{ fetch('/api/probe', { method:'POST', keepalive:true, headers:{ 'content-type':'application/json' },
+        body: JSON.stringify({ probe:'mcp-connector', action:action, surface:'nftt', vid:vid, path:location.pathname }) }).catch(function(){}); }catch(e){}
+    }
     var cta = document.getElementById('mpCta'), done = document.getElementById('mpDone');
-    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); if(done){ done.hidden = false; } cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; }); }
+    function markDone(){ if(done){ done.hidden = false; } if(cta){ cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; } }
+    if (ls.get('mp_voted_mcp-connector')){ markDone(); }
+    if (card && !sessionStorage.getItem('mp_viewed')){ try{ sessionStorage.setItem('mp_viewed','1') }catch(e){}; own('view'); }
+    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); own('interest'); ls.set('mp_voted_mcp-connector','1'); markDone(); }); }
   })();
 </script>
 <footer>

@@ -719,3 +719,21 @@ model SessionReceipt {
   @@index([tenant, brand, sessionId])
   @@index([scoreBackDate])
 }
+
+// Owned record of demand-probe interactions (ADR-076 Stage 0 "painted door").
+// The Vercel custom event still fires; this row is the copy we control so the
+// build gate ("enough signal and we ship the connector") reads from our own
+// table, dedupes by visitor id, and survives ad blockers eating /_vercel/insights.
+// No IP, no UA: vid is a random client id kept in localStorage.
+model DemandSignal {
+  id        String   @id @default(cuid())
+  probe     String   // e.g. "mcp-connector"
+  action    String   // "view" | "interest"
+  surface   String   @default("nftt")
+  vid       String?  // client-generated visitor id (random, not derived from anything)
+  path      String?
+  createdAt DateTime @default(now())
+
+  @@index([probe, action])
+  @@index([createdAt])
+}
