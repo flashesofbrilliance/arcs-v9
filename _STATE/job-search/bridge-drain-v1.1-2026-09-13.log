@@ -1,0 +1,261 @@
+=== PROOF v1.1 Sun Sep 13 10:59:35 EDT 2026
+PASS  passes-on-good: 0.966 PURSUE gates=[] dims={"req_reality":3,"competition_density":3,"level_fit":3,"shape_fit":3,"stability_parent_signal":3,"edge_rewarded":3,"logistics":3,"comp_floor":3,"warm_path":0}
+      Perfect fit: regulated RevOps + GTM systems + AI/automation build. Thin pool. Hybrid NYC. Stable public company.
+PASS  passes-on-good (senior director is inside level): 0.77 PURSUE gates=[] dims={"req_reality":2,"competition_density":2,"level_fit":2,"shape_fit":3,"stability_parent_signal":3,"edge_rewarded":2,"logistics":3,"comp_floor":3,"warm_path":0}
+      Strong shape fit, regulated ops, AI mentioned. Senior Director title is above target level (Director is inside, SD is stretch). Less specific on build-it-yourself AI bar.
+PASS  fails-on-bad (phantom req): 0 PASS gates=["evergreen / talent-community / no live req"] dims={"req_reality":0,"competition_density":0,"level_fit":0,"shape_fit":0,"stability_parent_signal":0,"edge_rewarded":0,"logistics":0,"comp_floor":0,"warm_path":0}
+      Talent-community evergreen posting. No live req, no team, no reporting line, no level. Auto-disqualify.
+PASS  fails-on-bad (AI-lab stampede): 0.31 PASS gates=["AI-lab or research-scientist hiring bar","on-site outside NY-metro with no remote"] dims={"req_reality":3,"competition_density":0,"level_fit":0,"shape_fit":0,"stability_parent_signal":2,"edge_rewarded":0,"logistics":0,"comp_floor":3,"warm_path":0}
+      AI-lab research bar (PhD, first-author publications, pretraining). On-site SF only. Wrong lane entirely. Auto-disqualify.
+
+proof OK · spec=bridge-scan score_version=bridge-1.1 · tokens in=2549 out=767 cache_read=0
+=== DRAIN --all Sun Sep 13 10:59:43 EDT 2026
+bridge rows: 589 · to score: 589
+JDs fetched: 588 {"lever":7,"greenhouse":380,"ashby":195,"html":6} · fetch-failed: 1
+  no-fetch bridge-oscar-1c22ac25 http://www.hioscar.com/careers/8109252?gh_jid=8109252
+scored 8/588
+scored 16/588
+scored 24/588
+scored 32/588
+scored 40/588
+scored 48/588
+scored 56/588
+scored 64/588
+scored 72/588
+scored 80/588
+scored 88/588
+scored 96/588
+scored 104/588
+scored 112/588
+scored 120/588
+scored 128/588
+scored 136/588
+scored 144/588
+scored 152/588
+scored 160/588
+scored 168/588
+scored 176/588
+scored 184/588
+scored 192/588
+scored 200/588
+scored 208/588
+scored 216/588
+scored 224/588
+scored 232/588
+scored 240/588
+scored 248/588
+scored 256/588
+scored 264/588
+scored 272/588
+scored 280/588
+scored 288/588
+scored 296/588
+scored 304/588
+scored 312/588
+scored 320/588
+scored 328/588
+scored 336/588
+scored 344/588
+scored 352/588
+scored 360/588
+scored 368/588
+scored 376/588
+scored 384/588
+scored 392/588
+scored 400/588
+scored 408/588
+scored 416/588
+scored 424/588
+scored 432/588
+scored 440/588
+scored 448/588
+scored 456/588
+scored 464/588
+scored 472/588
+scored 480/588
+scored 488/588
+scored 496/588
+scored 504/588
+scored 512/588
+scored 520/588
+scored 528/588
+scored 536/588
+scored 544/588
+scored 552/588
+scored 560/588
+scored 568/588
+scored 576/588
+scored 584/588
+scored 588/588
+
+DONE. scored 586. tokens in=1034217 out=127066 cache_read=0
+
+BRIDGE LANE — top 40 of 586 by winnability (bridge-scan v1.1)
+rank  comp   band      tier  compete   req  lvl  shape  stab  edge  company — title
+  1   0.966  PURSUE    T1    LOW       3    3    3      3     3     Upside — Staff Forward Deployed Engineer, GTM Platform
+  2   0.966  PURSUE    T1    LOW       3    3    3      3     3     EvolutionIQ — Agentic Solutions Consultant (Insurance SaaS)
+  3   0.966  PURSUE    T1    LOW       3    3    3      3     3     AvePoint —  Director of Revenue Operations, GTM Systems
+  4   0.966  PURSUE    T1    LOW       3    3    3      3     3     Applecart — Head of GTM Systems and Engineering
+  5   0.908  PURSUE    T1    MED       3    3    3      3     3     Snowflake — Principal Business Operations Manager, Ops & AI Tooling
+  6   0.908  PURSUE    T1    MED       3    3    3      3     3     Ramp — Customer Activation Manager | Strategic Enterprise
+  7   0.908  PURSUE    T1    MED       3    3    3      3     3     Mercury — Senior Manager - Data & AI Governance
+  8   0.908  PURSUE    T1    MED       3    3    3      3     3     Mercury — Head of Revenue Technology & Architecture
+  9   0.908  PURSUE    T1    MED       3    3    3      3     3     Ironclad — Director, Revenue Enablement
+ 10   0.908  PURSUE    T1    MED       3    3    3      3     3     Instacart — Senior Revenue Operations Manager - Eversight
+ 11   0.908  PURSUE    T1    MED       3    3    3      3     3     Dropbox — Director, GTM Business Systems
+ 12   0.908  PURSUE    T1    MED       3    3    3      3     3     Celonis — Transformation Engineer - Oracle
+ 13   0.908  PURSUE    T1    MED       3    3    3      3     3     Braze — Director, CX Business Systems 
+ 14   0.908  PURSUE    T1    MED       3    3    3      3     3     Affirm — Director, Customer Operations Vendor Strategy & Execution
+ 15   0.897  PURSUE    T1    LOW       3    2    3      3     3     Aledade — Senior Software Engineer II- (Forward Deployed AI)
+ 16   0.885  PURSUE    T1    MED       3    3    3      3     3     Ramp — Business Operations Lead, Compensation & Equity
+ 17   0.885  PURSUE    T1    LOW       3    3    3      3     2     Radar — Manager, Strategic Operations
+ 18   0.885  PURSUE    T1    MED       3    3    3      3     3     Notion — Manager, Enablement Programs
+ 19   0.885  PURSUE    T1    MED       3    3    3      3     3     Kizen — Senior Solutions Engineer
+ 20   0.885  PURSUE    T1    MED       3    3    3      3     3     January — Strategy & Operations
+ 21   0.885  PURSUE    T1    MED       3    3    3      3     3     Gusto — Head of Brokerage Operations
+ 22   0.874  PURSUE    T1    MED       3    3    3      2     3     Stellar Development Foundation — Product Operations Lead
+ 23   0.874  PURSUE    T1    MED       3    3    3      3     2     Ramp — Senior Product Partnerships Manager
+ 24   0.874  PURSUE    T1    MED       3    3    3      3     2     Prefect — Sales Operations Manager
+ 25   0.874  PURSUE    T1    MED       3    3    3      3     2     Justworks — Senior Manager, Business Intelligence
+ 26   0.874  PURSUE    T1    MED       3    3    3      3     2     Gusto — People Process Transformation Lead
+ 27   0.874  PURSUE    T1    MED       3    3    3      3     2     Clay — GTM Strategy & Ops
+ 28   0.874  PURSUE    T1    MED       3    3    3      3     2     Clay — Head of GTM Strategy & Ops
+ 29   0.874  PURSUE    T1    MED       3    3    3      3     2     Celonis — Strategic Solutions Director - Oracle
+ 30   0.874  PURSUE    T1    MED       3    3    3      3     2     Celonis — Senior Manager Cloud & AI Partnerships
+ 31   0.874  PURSUE    T1    MED       3    3    3      2     3     AvePoint — Director of Revenue Operations, GTM Systems
+ 32   0.862  PURSUE    T1    MED       3    2    3      3     3     Mercury — Strategic Partnerships Manager - AI/API
+ 33   0.862  PURSUE    T1    MED       3    2    3      3     3     Madhive — AI Enablement Director
+ 34   0.862  PURSUE    T1    MED       3    3    3      3     3     Ironclad — Senior Director, Global Sales Strategy and Operations
+ 35   0.862  PURSUE    T1    MED       3    2    3      3     3     Gusto — GTM AI Agent Builder
+ 36   0.862  PURSUE    T1    MED       3    3    3      3     3     Justworks — Product Operations Manager, AI & Systems
+ 37   0.862  PURSUE    T1    MED       3    2    3      3     3     Ramp — AI Solutions Strategist
+ 38   0.851  PURSUE    T1    MED       3    3    3      3     2     Ironclad — Sr. Enterprise Architect
+ 39   0.851  PURSUE    T1    HIGH      3    3    3      3     3     Gusto — Senior Product Manager, Tax Payments and Filing 
+ 40   0.851  PURSUE    T1    MED       3    3    3      3     2     Gusto — Head of Risk and Money Services
+bands: {"PURSUE":190,"PASS":229,"CONSIDER":167}
+=== DRAIN DONE Sun Sep 13 11:26:08 EDT 2026
+=== DRAIN 2 (mechanical gate rules in route, full JD) Sun Sep 13 11:28:29 EDT 2026
+bridge rows: 589 · to score: 589
+JDs fetched: 588 {"lever":7,"greenhouse":380,"ashby":195,"html":6} · fetch-failed: 1
+  no-fetch bridge-oscar-1c22ac25 http://www.hioscar.com/careers/8109252?gh_jid=8109252
+scored 8/588
+scored 16/588
+scored 24/588
+scored 32/588
+scored 40/588
+scored 48/588
+scored 56/588
+scored 64/588
+scored 72/588
+scored 80/588
+scored 88/588
+scored 96/588
+scored 104/588
+scored 112/588
+scored 120/588
+scored 128/588
+scored 136/588
+scored 144/588
+scored 152/588
+scored 160/588
+scored 168/588
+scored 176/588
+scored 184/588
+scored 192/588
+scored 200/588
+scored 208/588
+scored 216/588
+scored 224/588
+scored 232/588
+scored 240/588
+scored 248/588
+scored 256/588
+scored 264/588
+scored 272/588
+scored 280/588
+scored 288/588
+scored 296/588
+scored 304/588
+scored 312/588
+scored 320/588
+scored 328/588
+scored 336/588
+scored 344/588
+scored 352/588
+scored 360/588
+scored 368/588
+scored 376/588
+scored 384/588
+scored 392/588
+scored 400/588
+scored 408/588
+scored 416/588
+scored 424/588
+scored 432/588
+scored 440/588
+scored 448/588
+scored 456/588
+scored 464/588
+scored 472/588
+scored 480/588
+scored 488/588
+scored 496/588
+scored 504/588
+scored 512/588
+scored 520/588
+scored 528/588
+scored 536/588
+scored 544/588
+scored 552/588
+scored 560/588
+scored 568/588
+scored 576/588
+scored 584/588
+scored 588/588
+
+DONE. scored 588. tokens in=1035253 out=136368 cache_read=0
+
+BRIDGE LANE — top 40 of 588 by winnability (bridge-scan v1.1)
+rank  comp   band      tier  compete   req  lvl  shape  stab  edge  company — title
+  1   0.966  PASS      T1    LOW       3    3    3      3     3     Upside — Staff Forward Deployed Engineer, GTM Platform  [gate: FDE-lane title (score under target-role-scan)]
+  2   0.931  PURSUE    T1    LOW       3    3    3      2     3     Madhive — AI Enablement Director
+  3   0.931  PURSUE    T1    LOW       3    3    3      3     2     AvePoint —  Director of Revenue Operations, GTM Performance
+  4   0.908  PURSUE    T1    MED       3    3    3      3     3     AvePoint —  Director of Revenue Operations, GTM Systems
+  5   0.908  PURSUE    T1    MED       3    3    3      3     3     Mercury — Head of Revenue Technology & Architecture
+  6   0.908  PURSUE    T1    MED       3    3    3      3     3     Ironclad — Director, Revenue Enablement
+  7   0.908  PURSUE    T1    MED       3    3    3      3     3     Instacart — Senior Revenue Operations Manager - Eversight
+  8   0.908  PURSUE    T1    MED       3    3    3      3     3     Dropbox — Director, GTM Business Systems
+  9   0.908  PURSUE    T1    MED       3    3    3      3     3     AvePoint — Director of Revenue Operations, GTM Systems
+ 10   0.908  PURSUE    T1    MED       3    3    3      3     3     Gusto — Senior Product Manager, Tax Payments and Filing 
+ 11   0.908  PURSUE    T1    MED       3    3    3      3     3     Gusto — Agentic Operations Architect
+ 12   0.908  PURSUE    T1    MED       3    3    3      3     3     Dropbox — Renewals Strategy Principal Program Manager
+ 13   0.908  PASS      T1    MED       3    3    3      3     3     Asana — Forward Deployed Engineer, Command by Asana  [gate: FDE-lane title (score under target-role-scan)]
+ 14   0.908  PASS      T1    MED       3    3    3      3     3     MongoDB — Senior Forward Deployed Engineer  [gate: FDE-lane title (score under target-role-scan)]
+ 15   0.885  PURSUE    T1    MED       3    3    3      3     3     Braze — Director, CX Business Systems 
+ 16   0.885  PURSUE    T1    MED       3    3    3      3     3     January — Strategy & Operations
+ 17   0.885  PURSUE    T1    MED       3    3    3      3     3     Chime — Senior Program Manager, AI Enablement
+ 18   0.885  PURSUE    T1    MED       3    3    3      3     3     Clay — GTM Ops Manager, Quote to Cash
+ 19   0.885  PURSUE    T1    MED       3    3    3      3     3     Aledade — Senior Technical Product Manager - AI Enablement, Remote
+ 20   0.885  PURSUE    T1    MED       3    3    3      3     3     Gusto — Manager - Developer Productivity, AI Tools
+ 21   0.885  PURSUE    T1    MED       3    3    3      3     3     Braze — Applied AI Architect, GTM 
+ 22   0.885  PURSUE    T1    MED       3    3    3      3     3     Braze — Applied AI Architect, G&A
+ 23   0.874  PURSUE    T1    MED       3    3    3      2     3     Stellar Development Foundation — Product Operations Lead
+ 24   0.874  PURSUE    T1    MED       3    3    3      3     2     Vendelux — Revenue Operations Lead
+ 25   0.874  PURSUE    T1    MED       3    3    3      3     2     Mercury — Knowledge & Enablement Lead
+ 26   0.874  PURSUE    T1    MED       3    3    3      3     2     Chime — Global Workforce Planning & Transformation
+ 27   0.874  PASS      T1    MED       3    3    3      2     3     Madhive — Forward Deployed Engineer  [gate: FDE-lane title (score under target-role-scan)]
+ 28   0.874  PURSUE    T1    MED       3    3    3      3     2     Betterment — Director of Product, Broker-Dealer
+ 29   0.874  PURSUE    T1    LOW       3    3    3      2     2     Affirm — Operations Enablement Manager
+ 30   0.874  PURSUE    T1    MED       3    3    3      3     2     Affirm — Analytics Lead, Strategic Insights (Compliance)
+ 31   0.862  PURSUE    T1    MED       3    2    3      3     3     EvolutionIQ — Agentic Solutions Consultant (Insurance SaaS)
+ 32   0.862  PURSUE    T1    MED       3    2    3      3     3     Applecart — Head of GTM Systems and Engineering
+ 33   0.862  PURSUE    T1    MED       3    3    2      3     3     Mercury — Senior Manager - Data & AI Governance
+ 34   0.862  PURSUE    T1    MED       3    2    3      3     3     Gusto — GTM AI Agent Builder
+ 35   0.862  PURSUE    T1    MED       3    3    3      3     3     Celonis — Lead Deployment Architect
+ 36   0.862  PURSUE    T1    LOW       3    3    3      2     1     Chime — Principal, Genesys Platform Program
+ 37   0.851  PURSUE    T1    MED       3    3    3      3     2     Ironclad — Sr. Enterprise Architect
+ 38   0.851  PURSUE    T1    MED       3    3    3      3     2     Ramp — GTM Senior Business Systems Analyst – Channel Sales
+ 39   0.851  PURSUE    T1    HIGH      3    3    3      3     3     EvolutionIQ — Senior Product Manager (Short Term Disability Product)
+ 40   0.851  PURSUE    T1    HIGH      3    3    3      3     3     Datadog — Director, GTM Enablement Operations
+bands: {"PASS":172,"PURSUE":212,"CONSIDER":204}
+=== DRAIN 2 DONE Sun Sep 13 11:56:55 EDT 2026
