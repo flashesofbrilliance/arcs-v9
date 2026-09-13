@@ -2,11 +2,12 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "35fc2e7",
-    "head_message": "fix(governance): pay down false-claim debt \u2014 remove Tailwind, align docs/CI to reality [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "383b9f9",
+    "head_message": "feat(jeben): serialize Jul 15 call as new data point on jeben.arcs.care [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "_STATE/snapshot.json"
+      "_STATE/snapshot.json",
+      "runtime/recoil/generated/2026-07-15-hila-lewoof-faire.json"
     ]
   },
   "vercel": {
@@ -145,5 +146,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-12T13:25:15Z"
+  "git_refreshed_at": "2026-07-16T01:22:34Z"
 }
