@@ -1,0 +1,51 @@
+{
+  "reportId": "sugar",
+  "meta": {
+    "engagement": "PRL Resins × SugarAI",
+    "date": "2026-08-11",
+    "channel": "Zoom · 30 min",
+    "audience": "internal"
+  },
+  "cover": {
+    "badges": ["Recoil Report", "SugarAI · Sandbox Call"],
+    "title": "PRL Resins × SugarAI — SugarCRM Sandbox Call",
+    "subtitle": "Post-call recoil. Went in for sandbox access + a named technical contact; landed on a cleaner but more commercial picture — sandbox is free and already restored, but the integration work itself is out of standard support scope. The unblock is scoping the API permissions, not the sandbox.",
+    "meta": "ARCS RECOIL · Aug 11, 2026 · 30 min · SugarAI (Long, Sebastian, Alberto) + Todd",
+    "actions": ["Open Doc SSOT", "File to Prep Book"],
+    "actionLinks": ["https://docs.google.com/document/d/1fjGqDLohB7z8pcqyd7KNmkaf0ipoOWPYbmgWo2-_MC8/edit", null]
+  },
+  "loadBearingQuote": {
+    "text": "The whole point here is to be able to transition the leads into Sugar and have them disseminate geographically based on our 8 different reps around the country.",
+    "attribution": "Todd Hotes · Aug 11, 2026 — setting the acceptance frame"
+  },
+  "callWalk": [
+    { "label": "Intros", "title": "New faces, thin history", "body": "Long (Director CS) bridging for Beeka (out); Sebastian (Tech Support Mgr) and Alberto (Support Specialist) for the technical coverage. Bill Galla named as the PRL Sugar owner. No one carried the full history of how the instance was built — reinforced the health-check ask." },
+    { "label": "SSOT format", "title": "The case is their system of record", "body": "Sugar tracks everything as a case (case + child cases). Agreed: our Google Doc is the intake; Sebastian converts it into tickets. A clean, itemized doc converts cleanly." },
+    { "label": "Scope", "title": "Out of standard support scope", "body": "The integration/customization work routes to SugarCare / Professional Services (dedicated hours), not the support queue. New commercial track — Long ↔ Beeka on tier/right-sizing; any cost surfaces before it's incurred." },
+    { "label": "Sandbox", "title": "Already restored from parent", "body": "Alberto had already restored prlresinstest from production earlier that day. Cloning needs Sugar Identity/IDM re-provision; access uses production credentials + an admin creating the sandbox user.", "peak": true },
+    { "label": "Guardrails", "title": "Todd sets the frame", "body": "Three plain constraints every downstream decision is scored against: don't disrupt Bill's live CRM; know any cost before incurring it; don't overcomplicate — chatbot → leads into Sugar → geo-route to the 8 reps.", "peak": true }
+  ],
+  "signalThreads": [
+    { "label": "Sandbox path", "accent": "green", "title": "Clean-slate → restore-from-parent", "body": "We leaned clean-slate net-new; Sugar restored the existing sandbox from production instead. Either was free under the 2-sandbox allowance. Net: the sandbox is ready, faster than expected." },
+    { "label": "Access", "accent": "cyan", "title": "Admin → scoped API key", "body": "We don't need full admin — just to add field types + geographic routing policies. Admin on the isolated sandbox is acceptable; nothing on production. The exact scoped-permission list is the immediate unblock." },
+    { "label": "Commercial", "accent": "gold", "title": "Support → SugarCare / PS", "body": "The build work is out of standard support scope. This is a real (and new) commercial consideration — surfaced early, before any spend, which is exactly Todd's guardrail #2.", "note": "Long ↔ Beeka QBR / right-sizing runs in parallel." },
+    { "label": "Stack reality", "accent": "orange", "title": "ZoomInfo + Mailgun already in place", "body": "ZoomInfo bidirectional enrichment already exists (reuse it — no new spend); Mailgun is confirmed in the live stack (reconciles the earlier memory-vs-repo discrepancy). Fewer new decisions than feared." }
+  ],
+  "scenarios": {
+    "best": { "title": "Wired within days", "body": "Sugar confirms the sandbox admin user + production-safety this week; we point the off-cloud smoke's BASE at the sandbox, wire delivery, and run UAT. The build loop is already green off-cloud, so it's a swap-the-URL step.", "note": "Everything on our side is done and waiting on access." },
+    "base": { "title": "One more round-trip", "body": "Sugar routes to PS/SugarCare for the customization work; a short scoping + a follow-up call precede provisioning the scoped key. Days become a week or so, but the path is clear and un-blocked technically." },
+    "worst": { "title": "Commercial stall", "body": "The PS/SugarCare cost conversation stalls the customization work, or the account tier needs right-sizing first. Delivery slips until the commercial track resolves.", "note": "Mitigation: keep cost visible to Todd early; the sandbox + read access already let us make progress." }
+  },
+  "riskFlags": [
+    { "variant": "warning", "label": "Production safety", "body": "The account created references the production URL. Almost certainly just shared Sugar Identity, but confirm it's sandbox-scoped and did not create/change anything on production — Todd's guardrail #1." },
+    { "variant": "caution", "label": "Commercial scope", "body": "Integration work is out of standard support scope → SugarCare / PS. Surface any cost to Todd before it's incurred; do not let it become a surprise line item." },
+    { "variant": "info", "label": "Immediate blocker", "body": "API-permission scoping: we specify the exact scoped permissions → Sugar confirms with engineering → provision. Consolidated reply sent on case 589806; ball with Sugar." },
+    { "variant": "success", "label": "Unblocked technically", "body": "Sandbox restored, Zach account created, full delivery loop green off-cloud (mock-Sugar + real recognizer payloads land 201). No technical work is waiting on us." }
+  ],
+  "protocol": [
+    { "label": "Sent", "title": "Consolidated case reply", "body": "One note on case 589806: who creates the sandbox admin user (Amy Jaeger unknown), production-safety confirmation, Postman/changelog, SugarCare/PS read. Consolidated to make it easy for Sugar to action.", "active": true },
+    { "label": "Await", "title": "Sugar confirms access", "body": "Sandbox admin user created for Zach + production-safety confirmed. Then credentials are in hand." },
+    { "label": "Prove", "title": "Smoke against the real sandbox", "body": "Point the off-cloud delivery smoke (dev-smoke.sh) BASE at prlresinstest — the field contract is identical, so it runs as-is. Verify a lead lands complete + correctly routed." },
+    { "label": "Wire", "title": "Delivery + UAT", "body": "Wire Tidio → Zapier → Sugar Create-Lead in the sandbox; run the 1.1 UAT (lead lands → routing → verify received → Todd + Bill sign off); flip live in Todd's window." }
+  ]
+}

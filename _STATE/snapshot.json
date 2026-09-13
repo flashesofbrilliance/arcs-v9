@@ -2,8 +2,8 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "1993b9d",
-    "head_message": "feat(lattice): inchworm drift-auditor for the orphaned knowledge lattice [NCI:SKIP]",
+    "head_sha": "bb5e189",
+    "head_message": "chore(state): snapshot narrative -> Sugar sandbox-readiness next action [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_STATE/snapshot.json",
@@ -188,7 +188,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-12T04:37:16Z",
+  "git_refreshed_at": "2026-08-13T16:14:35Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

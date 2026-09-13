@@ -1,0 +1,14 @@
+# Local mock-Sugar for the PRL integration dev loop (OrbStack).
+#   cd runtime/recoil/generated/prl-lyro/mock-sugar
+#   docker compose up --build          # -> http://localhost:8090
+# Point the Zapier Catch Hook / flow API-call node at http://localhost:8090/rest/v11/Leads
+# during development instead of the cloud sandbox (saves API quota + rate limits).
+services:
+  mock-sugar:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+      PORT: "8090"
+      # Set RATE_LIMIT to a small number to force 429s and exercise retry/backoff:
+      RATE_LIMIT: "0"
