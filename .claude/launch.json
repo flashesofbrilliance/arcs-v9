@@ -6,7 +6,7 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4040", "--directory", "src/ui-kit/recoil-report"],
       "port": 4040,
-      "cwd": "/Users/zharris/arcs-v9"
+      "cwd": "."
     },
     {
       "name": "Next.js Dev Server",
@@ -14,7 +14,7 @@
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
       "autoPort": true,
-      "cwd": "/Users/zharris/arcs-v9"
+      "cwd": "."
     }
   ]
 }
