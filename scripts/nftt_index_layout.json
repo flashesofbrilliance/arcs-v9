@@ -1,0 +1,131 @@
+{
+  "sections": [
+    {
+      "id": "apple-ledger",
+      "label": "The Apple Ledger",
+      "blurb": "A serialized prediction loop, read by its recoil."
+    },
+    {
+      "id": "factory",
+      "label": "The Factory on Itself",
+      "blurb": "The build turning its instruments on its own record."
+    },
+    {
+      "id": "field",
+      "label": "Field Accounts",
+      "blurb": "Dispatches from the morning it actually happened."
+    }
+  ],
+  "items": [
+    {
+      "slug": "the-instinct-before-it-had-a-name",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "the-method-that-was-already-built",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "the-pre-mortem-that-asked-to-be-wrong",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "the-same-rigor-applied-to-slang",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "four-dates-one-thesis-three-confirmations",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "closing-the-loop-receipts",
+      "section": "apple-ledger",
+      "view": "grid"
+    },
+    {
+      "slug": "tuning-into-the-distortion-field",
+      "section": "apple-ledger",
+      "view": "featured"
+    },
+    {
+      "slug": "the-factory-on-itself",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "the-loop-closes",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "confirmed-not-my-bug",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "assets-and-liabilities",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "second-pass",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "pulp-governance",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "schematic-scaffolds",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "cheapest-edit-is-a-diff",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "ledger-not-story",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "probably-confirmation-bias",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "take-home-trap",
+      "section": "field",
+      "view": "compact"
+    },
+    {
+      "slug": "post-3",
+      "section": "field",
+      "view": "compact"
+    },
+    {
+      "slug": "post-2",
+      "section": "field",
+      "view": "compact"
+    },
+    {
+      "slug": "post-4",
+      "section": "field",
+      "view": "compact"
+    },
+    {
+      "slug": "post-1",
+      "section": "field",
+      "view": "compact"
+    }
+  ]
+}
