@@ -2,10 +2,12 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f47cdd5",
-    "head_message": "copy(forge): last plain-language swap \u2014 folksonomy 'abductive' \u2192 bottom-up [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "3bb2673",
+    "head_message": "feat(ahmed): 60-second-read chronograph onramp \u2014 the consumability fix",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_ARTIFACTS/lab/STATE.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -181,7 +183,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-11T10:50:40Z",
+  "git_refreshed_at": "2026-08-11T14:01:01Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

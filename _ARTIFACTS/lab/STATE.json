@@ -2,9 +2,9 @@
   "project": "arcs-experiments",
   "domain": "lab.arcs.care",
   "source": "_ARTIFACTS/lab/",
-  "git_head": "5f1f424",
-  "deploy_id": "dpl_AHdKXFoALepKeojjX6CLUikbMQ6i",
-  "deploy_url": "arcs-experiments-dbkby09fs-arcs-care.vercel.app",
+  "git_head": "ef5ef79",
+  "deploy_id": "dpl_3NRy3ziNLdvcjJPQNdKVq5cPW6Ab",
+  "deploy_url": "arcs-experiments-dg9fny1w8-arcs-care.vercel.app",
   "ready": "INITIALIZING",
   "surfaces": [
     {
@@ -21,6 +21,11 @@
       "route": "/",
       "file": "index.html",
       "sha": "27c82736b00a3b2ad7ea33a41dc62ede386fc6d0"
+    },
+    {
+      "route": "/onramp-preview/",
+      "file": "onramp-preview/index.html",
+      "sha": "abae673ac8a4a9de7a57302d8ae58771c79854af"
     },
     {
       "route": "/ro",
