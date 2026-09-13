@@ -1,0 +1,201 @@
+<title>The Same Rigor, Applied to Slang · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<meta name="description" content="A linguistics riff on Gen-Z slang got the same falsifiability audit as a collateral cascade, and that range is the actual evidence the method isn't a trick fit to one domain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .cover{display:block; width:100%; height:auto; border-radius:12px;
+    border:1px solid var(--border); margin:6px 0 4px; background:var(--surface-2)}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Account</span>
+    <span>Method Audit</span>
+    <span class="sp"><b>Subject: slang</b></span>
+  </div>
+
+  <img class="cover" src="/blog-nftt-the-method-that-was-already-built-hero.jpg" width="1280" height="853" alt="A luminous Mobius traversal from another orientation, the same instrument turned to a new bench.">
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Same instrument, different bench</p>
+    <h1>The Same Rigor, <em>Applied to Slang</em></h1>
+    <p class="standfirst">An NCI grade for a linguistics riff is either absurd or the whole point.</p>
+    <p class="byline">The audited artifact is a real published post, quoted from its own text · No claim here exceeds what that source makes</p>
+  </header>
+
+  <section>
+    <span class="num">I · The exhibit</span>
+    <p class="lead">There is a post I published in February titled, without much modesty, "The Flow State is Dead. The Locked In Era is Born." It opens with a self-aware warning: nerd alert, linguistic forensics ahead, a radar chart, a detour into nineteenth-century financial etymology. It closes with a section literally titled Extra Credit, in which I list the claims I am making and invite the reader to check my math. In between is four hundred words of forensic argument for why a piece of Gen Z slang deserves to be taken as seriously as a regulatory filing. I want to look at that post again, not for what it says about slang, but for what it says about the method that produced it.</p>
+  </section>
+
+  <section>
+    <span class="num">II · Two words, torn down like a claim</span>
+    <p>The post's central move is a tear-down. Two words, Flow and Locked In, get treated the way an analyst treats two nearly identical contract clauses: assumed different until proven the same, not the other way around. Flow is water. Low friction. Passive, a surrender to the current. Its goal is creation. Locked In is a reticle. High tension. What the post calls predator mode, agency spent hunting a result rather than floating toward one. Its goal is execution.</p>
+    <p>That is not a synonym swap. It is two different physics assigned to two different verbs, and the post insists on defending the distinction rather than asserting it. The word for what the operator is doing, in the post's own phrase, is voluntary time dilation: dilating the time coordinate toward zero to hit a split-second target. Whether or not you buy the metaphor, notice the shape of the claim. It is falsifiable. It says what would have to be true for Locked In to just be Flow with a cooler name, and then argues that it isn't.</p>
+  </section>
+
+  <section>
+    <span class="num">III · The neuroscience receipt</span>
+    <p>The post does not stop at metaphor. It cites a named mechanism, top-down attentional suppression, and a named study: Mishra et al., 2011, on action video game players, distinguishing standard attention, which focuses on the signal, from the locked-in kind, which aggressively suppresses the noise. Then it explains the cost side. Flow feels free because dopamine is a reward. Locked In feels expensive because inhibitory control burns glucose, citing Gailliot et al., 2007. The post's own word for the crash after is "fry-out," and it is careful to attribute the exhaustion to a specific, metabolic mechanism rather than to vibes.</p>
+    <div class="panel">
+      <h4>What the slang post actually cited</h4>
+      <div class="step">
+        <span class="k">Claim</span><b>Locked In is a distinct mechanical state from Flow, not a synonym for it.</b>
+        <span class="k">Mechanism</span><b>top-down attentional suppression, distinguished from standard attention.</b>
+        <span class="k">Source</span><b>Mishra et al., 2011, action video game players, <em>Journal of Neuroscience</em>.</b>
+        <span class="k">Cost model</span><b>inhibitory control is metabolically priced against glucose, not free.</b>
+        <span class="k">Source</span><b>Gailliot et al., 2007.</b>
+      </div>
+      <p>Same disclosure shape as a technical audit: name the claim, name the mechanism, name the study, let the reader check it.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV · Duration versus intensity</span>
+    <p>The post then widens from neurochemistry to generations, and the argument stays disciplined about it. The Old Guard, in the post's framing, optimizes for duration: the all-nighter as badge of honor, a linear physics where ten hours equals ten units, paid for in sleep. The New Guard optimizes for intensity: the lock-in as badge of honor, an exponential physics where two hours deep outproduces ten hours shallow, paid for in glucose rather than sleep. The all-nighter, the post says, is dead; the lock-in is the future asset class.</p>
+    <p>I will not pretend that line is neutral, hedge-everything academic prose. It is a LinkedIn post, and it reads like one. But underneath the confidence is a comparison you could actually run: which mode, over a career, produces more output per unit of recovered capacity. That the post does not run the comparison does not make it unfalsifiable. It makes it an open claim, which is a different and more honest category than a vague one.</p>
+  </section>
+
+  <section>
+    <span class="num">V · The street eats the tower</span>
+    <p>The widest claim in the post is the one it makes almost in passing: that the same pattern showing up in language is showing up in fashion and in business. For a hundred years, trends moved top down, Paris to the mall. Now they move bottom up, the skate park to the runway, which the post offers as the reason streetwear ate luxury. The underlying mechanism it names is a folksonomy, the way people actually sort the world, beating a taxonomy, the way experts sort it on their behalf.</p>
+    <blockquote>"The old words no longer fit the new physics."</blockquote>
+    <p>That line is doing real work in the post, and it is worth sitting with outside the slang context. A word like Locked In does not get coined because a generation is careless with language. It gets coined because the available vocabulary stopped describing the thing people were actually experiencing, and street usage moved faster than the dictionary. The claim generalizes past linguistics: a bottom-up signal outrunning a top-down category is the same shape whether the category is a word, a hemline, or an org chart.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · Extra credit, graded on itself</span>
+    <p>The part of the post that matters most for this essay is the section it calls Extra Credit, addressed to what it calls the book smart readers who want to check the street smart math. It names an instrument, the Narrative Credibility Index, and then does the one thing that turns a vibe into a receipt: it lists, as line items, exactly which claims it is putting up for scrutiny. Locked In implies inhibitory control. Glucose depletion causes cognitive fatigue. The street functions as a metonym for price-level reality. Three claims, named plainly enough that a skeptical reader could go verify or falsify each one independently, the same disclosure discipline a decision memo owes a reader before it asks for belief.</p>
+    <p>Notice what the post does not do. It does not hand you a number and ask you to trust it. It hands you the claims the number would be built from, sourced, so you can build the number yourself, and disagree with the grading if you want to. That is the falsifiability disclosure, applied in full, to a joke about slang.</p>
+  </section>
+
+  <section>
+    <span class="num">VII · The range is the evidence</span>
+    <p>Here is the actual argument of this essay, and it is not about slang. It is about what it means for a method to be additive rather than a trick fit to one domain. A framework that only produces rigor when the subject matter is already serious, a collateral cascade, a regulatory filing, an eight-figure deal, has not proven it is rigor. It has proven it is decorum: the discipline shows up because the room demands it, and nowhere else. A framework that produces the identical disclosure shape, name the claim, name the mechanism, name the source, invite the check, whether the subject is a credit facility or a TikTok phrase, has proven something different. It has proven the rigor is a way of seeing, carried by the person, not a costume worn for the occasion.</p>
+    <p>That is why I keep the slang post in the folder next to the ones with real stakes attached. Not because Locked In matters as much as a cascade does. It doesn't. But an NCI grade for a linguistics riff is either absurd, a category error, treating a joke like a filing, or it is the whole point, proof that the instrument does not know or care what register it has been pointed at. I know which one it was, because I am the one who pointed it.</p>
+  </section>
+
+  <footer>
+    <b>Field account, 2026.</b> Source: "The Flow State is Dead. The Locked In Era is Born," published 2026-02-05, quoted and paraphrased from the author's own article.<br>
+    Cited studies (Mishra et al., 2011; Gailliot et al., 2007) are referenced only as the source article cites them; no new findings are asserted here.<br>
+    No numeric NCI grade appears in the source article and none is invented here.
+  </footer>
+</div>

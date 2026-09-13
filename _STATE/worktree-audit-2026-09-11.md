@@ -139,3 +139,58 @@ Not on origin = the worktree is the only copy. Bundle before any removal.
 - `fresh-starts` (main checkout) is 43 real commits ahead of main and 14 behind; not merged, not deployed (matches the 09-11 cross-harness handoff).
 - `prl-chatbot-sugarcrm-605dbe` has `main` checked out with 2 dirty tracked files: a stray edit on main, look before discarding.
 - 28 worktrees have branches never pushed to origin; 10 pushed branches carry unpushed commits (`elated-hawking-c08b93`: 17).
+
+---
+
+## Amendment 2026-09-13 — MERGED-prunable class pruned (bundle first)
+
+Re-verified every MERGED-prunable row against `origin/main` by patch-id and clean tree **at prune
+time**, not from the 09-11 numbers. Worktrees **72 → 62**. Branch refs kept for every removed tree
+(double backup). Manifest: `~/arcs-worktree-bundles/MANIFEST-2026-09-13.tsv`. Receipt:
+`2026-09-13--prune-merged-worktrees-bundle-first--ZH`.
+
+### Removed (9) — `git bundle create` + `verify` ok, then `git worktree remove`
+
+| worktree | branch | tip | bundle |
+|---|---|---|---|
+| arcs-v9-nftt-pulp-code-fix | `fix/nftt-pulp-inline-code` | 9b61ea6d | `arcs-v9-nftt-pulp-code-fix.bundle` |
+| arcs-v9-nftt-pulp-governance | `content/nftt-pulp-governance-2026-09-11` | 62aa60ac | `arcs-v9-nftt-pulp-governance.bundle` |
+| arcs-v9-nftt-pulp-wrap-fix | `fix/nftt-pulp-inline-code-wrap` | bce97ad3 | `arcs-v9-nftt-pulp-wrap-fix.bundle` |
+| arcs-v9-receipts-standing-rule | `docs/receipts-standing-rule` | 860bac74 | `arcs-v9-receipts-standing-rule.bundle` |
+| blacksmith-staff-engineer-role-7266bf | `claude/blacksmith-staff-engineer-role-7266bf` | 481433ff | `blacksmith-staff-engineer-role-7266bf.bundle` |
+| book-of-arcs-surface-d5e217 | `claude/book-of-arcs-surface-d5e217` | 074b1120 | `book-of-arcs-surface-d5e217.bundle` |
+| l0-l5-question-compass-swap-e1d16c | `claude/l0-l5-question-compass-swap-e1d16c` | 065c7f3b | `l0-l5-question-compass-swap-e1d16c.bundle` |
+| relaxed-hellman-8b918d | `claude/linkedin-alerts-scraper-a97535` | 49c9c606 | `relaxed-hellman-8b918d.bundle` |
+| serene-cohen-05e7fe | `claude/serene-cohen-05e7fe` | 50247ccd | `serene-cohen-05e7fe.bundle` |
+
+### Not removed
+
+| worktree | why |
+|---|---|
+| recruiter-call-prep-56ea4e | gained 1 real commit since the audit (Monstro AIME session close); reclassified ACTIVE-recent |
+| recursing-brattain-190758 | gained 5 real commits since the audit (identity/brand prototypes (composite-identity map, identity-origami, five-fathom sounding, provenance chip, attraction rules)); reclassified ACTIVE-recent |
+| nftt-gravity-wells, nftt-ledger-not-story | already removed by another session before this pass |
+| jobsrun | detached at 074b1120 (on `origin/main`); directory already absent, entry dropped by `git worktree prune`; nothing to bundle |
+
+### Lesson
+
+The audit is a snapshot; two "prunable" trees became active within 48 hours. Re-verify at action
+time, never prune from a stored classification. Remaining for a per-branch keep/land/drop call:
+33 UNMERGED-stale + 8 GHOST-history + the 3 original hold worktrees (their work is on main via
+#409/#410/#413; they are now candidates for the next prune pass).
+
+### Pass 2 (same day) — the 3 original ADR-collision hold worktrees removed. Worktrees **62 → 59**
+
+Verified at action time: each hold-branch tip is an **ancestor of `origin/main`** (the renumbered
+branches were cut from these exact tips and merged via #409/#410/#413), `git cherry` real=0, and the
+work-file diff against main is empty. Bundled + verified before removal; branch refs kept.
+Receipt: `2026-09-13--prune-hold-worktrees-pass2--ZH`.
+
+| worktree | branch | tip | landed via |
+|---|---|---|---|
+| token-consumption-improvement-6ba854 | `claude/harness-build-optimization-f52489` | 6a8010ad | #409 (ADR-078) |
+| elastic-rubin-f22a6e | `claude/elastic-rubin-f22a6e` | 7744f565 | #410 (ADR-079); uncommitted .claude/launch.json (3 arcs-mini launch entries) saved as elastic-rubin-f22a6e.uncommitted.patch |
+| decision-geometry-logo-81fb56 | `claude/decision-geometry-logo-81fb56` | eabee6f4 | #413 (ADR-080/081/041) |
+
+PENDING.md "Worktree hold branches" note ("Do NOT remove these worktrees — they are the only copy
+of the work") is now moot: the work is on main and in the bundles.

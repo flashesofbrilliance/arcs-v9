@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+TIL · Today I Learned · Ep 01 · PROTOTYPE of the fused NFTT × recoil-kit grammar (hand-cut; the
+composer will regenerate this from an episode spec). Public-safe: pseudonyms, no money, no family
+beyond "my wife" as a quote source. Tokens: _tokens.css verbatim + a READING LAYER (the NFTT No. 21
+values: lighter surface, warmer text, brighter muted) so serif prose and mono instruments share one
+file. Blocks: mast · cold-open · wager (new) · movement · beats(06) · twin(14) · count(08)+power
+badge (new) · instrument (new) · pull-quote · old-story · rule(09) · tributaries (new) · thread (new,
+back+forward) · sources. Dictionary rule: no ARCS vocabulary in rendered copy.
+KINTSUGI SEAMS (ROM #6: repair visibly, never patch silently). Break -> repair -> guard:
+  10 cold open: blurred standfirst that sharpened on scroll, with a tiny caps byline under it, read as a rendering fault (Zach) -> blur and byline removed; earned fidelity is expressed in the beats, provenance in the footer -> ledger
+  1 ten small mono labels at 2.5 to 4.3:1 contrast -> --label token (6.1:1) -> design detector in pre-commit
+  2 eyebrow label above the h1 (floor ban) -> removed; the heading carries itself -> detector
+  3 zero-offset cyan glow on the topbar dot -> removed -> detector
+  4 three typefaces (Inter, Newsreader, JetBrains) -> two: serif for what happened, mono for what it measured -> ledger
+  5 five bordered cards competing with the two instruments -> tributaries as hairline rows, thread as plain rows, score as one cyan rule -> ledger
+  6 pull-quote repeated the rule strip -> lifted the surviving line from section II instead -> ledger
+  7 tributary buttons were CSS grids; the bare text node became a third grid item in the 18px dot column, one word per line -> content wrapped in one span -> inspection round (not yet mechanized)
+  8 forty-odd labels at 9 to 10px under an 11px functional-text floor -> every label raised to 11px+, tracking eased, three long uppercase labels shortened -> detector in pre-commit
+  accepted, not repaired: the 3px left rail on kit beat rows is the kit's own primitive (06); the detector's default disagrees; the decision belongs to the design system, booked in the ledger
+Ledger: _PATTERNS/kintsugi-visual-grammar-seams.md
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Warmth Routes You</title>
+<meta name="description" content="Two robots booked a meeting and nobody in it could have a job. Today I learned the difference between being liked and being hired.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* READING LAYER: the NFTT No. 21 values, added as tokens rather than forked as a second :root. */
+:root { --surface-reading:#0b1017; --text-reading:#e7ecf3; --muted-reading:#9aa8bc; --cyan-dim:#3aa8b4; --redact:#26303d; --border-2:#2a3a4d;
+        --font-serif:'Newsreader',Georgia,'Times New Roman',serif; --font-sans:'Newsreader',Georgia,serif; --font-display:'Newsreader',Georgia,serif; --measure:40rem;
+        --label:#8797ad; /* small mono labels: 6.1:1 on bg, 5.7:1 on surface-reading (AA for small text) */ }
+
+* { box-sizing:border-box; margin:0; padding:0; }
+button, input { font:inherit; }
+html { background:var(--bg); color:var(--text-reading); font-family:var(--font-serif); -webkit-font-smoothing:antialiased; scrollbar-color:var(--border-2) var(--bg); caret-color:var(--cyan); }
+::selection { background:rgba(0,240,255,.22); color:var(--text-reading); }
+.mono, .td-val, .badge, .topbar, .receipt-table { font-variant-numeric:tabular-nums; }
+body { min-height:100vh; background:var(--bg); }
+a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; text-underline-offset:.16em; }
+.wrap { max-width:44rem; margin:0 auto; padding:28px 24px 72px; display:flex; flex-direction:column; gap:20px; }
+/* ma: prose and instruments breathe apart; things inside a group stay tight */
+.wrap > section { margin-top:28px; } .wrap > section + section { margin-top:12px; }
+.wrap > .wager, .wrap > .instrument, .wrap > blockquote { margin:20px 0; }
+.mast { display:flex; flex-direction:column; gap:12px; }
+p { max-width:var(--measure); text-wrap:pretty; } h1,h2,h3 { text-wrap:balance; }
+.mono { font-family:var(--font-mono); }
+
+/* mast: NFTT topbar fused with kit 01 badges */
+.topbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--label); }
+.topbar .dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); }
+.topbar .sp { margin-left:auto; color:var(--label); }
+.badges { display:flex; gap:8px; flex-wrap:wrap; }
+.badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:var(--r-sm); border:1px solid; white-space:nowrap; }
+.badge.light { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
+.badge.light.green { border-color:var(--green); color:var(--green); background:var(--green-bg); }
+.badge.light.red { border-color:var(--red); color:var(--red); background:var(--red-bg); }
+.badge.power { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
+h1 { font-family:var(--font-serif); font-weight:500; font-size:clamp(34px,6vw,54px); line-height:1.02; letter-spacing:-.02em; color:var(--text-reading); }
+h1 em { font-style:italic; color:var(--cyan); }
+.standfirst { max-width:none; font-size:21px; line-height:1.45; font-style:italic; color:var(--muted-reading); margin-top:14px; }
+
+/* movements */
+section h2 { font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:12px; }
+section h2 .num { color:var(--cyan); margin-right:8px; }
+section p { font-size:17.5px; line-height:1.62; color:var(--text-reading); margin-bottom:14px; }
+section p.lead::first-letter { font-size:3.1em; line-height:.8; float:left; margin:6px 10px 0 0; color:var(--cyan); font-weight:500; }
+blockquote { border-left:2px solid var(--cyan); padding:6px 0 6px 18px; font-size:19px; line-height:1.45; font-style:italic; color:var(--text-reading); max-width:var(--measure); }
+blockquote cite { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; }
+h2.section-label { font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--label); margin-bottom:12px; max-width:none; }
+
+/* wager (new) */
+.wager { border:1px solid var(--border-2); border-radius:var(--r-lg); background:var(--surface-reading); padding:18px 20px; }
+.wager .q { font-size:17px; line-height:1.5; color:var(--text-reading); margin-bottom:14px; max-width:none; }
+.wager .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.wager button { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; min-height:44px; padding:0 18px; border-radius:var(--r-sm); border:1px solid var(--border-2); background:var(--surface-2); color:var(--text-reading); cursor:pointer; transition:border-color .15s, color .15s; }
+.wager button:hover { border-color:var(--cyan-dim); }
+.wager button:focus-visible, .instrument input:focus-visible, .trib button:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
+.wager button.on { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-bg); }
+.wager label { font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; display:flex; align-items:center; gap:8px; min-height:44px; }
+.wager input[type=range] { width:140px; accent-color:var(--cyan); }
+.wager .stored { font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); margin-top:8px; }
+
+/* kit 06 beats + fidelity */
+.beat-list { display:flex; flex-direction:column; gap:8px; }
+.beat-item { display:flex; align-items:flex-start; gap:14px; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 16px; position:relative; overflow:hidden; transition:opacity .25s; }
+.beat-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--beat-color,var(--border)); }
+.beat-number { width:26px; height:26px; border-radius:50%; background:var(--beat-color,var(--muted)); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--bg); }
+.beat-content { flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
+.beat-title { font-family:var(--font-serif); font-size:16px; font-weight:600; letter-spacing:-.005em; color:var(--beat-color,var(--text-reading)); }
+.beat-body { font-family:var(--font-serif); font-size:15px; line-height:1.55; color:var(--muted-reading); max-width:none; }
+.beat-body q { font-style:italic; color:var(--text-reading); quotes:"\201C" "\201D"; }
+.beat-tag { flex-shrink:0; font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.06em; padding:3px 8px; border-radius:var(--r-sm); border:1px solid var(--beat-color,var(--border)); color:var(--beat-color,var(--label)); white-space:nowrap; }
+.beat-cyan{--beat-color:var(--cyan)} .beat-green{--beat-color:var(--green)} .beat-gold{--beat-color:var(--gold)} .beat-red{--beat-color:var(--red)} .beat-steel{--beat-color:var(--dimmed)}
+.fid-sharp{opacity:1} .fid-degraded{opacity:.85} .fid-grain{opacity:.68}
+@media (max-width:640px){ .beat-item{flex-wrap:wrap} .beat-tag{order:3} }
+
+/* kit 14 twin */
+.fidelity-twin { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+.twin-cell { padding:12px 14px; border:1px solid var(--border); border-radius:var(--r-sm); background:var(--surface-2); transition:opacity .25s; }
+.twin-label { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; display:block; }
+.twin-cell p { font-family:var(--font-serif); font-size:14px; line-height:1.5; color:var(--muted-reading); max-width:none; margin:0; }
+.twin-cell p b { color:var(--text-reading); }
+.twin-cell.as-rendered { border-color:var(--green); background:var(--green-bg); } .twin-cell.as-rendered .twin-label { color:var(--green); }
+.twin-cell.as-earned { border-color:var(--gold); background:var(--gold-bg); } .twin-cell.as-earned .twin-label { color:var(--gold); }
+@media (max-width:640px){ .fidelity-twin{grid-template-columns:1fr} }
+
+/* kit 08 count table + power badge */
+.receipt-table { width:100%; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; border-collapse:collapse; }
+.receipt-table tr { border-bottom:1px solid rgba(30,41,59,.6); } .receipt-table tr:last-child { border-bottom:none; }
+.receipt-table td { padding:11px 16px; vertical-align:top; }
+.td-key { font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--label); letter-spacing:.03em; white-space:nowrap; width:34%; border-right:1px solid var(--border); }
+.td-val { font-family:var(--font-mono); font-size:12.5px; color:var(--text-reading); line-height:1.5; }
+.td-val .big { font-size:22px; font-weight:700; line-height:1; margin-right:8px; }
+@media (max-width:640px){ .receipt-table,.receipt-table tbody,.receipt-table tr,.receipt-table td{display:block;width:100%} .td-key{border-right:none;border-bottom:1px dashed var(--border);white-space:normal} }
+.count-note { font-family:var(--font-serif); font-size:16px; line-height:1.55; color:var(--muted-reading); margin-top:12px; max-width:none; }
+
+/* instrument (new) */
+.instrument { border:1px solid var(--border-2); border-radius:var(--r-lg); background:var(--surface-reading); padding:18px 20px; }
+.instrument .q { font-size:16.5px; line-height:1.5; color:var(--text-reading); margin-bottom:12px; max-width:none; }
+.instrument input[type=range] { width:100%; accent-color:var(--gold); }
+.instrument .levels { display:flex; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); text-transform:uppercase; margin-top:6px; }
+@media (max-width:640px){ .instrument .levels { flex-wrap:wrap; } .instrument .levels span { flex:1 1 45%; } }
+.instrument .read { margin-top:12px; display:grid; grid-template-columns:1fr; gap:8px; }
+.instrument .line { font-family:var(--font-mono); font-size:11.5px; line-height:1.5; padding:9px 12px; border-radius:var(--r-sm); border:1px solid var(--border); background:var(--surface-2); color:var(--muted-reading); }
+.instrument .line.ok { border-color:var(--green); color:var(--green); background:var(--green-bg); }
+.instrument .line.no { border-color:var(--red); color:var(--red); background:var(--red-bg); }
+.instrument .line.warn { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
+
+/* kit 09 rule */
+.banked-lesson { padding:14px 20px; background:var(--surface-reading); border:1px solid var(--border); border-radius:var(--r-md); font-family:var(--font-serif); font-size:16.5px; line-height:1.55; color:var(--muted-reading); text-align:center; font-style:italic; max-width:none; }
+.banked-lesson strong { color:var(--text-reading); font-style:normal; }
+.banked-lesson .proof { display:block; margin-top:8px; font-family:var(--font-mono); font-style:normal; font-size:11px; letter-spacing:.06em; color:var(--label); text-transform:uppercase; }
+
+/* tributaries + thread (new) */
+/* tributaries: a list, not three cards. Hairlines carry the separation; the chosen row lights its dot. */
+.trib { display:flex; flex-direction:column; border-top:1px solid var(--border); }
+.trib button { display:grid; grid-template-columns:18px 1fr; gap:14px; align-items:start; text-align:left; width:100%; font-family:var(--font-serif); font-size:16.5px; line-height:1.45; padding:14px 4px; min-height:44px; border:0; border-bottom:1px solid var(--border); background:transparent; color:var(--text-reading); cursor:pointer; transition:background .15s; }
+.trib button:hover { background:var(--surface-reading); }
+.trib button::before { content:''; width:10px; height:10px; margin-top:7px; border-radius:50%; border:1px solid var(--border-2); transition:background .15s, border-color .15s; }
+.trib button.on::before { background:var(--cyan); border-color:var(--cyan); }
+.trib button .t { min-width:0; }
+.trib button .k { display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan-dim); margin-bottom:4px; }
+.trib-note { font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; color:var(--label); margin-top:10px; }
+/* thread: plain rows above the footer */
+.thread { display:grid; grid-template-columns:1fr; gap:14px; padding-top:4px; }
+.thread .t { font-family:var(--font-serif); font-size:15.5px; line-height:1.5; color:var(--muted-reading); max-width:none; }
+.thread .t .k { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan-dim); display:block; margin-bottom:3px; }
+.thread .t.fwd .k { color:var(--gold); }
+/* the reader's score: one cyan hairline, no box */
+.result { border-top:1px solid var(--cyan); padding-top:14px; font-family:var(--font-serif); font-size:16.5px; line-height:1.55; color:var(--text-reading); max-width:none; }
+.result .k { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:6px; }
+footer .seam { color:var(--gold); display:block; margin-bottom:10px; }
+footer { border-top:1px solid var(--border); padding-top:14px; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em; line-height:1.75; color:var(--label); }
+@media (prefers-reduced-motion: reduce){ .beat-item,.twin-cell{transition:none} }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="mast">
+<div class="topbar"><span class="dot"></span><span>Today I Learned</span><span>//</span><span>Ep 01</span><span class="sp">Sibling of Notes from the Trenches</span></div>
+<div class="badges"><span class="badge light" id="light">YELLOW LIGHT</span><span class="badge power">NOT ENOUGH DATA · TRIED TWICE</span></div>
+
+<div>
+  <h1>Warmth <em>routes</em> you.<br>Only a job hires you.</h1>
+  <p class="standfirst" id="standfirst">Today I learned that two robots can set up a meeting and nobody in it can have a job. The boss's robot posted a puzzle. My robot solved it. Two weeks later the nicest person at the company wrote to say no thank you. Nobody lied. There was just no job, and every tool I own had told me that, and I colored the whole thing green anyway.</p>
+</div>
+</header>
+
+<!-- WAGER (new): predict before the reveal -->
+<div class="wager" id="wager" role="group" aria-labelledby="wagerLabel">
+  <h2 class="section-label" id="wagerLabel">Before you keep reading, guess</h2>
+  <p class="q">The boss of a big team says, in writing, that he wants me to meet his top guy. The recruiter likes me. The money is fine. She invites me to their secret bar. <b>Do I have a job within a month?</b></p>
+  <div class="row">
+    <button type="button" data-a="yes" aria-pressed="false">Yes</button><button type="button" data-a="no" aria-pressed="false">No</button>
+    <label>How sure <input type="range" id="sure" min="50" max="100" value="70"> <span id="sureVal">70%</span></label>
+  </div>
+  <div class="stored" id="stored">Your guess is kept in this browser only, and scored at the bottom. I said yes, at about seventy percent.</div>
+</div>
+
+<section>
+  <h2><span class="num">I</span>Two robots, no job</h2>
+  <p class="lead">The boss of a growth team put a riddle on the internet: have your agent talk to my agent. Mine did. I got fifteen minutes on his calendar, cut down from forty-five before it started. He was generous inside them. He named the part of his business he would start me in. He asked for something in writing he could pass around. I sent it that night, with a deck, with a joke on the last slide about his own hiring robot. Four days later he wrote back: he loved it, and here was his recruiter, and he'd love for me to meet the top guy.</p>
+  <p>Then I asked the one question that mattered, on the recruiter's call, in plain words: is this a real thing, or are you still figuring it out? And she told me the truth. A little of both. They were going to need someone. She and the boss and HR were still writing down what the job was. He had mostly wanted to see who would answer the riddle. Please be patient.</p>
+  <p>I heard every word of that and rendered it green. Sharp, high confidence, path to the top guy is clear. I have the page I made that afternoon. You'll see it below, next to what it should have said.</p>
+</section>
+
+<section>
+  <h2><span class="num">II</span>What everyone was careful with</h2>
+  <p>Here is the strange part, and it isn't anyone's fault. Everybody in this story was careful with time. Their own. The first call was booked for forty-five minutes and cut to fifteen before it started. The recruiter's thirty minutes ended because she was already late to the next thing. The boss's one request was for something easier to forward, which means: I like this, please do the part where I have to explain it. All of that is reasonable. Busy people ration their minutes. That's what busy means.</p>
+  <p>And then there's my time, which the same people handed out like it was free, because to them it was. Stay in touch. Send me a brief. Let's see how things evolve. Nobody says "there is no job" to a person they like, because it sounds unkind. So they say the kind thing, which costs them nothing and costs the person hearing it about two weeks. The nicer people are, the longer the no takes to arrive, and the longer it takes, the more websites you build while you wait.</p>
+  <p>I'd like to say I was the exception. I sent the recruiter homework before our call and five versions of her own job description after it. I guarded my minutes and spent theirs, same as everyone.</p>
+</section>
+
+<!-- BEATS (kit 06) at earned fidelity + TWIN (kit 14) -->
+<div>
+  <h2 class="section-label">What happened</h2>
+  <div class="beat-list" id="beats">
+    <div class="beat-item beat-green fid-sharp" data-earned="sharp"><div class="beat-number">1</div><div class="beat-content"><div class="beat-title">Day 1 · the call, and the deck that night</div><div class="beat-body">He named where he'd start me. He asked for something in writing. I sent it before midnight and told him the mandate mattered more than the title.</div></div><div class="beat-tag">WARM</div></div>
+    <div class="beat-item beat-green fid-sharp" data-earned="sharp"><div class="beat-number">2</div><div class="beat-content"><div class="beat-title">Day 5 · <q>loved what you built</q></div><div class="beat-body">He introduced the recruiter and asked, in writing, for me to meet his top guy. She sent a booking link within two hours. This was the high-water mark, and it was entirely warmth. Nobody mentioned a job.</div></div><div class="beat-tag">VOUCHED</div></div>
+    <div class="beat-item beat-gold fid-degraded" data-earned="degraded"><div class="beat-number">3</div><div class="beat-content"><div class="beat-title">Day 7 · the screen. I asked. She answered.</div><div class="beat-body"><q>A little bit of both. We are going to have a need. We're in the process of really defining what the job description can be. He just kind of wanted to see what type of response he would get.</q> And later: <q>I'll just ask for your patience because I don't have it fully baked right now.</q></div>
+      <div class="fidelity-twin"><div class="twin-cell as-rendered" id="asRendered"><span class="twin-label">What I drew that afternoon</span><p><b>Green light. Very sure. Sharp.</b> "Screen passed. She's an advocate, not a gatekeeper. Path to the top guy is clear."</p></div><div class="twin-cell as-earned" id="asEarned"><span class="twin-label">What the answer deserved</span><p><b>Yellow light. Blurry.</b> "She likes me. There is no job yet. The path to the top guy belongs to the boss, not to her." My own pre-call guess that a real job existed: about one in three.</p></div></div>
+    </div><div class="beat-tag">THE TURN</div></div>
+    <div class="beat-item beat-gold fid-degraded" data-earned="degraded"><div class="beat-number">4</div><div class="beat-content"><div class="beat-title">Day 7 to 8 · four things after the answer</div><div class="beat-body">Five versions of her job description. The interview questions she should ask. A ninety-day plan for a man I had never spoken to. Six little websites. A note to the boss. He never wrote back.</div></div><div class="beat-tag">CARDS HOT</div></div>
+    <div class="beat-item beat-steel fid-grain" data-earned="grain"><div class="beat-number">5</div><div class="beat-content"><div class="beat-title">Day 8 to 18 · nothing</div><div class="beat-body">No mail either way. Her "early next week" never came. My own reminder to check in with the boss came and went, and I didn't.</div></div><div class="beat-tag">QUIET</div></div>
+    <div class="beat-item beat-gold fid-degraded" data-earned="degraded"><div class="beat-number">6</div><div class="beat-content"><div class="beat-title">Day 19, noon · my wife reads the call notes</div><div class="beat-body"><q>I wouldn't focus on other roles or rushing people in an introduction, or pushing salary. Let them come back and actually meet and have a meeting with would-be boss.</q> She hadn't seen the ending. She named all three moves anyway.</div></div><div class="beat-tag">WITNESS</div></div>
+    <div class="beat-item beat-red fid-sharp" data-earned="sharp"><div class="beat-number">7</div><div class="beat-content"><div class="beat-title">Day 19, evening · the recruiter</div><div class="beat-body"><q>This decision is much more about timing and the opportunities we have available than it is about your capabilities. While we don't have a role in mind that's the right fit today, we would very much like to stay in touch.</q> My coach, which is a bot, read it the same night: they liked the work, they never had a job that matched the shape.</div></div><div class="beat-tag">THE NO</div></div>
+    <div class="beat-item beat-steel fid-grain" data-earned="grain"><div class="beat-number">8</div><div class="beat-content"><div class="beat-title">Day 21 · I take the websites down</div><div class="beat-body">Warm reply. Asked if the bar invitation still stood. Forwarded it all to the boss with "hope this isn't goodbye." Archived every page within the hour. No one wrote back. The invitation never came.</div></div><div class="beat-tag">CLOSED, WARM</div></div>
+  </div>
+</div>
+
+<!-- COUNT (kit 08) + power badge -->
+<div>
+  <h2 class="section-label">The count</h2>
+  <table class="receipt-table"><tbody>
+    <tr><td class="td-key">times I've done this</td><td class="td-val"><span class="big" style="color:var(--gold)">2</span>once here, once with a founder the year before</td></tr>
+    <tr><td class="td-key">someone important vouched</td><td class="td-val"><span class="big" style="color:var(--green)">2 of 2</span></td></tr>
+    <tr><td class="td-key">the job was written down anywhere</td><td class="td-val"><span class="big" style="color:var(--red)">0 of 2</span></td></tr>
+    <tr><td class="td-key">things I made after learning that</td><td class="td-val"><span class="big">4 + 3</span></td></tr>
+    <tr><td class="td-key">jobs</td><td class="td-val"><span class="big" style="color:var(--red)">0</span></td></tr>
+    <tr><td class="td-key">people who told me the rule</td><td class="td-val"><span class="big" style="color:var(--gold)">3</span>inside eight days</td></tr>
+    <tr><td class="td-key">days until I wrote it down as a rule</td><td class="td-val"><span class="big" style="color:var(--red)">60</span></td></tr>
+  </tbody></table>
+  <p class="count-note">Twice is not a pattern. It's a story with a spreadsheet, and the badge at the top says NOT ENOUGH DATA because that's true. What I'm allowed to say after two: the person who liked me most was never the person who could pay me, and I gave all my best stuff to the fan. What I'm not allowed to say: that this always happens. Ask me after twenty.</p>
+</div>
+
+<!-- INSTRUMENT (new): the tripwire, operable -->
+<div class="instrument" id="instrument" role="group" aria-labelledby="instLabel">
+  <h2 class="section-label" id="instLabel">Try the tripwire</h2>
+  <p class="q">Is there actually a job? Slide the dial and watch the page above change. Day 7 was a one.</p>
+  <input type="range" id="dial" min="0" max="3" value="1" step="1" aria-label="Is there actually a job, from 0 to 3">
+  <div class="levels"><span>0 · nobody who can hire</span><span>1 · described, not written</span><span>2 · written down</span><span>3 · written, funded, met</span></div>
+  <div class="read" aria-live="polite">
+    <div class="line" id="lineLight"></div>
+    <div class="line" id="lineTrip"></div>
+    <div class="line" id="lineAllowed"></div>
+  </div>
+</div>
+
+<blockquote>Time was the only thing in this story anybody spent freely, and it was always somebody else's.<cite>the line that has to survive</cite></blockquote>
+
+<section>
+  <h2><span class="num">III</span>The old story</h2>
+  <p>There's an old play where two men wait under a tree for a friend who sent word he's coming. Every evening a boy walks up and says not tonight, but surely tomorrow. They talk about leaving. They don't. The recruiter's last line was that she'd love to stay in touch as things change, and she meant it, and it's the boy's line, and the play has only ever ended one way.</p>
+  <p>The playwright left out the part where the men build six websites for the friend. That part's mine. I did it well. Two weeks later I took them all down in an hour, which is the closest I've come to leaving the tree.</p>
+</section>
+
+<section>
+  <h2><span class="num">IV</span>Steelman corner</h2>
+  <p>The best case for what I did: nothing was wasted. The stuff I made became the stuff I sent the next person, and it's why the recruiter still answers me. Friends don't expire. The answer back: a friend you can't turn into a job is a souvenir, and I treated souvenirs like money. The steelman wins on the friendship. It loses on the job.</p>
+  <p><b>Hot take.</b> When someone vouches for you, a no costs more, not less. A cold application says no quietly and costs a form. A vouched-for one says no after four things, six websites, and a bar you never go to. Here's how I'd know I'm wrong: if being vouched for into a job that's actually written down works as well as everyone says. I can check that. I haven't yet.</p>
+</section>
+
+<!-- RULE (kit 09) -->
+<div class="banked-lesson"><strong>The rule.</strong> Being liked gets you in the room. Only a real job gets you hired. I built a tripwire that won't let me color anything green when there's no job under it. It's thirty-one lines long and it would have stopped me both times before I made a single thing. I built it two months after three different people, one of them my wife, told me the rule inside of eight days. This week's time I fooled myself: this one.<span class="proof">Proof · the tripwire lives at commit 1586a7ab · the write-up at 131f55b7</span></div>
+
+<!-- WAGER RESULT -->
+<div class="result" id="result" hidden aria-live="polite"><span class="k">Your guess, scored</span><span id="resultText"></span></div>
+
+<!-- TRIBUTARIES (new) -->
+<div>
+  <h2 class="section-label" id="tribLabel">Three questions to ask next</h2>
+  <div class="trib" id="trib" role="group" aria-labelledby="tribLabel">
+    <button type="button" data-t="meta" aria-pressed="false"><span class="t"><span class="k">Underneath</span>How many other rules are sitting in my inbox, already said out loud, waiting for me to catch up?</span></button>
+    <button type="button" data-t="challenge" aria-pressed="false"><span class="t"><span class="k">Against me</span>Is a friend with no job really worth more than a stranger with one, or is that what I tell myself so I can keep building websites?</span></button>
+    <button type="button" data-t="adjacent" aria-pressed="false"><span class="t"><span class="k">Sideways</span>What if I'd offered to do the first sixty days as a project instead of asking for the job, and who has done that and gotten hired?</span></button>
+  </div>
+  <div class="trib-note" id="tribNote">Pick one. It becomes the next episode. Your pick is kept in this browser only.</div>
+</div>
+
+<!-- THREAD (new): back + forward -->
+<div class="thread">
+  <div class="t"><span class="k">Back · the sibling series</span><a href="https://good.arcs.care/blog/nftt/tuning-into-the-distortion-field">Tuning into the Distortion Field</a>: the same rule pointed at a company instead of at me. State the falsifier first, book the misses at full size, judge the series, not the call.</div>
+  <div class="t fwd"><span class="k">Forward · Ep 02</span>I Copied the Copy: I built the same page twice in one day, and the first one passed every test I had. That's a fact about the tests.</div>
+</div>
+
+<footer><span class="seam">Repaired before shipping, and kept on the record: ten labels too dim to read, a label sitting on top of the title, a glow, a third typeface, three cards that did not need to be cards, a line said twice, a list that fell apart one word per line, forty labels a size too small to read, and an opening paragraph blurred on purpose that looked blurred by accident. Nine seams. The record of each is in the source.</span><br>Built only from my own inbox and call notes. Names withheld; roles kept. No money figures. Every quote is verbatim. The other case, the founder the year before, is told in the count and not by name. Not advice about your job search. A story with a spreadsheet.</footer>
+</main>
+
+<script>
+(function(){
+  var ls={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  // wager
+  var sure=document.getElementById('sure'), sureVal=document.getElementById('sureVal'), stored=document.getElementById('stored');
+  sure.addEventListener('input',function(){sureVal.textContent=sure.value+'%'});
+  var ans=ls.get('til01.answer'); var s=ls.get('til01.sure');
+  document.querySelectorAll('#wager button').forEach(function(b){
+    if(ans===b.dataset.a){b.classList.add('on');b.setAttribute('aria-pressed','true')}
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#wager button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false')}); b.classList.add('on'); b.setAttribute('aria-pressed','true');
+      ls.set('til01.answer',b.dataset.a); ls.set('til01.sure',sure.value); ans=b.dataset.a; s=sure.value;
+      stored.textContent='Kept: '+b.dataset.a.toUpperCase()+', '+sure.value+'% sure. Scored at the bottom.'; score();
+    });
+  });
+  if(s){sure.value=s;sureVal.textContent=s+'%'}
+  function score(){
+    var r=document.getElementById('result'), t=document.getElementById('resultText'); if(!ans){r.hidden=true;return}
+    r.hidden=false;
+    if(ans==='no') t.textContent='You said no at '+s+'% sure. You were right, and you beat me: I said yes at seventy. The clue was in the recruiter\'s own sentence, "still defining what the job description can be." You read it. I rendered it green.';
+    else t.textContent='You said yes at '+s+'% sure. Same as me, and same result: there was no job to say yes to. Now you know what it felt like on Day 19. The clue was in the recruiter\'s own sentence, "still defining what the job description can be."';
+  }
+  score();
+  // instrument: the tripwire
+  var dial=document.getElementById('dial'), light=document.getElementById('light');
+  var L=document.getElementById('lineLight'), T=document.getElementById('lineTrip'), A=document.getElementById('lineAllowed');
+  var beats=document.querySelectorAll('#beats .beat-item');
+  var names=['nobody who can hire','described, not written','written down','written, funded, met'];
+  function setDial(v){
+    v=+v; dial.setAttribute('aria-valuetext',names[v]);
+    var green=v>=3, yellow=v===2;
+    light.textContent= green?'GREEN LIGHT':(yellow?'YELLOW LIGHT':'NO GREEN LIGHT · LEVEL '+v);
+    light.className='badge light'+(green?' green':(yellow?'':' red'));
+    L.className='line '+(green?'ok':(yellow?'warn':'no'));
+    L.textContent= green?'✓ light: green. The person who can say yes has said the words to you.':(yellow?'~ light: yellow. A job is written down somewhere. Being vouched for starts to count.':'✖ light: no green allowed. Nobody has written the job down. Being liked is real. It is not a job.');
+    T.className='line '+(v<=1?'no':'ok');
+    T.textContent= v<=1?'✖ tripwire: you tried to color this green with no job under it. Blocked.':'✓ tripwire: nothing to block. Draw it as sharp as you like.';
+    A.className='line '+(v<=1?'warn':'ok');
+    A.textContent= v<=1?'allowed at this level: one small project offer they can say yes to without inventing a job. Not five job descriptions. Not a ninety-day plan for a stranger. Not a word about money.':(v===2?'allowed: the normal things. A note, a deck, the questions you would ask any recruiter.':'allowed: everything. Including the ninety-day plan.');
+    beats.forEach(function(b){
+      var e=b.dataset.earned; b.className=b.className.replace(/fid-\w+/,'');
+      if(v<=1) b.classList.add('fid-'+e); else if(v===2) b.classList.add(e==='grain'?'fid-degraded':'fid-sharp'); else b.classList.add('fid-sharp');
+    });
+    var ar=document.getElementById('asRendered'), ae=document.getElementById('asEarned');
+    ar.style.opacity= v<=1?'.55':'1'; ae.style.opacity= v<=1?'1':'.55';
+  }
+  dial.addEventListener('input',function(){setDial(dial.value)}); setDial(dial.value);
+  // tributaries
+  var pick=ls.get('til01.trib'), note=document.getElementById('tribNote');
+  document.querySelectorAll('#trib button').forEach(function(b){
+    if(pick===b.dataset.t){b.classList.add('on');b.setAttribute('aria-pressed','true')}
+    b.addEventListener('click',function(){document.querySelectorAll('#trib button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false')});b.classList.add('on');b.setAttribute('aria-pressed','true');ls.set('til01.trib',b.dataset.t);note.textContent='Kept. You picked "'+b.querySelector('.k').textContent+'". That is your vote for Ep 02.';});
+  });
+  if(pick) note.textContent='Kept. You picked "'+(document.querySelector('#trib button.on .k')||{}).textContent+'". That is your vote for Ep 02.';
+})();
+</script>
+</body>
+</html>

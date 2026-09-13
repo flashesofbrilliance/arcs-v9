@@ -1,0 +1,241 @@
+<title>Closing the Loop: Receipts on Three Predictions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .cover{display:block; width:100%; height:auto; border-radius:12px;
+    border:1px solid var(--border); margin:6px 0 4px; background:var(--surface-2)}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true" style="background:var(--cyan)"></span>
+    <span>Field Account</span>
+    <span>Sources Linked</span>
+    <span class="sp"><b style="color:var(--cyan)">Record: closed</b></span>
+  </div>
+
+  <img class="cover" src="/blog-nftt-closing-the-loop-receipts-hero.jpg" width="1280" height="853" alt="A luminous Mobius figure-eight drawing tight, the same loop seen as it closes.">
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // A calibration receipt</p>
+    <h1>Closing the Loop: <em>Receipts on Three Predictions</em></h1>
+    <p class="standfirst">Three dated, public calls about Apple, made between January and May 2026, each with a stated falsifier attached in advance. Here is how they resolved, including the one number I had wrong.</p>
+    <p class="byline">Predictions dated at time of publication · Resolutions checked against Apple's own filings and primary reporting · One correction owned, in full</p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; Why keep the receipts</span>
+    <p class="lead">Predictions are only worth the falsifier attached to them. Anyone can be right about Apple in hindsight; the harder discipline is writing down, before the fact, exactly what would prove you wrong, then checking back once the fact is no longer avoidable. Between January and May 2026 I published three pieces arguing that Apple's apparent weaknesses (a "behind on AI" narrative, a memory-cost headwind, a succession question) were being misread by the coverage. Each piece named a specific, checkable condition under which the argument would fail. This is the accounting.</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; Three predictions, dated</span>
+    <p>The first, published January 30, 2026 ("$2B Poker Face"), read Apple's Q.ai acquisition as a hardware-mandate signal and named John Ternus, then head of Hardware Engineering, as Tim Cook's "presumptive heir." The second, published February 19, 2026 ("The Bloomberg Op-Ed Is Wrong About Tim Cook"), argued that Apple's unified-memory architecture would let gross margin hold above a stated 47% floor through the memory-cost supercycle, and set that 47% line as the explicit falsifier. The third, published May 25, 2026 ("Apple's AI Strategy Wasn't Late. The Coverage Was."), argued that Apple's iOS 27 "Extensions" system would open real third-party model routing rather than functioning as, in the piece's own words, "a walled choice menu", and pointed at the coming WWDC keynote as the test.</p>
+    <p>All three are linked in the footer. None of the language below was written after the fact; it is quoted from what was published at the time.</p>
+  </section>
+
+  <section>
+    <span class="num">III &middot; The calibration table</span>
+    <h2>Three claims, three falsifiers, three checks against the public record</h2>
+
+    <div class="panel">
+      <h4>Calibration table &middot; resolved against primary sources</h4>
+      <p style="margin:0 0 14px">Prediction 1 &middot; CEO succession &middot; dated Jan 30, 2026</p>
+      <div class="step">
+        <span class="k">Claim</span><b>Ternus named Cook's "presumptive heir," reading the Q.ai deal as a hardware-mandate signal.</b>
+        <span class="k">Falsifier</span><b class="df">A directional call, not a numeric one: no named successor by a stated date.</b>
+        <span class="k">Resolution</span><b>Transition announced Apr 20, 2026; Ternus became CEO effective Sep 1, 2026; Cook moved to executive chairman.</b>
+        <span class="k">Status</span><b style="color:var(--cyan)">CONFIRMED</b>
+      </div>
+      <p style="margin:22px 0 14px">Prediction 2 &middot; gross margin floor &middot; dated Feb 19, 2026</p>
+      <div class="step">
+        <span class="k">Claim</span><b>Unified-memory architecture holds gross margin above the stated floor through the memory-cost supercycle.</b>
+        <span class="k">Falsifier</span><b class="df">"If Apple's gross margins fall materially below 47% in Q2 2026 due to memory costs&hellip; the argument weakens significantly."</b>
+        <span class="k">Resolution</span><b>Q2 FY26 gross margin: 49.3%. Q3 FY26: 50.1%, including roughly a 2-point tariff-refund tailwind.</b>
+        <span class="k">Status</span><b style="color:var(--cyan)">CONFIRMED, with a correction owned below</b>
+      </div>
+      <p style="margin:22px 0 14px">Prediction 3 &middot; platform control, not cosmetic &middot; dated May 25, 2026</p>
+      <div class="step">
+        <span class="k">Claim</span><b>iOS 27 "Extensions" opens real third-party model routing rather than a cosmetic compatibility layer.</b>
+        <span class="k">Falsifier</span><b class="df">"The iOS 27 'Extensions' system doesn't open a real developer ecosystem; it's a walled choice menu."</b>
+        <span class="k">Resolution</span><b>Confirmed at WWDC 2026 (June 8): a system-wide framework routing Apple Intelligence, Siri, Writing Tools, and Image Playground to Gemini, Claude, and ChatGPT.</b>
+        <span class="k">Status</span><b style="color:var(--cyan)">CONFIRMED as real, not graded on reach</b>
+      </div>
+      <p>Three for three against falsifiers stated in advance, before the outcome was known. None resolved without a caveat attached, and one of those caveats is a correction, not a footnote.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; The one number I had wrong</span>
+    <p>The Q2 gross-margin figure in an earlier internal draft of this piece read 48.7%. That number is wrong. The reported figure, confirmed against MacRumors' coverage of the April 2026 earnings call and Apple's own Q3 newsroom release, is 49.3%. I am correcting it here rather than quietly fixing it and moving on, because the entire point of a calibration exercise is that the correction is part of the record, not an embarrassment to route around.</p>
+    <p>The Q3 figure carries its own caveat, and it is a more important one than the Q2 typo. The 50.1% gross margin reported for Q3 FY26 included an estimated 2-percentage-point favorable impact from tariff refunds, a one-off. Presented without that disclosure, 50.1% reads as pure structural margin strength. It is not. Strip the tariff refund and the underlying number is closer to the low-to-mid 48% range, still above the stated 47% floor, but by a narrower margin than the headline figure implies. The falsifier held. The size of the win was smaller than the unadjusted number suggests, and saying so is what makes the confirmation worth trusting.</p>
+  </section>
+
+  <section>
+    <span class="num">V &middot; What "confirmed" does not mean</span>
+    <p>Two more distinctions matter, both in the direction of restraint rather than overclaim.</p>
+    <p>The succession call was directional, made roughly seven months before the effective date, naming a person rather than predicting a mechanism or a date. It resolved as stated. It should not be read as more precise than it was: the original piece named a likely heir on the strength of an internal capital-allocation signal, not a leaked transition memo.</p>
+    <p>The Extensions call is confirmed as a real, system-wide routing framework, announced at WWDC. It is not confirmed as general availability to every user, and this piece does not claim that. The falsifier named in the original article was whether Extensions would be "a real developer ecosystem" or "a walled choice menu." What resolved is the architecture question, not the adoption curve. Anyone citing this piece for a claim about current end-user rollout is citing it for something it does not say.</p>
+  </section>
+
+  <section>
+    <span class="num">VI &middot; Pre-mortem: the Convex Skeptic</span>
+    <p>The obvious objection to a piece like this is that it is survivorship dressed up as calibration. Three hits, presented after the fact, with no visible losses, prove nothing except that the author is good at remembering the calls that landed and quiet about the ones that did not. That objection deserves a direct answer, not a wave.</p>
+
+    <div class="panel">
+      <h4>Pre-mortem &middot; the Convex Skeptic vs. the record</h4>
+      <div class="step">
+        <span class="k">Skeptic says</span><b>Three wins out of an unknown, unpublished denominator is not evidence of a working method; it is cherry-picking dressed as rigor.</b>
+        <span class="k">Record shows</span><b>All three predictions were public, dated, and falsifiable at time of publication, not selected afterward from a larger private set. The falsifier language quoted in Section II is verbatim from the original articles, not reconstructed here.</b>
+        <span class="k">Skeptic says</span><b>A generous author picks a falsifier easy to clear, which is not the same as being right.</b>
+        <span class="k">Record shows</span><b>The margin falsifier (47%) was a real, specific number that Apple could have missed under a plausible memory-cost scenario; the Extensions falsifier ("walled choice menu") was a real, specific outcome Apple could have shipped instead. Neither was a coin flip dressed as a test, and the Q2 correction above shows the check was actually run against primary sources, not asserted.</b>
+        <span class="k">Skeptic says</span><b>Three data points, over four months, on one company, is too thin a sample to call a "system."</b>
+        <span class="k">Record shows</span><b>Correct, and this piece does not call it a system. It calls it a decision architecture: dated priors, stated falsifiers, and a public correction when the record and the draft disagreed. The method is what is being demonstrated, not a claim of general accuracy across an unstated track record.</b>
+      </div>
+      <p>The skeptic's strongest version of the objection is not answered by these three predictions alone. It is answered by whether the same discipline, falsifier stated before the fact, correction owned after it, holds on the next three.</p>
+    </div>
+
+    <blockquote>The difference between a hot take and a decision architecture is not confidence. It is whether the falsifier was written down before anyone knew the answer.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VII &middot; What this is for</span>
+    <p>This is not a claim that the underlying method produces certainty. Two of the three claims (the succession call, the Extensions architecture call) were directional reads of publicly visible incentive structures, not statistical forecasts, and the sample here is three predictions across four months on one company. What it demonstrates is narrower and, I think, more useful in a principal-investor conversation than a scorecard: that a falsifier stated in advance and a correction issued in public are cheaper to produce than most people assume, and that doing both changes what a prediction is worth to the person reading it afterward.</p>
+    <p>The next test of the same discipline is already running. Whatever gets published next carries the same rule: name the falsifier before the outcome is known, and if a number in the draft turns out wrong, say so in the same place the wrong number appeared.</p>
+  </section>
+
+  <footer>
+    <b>Source articles, in order:</b><br>
+    <a href="https://www.linkedin.com/pulse/2b-poker-face-how-apples-ai-panic-actually-just-trap-zach-harris-tlmye" style="color:var(--cyan)">"$2B Poker Face: How Apple's 'AI Panic' Is Actually Just A Trap"</a> &middot; Jan 30, 2026<br>
+    <a href="https://www.linkedin.com/pulse/bloomberg-op-ed-wrong-tim-cook-heres-why-zach-harris-apnue" style="color:var(--cyan)">"The Bloomberg Op-Ed Is Wrong About Tim Cook&hellip; Here's Why"</a> &middot; Feb 19, 2026<br>
+    <a href="https://www.linkedin.com/pulse/apples-ai-strategy-wasnt-late-coverage-zach-harris-v0ete" style="color:var(--cyan)">"Apple's AI Strategy Wasn't Late. The Coverage Was."</a> &middot; May 25, 2026<br>
+    <br>
+    <b>Resolution sources:</b><br>
+    <a href="https://www.apple.com/newsroom/2026/04/tim-cook-to-become-apple-executive-chairman-john-ternus-to-become-apple-ceo/" style="color:var(--cyan)">Apple Newsroom, Apr 20, 2026: CEO transition announcement</a><br>
+    <a href="https://abcnews.com/Business/wireStory/apples-new-ceo-john-ternus-takes-tim-cook-136110307" style="color:var(--cyan)">ABC News wire: Ternus takes over from Cook</a><br>
+    <a href="https://www.macrumors.com/2026/04/30/apple-2q-2026-earnings/" style="color:var(--cyan)">MacRumors: Q2 FY26 earnings (49.3% gross margin)</a><br>
+    <a href="https://www.apple.com/newsroom/2026/07/apple-reports-third-quarter-results/" style="color:var(--cyan)">Apple Newsroom: Q3 FY26 results</a><br>
+    <a href="https://www.sec.gov/Archives/edgar/data/0000320193/000032019326000018/a8-kex991q3202606272026.htm" style="color:var(--cyan)">SEC 8-K, Q3 FY26</a><br>
+    <a href="https://www.macrumors.com/2026/07/30/apple-3q-2026-earnings/" style="color:var(--cyan)">MacRumors: Q3 FY26 earnings (50.1% gross margin)</a><br>
+    <a href="https://www.technology.org/2026/05/06/ios-27-to-let-users-pick-their-ai-gemini-claude-and-more-coming-to-siri/" style="color:var(--cyan)">technology.org: iOS 27 Extensions reporting</a><br>
+    <a href="https://beam.ai/agentic-insights/apple-wwdc-2026-ios-27-agent-extensions-enterprise" style="color:var(--cyan)">beam.ai: WWDC 2026 Extensions writeup</a><br>
+    <br>
+    <b>Field account, 2026.</b> Three predictions, three falsifiers, one correction. Nothing in the resolution table above was checked by the author alone; every figure is sourced to the link beside it.
+  </footer>
+</div>

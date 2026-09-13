@@ -1,0 +1,153 @@
+{
+ "spec_id": "bridge-scan",
+ "version": "1.1",
+ "score_version": "bridge-1.1",
+ "lane": "bridge",
+ "registered": "2026-09-11",
+ "source": "_STATE/job-search/hypothesis-ledger.md (bridge lane); Fanatics lesson (req_reality anchor)",
+ "purpose": "Rank BRIDGE-lane roles by shoot-to-win: fit x win-probability. A bridge job is a stable, winnable operator role that protects the ARCS bet. It is NOT graded on FDE / applied-AI fit (that is runtime/specs/target-role-scan.json v1.3, untouched). Every dimension here is a win-probability lever first and a fit lever second.",
+ "candidate_frame": "The candidate is a twenty-year operator, not a software-engineer applicant: senior-manager / director-level across GTM, RevOps, business systems, product, data and commercial ops in regulated companies (SEC/FINRA at a $7B AUM asset manager; HIPAA digital health at $350M ARR; gov at Axon). He also builds AI/automation systems himself (an LLM/agent pipeline on Claude + MCP in production) and brings that into ops/GTM workflows as a differentiator, but he is not competing for AI-lab or elite product-engineering seats. Bridge target: senior / staff / lead / senior-manager / director operator roles at established, stable, non-AI-native companies that are adopting AI, where the applicant pool is thin for an operator who can also build. Based in Fairfield CT: NYC hybrid or remote-US.",
+ "rubric": {
+  "scale": "0-3 per dimension, integer, composite = sum(score*weight)/max",
+  "dims": [
+   {
+    "key": "req_reality",
+    "label": "Req reality",
+    "weight": 5,
+    "anchor0": "evergreen / talent-community / 'general application' / a vague grab-bag of responsibilities with no team, reporting line, level, or concrete scope: the role reads as aspirational or invent-the-role. The Fanatics lesson: a req that does not really exist has ~0 win probability regardless of fit, so this dimension dominates",
+    "anchor3": "live, specific req: named team and reporting line, concrete responsibilities and first-year outcomes, a defined level, recently posted or updated on the company's own ATS"
+   },
+   {
+    "key": "competition_density",
+    "label": "Winnability vs applicant pool (inverse of competition density)",
+    "weight": 5,
+    "anchor0": "elite-eng / AI-lab / prestige hiring bar where hundreds of near-identical senior applicants compete (AI-native product engineering, research, 'top 1%' framing), OR a generic mass-applicant title (Product Manager, Analyst, Program Manager) at a brand everyone applies to",
+    "anchor3": "established, non-AI-native company adopting AI where the pool is thin for an operator who can also build; a niche cross-functional shape (RevOps x systems x AI, GTM systems, product operations, enablement, transformation) that filters out most applicants"
+   },
+   {
+    "key": "level_fit",
+    "label": "Level fit",
+    "weight": 4,
+    "anchor0": "junior / entry / associate / coordinator, OR VP / SVP / EVP / C-level where a twenty-year operator without that title history is an outside shot. Senior Director and Director are inside the target, not above it",
+    "anchor3": "senior / staff / lead / senior manager / director / senior director: exactly where two decades of operator experience lands and is credible on paper"
+   },
+   {
+    "key": "shape_fit",
+    "label": "Role-shape fit (operator x regulated x product/AI/ops)",
+    "weight": 4,
+    "anchor0": "a single-lane specialist the candidate has never been: pure quota-carrying sales, pure backend software engineer, pure accountant, pure designer, pure recruiter",
+    "anchor3": "operator x regulated x product/AI/ops leadership: GTM systems, RevOps, business systems, product operations, AI enablement / transformation, strategy & operations, solutions leadership, deal desk, commercial operations"
+   },
+   {
+    "key": "stability_parent_signal",
+    "label": "Stability of the parent",
+    "weight": 3,
+    "anchor0": "pre-PMF or runway-constrained startup, recent layoffs / restructuring, or a role explicitly created by turmoil (backfill after an exodus, 'help us through the transition')",
+    "anchor3": "public or late-stage profitable company with durable revenue, hiring across many functions, no distress signals in the posting"
+   },
+   {
+    "key": "edge_rewarded",
+    "label": "Is the AI-builder edge a differentiator (not the bar)?",
+    "weight": 3,
+    "anchor0": "AI / automation is irrelevant to the role, OR AI IS the product and the bar is AI-lab credentials (that is the other lane, not a bridge)",
+    "anchor3": "the JD explicitly wants someone to bring AI / automation / LLM tooling into GTM, ops, systems, or product workflows; hands-on building is a differentiator that few applicants for this title have, not the hiring bar"
+   },
+   {
+    "key": "logistics",
+    "label": "Logistics",
+    "weight": 2,
+    "anchor0": "on-site outside the NY metro with no remote option",
+    "anchor3": "NYC hybrid, or remote-US"
+   },
+   {
+    "key": "comp_floor",
+    "label": "Comp floor",
+    "weight": 2,
+    "anchor0": "disclosed comp clearly below senior-operator level (base under ~$150K). If comp is NOT stated in the JD, score 2 (neutral), never 0",
+    "anchor3": "disclosed comp at or above ~$180K base, or an explicit senior / director band"
+   },
+   {
+    "key": "warm_path",
+    "label": "Warm path",
+    "weight": 1,
+    "anchor0": "cold. Score 0 unless the row's caller notes name a warm path; never infer one from the JD",
+    "anchor3": "a named referral / intro / prior relationship in the row's caller notes"
+   }
+  ],
+  "max": 87,
+  "jd_chars": 9000,
+  "strict_gates": true,
+  "gates": [
+   "evergreen / talent-community / no live req",
+   "junior/entry leveling",
+   "VP+ / C-level leveling",
+   "on-site outside NY-metro with no remote",
+   "AI-lab or research-scientist hiring bar",
+   "pure quota-carrying sales rep",
+   "FDE-lane title (score under target-role-scan)"
+  ],
+  "scoring_notes": [
+   "This is a win-probability lens. When fit and winnability conflict, winnability decides: a perfect-fit role with a prestige applicant stampede scores lower than a good-fit role where the pool is thin.",
+   "req_reality is graded on the POSTING's specificity, not on the company's brand. A famous company can still post a phantom req.",
+   "competition_density is scored as winnability: 3 = thin pool, 0 = stampede. Do not confuse it with role quality.",
+   "A generic title (Product Manager, Program Manager, Analyst) at a large brand is a stampede by default unless the JD narrows the shape to something few applicants have.",
+   "Do not reward AI-nativeness for its own sake here. Reward the case where the company is adopting AI and needs an operator who can also build.",
+   "GATE DISCIPLINE: a gate fires ONLY when the posting literally matches it (a talent-community / evergreen posting; a title or level line that says junior/associate/entry, or VP/SVP/Chief; an explicit on-site-only location outside the NY metro; an explicit PhD / publications / research-scientist bar; a quota-carrying individual sales rep). A Senior Product Manager posting is NOT a VP+ gate and NOT an AI-lab gate. When in doubt, do not fire a gate: score the relevant dimension low instead. A false gate costs more than a low score.",
+   "Datadog / MongoDB / Ramp style Senior PM postings: elite-eng employer but the PM pool is a stampede, not an AI-lab bar. Score competition_density 0-1 and leave gates empty.",
+   "LEVEL GATE: 'VP+ / C-level leveling' fires ONLY on titles containing VP, Vice President, SVP, EVP, Chief, or C-suite. Senior Director, Director, Head of, and Group/Principal titles are inside the level target: never gate them, score level_fit 2-3.",
+   "AI-LAB GATE: 'AI-lab or research-scientist hiring bar' fires ONLY when the posting requires a research record (PhD, first-author publications, Research Scientist / Member of Technical Staff at a lab, training models at scale). A Senior / Staff AI Engineer, Applied AI Engineer, or ML Engineer req at a product company is the OTHER lane, not a gate: leave gates empty and score shape_fit 0-1 and competition_density 0-1 so it falls to PASS or CONSIDER on the numbers."
+  ],
+  "bands": {
+   "pursue": 0.7,
+   "consider": 0.55
+  },
+  "board_cutoff": 0.55,
+  "tiers": {
+   "t1": 0.8,
+   "t2": 0.7,
+   "t3": 0.55
+  },
+  "competition_read": {
+   "note": "derived from the competition_density dim for reporting: 3 = LOW competition, 2 = MED, 1 = HIGH, 0 = STAMPEDE",
+   "3": "LOW",
+   "2": "MED",
+   "1": "HIGH",
+   "0": "STAMPEDE"
+  },
+  "gate_rules": {
+   "VP+ / C-level leveling": {
+    "title": "\\b(VP|Vice President|SVP|EVP|Chief|C[A-Z]O)\\b"
+   },
+   "junior/entry leveling": {
+    "title": "\\b(Junior|Associate|Entry|Coordinator|Intern|Analyst I|Specialist I)\\b|\\bI\\s*$"
+   },
+   "AI-lab or research-scientist hiring bar": {
+    "jd": "\\b(PhD|Ph\\.D|first[- ]author|publications?|research scientist|member of technical staff|NeurIPS|ICML|ICLR)\\b"
+   },
+   "pure quota-carrying sales rep": {
+    "title": "\\b(Account Executive|AE|SDR|BDR|Sales Development|Sales Representative|Sales Rep)\\b"
+   },
+   "on-site outside NY-metro with no remote": {
+    "jd": "\\b(on-?site|in[- ]office)\\b"
+   }
+  },
+  "mechanical_gates": {
+   "FDE-lane title (score under target-role-scan)": {
+    "title": "\\b(Forward[- ]Deployed|FDE|Software Engineer|AI Engineer|ML Engineer|Machine Learning Engineer|Research Scientist|Applied Scientist|Member of Technical Staff|Staff Engineer|Senior Engineer)\\b"
+   }
+  }
+ },
+ "proof_rows": {
+  "note": "fails-on-bad / passes-on-good fixtures for the scorer gate; eval-* jobids never persist (no board row to update). Run: node scripts/jobs_bridge_sweep.mjs --proof",
+  "expect": {
+   "eval-bridge-good": "PURSUE or CONSIDER, no gates",
+   "eval-bridge-bad-phantom": "PASS via gate 'evergreen / talent-community / no live req' or req_reality <= 1",
+   "eval-bridge-bad-stampede": "PASS via gate 'AI-lab or research-scientist hiring bar' or competition_density = 0",
+   "eval-bridge-good-senior-director": "PURSUE or CONSIDER, no gates (Senior Director is inside the level target)"
+  }
+ },
+ "changelog": {
+  "1.1": "2026-09-13: gate discipline. (a) 'VP+ / C-level leveling' fires only on VP, SVP, EVP, or C-level titles; Senior Director / Director / Head of are INSIDE the level target. (b) 'AI-lab or research-scientist hiring bar' fires only when the posting REQUIRES a research record (PhD, publications, research-scientist title, model training at scale); an AI Engineer / Applied AI Engineer / ML Engineer title at a non-lab company is NOT the gate: leave gates empty and score shape_fit and competition_density low instead. Both misfires observed on the v1.0 pass (MongoDB Senior Director gated as VP+; Ramp Applied AI Engineer and Oscar Staff AI Engineer gated as AI-lab). Mechanical gate rules added the same day after the notes alone did not hold on a 586-row drain (a Director still read as VP+, a Senior PM as AI-lab): gate_rules validate every model gate against a title/JD regex, mechanical_gates add an FDE-lane title gate. Applied in POST /api/jobs/score when the spec carries them (FDE spec does not).",
+  "1.0": "2026-09-11: initial win-probability lens."
+ }
+}

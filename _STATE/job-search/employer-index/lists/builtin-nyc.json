@@ -1,0 +1,1507 @@
+{
+  "list": "Built In Best Places to Work NYC",
+  "edition": "2026",
+  "sources": [
+    "https://builtin.com/awards/new-york-city/2026/best-places-to-work",
+    "https://builtin.com/awards/new-york-city/2026/best-large-places-to-work",
+    "https://builtin.com/awards/new-york-city/2026/best-midsize-places-to-work",
+    "https://builtin.com/awards/new-york-city/2026/best-startup-places-to-work",
+    "https://builtin.com/awards/new-york-city/current/best-places-to-work"
+  ],
+  "complete": false,
+  "note": "Retrieved via WebFetch (rendered page text, not raw API), not a browser click-through, so each list may be truncated by 'Show N More' pagination the fetch could not trigger. Counts retrieved: 100-best/main list 75 companies (title implies up to ~100, so likely partial); Best Large 72 companies (page title implies ~100, likely partial); Best Midsize 77 companies (page title implies ~100, likely partial); Best Startups (small) 50 companies (page/title language ('50 Best Startups') matches exactly, so this sublist is likely complete). No dedicated 'Best Hybrid Places to Work' or 'Best Paying Companies' sub-award page exists for NYC 2026 on builtin.com/builtinnyc.com as of 2026-09-11 -- searches and the 'current' awards page only surfaced Company Size filters (All/Startup 0-100/Midsize 101-1000/Large 1000+), no hybrid or best-paying NYC-specific award category was found for this edition; those tags are therefore absent from every company below. 'size' field holds the employee-headcount figure shown on that company's award-page listing (not the sublist's own numeric employee-tier label) when available, else null. Names are verbatim from Built In's page text (e.g. 'Cash App', 'monday.com', 'RocketReach.co', 'FanDuel'/'Fanduel' spelling variance preserved as seen in the source, not normalized).",
+  "companies": [
+    {
+      "name": "Abridge AI",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "adMarketplace",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Adyen",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "4,568"
+    },
+    {
+      "name": "Affirm",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "2,200"
+    },
+    {
+      "name": "Afterpay",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "900"
+    },
+    {
+      "name": "AKASA",
+      "sublists": [
+        "small"
+      ],
+      "size": "100"
+    },
+    {
+      "name": "Alloy",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Altice USA",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Applecart",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Arthur",
+      "sublists": [
+        "small"
+      ],
+      "size": "51"
+    },
+    {
+      "name": "Asana",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "AssemblyAI",
+      "sublists": [
+        "small"
+      ],
+      "size": "75"
+    },
+    {
+      "name": "Atlassian",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "AvePoint",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "BCG X",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Belvedere Trading",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "265"
+    },
+    {
+      "name": "BetMGM",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "BetterUp",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "510"
+    },
+    {
+      "name": "BlackLine",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Block",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "12,000"
+    },
+    {
+      "name": "Bombora",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Box",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "2,500"
+    },
+    {
+      "name": "Braze",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Brigit",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Brilliant Earth",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Bubble",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Button",
+      "sublists": [
+        "small"
+      ],
+      "size": "58"
+    },
+    {
+      "name": "Cadre",
+      "sublists": [
+        "small"
+      ],
+      "size": "60"
+    },
+    {
+      "name": "CAIS",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Carbon Direct",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Carta",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Cash App",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "3,500"
+    },
+    {
+      "name": "Catalyst Software",
+      "sublists": [
+        "small"
+      ],
+      "size": "90"
+    },
+    {
+      "name": "Cboe Global Markets",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Cedar",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Celonis",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Chapter",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Check",
+      "sublists": [
+        "small"
+      ],
+      "size": "100"
+    },
+    {
+      "name": "Chime",
+      "sublists": [
+        "100 best"
+      ],
+      "size": null
+    },
+    {
+      "name": "Chronosphere",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Circle",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "1,050"
+    },
+    {
+      "name": "Citizens",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Clay",
+      "sublists": [
+        "100 best",
+        "small"
+      ],
+      "size": "93"
+    },
+    {
+      "name": "Clearwater Analytics",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Click Therapeutics",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Cloudflare",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Collectors",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Contentsquare",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Coro",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Crunchyroll",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "DailyPay",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "DAS42",
+      "sublists": [
+        "small"
+      ],
+      "size": "40"
+    },
+    {
+      "name": "Datadog",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "DISQO",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Distributional",
+      "sublists": [
+        "small"
+      ],
+      "size": "24"
+    },
+    {
+      "name": "DoStuff",
+      "sublists": [
+        "small"
+      ],
+      "size": "64"
+    },
+    {
+      "name": "DraftKings",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Dropbox",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "2,500"
+    },
+    {
+      "name": "DRW",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Electric",
+      "sublists": [
+        "small"
+      ],
+      "size": "75"
+    },
+    {
+      "name": "Enigma",
+      "sublists": [
+        "small"
+      ],
+      "size": "71"
+    },
+    {
+      "name": "Enova",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "1,848"
+    },
+    {
+      "name": "Envoy",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "EquityMultiple",
+      "sublists": [
+        "small"
+      ],
+      "size": "45"
+    },
+    {
+      "name": "Ethic",
+      "sublists": [
+        "small"
+      ],
+      "size": "74"
+    },
+    {
+      "name": "EvolutionIQ",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "220"
+    },
+    {
+      "name": "Fanduel",
+      "sublists": [
+        "100 best"
+      ],
+      "size": null
+    },
+    {
+      "name": "FanDuel",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Flatfile",
+      "sublists": [
+        "small"
+      ],
+      "size": "55"
+    },
+    {
+      "name": "Flatiron Health",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Flourish",
+      "sublists": [
+        "100 best",
+        "small"
+      ],
+      "size": "93"
+    },
+    {
+      "name": "Fora",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Galileo",
+      "sublists": [
+        "small"
+      ],
+      "size": "73"
+    },
+    {
+      "name": "GameChanger",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "260"
+    },
+    {
+      "name": "Genius Sports",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Greenhouse Software",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Grocery TV",
+      "sublists": [
+        "small"
+      ],
+      "size": "56"
+    },
+    {
+      "name": "Grow Therapy",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "460"
+    },
+    {
+      "name": "Grubhub",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "GumGum",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Gusto",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Gynger",
+      "sublists": [
+        "small"
+      ],
+      "size": "36"
+    },
+    {
+      "name": "Healthee",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Healthie",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "HiBob",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Hometap",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "iCapital",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "IEX Group",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Inato",
+      "sublists": [
+        "small"
+      ],
+      "size": "63"
+    },
+    {
+      "name": "Industrious",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Integral Ad Science",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "January",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "JuiceMedia.AI",
+      "sublists": [
+        "small"
+      ],
+      "size": "68"
+    },
+    {
+      "name": "Kargo",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Kensho Technologies",
+      "sublists": [
+        "small"
+      ],
+      "size": "175"
+    },
+    {
+      "name": "Kinship",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Kizen",
+      "sublists": [
+        "small"
+      ],
+      "size": "68"
+    },
+    {
+      "name": "Knotch",
+      "sublists": [
+        "small"
+      ],
+      "size": "52"
+    },
+    {
+      "name": "Leaf Home",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Liftoff",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Luminary",
+      "sublists": [
+        "small"
+      ],
+      "size": "20"
+    },
+    {
+      "name": "Lyra Collective",
+      "sublists": [
+        "100 best",
+        "small"
+      ],
+      "size": "80"
+    },
+    {
+      "name": "M13",
+      "sublists": [
+        "small"
+      ],
+      "size": "40"
+    },
+    {
+      "name": "Macquarie Group",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Madhive",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "MaestroQA",
+      "sublists": [
+        "small"
+      ],
+      "size": "67"
+    },
+    {
+      "name": "Magnite",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "MarketAxess",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "892"
+    },
+    {
+      "name": "MassMutual",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "6,000"
+    },
+    {
+      "name": "Mastercard",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Miro",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Moloco",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "monday.com",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "MoneyLion",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "MongoDB",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Moov",
+      "sublists": [
+        "small"
+      ],
+      "size": "63"
+    },
+    {
+      "name": "Movable Ink",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Narmi",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Navan",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "New York Life Insurance Company",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "12,000"
+    },
+    {
+      "name": "Newfront",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "News 12",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "NextRoll",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Northwestern Mutual",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Notion",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "1000"
+    },
+    {
+      "name": "Nourish",
+      "sublists": [
+        "small"
+      ],
+      "size": "215"
+    },
+    {
+      "name": "Nova Credit",
+      "sublists": [
+        "small"
+      ],
+      "size": "85"
+    },
+    {
+      "name": "Ontra",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Optimum",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Optimum Media",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Order.co",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Oshi Health",
+      "sublists": [
+        "small"
+      ],
+      "size": "87"
+    },
+    {
+      "name": "Overjet",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "210"
+    },
+    {
+      "name": "Palo Alto Networks",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Particle Health",
+      "sublists": [
+        "small"
+      ],
+      "size": "40"
+    },
+    {
+      "name": "PatientPoint",
+      "sublists": [
+        "100 best"
+      ],
+      "size": null
+    },
+    {
+      "name": "Pfizer",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Philo",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Pinwheel",
+      "sublists": [
+        "small"
+      ],
+      "size": "43"
+    },
+    {
+      "name": "Placements.io",
+      "sublists": [
+        "small"
+      ],
+      "size": "54"
+    },
+    {
+      "name": "Prefect",
+      "sublists": [
+        "small"
+      ],
+      "size": "63"
+    },
+    {
+      "name": "Primary.com",
+      "sublists": [
+        "small"
+      ],
+      "size": "62"
+    },
+    {
+      "name": "Prose",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "PwC",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Qualtrics",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "5,000"
+    },
+    {
+      "name": "Radar",
+      "sublists": [
+        "small"
+      ],
+      "size": "64"
+    },
+    {
+      "name": "Realtor.com",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Redgate Software",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "520"
+    },
+    {
+      "name": "Regard",
+      "sublists": [
+        "small"
+      ],
+      "size": "75"
+    },
+    {
+      "name": "Rent the Runway",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Rinsed",
+      "sublists": [
+        "100 best",
+        "small"
+      ],
+      "size": "97"
+    },
+    {
+      "name": "Riskified",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "680"
+    },
+    {
+      "name": "Ro",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "RocketReach.co",
+      "sublists": [
+        "small"
+      ],
+      "size": "90"
+    },
+    {
+      "name": "Rokt",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "800"
+    },
+    {
+      "name": "Runway",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Sage",
+      "sublists": [
+        "small"
+      ],
+      "size": "95"
+    },
+    {
+      "name": "Schrödinger Inc.",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "SeatGeek",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "ServiceNow",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "28,000"
+    },
+    {
+      "name": "Share Local Media",
+      "sublists": [
+        "small"
+      ],
+      "size": "89"
+    },
+    {
+      "name": "Skillsoft",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Smartly",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "805"
+    },
+    {
+      "name": "Snap Inc.",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Snowflake",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Sosemo",
+      "sublists": [
+        "small"
+      ],
+      "size": "10"
+    },
+    {
+      "name": "Spotnana",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Sprig",
+      "sublists": [
+        "small"
+      ],
+      "size": "50"
+    },
+    {
+      "name": "Spring Health",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Square",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Squarespace",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Stack Overflow",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Stellar Development Foundation",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Suzy",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Taboola",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "1,900"
+    },
+    {
+      "name": "Tapestry",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Taskrabbit",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "450"
+    },
+    {
+      "name": "Teads",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "1,840"
+    },
+    {
+      "name": "TIDAL",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "450"
+    },
+    {
+      "name": "Tildei",
+      "sublists": [
+        "small"
+      ],
+      "size": "16"
+    },
+    {
+      "name": "TransUnion",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Tropic",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Trumid",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Twill",
+      "sublists": [
+        "small"
+      ],
+      "size": "100"
+    },
+    {
+      "name": "Unity",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Upside",
+      "sublists": [
+        "100 best",
+        "midsize"
+      ],
+      "size": "275"
+    },
+    {
+      "name": "Upstart",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Vendelux",
+      "sublists": [
+        "small"
+      ],
+      "size": "60"
+    },
+    {
+      "name": "Vestwell",
+      "sublists": [
+        "100 best"
+      ],
+      "size": null
+    },
+    {
+      "name": "VideoAmp",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Vouch Insurance",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Wellhub",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "West Monroe",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Wise",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Wolverine Trading",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Work & Co",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Workiva",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Xero",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Xpansiv",
+      "sublists": [
+        "midsize"
+      ],
+      "size": null
+    },
+    {
+      "name": "Yext",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "Zeta Global",
+      "sublists": [
+        "large"
+      ],
+      "size": null
+    },
+    {
+      "name": "ZORA",
+      "sublists": [
+        "100 best",
+        "small"
+      ],
+      "size": "50"
+    },
+    {
+      "name": "ZS",
+      "sublists": [
+        "100 best",
+        "large"
+      ],
+      "size": "13,000"
+    }
+  ]
+}

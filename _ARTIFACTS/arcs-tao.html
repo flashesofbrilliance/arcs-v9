@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Tao of ARCS</title>
+<style>
+  /* ARCS cockpit — single theme by design: the world is obsidian.
+     Palette from src/ui/tokens.ts, not invented here. */
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b;
+    --text:#e2e8f0; --sec:#94a3b8; --dim:#64748b; --mut:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg);scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:760px;margin:0 auto;padding:0 1.5rem 7rem}
+  .lbl{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+  .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)}
+
+  /* ── header ── */
+  header{padding:5.5rem 0 2rem;text-align:center}
+  .mark{font-size:2rem;color:var(--gold);display:inline-block;margin-bottom:1.4rem;
+    transition:transform 2s cubic-bezier(.22,1,.36,1)}
+  header:hover .mark{transform:rotate(360deg)}
+  h1{font-family:var(--mono);font-size:1.05rem;font-weight:700;letter-spacing:.42em;
+    text-transform:uppercase;margin:0 0 0 .42em;color:var(--text)}
+  .epi{font-family:var(--serif);font-style:italic;font-size:1.25rem;line-height:1.5;color:var(--sec);
+    max-width:34ch;margin:1.8rem auto 0;text-wrap:balance}
+  .kanji{color:var(--gold);font-style:normal}
+
+  .rule{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:3.4rem 0}
+
+  /* ── movement ── */
+  .mv{margin:4.2rem 0}
+  .mv-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:2rem}
+  .num{font-family:var(--mono);font-size:1.35rem;font-weight:700;color:var(--cyan);opacity:.85;letter-spacing:-.02em;min-width:2.6ch}
+  .mv-name{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--sec)}
+
+  /* ── verse ── */
+  .v{padding:1.5rem 0;border-top:1px solid rgba(30,41,59,.5)}
+  .v:first-of-type{border-top:none}
+  .v-n{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--mut);display:block;margin-bottom:.55rem}
+  .v-line{font-family:var(--serif);font-size:1.5rem;line-height:1.34;color:var(--text);margin:0;font-weight:500;letter-spacing:-.005em;text-wrap:pretty}
+  .v-gloss{font-size:.9rem;color:var(--dim);margin:.75rem 0 0;max-width:56ch;line-height:1.55}
+  @media (max-width:560px){ .v-line{font-size:1.28rem} header{padding-top:3.5rem} }
+
+  /* ── coda ── */
+  .coda{text-align:center;margin:5rem 0 0}
+  .coda .v-line{font-size:1.7rem;color:var(--gold)}
+  footer{margin-top:5rem;text-align:center}
+  .fnote{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+  .cellar{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;
+    border:1px solid var(--border);border-radius:4px;padding:.5rem .8rem;display:inline-block;margin-top:1.1rem}
+  .cellar b{color:var(--mut)}
+  @media print{body{background:#fff;color:#111}.v-line{color:#111}.mark{color:#111}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="mark">⊕</span>
+    <h1>The Tao of ARCS</h1>
+    <p class="epi">You do not learn the terrain by being told it.<br>You learn it by moving through it, and leaving a trace.</p>
+  </header>
+
+  <div class="rule"></div>
+
+  <!-- I ── THE FIELD -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">I</span><span class="mv-name">The Field</span></div>
+    <div class="v"><span class="v-n">i</span><p class="v-line">A decision is a position under pressure, not an event on a timeline.</p></div>
+    <div class="v"><span class="v-n">ii</span><p class="v-line">Busy is magnitude without a bearing.</p><p class="v-gloss">From the inside, sprinting the wrong way feels exactly like sprinting the right way. Speed tells you nothing about direction.</p></div>
+    <div class="v"><span class="v-n">iii</span><p class="v-line">The enemy is not difficulty. It is motion mistaken for direction.</p></div>
+    <div class="v"><span class="v-n">iv</span><p class="v-line">The unexamined life once looked like sloth. Now it wears the costume of hustle.</p></div>
+  </section>
+
+  <!-- II ── THE SIZING -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">II</span><span class="mv-name">The Sizing</span></div>
+    <div class="v"><span class="v-n">v</span><p class="v-line">Size the opportunity before you shape the work. Sometimes the work is none.</p></div>
+    <div class="v"><span class="v-n">vi</span><p class="v-line">Do not omakase a Tuesday lunch.</p><p class="v-gloss">For a small, reversible choice, good-enough is genuinely good enough. The waste is effort the moment cannot absorb.</p></div>
+    <div class="v"><span class="v-n">vii</span><p class="v-line">Cook the whole menu so your hands are sure. Serve only what the guest can eat.</p><p class="v-gloss">Prepare to the stakes; plate to the appetite. Doing less prep and serving less prep are not the same move.</p></div>
+    <div class="v"><span class="v-n">viii</span><p class="v-line">The considered life is not the one that questions everything, but the one that questions in proportion.</p></div>
+    <div class="v"><span class="v-n">ix</span><p class="v-line">Cheap makes good-enough everywhere: fine for the small, fatal for the large. The craft is knowing which is which.</p></div>
+  </section>
+
+  <!-- III ── THE WINDOW -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">III</span><span class="mv-name">The Window</span></div>
+    <div class="v"><span class="v-n">x</span><p class="v-line">The opportune moment is not later. It is over there, when the gap aligns.</p></div>
+    <div class="v"><span class="v-n">xi</span><p class="v-line">The arc crosses the gap only when the distance is right. Timing is a position, not a schedule.</p></div>
+    <div class="v"><span class="v-n">xii</span><p class="v-line">Reach them in the caught breath, not in the fire.</p></div>
+    <div class="v"><span class="v-n">xiii</span><p class="v-line">To one who is drowning, more horizon is only more noise. Remove a weight instead.</p></div>
+  </section>
+
+  <!-- IV ── THE LENS -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">IV</span><span class="mv-name">The Lens</span></div>
+    <div class="v"><span class="v-n">xiv</span><p class="v-line">Clear the lens before you read the terrain. Some fog is on the world; some is on your own eye.</p></div>
+    <div class="v"><span class="v-n">xv</span><p class="v-line">The first judgment ego clouds is your read of whether another's is clouded.</p></div>
+    <div class="v"><span class="v-n">xvi</span><p class="v-line">You cannot out-think your own hubris with more of your own thinking.</p></div>
+    <div class="v"><span class="v-n">xvii</span><p class="v-line">The reactor cannot police itself. Control must come from outside the fuel.</p></div>
+    <div class="v"><span class="v-n">xviii</span><p class="v-line">Point it inward first. It is the only direction where you have standing.</p></div>
+  </section>
+
+  <!-- V ── THE FORGE -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">V</span><span class="mv-name">The Forge</span></div>
+    <div class="v"><span class="v-n">xix</span><p class="v-line">Stop whittling. Cut a mold.</p></div>
+    <div class="v"><span class="v-n">xx</span><p class="v-line">Do not build tools. Build the thing that casts them.</p></div>
+    <div class="v"><span class="v-n">xxi</span><p class="v-line">Structure and flow, both kept, neither sacrificed.</p></div>
+    <div class="v"><span class="v-n">xxii</span><p class="v-line">The recipe and the receipt are one word: the instruction you take, and the record of what you received.</p><p class="v-gloss">A decision opens as a recipe and closes as a receipt. Same root — recipere, to take.</p></div>
+  </section>
+
+  <!-- VI ── THE ECHO -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">VI</span><span class="mv-name">The Echo</span></div>
+    <div class="v"><span class="v-n">xxiii</span><p class="v-line">An echo is signal only if it was independent before it was linked.</p></div>
+    <div class="v"><span class="v-n">xxiv</span><p class="v-line">What still rings in the morning is a bond. What went quiet was the spark fading.</p></div>
+    <div class="v"><span class="v-n">xxv</span><p class="v-line">Three axes bracing one point make a structure. One axis makes a story.</p></div>
+    <div class="v"><span class="v-n">xxvi</span><p class="v-line">Expose the claim to disconfirmation, or it is only decoration.</p></div>
+    <div class="v"><span class="v-n">xxvii</span><p class="v-line">The map must never lie about how certain it is.</p></div>
+  </section>
+
+  <!-- VII ── THE REACTOR -->
+  <section class="mv">
+    <div class="mv-head"><span class="num">VII</span><span class="mv-name">The Reactor</span></div>
+    <div class="v"><span class="v-n">xxviii</span><p class="v-line">The leap is the fuel. The landing is the discipline.</p></div>
+    <div class="v"><span class="v-n">xxix</span><p class="v-line">A single hunch will light a hundred more — which is precisely why you need something to keep it from running away.</p></div>
+    <div class="v"><span class="v-n">xxx</span><p class="v-line">Reflexiveness is prepaid. It is never free.</p></div>
+    <div class="v"><span class="v-n">xxxi</span><p class="v-line">Keep the engine. Bolt the brakes on as a separate system.</p></div>
+    <div class="v"><span class="v-n">xxxii</span><p class="v-line">There is no free fusion.</p></div>
+  </section>
+
+  <div class="coda">
+    <p class="v-line">Render through the fog to earned clarity.</p>
+  </div>
+
+  <footer>
+    <div class="fnote">The Tao of ARCS · Front of House · XXXII verses</div>
+    <div class="cellar">甘 · <b>the cellar is elsewhere</b> · recipes, experiments, receipts</div>
+  </footer>
+
+</div>
+</body>
+</html>

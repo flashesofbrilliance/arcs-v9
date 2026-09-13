@@ -1,0 +1,167 @@
+<style>
+  /* Built to DESIGN.md: "Render Through the Fog". Obsidian, single theme.
+     Semantic color per aspect (row). Serif=canon, mono=instrument. Glow, not shadow. */
+  :root{
+    --bg:#020408; --panel:#0d1117; --elevated:#111827; --border:#1e293b;
+    --text:#e2e8f0; --sec:#94a3b8; --dim:#64748b; --mut:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --violet:#A78BFA;
+    --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg);scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem 6rem}
+  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+
+  /* ── header ── */
+  header{padding:4.5rem 0 1rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
+  .mark{font-size:1.7rem;color:var(--gold);display:inline-block;animation:markdrift 100s linear infinite}
+  @keyframes markdrift{to{transform:rotate(360deg)}}
+  header:hover .mark{animation-duration:6s}
+  .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.28em;color:var(--text);margin-left:.28em}
+  .wordmark b{color:var(--cyan)}
+  h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.3rem);font-weight:500;letter-spacing:-.02em;margin:1.1rem 0 .5rem;line-height:1.15}
+  .sub{font-size:.9rem;color:var(--sec);max-width:60ch;margin:0}
+  .meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--dim);margin-top:.9rem;text-transform:uppercase}
+
+  /* ── legend ── */
+  .legend{display:flex;gap:.5rem 1.4rem;flex-wrap:wrap;margin:1.4rem 0 0}
+  .leg{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--sec);display:flex;align-items:center;gap:.4rem}
+  .dot{width:8px;height:8px;border-radius:50%}
+
+  /* ── aspect band ── */
+  .band{margin:0 0 1rem;border-top:1px solid var(--border);padding-top:1.4rem}
+  .band-head{display:flex;align-items:baseline;gap:.9rem;margin-bottom:1rem;padding-left:.1rem}
+  .aspect{font-family:var(--mono);font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+  .aspect-name{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sec)}
+  .aspect-gloss{font-size:.78rem;color:var(--dim);margin-left:auto;text-align:right;max-width:34ch}
+
+  /* ── grid ── */
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem 1rem;
+    display:flex;flex-direction:column;min-height:150px;transition:border-color .25s,box-shadow .25s}
+  .card:hover{border-color:var(--ac);box-shadow:0 0 30px var(--glow)}
+  /* fog-clear reveal: cards resolve grain -> sharp on scroll-in (render-scale as motion) */
+  .card{opacity:0;filter:blur(5px) grayscale(.35);transform:translateY(10px)}
+  .card.lit{opacity:1;filter:blur(0) grayscale(0);transform:none;transition:opacity .6s ease,filter .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+  .verb{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
+  .prov{font-family:var(--serif);font-size:.94rem;line-height:1.4;color:var(--text);margin:0;text-wrap:pretty}
+  .tick{width:14px;height:2px;background:var(--ac);margin-top:auto;border-radius:2px;opacity:.7}
+
+  @media (max-width:900px){
+    .row{grid-template-columns:1fr 1fr}
+    .aspect-gloss{display:none}
+  }
+  @media (max-width:560px){
+    .row{grid-template-columns:1fr}
+    header{padding-top:3rem}
+  }
+  footer{margin-top:3.5rem;border-top:1px solid var(--border);padding-top:1.3rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+  @media print{body{background:#fff;color:#111}.card{background:#fff}.prov{color:#111}}
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div><span class="mark">⊕</span><span class="wordmark"><b>ARCS</b> · THE TAO</span></div>
+    <h1>The Amplifier</h1>
+    <p class="sub">Twenty-five proverbs, minted from ADR-081 (the Kairos detector: condenser, recoil, blower). Five aspects, five verbs, one decision drawn as a single spark across a gap. Rendered through the fog to earned clarity.</p>
+    <div class="meta">Source: ADR-081 · Grid: D/R/W/C/H × Analyze·Assess·Evaluate·Synthesize·Recapitulate · No cell padded</div>
+    <div class="legend">
+      <span class="leg"><span class="dot" style="background:var(--cyan)"></span>D · Decision</span>
+      <span class="leg"><span class="dot" style="background:var(--red)"></span>R · Risk / Ruin</span>
+      <span class="leg"><span class="dot" style="background:var(--gold)"></span>W · Window</span>
+      <span class="leg"><span class="dot" style="background:var(--green)"></span>C · Clarity</span>
+      <span class="leg"><span class="dot" style="background:var(--violet)"></span>H · Horizon</span>
+    </div>
+  </header>
+
+  <!-- D -->
+  <section class="band" style="--ac:var(--cyan);--glow:rgba(0,240,255,.10)">
+    <div class="band-head"><span class="aspect" style="color:var(--cyan)">D</span><span class="aspect-name">Decision</span><span class="aspect-gloss">the sharp question, carried by a receipt that floats and composes</span></div>
+    <div class="row">
+      <div class="card"><span class="verb">Analyze</span><p class="prov">A decision is a discharge: it fires when the potential peaks and the gap aligns, not when the clock says so.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Assess</span><p class="prov">The flash is not the decision. The confirmed receipt is; a spark no one received went to ground.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Evaluate</span><p class="prov">Weigh a decision by whether it would survive its own recoil, not by how bright it looked when it fired.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Synthesize</span><p class="prov">Recipe, discharge, receipt: the instruction given, the arc across the gap, the record of what arrived.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Recapitulate</span><p class="prov">Every decision leaves a coordinate. The receipt is where it stood, so the next one knows where it stands.</p><span class="tick"></span></div>
+    </div>
+  </section>
+
+  <!-- R -->
+  <section class="band" style="--ac:var(--red);--glow:rgba(255,77,109,.10)">
+    <div class="band-head"><span class="aspect" style="color:var(--red)">R</span><span class="aspect-name">Risk / Ruin</span><span class="aspect-gloss">the gauntlet: stakes, threat vectors, failure modes, de-risks</span></div>
+    <div class="row">
+      <div class="card"><span class="verb">Analyze</span><p class="prov">An attractor that pulls too eagerly does not find the pattern. It manufactures one.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Assess</span><p class="prov">Rank a signal by how hard it resists refutation, not by how well it fits the story you already carry.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Evaluate</span><p class="prov">A finding held by one stream is a story. Require a second stream to brace it before you stake anything on it.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Synthesize</span><p class="prov">The same basin that condenses fuel condenses delusion. The only difference is the control rod.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Recapitulate</span><p class="prov">What did not re-converge across the runs was never a bond. Let it decay before it costs you.</p><span class="tick"></span></div>
+    </div>
+  </section>
+
+  <!-- W -->
+  <section class="band" style="--ac:var(--gold);--glow:rgba(255,215,0,.10)">
+    <div class="band-head"><span class="aspect" style="color:var(--gold)">W</span><span class="aspect-name">Window</span><span class="aspect-gloss">bearing plus the safe and dangerous conditions to proceed</span></div>
+    <div class="row">
+      <div class="card"><span class="verb">Analyze</span><p class="prov">Voltage without an aligned gap is only stored potential. Read the gap before you read the charge.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Assess</span><p class="prov">Do not fire early. A discharge across the wrong gap is a short, and a short burns the circuit it meant to serve.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Evaluate</span><p class="prov">The safe condition to proceed is a gap aligned and a potential peaked. Absent either, hold.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Synthesize</span><p class="prov">Timing is a position, not a schedule. The window opens where the conditions meet, and closes when they part.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Recapitulate</span><p class="prov">Mark where the arc struck and where it refused. The record of struck gaps is the map of when to move.</p><span class="tick"></span></div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="band" style="--ac:var(--green);--glow:rgba(0,255,157,.10)">
+    <div class="band-head"><span class="aspect" style="color:var(--green)">C</span><span class="aspect-name">Clarity</span><span class="aspect-gloss">clarity, confidence, coherence, cohesion, conviction</span></div>
+    <div class="row">
+      <div class="card"><span class="verb">Analyze</span><p class="prov">Amplify the signal, never the noise, and never past the evidence that carried it in.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Assess</span><p class="prov">The speaker cannot broadcast sharp when the microphone only heard grain. Check the input before you trust the output.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Evaluate</span><p class="prov">Coherence is a basin deep enough to hold, not an agreement loud enough to drown the dissent.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Synthesize</span><p class="prov">Custody is how honesty is enforced: no belief moves without citing what moved it. No custody, no gain.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Recapitulate</span><p class="prov">You cannot rewrite why a belief changed. The chain of custody already wrote it down.</p><span class="tick"></span></div>
+    </div>
+  </section>
+
+  <!-- H -->
+  <section class="band" style="--ac:var(--violet);--glow:rgba(167,139,250,.12)">
+    <div class="band-head"><span class="aspect" style="color:var(--violet)">H</span><span class="aspect-name">Horizon</span><span class="aspect-gloss">time, capital, opportunity cost, leverage, reward</span></div>
+    <div class="row">
+      <div class="card"><span class="verb">Analyze</span><p class="prov">The uncaught window is the true cost. What the fog buried, you paid for in a bearing you never took.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Assess</span><p class="prov">Weigh the condenser against the blower: a system that only listens hoards, and one that only projects lies.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Evaluate</span><p class="prov">Leverage is the gain stage. The same weak signal, amplified honestly, moves what the whisper could not.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Synthesize</span><p class="prov">The reactor compounds; the bomb spends. Contained fission is the only fusion that pays over time.</p><span class="tick"></span></div>
+      <div class="card"><span class="verb">Recapitulate</span><p class="prov">Every discharge that lands clean lowers the cost of the next. Received-as-intended is how the horizon widens.</p><span class="tick"></span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>The Tao of ARCS · The Amplifier · 25 minted proverbs</span>
+    <span>Render through the fog to earned clarity · 甘</span>
+  </footer>
+
+</div>
+<script>
+  // fog-clear reveal: each card resolves grain -> sharp as it enters (DESIGN.md render-scale as motion)
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = document.querySelectorAll('.card');
+  if (reduce || !('IntersectionObserver' in window)) {
+    cards.forEach(function(c){ c.classList.add('lit'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var el = e.target;
+          setTimeout(function(){ el.classList.add('lit'); }, (el.dataset.d||0)*80);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+    cards.forEach(function(c, i){ c.dataset.d = i % 5; io.observe(c); });
+  }
+</script>

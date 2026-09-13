@@ -6,7 +6,7 @@
     "time-signature-alignment": "Phase 4 seam \u2014 per-tenant local_beat + alignment factor phase-locked to global_beat (spec \u00a7Time-signature alignment). Not in Phase 0."
   },
   "genesis": "2026-09-08",
-  "global_beat": 5,
+  "global_beat": 3,
   "subsystems": {
     "canon-propagation": {
       "_role": "nightly canon-propagation cron (scripts/canon_propagation_nightly.sh via launchd). Registered so a disabled/unloaded cron SURFACES rather than rotting silently \u2014 the precall/postcall lesson. Set expected:inactive to mark it DORMANT instead of FLATLINE while intentionally off.",
@@ -17,47 +17,20 @@
       "last_beat": -11,
       "max_beats": 3
     },
-    "claude-worktrees": {
-      "_role": "Claude Code session tracking across active worktrees. Proof-of-life from the append-only handoff and witness event logs.",
-      "artifacts": [
-        "_STATE/handoff-progress.jsonl",
-        "_STATE/witness"
-      ],
-      "last_beat": 3,
-      "max_beats": 2
-    },
     "commits": {
       "_role": "repo heartbeat \u2014 the primary canary. If no work lands in git for >max_beats days the operational layer has gone quiet (the drift-sentry-went-silent-5d failure). Daily guard alarms on day 2.",
       "artifacts": [
         "."
       ],
-      "last_beat": 5,
+      "last_beat": 1,
       "max_beats": 1
-    },
-    "decision-receipts": {
-      "_role": "decision receipt ledger proof-of-life \u2014 ground truth of closed decisions and ships. Alarms when decisions run without logged receipts.",
-      "artifacts": [
-        "_INBOX/pulse.jsonl",
-        "_STATE/snapshot.json"
-      ],
-      "last_beat": 3,
-      "max_beats": 3
-    },
-    "hermes-engine": {
-      "_role": "Hermes agent desktop/CLI orchestration layer. Proof-of-life recorded via session completion, handoff generation, and state capture.",
-      "artifacts": [
-        "_STATE/handoff-2026-09-11-cross-harness-pickup.md",
-        "_STATE/snapshot.json"
-      ],
-      "last_beat": 3,
-      "max_beats": 2
     },
     "lattice-drift": {
       "_role": "knowledge-lattice drift sentry (scripts/lattice_drift_check.py). max_beats absorbs the old STALE_DAYS=14 for the lattice epoch.",
       "artifacts": [
         "_INBOX/lattice-drift.jsonl"
       ],
-      "last_beat": 3,
+      "last_beat": -1,
       "max_beats": 14
     },
     "oracle": {
@@ -69,21 +42,12 @@
       "last_seen": "2026-09-08T16:01:14Z",
       "max_beats": 60
     },
-    "perplexity-mcp": {
-      "_role": "Perplexity search/reasoning and research harness integration. Inactive/dormant until external queries or architect packets sync.",
-      "artifacts": [
-        "_MEMORY/project_perplexity_mcp.md"
-      ],
-      "expected": "inactive",
-      "last_beat": -62,
-      "max_beats": 7
-    },
     "seedbank-drift": {
       "_role": "seed-bank drift sentry (scripts/seedbank_drift_check.py). max_beats absorbs the old STALE_DAYS=21 for the ledger.",
       "artifacts": [
         "_INBOX/seedbank-drift.jsonl"
       ],
-      "last_beat": 3,
+      "last_beat": -1,
       "max_beats": 21
     }
   }
