@@ -83,7 +83,8 @@
    "VP+ / C-level leveling",
    "on-site outside NY-metro with no remote",
    "AI-lab or research-scientist hiring bar",
-   "pure quota-carrying sales rep"
+   "pure quota-carrying sales rep",
+   "FDE-lane title (score under target-role-scan)"
   ],
   "scoring_notes": [
    "This is a win-probability lens. When fit and winnability conflict, winnability decides: a perfect-fit role with a prestige applicant stampede scores lower than a good-fit role where the pool is thin.",
@@ -112,6 +113,28 @@
    "2": "MED",
    "1": "HIGH",
    "0": "STAMPEDE"
+  },
+  "gate_rules": {
+   "VP+ / C-level leveling": {
+    "title": "\\b(VP|Vice President|SVP|EVP|Chief|C[A-Z]O)\\b"
+   },
+   "junior/entry leveling": {
+    "title": "\\b(Junior|Associate|Entry|Coordinator|Intern|Analyst I|Specialist I)\\b|\\bI\\s*$"
+   },
+   "AI-lab or research-scientist hiring bar": {
+    "jd": "\\b(PhD|Ph\\.D|first[- ]author|publications?|research scientist|member of technical staff|NeurIPS|ICML|ICLR)\\b"
+   },
+   "pure quota-carrying sales rep": {
+    "title": "\\b(Account Executive|AE|SDR|BDR|Sales Development|Sales Representative|Sales Rep)\\b"
+   },
+   "on-site outside NY-metro with no remote": {
+    "jd": "\\b(on-?site|in[- ]office)\\b"
+   }
+  },
+  "mechanical_gates": {
+   "FDE-lane title (score under target-role-scan)": {
+    "title": "\\b(Forward[- ]Deployed|FDE|Software Engineer|AI Engineer|ML Engineer|Machine Learning Engineer|Research Scientist|Applied Scientist|Member of Technical Staff|Staff Engineer|Senior Engineer)\\b"
+   }
   }
  },
  "proof_rows": {
@@ -124,7 +147,7 @@
   }
  },
  "changelog": {
-  "1.1": "2026-09-13: gate discipline. (a) 'VP+ / C-level leveling' fires only on VP, SVP, EVP, or C-level titles; Senior Director / Director / Head of are INSIDE the level target. (b) 'AI-lab or research-scientist hiring bar' fires only when the posting REQUIRES a research record (PhD, publications, research-scientist title, model training at scale); an AI Engineer / Applied AI Engineer / ML Engineer title at a non-lab company is NOT the gate: leave gates empty and score shape_fit and competition_density low instead. Both misfires observed on the v1.0 pass (MongoDB Senior Director gated as VP+; Ramp Applied AI Engineer and Oscar Staff AI Engineer gated as AI-lab).",
+  "1.1": "2026-09-13: gate discipline. (a) 'VP+ / C-level leveling' fires only on VP, SVP, EVP, or C-level titles; Senior Director / Director / Head of are INSIDE the level target. (b) 'AI-lab or research-scientist hiring bar' fires only when the posting REQUIRES a research record (PhD, publications, research-scientist title, model training at scale); an AI Engineer / Applied AI Engineer / ML Engineer title at a non-lab company is NOT the gate: leave gates empty and score shape_fit and competition_density low instead. Both misfires observed on the v1.0 pass (MongoDB Senior Director gated as VP+; Ramp Applied AI Engineer and Oscar Staff AI Engineer gated as AI-lab). Mechanical gate rules added the same day after the notes alone did not hold on a 586-row drain (a Director still read as VP+, a Senior PM as AI-lab): gate_rules validate every model gate against a title/JD regex, mechanical_gates add an FDE-lane title gate. Applied in POST /api/jobs/score when the spec carries them (FDE spec does not).",
   "1.0": "2026-09-11: initial win-probability lens."
  }
 }

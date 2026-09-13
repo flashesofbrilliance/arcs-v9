@@ -51,6 +51,15 @@ Return ONLY a JSON array, one object per posting IN THE SAME ORDER, no prose:
 [{"jobid":"...","dims":{${dims.map((d) => `"${d.key}":0`).join(",")}},"gates":[],"comp":null,"assessment":"..."}]`
 }
 
+type GateRule = { title?: string; jd?: string }
+export function applyGateRules(rubric: { gate_rules?: Record<string, GateRule>; mechanical_gates?: Record<string, GateRule> }, modelGates: string[], title: string, jd: string): string[] {
+  const hit = (rule: GateRule) => (rule.title && new RegExp(rule.title, "i").test(title)) || (rule.jd && new RegExp(rule.jd, "i").test(jd))
+  const rules = rubric.gate_rules || {}
+  const kept = modelGates.filter((g) => !rules[g] || hit(rules[g]))
+  for (const [g, rule] of Object.entries(rubric.mechanical_gates || {})) if (hit(rule) && !kept.includes(g)) kept.push(g)
+  return kept
+}
+
 export async function POST(req: NextRequest) {
   const caller = await callerFor(req)
   if (!caller) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -92,7 +101,9 @@ export async function POST(req: NextRequest) {
     let raw = 0; for (const d of dims) raw += (Number(p.dims?.[d.key]) || 0) * d.weight
     const composite = +(raw / MAX).toFixed(3)
     // strict_gates (spec opt-in): only allowlisted gate strings can auto-PASS; the model sometimes invents one.
-    const gates: string[] = Array.isArray(p.gates) ? p.gates.filter((g) => typeof g === "string" && (!STRICT || GATE_SET.has(g))) : []
+    // gate_rules (spec opt-in): a model gate stands only if its title/JD regex matches; mechanical_gates add
+    // title-driven gates the model never sees. Free-text gate judgment misfired twice in a row (2026-09-13).
+    const gates: string[] = applyGateRules(s.rubric, Array.isArray(p.gates) ? p.gates.filter((g) => typeof g === "string" && (!STRICT || GATE_SET.has(g))) : [], r.title, r.jd || "")
     const gated = gates.length > 0
     const band = gated ? "PASS" : composite >= B.pursue ? "PURSUE" : composite >= B.consider ? "CONSIDER" : "PASS"
     const dimsJson = JSON.stringify(p.dims), gatesJson = JSON.stringify(gates)
