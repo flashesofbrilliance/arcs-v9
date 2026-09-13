@@ -2,27 +2,50 @@
   "captured_at": "2026-09-08T12:40:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "af13bd85",
-    "head_message": "design(hud): wired-loop schematic in target-role-scan §05 + em-dash sweep [NCI:SKIP]",
+    "head_sha": "7f052783",
+    "head_message": "Merge pull request #354 from flashesofbrilliance/claude/factory-fold",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
     "latest_deploy_url": "https://app.arcs.care",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"]
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Account",
+      "Session",
+      "VerificationToken"
+    ]
   },
-  "open_adrs": ["ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)", "candidate: global pulse<->oracle heartbeat", "candidate: two-order abductive profile->role scan"],
-  "session_summary": "ARCS-on-ARCS design session (v3.58.0): shipped NFTT 'The Factory on Itself' (self-referential, live); closed the threaded->literary NFTT drift (retired story_render.py engine, repointed the skill); serialized a full living-system spec + e2e NOTOMATION map (self-serve profile->role abductive scan, per-tenant RLS atlas, pulse<->oracle heartbeat); distilled a wired-loop schematic into target-role-scan-hud §05 + swept 22 em-dashes.",
+  "open_adrs": [
+    "ADR-076 (MCP-led growth; DRAFT/YELLOW, demand-probe gated)",
+    "candidate: global pulse<->oracle heartbeat",
+    "candidate: two-order abductive profile->role scan"
+  ],
+  "session_summary": "ARCS-on-ARCS design session (v3.58.0): shipped NFTT 'The Factory on Itself' (self-referential, live); closed the threaded->literary NFTT drift (retired story_render.py engine, repointed the skill); serialized a full living-system spec + e2e NOTOMATION map (self-serve profile->role abductive scan, per-tenant RLS atlas, pulse<->oracle heartbeat); distilled a wired-loop schematic into target-role-scan-hud \u00a705 + swept 22 em-dashes.",
   "next_action": "Forward work is on 3 started fresh sessions: pulse Phase-0 heartbeat (task_3fdd97bf), kaizen window-cost job (task_23dfd53b), zachharris.xyz/scan deploy (task_7215ccad). This session rests.",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-08T16:40:46Z"
 }
