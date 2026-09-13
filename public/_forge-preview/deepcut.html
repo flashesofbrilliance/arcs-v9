@@ -1,0 +1,297 @@
+<style>
+  /* ================================================================
+     ARCS · Counterpart-Forge · THE DEEP CUT
+     Four cores, drilled to real fathoms. Observability telemetry from
+     the Observatory (data.arcs-v9.json) + git history. Earned fidelity:
+     Robin/Yuri render at crystal, Ahmed at sharp, Rayan at grain (one
+     session, insufficient signal — the render never lies about depth).
+     Canonical WORLD.md tokens; single dark instrument world.
+     ================================================================ */
+  :root{
+    color-scheme:dark;
+    --bg:#020408;--deep:#01050b;--surface:#0d1117;--surface2:#0a0f16;--elevated:#121820;
+    --border:#1e293b;--border2:#131b28;
+    --text:#e2e8f0;--muted:#64748b;--dimmed:#475569;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --cyan-line:rgba(0,240,255,.30);--gold-line:rgba(255,215,0,.30);--green-line:rgba(0,255,157,.30);
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 55% at 50% -6%, #061019 0%, var(--bg) 44%, var(--deep) 100%)}
+  ::selection{background:rgba(0,240,255,.22);color:#fff}
+  a{color:var(--cyan);text-decoration:none}
+  a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+  .lane{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  .ey{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--dimmed)}
+  .ey b{color:var(--cyan)}
+  h1{font-weight:800;letter-spacing:-.03em;line-height:1.04;font-size:clamp(38px,7vw,72px);text-wrap:balance}
+  h2{font-weight:750;letter-spacing:-.02em;line-height:1.14;font-size:clamp(21px,3vw,29px);text-wrap:balance}
+  .lede{font-size:clamp(15px,1.5vw,17px);color:#aeb9c7;line-height:1.62}
+  .mono{font-family:var(--mono)}
+
+  /* hero */
+  .hero{padding:92px 0 26px}
+  .hero .uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dimmed);margin-bottom:20px}
+  .hero .uplink:hover{color:var(--cyan)}
+  .hero h1{margin:14px 0 0}.hero h1 .hl{color:var(--cyan)}
+  .hero .lede{margin-top:20px}
+  .obstat{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .obstat .s{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--border);
+    border-radius:8px;padding:7px 11px;background:var(--surface2)}
+  .obstat .s b{color:var(--text);font-weight:700}
+
+  /* render-scale legend */
+  .scale{margin:34px 0 0;border-top:1px solid var(--border2);padding-top:26px}
+  .scale h2{font-size:15px;color:var(--muted);font-weight:700;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+  .scalerow{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  @media(min-width:720px){.scalerow{grid-template-columns:repeat(4,1fr)}}
+  .fid{border:1px solid var(--border);border-radius:11px;background:var(--surface);padding:14px 15px}
+  .fid .ft{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .fid.crystal .ft{color:var(--cyan)}.fid.sharp .ft{color:var(--gold)}.fid.degraded .ft{color:var(--muted)}.fid.grain .ft{color:var(--dimmed)}
+  .fid p{font-size:12px;color:#9aa7b6;margin-top:7px;line-height:1.5}
+
+  /* the four cores */
+  .cores{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px}
+  @media(min-width:680px){.cores{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1000px){.cores{grid-template-columns:repeat(4,1fr)}}
+  .core{border:1px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden;
+    display:flex;flex-direction:column}
+  .core .ch{padding:16px 16px 14px;border-bottom:1px solid var(--border2)}
+  .core .exline{display:flex;align-items:center;gap:9px}
+  .core .exl{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;border:1px solid var(--border);
+    border-radius:6px;padding:2px 7px;color:var(--dimmed)}
+  .core .nm{font-weight:750;font-size:17px;letter-spacing:-.01em}
+  .core .co{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);margin-top:4px}
+  .core .fidbadge{margin-top:12px;display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:6px;border:1px solid var(--border)}
+  /* fathom rows */
+  .fathoms{padding:6px 16px 8px;flex:1}
+  .fathom{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline;padding:11px 0;border-top:1px solid var(--border2)}
+  .fathom:first-child{border-top:none}
+  .fathom .fk{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dimmed)}
+  .fathom .fv{font-family:var(--mono);font-size:14px;font-weight:750;color:var(--text);font-variant-numeric:tabular-nums;text-align:right}
+  .fathom .fv small{display:block;font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.04em;margin-top:2px}
+  .core .cfoot{padding:12px 16px 15px;border-top:1px solid var(--border2)}
+  .core .depthbar{height:6px;border-radius:3px;background:var(--surface2);overflow:hidden;border:1px solid var(--border2)}
+  .core .depthbar span{display:block;height:100%;border-radius:3px}
+  .core .depthlab{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--dimmed);margin-top:7px}
+
+  /* fidelity treatments (earned) */
+  .core.crystal{border-color:var(--cyan-line)}
+  .core.crystal .exl{color:var(--cyan);border-color:var(--cyan-line)}
+  .core.crystal .fidbadge{color:var(--cyan);border-color:var(--cyan-line)}
+  .core.crystal .depthbar span{background:linear-gradient(90deg,var(--cyan),rgba(0,240,255,.4))}
+  .core.sent{border-color:var(--green-line)}
+  .core.sent .exl{color:var(--green);border-color:var(--green-line)}
+  .core.sent .fidbadge{color:var(--green);border-color:var(--green-line)}
+  .core.sent .depthbar span{background:linear-gradient(90deg,var(--green),rgba(0,255,157,.4))}
+  .core.sharp{border-color:var(--gold-line)}
+  .core.sharp .exl{color:var(--gold);border-color:var(--gold-line)}
+  .core.sharp .fidbadge{color:var(--gold);border-color:var(--gold-line)}
+  .core.sharp .depthbar span{background:linear-gradient(90deg,var(--gold),rgba(255,215,0,.4))}
+  /* grain = insufficient signal, rendered honestly low-res */
+  .core.grain{border-style:dashed;border-color:var(--border)}
+  .core.grain .ch,.core.grain .fathoms{opacity:.62;letter-spacing:.02em}
+  .core.grain .fv{font-weight:400;color:var(--muted)}
+  .core.grain .fidbadge{color:var(--dimmed)}
+  .core.grain .depthbar span{background:repeating-linear-gradient(90deg,var(--dimmed) 0 3px,transparent 3px 6px)}
+  .grainnote{padding:10px 16px 14px}
+  .grainnote p{font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.6;letter-spacing:.02em}
+
+  /* the bedrock lattice */
+  .bedrock{margin-top:40px;border-top:1px solid var(--border2);padding-top:30px}
+  .bedrock .sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6}
+  .bedrock .sub b{color:var(--text)}
+  .lattwrap{overflow-x:auto;margin-top:20px;border:1px solid var(--border);border-radius:12px}
+  table{border-collapse:collapse;width:100%;min-width:620px;font-size:13px}
+  th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--border2);vertical-align:top}
+  thead th{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);background:var(--surface2)}
+  tbody td{color:#cdd8e4}
+  .lyr{font-family:var(--mono);font-weight:700;color:var(--cyan)}
+  td .lab{font-weight:600;color:#e2e8f0}
+  td .desc{display:block;font-size:11.5px;color:#93a0af;margin-top:4px;line-height:1.5;max-width:52ch}
+  .grade{font-family:var(--mono);font-weight:750;font-size:14px;font-variant-numeric:tabular-nums}
+  .grade.A{color:var(--green)}.grade.B{color:var(--cyan)}.grade.C{color:var(--gold)}
+  .conf{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .risk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:5px;border:1px solid var(--border)}
+  .risk.LOW{color:var(--green);border-color:var(--green-line)}.risk.MED{color:var(--gold);border-color:var(--gold-line)}
+  tr:last-child td{border-bottom:none}
+
+  /* coda: only a diamond cuts a diamond (NOTOMATION) */
+  .coda{margin-top:42px;border-top:1px solid var(--border2);padding-top:30px}
+  .coda::before{content:"";display:block;width:44px;height:2px;margin-bottom:20px;background:linear-gradient(90deg,var(--cyan),var(--gold))}
+  .coda p{font-size:clamp(17px,2.1vw,22px);color:#dbe4ef;line-height:1.5;font-weight:500}
+  .coda p b{color:#fff;font-weight:650}
+
+  /* provenance */
+  .prov{margin-top:34px;border-top:1px solid var(--border2);padding-top:20px;display:grid;gap:12px;padding-bottom:8px}
+  .provrow{display:grid;grid-template-columns:116px 1fr;gap:16px;align-items:baseline}
+  @media(max-width:560px){.provrow{grid-template-columns:1fr;gap:3px}}
+  .provrow dt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .provrow dd{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--dimmed)}
+  .footline{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dimmed);padding:32px 0 46px}
+
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.seen{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+
+<div class="lane">
+  <header class="hero">
+    <a class="uplink" href="https://claude.ai/code/artifact/66b5b407-161b-47ff-889e-3c6335b4077f">&#8593; the invariant beneath the polyform</a>
+    <div class="ey">ARCS &middot; COUNTERPART-FORGE &middot; <b>THE DEEP CUT</b></div>
+    <h1>Four cores, <span class="hl">drilled</span>.</h1>
+    <p class="lede">The pattern page showed the shape. This one shows the receipts. Each exhibit drilled to its
+      real fathoms of build telemetry, from the Observatory and the git history, rendered at the fidelity its
+      data earns. Robin and Yuri come up crystal. Rayan is one session old, so he comes up grain, and the render
+      says so.</p>
+    <div class="obstat">
+      <span class="s">substrate scan <b>b1c4207</b></span>
+      <span class="s"><b>29</b> events</span>
+      <span class="s"><b>5</b> layers L1&ndash;L5</span>
+      <span class="s"><b>3</b> risks &middot; <b>2</b> open</span>
+      <span class="s">span <b>10d</b> forensic</span>
+    </div>
+  </header>
+
+  <!-- render scale -->
+  <section class="scale reveal">
+    <h2>Earned fidelity, the render scale</h2>
+    <div class="scalerow">
+      <div class="fid crystal"><div class="ft">Crystal</div><p>Deep history: dozens of commits, a full trajectory. The core resolves sharp.</p></div>
+      <div class="fid sharp"><div class="ft">Sharp</div><p>Real but shallow: enough signal for a clear read, not a long arc.</p></div>
+      <div class="fid degraded"><div class="ft">Degraded</div><p>Partial. Some telemetry, gaps named rather than filled.</p></div>
+      <div class="fid grain"><div class="ft">Grain</div><p>Insufficient signal. Rendered low-res on purpose. The render never lies about depth.</p></div>
+    </div>
+  </section>
+
+  <!-- the four cores -->
+  <section class="reveal" style="margin-top:36px">
+    <div class="ey">the four cores &middot; A to D</div>
+    <h2 style="margin-top:12px">Each drilled to what it actually holds.</h2>
+    <div class="cores">
+
+      <div class="core crystal">
+        <div class="ch">
+          <div class="exline"><span class="exl">A</span><span class="nm">Robin</span></div>
+          <div class="co">Zensai &middot; the machine forged</div>
+          <span class="fidbadge">crystal</span>
+        </div>
+        <div class="fathoms">
+          <div class="fathom"><span class="fk">iterations</span><span class="fv">64<small>commits</small></span></div>
+          <div class="fathom"><span class="fk">footprint</span><span class="fv">54<small>files touched</small></span></div>
+          <div class="fathom"><span class="fk">span</span><span class="fv">39d<small>Jul 2 to Aug 10</small></span></div>
+          <div class="fathom"><span class="fk">corrections</span><span class="fv">0<small>machine forged here</small></span></div>
+          <div class="fathom"><span class="fk">surfaces</span><span class="fv">5<small>+ receipt studio</small></span></div>
+        </div>
+        <div class="cfoot"><div class="depthbar"><span style="width:100%"></span></div><div class="depthlab">deepest core</div></div>
+      </div>
+
+      <div class="core sent">
+        <div class="ch">
+          <div class="exline"><span class="exl">B</span><span class="nm">Yuri</span></div>
+          <div class="co">Google &middot; sent</div>
+          <span class="fidbadge">crystal</span>
+        </div>
+        <div class="fathoms">
+          <div class="fathom"><span class="fk">iterations</span><span class="fv">61<small>commits</small></span></div>
+          <div class="fathom"><span class="fk">footprint</span><span class="fv">50<small>files touched</small></span></div>
+          <div class="fathom"><span class="fk">span</span><span class="fv">18d<small>Jul 23 to Aug 10</small></span></div>
+          <div class="fathom"><span class="fk">corrections</span><span class="fv">4<small>gauntlets to send</small></span></div>
+          <div class="fathom"><span class="fk">surfaces</span><span class="fv">5<small>one-door to diamond</small></span></div>
+        </div>
+        <div class="cfoot"><div class="depthbar"><span style="width:94%"></span></div><div class="depthlab">deep &middot; hardest heal</div></div>
+      </div>
+
+      <div class="core sharp">
+        <div class="ch">
+          <div class="exline"><span class="exl">C</span><span class="nm">Ahmed</span></div>
+          <div class="co">Polyform &middot; remediation</div>
+          <span class="fidbadge">sharp</span>
+        </div>
+        <div class="fathoms">
+          <div class="fathom"><span class="fk">iterations</span><span class="fv">25<small>commits</small></span></div>
+          <div class="fathom"><span class="fk">footprint</span><span class="fv">24<small>files touched</small></span></div>
+          <div class="fathom"><span class="fk">span</span><span class="fv">13d<small>Jul 22 to Aug 4</small></span></div>
+          <div class="fathom"><span class="fk">corrections</span><span class="fv">1<small>board pass</small></span></div>
+          <div class="fathom"><span class="fk">surfaces</span><span class="fv">1<small>one-door remediation</small></span></div>
+        </div>
+        <div class="cfoot"><div class="depthbar"><span style="width:39%"></span></div><div class="depthlab">shallower &middot; inherited the machine</div></div>
+      </div>
+
+      <div class="core grain">
+        <div class="ch">
+          <div class="exline"><span class="exl">D</span><span class="nm">Rayan</span></div>
+          <div class="co">Periscope &middot; first contact</div>
+          <span class="fidbadge">grain</span>
+        </div>
+        <div class="fathoms">
+          <div class="fathom"><span class="fk">iterations</span><span class="fv">1<small>session, uncommitted</small></span></div>
+          <div class="fathom"><span class="fk">footprint</span><span class="fv">2<small>SSOT + preview</small></span></div>
+          <div class="fathom"><span class="fk">span</span><span class="fv">1d<small>Aug 10</small></span></div>
+          <div class="fathom"><span class="fk">corrections</span><span class="fv">0<small>first-pass clean</small></span></div>
+        </div>
+        <div class="grainnote"><p>insufficient signal for a trajectory. one session is a point, not an arc. this core stays grain until it earns depth.</p></div>
+        <div class="cfoot"><div class="depthbar"><span style="width:9%"></span></div><div class="depthlab">grain &middot; a point, not an arc</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- the bedrock lattice -->
+  <section class="bedrock reveal">
+    <div class="ey">the bedrock &middot; shared by all four cores</div>
+    <h2 style="margin-top:12px">Under every core, the same substrate lattice.</h2>
+    <p class="sub">The Observatory's last forensic scan of the engine every counterpart sits on, L5 down to L1,
+      graded on real code with a confidence and a risk. Shown whole, the B&rsquo;s and C&rsquo;s included, because
+      earned fidelity means the render carries the weak layers too. <b>Source: data.arcs-v9.json, head b1c4207,
+      generated 2026-06-16.</b></p>
+    <div class="lattwrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Finding</th><th>Grade</th><th>Conf</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td class="lyr">L5</td><td><span class="lab">Compass &rarr; Receipt</span><span class="desc">The product: a posed decision runs a Claude pipeline and returns one bearing plus a graded receipt.</span></td><td class="grade A">A</td><td class="conf">96</td><td><span class="risk LOW">LOW</span></td></tr>
+          <tr><td class="lyr">L5</td><td><span class="lab">Observability layer</span><span class="desc">ADR-023 goal lattice + load-tested Conductor sim; not yet wired to live receipts (gated).</span></td><td class="grade B">B</td><td class="conf">84</td><td><span class="risk MED">MED</span></td></tr>
+          <tr><td class="lyr">L4</td><td><span class="lab">RLS deny-all</span><span class="desc">Row-level security deny-all across all 9 Supabase tables.</span></td><td class="grade A">A</td><td class="conf">92</td><td><span class="risk LOW">LOW</span></td></tr>
+          <tr><td class="lyr">L4</td><td><span class="lab">App-layer auth</span><span class="desc">Auth enforced at the app layer (ADR-001) rather than the data layer alone.</span></td><td class="grade C">C</td><td class="conf">85</td><td><span class="risk MED">MED</span></td></tr>
+          <tr><td class="lyr">L3</td><td><span class="lab">Y-gate &rarr; render</span><span class="desc">Y-gate state drives render resolution. This is earned fidelity, in the code.</span></td><td class="grade A">A</td><td class="conf">92</td><td><span class="risk LOW">LOW</span></td></tr>
+          <tr><td class="lyr">L2</td><td><span class="lab">compass route, 322 lines</span><span class="desc">The heaviest single handler; the whole L0 to L5 pipeline lives here.</span></td><td class="grade A">A</td><td class="conf">98</td><td><span class="risk LOW">LOW</span></td></tr>
+          <tr><td class="lyr">L1</td><td><span class="lab">L0 to L5 prose prompt</span><span class="desc">The pipeline is a single prose prompt, not orchestrated agents.</span></td><td class="grade A">A</td><td class="conf">98</td><td><span class="risk LOW">LOW</span></td></tr>
+          <tr><td class="lyr">L1</td><td><span class="lab">computeYGate unaudited</span><span class="desc">The core gate ships without unit coverage. The lowest-confidence finding, named not hidden.</span></td><td class="grade C">C</td><td class="conf">60</td><td><span class="risk MED">MED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- coda -->
+  <section class="coda reveal">
+    <div class="ey">notomation</div>
+    <p style="margin-top:16px">Only a diamond cuts a diamond. This instrument is the <b>man-made</b> one: industrial,
+      exact, used out of necessity. Its only job is to cut the <b>real</b> ones out clean, the genuine decisions,
+      and never to be mistaken for them.</p>
+  </section>
+
+  <!-- provenance -->
+  <dl class="prov reveal">
+    <div class="provrow"><dt>Per-core telemetry</dt><dd>git history, unique commit subjects + files touched + first-to-last span, per counterpart. Rayan: this session, uncommitted.</dd></div>
+    <div class="provrow"><dt>Substrate lattice</dt><dd>public/observatory/data.arcs-v9.json &middot; head b1c4207 &middot; forensic scan generated 2026-06-16 &middot; foundation-era, the engine beneath the forge.</dd></div>
+    <div class="provrow"><dt>Fidelity</dt><dd>Each core rendered at the resolution its data earns. Grain is a real state, not a failure. Nothing here is projected or fabricated.</dd></div>
+  </dl>
+  <div class="footline">ARCS &middot; THE DEEP CUT &middot; DRILLED, NOT DECLARED</div>
+</div>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){
+      els.forEach(function(e){e.classList.add('seen')});return;
+    }
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
