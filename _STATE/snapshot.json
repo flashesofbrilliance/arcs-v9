@@ -2,10 +2,13 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b6f9b4a",
-    "head_message": "chore(state): backfill ADR-050..054 index; advance lattice 44->51 [NCI:SKIP] (merged to main as PR #136, merge 2a6d2ea)",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "70ca06a",
+    "head_message": "chore(seeds): rosetta-shell built-local (Tier-A, 6-locale lossless) [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -56,7 +59,7 @@
   ],
   "nci_counter": 247,
   "session_summary": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) — do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
+  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) \u2014 do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
   "blocking": "NONE.",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -181,7 +184,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-13T16:50:33Z",
+  "git_refreshed_at": "2026-08-14T12:57:52Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
