@@ -116,14 +116,15 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | Y-gate | Pure function | `src/lib/ygate.ts` | Called inline by compass |
 
 ### Backlog (not built)
-| Agent / Worker | Type | Priority | Notes |
-|---|---|---|---|
-| Outcome handler | `PATCH /api/receipts/[id]` | P1 | Closes receipt loop, fires `receipt_outcome_matched` |
-| Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
-| GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
-| Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
-| Kairos detection | Background job | P4 | Machinery in `scripts/` via ADR-023; gated at 100 receipts |
-| Observatory / replay | Worker | P4 | Machinery in `scripts/` (lattice_sim, Folksonomist); gated at 100 receipts |
+|| Agent / Worker | Type | Priority | Notes |
+||---|---|---|---|
+|| Outcome handler | `PATCH /api/receipts/[id]` | P1 | Closes receipt loop, fires `receipt_outcome_matched` |
+|| Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
+|| GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
+|| Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
+|| Kairos detection | Background job | P4 | Machinery in `scripts/` via ADR-023; gated at 100 receipts |
+|| Observatory / replay | Worker | P4 | Machinery in `scripts/` (lattice_sim, Folksonomist); gated at 100 receipts |
+|
 
 ### Foundation (production-ready, stdlib-only Python)
 | Component | File(s) | Purpose | Status |
