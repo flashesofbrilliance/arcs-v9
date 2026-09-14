@@ -21,6 +21,26 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-09-14 · Jack/Rain radar charts + methodology table (found on Zach's "feels underbaked" prompt, not by any gate)
+
+Found by: Zach asking directly whether the full design gauntlet had actually run. It had not — only
+the mechanical detector (contrast/undersized-text/em-dash) had been run and its findings fixed; no
+responsive sweep, no `getBBox()`-vs-`viewBox` check on the SVG charts, no gauntlet. Sweeping
+375/790/desktop by hand afterward surfaced two real, user-facing breaks neither `artifact_wrap_lint.py`
+nor `impeccable detect` can see (both are text/DOM checks; neither inspects SVG child geometry
+against its own viewBox, or a table's rendered width against its scroll container).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Both radar charts (`public/jack-rain-ext.html` 5-axis, `runtime/warroom/jack-rain.html` 9-axis) had most axis labels rendering outside their own `viewBox`, silently clipped by the SVG's default `overflow:hidden` — "Scope & authority" was ~90% cut off on the ext page. Geometry was hand-typed from a Python coordinate dump and never checked against actual rendered label extents | `element.getBBox()` vs `svg.viewBox.baseVal`, per label, in the live DOM (not visible in a static code read) | Recomputed both charts' viewBox/radius/label-anchor geometry so every label's measured bbox sits inside the viewBox with a 6px margin (5-axis: `viewBox="0 0 376 231"`; 9-axis: `viewBox="0 0 345.3 240.8"`); shortened two labels ("AI-native surface" → "AI-native", "Rare combination" → "Rare combo") to reduce the margin a legible font-size needs | Manual `getBBox()` check this session; no automated guard yet — candidate: a headless script that opens every chart-bearing artifact, opens its `<details>`, and asserts zero clipped `<text>` elements before commit |
+| 2 | The 6-column scoring-ledger/methodology table (`runtime/warroom/jack-rain.html`, inside the nested "Go deeper" disclosure) had no horizontal-scroll container; at 375px it forced `document.body.scrollWidth` to 636px, pushing the entire page wider than the viewport instead of just the table | `document.body.scrollWidth` vs `window.innerWidth` at 375px, with the `<details>` opened (closed by default, so the break was invisible on a plain page-load screenshot) | Wrapped the `<table>` in a `.table-scroll{overflow-x:auto}` div with `table{min-width:560px}`, the standard pattern already used for wide tables elsewhere in this repo (`_PATTERNS/arcs-artifact-css-base.css` overflow-x containers) | `artifact_wrap_lint.py` does not check this class of overflow (table-inside-disclosure); candidate guard: extend it to flag any `<table>` not wrapped in an overflow-x container |
+
+**Process lesson:** a "done" pass that only runs mechanical text/contrast gates and eyeballs one
+desktop screenshot is not a design gauntlet. Both defects here needed the page actually opened in a
+browser, at more than one width, with every `<details>` forced open, and DOM geometry measured, not
+just read from source. Booking this so the next artifact with a chart or a disclosure gets that
+sweep before shipping, not after being asked.
+
 ## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
 
 Found by: pre-commit design detector, new-page block. Same class of finding as the ext page above

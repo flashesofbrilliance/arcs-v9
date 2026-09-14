@@ -103,7 +103,8 @@ summary::-webkit-details-marker{display:none;}
 summary::after{content:'+';font-size:19px;color:var(--muted);}
 details[open] summary::after{content:'−';}
 .evidence-body{padding:4px 18px 18px;}
-table{width:100%;border-collapse:collapse;font-size:15px;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;min-width:560px;border-collapse:collapse;font-size:15px;}
 th{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);text-align:left;padding:8px 10px;border-bottom:1px solid #2c3b52;}
 td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-secondary);}
 td.num{font-family:var(--font-mono);text-align:center;color:var(--text);font-weight:700;}
@@ -113,7 +114,7 @@ details.nested summary{color:var(--text-secondary);padding:10px 0;font-size:14px
 details.nested table{font-size:14.5px;}
 details.nested th,details.nested td{padding:7px 8px;font-size:14.5px;}
 .radar-fig{margin:4px 0 0;padding:0;}
-.radar-fig svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.radar-fig svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto;}
 .radar-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:6px;font-size:14.5px;color:var(--text-secondary);}
 .radar-legend span{display:inline-flex;align-items:center;gap:6px;}
 .radar-legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
@@ -189,48 +190,48 @@ details.nested th,details.nested td{padding:7px 8px;font-size:14.5px;}
       <summary>Shape overlap &middot; your profile against the role, 9 dimensions</summary>
       <div class="evidence-body">
         <figure class="radar-fig">
-          <svg viewBox="0 0 300 300" role="img" aria-label="Radar chart comparing a full-fit reference shape to Zach's actual score across nine rubric dimensions. Two of nine dimensions, domain breadth and culture screen, sit slightly inside the full-fit line; the other seven touch it exactly.">
+          <svg viewBox="0 0 345.3 240.8" role="img" aria-label="Radar chart comparing a full-fit reference shape to Zach's actual score across nine rubric dimensions. Two of nine dimensions, domain breadth and culture screen, sit slightly inside the full-fit line; the other seven touch it exactly.">
             <g stroke="#1e293b" stroke-width="1" fill="none">
-              <polygon points="150.0,78.0 196.3,94.8 220.9,137.5 212.4,186.0 174.6,217.7 125.4,217.7 87.6,186.0 79.1,137.5 103.7,94.8" />
-              <polygon points="150.0,114.0 173.1,122.4 185.5,143.7 181.2,168.0 162.3,183.8 137.7,183.8 118.8,168.0 114.5,143.7 126.9,122.4" />
-              <line x1="150" y1="150" x2="150.0,42.0" />
-              <line x1="150" y1="150" x2="219.4,67.3" />
-              <line x1="150" y1="150" x2="256.4,131.2" />
-              <line x1="150" y1="150" x2="243.5,204.0" />
-              <line x1="150" y1="150" x2="186.9,251.5" />
-              <line x1="150" y1="150" x2="113.1,251.5" />
-              <line x1="150" y1="150" x2="56.5,204.0" />
-              <line x1="150" y1="150" x2="43.6,131.2" />
-              <line x1="150" y1="150" x2="80.6,67.3" />
+              <polygon points="165.3,97.8 182.0,103.8 190.9,119.2 187.8,136.8 174.2,148.2 156.4,148.2 142.8,136.8 139.7,119.2 148.6,103.8" />
+              <polygon points="165.3,71.8 198.7,83.9 216.5,114.7 210.3,149.8 183.1,172.6 147.5,172.6 120.3,149.8 114.1,114.7 131.9,83.9" />
+              <line x1="165.3" y1="123.8" x2="165.3" y2="45.8" />
+              <line x1="165.3" y1="123.8" x2="215.4" y2="64.0" />
+              <line x1="165.3" y1="123.8" x2="242.1" y2="110.2" />
+              <line x1="165.3" y1="123.8" x2="232.8" y2="162.8" />
+              <line x1="165.3" y1="123.8" x2="192.0" y2="197.1" />
+              <line x1="165.3" y1="123.8" x2="138.6" y2="197.1" />
+              <line x1="165.3" y1="123.8" x2="97.7" y2="162.8" />
+              <line x1="165.3" y1="123.8" x2="88.5" y2="110.2" />
+              <line x1="165.3" y1="123.8" x2="115.2" y2="64.0" />
             </g>
-            <polygon points="150.0,42.0 219.4,67.3 256.4,131.2 243.5,204.0 186.9,251.5 113.1,251.5 56.5,204.0 43.6,131.2 80.6,67.3"
+            <polygon points="165.3,45.8 215.4,64.0 242.1,110.2 232.8,162.8 192.0,197.1 138.6,197.1 97.7,162.8 88.5,110.2 115.2,64.0"
                      fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85" />
-            <polygon points="150.0,42.0 219.4,67.3 256.4,131.2 212.4,186.0 186.9,251.5 125.4,217.7 56.5,204.0 43.6,131.2 80.6,67.3"
+            <polygon points="165.3,45.8 215.4,64.0 242.1,110.2 210.3,149.8 192.0,197.1 147.5,172.6 97.7,162.8 88.5,110.2 115.2,64.0"
                      fill="var(--cyan)" fill-opacity="0.12" stroke="var(--cyan)" stroke-width="2" />
             <!-- vertices, actual shape -->
-            <circle cx="150.0" cy="42.0" r="3" fill="var(--cyan)" />
-            <circle cx="219.4" cy="67.3" r="3" fill="var(--cyan)" />
-            <circle cx="256.4" cy="131.2" r="3" fill="var(--cyan)" />
-            <circle cx="212.4" cy="186.0" r="3" fill="var(--cyan)" />
-            <circle cx="186.9" cy="251.5" r="3" fill="var(--cyan)" />
-            <circle cx="125.4" cy="217.7" r="3" fill="var(--cyan)" />
-            <circle cx="56.5" cy="204.0" r="3" fill="var(--cyan)" />
-            <circle cx="43.6" cy="131.2" r="3" fill="var(--cyan)" />
-            <circle cx="80.6" cy="67.3" r="3" fill="var(--cyan)" />
+            <circle cx="165.3" cy="45.8" r="3" fill="var(--cyan)" />
+            <circle cx="215.4" cy="64.0" r="3" fill="var(--cyan)" />
+            <circle cx="242.1" cy="110.2" r="3" fill="var(--cyan)" />
+            <circle cx="210.3" cy="149.8" r="3" fill="var(--cyan)" />
+            <circle cx="192.0" cy="197.1" r="3" fill="var(--cyan)" />
+            <circle cx="147.5" cy="172.6" r="3" fill="var(--cyan)" />
+            <circle cx="97.7" cy="162.8" r="3" fill="var(--cyan)" />
+            <circle cx="88.5" cy="110.2" r="3" fill="var(--cyan)" />
+            <circle cx="115.2" cy="64.0" r="3" fill="var(--cyan)" />
             <!-- gap callouts, secondary encoding on the two dips -->
-            <circle cx="212.4" cy="186.0" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
-            <circle cx="125.4" cy="217.7" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
+            <circle cx="210.3" cy="149.8" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
+            <circle cx="147.5" cy="172.6" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
             <!-- axis labels -->
-            <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#94a3b8">
-              <text x="150.0" y="18.2" text-anchor="middle">Role-shape</text>
-              <text x="232.1" y="52.1" text-anchor="start">AI-native</text>
-              <text x="279.9" y="127.8" text-anchor="start">Rare combo</text>
-              <text x="264.7" y="216.9" text-anchor="start" fill="var(--red)">Domain breadth</text>
-              <text x="197.7" y="273.1" text-anchor="start">Scope/authority</text>
-              <text x="102.3" y="273.1" text-anchor="end" fill="var(--red)">Culture</text>
-              <text x="35.3" y="216.9" text-anchor="end">Comp/level</text>
-              <text x="20.1" y="127.8" text-anchor="end">Logistics</text>
-              <text x="63.9" y="52.1" text-anchor="end">Warm path</text>
+            <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" fill="#94a3b8">
+              <text x="165.3" y="13.0" text-anchor="middle">Role-shape</text>
+              <text x="236.5" y="38.9" text-anchor="start">AI-native</text>
+              <text x="274.4" y="104.5" text-anchor="start">Rare combo</text>
+              <text x="261.2" y="179.1" text-anchor="start" fill="var(--red)">Domain breadth</text>
+              <text x="203.2" y="227.8" text-anchor="start">Scope/authority</text>
+              <text x="127.4" y="227.8" text-anchor="end" fill="var(--red)">Culture</text>
+              <text x="69.4" y="179.1" text-anchor="end">Comp/level</text>
+              <text x="56.2" y="104.5" text-anchor="end">Logistics</text>
+              <text x="94.1" y="38.9" text-anchor="end">Warm path</text>
             </g>
           </svg>
           <figcaption class="radar-legend">
@@ -243,6 +244,7 @@ details.nested th,details.nested td{padding:7px 8px;font-size:14.5px;}
         <details class="nested">
           <summary>Go deeper: scoring ledger and methodology</summary>
           <div class="evidence-body">
+            <div class="table-scroll">
             <table>
               <thead><tr><th>Dimension</th><th style="text-align:center;">Weight</th><th style="text-align:center;">Score</th><th>0 reads as</th><th>3 reads as</th><th>Why this score</th></tr></thead>
               <tbody>
@@ -257,6 +259,7 @@ details.nested th,details.nested td{padding:7px 8px;font-size:14.5px;}
                 <tr><td>Warm path</td><td class="num">&times;1</td><td class="num" style="color:var(--green);">3</td><td>cold</td><td>strong intro / referral</td><td>Jack Dillé, direct personal contact, strongest tier on this dimension.</td></tr>
               </tbody>
             </table>
+            </div>
             <p class="evidence-note">Weights (1&ndash;5) reflect which dimensions predict fit hardest for the register ARCS itself targets. Nothing here is a hiring signal from Rain; it is Zach's own pre-work sizing rubric, applied the same way to every role on the board.</p>
           </div>
         </details>
