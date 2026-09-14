@@ -110,4 +110,10 @@ Scored: 588 bridge rows · bands: PASS 172 · PURSUE 212 · CONSIDER 204
 
 ## Unscored
 
-- bridge-oscar-1c22ac25 Oscar Health — Director, Business Operations & Strategy (bridge index scan)
+- bridge-oscar-1c22ac25 Oscar Health — Director, Business Operations & Strategy (bridge index scan).
+  Confirmed 2026-09-13: unscorable, not unscored-by-omission. Greenhouse job id 8109252 now 404s
+  (boards-api.greenhouse.io/v1/boards/oscar/jobs/8109252) — the req was pulled between index-build
+  (2026-09-11) and this drain. No JD to read, so no score was fabricated. 588/589 bridge_scan rows
+  now carry a bridge-1.1 composite (verified live: `node scripts/jobs_bridge_sweep.mjs --report` ->
+  bands {"PASS":172,"PURSUE":212,"CONSIDER":204}). See hypothesis-ledger.md Amendment 2026-09-13
+  for why this scored pool is a supply-side denominator, not an H1-H4 outcome denominator.

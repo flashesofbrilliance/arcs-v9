@@ -186,3 +186,47 @@ Jul 2026 reconnect as peer, not candidate.
 - Detector (for the bridge rubric): number of artifacts sent AFTER a `req_reality <= 1` signal.
   Fanatics 4, HypeLab 3. Any nonzero count is the pattern firing; the correct nonzero artifact is
   a pilot or a product, never a JD.
+
+### Amendment 2026-09-13 — bridge_scan pool scored; SUPPLY denominator ≠ OUTCOME denominator (do not conflate)
+
+**What changed:** the bridge employer-quality index (`_STATE/job-search/employer-index/README.md`,
+133 employers, 7,593 reqs → 589 winnable-title rows ingested to jobs.arcs.care as `bridge_scan`)
+is now scored against `runtime/specs/bridge-scan.json` v1.1 (win-probability rubric: req_reality,
+competition_density, level_fit, shape_fit, stability, edge_rewarded, logistics, comp_floor,
+warm_path). Verified live against the board 2026-09-13 (`node scripts/jobs_bridge_sweep.mjs
+--report`): **588/589 scored** — `{"PASS":172,"PURSUE":212,"CONSIDER":204}`. The 1 remaining row
+(`bridge-oscar-1c22ac25`, Oscar Health "Director, Business Operations & Strategy") is unscorable,
+not unscored-by-omission: its Greenhouse posting (job id 8109252) 404s as of 2026-09-13 — the req
+was pulled between index-build (2026-09-11) and this pass. Left `UNSCORED` with reason recorded in
+`_STATE/job-search/bridge-shortlist-2026-09-13.md` ("Unscored" section); do not fabricate a score
+for a JD that no longer exists to read.
+
+**Why this is NOT an H1–H4 denominator fix, and must not be read as one.** The 589-row bridge_scan
+board is a **supply-side** pool — winnable *targets*, scored on prior win-probability before any
+shot is fired. H1–H4's denominator problem (Amendment (a) above: "the true denominator is unknown"
+for the **applied funnel**) is a **demand-side** gap — how many of the 28 board rows plus the
+Gmail-visible unlisted applications (Figma, Baseten, Luma, Navan, …) actually went out, and what
+they resolved to. Scoring 588 candidate reqs changes zero outcome rows and answers zero of H1–H4
+as pre-registered; conflating "588 scored" with "588 counted toward H1–H4" would be exactly the
+coherence-over-correctness mistake this ledger exists to prevent.
+
+**What this DOES change, honestly:**
+- **H1 (contrarian core) — future supply, not current rate.** All 588 rows are non-prestige/
+  established-employer by construction (the bridge lane's whole premise); the pool that would need
+  to exist for H1 to ever reach n≥30-resolved on the non-prestige arm now clearly exists (212
+  PURSUE + 204 CONSIDER = 416 candidate shots above the PASS gate). The rate itself is still 0
+  applications, 0 outcomes, from this pool as of today.
+- **H4 (model audit) — instrument now exists, not yet exercised.** Every bridge_scan row carries a
+  composite (`bridge-1.1` Score row) that could later be tertile-cut against response rate once
+  shots are fired and resolved from this pool. Today there are 0 fired shots from bridge_scan, so
+  H4 still has n=0 on this source. The rubric itself has also revised once already inside this pool
+  (v1.0 → v1.1 gate-rule fix — see `bridge-shortlist-2026-09-13.md` "Where the 20 forged bundles
+  landed under v1.1"; composites moved as much as 0.966→0.816 on the same req), which is itself a
+  live instance of "the scoring spec is due a rethink, not just a tweak" and should be logged if
+  v1.1 composites end up predicting no better than v1.0 once outcomes exist.
+- **H2/H3/NULL — untouched.** No role-shape, warm-path, or ghost-window data is created by scoring
+  a sourcing pool.
+
+**Action still open (unchanged from Amendment (a)):** the real H1–H4 denominator fix is reconciling
+the Gmail-visible applied set against the board's 28 rows. That work is not done by this pass and
+is not attempted here — it needs the inbox sweep, not the bridge scorer.
