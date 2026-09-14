@@ -194,3 +194,70 @@ Receipt: `2026-09-13--prune-hold-worktrees-pass2--ZH`.
 
 PENDING.md "Worktree hold branches" note ("Do NOT remove these worktrees — they are the only copy
 of the work") is now moot: the work is on main and in the bundles.
+
+## Pass 3 (2026-09-13, separate session between the audit-doc update above and this one)
+
+Between the "Pass 2" entry above and this session, an unrecorded intermediate sweep removed
+**most of the remaining UNMERGED-stale + GHOST-history + ACTIVE-recent worktrees** — the repo
+went from 59 worktrees to the 16 seen at the start of this session. Evidence: 70 bundles now sit
+in `~/arcs-worktree-bundles/` (see `MANIFEST.tsv`, most stamped `Sep 13 12:07`), well beyond the
+17 this doc's Pass 1/2 account for. **No content was lost** — spot-checked 11 of the removed
+branches (`claude/progressive-handoffs-global-memory-8a98c4`, `claude/quirky-taussig-946b8d`
+[3 unpushed commits], `feat/audit-service`, `claude/high-leverage-routines-249613`,
+`claude/epic-bardeen-94cce3`, `claude/le-woof-better-better-58fdd8`, `claude/reader-wrap-fix`,
+`claude/priceless-goldwasser-6be46d`, `claude/1a-handoff-snapshot`, `claude/quizzical-dhawan-252fe5`,
+`claude/bridge-scan-rubric`) and every branch ref is still intact locally, not an ancestor of
+`origin/main` (i.e. still carries real unmerged/unpushed commits), and each has a bundle too —
+double backup held. **But several of these were previously classified ACTIVE-recent** in this
+same doc (real unmerged work, last touched within days) — pruning the *worktree* for those was
+premature by this doc's own rule ("ACTIVE-recent (18) — leave alone"). Nothing to restore
+urgently since the branches+bundles are safe, but flagging: **a human should decide whether any
+of that ACTIVE-recent work (e.g. `quirky-taussig-946b8d`'s 3 unpushed commits) needs a fresh
+worktree recreated to finish landing it** (`git worktree add <path> <branch>` from the branch ref
+— no bundle restore needed, the ref is live). Not investigated further this session; out of the
+assigned scope (this session's brief was the 10 UNCLAIMED-handoff worktrees below).
+
+## Pass 4 (2026-09-13, this session) — the 10 UNCLAIMED-handoff worktrees
+
+A live SessionStart hook flagged 12 worktrees as unclaimed progressive-handoff checkpoints (last
+session ended without `/handoff`). 2 were off-limits (active parallel sessions: `hopeful-archimedes-759237`
+running bridge-scan-rubric scoring, `recursing-brattain-190758` running 720-brand-coherence pickup —
+neither touched). The remaining 10 were classified by `git cherry` patch-id against `origin/main`
+plus a manual read of every non-hook-state dirty/untracked file (hook-state churn —
+`_STATE/handoff-progress*`, `_STATE/pulse.json`, `_STATE/snapshot.json`, `_INBOX/*.jsonl` — is
+noise per this doc's own convention and ignored for classification):
+
+| worktree | branch | real unmerged | verdict | why |
+|---|---|---|---|---|
+| jobs-arcs-care-scrape-status-2a9b9d | claude/jobs-arcs-care-scrape-status-2a9b9d | 0 | **PRUNED** | fully on origin/main, only hook-state dirt |
+| zealous-golick-89e6e6 | claude/good-host-api-passthrough | 0 | **PRUNED** | merged via PR #428, only hook-state dirt |
+| recruiter-call-prep-56ea4e | claude/recruiter-call-prep-56ea4e | 1 (state-only) | **PRUNED** | the 1 unmerged commit (`beec6752`) touches only `_STATE/handoff-progress.jsonl` + `_STATE/snapshot.json` and its own message says "All code merged to main via #384/#386/#390/#391; this branch is state-only" — verified true |
+| determined-lovelace-de940d | claude/handoff-v3.61.0 | 0 | KEEP, mark claimed | the v3.61.0 handoff session itself; content already folded into CLAUDE.md; only dirty file is hook-state; left in place per task note, not acted on |
+| cbs-anti-slop-engine | claude/cbs-anti-slop-engine | 1 | **NEEDS HUMAN CALL** | real net-new feature commit `e6875c40`, `src/lib/cbs.ts` (137 lines, zero-dep CBS anti-slop scoring engine, tsc-clean + smoke-tested); not on any PR yet — land or drop |
+| modest-gauss-f40b89 | claude/modest-gauss-f40b89 | 1 | **NEEDS HUMAN CALL** | real 1-line typography fix (`a38a768d`, nbsp after lone "I" dropcap) on live `public/blog-nftt-schematic-scaffolds.html`; confirmed NOT on origin/main; trivial, low-risk cherry-pick candidate |
+| jobs-arcs-care-batch-trigger-3da902 | claude/jobs-arcs-care-batch-trigger-3da902 | 0 | **NEEDS HUMAN CALL** | 2 uncommitted untracked files, real content: `_STATE/job-search/yuri-1-1-index-card.md` + `-vector-shift-ledger.md` (Yuri call prep, ~76 lines) — needs a commit, not a prune |
+| linkedin-articles-export-9c494a | claude/linkedin-articles-export-9c494a | 0 | **NEEDS HUMAN CALL (small)** | all real work already shipped via PR #422/#426 per its own `_STATE/handoff-progress.md` delta; only remaining real artifact is one untracked witness stub (`_STATE/witness/2026-09-11.jsonl`, 1 line) — should be folded into the canonical witness log before the worktree is pruned, not discarded |
+| memory-consolidation-handoffs-b852b1 | claude/memory-consolidation-handoffs-b852b1 | 0 | **NEEDS HUMAN CALL** | real uncommitted cross-harness handoff doc addressed to Hermes, `_STATE/handoff-2026-09-13-hermes-userN-productization-pickup.md` (72 lines, re: PROP-2026-09-12-USERN-EXTENSIBILITY-001) — needs to be committed/delivered, not discarded |
+| prl-chatbot-sugarcrm-605dbe | `main` (unusual — checked out on main directly, not a feature branch) | 0 commits, but real staged diff | **NEEDS HUMAN CALL — highest priority** | real staged changes to `public/scott-cut.html` + `runtime/specs/knowledge-lattice-v1.json` (9 ins/11 del) plus ~1,900 lines of untracked real PRL client-engagement evidence docs under `_ARTIFACTS/prl-1-1-evidence/` and `_STATE/2026-09-08-prl-forensic-recoil.md` — none of this is on any branch; being checked out on bare `main` means a careless `git checkout` or worktree op here could strand it. Recommend: create a proper feature branch from this worktree's current state and commit before doing anything else with it. |
+
+`python3 scripts/cruft_sweep.py survey` corroborates: 0 of these 10 came back `SAFE`, all 10 came
+back `REVIEW` (the script's own uniq-file heuristic is noisier than the `git cherry` read above
+but agrees on the verdict — nothing here is mechanically safe to auto-prune).
+
+### Pruned this pass (3) — bundle-first, branch ref kept as second backup
+
+| worktree | branch | tip | bundle |
+|---|---|---|---|
+| jobs-arcs-care-scrape-status-2a9b9d | `claude/jobs-arcs-care-scrape-status-2a9b9d` | e77b43d7 | `jobs-arcs-care-scrape-status-2a9b9d.bundle` |
+| zealous-golick-89e6e6 | `claude/good-host-api-passthrough` | 96477731 | `zealous-golick-89e6e6.bundle` |
+| recruiter-call-prep-56ea4e | `claude/recruiter-call-prep-56ea4e` | beec6752 | `recruiter-call-prep-56ea4e.bundle` |
+
+All three: `git bundle verify` OK, branch ref confirmed still present after `git worktree remove`.
+
+### Not pruned (7) — left alone, decision owed to Zach; nothing destructive done
+
+`determined-lovelace-de940d`, `cbs-anti-slop-engine`, `modest-gauss-f40b89`,
+`jobs-arcs-care-batch-trigger-3da902`, `linkedin-articles-export-9c494a`,
+`memory-consolidation-handoffs-b852b1`, `prl-chatbot-sugarcrm-605dbe` — see table above for why
+each one. `prl-chatbot-sugarcrm-605dbe` is the standout: real uncommitted client (PRL) evidence
+work sitting on a bare `main` checkout, highest-priority human call of the batch.
