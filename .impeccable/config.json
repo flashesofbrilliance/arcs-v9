@@ -83,6 +83,51 @@
         ],
         "createdAt": "2026-09-14T17:11:11.370Z",
         "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "public/jack-rain-resume.html"
+        ],
+        "createdAt": "2026-09-14T17:29:41.153Z",
+        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "public/jack-rain-resume.html"
+        ],
+        "createdAt": "2026-09-14T17:29:41.175Z",
+        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "public/jack-rain-resume.html"
+        ],
+        "createdAt": "2026-09-14T17:29:41.200Z",
+        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "public/jack-rain-resume.html"
+        ],
+        "createdAt": "2026-09-14T17:29:41.222Z",
+        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "public/jack-rain-resume.html"
+        ],
+        "createdAt": "2026-09-14T17:29:41.243Z",
+        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
       }
     ]
   }
