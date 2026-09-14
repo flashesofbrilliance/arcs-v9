@@ -25,6 +25,20 @@ jobs:
           echo "new_adrs=$NEW_ADRS" >> $GITHUB_OUTPUT
           echo "Found: $NEW_ADRS"
 
+      # Advisory: verify every citation (ADR numbers, commit SHAs, repo paths) in the new/changed
+      # ADR actually exists on origin/main before it's queued — reuses the existing GATE organ
+      # (ADR-075, scripts/integrity_gate.py) rather than a new checker. Non-blocking for now: a
+      # DRIFTED-AT-BIRTH ADR still gets queued, just flagged in the run log for a human to see.
+      - name: Verify ADR citations (integrity gate)
+        if: steps.detect.outputs.new_adrs != ''
+        continue-on-error: true
+        run: |
+          for ADR_FILE in ${{ steps.detect.outputs.new_adrs }}; do
+            echo "::group::integrity_gate — $ADR_FILE"
+            python3 scripts/integrity_gate.py "$ADR_FILE" || echo "⚠ citations need a human look (see above)"
+            echo "::endgroup::"
+          done
+
       - name: Generate pickup notes + update PENDING.md
         if: steps.detect.outputs.new_adrs != ''
         run: |
