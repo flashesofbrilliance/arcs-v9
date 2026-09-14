@@ -21,6 +21,31 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
+
+Found by: pre-commit design detector, new-page block. Same class of finding as the ext page above
+(this file is a same-day sibling, same kit).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Em-dash in `<title>` ("Zach Harris — Resume for Rain") | detector | Changed to a comma | detector in pre-commit |
+| 2 | Two low-contrast findings (`--dimmed` 4.0-4.3:1 on bg/panel) on `.contact-line`, `.role-dates`, and one step-t label | detector | Switched to `--text-secondary` (6.x:1), same fix class as seam 1 on the ext page | detector in pre-commit |
+| 3 | `design-system-font`/`-font-size`/`-color`/`-radius`/`dark-glow` findings | detector | Not repaired, same acceptance as `public/jack-rain-ext.html` below: inherits `_tokens.css`, a separate locked kit from DESIGN.md | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
+
+## 2026-09-14 · `public/jack-rain-ext.html` (Jack Dillé/Rain application pitch page)
+
+Found by: pre-commit design detector, new-page block.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Two low-contrast/undersized-text findings (`--dimmed` 4.3:1 on bg, tag/meta-line text under the 11px functional floor) | detector | Tag pills bumped 9.5px→11px, meta-line 10.5px→11.5px with `--text-secondary` instead of `--dimmed`, seam labels and legend text bumped to 11-12px | detector in pre-commit |
+| 2 | Remaining findings across `design-system-font`, `design-system-font-size`, `design-system-color`, `design-system-radius` (fonts/sizes/colors/radii "not declared in" or "outside" DESIGN.md) | detector | Not repaired. This page (and its internal companion `runtime/warroom/jack-rain.html`) inherits `src/ui-kit/recoil-report/_tokens.css` verbatim (the recoil-report family's own locked kit, per `token_source_gate.py`), which is a deliberately separate per-engagement visual world from the app's DESIGN.md ramp (PRODUCT.md: "per-engagement canon families may carry their own locked visual world... does not leak into product surfaces"). Forcing DESIGN.md's app-surface type/color/radius scale onto a recoil-report artifact would fight the kit it is required to inherit from. Scoped via `impeccable hooks ignore-value <rule> "*" --file <path>` for all four rules, both files, in `.impeccable/config.json` | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
+| 3 | Two zero-offset LED-glow findings on `runtime/warroom/jack-rain.html` (`dark-glow`, `#00ff9d`/`#00F0FF`) | detector | Not repaired. This is the shipped status-LED pattern from `src/app/jobs/[jobid]/page.tsx`'s `led()` helper (`boxShadow: 0 0 8px 1px ${color}`), reused identically for BAND/GATES/SWIPE/FORGE indicators, not new decoration | `ignore-value dark-glow "*" --file runtime/warroom/jack-rain.html` in `.impeccable/config.json`, ledger for the "why" |
+
+**Accepted, not repaired:** DESIGN.md-ramp mismatches on any page whose token source is
+`_tokens.css` (the recoil-report kit), not DESIGN.md. The two visual worlds are not yet
+reconciled; reconciling them belongs to `/design-sync`, not to a single artifact.
+
 ## 2026-09-14 · `public/schriner-ext.html` (Oxenham Group / recoil-close external twin)
 
 Found by: pre-commit kintsugi gate on first stage of `public/schriner-ext.html`, 21 findings

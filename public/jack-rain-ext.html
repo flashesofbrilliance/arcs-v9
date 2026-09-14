@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Zach Harris for Rain</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+:root {
+  --text-secondary: #94a3b8;
+  --elevated: #111827;
+  --orange: #ff9d3c;
+  --measure: 640px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:radial-gradient(1100px 500px at 50% -10%,#00F0FF0a 0,transparent 60%),radial-gradient(700px 400px at 90% 20%,#00FF9d06 0,transparent 55%),var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;}
+::selection{background:#00F0FF33;color:var(--text);}
+a{color:var(--cyan);text-underline-offset:2px;}
+a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:3px;}
+.wrap{max-width:680px;margin:0 auto;padding:20px 20px 64px;}
+.tag{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;}
+
+header{padding:32px 0 22px;border-bottom:1px solid var(--border);}
+h1{font-size:clamp(29px,5vw,41px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:14px 0 0;text-wrap:balance;max-width:var(--measure);}
+.meta-line{font-family:var(--font-mono);font-size:14px;letter-spacing:.02em;color:var(--text-secondary);margin-top:9px;}
+
+.step{margin-top:30px;}
+.step-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+.step-n{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.step-t{font-family:var(--font-mono);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+
+.verdict{max-width:var(--measure);}
+.verdict p{font-size:23px;line-height:1.6;font-weight:450;text-wrap:pretty;margin:0;color:var(--text);}
+
+.reasons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
+.reasons li{display:flex;gap:11px;font-size:17.5px;line-height:1.55;color:var(--text-secondary);}
+.reasons .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:8px;}
+.reasons b{color:var(--text);font-weight:600;}
+
+.radar-fig{margin:4px 0 0;padding:0;}
+.radar-fig svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.radar-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:6px;font-size:14.5px;color:var(--text-secondary);}
+.radar-legend span{display:inline-flex;align-items:center;gap:6px;}
+.radar-legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.evidence-note{font-size:14.5px;color:var(--text-secondary);margin-top:10px;line-height:1.6;max-width:var(--measure);}
+
+.kintsugi{border:1px solid var(--border);border-radius:10px;background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--surface);padding:20px 22px;max-width:var(--measure);}
+.kintsugi .crack{font-size:17px;color:var(--text-secondary);margin:0 0 10px;}
+.kintsugi .crack b{color:var(--text);}
+.seam{position:relative;padding-left:18px;margin-top:14px;}
+.seam::before{content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;background:linear-gradient(180deg,var(--gold),transparent);}
+.seam .label{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
+.seam p{font-size:17px;line-height:1.6;color:var(--text);margin:5px 0 0;}
+
+.tasks{list-style:none;counter-reset:task;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
+.tasks li{counter-increment:task;display:flex;gap:12px;font-size:17.5px;line-height:1.5;color:var(--text);}
+.tasks li::before{content:counter(task);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--elevated);border:1px solid var(--border);color:var(--cyan);font-family:var(--font-mono);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+.record-links{display:flex;flex-direction:column;gap:8px;max-width:var(--measure);}
+.record-links a{font-size:16px;}
+
+.sig{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:16px;color:var(--text-secondary);max-width:var(--measure);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag" style="background:var(--cyan);color:#03151a;">Application</span>
+      <span class="tag" style="border:1px solid #2c3b52;color:var(--text-secondary);">AI Operations Lead &middot; Rain</span>
+    </div>
+    <h1>Zach Harris, for the AI Operations Lead role</h1>
+    <div class="meta-line">Built with ARCS, the decision-intelligence tool I've been building &middot; scored against the same rubric I use on every role I'm weighing</div>
+  </header>
+
+  <div class="step verdict">
+    <div class="step-hd"><span class="step-n">1</span><span class="step-t" style="color:var(--cyan);">The short version</span></div>
+    <p>I think I'm a near-exact fit for this role, and I want to be upfront about the one place I'm not: I have no direct crypto or stablecoin experience yet.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-hd"><span class="step-n">2</span><span class="step-t" style="color:var(--gold);">Why I think so</span></div>
+    <ul class="reasons">
+      <li><span class="dot"></span><span><b>I've already built this job, as a product.</b> ARCS audits decisions and builds the structure (SOPs, scoring, feedback loops) that make a process trustworthy. That's this role, aimed at one company instead of everyone.</span></li>
+      <li><span class="dot"></span><span><b>I've done the regulated-finance version of this before.</b> At Grayscale, I built governance and compliance-in-the-loop controls for a platform moving $7B in digital assets.</span></li>
+      <li><span class="dot"></span><span><b>I like building inside fast-moving, funded teams.</b> Rain just closed a $250M Series C. That stage, figuring things out while the ground is still moving, is where I do my best work.</span></li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <div class="step-hd"><span class="step-n">3</span><span class="step-t" style="color:var(--green);">The shape, side by side</span></div>
+    <figure class="radar-fig">
+      <svg viewBox="-15 -15 330 330" role="img" aria-label="Radar chart comparing the role's own shape to my background across five dimensions: role shape, AI-native surface, rare combination, domain breadth, and scope and authority. Four of five sit on the same line; domain breadth is the one visible gap.">
+        <g stroke="#1e293b" stroke-width="1" fill="none">
+          <polygon points="150.0,110.7 187.4,137.8 173.1,181.8 126.9,181.8 112.6,137.8" />
+          <polygon points="150.0,71.3 224.8,125.7 196.2,213.6 103.8,213.6 75.2,125.7" />
+          <line x1="150" y1="150" x2="150.0,32.0" />
+          <line x1="150" y1="150" x2="262.2,113.5" />
+          <line x1="150" y1="150" x2="219.4,245.5" />
+          <line x1="150" y1="150" x2="80.6,245.5" />
+          <line x1="150" y1="150" x2="37.8,113.5" />
+        </g>
+        <polygon points="150.0,32.0 262.2,113.5 219.4,245.5 80.6,245.5 37.8,113.5"
+                 fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85" />
+        <polygon points="150.0,32.0 262.2,113.5 219.4,245.5 103.8,213.6 37.8,113.5"
+                 fill="var(--cyan)" fill-opacity="0.12" stroke="var(--cyan)" stroke-width="2" />
+        <circle cx="150.0" cy="32.0" r="3" fill="var(--cyan)" />
+        <circle cx="262.2" cy="113.5" r="3" fill="var(--cyan)" />
+        <circle cx="219.4" cy="245.5" r="3" fill="var(--cyan)" />
+        <circle cx="103.8" cy="213.6" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5" />
+        <circle cx="103.8" cy="213.6" r="3" fill="var(--cyan)" />
+        <circle cx="37.8" cy="113.5" r="3" fill="var(--cyan)" />
+        <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#94a3b8">
+          <text x="150.0" y="4.5" text-anchor="middle">Role shape</text>
+          <text x="288.4" y="105.0" text-anchor="start">AI-native surface</text>
+          <text x="235.5" y="267.7" text-anchor="start">Rare combination</text>
+          <text x="64.5" y="267.7" text-anchor="end" fill="var(--gold)">Domain breadth</text>
+          <text x="11.6" y="105.0" text-anchor="end">Scope &amp; authority</text>
+        </g>
+      </svg>
+      <figcaption class="radar-legend">
+        <span><i class="sw" style="border:1.5px dashed var(--gold);background:none;"></i>What the role asks for</span>
+        <span><i class="sw" style="background:var(--cyan);"></i>Where my background lands</span>
+      </figcaption>
+    </figure>
+    <p class="evidence-note">Four of five dimensions line up exactly. The one marked in gold, domain breadth, is the real gap, and it's the one worth talking through directly rather than glossing over.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-hd"><span class="step-n">4</span><span class="step-t" style="color:var(--orange);">The honest gap</span></div>
+    <div class="kintsugi">
+      <p class="crack"><b>The crack:</b> I haven't worked in crypto, stablecoins, or payments compliance. That's real, and I'd rather name it than let a resume imply otherwise.</p>
+      <div class="seam">
+        <div class="label">The gold seam</div>
+        <p>At Grayscale, I built governance, RBAC, and compliance-in-the-loop publishing controls for a platform moving $7B in regulated digital assets, SEC/FINRA-adjacent. The instinct that transfers directly: treat compliance as a design constraint from day one, not a review step bolted on after. The specific rails, stablecoins, card networks, are the learnable part.</p>
+      </div>
+      <div class="seam">
+        <div class="label">A second seam</div>
+        <p>At WTA, I built real-time systems at under 120 milliseconds of latency. Payments infrastructure shares the same discipline: small mistakes are expensive, and fast and correct both have to hold at once.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-hd"><span class="step-n">5</span><span class="step-t" style="color:var(--dimmed);">What I'd love next</span></div>
+    <ol class="tasks">
+      <li>A short conversation with whoever owns the Internal AI team, about where the real priorities are right now.</li>
+      <li>Happy to sketch a real prototype against one of Rain's actual workflows before or during the process, if that's useful.</li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <div class="step-hd"><span class="step-n">6</span><span class="step-t" style="color:var(--dimmed);">More</span></div>
+    <div class="record-links">
+      <div><a href="/jack-rain-resume.html">Resume, tailored for this role</a>, and the <a href="https://resume.arcs.care" target="_blank" rel="noopener">full interactive resume</a> if you want the rest of it.</div>
+    </div>
+  </div>
+
+  <div class="sig">
+    Thank you for passing this along, Jack. I wanted to be direct about the crypto/payments gap rather than let a resume gloss over it.
+  </div>
+
+</div>
+</body>
+</html>
