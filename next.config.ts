@@ -145,7 +145,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
-        { source: "/:path*", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
+        { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
         { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
