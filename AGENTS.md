@@ -228,25 +228,6 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 
 ---
 
-## Receipts or it didn't happen
-
-Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
-`decision_receipt` table (Supabase project `xbbpiryokswwvcrcutge`, ARCS_v9), in the fixed form:
-`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at`
-(+ `source_repo`, `refs[]`). Matched by any verifier against real git/GitHub/Vercel state —
-anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
-
-An action without a logged receipt is not considered complete, regardless of whether the underlying
-merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
-
-> Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
-> or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
-> the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its
-> table was never applied. The first two receipts (rubric v1.3 ship, NFTT PR #394) landed 2026-09-11
-> with `receipt_id`s `2026-09-10--rubric-v1.3-ship--ZH` and `2026-09-10--nftt-ledger-pr--ZH`.
-
----
-
 ## Connected systems
 
 | System | Repo | Role |
