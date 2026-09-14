@@ -2,6 +2,13 @@
 
 This directory serves as the cross-harness scratchpad and observation ledger for Claude Code, Hermes, Cursor, and human operators.
 
+**Append-only.** Never overwrite or restructure an existing sketch file — append to it, or fork a new
+dated file. This directory exists specifically so Perplexity (GitHub-connector-only, no access to
+gitignored scratch) can read and write it too; a silent rewrite here is a silent loss of an idea no
+other harness can recover, with no diff to show what vanished. (2026-09-13: an earlier version of this
+README was rewritten in place 43 minutes after being written, dropping two undocumented concepts —
+a lesson, not a rule violation, since this rule didn't exist yet.)
+
 ---
 
 ## Operational Anti-Patterns & Cost Leaks (2026-09-13 Ledger)
