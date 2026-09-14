@@ -2,10 +2,15 @@
   "captured_at": "2026-09-13T11:07:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ad4f084f",
-    "head_message": "Merge pull request #421 from flashesofbrilliance/claude/receipt-constraints-and-seed-2026-09-13",
+    "head_sha": "e77b43d",
+    "head_message": "Merge pull request #433 from flashesofbrilliance/fresh-starts",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -39,5 +44,6 @@
   "session_summary": "Bridge employer index (578 reqs live) + Triune Stream A/B/C (ADR-078..081 landed, worktree patch-id audit, scout intake gate) + seed bank clean; 8 receipts.",
   "next_action": "Thread 2 scores the 578 bridge_scan rows with rubric v1.0, then reconcile the H1-H4 denominator.",
   "blocking": "NONE",
-  "handoff_version": "v3.61.0"
+  "handoff_version": "v3.61.0",
+  "git_refreshed_at": "2026-09-14T11:13:22Z"
 }
