@@ -1,0 +1,318 @@
+{
+  "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
+  "meta": {
+    "report_id": "2026-09-14-jack-dille-rain",
+    "date": "2026-09-14",
+    "counterpart": "Jack Dillé (warm referral) → Rain",
+    "company": "Rain — global stablecoin payments platform (Visa/Mastercard Principal Member), $1.95B valuation, $250M Series C closed Jan 2026 led by ICONIQ",
+    "segments": 5,
+    "gate": {
+      "internal": "5x82tysw15"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "Zach's own recall (\"I know Jack Dillé who used to be at icebreaker who was very nice during my job search\") + Ashby JD https://jobs.ashbyhq.com/rain/5be1852f-94f0-4225-a81c-75d44c71a7b4, fetched 2026-09-14",
+      "load_bearing_quote": "This role sits at the intersection between building and enablement... use your expertise in product, data, and vibecoding to drive improvements that will help us accelerate as we scale."
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "candidacy",
+    "req_reality": 2,
+    "req_reality_basis": "Real, live Ashby JD with disclosed comp band ($150-220K + equity + bonus) and a named team (\"Internal AI team\") — but no decision-owner (hiring manager, Jack's own manager, or the team lead) has been met yet. Locks req_reality at 2, not 3, until a real conversation with Jack or the hiring team happens.",
+    "y_state": "YELLOW",
+    "topology": "CONVERGENT",
+    "nci_prior": 0,
+    "nci_post": 0,
+    "note": "Warm referral (not cold inbound), real posted JD, real funded company, rubric composite scores PURSUE (0.93). Open items are relationship-reactivation (how warm is the path today, years after the original kindness) and confirming the req is live/unfilled, not archetype-fit."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "A warm, personally-vouched-for referral from someone who was kind during a prior hard job search converts to real signal at the company, not just a forwarded link.",
+      "evidence": "Jack was \"very nice\" during Zach's earlier search while at Icebreaker — a relationship data point, not a transactional one.",
+      "inference": "EXP",
+      "confidence": [0.65, 0.55],
+      "conviction": "MED",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "The role's rubric score (0.93 PURSUE) is a genuine fit signal, not an artifact of the rubric being tuned to reward exactly this register.",
+      "evidence": "JD language mirrors the rubric's own anchors almost verbatim: \"AI Native Builder,\" \"skill/agent libraries, SOPs, governance frameworks,\" \"high agency,\" \"ambiguity.\"",
+      "inference": "EXP",
+      "confidence": [0.7, 0.6],
+      "conviction": "MED",
+      "verdict": "NEW"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {
+        "key": "warm_path_strength",
+        "audience": "internal",
+        "label": "Warm-path confidence (pre-call)",
+        "color": "#00F0FF",
+        "points": [0.5, 0.6, 0.65],
+        "grounding_quote": "I know Jack Dillé who used to be at icebreaker who was very nice during my job search"
+      }
+    ]
+  },
+  "insights": [
+    {
+      "audience": "both",
+      "plane": "idea",
+      "title": "AI-enablement-for-an-org is the ARCS register natively",
+      "text": "The JD asks for someone to build internal-AI leverage — SOPs, agent libraries, governance, cross-team enablement — for a single company. ARCS is the same primitive built as a product. The pitch writes itself without stretching."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Jack is a designer — register the pitch visually, not just verbally",
+      "text": "Zach's read: Jack will appreciate polish and packaging over a plain text summary. The HUD battlecard (show, don't tell) is the right artifact class for this specific counterpart, more than for a typical recruiter screen."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Reach back out to Jack directly — warm reactivation, not a cold ask — and confirm the req is live/unfilled and whether he can make a direct intro to the hiring manager or Internal AI team lead."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Share the Role Scan HUD card with Jack as the show-don't-tell artifact once the live jobs.arcs.care row is scored (owned by the parallel 'Jack Dillé connection' session, blocked as of 2026-09-14 on JOBS_PIPELINE_TOKEN sandbox redaction — re-check before re-attempting the same POST)."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Send the technical-cut resume once aligned on base-resume source; address the crypto/stablecoin domain gap directly rather than letting it ride."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "File the Ex-Ante decision receipt to Supabase decision_receipt (blocked this session — no Supabase MCP auth; fields staged in Exhibit 1 below, ready to submit)."
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "Jack Dillé &#183; Rain (AI Operations Lead)",
+      "sub": "Warm referral &#183; NYC on-site &#183; rubric composite 0.93 PURSUE"
+    },
+    "tabs": [
+      { "id": "pre", "label": "Pre-Call" },
+      { "id": "exante", "label": "Ex-Ante" },
+      { "id": "forge", "label": "Forge" },
+      { "id": "recoil", "label": "Recoil" },
+      { "id": "wargame", "label": "War Game" },
+      { "id": "defense", "label": "Defensibility" }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "True North",
+        "p": [
+          "Reactivate a genuinely warm relationship on its own terms first — not as a transactional favor-ask — then let the role's real strength (0.93 PURSUE, AI-enablement register that is literally ARCS) carry itself. Confirm the req is live and find out how much runway Jack actually has to influence the process before over-investing in a bundle he can't act on."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Context",
+        "rows": [
+          { "k": "Company", "v": "Rain — stablecoin payments platform, Visa/Mastercard Principal Member, $1.95B valuation (Jan 2026 Series C, $250M led by ICONIQ)" },
+          { "k": "Role", "v": "AI Operations Lead, Internal AI team, NYC on-site, $150-220K + equity + bonus" },
+          { "k": "Register", "v": "warm referral (Jack Dillé, ex-Icebreaker) — NOT a cold inbound; the 3-gate smoke test doesn't map cleanly here" },
+          { "k": "Y-Gate", "v": "YELLOW &mdash; real JD/comp/company, but no decision-owner met and warm-path strength with Jack not yet re-confirmed" }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Intel",
+        "intro": "Jack Dillé, previously at Icebreaker; was personally kind to Zach during an earlier hard job search. Now at Rain.",
+        "items": [
+          { "dot": "c", "html": "<strong>Jack Dillé</strong> &mdash; warm, personal-history contact, not a recruiter relationship. The referral carries relationship weight, not just a forwarded link." },
+          { "dot": "g", "html": "<strong>Rain</strong> &mdash; global stablecoin payments infra for enterprises/neobanks/platforms/AI agents; issues Visa+Mastercard cards at 175M+ merchant locations, 220+ countries; 100+ organizations trust it today." },
+          { "dot": "g", "html": "<strong>Funding</strong> &mdash; $250M Series C, Jan 2026, led by ICONIQ; Sapphire, Dragonfly, Bessemer, Galaxy, FirstMark, Lightspeed, Norwest, Endeavor Catalyst also in. Hypergrowth-stage, well-capitalized." },
+          { "dot": "c", "html": "<strong>The role</strong> &mdash; core member of the Internal AI team: audit workflows, build/ship AI agents & apps end-to-end, drive AI-adoption culture, build the SOPs/agent-library/governance primitives. This is internal-AI-enablement-as-a-job, not a customer-facing product role." },
+          { "dot": "", "html": "<strong>Requirements</strong> &mdash; 3-6 years product/product-ops/FDE/solutions-eng/TPM; fluent with Claude Code/Cursor, SQL & BI tools, APIs, scripting; comfortable with ambiguity; ideally Series A-C startup background." },
+          { "dot": "", "html": "<strong>Culture</strong> &mdash; open/flat structure, unlimited PTO with a 10-day minimum (a positive-screen signal: they're worried about under-use, not over-use), full remote/hybrid flexibility language despite this specific req being on-site." }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Questions &amp; landmines",
+        "intro": "This is a relationship conversation first, a role conversation second. Don't invert that order.",
+        "items": [
+          { "dot": "", "html": "How's Jack doing, genuinely — catch up before pivoting to the ask. &#183; look for: does the conversation open naturally, or does it feel forced by the ask" },
+          { "dot": "", "html": "Is this req actively being worked, or just posted and sitting? &#183; look for: a specific, current answer, not \"I think so\"" },
+          { "dot": "", "html": "Who owns the Internal AI team / who would the hiring manager be? &#183; look for: a name Jack can actually connect to" },
+          { "dot": "", "html": "What does \"AI Native Builder\" mean in practice at Rain today — what has the team already shipped? &#183; look for: concrete examples, not aspiration language" },
+          { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> don't lead with the resume/bundle before re-establishing the relationship — Jack was kind once; don't make the first re-contact transactional." },
+          { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> zero prior experience with stablecoins/crypto/payments compliance — address this head-on rather than letting the resume imply domain fluency that isn't there." }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+        "fields": [
+          { "label": "D &#183; Sharpened question", "value": "Is reaching back out to Jack about this specific req worth doing now, and is the AI Operations Lead role at Rain a genuine pursue given the rubric score and the domain gap?" },
+          { "label": "E &#183; Entity", "value": "Jack Dillé (warm contact, Rain); Rain's Internal AI team / hiring manager (not yet met); Rain the company" },
+          { "label": "W &#183; Window", "value": "This week &mdash; reach out to Jack before the posting ages further" },
+          { "label": "Hypothesis / expecting to see", "value": "Jack responds warmly and can either confirm the req is live or make a direct intro; the rubric's 0.93 PURSUE composite holds up as a genuine register match once the domain gap (stablecoins/crypto/payments) is surfaced, not concealed." },
+          { "label": "Predicted Y-gate", "value": "YELLOW &mdash; real JD/comp/funded-company signal, held short of GREEN only by the unmet decision-owner and unconfirmed current warm-path strength" },
+          { "label": "Pre-committed move", "value": "Send Jack a genuine, non-transactional reconnect message; if he responds positively, share the HUD battlecard as a show-don't-tell artifact and ask candidly whether the req is live and who owns it." },
+          { "label": "Belief most likely to update", "value": "Whether a years-old, one-directional kindness (Jack was nice during Zach's search; no ongoing relationship since) reactivates as readily as an active relationship would." },
+          { "label": "Falsifier", "value": "If Jack doesn't respond, or responds but the req turns out to be closed/filled/frozen, this closes as a well-scored opportunity with no viable path — archive without further resume/bundle investment." }
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "Exhibit 2 &#183; Exogenous Forge",
+        "p": [
+          "Every load-bearing claim in this bundle is either sourced directly from the live Ashby JD (fetched 2026-09-14) or flagged as Zach's own recall. GROUNDED = source-forced (JD text, funding press). INFERENCE = a read, not forced (warm-path strength, culture signal). Nothing here claims verified-but-unverified crypto/payments domain experience."
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Claim adjudication",
+        "columns": ["Claim", "Ruling", "Source force"],
+        "rows": [
+          ["Comp band $150-220K + equity + bonus, on-site NYC", "GROUNDED", "Verbatim from Ashby JD, fetched 2026-09-14"],
+          ["Rain valued at $1.95B, $250M Series C led by ICONIQ (Jan 2026)", "GROUNDED", "Verbatim from JD's \"About the Company\" section"],
+          ["Rubric composite 75/81 = 0.93 PURSUE", "GROUNDED", "Recomputed independently against runtime/specs/target-role-scan.json v1.3 dims/weights, matches the parallel session's own read"],
+          ["Jack can make a direct, effective intro to the hiring team", "INFERENCE", "Not yet confirmed — Zach's own characterization of the relationship, not verified against Jack's current standing at Rain"],
+          ["This role has zero prior crypto/stablecoin/payments domain overlap in Zach's history", "GROUNDED", "Checked against public resume/LinkedIn history — no payments-compliance or crypto-specific experience present; genuinely a domain gap, not underselling"]
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          { "k": "Predicted", "v": "TBD &mdash; not yet reached out to Jack" },
+          { "k": "Actual", "v": "TBD" },
+          { "k": "Fork hit", "v": "TBD" },
+          { "k": "Load-bearing", "v": "TBD" }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "belief_log",
+        "audience": "internal",
+        "h2": "Belief Log &#183; confidence x conviction"
+      },
+      {
+        "tab": "recoil",
+        "type": "worked_example",
+        "audience": "internal",
+        "h2": "Belief trajectory",
+        "intro": "Pending outreach to Jack.",
+        "close": "Pending."
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Kairos, quiet signals &amp; risks",
+        "intro": "Pre-outreach read.",
+        "items": [
+          { "dot": "g", "html": "<strong>Quiet signal:</strong> the JD's own culture-perk framing (\"unlimited vacation can be daunting, so we require Rainmakers to take 10 days minimum\") is an unusually self-aware, non-grind-signaling line for a hypergrowth crypto-adjacent startup." },
+          { "dot": "", "html": "<strong>Risk:</strong> single-domain (crypto/payments), regulated but not multi-regulated the way Zach's SEC/HIPAA history is — this is the one dim (domain breadth) that scored below max in the rubric." }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "kinematics_table",
+        "audience": "internal",
+        "h2": "Kinematic manifold &#183; measured (D1-D3)"
+      },
+      {
+        "tab": "wargame",
+        "type": "list",
+        "audience": "internal",
+        "h2": "The gauntlet",
+        "intro": "Adversarial pass on the opportunity, not on Jack.",
+        "items": [
+          { "dot": "", "html": "<strong>BAR (ruin):</strong> the exposed edge is relational, not financial — reaching out clumsily or transactionally could cost a genuinely warm, rare relationship for a role that's still unconfirmed as live." },
+          { "dot": "g", "html": "<strong>LAB &#183; Loki:</strong> steel-manned skeptic view — the rubric's 0.93 may be partly an artifact of the rubric being tuned to reward exactly ARCS's own shape; a hiring manager judging against Node/crypto-specific criteria may not weight things the same way." },
+          { "dot": "c", "html": "<strong>COURT:</strong> no overclaim risk identified — the domain gap is flagged explicitly in both this receipt and the resume cut, not papered over." }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "audience": "internal",
+        "h2": "ATG pre-mortem &#183; critical path x their objections",
+        "columns": ["Node", "Their objection (verbatim)", "Failure mode", "Handling"],
+        "rows": [
+          ["1. Jack reconnect", "(not yet said)", "No response, or req already filled/frozen", "Treat as closed, no further investment; this is exactly the falsifier in Exhibit 1"],
+          ["2. Hiring-team intro", "(not yet said)", "Jack has less current influence at Rain than the referral implies", "Ask directly rather than assuming; adjust expected leverage accordingly"],
+          ["3. Domain-gap screen", "(not yet said)", "Crypto/payments inexperience reads as disqualifying to a technical screener", "Lead with the AI-enablement analogs (ARCS, Grayscale cross-team GTM) and name the gap first, same discipline as the Schriner cut"]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "rosetta",
+        "audience": "internal",
+        "h2": "The same model, both directions",
+        "left": "Their world",
+        "right": "This engine",
+        "rows": [
+          ["Internal AI team building agent libraries + SOPs for the org", "ARCS built the same primitive as a standalone product — the pitch is a category match, not an analogy"],
+          ["\"Diagnose & Prioritize\" workflow audits", "ARCS's DEWY intake + Y-gate scoring is a formalized version of the same discipline"]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+        "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"],
+        "rows": [
+          ["Analyze", "JD text itself", "TBD", "TBD", "TBD"],
+          ["Assess", "Rubric v1.3 scoring", "TBD", "TBD", "TBD"],
+          ["Evaluate", "TBD", "TBD", "TBD", "TBD"],
+          ["Synthesize", "TBD", "TBD", "TBD", "TBD"],
+          ["Recapitulate", "TBD", "TBD", "TBD", "TBD"]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "Antifragile core &amp; the lossless test",
+        "p": [
+          "If Jack's warm path turns out weaker than hoped, the highest-information event is learning how much a one-directional kindness years ago actually carries — useful calibration for every other 'I know someone there' lead in the pipeline, not just this one.",
+          "Lossless test: restated for Jack (a designer, not an operator) — 'I built a tool that scores whether a job is worth my time before I spend it, the same way you'd critique a comp before shipping it' — holds with zero jargon."
+        ]
+      }
+    ]
+  }
+}

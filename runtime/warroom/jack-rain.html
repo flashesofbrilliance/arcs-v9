@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Rain · AI Operations Lead</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+:root {
+  --text-secondary: #94a3b8;
+  --elevated: #111827;
+  --orange: #ff9d3c;
+  --measure: 640px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:radial-gradient(1100px 500px at 50% -10%,#00F0FF0a 0,transparent 60%),radial-gradient(700px 400px at 90% 20%,#00FF9d06 0,transparent 55%),var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;}
+::selection{background:#00F0FF33;color:var(--text);}
+a{color:var(--cyan);text-underline-offset:2px;}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:3px;}
+.wrap{max-width:680px;margin:0 auto;padding:20px 20px 64px;}
+.eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.src{font-family:var(--font-mono);font-size:9px;letter-spacing:.05em;color:var(--muted);}
+.tag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;}
+.led{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:1px;margin-right:6px;}
+
+/* ── mast ───────────────────────────────────────────────────────── */
+header{padding:32px 0 22px;border-bottom:1px solid var(--border);}
+.mast-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+h1{font-size:clamp(24px,5vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:14px 0 0;text-wrap:balance;max-width:var(--measure);}
+.meta-line{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.02em;color:var(--text-secondary);margin-top:9px;}
+.led-stack{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;color:var(--text-secondary);line-height:2;text-align:right;white-space:nowrap;}
+.readtime{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);}
+.big-number{font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--cyan);}
+
+/* ── the Ahmed sequence ─────────────────────────────────────────── */
+.step{margin-top:30px;}
+.step-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+.step-n{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.step-t{font-family:var(--font-mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;}
+
+.verdict{max-width:var(--measure);}
+.verdict p{font-size:19px;line-height:1.6;font-weight:450;text-wrap:pretty;margin:0;color:var(--text);}
+
+.reasons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
+.reasons li{display:flex;gap:11px;font-size:14.5px;line-height:1.55;color:var(--text-secondary);}
+.reasons .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:8px;}
+.reasons b{color:var(--text);font-weight:600;}
+
+.qa{display:flex;flex-direction:column;gap:16px;max-width:var(--measure);}
+.qa .q{font-size:14.5px;font-weight:600;color:var(--text);}
+.qa .a{font-size:14px;color:var(--text-secondary);margin-top:4px;}
+
+.tasks{list-style:none;counter-reset:task;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
+.tasks li{counter-increment:task;display:flex;gap:12px;font-size:14.5px;line-height:1.5;color:var(--text);}
+.tasks li::before{content:counter(task);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--elevated);border:1px solid var(--border);color:var(--cyan);font-family:var(--font-mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+details{border:1px solid var(--border);border-radius:10px;background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--surface);}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--cyan);list-style:none;display:flex;justify-content:space-between;align-items:center;}
+summary::-webkit-details-marker{display:none;}
+summary::after{content:'+';font-size:16px;color:var(--muted);}
+details[open] summary::after{content:'−';}
+.evidence-body{padding:4px 18px 18px;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);text-align:left;padding:8px 10px;border-bottom:1px solid #2c3b52;}
+td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-secondary);}
+td.num{font-family:var(--font-mono);text-align:center;color:var(--text);font-weight:700;}
+.evidence-note{font-size:12.5px;color:var(--text-secondary);margin-top:10px;line-height:1.6;}
+details.nested{margin-top:14px;border-color:#16202f;background:none;box-shadow:none;}
+details.nested summary{color:var(--text-secondary);padding:10px 0;font-size:11.5px;}
+details.nested table{font-size:12px;}
+details.nested th,details.nested td{padding:7px 8px;font-size:12px;}
+.radar-fig{margin:4px 0 0;padding:0;}
+.radar-fig svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
+.radar-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:6px;font-size:12px;color:var(--text-secondary);}
+.radar-legend span{display:inline-flex;align-items:center;gap:6px;}
+.radar-legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+.record-links{display:flex;flex-direction:column;gap:8px;max-width:var(--measure);}
+.record-links a{font-size:13.5px;}
+
+.gap-flag{margin-top:34px;padding:14px 18px;border:1px dashed #2c3b52;border-radius:10px;background:#0d111780;max-width:var(--measure);}
+.gap-flag p{font-size:12.5px;line-height:1.7;color:var(--text-secondary);margin:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="mast-top">
+      <div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="tag" style="background:var(--cyan);color:#03151a;">Role Scan</span>
+          <span class="tag" style="border:1px solid #2c3b52;color:var(--text-secondary);">Warm referral · Jack Dillé</span>
+        </div>
+        <h1>AI Operations Lead, Rain</h1>
+        <div class="meta-line">New York, NY (on-site) · $150K&ndash;$220K + equity + bonus · Internal AI team</div>
+      </div>
+      <div class="led-stack">
+        <span class="led" style="background:var(--green);box-shadow:0 0 8px 1px var(--green);"></span>PURSUE &middot; TIER 1<br>
+        <span class="big-number">0.93</span> composite
+      </div>
+    </div>
+    <span class="readtime"><span class="led" style="background:var(--cyan);"></span>Read time: under 1 minute · sections 1&ndash;4</span>
+  </header>
+
+  <!-- 1. THE VERDICT -->
+  <div class="step verdict">
+    <div class="step-hd"><span class="step-n">1</span><span class="step-t" style="color:var(--cyan);">The verdict</span></div>
+    <p>This is the strongest-fitting role on the board right now, reached through a genuinely warm relationship, and it lives or dies on one open question: is the req still live.</p>
+  </div>
+
+  <!-- 2. THREE REASONS TO CARE -->
+  <div class="step">
+    <div class="step-hd"><span class="step-n">2</span><span class="step-t" style="color:var(--gold);">Three reasons to care</span></div>
+    <ul class="reasons">
+      <li><span class="dot"></span><span><b>It's the ARCS pitch, for one company.</b> Rain wants someone to audit workflows and build AI agents, SOPs, and governance for an org, the exact thing ARCS already does as a product.</span></li>
+      <li><span class="dot"></span><span><b>It's warm, not cold.</b> Jack Dillé was genuinely kind during a hard job search. This referral carries relationship weight, not just a forwarded link.</span></li>
+      <li><span class="dot"></span><span><b>It's funded and hiring now.</b> Rain closed a $250M Series C in January 2026 at a $1.95B valuation.</span></li>
+    </ul>
+  </div>
+
+  <!-- 3. THREE QUESTIONS, THREE ANSWERS -->
+  <div class="step">
+    <div class="step-hd"><span class="step-n">3</span><span class="step-t" style="color:var(--green);">Three questions, three answers</span></div>
+    <div class="qa">
+      <div><div class="q">Is the role still open?</div><div class="a">Not confirmed. That is the one blocking unknown. Ask Jack directly this week.</div></div>
+      <div><div class="q">Does the crypto/payments gap sink it?</div><div class="a">No. It's the only one of nine rubric dimensions that isn't maxed. Everything else already fits.</div></div>
+      <div><div class="q">What does Jack actually need to do?</div><div class="a">Confirm it's live and point to the right person. Nothing more is being asked of him.</div></div>
+    </div>
+  </div>
+
+  <!-- 4. TASKS -->
+  <div class="step">
+    <div class="step-hd"><span class="step-n">4</span><span class="step-t" style="color:var(--orange);">Tasks</span></div>
+    <ol class="tasks">
+      <li>Message Jack first as a genuine reconnect, not an ask.</li>
+      <li>Ask directly whether the role is live and who owns it.</li>
+      <li>If yes: send the tailored resume, naming the crypto/payments gap up front.</li>
+    </ol>
+  </div>
+
+  <!-- 5. EVIDENCE, BEHIND A DISCLOSURE -->
+  <div class="step">
+    <div class="step-hd"><span class="step-n">5</span><span class="step-t" style="color:#7d8fa3;">Evidence</span></div>
+    <details>
+      <summary>Shape overlap &middot; your profile against the role, 9 dimensions</summary>
+      <div class="evidence-body">
+        <figure class="radar-fig">
+          <svg viewBox="0 0 300 300" role="img" aria-label="Radar chart comparing a full-fit reference shape to Zach's actual score across nine rubric dimensions. Two of nine dimensions, domain breadth and culture screen, sit slightly inside the full-fit line; the other seven touch it exactly.">
+            <g stroke="#1e293b" stroke-width="1" fill="none">
+              <polygon points="150.0,78.0 196.3,94.8 220.9,137.5 212.4,186.0 174.6,217.7 125.4,217.7 87.6,186.0 79.1,137.5 103.7,94.8" />
+              <polygon points="150.0,114.0 173.1,122.4 185.5,143.7 181.2,168.0 162.3,183.8 137.7,183.8 118.8,168.0 114.5,143.7 126.9,122.4" />
+              <line x1="150" y1="150" x2="150.0,42.0" />
+              <line x1="150" y1="150" x2="219.4,67.3" />
+              <line x1="150" y1="150" x2="256.4,131.2" />
+              <line x1="150" y1="150" x2="243.5,204.0" />
+              <line x1="150" y1="150" x2="186.9,251.5" />
+              <line x1="150" y1="150" x2="113.1,251.5" />
+              <line x1="150" y1="150" x2="56.5,204.0" />
+              <line x1="150" y1="150" x2="43.6,131.2" />
+              <line x1="150" y1="150" x2="80.6,67.3" />
+            </g>
+            <polygon points="150.0,42.0 219.4,67.3 256.4,131.2 243.5,204.0 186.9,251.5 113.1,251.5 56.5,204.0 43.6,131.2 80.6,67.3"
+                     fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85" />
+            <polygon points="150.0,42.0 219.4,67.3 256.4,131.2 212.4,186.0 186.9,251.5 125.4,217.7 56.5,204.0 43.6,131.2 80.6,67.3"
+                     fill="var(--cyan)" fill-opacity="0.12" stroke="var(--cyan)" stroke-width="2" />
+            <!-- vertices, actual shape -->
+            <circle cx="150.0" cy="42.0" r="3" fill="var(--cyan)" />
+            <circle cx="219.4" cy="67.3" r="3" fill="var(--cyan)" />
+            <circle cx="256.4" cy="131.2" r="3" fill="var(--cyan)" />
+            <circle cx="212.4" cy="186.0" r="3" fill="var(--cyan)" />
+            <circle cx="186.9" cy="251.5" r="3" fill="var(--cyan)" />
+            <circle cx="125.4" cy="217.7" r="3" fill="var(--cyan)" />
+            <circle cx="56.5" cy="204.0" r="3" fill="var(--cyan)" />
+            <circle cx="43.6" cy="131.2" r="3" fill="var(--cyan)" />
+            <circle cx="80.6" cy="67.3" r="3" fill="var(--cyan)" />
+            <!-- gap callouts, secondary encoding on the two dips -->
+            <circle cx="212.4" cy="186.0" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
+            <circle cx="125.4" cy="217.7" r="6" fill="none" stroke="var(--red)" stroke-width="1.5" />
+            <!-- axis labels -->
+            <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="8.5" fill="#94a3b8">
+              <text x="150.0" y="18.2" text-anchor="middle">Role-shape</text>
+              <text x="232.1" y="52.1" text-anchor="start">AI-native</text>
+              <text x="279.9" y="127.8" text-anchor="start">Rare combo</text>
+              <text x="264.7" y="216.9" text-anchor="start" fill="var(--red)">Domain breadth</text>
+              <text x="197.7" y="273.1" text-anchor="start">Scope/authority</text>
+              <text x="102.3" y="273.1" text-anchor="end" fill="var(--red)">Culture</text>
+              <text x="35.3" y="216.9" text-anchor="end">Comp/level</text>
+              <text x="20.1" y="127.8" text-anchor="end">Logistics</text>
+              <text x="63.9" y="52.1" text-anchor="end">Warm path</text>
+            </g>
+          </svg>
+          <figcaption class="radar-legend">
+            <span><i class="sw" style="border:1.5px dashed var(--gold);background:none;"></i>Full fit (3 of 3)</span>
+            <span><i class="sw" style="background:var(--cyan);"></i>Applied AI Engineer &middot; your actual score</span>
+          </figcaption>
+        </figure>
+        <p class="evidence-note">7 of 9 dimensions land exactly on the full-fit line. The two circled in red, domain breadth and culture screen, are the only real gaps, each one point short of max.</p>
+
+        <details class="nested">
+          <summary>Go deeper: scoring ledger and methodology</summary>
+          <div class="evidence-body">
+            <table>
+              <thead><tr><th>Dimension</th><th style="text-align:center;">Weight</th><th style="text-align:center;">Score</th><th>0 reads as</th><th>3 reads as</th><th>Why this score</th></tr></thead>
+              <tbody>
+                <tr><td>Role-shape fit</td><td class="num">&times;5</td><td class="num" style="color:var(--green);">3</td><td>maintenance / management</td><td>textbook build role</td><td>"Build &amp; Ship... own solutions end-to-end from prototype to production."</td></tr>
+                <tr><td>AI-native surface</td><td class="num">&times;4</td><td class="num" style="color:var(--green);">3</td><td>no AI / buzzword</td><td>agents + LLMs are the product</td><td>Core member of the Internal AI team; the AI work is the literal job.</td></tr>
+                <tr><td>Rare combination</td><td class="num">&times;4</td><td class="num" style="color:var(--green);">3</td><td>a common single-lane profile</td><td>operator-who-builds &times; synthesizer &times; 0&rarr;1</td><td>JD names the moat directly: "product, data, and vibecoding" plus "high agency."</td></tr>
+                <tr><td>Domain breadth</td><td class="num">&times;3</td><td class="num">2</td><td>no relevant domain depth</td><td>regulated fluency, multiple domains</td><td>Single domain (crypto/stablecoin payments), not the multi-regulated breadth the record carries elsewhere.</td></tr>
+                <tr><td>Scope &amp; authority</td><td class="num">&times;3</td><td class="num" style="color:var(--green);">3</td><td>narrow, gated</td><td>broad, autonomous</td><td>"High agency," cross-team roadmap, no headcount-management framing.</td></tr>
+                <tr><td>Culture screen</td><td class="num">&times;3</td><td class="num">2</td><td>grind / opaque</td><td>strong positive-screen signals</td><td>Unlimited PTO with a 10-day minimum, flat structure. Real but only self-reported by the JD, not independently verified.</td></tr>
+                <tr><td>Comp / level fit</td><td class="num">&times;2</td><td class="num" style="color:var(--green);">3</td><td>below senior/staff band</td><td>at / above target</td><td>$150K&ndash;$220K plus equity and bonus, senior IC band.</td></tr>
+                <tr><td>Logistics</td><td class="num">&times;2</td><td class="num" style="color:var(--green);">3</td><td>on-site elsewhere</td><td>remote or NY-metro</td><td>On-site NYC, full points under this rubric's anchor.</td></tr>
+                <tr><td>Warm path</td><td class="num">&times;1</td><td class="num" style="color:var(--green);">3</td><td>cold</td><td>strong intro / referral</td><td>Jack Dillé, direct personal contact, strongest tier on this dimension.</td></tr>
+              </tbody>
+            </table>
+            <p class="evidence-note">Weights (1&ndash;5) reflect which dimensions predict fit hardest for the register ARCS itself targets. Nothing here is a hiring signal from Rain; it is Zach's own pre-work sizing rubric, applied the same way to every role on the board.</p>
+          </div>
+        </details>
+      </div>
+    </details>
+  </div>
+
+  <!-- 6. THE FULL RECORD, LINKED -->
+  <div class="step">
+    <div class="step-hd"><span class="step-n">6</span><span class="step-t" style="color:var(--text-secondary);">Full record</span></div>
+    <div class="record-links">
+      <div><a href="/warroom/jack-rain-full">Full internal war-room</a>: Pre-Call, Ex-Ante decision receipt, all six tabs.</div>
+      <div><a href="https://jobs.ashbyhq.com/rain/5be1852f-94f0-4225-a81c-75d44c71a7b4" target="_blank" rel="noopener">The posting itself</a>, on Ashby.</div>
+    </div>
+  </div>
+
+  <div class="gap-flag">
+    <span class="eyebrow" style="color:var(--orange);display:block;margin-bottom:6px;">Provenance</span>
+    <p>Composite and dims are the rubric's pre-work sizing, not a hiring verdict. This card is served internally (Auth.js session + admin allowlist, fail-closed in production). It is not a public artifact and should not be forwarded as-is to Jack, since it names and scores him directly as a warm-path asset. A Jack-facing cut would strip that scoring language before sending.</p>
+  </div>
+
+</div>
+</body>
+</html>
