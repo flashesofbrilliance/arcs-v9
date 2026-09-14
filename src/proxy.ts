@@ -5,6 +5,7 @@ import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
   'lewoof':       '/lewoof-intake.html',
+  'schriner-ext': '/schriner-ext.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
