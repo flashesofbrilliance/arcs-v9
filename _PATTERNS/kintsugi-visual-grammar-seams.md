@@ -1,3 +1,14 @@
+## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
+
+Found by: pre-commit design detector, new-page block. Same class of finding as the ext page above
+(this file is a same-day sibling, same kit).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Em-dash in `<title>` ("Zach Harris — Resume for Rain") | detector | Changed to a comma | detector in pre-commit |
+| 2 | Two low-contrast findings (`--dimmed` 4.0-4.3:1 on bg/panel) on `.contact-line`, `.role-dates`, and one step-t label | detector | Switched to `--text-secondary` (6.x:1), same fix class as seam 1 on the ext page | detector in pre-commit |
+| 3 | `design-system-font`/`-font-size`/`-color`/`-radius`/`dark-glow` findings | detector | Not repaired, same acceptance as `public/jack-rain-ext.html` below: inherits `_tokens.css`, a separate locked kit from DESIGN.md | ledger only, same acceptance as the `06-beat-stepper` 3px rail entry below |
+
 ## 2026-09-14 · `public/jack-rain-ext.html` (Jack Dillé/Rain application pitch page)
 
 Found by: pre-commit design detector, new-page block.

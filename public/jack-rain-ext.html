@@ -61,48 +61,48 @@ body{margin:0;background:radial-gradient(1100px 500px at 50% -10%,#00F0FF0a 0,tr
 a{color:var(--cyan);text-underline-offset:2px;}
 a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:3px;}
 .wrap{max-width:680px;margin:0 auto;padding:20px 20px 64px;}
-.tag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;}
+.tag{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;}
 
 header{padding:32px 0 22px;border-bottom:1px solid var(--border);}
-h1{font-size:clamp(24px,5vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:14px 0 0;text-wrap:balance;max-width:var(--measure);}
-.meta-line{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.02em;color:var(--text-secondary);margin-top:9px;}
+h1{font-size:clamp(29px,5vw,41px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:14px 0 0;text-wrap:balance;max-width:var(--measure);}
+.meta-line{font-family:var(--font-mono);font-size:14px;letter-spacing:.02em;color:var(--text-secondary);margin-top:9px;}
 
 .step{margin-top:30px;}
 .step-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
-.step-n{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;}
-.step-t{font-family:var(--font-mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+.step-n{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.step-t{font-family:var(--font-mono);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
 
 .verdict{max-width:var(--measure);}
-.verdict p{font-size:19px;line-height:1.6;font-weight:450;text-wrap:pretty;margin:0;color:var(--text);}
+.verdict p{font-size:23px;line-height:1.6;font-weight:450;text-wrap:pretty;margin:0;color:var(--text);}
 
 .reasons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
-.reasons li{display:flex;gap:11px;font-size:14.5px;line-height:1.55;color:var(--text-secondary);}
+.reasons li{display:flex;gap:11px;font-size:17.5px;line-height:1.55;color:var(--text-secondary);}
 .reasons .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:8px;}
 .reasons b{color:var(--text);font-weight:600;}
 
 .radar-fig{margin:4px 0 0;padding:0;}
 .radar-fig svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;}
-.radar-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:6px;font-size:12px;color:var(--text-secondary);}
+.radar-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:6px;font-size:14.5px;color:var(--text-secondary);}
 .radar-legend span{display:inline-flex;align-items:center;gap:6px;}
 .radar-legend .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
-.evidence-note{font-size:12px;color:var(--text-secondary);margin-top:10px;line-height:1.6;max-width:var(--measure);}
+.evidence-note{font-size:14.5px;color:var(--text-secondary);margin-top:10px;line-height:1.6;max-width:var(--measure);}
 
 .kintsugi{border:1px solid var(--border);border-radius:10px;background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--surface);padding:20px 22px;max-width:var(--measure);}
-.kintsugi .crack{font-size:14px;color:var(--text-secondary);margin:0 0 10px;}
+.kintsugi .crack{font-size:17px;color:var(--text-secondary);margin:0 0 10px;}
 .kintsugi .crack b{color:var(--text);}
 .seam{position:relative;padding-left:18px;margin-top:14px;}
 .seam::before{content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;background:linear-gradient(180deg,var(--gold),transparent);}
-.seam .label{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
-.seam p{font-size:14px;line-height:1.6;color:var(--text);margin:5px 0 0;}
+.seam .label{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
+.seam p{font-size:17px;line-height:1.6;color:var(--text);margin:5px 0 0;}
 
 .tasks{list-style:none;counter-reset:task;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:var(--measure);}
-.tasks li{counter-increment:task;display:flex;gap:12px;font-size:14.5px;line-height:1.5;color:var(--text);}
-.tasks li::before{content:counter(task);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--elevated);border:1px solid var(--border);color:var(--cyan);font-family:var(--font-mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.tasks li{counter-increment:task;display:flex;gap:12px;font-size:17.5px;line-height:1.5;color:var(--text);}
+.tasks li::before{content:counter(task);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--elevated);border:1px solid var(--border);color:var(--cyan);font-family:var(--font-mono);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
 
 .record-links{display:flex;flex-direction:column;gap:8px;max-width:var(--measure);}
-.record-links a{font-size:13.5px;}
+.record-links a{font-size:16px;}
 
-.sig{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:13.5px;color:var(--text-secondary);max-width:var(--measure);}
+.sig{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:16px;color:var(--text-secondary);max-width:var(--measure);}
 </style>
 </head>
 <body>
@@ -154,7 +154,7 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:700;letter-spacing:-.02em;line-hei
         <circle cx="103.8" cy="213.6" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5" />
         <circle cx="103.8" cy="213.6" r="3" fill="var(--cyan)" />
         <circle cx="37.8" cy="113.5" r="3" fill="var(--cyan)" />
-        <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" fill="#94a3b8">
+        <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#94a3b8">
           <text x="150.0" y="4.5" text-anchor="middle">Role shape</text>
           <text x="288.4" y="105.0" text-anchor="start">AI-native surface</text>
           <text x="235.5" y="267.7" text-anchor="start">Rare combination</text>
@@ -196,7 +196,7 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:700;letter-spacing:-.02em;line-hei
   <div class="step">
     <div class="step-hd"><span class="step-n">6</span><span class="step-t" style="color:var(--dimmed);">More</span></div>
     <div class="record-links">
-      <div><a href="https://resume.arcs.care" target="_blank" rel="noopener">Full resume</a>, and the ARCS project itself.</div>
+      <div><a href="/jack-rain-resume.html">Resume, tailored for this role</a>, and the <a href="https://resume.arcs.care" target="_blank" rel="noopener">full interactive resume</a> if you want the rest of it.</div>
     </div>
   </div>
 
