@@ -27,6 +27,10 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },
   // monstro.arcs.care — AI Marketing Engineer bundle (2026-09-08): root = candidate pitch (counterpart-safe, noindex), /resume + /cover = viewers, PDFs mapped to themselves so the default-page rewrite does not swallow them.
   'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
+  // schriner.arcs.care — Oxenham Group recruiter bundle (2026-09-14): root = candidate pitch
+  // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
+  // text mapped to themselves so the default-page rewrite does not swallow them.
+  'schriner':  { '/resume': '/schriner-resume-viewer.html', '/schriner-resume.pdf': '/schriner-resume.pdf', '/schriner-resume-ats.txt': '/schriner-resume-ats.txt', default: '/schriner.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
