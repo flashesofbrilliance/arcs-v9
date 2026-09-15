@@ -1,6 +1,19 @@
 /**
  * POST /api/v1/gate/evaluate  (Vercel Edge)
  *
+ * ARCS Algor-ethics Decision Firewall: STRUCTURED TOOL-ACTION INTERCEPTOR.
+ *
+ * SCOPE. This gateway evaluates structured agent tool-call intents (`action_type`
+ * plus `target_payload`) against the Rome Call / Dignitas Infinita invariants.
+ * It is NOT a conversational moderation filter or a prompt-jailbreak detector:
+ * measured 2026-09-15, it intercepts 0/200 JailBreakV-28k free-text queries by
+ * design, not by defect. Do not describe it as a natural-language safety layer.
+ *
+ * AUTHENTICATION. Fail-closed shared secret: `x-arcs-gate-key` (or
+ * `Authorization: Bearer <key>`) must equal `ARCS_GATE_KEY`. If the env var is
+ * unset every POST is 401, so a deploy without the secret exposes nothing.
+ * GET /healthz-style probe stays open and returns no secrets.
+ *
  * ARCS Algor-ethics Decision Firewall gateway. Contract is byte-for-byte the one
  * served by `code/server.py` in flashesofbrilliance/arcs-algorethics, so the same
  * E2E suite (tests/e2e/test_live_pipeline.py) runs against either:
@@ -153,7 +166,32 @@ function parseContext(raw: unknown): TaskContext | string {
   }
 }
 
+/** Constant-time string compare so the key cannot be recovered byte-by-byte from timing. */
+function keysMatch(a: string, b: string): boolean {
+  const enc = new TextEncoder()
+  const x = enc.encode(a)
+  const y = enc.encode(b)
+  let diff = x.length ^ y.length
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i] ?? 0) ^ (y[i] ?? 0)
+  return diff === 0
+}
+
+function authorized(req: Request): boolean {
+  const expected = process.env.ARCS_GATE_KEY
+  if (!expected) return false
+  const provided = req.headers.get('x-arcs-gate-key')
+    ?? req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
+    ?? ''
+  return keysMatch(provided, expected)
+}
+
 export async function POST(req: Request): Promise<Response> {
+  if (!authorized(req)) {
+    return Response.json(
+      { error: 'UNAUTHORIZED', message: 'Valid x-arcs-gate-key header required. Gate is fail-closed.' },
+      { status: 401, headers: { 'cache-control': 'no-store', 'x-arcs-firmware': FIRMWARE } },
+    )
+  }
   let raw: unknown
   try {
     raw = await req.json()
