@@ -21,6 +21,7 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+
 ## 2026-09-14 · Jack/Rain radar charts + methodology table (found on Zach's "feels underbaked" prompt, not by any gate)
 
 Found by: Zach asking directly whether the full design gauntlet had actually run. It had not — only
@@ -40,6 +41,7 @@ desktop screenshot is not a design gauntlet. Both defects here needed the page a
 browser, at more than one width, with every `<details>` forced open, and DOM geometry measured, not
 just read from source. Booking this so the next artifact with a chart or a disclosure gets that
 sweep before shipping, not after being asked.
+
 
 ## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
 
