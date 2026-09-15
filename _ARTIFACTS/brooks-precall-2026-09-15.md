@@ -14,9 +14,16 @@ Cold, delegated screen. Justin forwarded you to Brooks with three words ("Brooks
 - **His published thesis is the receipt in his words.** "Story-driven product design ... exposes areas of weakness early, so you're examining costs, and you're also not careening down the path of bad PMF or inexact TAM past the point of no return." Also: "forego reverse-engineering your brand positioning," "pristine is rarely an ideal state," "keeping up with people and establishing community is what it's all about," and "whether our shoe fits the location, not the other way around."
 - **How to use it:** once, late, as a question, only after he has opened up on story: "You wrote that story-driven design exposes weakness before the point of no return. That's the whole page, in your words." It is his public essay, not his resume, so it is a mirror he built, not a LinkedIn scrape. If it lands as "you did your homework," drop it. His register: story first, materials and process romanticized, community over product. "Pristine is rarely ideal" is the kintsugi idea; never say kintsugi.
 
+## Public record (Louisville Business First, May 23 2025; safe to cite, dated)
+- **What the company is:** a food and beverage holding company. Justin's own public line: "Think about it like a boutique PepsiCo or Asahi or Brown-Forman." Justin Delaney CEO; Brook Smith vice chairman (the two are managing partners of Wabi Capital, 15 portfolio brands); Doug Grissom chairman, brought in for "structure and the private equity polish." Three brands at launch (Party Horses, Mugen Spirit, Stillwater beer), 18 employees, Shelby Park office. Stated goal: 10 brands and 50 employees by end of 2025, food side = plant-based proteins. Talks with the Boulder Brands founders (Smart Balance, Udi's; $975M exit). $2.5M Kentucky tax incentive, conditioned on 210 Louisville jobs in 10 years.
+- **Brooks is an insider, not a gatekeeper.** He was CMO of Party Horses from Jan 2022, and Party Horses was co-founded by Justin and Brook Smith. He has been Justin's brand person for three-plus years across the Wabi portfolio (HELM is the same circle). Marfa last October confirms it. Drop every "first weeks in seat" or "new hire" framing; Jeben's March reads of the brand family were made while Brooks already had it.
+- **Brand family is a holding-company question, not a packaging question.** Three brands going to ten is house-of-brands vs branded-house at a "boutique PepsiCo." That is the CMO's real lane and the strongest safe question on the call: "The paper had Justin at boutique PepsiCo, ten brands by year end. Where are you now, and how do they sit together?" Public, dated, present tense, his to answer.
+- **Name trap:** Brook Smith (vice chairman) is not Brooks Thomas. Jeben's "his CMO brooks" is Thomas. Do not conflate on the call.
+- **Air gap addition:** the 210-Louisville-jobs incentive against the plant moving to Wisconsin. Public on both sides, but it is a live tension inside their company. Never raise it.
+
 ## Three reasons he will care (private listening notes; do not say these as mappings)
 1. **He measures stories.** TV news producer, two Southwest stints (blog and comms, then social business), AT&T social CoE, VP Brand Ruby Tuesday, CMO Party Horses (Web3 bourbon drops), President and CMO HELM Boots. His headline: "I love a good story. Especially when it's true." A receipt is a story with a date and a score on it. That is the bridge, and it needs no vocabulary.
-2. **His prior work rhymes with the two live lanes** (drops and brand family), but that is your mapping, not his. Let him name the lane. If he names drops or brand family, "that rhymes with something Jeben mentioned" and stop. Never recite sellout timings, "in pieces," Little Debbie, or the c-store trucker unprompted; those are Jeben's March reads from Brooks's first weeks in seat.
+2. **His prior work rhymes with the two live lanes** (drops and brand family), but that is your mapping, not his. Let him name the lane. If he names drops or brand family, "that rhymes with something Jeben mentioned" and stop. Never recite sellout timings, "in pieces," Little Debbie, or the c-store trucker unprompted; those are Jeben's March reads, and Brooks has owned the brands since Party Horses in 2022.
 3. **Justin's one stated want (private listening note, not a sayable line):** decisions judged on expectations at the start, not emotion, and "less binary." Quote Justin only about the July call itself ("this is really cool"), never about how he or his team thinks.
 
 ## The three questions he will ask, and the answers
@@ -37,6 +44,7 @@ Cold, delegated screen. Justin forwarded you to Brooks with three words ("Brooks
 10. **"Why me and not Justin?"** Tell: "did Justin say he wanted this?" "Jeben's the one who said ask for you; he didn't say why and I didn't push. Justin and I had one call, he picked a sales-side thing that's his, and I figured the next one worth writing down probably sits in your seat. Tell me if that's wrong."
 
 ## Tasks
+- **Justin is not a stranger to him.** Brooks has been Justin's CMO since Party Horses (2022) and did Marfa with him. Treat "Brooks is cc'ed" as two friends passing a note, not a screen.
 - **Jeben is squared.** He is the one who told you (off-email) to ask Justin for Brooks, so the Sep 9 line "Jeben thought it might be worth a conversation" is true and checkable. You texted him a heads-up before the call. The gauntlet's ambush finding (#8) is voided by that; it only saw the email record. Safe to say on the call: "I asked Justin for you, and he cc'd you." Never "sent me to you."
 - **First sentence after hello:** "Heads up, I've got a hard stop at 3:25." Real (family at 3:30). Nothing attached; his meeting, his clock after that.
 - **First 5 minutes are his.** No mirror. He has said nine words to you; there is nothing shared to mirror, and quoting his LinkedIn tagline back is a recruiter cold-call. If a hook is wanted later: "You came up producing newscasts. Does that still shape how you run brand?"
@@ -51,7 +59,7 @@ Cold, delegated screen. Justin forwarded you to Brooks with three words ("Brooks
 
 ## Listening for (let him rank; do not lead)
 1. Yokai next drop, if he owns it (price vs volume vs licensing)
-2. Brand family vs standalone, in his words
+2. Brand family at a holding company: three brands to ten, house of brands or branded house, in his words
 3. The next bag, in his words
 4. Content and measurement, in his words
 5. Sales agency and distributor sell-through. Justin runs this himself; only if Brooks names the agency. Then "is that yours or his?" with no reference to what Justin said.
