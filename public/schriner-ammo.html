@@ -30,6 +30,8 @@
   @media(max-width:600px){header{padding:26px 22px;}}
   .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  .back{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;font-weight:600;color:#a9b6c3;text-decoration:none;margin-bottom:14px;}
+  .back:hover{color:#f4f7fa;}
   h1{font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:14px;}
   .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
 
@@ -64,6 +66,7 @@
 <body>
   <div class="sheet">
     <header>
+      <a class="back" href="/">&larr; Back to the candidate brief</a>
       <div class="eyebrow"><span class="mk"></span>The three-modes case</div>
       <h1>The seat needs someone who moves between three modes, not someone who picks one</h1>
       <div class="who">For Joe, on the CTO seat at the client he's representing.</div>
