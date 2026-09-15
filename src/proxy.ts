@@ -54,14 +54,14 @@ export default async function proxy(request: NextRequest) {
   // not a gate, because a public/ file is directly fetchable via app.arcs.care/<file>.
   // Checking the cookie here, before host routing, closes that bypass. The gate
   // page itself (/recruithaus-gate.html) uses a different prefix, so it stays open.
-  if (pathname.startsWith('/recruithaus-ammo')) {
+  if (pathname.startsWith('/recruithaus-ammo') || pathname.startsWith('/schriner-ammo')) {
     const ok = await ammoUnlocked(
       request.cookies.get(AMMO_COOKIE)?.value,
       process.env.RECRUITHAUS_AMMO_PASSWORD,
     )
     if (!ok) {
       const url = request.nextUrl.clone()
-      url.pathname = '/recruithaus-gate.html'
+      url.pathname = pathname.startsWith('/schriner-ammo') ? '/schriner-gate.html' : '/recruithaus-gate.html'
       return NextResponse.rewrite(url)
     }
     return NextResponse.next()
@@ -78,6 +78,21 @@ export default async function proxy(request: NextRequest) {
 
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
+
+  // schriner.arcs.care /ammo — the gated companion to the open pitch, holding the
+  // fit-note (the direct "senior IC vs. three-modes" case for Joe). Reuses the
+  // recruithaus ammo-gate infra (same shared passcode, same cookie) rather than
+  // inventing a second gate mechanism; the /schriner-ammo* asset prefix is already
+  // covered by the host-independent check above.
+  if (sub === 'schriner' && (pathname === '/ammo' || pathname === '/ammo/')) {
+    const ok = await ammoUnlocked(
+      request.cookies.get(AMMO_COOKIE)?.value,
+      process.env.RECRUITHAUS_AMMO_PASSWORD,
+    )
+    const url = request.nextUrl.clone()
+    url.pathname = ok ? '/schriner-ammo.html' : '/schriner-gate.html'
+    return NextResponse.rewrite(url)
+  }
 
   const multiPaths = MULTI_PATH_MAP[sub]
   if (multiPaths) {
