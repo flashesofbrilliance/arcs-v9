@@ -104,6 +104,7 @@ Cold, delegated screen. Justin forwarded you to Brooks with three words ("Brooks
 **What the gauntlet said to keep untouched:** the one-line "write the bet down before the money moves, score it after, one page, then stop"; Q2's restraint; first five minutes his, let him rank, no decks; the existing Jeben air-gap items; "being corrected is the win"; "a short note this week, not a page tonight"; the evidence section's honesty that he is cold.
 
 ## Unknowns
+Whether any LP or capital partner holds a board observer seat. Jeben mentioned a raise in progress (Mar 31, Jul 15); if a round or an observer seat is live, a written record of material bets is a real fiduciary-governance value, but that is Justin's conversation, not Brooks's. Only if Brooks raises it: one sentence (pocket 11), then offer to take it up with Justin.
 Whether Justin forwarded anything to Brooks. Resolved: Brooks knows Jeben well (HELM x JEB1 collab). Your Sep 9 email said "a few ideas" and "last month": if pressed, "One idea, and I showed Justin a few places it could land; he picked one that's his to tell" and "End of July, I was loose in the email." Justin "making social content" and "traveling at trade shows" (Jeben, Aug 14) suggests Brooks runs that with him; unconfirmed. Whether Yokai sits under Brooks or stays Justin's. Whether Brooks has budget authority or only recommends. Resolved: Jeben suggested the Brooks ask off-email (Zach, Sep 15).
 
 ## Premortem ledger (assume 3:35 PM and it went badly)
