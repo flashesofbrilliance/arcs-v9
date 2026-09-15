@@ -1,6 +1,40 @@
 
 > _Relocated from CLAUDE.md on 2026-09-13 (2-live handoff policy)._
 
+# Handoff — v3.60.0 (2026-09-11)
+
+> **720-degree brand-coherence session** (worktree `recursing-brattain-190758`, branch
+> `claude/recursing-brattain-190758`). Resumed the parked pitch-us/brand arc; answered the Ahmed
+> heuristics question, ran a live 6-surface coherence audit, blessed one flag, wired 4 of 6 faces.
+
+## Shipped (merged to main)
+- **Empty meta descriptions filled** on resume.arcs.care + status.arcs.care (PR #404, live). These
+  shipped blank, so machines/unfurls/LLMs saw nothing (the "720 serialized-POV" hole). resume's
+  h1/lede already render client-side, so only the machine-read meta was the real gap.
+- **Duality backlinks** on build.arcs.care + good.arcs.care footers (PR #405): each now names the
+  operator and links back to the consulting front door. Cleared one prose em-dash in build.html
+  (data-placeholder `—` glyphs left as the legitimate UI idiom).
+- **Pre-compaction:** SentiLink altitude-descent reorder (PR #389, exec→surgical, ask-first).
+- Banked pickups + pitch bundles to `_ARTIFACTS/` (720-brand-coherence-pickup, pitch-polish-pickup,
+  sentilink/mercury bundles).
+
+## The blessed flag (SSOT, all surfaces echo)
+**"Proof over promises, one operator accountable end to end."** The positioning is a coherent DUALITY
+(independent consulting sprints ⇄ dedicated in-house), one operator + one method (ARCS). Building-in-
+public = pre-empt the "consultant who does not ship" assumption; anti-consultant-who-ships, WITHOUT
+"FDE" or leaning on "engineer". zachharris.xyz is the singular front door + identity SSOT; others echo
+and backlink to it. Full context: memory [[zach-personal-brand-and-job-search-system]].
+
+## Open (next session — pickup: `_ARTIFACTS/720-brand-coherence-pickup.md`)
+1. **zachharris.xyz (separate static repo, NOT this worktree)** — fill empty meta + Case-Studies link
+   to build.arcs.care (public proof, NOT prl). Exact paste-ready copy in the pickup. Run its `npm test`.
+2. **LinkedIn** — 6th face, unreachable by tools; headline still "Product". Get Zach's headline+About,
+   fold into the flag grammar.
+3. **Dropped on purpose:** prl provenance footer (client-confidential, not a billboard).
+- Ahmed's FORMAL delivery heuristics ("the Ahmed order": verdict → 3 reasons → 3 Q+A → tasks →
+  evidence-behind-disclosure → depth-linked; + density budget + legibility gate) live at
+  `_ARTIFACTS/ahmed-feedback-plan-2026-09-03.md` (in worktree `arcs-demo-ahmed-b0db74`). The yardstick.
+
 # Handoff — v3.59.0 (2026-09-08)
 
 > **ARCS-on-ARCS shipping session** (worktree `agitated-feynman-b23c40`, branch `feat/audit-service`).

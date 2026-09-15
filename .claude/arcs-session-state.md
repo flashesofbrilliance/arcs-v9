@@ -1,19 +1,23 @@
 # ARCS Session State — current sprint snapshot
 
-> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.61.0; resume seed `_STATE/pickup-prompt.md`.
+> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.62.0; resume seed `_STATE/pickup-prompt.md`.
 
-**As of:** 2026-09-13 · **Branch:** `main` (HEAD `ad4f084f`, all session PRs merged) · **Version:** v3.61.0
+**As of:** 2026-09-14 · **Branch:** `claude/awesome-tu-985156` (HEAD `a7cd1299`) · **Version:** v3.62.0
 
 ## Shipped this session
-- Bridge employer index: 578 `bridge_scan` rows live on jobs.arcs.care (PR #415)
-- ADR-078/079/080/081 + 041 landed from the 3 hold branches (PRs #408–#413); composition boundary (#407)
-- Scout dossier intake gate + worktree patch-id audit on main (#416); seed bank clean (#418, #419, #421)
-- 8 decision_receipt rows; convergence.json beat 6 on fresh-starts
+- Schriner/Oxenham (Autopilot + Vico) recruiter engagement carried through full pre-call → call →
+  post-call recoil lifecycle; internal receipt closed FORK/DIVERGENT.
+- `schriner.arcs.care` (pitch + resume) and `schriner-ext.arcs.care` (safe external twin) live.
+- Resume corrected live: leadership scope restored, 2010-2016 work-history gap closed with real,
+  sourced history (Selectable Media, IBRShop). No fabricated content.
+- Memory consolidated: new project + feedback memories, index deduped and back under budget.
 
 ## Next unblocked
-1. Thread 2 scores the 578 bridge rows (branch `claude/bridge-scan-rubric`), then reconcile the H1–H4 denominator.
-2. Human prune call: 14 MERGED-prunable + 3 landed hold worktrees (`_STATE/worktree-audit-2026-09-11.md`).
-3. Workday adapter for 256 unresolved employers · Parloa re-emit (Perplexity).
+1. Check whether the Joe follow-up call happened; if so, re-run `/recoil-close`. Fit-note draft
+   (`_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html`) held pending that call.
+2. Fold the leadership-scope lesson into the actual `~/resume-tailor-skill/SKILL.md` repo (deferred).
+3. Unscoped: user flagged a "State of the Union" dashboard for an Ahmed-heuristic + Impeccable
+   design pass — get the file path before starting.
 
 ## Blocking
 NONE

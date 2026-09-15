@@ -7,6 +7,21 @@
 
 ---
 
+## [v3.62.0] 2026-09-14 — Schriner/Oxenham job-search engagement: full recoil lifecycle + resume correction
+
+- **`schriner.arcs.care`** (recruiter pitch + resume viewer/PDF/ATS) and **`schriner-ext.arcs.care`**
+  (safe external recoil twin, air-gap verified) shipped live via normal PR/merge.
+- **Resume correction shipped live**: technical-cut resume first sent to Joe had dropped real
+  leadership scope; corrected to a three-modes (builder/team-lead/executive-partner) framing and a
+  closed 2010-2016 work-history gap (Selectable Media, IBRShop), sourced from real iCloud PDFs.
+- **Internal recoil receipt** closed post-call at FORK/DIVERGENT; the CEO-identity gate was resolved
+  by independent search after the call, not by the recruiter on it — generalized into
+  `inbound-opportunity-three-gate-smoke-test` memory (verify identity BEFORE the call).
+- **Global memory**: new project memory `project_joe_schriner_oxenham_autopilot_vico`, new feedback
+  memory `technical-cut-resume-must-keep-leadership-scope`, `MEMORY.md` index deduped/tidied.
+- **Open**: Joe-facing fit-note drafted, held pending follow-up call; `resume-tailor` skill repo
+  itself not yet updated with the lesson (deferred to next session).
+
 ## [v3.61.0] 2026-09-13 — Bridge employer index live · Triune Stream A/B/C landed · seed bank clean
 
 - **`scripts/bridge_index_scan.py`** (new, stdlib): curated employer lists → public ATS boards → winnable
