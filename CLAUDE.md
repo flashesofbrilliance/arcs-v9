@@ -114,47 +114,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.61.0 (2026-09-13)
-
-> **Bridge index + Triune convergence session** (worktree `determined-lovelace-de940d`; every
-> change landed via PR to `main`, HEAD `ad4f084f`). Every merge receipted in `decision_receipt`
-> (8 rows, ids `2026-09-11--bridge-employer-index-ingest--ZH` … `2026-09-13--receipt-enums-and-receipt-cli-seed-pr421--ZH`).
-
-## Shipped + verified
-- **Bridge employer-quality index (job-search Thread 1)** — 403 verbatim names from 5 published lists
-  → 133 public GH/Ashby/Lever boards (18 slug collisions dropped by eyeball) → 7,593 reqs → **578
-  winnable rows live on jobs.arcs.care** as `bridge_scan` UNSCORED (Thread 2 scores). Tool
-  `scripts/bridge_index_scan.py` (probe/verify/pull/ingest, `--retry-misses`; ingest never resets a
-  scored row). 256 unresolved = Workday-class, re-probed in full, 0 recovered. PR #415.
-  Index + funnel: `_STATE/job-search/employer-index/README.md`.
-- **Triune Stream A** — 74 worktrees swept by patch-id (`git cherry`), not ahead-count: 14 prunable ·
-  8 ghost-history · 33 unmerged-stale · 18 active (`_STATE/worktree-audit-2026-09-11.md`). The 3
-  ADR-collision hold branches renumbered via oracle and merged: ADR-078 exogenous-forge (#409),
-  ADR-079 refusal-to-overclaim (#410), ADR-080/081 Tao proverb system + ADR-041 (#413); oracle 77→81 (#408).
-- **Stream B** — operators composition boundary on main (#407). **Stream C** — `scripts/scout_dossier_ingest.py`
-  gates `_INBOX/evidence/` dossiers against `role-dossier-schema.json`; refused Parloa (missing
-  `extraction_risk`), posted Blacksmith + TrueSeek as `perplexity_scout`. Anchor `_STATE/convergence.json`
-  on `fresh-starts` at beat 6 (JTBD-002/003 LANDED, JTBD-007 = Parloa re-emit owed by Perplexity).
-- **Seed bank clean** — 3 candidates planted (worktree-audit-by-patch-id, bridge-employer-index,
-  scout-dossier-intake-gate) + decision-receipt-cli; 2 orphans receipted; 4 broken locals fixed
-  (`local` = one path, prose → `local_note`). `seedbank_drift_check`: OK · 41 seeds · 80 receipts.
-- **AGENTS.md** receipt rule now lists the `decision_receipt` CHECK enums (horizon/stakes/mode).
-- **Memory** — wrap trio retired into `text-wrapping-defect-class-and-gate` (Zach-approved); abs-path
-  risk folded into commit-to-main; +`bsd-sed-no-word-boundary`, +`shared-anchor-append-refetch-before-write`;
-  index 17.2 KB under budget, 244 files, 0 dangling.
-
-## Lessons booked
-- BSD `sed` has no `\b`: a 375-reference renumber "ran clean" and changed nothing. Python regex + leftover count.
-- Shared anchors collide on ids, not bytes: Hermes and I both appended JTBD-005/006 minutes apart. Re-fetch, read ids, then allocate.
-- The naive `ahead` count is not an audit; patch-id showed 397 real off-main commits, not ~11k.
-
-## Open (next session)
-1. **Thread 2 scoring** of the 578 `bridge_scan` rows (rubric v1.0 lives on `claude/bridge-scan-rubric`); then the H1–H4 denominator reconcile in `_STATE/job-search/hypothesis-ledger.md`.
-2. **Worktree pruning** — human call on 14 MERGED-prunable + the 3 now-landed hold worktrees; bundle first (`cruft-sweep`).
-3. **Workday adapter** for the 256 unresolved bridge employers (seed `bridge-employer-index`).
-4. **Parloa dossier re-emit** (JTBD-007, Perplexity) → `scout_dossier_ingest.py post`.
-5. Outcome-capture keel (2/247) still the P1 gap; untouched this session.
-
 # Handoff — v3.62.0 (2026-09-14)
 
 > **Schriner/Oxenham job-search engagement session** (this worktree, `awesome-tu-985156`, branch
@@ -197,3 +156,47 @@ BEFORE the first call, not after.
    shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
    Impeccable design pass. Source file/path was never identified this session — get it first.
 
+# Handoff — v3.63.0 (2026-09-15)
+
+> **arcs-algorethics E2E / benchmarks / kabuki audit session** (worktree `arcs-e2e-benchmarks-cicd-0369bd`,
+> branch `claude/arcs-e2e-benchmarks-cicd-0369bd` = arcs-v9 PR #446, deliberately UNMERGED). The work
+> product lives mostly in the separate repo `flashesofbrilliance/arcs-algorethics` (PRIVATE, no canonical
+> local clone; sessions clone to scratch). Every merge receipted in `decision_receipt` (10 rows:
+> `2026-09-15--algorethics-e2e-benchmarks-cicd-pr1--ZH` … `2026-09-15--arcs-v9-queue-algorethics-in-scope-benchmark-pr449--ZH`).
+
+## Shipped + verified (arcs-algorethics, PRs #1–#8 squash-merged, main `a3ae0c3`, CI green)
+- **Found broken on pickup:** `code/` shadowed stdlib `code` (tests uncollectable); `server.py` imported
+  non-existent classes. Both fixed (#1). The Perplexity-authored handoff had four false premises.
+- **Live E2E suite** boots the daemon when no gateway URL is set; asserts 423/MORTAL, 423/CARDINAL,
+  200/VENIAL under a warmed best-of-3 latency SLA (#2), fail-closed entropy, append-only ledger, keyed
+  Edge 401 (#3), and Ed25519-signed resume over real HTTP (#6).
+- **Benchmarks, honest:** hendrycks/ethics (parquet branch; datasets 5 refuses the script) recall 0,
+  JailBreakV-28k (split `JailBreakV_28K`) 0/200, **AgentHarm 0/176 harmful and 0/176 benign in both
+  fn and fn+prompt modes (#8)**. Nightly runs commit to `benchmarks/history/` (#7).
+- **Ops + SSOT (#4):** `arcs ops status|migrate|keys|promote` (dry-run default, prompts, secrets never
+  printed); `specs/invariants.json` loaded by Python + JS, parity-checked against the arcs-v9 route.
+- **Ledger renamed `algorethics.gate_receipts` (#5)** + `db/preflight.sql`: the originating Perplexity
+  thread claims `algorethics.decision_receipts` already exists as a uuid hypercube receipt, plus four enum
+  types stranded in `public`. Unverified; the rename avoids the collision either way.
+- **Kabuki removed (#6):** `manifold.py`, notebook, TS middleware deleted (unimported). Resume now verifies
+  a registered operator's Ed25519 signature (`ARCS_OPERATOR_KEYS`, private key only on the operator machine
+  via `scripts/operator_keys.py`). README leads with an honest inventory; theology demoted to appendix.
+- **arcs-v9:** Edge route `src/app/api/v1/gate/evaluate/route.ts` (PR #446): fail-closed `ARCS_GATE_KEY`
+  bearer gate, constant-time compare, scope declaration, writes `gate_receipts`. Build green. Empty
+  Perplexity branch `feat/algorethics-prisma-model` deleted (0 commits). Queue items shipped via #448/#449.
+
+## Lessons booked
+- **Assume the spec is stupid first** (Zach): falsify every handoff premise live before building.
+- Perplexity's Supabase connector reaches ARCS_v9 (Vercel-Marketplace org); ours does not. Its DB claims
+  carry zero evidentiary weight until reproduced. `vercel env pull` returns sensitive values EMPTY.
+- The gate's purpose (settled with Zach after reading the full 350KB thread): a narrow fail-closed brake
+  on three one-way-door classes, not a general harm classifier. AgentHarm was the wrong yardstick.
+
+## Open (next session)
+1. **Zach's three operational moves** (not mine): apply migration 001 in the ARCS_v9 SQL editor + expose
+   `algorethics`; set `ARCS_GATE_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` on Vercel and
+   `ARCS_GATE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `VERCEL_GATE_URL` in algorethics Actions; merge PR #446
+   and dispatch the workflow. `arcs ops` automates all three given a Supabase personal access token.
+2. **Queue `algorethics-in-scope-benchmark`** (P3): ~150 harmful tool calls + benign twins across the
+   three classes in real tool phrasing; measure recall/FPR. Do not reopen "widen to broad harm".
+3. Joe Schriner follow-up + resume-tailor skill fold-back + State-of-the-Union dashboard (carried from v3.62.0).

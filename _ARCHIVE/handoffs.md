@@ -4002,3 +4002,44 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 2. Memory index over the hook's budget.
 3. Full `/meta-audit` epoch for the 81 lattice nodes.
 4. story_render.py / literary-theme drift (CLOSED in v3.58.0, PR #312).
+
+# Handoff — v3.61.0 (2026-09-13)
+
+> **Bridge index + Triune convergence session** (worktree `determined-lovelace-de940d`; every
+> change landed via PR to `main`, HEAD `ad4f084f`). Every merge receipted in `decision_receipt`
+> (8 rows, ids `2026-09-11--bridge-employer-index-ingest--ZH` … `2026-09-13--receipt-enums-and-receipt-cli-seed-pr421--ZH`).
+
+## Shipped + verified
+- **Bridge employer-quality index (job-search Thread 1)** — 403 verbatim names from 5 published lists
+  → 133 public GH/Ashby/Lever boards (18 slug collisions dropped by eyeball) → 7,593 reqs → **578
+  winnable rows live on jobs.arcs.care** as `bridge_scan` UNSCORED (Thread 2 scores). Tool
+  `scripts/bridge_index_scan.py` (probe/verify/pull/ingest, `--retry-misses`; ingest never resets a
+  scored row). 256 unresolved = Workday-class, re-probed in full, 0 recovered. PR #415.
+  Index + funnel: `_STATE/job-search/employer-index/README.md`.
+- **Triune Stream A** — 74 worktrees swept by patch-id (`git cherry`), not ahead-count: 14 prunable ·
+  8 ghost-history · 33 unmerged-stale · 18 active (`_STATE/worktree-audit-2026-09-11.md`). The 3
+  ADR-collision hold branches renumbered via oracle and merged: ADR-078 exogenous-forge (#409),
+  ADR-079 refusal-to-overclaim (#410), ADR-080/081 Tao proverb system + ADR-041 (#413); oracle 77→81 (#408).
+- **Stream B** — operators composition boundary on main (#407). **Stream C** — `scripts/scout_dossier_ingest.py`
+  gates `_INBOX/evidence/` dossiers against `role-dossier-schema.json`; refused Parloa (missing
+  `extraction_risk`), posted Blacksmith + TrueSeek as `perplexity_scout`. Anchor `_STATE/convergence.json`
+  on `fresh-starts` at beat 6 (JTBD-002/003 LANDED, JTBD-007 = Parloa re-emit owed by Perplexity).
+- **Seed bank clean** — 3 candidates planted (worktree-audit-by-patch-id, bridge-employer-index,
+  scout-dossier-intake-gate) + decision-receipt-cli; 2 orphans receipted; 4 broken locals fixed
+  (`local` = one path, prose → `local_note`). `seedbank_drift_check`: OK · 41 seeds · 80 receipts.
+- **AGENTS.md** receipt rule now lists the `decision_receipt` CHECK enums (horizon/stakes/mode).
+- **Memory** — wrap trio retired into `text-wrapping-defect-class-and-gate` (Zach-approved); abs-path
+  risk folded into commit-to-main; +`bsd-sed-no-word-boundary`, +`shared-anchor-append-refetch-before-write`;
+  index 17.2 KB under budget, 244 files, 0 dangling.
+
+## Lessons booked
+- BSD `sed` has no `\b`: a 375-reference renumber "ran clean" and changed nothing. Python regex + leftover count.
+- Shared anchors collide on ids, not bytes: Hermes and I both appended JTBD-005/006 minutes apart. Re-fetch, read ids, then allocate.
+- The naive `ahead` count is not an audit; patch-id showed 397 real off-main commits, not ~11k.
+
+## Open (next session)
+1. **Thread 2 scoring** of the 578 `bridge_scan` rows (rubric v1.0 lives on `claude/bridge-scan-rubric`); then the H1–H4 denominator reconcile in `_STATE/job-search/hypothesis-ledger.md`.
+2. **Worktree pruning** — human call on 14 MERGED-prunable + the 3 now-landed hold worktrees; bundle first (`cruft-sweep`).
+3. **Workday adapter** for the 256 unresolved bridge employers (seed `bridge-employer-index`).
+4. **Parloa dossier re-emit** (JTBD-007, Perplexity) → `scout_dossier_ingest.py post`.
+5. Outcome-capture keel (2/247) still the P1 gap; untouched this session.

@@ -7,6 +7,20 @@
 
 ---
 
+## [v3.63.0] 2026-09-15 — arcs-algorethics: scaffold → tested repo; honest benchmarks; PR #446 held
+
+- **arcs-algorethics PRs #1–#8 merged** (main `a3ae0c3`): E2E suite (boots daemon), HF + AgentHarm
+  benchmarks with nightly history, `arcs ops` CLI, `specs/invariants.json` SSOT + parity gate, ledger
+  renamed `gate_receipts` + preflight, Ed25519-signed resume with operator key custody, unwired
+  scaffolding deleted, README honest inventory.
+- **Numbers:** ethics recall 0, JailBreakV 0/200, AgentHarm 0/176 harmful AND 0/176 benign. Purpose
+  settled: narrow brake on life/vital-care/livelihood one-way doors, not a harm classifier.
+- **arcs-v9:** keyed Edge gate route in PR #446, build green, unmerged by design. Empty Perplexity
+  branch deleted. Queue item `algorethics-in-scope-benchmark` (#449) replaces the drifted "widen" item.
+- **Blockers are credentials, not code:** algorethics schema not exposed (existence unverified);
+  `ARCS_GATE_KEY`/`SUPABASE_*` unset on Vercel + Actions. Supabase MCP here is wrong-org.
+- **Lesson:** assume the spec is stupid first; the Perplexity handoff carried four false premises.
+
 ## [v3.62.0] 2026-09-14 — Schriner/Oxenham job-search engagement: full recoil lifecycle + resume correction
 
 - **`schriner.arcs.care`** (recruiter pitch + resume viewer/PDF/ATS) and **`schriner-ext.arcs.care`**
