@@ -100,6 +100,11 @@ summary::-webkit-details-marker { display: none; }
 .gap { border: 1px solid var(--red); background: var(--red-bg); border-radius: 6px; padding: 16px 20px; max-width: none; }
 .gap p { color: var(--text); line-height: 1.8; }
 .foot { margin-top: 32px; }
+.tw { list-style: none; }
+.tw li { position: relative; padding: 8px 0 8px 18px; color: var(--text); border-top: 1px solid var(--border); }
+.tw li:first-child { border-top: 0; }
+.tw li::before { content: "•"; position: absolute; left: 2px; color: var(--red); }
+.tw li b { color: var(--text); }
 @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -107,7 +112,7 @@ summary::-webkit-details-marker { display: none; }
 <div class="wrap">
 <div class="label">Internal · Sep 15 · 3:00 ET</div>
 <h1>Brooks Thomas, <span>CMO Louisville Brands</span></h1>
-<p class="lede">Not a gatekeeper. Louisville Brands is a tiny PE firm of friends (Justin, Brook Smith, Brooks, Jeben in orbit) betting their own money, "boutique PepsiCo," three brands to ten. Brooks has been Justin's CMO since Party Horses (2022) and did Marfa with him. Three words from Justin is trust shorthand. Win = one thread he pulls.</p>
+<p class="lede">Not a gatekeeper. Louisville Brands is a tiny PE firm of friends (Justin, Brook Smith, Brooks, Jeben in orbit) with LPs and outside capital partners behind them, "boutique PepsiCo," three brands to ten. Brooks has been Justin's CMO since Party Horses (2022) and did Marfa with him. Three words from Justin is trust shorthand. Win = one thread he pulls.</p>
 
 <div class="scan">
 <h2>Three beats to hit</h2>
@@ -128,46 +133,60 @@ summary::-webkit-details-marker { display: none; }
 
 <details open><summary>The beats, clock-stamped</summary>
 <div class="beat"><div class="t"><span class="clock">3:00</span><span class="name">Last word is his</span></div><ul><li class="say">"Heads up, I've got a hard stop at 3:25."</li><li>Real (family at 3:30). Say it once, nothing attached, then never manage the clock.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:01</span><span class="name">Why him, on record only</span></div><ul><li class="say">"I asked Justin for you. Jeben got me in front of him once, end of July, and we ran one of his calls through it live. Justin cc'd you and that's all I've got, so I won't guess what's on your desk. Tell me."</li><li>Nothing in Justin's mouth. Jeben is his collaborator (HELM x JEB1), so say the name freely, and only what Jeben actually wrote.</li><li>Never "resonate."</li></ul></div><div class="beat"><div class="t"><span class="clock">3:03</span><span class="name">The one line, then stop</span></div><ul><li class="say">"Before a team spends real money on a bet, I help them write it on one page, with the number that would prove it wrong, and we score it later. That's it. What's on your plate?"</li><li>Full stop.</li><li>The silence is the pull.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:04</span><span class="name">His ten</span></div><ul><li>Undated, unsourced questions in his lane: "What are you making this quarter?" "The paper had Justin at boutique PepsiCo, ten brands by year end. Where are you now, and how do they sit together?" "Which launch taught you the most about how this company buys?"</li><li>Being corrected is the win. Never name Pumps first; if he names it, it is his.</li><li>Only after he mentions TV, story, or producing: "You came up producing newscasts. Does that still shape how you run brand?"</li><li>Only after he opens up on story or craft: "You wrote that story-driven design exposes weakness early, before the point of no return," or "You wrote that the end of a lifecycle is where transformation is most powerful. The page is that examination, scheduled in advance." One of them, once, never as a credential.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:12</span><span class="name">The fork</span></div><ul><li>Does he own a bet, or does Justin?</li><li>Tell: "I'd have to run that by Justin."</li><li>If Justin owns it, downshift: help him write the page he argues to Justin.</li><li class="say">Pivot if rapport is eating the clock: "What's the one thing on your plate you're least sure about?"</li></ul></div><div class="beat"><div class="t"><span class="clock">3:18</span><span class="name">Own the ask</span></div><ul><li class="say">"I asked for this. If there's one call in your lane you'd want written down before the money moves, let's write it together. An hour. You'll know by the end whether it earned a second one."</li><li>Never lead with free. Price only if he asks; "the first one's on me" only if he balks at the price.</li><li>No "nothing today" feint.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:23</span><span class="name">Close small</span></div><ul><li class="say">"Note tomorrow, one page in your words by Thursday. Forward it or toss it."</li><li>Not tonight. Not the Justin page.</li><li class="say">If he wants to work one live: "An hour, once. I'm out for a knee next week; the week of the 28th is open."</li><li>Say the knee once, when scheduling, never as an opener.</li></ul></div></details>
-<details><summary>Constitutional guardrails: rapport, credibility, proof</summary>
+<details><summary>Constitutional guardrails, ranked</summary>
 <div class="grid">
-<div class="col always"><h3>Always</h3><ul>
-<li><b>Rapport:</b> his first five, his last word, his vocabulary.</li>
-<li><b>Credibility:</b> only what is on record; quote Justin exactly or not at all.</li>
-<li><b>Proof:</b> "Justin said this is really cool and told me to run the vendor one." His exact words, checkable.</li>
-<li>Ask, then stop talking.</li>
+<div class="col always"><h3>Always (by how often it fires)</h3><ul>
+<li><b>1. His first five, his last word.</b> Ask, then stop talking.</li>
+<li><b>2. Only what is on record.</b> Quote Justin exactly ("this is really cool," "run the vendor one") or not at all.</li>
+<li><b>3. Jeben attributions match his texts.</b> "Said to ask for you." "Justin liked talking to ya, was impressed." Nothing more; assume Brooks texts him after.</li>
+<li><b>4. His vocabulary.</b> Story, craft, bet, page. Verbs not nouns.</li>
 </ul></div>
-<div class="col sometimes"><h3>Sometimes</h3><ul>
-<li><b>Rapport:</b> the newsroom question, once, only after he mentions TV or producing.</li>
-<li><b>Credibility:</b> Grayscale, named once, no dollar figure, only if he asks "like who."</li>
-<li><b>Proof:</b> "nobody in food yet; yours would be the first one that lives on a shelf." Volunteer before he finds it.</li>
-<li>A price, only if asked: an hour first, then five a month if it earned it. "On me" only as the fallback.</li>
+<div class="col sometimes"><h3>Sometimes (by likelihood he pulls it)</h3><ul>
+<li><b>1. Price, only if asked:</b> an hour first, then five a month if it earned it. "On me" only as the fallback.</li>
+<li><b>2. "Like who":</b> Grayscale, named once, no dollar figure. "Yours would be the first one that lives on a shelf."</li>
+<li><b>3. Story or craft line,</b> once, only after he goes there first: "exposes weakness before the point of no return" or "the end of a lifecycle is where transformation is most powerful."</li>
+<li><b>4. The newsroom question,</b> once, only after he mentions TV or producing.</li>
 </ul></div>
-<div class="col never"><h3>Never</h3><ul>
-<li><b>Rapport:</b> the LinkedIn mirror. He has said nine words to you.</li>
-<li><b>Credibility:</b> ARCS words. Receipt, gate, board, kill line, tripwire.</li>
-<li><b>Proof:</b> Justin's numbers, "we'll fire him," Grayscale with the dollar figure, "true Louisville story."</li>
-<li>Open louisville.arcs.care, even if asked twice. The Thread Book ships inside it with Jeben's name on it.</li>
-<li>"I heard" anything: Pumps, mango, sellouts, the plant, the fund, the 210-jobs incentive.</li><li>"The board," "investors," "discipline for the fund." There is no outside board to perform for; it is their own money.</li><li>Brook Smith is the vice chairman, not Brooks. Never conflate.</li>
+<div class="col never"><h3>Never (by how easy it is to slip)</h3><ul>
+<li><b>1. "I heard" anything:</b> Pumps, mango, sellouts, the plant, the fund, the 210-jobs incentive.</li>
+<li><b>2. Justin's numbers</b> or "we'll fire him." The agency is his; wait for Brooks to name it.</li>
+<li><b>3. ARCS words:</b> receipt, gate, board, kill line, tripwire.</li>
+<li><b>4. Capital talk of any kind:</b> LPs, partners, funds, "the board," "discipline for investors." Not his lane, not your topic. If he raises it, listen; add nothing.</li>
+<li><b>5. Open louisville.arcs.care,</b> even if asked twice. Jeben's name is inside it.</li>
+<li><b>6. Grayscale with the dollar figure.</b> "True Louisville story." The LinkedIn mirror.</li>
+<li><b>7. Brook Smith is the vice chairman, not Brooks.</b> Never conflate.</li>
 </ul></div>
 </div>
 
 </details>
-<details><summary>Pocket answers</summary>
+<details><summary>Pocket answers, most to least likely</summary>
 <ul class="pocket">
-<li><b>"Justin already runs everything through AI."</b> "It isn't the AI part. The part nobody's tooling does is making you write the call down before the outcome, with the number that kills it, then holding you to that page. It sits alongside whatever you already use."</li>
-<li><b>"The sales agency is Justin's."</b> "Fair, that one's his. Same shape works on a campaign, an agency, a drop. Which one would you want a pause-or-double-down line on before Q4?"</li>
-<li><b>"How do you know so much about us?"</b> "Jeben's a fan of what you make. He gave me the product history so I wouldn't waste Justin's time on basics, and he's the one who said to ask for you. I'd rather hear the current version from you."</li>
-<li><b>"I don't need a committee checking my calls."</b> "Nobody checks your call. You make it. The page keeps your reasoning from being rewritten after the fact, so a good call gets credit." Among friends: "It's how you stay honest with each other about a bet without it getting personal."</li>
-<li><b>"Which call did you run with Justin?"</b> "One of his. I'll let him share which; the shape works the same on yours."</li>
-<li><b>"How do you know Jeben?"</b> "Through his work, then a few calls this spring. He walked me through the product history and then said to ask for you." Assume he texts Jeben after; say nothing about Jeben that Jeben didn't write.</li>
-<li><b>"Who else has done this? Like who?"</b> "Nobody in food yet. Grayscale, on a digital-asset launch where writing the call down first wasn't optional. Yours would be the first one that lives on a shelf."</li>
-<li><b>"What does it cost?"</b> "The first one is a working session, an hour. If it earns a second, five a month for as many as you need. If it didn't, we stop." If he balks: "Then the first one's on me. You keep the page either way."</li><li><b>"What's in it for you?"</b> "A real one with your name on it if it works, and a clean 'didn't work' I can say out loud if it doesn't."</li>
-<li><b>"What do I tell Justin?"</b> "Tell him I'm writing one page with you on one call you're about to make, and in a month you both see whether the number held."</li>
+<li><b>1. "So Justin just cc'd me. What is this, exactly?"</b> The why-me line at 3:01, then the one line at 3:03. Tell: he opens with "Hi Zach, how are you?" and waits.</li>
+<li><b>2. "What did Justin and Jeben say? How do you know Jeben?"</b> "Through his work, then a few calls this spring. He walked me through the product history and said to ask for you. Justin said 'this is really cool' and told me to run the vendor one." Nothing beyond their words.</li>
+<li><b>3. "What does it cost? Is this a retainer?"</b> "No retainer today. The first one is a working session, an hour, and produces one page you keep either way. If it earns a second, five a month. If it didn't, we stop." If he balks: "Then the first one's on me."</li>
+<li><b>4. "Which call did you run with Justin?"</b> "One of his. I'll let him share which; the shape works the same on yours."</li>
+<li><b>5. "Justin already runs everything through AI. What does this add?"</b> "It isn't the AI part. The part nobody's tooling does is making you write the call down before the outcome, with the number that kills it, then holding you to that page. It sits alongside whatever you already use."</li>
+<li><b>6. "Who else has done this? Like who?"</b> "Nobody in food yet. Grayscale, on a digital-asset launch where writing the call down first wasn't optional. Yours would be the first one that lives on a shelf."</li>
+<li><b>7. "What do I tell Justin?"</b> "Tell him I'm writing one page with you on one call you're about to make, and in a month you both see whether the number held."</li>
+<li><b>8. "The sales agency is Justin's."</b> "Fair, that one's his. Same shape works on a campaign, an agency, a drop. Which one would you want a pause-or-double-down line on before Q4?"</li>
+<li><b>9. "What's in it for you?"</b> "A real one with your name on it if it works, and a clean 'didn't work' I can say out loud if it doesn't."</li>
+<li><b>10. "We're friends who move fast. This sounds like process."</b> "It's the opposite. The two sentences you'd say in the hallway, written where you can find them later. It's how a small group stays honest with itself about a bet without it getting personal."</li>
 </ul>
 
 </details>
-<details><summary>Air gap</summary>
-<div class="gap"><p><b>Jeben's:</b> the mango and AI-mockup read of Justin · "the game is small, think bigger" · the PE redirect · the $20K vendor anchor · his stepping back · the family loss · the fund and the round · the plant and the jobs.<br><b>Justin's:</b> the agency economics and dates · "advice looks weak" · the book and coaches · "I'm bad at business" · the Japan JV pace · the AI stack · the half-listening admission.<br><b>Yours:</b> the war room, the Thread Book, this page.</p></div>
+<details><summary>Air gap, ranked by trip-wire likelihood</summary>
+<div class="gap"><ul class="tw">
+<li><b>1. The plant move and the jobs.</b> Trip wire: he raises it ("you probably heard"). Never lead. If he does: "Jeben mentioned it in passing, no details. How's it landing on your side?" Nothing about Wisconsin, headcount, or the 210-jobs incentive.</li>
+<li><b>2. Jeben's reads of Justin</b> (mango, "goes to AI and feels done"). Trip wire: "what did Jeben say about us?" Product history yes, people never.</li>
+<li><b>3. Justin's agency economics</b> ($12K, the tiers, October, "we'll fire him," regions). Trip wire: he names the agency. Then only "is that yours or his?"</li>
+<li><b>4. The fund, the investor, the round, the LPs.</b> Trip wire: any money-source talk. They have outside capital partners; you know it second-hand. Say nothing about where money comes from or how it is deployed.</li>
+<li><b>5. Jeben's "the game is small, think bigger" and the PE redirect.</b> Trip wire: "bigger fish" or price-vs-size framing. Never.</li>
+<li><b>6. Jeben's price coaching</b> (the $20K vendor anchor). Trip wire: "what does it cost." The only price sentence is the one in pocket 3.</li>
+<li><b>7. Justin's AI stack, book, coaches, "advice looks weak," "bad at business," Japan JV pace.</b> Trip wire: "Justin uses AI for everything." Answer without naming anything he runs.</li>
+<li><b>8. The family loss behind the spring pause.</b> Trip wire: "why did it go quiet?" Answer: "normal for a CEO in a sprint."</li>
+<li><b>9. Jeben's widening beyond Louisville</b> ("infinite funding," "deeper access"). Trip wire: "what's Jeben's angle?" Never characterize his posture either way.</li>
+<li><b>10. The war room, the Thread Book, this page.</b> Trip wire: "send me what you showed Justin." "That page was built for Justin in July; I'll write you one in your words by Thursday."</li>
+</ul></div>
 
 </details>
 <div class="label foot">Gauntleted and premortemed · full brief in _ARTIFACTS · Jeben squared · surgery Fri Sep 18 (confirm)</div>
