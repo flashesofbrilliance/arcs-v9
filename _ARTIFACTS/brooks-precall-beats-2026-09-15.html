@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Brooks · 3:00 · Beats and Guardrails</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+:root {
+  --measure: 940px;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+  --font-sans: system-ui, -apple-system, 'Inter', sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --text-2: #94a3b8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; font-size: 125%; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 0.925rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 940px; margin: 0 auto; padding-block: 32px 48px; padding-inline: 20px; }
+p, li { max-width: none; text-wrap: pretty; }
+.label { font-family: var(--font-mono); font-size: 0.925rem; font-weight: 700; color: var(--text-2); max-width: none; }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; margin: 8px 0 12px; }
+h1 span { color: var(--gold); }
+.lede { max-width: none; font-family: var(--font-display); font-size: 1.15rem; line-height: 1.6; color: var(--text); }
+h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; color: var(--cyan); margin: 24px 0 12px; }
+.scan { border: 1px solid var(--gold); background: var(--gold-bg); border-radius: 10px; padding: 16px 20px; margin: 16px 0 8px; max-width: none; }
+.scan h2 { color: var(--gold); margin: 4px 0 8px; }
+.scan ul { list-style: none; }
+.scan li { position: relative; padding: 6px 0 6px 18px; color: var(--text); }
+.scan li::before { content: "•"; position: absolute; left: 2px; color: var(--gold); }
+.scan .hint { margin-top: 12px; }
+details { margin-top: 24px; }
+summary { cursor: pointer; font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--cyan); margin-bottom: 12px; list-style: none; }
+summary::before { content: "▸ "; } details[open] summary::before { content: "▾ "; }
+summary::-webkit-details-marker { display: none; }
+.beat { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); padding: 20px 22px; margin: 0 0 16px; max-width: none; }
+.beat .t { display: flex; gap: 12px; align-items: baseline; margin-bottom: 12px; }
+.beat ul { list-style: none; }
+.beat li { position: relative; padding-left: 18px; margin-bottom: 10px; color: var(--text-2); }
+.beat li::before { content: "•"; position: absolute; left: 2px; color: var(--cyan); }
+.beat li.say { color: var(--text); font-style: italic; }
+.beat li.say::before { content: "›"; color: var(--gold); }
+.beat .clock { font-family: var(--font-mono); font-size: 0.925rem; font-weight: 700; color: var(--gold); min-width: 44px; }
+.beat .name { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.beat p { color: var(--text-2); }
+.beat .say { color: var(--text); font-style: italic; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: none; }
+.col { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); padding: 12px 16px; }
+.col h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; margin-bottom: 8px; }
+.col.always h3 { color: var(--green); } .col.sometimes h3 { color: var(--gold); } .col.never h3 { color: var(--red); }
+.col ul { list-style: none; }
+.col li { color: var(--text-2); padding: 8px 0; border-top: 1px solid var(--border); }
+.col li:first-child { border-top: 0; }
+.col li b, .scan li b, .pocket li b { color: var(--text); font-weight: 600; }
+.pocket { list-style: none; max-width: none; }
+.pocket li { border: 1px solid var(--border); border-radius: 3px; background: var(--surface); padding: 14px 18px; margin-bottom: 12px; color: var(--text-2); }
+.pocket li b { color: var(--gold); display: block; margin-bottom: 4px; }
+.gap { border: 1px solid var(--red); background: var(--red-bg); border-radius: 6px; padding: 16px 20px; max-width: none; }
+.gap p { color: var(--text); line-height: 1.8; }
+.foot { margin-top: 32px; }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="label">Internal · Sep 15 · 3:00 ET</div>
+<h1>Brooks Thomas, <span>CMO Louisville Brands</span></h1>
+<p class="lede">Not a gatekeeper. Brooks has been Justin's CMO since Party Horses (2022) and did Marfa with him last October; Louisville Brands is a "boutique PepsiCo" holding company going from three brands to ten. Three words from Justin is trust shorthand. Win = one thread he pulls.</p>
+
+<div class="scan">
+<h2>Three beats to hit</h2>
+<ul>
+<li><b>Why him, on record only.</b> Jeben said ask for Brooks; one Justin call in July; then "Brooks is cc'ed." Nothing in Justin's mouth.</li>
+<li><b>One line, then stop.</b> Write the bet on one page with the number that proves it wrong, score it later. Then his ten.</li>
+<li><b>Own the ask, close small.</b> One call in his lane, written with him for free. Note tomorrow, page by Thursday.</li>
+<li><b>No screen.</b> Never open louisville.arcs.care; Jeben's name is inside it. No session before Sep 28 (knee).</li>
+</ul>
+<h2>Three questions he will ask</h2>
+<ul>
+<li><b>"What is this?"</b> I asked Justin for you. He cc'd you and left it there, so you've got exactly what I've got. Before you spend real money on an idea, we write it on one page: what you think will happen, and the number that would show you were wrong. Later we check the page against what actually happened. That's the whole thing.</li>
+<li><b>"What did Justin see?"</b> He said "this is really cool" and told me to run the vendor one. Jeben told me he enjoyed it and said to ask for you. Then I asked Justin, and he looped you in.</li>
+<li><b>"What do you want from me?"</b> One idea you're about to spend on. We write the page together, free. If it's not useful, we're done, no hard feelings.</li>
+</ul>
+<div class="label hint">Everything below opens on pull.</div>
+</div>
+
+<details open><summary>The beats, clock-stamped</summary>
+<div class="beat"><div class="t"><span class="clock">3:00</span><span class="name">Last word is his</span></div><ul><li class="say">"Heads up, I've got a hard stop at 3:25."</li><li>Real (family at 3:30). Say it once, nothing attached, then never manage the clock.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:01</span><span class="name">Why him, on record only</span></div><ul><li class="say">"I asked Justin for you. Jeben got me in front of him once, end of July, and we ran one of his calls through it live. Justin cc'd you and that's all I've got, so I won't guess what's on your desk. Tell me."</li><li>Nothing in Justin's mouth. Say Jeben's name once; if no recognition, "a mutual friend of Justin's" after that.</li><li>Never "resonate."</li></ul></div><div class="beat"><div class="t"><span class="clock">3:03</span><span class="name">The one line, then stop</span></div><ul><li class="say">"Before a team spends real money on a bet, I help them write it on one page, with the number that would prove it wrong, and we score it later. That's it. What's on your plate?"</li><li>Full stop.</li><li>The silence is the pull.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:04</span><span class="name">His ten</span></div><ul><li>Undated, unsourced questions in his lane: "What are you making this quarter?" "The paper had Justin at boutique PepsiCo, ten brands by year end. Where are you now, and how do they sit together?" "Which launch taught you the most about how this company buys?"</li><li>Being corrected is the win. Never name Pumps first; if he names it, it is his.</li><li>Only after he mentions TV, story, or producing: "You came up producing newscasts. Does that still shape how you run brand?"</li><li>Only after he opens up on story: "You wrote that story-driven design exposes weakness early, before the point of no return. That is the whole page, in your words." Once, as a question, never as a credential.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:12</span><span class="name">The fork</span></div><ul><li>Does he own a bet, or does Justin?</li><li>Tell: "I'd have to run that by Justin."</li><li>If Justin owns it, downshift: help him write the page he argues to Justin.</li><li class="say">Pivot if rapport is eating the clock: "What's the one thing on your plate you're least sure about?"</li></ul></div><div class="beat"><div class="t"><span class="clock">3:18</span><span class="name">Own the ask</span></div><ul><li class="say">"I asked for this. If there's one call in your lane you'd want written down before the money moves, I'll write it with you for free. If not, tell me and we're done."</li><li>No "nothing today" feint.</li></ul></div><div class="beat"><div class="t"><span class="clock">3:23</span><span class="name">Close small</span></div><ul><li class="say">"Note tomorrow, one page in your words by Thursday. Forward it or toss it."</li><li>Not tonight. Not the Justin page.</li><li class="say">If he wants to work one live: "An hour, once. I'm out for a knee next week; the week of the 28th is open."</li><li>Say the knee once, when scheduling, never as an opener.</li></ul></div></details>
+<details><summary>Constitutional guardrails: rapport, credibility, proof</summary>
+<div class="grid">
+<div class="col always"><h3>Always</h3><ul>
+<li><b>Rapport:</b> his first five, his last word, his vocabulary.</li>
+<li><b>Credibility:</b> only what is on record; quote Justin exactly or not at all.</li>
+<li><b>Proof:</b> "Justin said this is really cool and told me to run the vendor one." His exact words, checkable.</li>
+<li>Ask, then stop talking.</li>
+</ul></div>
+<div class="col sometimes"><h3>Sometimes</h3><ul>
+<li><b>Rapport:</b> the newsroom question, once, only after he mentions TV or producing.</li>
+<li><b>Credibility:</b> Grayscale, named once, no dollar figure, only if he asks "like who."</li>
+<li><b>Proof:</b> "nobody in snacks yet; that's why the first one is free." Volunteer before he finds it.</li>
+<li>A price, only if asked twice: five a month after the free one, stop if it isn't worth it.</li>
+</ul></div>
+<div class="col never"><h3>Never</h3><ul>
+<li><b>Rapport:</b> the LinkedIn mirror. He has said nine words to you.</li>
+<li><b>Credibility:</b> ARCS words. Receipt, gate, board, kill line, tripwire.</li>
+<li><b>Proof:</b> Justin's numbers, "we'll fire him," Grayscale with the dollar figure, "true Louisville story."</li>
+<li>Open louisville.arcs.care, even if asked twice. The Thread Book ships inside it with Jeben's name on it.</li>
+<li>"I heard" anything: Pumps, mango, sellouts, the plant, the fund, the 210-jobs incentive.</li><li>Brook Smith is the vice chairman, not Brooks. Never conflate.</li>
+</ul></div>
+</div>
+
+</details>
+<details><summary>Pocket answers</summary>
+<ul class="pocket">
+<li><b>"Justin already runs everything through AI."</b> "It isn't the AI part. The part nobody's tooling does is making you write the call down before the outcome, with the number that kills it, then holding you to that page. It sits alongside whatever you already use."</li>
+<li><b>"The sales agency is Justin's."</b> "Fair, that one's his. Same shape works on a campaign, an agency, a drop. Which one would you want a pause-or-double-down line on before Q4?"</li>
+<li><b>"How do you know so much about us?"</b> "Jeben's a fan of what you make. He gave me the product history so I wouldn't waste Justin's time on basics, and he's the one who said to ask for you. I'd rather hear the current version from you."</li>
+<li><b>"I don't need a committee checking my calls."</b> "Nobody checks your call. You make it. The page keeps your reasoning from being rewritten after the fact, so a good call gets credit."</li>
+<li><b>"Which call did you run with Justin?"</b> "One of his. I'll let him share which; the shape works the same on yours."</li>
+<li><b>"Who's Jeben?"</b> "Jeben Berg, a friend of Justin's. He introduced us in July."</li>
+<li><b>"Who else has done this? Like who?"</b> "Nobody in food yet. Grayscale, on a digital-asset launch where writing the call down first wasn't optional. Yours would be the first one that lives on a shelf."</li>
+<li><b>"Why free? What's in it for you?"</b> "A real one with your name on it if it works, and a clean 'didn't work' I can say out loud if it doesn't. You keep the page either way."</li>
+<li><b>"What do I tell Justin?"</b> "Tell him I'm writing one page with you on one call you're about to make, free, and in a month you both see whether the number held."</li>
+</ul>
+
+</details>
+<details><summary>Air gap</summary>
+<div class="gap"><p><b>Jeben's:</b> the mango and AI-mockup read of Justin · "the game is small, think bigger" · the PE redirect · the $20K vendor anchor · his stepping back · the family loss · the fund and the round · the plant and the jobs.<br><b>Justin's:</b> the agency economics and dates · "advice looks weak" · the book and coaches · "I'm bad at business" · the Japan JV pace · the AI stack · the half-listening admission.<br><b>Yours:</b> the war room, the Thread Book, this page.</p></div>
+
+</details>
+<div class="label foot">Gauntleted and premortemed · full brief in _ARTIFACTS · Jeben squared · surgery Fri Sep 18 (confirm)</div>
+</div>
+</body>
+</html>
