@@ -1,0 +1,355 @@
+{
+ "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. Post-call recoil-close for the 2026-09-15 Brooks Thomas (Louisville Brands) cold-intro call. Partner / BD engagement.",
+ "meta": {
+ "report_id": "2026-09-15-brooks-louisville",
+ "date": "2026-09-15",
+ "counterpart": "Brooks Thomas (Louisville Brands)",
+ "company": "Louisville Brands - incubator/portco hybrid. Brands: Mugen (Japanese-inspired whiskey via Kojin), Party Horses, Stillwater (craft beer), jerky (flagship since 2012, carries the balance sheet, fastest-growing), Gym Snack (protein), pumpkin seeds. Ex-Southwest Airlines; moved Texas→Louisville ~1yr ago; Japanophile, single-malt fan, self-described 'recovering degen' with a crypto past.",
+ "segments": 4,
+ "gate": {
+ "internal": "brooks-lb-recoil-0915q"
+ },
+ "provenance": {
+ "audience": "internal",
+ "captured": "Granola transcript 910f3d92-0511-4178-a1b3-cf784138553f, 'Brooks x Zach // 1-1', 2026-09-15 15:00 EDT. First contact with Brooks. Warm intro via Justin + Jevin ('Jeben'); Justin told Brooks to go in COLD ('you should go into this cold'). Account lineage: runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json, 2026-07-15-jeben.json, public/louisville.html. No formal ex-ante SSOT for this call - retroactive close (ADR-044).",
+ "load_bearing_quote": "we have a confirmation bias and sometimes a recency bias when we're analyzing our own stuff... I don't know if there's any opportunity for ARCS to actually go in and be like, okay, when you're looking at the arc of building your internal AI implementation, where are you?"
+ }
+ },
+ "opportunity": {
+ "audience": "internal",
+ "engagement_type": "partner",
+ "y_state": "YELLOW",
+ "topology": "CONVERGENT",
+ "nci_prior": 0,
+ "nci_post": 0,
+ "note": "Strong warm first-meeting: Brooks spoke ARCS's language unprompted ('versions of the same language') and, unprompted, named his OWN highest-value use case - an outside audit of where Louisville Brands is on the arc of building its internal AI implementation, as an antidote to their confirmation/recency bias ('fox watching the henhouse'). Explicit next step: he asked Zach to send materials and keep the conversation going. Held at YELLOW, not GREEN, because there is no scope, budget, owner-of-spend, or second meeting yet - warmth is a real signal, not a deal. Calibration: warm founder threads with no committed scope can resolve to ghosted after ~4 weeks of silence; treat the follow-up materials as the real test."
+ },
+ "beliefs": [
+ {
+ "id": "P1",
+ "audience": "internal",
+ "claim": "An ARCS pitch to a CPG/brand operator needs heavy translation out of decision-intelligence jargon.",
+ "evidence": "Brooks needed almost none - he immediately mapped ARCS onto his own work: 'it's sweet, so to speak, versions of the same language, right? We've been very AI and automation forward... doing simulations around customer personas.' He already runs cohort simulations, persona modeling, and (from Southwest) a manual early-signal risk model.",
+ "inference": "EXP",
+ "confidence": [0.55, 0.8],
+ "conviction": "HIGH",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P2",
+ "audience": "internal",
+ "claim": "The wedge into Louisville Brands is the decision-receipt / instant-replay governance layer (the pitch Zach led with).",
+ "evidence": "The wedge Brooks reached for himself was different and sharper: a ROADMAP AUDIT of their internal AI build - 'where are you on the arc... where are you most inefficient or where are your hypotheses failing?' The receipt/replay layer interested him, but the audit is the on-ramp HE named.",
+ "inference": "EXP",
+ "confidence": [0.5, 0.75],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P3",
+ "audience": "internal",
+ "claim": "A cold first call surfaces politeness, not a real use case.",
+ "evidence": "Falsified: Brooks self-identified a concrete pain (confirmation/recency bias auditing their own AI stack; sunk-cost risk on the build) and asked for materials to continue. That is genuine pull, not courtesy.",
+ "inference": "IMP",
+ "confidence": [0.5, 0.7],
+ "conviction": "MED",
+ "verdict": "FALSED"
+ },
+ {
+ "id": "P4",
+ "audience": "internal",
+ "claim": "This warmth means the deal is advancing.",
+ "evidence": "Unconfirmed and the key risk. There is a named use case and a materials request, but no scope, no budget, no owner-of-spend, no second meeting on the calendar. The follow-up materials landing (or not) is the falsifier. Warm founder threads at this stage ghost after ~4 weeks of silence as often as they advance.",
+ "inference": "IMP",
+ "confidence": [0.6, 0.4],
+ "conviction": "LOW",
+ "verdict": "OPEN"
+ }
+ ],
+ "kinematic_series": {
+ "dt": 1.0,
+ "series": [
+ {
+ "key": "shared_language",
+ "audience": "internal",
+ "label": "Confidence the register lands without translation",
+ "color": "#00F0FF",
+ "points": [0.5, 0.7, 0.8, 0.8],
+ "grounding_quote": "versions of the same language, right?"
+ },
+ {
+ "key": "use_case_pull",
+ "audience": "internal",
+ "label": "Confidence a real use case is present (audit wedge)",
+ "color": "#00FF9D",
+ "points": [0.4, 0.55, 0.7, 0.8],
+ "grounding_quote": "I don't know if there's any opportunity for ARCS to actually go in... where are you?"
+ }
+ ]
+ },
+ "insights": [
+ {
+ "audience": "internal",
+ "plane": "counterpart",
+ "title": "Brooks named the wedge himself - the AI-roadmap audit",
+ "text": "The single most valuable moment: Brooks, unprompted, described their confirmation/recency bias auditing their own AI build and asked whether ARCS could give an outside read on where they are on that arc and where hypotheses are failing. That is a founder handing you the sale's framing. The follow-up should lead with the audit, not the generic receipt/replay pitch Zach opened with."
+ },
+ {
+ "audience": "internal",
+ "plane": "idea",
+ "title": "Their on-prem / SSOT anxieties are ARCS's native story",
+ "text": "Brooks wants an internal AI stack that's affordable, accurate, fast, cost-saving, and a single source of truth that isn't accreting data bloat and tech debt. ARCS's local-tenant / air-gap / composable-serializable design answers all of that directly. Emphasize the 'your PII stays local, I only add a meta-inference layer' framing - it lands hard with an on-prem-minded operator."
+ },
+ {
+ "audience": "internal",
+ "plane": "risk",
+ "title": "Two on-ramps; keep the audit primary, the collab-risk model secondary",
+ "text": "A second, more tactical use case surfaced: early-signal risk screening for influencer collabs (the Riff Raff assault fallout; Neil Hamburger as a success). It's a real, vivid pain but narrower. Lead with the AI-roadmap audit (strategic, recurring, board-adjacent); hold the collab-risk model as a concrete demo taster, not the headline."
+ }
+ ],
+ "next_steps": [
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "FILE AN EX-ANTE FIRST (ADR-068 mandatory before any counterpart send), then send Brooks a tight materials packet framed around the AI-roadmap AUDIT he named: where are you on the arc / where's it inefficient / where are hypotheses failing - plus the composable conditional-workflow and persona-objection-handling angles. Register-fit: plain-language, non-fiction, Japanophile/omotenashi sensibility, zero vaporware."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Include one concrete demo hook: run the persona objection round-robin (how would Brooks / Justin / Jevin each eviscerate this, then the steelman) on one of THEIR real bets - a jerky flavor-drop go/no-go, or the internal-AI-build audit itself - as a taster of the engine, not a slide."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Hold the relationship map: Jevin ('Jeben') is the warm primary (many prior conversations, Stillwater/Wabi-Sabi lineage); Justin is secondary (one chat late July); Brooks is new but engaged. Justin + Jevin are the internal champions - keep them looped so the thread doesn't rest on a single new contact."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Set a follow-up cadence to beat the ghost risk: materials within days while warm, then a check-in at ~2 weeks. If silence reaches ~4 weeks with no scope conversation, mark the thread COOLED, not open - do not let a warm first call read as pipeline indefinitely."
+ }
+ ],
+ "redaction_policy": {
+ "rules": [
+ "Internal war-room only. Nothing crosses to Brooks without a recoil-ship pass.",
+ "Method and architecture can cross; ARCS's weights/sauce and any internal skepticism about Brooks's follow-through do not.",
+ "The Riff Raff / collab-risk example is Brooks's own disclosure - do not repeat it back in any shareable artifact."
+ ]
+ },
+ "page": {
+ "layout": "tabs",
+ "header": {
+ "eyebrow": "ARCS &#183; War Room",
+ "title": "Brooks Thomas &#183; Louisville Brands",
+ "sub": "Partner / BD &#183; warm cold-intro, use case named &#183; Y-gate YELLOW"
+ },
+ "tabs": [
+ { "id": "pre", "label": "Pre-Call" },
+ { "id": "exante", "label": "Ex-Ante" },
+ { "id": "forge", "label": "Forge" },
+ { "id": "recoil", "label": "Recoil" },
+ { "id": "wargame", "label": "War Game" },
+ { "id": "defense", "label": "Defensibility" }
+ ],
+ "blocks": [
+ {
+ "tab": "pre",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "True North",
+ "p": [
+ "Meet Brooks well on a deliberately cold intro, find whether there's a real shared problem worth a next conversation, and surface - in his own words - a concrete use case ARCS could own, without over-pitching a founder who was told to walk in with no context."
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Context",
+ "rows": [
+ { "k": "Intro path", "v": "Justin + Jevin ('Jeben'); Justin told Brooks to go in cold. Jevin is the warm primary; account lineage runs through the jeben/Louisville SSOTs and public/louisville.html" },
+ { "k": "Counterpart", "v": "Brooks Thomas, Louisville Brands (incubator/portco: Mugen whiskey, jerky flagship, Stillwater, Party Horses, Gym Snack). Ex-Southwest; Japanophile; crypto past" },
+ { "k": "Their stack", "v": "AI/automation-forward: foundational datasets, customer-persona simulations, cohort/behavior modeling, world-flavor trend-chasing tied to occasion/culture" },
+ { "k": "Named pain", "v": "Confirmation + recency bias auditing their own internal AI build; sunk-cost risk; wants an affordable on-prem single-source-of-truth without data bloat/tech debt" },
+ { "k": "Y-Gate", "v": "YELLOW : strong register match + self-named use case + materials request, but no scope/budget/owner/second-meeting" }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Intel",
+ "intro": "Sophisticated, AI-forward operator who speaks ARCS's language natively. Rapport hooks landed (Stillwater/craft beer, Hiroshige/woodblock, omotenashi).",
+ "items": [
+ { "dot": "g", "html": "<strong>Brooks</strong> : built a manual early-signal risk model at Southwest; runs persona/cohort simulations at Louisville; values qualitative + rising-signal reads over pure volume metrics." },
+ { "dot": "c", "html": "<strong>The wedge he named</strong> : an outside audit of where they are on the arc of building their internal AI implementation - antidote to their own confirmation/recency bias." },
+ { "dot": "", "html": "<strong>Secondary use case</strong> : early-signal risk screening for influencer collabs (Riff Raff fallout; Neil Hamburger success). Tactical, narrower." },
+ { "dot": "", "html": "<strong>On-prem anxieties</strong> : wants affordable, accurate, fast, cost-saving, single-source-of-truth internal AI - ARCS's local-tenant story answers this directly." },
+ { "dot": "", "html": "<strong>Champions</strong> : Justin + Jevin are internal advocates; Brooks is the new, engaged node." }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Questions &amp; landmines",
+ "intro": "A relationship-and-fit conversation first; do not over-pitch a founder told to go in cold.",
+ "items": [
+ { "dot": "", "html": "Is there a real shared problem, or just courtesy? &#183; resolved: real - he named the audit use case himself." },
+ { "dot": "", "html": "Which on-ramp is strongest? &#183; the AI-roadmap audit (strategic) over the collab-risk model (tactical)." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> mistaking high warmth + shared vocabulary for an advancing deal. No scope/budget/owner exists yet." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> a warm founder thread ghosting after ~4 weeks of silence - needs a cadence, not a wait." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> resting the whole thread on Brooks alone - keep Justin + Jevin looped." }
+ ]
+ },
+ {
+ "tab": "exante",
+ "type": "receipt",
+ "audience": "internal",
+ "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (reconstructed - no filed pre-call receipt)",
+ "fields": [
+ { "label": "D &#183; Sharpened question", "value": "Is there a real, ownable ARCS use case at Louisville Brands worth pursuing, and can I surface it in Brooks's own words on a cold intro without over-pitching?" },
+ { "label": "E &#183; Entity", "value": "Brooks Thomas (new); Justin + Jevin (champions); Louisville Brands the account" },
+ { "label": "W &#183; Window", "value": "This quarter : relationship-building, Q4 latent" },
+ { "label": "Hypothesis / expecting to see", "value": "Shared vocabulary exists; a concrete use case can be surfaced; Brooks asks to continue." },
+ { "label": "Predicted Y-gate", "value": "YELLOW (reconstructed) : warm intro, real account, unproven fit/scope" },
+ { "label": "Pre-committed move", "value": "Lead with rapport + a high-level ARCS frame; let Brooks map it to his own work; land a materials-send next step." },
+ { "label": "Belief most likely to update", "value": "Whether translation cost is high (P1) and where the real wedge is (P2)." },
+ { "label": "Falsifier", "value": "If the follow-up materials land to silence for ~4 weeks with no scope conversation, this closes as a warm-but-cooled thread, not a live deal." }
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Exhibit 2 &#183; Exogenous Forge",
+ "p": [
+ "This was a high-rapport call with genuine shared language; the Forge exists so that rapport is not laundered into a deal. GROUNDED = a Brooks line forces it. INFERENCE = a reasonable read. The audit use case is GROUNDED (his words); the deal-is-advancing read is explicitly STRUCK."
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Claim adjudication",
+ "columns": ["Claim", "Ruling", "Source force"],
+ "rows": [
+ ["ARCS's register lands without heavy translation", "GROUNDED", "'it's sweet, so to speak, versions of the same language, right?'"],
+ ["Brooks self-named an AI-roadmap audit use case", "GROUNDED", "'I don't know if there's any opportunity for ARCS to actually go in... where are you?'"],
+ ["Their confirmation/recency bias is the pain ARCS addresses", "GROUNDED", "'we have a confirmation bias and sometimes a recency bias when we're analyzing our own stuff'"],
+ ["Brooks asked to continue the conversation with materials", "GROUNDED", "'if there's any materials or anything you can send me, let's keep the conversation going'"],
+ ["The on-prem/SSOT story fits their needs", "GROUNDED", "'I want it to be more affordable... a single source of truth that's building upon itself and isn't growing data bloat and tech debt'"],
+ ["This warmth means the deal is advancing", "STRUCK", "No scope/budget/owner/second-meeting; upgrading warmth to pipeline is exactly the overreach the Forge catches"]
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Receipt closed &#183; ex-ante vs actual",
+ "rows": [
+ { "k": "Predicted (reconstructed)", "v": "Shared vocab, a surfaced use case, a request to continue; YELLOW" },
+ { "k": "Actual", "v": "Matched and beat prediction on register + self-named audit wedge; still YELLOW because no scope/budget/owner emerged" },
+ { "k": "Fork hit", "v": "USE-CASE-NAMED fork (audit wedge) - the strong branch; collab-risk model is the secondary branch" },
+ { "k": "Load-bearing", "v": "'when you're looking at the arc of building your internal AI implementation, where are you?'" }
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "belief_log",
+ "audience": "internal",
+ "h2": "Belief Log &#183; confidence x conviction"
+ },
+ {
+ "tab": "recoil",
+ "type": "worked_example",
+ "audience": "internal",
+ "h2": "Belief trajectory",
+ "intro": "Both curves rose across the call: confidence the register lands (Brooks spoke ARCS's language early) and confidence a real use case is present (peaking when he named the AI-roadmap audit himself).",
+ "close": "Net: a strong first meeting that produced a founder-named wedge. The open variable is follow-through - the P4 'deal advancing' belief stays OPEN until the materials-send either converts to a scoped second conversation or goes quiet."
+ },
+ {
+ "tab": "recoil",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Kairos, quiet signals &amp; risks",
+ "intro": "Post-call read.",
+ "items": [
+ { "dot": "g", "html": "<strong>Kairos:</strong> Brooks naming his own confirmation/recency-bias pain and asking 'where are you on the arc' IS the buying signal - build the follow-up around those exact words." },
+ { "dot": "g", "html": "<strong>Quiet signal:</strong> he spoke ARCS's language unprompted and referenced his Southwest early-signal model - he is pre-sold on the concept, the work is proving ARCS does it better than their in-house attempt." },
+ { "dot": "", "html": "<strong>Risk:</strong> warmth without scope. No budget/owner/second-meeting; treat the materials-send as the real test, not a formality." },
+ { "dot": "", "html": "<strong>Risk:</strong> ghost after ~4 weeks of silence - set a cadence; mark COOLED if it goes quiet." },
+ { "dot": "", "html": "<strong>Risk:</strong> single-thread dependency on a brand-new contact - keep Justin + Jevin looped." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "kinematics_table",
+ "audience": "internal",
+ "h2": "Kinematic manifold &#183; measured (D1-D3)"
+ },
+ {
+ "tab": "wargame",
+ "type": "list",
+ "audience": "internal",
+ "h2": "The gauntlet",
+ "intro": "Adversarial pass on the opportunity, not on Brooks.",
+ "items": [
+ { "dot": "", "html": "<strong>BAR (ruin):</strong> low ruin exposure - the cost of a weak follow-up is a cooled warm intro and a small ding to the Jevin/Justin referral capital. Bounded. Don't over-invest before a scoped second conversation." },
+ { "dot": "g", "html": "<strong>LAB &#183; Loki:</strong> steel-manned skeptic - Brooks is AI-forward and may conclude he can build the audit himself ('we can have a fox watching the henhouse'). The follow-up must show ARCS is meaningfully more objective/faster than their in-house attempt, or he defaults to DIY." },
+ { "dot": "c", "html": "<strong>COURT:</strong> no overclaim - the deal is logged as unscoped/unconfirmed, not spun as a win from the call's warmth." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "table",
+ "audience": "internal",
+ "h2": "ATG pre-mortem &#183; assume dead in 90 days",
+ "columns": ["Node", "Their objection (verbatim/implied)", "Failure mode", "Handling"],
+ "rows": [
+ ["1. Materials send", "'send me materials, let's keep the conversation going'", "Generic deck instead of his named audit use case; no reply", "Lead with the AI-roadmap audit in his words + one concrete demo hook; ex-ante filed first"],
+ ["2. DIY objection", "'we can have a fox watching the henhouse'", "Brooks decides to self-audit", "Show ARCS's outside-perspective / double-blind objectivity beats their confirmation-biased in-house read"],
+ ["3. Scope + owner", "(none yet)", "No budget/owner-of-spend surfaces; thread cools", "Second conversation must pin a concrete pilot scope + who owns it; the bottleneck node"],
+ ["4. Single-thread", "(n/a)", "Rests on Brooks alone", "Keep Justin + Jevin looped as champions"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "rosetta",
+ "audience": "internal",
+ "h2": "The method, in Brooks's register",
+ "left": "Louisville Brands world",
+ "right": "This engine",
+ "rows": [
+ ["Cohort/persona simulations to bet on a flavor drop", "ARCS's pre-mortem war-game + circuit-breaker receipts: bet cheap and diffuse, let outcomes recalibrate confidence"],
+ ["Southwest early-signal risk model for collab blowups", "ARCS's anticipatory objection-handling + risk gauntlet, formalized and composable"],
+ ["'Where are we on the arc of our internal AI build?'", "ARCS as an outside, double-blind audit of the roadmap - traceable, unbiased, antidote to confirmation/recency bias"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+ "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"],
+ "rows": [
+ ["Analyze", "Transcript (audit wedge, shared-language, on-prem needs)", "TBD", "TBD", "TBD"],
+ ["Assess", "Register lands; use case founder-named", "TBD", "TBD", "TBD"],
+ ["Evaluate", "YELLOW: warm, unscoped; DIY is the live objection", "TBD", "TBD", "TBD"],
+ ["Synthesize", "Lead follow-up with the audit in his words", "TBD", "TBD", "TBD"],
+ ["Recapitulate", "Ex-ante, then materials + demo hook; set cadence", "TBD", "TBD", "TBD"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Antifragile core &amp; the lossless test",
+ "p": [
+ "The highest-information event next is the materials-send response: it either converts a founder-named use case into a scoped second conversation (deal alive) or reveals the warmth was courtesy (reprice the thread early, before over-investing). Either way it's calibration for every warm-intro BD lead, not just Brooks.",
+ "Lossless test (no jargon, to Brooks): 'You already run simulations and chase early signals - ARCS is an outside, unbiased read on where your own AI build actually stands and where your bets are quietly failing, without touching your data. Let me show you on one of your real decisions.' Holds intact."
+ ]
+ }
+ ]
+ }
+}

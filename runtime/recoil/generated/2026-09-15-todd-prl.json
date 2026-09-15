@@ -1,0 +1,357 @@
+{
+ "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. Post-call recoil-close for the 2026-09-15 Todd Hotes (PRL Resins) 'land the plane' handoff sync. Client engagement.",
+ "meta": {
+ "report_id": "2026-09-15-todd-prl",
+ "date": "2026-09-15",
+ "counterpart": "Todd Hotes (PRL Resins)",
+ "company": "PRL Resins. Zach built the Tidio chatbot → Zapier → SugarCRM lead-capture/routing system; lineage from pilot-court-todd-hotes-2026-07-13.json, precall-todd-hotes-2026-07-20.json, the 2026-07/08 todd-tidio-* build sheets, and runtime/recoil/generated/prl-lyro/*.",
+ "segments": 4,
+ "gate": {
+ "internal": "todd-prl-recoil-0915x"
+ },
+ "provenance": {
+ "audience": "internal",
+ "captured": "Granola transcript 40453f62-4f91-40d8-a4aa-3880e66c31ee, 'Todd x Zach // 1-1', 2026-09-15 13:30 EDT. This was a landing/handoff call driven by Zach's Friday surgery; ~30% build substance, ~70% personal (basement flooding, gutters, surgery/pain-management, kids). No formal ex-ante SSOT was filed for this specific sync - retroactive close (ADR-044: 'Predicted' is reconstructed intent).",
+ "load_bearing_quote": "I want to make sure you're able to drive where we've landed here. I don't anticipate it, but you never know."
+ }
+ },
+ "opportunity": {
+ "audience": "internal",
+ "engagement_type": "client",
+ "y_state": "GREEN",
+ "topology": "CONVERGENT",
+ "nci_prior": 0,
+ "nci_post": 0,
+ "note": "GREEN on the handoff itself - mechanics are understood by both sides, Todd has edit access + Copilot can modify flows, and a follow-up walkthrough is locked for tomorrow (Wed 2026-09-16) 2:00pm. Held short of a clean seal by two real open edges: (1) the sandbox→production Sugar cutover is untested in prod, and (2) Todd never gave a crisp read on priority / time-sensitivity or on what the 'logical transition' after Zach steps back actually is (clean handoff vs a retained phase-2). Warmth is very high; warmth is not a commitment to prioritize or fund phase-2."
+ },
+ "beliefs": [
+ {
+ "id": "P1",
+ "audience": "internal",
+ "claim": "This build needs Zach present to operate and go live - it doesn't survive a handoff.",
+ "evidence": "Todd has edit access to both Tidio and Zapier; the Zapier Copilot can modify branch logic on request; the flows and dedup/append zaps are documented and ARCS authored the connecting spec. Zach: 'God forbid something happens, I want to make sure you're able to drive where we've landed.'",
+ "inference": "EXP",
+ "confidence": [0.5, 0.75],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P2",
+ "audience": "internal",
+ "claim": "The geo email mis-routing (~50%) must be fully solved before the plane can land.",
+ "evidence": "Todd chose the pragmatic path instead: route ALL mis-routed geo emails to Bill and let volume force the fix later. Todd: 'those others will just go to Bill. He'll probably get so bogged down with them that he'll just be like, all right, let's just figure this out.' Deliberate deferral, not an unresolved gap.",
+ "inference": "EXP",
+ "confidence": [0.55, 0.7],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P3",
+ "audience": "internal",
+ "claim": "Go-live is a risky big-bang cutover.",
+ "evidence": "It resolved to a discrete, low-drama checklist: swap the Zapier→Sugar connector from the sandbox (connection 65663180 = prlresinstest) to the production instance, add the lead_source object into the live Sugar account, and install the Tidio WordPress plugin on the live site with the same credentials. Zach: 'all you'll have to do is just install the WordPress plugin on the live site and enter the same Tidio credentials... it should just work.'",
+ "inference": "EXP",
+ "confidence": [0.45, 0.65],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P4",
+ "audience": "internal",
+ "claim": "Todd holds this as a high-priority, time-sensitive workstream.",
+ "evidence": "Unconfirmed - this is the load-bearing open question. Zach asked directly ('I don't know how high on the priority list this is for you, or how time sensitive') and got no crisp answer; ~70% of the call drifted to personal topics. Todd's engagement was genuine and he agreed to tomorrow, but priority and the shape of the 'logical transition' were never pinned.",
+ "inference": "IMP",
+ "confidence": [0.55, 0.4],
+ "conviction": "LOW",
+ "verdict": "OPEN"
+ }
+ ],
+ "kinematic_series": {
+ "dt": 1.0,
+ "series": [
+ {
+ "key": "handoff_survivability",
+ "audience": "internal",
+ "label": "Confidence the system survives Zach stepping back",
+ "color": "#00FF9D",
+ "points": [0.5, 0.6, 0.7, 0.75],
+ "grounding_quote": "I want to make sure you're able to drive where we've landed here"
+ },
+ {
+ "key": "priority_clarity",
+ "audience": "internal",
+ "label": "Clarity on Todd's priority / the transition shape",
+ "color": "#FFD700",
+ "points": [0.5, 0.45, 0.45, 0.4],
+ "grounding_quote": "I don't know how high on the priority list this is for you, or how time sensitive"
+ }
+ ]
+ },
+ "insights": [
+ {
+ "audience": "internal",
+ "plane": "process",
+ "title": "The handoff is real; the prod cutover is the only untested edge",
+ "text": "Everything Zach built runs against the sandbox and the Tidio staging plugin. The single genuine unknown is whether the sandbox behavior replicates when the connector is repointed to production Sugar and the lead_source object is added live. Tomorrow's walkthrough should either exercise that path or explicitly flag it as the one step deferred to a real prod window."
+ },
+ {
+ "audience": "internal",
+ "plane": "counterpart",
+ "title": "Priority was asked and dodged - don't infer it from warmth",
+ "text": "Todd shared a lot of personal life (a strong-relationship signal) but never answered how time-sensitive PRL considers this. The correct read is 'unknown', not 'high because he was warm.' Tomorrow's call should get a plain answer to: is this a clean handoff-and-done, or does PRL want a retained phase-2 (personas, SEM funnel activation, analytics/conversion, prettier emails)?"
+ },
+ {
+ "audience": "internal",
+ "plane": "risk",
+ "title": "The Bill-routing punt is a deliberate design choice",
+ "text": "Sending all mis-routed geo emails to Bill until volume forces a better rule is Todd's call, made explicitly. Book it as an intentional interim, not a defect - but note it: if Bill gets 'bogged down' and nobody revisits, the routing quality quietly degrades and there's no owner assigned to the eventual fix."
+ }
+ ],
+ "next_steps": [
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Before tomorrow 2pm (~2 hrs of work): finish the teed-up Tidio items - append the full Tidio chat conversation (not just the lead) into the assigned ticket, and wire the spec-code / competitor cross-reference so the ticket refers to the specific tech sheet. Prep the end-to-end walkthrough and consider a screen recording."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Tomorrow (Wed 2026-09-16) 2:00pm: run the full flow with Todd, optionally record it, optionally demo the Shash-set-up instance to a close partner to surface edge cases. Then re-run /recoil-close on THAT call - it is the true loop-closer, since this call left priority + transition open."
+ },
+ {
+ "owner": "Todd/PRL",
+ "audience": "internal",
+ "text": "Go-live checklist requiring PRL-side prod access: repoint the Zapier→Sugar connector from sandbox (65663180) to the production Sugar instance, and add the lead_source object into the live Sugar account. Do NOT do this against prod until the sandbox flow is walked through and accepted."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Get a plain answer from Todd on (a) how time-sensitive PRL considers this and (b) the 'logical transition': clean handoff vs retained phase-2 (personas per landing page, SEM-page stubs activation, analytics/conversion, prettier rep/lead confirmation emails). This is the P4 belief that stays OPEN until answered."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Surgery Friday 2026-09-19, uncertain post-op bandwidth. Land the walkthrough + any prod-cutover support (or an explicit deferral) before Friday; assume near-zero availability for 1-2 weeks after."
+ }
+ ],
+ "redaction_policy": {
+ "rules": [
+ "Internal war-room only. PRL/Sugar sandbox connection IDs and the Bill-routing interim are internal ops detail, not counterpart-facing.",
+ "Never surface the priority-skepticism read to Todd; ask the priority question directly instead."
+ ]
+ },
+ "page": {
+ "layout": "tabs",
+ "header": {
+ "eyebrow": "ARCS &#183; War Room",
+ "title": "Todd Hotes &#183; PRL Resins",
+ "sub": "Client &#183; landing the plane pre-surgery &#183; Y-gate GREEN (handoff), prod-cutover open"
+ },
+ "tabs": [
+ { "id": "pre", "label": "Pre-Call" },
+ { "id": "exante", "label": "Ex-Ante" },
+ { "id": "forge", "label": "Forge" },
+ { "id": "recoil", "label": "Recoil" },
+ { "id": "wargame", "label": "War Game" },
+ { "id": "defense", "label": "Defensibility" }
+ ],
+ "blocks": [
+ {
+ "tab": "pre",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "True North",
+ "p": [
+ "Land the Tidio→Zapier→Sugar build so Todd can fully drive it without Zach - close the small open alignment items, make the go-live steps explicit, and hand over enough that a Friday surgery with uncertain recovery does not strand the work - while getting a straight answer on how time-sensitive this is and what the transition after Zach steps back should be."
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Context",
+ "rows": [
+ { "k": "Build", "v": "Tidio chatbot → Zapier (dedup + enrich via ZoomInfo + append) → SugarCRM lead capture/routing; knowledge base with competitive-resin cross-reference PDF" },
+ { "k": "Environment", "v": "Sandbox Sugar (connection 65663180 = prlresinstest) + Tidio staging plugin; go-live = repoint connector to prod + add lead_source object live + install Tidio WP plugin on live site" },
+ { "k": "Trigger", "v": "Zach landing the plane ahead of surgery Friday 2026-09-19; wants Todd able to drive it solo" },
+ { "k": "Follow-up", "v": "Locked: Wed 2026-09-16 2:00pm walkthrough (possible screen recording, possible team/close-partner demo)" },
+ { "k": "Y-Gate", "v": "GREEN on handoff mechanics; prod cutover untested + Todd's priority/transition unconfirmed" }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Intel",
+ "intro": "A strong, personal relationship (Todd shared extensively on home/health/family). Substance was a minority of the call but landed cleanly.",
+ "items": [
+ { "dot": "g", "html": "<strong>Todd</strong> : engaged, has edit access, comfortable poking around Zapier/Tidio; agreed readily to tomorrow's walkthrough ('I have time so we can do that')." },
+ { "dot": "", "html": "<strong>Geo routing</strong> : ~50% mis-routes; interim decision = send all mis-routed to Bill and let volume force the eventual fix." },
+ { "dot": "", "html": "<strong>Ticket enrichment</strong> : append full Tidio conversation + spec-code/competitor cross-reference into the assigned ticket. Reps are adept at searching resins / pulling datasheets from IDES or the PRL site, so URL linking is nice-to-have, not required." },
+ { "dot": "c", "html": "<strong>Phase-2 latent</strong> : SEM-page flow stubs, personas per landing page, analytics/conversion, human-agent takeover, prettier confirmation emails - all built-toward but deliberately tabled." },
+ { "dot": "", "html": "<strong>Constraint</strong> : current Tidio plan limits email styling; fancy HTML deferred." }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Questions &amp; landmines",
+ "intro": "The call's job was to close alignment items and de-risk the handoff, not to build.",
+ "items": [
+ { "dot": "", "html": "Confirm ticket = lead + full conversation + spec-code cross-ref &#183; resolved yes." },
+ { "dot": "", "html": "Confirm the go-live steps &#183; resolved: connector swap + lead_source live + WP plugin install." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine (unresolved):</span> how time-sensitive is this for Todd, and is the transition a clean handoff or a retained phase-2? Asked, not answered." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> the prod cutover is untested - do not run it against production Sugar until the sandbox flow is walked through and accepted." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> the Bill-routing interim has no assigned owner for the eventual real fix." }
+ ]
+ },
+ {
+ "tab": "exante",
+ "type": "receipt",
+ "audience": "internal",
+ "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (reconstructed - no filed pre-call receipt)",
+ "fields": [
+ { "label": "D &#183; Sharpened question", "value": "Can I land this build cleanly enough that Todd drives it solo through go-live, given a Friday surgery and uncertain recovery bandwidth?" },
+ { "label": "E &#183; Entity", "value": "Todd Hotes (PRL); Bill (routing catch-all); PRL reps; the sandbox→prod Sugar environments" },
+ { "label": "W &#183; Window", "value": "This week : must land before Friday surgery; follow-up walkthrough Wed 2pm" },
+ { "label": "Hypothesis / expecting to see", "value": "A short alignment call closes the last open items (routing, ticket enrichment, go-live steps) and hands Todd a drivable system." },
+ { "label": "Predicted Y-gate", "value": "GREEN (reconstructed) : build substantially done, handoff mechanics clear" },
+ { "label": "Pre-committed move", "value": "Walk the flows + zaps, confirm alignment items, schedule a follow-up walkthrough, document go-live." },
+ { "label": "Belief most likely to update", "value": "Whether the system truly survives Zach stepping back (P1), and how Todd prioritizes it (P4)." },
+ { "label": "Falsifier", "value": "If Todd could not follow the flows, or the go-live turned out to need Zach hands-on in prod, the handoff would not hold and the plane isn't landed." }
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Exhibit 2 &#183; Exogenous Forge",
+ "p": [
+ "This was a warm, personal call; the Forge guards against a warm call being read as a fully-closed engagement. GROUNDED = forced by a transcript line. INFERENCE = a reasonable read. The single most important ruling is that Todd's PRIORITY is INFERENCE-at-best (actually unconfirmed), and must not be upgraded to GROUNDED by the call's warmth."
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Claim adjudication",
+ "columns": ["Claim", "Ruling", "Source force"],
+ "rows": [
+ ["Mis-routed geo emails will all go to Bill as the interim rule", "GROUNDED", "'those others will just go to Bill... let's just figure this out'"],
+ ["Ticket carries lead + full Tidio conversation + spec-code cross-reference", "GROUNDED", "Zach walks it; Todd confirms 'Yeah' to the conversation-in-ticket and the cross-reference sheet"],
+ ["Go-live = connector swap + lead_source live + WP plugin install with same creds", "GROUNDED", "'all you'll have to do is just install the WordPress plugin on the live site and enter the same Tidio credentials... it should just work'"],
+ ["Todd can drive the system solo after handoff", "INFERENCE", "Todd has edit access + Copilot can modify flows, but he did not independently operate any flow on the call - tomorrow's walkthrough is the actual test"],
+ ["PRL holds this as high-priority / time-sensitive", "STRUCK", "Explicitly asked and not answered; upgrading this from the call's warmth would be exactly the overreach the Forge exists to catch"]
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Receipt closed &#183; ex-ante vs actual",
+ "rows": [
+ { "k": "Predicted (reconstructed)", "v": "Short call closes open items, hands Todd a drivable system; GREEN" },
+ { "k": "Actual", "v": "Open build items closed + go-live documented + follow-up locked (GREEN on handoff), BUT priority/transition never pinned and prod cutover untested" },
+ { "k": "Fork hit", "v": "CLEAN-LANDING fork on mechanics; TRANSITION-SHAPE fork (handoff-done vs retained phase-2) left open for tomorrow" },
+ { "k": "Load-bearing", "v": "'I want to make sure you're able to drive where we've landed here.'" }
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "belief_log",
+ "audience": "internal",
+ "h2": "Belief Log &#183; confidence x conviction"
+ },
+ {
+ "tab": "recoil",
+ "type": "worked_example",
+ "audience": "internal",
+ "h2": "Belief trajectory",
+ "intro": "Handoff-survivability climbed steadily across the call as the flows and zaps were walked and Todd tracked; clarity on Todd's priority/transition drifted flat-to-down because the direct question went unanswered.",
+ "close": "Net: the mechanics are GREEN and the relationship is strong, but the engagement's future shape is the open variable - to be resolved at tomorrow's 2pm walkthrough, which is the real loop-closer."
+ },
+ {
+ "tab": "recoil",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Kairos, quiet signals &amp; risks",
+ "intro": "Post-call read.",
+ "items": [
+ { "dot": "g", "html": "<strong>Kairos:</strong> tomorrow 2pm is the true close - walk the flow, get the priority/transition answer, decide handoff-vs-phase-2. Re-run /recoil-close on it." },
+ { "dot": "g", "html": "<strong>Quiet signal:</strong> 'I have time so we can do that' (re prettier emails) hints at appetite for continued iteration - a possible retained phase-2, if PRL will fund/prioritize it." },
+ { "dot": "", "html": "<strong>Risk:</strong> prod cutover untested - sandbox behavior may not replicate against production Sugar; do not cut over blind." },
+ { "dot": "", "html": "<strong>Risk:</strong> Bill-routing interim degrades quietly with no owner for the eventual fix." },
+ { "dot": "", "html": "<strong>Risk:</strong> surgery Friday - near-zero availability 1-2 weeks post-op; land or explicitly defer everything before then." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "kinematics_table",
+ "audience": "internal",
+ "h2": "Kinematic manifold &#183; measured (D1-D3)"
+ },
+ {
+ "tab": "wargame",
+ "type": "list",
+ "audience": "internal",
+ "h2": "The gauntlet",
+ "intro": "Adversarial pass on the handoff, not on Todd.",
+ "items": [
+ { "dot": "", "html": "<strong>BAR (ruin):</strong> the exposed edge is a botched prod cutover run while Zach is post-op and unavailable - mis-routed or dropped real leads at PRL. Mitigation: do not cut over to prod until the sandbox flow is walked through and accepted, and leave the go-live steps written down." },
+ { "dot": "g", "html": "<strong>LAB &#183; Loki:</strong> steel-manned skeptic - 'Todd can drive it' is untested; he never operated a flow unaided on the call. Tomorrow's walkthrough must have Todd do it, not watch." },
+ { "dot": "c", "html": "<strong>COURT:</strong> no overclaim - the priority question is logged as unanswered, not spun as buy-in; the prod cutover is flagged as untested, not asserted as done." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "table",
+ "audience": "internal",
+ "h2": "ATG pre-mortem &#183; assume dead in 90 days",
+ "columns": ["Node", "Their objection (verbatim/implied)", "Failure mode", "Handling"],
+ "rows": [
+ ["1. Tomorrow's walkthrough", "(implied) 'I have time'", "Todd watches but never drives; handoff illusory", "Have Todd operate the flow unaided; record it as the reference"],
+ ["2. Prod cutover", "(none stated)", "Sandbox behavior doesn't replicate live; leads dropped while Zach is post-op", "Written go-live steps; do not cut over until sandbox accepted; PRL owns prod access"],
+ ["3. Priority/transition", "'I don't know how high on the priority list this is for you'", "Work stalls in limbo - neither handed off nor funded for phase-2", "Force a plain answer tomorrow; the bottleneck node in Zach's court"],
+ ["4. Bill-routing", "'let's just figure this out'", "Routing degrades, no owner for the fix", "Name an owner + a volume trigger to revisit"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "rosetta",
+ "audience": "internal",
+ "h2": "The method, in Todd's register",
+ "left": "PRL / operator world",
+ "right": "This engine",
+ "rows": [
+ ["'Land the plane' before I'm out for surgery", "Write-lock discipline: make the handoff state explicit and drivable before an irreversible availability gap"],
+ ["Send the strays to Bill and fix it when it hurts", "A deliberate, receipted interim - named as a punt with a trigger, not a silent gap"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+ "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"],
+ "rows": [
+ ["Analyze", "Transcript (routing, go-live, priority-asked)", "TBD", "TBD", "TBD"],
+ ["Assess", "Handoff mechanics GREEN; priority unconfirmed", "TBD", "TBD", "TBD"],
+ ["Evaluate", "Go-live = 3-step checklist, sandbox-verified", "TBD", "TBD", "TBD"],
+ ["Synthesize", "Drivable-by-Todd is untested until tomorrow", "TBD", "TBD", "TBD"],
+ ["Recapitulate", "Close on tomorrow's walkthrough; get priority answer", "TBD", "TBD", "TBD"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Antifragile core &amp; the lossless test",
+ "p": [
+ "The highest-information event tomorrow is watching Todd operate a flow unaided: if he can, the handoff is genuinely bomb-proof against Zach's post-op absence; if he can't, better to learn it now than after a botched prod cutover with real leads on the line.",
+ "Lossless test (no jargon, to Todd): 'Everything's built and documented so you can run it yourself; tomorrow I'll walk you through it live and record it, and the only real step left is flipping it from the test setup to your live site - which we shouldn't do until you've seen it work.' Holds intact."
+ ]
+ }
+ ]
+ }
+}
