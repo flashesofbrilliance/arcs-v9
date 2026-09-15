@@ -114,40 +114,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.60.0 (2026-09-11)
-
-> **720-degree brand-coherence session** (worktree `recursing-brattain-190758`, branch
-> `claude/recursing-brattain-190758`). Resumed the parked pitch-us/brand arc; answered the Ahmed
-> heuristics question, ran a live 6-surface coherence audit, blessed one flag, wired 4 of 6 faces.
-
-## Shipped (merged to main)
-- **Empty meta descriptions filled** on resume.arcs.care + status.arcs.care (PR #404, live). These
-  shipped blank, so machines/unfurls/LLMs saw nothing (the "720 serialized-POV" hole). resume's
-  h1/lede already render client-side, so only the machine-read meta was the real gap.
-- **Duality backlinks** on build.arcs.care + good.arcs.care footers (PR #405): each now names the
-  operator and links back to the consulting front door. Cleared one prose em-dash in build.html
-  (data-placeholder `—` glyphs left as the legitimate UI idiom).
-- **Pre-compaction:** SentiLink altitude-descent reorder (PR #389, exec→surgical, ask-first).
-- Banked pickups + pitch bundles to `_ARTIFACTS/` (720-brand-coherence-pickup, pitch-polish-pickup,
-  sentilink/mercury bundles).
-
-## The blessed flag (SSOT, all surfaces echo)
-**"Proof over promises, one operator accountable end to end."** The positioning is a coherent DUALITY
-(independent consulting sprints ⇄ dedicated in-house), one operator + one method (ARCS). Building-in-
-public = pre-empt the "consultant who does not ship" assumption; anti-consultant-who-ships, WITHOUT
-"FDE" or leaning on "engineer". zachharris.xyz is the singular front door + identity SSOT; others echo
-and backlink to it. Full context: memory [[zach-personal-brand-and-job-search-system]].
-
-## Open (next session — pickup: `_ARTIFACTS/720-brand-coherence-pickup.md`)
-1. **zachharris.xyz (separate static repo, NOT this worktree)** — fill empty meta + Case-Studies link
-   to build.arcs.care (public proof, NOT prl). Exact paste-ready copy in the pickup. Run its `npm test`.
-2. **LinkedIn** — 6th face, unreachable by tools; headline still "Product". Get Zach's headline+About,
-   fold into the flag grammar.
-3. **Dropped on purpose:** prl provenance footer (client-confidential, not a billboard).
-- Ahmed's FORMAL delivery heuristics ("the Ahmed order": verdict → 3 reasons → 3 Q+A → tasks →
-  evidence-behind-disclosure → depth-linked; + density budget + legibility gate) live at
-  `_ARTIFACTS/ahmed-feedback-plan-2026-09-03.md` (in worktree `arcs-demo-ahmed-b0db74`). The yardstick.
-
 # Handoff — v3.61.0 (2026-09-13)
 
 > **Bridge index + Triune convergence session** (worktree `determined-lovelace-de940d`; every
@@ -188,4 +154,46 @@ and backlink to it. Full context: memory [[zach-personal-brand-and-job-search-sy
 3. **Workday adapter** for the 256 unresolved bridge employers (seed `bridge-employer-index`).
 4. **Parloa dossier re-emit** (JTBD-007, Perplexity) → `scout_dossier_ingest.py post`.
 5. Outcome-capture keel (2/247) still the P1 gap; untouched this session.
+
+# Handoff — v3.62.0 (2026-09-14)
+
+> **Schriner/Oxenham job-search engagement session** (this worktree, `awesome-tu-985156`, branch
+> `claude/awesome-tu-985156`). Ran a cold-inbound recruiter screen (Joe Schriner, Oxenham Group)
+> through its full lifecycle: pre-call HUD scan, recruiter-facing pitch site, a live call, and the
+> post-call recoil-close/recoil-ship pass — then caught and fixed a real gap in an already-shared
+> resume before the counterpart acted on it.
+
+## Shipped (merged to main, live)
+- **Schriner recruiter pitch + résumé bundle** at `schriner.arcs.care` (PR, merged, no force-push):
+  plain-language pitch page, résumé viewer + PDF + ATS text. Built to Ahmed-order (verdict → 3
+  reasons → 3 Q&A → tasks → evidence-behind-disclosure).
+- **Résumé correction, shipped live** — the technical-cut résumé first sent to Joe had dropped real
+  leadership scope; corrected to a "moves fluidly between three modes: builder / team lead /
+  executive technical partner" framing (see [[technical-cut-resume-must-keep-leadership-scope]]),
+  and closed a real 2010-2016 work-history gap with two previously-missing chapters (Selectable
+  Media GM turnaround, IBRShop co-founder), sourced from the user's own iCloud/Desktop resume
+  archive, not invented. All fact-checked against the master Gamma doc before shipping.
+- **Internal recoil receipt** (`runtime/recoil/generated/2026-09-14-schriner.json`, gated) closed
+  post-call at FORK/DIVERGENT (not the pre-call YELLOW prediction) — the CEO/principal-identity
+  gate was resolved by independent search, not by the recruiter, on the call. Safe external twin
+  live at `schriner-ext.arcs.care` (air-gap-verified, zero internal-jargon leak on scan).
+
+## Lesson booked
+A technical-cut résumé for a player-coach-shaped role can silently drop real leadership scope —
+don't mistake the resulting hole for a genuine capability gap without checking the fuller record
+first. Full memory: [[technical-cut-resume-must-keep-leadership-scope]],
+[[project_joe_schriner_oxenham_autopilot_vico]]. Also generalized:
+[[inbound-opportunity-three-gate-smoke-test]] now notes identity/leadership verification should run
+BEFORE the first call, not after.
+
+## Open (next session)
+1. **Joe follow-up call** — check if the 20-minute story call happened. If so, re-run
+   `/recoil-close`. The Joe-facing "fit note" (`_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html`)
+   is drafted, gate-clean, and deliberately held until after that call.
+2. **resume-tailor skill repo** (`~/resume-tailor-skill/SKILL.md`) — the leadership-scope lesson was
+   applied manually this session but NOT folded back into the skill itself. Explicit user choice to
+   defer to next session.
+3. **New, unscoped thread** — user flagged a "State of the Union" dashboard (reading-mode toggle,
+   shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
+   Impeccable design pass. Source file/path was never identified this session — get it first.
 

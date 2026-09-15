@@ -2,14 +2,20 @@
   "captured_at": "2026-09-13T11:07:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "e77b43d",
-    "head_message": "Merge pull request #433 from flashesofbrilliance/fresh-starts",
-    "in_sync_with_origin": true,
+    "head_sha": "a7cd1299",
+    "head_message": "Merge remote-tracking branch 'origin/main' into claude/awesome-tu-985156",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json",
+      "runtime/specs/knowledge-lattice-v1.json",
+      "_ARTIFACTS/recoil-schriner/role-scan-hud.html",
+      "_ARTIFACTS/recoil-schriner/schriner-ext.html",
+      "_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html",
+      "_ARTIFACTS/recoil-schriner/schriner-war-internal.html"
     ]
   },
   "vercel": {
@@ -41,9 +47,9 @@
     ]
   },
   "open_adrs": [],
-  "session_summary": "Bridge employer index (578 reqs live) + Triune Stream A/B/C (ADR-078..081 landed, worktree patch-id audit, scout intake gate) + seed bank clean; 8 receipts.",
-  "next_action": "Thread 2 scores the 578 bridge_scan rows with rubric v1.0, then reconcile the H1-H4 denominator.",
+  "session_summary": "Full Schriner/Oxenham (Autopilot+Vico) recruiter-screen lifecycle: recoil-prep/close/ship, resume corrected live (leadership scope + 2010-2016 work-history gap closed), shipped to schriner.arcs.care via PR/merge; memory consolidated.",
+  "next_action": "Check whether the Joe follow-up call happened; if so run /recoil-close again and decide on sending the drafted fit-note. Separately: user flagged an unidentified 'State of the Union' dashboard for an Ahmed-heuristic + Impeccable design pass — get the file path first.",
   "blocking": "NONE",
-  "handoff_version": "v3.61.0",
-  "git_refreshed_at": "2026-09-14T11:13:22Z"
+  "handoff_version": "v3.62.0",
+  "git_refreshed_at": "2026-09-15T01:35:49Z"
 }
