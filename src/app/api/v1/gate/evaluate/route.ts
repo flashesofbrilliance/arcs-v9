@@ -24,7 +24,7 @@
  *   headers: x-arcs-latency-ms (gate evaluation only), x-arcs-receipt-persisted
  *
  * Fail-closed on the gate, fail-soft on persistence: a receipt that cannot be
- * written to algorethics.decision_receipts never turns a LOCK into an APPROVE.
+ * written to algorethics.gate_receipts never turns a LOCK into an APPROVE.
  * Persistence needs SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) + SUPABASE_SERVICE_ROLE_KEY
  * and the `algorethics` schema exposed to PostgREST; otherwise `persisted:false`
  * with the reason in the body. Patterns mirror EmergencyBrake v9.0-Omega verbatim;
@@ -132,7 +132,7 @@ async function persist(ctx: TaskContext, v: Verdict): Promise<{ persisted: boole
     gateway: 'edge', evaluated_at: v.timestamp,
   }
   try {
-    const r = await fetch(`${url}/rest/v1/decision_receipts`, {
+    const r = await fetch(`${url}/rest/v1/gate_receipts`, {
       method: 'POST',
       headers: {
         apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json',
