@@ -1,26 +1,16 @@
 {
-  "captured_at": "2026-09-13T11:07:47-04:00",
+  "captured_at": "2026-09-15T01:06:34-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "a7cd1299",
-    "head_message": "Merge remote-tracking branch 'origin/main' into claude/awesome-tu-985156",
-    "in_sync_with_origin": false,
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json",
-      "_STATE/snapshot.json",
-      "runtime/specs/knowledge-lattice-v1.json",
-      "_ARTIFACTS/recoil-schriner/role-scan-hud.html",
-      "_ARTIFACTS/recoil-schriner/schriner-ext.html",
-      "_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html",
-      "_ARTIFACTS/recoil-schriner/schriner-war-internal.html"
-    ]
+    "head_sha": "6cffd93",
+    "head_message": "queue: narrow algorethics item to in-scope benchmark (#449)",
+    "in_sync_with_origin": true,
+    "dirty_files": [],
+    "note": "session worktree branch claude/arcs-e2e-benchmarks-cicd-0369bd = PR #446 head a308e185 (3 commits, unmerged by design)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-pgy6cn5i1-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-1hi0gysku-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -28,6 +18,11 @@
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
+    ],
+    "env_vars_missing_for_gate": [
+      "ARCS_GATE_KEY",
+      "SUPABASE_URL",
+      "SUPABASE_SERVICE_ROLE_KEY"
     ]
   },
   "database": {
@@ -42,14 +37,12 @@
       "Brief",
       "Account",
       "Session",
-      "VerificationToken",
-      "decision_receipt"
-    ]
+      "VerificationToken"
+    ],
+    "algorethics_schema": "not exposed to PostgREST (PGRST106); existence unverified; migration 001 (gate_receipts) Docker-verified, not applied"
   },
   "open_adrs": [],
-  "session_summary": "Full Schriner/Oxenham (Autopilot+Vico) recruiter-screen lifecycle: recoil-prep/close/ship, resume corrected live (leadership scope + 2010-2016 work-history gap closed), shipped to schriner.arcs.care via PR/merge; memory consolidated.",
-  "next_action": "Check whether the Joe follow-up call happened; if so run /recoil-close again and decide on sending the drafted fit-note. Separately: user flagged an unidentified 'State of the Union' dashboard for an Ahmed-heuristic + Impeccable design pass — get the file path first.",
-  "blocking": "NONE",
-  "handoff_version": "v3.62.0",
-  "git_refreshed_at": "2026-09-15T01:35:49Z"
+  "session_summary": "arcs-algorethics taken from broken scaffold to a tested, honest repo (PRs #1-#8 merged: E2E suite, HF + AgentHarm benchmarks, ops CLI, shared invariants, Ed25519 resume with key custody, kabuki deleted); arcs-v9 Edge gate route in PR #446 (keyed, unmerged); in-scope benchmark parked in induced backlog.",
+  "next_action": "Zach's three operational moves when ready (apply migration 001 + expose schema, provision ARCS_GATE_KEY/SUPABASE_* on Vercel + Actions, merge PR #446 and dispatch the algorethics workflow), or pick up queue item algorethics-in-scope-benchmark.",
+  "blocking": "NONE"
 }
