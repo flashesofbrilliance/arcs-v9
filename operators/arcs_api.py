@@ -1057,6 +1057,63 @@ def cultivate_auto_sweep(user_id: Optional[str] = None):
 
 
 # ---------------------------------------------------------------------------
+# Embeddings — local, offline, air-gap-capable (ADR-065: pgvector projection)
+# ---------------------------------------------------------------------------
+# Lazy-loaded sentence-transformers model. No network call at request time
+# once the model is cached locally (first run downloads it once from the
+# model hub; every call after that is fully offline). This is the embedding
+# pipeline ADR-065 flagged as "not built yet, an ask-first migration" —
+# populates ScanSignal.signalEmbedding / ScanFeedback.feedbackEmbedding
+# (Prisma TEXT field on the arcs-v9 side), with the pgvector companion
+# column on Supabase doing the actual cosine-similarity search.
+
+EMBED_MODEL_NAME = os.environ.get("ARCS_EMBED_MODEL", "all-MiniLM-L6-v2")
+_embed_model = None
+
+
+def get_embed_model():
+    """Lazy-load the local embedding model on first use, not at import time."""
+    global _embed_model
+    if _embed_model is None:
+        from sentence_transformers import SentenceTransformer
+        _embed_model = SentenceTransformer(EMBED_MODEL_NAME)
+    return _embed_model
+
+
+class EmbedRequest(BaseModel):
+    texts: List[str] = Field(..., min_length=1, max_length=256,
+                              description="One or more strings to embed.")
+
+
+class EmbedResponse(BaseModel):
+    model: str
+    dims: int
+    vectors: List[List[float]]
+
+
+@app.post("/api/embed", response_model=EmbedResponse)
+def embed(req: EmbedRequest):
+    """
+    Local, offline embedding endpoint. Generates sentence embeddings with a
+    cached sentence-transformers model — no external API call, no per-request
+    cost, runs fully air-gapped once the model is cached locally.
+    """
+    try:
+        model = get_embed_model()
+    except ImportError as e:
+        raise HTTPException(
+            status_code=503,
+            detail="sentence-transformers not installed. Run: pip install -e '.[embeddings]'",
+        ) from e
+    vectors = model.encode(req.texts, convert_to_numpy=True).tolist()
+    return EmbedResponse(
+        model=EMBED_MODEL_NAME,
+        dims=len(vectors[0]) if vectors else 0,
+        vectors=vectors,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
