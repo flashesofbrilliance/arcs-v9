@@ -1,0 +1,774 @@
+{
+ "meta": {
+  "report_id": "2026-09-15-brooks",
+  "date": "2026-09-15",
+  "counterpart": "Brooks Thomas",
+  "company": "Louisville Brands (CMO; ex-Party Horses CMO 2022-25, ex-HELM Boots President and CMO)",
+  "segments": 5,
+  "gate": {
+   "internal": "400bf1cbae"
+  },
+  "provenance": {
+   "audience": "internal",
+   "captured": "Granola 910f3d92, Sep 15 2026 3:00 PM ET, ~25 min, 5 segments. Prep: _ARTIFACTS/brooks-precall-2026-09-15.md (gauntleted twice, premortemed), beats card runtime/warroom/brooks.html. First ~20s of the recording was an unrelated call with Zach's DOB and SSN last-4; scrubbed from runtime/recoil/transcripts/2026-09-15-brooks.txt.",
+   "load_bearing_quote": "I think the things that we've sometimes been seen to look for are really kind of like an audit, not that we can't do it ourselves, but it's like we have a confirmation bias and sometimes a recency bias ... I don't know if there's any opportunity for ARCS to like actually go in and be like, okay, when you're looking at the arc of building your internal AI implementation, like where are you?"
+  }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "client",
+  "req_reality": "n/a",
+  "req_reality_basis": "client engagement, not a candidacy; the analogue is 'scope reality': he named a scope (audit of the internal AI implementation) but no budget, owner, or date.",
+  "y_state": "FORK",
+  "topology": "DIVERGENT",
+  "nci_prior": 0,
+  "nci_post": 0,
+  "note": "Skeptic-adjudicated (Forge). Convergent on register and pain (builder-operator, partner-risk wound), NOT on engagement shape, owner, budget, or date. Brooks named a different job (an outside read of the AI build, framed as a question, prefaced with 'pendulum swinging ... I want to be optimistic', wrapped in a cost-savings mandate) than the one offered (pre-decision receipts); at min ~20 he still did not know what was being offered ('not to be too presumptive with regards to what you're offering'); the only commitment is 'send me materials', landing three days before surgery. Not RED: the ex-ante kill line (vendor screen, early price, names nothing) was not tripped. Author's first cut (YELLOW/CONVERGENT) was smoothed; overruled."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "Cold, delegated screen; Brooks has zero context.",
+   "evidence": "'he was almost like deliberately like, you should go into this cold ... I have no context prior.' Justin sent him in cold on purpose. 'Almost like deliberately' is hedged; 'on purpose' is a read.",
+   "inference": "EXP",
+   "confidence": [
+    0.8,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "Win = one thread he pulls; nothing pushed will stick.",
+   "evidence": "He pulled the audit thread at ~min 18, but after ~15 minutes of push, and the push partly stuck ('versions of the same language'). A thread, not a clean pull.",
+   "inference": "IMP",
+   "confidence": [
+    0.6,
+    0.65
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "The fork is whether Brooks owns a bet Justin lets him call.",
+   "evidence": "Wrong axis. He runs the collab criteria engine, monthly drops, the data warehouse and MCP environment, and vendor/partner risk ('$20,000 bag MOQ mess', Riff Raff). Ownership was never in question.",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.15
+   ],
+   "conviction": "HIGH",
+   "verdict": "FALSIFIED"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "Brand family (house of brands vs branded house) is his lane and the strongest question.",
+   "evidence": "UNTESTED: the question was never asked. He described the portfolio ('incubator portco hybrid', jerky 'carries the balance sheet', Mugen profitable low-volume) as background, not as a decision. Not downgraded by evidence; downgraded by not being reached.",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.5
+   ],
+   "conviction": "MED",
+   "verdict": "DOWNGRADE"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "He is a story-first CMO allergic to jargon.",
+   "evidence": "He is a builder-operator: 'data warehouse', 'MCP environment', 'on-prem', 'context in our markdowns', 'smart contract sort of way', 'CAGR support mechanism'. Heavy jargon from Zach did not lose him. Cost of the jargon: at min ~20, 'I don't mean to be too presumptive with regards to what you're offering', i.e. he still did not know what ARCS is.",
+   "inference": "EXP",
+   "confidence": [
+    0.7,
+    0.3
+   ],
+   "conviction": "MED",
+   "verdict": "DOWNGRADE"
+  },
+  {
+   "id": "P6",
+   "audience": "internal",
+   "claim": "Guardrails hold: no Justin numbers, no capital/board talk, no Jeben characterizations.",
+   "evidence": "FIVE air-gap breaches, not three: (a) board/governance/fiduciary/indemnification, unprompted; (b) '9 times out of 10 Jevin's been overly confident with the hiring decision for a vendor'; (c) '$12,000 a month ... Justin gave me this example'; (d) the Northeast rep firm, retainer, auto-review period = Justin's agency tripwire thread verbatim; (e) 'Wabi Sabi Capital'. Plus ~12 banned-vocabulary hits: receipt x3, circuit breaker / stop loss x3, gauntlet, war game, war room, abductive logic, seed, board, 'Hermes or AirGap model'. Plus the banned LinkedIn mirror ('Japanophile, single malt, recovering degen, Party Horses'), the scripted why-me and one-line not delivered (a ~5-minute uninterrupted monologue Zach himself flagged: 'I've eaten a lot to digest'), and 'hard stop at 3:25' never said. Brooks showed no reaction; cost is unobservable until his report-back to Justin.",
+   "inference": "EXP",
+   "confidence": [
+    0.7,
+    0.1
+   ],
+   "conviction": "HIGH",
+   "verdict": "FALSIFIED"
+  },
+  {
+   "id": "P7",
+   "audience": "internal",
+   "claim": "Never lead with free; price only if asked.",
+   "evidence": "Held. Price never came up on either side.",
+   "inference": "EXP",
+   "confidence": [
+    0.8,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P8",
+   "audience": "internal",
+   "claim": "The value proposition Brooks will buy is the receipt (write the bet down, score it later).",
+   "evidence": "He accepted it as 'versions of the same language' but what he asked for was an outside audit of their AI implementation: 'confirmation bias and recency bias ... fox watching the henhouse'. The receipt is the instrument; the audit is the job. Also: he wants affordability, speed, cost savings, on-prem, no data bloat; a paid outside read cuts against that mandate unless it is framed as cheaper than the toe-stubbing.",
+   "inference": "EXP",
+   "confidence": [
+    0.7,
+    0.45
+   ],
+   "conviction": "MED",
+   "verdict": "DOWNGRADE"
+  },
+  {
+   "id": "P9",
+   "audience": "internal",
+   "claim": "Justin sending Brooks in cold is a test of whether it lands without framing.",
+   "evidence": "'Justin said you're a really interesting guy who's worth knowing' plus the deliberate cold start. Brooks's report back is the real scorecard. Motive is unobserved; 0.4 not 0.6.",
+   "inference": "IMP",
+   "confidence": [
+    0.0,
+    0.4
+   ],
+   "conviction": "MED",
+   "verdict": "NEW"
+  },
+  {
+   "id": "P10",
+   "audience": "internal",
+   "claim": "Partner and collab risk is a live, felt pain.",
+   "evidence": "Riff Raff orange-chicken collab, then 'he sexually assaulted someone ... we've been a little bit on the ice for a minute while we revamped'; 'having an actual analysis before you go in and make a partnership is absolutely critical'; he built the manual early-warning version at Southwest.",
+   "inference": "EXP",
+   "confidence": [
+    0.0,
+    0.85
+   ],
+   "conviction": "HIGH",
+   "verdict": "NEW"
+  },
+  {
+   "id": "P11",
+   "audience": "internal",
+   "claim": "His stated success criteria bound any engagement: accuracy, efficiency, speed, cost savings, on-prem, a single source of truth that does not grow data bloat or tech debt.",
+   "evidence": "'We expect accuracy, we expect efficiency. We expect speed. We expect cost savings ... a single source of truth that's building upon itself and isn't growing data bloat and tech debt.'",
+   "inference": "EXP",
+   "confidence": [
+    0.0,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "NEW"
+  },
+  {
+   "id": "P12",
+   "audience": "internal",
+   "claim": "Unverified product and client claims were made on the call and become checkable the moment they hit a page.",
+   "evidence": "'working with a family office right now', 'venture capital' clients, 'your own tenant ... PII stays local, gets processed local'. The brief's honest line was 'nobody in snacks yet'.",
+   "inference": "EXP",
+   "confidence": [
+    0.0,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "NEW"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "convergence",
+    "audience": "internal",
+    "label": "Convergence on a real engagement (per segment)",
+    "color": "#00F0FF",
+    "points": [
+     0.45,
+     0.4,
+     0.55,
+     0.65,
+     0.7
+    ],
+    "grounding_quote": "'let's keep the conversation going. I mean, I don't.' (trailing negation, unrecorded)"
+   },
+   {
+    "key": "guardrail_integrity",
+    "audience": "internal",
+    "label": "Guardrail integrity (Zach side)",
+    "color": "#FFD700",
+    "points": [
+     1.0,
+     0.5,
+     0.5,
+     0.45,
+     0.4
+    ],
+    "grounding_quote": "Segment 2 already carries board/fiduciary, 'receipt' x3, 'gauntlet', 'war game', and the Jeben-overconfident line."
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "The audit is the door, the receipt is the room",
+   "text": "Brooks named the job: an outside read on their internal AI build (data warehouse, MCP environment, on-prem SSOT) against confirmation and recency bias. The receipt is how the audit's findings get held to a date. Sell the audit; deliver receipts inside it."
+  },
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "Same language, different altitude",
+   "text": "Their simulations validate customer cohorts; his read was that ARCS is 'more of a leader decision maker bend'. That is the right reading and the right seam: their engine says who will buy, the receipt says what we bet and when we check."
+  },
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "Omotenashi is the register",
+   "text": "'Thinking lightly of ourselves and deeply of the world' is Louisville Brands' stated philosophy via Mugen. It is also NOTOMATION in their words. Never say kintsugi or NOTOMATION to them; say omotenashi back."
+  },
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "His scorecard is cost and bloat, not bias",
+   "text": "The one-pager must answer 'cheaper and less bloat than doing it ourselves', not only 'less confirmation bias'. He said accuracy, efficiency, speed, cost savings, on-prem, no data bloat, in that order."
+  },
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "The warmth has hedges on both ends",
+   "text": "'Pendulum swinging ... I want to be optimistic about what you have' before the audit line; 'I mean, I don't' after 'let's keep the conversation going'. Real signal, bounded. Do not report 'went well' upward without the bounds."
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Materials by Thursday Sep 17 (before Friday surgery). ONE page, audit-first: what an outside read of the AI build looks like, three questions it answers, what it costs in their time. Re-cut the FAQ draft; it leads with the receipt, he asked for the audit."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "The page answers his scorecard in his order: accuracy, efficiency, speed, cost savings, on-prem, no bloat. Then the two biases. Then one question back."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Persona gauntlet on that page before it moves: Justin, Jeben, Brooks, Brook Smith, Doug Grissom, Kojin. Nothing external ships without it (Zach, Sep 16)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Text Jeben: call happened, good conversation, Brooks floated an outside read of their AI build. No ask. Do not say 'asked for an audit'."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Never repeat in writing: the $12K, the Northeast rep-firm tripwire thread, board/fiduciary framing, any Jeben characterization, 'Wabi Sabi', and the unverified claims (family office, VC clients, 'your own tenant / PII stays local') unless each is literally true and scoped."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Scope the audit if he pulls: 60-90 minutes with Brooks plus whoever owns the warehouse; output one page: where you are on the arc, where the hypotheses are failing, three bets with kill lines and score-back dates."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "ARCS &#183; War Room",
+   "title": "Brooks Thomas &#183; Louisville Brands",
+   "sub": "Cold screen, delegated by Justin. He floated an outside read of their AI build; the shape, owner, budget, and date are all open. Gate: FORK."
+  },
+  "tabs": [
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "True North",
+    "p": [
+     "Let him pull one thread. Say only what is on record. No page, no price, no Justin numbers."
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Context",
+    "rows": [
+     {
+      "k": "When",
+      "v": "Sep 15 2026, 3:00 to 3:25 PM ET, Google Meet, ~25 min"
+     },
+     {
+      "k": "How it came about",
+      "v": "Jeben (Sep 4 text): 'tell him to connect you with his CMO brooks'. Zach asked Justin Sep 9; Justin replied 'Brooks is cc'ed' in two minutes; Brooks proposed the slot next day."
+     },
+     {
+      "k": "Register",
+      "v": "Predicted: story-first CMO, jargon-allergic. Actual: builder-operator who runs their data warehouse and MCP build; tolerated jargon, spoke it back."
+     },
+     {
+      "k": "Intent",
+      "v": "Justin sent him in cold deliberately ('you should go into this cold'). Read: a test of whether it lands without framing."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Intel",
+    "intro": "From the brief (LinkedIn, Louisville Business First May 2025, Jeben texts, Jul 31 transcript):",
+    "items": [
+     {
+      "dot": "c",
+      "html": "Justin's CMO since Party Horses (2022); Marfa together for HELM Oct 2025; collaborated with Jeben on HELM x JEB1."
+     },
+     {
+      "dot": "g",
+      "html": "Louisville Brands: holding company, 'boutique PepsiCo', three brands to ten; Delaney CEO, Brook Smith vice chair (Wabi Capital), Grissom chair; outside capital and a board ('Jim from Pepsi') per Jeben Mar 31."
+     },
+     {
+      "dot": "",
+      "html": "His published thesis: story-driven design 'exposes areas of weakness early ... before the point of no return'."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Questions &amp; landmines",
+    "intro": "Planned: why-me on record, one line then stop, his ten, the fork, own the ask, close small.",
+    "items": [
+     {
+      "dot": "g",
+      "html": "Asked: 'Is jerky the flagship?' 'Do you do flavor drops or co-branded things?' 'Are you using cohort analysis to shortlist collabs?' 'Have you done co-design collabs?'"
+     },
+     {
+      "dot": "c",
+      "html": "Not asked: the boutique-PepsiCo brand-family question, the Pumps-free 'which launch taught you the most', the why-me line as scripted."
+     },
+     {
+      "dot": "",
+      "html": "Landmines hit: $12K retainer cited to Justin; board/fiduciary framing volunteered; Jeben characterized as overconfident on vendors."
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "receipt",
+    "audience": "internal",
+    "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+    "fields": [
+     {
+      "label": "D &#183; Sharpened question",
+      "value": "Does Brooks pull one thread on his own, and is it a bet in his lane that Justin lets him call?"
+     },
+     {
+      "label": "E &#183; Entity",
+      "value": "Brooks Thomas (CMO), Justin Delaney (CEO, delegator), Jeben Berg (connector), Louisville Brands"
+     },
+     {
+      "label": "W &#183; Window",
+      "value": "This week: note tomorrow, page by Thursday, no live session before the week of Sep 28 (knee surgery Fri Sep 18)"
+     },
+     {
+      "label": "Hypothesis / expecting to see",
+      "value": "He names one bet (drop, collab, agency, brand family). The ask lands as a working session that earns a second, not as free. No pitch, no page."
+     },
+     {
+      "label": "Predicted Y-gate",
+      "value": "YELLOW; fork = whether Brooks owns any bet Justin lets him call"
+     },
+     {
+      "label": "Kill line",
+      "value": "He treats it as a vendor screen, asks price in the first five minutes, or names nothing."
+     },
+     {
+      "label": "Filed",
+      "value": "2026-09-15 ~13:20 ET, before the call (brief v3 + beats card, gauntleted twice)"
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Exhibit 2 &#183; Exogenous Forge",
+    "p": [
+     "Independent skeptic pass (recoil-reason agent, read-only, transcript + brief) adjudicated the close's load-bearing claims. GROUNDED = the transcript forces it. INFERENCE = Zach's read. STRUCK = overreach. See adjudication table; rulings recorded verbatim from the skeptic where they differ from the author's."
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "h2": "Claim adjudication",
+    "columns": [
+     "Claim",
+     "Evidence",
+     "Ruling"
+    ],
+    "rows": [
+     [
+      "He asked for an audit of their internal AI build",
+      "'I don't know if there's any opportunity for ARCS to like actually go in and be like ... where are you?' prefaced by 'pendulum swinging ... I want to be optimistic about what you have'",
+      "INFERENCE: a question about fit with soft skepticism, not a request (skeptic overruled author's GROUNDED)"
+     ],
+     [
+      "Justin sent him in cold deliberately as a test",
+      "'he was almost like deliberately like, you should go into this cold'",
+      "INFERENCE (cold start grounded; 'test' motive unobserved)"
+     ],
+     [
+      "Partner/collab risk is a live pain",
+      "Riff Raff collab, 'on the ice for a minute while we revamped', 'analysis before you make a partnership is absolutely critical'",
+      "GROUNDED"
+     ],
+     [
+      "He is a builder-operator, not a jargon-allergic storyteller",
+      "data warehouse, MCP environment, on-prem, markdown context, smart contracts, CAGR; but 'not to be too presumptive with regards to what you're offering'",
+      "GROUNDED, with the cost of jargon recorded"
+     ],
+     [
+      "The call went well",
+      "'I love it', 'That's really cool', 'let's keep the conversation going. I mean, I don't.'",
+      "GROUNDED for warmth; commitment INFERENCE; hedges on both ends"
+     ],
+     [
+      "Guardrail breaches cost nothing",
+      "'Yeah. Totally.' after $12K; 'That's cool' after fiduciary",
+      "INFERENCE: filler responses; cost unobservable until report-back"
+     ],
+     [
+      "Brand family is the CMO's real lane",
+      "Question never asked; portfolio described as background",
+      "STRUCK as lead; UNTESTED"
+     ],
+     [
+      "Guardrail integrity held at 3 breaches",
+      "Transcript count: 5 air-gap items, ~12 banned words, the banned mirror, the undelivered script, no hard-stop line",
+      "STRUCK: author under-counted; corrected in P6"
+     ],
+     [
+      "YELLOW / CONVERGENT",
+      "Receipt-closed row names an unresolved fork (audit vs receipt) while labeling topology convergent",
+      "STRUCK: internally contradictory; gate is YELLOW / FORK"
+     ]
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Receipt closed &#183; ex-ante vs actual",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "YELLOW, fork on whether Brooks owns a bet Justin lets him call; win = one thread pulled"
+     },
+     {
+      "k": "Actual",
+      "v": "FORK. Convergent on register and pain, divergent on shape: he floated a different job (outside read of the AI build, as a question, under a cost-savings mandate) than the one offered (receipts). Only commitment: 'send me materials'."
+     },
+     {
+      "k": "Fork hit",
+      "v": "Neither predicted branch. New fork: audit engagement (his ask) vs receipt engagement (our offer). Resolve by selling the audit and delivering receipts inside it."
+     },
+     {
+      "k": "Load-bearing",
+      "v": "'we have a confirmation bias and sometimes a recency bias ... fox watching the henhouse ... when you're looking at the arc of building your internal AI implementation, like where are you?'"
+     },
+     {
+      "k": "Ex-ante misses",
+      "v": "(1) His lane is the whole internal build, not brand; (2) he is technical, not jargon-averse, and the jargon still cost clarity at min ~20; (3) five air-gap breaches and ~12 vocabulary hits on Zach's side; (4) the scripted why-me and one-line were not delivered: a ~5-minute monologue opened the call, the banned mirror was delivered, 'hard stop 3:25' never said; (5) his success criteria (cost, speed, no bloat) were not captured as the scorecard."
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log &#183; confidence x conviction"
+   },
+   {
+    "tab": "recoil",
+    "type": "worked_example",
+    "audience": "internal",
+    "h2": "Belief trajectory",
+    "intro": "Convergence rose from a slow, monologue-heavy open to his own question at minute ~18 and ended on a materials request with a trailing 'I mean, I don't'. Guardrail integrity fell to 0.5 inside segment 2 (board/fiduciary, receipt, gauntlet, war game, the Jeben line) and never recovered.",
+    "close": "D1 positive on convergence, negative on guardrails: the more Zach talked, the more he leaked. The fix for the follow-up is structural: one page, his ask, nothing of Justin's."
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Kairos, quiet signals &amp; risks",
+    "intro": "Green = resonance, gold = signal, red = risk.",
+    "items": [
+     {
+      "dot": "green",
+      "html": "'versions of the same language' at minute ~5; 'I love it'; 'That's really cool'; 'let's keep the conversation going'."
+     },
+     {
+      "dot": "green",
+      "html": "Omotenashi as the company philosophy via Mugen: 'thinking lightly of ourselves and deeply of the world'. Register match to NOTOMATION without the word."
+     },
+     {
+      "dot": "gold",
+      "html": "Monthly small-batch drops, world flavors (Filipino adobo next), tied to occasion and Amazon/Google trend data; a collab criteria engine he 'continued to hone'. This is where receipts with kill lines fit naturally."
+     },
+     {
+      "dot": "gold",
+      "html": "'$20,000 bag MOQ mess because I didn't see an early indicator' is his stop-loss sentence. Use his words."
+     },
+     {
+      "dot": "gold",
+      "html": "Neil Hamburger collab still live; Riff Raff collab blew up; 'on the ice while we revamped'. Partner risk model is a real, recent wound."
+     },
+     {
+      "dot": "gold",
+      "html": "He built the manual early-warning system at Southwest. He will judge any risk model against his own."
+     },
+     {
+      "dot": "red",
+      "html": "PII bleed: the recording opened with Zach's DOB and SSN last-4 from another call. Scrubbed from the stored transcript; Granola's copy still has it."
+     },
+     {
+      "dot": "red",
+      "html": "Five air-gap breaches (board/fiduciary; Jeben-overconfident line; $12K; the Northeast rep-firm tripwire thread verbatim; 'Wabi Sabi Capital') and ~12 banned-vocabulary hits, plus the banned LinkedIn mirror and a 5-minute opening monologue. No visible cost on the call; cost lands only if repeated in writing or reported to Justin."
+     },
+     {
+      "dot": "red",
+      "html": "No dated next step. 'Send me materials' puts the homework on Zach three days before knee surgery."
+     },
+     {
+      "dot": "red",
+      "html": "Unverified claims made live: 'working with a family office right now', VC clients, 'your own tenant, PII stays local'. Checkable the moment they hit a page; keep them off it unless literally true."
+     },
+     {
+      "dot": "gold",
+      "html": "Hedges that bound the warmth: 'not to be too presumptive with regards to what you're offering' (min ~20), 'pendulum swinging ... I want to be optimistic', 'I mean, I don't' after the materials line."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "kinematics_table",
+    "audience": "internal",
+    "h2": "Kinematic manifold &#183; measured (D1-D3)"
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "h2": "The gauntlet",
+    "intro": "BAR / LAB / COURT on the follow-up, not the call.",
+    "items": [
+     {
+      "dot": "red",
+      "html": "BAR ruin edge: a materials dump that reads as a pitch, or anything of Justin's in writing. One page, his ask, nothing else."
+     },
+     {
+      "dot": "gold",
+      "html": "LAB Loki: 'audit' may be Southern politeness for 'send me something and I'll decide later'. Advisor: he asked twice (audit, then materials), and he volunteered the bias language himself. Bayesian: two unprompted pulls in 25 minutes from a man sent in cold is above base rate."
+     },
+     {
+      "dot": "c",
+      "html": "COURT: every external artifact passes the persona gauntlet (Justin, Jeben, Brooks, Brook Smith, Grissom, Kojin) before it leaves draft. Standing rule from Zach, Sep 16."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "h2": "ATG pre-mortem &#183; critical path x their objections",
+    "columns": [
+     "Node",
+     "Their objection",
+     "Gate",
+     "Status"
+    ],
+    "rows": [
+     [
+      "1. One page sent by Thu",
+      "'This is a lot' / reads as a pitch",
+      "Under 300 words, audit-first, his vocabulary",
+      "BOTTLENECK (in your court)"
+     ],
+     [
+      "2. Brooks reports back to Justin",
+      "'What is it in one line?'",
+      "The line is on the page and it is his: outside read, no fox in the henhouse",
+      "open"
+     ],
+     [
+      "3. Audit scoped",
+      "'We can do this ourselves'",
+      "Name the two biases he named; offer 90 minutes, one page out",
+      "open"
+     ],
+     [
+      "4. Access to warehouse / MCP",
+      "'PII stays local?' security",
+      "The claim on the call ('I don't write your data') must be literally true in the scope",
+      "open"
+     ],
+     [
+      "5. Price",
+      "'Another retainer'",
+      "Session first, then per-audit or five a month; never 'free' first",
+      "open"
+     ],
+     [
+      "6. First deliverable",
+      "'So what changed?'",
+      "Three bets with kill lines and score-back dates, dated",
+      "open"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "rosetta",
+    "audience": "internal",
+    "h2": "The same model, both directions",
+    "left": "Louisville Brands (his words)",
+    "right": "This engine",
+    "rows": [
+     [
+      "Cohort simulations: 'this person's gonna behave this way ... let's make that bet ... validate it or my data sucks'",
+      "A receipt: the bet, the number that kills it, the score-back date"
+     ],
+     [
+      "'Confirmation bias and recency bias' when analyzing our own stuff",
+      "The exogenous forge: a claim stands only if something outside forces it"
+     ],
+     [
+      "'$20,000 bag MOQ mess because I didn't see an early indicator'",
+      "The kill line, agreed before the money moves"
+     ],
+     [
+      "'Early alarm, early signal' system he built at Southwest",
+      "The pre-partnership gauntlet: simulate the counterpart, then verify"
+     ],
+     [
+      "'Single source of truth that's building upon itself and isn't growing data bloat'",
+      "Serialized receipts: each call is a seed for the next brief"
+     ],
+     [
+      "'Smart contract sort of way'",
+      "Conditional receipts: a trigger date and an auto-review clause in the vendor contract"
+     ],
+     [
+      "Omotenashi: 'thinking lightly of ourselves and deeply of the world'",
+      "NOTOMATION: the human stays on the bike; the tool scaffolds, never overrules"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "table",
+    "audience": "internal",
+    "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+    "columns": [
+     "Verb",
+     "Air-gap",
+     "Water",
+     "Fire",
+     "Bomb"
+    ],
+    "rows": [
+     [
+      "Analyze",
+      "Transcript on disk, PII scrubbed",
+      "Survives a monologue-heavy call",
+      "Skeptic adjudicated the claims",
+      "Three misses booked, not smoothed"
+     ],
+     [
+      "Assess",
+      "Public record + his own words",
+      "No Jeben March reads used as fact",
+      "Fork axis falsified and replaced",
+      "The wrong fork sharpened the right one"
+     ],
+     [
+      "Evaluate",
+      "Guardrail breaches logged verbatim",
+      "Cost judged from his reactions, not ours",
+      "Report-back to Justin is the unobserved test",
+      "A breach in writing would be fatal; on a call it was survivable"
+     ],
+     [
+      "Synthesize",
+      "Audit-first, receipt inside",
+      "One page, his vocabulary",
+      "Persona gauntlet before send",
+      "If he says no, we keep the clean 'didn't work'"
+     ],
+     [
+      "Recapitulate",
+      "This SSOT + Louisville serialization",
+      "Same file drives the ext twin",
+      "Ext twin air-gapped",
+      "Every future Louisville call starts from here"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Antifragile core &amp; the lossless test",
+    "p": [
+     "Being wrong about the fork is the feature: 'brand family is his lane' failed unasked, and the failure exposed that his lane is the whole internal build. Being wrong about the gate is the second feature: the author's YELLOW/CONVERGENT was smoothed; the skeptic forced YELLOW/FORK, and the fork's resolution depends entirely on one page not yet written.",
+     "In his vocabulary, with zero loss: you run simulations that say who will buy. We add the page that says what we bet, the number that proves us wrong, and the day we check. An outside read of that page is the audit you asked for, without the fox in the henhouse."
+    ]
+   }
+  ]
+ }
+}
