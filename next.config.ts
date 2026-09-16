@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
     "/api/jobs/cover-letter": ["./runtime/specs/*.json"],
     "/jobs/[jobid]/forge": ["./runtime/specs/forge-bundles.json", "./_ARTIFACTS/forge-*/**"],
     "/warroom/[slug]": ["./runtime/warroom/**"],
+    "/prep/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
     // reading room (ADR-075 / desk brief v1.3): the desk manifest + cache manifest are read at
     // request time; the Almanac render is streamed by the gated handler. Without these the
@@ -130,6 +131,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
         { source: "/:path((?!api/).*)", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/brooks", has: [{ type: "host", value: "brooks.arcs.care" }] },
         { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
