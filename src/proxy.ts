@@ -31,7 +31,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // schriner.arcs.care — Oxenham Group recruiter bundle (2026-09-14): root = candidate pitch
   // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
   // text mapped to themselves so the default-page rewrite does not swallow them.
-  'schriner':  { '/resume': '/schriner-resume-viewer.html', '/schriner-resume.pdf': '/schriner-resume.pdf', '/schriner-resume-ats.txt': '/schriner-resume-ats.txt', '/ammo': '/schriner-ammo.html', default: '/schriner.html' },
+  'schriner':  { '/resume': '/schriner-resume-viewer.html', '/schriner-resume.pdf': '/schriner-resume.pdf', '/schriner-resume-ats.txt': '/schriner-resume-ats.txt', '/ammo': '/schriner-ammo.html', '/vico': '/schriner-vico.html', default: '/schriner.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },

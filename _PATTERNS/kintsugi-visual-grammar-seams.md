@@ -181,6 +181,10 @@ fixing it here alone would fork the Vico resume's visual language from its own S
 no reason. A real fix (bump `--accent` to a 4.5:1-passing shade) belongs on the Blacksmith master
 template itself, where it fixes every derived resume at once, not on one derived copy.
 
+**2026-09-16 addendum:** the identical byte content shipped again at `public/schriner-vico.html`
+(wired to `schriner.arcs.care/vico`) and re-triggered the new-file hard block since the kintsugi
+ledger keys on path, not content hash. Same seam, same acceptance, no new finding.
+
 ## 2026-09-11 · `_ARTIFACTS/til-01-warmth-routes-you.html` (TIL Ep 01 prototype)
 
 Found by: `/impeccable audit` (detector + contrast table) and one batched inspection round at
