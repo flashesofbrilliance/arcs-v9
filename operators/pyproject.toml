@@ -13,3 +13,4 @@ dependencies = [
 
 [project.optional-dependencies]
 supabase = ["supabase>=2.7"]
+embeddings = ["sentence-transformers>=3.0"]
