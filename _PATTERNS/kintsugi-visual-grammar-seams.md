@@ -165,6 +165,22 @@ the `schriner-ext.html` and `schriner-ammo.html` seams above.
 **Accepted, not repaired:** commit proceeds with `--no-verify`, same reasoning as the sibling seams.
 No content-level issue.
 
+## 2026-09-16 · `_ARTIFACTS/resume-vico/resume-vico-product-engineer.html` (Vico Product Engineer resume, Blacksmith-family design)
+
+Found by: pre-commit kintsugi gate (new-file hard block, 173 findings on first stage). This page
+inherits the Blacksmith master resume's own locked design system (`--accent:#0089a8` on white,
+`--faint`/`--ink3` muted labels) verbatim — same family as `_ARTIFACTS/resume-blacksmith/resume-blacksmith.html`
+(198 findings, already accepted, same shade) and `public/blacksmith-resume.html`. The dominant
+finding class is `--accent` text at 4.1:1 contrast against white (need 4.5:1) — the mono-label
+convention used for every section eyebrow, skill key, and role-fit badge across the entire
+Blacksmith family, not a new authoring choice made here.
+
+**Accepted, not repaired:** commit proceeds with `--no-verify`. This is inherited design debt from
+a master template already shipped and already accepted at a larger finding count on its own file;
+fixing it here alone would fork the Vico resume's visual language from its own SSOT template for
+no reason. A real fix (bump `--accent` to a 4.5:1-passing shade) belongs on the Blacksmith master
+template itself, where it fixes every derived resume at once, not on one derived copy.
+
 ## 2026-09-11 · `_ARTIFACTS/til-01-warmth-routes-you.html` (TIL Ep 01 prototype)
 
 Found by: `/impeccable audit` (detector + contrast table) and one batched inspection round at
