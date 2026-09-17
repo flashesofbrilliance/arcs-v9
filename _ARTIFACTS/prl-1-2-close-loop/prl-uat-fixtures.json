@@ -1,0 +1,89 @@
+{
+  "_comment": "PRL Tidio->Zapier->SugarCRM UAT fixtures. Sandbox lead ids below are PLACEHOLDERS \u2014 not real Sugar records. Rules are REUSED, not invented \u2014 see prl_uat_harness.py header for per-field provenance (task7-state-parser.test.js for state/name parsing, 2026-08-18-dod-reconciliation.md for lead_source/dedup/enrichment gates, prl-system-ssot.md for the pipeline shape, the 1.2A acceptance-tests doc for account_name/duplicate/Note checks, STATE-OF-SUGAR-2026-08-11.md + INTEGRATION-DOSSIER.md for the real Sugar Leads schema: the 6 required fields account_name/first_name/last_name/phone_work/lead_source/location_c, and email written to email1 not a Sugar 'email' column). NOTE on a real doc conflict, resolved here in favor of the later/verified source: INTEGRATION-DOSSIER.md (2026-08-11) says location_c is written as a FULL state name; 2026-08-18-dod-reconciliation.md explicitly DISPROVES that ('the full-name claim was a sampling artifact') and the 1.2A acceptance-tests doc (also 2026-08-18) says location_c is 'a real fallback state code' \u2014 consistent with task7-state-parser.test.js's abbreviation output and prl-system-ssot.md's verified real run ('location_c=CT'). This harness follows the later, verified, abbreviation contract.",
+  "fixtures": [
+    {
+      "label": "clean-lead-web-form",
+      "sandbox_lead_id_placeholder": "PLACEHOLDER-LEAD-0001",
+      "notes": "Baseline happy path: simple two-token name, full state name resolves cleanly (task7 'full name' case: California -> CA), short company name, single submission.",
+      "input": {
+        "leg": "web_form",
+        "full_name": "Maria Gonzalez",
+        "company": "Bright Path Labs",
+        "state_raw": "California",
+        "email": "maria.gonzalez@brightpathlabs.example.com",
+        "transcript_or_blurb": null,
+        "submission_count": 1,
+        "phone_raw": "203-555-0142"
+      },
+      "expected": {
+        "first_name": "Maria",
+        "last_name": "Gonzalez",
+        "location_c": "CA",
+        "state_parse_failed": false,
+        "ambiguous": false,
+        "lead_source": "Web Site",
+        "account_name_min_len": 15,
+        "account_name_input": "Bright Path Labs",
+        "has_note": false,
+        "expected_dedup": false,
+        "phone_work_required": true
+      }
+    },
+    {
+      "label": "title-suffix-name-chatbot",
+      "sandbox_lead_id_placeholder": "PLACEHOLDER-LEAD-0002",
+      "notes": "Name split is first-space-only, per task7-state-parser.test.js parseName contract: 'Dr. Jane Smith Jr.' -> first_name='Dr.', last_name='Jane Smith Jr.' (title/suffix stays attached to whichever side the split lands it on, not guessed away). State input uses punctuation-stripping (task7 'punctuated N.Y.' case: 'N.Y.' -> NY, not failed). Chatbot leg carries a transcript Note and is resubmitted once (dedup check) with email present, per the DoD-reconciliation open defect that dedup search is UNSAFE only when email is empty \u2014 this fixture keeps email populated so dedup should collapse to one lead, not corrupt an arbitrary record.",
+      "input": {
+        "leg": "chatbot",
+        "full_name": "Dr. Jane Smith Jr.",
+        "company": "Smith & Associates",
+        "state_raw": "N.Y.",
+        "email": "jane.smith@smithassociates.example.com",
+        "transcript_or_blurb": "Chat transcript: visitor asked about pricing tiers, requested a callback re: enterprise plan.",
+        "submission_count": 2,
+        "phone_raw": "914-555-0198"
+      },
+      "expected": {
+        "first_name": "Dr.",
+        "last_name": "Jane Smith Jr.",
+        "location_c": "NY",
+        "state_parse_failed": false,
+        "ambiguous": false,
+        "lead_source": "Chatbot",
+        "account_name_min_len": 15,
+        "account_name_input": "Smith & Associates",
+        "has_note": true,
+        "expected_dedup": true,
+        "phone_work_required": true
+      }
+    },
+    {
+      "label": "long-company-unparseable-state-web-form",
+      "sandbox_lead_id_placeholder": "PLACEHOLDER-LEAD-0003",
+      "notes": "Long free-text company name must not be silently truncated (Fix 3, chatbot leg deferred as low-risk there; re-checked here for web forms per the 1.2A acceptance-tests doc). State input is non-US free text -- task7's 'Toronto' case: parser falls back to state_code='CA' but sets state_parse_failed=true. Per the DoD-reconciliation's own correction of the stale plan ('silent CA-lead (parse fallback; audit-trailed)') the fallback to CA is EXPECTED and not itself a defect -- the defect class is a fallback that is NOT flagged. So this fixture's PASS bar is: location_c=='CA' AND state_parse_failed==true (never state_parse_failed==false on a fallback, which would mean the wrong code slipped through silently as if it were a real parse).",
+      "input": {
+        "leg": "web_form",
+        "full_name": "Robert Chen",
+        "company": "The Greater Northeastern Regional Manufacturing, Distribution & Logistics Consortium of Independent Family-Owned Enterprises LLC",
+        "state_raw": "Toronto",
+        "email": "robert.chen@example.com",
+        "transcript_or_blurb": null,
+        "submission_count": 1,
+        "phone_raw": "416-555-0173"
+      },
+      "expected": {
+        "first_name": "Robert",
+        "last_name": "Chen",
+        "location_c": "CA",
+        "state_parse_failed": true,
+        "ambiguous": false,
+        "lead_source": "Web Site",
+        "account_name_min_len": 90,
+        "account_name_input": "The Greater Northeastern Regional Manufacturing, Distribution & Logistics Consortium of Independent Family-Owned Enterprises LLC",
+        "has_note": false,
+        "expected_dedup": false,
+        "phone_work_required": true
+      }
+    }
+  ]
+}

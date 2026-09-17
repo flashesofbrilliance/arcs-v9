@@ -2,6 +2,12 @@
   "_doc": "PRL/Todd go-live dependency map. Machine-readable source of truth for the induced backlog. Diffed against the recoil-close SSOT (runtime/recoil/generated/2026-09-15-todd-prl.json) by prl_depmap_check.py. Each item links the recoil beliefs it bears on, so a dependency change flags an anterior->posterior belief re-score.",
   "ssot": "runtime/recoil/generated/2026-09-15-todd-prl.json",
   "as_of": "2026-09-17",
+  "investigation_prework": {
+    "status": "in-progress",
+    "_note": "P-1 gate: exhaust the PRL doc corpus before the plan is trusted or executed. status must be 'complete' before execution items (P1+) are trusted. 'blocked'/'open'/'in-progress' => eval hard-fails execution readiness.",
+    "corpus_indices": ["MASTER-HANDOFF.md", "prl-lyro/SUGAR-DOCS-MANIFEST.md", "prl-lyro/README.md", "prl-lyro/SPRINT-2-1.2-kickoff.md"],
+    "not_yet_reconciled": ["prl-lyro dossier+audit into UAT field schema (in progress)", "confirm email next-steps fully captured in-repo (sugar-case-589806-reply, vision-serialization, *-nextsteps-email-DRAFT)"]
+  },
   "beliefs": {
     "P1": "Build needs Zach present to operate/go-live (verdict UPDATED)",
     "P2": "Geo mis-routing must be fully solved before landing (verdict UPDATED, deferred to central inbox)",

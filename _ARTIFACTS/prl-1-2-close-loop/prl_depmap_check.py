@@ -43,6 +43,15 @@ def main():
 
     hard, warn, info, action = [], [], [], []
 
+    # 0. investigation pre-work gate (P-1): the plan is not trusted until the corpus is exhausted
+    prework = dm.get("investigation_prework")
+    if prework is not None:
+        status = str(prework.get("status", "")).lower()
+        if status != "complete":
+            hard.append(f"[pre-work] investigation gate status is '{status or 'unset'}' (not complete) -> plan + execution not trusted until the doc corpus is exhausted (false-null risk)")
+            for nr in prework.get("not_yet_reconciled", []):
+                info.append(f"[pre-work] not yet reconciled: {nr}")
+
     # 1. broken edges
     for it in items:
         for dep in it.get("depends_on", []):
