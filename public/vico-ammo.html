@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Deeper Case · Zach Harris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ARCS Recoil Report — Design Tokens */
+  :root{
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8;
+    --green:#0a8f5e;
+    --gold:#9a7218; --goldbg:#fbf3df;
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
+    --cyan:#00F0FF;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 70px;}
+  .sheet{max-width:820px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
+  .pad{padding:26px 40px;}
+  @media(max-width:600px){.pad{padding:26px 22px;}}
+
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 44px 22px;}
+  @media(max-width:600px){header{padding:26px 22px;}}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  .back{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;font-weight:600;color:#a9b6c3;text-decoration:none;margin-bottom:14px;}
+  .back:hover{color:#f4f7fa;}
+  h1{font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:14px;}
+  .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
+
+  h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:11px;
+    padding-bottom:6px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:20px;}
+
+  .verdict{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:18px 20px;}
+  .verdict .vt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .verdict p{font-size:15.5px;line-height:1.55;color:var(--ink);font-weight:500;}
+
+  .stack .row{padding:13px 0;border-top:1px solid var(--line);display:flex;gap:12px;}
+  .stack .row:first-of-type{border-top:none;padding-top:0;}
+  .stack .n{font-family:var(--mono);font-weight:700;color:var(--green);flex:none;font-size:13px;padding-top:1px;}
+  .stack .row p{font-size:14px;line-height:1.55;color:var(--ink2);}
+
+  .honest{background:var(--goldbg);border:1px solid #ecdba8;border-radius:11px;padding:16px 18px;}
+  .honest .hh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .honest p{font-size:13.5px;line-height:1.6;color:#4a3f22;}
+  .honest p+p{margin-top:8px;}
+
+  .derisk{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:#fcfbf9;}
+  .derisk .dh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+  .derisk p{font-size:13.5px;line-height:1.6;color:var(--ink2);}
+  .derisk p+p{margin-top:8px;}
+
+  footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
+  @media(max-width:600px){footer{padding:20px 22px 26px;}}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);}
+  .fine a{color:var(--accent2);}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <a class="back" href="/">&larr; Back to the candidate brief</a>
+      <div class="eyebrow"><span class="mk"></span>The deeper case</div>
+      <h1>What the live demo showed, and the two things worth naming directly</h1>
+      <div class="who">For Joe, on the Product Engineer, Front-End seat.</div>
+    </header>
+
+    <div class="pad">
+      <div class="sec">
+        <div class="verdict">
+          <div class="vt">The one-line version</div>
+          <p>The strongest evidence here isn't a resume line, it's what Joe already watched happen live: a working AI product, built and shipped solo, doing the same underlying job (score a decision's confidence, then check it against reality) that this role exists to do for their customers.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>What Joe actually saw on the call</h2>
+        <div class="stack">
+          <div class="row"><span class="n">1</span><p><b>A live scoring system:</b> an algorithm that screens incoming opportunities against weighted criteria, scores them, and reweights itself based on which outcomes were right or wrong. Same shape as a calibration/scoring-rule system, just pointed at a different problem.</p></div>
+          <div class="row"><span class="n">2</span><p><b>A working automation pipeline:</b> a tool that takes real evidence and produces a tailored, verified output, end to end, not a mockup.</p></div>
+          <div class="row"><span class="n">3</span><p><b>A public status log:</b> a live site tracking real ship velocity, day by day, since the project started. Not a claim about moving fast, a record of it.</p></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="honest">
+          <div class="hh">The one thing worth naming directly</div>
+          <p>The JD calls for someone with production experience running vector databases and RAG search at scale. The honest answer: the design for that layer is real and already thought through correctly (a standard embedding-plus-similarity-search architecture), and a working local version of the embedding piece is built and running. What isn't built yet is the persistent search layer connecting the two. That's a real, nameable gap, not a hidden one, and it's the kind of gap that closes fast once there's a real system and a real team to build it inside.</p>
+          <p>On experience level: if the read anywhere is "we want someone earlier-career," the honest answer is that seniority here means moving faster with less oversight needed, not more process. Worth testing directly rather than assumed either way.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="derisk">
+          <div class="dh">A better way to test it than a resume line</div>
+          <p>Rather than take the resume's word for the AI-native claim, watch the same live demo Joe already saw: a real, running product, not a rehearsed pitch. That's a faster, more honest signal than another round of describing it.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <p style="font-size:14px;line-height:1.65;color:var(--ink2);">None of this is a reason not to talk. It's the reason to talk about the right things. Happy to go deeper on any of it, on a call or here.</p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="fine">Prepared for Joe at Oxenham Group. Companion to the <a href="/">open candidate brief</a>.</div>
+    </footer>
+  </div>
+</body>
+</html>

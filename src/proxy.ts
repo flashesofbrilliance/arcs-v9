@@ -10,6 +10,16 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
 
+// Hosts with a gated /ammo companion tier, sharing the recruithaus ammo-gate
+// infra (one passcode, one cookie) rather than each inventing its own gate.
+// Keyed by subdomain; each entry names its ammo file and its locked-state
+// gate page. Adding a new gated host is one line here.
+const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
+  'schriner':  { ammoFile: '/schriner-ammo.html',  gateFile: '/schriner-gate.html' },
+  'autopilot': { ammoFile: '/autopilot-ammo.html', gateFile: '/autopilot-gate.html' },
+  'vico':      { ammoFile: '/vico-ammo.html',      gateFile: '/vico-gate.html' },
+}
+
 // Hosts with more than one static destination (a reserved sub-path plus a
 // default). Checked before SUBDOMAIN_MAP. Added 2026-07-13: todd-call.arcs.care
 // /teardown and julia.arcs.care /runtime were previously declared only in
@@ -32,6 +42,14 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
   // text mapped to themselves so the default-page rewrite does not swallow them.
   'schriner':  { '/resume': '/schriner-resume-viewer.html', '/schriner-resume.pdf': '/schriner-resume.pdf', '/schriner-resume-ats.txt': '/schriner-resume-ats.txt', '/ammo': '/schriner-ammo.html', '/vico': '/schriner-vico.html', default: '/schriner.html' },
+  // autopilot.arcs.care + vico.arcs.care — dedicated per-company subdomains
+  // (2026-09-17), split out of schriner.arcs.care per the actual commitment
+  // made live on the Joe follow-up call ("I can change the subdomain for you,
+  // Joe, where one will just be Autopilot and the other will be Veeqo").
+  // schriner.arcs.care is left live and unchanged so any link Joe already has
+  // keeps working; these are additive, not a migration.
+  'autopilot': { '/resume': '/autopilot-resume-viewer.html', '/autopilot-resume.pdf': '/autopilot-resume.pdf', '/autopilot-resume-ats.txt': '/autopilot-resume-ats.txt', '/ammo': '/autopilot-ammo.html', default: '/autopilot.html' },
+  'vico':      { '/resume': '/vico-resume.html', '/ammo': '/vico-ammo.html', default: '/vico.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
@@ -54,14 +72,15 @@ export default async function proxy(request: NextRequest) {
   // not a gate, because a public/ file is directly fetchable via app.arcs.care/<file>.
   // Checking the cookie here, before host routing, closes that bypass. The gate
   // page itself (/recruithaus-gate.html) uses a different prefix, so it stays open.
-  if (pathname.startsWith('/recruithaus-ammo') || pathname.startsWith('/schriner-ammo')) {
+  const matchedAmmoHost = Object.values(AMMO_HOSTS).find((h) => pathname.startsWith(h.ammoFile.replace(/\.html$/, '')))
+  if (pathname.startsWith('/recruithaus-ammo') || matchedAmmoHost) {
     const ok = await ammoUnlocked(
       request.cookies.get(AMMO_COOKIE)?.value,
       process.env.RECRUITHAUS_AMMO_PASSWORD,
     )
     if (!ok) {
       const url = request.nextUrl.clone()
-      url.pathname = pathname.startsWith('/schriner-ammo') ? '/schriner-gate.html' : '/recruithaus-gate.html'
+      url.pathname = matchedAmmoHost ? matchedAmmoHost.gateFile : '/recruithaus-gate.html'
       return NextResponse.rewrite(url)
     }
     return NextResponse.next()
@@ -79,18 +98,18 @@ export default async function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
 
-  // schriner.arcs.care /ammo — the gated companion to the open pitch, holding the
-  // fit-note (the direct "senior IC vs. three-modes" case for Joe). Reuses the
-  // recruithaus ammo-gate infra (same shared passcode, same cookie) rather than
-  // inventing a second gate mechanism; the /schriner-ammo* asset prefix is already
-  // covered by the host-independent check above.
-  if (sub === 'schriner' && (pathname === '/ammo' || pathname === '/ammo/')) {
+  // /ammo on any AMMO_HOSTS subdomain — the gated companion to that host's open
+  // pitch. Reuses the recruithaus ammo-gate infra (same shared passcode, same
+  // cookie) rather than inventing a second gate mechanism per host; each host's
+  // own /*-ammo* asset prefix is already covered by the host-independent check
+  // above.
+  if (AMMO_HOSTS[sub] && (pathname === '/ammo' || pathname === '/ammo/')) {
     const ok = await ammoUnlocked(
       request.cookies.get(AMMO_COOKIE)?.value,
       process.env.RECRUITHAUS_AMMO_PASSWORD,
     )
     const url = request.nextUrl.clone()
-    url.pathname = ok ? '/schriner-ammo.html' : '/schriner-gate.html'
+    url.pathname = ok ? AMMO_HOSTS[sub].ammoFile : AMMO_HOSTS[sub].gateFile
     return NextResponse.rewrite(url)
   }
 
