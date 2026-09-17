@@ -221,3 +221,23 @@ scrollbar themed from the palette; tabular numerals on every measurement.
 |---|---|---|---|---|
 | 2026-09-11 | `_ARTIFACTS/postmortem-manufactured-role.html` first cut | Re-authored the ARCS palette by copying a sibling HUD's `--palette-*` block; one palette in four places, two vocabularies | Rebuilt on `_tokens.css` verbatim plus five kit primitives; one net-new primitive added to the kit as a `@dsCard` file | `scripts/token_source_gate.py` in pre-commit (blocks new pages; legacy HUDs warn under ratchet) |
 | 2026-09-11 | NFTT chrome vs kit | Token values drifted (surface, text, muted) between the essay template and the kit | Reading layer tokens (`--surface-reading`, `--text-reading`, `--muted-reading`, `--cyan-dim`, `--redact`, `--border-2`) added on top of `_tokens.css` in the TIL page; the kit file itself not yet changed | backlog: promote the reading layer into `_tokens.css` via `/design-sync` |
+
+## 2026-09-17 · `public/prl-status-runbook.html` (PRL exec runbook, prl.arcs.care/status/runbook)
+
+New client page stamped verbatim from the frozen prl.arcs.care design system (siblings
+`prl-status-build.html` / `prl-status-atlas.html`) via the `prl-page-factory` skill. Triggered the
+kintsugi new-file hard block with 47 findings; every one is inherited house grammar, not a net-new
+break:
+
+**Accepted, not repaired (same acceptance as the 2026-09-16 schriner-vico addendum and the kit
+`06-beat-stepper` side-rail above):**
+- **Side-tab accent border, `border-left:3px`** — the frozen PRL callout primitive (the cyan
+  "what we found" / note boxes), carried byte-for-byte from the sibling status pages. The decision
+  to keep or retire it belongs to the design system (`/design-sync`), not to one page.
+- **"Low contrast text" on `#ffffff`** — false positive. The detector assumes a white background it
+  cannot see is overridden; the page renders on the dark PRL ground (`--bg #050608`), where
+  `#c9a227`/`#e3c65a`/`#8b98a9` are all high-contrast. Verified live in the preview render.
+
+**Guard:** new PRL surfaces are assembled only from the frozen prl atoms via `prl-page-factory`
+(as this one was); `token_source_gate` (which passed) enforces no palette re-declaration. Booked so
+the inheritance is visible rather than suppressed; no new design debt introduced.
