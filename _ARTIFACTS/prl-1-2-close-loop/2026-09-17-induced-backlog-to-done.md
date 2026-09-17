@@ -124,3 +124,22 @@ Verdict: our stack is the **sanctioned commercial pattern**, not a hack — Tidi
 - **Closest open-source analog = n8n** (self-hosted, no per-execution fee): webhook trigger + HTTP Request node to any REST API + native AI/chatbot nodes + firmographic lead-routing patterns. Templates to crib from: github.com/enescingoz/awesome-n8n-templates (280+, incl. CRM + RAG-chatbot + lead routing).
 - **Open-source CRM leg = SuiteCRM** (the community fork of SugarCRM): REST API + webhook modules — so a fully-OSS version of our pipe = chatbot -> n8n webhook -> dedup/enrich -> SuiteCRM/Sugar REST.
 - **Implication for PRL:** no change now (validates the current path). File as a **future option only** — if PRL ever wants to own/de-SaaS the whole pipe for cost/control, n8n + the existing Sugar REST is the migration target. Not a go-live item.
+
+---
+
+## Session close (2026-09-17) — loose ends, JTBD, UAT visual protocol, SSOT sync
+
+### Open JTBD / loose ends (the fresh work list)
+1. **Task C (transcript -> Sugar Note)** — GATED. Step 1 (read-only): confirm the transcript is in the Tidio webhook payload (inspect dedup zap 376827315 trigger "Data out" in Zapier). If present -> add a Create-Note step (`POST /rest/v11/Notes`, parent_type=Leads, parent_id=lead). If absent -> two-hop fallback (event triggers, then call Tidio conversation/messages API). Blocked-on-browser (Chrome extension disconnected 2026-09-17) + a careful live-zap edit. Acceptance = a Sugar lead carrying the actual transcript (screenshot).
+2. **Resume / field-clear test** — sharpest un-verified ruin risk (ADR-074): a cookie-resumed sparse session UPDATE must NOT blank populated lead fields. Test = resume with some fields empty against a populated lead, read back via the UAT harness, confirm nothing cleared. Blocked-on-browser + the Zapier task-limit delay.
+3. **Real-time delivery** — Zapier account task-limited (runs held until Nov 12); 9/17 2:40pm lead stuck. Fix = plan upgrade (PURCHASE, Todd/Zach; Claude cannot buy) + Autoreplay ON (cheap interim).
+4. **Build task9 unassigned-sweep** — the only automated stall/misroute detector; unbuilt.
+5. **Verify the live Tidio flow** (capture-first vs AI-forward) — undermines test #1.
+6. **Notification to todd.hotes@prlresins.com** — add to dedup + nudge zaps (+ rep); PRL IT: fix info@ + Barracuda allow-list.
+7. **Confirm task8 empty-email guard is shipped-live** (only verified-in-draft).
+
+### UAT visual documentation protocol
+Every "done" claim about a lead-object feature ships with a Sugar screenshot of the actual record, before/after. BEFORE captured this session (9/1 lead, assigned Lynn Winston, description="Chatbot Lead"). AFTER (transcript populated) gated on Task C. Note object lives in the Lead record's Notes/activity area, identical in sandbox and prod (prod never touched).
+
+### SSOT sync (propagate / backpropagate)
+Fresh canonical artifacts on main: `2026-09-17-prl-system-reference.md`, `2026-09-17-adversarial-test-gauntlet.md`, `2026-09-17-phase-systems-dependency-map.md`, this backlog, `_STATE/night-moves/2026-09-17.md`. **Backprop:** recoil SSOT `2026-09-15-todd-prl.json` belief P1 (enriched-ticket / transcript) is now DEFEATED by live data (description="Chatbot Lead") -> a next recoil-close should record the exoneration. Live Zapier state verified matches intended; delayed-run + plan-tier limit is the new top risk.
