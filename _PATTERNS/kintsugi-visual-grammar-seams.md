@@ -241,3 +241,20 @@ break:
 **Guard:** new PRL surfaces are assembled only from the frozen prl atoms via `prl-page-factory`
 (as this one was); `token_source_gate` (which passed) enforces no palette re-declaration. Booked so
 the inheritance is visible rather than suppressed; no new design debt introduced.
+
+## 2026-09-17 · `public/louisville-brooks-war.html` (internal recoil war-room render)
+
+New internal recoil render, stamped from the recoil-report `_tokens.css` family (`token_source_gate`
+passed — inherits verbatim). Triggered the kintsugi new-file hard block with 85 findings, all the same
+class: muted/dimmed body text (`#475569`, `#64748b`) on the dark header/card grounds (`#020408`,
+`#0d1117`), landing 2.7:1-4.3:1 against the 4.5:1 AA threshold.
+
+**Accepted, not repaired:** this is the identical `--muted`/`--dimmed`-on-dark contrast debt already
+accepted for the internal recoil-report family this session (schriner-war-internal.html and siblings)
+— muted metadata/timestamp text at low emphasis by design (Y-state GRAIN/DEGRADED render resolution
+per WORLD.md), not body copy. Internal-audience only (`audience: internal`, never shipped as the
+external twin), so the AA bar applies with less force than a public-facing page.
+
+**Guard:** internal recoil renders inherit `_tokens.css` unmodified (enforced by `token_source_gate`);
+promoting `--muted`/`--dimmed` to AA-compliant values is a kit-wide change belonging to `/design-sync`,
+not a per-render patch.
