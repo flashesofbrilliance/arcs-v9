@@ -51,9 +51,12 @@ Ranked by critical-path-to-clean-go-live. `[T]` = surfaced to Todd 9-15, `[NEW]`
 7. `[T]` **Zach/Todd**: install Tidio plugin on live WP (via GTM-WLP9C76 tag or HFCM), pointed at prod; fix the "all reps unavailable" bot line pre-launch.
 
 ### P2 — clean handoff (so it survives Zach post-op)
-8. `[NEW]` **Todd + Bill**: territory admin inputs — 6 blank-owner states, NY/PA split, Rob/Pat/Dan/Tim usernames, Bill's Sugar build-doc ZIP. **Assign an owner + a volume trigger** for retiring the Bill-catch-all interim.
-9. `[T]` **Zach**: written go-live runbook + optional screen recording of the walkthrough, so PRL can re-drive it solo.
+8. `[NEW]` **Todd + Bill**: territory admin inputs — 6 blank-owner states, NY/PA split, Rob/Pat/Dan/Tim usernames, Bill's Sugar build-doc ZIP. **Assign an owner + a volume trigger** for retiring the central-inbox interim.
+9. `[T]` **Zach**: exec runbook / how-to page — end-to-end overview + the 3-step go-live for Todd to re-drive solo. **BUILT this session → prl.arcs.care/status/runbook** (client-safe, air-gapped). Optional: screen-record the walkthrough as the reference.
 10. `[NEW]` **Zach**: internal cleanup — remove ~8 synthetic test leads, Roger Lamarre repair, empty-email Tidio validation root cause. *Silent, pre-done.*
+
+### Execution channel for the two teed-up Tidio→Sugar sandbox jobs (Task C)
+Append the FULL Tidio chat into the assigned Sugar ticket + wire the spec-code / competitor cross-reference. **Staged, not fired.** Per Zach: the relevant Tidio/Zapier/Sugar tabs are open in Comet and Claude has Chrome access, so these get executed **via Chrome on Zach's go, once he actions the specific job** — NOT via blind Zapier-MCP REST writes. Sandbox (central-inbox connection) only; never prod. HITL: Claude drives structure/clicks, Zach types any free-text.
 
 ### P3 — decisions, not tasks
 11. `[T]` **Todd**: the P4 answer — priority + clean-handoff vs retained phase-2.
