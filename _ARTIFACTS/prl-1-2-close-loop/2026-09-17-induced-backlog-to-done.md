@@ -71,6 +71,7 @@ Append the FULL Tidio chat into the assigned Sugar ticket + wire the spec-code /
 - **ZoomInfo radius routing + dedup/append** — *trigger: Todd confirms ZoomInfo plan/tier.*
 - **Lead-source attribution analytics** ($43.7M / 2041 opps unattributed) — *trigger: go-live stable, want the before/after number (maps to 1.2/1.3).*
 - **Landing-page personas + SEM on-ramp stubs** — *maps to client-page 1.4.*
+- **Tidio preconfigured templates + Audiences (UNEXPLORED)** — Tidio ships flow/automation templates and an Audiences (visitor-segmentation/targeting) layer we have not evaluated. Likely accelerates the personas-per-landing-page + SEM work (1.4) and could replace hand-built flows. *Owner: Zach (explore). Trigger: phase-2 greenlight, or before rebuilding any flow from scratch (reuse-before-invent).*
 - **Web-forms on-ramp** (1.2-A / 1.3) — *invoice-gated.*
 - **Prettier confirmation emails** — *blocked by current Tidio plan tier; "Powered by Tidio" removal needs Tidio Plus.*
 
