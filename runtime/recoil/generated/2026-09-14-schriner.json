@@ -1,0 +1,882 @@
+{
+  "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
+  "_HOW_TO_USE": [
+    "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
+    "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
+    "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
+    "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
+    "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
+    "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
+  ],
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt \u2014 belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic \u2014 measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "2026-09-14-schriner",
+    "date": "2026-09-14",
+    "counterpart": "Joe Schriner",
+    "company": "Oxenham Group (client disclosed on the call: Autopilot, NYC copy-trading investing app / RIA). A second live opportunity surfaced mid-call, heard as \"Veeqo\": independently identified 2026-09-14 as Vico (vico.io), an AI forecasting/probability platform, not yet confirmed directly with Joe.",
+    "segments": 8,
+    "gate": {
+      "internal": "prh0rbvg4q",
+      "external": "joe"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "Capture 1: LinkedIn DM thread 2026-09-14 11:21am-12:10pm ET + JD PDF + Joe LinkedIn profile PDF. Capture 2: live screen call 2026-09-14 1:30pm ET with Joe Schriner, verbatim transcript, plus an independent same-session web-search pass on Autopilot and on the second company name. Capture 3: live screen call 2026-09-17 1:00pm ET, follow-up ('Part 2'), verbatim transcript.",
+      "load_bearing_quote": "Company's Autopilot. You heard of Autopilot? ... They have 15 engineers, 4 co-founders that all started out as engineers looking to bring on a CTO."
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "candidacy",
+    "req_reality": 2,
+    "req_reality_basis": "Company name landed and independently verifies (Autopilot), and the loop is named (\"First one will be a technical test, and then you'll speak with a guy named Aaron, and then you'll talk to the 3 other co-founders\"), but no decision-owner was actually met on this call, only described by a third-party recruiter who volunteered \"I haven't really done a deep dive on all 4 co-founders\": identity resolved, owner contact did not, so this stays at 2.",
+    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met \u00b7 1 verbal shape, no JD or budget \u00b7 2 JD posted/cut, budget implied \u00b7 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+    "y_state": "FORK",
+    "topology": "DIVERGENT",
+    "nci_prior": 0,
+    "nci_post": 0,
+    "note": "The identity gate closed and the CEO-specifics gate did not. Autopilot is real and externally verifiable, the hiring loop is named, the anti-fit criteria were volunteered unprompted, and the comp was restated downward on the call (Joe: \"these roles are gonna land somewhere around $300,000, $200K at a base level\") against the $275-325K the JD implied. Against that, Joe could not speak to any individual co-founder, substituted an organizational-values answer (mission-driven, two co-founders are Catholic) for the CEO-background question that was pre-committed as the deciding ask, and then introduced a second live opportunity mid-call whose name does not resolve to any public company, which turns a single-track screen into a genuine path-selection moment. That is why this closes FORK and DIVERGENT rather than YELLOW and CONVERGENT: the terrain did not clarify into one line, it split into two, one of which is currently unverifiable. Not a bad call, not a strong one either. It bought a verified company name, a named first interviewer, and a free copy of the bar I will be measured against, and it cost the belief that the recruiter could underwrite anything about the principals. Update, same day: the second opportunity heard as \"Veeqo\" independently identifies as Vico (vico.io), an AI-powered forecasting platform for political/geopolitical/economic risk, government and private clients, matching Joe's \"50% government, 50% private\" description closely. Vico has exactly two co-founders as Joe said: Anthony Vinci (CEO, ex-CTO of the National Geospatial-Intelligence Agency) and Lyndon Oh (CTO, LSE-trained economist), consistent with \"you'll talk with the CTO probably the most.\" Not yet confirmed: Joe's specific claim that the CTO \"started out as a predictive data modeler... went to Meta and then got scooped up by Google\"; public search surfaces the econ/CTO/Vico facts but nothing on a Meta or Google stint. This resolves req_reality's identity question for the SECOND opportunity in the same direction as the first: independently real, principal not yet met, employment-history specifics still Joe's unverified account. Final update, same day: read both actual JD PDFs directly. The Product Engineer, Front-End JD is confirmed as Vico's own posting by its own text (founder backgrounds naming Google, Meta, Bridgewater Associates, Cerberus Capital, US intelligence, matching Vico's real founders point for point). Both opportunities are now fully attributed; the only remaining open question is req_reality's usual one for a cold-inbound candidacy: no principal met yet at either company. Update 2026-09-17 (follow-up call): the fork resolved to BOTH threads pursued, not archived. Vico's founders were independently confirmed live on the call by first name (Anthony, Lyndon) matching the prior identification exactly; org structure clarified (reports directly to Lyndon as CTO, flat org, a VP of Engineering role also open that will sit above this seat once filled). Joe explicitly proposed representing both Autopilot and Vico and Zach agreed. req_reality holds at 2 for both: JD + comp/org-structure known, no principal met by Zach directly yet at either company. Zach demoed real, shipped ARCS artifacts live on screen (the opportunity-scoring algorithm, the resume-tailor pipeline, the Token Savings Bank, the public status/ship-log site) -- this is now GROUNDED proof-of-shipping evidence Joe personally witnessed, not a claim."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "Asking Joe directly for the CEO's specific background will produce a named, textured answer and move req_reality to 3. This was the ex-ante pre-committed move.",
+      "evidence": "Asked who underwrites the RIA risk and licensing. Joe: \"I think it comes from their VC investors from Series A... I haven't really done a deep dive on all 4 co-founders.\" He then pivoted to organizational values: \"We're a mission-driven organization. I grew up Catholic... 2 of the co-founders are Catholic. That's one of the reasons we're working with them.\"",
+      "inference": "EXP",
+      "confidence": [
+        0.6,
+        0.05
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "The client company is real and legitimate, not a recruiter's optimistic packaging of a thin req.",
+      "evidence": "Joe named it on the call: \"Company's Autopilot... They have 15 engineers, 4 co-founders that all started out as engineers looking to bring on a CTO. At this point, they're going for Series B.\" Independently verified the same session: Autopilot is a well-covered copy-trading investment app tracking Congressional and hedge-fund trades, roughly $1.8B AUM and $30M revenue per BigGo Finance, InvestmentNews and Forbes coverage.",
+      "inference": "EXP",
+      "confidence": [
+        0.65,
+        0.95
+      ],
+      "conviction": "HIGH",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P3",
+      "audience": "internal",
+      "claim": "Joe's eight months in technical recruiting would show up as a loosely-vetted req, and Oxenham's process would not compensate for it.",
+      "evidence": "Joe said plainly and unprompted: \"I'm not super technical myself\", \"I don't truly understand the nuances of like fintech software\", \"I haven't spent enough time recruiting in fintech\", \"I don't know what LLM they're on, to be fair.\" But the same person produced the named loop (technical test, then Aaron, then the other three co-founders), a specific headcount, and the exact swipe-left criteria from prior candidates. Thin on technical depth, not thin on process.",
+      "inference": "IMP",
+      "confidence": [
+        0.55,
+        0.35
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P4",
+      "audience": "internal",
+      "claim": "NEW: the real gate here is likability and hands-on recency at the co-founder level, not architecture credentials, and Joe told me the bar without being asked.",
+      "evidence": "On why a prior candidate was rejected: \"He hasn't been hands-on writing lines of code or within ecosystems for the last 5+ years... they're just not looking for that kind of skillset.\" And: \"you're not interacting with the co-founders so much that at the end of the day it's like, do they like you or not.\" Plus the B2B/B2C cut: \"Swipe left for Autopilot is too much B2B compared to B2C.\"",
+      "inference": "EXP",
+      "confidence": [
+        0.5,
+        0.85
+      ],
+      "conviction": "HIGH",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P5",
+      "audience": "internal",
+      "claim": "NEW: a second opportunity introduced mid-call is a real fork, but it arrived unverifiable and should not be priced as a second live option yet.",
+      "evidence": "Joe introduced a data-analytics and predictive-modeling LLM company heard as \"Veeqo\", roughly 50% government and 50% private customers, leadership out of Meta then Google, two co-founders, \"you'll talk with the CTO probably the most.\" He also said: \"Autopilot's giving equity. I don't know if Veeqo's giving equity.\" A web search on that name returned no matching public company profile, so the name is either mis-transcribed by ear or the company has no public footprint.",
+      "inference": "IMP",
+      "confidence": [
+        0.5,
+        0.25
+      ],
+      "conviction": "LOW",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P6",
+      "audience": "internal",
+      "claim": "The technical-cut resume already sent to Joe during the call accurately represents my management and leadership track record for this role.",
+      "evidence": "It doesn't. The technical-cut resume (built this session, sent live on the call via schriner.arcs.care) deliberately narrowed to solo/hands-on framing and dropped the broader leadership record entirely: cross-functional pods up to 12 people (engineering, design, business, marketing), the GoPro EMEA/APAC international growth work navigated around GDPR and data-sovereignty rules, and the wider Manana consulting line (Axon, Twill Health, Verizon Media). This surfaced only when I first mis-read the JD's people-management ask as a real gap; the correction is that the gap was in what the resume chose to include, not in the underlying record.",
+      "inference": "EXP",
+      "confidence": [
+        0.7,
+        0.15
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED"
+    },
+    {
+      "id": "P7",
+      "audience": "internal",
+      "claim": "Vico's identity (Anthony Vinci + Lyndon Oh, vico.io) resolved independently on 2026-09-14 will hold up when Joe describes the company unprompted on a live call.",
+      "evidence": "Joe, unprompted, named both co-founders by first name (\"this guy is one of the co-founders... Anthony... and then Lyndon is the other co-founder\") and gave org detail (Lyndon is CTO, the role reports directly to him, flat org, a VP of Engineering req is also open) fully consistent with the prior identification. He also revealed HOW he knows them: he previously tried to recruit Lyndon for a different role, Lyndon declined but stayed in touch, and Lyndon reached out proactively this week needing recruiting help (\"our internal TA systems aren't working that great\").",
+      "inference": "EXP",
+      "confidence": [
+        0.75,
+        0.9
+      ],
+      "conviction": "HIGH",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P8",
+      "audience": "internal",
+      "claim": "Joe's channel quality for Vico specifically is meaningfully higher than for Autopilot, because he has a real, warm, direct relationship with the actual decision-maker (Lyndon), not just a client intake.",
+      "evidence": "For Autopilot, Joe conceded \"I haven't really done a deep dive on all 4 co-founders\" -- a cold client relationship. For Vico, Joe has a multi-year LinkedIn relationship with Lyndon predating this recruiting engagement, and Lyndon personally texted him that same morning about a second open req. This is a materially different, warmer channel.",
+      "inference": "EXP",
+      "confidence": [
+        0.5,
+        0.8
+      ],
+      "conviction": "MED",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P9",
+      "audience": "internal",
+      "claim": "Zach's stated preference (from the 2026-09-14 call) of \"trying to stay solo founder or fully agentic\" is a hard anti-fit against any people-management seat.",
+      "evidence": "On this call Zach refined rather than reversed the earlier statement: \"I really prefer senior IC roles as opposed to manager ones... if I'm effectively like a player coach... my own goals are directly tied to other people's goals... open to that conversation for sure.\" This is the same three-modes positioning already on the resume (builder / team lead / executive partner), stated live and unprompted, not a new concession. The 2026-09-14 phrasing was sharper than the actual preference.",
+      "inference": "EXP",
+      "confidence": [
+        0.6,
+        0.75
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {
+        "key": "belief_a",
+        "audience": "both",
+        "label": "The opportunity and the company behind it are real and legitimate",
+        "color": "#00F0FF",
+        "points": [
+          0.65,
+          0.5,
+          0.9,
+          0.95,
+          0.8,
+          0.85
+        ],
+        "grounding_quote": "Company's Autopilot. You heard of Autopilot?"
+      },
+      {
+        "key": "belief_b",
+        "audience": "internal",
+        "label": "The recruiter can speak for the principals well enough to underwrite the seat",
+        "color": "#FFD700",
+        "points": [
+          0.6,
+          0.45,
+          0.3,
+          0.1,
+          0.05,
+          0.05
+        ],
+        "grounding_quote": "I haven't really done a deep dive on all 4 co-founders."
+      },
+      {
+        "key": "belief_c",
+        "audience": "internal",
+        "label": "The second opportunity (Vico) is real, identified, and has a warm channel to its CTO",
+        "color": "#0a8f5e",
+        "points": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.85
+        ],
+        "grounding_quote": "this guy is one of the co-founders... Anthony... and then Lyndon is the other co-founder"
+      }
+    ]
+  },
+  "insights": [
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "A recruiter who names the rejection reason is handing you the rubric",
+      "text": "The most useful sixty seconds of the call were not about the company, the stack, or the money. They were the unprompted account of why the previous candidate was passed over: not hands-on in five-plus years, too B2B for a consumer product, and finally whether the founders simply liked him. That is the scoring function, stated out loud, before the test. Most screens make you infer it from silence. When it gets volunteered, the correct response is to treat it as the spec for the next conversation rather than as gossip about someone else."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Joe is transparent to his own ceiling, and the ceiling is low on substance",
+      "text": "He says \"I'm just gonna be transparent\" twice and both times follows through: once to volunteer the mission-driven and Catholic framing as the reason Oxenham took the client, once to restate the comp downward to roughly $300K with a $200K base against the $275-325K the JD implied. That honesty is real and worth something. What it does not do is create knowledge he does not have. He could not answer the DeFi-rails question, the RIA-underwriting question, or the LLM-maturity question, and he said so rather than bluffing, which is the better failure but still a failure for my purposes. The operating conclusion: use him as a fast, candid channel for process, bar, and timing, and route every substantive question about the business, the principals, and the regulatory posture to independent diligence or to Aaron directly. Also note he intends to carry my story upward in his own words after the twenty-minute follow-up, which makes that call a message-fidelity exercise, not a rapport exercise."
+    },
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "The seat needs fluid switching across three modes, not a pick between IC and manager",
+      "text": "Reframe, arrived at with Zach: the JD's real ask isn't IC-versus-manager. It's someone who can move without friction between three altitudes: hands-on building, running a small team day to day, and operating as the technical partner to the CEO on strategy. That switching capacity is the actual differentiator, and it's a demonstrated pattern, not a claim: still-shipping code weekly (IC), a 12-person cross-functional pod plus GDPR-navigated global launch work (team lead), and 40-plus C-suite product demonstrations with high pilot conversion (executive partner). This supersedes the earlier 'name the management gap' framing entirely; that framing was built on an incomplete resume cut (see belief P6) and undersold a real, demonstrated pattern."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-14: took the 1:30pm call. Identity gate closed (Autopilot, verified independently). CEO-specifics gate did NOT close, Joe substituted organizational values for principal detail."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-14: recruiter card shared live during the call, built with the Resume Tailor Claude skill. Joe, reading it in real time: \"I'm looking at it right now. It's really, really impressive.\" Resume itself still owed to him by email."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE: Vico resume tailored and sent live (schriner.arcs.care/vico, later also wired to a dedicated vico.arcs.care subdomain per the 2026-09-17 call). Send Joe the resume he asked for, cut to the volunteered bar rather than to the JD: recent hands-on architecture, consumer/B2C surface area, regulated-fintech fluency. Do not send a generic leadership-track resume into a brief that explicitly rejected one."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-14: read both actual JD PDFs directly (not just filenames). \"JD - NYC CTO 8.2026.pdf\" is Autopilot's CTO/EM role, confirms the Nest.js/GraphQL/GCP/PostgreSQL/Pub-Sub stack and $275-325K exactly as captured pre-call. \"JD Product Engineer Front-End Sep2026.pdf\" is Vico's own posting, confirmed by its own text naming founder backgrounds at Google, Meta, Bridgewater Associates, Cerberus Capital, and US intelligence, matching Vico's real founders. Both threads are now fully and correctly attributed; no more guessing from filenames or Joe's verbal account alone."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Independent diligence on Aaron Langley before the 20-minute story call. Public sources list five Autopilot co-founders (Aaron Langley, Aditya Lingampally, Brian Schardt, Christopher Josephs, Scott Schardt), not the four Joe described, and Aaron is the named first human interviewer. This closes on my own the gate Joe could not close."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-17: follow-up call held. Schedule the 20-minute follow-up (\"tell me your stories all the way from the beginning\") and treat it as a message-fidelity exercise: give Joe three portable, repeatable stories he can regurgitate accurately to the co-founders, not a full narrative he will compress badly."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-17: decided BOTH. Joe: \"I think it makes sense to represent you to both Autopilot and Veeqo.\" Zach agreed."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Reconcile the comp delta in writing: JD implied $275-325K, Joe said on the call \"these roles are gonna land somewhere around $300,000, $200K at a base level\" with equity at Autopilot and unknown at the second company. Do not negotiate at req_reality 2, just record the drift."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "TIL/NFTT idea (2026-09-14): first 'Today I Learned' post, the inbound-opportunity-three-gate-smoke-test as a stop-loss on time poorly spent, now with a real worked example: the gate that closed, the gate that did not, and the falsified pre-committed move. Reuse the interactive-post template prototyped elsewhere, not the static dark-panel style."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "RESOLVED 2026-09-14/15: sent an updated resume reflecting the fuller leadership record (see [[technical-cut-resume-must-keep-leadership-scope]]); not left as the original technical-cut version."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "NEW 2026-09-17: build autopilot.arcs.care and vico.arcs.care as separate gated subdomains (Zach's own proposal live on the call, per Joe's spec: open battle-card + gated deeper case per company, same shape as the schriner.arcs.care bundle). Show Joe the draft before he presents to either company."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "NEW 2026-09-17: independent diligence on Lyndon Oh and Anthony Vinci before any Vico-side call, same discipline already run on Aaron Langley for Autopilot -- do not repeat the pattern of trusting a recruiter's principal-level account first."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "NEW 2026-09-17: address the Vico seniority framing (\"young gun\", 5+ years) head-on and early in the battle-card/resume rather than hoping it doesn't surface -- Joe already opened the door (\"as long as they're competent\")."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "OPEN, not yet decided: whether to build a jobs.arcs.care fork mirroring Joe's own described recruiting workflow (LinkedIn/Greenhouse/Lever alert parsing, swipe-scoring, a decision-engine feedback loop) -- raised same session, separate backlog item, not yet scoped."
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; Decision Receipt",
+      "title": "Joe Schriner &#183; Oxenham Group &#183; Autopilot",
+      "sub": "Cold-inbound CTO/EM screen, 2026-09-14, call complete"
+    },
+    "tabs": [
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      },
+      {
+        "id": "forge",
+        "label": "Forge"
+      },
+      {
+        "id": "recoil",
+        "label": "Recoil"
+      },
+      {
+        "id": "wargame",
+        "label": "War Game"
+      },
+      {
+        "id": "defense",
+        "label": "Defensibility"
+      },
+      {
+        "id": "brief",
+        "label": "The Receipt"
+      }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "_doc": "TRUE NORTH: one sentence \u2014 the disciplined posture for this interaction.",
+        "h2": "True North",
+        "p": [
+          "Screen for whether this is a real, architected CTO/EM seat or a recruiter's optimistic gloss on a role still finding its shape. Decide on what gets independently verified today (company name, CEO specifics, decision authority), not on pitch language."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "Date",
+            "v": "2026-09-14, 1:30pm ET, video"
+          },
+          {
+            "k": "Register",
+            "v": "cold inbound, recruiting, 3rd-party (Oxenham Group)"
+          },
+          {
+            "k": "Their goal",
+            "v": "fill a hands-on CTO/EM seat fast for a fintech client; qualify + warm me for the client intro"
+          },
+          {
+            "k": "Y-Gate",
+            "v": "YELLOW at filing time &#183; closed FORK after the call (two live threads, one unverified)"
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.",
+        "h2": "Intel",
+        "intro": "Joe Schriner, technical recruiter at Oxenham Group; the client is an NYC fintech trading app + RIA, named on the call as Autopilot.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Joe: 8 months as a technical recruiter</strong> &#183; started Feb 2026 at Oxenham Group. Prior career: real estate ops, NZ B2B sales, freight logistics, roofing contractor, bouldering-gym co-owner. No technical background, his own read on the technical bar is secondhand, weight my own diligence over his framing. Confirmed on the call in his own words: \"I'm not super technical myself.\""
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Oxenham Group</strong> &#183; \"talent advisory firm, 91% retention on placed candidates\" (his claim, not independently verified)."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>The client</strong> &#183; named on the call as <strong>Autopilot</strong>, NYC copy-trading investing app + RIA, Series A backed, \"Top 30 Most Downloaded Finance Apps\" per JD, going for Series B. Joe: 15 engineers, 4 co-founders who all started as engineers. Public sources list five co-founders, see Forge."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Comp/logistics</strong> &#183; JD said $275-325K, fully on-site NYC, no remote flexibility stated. On the call Joe restated it as \"somewhere around $300,000, $200K at a base level\", with equity at Autopilot."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Stack</strong> &#183; Node.js/Nest.js/GraphQL/TypeScript, GCP, PostgreSQL, Google Pub/Sub. Nice-to-have: Robinhood/Stripe/Plaid integration experience. Joe on the call: \"they're on Nest right now, Nest, GCP, GraphQL. That's their API layer. TypeScript's a language.\""
+          },
+          {
+            "dot": "",
+            "html": "<strong>Scope</strong> &#183; hands-on, manages a small backend team, still ships code/architecture, reports directly to CEO. Joe's framing: stay at the CTO level but \"be able to out-engineer the engineers... just to gain trust kind of thing.\""
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.",
+        "h2": "Questions &amp; landmines",
+        "intro": "Close the two gates the DM thread left open, in the first five minutes, before rapport makes it awkward to ask.",
+        "items": [
+          {
+            "dot": "",
+            "html": "What's the company name, and can I see the product? &#183; look for: immediate answer, not deferred again &#183; <strong>RESULT: closed, answered immediately (Autopilot)</strong>"
+          },
+          {
+            "dot": "",
+            "html": "What's the CEO's specific background, technical, prior exits, founder history? &#183; look for: a named, textured answer about the CEO as a person, not the founding team in aggregate (re-ask, the first pass swapped this) &#183; <strong>RESULT: not closed, swapped a second time, this time for organizational values</strong>"
+          },
+          {
+            "dot": "",
+            "html": "Is this a net-new CTO seat, or backfill? Who's owned technical leadership until now? &#183; look for: a clear, specific answer &#183; RESULT: net-new, the four co-founders have carried it themselves"
+          },
+          {
+            "dot": "",
+            "html": "How big is the backend team today, and is it the whole eng org or one of several? &#183; look for: a real headcount number &#183; RESULT: 15 engineers"
+          },
+          {
+            "dot": "",
+            "html": "Fully on-site NYC, hard requirement from day one, or negotiable? &#183; look for: directness either way &#183; RESULT: not pressed on the call, still open"
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> don't let the comp band ($275-325K) anchor the read before architecture/ownership/authority is clear, a big number on a vague req is the Fanatics-postmortem failure mode (req_reality &lt;=1 dressed as GREEN)."
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> don't let \"impressive VC backers\" or \"broader impact on humanity\" substitute for an actual company name or a specific CEO answer. &#183; <strong>This landmine was live: the mission-driven framing arrived exactly where the CEO answer should have been.</strong>"
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+        "fields": [
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "Is this CTO/EM opportunity real and well-scoped enough to keep investing time in, or is it a recruiter's early packaging of a role that isn't actually architected yet?"
+          },
+          {
+            "label": "E &#183; Entity",
+            "value": "Joe Schriner (recruiter, Oxenham Group); the undisclosed client CEO and four co-founders; the fintech client company itself"
+          },
+          {
+            "label": "W &#183; Window",
+            "value": "Today &#183; this call decides continue vs. archive"
+          },
+          {
+            "label": "Hypothesis / expecting to see",
+            "value": "The role is real and reasonably well-scoped (JD + comp + stack are specific), but req_reality sits at 2, not 3, company identity and real decision-owner access are still gated behind the recruiter. The call either closes that gap or confirms it's being managed, not closed."
+          },
+          {
+            "label": "Predicted Y-gate",
+            "value": "YELLOW &#183; real artifacts exist (JD, comp, stack), but two unresolved gates (identity, CEO specifics) keep it short of GREEN"
+          },
+          {
+            "label": "Pre-committed move",
+            "value": "Ask for the company name and the CEO's specific background directly and early. If both land with checkable texture, move req_reality to 3 and continue. If either gets deflected again, downgrade to FORK and slow-walk further time until independently verified (my own Crunchbase/LinkedIn pass, not through Joe)."
+          },
+          {
+            "label": "Belief most likely to update",
+            "value": "Whether Joe's 8-month technical-recruiting inexperience translates into a loosely-vetted req, or whether Oxenham's search process is tighter than his personal tenure alone would suggest."
+          },
+          {
+            "label": "Falsifier",
+            "value": "If on the call he still can't name the company, can't name the CEO specifically, or the described scope contradicts the JD PDF, the opportunity fails gates 2/3 retroactively and gets archived without further time spent."
+          }
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "prose",
+        "audience": "internal",
+        "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic \u2014 you cannot grade your own output.",
+        "h2": "Exhibit 2 &#183; Exogenous Forge",
+        "p": [
+          "Every load-bearing claim from the call run against external substrates (independent web search on the company and its founders, published fintech coverage including BigGo Finance, InvestmentNews and Forbes, public founder listings) and adjudicated against the verbatim transcript. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach or unverifiable, corrected.",
+          "The single most valuable Forge result is that the gate Joe could not close, who the principals actually are, closed on its own substrate in minutes. The recruiter is not the only path to principal detail, and treating him as one was the error the ex-ante receipt encoded."
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "table",
+        "audience": "internal",
+        "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.",
+        "h2": "Claim adjudication",
+        "columns": [
+          "Claim",
+          "Ruling",
+          "Source force"
+        ],
+        "rows": [
+          [
+            "The client company is Autopilot, a real copy-trading investing app with meaningful scale",
+            "GROUNDED",
+            "Joe verbatim: \"Company's Autopilot.\" Independently corroborated by published coverage (BigGo Finance, InvestmentNews, Forbes): copy-trading app tracking Congressional and hedge-fund trades including Pelosi, Buffett and Ackman, roughly $1.8B AUM and roughly $30M revenue. Two substrates, recruiter and press, agree."
+          ],
+          [
+            "\"4 co-founders that all started out as engineers\"",
+            "STRUCK",
+            "Public sources list FIVE co-founders: Aaron Langley, Aditya Lingampally, Brian Schardt, Christopher Josephs, Scott Schardt. Joe said four, twice. Small discrepancy, but it is exactly the kind of detail a recruiter who had done the deep dive would have right, and he had already conceded \"I haven't really done a deep dive on all 4 co-founders.\" Treat his headcount-of-people numbers as approximate."
+          ],
+          [
+            "Aaron, the named first interviewer, is a real Autopilot co-founder",
+            "GROUNDED",
+            "Joe verbatim on the loop: \"you'll speak with a guy named Aaron, and then you'll talk to the 3 other co-founders.\" Aaron Langley appears in public co-founder listings for Autopilot. This independently closes the principal-identity gate that Joe himself could not close on the call, and gives a concrete diligence target before the follow-up."
+          ],
+          [
+            "A second live opportunity, heard as \"Veeqo,\" is Vico (vico.io): the actual \"Product Engineer, Front-End\" JD Joe emailed is Vico's own posting",
+            "GROUNDED",
+            "Read the JD PDF directly (not just the filename) 2026-09-14. Its own text: \"Founded by seasoned leaders with backgrounds at Google, Meta, Bridgewater Associates, Cerberus Capital, and US intelligence.\" That is Vico's public founders point for point: Anthony Vinci (Cerberus Capital, Bridgewater Associates, ex-CTO of the National Geospatial-Intelligence Agency) and Lyndon Oh (Google). The \"Meta\" leg, which an independent LinkedIn search could not confirm on Lyndon Oh, is now corroborated by this second, client-authored source rather than resting on Joe's account alone. The role itself (LLMOps, RAG, agentic multi-step UX, citation/grounding UI, Brier-score calibration) is exactly the AI-native decision-surface work Joe described as \"build LLMs with LLMs,\" so the earlier \"front-end doesn't match that description\" caution is retired: it was a reasonable thing to flag, and the source text closed it."
+          ],
+          [
+            "The role is a genuine hands-on player-coach CTO seat, not a figurehead title",
+            "INFERENCE",
+            "Joe's framing is consistent (\"stay at the CTO level, but also be able to manage and then be able to out-engineer the engineers... just to gain trust\") and the rejection of a candidate who \"hasn't been hands-on writing lines of code... for the last 5+ years\" corroborates it behaviorally. But he also walked it back himself: \"who really writes lines of code? It's more so hands-on aspects of architecture.\" The shape is my read, and no principal has confirmed it."
+          ],
+          [
+            "Autopilot has urgency to hire a CTO before Series B",
+            "INFERENCE",
+            "Joe said the timeline is \"immediate\" and in the same breath that \"they're also not going to rush it\" and \"Autopilot could probably go to Series B without a CTO because they're in a good position.\" Those cut against each other. The honest read is moderate, not urgent, demand, which lowers my leverage and raises the value of not over-investing early."
+          ],
+          [
+            "Comp lands around $300K with a roughly $200K base, equity at Autopilot",
+            "GROUNDED",
+            "Joe verbatim: \"I'm just gonna be transparent... these roles are gonna land somewhere around $300,000, $200K at a base level. Autopilot's giving equity. I don't know if Veeqo's giving equity.\" Source-forced as his statement, and it drifts down from the $275-325K the JD implied. Recorded as a delta to reconcile, not negotiated at req_reality 2."
+          ],
+          [
+            "Vico's founders are Anthony Vinci and Lyndon Oh; the role reports directly to Lyndon (CTO), flat org, with a VP of Engineering req also open",
+            "GROUNDED",
+            "Joe named both co-founders unprompted on the 2026-09-17 call, matching the 2026-09-14 independent identification (Anthony Vinci, ex-CTO National Geospatial-Intelligence Agency; Lyndon Oh, LSE economist) point for point. Org detail (\"it will report to Lyndon... he's the CTO there... I think once they bring on this VP of engineering...\") is Joe's direct, first-hand account of a text he received that same morning, not a secondhand recruiter gloss."
+          ],
+          [
+            "Joe's channel to Vico is via a genuine prior relationship with Lyndon (recruited him once, unsuccessfully, stayed in touch)",
+            "GROUNDED",
+            "Joe verbatim: \"I found Lyndon through LinkedIn... connected with him for a role, wasn't the right fit... he kind of turned me down... stayed in touch... Lyndon just texted me this morning.\" This is a materially warmer, longer-tenure channel than the cold Autopilot client relationship, and it is falsifiable (Lyndon's own outreach this morning), not just Joe's framing of himself."
+          ],
+          [
+            "Lyndon's hiring bar is \"an engineer that is going to use LLMs to build LLMs... build things that do not exist,\" with an initial \"young gun\" framing on seniority",
+            "INFERENCE",
+            "Secondhand via Joe, not yet heard directly from Lyndon. Joe did push back live and reported Lyndon softened the seniority bar (\"I asked years of experience, he was like 5 plus... would you be interested in a young gun? He was like, yeah, I'd be interested in a young gun, like, as long as they're competent\"), so treat the \"young gun\" framing as a real but already-partially-defused objection, not a hard filter."
+          ]
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "YELLOW. Role real and reasonably scoped, req_reality held at 2, with the call either closing the identity and CEO-specifics gap or confirming it was being managed rather than closed. Pre-committed move: ask for the company name and the CEO's specific background directly and early, promote to 3 if both land with checkable texture, downgrade to FORK if either is deflected."
+          },
+          {
+            "k": "Actual",
+            "v": "Split outcome, which the ex-ante did not anticipate as a possibility. Gate one closed cleanly and immediately: Joe named Autopilot without hedging and it verifies independently. Gate two did not close and was not deflected in the expected way either, he did not stall, he substituted a different category of answer, saying \"I haven't really done a deep dive on all 4 co-founders\" and then offering a mission-and-values rationale for the client relationship instead. On top of that, a second opportunity was introduced mid-call that does not resolve to any public company. req_reality stays 2: identity resolved, decision-owner still unmet."
+          },
+          {
+            "k": "Fork hit",
+            "v": "The downgrade branch. Half the pre-committed condition failed, so the receipt closes FORK with topology DIVERGENT, and further time is slow-walked behind my own diligence rather than Joe's account. Notably the independent pass then closed the principal gate anyway (Aaron Langley), which is the branch working as designed."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Joe: \"He hasn't been hands-on writing lines of code or within ecosystems for the last 5+ years... they're just not looking for that kind of skillset.\" This is the sentence that governs everything downstream. It is the actual rubric, volunteered, and it is what the resume and the follow-up stories have to answer."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "_doc": "RECEIPT CLOSED, CALL 2: the 2026-09-17 follow-up ('Part 2'). No formal ex-ante was filed for this call beyond the 2026-09-14 receipt's own next_steps (treat as message-fidelity exercise; decide both-threads-or-drop).",
+        "h2": "Receipt closed \u00b7 follow-up call (2026-09-17)",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "Per the 2026-09-14 next_steps: this call is a message-fidelity exercise (give Joe 3 portable stories he can repeat accurately), and the fork decision (run both threads or drop the unverified one) gets made here."
+          },
+          {
+            "k": "Actual",
+            "v": "Both predictions landed. Zach stated the three-modes positioning live and directly, unprompted, in language Joe visibly absorbed and echoed back (\"code mapping\", \"here's why I think Zach's gonna be a really good fit\"). The fork decision resolved to BOTH: Joe explicitly proposed representing Zach to both Autopilot and Vico, Zach agreed, and both immediately committed to concrete next actions (separate gated subdomains per company, a tailored resume for Vico, a battle-card for Vico matching the Autopilot pattern)."
+          },
+          {
+            "k": "Fork hit",
+            "v": "The upgrade branch. The previously-unverifiable second opportunity (P5, LOW conviction) is now GROUNDED (P7, HIGH conviction) via first-hand founder confirmation. This is the fork closing toward BOTH-pursued rather than the DIVERGENT/archive-one branch the 2026-09-14 receipt left open."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Joe: \"I think it makes sense to represent you to both Autopilot and Veeqo if you're comfortable with that.\" Zach: \"Yeah.\" This is the actual decision the whole engagement now runs on."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "belief_log",
+        "audience": "internal",
+        "h2": "Belief Log &#183; confidence x conviction"
+      },
+      {
+        "tab": "recoil",
+        "type": "worked_example",
+        "audience": "internal",
+        "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
+        "h2": "Belief trajectory",
+        "intro": "Two beliefs moved hard and in opposite directions, which is why this call reads as ambiguous rather than good or bad. Confidence that the opportunity is real dipped early while the JD-shaped talk stayed generic, then jumped when Joe named Autopilot and the name survived an independent check, then settled slightly below peak once the founder-count discrepancy and the contradictory urgency signals landed. Confidence that the recruiter could underwrite the principals fell monotonically from the first unanswerable question to the moment he said he had not done the deep dive, and never recovered.",
+        "close": "The honest correction: the ex-ante treated the CEO question as a test Joe could pass or fail, when it was really a test of whether the channel could carry that class of information at all. It cannot. He is a good channel for process, bar, timing and candor, and a poor one for anything about the business or the people. Booking that as a falsified prior rather than smoothing it into \"partial answer received\" is the whole point of filing the receipt in advance. The corrected rule, carried forward: principal-level facts get sourced independently by default, and a recruiter's inability to supply them is expected rather than disqualifying, while the substitution of values-talk for a factual answer is the signal worth watching."
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
+        "h2": "Kairos, quiet signals &amp; risks",
+        "intro": "One genuine peak, one unearned gift, two live risks. Recorded plainly, without rounding the call up.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>Kairos:</strong> the moment the diligence ceiling became visible. Asking who underwrites the RIA risk and licensing produced \"I think it comes from their VC investors from Series A... I haven't really done a deep dive on all 4 co-founders\", and the conversation turned immediately to mission and values. That was the highest-information second of the call: it ended a whole line of questioning as futile and redirected the remaining time from extraction to positioning. Not a resonance high, an orientation high."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> the swipe-left criteria were volunteered, not extracted under pressure, and they are unusually specific: too much B2B against a B2C product, not hands-on in five-plus years, and finally \"do they like you or not.\" A recruiter protecting a client does not usually hand over the rejection rubric. Treat it as a genuine gift and as evidence Joe is playing a longer game with me than this single req."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> the recruiter card built with the Resume Tailor skill landed live, mid-call: \"I'm looking at it right now. It's really, really impressive.\" That is an unprompted reaction to an ARCS public good used on the person it was aimed at, which is a small but real product datapoint independent of whether this role goes anywhere."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Risk:</strong> two live threads, one unverifiable. The second company, heard as \"Veeqo\", has no public footprint and arrived with a different stack, a different customer mix (roughly half government), and a different power center (\"you'll talk with the CTO probably the most\"). Running both at once splits preparation and invites a diluted story in each. Default is to hold it at zero spend until the name resolves in writing."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Risk:</strong> message drift. Joe explicitly plans to take my stories and carry them upward himself (\"tell me your stories all the way from the beginning\"), and he has already demonstrated he cannot hold technical nuance (\"I don't truly understand the nuances of like fintech software\"). Anything I tell him that requires nuance to survive retelling will not survive. The mitigation is to give him three short, lossy-safe stories built to be repeated badly and still land."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Risk:</strong> stated anti-fit on my own record. I told him plainly that I have not grown engineering teams from a leadership perspective and that I am trying to stay solo-founder or fully agentic. That is honest and it is also in direct tension with a seat whose whole point is managing fifteen engineers. It will come back at the co-founder stage, and it should be answered deliberately rather than hoped past."
+          }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "kinematics_table",
+        "audience": "internal",
+        "h2": "Kinematic manifold &#183; measured (D1-D3)"
+      },
+      {
+        "tab": "wargame",
+        "type": "list",
+        "audience": "internal",
+        "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.",
+        "h2": "The gauntlet",
+        "intro": "Adversarial pass on the opportunity, not the person. Each item is grounded in the transcript's own anti-fit criteria rather than in generic candidacy worry.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>BAR (ruin):</strong> the exposed edge is not rejection, it is acceptance into a mismatch. A fully on-site NYC seat managing fifteen engineers, at roughly a $200K base with equity, taken by someone who said out loud on this very call that he is \"trying to stay either solo founder or fully agentic\", is a decision with low reversibility and a high opportunity cost against ARCS. The ruin case is not failing the technical test, it is passing it and then discovering the seat consumes the thing it was meant to fund. Any move past the co-founder stage should be preceded by an explicit write-lock on what happens to ARCS."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>LAB &#183; Loki:</strong> the adversarial read is that this is a recruiter with eight months of tenure, no fintech depth by his own account, and a client who \"could probably go to Series B without a CTO\", filling a pipeline. Steel-manned down: he named the company without hedging, named the loop with specific people, named the comp downward rather than upward, and handed over the rejection rubric unprompted. Those are not pipeline-filler behaviors. The corrected Loki position is narrower and survives: he is a credible process channel attached to a client whose urgency he has overstated, so the risk is wasted sequencing, not fabrication."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>LAB &#183; Advisor:</strong> an experienced advisor would say the B2B/B2C cut Joe named (\"Swipe left for Autopilot is too much B2B compared to B2C\") is the one anti-fit criterion I cannot argue away with rigor, because it is about pattern-matching on surface area rather than about capability. The move is not to argue it, it is to lead with consumer-facing product judgment and let the regulated-fintech depth be the second note rather than the first."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>LAB &#183; Bayesian:</strong> priors updated, the largest single update is not about Autopilot at all. It is that a third-party recruiter's account of principals should carry near-zero weight by default, and that the independent pass that resolved Aaron Langley in minutes should have run before the call rather than after. That reordering is cheap and generalizes to every future inbound."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>COURT (constitutional):</strong> NOTOMATION check. The revealed preference stated on this call was solo-founder or fully agentic, and nothing in this receipt should quietly overwrite that because a plausible seat appeared. The receipt's job is to scaffold the decision, not to talk the decider into the option that has a number attached. Kintsugi check: the falsified prior (P1) is shown in full with the correction visible rather than reworded into a partial success, which is the condition for this file being worth anything later. Write-lock check: no one-way-door move has been taken, the resume and a twenty-minute call are both reversible, and the first genuinely irreversible step would be accepting an on-site offer."
+          }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "audience": "internal",
+        "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.",
+        "h2": "ATG pre-mortem &#183; critical path x their objections",
+        "columns": [
+          "Node",
+          "Their objection (verbatim)",
+          "Failure mode",
+          "Handling"
+        ],
+        "rows": [
+          [
+            "1. Resume + 20-minute story call with Joe &#183; <strong>BOTTLENECK, earliest node in my court</strong>",
+            "\"He hasn't been hands-on writing lines of code or within ecosystems for the last 5+ years... they're just not looking for that kind of skillset.\"",
+            "Dies quietly here, not at the company. Joe asked for the resume and a twenty-minute call to \"tell me your stories all the way from the beginning\" so he can carry them upward in his own words. If the resume reads as a leadership-track document, or the stories need nuance to survive retelling, he never advances me and I never learn why. This node is gated entirely by my own output and my own pace, not by Autopilot's hiring speed, which he described as \"immediate, but they're also not going to rush it.\"",
+            "Cut the resume to recency of hands-on architecture, in the ecosystems named (Node/Nest, GraphQL, GCP, TypeScript), with the regulated-fintech work as supporting rather than leading material. Give Joe exactly three short stories engineered to be repeated badly and still land, no nuance load-bearing. Send both within days, not weeks. Do not wait on the company's tempo to set mine."
+          ],
+          [
+            "2. Technical test",
+            "\"First one will be a technical test.\" (framed against \"be able to out-engineer the engineers... just to gain trust kind of thing\")",
+            "Dies on demonstrated hands-on depth in their specific stack. Joe softened the bar himself (\"who really writes lines of code? It's more so hands-on aspects of architecture\"), but the softening is his read, not the co-founders', and the prior rejection was on exactly this axis. If the test is stack-specific Node/Nest/GraphQL work and I treat it as an architecture conversation, it fails on a technicality that looks like the stated objection.",
+            "Prepare for the literal reading, not Joe's softened one. Assume code in their stack. Treat any architecture-only framing as a bonus, not the plan."
+          ],
+          [
+            "3. Aaron Langley, first co-founder conversation",
+            "\"Swipe left for Autopilot is too much B2B compared to B2C.\"",
+            "Dies on surface-area pattern match. My strongest material is regulated, enterprise and B2B-shaped, and ARCS itself presents as infrastructure rather than consumer product. To a co-founder team building a mass-market copy-trading app, that reads as the wrong instincts regardless of rigor.",
+            "Lead consumer: product judgment about retail investor behavior, onboarding, trust and the copy-trading mechanic itself, which is a concrete thing I already correctly identified unprompted on the call. Let compliance and architecture depth be the second half of the answer, framed as what keeps a consumer product alive at scale rather than as enterprise credentials."
+          ],
+          [
+            "4. The other three co-founders",
+            "\"you're not interacting with the co-founders so much that at the end of the day it's like, do they like you or not.\"",
+            "Dies on fit rather than on substance, and there is no rigor argument against it. A four- or five-founder engineering team hiring its first outside CTO is deciding whether it wants this person in the room daily. The specific hazard on my record is what I said plainly to Joe: no experience growing engineering teams from a leadership perspective, and an active preference for solo-founder or fully agentic work.",
+            "Answer the tension head-on rather than hoping past it: name the solo/agentic preference as a deliberate method, show what it produced, and be explicit about what would make a fifteen-engineer player-coach seat the right container for it. If that answer is not honestly available, this is the node where the right outcome is a clean no rather than a won argument."
+          ],
+          [
+            "5. Vico battle-card + tailored resume + Lyndon intro \u00b7 <strong>NEW BOTTLENECK, in my court</strong>",
+            "\"I want an engineer that is going to use LLMs to build LLMs... build things that do not exist\" (Lyndon, via Joe); initial \"young gun\" framing already softened by Joe to \"as long as they're competent\"",
+            "Dies quietly here exactly like the Autopilot node did: Joe asked Zach to send the resume and let him review the battle-card draft before presenting to Lyndon. If the resume reads generic instead of demonstrating live LLM-native shipping (the same demo Zach just gave Joe on screen), or if the seniority framing isn't addressed head-on, it never reaches Lyndon.",
+            "Lead with the exact demo just given to Joe: real shipped agentic tooling, the resume-tailor pipeline, the scoring/decision-engine work, framed as direct proof of \"building LLMs with LLMs.\" Address seniority directly and early (Joe already has the opening: \"as long as they're competent\"), and use the fact that Joe himself was visibly impressed live as the credibility bridge to Lyndon."
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "rosetta",
+        "audience": "internal",
+        "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
+        "h2": "The same model, both directions",
+        "left": "Their world",
+        "right": "This engine",
+        "rows": [
+          [
+            "Copy-trading: you do not take the trade because the name on it is famous, you take it because the disclosed position is on the record and you can check it later",
+            "Decision receipts: the call is filed before the outcome is known, with its own falsifier attached, so it can be scored honestly instead of remembered flatteringly"
+          ],
+          [
+            "Predictive accuracy scoring against a baseline: an accuracy score of 0.15 against a 0.5 coin-flip baseline is not a bad feeling about a signal, it is a number that retires it",
+            "Confidence x conviction belief log: every prior carries a before and after number and a verdict, so a falsified prior (this call: the recruiter could speak for the principals, 0.6 to 0.05, FALSIFIED) retires itself mechanically rather than by argument"
+          ],
+          [
+            "Recruiter hit rate: Oxenham's \"91% retention on placed candidates\" is a claim about a process, and it is only worth anything if someone is counting the misses too",
+            "Ex-ante receipt plus recoil close: the same loop applied to my own judgment, where the point of filing the prediction is that the misses get counted, which is why this file records that the pre-committed move failed"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "table",
+        "audience": "internal",
+        "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).",
+        "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+        "columns": [
+          "Verb",
+          "Air-gap",
+          "Water-proof",
+          "Fire-proof",
+          "Bomb-proof"
+        ],
+        "rows": [
+          [
+            "Analyze",
+            "Company identity resolved against published coverage (BigGo Finance, InvestmentNews, Forbes), not against the recruiter's description of it",
+            "Survived a call where the source said \"I'm not super technical myself\" and could not answer on DeFi rails, RIA underwriting, or which LLM they use",
+            "The founder count Joe gave (four) did not survive the external pass (five listed publicly) and the file says so rather than adopting his number",
+            "The unresolvable item, the second company heard as \"Veeqo\", is carried as STRUCK with the reason attached, so the analysis is stronger for naming its own blind spot than it would be for quietly dropping it"
+          ],
+          [
+            "Assess",
+            "req_reality scored against a written definition (decision-owner MET) rather than against how the call felt, which is why it stayed at 2 after a call that went well on identity",
+            "Two contradictory urgency signals in one breath (\"timeline... is immediate\" and \"could probably go to Series B without a CTO\") were both recorded, not averaged into a comfortable middle",
+            "The comp drift from the JD's $275-325K to Joe's \"around $300,000, $200K at a base level\" is logged as a delta to reconcile, not smoothed over because the direction is unwelcome",
+            "The assessment that most disadvantages me, that my own stated solo-founder preference is in direct tension with the seat, is recorded in the risk list rather than omitted"
+          ],
+          [
+            "Evaluate",
+            "The scoring rubric used is Joe's own volunteered anti-fit criteria, sourced verbatim from him, not a rubric I invented for myself",
+            "The rubric survives his imprecision: \"do they like you or not\" is vague as language but perfectly usable as a gate to prepare for",
+            "The ATG pre-mortem walks each node against the actual objection that killed the previous candidate, so the evaluation is tested against a real prior rejection rather than a hypothetical one",
+            "The bottleneck was located in my own court (resume plus the twenty-minute call), which is the uncomfortable answer and the only actionable one"
+          ],
+          [
+            "Synthesize",
+            "The FORK and DIVERGENT close is forced by an external fact, a second opportunity appearing mid-call, not by a mood about the conversation",
+            "Two threads with different stacks, customer mixes and power centers get held separately rather than blended into one vague \"pipeline\"",
+            "The synthesis refuses the flattering summary available here (\"company named, loop named, resume praised, two opportunities\") and states plainly that the call was neither bad nor strong",
+            "The independent pass then closed the principal gate the recruiter could not, which converts the falsified prior into a permanent reordering: diligence on principals runs before the call from now on"
+          ],
+          [
+            "Recapitulate",
+            "The load-bearing quote in the closed receipt is verbatim from the transcript, and speaker attribution is preserved throughout so no claim drifts between Joe and me",
+            "The three stories owed to Joe are being engineered specifically to survive lossy retelling by a non-technical intermediary, which is the messy-input case stated as a design requirement",
+            "The falsified prior P1 is shown at full size, with the ex-ante prediction beside the actual outcome, so anyone reading this later can grade the grader",
+            "This file is now the worked example for the planned TIL/NFTT post on the three-gate inbound smoke test, which means the miss becomes the teaching artifact rather than a thing to live down"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "prose",
+        "audience": "internal",
+        "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
+        "h2": "Antifragile core &amp; the lossless test",
+        "p": [
+          "The single most valuable thing this call produced was a wrong prediction. The receipt filed beforehand committed to a specific move, ask the recruiter directly for the CEO's background, and committed to what a pass would look like: a named, textured answer about a person. That answer never came. Joe said he had not done the deep dive on the co-founders and offered a values-based account of the client relationship in its place. Had the receipt not been filed in advance, the honest version of this is the one that gets lost: a call where the company name landed, a loop got named, and the artifact got praised feels like a good call, and the missing half quietly becomes a detail. Because the prediction was on the record with a falsifier attached, the miss is now the most load-bearing line in the file. It produced a correction that generalizes well beyond this opportunity: a third-party recruiter is a high-quality channel for process, bar and timing, and a near-zero channel for the business and the principals, so principal-level diligence runs independently and it runs before the call rather than after. The proof that the correction is real and not cosmetic is that the independent pass closed the exact gate Joe could not, naming Aaron Langley as a real co-founder and the first interviewer, in a fraction of the time the call took. Being wrong did not cost the position, it relocated the work to where it actually gets done.",
+          "Lossless test: Autopilot exists because people would rather copy a disclosed position than trust a confident opinion. You do not buy what someone says they believe, you look at what they actually put money into, on the record, before the outcome was known, and then you check later whether it worked. That is the entire method in this file, turned on my own judgment instead of on a portfolio. Before the call, I wrote down what I expected to happen and what would prove me wrong. After the call, I scored it against what was actually said, and one of my two predictions was simply wrong, so it got marked wrong with a number attached rather than reworded into a partial success. A signal that scores 0.15 against a coin flip does not get argued with, it gets retired, and the belief that a recruiter could tell me who the founders really are scored about that well. The recruiting firm says it keeps ninety-one percent of the people it places, which is a claim about a process, and a claim about a process only means something if somebody is also counting the times it did not work. This is me counting mine. Nothing in the paragraph above needed a single term you would not hear on a trading desk, which is the test."
+        ]
+      },
+      {
+        "tab": "brief",
+        "type": "prose",
+        "audience": "both",
+        "h2": "What this is",
+        "p": [
+          "You mentioned wanting to look into ARCS. Here is the smallest real example of it: the actual method, run on our own call today, not a demo.",
+          "Before we talked, I wrote down what I expected to learn and how I would know if I was wrong. Afterward, I checked it against what actually happened. The chart below is that check, not a summary written after the fact to sound smart."
+        ]
+      },
+      {
+        "tab": "brief",
+        "type": "worked_example",
+        "audience": "both",
+        "h2": "What moved",
+        "intro": "One thing I was tracking: is this a real, live opportunity, or an early-stage recruiter packaging.",
+        "close": "It moved up. You named the company without hedging, and it checks out independently: a real, well-covered company at meaningful scale. That is the kind of thing this method is for: not a verdict on a person, just an honest record of what a specific belief was, and what it became once it met the evidence."
+      },
+      {
+        "tab": "brief",
+        "type": "rosetta",
+        "audience": "both",
+        "h2": "The same idea, in your world",
+        "left": "Autopilot",
+        "right": "This method",
+        "rows": [
+          [
+            "A copy-trade is worth something because the position is disclosed and checkable, not because the name on it is famous",
+            "A decision receipt is filed before the outcome is known, so it can be checked later instead of remembered flatteringly"
+          ],
+          [
+            "An accuracy score means nothing without the baseline it beats",
+            "Every belief here carries a before and after number, so a correction is visible instead of quietly forgotten"
+          ]
+        ]
+      },
+      {
+        "tab": "brief",
+        "type": "prose",
+        "audience": "both",
+        "h2": "If it is useful",
+        "p": [
+          "No pitch attached to this, it is just the receipt I said I would send. If a version of this, applied to your own process rather than mine, would ever be useful to you or Oxenham, happy to talk about that separately.",
+          "Provenance: every line above traces to something said on today's call or checked independently afterward. Nothing here is inferred silently."
+        ]
+      }
+    ]
+  }
+}
