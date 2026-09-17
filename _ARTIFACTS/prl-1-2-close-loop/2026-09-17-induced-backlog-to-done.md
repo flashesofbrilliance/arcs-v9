@@ -48,6 +48,7 @@ Ranked by critical-path-to-clean-go-live. `[T]` = surfaced to Todd 9-15, `[NEW]`
 
 ### P1 — the go-live itself (the 9-15 happy path, gated on P0)
 5. `[T]` **Zach**: assign Todd's sandbox account; run one controlled end-to-end test lead (lands in Sugar + Notes + alert fires).
+   - **Observability / UAT layer (safe rig = Sugar sandbox + Tidio staging + draft Zap, never prod):** per-step expected-vs-actual comes from **Zapier Zap History** (input/output JSON at Catch Hook → Code → Sugar, errored step flagged) + **independent Sugar read-back** via `sugar_bulk.py` (never trust the Zap's self-report). **Build the runtime UAT harness** (queued): fixtures of labeled test leads + expected Sugar field values → run through sandbox → read-back diff → per-field PASS/FAIL table. Runtime twin of `prl_depmap_check.py`; reuses the Sugar REST reads. For P0-1, the specific observability step is firing a test `conversation.solved_by_lyro` event and inspecting the raw JSON in Zapier's Catch Hook test panel.
 6. `[T]` **Zach + Todd**: controlled prod cutover — repoint zaps sandbox→prod, add `lead_source` "Chatbot" live, run ONE test lead, verify. **Do NOT run blind; sandbox-accept first.**
 7. `[T]` **Zach/Todd**: install Tidio plugin on live WP (via GTM-WLP9C76 tag or HFCM), pointed at prod; fix the "all reps unavailable" bot line pre-launch.
 
