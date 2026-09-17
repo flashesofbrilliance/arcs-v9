@@ -40,7 +40,8 @@ Two things must come back from Todd, and one honest correction must go to him:
 Ranked by critical-path-to-clean-go-live. `[T]` = surfaced to Todd 9-15, `[NEW]` = the audit gap. Owner in **bold**.
 
 ### P0 — blocks a safe production cutover (do first)
-1. `[NEW]` **Zach**: resolve Lyro/blurb → Zapier → Sugar **Notes** mapping; confirm feasibility with Tidio + Sugar PS. Fallback: land the raw transcript into Notes. *Trigger: before any prod test lead.*
+1. `[NEW]` **Zach**: resolve Lyro/blurb → Zapier → Sugar **Notes** mapping. **RESEARCH RESULT (2026-09-17, docs-crawl SME): CONDITIONAL-FEASIBLE, medium confidence.** Tidio exposes a Lyro-specific webhook event `conversation.solved_by_lyro` (developers.tidio.com/reference/events) that can feed the SAME existing Zapier Catch Hook → Code → Sugar leg; Sugar Notes create+relate (`POST /rest/v11/Notes` with `parent_type`/`parent_id`) is architecturally real. **One open gap:** whether that event's payload carries the transcript or only metadata. **Fallback if metadata-only:** use the event as a trigger, then call Tidio's conversation/messages API in the Code step to pull the transcript before writing the Note (same two-hop pattern already proven). **Close the gap by:** firing a test event and inspecting the raw JSON in Zapier's Catch Hook test step (Tidio support thread `19fddc302ce41ffc` is the backup). *No longer a build-blocker; it is a payload-schema confirmation.*
+   - **Belief impact:** this moves belief **P1** anterior→posterior — the enriched-ticket promise is feasible on proven infrastructure, not a blocking unknown. Confidence up; conviction MED→MED-HIGH.
 2. `[NEW]` **PRL IT**: fix `info@prlresins.com` delivery + **Barracuda allow-list** the Zapier sender. *Blocker on real lead alerts.*
 3. `[T]` **Zach**: publish the drafted routing zaps (task3 SLA nudge, task9 unassigned sweep) + task4/task7/task8 (verified, ship-with-notes); confirm Zapier tz. *Then* the pipe is actually on, not drafted.
 4. `[NEW]` **Todd**: written sandbox approval (email). *Paper trail before prod.*
@@ -101,3 +102,9 @@ Metabolic-router split: mechanical → terminal/Haiku, judgment → Sonnet, irre
 ## The two open decisions to force at 2pm (from belief P4)
 - **Time-sensitivity**: is this a "before Friday" push or a "whenever" workstream? Zach's availability craters after Fri 9-19 surgery for 1-2 weeks — so this answer sets whether to attempt the prod cutover today/tomorrow or explicitly defer it with the runbook.
 - **Transition shape**: clean handoff-and-done (complete, honorable stopping point) OR retained phase-2. Do not infer from warmth; get the plain answer.
+
+## Prior-art scan (2026-09-17): open-source analogs to our Tidio->Zapier->Sugar stack
+Verdict: our stack is the **sanctioned commercial pattern**, not a hack — Tidio ships a native "Send to Zapier" flow action and Zapier's SugarCRM app has Create-Lead/Contact/Note steps (zapier.com/apps/tidio/integrations/sugarcrm7). No exact drop-in OSS repo replicates this specific proprietary-SaaS chain.
+- **Closest open-source analog = n8n** (self-hosted, no per-execution fee): webhook trigger + HTTP Request node to any REST API + native AI/chatbot nodes + firmographic lead-routing patterns. Templates to crib from: github.com/enescingoz/awesome-n8n-templates (280+, incl. CRM + RAG-chatbot + lead routing).
+- **Open-source CRM leg = SuiteCRM** (the community fork of SugarCRM): REST API + webhook modules — so a fully-OSS version of our pipe = chatbot -> n8n webhook -> dedup/enrich -> SuiteCRM/Sugar REST.
+- **Implication for PRL:** no change now (validates the current path). File as a **future option only** — if PRL ever wants to own/de-SaaS the whole pipe for cost/control, n8n + the existing Sugar REST is the migration target. Not a go-live item.

@@ -9,7 +9,7 @@
     "P4": "Todd holds this as high-priority/time-sensitive (verdict OPEN)"
   },
   "items": [
-    {"id": "P0-1", "jtbd": "Lyro/blurb -> Sugar Notes mapping", "owner": "Zach", "status": "open", "sources": ["2026-09-01-recoil-close", "2026-09-01-golive-premortem"], "depends_on": [], "beliefs": ["P1"], "note": "VERIFY-FIRST via delegated docs-crawl SME research over Tidio + Sugar self-service docs + received emails (NOT vendor support); feasibility unconfirmed"},
+    {"id": "P0-1", "jtbd": "Lyro/blurb -> Sugar Notes mapping", "owner": "Zach", "status": "verified-conditional", "sources": ["2026-09-01-recoil-close", "2026-09-01-golive-premortem", "2026-09-17-lyro-notes-sme-research"], "depends_on": [], "beliefs": ["P1"], "note": "CONDITIONAL-FEASIBLE (2026-09-17 docs-crawl SME): Lyro webhook conversation.solved_by_lyro reuses the existing Zapier->Sugar leg; Sugar Notes create+relate is real. Open gap = event payload transcript vs metadata (fallback: event-as-trigger + Tidio messages API two-hop). Moves belief P1 anterior->posterior."},
     {"id": "P0-2", "jtbd": "info@ delivery fix + Barracuda allow-list", "owner": "PRL-IT", "status": "open", "sources": ["2026-09-01-recoil-close", "2026-09-01-golive-premortem"], "depends_on": [], "beliefs": ["P3"]},
     {"id": "P0-3", "jtbd": "Publish drafted task3/task9 zaps + confirm tz", "owner": "Zach", "status": "drafted", "sources": ["prl-zap-kit"], "depends_on": [], "beliefs": ["P1", "P3"]},
     {"id": "P0-4", "jtbd": "Written sandbox approval", "owner": "Todd", "status": "open", "sources": ["2026-08-26-chase-list"], "depends_on": [], "beliefs": ["P3"]},
