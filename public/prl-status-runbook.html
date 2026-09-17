@@ -181,6 +181,19 @@
   <div class="rule"><b>The bar for &quot;done&quot;:</b> one real, non-synthetic lead with its CRM record ID in hand, and a plain statement of what was tested versus what was assumed, independently read back before sign-off.</div>
 </div></div>
 
+<div class="checklist" id="tests"><div class="wrap">
+  <div class="label">Tests to try</div>
+  <p class="lede">A short list you can run yourself against the test setup, before anything goes live. Each one takes a minute.</p>
+  <div class="row"><span class="mark num">1</span><div class="item"><b>Start a chat and confirm it asks for your details</b><span class="sub">Open the chat on the test site. It should ask for name, company, phone, email, and state before anything else. This confirms the capture flow is the one running.</span></div></div>
+  <div class="row"><span class="mark num">2</span><div class="item"><b>Finish a chat, then find the lead in SugarCRM</b><span class="sub">Complete a chat with a real-looking name, company, and state. Open SugarCRM and confirm a new lead appears, tagged "Chatbot", with the name split correctly and the state filled in.</span></div></div>
+  <div class="row"><span class="mark num">3</span><div class="item"><b>Chat twice as the same person</b><span class="sub">Run a second chat with the same email. Confirm it updates the same lead instead of creating a duplicate.</span></div></div>
+  <div class="row"><span class="mark num">4</span><div class="item"><b>Use a tricky name</b><span class="sub">Try a name with a title or suffix, like "Dr. Jane Smith Jr." Confirm the first and last name split sensibly and nothing is dropped.</span></div></div>
+  <div class="row"><span class="mark num">5</span><div class="item"><b>Leave the state blank, or give an odd one</b><span class="sub">Confirm the lead still lands, and that when the state cannot be read it is flagged in the notes, never guessed to a wrong value.</span></div></div>
+  <div class="row"><span class="mark num">6</span><div class="item"><b>Check the routing</b><span class="sub">Confirm a lead whose state has no assigned rep lands in the central inbox (on purpose, for now), not lost.</span></div></div>
+  <div class="row"><span class="mark num">7</span><div class="item"><b>Check the notification</b><span class="sub">Confirm the lead alert email arrives in the chosen inbox, and is not caught by the spam filter.</span></div></div>
+  <div class="rule"><b>Not yet testable, coming next:</b> the <b>full chat transcript on the lead</b> is not wired in yet (a lead currently carries a short note, not the whole conversation); that is the next enrichment step. The <b>"help me choose" AI assistant</b> stays off until delivery is proven, so do not test it as a lead path yet. The <b>4-hour stale-lead nudge</b> is built but not switched on yet. If you try these three now, they will not behave as finished, because they are not finished.</div>
+</div></div>
+
 <div class="checklist"><div class="wrap">
   <div class="label">What the chatbot knows</div>
   <p class="lede">Its knowledge base, and the deliberate limits we put around it.</p>
