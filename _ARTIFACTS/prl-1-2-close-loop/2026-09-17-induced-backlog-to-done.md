@@ -2,6 +2,20 @@
 
 _Internal war-room. Built 2026-09-17 for the 2:00pm ET walkthrough. Sources: 2026-09-15-todd-prl.json (recoil-close), 2026-07-30 MASTER-HANDOFF, 2026-09-01 recoil-close + golive-premortem, 2026-08-26 chase-list, prl-zap-kit README, 2026-08-03 lyro-ai-layer-v2. Not counterpart-facing._
 
+## PRE-WORK GATE (P-1) — investigation is a dependency ON the plan, not a step in it
+A plan built before the existing documentation corpus is exhausted rests on a false null. This gate must clear — and be RE-checked at every verb (analyze → assess → evaluate → synthesize → recapitulate → execute) — before the plan below is trusted or executed. Concluding "we don't have X" without citing the artifact that proves absence is precluded (receipts or it didn't happen, both directions).
+
+**Corpus to exhaust (self-indexing; reconcile against these, do not rebuild an index):**
+- **Indices:** `MASTER-HANDOFF.md` (document index) · `prl-lyro/SUGAR-DOCS-MANIFEST.md` (Sugar docs) · `prl-lyro/README.md` (Lyro SSOT) · `prl-lyro/SPRINT-2-1.2-kickoff.md` (doc tracker).
+- **Sugar / CRM / audit:** `prl-lyro/STATE-OF-SUGAR-2026-08-11.md` (audit) · `prl-lyro/INTEGRATION-DOSSIER.md` · `prl-system-ssot.md` · `ADR-074` (custom-code collisions) · `prl-baseline/*` (leads/opps data).
+- **Build / delivery / tests:** `dod-reconciliation.md` · `1.2A-web-forms-acceptance-tests.md` · `prl-zap-kit/*` (incl. `task7-state-parser.test.js`) · the Tidio build sheets + voice/branch-logic/personas.
+- **Emails / next-steps (check IN-REPO first before any Gmail crawl):** `prl-lyro/2026-08-11-sugar-case-589806-reply.md` · `2026-08-03-todd-vision-serialization.md` · the `*-nextsteps-email-DRAFT.md` / `three-scenario-email-DRAFT.md`.
+- **claude.ai artifacts:** build spec `e459357f` · project hub `d9492ec7` · lead-capture diagnostic runbook `60fbdf00`.
+
+**Status:** partially exhausted this session (backlog + Lyro-Notes verdict anchored to the above). NOT yet fully reconciled: the `prl-lyro/` dossier+audit into the UAT field schema (in progress) and a confirm that the email next-steps are fully captured in-repo. `prl_depmap_check.py` fails if this gate is marked open. Owner: Zach/Claude. **Gates: the whole plan below + all execution.**
+
+---
+
 ## The ask for the 2pm call (what "landing the plane" actually needs)
 Two things must come back from Todd, and one honest correction must go to him:
 1. **Force the P4 answer**: how time-sensitive is this, and is the transition a clean handoff-and-done or a retained phase-2? (belief P4, still OPEN)
