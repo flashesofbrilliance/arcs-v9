@@ -114,48 +114,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.62.0 (2026-09-14)
-
-> **Schriner/Oxenham job-search engagement session** (this worktree, `awesome-tu-985156`, branch
-> `claude/awesome-tu-985156`). Ran a cold-inbound recruiter screen (Joe Schriner, Oxenham Group)
-> through its full lifecycle: pre-call HUD scan, recruiter-facing pitch site, a live call, and the
-> post-call recoil-close/recoil-ship pass — then caught and fixed a real gap in an already-shared
-> resume before the counterpart acted on it.
-
-## Shipped (merged to main, live)
-- **Schriner recruiter pitch + résumé bundle** at `schriner.arcs.care` (PR, merged, no force-push):
-  plain-language pitch page, résumé viewer + PDF + ATS text. Built to Ahmed-order (verdict → 3
-  reasons → 3 Q&A → tasks → evidence-behind-disclosure).
-- **Résumé correction, shipped live** — the technical-cut résumé first sent to Joe had dropped real
-  leadership scope; corrected to a "moves fluidly between three modes: builder / team lead /
-  executive technical partner" framing (see [[technical-cut-resume-must-keep-leadership-scope]]),
-  and closed a real 2010-2016 work-history gap with two previously-missing chapters (Selectable
-  Media GM turnaround, IBRShop co-founder), sourced from the user's own iCloud/Desktop resume
-  archive, not invented. All fact-checked against the master Gamma doc before shipping.
-- **Internal recoil receipt** (`runtime/recoil/generated/2026-09-14-schriner.json`, gated) closed
-  post-call at FORK/DIVERGENT (not the pre-call YELLOW prediction) — the CEO/principal-identity
-  gate was resolved by independent search, not by the recruiter, on the call. Safe external twin
-  live at `schriner-ext.arcs.care` (air-gap-verified, zero internal-jargon leak on scan).
-
-## Lesson booked
-A technical-cut résumé for a player-coach-shaped role can silently drop real leadership scope —
-don't mistake the resulting hole for a genuine capability gap without checking the fuller record
-first. Full memory: [[technical-cut-resume-must-keep-leadership-scope]],
-[[project_joe_schriner_oxenham_autopilot_vico]]. Also generalized:
-[[inbound-opportunity-three-gate-smoke-test]] now notes identity/leadership verification should run
-BEFORE the first call, not after.
-
-## Open (next session)
-1. **Joe follow-up call** — check if the 20-minute story call happened. If so, re-run
-   `/recoil-close`. The Joe-facing "fit note" (`_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html`)
-   is drafted, gate-clean, and deliberately held until after that call.
-2. **resume-tailor skill repo** (`~/resume-tailor-skill/SKILL.md`) — the leadership-scope lesson was
-   applied manually this session but NOT folded back into the skill itself. Explicit user choice to
-   defer to next session.
-3. **New, unscoped thread** — user flagged a "State of the Union" dashboard (reading-mode toggle,
-   shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
-   Impeccable design pass. Source file/path was never identified this session — get it first.
-
 # Handoff — v3.63.0 (2026-09-15)
 
 > **arcs-algorethics E2E / benchmarks / kabuki audit session** (worktree `arcs-e2e-benchmarks-cicd-0369bd`,
@@ -200,3 +158,55 @@ BEFORE the first call, not after.
 2. **Queue `algorethics-in-scope-benchmark`** (P3): ~150 harmful tool calls + benign twins across the
    three classes in real tool phrasing; measure recall/FPR. Do not reopen "widen to broad harm".
 3. Joe Schriner follow-up + resume-tailor skill fold-back + State-of-the-Union dashboard (carried from v3.62.0).
+
+# Handoff — v3.64.0 (2026-09-17)
+
+> **PRL/Todd 2pm-call wrap + an epistemics-of-warrant thread that hardened the tooling** (this
+> worktree `arcs-e2e-benchmarks-cicd-0369bd`, session across branches prl-land-plane / prl-uat-note /
+> defeasible-codec-seeds / prl-wrap-page / prl-phase-map / handoff). All PRL surfaces air-gapped,
+> wrap-lint clean, em-dashes 0. 8 PRs merged (#469–#476), 4 decision receipts filed.
+
+## Shipped (merged to main, live)
+- **prl.arcs.care overview** (PR #475): payment history (1.1 $1,552.51 + 1.2 $4,500 + **Paid-to-date $6,052.51**),
+  **1.2 flipped to LANDED** cited to a filed close receipt, honest freshness sweep (killed stale
+  Aug-18 todos a relabel would have shipped as false-fresh), deferred-routing **outcome flag** (lose
+  auto-attribution → manual assign + the fix), reCAPTCHA v2/v3 fact-check fix, full **ELI5 pass**
+  (jargon glossed + a **Bottom line** punchline per section). New exec **/status/runbook** (#469/#473).
+- **Internal (#470/#471/#473/#476):** induced backlog + completeness audit; belief-linked
+  `prl-dependency-map.json` + `prl_depmap_check.py` eval with a **P-1 investigation-prework gate**
+  that hard-fails until the doc corpus is exhausted; runtime `prl_uat_harness.py` (corpus-anchored,
+  `--self-test`, reuses task7 test + STATE-OF-SUGAR schema); per-phase **systems/dependency map**.
+- **Receipts filed** (Supabase `decision_receipt`): `2026-09-17--todd-prl-recoil-close-pr463`,
+  `--prl-runbook-overview-ship-pr469`, `2026-08-26--prl-phase-1.2-close` (backfill),
+  `2026-09-17--prl-overview-wrap-ship-pr475`.
+- **Seeds + ADR-candidate (#474):** redactive-referential context codec + kinematic-adaptive
+  freshness gate (compose LLMLingua+Letta, don't rebuild). 7 witness stubs
+  `_STATE/witness/2026-09-17.jsonl`. 3 new epistemics memories (indexed).
+
+## Fact-check landed (KNOW, cited)
+For-IT DNS block **re-verified LIVE 2026-09-17**: SPF `include:outlook + mailgun`, DMARC `p=reject`,
+`mg.prlresins.com` SPF/MX/DKIM, M365 selector1/2 DKIM, Barracuda MX — all confirmed, no drift.
+
+## The epistemics thread (it hardened the tooling, not just the vocabulary)
+Defeasible warrant: a warranted null is time-indexed and decays; carry a freshness horizon + named
+defeater-triggers, kinematic-paced (Kairos / Operator21 knot-detection / Nyquist floor). Two-axis
+**claim-exit lattice**: falsification (null-flip ¬X→X OR its inverse **exoneration** X→¬X) vs
+**mootness** (superseded/vacated). think→know = acquiring **citable** justification; overclaim queues
+a self-exoneration. **Corpus-exhaustion is a PRE-WORK GATE on the plan**, not a step in it. Compression
+taxonomy: abstractive vs extractive/redactive vs referential (lossless = externalize+reference).
+Actor-level: pattern-of-defeated-nulls = believability sorting, but **triage-not-verdict**, level-aware
+(apple vs barrel), freshness-gated. Overclaim mislabeled as overconfidence(calibration) when often
+under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
+
+## Open (next session)
+1. **PRL phase cards (1.2-A/1.3/1.4/1.5 + analytics/tagging) HELD** pending 3 decisions the systems/deps
+   map surfaced: **(a)** 1.3 real net-new scope (its recognition engine already shipped under 1.1) or an
+   honest reframe; **(b)** 1.5 ongoing Lyro-curation owner (the real company-side "training-agent" dep,
+   currently unnamed); **(c)** analytics/attribution plan (only a `gad_source` check exists). Do NOT
+   stamp invented scope on the client page.
+2. **Tidio→Sugar pipeline: built + staging-proven, NOT prod-verified.** Staging→prod path documented
+   (publish drafted zaps in zap-kit order; prove old zap `series_376761228` OFF; 4 acceptance tests via
+   the UAT harness; then the 3-step cutover). Two teed-up sandbox jobs (full chat into ticket +
+   spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
+3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
+4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
