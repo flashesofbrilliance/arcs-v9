@@ -1,22 +1,19 @@
-# ARCS Session State — current sprint snapshot
+# ARCS session state — sprint snapshot
 
-> Overwritten each `/handoff`. Full narrative: `CLAUDE.md` → Handoff v3.63.0.
+**As of:** 2026-09-17 (pm) · handoff v3.64.0 · HEAD region on main = #476
 
-**As of:** 2026-09-15 · **Branch:** `claude/arcs-e2e-benchmarks-cicd-0369bd` (= arcs-v9 PR #446, HEAD `a308e185`, unmerged) · **Version:** v3.63.0
+## Live / done
+- PRL prl.arcs.care wrap for Todd's 2pm walkthrough: overview (payment history + Paid-to-date, 1.2 LANDED+receipted, honest freshness, routing-outcome flag, reCAPTCHA fix, ELI5+punchlines) + exec /status/runbook. Air-gapped, gates clean.
+- Internal: induced backlog + completeness audit; dependency-map eval (`prl_depmap_check.py`) with P-1 corpus-exhaustion gate; UAT harness (`prl_uat_harness.py`, --self-test); per-phase systems/deps map.
+- 4 decision receipts filed (recoil-close backfill, ship, 1.2 close backfill, overview-wrap ship).
+- Epistemics thread → 3 memories, 2 seeds + ADR-candidate (#474), 7 witness stubs.
+- DNS fact-check re-verified LIVE.
 
-## Shipped this session
-- `flashesofbrilliance/arcs-algorethics` PRs #1–#8: repo went from uncollectable tests + broken daemon to
-  a tested, honest firewall: E2E suite, HF + AgentHarm benchmarks (all 0%, recorded), nightly history,
-  ops CLI, invariants SSOT + parity, `gate_receipts` ledger + preflight, Ed25519 resume + key custody,
-  kabuki deleted, README rewritten.
-- arcs-v9: keyed Edge gate route (PR #446), build green, held. Empty Perplexity branch removed.
-- Induced backlog: `algorethics-in-scope-benchmark` (P3) via #448/#449.
-
-## Next unblocked
-1. Zach's operational trio (migration + expose schema; env vars on Vercel + Actions; merge #446 + dispatch).
-   `arcs ops migrate|keys|promote --yes` does it given `SUPABASE_ACCESS_TOKEN`.
-2. Queue: build the in-scope benchmark (three classes, benign twins, real tool phrasing).
-3. Carried: Joe Schriner follow-up; resume-tailor fold-back; State-of-the-Union dashboard.
+## Open (next unblocked)
+1. PRL phase cards HELD on 3 decisions (1.3 net-new scope · 1.5 Lyro-curation owner · analytics plan).
+2. Tidio staging→prod cutover + 2 teed-up sandbox jobs (Chrome/Comet, on Zach's go).
+3. Deep memory dedup pass (index over soft budget, 263 files).
+4. Joe Schriner follow-up + resume-tailor fold-back (carried).
 
 ## Blocking
-NONE
+NONE.

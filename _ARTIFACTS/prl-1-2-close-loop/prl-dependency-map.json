@@ -1,0 +1,32 @@
+{
+  "_doc": "PRL/Todd go-live dependency map. Machine-readable source of truth for the induced backlog. Diffed against the recoil-close SSOT (runtime/recoil/generated/2026-09-15-todd-prl.json) by prl_depmap_check.py. Each item links the recoil beliefs it bears on, so a dependency change flags an anterior->posterior belief re-score.",
+  "ssot": "runtime/recoil/generated/2026-09-15-todd-prl.json",
+  "as_of": "2026-09-17",
+  "investigation_prework": {
+    "status": "in-progress",
+    "_note": "P-1 gate: exhaust the PRL doc corpus before the plan is trusted or executed. status must be 'complete' before execution items (P1+) are trusted. 'blocked'/'open'/'in-progress' => eval hard-fails execution readiness.",
+    "corpus_indices": ["MASTER-HANDOFF.md", "prl-lyro/SUGAR-DOCS-MANIFEST.md", "prl-lyro/README.md", "prl-lyro/SPRINT-2-1.2-kickoff.md"],
+    "not_yet_reconciled": ["prl-lyro dossier+audit into UAT field schema (in progress)", "confirm email next-steps fully captured in-repo (sugar-case-589806-reply, vision-serialization, *-nextsteps-email-DRAFT)"]
+  },
+  "beliefs": {
+    "P1": "Build needs Zach present to operate/go-live (verdict UPDATED)",
+    "P2": "Geo mis-routing must be fully solved before landing (verdict UPDATED, deferred to central inbox)",
+    "P3": "Go-live is a risky big-bang cutover (verdict UPDATED, resolved to 3-step checklist)",
+    "P4": "Todd holds this as high-priority/time-sensitive (verdict OPEN)"
+  },
+  "items": [
+    {"id": "P0-1", "jtbd": "Lyro/blurb -> Sugar Notes mapping", "owner": "Zach", "status": "verified-conditional", "sources": ["2026-09-01-recoil-close", "2026-09-01-golive-premortem", "2026-09-17-lyro-notes-sme-research"], "depends_on": [], "beliefs": ["P1"], "note": "CONDITIONAL-FEASIBLE (2026-09-17 docs-crawl SME): Lyro webhook conversation.solved_by_lyro reuses the existing Zapier->Sugar leg; Sugar Notes create+relate is real. Open gap = event payload transcript vs metadata (fallback: event-as-trigger + Tidio messages API two-hop). Moves belief P1 anterior->posterior."},
+    {"id": "P0-2", "jtbd": "info@ delivery fix + Barracuda allow-list", "owner": "PRL-IT", "status": "open", "sources": ["2026-09-01-recoil-close", "2026-09-01-golive-premortem"], "depends_on": [], "beliefs": ["P3"]},
+    {"id": "P0-3", "jtbd": "Publish drafted task3/task9 zaps + confirm tz", "owner": "Zach", "status": "drafted", "sources": ["prl-zap-kit"], "depends_on": [], "beliefs": ["P1", "P3"]},
+    {"id": "P0-4", "jtbd": "Written sandbox approval", "owner": "Todd", "status": "open", "sources": ["2026-08-26-chase-list"], "depends_on": [], "beliefs": ["P3"]},
+    {"id": "P1-5", "jtbd": "Sandbox end-to-end test lead", "owner": "Zach", "status": "pending", "sources": ["2026-09-01-recoil-close"], "depends_on": ["P0-3"], "beliefs": ["P1"]},
+    {"id": "P1-6", "jtbd": "Production cutover: repoint zaps + lead_source live", "owner": "Zach+Todd", "status": "pending", "sources": ["2026-09-01-golive-premortem", "2026-09-15-todd-prl"], "depends_on": ["P0-1", "P0-2", "P0-4", "P1-5"], "beliefs": ["P3"], "gate": "BAR/COURT irreversible"},
+    {"id": "P1-7", "jtbd": "Install Tidio plugin on live WP", "owner": "Zach+Todd", "status": "pending", "sources": ["2026-09-15-todd-prl"], "depends_on": ["P1-6"], "beliefs": ["P3"]},
+    {"id": "C", "jtbd": "Full Tidio chat into ticket + spec-code cross-ref", "owner": "Zach", "status": "staged", "sources": ["2026-09-15-todd-prl"], "depends_on": [], "beliefs": ["P1"], "channel": "Chrome/Comet HITL"},
+    {"id": "P2-8", "jtbd": "Territory reconcile (blank-owner states, usernames, Bill docs)", "owner": "Todd+Bill", "status": "pending", "sources": ["2026-09-01-golive-premortem", "2026-08-26-chase-list"], "depends_on": [], "beliefs": ["P2"], "note": "central-inbox interim has no owner/trigger for the real fix"},
+    {"id": "P2-9", "jtbd": "Exec runbook / how-to page", "owner": "Zach", "status": "done", "sources": ["2026-09-17-this-session"], "depends_on": [], "beliefs": ["P1"], "shipped": "prl.arcs.care/status/runbook"},
+    {"id": "P2-10", "jtbd": "Internal cleanup (test leads, Roger Lamarre, empty-email RCA, tz)", "owner": "Zach", "status": "open", "sources": ["prl-zap-kit"], "depends_on": [], "beliefs": []},
+    {"id": "P3-11", "jtbd": "Todd priority + transition shape answer", "owner": "Todd", "status": "open", "sources": ["2026-09-15-todd-prl"], "depends_on": [], "beliefs": ["P4"]},
+    {"id": "P3-12", "jtbd": "1.2-A invoice (deferral expected)", "owner": "PRL", "status": "open", "sources": ["2026-08-26-chase-list"], "depends_on": [], "beliefs": ["P4"]}
+  ]
+}

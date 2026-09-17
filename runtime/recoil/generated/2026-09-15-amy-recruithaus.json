@@ -1,0 +1,376 @@
+{
+ "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. Post-call recoil-close for the 2026-09-15 Amy (Paraform/RecruitHaus) recruiter sync. Candidacy engagement.",
+ "meta": {
+ "report_id": "2026-09-15-amy-recruithaus",
+ "date": "2026-09-15",
+ "counterpart": "Amy (RecruitHaus, recruiting on the Paraform marketplace)",
+ "company": "RecruitHaus / Paraform marketplace. Amy also runs Church Lady Marketing (a converted-church social/events studio) and does MSP-space executive search as a contractor - neither relevant to Zach's candidacy.",
+ "segments": 1,
+ "gate": {
+ "internal": "amy7pf-recoil-0915"
+ },
+ "provenance": {
+ "audience": "internal",
+ "captured": "Granola transcript d40f63c6-b9f8-45cf-a9de-fe043e17e60f, 'Amy x Zach // 1-1', 2026-09-15 11:30 EDT. NO formal ex-ante SSOT existed for this call - this is a retroactive close (ADR-044 temporal honesty: the 'Predicted' column is reconstructed intent, not a filed pre-call receipt, and is labelled as such).",
+ "load_bearing_quote": "This isn't like from our side, not like a relationship... they're really focused on the hard skills, I would say."
+ }
+ },
+ "opportunity": {
+ "audience": "internal",
+ "engagement_type": "candidacy",
+ "req_reality": 2,
+ "req_reality_basis": "Real, live posted roles exist on Paraform with disclosed comp bands (9 in Zach's pipeline), so this is not req_reality 0/1. But NO decision-owner (hiring manager) has been met - Amy is a confirmed advocate on a marketplace, not a relationship holder ('This isn't like from our side, not like a relationship'), and the one req that reached a decision (Blacksmith) came back 'did not move forward'. Advocate confirmed, req unconfirmed → locks at 2, not 3.",
+ "y_state": "YELLOW",
+ "topology": "CONVERGENT",
+ "nci_prior": 0,
+ "nci_post": 0,
+ "note": "Headline: advocate confirmed, req unconfirmed. The call's real payload was PROCESS, not a role win - both sides discovered Zach can self-search Paraform and express interest (unlocking throughput), and the true bottleneck is a platform 2-at-a-time first-right-of-refusal cap plus Zach's own stack-ranking, not Amy's bandwidth. Warmth is high and genuine; warmth is a relationship asset, NOT fit evidence. Blacksmith's rejection is the load-bearing negative: these reqs screen on hard-skill pedigree, which is exactly the archetype-fit risk Zach named as his own stop-loss."
+ },
+ "beliefs": [
+ {
+ "id": "P1",
+ "audience": "internal",
+ "claim": "Amy has warm, direct hiring-manager relationships she can lean on to advocate Zach past a cold screen.",
+ "evidence": "Amy: 'This isn't like from our side, not like a relationship... I'm honestly learning a lot of the companies. There are so many that, if I just went down one rabbit hole, then I would probably miss the rest for you.' The channel is a marketplace (Paraform); Amy is newer to it and platform-mediated, not relationship-mediated.",
+ "inference": "IMP",
+ "confidence": [0.55, 0.2],
+ "conviction": "HIGH",
+ "verdict": "FALSED"
+ },
+ {
+ "id": "P2",
+ "audience": "internal",
+ "claim": "The referral throughput is bottlenecked by Amy's bandwidth to source and push roles.",
+ "evidence": "Discovered live that Zach can self-search Paraform, heart roles, and express interest - which fires the required questions to him and emails Amy the answers to submit. Amy: 'I didn't even know that you could even search on your own. I thought I had to build literally everything and send it to you... this is much better.' Real constraint is the platform's 2-at-a-time first-right-of-refusal cap + Zach's own curation.",
+ "inference": "EXP",
+ "confidence": [0.5, 0.75],
+ "conviction": "HIGH",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P3",
+ "audience": "internal",
+ "claim": "A refined, senior-abridged resume is the right artifact for these submissions.",
+ "evidence": "Amy wants the opposite for the marketplace's AI keyword matching: 'I mean, honestly for this purpose, the more the better... you don't want the applied AI jobs cutting you out because they couldn't find it.' She also wants to enable profile-discoverability so hiring managers' keyword searches surface Zach directly.",
+ "inference": "EXP",
+ "confidence": [0.6, 0.7],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P4",
+ "audience": "internal",
+ "claim": "Zach's T-shaped, non-standard applied-AI/FDE/product-lead profile is a live fit for the roles in this pipeline.",
+ "evidence": "Contested. Amy: '[they're] really focused on the hard skills.' Blacksmith (staff/senior product engineer) already returned 'did not move forward.' Zach's own stated stop-loss: 'if the heuristic they're looking for is somebody who's been at a Series C company in this exact same title... University of Waterloo with an ML background - that's not me.' Amy counter-signals there ARE fits: 'eyeball those though, because there are - they're definitely out there.'",
+ "inference": "IMP",
+ "confidence": [0.6, 0.45],
+ "conviction": "MED",
+ "verdict": "UPDATED"
+ },
+ {
+ "id": "P5",
+ "audience": "internal",
+ "claim": "Referring Zach costs Amy scarce reputational capital, so submissions must be rationed to protect her score.",
+ "evidence": "Amy defused this directly: 'I'm not worried about my score at this point. I'm more worried about finding you the right role... it doesn't seem to be there's any stop at any point.' The only real cap is 2-at-a-time pending hiring-manager feedback.",
+ "inference": "IMP",
+ "confidence": [0.5, 0.25],
+ "conviction": "MED",
+ "verdict": "FALSED"
+ }
+ ],
+ "kinematic_series": {
+ "dt": 1.0,
+ "series": [
+ {
+ "key": "req_fit_confidence",
+ "audience": "internal",
+ "label": "Confidence the pipeline holds a real fit (not just warmth)",
+ "color": "#FFD700",
+ "points": [0.6, 0.5, 0.45, 0.5],
+ "grounding_quote": "they're really focused on the hard skills, I would say"
+ },
+ {
+ "key": "throughput_confidence",
+ "audience": "internal",
+ "label": "Confidence in Zach's control of submission throughput",
+ "color": "#00FF9D",
+ "points": [0.4, 0.45, 0.6, 0.75],
+ "grounding_quote": "you could even search on your own... this is much better"
+ }
+ ]
+ },
+ "insights": [
+ {
+ "audience": "internal",
+ "plane": "process",
+ "title": "The bottleneck moved from Amy to Zach's curation",
+ "text": "Before this call the mental model was 'Amy sources, Amy pushes.' After it: Zach self-searches, hearts, and answers the required questions; Amy submits within a 2-at-a-time platform cap. That means the rate-limiter is now Zach's own stack-ranking discipline (2 highest-fit at a time), not Amy's inbox. Actionable and in Zach's court."
+ },
+ {
+ "audience": "internal",
+ "plane": "counterpart",
+ "title": "Marketplace, not a relationship desk",
+ "text": "Amy is a genuine, warm advocate but the channel is Paraform's algorithmic match + hiring-manager pipelines she does not own. Do not price the warmth as fit leverage. The submissions win or lose on hard-skill/pedigree screens, per Amy's own read and the Blacksmith outcome."
+ },
+ {
+ "audience": "internal",
+ "plane": "risk",
+ "title": "Catch-all resume vs the Schriner leadership-scope lesson",
+ "text": "Amy wants a maximal keyword catch-all resume to survive ATS/AI matching. That directly tensions with [[technical-cut-resume-must-keep-leadership-scope]]: a keyword-stuffed cut can dilute the builder/team-lead/exec-partner narrative into an IC-only read. The fix is an EXPANSIVE resume that ADDS keyword surface WITHOUT dropping leadership scope - breadth, not compression, and not a de-levelled IC pitch."
+ }
+ ],
+ "next_steps": [
+ {
+ "audience": "internal",
+ "owner": "Zach",
+ "text": "Build the expanded 'catch-all' ATS resume: maximal applied-AI/FDE/product keyword surface AND intact 3-chapter leadership scope (builder → founder 2012-2016 DTC → 2016-present regulated-industry product/transformation: WTA relaunch, rare-disease nonprofit, ARCS). Do NOT let it de-level to IC-only (Schriner lesson). Send to Amy to replace the refined version."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Self-search Paraform, stack-rank to the 2 highest-fit reqs THIS WEEK (allotment is 2): target applied-AI product / forward-deployed product / forward-deployed engineering / senior product lead - NOT staff/senior SWE (Blacksmith archetype). Express interest and answer the required questions so Amy can submit."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Set the salary floor in-profile at $225K base (Zach's stated floor; optimizing for company staying-power/growth over max total comp). Confirm to Amy she may enable the profile-discoverability toggle so hiring managers' keyword searches surface Zach directly (CC to Amy)."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Give Amy the 'red thread' narrative for the short-stint / solo-engagement question she flagged ('why you left them... land on what the good story is there'): the 3-chapter arc framed as deliberate independent/embedded senior-operator engagements, not instability."
+ },
+ {
+ "owner": "Amy",
+ "audience": "internal",
+ "text": "Amy's court: ask Paraform (her standing Wednesday call) why Blacksmith still shows an open application when she has 'did not move forward' feedback; and check whether remote roles can be surfaced (remote is not a filter she can pull - city-only - so she must open each role to see it)."
+ },
+ {
+ "owner": "Zach",
+ "audience": "internal",
+ "text": "Timing constraint to hold in view: surgery Friday 2026-09-19, ~1-2 months recovery. Position availability as remote-start ramping to hybrid; front-load the resume + 2 submissions before Friday."
+ }
+ ],
+ "redaction_policy": {
+ "rules": [
+ "Internal war-room only. Nothing here is counterpart-safe without a recoil-ship pass.",
+ "Never surface Amy's intent-reads or the archetype-fit skepticism to Amy; method and Zach's own updates can cross, her scoring cannot."
+ ]
+ },
+ "page": {
+ "layout": "tabs",
+ "header": {
+ "eyebrow": "ARCS &#183; War Room",
+ "title": "Amy &#183; RecruitHaus / Paraform",
+ "sub": "Candidacy &#183; advocate confirmed, req unconfirmed &#183; Y-gate YELLOW"
+ },
+ "tabs": [
+ { "id": "pre", "label": "Pre-Call" },
+ { "id": "exante", "label": "Ex-Ante" },
+ { "id": "forge", "label": "Forge" },
+ { "id": "recoil", "label": "Recoil" },
+ { "id": "wargame", "label": "War Game" },
+ { "id": "defense", "label": "Defensibility" }
+ ],
+ "blocks": [
+ {
+ "tab": "pre",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "True North",
+ "p": [
+ "Get the recruiting relationship from a vague 'send me your resume' posture onto a systematic, throughput-managed footing: understand exactly what Paraform lets each side see and do, who holds the action item at each step, and which of the pipeline roles are real fits worth spending a scarce submission slot on - before over-investing tailoring effort into losing battles like Blacksmith."
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Context",
+ "rows": [
+ { "k": "Channel", "v": "Paraform recruiting marketplace; Amy is a recruiter newer to the platform, also runs Church Lady Marketing + MSP-space exec search (both off-topic)" },
+ { "k": "Pipeline", "v": "9 roles in Zach's pipeline; submissions capped at 2 at a time (first-right-of-refusal, awaiting hiring-manager feedback); this week's allotment = 2" },
+ { "k": "Target register", "v": "applied-AI product / forward-deployed product / forward-deployed engineering / senior product lead; NOT staff/senior SWE" },
+ { "k": "Constraints", "v": "Fairfield County; hybrid ideal, remote-start acceptable ramping to hybrid; NOT relocating to SF; NY works. Surgery Fri 2026-09-19, ~1-2mo recovery. Salary floor $225K base." },
+ { "k": "Y-Gate", "v": "YELLOW : real posted reqs + warm advocate, held short of GREEN by unmet decision-owners and the Blacksmith rejection" }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Intel",
+ "intro": "Amy is a genuinely warm advocate operating on a marketplace she does not own. Read the warmth as relationship equity, not as fit leverage.",
+ "items": [
+ { "dot": "g", "html": "<strong>Amy</strong> : warm, high-rapport, personally invested ('you have great experience, Zach'). Turned 50 this year, two kids engaged - personal rapport is real and worth maintaining." },
+ { "dot": "c", "html": "<strong>The channel</strong> : Paraform is an algorithmic marketplace. Amy is newer to it, learning the companies; she explicitly does NOT have deep hiring-manager relationships to trade on here." },
+ { "dot": "", "html": "<strong>Throughput mechanics</strong> : 2 submissions at a time until hiring-manager feedback returns, then 2 more. Not a high-volume funnel - some reqs have only 1-2 candidates in pipeline against 4 open roles." },
+ { "dot": "c", "html": "<strong>Blacksmith</strong> : already submitted (staff/senior product engineer), came back 'did not move forward.' The Paraform record still shows it open; Amy will ask why on her Wednesday call." },
+ { "dot": "", "html": "<strong>Geography</strong> : reqs cluster SF / NY, some DC/Baltimore/TX/Canada. Remote is not a filter Amy can pull (city-only); she must open each role to check. Zach is NY-workable, SF no." }
+ ]
+ },
+ {
+ "tab": "pre",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Questions &amp; landmines",
+ "intro": "The call's job was to establish who-holds-the-ball at each step and stop wasting tailoring effort on pedigree-mismatched reqs.",
+ "items": [
+ { "dot": "", "html": "What can each side actually see/do in Paraform? &#183; resolved live via screen-share - Zach can self-search + express interest; Amy submits." },
+ { "dot": "", "html": "Which reqs are real fits vs pedigree-locked? &#183; Amy: hard-skill focused, but 'they're definitely out there' - needs Zach's own eyeball + stack-rank." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> mistaking Amy's warmth for hiring-manager leverage. The screens are pedigree/hard-skill driven; Blacksmith proves it." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> the 'catch-all keyword resume' Amy wants can silently de-level Zach to IC-only - must add keyword surface WITHOUT dropping leadership scope." },
+ { "dot": "", "html": "<span style='color:var(--gold)'>Landmine:</span> burning a scarce 2-at-a-time slot on a Blacksmith-shaped SWE req instead of an applied-AI/FDE/product-lead fit." }
+ ]
+ },
+ {
+ "tab": "exante",
+ "type": "receipt",
+ "audience": "internal",
+ "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (reconstructed - no filed pre-call receipt)",
+ "fields": [
+ { "label": "D &#183; Sharpened question", "value": "How do I turn this recruiter relationship into managed, high-fit throughput - and which pipeline roles are worth a scarce submission slot - without wasting tailoring effort on pedigree-mismatched reqs?" },
+ { "label": "E &#183; Entity", "value": "Amy (advocate, Paraform); the hiring managers behind the reqs (not met); Paraform the platform" },
+ { "label": "W &#183; Window", "value": "This week : 2-submission allotment open; surgery Friday compresses the runway" },
+ { "label": "Hypothesis / expecting to see", "value": "Amy holds warmish hiring-manager relationships and the main constraint is her bandwidth; a tailored senior resume plus her push gets Zach in front of decision-makers." },
+ { "label": "Predicted Y-gate", "value": "YELLOW (reconstructed) : warm advocate + real reqs, unconfirmed decision-owners" },
+ { "label": "Pre-committed move", "value": "Align on process + who-holds-the-ball; stack-rank the pipeline to the highest-fit reqs; supply the resume Amy needs." },
+ { "label": "Belief most likely to update", "value": "Whether the constraint is Amy's bandwidth (P2) or something structural about the channel." },
+ { "label": "Falsifier", "value": "If the reqs turn out to screen purely on exact-title/pedigree (a la Blacksmith) with no room for a T-shaped applied-AI operator, the pipeline is warmth without fit and should be worked sparingly, not flooded." }
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Exhibit 2 &#183; Exogenous Forge",
+ "p": [
+ "Every load-bearing claim below is forced by a line in the transcript, not by Zach's read of how the call 'felt'. Warmth was high; the Forge exists precisely so a warm call does not launder an unconfirmed req into a GREEN. GROUNDED = a counterpart line forces it. INFERENCE = a reasonable read. STRUCK = an overreach the transcript does not support."
+ ]
+ },
+ {
+ "tab": "forge",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Claim adjudication",
+ "columns": ["Claim", "Ruling", "Source force"],
+ "rows": [
+ ["Zach can self-search Paraform and self-express interest; that fires the required questions and emails Amy the answers to submit", "GROUNDED", "'you can build your own list versus me pushing everything to you... once you click you're interested, I'll get an email... with the answers to your questions'"],
+ ["The channel is a marketplace, not Amy's relationship desk", "GROUNDED", "'This isn't like from our side, not like a relationship'"],
+ ["Reqs screen on hard skills / pedigree", "GROUNDED", "'they're really focused on the hard skills, I would say'"],
+ ["Amy is not rationing submissions to protect a personal score", "GROUNDED", "'I'm not worried about my score at this point. I'm more worried about finding you the right role'"],
+ ["Amy wants a maximal keyword catch-all resume", "GROUNDED", "'honestly for this purpose, the more the better'"],
+ ["There are genuine T-shaped fits in the pipeline (not just SWE reqs)", "INFERENCE", "'eyeball those though, because there are - they're definitely out there' - asserted by Amy, not yet demonstrated by a single named matched req"],
+ ["Enabling profile-discoverability will generate inbound hiring-manager interest", "INFERENCE", "Amy describes the toggle and the keyword-search mechanism; no inbound has actually occurred"]
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "keyvalue",
+ "audience": "internal",
+ "h2": "Receipt closed &#183; ex-ante vs actual",
+ "rows": [
+ { "k": "Predicted (reconstructed)", "v": "Constraint = Amy's bandwidth; warm push gets Zach to decision-makers; YELLOW" },
+ { "k": "Actual", "v": "Constraint = platform 2-at-a-time cap + Zach's own curation; Amy is a marketplace advocate without HM relationships; Blacksmith rejected on pedigree; YELLOW holds but for different reasons" },
+ { "k": "Fork hit", "v": "PROCESS-UNLOCK fork (self-search discovered) crossed with FIT-UNCONFIRMED fork (pedigree screen) - not the bandwidth story predicted" },
+ { "k": "Load-bearing", "v": "'This isn't like from our side, not like a relationship... they're really focused on the hard skills'" }
+ ]
+ },
+ {
+ "tab": "recoil",
+ "type": "belief_log",
+ "audience": "internal",
+ "h2": "Belief Log &#183; confidence x conviction"
+ },
+ {
+ "tab": "recoil",
+ "type": "worked_example",
+ "audience": "internal",
+ "h2": "Belief trajectory",
+ "intro": "Two curves moved in opposite directions this call: confidence in a real req-fit drifted down (Blacksmith + hard-skill read), while confidence in Zach's control of throughput rose sharply (self-search unlock).",
+ "close": "Net: this is a throughput/curation problem Zach now controls, wrapped around an unresolved fit question that only a named, matched, decision-owner-backed req will close."
+ },
+ {
+ "tab": "recoil",
+ "type": "list",
+ "audience": "internal",
+ "h2": "Kairos, quiet signals &amp; risks",
+ "intro": "Post-call read.",
+ "items": [
+ { "dot": "g", "html": "<strong>Kairos:</strong> the self-search discovery was a live process unlock for BOTH parties - Amy didn't know candidates could self-source. Seize it now while the mental model is fresh: send the resume + 2 stack-ranked submissions before Friday's surgery." },
+ { "dot": "c", "html": "<strong>Quiet signal:</strong> Amy's pivot from 'I build the list and send it' to 'this is a lot more friendly, you drive' is a real ownership handoff. The relationship is now collaborative, not dependent." },
+ { "dot": "", "html": "<strong>Risk (load-bearing):</strong> Blacksmith rejection is the one hard data point and it points at pedigree screening. Warmth cannot GREEN this; only a matched req with a met decision-owner can." },
+ { "dot": "", "html": "<strong>Risk:</strong> the catch-all resume de-levelling Zach to IC-only (Schriner-class error). Expand keyword surface, keep leadership scope." },
+ { "dot": "", "html": "<strong>Risk:</strong> surgery Friday compresses the window; anything not moved by Thursday slips 1-2 months." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "kinematics_table",
+ "audience": "internal",
+ "h2": "Kinematic manifold &#183; measured (D1-D3)"
+ },
+ {
+ "tab": "wargame",
+ "type": "list",
+ "audience": "internal",
+ "h2": "The gauntlet",
+ "intro": "Adversarial pass on the candidacy, not on Amy.",
+ "items": [
+ { "dot": "", "html": "<strong>BAR (ruin):</strong> the exposed edge is opportunity-cost + morale - flooding pedigree-locked reqs burns the scarce 2-slot allotment and stacks Blacksmith-shaped rejections right before surgery. Ration to genuine fits." },
+ { "dot": "g", "html": "<strong>LAB &#183; Loki:</strong> steel-manned skeptic - Amy's 'they're definitely out there' may be encouragement, not evidence; there is not yet ONE named req where a T-shaped applied-AI operator is the target archetype. Treat req-fit as unproven until a matched role is on the table." },
+ { "dot": "c", "html": "<strong>COURT:</strong> no overclaim - Zach named his own stop-loss on-call (Waterloo-ML pedigree 'that's not me'), keeping the fit gap explicit rather than papered over." }
+ ]
+ },
+ {
+ "tab": "wargame",
+ "type": "table",
+ "audience": "internal",
+ "h2": "ATG pre-mortem &#183; assume dead in 90 days",
+ "columns": ["Node", "Their objection (verbatim/implied)", "Failure mode", "Handling"],
+ "rows": [
+ ["1. Resume replace", "(implied) 'the AI jobs cut you out because it couldn't find the keywords'", "Catch-all resume de-levels Zach to IC-only, or misses keywords", "Expansive resume: max keyword surface + intact leadership scope; the bottleneck node in Zach's court"],
+ ["2. Stack-rank + submit 2", "(implied) pedigree screen", "Slots burned on SWE-shaped reqs like Blacksmith", "Submit only applied-AI/FDE/product-lead reqs; treat SWE reqs as out of archetype"],
+ ["3. Hiring-manager screen", "'they're really focused on the hard skills'", "T-shaped profile reads as jack-of-all to a hard-skill screener", "Lead with concrete applied-AI/regulated-industry deploys (WTA, ARCS); name the pedigree gap first, Schriner-style"],
+ ["4. Inbound via discoverability", "(none yet)", "Toggle on, no inbound materializes", "Low cost to enable; treat any inbound as upside, not plan"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "rosetta",
+ "audience": "internal",
+ "h2": "The method, in Amy's register",
+ "left": "Recruiter world",
+ "right": "This engine",
+ "rows": [
+ ["Stack-rank the pipeline, submit the best 2, wait for feedback", "Y-gate + BAR: spend a scarce, irreversible submission only where fit clears the gate; a rejection is the highest-information event, book it"],
+ ["'Land on what the good story is' for the short stints", "The red-thread / 3-chapter narrative: deliberate independent senior-operator engagements, not instability"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "table",
+ "audience": "internal",
+ "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+ "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"],
+ "rows": [
+ ["Analyze", "Transcript lines (self-search, hard-skill, no-relationship)", "TBD", "TBD", "TBD"],
+ ["Assess", "Blacksmith rejection as ground truth on pedigree screen", "TBD", "TBD", "TBD"],
+ ["Evaluate", "req_reality = 2 (advocate confirmed, req unconfirmed)", "TBD", "TBD", "TBD"],
+ ["Synthesize", "Throughput now Zach-controlled; fit still unproven", "TBD", "TBD", "TBD"],
+ ["Recapitulate", "Ration to fits; expand-not-compress the resume", "TBD", "TBD", "TBD"]
+ ]
+ },
+ {
+ "tab": "defense",
+ "type": "prose",
+ "audience": "internal",
+ "h2": "Antifragile core &amp; the lossless test",
+ "p": [
+ "The highest-information event available here is a second matched-then-rejected req: it would confirm the pipeline is warmth-without-fit and reprice the whole channel as low-yield, saving weeks of tailoring - useful calibration for every marketplace-recruiter lead, not just Amy's.",
+ "Lossless test (no jargon, to Amy): 'I only want to spend a submission on roles that are actually a fit, so I'll pick the two best each week rather than blast the list - and I'll send you a resume built to be found by the keyword search, without hiding that I've led teams, not just built solo.' Holds intact."
+ ]
+ }
+ ]
+ }
+}

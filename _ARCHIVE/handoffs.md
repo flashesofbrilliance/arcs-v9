@@ -4043,3 +4043,47 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 3. **Workday adapter** for the 256 unresolved bridge employers (seed `bridge-employer-index`).
 4. **Parloa dossier re-emit** (JTBD-007, Perplexity) → `scout_dossier_ingest.py post`.
 5. Outcome-capture keel (2/247) still the P1 gap; untouched this session.
+
+---
+
+# Handoff — v3.62.0 (2026-09-14)
+
+> **Schriner/Oxenham job-search engagement session** (this worktree, `awesome-tu-985156`, branch
+> `claude/awesome-tu-985156`). Ran a cold-inbound recruiter screen (Joe Schriner, Oxenham Group)
+> through its full lifecycle: pre-call HUD scan, recruiter-facing pitch site, a live call, and the
+> post-call recoil-close/recoil-ship pass — then caught and fixed a real gap in an already-shared
+> resume before the counterpart acted on it.
+
+## Shipped (merged to main, live)
+- **Schriner recruiter pitch + résumé bundle** at `schriner.arcs.care` (PR, merged, no force-push):
+  plain-language pitch page, résumé viewer + PDF + ATS text. Built to Ahmed-order (verdict → 3
+  reasons → 3 Q&A → tasks → evidence-behind-disclosure).
+- **Résumé correction, shipped live** — the technical-cut résumé first sent to Joe had dropped real
+  leadership scope; corrected to a "moves fluidly between three modes: builder / team lead /
+  executive technical partner" framing (see [[technical-cut-resume-must-keep-leadership-scope]]),
+  and closed a real 2010-2016 work-history gap with two previously-missing chapters (Selectable
+  Media GM turnaround, IBRShop co-founder), sourced from the user's own iCloud/Desktop resume
+  archive, not invented. All fact-checked against the master Gamma doc before shipping.
+- **Internal recoil receipt** (`runtime/recoil/generated/2026-09-14-schriner.json`, gated) closed
+  post-call at FORK/DIVERGENT (not the pre-call YELLOW prediction) — the CEO/principal-identity
+  gate was resolved by independent search, not by the recruiter, on the call. Safe external twin
+  live at `schriner-ext.arcs.care` (air-gap-verified, zero internal-jargon leak on scan).
+
+## Lesson booked
+A technical-cut résumé for a player-coach-shaped role can silently drop real leadership scope —
+don't mistake the resulting hole for a genuine capability gap without checking the fuller record
+first. Full memory: [[technical-cut-resume-must-keep-leadership-scope]],
+[[project_joe_schriner_oxenham_autopilot_vico]]. Also generalized:
+[[inbound-opportunity-three-gate-smoke-test]] now notes identity/leadership verification should run
+BEFORE the first call, not after.
+
+## Open (next session)
+1. **Joe follow-up call** — check if the 20-minute story call happened. If so, re-run
+   `/recoil-close`. The Joe-facing "fit note" (`_ARTIFACTS/recoil-schriner/schriner-fit-note-DRAFT.html`)
+   is drafted, gate-clean, and deliberately held until after that call.
+2. **resume-tailor skill repo** (`~/resume-tailor-skill/SKILL.md`) — the leadership-scope lesson was
+   applied manually this session but NOT folded back into the skill itself. Explicit user choice to
+   defer to next session.
+3. **New, unscoped thread** — user flagged a "State of the Union" dashboard (reading-mode toggle,
+   shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
+   Impeccable design pass. Source file/path was never identified this session — get it first.
