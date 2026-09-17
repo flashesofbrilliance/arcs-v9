@@ -75,6 +75,29 @@ Append the FULL Tidio chat into the assigned Sugar ticket + wire the spec-code /
 
 ---
 
+## Execution orchestration + tool-fit pressure test (post-greenlight)
+
+Metabolic-router split: mechanical → terminal/Haiku, judgment → Sonnet, irreversible/COURT → Opus + human. Most items are gated on Todd/PRL-IT, so sessions spin **when items are actioned**, not now.
+
+| # (backlog) | JTBD | Right tool (TOOL-FIT) | Tool-fit confidence + falsifier | Tier | Est budget |
+|---|---|---|---|---|---|
+| P0-1 | Lyro/blurb → Sugar Notes | **VERIFY-FIRST via docs-crawl SME agent** over Tidio + Sugar self-service docs + received emails (their *support* is garbage; their *docs* aren't), then Zapier map | **LOW — the one real residue.** Falsifier: "Lyro data isn't exposed to Zapier/webhook" → fallback: land the raw structured transcript into a Note | Sonnet (research SME) | low |
+| P0-2 | info@ fix + Barracuda allow-list | PRL-IT (external) | HIGH (not our tool) | n/a (PRL) | 0 |
+| P0-3 | Publish drafted task3/task9 zaps + tz | Chrome/Comet HITL + Zapier | HIGH — proven on this engagement | terminal/Chrome HITL | low |
+| P1-5 | Sandbox e2e test lead | Chrome HITL + Sugar read-back (the eval) | HIGH | Sonnet + human | low |
+| P1-6/7 | Prod cutover + WP plugin | Chrome HITL + Sugar read | HIGH tool-fit, **BAR/COURT gate (irreversible)** | **Opus + human** | low tokens, high care |
+| C (Task C) | Full chat into ticket + spec-code cross-ref | Chrome/Comet HITL (tabs open) | HIGH | Sonnet + human | low |
+| P2-8 | Territory reconcile | blocked on Bill inputs | n/a (external inputs) | Sonnet (synth) | low |
+| P2-10 | Internal cleanup (test leads, Roger, empty-email RCA) | terminal / Sugar reads | HIGH | Haiku/terminal | minimal |
+
+**Cross-orchestration edges (what gates what):**
+- `P0-2 (PRL-IT)` + `P0-1 (Lyro verify)` + `P0-4 (written approval)` → **gate** `P1-6 prod cutover`. Do not cut over until all three clear.
+- `P0-3 publish zaps` → gate `P1-5 e2e test`.
+- `P2-9 runbook` = DONE (shipped this session).
+- Shared anchor for parallel sessions = `_QUEUE/induced-backlog.jsonl`; refetch-before-write (append-only), worktree-isolated per session.
+
+**Recommendation:** hold all sessions until post-call. The only pre-execution de-risk worth doing before you're back at full bandwidth is the **Lyro→Notes verify** (a support question, not a build). Spin one Sonnet session on it when you want; the cutover session (Opus + you) waits on its three gates.
+
 ## The two open decisions to force at 2pm (from belief P4)
 - **Time-sensitivity**: is this a "before Friday" push or a "whenever" workstream? Zach's availability craters after Fri 9-19 surgery for 1-2 weeks — so this answer sets whether to attempt the prod cutover today/tomorrow or explicitly defer it with the runbook.
 - **Transition shape**: clean handoff-and-done (complete, honorable stopping point) OR retained phase-2. Do not infer from warmth; get the plain answer.
