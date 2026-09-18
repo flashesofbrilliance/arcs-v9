@@ -86,8 +86,8 @@
 
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
-  <h1>Pilot progress &mdash; where we are</h1>
-  <div class="meta">Aug 18, 2026 &nbsp;&middot;&nbsp; all work sandbox/staging &middot; zero production impact</div>
+  <h1>Pilot progress: where we are</h1>
+  <div class="meta">Sep 17, 2026 &nbsp;&middot;&nbsp; walked through live with Todd &middot; still sandbox/staging &middot; zero production impact</div>
 </div></header>
 <div class="navbar"><div class="wrap">
   <nav class="family">
@@ -104,9 +104,31 @@
 
 <div class="bluf"><div class="wrap">
   <p><strong>The core pipe works, proven with a real conversation:</strong> a chat on the staging
-  site now becomes a complete, correctly-formatted lead in the CRM sandbox &mdash; deduplicated,
+  site now becomes a complete, correctly-formatted lead in the CRM sandbox, deduplicated,
   enriched with job title and industry, with reminder emails on a timer. Built without waiting
   on any outside access.</p>
+</div></div>
+
+<div class="checklist"><div class="wrap">
+  <div class="label">Latest &middot; after the Sep 17 walkthrough</div>
+
+  <div class="row">
+    <span class="mark go">&#10003;</span>
+    <div class="item"><b>Proven live on the call</b><span class="sub">We walked it end to end together. A Connecticut lead named the Connecticut rep, a Nebraska question named the right territory rep, and the lead came back enriched with company, title, and industry.</span></div>
+    <span class="stat ok">proved live</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">&rarr;</span>
+    <div class="item"><b>A few things to tighten from live testing</b><span class="sub">One test lead came in with the wrong status flag, a second lagged on the way in, and the new-lead email did not land yet. All being run down. None of them change the design.</span></div>
+    <span class="stat hold">in test</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">!</span>
+    <div class="item"><b>Go-live is sequenced, not rushed</b><span class="sub">The switch is three small, reversible steps. We hold it until the bot answers the alternative-resin questions well, which needs one round of knowledge enrichment. Your call, and the right one. Steps on <a href="/status/runbook">/status/runbook</a>.</span></div>
+    <span class="stat hold">your call</span>
+  </div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
@@ -132,7 +154,7 @@
 
   <div class="row">
     <span class="mark go">&#10003;</span>
-    <div class="item"><b>Follow-up timers</b><span class="sub">5-minute heads-up and 4-hour reminder emails fire per lead. The 4-hour window is a setting, not hardwired &mdash; easy to tune.</span></div>
+    <div class="item"><b>Follow-up timers</b><span class="sub">5-minute heads-up and 4-hour reminder emails fire per lead. The 4-hour window is a setting, not hardwired, easy to tune.</span></div>
     <span class="stat ok">built</span>
   </div>
 
@@ -144,13 +166,13 @@
 
   <div class="row">
     <span class="mark wait">&rarr;</span>
-    <div class="item"><b>Baseline report</b><span class="sub">The &ldquo;before&rdquo; picture (lead volume, close rate, deal size by region/source) so the chatbot's added value is provable. Unblocked &mdash; the CRM read access needed is already in hand.</span></div>
+    <div class="item"><b>Baseline report</b><span class="sub">The &ldquo;before&rdquo; picture (lead volume, close rate, deal size by region/source) so the chatbot's added value is provable. Unblocked, the CRM read access needed is already in hand.</span></div>
     <span class="stat hold">next</span>
   </div>
 
   <div class="row">
     <span class="mark wait">!</span>
-    <div class="item"><b>Rep routing</b><span class="sub">Still your call &mdash; territory list vs. live CRM behavior don't match (~half of states). Full detail on <a href="/status/crm">/status/crm</a>.</span></div>
+    <div class="item"><b>Rep routing</b><span class="sub">Still your call, territory list vs. live CRM behavior don't match (~half of states). Full detail on <a href="/status/crm">/status/crm</a>.</span></div>
     <span class="stat hold">your call</span>
   </div>
 
@@ -166,11 +188,11 @@
   <div class="scroller"><table>
     <thead><tr><th>Blocker hit</th><th>Workaround</th><th>Result</th></tr></thead>
     <tbody>
-      <tr><td class="k">Chat platform plan tier</td><td class="m">Webhook/API node not on current plan &mdash; switched the delivery leg to the automation platform's native trigger instead</td><td>Delivery shipped same day</td></tr>
-      <tr><td class="k">CRM admin UI complexity</td><td class="m">Skipped the CRM's built-in workflow builder &mdash; follow-up timers built in the automation layer we already control</td><td>Timers live, tunable</td></tr>
-      <tr><td class="k">No API sandbox tooling</td><td class="m">CRM read/write access already existed through the automation platform &mdash; no separate API tooling needed for verification or the baseline pull</td><td>Every claim independently verified</td></tr>
+      <tr><td class="k">Chat platform plan tier</td><td class="m">Webhook/API node not on current plan, switched the delivery leg to the automation platform's native trigger instead</td><td>Delivery shipped same day</td></tr>
+      <tr><td class="k">CRM admin UI complexity</td><td class="m">Skipped the CRM's built-in workflow builder, follow-up timers built in the automation layer we already control</td><td>Timers live, tunable</td></tr>
+      <tr><td class="k">No API sandbox tooling</td><td class="m">CRM read/write access already existed through the automation platform, no separate API tooling needed for verification or the baseline pull</td><td>Every claim independently verified</td></tr>
       <tr><td class="k">Email deliverability history</td><td class="m">Rep notifications routed through the channel already proven to deliver; domain-level email setup batched for a future DNS window</td><td>No new spam exposure</td></tr>
-      <tr><td class="k">Required-field edge case</td><td class="m">CRM rejects blank state on a lead &mdash; kept a safe default and added a visible audit flag so a guessed state is always distinguishable from a real one</td><td>No lead ever lost to a bad state input</td></tr>
+      <tr><td class="k">Required-field edge case</td><td class="m">CRM rejects blank state on a lead, kept a safe default and added a visible audit flag so a guessed state is always distinguishable from a real one</td><td>No lead ever lost to a bad state input</td></tr>
     </tbody>
   </table></div>
 </div></div>
@@ -179,7 +201,7 @@
   <div class="label">Try it yourself</div>
   <div class="row" style="border-top:none;padding-top:0">
     <span class="mark go">&#9654;</span>
-    <div class="item"><b>The live chatbot, exactly as a visitor sees it</b><span class="sub">Click to load the real staging chatbot right here. Run a conversation through &mdash; your submission lands in the CRM sandbox (not production), deduplicated and enriched, and you'll see the whole experience first-hand.</span></div>
+    <div class="item"><b>The live chatbot, exactly as a visitor sees it</b><span class="sub">Click to load the real staging chatbot right here. Run a conversation through, your submission lands in the CRM sandbox (not production), deduplicated and enriched, and you'll see the whole experience first-hand.</span></div>
     <button id="try-bot" onclick="var s=document.createElement('script');s.src='//code.tidio.co/nemtpdglmxzbcpmqlqh1gnj3wmgqsxeu.js';s.async=true;document.body.appendChild(s);this.textContent='loading…';this.disabled=true;setTimeout(()=>{this.textContent='chat opens bottom-right'},2500)" style="font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:5px;white-space:nowrap;background:var(--gold);color:var(--bg);border:0;cursor:pointer">Load chatbot</button>
   </div>
 </div></div>
@@ -188,17 +210,17 @@
   <div class="label">Recommended &middot; to keep everything moving</div>
   <div class="row" style="border-top:none;padding-top:0">
     <span class="mark go">&#9733;</span>
-    <div class="item"><b>Kick off the web-forms addendum (1.2-A) now, in parallel</b><span class="sub">It runs on a separate track &mdash; nothing about it waits on, or slows, the chatbot work. The spec is written, the mechanism is the same one already proven, and the invoice is live on <a href="https://prl.arcs.care/status/troubleshooting">/status/troubleshooting</a>. Starting it now means both tracks finish together instead of in sequence.</span></div>
+    <div class="item"><b>Kick off the web-forms addendum (1.2-A) now, in parallel</b><span class="sub">It runs on a separate track, nothing about it waits on, or slows, the chatbot work. The spec is written, the mechanism is the same one already proven, and the invoice is live on <a href="https://prl.arcs.care/status/troubleshooting">/status/troubleshooting</a>. Starting it now means both tracks finish together instead of in sequence.</span></div>
     <span class="stat hold">your go</span>
   </div>
   <div class="row">
     <span class="mark go">&#9733;</span>
-    <div class="item"><b>A standing 30-minute weekly check-in through 1.3&ndash;1.5</b><span class="sub">The one lesson from 1.1/1.2: the build goes fast, coordination is what stretches. A short fixed touchpoint catches access snags and scope drift the week they appear instead of the week they hurt &mdash; same no-surprises mechanism as the receipts, applied to the calendar. <a href="https://calendar.app.google/crDeY8HyJQvH4ahH6" target="_blank" rel="noopener">Grab a time that works &rarr;</a></span></div>
+    <div class="item"><b>A standing 30-minute weekly check-in through 1.3&ndash;1.5</b><span class="sub">The one lesson from 1.1/1.2: the build goes fast, coordination is what stretches. A short fixed touchpoint catches access snags and scope drift the week they appear instead of the week they hurt, same no-surprises mechanism as the receipts, applied to the calendar. <a href="https://calendar.app.google/crDeY8HyJQvH4ahH6" target="_blank" rel="noopener">Grab a time that works &rarr;</a></span></div>
     <span class="stat hold">pick a slot</span>
   </div>
   <div class="row">
     <span class="mark go">&#9733;</span>
-    <div class="item"><b>The 30-minute routing call before go-live</b><span class="sub">Still the single biggest unlock &mdash; it clears rep routing for the chatbot AND fixes where existing website leads have already been landing wrong. Draft email ready on <a href="https://prl.arcs.care/status/crm">/status/crm</a>.</span></div>
+    <div class="item"><b>The 30-minute routing call before go-live</b><span class="sub">Still the single biggest unlock, it clears rep routing for the chatbot AND fixes where existing website leads have already been landing wrong. Draft email ready on <a href="https://prl.arcs.care/status/crm">/status/crm</a>.</span></div>
     <span class="stat hold">your call</span>
   </div>
 </div></div>
