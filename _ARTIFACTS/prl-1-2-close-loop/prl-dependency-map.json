@@ -3,10 +3,16 @@
   "ssot": "runtime/recoil/generated/2026-09-15-todd-prl.json",
   "as_of": "2026-09-17",
   "investigation_prework": {
-    "status": "in-progress",
-    "_note": "P-1 gate: exhaust the PRL doc corpus before the plan is trusted or executed. status must be 'complete' before execution items (P1+) are trusted. 'blocked'/'open'/'in-progress' => eval hard-fails execution readiness.",
-    "corpus_indices": ["MASTER-HANDOFF.md", "prl-lyro/SUGAR-DOCS-MANIFEST.md", "prl-lyro/README.md", "prl-lyro/SPRINT-2-1.2-kickoff.md"],
-    "not_yet_reconciled": ["prl-lyro dossier+audit into UAT field schema (in progress)", "confirm email next-steps fully captured in-repo (sugar-case-589806-reply, vision-serialization, *-nextsteps-email-DRAFT)"]
+    "status": "complete",
+    "_note": "P-1 gate: exhaust the PRL doc corpus before the plan is trusted or executed. status must be 'complete' before execution items (P1+) are trusted. 'blocked'/'open'/'in-progress' => eval hard-fails execution readiness. CLEARED 2026-09-17 (evidence-based, both named items verified against artifacts, not rubber-stamped): see reconciliation_receipt.",
+    "corpus_indices": ["runtime/recoil/generated/2026-07-30-todd-MASTER-HANDOFF.md", "runtime/recoil/generated/prl-lyro/SUGAR-DOCS-MANIFEST.md", "runtime/recoil/generated/prl-lyro/README.md", "runtime/recoil/generated/prl-lyro/SPRINT-2-1.2-kickoff.md"],
+    "not_yet_reconciled": [],
+    "reconciliation_receipt": {
+      "cleared_at": "2026-09-17",
+      "item_a_dossier_audit_into_uat_schema": "RECONCILED — prl_uat_harness.py encodes exactly the 6 required Sugar Leads fields (account_name, first_name, last_name, phone_work, lead_source, location_c) with inline provenance to prl-lyro/STATE-OF-SUGAR-2026-08-11.md (§2, 100/100 phone_work filled) and prl-lyro/INTEGRATION-DOSSIER.md (§B/§D4). --self-test PASS (fails-on-bad, passes-on-good).",
+      "item_b_email_nextsteps_in_repo": "CONFIRMED in-repo — prl-lyro/2026-08-11-sugar-case-589806-reply.md (38L), 2026-08-03-todd-vision-serialization.md (131L), _ARTIFACTS/prl-1-2-close-loop/2026-09-01-nextsteps-email-DRAFT.md, 2026-08-26-three-scenario-email-DRAFT.md.",
+      "corpus_indices_located": "all 4 present (MASTER-HANDOFF at 2026-07-30-todd-MASTER-HANDOFF.md, not under prl-lyro/)."
+    }
   },
   "beliefs": {
     "P1": "Build needs Zach present to operate/go-live (verdict UPDATED)",
