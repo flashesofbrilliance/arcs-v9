@@ -90,7 +90,8 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .pres-chip{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
   .pres-h{font-size:clamp(29px,4.6vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
   .pres-b{font-size:19.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,.4);} .pres-b a b{color:inherit;}
-  .pres-bot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-bot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-spine{justify-self:start;} .pres-count{justify-self:center;text-align:center;} .pres-nav{justify-self:end;}
   .pres-spine{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#3d4c5b;min-width:0;flex-wrap:wrap;}
   .pres-spine i{color:#2a3746;font-style:normal;}
   .pres-spine span{transition:color .35s;} .pres-spine span.on{color:var(--cyan);}
@@ -98,7 +99,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   @media(max-width:600px){.pres-spine{display:none;}}
   .pres-nav{display:flex;gap:10px;} .pres-nav button{font-family:var(--mono);font-size:12px;font-weight:700;color:#eaf1f8;background:#16222e;border:1px solid #26384a;border-radius:6px;padding:7px 13px;cursor:pointer;} .pres-nav button:hover{border-color:var(--cyan);}
   .pres-count{letter-spacing:.1em;}
-  @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}}
+  @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}.pres-bot{display:flex;justify-content:space-between;}.pres-count{justify-self:auto;}}
 
   @media print{
     @page{ size:letter; margin:0.5in; }
@@ -186,7 +187,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   <div class="pres-topo" aria-hidden="true"></div><div class="pres-topo2" aria-hidden="true"></div>
   <div class="pres-top"><div class="pres-rail" id="presrail"></div><button class="pres-close" id="presclose">ESC &#10005;</button></div>
   <div class="pres-stage"><div class="pres-slide" id="presslide"></div></div>
-  <div class="pres-bot"><div class="pres-spine" id="presspine"><span data-lp="score">score before</span><i>&rarr;</i><span data-lp="check">check after</span><i>&rarr;</i><span data-lp="correct">correct in public</span></div><div class="pres-nav"><span class="pres-count" id="prescount"></span><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
+  <div class="pres-bot"><div class="pres-spine" id="presspine"><span data-lp="score">score before</span><i>&rarr;</i><span data-lp="check">check after</span><i>&rarr;</i><span data-lp="correct">correct in public</span></div><span class="pres-count" id="prescount"></span><div class="pres-nav"><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
 </div>
 <script>
 (function(){
