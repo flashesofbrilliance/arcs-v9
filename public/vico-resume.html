@@ -77,12 +77,20 @@
   .dp-role .ip{background:#f5fafc;border:1px solid #dbe7ee;border-radius:6px;padding:6px 9px;font-size:9.5px;line-height:1.45;color:var(--ink2);text-wrap:pretty;}
   .dp-role .ip b{font-family:var(--mono);font-size:7px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-right:6px;}
   .page-frame{display:none;}
+
+  /* GLOSSARY TOOLTIPS (plain-meaning on hover / tap; print-safe) */
+  .term{border-bottom:1px dotted var(--accent);cursor:help;}
+  #termtip{position:fixed;z-index:95;max-width:min(300px,calc(100vw - 20px));width:max-content;background:var(--paper);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);line-height:1.5;text-align:left;opacity:0;pointer-events:none;transition:opacity .14s;box-shadow:0 10px 30px rgba(15,23,32,.22);}
+  #termtip.on{opacity:1;}
+
   @page{size:letter;margin:0.4in;}
   @media print{
     html{background:#fff;} body{padding:0;margin:0;}
     .sheet{width:auto;max-width:none;margin:0;padding:0.26in 0.32in;border-radius:0;background:#fff;box-shadow:none;}
     .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;border-top:1px solid var(--line2);padding-top:6px;}
     .page-frame{display:none;}
+    .term{border-bottom:none;}
+    #termtip{display:none;}
     *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   }
 </style>
@@ -96,14 +104,14 @@
     <div>
       <div class="name">Zach Harris</div>
       <div class="tagline">Player-Coach Engineering Leader &middot; Ships 0&rarr;1, in Public</div>
-      <div class="target">VP of Engineering &middot; AI-Native Decision Intelligence</div>
+      <div class="target">VP of Engineering &middot; AI Decision-Intelligence Platforms</div>
     </div>
     <div class="contact">
       New York Metro<br><b>zach.harris@gmail.com</b><br>
       <a href="https://linkedin.com/in/zharris" style="color:inherit;">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a>
     </div>
   </header>
-  <p class="thesis"><b>Hands-on engineering leader who builds the team and the technology at the same time.</b> Two decades taking products from zero to one, including <b>regulated finance</b> ($7B, SEC/FINRA) where I ran a cross-functional release train across four time zones and owned the governance and integrity gates: being wrong is expensive and provenance is not optional. Currently building <b>ARCS</b>, an LLM-native decision-intelligence platform on Claude: agentic tool-use and orchestration, human-in-the-loop review, evals, and a decision-scoring layer (score the call before, check it against reality after: mechanism shipped, validation still early), on <b>Next.js / TypeScript / Python (FastAPI) / Prisma</b>. A <b>player-coach</b>: still in the code every day, with a public commit trail at <a href="https://status.arcs.care" style="color:var(--accent);text-decoration:none;">status.arcs.care</a>, and at my best turning a small, senior team into one that ships fast without breaking what matters.</p>
+  <p class="thesis"><b>Hands-on engineering leader who builds the team and the technology at the same time.</b> Two decades taking products from zero to one, including <b>regulated finance</b> ($7B, SEC/FINRA) where I ran a cross-functional release train across four time zones and owned the governance and integrity gates: being wrong is expensive and provenance is not optional. Currently building <b>ARCS</b>, an LLM-native decision-intelligence platform on Claude, on <b>Next.js / TypeScript / Python (FastAPI) / Prisma</b>: agentic tool-use and orchestration, human-in-the-loop review, <span class="term" data-def="A fixed set of test questions with known answers, run against the AI to catch when a change makes it worse.">evals</span>, and a per-decision scoring layer that writes down the call first and checks it against reality later. The scoring loop is shipped; validation is still early, a small honest sample rather than a track record yet. A <b>player-coach</b>: still in the code every day, with a public commit trail at <a href="https://status.arcs.care" style="color:var(--accent);text-decoration:none;">status.arcs.care</a>, and at my best turning a small, senior team into one that ships fast without breaking what matters.</p>
 
   <!-- 01 STRATEGIC -->
   <section class="card">
@@ -127,8 +135,8 @@
       <div class="job-sum">Architect and build an <b>agentic decision-intelligence platform</b> end to end on Claude, with a front-end product surface where users pose questions, see how a result was reached, and interrogate the reasoning: on <b>Next.js / TypeScript / Prisma</b>.</div>
       <ul class="bul">
         <li>Built the <b>core product surface</b> for AI-generated decisions: a question interface, a two-column reasoning brief, and a receipt view that shows the path from question to answer, not just the answer: the same job as a model-output-exploration surface.</li>
-        <li>Built <b>agentic pipelines</b> (Claude API, tool use, extended thinking) across a full decision lifecycle, plus a custom MCP connector for my own dev workflow; manage complex state across a multi-step, non-linear user workflow.</li>
-        <li>Shipped a <b>local, offline embedding service</b> (FastAPI, sentence-transformers, runs locally) as the first real build toward a vector-search layer for the platform's own signal corpus: architected with a Postgres/pgvector companion column design, migration still pending.</li>
+        <li>Built <b>agentic pipelines</b> (Claude API, tool use, extended thinking) across a full decision lifecycle, plus a custom <span class="term" data-def="Model Context Protocol: an open standard for connecting AI models to external tools and data sources. Anthropic's plug-in system for Claude.">MCP</span> connector for my own dev workflow; manage complex state across a multi-step, non-linear user workflow.</li>
+        <li>Shipped a <b>local, offline embedding service</b> (FastAPI, sentence-transformers, runs locally) as the first real build toward a vector-search layer for the platform's own signal corpus: architected with a Postgres/<span class="term" data-def="A Postgres extension that stores vector embeddings so the database can do similarity search (find text by meaning) natively.">pgvector</span> companion column design, migration still pending.</li>
         <li><b>Decision-scoring, not just generation</b>: every output carries a structured conviction/stability score and a belief-history trail, so a call can be checked against what actually happened later, not accepted on confidence (the scoring loop is shipped; the outcome sample is still small, so it is early signal, not a validated track record). Same discipline in public: dated predictions with the falsifier written first, then scored and corrected in the open (<a href="https://good.arcs.care/blog/til/closing-the-loop" style="color:var(--accent);text-decoration:none;">the calibration receipts</a>).</li>
         <li><b>Human-in-the-loop by design</b>: the system scaffolds judgment without overruling it: evidence-gating and structured decision scoring as the quality layer, never an autonomous verdict.</li>
       </ul>
@@ -138,7 +146,7 @@
       <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Grayscale Investments <span class="dom">&middot;Digital Currency Group</span></div><div class="job-role">Product Lead &middot; 2024&ndash;2025</div></div>
       <div class="job-sum">Led the cross-functional team behind a <span class="metric">$7B</span>, <b>10-product regulated launch</b>: owned delivery, governance, and integrity in a domain where being wrong is expensive and provenance is not optional.</div>
       <ul class="bul">
-        <li>Built <b>RBAC governance</b> and pre-deployment integrity gates so no unapproved content could ship in a high-consequence, regulated domain.</li>
+        <li>Built <b><span class="term" data-def="Role-based access control: permissions are granted by a person's role, so only authorized people can approve or ship a given change.">RBAC</span> governance</b> and pre-deployment integrity gates so no unapproved content could ship in a high-consequence, regulated domain.</li>
         <li>Ran the cross-functional release train across 4 time zones and cut release-cycle time <span class="metric">35%</span> with automated QA and a compliance-in-the-loop cadence.</li>
       </ul>
     </div>
@@ -199,7 +207,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;">
       <div><div class="skill-k" style="margin-bottom:3px;">Languages &amp; Stack</div>
         <div class="skill-v">TypeScript &middot; React &middot; Next.js &middot; Node.js &middot; Python (FastAPI) &middot; Postgres (Supabase) &middot; SQL &middot; Prisma &middot; shell &middot; Git / CI/CD</div></div>
-      <div><div class="skill-k" style="margin-bottom:3px;">AI-Native &amp; LLM Systems</div>
+      <div><div class="skill-k" style="margin-bottom:3px;">AI &amp; LLM Systems</div>
         <div class="skill-v">Claude (API, tool use, extended thinking) &middot; MCP servers &middot; agentic/multi-step tool orchestration &middot; streaming state management &middot; human-in-the-loop review</div></div>
       <div><div class="skill-k" style="margin-bottom:3px;">Decision Scoring &amp; Search</div>
         <div class="skill-v">Structured decision scoring (conviction &times; stability), predictions filed and scored in public &middot; local embedding service (FastAPI, sentence-transformers, runs locally) &middot; vector-search architecture (pgvector companion design, migration pending)</div></div>
@@ -228,10 +236,27 @@
     <div class="dp-role"><div class="rt"><span class="badge">B</span><span class="rl">Own engineering strategy, execution, and LLM best practices</span></div><div class="rd">Own delivery cadence, code quality, and platform architecture; champion best practices around LLM integration, evaluation, and deployment.</div><div class="ip"><b>In practice</b>ARCS is a live LLM system on Claude: multi-step tool-use, human-in-the-loop review, evals, and per-decision scoring (mechanism shipped, validation still early). Governance, change controls, release management, and acceptance testing as the quality layer: the same discipline built for a $7B regulated launch, tuned for startup speed.</div></div>
     <div class="dp-role" style="margin-bottom:0;"><div class="rt"><span class="badge">C</span><span class="rl">Partner with the CTO on architecture, model selection, and infra</span></div><div class="rd">Translate new architecture and strategy into roadmaps; contribute to technical decisions on model selection, LLMOps, and infrastructure; interface with an AI R&amp;D team.</div><div class="ip"><b>In practice</b>Architect ARCS end to end: model selection and tool-use orchestration on Claude, a local embedding service (FastAPI) with a pgvector design toward retrieval. Public open-source contribution (a shipped SBOM-analysis tool) and a public commit trail: a builder's mindset, biased toward action.</div></div>
 
-    <div class="dp-panel" style="margin-top:13px;"><div class="h">The Honest Gap</div><p>The strongest fit is on hands-on leadership, LLM-in-production, and scaling engineering process, above. The real gaps, named rather than glossed: <b>no prior role carrying the literal "VP/Director of Engineering" title</b> (the scope is there: leading teams, owning delivery, recruiting, process; the title is not); <b>GCP specifically</b>, where the production experience is on Postgres and adjacent cloud (Vercel/Supabase), not GCP; and <b>RAG and fine-tuning in production</b>, where a local embedding service runs and the pgvector write-path is designed but not shipped, and the LLM work is agentic orchestration and evals rather than fine-tuning. All learnable fast given the adjacent depth; none hidden here.</p></div>
+    <div class="dp-panel" style="margin-top:13px;"><div class="h">The Honest Gap</div><p>The strongest fit is on hands-on leadership, LLM-in-production, and scaling engineering process, above. The real gaps, named rather than glossed: <b>no prior role carrying the literal "VP/Director of Engineering" title</b> (the scope is there: leading teams, owning delivery, recruiting, process; the title is not); <b>GCP specifically</b>, where the production experience is on Postgres and adjacent cloud (Vercel/Supabase), not GCP; and <b><span class="term" data-def="Retrieval-augmented generation: the AI pulls relevant facts from your own data before answering. Fine-tuning further-trains a model on your own examples.">RAG and fine-tuning</span> in production</b>, where a local embedding service runs and the pgvector write-path is designed but not shipped, and the LLM work is agentic orchestration and evals rather than fine-tuning. All learnable fast given the adjacent depth; none hidden here.</p></div>
   </section>
 
   <footer><span>Zach Harris &middot; <a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/flashesofbrilliance</a></span><span>Prepared for Vico &middot; VP of Engineering &middot; 2026</span></footer>
 </div>
+<script>
+(function(){
+  var tip=document.createElement('div');tip.id='termtip';document.body.appendChild(tip);
+  var active=null;
+  function show(el){tip.textContent=el.getAttribute('data-def')||'';tip.classList.add('on');
+    var r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight,half=tw/2;
+    var cx=Math.max(half+10,Math.min(window.innerWidth-half-10,r.left+r.width/2));
+    var above=r.top-th-9;
+    tip.style.left=cx+'px';tip.style.transform='translateX(-50%)';
+    tip.style.top=(above>=8?above:r.bottom+9)+'px';active=el;}
+  function hide(){tip.classList.remove('on');active=null;}
+  document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
+  document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
+  window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
+})();
+</script>
 </body>
 </html>
