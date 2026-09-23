@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZIM: Not a Simple 20% Arbitrage &middot; Today I Learned</title>
+<meta name="description" content="A source-graded, scenario-probability read on the ZIM / Hapag-Lloyd merger, where the whole trade turns on an Israeli golden-share veto. The calibration system, applied forward.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ARCS Recoil Report — Design Tokens */
+  :root{
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8;
+    --green:#0a8f5e;
+    --gold:#9a7218; --goldbg:#fbf3df;
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
+    --cyan:#00F0FF; --red:#c0334d;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --measure:680px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 70px;}
+  .sheet{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
+  .pad{padding:26px 34px;}
+  @media(max-width:600px){.pad{padding:24px 20px;}}
+
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 34px 24px;}
+  @media(max-width:600px){header{padding:24px 20px;}}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  .case{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:#8aa0b4;margin-top:12px;}
+  h1{font-size:clamp(26px,4.8vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-top:8px;}
+  .lede{font-size:15px;line-height:1.6;color:#c2d0dd;margin-top:12px;max-width:var(--measure);}
+  .lede b{color:#eef3f8;font-weight:600;}
+
+  h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:26px;}
+  .txt{font-size:14.5px;line-height:1.64;color:var(--ink2);max-width:var(--measure);} .txt b{color:var(--ink);font-weight:600;} .txt+.txt{margin-top:11px;}
+  .txt a{color:var(--accent);text-decoration:none;font-weight:600;} .txt a:hover{text-decoration:underline;}
+
+  .callout{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:16px 18px;}
+  .callout .ct{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+  .callout p{font-size:14.5px;line-height:1.6;color:var(--ink);max-width:var(--measure);} .callout p b{font-weight:600;}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;}
+  @media(max-width:560px){.stats{grid-template-columns:1fr 1fr;}}
+  .st{border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:#fcfdfe;}
+  .st b{display:block;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent);letter-spacing:-.01em;}
+  .st.grade b{color:var(--red);}
+  .st span{display:block;font-size:11px;line-height:1.4;color:var(--ink3);margin-top:4px;}
+
+  table.mtx{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.mtx th,table.mtx td{text-align:left;padding:8px 9px;border-top:1px solid var(--line);vertical-align:top;line-height:1.4;}
+  table.mtx thead th{border-top:none;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);}
+  table.mtx td.p{font-family:var(--mono);font-weight:700;color:var(--accent);white-space:nowrap;}
+  table.mtx tr.brk td.p{color:var(--red);}
+  table.mtx td b{color:var(--ink);font-weight:600;}
+
+  ul.bul{list-style:none;max-width:var(--measure);} ul.bul li{position:relative;padding-left:16px;font-size:14px;line-height:1.55;color:var(--ink2);margin-bottom:6px;}
+  ul.bul li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);} ul.bul li b{color:var(--ink);font-weight:600;}
+
+  footer{padding:22px 34px 28px;border-top:1px solid var(--line);}
+  @media(max-width:600px){footer{padding:20px 20px 24px;}}
+  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
+  .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;max-width:var(--measure);}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="eyebrow"><span class="mk"></span>Today I Learned &middot; Special Situations</div>
+      <div class="case">ZIM (NYSE: ZIM) &middot; Hapag-Lloyd &middot; $4.2B &middot; analysis Feb 2026</div>
+      <h1>ZIM: Not a Simple 20% Arbitrage</h1>
+      <div class="lede">A bet that the Israeli government will sign off on selling its national shipping line to a German company partly owned by Gulf money, in a tense security environment. <b>The whole trade turns on one veto.</b> This is the calibration system, applied forward.</div>
+    </header>
+
+    <div class="pad">
+      <div class="sec">
+        <div class="callout">
+          <div class="ct">Why this page exists</div>
+          <p>The market saw the stock trading ~20 percent under the $35 deal price and called it free money. The real question was never the spread. It was: <b>will the Israeli government actually say yes to this structure, in this environment?</b> So this read scores the odds before the outcome, names the leading indicators and triggers that would move them, and grades every source, the same <b>score-before, check-after</b> discipline the ARCS calibration system runs on.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>The deal, and the catch</h2>
+        <p class="txt">Hapag-Lloyd agreed to buy ZIM for <b>$35.00 per share in cash</b>, a 58 percent premium to the pre-announcement close (126 percent over the unaffected price). Fully financed, structurally sound, board-endorsed. But ZIM is treated by Israel as strategic infrastructure, and the State holds a <b>&ldquo;golden share&rdquo;</b>: a veto over any transfer of control it judges a risk to national security. In January the Companies Authority warned it was considering blocking the sale. Hapag-Lloyd is significantly Saudi (10.2 percent) and Qatari (12.3 percent) owned, unions framed it as a &ldquo;Saudi-backed bid&rdquo; for a national lifeline, and Red Sea disruption plus Iran tension made maritime sovereignty a live political issue. This is a <b>sovereign arbitrage</b>: commercial consolidation against national security.</p>
+      </div>
+
+      <div class="sec">
+        <h2>The scenario matrix</h2>
+        <p class="txt">The most likely futures, from a 30,000-path Monte Carlo simulation. Not the typical clean arb where you say 80 to 90 percent it closes: <b>the political tail is much fatter.</b></p>
+        <table class="mtx" style="margin-top:12px;">
+          <thead><tr><th>Scenario</th><th>Prob.</th><th>Outcome</th></tr></thead>
+          <tbody>
+            <tr><td><b>S1</b> Clean close at $35</td><td class="p">30-35%</td><td>Stock converges to $35. Favorable Golden Share paper, low tension.</td></tr>
+            <tr><td><b>S2</b> Close with heavy conditions</td><td class="p">20-25%</td><td>Closes at $35, slower; strict fleet/employment mandates on &ldquo;New ZIM.&rdquo;</td></tr>
+            <tr><td><b>S3</b> Renegotiated / re-cut</td><td class="p">10%</td><td>Outcome under $35; restructured to raise Israeli control.</td></tr>
+            <tr class="brk"><td><b>S4</b> Golden-share veto (hard break)</td><td class="p">15%</td><td>Stock gaps to $15&ndash;20. State blocks on security grounds; Hapag walks.</td></tr>
+            <tr class="brk"><td><b>S5</b> Veto + rival bid</td><td class="p">10%</td><td>Drop, then partial recovery on a friendlier white knight.</td></tr>
+            <tr><td><b>S6&ndash;10</b> Delay / limbo / walk</td><td class="p">10-15%</td><td>Spread widens; dead capital under a prolonged shock.</td></tr>
+          </tbody>
+        </table>
+        <p class="txt" style="margin-top:12px;">Rolled up: roughly <b>60&ndash;65%</b> it closes in some form, only <b>30&ndash;35%</b> exactly as advertised, and <b>35&ndash;40%</b> that it does not close cleanly or gets reshaped into something that does not realize the full $35.</p>
+      </div>
+
+      <div class="sec">
+        <h2>The grade, and the triggers</h2>
+        <div class="stats">
+          <div class="st grade"><b>28/100</b><span>F-Tier, risk-adjusted. 20% upside against a 30&ndash;45% asymmetric downside.</span></div>
+          <div class="st grade"><b>15/100</b><span>Survivability. You are underwriting Israeli cabinet politics for a 20% gain.</span></div>
+          <div class="st"><b>3</b><span>Kairos triggers that re-rate the odds sharply the moment they fire.</span></div>
+        </div>
+        <p class="txt" style="margin-top:13px;">The signals that move the number, watched, not guessed:</p>
+        <ul class="bul">
+          <li><b>The Golden Share position paper.</b> Any leak or official publication from the Companies Authority is the root signal. Its <em>absence</em>, &ldquo;the silence,&rdquo; is itself a bearish leading indicator.</li>
+          <li><b>Security shocks.</b> Iran / Red Sea escalation directly raises the probability of a state veto.</li>
+          <li><b>A union MOU.</b> A binding jobs guarantee would be a necessary survival signal for the deal.</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <h2>How a prudent trader treats it</h2>
+        <ul class="bul">
+          <li><b>Small size.</b> 0.5&ndash;1.5% per leg, max 3% total exposure until a clear, favorable state signal.</li>
+          <li><b>Event-driven entries.</b> Lean in only around real information events, not on the spread alone.</li>
+          <li><b>Hard exits.</b> Time-stop if the catalyst window passes quiet; hard stops at -8% to -10% against overnight veto-gap risk. You do not average down a political call.</li>
+        </ul>
+        <p class="txt" style="margin-top:11px;">Good trade: a small, nimble position you are prepared to kill on a headline. Bad trade: a big bet sized like a boring industrial arb. The 20 percent spread is not a market inefficiency; it is a rational price on the risk that Israel prioritizes maritime sovereignty over commercial efficiency.</p>
+      </div>
+
+      <div class="sec">
+        <div class="callout" style="background:var(--goldbg);border-color:#ecdba8;">
+          <div class="ct" style="color:var(--gold);">Disclosure</div>
+          <p style="color:#4a3f22;">Research synthesis and analytical framework using public information and AI-assisted analysis, for informational and educational purposes only. Not investment advice, not a recommendation to transact in ZIM or HLAG. Forward-looking probability estimates are working hypotheses, not guarantees; actual outcomes may differ materially. Prepared February 2026, subject to change. NFA. DYOR.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="proof">
+        <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">Video walkthrough</a>
+        <a href="https://gamma.app/docs/ZIM-Trade-TLDR-Analysis-10gylhmirembcob">Full analysis (deck)</a>
+        <a href="https://status.arcs.care">The calibration system</a>
+        <a href="/blog/til">More Today-I-Learned</a>
+      </div>
+      <div class="fine">A.R.C.S. Special-Situations Analysis &middot; odds scored before the outcome, triggers named, sources graded. A forecast, not a guarantee.</div>
+    </footer>
+  </div>
+</body>
+</html>
