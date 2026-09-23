@@ -7,6 +7,31 @@
 
 ---
 
+## [v3.65.0] 2026-09-23 — vico.arcs.care family refit (plain-language, tooltips, moiré, eval) + two banked failure modes
+
+- **vico family shipped** (prod main `3e40a5e`): the "Zach × VICO" partnership memo, deeper case, and
+  VP resume rebuilt in plain language with status.arcs.care-style hover/tap **glossary tooltips**, the
+  chan **moiré** deck backdrop, the **one-loop spine** (score→check→correct), earned-fidelity render, and
+  a **"How I tried to break this"** honesty beat. Closing-the-Loop promoted into the TIL series with a
+  **light-recoil render** at `/blog/til/closing-the-loop` (dark NFTT render kept at `/blog/nftt/`). Landing
+  leaned 1770→1094 words; Why-interests pruned to the top two whys (instrument-panel-is-the-product +
+  public-sector/government fit). Joe changelog drafted in Gmail (not sent).
+- **Two Joe calls are two different opportunities** — do NOT conflate. Sep-14 "Joe - CTO" (Granola
+  `c8e1da62`) = **Autopilot** (copy-trading / RIA consumer fintech); its **Catholic / mission-driven
+  recruiting framing belongs to Autopilot's co-founders, NOT VICO**, and must stay off the VICO page.
+  Sep-17 (Granola `e347f4d2`) = **VICO** (transcribed "Veeqo"): government/public-sector emphasis
+  (DC/NY, interfaces with government customers), Lyndon's phrase "an engineer who builds LLMs that don't
+  exist," foreground senior-IC preference while open to VP, Token Savings Bank as a proof point. Joe is a
+  strong channel for process/bar/candor, a poor one for company/people/technical nuance — the page
+  carries the nuance to Lyndon directly rather than relying on Joe's retelling.
+- **Failure mode banked → lint:** a glossary `.term` wrapped in an `<a>` had its link nav blocked by the
+  tooltip click handler's `preventDefault`. Fix = `if(t.closest('a'))return;` guard. Gated by
+  `scripts/tooltip_link_lint.py` (fails-on-bad/passes-on-good, wired into pre-commit on added+modified
+  public/_ARTIFACTS HTML). Frustration Gate, AGENTS #15.
+- **Joe-beats eval** (`_ARTIFACTS/vico-joe-eval/`): 16 beats (12 email + 4 Sep-17 call) graded S against
+  the live pages, one honesty asterisk (unverified 0.15 Brier premise, handled by omission). The eval is
+  INTERNAL / do-not-send.
+
 ## [v3.63.0] 2026-09-15 — arcs-algorethics: scaffold → tested repo; honest benchmarks; PR #446 held
 
 - **arcs-algorethics PRs #1–#8 merged** (main `a3ae0c3`): E2E suite (boots daemon), HF + AgentHarm
