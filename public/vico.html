@@ -83,13 +83,13 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .pres-rail{flex:1;display:flex;gap:4px;} .pres-rail i{flex:1;height:3px;border-radius:2px;background:#22303f;transition:background .3s;} .pres-rail i.on{background:var(--cyan);}
   .pres-close{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#8aa0b4;background:none;border:0;cursor:pointer;letter-spacing:.08em;}
   .pres-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 26px 24px;}
-  .pres-slide{max-width:760px;width:100%;}
+  .pres-slide{max-width:940px;width:100%;}
   .pres-slide.anim{animation:presin .4s ease;}
   @keyframes presin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-  .pres-act{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
-  .pres-chip{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
-  .pres-h{font-size:clamp(23px,3.8vw,35px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
-  .pres-b{font-size:15.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
+  .pres-act{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
+  .pres-chip{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
+  .pres-h{font-size:clamp(29px,4.6vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
+  .pres-b{font-size:19.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
   .pres-bot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
   .pres-spine{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#3d4c5b;min-width:0;flex-wrap:wrap;}
   .pres-spine i{color:#2a3746;font-style:normal;}
@@ -259,9 +259,11 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
     tip.style.left=cx+'px';tip.style.transform='translateX(-50%)';
     tip.style.top=(above>=8?above:r.bottom+9)+'px';active=el;}
   function hide(){tip.classList.remove('on');active=null;}
-  document.addEventListener('mouseover',function(e){var t=e.target.closest?e.target.closest('.term'):null;if(t&&t!==active)show(t);});
-  document.addEventListener('mouseout',function(e){var t=e.target.closest?e.target.closest('.term'):null;if(t&&t===active)hide();});
-  document.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.term'):null;if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
+  // Hover only for a real mouse; touch uses tap-toggle. Gating on pointerType avoids the
+  // synthetic mouseover+click double-fire that shows-then-hides on the first tap (the bug on status).
+  document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
+  document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
   window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
 })();
 </script>
