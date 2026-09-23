@@ -52,19 +52,6 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
 
-  /* GLOSSARY TOOLTIPS (plain-meaning on hover / tap) */
-  .term{border-bottom:1px dotted var(--accent);cursor:help;}
-  #termtip{position:fixed;z-index:95;max-width:min(300px,calc(100vw - 20px));width:max-content;background:var(--card);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink2);line-height:1.5;text-align:left;opacity:0;pointer-events:none;transition:opacity .14s;box-shadow:0 10px 30px rgba(20,27,36,.22);}
-  #termtip.on{opacity:1;}
-  .hint{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-top:14px;}
-  .hint b{color:var(--accent);border-bottom:1px dotted var(--accent);font-weight:700;}
-  .legend{margin-top:8px;}
-  .legend .lt{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
-  .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  @media(max-width:620px){.legend-grid{grid-template-columns:1fr;}}
-  .li{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;}
-  .li .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-  .li .d{font-size:12.5px;color:var(--ink2);line-height:1.5;}
 
   /* PRESENT MODE */
   .pres-btn{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--darker);background:var(--cyan);border:0;border-radius:6px;padding:8px 14px;cursor:pointer;}
@@ -116,37 +103,37 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
     <header>
       <div class="eyebrow"><span class="mk"></span>Zach Harris &times; VICO</div>
       <h1>Where my work meets VICO's</h1>
-      <div class="who">A note for <b>Lyndon</b>, from someone who has spent the last year building in the same problem space. Introduced by <b>Joe Schriner</b> at Oxenham Group.</div>
+      <div class="who">A note for <b>Lyndon</b>, from someone who has spent the last year building in the same problem space, on top of a decade shipping regulated, government-grade systems. Introduced by <b>Joe Schriner</b> at Oxenham Group.</div>
       <button class="pres-btn" id="presopen">&#9654; Present</button>
     </header>
 
     <div class="pad">
       <div class="sec">
         <h2>What VICO does, as I read it</h2>
-        <p class="txt">The way I read VICO: you put a number on the odds that a real-world event will actually happen, political, geopolitical, and economic, by reading on the order of 150,000 public sources (news, think-tank reports, government feeds like <span class="term" data-def="The US Treasury's Office of Foreign Assets Control, which runs the sanctions lists. Its feed is a primary input for anyone forecasting sanctions or sovereign risk.">OFAC</span> and Treasury) and turning them into forecasts a professional can act on, updated continuously, with scenarios and monitoring.</p>
-        <p class="txt">Two things make it more than another AI demo. The forecasts are <span class="term" data-def="You can see why the forecast says what it says, and trace it back to the sources behind it, instead of taking a number on faith.">explainable</span> and <span class="term" data-def="Tested against history: you check what the method would have predicted on past events where the answer is already known, to see if it actually works.">backtested</span>, and they beat the <span class="term" data-def="Betting markets like Polymarket and Kalshi, where the live odds people are betting act as a crowd forecast of an event.">prediction markets</span> they sit next to, calling events like the Israel strikes on Iran and the Venezuela strike ahead of Polymarket and Kalshi, and published where the users already work, on the <span class="term" data-def="The paid data terminal most professional traders and analysts use all day. Typing WSL VICO pulls up VICO right there.">Bloomberg Terminal</span> at <b>WSL VICO</b>. Built for investors, hedge funds, insurers, corporations, and government agencies, by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence.</p>
+        <p class="txt">The way I read VICO: you put a number on the odds that a real-world event will actually happen, political, geopolitical, and economic, by reading on the order of 150,000 public sources (news, think-tank reports, government feeds like OFAC and Treasury) and turning them into forecasts a professional can act on, updated continuously, with scenarios and monitoring.</p>
+        <p class="txt">Two things make it more than another AI demo. The forecasts are explainable and backtested, and they beat the prediction markets they sit next to, calling events like the Israel strikes on Iran and the Venezuela strike ahead of Polymarket and Kalshi, and published where the users already work, on the Bloomberg Terminal at <b>WSL VICO</b>. Built for investors, hedge funds, insurers, corporations, and government agencies, by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence.</p>
       </div>
 
       <div class="sec">
         <h2>Where my work overlaps</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a full analysis of the ZIM / Hapag-Lloyd shipping merger, a deal whose whole outcome hangs on whether the Israeli government uses a <span class="term" data-def="A special share, usually held by a government, that carries a veto over big decisions like a sale, even without owning a majority of the company.">golden-share veto</span> to block it, during Red Sea and Iran tension. It plays the situation forward across <span class="term" data-def="The analysis runs the deal forward 30,000 times with different assumptions, to see the full range of outcomes and how likely each one is.">30,000 scenarios</span>, names the early signs that would move the odds, rates every source for reliability, and lands on one risk-adjusted answer (the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>). That is your problem exactly, worked the way I think.</p></div>
-          <div class="row"><span class="n">2</span><p><span class="lead">Writing the call down first, then checking it.</span>Under that one analysis sits a habit: before a call, I write down how sure I am and why, then check it against what actually happened. Same write-it-first, check-it-after discipline behind any backtested forecast. Honest about the gap: your forecasts are backtested and beat the markets next to them; mine are hand-made single calls, not a long scored track record yet. But the habit is real and public, a <a href="https://good.arcs.care/blog/til/apple-openai"><span class="term" data-def="A running list of every claim I made, with how sure I was, updated as evidence comes in, including the claims that turned out wrong and stay on the record.">belief ledger</span></a> where I scored a twelve-part thesis before a lawsuit was filed, then re-scored it against the actual complaint, corrections and all. Turning that into hard numbers is the obvious next step, and exactly your team's strength.</p></div>
-          <div class="row"><span class="n">3</span><p><span class="lead">A record you can trust when money is on the line.</span>I built the investor-facing platform behind a $7 billion regulated launch (<span class="term" data-def="The two main US financial regulators. Working under them means the system is audited, fully documented, and held to strict rules, with real penalties for getting it wrong.">SEC / FINRA</span>): access controls, change controls, every decision traceable to why it was made. That same show-me-why demand is what a trader or a government analyst puts on a forecast, and they need to trust it when it is wrong, not only when it is right.</p></div>
-          <div class="row"><span class="n">4</span><p><span class="lead">AI you can check, with a person in the loop.</span>I run a live AI system on Claude, end to end: it uses tools, I test it against known answers (<span class="term" data-def="A fixed set of test questions with known right answers, run against the AI over and over, so you catch it the moment a change makes it worse.">evals</span>), and a person reviews what it does before it counts. It shows its reasoning so a skeptic can pull it apart, and I have built the unglamorous parts too, like a layer that routes each job to the cheapest model that still passes. Shipping AI that holds up under that scrutiny is what I have spent this year doing.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a full analysis of the ZIM / Hapag-Lloyd shipping merger, a deal whose whole outcome hangs on whether the Israeli government uses a golden-share veto to block it, during Red Sea and Iran tension. It plays the situation forward across 30,000 scenarios, names the early signs that would move the odds, rates every source for reliability, and lands on one risk-adjusted answer (the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>). That is your problem exactly, worked the way I think.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">Writing the call down first, then checking it.</span>Under that one analysis sits a habit: before a call, I write down how sure I am and why, then check it against what happened. Same write-it-first, check-it-after discipline behind any backtested forecast, on a public <a href="https://good.arcs.care/blog/til/apple-openai">belief ledger</a> where I scored a twelve-part thesis before the lawsuit was filed, then re-scored it against the complaint. <b>It keeps the calls I got wrong, scored down and left on the record, not deleted.</b> And ZIM and this are the same move, a source-graded probability under a structural constraint, run in two different domains. That portability is the bet VICO is making.</p></div>
+          <div class="row"><span class="n">3</span><p><span class="lead">A record you can trust when money is on the line.</span>I built the investor-facing platform behind a $7 billion regulated launch (SEC / FINRA): access controls, change controls, every decision traceable to why it was made. That same show-me-why demand is what a trader or a government analyst puts on a forecast, and they need to trust it when it is wrong, not only when it is right.</p></div>
+          <div class="row"><span class="n">4</span><p><span class="lead">AI you can check, with a person in the loop.</span>I run a live AI system on Claude, end to end: it uses tools, I test it against known answers (evals), and a person reviews what it does before it counts. It shows its reasoning so a skeptic can pull it apart, and I have built the unglamorous parts too, like a layer that routes each job to the cheapest model that still passes. Shipping AI that holds up under that scrutiny is what I have spent this year doing.</p></div>
         </div>
       </div>
 
       <div class="sec">
         <h2>Why this interests me</h2>
-        <p class="txt">The honest reason: for a year I have been building the one thing VICO sells, an AI answer you can actually trust. Every fact traces to its source, sources are graded before they can move a conclusion, the screen refuses to look more certain than the evidence allows, and it keeps a receipt: what it expected, checked against what happened. Explainable and backtested is not your marketing, it is your <span class="term" data-def="A lasting advantage a competitor cannot easily copy. Here, being able to explain and prove the forecasts is the thing rivals cannot fake.">moat</span>, and it is the machinery I have spent the year building.</p>
+        <p class="txt">The honest reason: for a year I have been building the one thing VICO sells, an AI answer you can actually trust. Every fact traces to its source, sources are graded before they can move a conclusion, the screen refuses to look more certain than the evidence allows, and it keeps a receipt: what it expected, checked against what happened. Explainable and backtested is not your marketing, it is your moat, and it is the machinery I have spent the year building.</p>
         <p class="txt">The part I would care about most is the hardest one: government customers who cannot act on a black box. That is exactly what Lyndon described, LLMs that don't exist yet, made dependable enough for the highest-stakes users.</p>
       </div>
 
       <div class="sec">
         <h2>How I'd think about the product</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p><span class="lead">Does it hold up when the ground moves?</span>Getting 70 to 80 percent of calls right is strong. The question I would want to live in: what happens when one event changes the very <span class="term" data-def="An early sign that tends to move before the outcome does, used to update the odds ahead of the event itself.">early indicator</span> the forecast was leaning on, the kind of <span class="term" data-def="A big surprise from outside the model, like a war or a sudden policy reversal, that the forecast never saw coming.">outside shock</span> nobody priced in? How does the system notice its own accuracy has slipped, and re-adjust, and how fast? Being accurate in normal conditions is the easy half.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Does the calibration survive a cascade that moves its own leading indicator?</span>Being accurate in normal conditions is the easy half. The question I would want to live in: what happens when a second-order effect moves the very indicator the forecast was leaning on, the exogenous shock nobody priced? How does the system notice its own calibration has drifted, and re-weight, and how fast?</p></div>
           <div class="row"><span class="n">2</span><p><span class="lead">How far does "explainable" actually go?</span>Leading with explainable is the right call: being able to show your work is what makes a forecast survivable when it is wrong. The question is how far down it reaches, from 150,000 sources to a single number, how much of that path can a doubting analyst actually open up and poke at?</p></div>
         </div>
       </div>
@@ -155,7 +142,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
         <h2>A few things about how I work</h2>
         <div class="stack">
           <div class="row"><span class="n">&middot;</span><p><b>How I build:</b> I use AI tools to move faster, not to cover for weak fundamentals. The code is mine and the commit history is public (<a href="https://status.arcs.care">status.arcs.care</a>), so the pace is checkable, not just claimed.</p></div>
-          <div class="row"><span class="n">&middot;</span><p><b>Leadership, and how I hold it:</b> I lead by staying in the code. I have led cross-functional teams across four time zones, recruited a company's first CTO, and mentor at Cornell Tech and Outlier Ventures, and I move without friction between three altitudes: hands-on building, running a small team, and being the founder's technical partner on strategy. My preference is senior and hands-on, open to the VP scope where it earns its keep.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Leadership, and how I hold it:</b> I lead by staying in the code. I have led cross-functional teams across four time zones, recruited a company's first CTO, and mentor at Cornell Tech and Outlier Ventures, and I move without friction between three altitudes: hands-on building, running a small team, and being the founder's technical partner on strategy. That switching capacity, not a title, is the hands-on VP this role describes.</p>
           <div class="row"><span class="n">&middot;</span><p><b>Craft:</b> I care about how it looks and how traceable it is, because the people who rely on a tool like this have to trust what they are seeing.</p></div>
         </div>
       </div>
@@ -167,7 +154,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
           <div class="row"><span class="n">&middot;</span><p><span class="lead">"No VP title, and five-nines and SOC 2 are not shipped."</span>True. The scope is there, teams led, $7 billion delivery owned, a first CTO recruited, but the title and those specific bars are a next step, and I say so first.</p></div>
           <div class="row"><span class="n">&middot;</span><p><span class="lead">"GCP and production retrieval are real gaps."</span>True. My cloud work is on Vercel and Supabase, and the retrieval write-path is designed but not shipped. Fast to close inside a real system, and not hidden here.</p></div>
         </div>
-        <p class="txt" style="margin-top:11px;">If one of these is a dealbreaker, better to know now. If they are the cost of a hands-on builder who is honest about the edges, that is the trade I would make.</p>
+        <p class="txt" style="margin-top:11px;">None of these is load-bearing for the work itself. They are the first month's ramp, not the job.</p>
       </div>
 
     </div>
@@ -199,7 +186,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
     {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',lp:['score','check','correct'],h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO). The whole loop, run at scale.'},
     {div:1,act:'ACT II',h:'Where my work overlaps.'},
     {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',lp:['score'],h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <a href="https://good.arcs.care/blog/til/zim" target="_blank" rel="noopener"><b>ZIM / Hapag-Lloyd</b></a> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. The call, scored before the outcome. Your problem, in my hand.'},
-    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',lp:['check','correct'],h:'Score the call, then check it.',b:'A public <a href="https://good.arcs.care/blog/til/apple-openai" target="_blank" rel="noopener"><b>belief ledger</b></a>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. Check-after and correct-in-public, on the record. No Brier score yet. That is the honest gap, and your team’s muscle.'},
+    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · OWNED LOSSES',lp:['check','correct'],h:'The calls I got wrong, on the record.',b:'A public <a href="https://good.arcs.care/blog/til/apple-openai" target="_blank" rel="noopener"><b>belief ledger</b></a>: I scored a twelve-piece thesis before the lawsuit filed, then re-scored it against the complaint. <b>It keeps the calls I got wrong, scored down and left on the record.</b> Same move as ZIM, a different domain, which is the portability your whole thesis rests on.'},
     {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',lp:['check'],h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands, and what makes the check after possible.'},
     {act:'OVERLAP · 04',cc:C.mine,chip:'MINE · HOW I BUILD',h:'LLM systems that stay checkable.',b:'A live LLM system on Claude: agentic tool-use, evals, human-in-the-loop, reasoning left exposed. The AI stack I have spent this year inside.'},
     {div:1,act:'ACT III',h:'Why, and how I would think about it.'},
@@ -238,25 +225,6 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   var x0=null;
   pres.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
   pres.addEventListener('touchend',function(e){ if(x0===null)return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45)go(dx<0?1:-1); x0=null; },{passive:true});
-})();
-</script>
-<script>
-(function(){
-  var tip=document.createElement('div');tip.id='termtip';document.body.appendChild(tip);
-  var active=null;
-  function show(el){tip.textContent=el.getAttribute('data-def')||'';tip.classList.add('on');
-    var r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight,half=tw/2;
-    var cx=Math.max(half+10,Math.min(window.innerWidth-half-10,r.left+r.width/2));
-    var above=r.top-th-9;
-    tip.style.left=cx+'px';tip.style.transform='translateX(-50%)';
-    tip.style.top=(above>=8?above:r.bottom+9)+'px';active=el;}
-  function hide(){tip.classList.remove('on');active=null;}
-  // Hover only for a real mouse; touch uses tap-toggle. Gating on pointerType avoids the
-  // synthetic mouseover+click double-fire that shows-then-hides on the first tap (the bug on status).
-  document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
-  document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
-  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){if(t.closest('a'))return;e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
-  window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
