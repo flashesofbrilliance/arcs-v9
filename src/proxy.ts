@@ -17,7 +17,9 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
   'schriner':  { ammoFile: '/schriner-ammo.html',  gateFile: '/schriner-gate.html' },
   'autopilot': { ammoFile: '/autopilot-ammo.html', gateFile: '/autopilot-gate.html' },
-  'vico':      { ammoFile: '/vico-ammo.html',      gateFile: '/vico-gate.html' },
+  // vico intentionally un-gated (2026-09-23): its /ammo "deeper case" is now
+  // open, routed by the ungated MULTI_PATH_MAP['vico'] entry below. vico-gate.html
+  // is left in public/ but is no longer referenced by any route.
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
