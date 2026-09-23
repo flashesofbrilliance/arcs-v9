@@ -67,6 +67,23 @@ if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# tooltip-link guard: a glossary `.term` tooltip whose click handler preventDefaults
+# without a closest('a') guard silently blocks link navigation when a term sits inside
+# an <a> (banked 2026-09-23). ADDED + MODIFIED, by design: the bug arrives via an edit
+# to an existing tooltip page, not only a new one; the linter SKIPs non-tooltip pages so
+# legacy files never false-fail. See scripts/tooltip_link_lint.py.
+if [ -f scripts/tooltip_link_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  ttl=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$ttl" ]; then
+    if ! echo "$ttl" | tr '\n' '\0' | xargs -0 python3 scripts/tooltip_link_lint.py; then
+      echo "✖ commit blocked: term-tooltip handler missing the closest('a') link-nav guard (see above)." >&2
+      echo "  add: if(t.closest('a'))return;  to the .term click handler, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # informativeness ratchet: when the audit corpus or the gate machinery is staged,
 # block on NEW signal degeneracy beyond the committed baseline
 # (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
