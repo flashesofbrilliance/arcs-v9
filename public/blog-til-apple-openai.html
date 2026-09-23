@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Apple&ndash;OpenAI Fault Line &middot; Today I Learned</title>
+<meta name="description" content="A belief ledger, run in public: twelve pieces written before the complaint existed, read against the filed complaint. The calibration system on a real case.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ARCS Recoil Report — Design Tokens */
+  :root{
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8;
+    --green:#0a8f5e;
+    --gold:#9a7218; --goldbg:#fbf3df;
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
+    --cyan:#00F0FF; --red:#c0334d;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --measure:680px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 70px;}
+  .sheet{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
+  .pad{padding:26px 34px;}
+  @media(max-width:600px){.pad{padding:24px 20px;}}
+
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 34px 24px;}
+  @media(max-width:600px){header{padding:24px 20px;}}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  .case{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:#8aa0b4;margin-top:12px;}
+  h1{font-size:clamp(27px,5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.03;margin-top:8px;}
+  .lede{font-size:15px;line-height:1.6;color:#c2d0dd;margin-top:12px;max-width:var(--measure);}
+  .lede b{color:#eef3f8;font-weight:600;}
+
+  h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:26px;}
+  .txt{font-size:14.5px;line-height:1.64;color:var(--ink2);max-width:var(--measure);} .txt b{color:var(--ink);font-weight:600;} .txt+.txt{margin-top:11px;}
+  .txt a{color:var(--accent);text-decoration:none;font-weight:600;} .txt a:hover{text-decoration:underline;}
+
+  .callout{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:16px 18px;}
+  .callout .ct{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+  .callout p{font-size:14.5px;line-height:1.6;color:var(--ink);max-width:var(--measure);} .callout p b{font-weight:600;}
+
+  .ledger{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  @media(max-width:560px){.ledger{grid-template-columns:1fr;}}
+  .lc{border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:#fcfdfe;}
+  .lc .lh{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:7px;}
+  .lc .t0{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.4;}
+  .lc .now{font-family:var(--mono);font-size:11px;line-height:1.4;margin-top:3px;color:var(--green);font-weight:600;}
+  .lc.struck .now{color:var(--red);}
+  .lc .now b,.lc .t0 b{font-weight:700;}
+
+  ul.bul{list-style:none;max-width:var(--measure);} ul.bul li{position:relative;padding-left:16px;font-size:14px;line-height:1.55;color:var(--ink2);margin-bottom:6px;}
+  ul.bul li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);} ul.bul li b{color:var(--ink);font-weight:600;}
+
+  .src{columns:2;column-gap:26px;font-size:12.5px;line-height:1.5;color:var(--ink2);max-width:var(--measure);}
+  @media(max-width:560px){.src{columns:1;}}
+  .src .d{font-family:var(--mono);font-size:10px;color:var(--ink3);}
+
+  footer{padding:22px 34px 28px;border-top:1px solid var(--line);}
+  @media(max-width:600px){footer{padding:20px 20px 24px;}}
+  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
+  .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;max-width:var(--measure);}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="eyebrow"><span class="mk"></span>Today I Learned &middot; Forensic Audit</div>
+      <div class="case">Apple v. Liu et al. &middot; 5:26-CV-07078 &middot; N.D. Cal. &middot; filed 07.10.26</div>
+      <h1>The Apple&ndash;OpenAI Fault Line</h1>
+      <div class="lede">Six months of signal, one lawsuit, <b>read against the actual complaint, not the coverage of it</b>. Twelve pieces written before the complaint existed, then checked against the filed document. This is the calibration system, run in public.</div>
+    </header>
+
+    <div class="pad">
+      <div class="sec">
+        <div class="callout">
+          <div class="ct">Why this page exists</div>
+          <p>The value in a forecast is not the call, it is the <b>scored, checkable call behind it</b>. So this analysis carries a belief ledger: every major claim was scored when it was first written, then re-scored against the filed complaint, with the evidence that moved each number, and the claims that did not survive kept on the record. That is the same <b>score-before, check-after</b> discipline the ARCS calibration system runs on, applied to a real case.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>The one claim, held</h2>
+        <p class="txt"><b>Apple was never racing to win the model. It was defending the layer the models plug into.</b> Apple owns the OS, the silicon, the sensors, and the manufacturing IP; it rents out the model slot. A partner that tries to win the rented slot and take the owned layer stops being a partner. The design lineage that left Apple (2019&ndash;2022) and reconvened at io (2024&ndash;2025, acquired by OpenAI for $6.5B) is not backstory to that thesis; it is the same thesis, five years early, before anyone had a reason to write it down. On July 10, 2026 the partnership did not end. It bifurcated: ChatGPT-in-Apple-Intelligence continues, carved out of the suit; the hardware fight is now in federal court.</p>
+      </div>
+
+      <div class="sec">
+        <h2>The belief ledger: what moved, and what got struck</h2>
+        <p class="txt">Every score is a conviction from 0 to 100, tracked from when the claim was first made (T0) to after the complaint was read (NOW). The honest version of &ldquo;I called this&rdquo; includes the claims that did not survive contact with the filing.</p>
+        <div class="ledger" style="margin-top:13px;">
+          <div class="lc"><div class="lh">Q.ai is a hardware bet, not chatbot panic</div><div class="t0">T0 (Jan 30): <b>55</b> &middot; speculative</div><div class="now">NOW: <b>85</b> &middot; patent claims + Tan&rsquo;s title confirm it</div></div>
+          <div class="lc"><div class="lh">io&rsquo;s founders are the Apple design lineage</div><div class="t0">T0: <b>70</b> &middot; &ldquo;Tan and others,&rdquo; vague</div><div class="now">NOW: <b>85</b> &middot; 4 named; Hankey = Ive&rsquo;s own successor</div></div>
+          <div class="lc"><div class="lh">Ive&rsquo;s Apple exit terms</div><div class="t0">T0: unverified &ldquo;4-year noncompete&rdquo;</div><div class="now">NOW: <b>90</b> &middot; 3-yr paid consulting exclusivity, not a legal noncompete</div></div>
+          <div class="lc"><div class="lh">Apple defends the owned layer, rents the model</div><div class="t0">T0 (Feb onward): <b>85</b></div><div class="now">NOW: <b>90</b> &middot; held and sharpened by the complaint&rsquo;s own hardware/software split</div></div>
+          <div class="lc struck"><div class="lh">Titan cancellation was internal decision-drift</div><div class="t0">T0 (Feb): <b>75</b> &middot; internal framing</div><div class="now">NOW: <b>30</b> for that framing &middot; 80 for the corrected version (external talent loss)</div></div>
+          <div class="lc struck"><div class="lh">The lawsuit is retaliation for the Gemini/PCC snub</div><div class="t0">First draft: <b>60</b> &middot; asserted as cause</div><div class="now">NOW: <b>5</b> &middot; struck; the complaint (fn.13) disclaims the connection</div></div>
+          <div class="lc struck"><div class="lh">io built &ldquo;in the shadow of&rdquo; Humane&rsquo;s failure</div><div class="t0">Draft: <b>50</b> &middot; broad causal claim</div><div class="now">NOW: <b>10</b> for the broad claim &middot; 60 for a narrower one</div></div>
+          <div class="lc struck"><div class="lh">Supplier overlap proves intent</div><div class="t0">Appendix pass: not yet scored</div><div class="now">NOW: <b>95</b> the fact is real &middot; 30 for reading it as proof of intent</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>How this was checked</h2>
+        <ul class="bul">
+          <li><b>Read against the filing.</b> Every claim checked against the actual complaint, not summaries of it.</li>
+          <li><b>Stress-tested.</b> Read for where a claim was framed more confidently than the evidence earned.</li>
+          <li><b>Argued from every side.</b> The strongest version of Apple&rsquo;s case, OpenAI&rsquo;s defense, and a neutral read, built separately.</li>
+          <li><b>Pressure-tested.</b> Found the single fact that, if wrong, breaks the argument, then checked it.</li>
+          <li><b>The cynical read.</b> The facts held. The story wrapped around them is what got corrected.</li>
+        </ul>
+      </div>
+
+      <div class="sec">
+        <h2>The corpus: twelve pieces, one thread</h2>
+        <p class="txt">Every piece this audit draws from was published on LinkedIn in the ordinary course, before the complaint existed. The thirteenth and final primary source is the filed complaint itself.</p>
+        <div class="src" style="margin-top:11px;">
+          <div><span class="d">Jan 29</span> How Apple&rsquo;s Forgetting Machine Killed Apple Car</div>
+          <div><span class="d">Jan 30</span> $2B Poker Face: The &ldquo;AI Panic&rdquo; That&rsquo;s a Trap</div>
+          <div><span class="d">Feb 03</span> Invisible Wire: How Apple Engineers Reality</div>
+          <div><span class="d">Feb 09</span> One More Thing: Cloaking Mode</div>
+          <div><span class="d">Feb 19</span> Bloomberg&rsquo;s Op-Ed Got Tim Cook Wrong</div>
+          <div><span class="d">Feb 27</span> Apple&rsquo;s Next Move Wasn&rsquo;t a Guess</div>
+          <div><span class="d">Mar 03</span> The Tao of Steve</div>
+          <div><span class="d">Mar 13</span> Letter to Steve Jobs</div>
+          <div><span class="d">Mar 13</span> Biting the Core (Apple)</div>
+          <div><span class="d">Mar 17</span> Born Digital: Apple&rsquo;s 50th</div>
+          <div><span class="d">May 25</span> Apple&rsquo;s AI Strategy Wasn&rsquo;t Late</div>
+          <div><span class="d">Jun 08</span> Meditations on WWDC 2026</div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="callout" style="background:var(--goldbg);border-color:#ecdba8;">
+          <div class="ct" style="color:var(--gold);">Disclosure</div>
+          <p style="color:#4a3f22;">Independent analysis. No compensation, access, or coordination from any named party. No position in AAPL or OpenAI-linked securities. Every allegation is exactly that, an allegation from a filed complaint, not an adjudicated fact. Not investment advice, not legal advice. Where an inference is drawn rather than a fact reported, it is marked as such.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="proof">
+        <a href="/blog/til/apple-openai.pdf">Full 35-slide audit (PDF)</a>
+        <a href="https://status.arcs.care">The calibration system</a>
+        <a href="/blog/til">More Today-I-Learned</a>
+      </div>
+      <div class="fine">A.R.C.S. Forensic Audit &middot; a belief ledger scored before the filing and re-scored against it. Read the sources. Read the filing. Draw your own line.</div>
+    </footer>
+  </div>
+</body>
+</html>

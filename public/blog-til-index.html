@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today I Learned &middot; ARCS deep dives</title>
+<meta name="description" content="Long-form forensic deep dives, each with a belief ledger scored before the outcome and re-scored against it. The calibration system, in public.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ARCS Recoil Report — Design Tokens */
+  :root{
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8; --green:#0a8f5e; --gold:#9a7218; --goldbg:#fbf3df;
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408; --cyan:#00F0FF;
+    --sans:'Inter',system-ui,-apple-system,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+    --measure:660px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 70px;}
+  .sheet{max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
+  .pad{padding:24px 34px 30px;}
+  @media(max-width:600px){.pad{padding:22px 20px 26px;}}
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 34px 24px;}
+  @media(max-width:600px){header{padding:24px 20px;}}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  h1{font-size:clamp(26px,4.6vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin-top:12px;}
+  .lede{font-size:14.5px;line-height:1.6;color:#c2d0dd;margin-top:11px;max-width:var(--measure);} .lede b{color:#eef3f8;font-weight:600;}
+  a.card2{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fcfdfe;transition:border-color .15s,box-shadow .15s;}
+  a.card2+a.card2{margin-top:12px;}
+  a.card2:hover{border-color:var(--accent);box-shadow:0 8px 24px -16px rgba(20,27,36,.3);}
+  .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);}
+  .ct{font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin:5px 0 5px;line-height:1.2;}
+  .cd{font-size:13.5px;line-height:1.55;color:var(--ink2);max-width:var(--measure);}
+  .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-top:9px;}
+  footer{padding:18px 34px 26px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink3);}
+  footer a{color:var(--accent2);text-decoration:none;font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="eyebrow"><span class="mk"></span>Today I Learned</div>
+      <h1>Deep dives, scored in public</h1>
+      <div class="lede">Long-form forensic reads on real events, each carrying a <b>belief ledger</b>: every claim scored when it was written, then re-scored against what actually happened, with the claims that did not survive kept on the record. The calibration system, in the open.</div>
+    </header>
+    <div class="pad">
+      <a class="card2" href="/blog/til/apple-openai">
+        <div class="k">Forensic Audit &middot; Trade Secret</div>
+        <div class="ct">The Apple&ndash;OpenAI Fault Line</div>
+        <div class="cd">Twelve pieces written before the complaint existed, read against the filed complaint. A belief ledger with conviction scores from first draft to now, and the two claims that got struck on the record.</div>
+        <div class="meta">Apple v. Liu et al. &middot; 5:26-CV-07078 &middot; N.D. Cal.</div>
+      </a>
+    </div>
+    <footer>The calibration system behind these: <a href="https://status.arcs.care">status.arcs.care</a></footer>
+  </div>
+</body>
+</html>
