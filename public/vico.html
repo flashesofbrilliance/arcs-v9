@@ -280,7 +280,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   // synthetic mouseover+click double-fire that shows-then-hides on the first tap (the bug on status).
   document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
   document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
-  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){if(t.closest('a'))return;e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
   window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
 })();
 </script>

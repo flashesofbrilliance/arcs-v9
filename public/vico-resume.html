@@ -254,7 +254,7 @@
   function hide(){tip.classList.remove('on');active=null;}
   document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
   document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
-  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){if(t.closest('a'))return;e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
   window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
 })();
 </script>

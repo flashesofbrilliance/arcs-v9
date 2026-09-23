@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Closing the Loop &middot; Today I Learned</title>
+<meta name="description" content="Three dated, public calls about Apple, each with a falsifier written before the fact, checked against the record after, one correction owned in full.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ARCS Recoil Report — Design Tokens */
+  :root{
+    --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
+    --accent:#0089a8; --accent2:#0089a8;
+    --green:#0a8f5e;
+    --gold:#9a7218; --goldbg:#fbf3df;
+    --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
+    --cyan:#00F0FF; --red:#c0334d;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --measure:680px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),var(--ground);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 70px;}
+  .sheet{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 70px -40px rgba(20,27,36,.35);overflow:hidden;}
+  .pad{padding:26px 34px;}
+  @media(max-width:600px){.pad{padding:24px 20px;}}
+
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 34px 24px;}
+  @media(max-width:600px){header{padding:24px 20px;}}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
+  .case{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:#8aa0b4;margin-top:12px;}
+  h1{font-size:clamp(27px,5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.03;margin-top:8px;}
+  .lede{font-size:15px;line-height:1.6;color:#c2d0dd;margin-top:12px;max-width:var(--measure);}
+  .lede b{color:#eef3f8;font-weight:600;}
+  .loopspine{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#7f93a6;margin-top:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .loopspine b{color:var(--cyan);font-weight:700;letter-spacing:.13em;}
+  .loopspine i{color:#33465a;font-style:normal;}
+
+  h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:26px;}
+  .txt{font-size:14.5px;line-height:1.64;color:var(--ink2);max-width:var(--measure);} .txt b{color:var(--ink);font-weight:600;} .txt+.txt{margin-top:11px;}
+  .txt a{color:var(--accent);text-decoration:none;font-weight:600;} .txt a:hover{text-decoration:underline;}
+
+  .callout{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:16px 18px;}
+  .callout .ct{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+  .callout p{font-size:14.5px;line-height:1.6;color:var(--ink);max-width:var(--measure);} .callout p b{font-weight:600;}
+
+  /* calibration cards: claim / falsifier / resolution / status */
+  .cal{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:#fcfdfe;margin-bottom:11px;}
+  .cal .ch{font-size:11px;font-family:var(--mono);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px;}
+  .cal .grid{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13px;line-height:1.5;}
+  .cal .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);white-space:nowrap;padding-top:2px;}
+  .cal .v{color:var(--ink2);} .cal .v b{color:var(--ink);font-weight:600;}
+  .cal .st{color:var(--green);font-weight:700;}
+  @media(max-width:520px){.cal .grid{grid-template-columns:1fr;gap:2px 0;}.cal .k{padding-top:10px;}}
+
+  /* skeptic dialogue */
+  .duo{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:#fbfcfe;}
+  .duo .row{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13px;line-height:1.5;padding:8px 0;border-top:1px solid var(--line2,#eef2f6);}
+  .duo .row:first-child{border-top:none;padding-top:0;}
+  .duo .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;padding-top:2px;}
+  .duo .sk{color:var(--red);} .duo .rc{color:var(--accent);}
+  .duo .v{color:var(--ink2);} .duo .v b{color:var(--ink);font-weight:600;}
+  @media(max-width:520px){.duo .row{grid-template-columns:1fr;gap:2px 0;}}
+
+  blockquote{margin:20px 0 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--tealbg);border-radius:0 10px 10px 0;
+    font-size:15.5px;line-height:1.55;font-weight:500;color:var(--ink);max-width:var(--measure);}
+
+  .src{columns:2;column-gap:26px;font-size:12.5px;line-height:1.5;color:var(--ink2);max-width:var(--measure);}
+  @media(max-width:560px){.src{columns:1;}}
+  .src .d{font-family:var(--mono);font-size:10px;color:var(--ink3);}
+  .src div{break-inside:avoid;margin-bottom:5px;} .src a{color:var(--accent);text-decoration:none;} .src a:hover{text-decoration:underline;}
+
+  footer{padding:22px 34px 28px;border-top:1px solid var(--line);}
+  @media(max-width:600px){footer{padding:20px 20px 24px;}}
+  .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
+  .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;max-width:var(--measure);}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="eyebrow"><span class="mk"></span>Today I Learned &middot; Calibration Receipts</div>
+      <div class="case">Three predictions &middot; three falsifiers &middot; one correction &middot; Jan&ndash;May 2026</div>
+      <h1>Closing the Loop</h1>
+      <div class="lede">Three dated, public calls about Apple, each with a stated falsifier attached <b>in advance</b>. Here is how they resolved, including the one number I had wrong.</div>
+      <div class="loopspine" aria-label="The loop: score before, check after, correct in public"><b>score before</b> <i>&rarr;</i> <b>check after</b> <i>&rarr;</i> <b>correct in public</b></div>
+    </header>
+
+    <div class="pad">
+      <div class="sec">
+        <div class="callout">
+          <div class="ct">Why keep the receipts</div>
+          <p>Predictions are only worth the falsifier attached to them. Anyone can be right about Apple in hindsight; the harder discipline is writing down, <b>before the fact</b>, exactly what would prove you wrong, then checking back once the fact is no longer avoidable. Between January and May 2026 I published three pieces arguing Apple's apparent weaknesses were being misread. Each named a specific, checkable condition under which it would fail. This is the accounting.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>Three claims, three falsifiers, checked against the record</h2>
+        <p class="txt">None of the language below was written after the fact; the falsifier text is quoted from what was published at the time. Every claim resolved with a caveat attached, and one of those caveats is a correction, not a footnote.</p>
+
+        <div class="cal" style="margin-top:13px;">
+          <div class="ch">Prediction 1 &middot; CEO succession &middot; dated Jan 30, 2026</div>
+          <div class="grid">
+            <div class="k">Claim</div><div class="v"><b>Ternus named Cook's presumptive heir</b>, reading the Q.ai deal as a hardware-mandate signal.</div>
+            <div class="k">Falsifier</div><div class="v">A directional call, not numeric: no named successor by a stated date.</div>
+            <div class="k">Resolution</div><div class="v">Transition announced Apr 20, 2026; Ternus became CEO effective Sep 1; Cook moved to executive chairman.</div>
+            <div class="k">Status</div><div class="v st">CONFIRMED</div>
+          </div>
+        </div>
+
+        <div class="cal">
+          <div class="ch">Prediction 2 &middot; gross-margin floor &middot; dated Feb 19, 2026</div>
+          <div class="grid">
+            <div class="k">Claim</div><div class="v">Unified-memory architecture holds gross margin above the stated floor through the memory-cost supercycle.</div>
+            <div class="k">Falsifier</div><div class="v">"If Apple's gross margins fall materially below <b>47%</b> in Q2 2026 due to memory costs, the argument weakens significantly."</div>
+            <div class="k">Resolution</div><div class="v">Q2 FY26 gross margin: <b>49.3%</b>. Q3 FY26: 50.1%, including roughly a 2-point tariff-refund tailwind.</div>
+            <div class="k">Status</div><div class="v st">CONFIRMED, with a correction owned below</div>
+          </div>
+        </div>
+
+        <div class="cal">
+          <div class="ch">Prediction 3 &middot; platform control, not cosmetic &middot; dated May 25, 2026</div>
+          <div class="grid">
+            <div class="k">Claim</div><div class="v">iOS 27 "Extensions" opens real third-party model routing, not a cosmetic compatibility layer.</div>
+            <div class="k">Falsifier</div><div class="v">Extensions ships as "a <b>walled choice menu</b>," not a real developer ecosystem.</div>
+            <div class="k">Resolution</div><div class="v">Confirmed at WWDC 2026 (June 8): a system-wide framework routing Apple Intelligence, Siri, Writing Tools and Image Playground to Gemini, Claude and ChatGPT.</div>
+            <div class="k">Status</div><div class="v st">CONFIRMED as real, not graded on reach</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>The one number I had wrong</h2>
+        <p class="txt">An earlier internal draft read the Q2 gross margin as 48.7%. That is wrong. The reported figure, confirmed against MacRumors' coverage of the April 2026 call and Apple's own newsroom release, is <b>49.3%</b>. I am correcting it here rather than quietly fixing it and moving on, because the whole point of a calibration exercise is that the correction is part of the record, not an embarrassment to route around.</p>
+        <p class="txt">The Q3 figure carries its own caveat, more important than the Q2 typo. The 50.1% reported for Q3 FY26 included an estimated 2-point favorable impact from tariff refunds, a one-off. Strip that and the underlying number is closer to the low-to-mid 48% range: still above the 47% floor, but by a narrower margin than the headline implies. The falsifier held. The size of the win was smaller than the unadjusted number suggests, and saying so is what makes the confirmation worth trusting.</p>
+      </div>
+
+      <div class="sec">
+        <h2>What "confirmed" does not mean</h2>
+        <p class="txt">Two distinctions, both toward restraint. The succession call was <b>directional</b>, made roughly seven months before the effective date, naming a person rather than a mechanism or a date. It resolved as stated; it should not be read as more precise than it was.</p>
+        <p class="txt">The Extensions call is confirmed as a real, system-wide routing framework announced at WWDC. It is <b>not</b> confirmed as general availability to every user, and this piece does not claim that. What resolved is the architecture question, not the adoption curve.</p>
+      </div>
+
+      <div class="sec">
+        <h2>Pre-mortem: the Convex Skeptic</h2>
+        <p class="txt">The obvious objection is that this is survivorship dressed up as calibration: three hits, no visible losses, prove only that the author remembers the calls that landed. That deserves a direct answer.</p>
+        <div class="duo" style="margin-top:11px;">
+          <div class="row"><div class="k sk">Skeptic</div><div class="v">Three wins out of an unknown private denominator is cherry-picking dressed as rigor.</div></div>
+          <div class="row"><div class="k rc">Record</div><div class="v">All three were <b>public, dated and falsifiable at publication</b>, not selected afterward. The falsifier language is verbatim from the originals.</div></div>
+          <div class="row"><div class="k sk">Skeptic</div><div class="v">A generous author picks a falsifier easy to clear.</div></div>
+          <div class="row"><div class="k rc">Record</div><div class="v">The 47% margin line and the "walled choice menu" outcome were both real, specific things Apple could have shipped instead. Neither was a coin flip, and the Q2 correction shows the check was run against primary sources, not asserted.</div></div>
+          <div class="row"><div class="k sk">Skeptic</div><div class="v">Three points over four months on one company is too thin to call a "system."</div></div>
+          <div class="row"><div class="k rc">Record</div><div class="v">Correct, and this does not call it a system. It is a <b>decision architecture</b>: dated priors, stated falsifiers, and a public correction when the record and the draft disagreed. The method is what is demonstrated, not a track record.</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>What this does not show</h2>
+        <p class="txt">What this does not prove is whether stated conviction tracks how often the call is right. Three resolved bets is not a calibration curve; it is three points. The same self-graded confidence rubric runs on these pieces already: the "AI Strategy Wasn't Late" article capped its own falsifiability at <b>12 out of 20</b>, because two of its four falsifiers had not resolved at publication. That discipline closes three predictions here. It does not yet prove the rubric predicts accuracy at any reliable rate, which takes a real sample size across a real range of outcomes, losses included. The honest reading of this page is a demonstrated method, not a track record.</p>
+        <blockquote>The difference between a hot take and a decision architecture is not confidence. It is whether the falsifier was written down before anyone knew the answer.</blockquote>
+      </div>
+    </div>
+
+    <footer>
+      <div class="proof">
+        <a href="/blog/til/apple-openai">The belief ledger (Apple&ndash;OpenAI)</a>
+        <a href="/blog/til">More Today-I-Learned</a>
+      </div>
+      <div class="fine">Source articles, in order: <a href="https://www.linkedin.com/pulse/2b-poker-face-how-apples-ai-panic-actually-just-trap-zach-harris-tlmye" target="_blank" rel="noopener">$2B Poker Face</a> (Jan 30) &middot; <a href="https://www.linkedin.com/pulse/bloomberg-op-ed-wrong-tim-cook-heres-why-zach-harris-apnue" target="_blank" rel="noopener">The Bloomberg Op-Ed Is Wrong About Tim Cook</a> (Feb 19) &middot; <a href="https://www.linkedin.com/pulse/apples-ai-strategy-wasnt-late-coverage-zach-harris-v0ete" target="_blank" rel="noopener">Apple's AI Strategy Wasn't Late</a> (May 25). Resolutions checked against Apple's filings and primary reporting. Three predictions, three falsifiers, one correction.</div>
+    </footer>
+  </div>
+</body>
+</html>
