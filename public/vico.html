@@ -52,6 +52,27 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
 
+  /* PRESENT MODE */
+  .pres-btn{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--darker);background:var(--cyan);border:0;border-radius:6px;padding:8px 14px;cursor:pointer;}
+  .pres-btn:hover{filter:brightness(1.08);}
+  .pres{position:fixed;inset:0;z-index:50;background:radial-gradient(1100px 620px at 15% -10%,#0d1a24 0,rgba(13,26,36,0) 60%),var(--darker);color:#eaf1f8;display:none;flex-direction:column;}
+  .pres.on{display:flex;}
+  .pres-top{display:flex;align-items:center;gap:14px;padding:18px 26px 8px;}
+  .pres-rail{flex:1;display:flex;gap:4px;} .pres-rail i{flex:1;height:3px;border-radius:2px;background:#22303f;transition:background .3s;} .pres-rail i.on{background:var(--cyan);}
+  .pres-close{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#8aa0b4;background:none;border:0;cursor:pointer;letter-spacing:.08em;}
+  .pres-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 26px 24px;}
+  .pres-slide{max-width:760px;width:100%;}
+  .pres-slide.anim{animation:presin .4s ease;}
+  @keyframes presin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .pres-act{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
+  .pres-chip{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
+  .pres-h{font-size:clamp(23px,3.8vw,35px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
+  .pres-b{font-size:15.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
+  .pres-bot{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-nav{display:flex;gap:10px;} .pres-nav button{font-family:var(--mono);font-size:12px;font-weight:700;color:#eaf1f8;background:#16222e;border:1px solid #26384a;border-radius:6px;padding:7px 13px;cursor:pointer;} .pres-nav button:hover{border-color:var(--cyan);}
+  .pres-count{letter-spacing:.1em;}
+  @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}}
+
   @media print{
     @page{ size:letter; margin:0.5in; }
     body{padding:0;background:#fff;} .sheet{border:none;box-shadow:none;border-radius:0;max-width:none;}
@@ -68,6 +89,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
       <div class="eyebrow"><span class="mk"></span>Zach Harris &times; VICO</div>
       <h1>Where my work meets VICO's</h1>
       <div class="who">A note for <b>Lyndon</b>, from someone who has spent the last year building in the same problem space. Introduced by <b>Joe Schriner</b> at Oxenham Group.</div>
+      <button class="pres-btn" id="presopen">&#9654; Present</button>
     </header>
 
     <div class="pad">
@@ -121,6 +143,53 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
       <div class="fine">Prepared for Lyndon Oh at VICO. Introduced by Joe Schriner at Oxenham Group.</div>
     </footer>
   </div>
+<div class="pres" id="pres" aria-hidden="true">
+  <div class="pres-top"><div class="pres-rail" id="presrail"></div><button class="pres-close" id="presclose">ESC &#10005;</button></div>
+  <div class="pres-stage"><div class="pres-slide" id="presslide"></div></div>
+  <div class="pres-bot"><span class="pres-count" id="prescount"></span><div class="pres-nav"><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
+</div>
+<script>
+(function(){
+  var C={seen:'#3ec6e0',mine:'#3ddc97',hyp:'#f2c14e'};
+  var S=[
+    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: <b>what VICO does</b>, <b>where my work already overlaps</b>, and <b>how I would think about the product</b>. Every slide is labeled with where it comes from: VICO’s own record, my public work, or a hypothesis for you to check.'},
+    {div:1,act:'ACT I',h:'What VICO does.'},
+    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',h:'Probabilities on real events, measured.',b:'You turn ~150,000 public sources (news, think-tanks, OFAC and Treasury) into decision-grade foresight: forecasts, scenario simulation, monitoring. <b>Explainable and backtested</b>, and it <b>beats the prediction markets it sits beside</b> (Israel-Iran, Venezuela, ahead of Polymarket and Kalshi), on the Bloomberg Terminal at <b>WSL VICO</b>.'},
+    {div:1,act:'ACT II',h:'Where my work overlaps.'},
+    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',h:'Your exact problem, worked by hand in public.',b:'A source-graded, scenario-probability analysis of the <b>ZIM / Hapag-Lloyd</b> merger, a trade that turns on an Israeli <b>golden-share veto</b> under Red Sea and Iran tension: a 30,000-path scenario matrix, leading indicators, monitoring triggers, and a risk-adjusted grade, with a video walkthrough. Your problem space, worked the way I think.'},
+    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',h:'Score the call, then check it against reality.',b:'ARCS scores every call for conviction and stability before the fact, then checks it after. The honest gap: your forecasts are backtested and beat the market; mine are hand-built calls, no Brier or log score yet. The discipline is public; putting real numbers on it is the obvious next step, and your team’s muscle.'},
+    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',h:'Provenance under regulation.',b:'I built the investor-facing platform behind a <b>$7B, SEC/FINRA-regulated launch</b>: RBAC, change controls, integrity gates, every decision traceable to why it was made. The same show-your-work a trader or a government user demands of a forecast.'},
+    {act:'OVERLAP · 04',cc:C.mine,chip:'MINE · HOW I BUILD',h:'LLM systems that stay checkable.',b:'A live LLM system on Claude end to end: agentic tool-use, evals, human-in-the-loop, with the reasoning left exposed so a skeptic can interrogate it. That is the part of the AI stack I have spent this year inside.'},
+    {div:1,act:'ACT III',h:'Why, and how I would think about it.'},
+    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'The honest version of forecasting.',b:'A year on one conviction: the value is not the answer, it is the <b>scored, checkable call behind it</b>. Anthony’s framing, think in probabilities, be a forecaster not a reactor, is the instinct I built a product around. And it lands on the failure mode I care about most: your work on exogenous shocks, where the calibration that held all year breaks the week a cascade moves the indicator.'},
+    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'Two questions I would live in.',b:'<b>1. Does the calibration survive a cascade?</b> How does the system notice its own drift under an exogenous shock, and re-weight, and how fast? <b>2. How deep does explainable go?</b> From 150,000 sources to one probability, how much of that path does a skeptical analyst get to open?'},
+    {act:'YOUR MOVE',cc:C.seen,chip:'OVER TO YOU',h:'That is my read. Where did I get it wrong?',b:'How I work: AI tools to move faster with the fundamentals underneath; led cross-functional teams and owned systems end to end; and I care about craft and provenance, because your users have to trust what they see. The proof links sit under this deck.'}
+  ];
+  var i=0, pres=document.getElementById('pres'), slide=document.getElementById('presslide'),
+      rail=document.getElementById('presrail'), count=document.getElementById('prescount');
+  S.forEach(function(){rail.appendChild(document.createElement('i'));});
+  function render(){
+    var s=S[i];
+    var chip = s.chip ? '<span class="pres-chip" style="color:'+s.cc+';background:'+s.cc+'1e;border:1px solid '+s.cc+'55;">'+s.chip+'</span>' : '';
+    slide.innerHTML='<div class="pres-act">'+(s.act||'')+'</div>'+chip+'<div class="pres-h">'+s.h+'</div>'+(s.b?'<div class="pres-b">'+s.b+'</div>':'');
+    slide.classList.remove('anim'); void slide.offsetWidth; slide.classList.add('anim');
+    for(var k=0;k<rail.children.length;k++){ rail.children[k].className = k<=i ? 'on' : ''; }
+    count.textContent=(i+1)+' / '+S.length;
+  }
+  function open(){pres.classList.add('on');pres.setAttribute('aria-hidden','false');i=0;render();}
+  function close(){pres.classList.remove('on');pres.setAttribute('aria-hidden','true');}
+  function go(n){var j=Math.max(0,Math.min(S.length-1,i+n)); if(j!==i){i=j;render();}}
+  document.getElementById('presopen').onclick=open;
+  document.getElementById('presclose').onclick=close;
+  document.getElementById('presnext').onclick=function(){go(1);};
+  document.getElementById('presprev').onclick=function(){go(-1);};
+  document.addEventListener('keydown',function(e){ if(!pres.classList.contains('on'))return;
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);} else if(e.key==='ArrowLeft'){go(-1);} else if(e.key==='Escape'){close();} });
+  var x0=null;
+  pres.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  pres.addEventListener('touchend',function(e){ if(x0===null)return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45)go(dx<0?1:-1); x0=null; },{passive:true});
+})();
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
   window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
