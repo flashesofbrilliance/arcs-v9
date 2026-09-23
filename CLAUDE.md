@@ -114,51 +114,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.63.0 (2026-09-15)
-
-> **arcs-algorethics E2E / benchmarks / kabuki audit session** (worktree `arcs-e2e-benchmarks-cicd-0369bd`,
-> branch `claude/arcs-e2e-benchmarks-cicd-0369bd` = arcs-v9 PR #446, deliberately UNMERGED). The work
-> product lives mostly in the separate repo `flashesofbrilliance/arcs-algorethics` (PRIVATE, no canonical
-> local clone; sessions clone to scratch). Every merge receipted in `decision_receipt` (10 rows:
-> `2026-09-15--algorethics-e2e-benchmarks-cicd-pr1--ZH` … `2026-09-15--arcs-v9-queue-algorethics-in-scope-benchmark-pr449--ZH`).
-
-## Shipped + verified (arcs-algorethics, PRs #1–#8 squash-merged, main `a3ae0c3`, CI green)
-- **Found broken on pickup:** `code/` shadowed stdlib `code` (tests uncollectable); `server.py` imported
-  non-existent classes. Both fixed (#1). The Perplexity-authored handoff had four false premises.
-- **Live E2E suite** boots the daemon when no gateway URL is set; asserts 423/MORTAL, 423/CARDINAL,
-  200/VENIAL under a warmed best-of-3 latency SLA (#2), fail-closed entropy, append-only ledger, keyed
-  Edge 401 (#3), and Ed25519-signed resume over real HTTP (#6).
-- **Benchmarks, honest:** hendrycks/ethics (parquet branch; datasets 5 refuses the script) recall 0,
-  JailBreakV-28k (split `JailBreakV_28K`) 0/200, **AgentHarm 0/176 harmful and 0/176 benign in both
-  fn and fn+prompt modes (#8)**. Nightly runs commit to `benchmarks/history/` (#7).
-- **Ops + SSOT (#4):** `arcs ops status|migrate|keys|promote` (dry-run default, prompts, secrets never
-  printed); `specs/invariants.json` loaded by Python + JS, parity-checked against the arcs-v9 route.
-- **Ledger renamed `algorethics.gate_receipts` (#5)** + `db/preflight.sql`: the originating Perplexity
-  thread claims `algorethics.decision_receipts` already exists as a uuid hypercube receipt, plus four enum
-  types stranded in `public`. Unverified; the rename avoids the collision either way.
-- **Kabuki removed (#6):** `manifold.py`, notebook, TS middleware deleted (unimported). Resume now verifies
-  a registered operator's Ed25519 signature (`ARCS_OPERATOR_KEYS`, private key only on the operator machine
-  via `scripts/operator_keys.py`). README leads with an honest inventory; theology demoted to appendix.
-- **arcs-v9:** Edge route `src/app/api/v1/gate/evaluate/route.ts` (PR #446): fail-closed `ARCS_GATE_KEY`
-  bearer gate, constant-time compare, scope declaration, writes `gate_receipts`. Build green. Empty
-  Perplexity branch `feat/algorethics-prisma-model` deleted (0 commits). Queue items shipped via #448/#449.
-
-## Lessons booked
-- **Assume the spec is stupid first** (Zach): falsify every handoff premise live before building.
-- Perplexity's Supabase connector reaches ARCS_v9 (Vercel-Marketplace org); ours does not. Its DB claims
-  carry zero evidentiary weight until reproduced. `vercel env pull` returns sensitive values EMPTY.
-- The gate's purpose (settled with Zach after reading the full 350KB thread): a narrow fail-closed brake
-  on three one-way-door classes, not a general harm classifier. AgentHarm was the wrong yardstick.
-
-## Open (next session)
-1. **Zach's three operational moves** (not mine): apply migration 001 in the ARCS_v9 SQL editor + expose
-   `algorethics`; set `ARCS_GATE_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` on Vercel and
-   `ARCS_GATE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `VERCEL_GATE_URL` in algorethics Actions; merge PR #446
-   and dispatch the workflow. `arcs ops` automates all three given a Supabase personal access token.
-2. **Queue `algorethics-in-scope-benchmark`** (P3): ~150 harmful tool calls + benign twins across the
-   three classes in real tool phrasing; measure recall/FPR. Do not reopen "widen to broad harm".
-3. Joe Schriner follow-up + resume-tailor skill fold-back + State-of-the-Union dashboard (carried from v3.62.0).
-
 # Handoff — v3.64.0 (2026-09-17)
 
 > **PRL/Todd 2pm-call wrap + an epistemics-of-warrant thread that hardened the tooling** (this
@@ -210,3 +165,37 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
    spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
 3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
 4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
+
+# Handoff — v3.65.1 (2026-09-23)
+
+> **VICO VP-of-Engineering candidacy: fact-checked, sent, and bug-classes gated.** Continues v3.65.0
+> (the vico.arcs.care family refit). This session took the family from "shipped" to "send-worthy" and
+> closed two recurring bug classes with mechanical gates. All work on branch
+> `claude/vico-arcs-care-not-to-do-uh4gze` (arcs-v9), pushed. 0 ADR/DEWY minted (execution day).
+
+## Shipped this session
+- **Memo fact-checked against VICO's real site** (uploaded vico.io product + careers HTML). Their site
+  is a JS-SPA — grep the RAW file, not tag-stripped text. Reworded the opener to VICO's own vocabulary
+  (Iran regime-risk / Venezuela risk; dropped "Israel strikes" and named competitors Polymarket/Kalshi).
+  Prod `ca38b69`. Careers page confirms 4 open GTM/leadership roles and that Zach's IC-to-manager +
+  public-sector positioning is aimed right (VP Eng "partner with the CTO to drive execution + grow the
+  team"; founding Head of Federal Sales in DC).
+- **Column-collapse bug fixed + gated.** An unclosed `.row` `<div>` in the how-I-work section nested the
+  Craft bullet into a pinched column. Fix `1859b86`. New `scripts/html_div_balance_lint.py` counts
+  `<div>` vs `</div>` per page (strips script/style), proven both ways, wired into pre-commit. Gate `6bd191f`.
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + one-screen Lyndon talking-points card,
+  beat-2 corrected "finance" → "regulated industries". Zach sent it.
+
+## Lessons booked (in MEMORY.md v3.65.1 + night-moves)
+- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics ≠ "analytics off"; verify at source).
+- Gmail rewraps outbound hrefs via `google.com/url` at send. **Default habit for Joe/Lyndon emails: paste
+  the URL as PLAIN TEXT (no `<a>`)** — nothing to wrap, forwards clean.
+- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields nothing.
+
+## Open (next session)
+1. **Joe × Lyndon call, 3 PM EST Thu 2026-09-24** — the close-loop point. Did Lyndon reach vico.arcs.care
+   or only Joe's paraphrase (the message-drift lever)? Score after; plan follow-up. A check-in reminder
+   was offered; ask Zach if not yet set.
+2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
+3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
+   State-of-the-Union dashboard (source file still unidentified — get it first).

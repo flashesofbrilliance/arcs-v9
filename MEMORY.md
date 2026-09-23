@@ -7,6 +7,32 @@
 
 ---
 
+## [v3.65.1] 2026-09-23 — vico send: fact-check vs VICO's site, div-balance lint, Joe email SENT
+
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): corrected 5-beat memo pitch + one-screen Lyndon
+  talking-points card, for Joe's **3 PM EST Thu 2026-09-24 call with Lyndon**. Beat-2 corrected
+  **"finance" → "regulated industries"** (government/insurers/banks — honest AND points harder at
+  VICO's federal motion). The prior fuller Gmail draft was never sent and Gmail auto-discarded it;
+  a fresh reply draft was created and Zach sent it.
+- **VICO fact-check (uploaded vico.io careers + product HTML):** their site is a JS-SPA — tag-stripping
+  yields ~23 chars; grep the RAW file for fact-strings. CONFIRMED by their own copy: tagline "AI-powered
+  forecasting and simulation for decision superiority", "financial institutions AND governments",
+  geopolitical event tickers (Iran clerical-regime, Venezuela Risk `VICOIVNZ`), a Bloomberg comparator.
+  NOT on their site: "150,000 sources", Brier, Polymarket/Kalshi by name, "Israel". Memo opener reworded
+  to their vocabulary (prod `ca38b69`). **Careers page = 4 open GTM/leadership roles** (VP Eng NY "partner
+  with the CTO to drive execution + grow the team"; Head of Sales NY; **Head of Federal Sales DC** founding;
+  Head of Marketing) — confirms Zach's IC-to-manager + public-sector positioning is aimed right.
+- **Second Frustration Gate lint banked:** `scripts/html_div_balance_lint.py` — an unclosed `.row` `<div>`
+  (ends in `</p>`, no `</div>`) nests the next sibling and collapses it into a pinched column; invisible to
+  wrap-lint (nothing overflows). Gate counts `<div>` vs `</div>` per page (strips script/style), proven
+  fails-on-bad/passes-on-good, wired into pre-commit (added+modified). Fix commit `1859b86`, gate `6bd191f`.
+- **Lessons (portable):** (1) **Do not assert a tool's negative as a world-fact** — a failed measurement
+  (MCP 404 on analytics) is not "it's off"; verify against source. (2) **Gmail rewraps outbound hrefs**
+  through `google.com/url` at send; to get a clean URL in front of someone, paste the domain as PLAIN TEXT
+  (no `<a>`), which also forwards better. Use this by default on future Joe/Lyndon-facing emails.
+- Night-moves digest: `_STATE/night-moves/2026-09-23.md` (41 commits, 3 workstreams, 0 ADR/DEWY minted —
+  execution-heavy day; residue is the two lints, not new architecture).
+
 ## [v3.65.0] 2026-09-23 — vico.arcs.care family refit (plain-language, tooltips, moiré, eval) + two banked failure modes
 
 - **vico family shipped** (prod main `3e40a5e`): the "Zach × VICO" partnership memo, deeper case, and

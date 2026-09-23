@@ -4087,3 +4087,50 @@ BEFORE the first call, not after.
 3. **New, unscoped thread** — user flagged a "State of the Union" dashboard (reading-mode toggle,
    shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
    Impeccable design pass. Source file/path was never identified this session — get it first.
+
+---
+
+# Handoff — v3.63.0 (2026-09-15)
+
+> **arcs-algorethics E2E / benchmarks / kabuki audit session** (worktree `arcs-e2e-benchmarks-cicd-0369bd`,
+> branch `claude/arcs-e2e-benchmarks-cicd-0369bd` = arcs-v9 PR #446, deliberately UNMERGED). The work
+> product lives mostly in the separate repo `flashesofbrilliance/arcs-algorethics` (PRIVATE, no canonical
+> local clone; sessions clone to scratch). Every merge receipted in `decision_receipt` (10 rows:
+> `2026-09-15--algorethics-e2e-benchmarks-cicd-pr1--ZH` … `2026-09-15--arcs-v9-queue-algorethics-in-scope-benchmark-pr449--ZH`).
+
+## Shipped + verified (arcs-algorethics, PRs #1–#8 squash-merged, main `a3ae0c3`, CI green)
+- **Found broken on pickup:** `code/` shadowed stdlib `code` (tests uncollectable); `server.py` imported
+  non-existent classes. Both fixed (#1). The Perplexity-authored handoff had four false premises.
+- **Live E2E suite** boots the daemon when no gateway URL is set; asserts 423/MORTAL, 423/CARDINAL,
+  200/VENIAL under a warmed best-of-3 latency SLA (#2), fail-closed entropy, append-only ledger, keyed
+  Edge 401 (#3), and Ed25519-signed resume over real HTTP (#6).
+- **Benchmarks, honest:** hendrycks/ethics (parquet branch; datasets 5 refuses the script) recall 0,
+  JailBreakV-28k (split `JailBreakV_28K`) 0/200, **AgentHarm 0/176 harmful and 0/176 benign in both
+  fn and fn+prompt modes (#8)**. Nightly runs commit to `benchmarks/history/` (#7).
+- **Ops + SSOT (#4):** `arcs ops status|migrate|keys|promote` (dry-run default, prompts, secrets never
+  printed); `specs/invariants.json` loaded by Python + JS, parity-checked against the arcs-v9 route.
+- **Ledger renamed `algorethics.gate_receipts` (#5)** + `db/preflight.sql`: the originating Perplexity
+  thread claims `algorethics.decision_receipts` already exists as a uuid hypercube receipt, plus four enum
+  types stranded in `public`. Unverified; the rename avoids the collision either way.
+- **Kabuki removed (#6):** `manifold.py`, notebook, TS middleware deleted (unimported). Resume now verifies
+  a registered operator's Ed25519 signature (`ARCS_OPERATOR_KEYS`, private key only on the operator machine
+  via `scripts/operator_keys.py`). README leads with an honest inventory; theology demoted to appendix.
+- **arcs-v9:** Edge route `src/app/api/v1/gate/evaluate/route.ts` (PR #446): fail-closed `ARCS_GATE_KEY`
+  bearer gate, constant-time compare, scope declaration, writes `gate_receipts`. Build green. Empty
+  Perplexity branch `feat/algorethics-prisma-model` deleted (0 commits). Queue items shipped via #448/#449.
+
+## Lessons booked
+- **Assume the spec is stupid first** (Zach): falsify every handoff premise live before building.
+- Perplexity's Supabase connector reaches ARCS_v9 (Vercel-Marketplace org); ours does not. Its DB claims
+  carry zero evidentiary weight until reproduced. `vercel env pull` returns sensitive values EMPTY.
+- The gate's purpose (settled with Zach after reading the full 350KB thread): a narrow fail-closed brake
+  on three one-way-door classes, not a general harm classifier. AgentHarm was the wrong yardstick.
+
+## Open (next session)
+1. **Zach's three operational moves** (not mine): apply migration 001 in the ARCS_v9 SQL editor + expose
+   `algorethics`; set `ARCS_GATE_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` on Vercel and
+   `ARCS_GATE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `VERCEL_GATE_URL` in algorethics Actions; merge PR #446
+   and dispatch the workflow. `arcs ops` automates all three given a Supabase personal access token.
+2. **Queue `algorethics-in-scope-benchmark`** (P3): ~150 harmful tool calls + benign twins across the
+   three classes in real tool phrasing; measure recall/FPR. Do not reopen "widen to broad harm".
+3. Joe Schriner follow-up + resume-tailor skill fold-back + State-of-the-Union dashboard (carried from v3.62.0).
