@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Candidate Positioning Brief · Zach Harris</title>
+<title>Zach Harris &times; VICO &middot; where the work overlaps</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,37 +30,48 @@
   @media(max-width:600px){header{padding:26px 22px;}}
   .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
-  h1{font-size:clamp(30px,5.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:14px;}
-  .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
+  h1{font-size:clamp(27px,4.8vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:14px;}
+  .who{font-size:13px;color:#a9b6c3;margin-top:10px;line-height:1.55;}
   .who b{color:#e6ecf2;font-weight:600;}
 h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:11px;
     padding-bottom:6px;border-bottom:1px solid var(--line);}
-  .sec+.sec{margin-top:20px;}
+  .sec+.sec{margin-top:22px;}
 
-  .verdict{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:18px 20px;}
-  .verdict .vt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-  .verdict p{font-size:15.5px;line-height:1.55;color:var(--ink);font-weight:500;}
+  .txt{font-size:14px;line-height:1.62;color:var(--ink2);} .txt b{color:var(--ink);font-weight:600;} .txt+.txt{margin-top:10px;}
+  .txt a,.stack a{color:var(--accent);text-decoration:none;font-weight:600;} .txt a:hover,.stack a:hover{text-decoration:underline;}
 
   .stack .row{padding:13px 0;border-top:1px solid var(--line);display:flex;gap:12px;}
   .stack .row:first-of-type{border-top:none;padding-top:0;}
   .stack .n{font-family:var(--mono);font-weight:700;color:var(--accent);flex:none;font-size:13px;padding-top:1px;}
-  .stack .row p{font-size:14px;line-height:1.55;color:var(--ink2);}
-  .qa{padding:13px 0;border-top:1px solid var(--line);}
-  .qa:first-of-type{border-top:none;padding-top:0;}
-  .qa .q{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px;}
-  .qa .a{font-size:13.5px;line-height:1.55;color:var(--ink2);}
-
-  .bites{background:var(--dark);color:#eaf0f5;border-radius:12px;padding:18px 22px;}
-  .bites .bt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;}
-  .bites ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-  .bites li{font-family:var(--sans);font-size:14.5px;line-height:1.4;padding-left:18px;position:relative;color:#f2f6f9;}
-  .bites li::before{content:"\201C";position:absolute;left:0;top:-2px;color:#00FF9D;font-size:22px;font-family:var(--sans);}
+  .stack .row p{font-size:14px;line-height:1.55;color:var(--ink2);} .stack .row p b{color:var(--ink);font-weight:600;}
+  .stack .row .lead{display:block;font-weight:600;color:var(--ink);margin-bottom:2px;}
 
   footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
   .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
-  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
+
+  /* PRESENT MODE */
+  .pres-btn{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--darker);background:var(--cyan);border:0;border-radius:6px;padding:8px 14px;cursor:pointer;}
+  .pres-btn:hover{filter:brightness(1.08);}
+  .pres{position:fixed;inset:0;z-index:50;background:radial-gradient(1100px 620px at 15% -10%,#0d1a24 0,rgba(13,26,36,0) 60%),var(--darker);color:#eaf1f8;display:none;flex-direction:column;}
+  .pres.on{display:flex;}
+  .pres-top{display:flex;align-items:center;gap:14px;padding:18px 26px 8px;}
+  .pres-rail{flex:1;display:flex;gap:4px;} .pres-rail i{flex:1;height:3px;border-radius:2px;background:#22303f;transition:background .3s;} .pres-rail i.on{background:var(--cyan);}
+  .pres-close{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#8aa0b4;background:none;border:0;cursor:pointer;letter-spacing:.08em;}
+  .pres-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 26px 24px;}
+  .pres-slide{max-width:760px;width:100%;}
+  .pres-slide.anim{animation:presin .4s ease;}
+  @keyframes presin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .pres-act{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
+  .pres-chip{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
+  .pres-h{font-size:clamp(23px,3.8vw,35px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
+  .pres-b{font-size:15.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
+  .pres-bot{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-nav{display:flex;gap:10px;} .pres-nav button{font-family:var(--mono);font-size:12px;font-weight:700;color:#eaf1f8;background:#16222e;border:1px solid #26384a;border-radius:6px;padding:7px 13px;cursor:pointer;} .pres-nav button:hover{border-color:var(--cyan);}
+  .pres-count{letter-spacing:.1em;}
+  @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}}
 
   @media print{
     @page{ size:letter; margin:0.5in; }
@@ -75,56 +86,110 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
 <body>
   <div class="sheet">
     <header>
-      <div class="eyebrow"><span class="mk"></span>Candidate positioning brief &middot; for Oxenham Group</div>
-      <h1>Zach Harris</h1>
-      <div class="who">For the <b>Product Engineer, Front-End</b> search (AI decision-intelligence platform, government and private clients).</div>
+      <div class="eyebrow"><span class="mk"></span>Zach Harris &times; VICO</div>
+      <h1>Where my work meets VICO's</h1>
+      <div class="who">A note for <b>Lyndon</b>, from someone who has spent the last year building in the same problem space. Introduced by <b>Joe Schriner</b> at Oxenham Group.</div>
+      <button class="pres-btn" id="presopen">&#9654; Present</button>
     </header>
 
     <div class="pad">
       <div class="sec">
-        <div class="verdict">
-          <div class="vt">The one-line version</div>
-          <p>Zach builds AI product surfaces for a living, right now, and he has already built a working version of the hardest part of this role: a system that scores its own confidence and checks itself against what actually happened later.</p>
-        </div>
+        <h2>What VICO does, as I read it</h2>
+        <p class="txt">The way I read VICO: you calculate <b>probabilities that real events will occur</b>, political, geopolitical, and economic, by mining on the order of 150,000 public sources (news, think-tank reports, government feeds like OFAC and Treasury) into <b>decision-grade foresight</b>: continuous forecasts, scenario simulation, and monitoring. Two things make it more than another AI-forecasting demo. It is <b>explainable and backtested</b>, and it <b>outperforms the prediction markets it sits beside</b>, calling events like the Israel strikes on Iran and the Venezuela strike ahead of Polymarket and Kalshi, published where the users already work, on the Bloomberg Terminal at <b>WSL VICO</b>. Built for investors, hedge funds, insurers, corporations, and government agencies by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence.</p>
       </div>
 
       <div class="sec">
-        <h2>Three reasons to care</h2>
+        <h2>Where my work overlaps</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p>He builds AI-native product surfaces every week, not as a side project. His main platform is a live, shipping AI product he can show on a call, not a slide.</p></div>
-          <div class="row"><span class="n">2</span><p>He already built the specific hard thing this role needs: a system that scores how confident a decision should be, then checks that score against what really happened. That is the same underlying job as scoring a prediction and grading it later.</p></div>
-          <div class="row"><span class="n">3</span><p>He has real production experience in regulated finance, where being wrong is expensive and everything has to be traceable back to why it was decided. That "show your work" culture is not new to him.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a source-graded, scenario-probability analysis of the ZIM / Hapag-Lloyd merger, a trade whose whole outcome turns on an Israeli <b>golden-share veto</b> under Red Sea and Iran tension. It runs a 30,000-path scenario matrix, names the leading indicators and the monitoring triggers that would move the odds, grades every source A/B/C, and lands on a risk-adjusted call, with a <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">video walkthrough</a> and the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>. That is your problem space, a probability on a political-economic event under a sovereign shock, worked the way I think.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">Scoring the call, then checking it against reality.</span>Under that one-off sits a system. ARCS scores every call for conviction and stability before the fact and keeps a belief-history trail, so it can be checked against the outcome after, the same <b>score-before, check-after</b> discipline behind a backtested forecast. To be exact about the gap: your forecasts are backtested and beat the markets they sit beside; mine are hand-built single calls, not a backtested track record, and ARCS produces conviction states rather than probabilities, so there is no Brier or log score to set next to yours yet. The discipline is real and public: a <a href="https://good.arcs.care/blog/til/apple-openai">belief ledger</a> that scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, honest corrections and all. Turning that into backtested numbers is the obvious next step, and exactly the muscle your team already has.</p></div>
+          <div class="row"><span class="n">3</span><p><span class="lead">Provenance under regulation.</span>I built the investor-facing platform behind a $7B, SEC/FINRA-regulated launch: RBAC, change controls, pre-deployment integrity gates, every decision traceable back to why it was made. That "show your work" requirement is the same one traders, analysts, and government users put on a forecast. They need to trust it when it is wrong, not only when it is right.</p></div>
+          <div class="row"><span class="n">4</span><p><span class="lead">LLM systems that stay checkable, with a human in the loop.</span>I run a live LLM system on Claude end to end: agentic tool-use, evals, and human-in-the-loop review. ARCS scaffolds judgment without overruling it, structured scoring as the quality layer, never an autonomous verdict. Shipping LLM features that hold up under scrutiny, with the reasoning left exposed so a skeptic can interrogate it, is the part of the AI stack I have spent this year inside.</p></div>
         </div>
       </div>
 
       <div class="sec">
-        <h2>Three questions your client will probably ask</h2>
-        <div class="qa"><div class="q">Does he already know their exact tools?</div><div class="a">Not the exact ones. He uses the same category of tools every week (React, modern front-end frameworks, Python on the backend) and picks up new specifics fast. He will say this himself, honestly, before you have to ask.</div></div>
-        <div class="qa"><div class="q">Does he have real AI-product experience, or is that just a buzzword on the resume?</div><div class="a">Real. He can show a live, working AI product he built and ships himself, on a call, in real time. He already did exactly that on a recent call with us.</div></div>
-        <div class="qa"><div class="q">Is he comfortable with a small, early-stage team that is still figuring things out?</div><div class="a">Yes. His whole career has been early-stage work, solo or in very small teams, building the thing before there was a playbook for it.</div></div>
+        <h2>Why this interests me</h2>
+        <p class="txt">I have spent the last year building on one conviction: the valuable thing an AI system produces is not the answer, it is the <b>scored, checkable call behind it</b>, the thing you can hold accountable later. Anthony's own framing, think in probabilities, prepare for multiple possible futures, be a forecaster and not a reactor, is the same instinct I have been building a product around. Most of the market is still selling a single confident answer; VICO is selling the honest version: a probability, explainable, and checked.</p>
+        <p class="txt">And it lands on the failure mode I care about most. Your work on complex systems and exogenous shocks, and Anthony's emphasis on second- and third-order effects, is the honest hard part: a model that is calibrated in-regime is the easy half; what happens to it the week a cascade moves the leading indicator is the real question. Building that inside a team with Anthony's national-security lineage and your background on exactly that problem is the rare version of this I would want to be part of, not the generic AI-startup version.</p>
       </div>
 
       <div class="sec">
-        <div class="bites">
-          <div class="bt">What to do with this</div>
-          <ul>
-            <li>Send this to the client as it is. It is written for them, not only for you.</li>
-            <li>If they ask about years of experience, tell them Zach will address it directly on the call. He does not hide from it, he brings it up first.</li>
-            <li>Let Zach show the live product on the call. Seeing it beats describing it.</li>
-          </ul>
+        <h2>How I'd think about the product</h2>
+        <div class="stack">
+          <div class="row"><span class="n">1</span><p><span class="lead">Does the calibration survive a cascade?</span>Backtested accuracy in the 70-to-80 range is strong. The question I would want to live in: how does it hold when a second-order effect moves the very leading indicator the backtest leaned on, the exogenous shock nobody priced? How does the system notice its own calibration has drifted and re-weight, and how fast? In-regime calibration is the easy half.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">How deep does "explainable" go?</span>Leading with explainable is the right instinct: provenance is what makes a forecast survivable when it is wrong. The question is how far down the chain it reaches, from 150,000 sources to a single probability, how much of that path does a skeptical analyst actually get to open and interrogate?</p></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>A few things about how I work</h2>
+        <div class="stack">
+          <div class="row"><span class="n">&middot;</span><p><b>How I build:</b> I use AI tools to move faster, not to paper over fundamentals. The code is mine and the commit trail is public (<a href="https://status.arcs.care">status.arcs.care</a>), so the pace is checkable, not claimed.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Leadership:</b> I have led cross-functional teams across time zones and owned systems end to end, from that $7B regulated launch to ARCS from zero. I am direct about what I have run and what I have not.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Craft and provenance:</b> I care about the visual craft and the traceability, because the people who use this kind of tool, traders, analysts, government teams, have to trust what they are looking at.</p></div>
         </div>
       </div>
     </div>
 
     <footer>
       <div class="proof">
-        <a href="/resume">R&eacute;sum&eacute; (PDF)</a>
-        <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>
-        <a href="/ammo">Go deeper (passcode)</a>
+        <a href="/resume">R&eacute;sum&eacute;</a>
+        <a href="https://status.arcs.care">The code trail</a>
+        <a href="https://good.arcs.care/blog/til/apple-openai">Belief ledger (Apple&ndash;OpenAI)</a>
+        <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">ZIM analysis (video)</a>
+        <a href="https://github.com/flashesofbrilliance">GitHub</a>
       </div>
-      <div class="fine">Prepared for Joe at Oxenham Group, whose introduction and credit this is. For your use with the client.</div>
+      <div class="fine">Prepared for Lyndon Oh at VICO. Introduced by Joe Schriner at Oxenham Group.</div>
     </footer>
   </div>
+<div class="pres" id="pres" aria-hidden="true">
+  <div class="pres-top"><div class="pres-rail" id="presrail"></div><button class="pres-close" id="presclose">ESC &#10005;</button></div>
+  <div class="pres-stage"><div class="pres-slide" id="presslide"></div></div>
+  <div class="pres-bot"><span class="pres-count" id="prescount"></span><div class="pres-nav"><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
+</div>
+<script>
+(function(){
+  var C={seen:'#3ec6e0',mine:'#3ddc97',hyp:'#f2c14e'};
+  var S=[
+    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: what you do, where I overlap, how I would think about it. Each slide labeled by source.'},
+    {div:1,act:'ACT I',h:'What VICO does.'},
+    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO).'},
+    {div:1,act:'ACT II',h:'Where my work overlaps.'},
+    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <b>ZIM / Hapag-Lloyd</b> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. Your problem, in my hand.'},
+    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',h:'Score the call, then check it.',b:'A public <b>belief ledger</b>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. No Brier score yet. That is the honest gap, and your team’s muscle.'},
+    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands.'},
+    {act:'OVERLAP · 04',cc:C.mine,chip:'MINE · HOW I BUILD',h:'LLM systems that stay checkable.',b:'A live LLM system on Claude: agentic tool-use, evals, human-in-the-loop, reasoning left exposed. The AI stack I have spent this year inside.'},
+    {div:1,act:'ACT III',h:'Why, and how I would think about it.'},
+    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'The honest version of forecasting.',b:'The value is not the answer, it is the <b>scored, checkable call behind it</b>. Anthony’s think-in-probabilities, and your work on exogenous shocks, are the exact instinct I built around.'},
+    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'Two questions I would live in.',b:'<b>Does the calibration survive a cascade</b> that moves its own leading indicator? And <b>how deep does explainable reach</b>, from 150,000 sources to one number?'},
+    {act:'YOUR MOVE',cc:C.seen,chip:'OVER TO YOU',h:'Where did I get it wrong?',b:'I build with AI on top of fundamentals, have led teams and owned systems end to end, and care about provenance, because your users must trust what they see.'}
+  ];
+  var i=0, pres=document.getElementById('pres'), slide=document.getElementById('presslide'),
+      rail=document.getElementById('presrail'), count=document.getElementById('prescount');
+  S.forEach(function(){rail.appendChild(document.createElement('i'));});
+  function render(){
+    var s=S[i];
+    var chip = s.chip ? '<span class="pres-chip" style="color:'+s.cc+';background:'+s.cc+'1e;border:1px solid '+s.cc+'55;">'+s.chip+'</span>' : '';
+    slide.innerHTML='<div class="pres-act">'+(s.act||'')+'</div>'+chip+'<div class="pres-h">'+s.h+'</div>'+(s.b?'<div class="pres-b">'+s.b+'</div>':'');
+    slide.classList.remove('anim'); void slide.offsetWidth; slide.classList.add('anim');
+    for(var k=0;k<rail.children.length;k++){ rail.children[k].className = k<=i ? 'on' : ''; }
+    count.textContent=(i+1)+' / '+S.length;
+  }
+  function open(){pres.classList.add('on');pres.setAttribute('aria-hidden','false');i=0;render();}
+  function close(){pres.classList.remove('on');pres.setAttribute('aria-hidden','true');}
+  function go(n){var j=Math.max(0,Math.min(S.length-1,i+n)); if(j!==i){i=j;render();}}
+  document.getElementById('presopen').onclick=open;
+  document.getElementById('presclose').onclick=close;
+  document.getElementById('presnext').onclick=function(){go(1);};
+  document.getElementById('presprev').onclick=function(){go(-1);};
+  document.addEventListener('keydown',function(e){ if(!pres.classList.contains('on'))return;
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);} else if(e.key==='ArrowLeft'){go(-1);} else if(e.key==='Escape'){close();} });
+  var x0=null;
+  pres.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  pres.addEventListener('touchend',function(e){ if(x0===null)return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45)go(dx<0?1:-1); x0=null; },{passive:true});
+})();
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
   window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};

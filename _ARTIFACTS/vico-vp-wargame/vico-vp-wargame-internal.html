@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vico VP Eng · War Game (internal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070b11; --surface:#0e141c; --surface2:#131b25; --line:#223042; --line2:#1a2431;
+    --ink:#e7eef6; --ink2:#aebccb; --ink3:#7f8fa1;
+    --cyan:#3ec6e0; --green:#3ddc97; --gold:#f2c14e; --red:#ff6b81; --violet:#b79cf5;
+    --sans:'Inter',system-ui,-apple-system,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+    --measure:660px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(1100px 620px at 12% -8%,#0d1a24 0,rgba(13,26,36,0) 62%),var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{padding:34px 18px 80px;}
+  .wrap{max-width:700px;margin:0 auto;}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(26px,4.4vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.04;margin-top:13px;}
+  .lede{font-size:15px;line-height:1.6;color:var(--ink2);margin-top:12px;max-width:760px;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .flag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid #4a3c1a;background:#1b1608;border-radius:4px;padding:4px 9px;}
+
+  h2{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--cyan);margin:34px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line);}
+  .card{background:var(--surface);border:1px solid var(--line2);border-radius:13px;padding:18px 20px;}
+  .card+.card{margin-top:12px;}
+  p{font-size:13.5px;line-height:1.62;color:var(--ink2);max-width:var(--measure);} p b{color:var(--ink);font-weight:600;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+  .who{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin-bottom:7px;}
+  .who .r{color:var(--ink3);}
+  .card ul{list-style:none;margin-top:8px;} .card li{position:relative;padding-left:15px;font-size:12.5px;line-height:1.5;color:var(--ink2);margin-bottom:5px;max-width:var(--measure);}
+  .card li::before{content:"";position:absolute;left:2px;top:7px;width:4px;height:4px;border-radius:50%;background:var(--cyan);} .card li b{color:var(--ink);font-weight:600;}
+
+  .obj{background:var(--surface);border:1px solid var(--line2);border-radius:13px;padding:0;overflow:hidden;}
+  .obj+.obj{margin-top:12px;}
+  .obj .top{display:flex;align-items:flex-start;gap:12px;padding:15px 18px 13px;border-bottom:1px solid var(--line2);}
+  .obj .id{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink3);flex:none;padding-top:2px;}
+  .obj .q{font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.4;max-width:640px;}
+  .obj .risk{margin-left:auto;flex:none;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;height:fit-content;}
+  .risk.high{color:#2a0007;background:var(--red);} .risk.med{color:#241a02;background:var(--gold);} .risk.low{color:#052014;background:var(--green);}
+  .obj .body{padding:13px 18px 16px;}
+  .obj .facet{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px;}
+  .obj .lab{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin:10px 0 3px;}
+  .lab.g{color:var(--green);} .lab.r{color:var(--red);} .lab.c{color:var(--cyan);}
+  .obj .body p{font-size:13px;max-width:none;}
+
+  .verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+  @media(max-width:720px){.verdict{grid-template-columns:1fr;}}
+  .vcell{border-radius:11px;padding:13px 15px;border:1px solid var(--line2);background:var(--surface2);}
+  .vcell .vh{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+  .vcell.g .vh{color:var(--green);} .vcell.y .vh{color:var(--gold);} .vcell.r .vh{color:var(--red);}
+  .vcell p{font-size:12px;line-height:1.5;color:var(--ink2);max-width:none;} .vcell b{color:var(--ink);}
+  .move{background:linear-gradient(158deg,#101b24,#0d1620);border:1px solid #244056;border-radius:12px;padding:16px 18px;}
+  .move+.move{margin-top:10px;}
+  .move .mh{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px;}
+  .move p{font-size:13.5px;max-width:760px;color:var(--ink2);} .move p b{color:var(--ink);}
+  footer{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);max-width:760px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow"><span class="mk"></span>Internal war game &middot; not for send</div>
+  <h1>Vico VP of Engineering: the room, the objections, the ground you hold</h1>
+  <p class="lede">A persona-led gauntlet run against Zach's VP candidacy, played from the far side of the table. The hiring manager is <b>Lyndon Oh (CTO, co-founder)</b>, the person this role reports to. Every persona read below is grounded in his and the CEO's public record, the JD, and the Sept 17 recruiter call, held as a hypothesis, not a fact about the man.</p>
+  <span class="flag">Highest-leverage takeaway: calibrate the &ldquo;decision-scoring&rdquo; claim DOWN for this specific audience, and lead with the live demo.</span>
+
+  <h2>Who is actually across the table</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="who">Lyndon Oh &middot; <span class="r">CTO, co-founder &middot; you report to him</span></div>
+      <p>PhD Economics on <b>complex systems and exogenous shocks</b>. Citadel and Rothschild (finance/quant). Booz Allen: <b>Modeling, Simulation, Wargaming &amp; Analysis</b>. Ex-Google (Android eng/PM), ex-Meta (analytics lead). Serial founder, two exits. Most recent: <b>LLM and agentic-AI product strategy</b> at Invisible Technologies (PE customers, pricing, OpenAI/Cohere). Python, R, Stata.</p>
+      <ul>
+        <li>He can and will <b>go deep himself</b>. He is not a delegating CTO.</li>
+        <li>He did his doctorate on the exact thing you market: <b>scoring and forecasting under uncertainty</b>. This is your bond and your trap.</li>
+        <li>Values rigor, calibration, commercial sense, and shipping to hard customers (finance, PE, gov).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="who">Anthony Vinci &middot; <span class="r">CEO, co-founder</span></div>
+      <p>Ex-<b>NGA Chief Technology Officer</b>. Bridgewater core management team, Cerberus MD, DoD intelligence officer, author on the future of espionage. LSE PhD. The national-security and institutional-gravity half of the founding team.</p>
+      <ul>
+        <li>Sets the mission register: finance <b>and</b> national security, world-class-pedigree bar.</li>
+        <li>Your regulated-finance provenance and defensive-security public work (SBOM teardown) speak his language.</li>
+        <li>Not the hiring manager here, but the culture he sets is the room's air.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="who">Warm connective tissue (grounded, usable)</div>
+    <ul>
+      <li><b>Outlier Ventures</b> backed Lyndon's Ozone; you mentor at Outlier Ventures. Shared orbit, real, low-key.</li>
+      <li><b>Regulated finance both ways:</b> your Grayscale $7B / SEC-FINRA launch maps to his Citadel / Rothschild / PE customer world.</li>
+      <li><b>The thesis rhymes:</b> ARCS scores a decision's confidence and checks it against reality. That is forecasting and calibration, his PhD domain and Vico's product. Powerful <em>if</em> claimed honestly.</li>
+    </ul>
+  </div>
+
+  <h2>The objection board (played as Lyndon, ranked by kill-risk)</h2>
+
+  <div class="obj">
+    <div class="top"><span class="id">O1</span><span class="q">&ldquo;Have you actually managed and grown a team of engineers, or led cross-functional product with an engineering flavor?&rdquo;</span><span class="risk high">High</span></div>
+    <div class="body">
+      <div class="facet">Facet: most-technical + situational-strategic &middot; the JD wants 5-7 yrs eng management / tech-lead</div>
+      <div class="lab g">Honest answer</div>
+      <p>Your leadership is real but <b>cross-functional and player-coach</b>: owned delivery and governance for the $7B launch, ran a release train across four time zones, recruited Selectable's first CTO, tech lead rebuilding Squat end to end, mentor engineers at Cornell Tech and Outlier. Direct day-to-day line-management of a standing IC engineering team (their sprints, their perf reviews) is the thinner edge.</p>
+      <div class="lab c">Handling</div>
+      <p>Name it before he does. Reframe to what <em>this</em> role actually is: a hands-on leader for a small, mostly-junior team at an inflection point, where lifting the team, owning delivery, and going deep matters more than headcount previously managed. Do not claim &ldquo;I ran a 30-person org.&rdquo;</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O2</span><span class="q">&ldquo;This reads like a product and design leader. Can you actually go deep on architecture, LLMOps, and infra, or do you direct the people who do?&rdquo;</span><span class="risk high">High</span></div>
+    <div class="body">
+      <div class="facet">Facet: most-technical &middot; your titles are Product Lead / Head of Product; he is Python/R and ex-Google eng</div>
+      <div class="lab g">Honest answer</div>
+      <p>ARCS is hand-built code: a live MCP server, agentic orchestration, a FastAPI embedding service, Next/TS/Prisma, evals, a public commit trail. The live demo (which Joe already watched) is the proof you can out-build this doubt in real time.</p>
+      <div class="lab r">Exposure</div>
+      <p>It is a <b>solo-built</b> system, not a multi-engineer codebase running at scale with SLAs and on-call. Expect the counter: &ldquo;building solo is not the same as leading a team building at scale.&rdquo; Be ready to talk architecture choices (why pgvector, how the orchestration holds state, how evals actually run) without hand-waving. He will smell it.</p>
+      <div class="lab c">Handling</div>
+      <p><b>Lead with the demo.</b> Convert the &ldquo;is he a real engineer&rdquo; doubt to a settled fact before it hardens, then let him probe: you want the technical interrogation, it is your home ground.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O3</span><span class="q">&ldquo;You told the recruiter you prefer senior IC over management. Do you actually want to run my team, or keep building yourself?&rdquo;</span><span class="risk high">High</span></div>
+    <div class="body">
+      <div class="facet">Facet: situational-strategic &middot; self-inflicted, straight from the Sept 17 transcript</div>
+      <div class="lab g">Honest answer</div>
+      <p>The player-coach framing is the reconciliation, and it is real: the JD is an explicitly hands-on leadership role, which is the version of leadership you actually want (lead by building and lifting, not pure people-management). But be honest with yourself first: are you willing to spend real hours on hiring, 1:1s, unblocking juniors, and process, the non-coding 40%? If yes, say concretely how. If the true answer is &ldquo;I mostly want to build,&rdquo; this is a mis-fit and better known now.</p>
+      <div class="lab c">Handling</div>
+      <p>Own the IC lean openly, reframe as &ldquo;I lead by staying technical,&rdquo; and give evidence you invest in people (recruited a CTO, mentor at Cornell Tech / Outlier). Do <b>not</b> perform being a career people-manager to a man who reads people for a living.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O5</span><span class="q">&ldquo;You market a decision-scoring / calibration layer. I did my PhD on this and we sell forecasting tools. Show me the scoring rule, or is the Y-gate a dashboard?&rdquo;</span><span class="risk high">High</span></div>
+    <div class="body">
+      <div class="facet">Facet: most-technical + hype-allergic &middot; the single person alive most able to see through an overclaim here</div>
+      <div class="lab r">Exposure (this is the big one)</div>
+      <p>The resume says the Y-gate does &ldquo;the same job as Brier/log scoring.&rdquo; Lyndon will ask: is it a <b>proper scoring rule</b>, is it backtested, what is the calibration curve, what is n? The honest reality: it is a structured conviction/stability heuristic with a belief-history trail and outcome-checking, and the validation set is tiny (closed-loop outcomes are ~2 of 247). To this audience, claiming a validated forecasting system is a credibility-killer.</p>
+      <div class="lab g">Honest answer</div>
+      <p>Be precise and humble: &ldquo;It is the same <em>discipline</em>, score before, check after, built as a product primitive. The statistical validation is early and the scoring rule itself needs more rigor, which is exactly the kind of thing your team is built to do well.&rdquo; That turns exposure into shared vocabulary plus intellectual honesty, the two things he rewards.</p>
+      <div class="lab c">Handling</div>
+      <p><b>Calibrate the calibration claim down</b> for Lyndon specifically. Under-claim the math, over-deliver the build. This is the highest-leverage single adjustment in the whole room.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O4</span><span class="q">&ldquo;Our stack is GCP. You have never run production on GCP.&rdquo;</span><span class="risk med">Med</span></div>
+    <div class="body">
+      <div class="facet">Facet: practitioner &middot; a named JD requirement</div>
+      <div class="lab g">Honest answer</div>
+      <p>Named gap. Python, React, Postgres are weekly; cloud has been Vercel / Supabase and adjacent, not GCP. Fast to ramp for someone who has shipped on comparable clouds.</p>
+      <div class="lab c">Handling</div>
+      <p>Name it first, show cloud-agnostic fundamentals, never bluff. Low risk if owned; it only turns high if it stacks onto an un-handled O2.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O6</span><span class="q">&ldquo;RAG in production, fine-tuning, model-eval frameworks. Where are you on the nice-to-haves?&rdquo;</span><span class="risk med">Med</span></div>
+    <div class="body">
+      <div class="facet">Facet: practitioner &middot; these are nice-to-haves, not requirements</div>
+      <div class="lab g">Honest answer</div>
+      <p>Embedding service built and running (FastAPI); pgvector design done, write-path not shipped; evals are ARCS's real quality layer but not a named framework (not Braintrust/promptfoo/LangSmith); no fine-tuning. The retrieval architecture is thought through correctly; the at-scale production version is the gap.</p>
+      <div class="lab c">Handling</div>
+      <p>Own it plainly; show the architecture reasoning. Safe as long as it is not dressed up.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O7</span><span class="q">&ldquo;Two decades, many domains, several short stints. Are you a builder who ships and moves on, or someone who stays and scales MY team through the hard middle?&rdquo;</span><span class="risk med">Med</span></div>
+    <div class="body">
+      <div class="facet">Facet: situational-strategic &middot; retention and jack-of-all-trades read</div>
+      <div class="lab g">Honest answer</div>
+      <p>The throughline is 0-to-1 in regulated and complex domains, and a compounding decision-intelligence thesis that ARCS is the culmination of. The breadth is transversal strength for a company spanning finance, national security, and applied research. Acknowledge the fair question about staying through scale rather than deflecting it.</p>
+      <div class="lab c">Handling</div>
+      <p>Name the ARCS question directly (see O8): the honest fit conversation is whether Vico absorbs that energy or competes with it.</p>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="top"><span class="id">O8</span><span class="q">&ldquo;Band is $200-300k plus equity, and you are actively building your own thing. Are we aligned, or a stepping stone?&rdquo;</span><span class="risk low">Lower</span></div>
+    <div class="body">
+      <div class="facet">Facet: situational-strategic &middot; real for closing, not for getting the interview</div>
+      <div class="lab g">Honest answer</div>
+      <p>From the transcript you flagged not wanting to be read as a junior hire, wanting equity/budget room, and you are actively building ARCS. That is a genuine two-way fit item: comp band, equity, and whether the ARCS thesis lives inside Vico's mission or pulls against it. Better surfaced early and honestly than discovered late.</p>
+    </div>
+  </div>
+
+  <h2>Defensibility verdict</h2>
+  <div class="verdict">
+    <div class="vcell g"><div class="vh">Green &middot; hold hard</div><p><b>The live build</b> (out-builds the &ldquo;is he deep&rdquo; doubt), <b>regulated-finance provenance</b>, <b>shared calibration vocabulary</b> (if honest), <b>0-to-1 resourcefulness</b>, the <b>Outlier / finance</b> warm orbit.</p></div>
+    <div class="vcell y"><div class="vh">Yellow &middot; win or lose the room</div><p><b>Eng-management depth</b> (O1), <b>product-vs-eng leader + solo-vs-scale</b> (O2), <b>IC-vs-manager motivation</b> (O3), <b>quant rigor of the scoring claim to a quant PhD</b> (O5).</p></div>
+    <div class="vcell r"><div class="vh">Red &middot; own, do not hide</div><p><b>GCP</b> (O4), <b>RAG / fine-tuning / eval frameworks</b> (O6), <b>no prior VP/Director title</b>. Survivable when named first; fatal only if bluffed.</p></div>
+  </div>
+
+  <div class="move"><div class="mh">Move 1 &middot; the one adjustment that matters most</div><p><b>Recalibrate the decision-scoring claim down for Lyndon specifically.</b> He is the one person who will see through an overclaim on calibration, because he did it for real. Under-claim the math (&ldquo;same discipline, early validation, small n&rdquo;), over-deliver the build. Handled well, it becomes the strongest bond in the room; handled wrong, it is the fastest way to lose him.</p></div>
+  <div class="move"><div class="mh">Move 2 &middot; sequence the room</div><p><b>Lead with the live demo</b> to settle &ldquo;is he a real engineer&rdquo; before it forms, then invite the technical interrogation. Pre-empt the IC-preference question (O3) with the player-coach reconciliation in your own words, before he raises it from the transcript.</p></div>
+  <div class="move"><div class="mh">Move 3 &middot; the honest fork (surface it to yourself, not to him)</div><p>The war game keeps returning to one real question: <b>is VP of Engineering the right role for you at all</b>, given you told Joe you prefer IC? The req is real and the fit on build, finance, and thesis is genuinely strong. But if the honest answer to &ldquo;do I want the non-coding 40%&rdquo; is no, the strongest move is to know that before the CTO conversation, not during it.</p></div>
+
+  <footer>
+    Internal preparation artifact. Persona reads are hypotheses grounded in public LinkedIn records (Lyndon Oh, Anthony Vinci), the Vico VP of Engineering JD, and the Sept 17 2026 recruiter call. Not for send. Never share the objection framing with the counterpart. Sources on request.
+  </footer>
+</div>
+</body>
+</html>
