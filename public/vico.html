@@ -68,7 +68,12 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .pres-chip{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
   .pres-h{font-size:clamp(23px,3.8vw,35px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
   .pres-b{font-size:15.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
-  .pres-bot{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-bot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-spine{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#3d4c5b;min-width:0;flex-wrap:wrap;}
+  .pres-spine i{color:#2a3746;font-style:normal;}
+  .pres-spine span{transition:color .35s;} .pres-spine span.on{color:var(--cyan);}
+  .pres-slide.lofi .pres-b{opacity:.9;font-weight:400;letter-spacing:.005em;}
+  @media(max-width:600px){.pres-spine{display:none;}}
   .pres-nav{display:flex;gap:10px;} .pres-nav button{font-family:var(--mono);font-size:12px;font-weight:700;color:#eaf1f8;background:#16222e;border:1px solid #26384a;border-radius:6px;padding:7px 13px;cursor:pointer;} .pres-nav button:hover{border-color:var(--cyan);}
   .pres-count{letter-spacing:.1em;}
   @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}}
@@ -101,7 +106,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
       <div class="sec">
         <h2>Where my work overlaps</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a source-graded, scenario-probability analysis of the ZIM / Hapag-Lloyd merger, a trade whose whole outcome turns on an Israeli <b>golden-share veto</b> under Red Sea and Iran tension. It runs a 30,000-path scenario matrix, names the leading indicators and the monitoring triggers that would move the odds, grades every source A/B/C, and lands on a risk-adjusted call, with a <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">video walkthrough</a> and the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>. That is your problem space, a probability on a political-economic event under a sovereign shock, worked the way I think.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a source-graded, scenario-probability analysis of the ZIM / Hapag-Lloyd merger, a trade whose whole outcome turns on an Israeli <b>golden-share veto</b> under Red Sea and Iran tension. It runs a 30,000-path scenario matrix, names the leading indicators and the monitoring triggers that would move the odds, grades every source A/B/C, and lands on a risk-adjusted call, with the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>. That is your problem space, a probability on a political-economic event under a sovereign shock, worked the way I think.</p></div>
           <div class="row"><span class="n">2</span><p><span class="lead">Scoring the call, then checking it against reality.</span>Under that one-off sits a system. ARCS scores every call for conviction and stability before the fact and keeps a belief-history trail, so it can be checked against the outcome after, the same <b>score-before, check-after</b> discipline behind a backtested forecast. To be exact about the gap: your forecasts are backtested and beat the markets they sit beside; mine are hand-built single calls, not a backtested track record, and ARCS produces conviction states rather than probabilities, so there is no Brier or log score to set next to yours yet. The discipline is real and public: a <a href="https://good.arcs.care/blog/til/apple-openai">belief ledger</a> that scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, honest corrections and all. Turning that into backtested numbers is the obvious next step, and exactly the muscle your team already has.</p></div>
           <div class="row"><span class="n">3</span><p><span class="lead">Provenance under regulation.</span>I built the investor-facing platform behind a $7B, SEC/FINRA-regulated launch: RBAC, change controls, pre-deployment integrity gates, every decision traceable back to why it was made. That "show your work" requirement is the same one traders, analysts, and government users put on a forecast. They need to trust it when it is wrong, not only when it is right.</p></div>
           <div class="row"><span class="n">4</span><p><span class="lead">LLM systems that stay checkable, with a human in the loop.</span>I run a live LLM system on Claude end to end: agentic tool-use, evals, and human-in-the-loop review. ARCS scaffolds judgment without overruling it, structured scoring as the quality layer, never an autonomous verdict. Shipping LLM features that hold up under scrutiny, with the reasoning left exposed so a skeptic can interrogate it, is the part of the AI stack I have spent this year inside.</p></div>
@@ -137,7 +142,7 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
         <a href="/resume">R&eacute;sum&eacute;</a>
         <a href="https://status.arcs.care">The code trail</a>
         <a href="https://good.arcs.care/blog/til/apple-openai">Belief ledger (Apple&ndash;OpenAI)</a>
-        <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">ZIM analysis (video)</a>
+        <a href="https://good.arcs.care/blog/til/zim">ZIM analysis</a>
         <a href="https://github.com/flashesofbrilliance">GitHub</a>
       </div>
       <div class="fine">Prepared for Lyndon Oh at VICO. Introduced by Joe Schriner at Oxenham Group.</div>
@@ -146,34 +151,42 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
 <div class="pres" id="pres" aria-hidden="true">
   <div class="pres-top"><div class="pres-rail" id="presrail"></div><button class="pres-close" id="presclose">ESC &#10005;</button></div>
   <div class="pres-stage"><div class="pres-slide" id="presslide"></div></div>
-  <div class="pres-bot"><span class="pres-count" id="prescount"></span><div class="pres-nav"><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
+  <div class="pres-bot"><div class="pres-spine" id="presspine"><span data-lp="score">score before</span><i>&rarr;</i><span data-lp="check">check after</span><i>&rarr;</i><span data-lp="correct">correct in public</span></div><div class="pres-nav"><span class="pres-count" id="prescount"></span><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
 </div>
 <script>
 (function(){
   var C={seen:'#3ec6e0',mine:'#3ddc97',hyp:'#f2c14e'};
   var S=[
-    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: what you do, where I overlap, how I would think about it. Each slide labeled by source.'},
+    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: what you do, where I overlap, how I would think about it. Each slide labeled by source. The strip below is the spine every slide sits on.'},
+    {act:'THE LOOP',cc:C.mine,chip:'THE SPINE',lp:['score','check','correct'],h:'One discipline underneath all of it.',b:'<b>Score the call before the fact. Check it against reality after. Correct in public.</b> VICO runs that loop with backtested forecasts across 150,000 sources. I run it by hand, in the open (<a href="https://good.arcs.care/blog/til/closing-the-loop" target="_blank" rel="noopener">the receipts</a>). Same loop, different scale, and it is the thread through every slide that follows.'},
     {div:1,act:'ACT I',h:'What VICO does.'},
-    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO).'},
+    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',lp:['score','check','correct'],h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO). The whole loop, run at scale.'},
     {div:1,act:'ACT II',h:'Where my work overlaps.'},
-    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <b>ZIM / Hapag-Lloyd</b> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. Your problem, in my hand.'},
-    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',h:'Score the call, then check it.',b:'A public <b>belief ledger</b>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. No Brier score yet. That is the honest gap, and your team’s muscle.'},
-    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands.'},
+    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',lp:['score'],h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <a href="https://good.arcs.care/blog/til/zim" target="_blank" rel="noopener"><b>ZIM / Hapag-Lloyd</b></a> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. The call, scored before the outcome. Your problem, in my hand.'},
+    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',lp:['check','correct'],h:'Score the call, then check it.',b:'A public <a href="https://good.arcs.care/blog/til/apple-openai" target="_blank" rel="noopener"><b>belief ledger</b></a>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. Check-after and correct-in-public, on the record. No Brier score yet. That is the honest gap, and your team’s muscle.'},
+    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',lp:['check'],h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands, and what makes the check after possible.'},
     {act:'OVERLAP · 04',cc:C.mine,chip:'MINE · HOW I BUILD',h:'LLM systems that stay checkable.',b:'A live LLM system on Claude: agentic tool-use, evals, human-in-the-loop, reasoning left exposed. The AI stack I have spent this year inside.'},
     {div:1,act:'ACT III',h:'Why, and how I would think about it.'},
-    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'The honest version of forecasting.',b:'The value is not the answer, it is the <b>scored, checkable call behind it</b>. Anthony’s think-in-probabilities, and your work on exogenous shocks, are the exact instinct I built around.'},
-    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'Two questions I would live in.',b:'<b>Does the calibration survive a cascade</b> that moves its own leading indicator? And <b>how deep does explainable reach</b>, from 150,000 sources to one number?'},
+    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',lp:['correct'],h:'The honest version of forecasting.',b:'The value is not the answer, it is the <b>scored, checkable call behind it</b>, corrections owned out loud. Anthony’s think-in-probabilities, and your work on exogenous shocks, are the exact instinct I built around.'},
+    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',lp:['score'],h:'Two questions I would live in.',b:'<b>Does the calibration survive a cascade</b> that moves its own leading indicator? And <b>how deep does explainable reach</b>, from 150,000 sources to one number?'},
     {act:'YOUR MOVE',cc:C.seen,chip:'OVER TO YOU',h:'Where did I get it wrong?',b:'I build with AI on top of fundamentals, have led teams and owned systems end to end, and care about provenance, because your users must trust what they see.'}
   ];
   var i=0, pres=document.getElementById('pres'), slide=document.getElementById('presslide'),
-      rail=document.getElementById('presrail'), count=document.getElementById('prescount');
+      rail=document.getElementById('presrail'), count=document.getElementById('prescount'),
+      spine=document.getElementById('presspine');
   S.forEach(function(){rail.appendChild(document.createElement('i'));});
   function render(){
     var s=S[i];
     var chip = s.chip ? '<span class="pres-chip" style="color:'+s.cc+';background:'+s.cc+'1e;border:1px solid '+s.cc+'55;">'+s.chip+'</span>' : '';
     slide.innerHTML='<div class="pres-act">'+(s.act||'')+'</div>'+chip+'<div class="pres-h">'+s.h+'</div>'+(s.b?'<div class="pres-b">'+s.b+'</div>':'');
+    // Earned fidelity (THE RENDER SCALE): a HYPOTHESIS renders a notch softer than a SEEN/MINE fact.
+    slide.classList.toggle('lofi', s.cc===C.hyp);
+    // The one loop is the spine: light the stage(s) this slide sits on.
+    var lp = s.lp ? (Array.isArray(s.lp)?s.lp:[s.lp]) : [];
+    for(var m=0;m<spine.children.length;m++){ var el=spine.children[m], k=el.getAttribute('data-lp');
+      if(k) el.className = lp.indexOf(k)>-1 ? 'on' : ''; }
     slide.classList.remove('anim'); void slide.offsetWidth; slide.classList.add('anim');
-    for(var k=0;k<rail.children.length;k++){ rail.children[k].className = k<=i ? 'on' : ''; }
+    for(var k2=0;k2<rail.children.length;k2++){ rail.children[k2].className = k2<=i ? 'on' : ''; }
     count.textContent=(i+1)+' / '+S.length;
   }
   function open(){pres.classList.add('on');pres.setAttribute('aria-hidden','false');i=0;render();}
