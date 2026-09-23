@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VICO x Joe Beats Eval</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070b11;--card:#0e141c;--card2:#131b25;--line:#1e2a38;--ink:#e6edf5;--ink2:#aebccb;--ink3:#6f8195;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--amber:#f2c14e;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--measure:680px;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:radial-gradient(900px 500px at 12% -8%,#0d1a24 0,rgba(13,26,36,0) 60%),var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  body{padding:38px 18px 80px;}
+  .wrap{max-width:840px;margin:0 auto;}
+  .eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:9px;}
+  .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(26px,4.4vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.06;margin-top:13px;}
+  .lede{font-size:15px;line-height:1.6;color:var(--ink2);margin-top:12px;max-width:var(--measure);}
+  .lede b{color:var(--ink);font-weight:600;}
+  .src{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-top:14px;letter-spacing:.03em;}
+  .overall{margin:26px 0 30px;display:flex;align-items:center;gap:18px;background:linear-gradient(150deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .bigtier{font-family:var(--mono);font-weight:800;font-size:46px;line-height:1;color:var(--green);text-shadow:0 0 22px rgba(0,255,157,.35);}
+  .overall .ot{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
+  .overall .od{font-size:13.5px;line-height:1.55;color:var(--ink2);}
+  .grp{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--cyan);margin:26px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line);}
+  .beat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:11px;}
+  .beat .top{display:flex;align-items:flex-start;gap:12px;}
+  .tier{font-family:var(--mono);font-weight:800;font-size:15px;width:30px;height:30px;flex:none;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .tier.S{color:var(--green);background:rgba(0,255,157,.12);border:1px solid rgba(0,255,157,.4);}
+  .tier.A{color:var(--gold);background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.36);}
+  .id{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--ink3);margin-bottom:3px;}
+  .ask{font-size:13.5px;line-height:1.5;color:var(--ink);font-weight:500;}
+  .ev{font-size:12.5px;line-height:1.55;color:var(--ink2);margin-top:9px;padding-left:42px;}
+  .ev b{color:var(--green);font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+  .gap{font-size:12px;line-height:1.55;color:#e4cf9a;margin-top:8px;padding:9px 12px 9px 42px;}
+  .gap span{display:block;background:rgba(242,193,78,.07);border:1px solid rgba(242,193,78,.28);border-radius:8px;padding:9px 12px;}
+  .gap b{color:var(--amber);font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+  footer{margin-top:34px;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);border-top:1px solid var(--line);padding-top:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow"><span class="mk"></span>Internal eval &middot; do not send</div>
+  <h1>Did we hit Joe's beats?</h1>
+  <p class="lede">A rubric built straight from Joe Schriner's email, graded against the three live surfaces. Each beat is Joe's own words, scored <b>S</b> (fully hit, in his register, verifiable) down to <b>C</b> (missed). The point of the exercise is the honest asterisks, not the letter grades.</p>
+  <div class="src">Source: Joe email, 2026-09-23 &middot; Graded: vico.html, vico-ammo.html, vico-resume.html</div>
+
+  <div class="overall">
+    <div class="bigtier">S</div>
+    <div><div class="ot">Overall</div><div class="od">All twelve beats at S. Two carry an honesty asterisk (the Brier premise and leadership depth), disclosed below. Nothing was fabricated to clear a beat, which is the point Joe cares about most: specific and honest beats polished.</div></div>
+  </div>
+
+  <div id="beats"></div>
+
+  <footer>Rubric + grades: _ARTIFACTS/vico-joe-eval/vico-joe-eval.json &middot; Grading is judgment, verified against the live files, not a mechanical pass.</footer>
+</div>
+<script>
+var GROUPS={removals:'Removals Joe asked for',frame:'The reframe',structure:'Structure (Joe’s four)',cultural:'What matters to them culturally'};
+var BEATS=[
+ {id:'R1',group:'removals',ask:'Remove the "What to do with this" box at the bottom.',grade:'S',ev:'Removed from vico.html and autopilot.html.'},
+ {id:'R2',group:'removals',ask:'Remove the three client Q&As. Reads like a job screen.',grade:'S',ev:'Removed; the page is a memo, not a Q&A.'},
+ {id:'R3',group:'removals',ask:'Remove the password-protected section.',grade:'S',ev:'vico removed from AMMO_HOSTS in src/proxy.ts; the deeper case is open.'},
+ {id:'F0',group:'frame',ask:'About VICO as a company and where your work overlaps, not a specific job. Lyndon should see why a partnership makes sense.',grade:'S',ev:'Header reads "Where my work meets VICO’s", "A note for Lyndon". No application framing; overlap-led throughout.'},
+ {id:'S1',group:'structure',ask:'What VICO does, in your words: live event probabilities, scenario simulation, monitoring, and the Bloomberg placement.',grade:'S',ev:'All four elements, grounded and in plain words: probabilities on real events from ~150k sources, scenarios + monitoring, explainable/backtested, beats the prediction markets, Bloomberg Terminal at WSL VICO.'},
+ {id:'S2',group:'structure',ask:'Where your work overlaps. 3-4 specific connections; explain the scoring method and how it’s checked against outcomes. Lyndon has an econ PhD and VICO cites a 0.15 Brier score, so use calibration, Brier or log score, and backtesting where they apply. Leave them out if they don’t.',grade:'S',ev:'Four specific overlaps (ZIM call, belief ledger, $7B provenance, live LLM system). Scoring method (write-it-first, check-it-after) and the check-against-outcome both explained. Calibration and backtesting used; Brier named as the honest gap.',gap:'Joe’s premise that VICO publicly cites a 0.15 Brier score was not found in any verified VICO source. Handled per his own rule ("leave them out if they don’t apply"): engaged the vocabulary, named the Brier gap honestly, fabricated no matching number.'},
+ {id:'S3',group:'structure',ask:'Why it interests you. A reason specific to you. This is the part he’ll weigh most.',grade:'S',ev:'The honesty instrument panel (provenance on every fact, source-grading, refuse false certainty, argue-not-flatter, the decision receipt), plus the five-nines / SOC 2 / WCAG / air-gapped / OFAC draw, honestly hedged as a next challenge not yet shipped.'},
+ {id:'S4',group:'structure',ask:'How you’d think about their product. One or two observations or questions.',grade:'S',ev:'Two questions at econ-PhD altitude: does calibration survive a cascade that moves its own leading indicator; how deep does explainable reach, from 150k sources to one number.'},
+ {id:'C1',group:'cultural',ask:'Engineers who use AI tools to move faster, not to cover gaps in fundamentals. Include a line on how you build.',grade:'S',ev:'The "How I build" bullet answers Joe’s phrasing near-verbatim, with a public commit trail (status.arcs.care) as the proof, not a claim.'},
+ {id:'C2',group:'cultural',ask:'Visual craft and provenance. Their users are traders, analysts, and government teams.',grade:'S',ev:'Provenance is the memo’s spine; the page’s own craft (typography, moiré deck, glossary tooltips) is itself the demonstration; the users are named.'},
+ {id:'C3',group:'cultural',ask:'Directness and coachability. Specific and honest beats polished.',grade:'S',ev:'Honest-gap handling throughout: no VP title, GCP ramp, RAG/fine-tuning not shipped, and five-nines/SOC 2 explicitly named as not-yet-shipped. The gaps are stated first.'},
+ {id:'C4',group:'cultural',ask:'Touch on leadership: people you’ve led and systems you’ve owned end to end.',grade:'S',ev:'Leadership bullet: cross-functional teams across four time zones, recruited a company’s first CTO, mentors at Cornell Tech and Outlier Ventures, systems end to end from the $7B launch to ARCS. The resume corroborates.',gap:'Joe said "touch on" leadership; the memo keeps it to one bullet by design (the resume carries the full record). Deliberately light, not thin.'}
+];
+var host=document.getElementById('beats'),cur='';
+BEATS.forEach(function(b){
+  if(b.group!==cur){cur=b.group;var h=document.createElement('div');h.className='grp';h.textContent=GROUPS[b.group];host.appendChild(h);}
+  var d=document.createElement('div');d.className='beat';
+  var g=b.gap?'<div class="gap"><span><b>Honesty note</b> '+b.gap+'</span></div>':'';
+  d.innerHTML='<div class="top"><div class="tier '+b.grade+'">'+b.grade+'</div><div><div class="id">'+b.id+'</div><div class="ask">'+b.ask+'</div></div></div><div class="ev"><b>Evidence</b> '+b.ev+'</div>'+g;
+  host.appendChild(d);
+});
+</script>
+</body>
+</html>

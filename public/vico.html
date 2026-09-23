@@ -52,23 +52,50 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
 
+  /* GLOSSARY TOOLTIPS (plain-meaning on hover / tap) */
+  .term{border-bottom:1px dotted var(--accent);cursor:help;}
+  #termtip{position:fixed;z-index:95;max-width:min(300px,calc(100vw - 20px));width:max-content;background:var(--card);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink2);line-height:1.5;text-align:left;opacity:0;pointer-events:none;transition:opacity .14s;box-shadow:0 10px 30px rgba(20,27,36,.22);}
+  #termtip.on{opacity:1;}
+  .hint{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-top:14px;}
+  .hint b{color:var(--accent);border-bottom:1px dotted var(--accent);font-weight:700;}
+  .legend{margin-top:8px;}
+  .legend .lt{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+  .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:620px){.legend-grid{grid-template-columns:1fr;}}
+  .li{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;}
+  .li .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+  .li .d{font-size:12.5px;color:var(--ink2);line-height:1.5;}
+
   /* PRESENT MODE */
   .pres-btn{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--darker);background:var(--cyan);border:0;border-radius:6px;padding:8px 14px;cursor:pointer;}
   .pres-btn:hover{filter:brightness(1.08);}
-  .pres{position:fixed;inset:0;z-index:50;background:radial-gradient(1100px 620px at 15% -10%,#0d1a24 0,rgba(13,26,36,0) 60%),var(--darker);color:#eaf1f8;display:none;flex-direction:column;}
+  .pres{position:fixed;inset:0;z-index:50;overflow:hidden;background:radial-gradient(1100px 620px at 15% -10%,#0d1a24 0,rgba(13,26,36,0) 60%),var(--darker);color:#eaf1f8;display:none;flex-direction:column;}
   .pres.on{display:flex;}
+  /* subtle moiré topography: two offset contour-ring systems, their interference is the terrain (borrowed from chan present layer) */
+  .pres-topo,.pres-topo2{position:absolute;inset:-60%;pointer-events:none;z-index:0;}
+  .pres-topo{background:repeating-radial-gradient(circle at 50% 50%,transparent 0 9px,rgba(125,211,252,0.35) 9px 10px);opacity:.05;animation:topodrift 26s ease-in-out infinite alternate;}
+  .pres-topo2{background:repeating-radial-gradient(circle at 46% 56%,transparent 0 10px,rgba(0,240,255,0.30) 10px 11px);opacity:.04;animation:topodrift2 34s ease-in-out infinite alternate;}
+  @keyframes topodrift{from{transform:translate3d(-1.5%,1%,0);}to{transform:translate3d(1.5%,-1%,0);}}
+  @keyframes topodrift2{from{transform:translate3d(1%,-.5%,0) scale(1.02);}to{transform:translate3d(-1%,.5%,0) scale(1);}}
+  @media(prefers-reduced-motion:reduce){.pres-topo,.pres-topo2{animation:none;}}
+  .pres-top,.pres-stage,.pres-bot{position:relative;z-index:2;}
   .pres-top{display:flex;align-items:center;gap:14px;padding:18px 26px 8px;}
   .pres-rail{flex:1;display:flex;gap:4px;} .pres-rail i{flex:1;height:3px;border-radius:2px;background:#22303f;transition:background .3s;} .pres-rail i.on{background:var(--cyan);}
   .pres-close{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#8aa0b4;background:none;border:0;cursor:pointer;letter-spacing:.08em;}
   .pres-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 26px 24px;}
-  .pres-slide{max-width:760px;width:100%;}
+  .pres-slide{max-width:940px;width:100%;}
   .pres-slide.anim{animation:presin .4s ease;}
   @keyframes presin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-  .pres-act{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
-  .pres-chip{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
-  .pres-h{font-size:clamp(23px,3.8vw,35px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
-  .pres-b{font-size:15.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
-  .pres-bot{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-act{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f93a6;margin-bottom:13px;}
+  .pres-chip{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:15px;}
+  .pres-h{font-size:clamp(29px,4.6vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff;}
+  .pres-b{font-size:19.5px;line-height:1.6;color:#c2d0dd;margin-top:15px;} .pres-b b{color:#fff;font-weight:600;} .pres-b a{color:var(--cyan);text-decoration:none;}
+  .pres-bot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 26px 24px;font-family:var(--mono);font-size:11px;color:#6f8497;}
+  .pres-spine{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#3d4c5b;min-width:0;flex-wrap:wrap;}
+  .pres-spine i{color:#2a3746;font-style:normal;}
+  .pres-spine span{transition:color .35s;} .pres-spine span.on{color:var(--cyan);}
+  .pres-slide.lofi .pres-b{opacity:.9;font-weight:400;letter-spacing:.005em;}
+  @media(max-width:600px){.pres-spine{display:none;}}
   .pres-nav{display:flex;gap:10px;} .pres-nav button{font-family:var(--mono);font-size:12px;font-weight:700;color:#eaf1f8;background:#16222e;border:1px solid #26384a;border-radius:6px;padding:7px 13px;cursor:pointer;} .pres-nav button:hover{border-color:var(--cyan);}
   .pres-count{letter-spacing:.1em;}
   @media(max-width:600px){.pres-stage{padding:12px 18px;}.pres-top,.pres-bot{padding-left:16px;padding-right:16px;}}
@@ -95,39 +122,77 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
     <div class="pad">
       <div class="sec">
         <h2>What VICO does, as I read it</h2>
-        <p class="txt">The way I read VICO: you calculate <b>probabilities that real events will occur</b>, political, geopolitical, and economic, by mining on the order of 150,000 public sources (news, think-tank reports, government feeds like OFAC and Treasury) into <b>decision-grade foresight</b>: continuous forecasts, scenario simulation, and monitoring. Two things make it more than another AI-forecasting demo. It is <b>explainable and backtested</b>, and it <b>outperforms the prediction markets it sits beside</b>, calling events like the Israel strikes on Iran and the Venezuela strike ahead of Polymarket and Kalshi, published where the users already work, on the Bloomberg Terminal at <b>WSL VICO</b>. Built for investors, hedge funds, insurers, corporations, and government agencies by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence.</p>
+        <p class="txt">The way I read VICO: you put a number on the odds that a real-world event will actually happen, political, geopolitical, and economic, by reading on the order of 150,000 public sources (news, think-tank reports, government feeds like <span class="term" data-def="The US Treasury's Office of Foreign Assets Control, which runs the sanctions lists. Its feed is a primary input for anyone forecasting sanctions or sovereign risk.">OFAC</span> and Treasury) and turning them into forecasts a professional can act on, updated continuously, with scenarios and monitoring.</p>
+        <p class="txt">Two things make it more than another AI demo. The forecasts are <span class="term" data-def="You can see why the forecast says what it says, and trace it back to the sources behind it, instead of taking a number on faith.">explainable</span> and <span class="term" data-def="Tested against history: you check what the method would have predicted on past events where the answer is already known, to see if it actually works.">backtested</span>, and they beat the <span class="term" data-def="Betting markets like Polymarket and Kalshi, where the live odds people are betting act as a crowd forecast of an event.">prediction markets</span> they sit next to, calling events like the Israel strikes on Iran and the Venezuela strike ahead of Polymarket and Kalshi, and published where the users already work, on the <span class="term" data-def="The paid data terminal most professional traders and analysts use all day. Typing WSL VICO pulls up VICO right there.">Bloomberg Terminal</span> at <b>WSL VICO</b>. Built for investors, hedge funds, insurers, corporations, and government agencies, by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence.</p>
       </div>
 
       <div class="sec">
         <h2>Where my work overlaps</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a source-graded, scenario-probability analysis of the ZIM / Hapag-Lloyd merger, a trade whose whole outcome turns on an Israeli <b>golden-share veto</b> under Red Sea and Iran tension. It runs a 30,000-path scenario matrix, names the leading indicators and the monitoring triggers that would move the odds, grades every source A/B/C, and lands on a risk-adjusted call, with a <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">video walkthrough</a> and the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>. That is your problem space, a probability on a political-economic event under a sovereign shock, worked the way I think.</p></div>
-          <div class="row"><span class="n">2</span><p><span class="lead">Scoring the call, then checking it against reality.</span>Under that one-off sits a system. ARCS scores every call for conviction and stability before the fact and keeps a belief-history trail, so it can be checked against the outcome after, the same <b>score-before, check-after</b> discipline behind a backtested forecast. To be exact about the gap: your forecasts are backtested and beat the markets they sit beside; mine are hand-built single calls, not a backtested track record, and ARCS produces conviction states rather than probabilities, so there is no Brier or log score to set next to yours yet. The discipline is real and public: a <a href="https://good.arcs.care/blog/til/apple-openai">belief ledger</a> that scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, honest corrections and all. Turning that into backtested numbers is the obvious next step, and exactly the muscle your team already has.</p></div>
-          <div class="row"><span class="n">3</span><p><span class="lead">Provenance under regulation.</span>I built the investor-facing platform behind a $7B, SEC/FINRA-regulated launch: RBAC, change controls, pre-deployment integrity gates, every decision traceable back to why it was made. That "show your work" requirement is the same one traders, analysts, and government users put on a forecast. They need to trust it when it is wrong, not only when it is right.</p></div>
-          <div class="row"><span class="n">4</span><p><span class="lead">LLM systems that stay checkable, with a human in the loop.</span>I run a live LLM system on Claude end to end: agentic tool-use, evals, and human-in-the-loop review. ARCS scaffolds judgment without overruling it, structured scoring as the quality layer, never an autonomous verdict. Shipping LLM features that hold up under scrutiny, with the reasoning left exposed so a skeptic can interrogate it, is the part of the AI stack I have spent this year inside.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Your exact problem, worked by hand and in public.</span>I published a full analysis of the ZIM / Hapag-Lloyd shipping merger, a deal whose whole outcome hangs on whether the Israeli government uses a <span class="term" data-def="A special share, usually held by a government, that carries a veto over big decisions like a sale, even without owning a majority of the company.">golden-share veto</span> to block it, during Red Sea and Iran tension. It plays the situation forward across <span class="term" data-def="The analysis runs the deal forward 30,000 times with different assumptions, to see the full range of outcomes and how likely each one is.">30,000 scenarios</span>, names the early signs that would move the odds, rates every source for reliability, and lands on one risk-adjusted answer (the <a href="https://good.arcs.care/blog/til/zim">full writeup</a>). That is your problem exactly: putting a number on a political event under a sudden shock, worked the way I think.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">Writing the call down first, then checking it.</span>Under that one analysis sits a habit. Before I make a call, I write down how sure I am and why, and keep that record, so later I can check it against what actually happened. That is the same write-it-first, check-it-after habit behind any backtested forecast. Honest about the gap: your forecasts are backtested and beat the markets next to them; mine are hand-made single calls, not a long scored track record yet. But the habit is real and public, a <a href="https://good.arcs.care/blog/til/apple-openai"><span class="term" data-def="A running list of every claim I made, with how sure I was, updated as evidence comes in, including the claims that turned out wrong and stay on the record.">belief ledger</span></a> where I scored a twelve-part thesis before a lawsuit was filed, then re-scored it against the actual complaint, corrections and all. Turning that into hard numbers is the obvious next step, and exactly your team's strength.</p></div>
+          <div class="row"><span class="n">3</span><p><span class="lead">A record you can trust when money is on the line.</span>I built the investor-facing platform behind a $7 billion regulated launch (<span class="term" data-def="The two main US financial regulators. Working under them means the system is audited, fully documented, and held to strict rules, with real penalties for getting it wrong.">SEC / FINRA</span>): access controls, change controls, and checks before anything shipped, every decision traceable back to why it was made. That same show-me-why demand is exactly what a trader or a government analyst puts on a forecast. They need to trust it when it is wrong, not only when it is right.</p></div>
+          <div class="row"><span class="n">4</span><p><span class="lead">AI you can check, with a person in the loop.</span>I run a live AI system on Claude, end to end: it uses tools to get real work done, I test it against known answers (<span class="term" data-def="A fixed set of test questions with known right answers, run against the AI over and over, so you catch it the moment a change makes it worse.">evals</span>), and a person reviews what it does before it counts. It is built to help someone think, not to decide for them, and it shows its reasoning so a skeptic can pull it apart. Shipping AI that holds up under that kind of scrutiny is what I have spent this year doing.</p></div>
         </div>
       </div>
 
       <div class="sec">
         <h2>Why this interests me</h2>
-        <p class="txt">The honest reason: for the last year I have been building one thing, the <b>instrument panel that makes an AI answer trustable</b>. Provenance on every fact. Sources graded before they can move a conclusion. A screen that refuses to show more certainty than the data earned. A system built to disagree with me rather than flatter me. And a decision receipt that writes down what it expected, then checks it against what actually happened. That is not a feature list; it is the thing I actually care about. Most AI products optimize for a confident answer. I have been optimizing for <b>a call you can audit</b>.</p>
-        <p class="txt">VICO is the rare place where that discipline <b>is the product</b>, not a compliance layer bolted on afterward. Your users, traders, analysts, government teams, cannot act on a number they cannot trace: explainable and backtested is not your marketing, it is your moat, and it is the exact machinery I have spent the year building. Doing that alongside Anthony&rsquo;s read-the-primary-source, think-in-probabilities instinct and your work on where calibration breaks under an exogenous shock is the version of this I would actually want to build, not the generic AI-startup version.</p>
+        <p class="txt">The honest reason: for the last year I have been building one thing, a dashboard that makes an AI answer something you can actually trust. Every fact shows where it came from. Sources are rated before they are allowed to move a conclusion. The screen refuses to look more certain than the evidence allows. The system is built to argue with me, not flatter me. And it keeps a receipt: what it expected, checked later against what actually happened. That is the thing I care about. Most AI products aim for a confident-sounding answer. I have been aiming for an answer you can check.</p>
+        <p class="txt">VICO is the rare place where that discipline <b>is the product</b>, not a compliance box bolted on later. Your users cannot act on a number they cannot trace: explainable and backtested is not marketing, it is your <span class="term" data-def="A lasting advantage a competitor cannot easily copy. Here, being able to explain and prove the forecasts is the thing rivals cannot fake.">moat</span>, and it is exactly the machinery I have spent the year building. Doing that next to Anthony&rsquo;s read-the-source, think-in-odds instinct, and your work on where forecasts break under a sudden shock, is the version of this I would actually want to build.</p>
+        <p class="txt">The parts I would care about most are the ones a lot of AI teams treat as afterthoughts: <span class="term" data-def="99.999% uptime, about five minutes of downtime a year. The standard for a data feed people trade on, where an outage during a live event is a real loss.">five-nines reliability</span> on the data feeds, a <span class="term" data-def="A widely-required security audit that proves a company handles customer data safely, with documented controls a third party has checked. A common gate for enterprise and government buyers.">SOC 2</span> security bar, <span class="term" data-def="The Web Content Accessibility Guidelines: the standard that makes a product usable by people with visual, motor, or other impairments. Often a hard requirement for government and enterprise buyers.">WCAG accessibility</span> built in rather than retrofitted, and <span class="term" data-def="A system kept physically disconnected from the public internet, so sensitive data cannot leak out. Standard for intelligence and defense users.">air-gapped</span> deployments for the most sensitive users. To be straight: I have not personally shipped five-nines or SOC 2 yet, and I would not pretend otherwise. They are a next challenge I am genuinely excited to own, and they sit right on top of the regulated-launch discipline I did run for a $7 billion platform: governance, change controls, and integrity gates, where being wrong was expensive. That is what makes a tool like this trustable for the people who most need it.</p>
       </div>
 
       <div class="sec">
         <h2>How I'd think about the product</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p><span class="lead">Does the calibration survive a cascade?</span>Backtested accuracy in the 70-to-80 range is strong. The question I would want to live in: how does it hold when a second-order effect moves the very leading indicator the backtest leaned on, the exogenous shock nobody priced? How does the system notice its own calibration has drifted and re-weight, and how fast? In-regime calibration is the easy half.</p></div>
-          <div class="row"><span class="n">2</span><p><span class="lead">How deep does "explainable" go?</span>Leading with explainable is the right instinct: provenance is what makes a forecast survivable when it is wrong. The question is how far down the chain it reaches, from 150,000 sources to a single probability, how much of that path does a skeptical analyst actually get to open and interrogate?</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Does it hold up when the ground moves?</span>Getting 70 to 80 percent of calls right is strong. The question I would want to live in: what happens when one event changes the very <span class="term" data-def="An early sign that tends to move before the outcome does, used to update the odds ahead of the event itself.">early indicator</span> the forecast was leaning on, the kind of <span class="term" data-def="A big surprise from outside the model, like a war or a sudden policy reversal, that the forecast never saw coming.">outside shock</span> nobody priced in? How does the system notice its own accuracy has slipped, and re-adjust, and how fast? Being accurate in normal conditions is the easy half.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">How far does "explainable" actually go?</span>Leading with explainable is the right call: being able to show your work is what makes a forecast survivable when it is wrong. The question is how far down it reaches, from 150,000 sources to a single number, how much of that path can a doubting analyst actually open up and poke at?</p></div>
         </div>
       </div>
 
       <div class="sec">
         <h2>A few things about how I work</h2>
         <div class="stack">
-          <div class="row"><span class="n">&middot;</span><p><b>How I build:</b> I use AI tools to move faster, not to paper over fundamentals. The code is mine and the commit trail is public (<a href="https://status.arcs.care">status.arcs.care</a>), so the pace is checkable, not claimed.</p></div>
-          <div class="row"><span class="n">&middot;</span><p><b>Leadership:</b> I have led cross-functional teams across time zones and owned systems end to end, from that $7B regulated launch to ARCS from zero. I am direct about what I have run and what I have not.</p></div>
-          <div class="row"><span class="n">&middot;</span><p><b>Craft and provenance:</b> I care about the visual craft and the traceability, because the people who use this kind of tool, traders, analysts, government teams, have to trust what they are looking at.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>How I build:</b> I use AI tools to move faster, not to cover for weak fundamentals. The code is mine and the commit history is public (<a href="https://status.arcs.care">status.arcs.care</a>), so the pace is checkable, not just claimed.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Leadership:</b> I have led cross-functional teams across four time zones, recruited a company's first CTO, and mentor engineers at Cornell Tech and Outlier Ventures. I have owned systems end to end, from that $7 billion regulated launch to building ARCS from nothing, and I am straight about what I have run and what I have not.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Craft:</b> I care about how it looks and how traceable it is, because the people who rely on a tool like this have to trust what they are seeing.</p></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>How I tried to break this</h2>
+        <div class="stack">
+          <div class="row"><span class="n">&middot;</span><p><span class="lead">"The calibration is a handful of public calls, not a scored track record."</span>True. The sample is small and there is no Brier score yet. It is filed in the open so anyone can check it, and named as a gap, not dressed up as more.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><span class="lead">"No VP title, and five-nines and SOC 2 are not shipped."</span>True. The scope is there, teams led, $7 billion delivery owned, a first CTO recruited, but the title and those specific bars are a next step, and I say so first.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><span class="lead">"GCP and production retrieval are real gaps."</span>True. My cloud work is on Vercel and Supabase, and the retrieval write-path is designed but not shipped. Fast to close inside a real system, and not hidden here.</p></div>
+        </div>
+        <p class="txt" style="margin-top:11px;">If one of these is a dealbreaker, better to know now. If they are the cost of a hands-on builder who is honest about the edges, that is the trade I would make.</p>
+      </div>
+
+      <div class="sec">
+        <h2>The terms, in plain words</h2>
+        <div class="hint">Terms marked <b>like this</b> above show their plain meaning on hover or tap. The full list:</div>
+        <div class="legend">
+          <div class="legend-grid">
+            <div class="li"><div class="k">Explainable</div><div class="d">You can see why a forecast says what it says, and trace it back to the sources behind it.</div></div>
+            <div class="li"><div class="k">Backtested</div><div class="d">Tested against history: check what the method would have predicted on past events where the answer is already known.</div></div>
+            <div class="li"><div class="k">Prediction markets</div><div class="d">Betting markets like Polymarket and Kalshi, where the live odds people bet act as a crowd forecast.</div></div>
+            <div class="li"><div class="k">Bloomberg Terminal</div><div class="d">The paid data terminal most professional traders use all day. Typing WSL VICO pulls up VICO there.</div></div>
+            <div class="li"><div class="k">Golden-share veto</div><div class="d">A special share, usually a government's, that can veto big decisions like a sale without owning a majority.</div></div>
+            <div class="li"><div class="k">30,000 scenarios</div><div class="d">The analysis runs the situation forward 30,000 times with different assumptions, to see the range of outcomes and how likely each is.</div></div>
+            <div class="li"><div class="k">Belief ledger</div><div class="d">A running list of each claim I made, with how sure I was, updated as evidence comes in, wrong calls kept on the record.</div></div>
+            <div class="li"><div class="k">SEC / FINRA</div><div class="d">The two main US financial regulators. Working under them means audited, documented, strict rules, real penalties.</div></div>
+            <div class="li"><div class="k">Evals</div><div class="d">A fixed set of test questions with known answers, run against the AI to catch when a change makes it worse.</div></div>
+            <div class="li"><div class="k">Early indicator</div><div class="d">An early sign that tends to move before the outcome, used to update the odds ahead of the event.</div></div>
+            <div class="li"><div class="k">Outside shock</div><div class="d">A big surprise from outside the model, like a war or a policy reversal, that the forecast never saw coming.</div></div>
+            <div class="li"><div class="k">Moat</div><div class="d">A lasting advantage a competitor cannot easily copy. Here, being able to explain and prove the forecasts.</div></div>
+            <div class="li"><div class="k">OFAC</div><div class="d">The US Treasury office that runs the sanctions lists. Its feed is a primary input for forecasting sanctions and sovereign risk.</div></div>
+            <div class="li"><div class="k">Five-nines reliability</div><div class="d">99.999% uptime, about five minutes of downtime a year. The standard for a data feed people trade on.</div></div>
+            <div class="li"><div class="k">SOC 2</div><div class="d">A security audit that proves a company handles customer data safely, with controls a third party has checked. A common enterprise gate.</div></div>
+            <div class="li"><div class="k">WCAG accessibility</div><div class="d">The standard that makes a product usable by people with visual, motor, or other impairments. Often required by government and enterprise buyers.</div></div>
+            <div class="li"><div class="k">Air-gapped</div><div class="d">A system kept physically off the public internet, so sensitive data cannot leak out. Standard for intelligence and defense users.</div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -137,43 +202,53 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
         <a href="/resume">R&eacute;sum&eacute;</a>
         <a href="https://status.arcs.care">The code trail</a>
         <a href="https://good.arcs.care/blog/til/apple-openai">Belief ledger (Apple&ndash;OpenAI)</a>
-        <a href="https://www.youtube.com/watch?v=8hJjwM2YQlM">ZIM analysis (video)</a>
+        <a href="https://good.arcs.care/blog/til/zim">ZIM analysis</a>
         <a href="https://github.com/flashesofbrilliance">GitHub</a>
       </div>
       <div class="fine">Prepared for Lyndon Oh at VICO. Introduced by Joe Schriner at Oxenham Group.</div>
     </footer>
   </div>
 <div class="pres" id="pres" aria-hidden="true">
+  <div class="pres-topo" aria-hidden="true"></div><div class="pres-topo2" aria-hidden="true"></div>
   <div class="pres-top"><div class="pres-rail" id="presrail"></div><button class="pres-close" id="presclose">ESC &#10005;</button></div>
   <div class="pres-stage"><div class="pres-slide" id="presslide"></div></div>
-  <div class="pres-bot"><span class="pres-count" id="prescount"></span><div class="pres-nav"><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
+  <div class="pres-bot"><div class="pres-spine" id="presspine"><span data-lp="score">score before</span><i>&rarr;</i><span data-lp="check">check after</span><i>&rarr;</i><span data-lp="correct">correct in public</span></div><div class="pres-nav"><span class="pres-count" id="prescount"></span><button id="presprev">&larr; Prev</button><button id="presnext">Next &rarr;</button></div></div>
 </div>
 <script>
 (function(){
   var C={seen:'#3ec6e0',mine:'#3ddc97',hyp:'#f2c14e'};
   var S=[
-    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: what you do, where I overlap, how I would think about it. Each slide labeled by source.'},
+    {act:'METHOD',cc:C.mine,chip:'HOW I READ IT',h:'How I read VICO, and where I fit.',b:'Three passes: what you do, where I overlap, how I would think about it. Each slide labeled by source. The strip below is the spine every slide sits on.'},
+    {act:'THE LOOP',cc:C.mine,chip:'THE SPINE',lp:['score','check','correct'],h:'One discipline underneath all of it.',b:'<b>Score the call before the fact. Check it against reality after. Correct in public.</b> VICO runs that loop with backtested forecasts across 150,000 sources. I run it by hand, in the open (<a href="https://good.arcs.care/blog/til/closing-the-loop" target="_blank" rel="noopener">the receipts</a>). Same loop, different scale, and it is the thread through every slide that follows.'},
     {div:1,act:'ACT I',h:'What VICO does.'},
-    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO).'},
+    {act:'AS I READ IT',cc:C.seen,chip:'SEEN · VICO’S RECORD',lp:['score','check','correct'],h:'Probabilities on real events, measured.',b:'Foresight from ~150,000 public sources. <b>Explainable, backtested, and beating the prediction markets</b> you sit beside on the Bloomberg Terminal (WSL VICO). The whole loop, run at scale.'},
     {div:1,act:'ACT II',h:'Where my work overlaps.'},
-    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <b>ZIM / Hapag-Lloyd</b> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. Your problem, in my hand.'},
-    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',h:'Score the call, then check it.',b:'A public <b>belief ledger</b>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. No Brier score yet. That is the honest gap, and your team’s muscle.'},
-    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands.'},
+    {act:'OVERLAP · 01',cc:C.mine,chip:'MINE · PUBLIC & CHECKABLE',lp:['score'],h:'Your exact problem, worked in public.',b:'A source-graded, scenario-probability call on the <a href="https://good.arcs.care/blog/til/zim" target="_blank" rel="noopener"><b>ZIM / Hapag-Lloyd</b></a> merger, turning on an Israeli golden-share veto under Red Sea and Iran tension. The call, scored before the outcome. Your problem, in my hand.'},
+    {act:'OVERLAP · 02',cc:C.mine,chip:'MINE · HONEST GAP',lp:['check','correct'],h:'Score the call, then check it.',b:'A public <a href="https://good.arcs.care/blog/til/apple-openai" target="_blank" rel="noopener"><b>belief ledger</b></a>: I scored a twelve-piece thesis before a lawsuit filed, then re-scored it against the complaint, corrections and all. Check-after and correct-in-public, on the record. No Brier score yet. That is the honest gap, and your team’s muscle.'},
+    {act:'OVERLAP · 03',cc:C.mine,chip:'MINE · TRACK RECORD',lp:['check'],h:'Provenance under regulation.',b:'The investor platform behind a <b>$7B, SEC/FINRA launch</b>: governance, integrity gates, every decision traceable. The show-your-work a forecast demands, and what makes the check after possible.'},
     {act:'OVERLAP · 04',cc:C.mine,chip:'MINE · HOW I BUILD',h:'LLM systems that stay checkable.',b:'A live LLM system on Claude: agentic tool-use, evals, human-in-the-loop, reasoning left exposed. The AI stack I have spent this year inside.'},
     {div:1,act:'ACT III',h:'Why, and how I would think about it.'},
-    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'The honest version of forecasting.',b:'The value is not the answer, it is the <b>scored, checkable call behind it</b>. Anthony’s think-in-probabilities, and your work on exogenous shocks, are the exact instinct I built around.'},
-    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',h:'Two questions I would live in.',b:'<b>Does the calibration survive a cascade</b> that moves its own leading indicator? And <b>how deep does explainable reach</b>, from 150,000 sources to one number?'},
+    {act:'WHY',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',lp:['correct'],h:'The honest version of forecasting.',b:'The value is not the answer, it is the <b>scored, checkable call behind it</b>, corrections owned out loud. Anthony’s think-in-probabilities, and your work on exogenous shocks, are the exact instinct I built around.'},
+    {act:'PRODUCT',cc:C.hyp,chip:'HYPOTHESIS · CHECK ME',lp:['score'],h:'Two questions I would live in.',b:'<b>Does the calibration survive a cascade</b> that moves its own leading indicator? And <b>how deep does explainable reach</b>, from 150,000 sources to one number?'},
+    {act:'STRESS TEST',cc:C.hyp,chip:'HOW I TRIED TO BREAK THIS',lp:['correct'],h:'The hardest objections, answered first.',b:'No Brier score yet, and a small calibration sample. No VP title, and five-nines and SOC 2 not yet shipped. GCP and production retrieval still a ramp. All true, all named here before you had to ask. The honest edges are the proof the rest is real.'},
     {act:'YOUR MOVE',cc:C.seen,chip:'OVER TO YOU',h:'Where did I get it wrong?',b:'I build with AI on top of fundamentals, have led teams and owned systems end to end, and care about provenance, because your users must trust what they see.'}
   ];
   var i=0, pres=document.getElementById('pres'), slide=document.getElementById('presslide'),
-      rail=document.getElementById('presrail'), count=document.getElementById('prescount');
+      rail=document.getElementById('presrail'), count=document.getElementById('prescount'),
+      spine=document.getElementById('presspine');
   S.forEach(function(){rail.appendChild(document.createElement('i'));});
   function render(){
     var s=S[i];
     var chip = s.chip ? '<span class="pres-chip" style="color:'+s.cc+';background:'+s.cc+'1e;border:1px solid '+s.cc+'55;">'+s.chip+'</span>' : '';
     slide.innerHTML='<div class="pres-act">'+(s.act||'')+'</div>'+chip+'<div class="pres-h">'+s.h+'</div>'+(s.b?'<div class="pres-b">'+s.b+'</div>':'');
+    // Earned fidelity (THE RENDER SCALE): a HYPOTHESIS renders a notch softer than a SEEN/MINE fact.
+    slide.classList.toggle('lofi', s.cc===C.hyp);
+    // The one loop is the spine: light the stage(s) this slide sits on.
+    var lp = s.lp ? (Array.isArray(s.lp)?s.lp:[s.lp]) : [];
+    for(var m=0;m<spine.children.length;m++){ var el=spine.children[m], k=el.getAttribute('data-lp');
+      if(k) el.className = lp.indexOf(k)>-1 ? 'on' : ''; }
     slide.classList.remove('anim'); void slide.offsetWidth; slide.classList.add('anim');
-    for(var k=0;k<rail.children.length;k++){ rail.children[k].className = k<=i ? 'on' : ''; }
+    for(var k2=0;k2<rail.children.length;k2++){ rail.children[k2].className = k2<=i ? 'on' : ''; }
     count.textContent=(i+1)+' / '+S.length;
   }
   function open(){pres.classList.add('on');pres.setAttribute('aria-hidden','false');i=0;render();}
@@ -188,6 +263,25 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
   var x0=null;
   pres.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
   pres.addEventListener('touchend',function(e){ if(x0===null)return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45)go(dx<0?1:-1); x0=null; },{passive:true});
+})();
+</script>
+<script>
+(function(){
+  var tip=document.createElement('div');tip.id='termtip';document.body.appendChild(tip);
+  var active=null;
+  function show(el){tip.textContent=el.getAttribute('data-def')||'';tip.classList.add('on');
+    var r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight,half=tw/2;
+    var cx=Math.max(half+10,Math.min(window.innerWidth-half-10,r.left+r.width/2));
+    var above=r.top-th-9;
+    tip.style.left=cx+'px';tip.style.transform='translateX(-50%)';
+    tip.style.top=(above>=8?above:r.bottom+9)+'px';active=el;}
+  function hide(){tip.classList.remove('on');active=null;}
+  // Hover only for a real mouse; touch uses tap-toggle. Gating on pointerType avoids the
+  // synthetic mouseover+click double-fire that shows-then-hides on the first tap (the bug on status).
+  document.addEventListener('pointerover',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t!==active)show(t);});
+  document.addEventListener('pointerout',function(e){if(e.pointerType&&e.pointerType!=='mouse')return;var t=e.target.closest&&e.target.closest('.term');if(t&&t===active)hide();});
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.term');if(t){e.preventDefault();active===t?hide():show(t);}else if(active)hide();});
+  window.addEventListener('scroll',function(){if(active)hide();},{passive:true});
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
