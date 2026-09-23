@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Candidate Positioning Brief · Zach Harris</title>
+<title>Zach Harris &times; VICO &middot; where the work overlaps</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,31 +30,27 @@
   @media(max-width:600px){header{padding:26px 22px;}}
   .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
-  h1{font-size:clamp(30px,5.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:14px;}
-  .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
+  h1{font-size:clamp(27px,4.8vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:14px;}
+  .who{font-size:13px;color:#a9b6c3;margin-top:10px;line-height:1.55;}
   .who b{color:#e6ecf2;font-weight:600;}
 h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:11px;
     padding-bottom:6px;border-bottom:1px solid var(--line);}
-  .sec+.sec{margin-top:20px;}
+  .sec+.sec{margin-top:22px;}
 
-  .verdict{background:var(--tealbg);border:1px solid #bfe0e4;border-radius:12px;padding:18px 20px;}
-  .verdict .vt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-  .verdict p{font-size:15.5px;line-height:1.55;color:var(--ink);font-weight:500;}
+  .txt{font-size:14px;line-height:1.62;color:var(--ink2);} .txt b{color:var(--ink);font-weight:600;} .txt+.txt{margin-top:10px;}
+  .txt a,.stack a{color:var(--accent);text-decoration:none;font-weight:600;} .txt a:hover,.stack a:hover{text-decoration:underline;}
 
   .stack .row{padding:13px 0;border-top:1px solid var(--line);display:flex;gap:12px;}
   .stack .row:first-of-type{border-top:none;padding-top:0;}
   .stack .n{font-family:var(--mono);font-weight:700;color:var(--accent);flex:none;font-size:13px;padding-top:1px;}
-  .stack .row p{font-size:14px;line-height:1.55;color:var(--ink2);}
-  .qa{padding:13px 0;border-top:1px solid var(--line);}
-  .qa:first-of-type{border-top:none;padding-top:0;}
-  .qa .q{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px;}
-  .qa .a{font-size:13.5px;line-height:1.55;color:var(--ink2);}
+  .stack .row p{font-size:14px;line-height:1.55;color:var(--ink2);} .stack .row p b{color:var(--ink);font-weight:600;}
+  .stack .row .lead{display:block;font-weight:600;color:var(--ink);margin-bottom:2px;}
 
   footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
   .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
-  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
+  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;}
 
   @media print{
     @page{ size:letter; margin:0.5in; }
@@ -69,43 +65,59 @@ h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;t
 <body>
   <div class="sheet">
     <header>
-      <div class="eyebrow"><span class="mk"></span>Candidate positioning brief &middot; for Oxenham Group</div>
-      <h1>Zach Harris</h1>
-      <div class="who">For the <b>VP of Engineering</b> search (venture-backed AI decision tools; finance and national security).</div>
+      <div class="eyebrow"><span class="mk"></span>Zach Harris &times; VICO</div>
+      <h1>Where my work meets VICO's</h1>
+      <div class="who">A note for <b>Lyndon</b>, from someone who has spent the last year building in the same problem space. Introduced by <b>Joe Schriner</b> at Oxenham Group.</div>
     </header>
 
     <div class="pad">
       <div class="sec">
-        <div class="verdict">
-          <div class="vt">The one-line version</div>
-          <p>Zach is a hands-on engineering leader: a player-coach who builds the team and the technology at once, and he is already running a live LLM system on Claude (agentic tool-use, human-in-the-loop review, evals) end to end.</p>
-        </div>
+        <h2>What VICO does, as I read it</h2>
+        <p class="txt">VICO turns the hardest questions in finance and national security into <b>live, scored probabilities</b>: real-time event forecasts, scenario simulation, and monitoring, put where the users already work, on the <b>Bloomberg Terminal</b>. What separates it from most of the AI-forecasting field is that the forecasts are <b>measured</b>: a published <b>0.15 Brier score</b> is a real calibration claim, not a marketing one (0.25 is the score of always guessing 50 percent, so 0.15 is a genuinely good number). Built by a team out of Google and Meta, Bridgewater and Cerberus, and US intelligence, for traders, analysts, and government teams who have to act on the number, not just read it.</p>
       </div>
 
       <div class="sec">
-        <h2>Three reasons to care</h2>
+        <h2>Where my work overlaps</h2>
         <div class="stack">
-          <div class="row"><span class="n">1</span><p>He leads and builds at the same time: the hands-on VP this role describes, not a manager who has left the code. He ran a $7B regulated release train across four time zones and still ships every day.</p></div>
-          <div class="row"><span class="n">2</span><p>He already runs LLMs live and in daily use: a Claude-based system with agentic tool-use, human-in-the-loop review, and evals. That is exactly the LLM integration, evaluation, and deployment the role wants someone to champion.</p></div>
-          <div class="row"><span class="n">3</span><p>His whole career is 0&rarr;1 in fast, resource-constrained startups, in regulated domains (finance, health) where being wrong is expensive and the process has to scale without slowing the team down.</p></div>
+          <div class="row"><span class="n">1</span><p><span class="lead">Scoring the call, then checking it against reality.</span>The core of what I build (ARCS) is a decision-scoring layer: every call carries a conviction-and-stability score before the fact and a belief-history trail, so it can be checked against what actually happened after. That is the same <b>score-before, check-after</b> discipline behind a calibrated forecast. To be exact: I don't have a Brier score to set next to your 0.15. ARCS produces conviction states, not probability forecasts, and the resolved-outcome set is still small. What I do have is the discipline, run in public: dated predictions with the falsifier written down first, then scored and corrected in the open (my <a href="https://good.arcs.care/blog/nftt/closing-the-loop-receipts">calibration receipts</a>). Putting real numbers on that is the obvious next step, and exactly what a team already living at a 0.15 Brier does well.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">Provenance under regulation.</span>I built the investor-facing platform behind a $7B, SEC/FINRA-regulated launch: RBAC, change controls, pre-deployment integrity gates, every decision traceable back to why it was made. That "show your work" requirement is the same one traders, analysts, and government users put on a forecast. They need to trust it when it is wrong, not only when it is right.</p></div>
+          <div class="row"><span class="n">3</span><p><span class="lead">Human-in-the-loop decision surfaces.</span>ARCS scaffolds judgment without overruling it: evidence-gating and structured scoring as a quality layer, never an autonomous verdict. For a product people bet real money and real decisions on, keeping the human in the loop with the reasoning exposed is the difference between a tool they trust and one they quietly turn off.</p></div>
+          <div class="row"><span class="n">4</span><p><span class="lead">LLM systems that have to be right and checkable.</span>I run a live LLM system on Claude end to end: agentic tool-use, human-in-the-loop review, and evals. Integrating, evaluating, and shipping LLM features that hold up under scrutiny is the part of the AI stack I have spent this year inside.</p></div>
         </div>
       </div>
 
       <div class="sec">
-        <h2>Three questions your client will probably ask</h2>
-        <div class="qa"><div class="q">Has he formally held a VP of Engineering title?</div><div class="a">Not by title. He has led engineering teams, owned delivery and governance for a $7B launch, and recruited a company's first CTO. The scope is there; the title is the honest gap, and he will name it himself before you have to ask.</div></div>
-        <div class="qa"><div class="q">Does he know their stack (Python, React, Postgres, GCP)?</div><div class="a">Python, React, and Postgres, yes, every week. GCP specifically is the one he would ramp on: his cloud experience is on Vercel/Supabase and adjacent. He will say this directly rather than bluff it.</div></div>
-        <div class="qa"><div class="q">Is he a real leader, or a senior IC who would rather just build?</div><div class="a">Player-coach. He genuinely likes staying in the code, and he leads by lifting the team around him: exactly what an early, mostly-junior team at an inflection point needs.</div></div>
+        <h2>Why this interests me</h2>
+        <p class="txt">I have spent the last year building on one conviction: the valuable thing an AI system produces is not the answer, it is the <b>scored, checkable call behind it</b>, the thing you can hold accountable later. Most of the market is still selling the answer. VICO is the first team I have seen putting that exact belief in front of traders and government at a measured calibration bar, on the Terminal.</p>
+        <p class="txt">And it lands on the failure mode I care about most. Your own work on complex systems and exogenous shocks is the honest hard part: calibration that holds all year is the easy half; what happens to it the week the world changes is the real question. Building inside a team with Anthony's national-security lineage and your background on exactly that problem is the rare version of this I would want to be part of, not the generic "AI startup" version.</p>
+      </div>
+
+      <div class="sec">
+        <h2>How I'd think about the product</h2>
+        <div class="stack">
+          <div class="row"><span class="n">1</span><p><span class="lead">Is the 0.15 stationary?</span>A 0.15 Brier is strong. The question I would want to live in: does it hold across a regime change, the exogenous shock nobody backtested? How does the system notice its own calibration has drifted and needs re-weighting, and how fast can it react? In-regime calibration is the easy half.</p></div>
+          <div class="row"><span class="n">2</span><p><span class="lead">How much of the "why" reaches the user?</span>Provenance is what makes a forecast survivable when it is wrong. The surface that shows the path to the number, not just the number, is the one a skeptical analyst keeps open. How much of the reasoning behind a probability is exposed today, and where is the line you have drawn on that?</p></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>A few things about how I work</h2>
+        <div class="stack">
+          <div class="row"><span class="n">&middot;</span><p><b>How I build:</b> I use AI tools to move faster, not to paper over fundamentals. The code is mine and the commit trail is public (<a href="https://status.arcs.care">status.arcs.care</a>), so the pace is checkable, not claimed.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Leadership:</b> I have led cross-functional teams across time zones and owned systems end to end, from that $7B regulated launch to ARCS from zero. I am direct about what I have run and what I have not.</p></div>
+          <div class="row"><span class="n">&middot;</span><p><b>Craft and provenance:</b> I care about the visual craft and the traceability, because the people who use this kind of tool, traders, analysts, government teams, have to trust what they are looking at.</p></div>
+        </div>
       </div>
     </div>
 
     <footer>
       <div class="proof">
-        <a href="/resume">R&eacute;sum&eacute; (PDF)</a>
-        <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>
-        <a href="/ammo">Go deeper</a>
+        <a href="/resume">R&eacute;sum&eacute;</a>
+        <a href="https://status.arcs.care">The code trail</a>
+        <a href="https://good.arcs.care/blog/nftt/closing-the-loop-receipts">Calibration receipts</a>
+        <a href="https://github.com/flashesofbrilliance">GitHub</a>
       </div>
-      <div class="fine">Prepared for Joe at Oxenham Group, whose introduction and credit this is. For your use with the client.</div>
+      <div class="fine">Prepared for Lyndon Oh at VICO. Introduced by Joe Schriner at Oxenham Group.</div>
     </footer>
   </div>
 <script defer src="/_vercel/insights/script.js"></script>
