@@ -60,10 +60,10 @@ export async function GET(req: NextRequest) {
 
   // 1. Per-model schema probe — catches missing columns (the batonId class).
   const models: Record<string, { ok: boolean; error?: string }> = {}
+  const delegates = prisma as unknown as Record<string, { findFirst: (args: unknown) => Promise<unknown> }>
   for (const m of CORE_MODELS) {
     try {
-      // @ts-expect-error dynamic model access is intentional here
-      await prisma[m].findFirst({ take: 1 })
+      await delegates[m].findFirst({ take: 1 })
       models[m] = { ok: true }
     } catch (err) {
       models[m] = { ok: false, error: err instanceof Error ? err.message.split("\n").slice(-3).join(" ").slice(0, 300) : String(err) }
