@@ -1351,6 +1351,47 @@ var MILESTONES = [
       { sha: "eca36c2", msg: "audit(db): reproducible DB audit, 247/189/2 confirmed, deceipt booked" },
       { sha: "f2f4378", msg: "fix(build): delete dead scaffolding a prune missed, caught by first real build" }
     ]
+  },
+  {
+    date: "DAY 159 · SEP 15", title: "The constitutional gate learns to report its own zeros.", rank: 1,
+    alt: [
+      "A separate governance layer, the fail-closed brake that sits in front of the highest-consequence one-way-door decisions, got a real end-to-end test suite and a set of honest benchmark numbers. Including the zeros. The point of a brake is not that it scores well on someone else's harm quiz; it is that it holds on the three classes it was built to hold.",
+      "A benchmark you pass by redefining the test is a mirror, not a measurement. The suite boots the real daemon, asserts the gate refuses the cases it must refuse under a real latency budget, and reports the recall it actually gets on public ethics and jailbreak sets rather than the recall a demo would claim.",
+      "The scope was narrowed on purpose, not widened. The tempting move, when a gate scores zero on a broad harm benchmark, is to make the gate do more. The honest move is to name what it is for, a narrow brake on a few irreversible classes, and measure that, and let the broad number stay zero because the broad job was never the job.",
+      "The whole layer leads with an honest inventory now, its theology demoted to an appendix and its unimported scaffolding deleted. A governance system that cannot say what it does not do is not one you would let stand in front of a one-way door."
+    ],
+    commits: [
+      { sha: "e2d9df3", msg: "docs(handoff): arcs-algorethics E2E/benchmarks/kabuki audit; PR #446 held" },
+      { sha: "34ad3f2", msg: "queue(backlog): narrow algorethics item to the in-scope benchmark, drop 'widen to broad harm'" },
+      { sha: "fde93c0", msg: "queue(backlog): algorethics gate-widening design decision (AgentHarm 0/176 both ways)" }
+    ]
+  },
+  {
+    date: "DAY 167 · SEP 23", title: "A question meant to test one feature found a six-week outage.", rank: 1, proof: {url:"https://good.arcs.care/blog/nftt/the-question-that-found-the-outage", label:"the war story"},
+    alt: [
+      "The session started small: how do I actually test the operator pre-screen? The insistence on a live end-to-end check, rather than trusting that a green merge meant a working feature, is what pulled the thread. Under it was a total, weeks-old outage of the signed-in product that no dashboard had reported.",
+      "A green build is a claim that the code compiled, not a claim that the system works. The signed-in compass had been failing every write for roughly six weeks, on a database column the code expected and the production database had never been given. The migration existed in the repository. It had simply never been run against production, because production was bootstrapped in a way that skipped the migration ledger entirely.",
+      "The fix ran on the live database, and in the same move it revived a feature that had shipped months earlier and quietly died on the same fault. Then the client got a defense: the run now persists server-side even when a slow phone gives up on it, and a deep health endpoint turns what had been a twenty-minute forensic investigation into a single request that reports schema drift, staleness, and the state of every dependency.",
+      "The lesson is the one the whole system is built on, turned back on itself: trust the artifact that survived contact with the ground, not the transient signal that says everything is fine. The green checkmark was the transient signal. The failing write was the ground."
+    ],
+    commits: [
+      { sha: "7d864ea", msg: "fix(sage): activate operator pre-screen - enum reconcile + SAGE_URL" },
+      { sha: "90a9f5d", msg: "fix(compass): graceful timeout recovery + admin health endpoint" }
+    ]
+  },
+  {
+    date: "DAY 168 · SEP 24", title: "The prevention, and an honest look at the number that hid the fault.", rank: 1,
+    alt: [
+      "A fix that only fixes the instance invites the class to recur. So the root cause of the outage was closed for good: production was baselined into the migration ledger it never had, and the deploy pipeline was wired so that pending migrations run on every build. The same drift cannot ship silently again, because a build that would ship it now fails.",
+      "The outage had been masked for six weeks by a metric that looked like a problem of its own: two closed outcomes out of two hundred forty-seven. That two-of-247 keel gap turned out to be a measurement artifact, not a capture failure, one account was closing ninety-five percent of its eligible receipts; the funnel had been counting the wrong denominator.",
+      "This is the same discipline as the liability ledger: a number that looks bad is not a verdict, and a number that looks fine is not an alibi. The honest move is to pull the funnel apart mechanically before reaching for any story about it, and to let the real figure replace the alarming one only once a query, not a hunch, has produced it.",
+      "The through-line of both days: a system earns trust not by never breaking, but by being built so its breaks are visible, its fixes are structural, and its own metrics are held to the same burden of proof as everything it measures."
+    ],
+    commits: [
+      { sha: "f2aae73", msg: "feat(db): P1 prod migrate-deploy groundwork (baseline + gated wrapper + runbook)" },
+      { sha: "625fe0b", msg: "feat(db): complete P1 - baseline prod + wire production-gated migrate deploy" },
+      { sha: "b5076f6", msg: "feat(health): honest outcome-capture funnel - 2/247 keel gap was a founder-QA artifact" }
+    ]
   }
 ];
 
