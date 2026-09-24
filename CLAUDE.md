@@ -114,88 +114,46 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.64.0 (2026-09-17)
+# Handoff — v3.65.2 (2026-09-24)
 
-> **PRL/Todd 2pm-call wrap + an epistemics-of-warrant thread that hardened the tooling** (this
-> worktree `arcs-e2e-benchmarks-cicd-0369bd`, session across branches prl-land-plane / prl-uat-note /
-> defeasible-codec-seeds / prl-wrap-page / prl-phase-map / handoff). All PRL surfaces air-gapped,
-> wrap-lint clean, em-dashes 0. 8 PRs merged (#469–#476), 4 decision receipts filed.
+> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
+> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
+> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
+> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
+> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
 
-## Shipped (merged to main, live)
-- **prl.arcs.care overview** (PR #475): payment history (1.1 $1,552.51 + 1.2 $4,500 + **Paid-to-date $6,052.51**),
-  **1.2 flipped to LANDED** cited to a filed close receipt, honest freshness sweep (killed stale
-  Aug-18 todos a relabel would have shipped as false-fresh), deferred-routing **outcome flag** (lose
-  auto-attribution → manual assign + the fix), reCAPTCHA v2/v3 fact-check fix, full **ELI5 pass**
-  (jargon glossed + a **Bottom line** punchline per section). New exec **/status/runbook** (#469/#473).
-- **Internal (#470/#471/#473/#476):** induced backlog + completeness audit; belief-linked
-  `prl-dependency-map.json` + `prl_depmap_check.py` eval with a **P-1 investigation-prework gate**
-  that hard-fails until the doc corpus is exhausted; runtime `prl_uat_harness.py` (corpus-anchored,
-  `--self-test`, reuses task7 test + STATE-OF-SUGAR schema); per-phase **systems/dependency map**.
-- **Receipts filed** (Supabase `decision_receipt`): `2026-09-17--todd-prl-recoil-close-pr463`,
-  `--prl-runbook-overview-ship-pr469`, `2026-08-26--prl-phase-1.2-close` (backfill),
-  `2026-09-17--prl-overview-wrap-ship-pr475`.
-- **Seeds + ADR-candidate (#474):** redactive-referential context codec + kinematic-adaptive
-  freshness gate (compose LLMLingua+Letta, don't rebuild). 7 witness stubs
-  `_STATE/witness/2026-09-17.jsonl`. 3 new epistemics memories (indexed).
+## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
+- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
+  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
+  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
+  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
+  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
+- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
+  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
+  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
+  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
+- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
+  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
+- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
+  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
+  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
+- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
+  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
+  "finance" → "regulated industries".
 
-## Fact-check landed (KNOW, cited)
-For-IT DNS block **re-verified LIVE 2026-09-17**: SPF `include:outlook + mailgun`, DMARC `p=reject`,
-`mg.prlresins.com` SPF/MX/DKIM, M365 selector1/2 DKIM, Barracuda MX — all confirmed, no drift.
-
-## The epistemics thread (it hardened the tooling, not just the vocabulary)
-Defeasible warrant: a warranted null is time-indexed and decays; carry a freshness horizon + named
-defeater-triggers, kinematic-paced (Kairos / Operator21 knot-detection / Nyquist floor). Two-axis
-**claim-exit lattice**: falsification (null-flip ¬X→X OR its inverse **exoneration** X→¬X) vs
-**mootness** (superseded/vacated). think→know = acquiring **citable** justification; overclaim queues
-a self-exoneration. **Corpus-exhaustion is a PRE-WORK GATE on the plan**, not a step in it. Compression
-taxonomy: abstractive vs extractive/redactive vs referential (lossless = externalize+reference).
-Actor-level: pattern-of-defeated-nulls = believability sorting, but **triage-not-verdict**, level-aware
-(apple vs barrel), freshness-gated. Overclaim mislabeled as overconfidence(calibration) when often
-under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
+## Lessons booked (MEMORY.md v3.65.1/.2 + night-moves 2026-09-23)
+- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
+  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
+- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
+- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
+  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
+- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
 
 ## Open (next session)
-1. **PRL phase cards (1.2-A/1.3/1.4/1.5 + analytics/tagging) HELD** pending 3 decisions the systems/deps
-   map surfaced: **(a)** 1.3 real net-new scope (its recognition engine already shipped under 1.1) or an
-   honest reframe; **(b)** 1.5 ongoing Lyro-curation owner (the real company-side "training-agent" dep,
-   currently unnamed); **(c)** analytics/attribution plan (only a `gad_source` check exists). Do NOT
-   stamp invented scope on the client page.
-2. **Tidio→Sugar pipeline: built + staging-proven, NOT prod-verified.** Staging→prod path documented
-   (publish drafted zaps in zap-kit order; prove old zap `series_376761228` OFF; 4 acceptance tests via
-   the UAT harness; then the 3-step cutover). Two teed-up sandbox jobs (full chat into ticket +
-   spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
-3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
-4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
-
-# Handoff — v3.65.1 (2026-09-23)
-
-> **VICO VP-of-Engineering candidacy: fact-checked, sent, and bug-classes gated.** Continues v3.65.0
-> (the vico.arcs.care family refit). This session took the family from "shipped" to "send-worthy" and
-> closed two recurring bug classes with mechanical gates. All work on branch
-> `claude/vico-arcs-care-not-to-do-uh4gze` (arcs-v9), pushed. 0 ADR/DEWY minted (execution day).
-
-## Shipped this session
-- **Memo fact-checked against VICO's real site** (uploaded vico.io product + careers HTML). Their site
-  is a JS-SPA — grep the RAW file, not tag-stripped text. Reworded the opener to VICO's own vocabulary
-  (Iran regime-risk / Venezuela risk; dropped "Israel strikes" and named competitors Polymarket/Kalshi).
-  Prod `ca38b69`. Careers page confirms 4 open GTM/leadership roles and that Zach's IC-to-manager +
-  public-sector positioning is aimed right (VP Eng "partner with the CTO to drive execution + grow the
-  team"; founding Head of Federal Sales in DC).
-- **Column-collapse bug fixed + gated.** An unclosed `.row` `<div>` in the how-I-work section nested the
-  Craft bullet into a pinched column. Fix `1859b86`. New `scripts/html_div_balance_lint.py` counts
-  `<div>` vs `</div>` per page (strips script/style), proven both ways, wired into pre-commit. Gate `6bd191f`.
-- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + one-screen Lyndon talking-points card,
-  beat-2 corrected "finance" → "regulated industries". Zach sent it.
-
-## Lessons booked (in MEMORY.md v3.65.1 + night-moves)
-- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics ≠ "analytics off"; verify at source).
-- Gmail rewraps outbound hrefs via `google.com/url` at send. **Default habit for Joe/Lyndon emails: paste
-  the URL as PLAIN TEXT (no `<a>`)** — nothing to wrap, forwards clean.
-- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields nothing.
-
-## Open (next session)
-1. **Joe × Lyndon call, 3 PM EST Thu 2026-09-24** — the close-loop point. Did Lyndon reach vico.arcs.care
-   or only Joe's paraphrase (the message-drift lever)? Score after; plan follow-up. A check-in reminder
-   was offered; ask Zach if not yet set.
+1. **Close the loop after Joe × Lyndon (3 PM EST Thu 2026-09-24).** Reminder ARMED via `send_later`
+   (`trig_01FS48pXd5V6vbPne6E7p8KB`, fires 20:30 UTC / 4:30 PM EST): did Lyndon reach vico.arcs.care or
+   only Joe's paraphrase (message-drift lever)? Score the 5 beats; plan follow-up.
 2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
 3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
    State-of-the-Union dashboard (source file still unidentified — get it first).
