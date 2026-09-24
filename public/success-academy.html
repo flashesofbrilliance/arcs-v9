@@ -15,65 +15,85 @@
   --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
   --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
 }
-:root{--surface2:var(--surface-2);--mono:var(--font-mono);--sans:var(--font-sans);--measure:660px;}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:640px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:44px 20px 96px;line-height:1.62;}
-.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:20px;}
-.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
-h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;}
-.sub{font-size:14px;color:var(--muted);margin-top:6px;}
-.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:2px 0;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
-.card h2{font-size:12px;font-family:var(--mono);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
-.card p{font-size:14.5px;color:var(--text);margin-bottom:10px;}.card p:last-child{margin-bottom:0;}
-.card strong{font-weight:600;color:#fff;}
-.scorebar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.score{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--green);line-height:1;}
-.scoremeta{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
-.scoremeta b{color:var(--gold);}
-.tbl{width:100%;border-collapse:collapse;font-size:13px;}
-.tbl td,.tbl th{padding:8px 10px;border-bottom:1px solid rgba(30,41,59,0.6);vertical-align:top;text-align:left;line-height:1.4;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl th{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
-.tbl .d{color:var(--muted);}.tbl .s{font-family:var(--mono);color:var(--cyan);text-align:center;width:44px;}
-ul.plain{list-style:none;display:flex;flex-direction:column;gap:11px;}
-ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.5;}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:7px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
-.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
-.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:0.02em;padding:11px 16px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);text-decoration:none;transition:.15s;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.625rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--secondary);}
+h1{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.8rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.625rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:2.4rem;color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.8rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:12px 18px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;transition:border-color .15s,color .15s;}
 .btn:hover{border-color:var(--cyan);color:var(--cyan);}
-.btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);border:none;}.btn.p:hover{color:#001014;}
+.btn.p{color:var(--bg);background:var(--cyan);border:1px solid var(--cyan);}.btn.p:hover{color:var(--bg);filter:brightness(1.06);}
 a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
-.foot{font-size:12.5px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
-.stamp{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}
+.foot{font-size:0.8rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.625rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);margin-top:2px;}
 </style></head><body><div class="page">
 
-<div><div class="eyebrow">◆ ARCS · Candidate Brief</div><h1>Zach Harris · AI Product Manager</h1><div class="sub">Prepared for Success Academy · via Automated Industries · 2026</div></div>
+<div>
+  <div class="eyebrow">◆ ARCS · Candidate Brief</div>
+  <h1>Zach Harris · AI Product Manager</h1>
+  <div class="sub">Success Academy · via Automated Industries</div>
+</div>
+
+<p class="verdict"><span class="lead">My edge is discovery, not just delivery.</span> I prototype in code, put it in front of real users, validate what actually gets used, and kill what doesn't before engineering spends time. <b>Building is table stakes; the discipline is knowing what's worth building.</b></p>
+<p class="kicker">I'm the complement your AI PM bench doesn't have yet: <b>the builder who writes the code and runs the discovery</b>, and carries all three PM hats solo.</p>
+
 <div class="rule"></div>
 
-<div class="card"><h2>The one-line</h2><p><strong>My edge is discovery, not just delivery.</strong> I prototype in code, put it in front of real users, validate what actually gets used, and kill what doesn't before engineering spends time. The building is table stakes; the discipline is knowing what's worth building. I carry all three PM hats myself - project management, product, and design/prototyping - and I ship real GenAI (RAG, a live MCP server, agentic orchestration, evals) hands-on.</p></div>
+<div class="slabel">The number</div>
+<div class="card"><div class="scorebar"><div class="score">0.91</div><div class="scoremeta">Composite 74 / 81<br><b>Tier 1 · Pursue</b><br>ARCS target-role rubric</div></div>
+<div class="scorenote">Top marks on the three highest-weighted dimensions: role-shape fit, AI-native surface, and the rare builder, discovery, and 0→1 combination. The honest soft spots (domain, culture, warm path) are the questions below.</div></div>
 
-<div class="card"><h2>Fit score</h2><div class="scorebar"><div class="score">0.91</div><div class="scoremeta">Composite 74 / 81<br><b>Tier 1 · Pursue</b><br>scored on the ARCS target-role rubric</div></div>
-<table class="tbl" style="margin-top:14px;"><tr><th>Dimension</th><th class="s">/3</th></tr>
-<tr><td class="d">Role-shape fit (real build + discovery ownership)</td><td class="s">3</td></tr>
-<tr><td class="d">AI-native surface (GenAI is the product)</td><td class="s">3</td></tr>
-<tr><td class="d">Rare combination (builder × discovery × 0→1)</td><td class="s">3</td></tr>
-<tr><td class="d">Scope &amp; authority · Comp/level · Logistics (NY-metro)</td><td class="s">3</td></tr>
-<tr><td class="d">Domain breadth · Culture · Warm path</td><td class="s">2</td></tr></table></div>
-
-<div class="card"><h2>Why the fit is real</h2><ul class="plain">
-<li><span class="dot c"></span><span><strong>Discovery rigor, shown not asserted.</strong> Ran market-viability discovery on 3 AI product lines at Twill - primary user research + hypothesis tests + a utilization read drove go-forward on two and a disciplined kill on the third, before engineering touched it.</span></li>
-<li><span class="dot"></span><span><strong>Builds the AI, hands-on.</strong> ARCS is a GenAI app I built and run largely solo on Claude: a RAG pipeline, a live MCP server, agentic orchestration, an evaluation layer. Public commit trail at <a href="https://status.arcs.care">status.arcs.care</a>.</span></li>
-<li><span class="dot"></span><span><strong>Three hats, no supporting cast.</strong> Project management (Jira / Confluence, roadmap, dependency mapping), product, and design/prototyping - carried by one person. A studio-art foundation covers the design hat.</span></li>
-<li><span class="dot g"></span><span><strong>Operates at consequence.</strong> Shipped a $7B SEC/FINRA launch through RBAC'd release gates and compliance-in-the-loop; HIPAA and GDPR deployments. FERPA / COPPA is the K-12 analog.</span></li>
+<div class="slabel">Three reasons it's real</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>Discovery rigor, shown not asserted.</b> Ran market-viability discovery on 3 AI product lines at Twill: primary user research plus hypothesis tests drove go-forward on two and a disciplined kill on the third, before engineering touched it.</span></li>
+<li><span class="dot"></span><span><b>Builds the AI, hands-on.</b> ARCS is a GenAI app I built and run largely solo on Claude: a RAG pipeline, a live MCP server, agentic orchestration, an evaluation layer. Public commit trail at <a href="https://status.arcs.care">status.arcs.care</a>.</span></li>
+<li><span class="dot g"></span><span><b>Three hats, no supporting cast.</b> Project management (Jira / Confluence, roadmap, dependency maps), product, and design/prototyping, carried by one person. A studio-art foundation covers the design hat.</span></li>
 </ul></div>
 
-<div class="card"><h2>The wedge</h2><p>Success Academy already hires AI PMs across a wide spectrum - domain-native, enterprise-platform, and big-tech-operator. I'm the complement none of those covers: <strong>the builder who writes the code and runs the discovery.</strong> I span the enterprise-AI lane and add hands-on build, validation rigor, and governance - so what ships is what gets used.</p></div>
+<div class="slabel">Three questions, straight answers</div>
+<div class="card"><div class="qa">
+<div><div class="q">Can you really carry all three hats solo?</div><div class="a">Yes. On ARCS I run the backlog and roadmap, the product, and the prototype myself, with no PMO and no designer. That is the shape this role is built for.</div></div>
+<div><div class="q">Have you shipped AI at organizational scale, with a team?</div><div class="a">The scale-with-a-team reps are in the prior record: a <b>$7B SEC/FINRA launch</b> shipped through RBAC'd release gates, and a non-profit's first data layer driven to adoption. ARCS is the frontier-AI rep, built largely solo. This role is where they fuse.</div></div>
+<div><div class="q">You're not from education.</div><div class="a">True, and I won't pretend to be. I bring the AI-and-discovery muscle; the closest analog is standing up a mission-driven non-profit's first data layer and moving non-technical teams onto it. Governance for AI over student data (FERPA / COPPA) maps to the regulated work I've shipped.</div></div>
+</div></div>
 
-<div class="card"><h2>The résumé</h2><p>Human-readable and machine-readable, both built from the same source.</p>
+<div class="slabel">The résumé</div>
+<div class="card"><p style="font-size:0.925rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">Human-readable and machine-readable, both built from the same source.</p>
 <div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/success-academy-resume.pdf" download="Zach-Harris-Resume.pdf">↓ PDF</a><a class="btn" href="/success-academy-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ ATS text</a></div></div>
 
-<div class="foot">This brief - and the résumé - were built by a tool I shipped and run: <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>. It grades every claim by how checkable it is and writes nothing you couldn't defend in the interview.</div>
+<div class="foot">This brief and the résumé were built by a tool I shipped and run: <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>. It grades every claim by how checkable it is, and writes nothing I couldn't defend in the room.</div>
 <div class="stamp">◆ ARCS · rendered at earned fidelity</div>
 
 </div></body></html>
