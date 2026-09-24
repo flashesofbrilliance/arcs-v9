@@ -7,6 +7,35 @@
 
 ---
 
+## [v3.65.2] 2026-09-24 — VICO: strip VP tonality per Joe (intro, not application); smoke-test fixes; close-loop reminder set
+
+- **Joe's morning ask (day of the 3 PM Lyndon call):** make the shared page an "introduction without
+  expectations" — Lyndon should *conclude* the VP-of-Engineering fit himself, not have it pre-set.
+  **Removed VP-of-Engineering tonality across ALL live shared surfaces:** memo `vico.html` (`e7fbdde`:
+  the one role-claiming line + "No VP title" from the honesty beats), resume `vico-resume.html`
+  (`91c091e`, option B: title/target chip/pillar/role-fit heading/honest-gap/footer → role-agnostic
+  "Engineering Leadership"), and ammo `vico-ammo.html` ("VP of Engineering seat" / "hands-on VP" /
+  "VP/Director title" → "engineering leadership"). Honest-gap CONTENT kept (formal title not yet held),
+  just without presupposing the role. `EVP of Partnerships` (a real past IBRShop title) correctly stays.
+  Internal `_ARTIFACTS/vico-vp-wargame` left as-is (do-not-send; its subject IS the VP question).
+  Stale `_ARTIFACTS/vico-joe-eval` K3 evidence re-pointed to the current resume strings.
+- **Back-prop discipline lesson:** when asked "are you 100% nothing is stale," DO NOT assert — SWEEP.
+  A grep across every `<name>-*.html` + `_ARTIFACTS/` caught the ammo "VP seat" line and the eval's
+  dead resume quotes that the memo/resume fixes alone missed. (Matches forge phase-6 rule 3: sweep every
+  surface + domain, not just the one in front of you.)
+- **Visual smoke-test (headless Chromium, `/opt/pw-browsers/chromium-1194`):** two regressions the user
+  flagged, both verified + fixed by measurement, not eyeball. (1) The **column-collapse** (unclosed
+  `.row` div) — confirmed FIXED: How-I-build/Leadership/Craft now share x=271, w=738, stacked; the
+  user's screenshot of it was a stale pre-fix render. (2) **Footer indent** — real 4px: body sections
+  use `.pad` (40px gutter) while header+footer used 44px. Unified all three to 40px → delta 0 at
+  1280/768/375. Import gotcha: playwright is CJS — `import pw from '.../playwright/index.js'; const {chromium}=pw`,
+  and point the import at the repo's node_modules (scratchpad can't resolve it).
+- **Landing is the LEANED version** (confirmed vs a revert worry): Ahmed 60-second-read lean `2db5bee` +
+  Why-pruned-to-top-2 `3e40a5e` are both in HEAD, with all of today's edits stacked on top. ~1148 visible words.
+- **Close-loop reminder SET** (`send_later` trig `trig_01FS48pXd5V6vbPne6E7p8KB`, fires 2026-09-24
+  20:30 UTC / 4:30 PM EST): score the 5 beats after Joe×Lyndon, check if Lyndon reached the URL vs
+  Joe's paraphrase (message-drift lever), plan follow-up + the Autopilot parallel path.
+
 ## [v3.65.1] 2026-09-23 — vico send: fact-check vs VICO's site, div-balance lint, Joe email SENT
 
 - **Joe email SENT** (thread `1a0cf7ab604aa2e4`): corrected 5-beat memo pitch + one-screen Lyndon
