@@ -23,7 +23,7 @@ violations cannot be born. The pre-commit block passes the HEAD blob for modifie
 Usage: python3 scripts/token_source_gate.py <file.html> [...]        (exit 1 on any FAIL)
        python3 scripts/token_source_gate.py --pair <staged.html> <head.html|-> [...]
 """
-import re, sys
+import re, sys, os
 
 SENTINEL = "/* ARCS Recoil Report — Design Tokens */"
 LINK_RE = re.compile(r'<link[^>]+href="(?:\.\./)*_tokens\.css"', re.I)
@@ -59,6 +59,16 @@ def main(argv):
         except Exception as e:
             print(f"✖ token_source_gate FAIL {path}  — unreadable ({e})"); worst = 1; continue
         v, msg = analyze(text)
+        # NFTT literary family exemption: blog-nftt-*.html is a sanctioned, self-contained
+        # design system (Newsreader serif template, cloned verbatim per the nftt-story-factory
+        # skill), NOT a recoil-report/HUD surface. It legitimately does not carry _tokens.css.
+        # Exempt ONLY when it uses the CANONICAL token names — a renamed palette still FAILs,
+        # so the gate's real target (re-vocabularying the palette) stays protected.
+        if v == "FAIL" and os.path.basename(path).startswith("blog-nftt-"):
+            hits = [(n, val) for n, val in PROP_RE.findall(text) if val.lower() in SIGNAL]
+            foreign = sorted({n for n, _ in hits if n not in CANON})
+            if not foreign:
+                v, msg = "PASS", "NFTT literary family: self-contained design system, canonical token names"
         if v == "FAIL" and head and head != "-":
             try:
                 hv, _ = analyze(open(head, errors="ignore").read())
