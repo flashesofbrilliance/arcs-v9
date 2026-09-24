@@ -19,45 +19,45 @@
    rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
 :root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.85rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
 .page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
-.eyebrow{font-family:var(--mono);font-size:0.625rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--secondary);}
-h1{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
-.sub{font-size:0.8rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+.eyebrow{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--secondary);}
+h1{font-size:clamp(1.35rem,3.6vw,1.65rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.78rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
 
-.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict{font-size:1.02rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
 .verdict b{font-weight:600;}
 .verdict .lead{color:var(--cyan);font-weight:600;}
-.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker{font-size:0.85rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
 .kicker b{color:var(--text);font-weight:600;}
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
 
-.slabel{font-family:var(--mono);font-size:0.625rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--secondary);margin:12px 2px -4px;}
+.slabel{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--secondary);margin:12px 2px -4px;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
 
 .scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
-.score{font-family:var(--mono);font-weight:700;font-size:2.4rem;color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
-.scoremeta{font-family:var(--mono);font-size:0.8rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.score{font-family:var(--mono);font-weight:700;font-size:2rem;color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
 .scoremeta b{color:var(--gold);font-weight:700;}
-.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+.scorenote{font-size:0.85rem;color:var(--text);margin-top:14px;line-height:1.55;}
 
 ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
-ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
 ul.plain li b{font-weight:600;}
 .dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
 
 .qa{display:flex;flex-direction:column;gap:16px;}
-.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
-.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .q{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
 .qa .a b{font-weight:600;}
 
 .btns{display:flex;gap:10px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
 .btn:hover{border-color:var(--cyan);color:var(--cyan);}
 .btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
 a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
-.foot{font-size:0.8rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
-.stamp{text-align:center;font-family:var(--mono);font-size:0.625rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);margin-top:2px;}
+.foot{font-size:0.78rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);margin-top:2px;}
 </style></head><body><div class="page">
 
 <div>
@@ -73,7 +73,7 @@ a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover
 
 <div class="slabel">The number</div>
 <div class="card"><div class="scorebar"><div class="score">0.91</div><div class="scoremeta">Composite 74 / 81<br><b>Tier 1 · Pursue</b><br>ARCS target-role rubric</div></div>
-<div class="scorenote">Top marks on the three highest-weighted dimensions: role-shape fit, AI-native surface, and the rare builder, discovery, and 0→1 combination. The full record is below.</div></div>
+<div class="scorenote">This is my own rubric for deciding what to pursue, run on this role: it came back Tier 1, one of the highest fits in my pipeline. Top marks on role-shape fit, AI-native surface, and the rare builder-discovery-0→1 combination. The full record is below.</div></div>
 
 <div class="slabel">Three reasons it's real</div>
 <div class="card"><ul class="plain">
@@ -84,16 +84,16 @@ a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover
 
 <div class="slabel">Questions a buyer asks</div>
 <div class="card"><div class="qa">
-<div><div class="q">What have you actually shipped?</div><div class="a">ARCS: a GenAI app I built and run largely solo on Claude, with a <b>RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer</b>, in production with a public commit trail. And the tool that built this brief, <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>.</div></div>
+<div><div class="q">What have you actually shipped?</div><div class="a">ARCS: a GenAI app I built and run largely solo on Claude, with a <b>RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer</b>, in production with a public commit trail. And <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>, a tool I shipped that grades every resume claim by how checkable it is.</div></div>
 <div><div class="q">How do you work?</div><div class="a">Spec, then a working prototype (in code, or fast in Lovable or Replit), then real user feedback (user testing, customer research, usability studies), then I keep what gets used and kill what doesn't. Done is defined by evidence and acceptance testing, not a checklist. I own it end-to-end, strategy through delivery, plus the backlog and the design.</div></div>
 <div><div class="q">Why Success Academy, why now?</div><div class="a">It's where the three modes I move between fuse: <b>builder</b> (I ship the code), <b>founder</b> (0→1 under ambiguity), and <b>senior operator</b> (shipped at consequence, with teams, in a $7B regulated launch). I want to point that at educator productivity and student outcomes.</div></div>
 </div></div>
 
 <div class="slabel">The résumé</div>
-<div class="card"><p style="font-size:0.925rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">Human-readable and machine-readable, both built from the same source.</p>
+<div class="card"><p style="font-size:0.85rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">Human-readable and machine-readable, both built from the same source.</p>
 <div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/success-academy-resume.pdf" download="Zach-Harris-Resume.pdf">↓ PDF</a><a class="btn" href="/success-academy-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ ATS text</a></div></div>
 
-<div class="foot">This brief and the résumé were built by a tool I shipped and run: <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>. It grades every claim by how checkable it is, and writes nothing I couldn't defend in the room.</div>
+<div class="foot">The résumé here is built to the standard of a tool I shipped and run, <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>: every claim graded by how checkable it is, nothing I couldn't defend in the room.</div>
 <div class="stamp">◆ ARCS · rendered at earned fidelity</div>
 
 </div></body></html>
