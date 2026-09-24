@@ -102,6 +102,23 @@ if [ -f scripts/html_div_balance_lint.py ] && command -v python3 >/dev/null 2>&1
 fi
 
 # ---------------------------------------------------------------------------
+# gutter-consistency guard: in the recoil-report page template, header/footer horizontal
+# padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
+# element a few px inward of the body -- a left edge that lies about its lane, invisible to
+# the wrap-lint. Banked 2026-09-24 after it propagated to 6 sibling pages from one template.
+# ADDED + MODIFIED; the linter SKIPs pages with no `.pad` container so other layouts never fail.
+if [ -f scripts/gutter_consistency_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  gut=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$gut" ]; then
+    if ! echo "$gut" | tr '\n' '\0' | xargs -0 python3 scripts/gutter_consistency_lint.py; then
+      echo "✖ commit blocked: header/footer gutter differs from body .pad (see above) — align them so the left edge is true." >&2
+      echo "  set header{} and footer{} horizontal padding to the same px as .pad, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # informativeness ratchet: when the audit corpus or the gate machinery is staged,
 # block on NEW signal degeneracy beyond the committed baseline
 # (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
