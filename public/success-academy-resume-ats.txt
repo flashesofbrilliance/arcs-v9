@@ -5,11 +5,11 @@ zach.harris@gmail.com
 linkedin.com/in/zharris
 github.com/flashesofbrilliance
 Summary
-A product manager whose edge is discovery, not just delivery. Building is table stakes; the seasoned call is not what we could build but what we should, with the evidence to say why. I take an ambiguous problem, prototype a working surface in code, put it in front of real users, validate the premise and read what actually gets used, kill what doesn't, and hand engineering a hardened premise instead of a hunch. I carry all three PM hats myself - project management, product, and design/prototyping. Currently building ARCS, a GenAI app I built and run largely solo on Claude (a RAG pipeline, a live MCP server, agentic orchestration, an evaluation layer) on Next.js / TypeScript - hands-on with OpenAI and Claude. Over 15 years turning ambiguous problems into shipped, adopted systems in regulated finance ($7B, SEC/FINRA) and a mission-driven non-profit. Public commit trail at status.arcs.care; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
+A product manager who owns strategy, discovery, and delivery, and whose edge is discovery, not just delivery. Building is table stakes; the seasoned call is not what we could build but what we should, with the evidence to say why. I take an ambiguous problem, prototype a working surface in code, put it in front of real users, validate the premise and read what actually gets used, kill what doesn't, and hand engineering a hardened premise instead of a hunch. I carry all three PM hats myself - project management, product, and design/prototyping. Currently building ARCS, a GenAI app I built and run largely solo on Claude (a RAG pipeline, a live MCP server, agentic orchestration, an evaluation layer) on Next.js / TypeScript - hands-on with OpenAI and Claude. Over 15 years turning ambiguous problems into shipped, adopted systems in regulated finance ($7B, SEC/FINRA) and a mission-driven non-profit. Public commit trail at status.arcs.care; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
 Core Strengths
 - Product discovery that de-risks before engineering: working prototypes in front of real users, user testing and usability studies, hypothesis and acceptance tests. Define done by what gets used, then hand hardened requirements to eng.
 - Hands-on GenAI, in production: RAG retrieval, a live MCP server, agentic tool use, and an evaluation layer - a builder who speaks engineering.
-- Three PM hats, carried solo: project management (Jira / Confluence, roadmap ownership, dependency mapping), product, and design/prototyping - the whole loop, one person.
+- End-to-end product ownership, high agency: product strategy, management, and delivery, plus project management (Jira / Confluence, roadmap, dependency mapping) and design/prototyping - the whole loop, one person.
 - Business-to-technical translation: the connective tissue between business, technical, and non-technical teams; 40+ C-suite demos at 75% pilot conversion.
 - Operates at consequence: shipped a $7B SEC/FINRA launch through RBAC'd release gates and compliance-in-the-loop - governance as a discipline, not a checkbox.
 - Drives adoption, not just delivery: moved a non-technical org from intuition-led to data-led (CTF); led vendor evaluation & selection (CDP, Salesforce); ship AI tools other people actually run.
@@ -17,7 +17,7 @@ Experience
 ARCS, GenAI app I built and run solo
 Founder & Builder, 2025 to Present
 Architect and run ARCS, a GenAI decision-intelligence app I built and operate largely solo on Claude: a RAG pipeline, a custom MCP server, orchestration, and an evaluation layer on Next.js / TypeScript / Prisma.
-- Ran the intake-to-feedback loop as product discovery: prototyped a working surface, put it in front of real decision sessions, iterated on what actually got used (not what I assumed), killed the outputs that didn't, and hardened only the survivors - the discovery-before-handoff loop.
+- Ran ARCS as rapid prototyping and hypothesis testing: stood up a working surface, put it in front of real decision sessions, tested the premise against actual usage, kept what held and killed what didn't, and hardened only the survivors - the discovery-before-handoff loop.
 - Built the RAG pipeline, custom MCP server, and agentic pipelines (Claude API, tool use, extended thinking); carry the full delivery loop solo that Grayscale split across a release-train team.
 - Built an evidence-gate that decides when deterministic context suffices versus when LLM reasoning is required, tuned from watching what actually got used - the reliability layer an agentic product needs to be trusted.
 - Ship and maintain open-source developer tools, each with its own eval/test suite, including resume-tailor (a live tool that ships and gets run); build in public at good.arcs.care.
@@ -48,9 +48,9 @@ Additional Detail
 - A Discovery that de-risks before engineering
 - Spec to working prototype to real user feedback (user testing, customer research, usability studies); validate the premise, prove it with acceptance testing, and define done by what actually gets used, before eng spends time.
 - In practice Twill: ran market-viability discovery on 3 AI product lines - primary user research + hypothesis tests + a utilization read drove go-forward on two and a disciplined kill on the third before engineering touched it. ARCS: prototyped, put it in front of real sessions, iterated on what got used. resume-tailor: a discovery-to-shipped-and-run tool, live.
-- B Three hats, solo - PM + product + design
-- They cut the project managers, so the PM runs delivery, product, and design/prototyping. Own the backlog, roadmap, specs, and the prototype.
-- In practice I run project management (Jira / Confluence, roadmap ownership, dependency mapping, implementation plans), product, and design/prototyping myself - a studio-art foundation covers the design hat, and ARCS carries the full delivery loop with no supporting cast.
+- B End-to-end product ownership - player, coach, pacecar
+- They cut the project managers, so the PM owns it all: product strategy, management, and delivery, plus the backlog, roadmap, specs, and the prototype.
+- In practice A senior product leader who plays (hands-on, I build and ship), coaches (led cross-functional pods of up to 12, servant-leader style), and sets the pace (the standard and tempo others follow). I own product end to end - strategy, management, and delivery - with project management (Jira / Confluence) and design/prototyping, no supporting cast.
 - C Ship real AI, and govern it at consequence
 - Hands-on with OpenAI and Claude and agentic tooling; deploy responsibly inside compliance, security, and governance.
 - In practice ARCS is RAG + a live MCP server + agentic orchestration + evals, in code, in production. I shipped a $7B SEC/FINRA launch through RBAC'd release gates and policy controls, plus HIPAA and GDPR deployments. FERPA / COPPA is the K-12 analog - operating at consequence is where I am strongest.
