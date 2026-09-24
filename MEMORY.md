@@ -7,6 +7,33 @@
 
 ---
 
+## [v3.65.3] 2026-09-24 — gravity-well framework for candidate surfaces + 2 leak fixes; 3rd Frustration Gate
+
+- **Reusable framework (bank this):** what turns a candidate page into a *gravity well / attractor basin*
+  for a hiring manager, whose real JTBD is **de-risk the hire**. Mass = **verifiability** (a checkable,
+  linked claim has mass; an adjective is massless). Depth = how much the page **pre-answers their private
+  doubts before they voice them**. Width of the basin = **read-at-any-depth** (skimmer/skeptic/peer/exec
+  all converge on "advance this candidate"). Other mass sources: **owned losses** (scored wrong-calls
+  neutralize the skeptic's escape velocity), **the loop as strange attractor** (score→check→correct
+  repeated across surfaces = "I get how they think"), **the mirror** (their exact problem worked in public
+  = heaviest pull), **the pre-registered receipt** (a call filed before the outcome makes rivals'
+  retrospective claims feel massless), and a **live/compounding surface** (status.arcs.care is the only one
+  with an intrinsic reason to return). **Leak list (inverse):** unverifiable claims · single altitude ·
+  no owned losses · no mirror · static/no-return · over-claiming (re-arms the skeptic).
+- **Pressure-tested the vico family against the leak list** (grounded in live content, not asserted): memo
+  = deep well already; status = compounding well; résumé + ammo each leaked. **Closed 2 leaks** (`65d3781`,
+  prod-verified cache-MISS): (1) résumé had **zero mirror** → added a "worked in public" clause linking the
+  ZIM/Hapag-Lloyd geopolitical call; (2) ammo **described running systems without linking them** (1 link) →
+  wired the public status log → status.arcs.care and the automation pipeline → good.arcs.care (now 3 links).
+  Left leak #3 (memo's own live pulse) per Zach — polish on an already-deep well.
+- **status.arcs.care milestone cards + template-wide gutter fix** (see v3.65.2 handoff): 3 curated cards
+  (DAY 159/167/168), and the 44-vs-40 header/footer gutter fixed on 6 sibling pages + banked
+  `scripts/gutter_consistency_lint.py` (3rd Frustration Gate: div-balance · tooltip-link · gutter).
+- **Deploy discipline confirmed all day:** the live domain serves `main`, not the branch — "stale" renders
+  were the real live version until merge. Verify prod via Vercel API + Vercel-side fetch (`cache: MISS` =
+  fresh); local `curl` is proxy-blocked (len=0 ≠ site down). `get_deployment_file_contents` 401s; gated
+  `*-ammo` pages can't be HTTP-fetched raw (proxy serves the passcode gate) — verify via the atomic deploy.
+
 ## [v3.65.2] 2026-09-24 — VICO: strip VP tonality per Joe (intro, not application); smoke-test fixes; close-loop reminder set
 
 - **Joe's morning ask (day of the 3 PM Lyndon call):** make the shared page an "introduction without

@@ -150,9 +150,16 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
   deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
   no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
-- **All of the above deployed to main and prod-verified** (latest `2ec3adc`, Vercel READY, cache-MISS fetches).
+- **Gravity-well pressure-test + 2 leak fixes** (`65d3781`, prod-verified): pressure-tested the vico family
+  against the "leak list" (unverifiable · single-altitude · no owned-losses · no mirror · no-return ·
+  over-claim). Closed 2: résumé had zero mirror → added a "worked in public" ZIM clause; ammo described
+  running systems without linking them (1 link → 3: status log→status.arcs.care, pipeline→good.arcs.care).
+- **All of the above deployed to main and prod-verified** (latest `65d3781`, Vercel READY, cache-MISS fetches).
 
-## Lessons booked (MEMORY.md v3.65.1/.2 + night-moves 2026-09-23/24)
+## Lessons booked (MEMORY.md v3.65.1/.2/.3 + night-moves 2026-09-23/24)
+- **Gravity-well framework** (v3.65.3): a candidate page is an attractor for a hiring manager to the degree
+  it pre-answers their de-risk doubts with *verifiable* proof; mass = linked/checkable claims, the mirror
+  (their problem worked in public), owned losses, and a live/compounding surface. Leak list is the inverse.
 - Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
   len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
 - Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
