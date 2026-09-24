@@ -84,6 +84,24 @@ if [ -f scripts/tooltip_link_lint.py ] && command -v python3 >/dev/null 2>&1; th
 fi
 
 # ---------------------------------------------------------------------------
+# div-balance guard: an unclosed <div> (e.g. a `.row` ending in </p> with no </div>)
+# silently nests the next sibling inside it; when the parent lays children out in columns,
+# the nested block renders as a pinched column instead of its own full-width row -- a visual
+# regression the wrap-lint cannot see (nothing overflows). Banked 2026-09-23 (vico.html
+# how-I-work section). ADDED + MODIFIED: the bug arrives via an edit to an existing page.
+# The check ignores <script>/<style> bodies, so inline deck JS never false-fails.
+if [ -f scripts/html_div_balance_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  divs=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$divs" ]; then
+    if ! echo "$divs" | tr '\n' '\0' | xargs -0 python3 scripts/html_div_balance_lint.py; then
+      echo "✖ commit blocked: <div> imbalance in a staged page (see above) — an unclosed div collapses a sibling into a pinched column." >&2
+      echo "  find the row that ends in </p> without </div> and close it, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # informativeness ratchet: when the audit corpus or the gate machinery is staged,
 # block on NEW signal degeneracy beyond the committed baseline
 # (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE

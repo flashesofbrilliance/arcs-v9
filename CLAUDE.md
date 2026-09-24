@@ -166,6 +166,39 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
 3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
 4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
 
+# Handoff — v3.65.1 (2026-09-23)
+
+> **VICO VP-of-Engineering candidacy: fact-checked, sent, and bug-classes gated.** Continues v3.65.0
+> (the vico.arcs.care family refit). This session took the family from "shipped" to "send-worthy" and
+> closed two recurring bug classes with mechanical gates. All work on branch
+> `claude/vico-arcs-care-not-to-do-uh4gze` (arcs-v9), pushed. 0 ADR/DEWY minted (execution day).
+
+## Shipped this session
+- **Memo fact-checked against VICO's real site** (uploaded vico.io product + careers HTML). Their site
+  is a JS-SPA — grep the RAW file, not tag-stripped text. Reworded the opener to VICO's own vocabulary
+  (Iran regime-risk / Venezuela risk; dropped "Israel strikes" and named competitors Polymarket/Kalshi).
+  Prod `ca38b69`. Careers page confirms 4 open GTM/leadership roles and that Zach's IC-to-manager +
+  public-sector positioning is aimed right (VP Eng "partner with the CTO to drive execution + grow the
+  team"; founding Head of Federal Sales in DC).
+- **Column-collapse bug fixed + gated.** An unclosed `.row` `<div>` in the how-I-work section nested the
+  Craft bullet into a pinched column. Fix `1859b86`. New `scripts/html_div_balance_lint.py` counts
+  `<div>` vs `</div>` per page (strips script/style), proven both ways, wired into pre-commit. Gate `6bd191f`.
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + one-screen Lyndon talking-points card,
+  beat-2 corrected "finance" → "regulated industries". Zach sent it.
+
+## Lessons booked (in MEMORY.md v3.65.1 + night-moves)
+- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics ≠ "analytics off"; verify at source).
+- Gmail rewraps outbound hrefs via `google.com/url` at send. **Default habit for Joe/Lyndon emails: paste
+  the URL as PLAIN TEXT (no `<a>`)** — nothing to wrap, forwards clean.
+- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields nothing.
+
+## Open (next session)
+1. **Joe × Lyndon call, 3 PM EST Thu 2026-09-24** — the close-loop point. Did Lyndon reach vico.arcs.care
+   or only Joe's paraphrase (the message-drift lever)? Score after; plan follow-up. A check-in reminder
+   was offered; ask Zach if not yet set.
+2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
+3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
+   State-of-the-Union dashboard (source file still unidentified — get it first).
 # Handoff — v3.65.0 (2026-09-24)
 
 > **A validation question that found a 6-week silent P0.** Session started as "how do I test/validate

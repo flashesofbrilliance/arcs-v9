@@ -4088,6 +4088,8 @@ BEFORE the first call, not after.
    shipped/in-progress/blocked/next tiles) as possibly static, wanting an Ahmed-heuristic +
    Impeccable design pass. Source file/path was never identified this session — get it first.
 
+---
+
 # Handoff — v3.63.0 (2026-09-15)
 
 > **arcs-algorethics E2E / benchmarks / kabuki audit session** (worktree `arcs-e2e-benchmarks-cicd-0369bd`,
