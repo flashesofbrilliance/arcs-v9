@@ -42,6 +42,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
+  // squad.arcs.care — Squad (gosquad.ai) Product Engineer bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score (the thesis mirror aimed at founder Ignacio García León), /resume = print-ready HTML resume (technical cut, leadership scope kept), + ATS txt. Asset paths mapped to themselves so the default-page rewrite does not swallow the resume/txt.
+  'squad':     { '/resume': '/squad-resume.html', '/squad-resume.html': '/squad-resume.html', '/squad-resume-ats.txt': '/squad-resume-ats.txt', default: '/squad.html' },
   // schriner.arcs.care — Oxenham Group recruiter bundle (2026-09-14): root = candidate pitch
   // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
   // text mapped to themselves so the default-page rewrite does not swallow them.

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Zach Harris · Résumé · Product Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
+    --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
+    --accent:#0e7490;--metric:#0e7490;
+    --measure:7.2in;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;margin:0 auto;padding:0.5in 0.58in;background:var(--paper);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);}
+  p,li,.thesis,.job-sum{max-width:var(--measure);text-wrap:pretty;}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:12px;border-bottom:2px solid var(--ink);}
+  .name{font-size:30px;font-weight:700;letter-spacing:-.024em;line-height:1;text-wrap:balance;}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:9px;}
+  .target{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:3px 8px;white-space:nowrap;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9.5px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+  .thesis{font-size:11.5px;line-height:1.64;color:var(--ink2);margin-top:13px;}
+  .thesis b{color:var(--ink);font-weight:600;}
+
+  .sec{display:flex;align-items:center;gap:11px;margin:15px 0 8px;break-after:avoid;}
+  .sec .lv{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .sec .gloss{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);white-space:nowrap;}
+  .sec .rule{flex:1;height:1px;background:var(--line);}
+
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px 22px;}
+  .pillar{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:7px;border-bottom:1px solid var(--line2);}
+  .pillar .pt{font-size:10px;line-height:1.42;color:var(--ink2);} .pillar .pt b{color:var(--ink);font-weight:600;font-size:10.5px;}
+  .pillar .fit{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);white-space:nowrap;padding-top:3px;}
+
+  .job{margin-bottom:8px;break-inside:avoid;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
+  .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:3px 0 3px;} .job-sum b{color:var(--ink);font-weight:600;}
+  ul.bul{list-style:none;} ul.bul li{position:relative;padding-left:13px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:1.5px;}
+  ul.bul li::before{content:"";position:absolute;left:1px;top:6.5px;width:4px;height:4px;border:1px solid var(--accent);border-radius:50%;} ul.bul li b{color:var(--ink);font-weight:600;}
+  .metric{font-family:var(--mono);font-weight:700;color:var(--metric);font-size:9.5px;white-space:nowrap;}
+
+  .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:9px 24px;}
+  .skill-k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+  .skill-v{font-size:9.5px;line-height:1.5;color:var(--ink2);text-wrap:pretty;}
+
+  .edu{font-size:10px;color:var(--ink2);line-height:1.6;} .edu b{color:var(--ink);font-weight:600;} .edu .yr{font-family:var(--mono);font-size:8px;color:var(--faint);}
+  footer{margin-top:14px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);}
+
+  @page{size:letter;margin:0.42in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;max-width:none;margin:0;padding:0.2in 0.28in;background:#fff;box-shadow:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">Builds the product, ships the AI, runs the discovery</div>
+      <div class="target">Target · Product Engineer · Squad</div>
+    </div>
+    <div class="contact">
+      New York Metro, on-site<br><b>zach.harris@gmail.com</b><br>
+      linkedin.com/in/<b>zharris</b><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <p class="thesis"><b>A product engineer who owns the whole loop: I take an ambiguous problem, build a working surface in code, put it in front of real users, and ship the AI underneath it.</b> Most recently I built ARCS from scratch and run it largely solo: a GenAI decision-intelligence app on Next.js and TypeScript with a RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail. Its whole premise is Squad's: turning noisy, AI-inflated signal into an honest, checkable match. Fifteen-plus years turning ambiguous problems into shipped, adopted systems, including a $7B SEC/FINRA launch, so I ship with taste and where being wrong is expensive.</p>
+
+  <section>
+    <div class="sec"><span class="lv">What I bring to this role</span><span class="gloss">mapped to the posting</span><span class="rule"></span></div>
+    <div class="pillars">
+      <div class="pillar"><span class="pt"><b>End-to-end product engineering, first-hire shape</b>: I build the product surface and the systems under it, solo, in code (Next.js, TypeScript, Node, Prisma, Postgres). ARCS is a live proof, front to back, one person.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Applied AI in production</b>: RAG retrieval, a live MCP server, agentic tool use, and an evaluation layer that decides when deterministic context suffices versus when LLM reasoning is required. The reliability layer an agentic product needs.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Matching, evaluation, and feedback loops</b>: ARCS scores every claim by how checkable it is and recalibrates on real outcomes, the sparse-feedback, honest-signal problem Squad's matchmaking engine lives on.</span><span class="fit">strong</span></div>
+      <div class="pillar"><span class="pt"><b>Detail, discovery, and consequence</b>: I define done by what gets used, not a spec; I obsess over how a flow feels; and I have shipped through SEC/FINRA and HIPAA governance where a mistake costs.</span><span class="fit">strong</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec"><span class="lv">Experience</span><span class="gloss">newest first</span><span class="rule"></span></div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">ARCS <span class="dom">· GenAI decision-intelligence app, built and run solo</span></div><div class="job-role">Founder &amp; Builder · 2025 to present</div></div>
+      <div class="job-sum">Architect and run a working GenAI product end to end on <b>Next.js, TypeScript, Prisma, Postgres</b>: a RAG pipeline, a custom MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail at <b>status.arcs.care</b>.</div>
+      <ul class="bul">
+        <li>Built the <b>RAG pipeline, custom MCP server, and agentic pipelines</b> (Claude API, tool use, extended thinking); carry the full delivery loop solo that a release-train team split at Grayscale.</li>
+        <li>Built an <b>evidence gate</b> that decides when deterministic context is enough versus when LLM reasoning is required, tuned from watching what actually got used, the trust layer an agentic product needs.</li>
+        <li>Built a <b>claims-verification layer</b> that grades each output by how checkable it is and holds back fidelity when the signal is thin, the honest-signal-versus-AI-inflated-noise problem at the core of matching.</li>
+        <li>Ship and maintain <b>open-source developer tools</b>, each with its own eval and test suite, including resume-tailor, a live tool that ships and gets run; build in public at good.arcs.care.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Grayscale Investments <span class="dom">· Digital Currency Group · SEC/FINRA</span></div><div class="job-role">Product Lead · 2024 to 2025</div></div>
+      <div class="job-sum">Product lead for institutional and retail surfaces on the team launching <span class="metric">$7B</span> in digital assets (10-product regulated launch): a domain where being wrong is expensive and provenance is not optional.</div>
+      <ul class="bul">
+        <li>Operated inside SEC/FINRA governance and shipped through <b>RBAC'd release gates</b> with compliance-in-the-loop, so nothing unapproved could ship.</li>
+        <li>Ran the cross-functional release train across 4 time zones, cutting release-cycle time <span class="metric">35%</span>; delivered 40+ executive demos at <span class="metric">75%</span> pilot conversion.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Embedded product &amp; growth engagements <span class="dom">· health, consumer, sports, gov</span></div><div class="job-role">Product &amp; Tech Lead · 2016 to 2024</div></div>
+      <ul class="bul">
+        <li><b>Twill Health</b> (HIPAA digital health): ran market-viability discovery on <b>3 AI product lines</b>, primary user research plus hypothesis tests drove go-forward on two and a disciplined kill on the third before engineering touched it.</li>
+        <li><b>Squat New York</b> (behavioral health): sole product and tech partner, discovery through relaunch; mobile-first rebuild with a HIPAA and ADA/WCAG design system: <span class="metric">+40%</span> qualified leads, <span class="metric">+63%</span> booking-success, <span class="metric">+23</span> NPS.</li>
+        <li><b>Women's Tennis Association</b>: led CDP selection and built real-time behavioral scoring at <span class="metric">&lt;120ms</span>; closed first commercial data and API partnerships (Twitter, Facebook), <span class="metric">$850K+</span> in year one.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co">Children's Tumor Foundation <span class="dom">· rare-disease non-profit</span></div><div class="job-role">Sr. Director, Data &amp; Strategy · 2018 to 2019</div></div>
+      <ul class="bul">
+        <li>Built the first enterprise data and decision-intelligence layer this org had and drove its adoption; moved non-technical teams from intuition-led to data-led (CDP, Salesforce, lifecycle segmentation): <span class="metric">20%</span> net-new revenue.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Skills</span><span class="gloss">what I use, not what I have heard of</span><span class="rule"></span></div>
+    <div class="skills">
+      <div><div class="skill-k">Languages &amp; stack</div><div class="skill-v">TypeScript · Python · Next.js · Node.js · Prisma · SQL · Postgres / Supabase · Vercel · Git / GitHub</div></div>
+      <div><div class="skill-k">GenAI &amp; LLM systems</div><div class="skill-v">Claude / Anthropic (API, tool use, extended thinking) · OpenAI · custom MCP servers · RAG / retrieval · vector search (pgvector) · agentic orchestration · evals &amp; prompt engineering</div></div>
+      <div><div class="skill-k">Product &amp; discovery</div><div class="skill-v">rapid prototyping in code · user testing &amp; usability studies · hypothesis &amp; acceptance testing · feature-utilization analysis · A/B testing · MVP definition · end-to-end ownership</div></div>
+      <div><div class="skill-k">Governance &amp; scale</div><div class="skill-v">RBAC · SEC/FINRA · HIPAA · GDPR · release management · cross-functional leadership (up to 12) · instrumentation &amp; KPIs</div></div>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Education</span><span class="rule"></span></div>
+    <div class="edu"><b>Oberlin College</b> · BA, Studio Art (Honors), a design-first foundation applied to product craft <span class="yr">·</span><br><b>MIT xPRO</b> · AI: Implications for Business Strategy; Designing &amp; Building AI Products &amp; Services <span class="yr">2023</span> &nbsp;·&nbsp; <b>Section4</b> · Certified Product Strategist <span class="yr">2022</span></div>
+  </section>
+
+  <footer><span>Zach Harris · github.com/flashesofbrilliance</span><span>Tailored · Product Engineer · Squad · 2026</span></footer>
+</div>
+</body>
+</html>

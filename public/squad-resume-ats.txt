@@ -1,0 +1,62 @@
+Zach Harris
+Product Engineer, builds the product and ships the AI
+New York Metro, on-site
+zach.harris@gmail.com
+linkedin.com/in/zharris
+github.com/flashesofbrilliance
+
+Summary
+A product engineer who owns the whole loop: I take an ambiguous problem, build a working surface in code, put it in front of real users, and ship the AI underneath it. Most recently I built ARCS from scratch and run it largely solo: a GenAI decision-intelligence app on Next.js and TypeScript with a RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail. Its premise is the same as Squad's: turning noisy, AI-inflated signal into an honest, checkable match. Over 15 years turning ambiguous problems into shipped, adopted systems, including a $7B SEC/FINRA launch, so I ship with taste and where being wrong is expensive. Public commit trail at status.arcs.care; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
+
+Core Strengths
+- End-to-end product engineering, first-hire shape: I build the product surface and the systems under it, solo, in code (Next.js, TypeScript, Node, Prisma, Postgres). ARCS is a live proof, front to back, one person.
+- Applied AI in production: RAG retrieval, a live MCP server, agentic tool use, and an evaluation layer that decides when deterministic context suffices versus when LLM reasoning is required.
+- Matching, evaluation, and feedback loops: ARCS scores every claim by how checkable it is and recalibrates on real outcomes, the sparse-feedback, honest-signal problem Squad's matchmaking engine lives on.
+- Product discovery that de-risks before engineering: working prototypes in front of real users, hypothesis and acceptance tests, done defined by what gets used.
+- Detail and consequence: I obsess over how a flow feels, and I have shipped a $7B SEC/FINRA launch through RBAC'd release gates plus HIPAA and GDPR deployments.
+- End-to-end ownership, high agency: product strategy, delivery, project management (Jira / Confluence), and design/prototyping, the whole loop, one person.
+
+Experience
+
+ARCS, GenAI app I built and run solo
+Founder & Builder, 2025 to Present
+Architect and run a working GenAI product end to end on Next.js, TypeScript, Prisma, Postgres: a RAG pipeline, a custom MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail at status.arcs.care.
+- Built the RAG pipeline, custom MCP server, and agentic pipelines (Claude API, tool use, extended thinking); carry the full delivery loop solo that a release-train team split at Grayscale.
+- Built an evidence gate that decides when deterministic context is enough versus when LLM reasoning is required, tuned from watching what actually got used, the trust layer an agentic product needs.
+- Built a claims-verification layer that grades each output by how checkable it is and holds back fidelity when the signal is thin, the honest-signal-versus-AI-inflated-noise problem at the core of matching.
+- Ship and maintain open-source developer tools, each with its own eval and test suite, including resume-tailor, a live tool that ships and gets run; build in public at good.arcs.care.
+
+Grayscale Investments, Digital Currency Group
+Product Lead, 2024 to 2025
+Product lead for institutional and retail surfaces on the team launching $7B in digital assets (10-product regulated launch): a domain where being wrong is expensive and provenance is not optional.
+- Operated inside SEC/FINRA governance and shipped through RBAC'd release gates with compliance-in-the-loop, so nothing unapproved could ship.
+- Ran the cross-functional release train across 4 time zones, cutting release-cycle time 35%; delivered 40+ executive demos at 75% pilot conversion.
+
+Embedded Product & Growth Engagements, health / consumer / sports / gov
+Product & Tech Lead, 2016 to 2024
+- Twill Health (HIPAA digital health): ran market-viability discovery on 3 AI product lines, primary user research plus hypothesis tests drove go-forward on two and a disciplined kill on the third before engineering touched it.
+- Squat New York (behavioral health): sole product and tech partner, discovery through relaunch; mobile-first rebuild with a HIPAA and ADA/WCAG design system: +40% qualified leads, +63% booking-success, +23 NPS.
+- Women's Tennis Association: led CDP selection and built real-time behavioral scoring at <120ms; closed first commercial data and API partnerships (Twitter, Facebook), $850K+ in year one.
+
+Children's Tumor Foundation, Rare-Disease Non-Profit
+Sr. Director, Data & Strategy, 2018 to 2019
+- Built the first enterprise data and decision-intelligence layer this org had and drove its adoption: moved non-technical teams from intuition-led to data-led (CDP, Salesforce, lifecycle segmentation), 20% net-new revenue.
+
+Skills
+Languages & Stack: TypeScript, Python, Next.js, Node.js, Prisma, SQL, Postgres / Supabase, Vercel, Git / GitHub
+GenAI & LLM Systems: Claude / Anthropic (API, tool use, extended thinking), OpenAI, custom MCP servers, RAG / retrieval, vector search (pgvector), agentic orchestration, evals, prompt engineering
+Product & Discovery: rapid prototyping in code, user testing & usability studies, hypothesis & acceptance testing, feature-utilization analysis, A/B testing, MVP definition, end-to-end ownership
+Governance & Scale: RBAC, SEC/FINRA, HIPAA, GDPR, release management, cross-functional leadership (up to 12), instrumentation & KPIs
+
+Role Fit, Product Engineer, Squad
+- Build the product end to end. Squad wants first engineers who own the tools recruiters run their business on and the experience companies hire through. I build product surfaces and the systems under them, solo, in code. ARCS is a live, front-to-back proof.
+- Make the AI useful and usable. Squad's edge is proprietary two-sided signal and a self-improving matchmaking engine. I have spent a year building the honest-signal-versus-AI-inflated-noise engine that is Squad's whole premise: RAG, a live MCP server, agentic orchestration, and evals, in production.
+- Ship with taste and at consequence. I define done by what gets used, obsess over how a flow feels, and have shipped a $7B SEC/FINRA launch through release gates. First-engineer ownership under ambiguity is how I already work.
+
+First 90 Days
+Pick one high-friction recruiter or employer workflow, prototype an AI surface, put it in front of real users, read what actually gets used, and harden the pattern into a repeatable, self-improving loop. Ship the product layer that makes the matching engine useful, then close the feedback loop so every submission, rejection, and hire makes it smarter.
+
+Education and Credentials
+Oberlin College, BA, Studio Art (Honors), design-first foundation applied to product craft
+MIT xPRO, AI: Implications for Business Strategy; Designing & Building AI Products & Services, 2023
+Section4, Certified Product Strategist, 2022
