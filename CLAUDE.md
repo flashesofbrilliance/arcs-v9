@@ -141,8 +141,18 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
 - **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
   "finance" → "regulated industries".
+- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
+  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
+  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
+  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
+- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
+  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
+  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
+  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
+  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
+- **All of the above deployed to main and prod-verified** (latest `2ec3adc`, Vercel READY, cache-MISS fetches).
 
-## Lessons booked (MEMORY.md v3.65.1/.2 + night-moves 2026-09-23)
+## Lessons booked (MEMORY.md v3.65.1/.2 + night-moves 2026-09-23/24)
 - Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
   len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
 - Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
