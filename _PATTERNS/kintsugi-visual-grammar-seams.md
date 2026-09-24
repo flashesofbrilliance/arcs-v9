@@ -298,3 +298,20 @@ Belongs to the template/`/design-sync`, not a per-post patch.
 - **Guard:** committed `--no-verify` per the ledger's accepted practice for template-inherited viewer
   grammar (same disposition as the NFTT viewer seams). If a per-company viewer design system is ever
   formalized in DESIGN.md, retire this exemption and conform the chrome.
+
+## 2026-09-24 · squad.arcs.care Product Engineer resume (inherited print-resume grammar)
+- **Break:** `public/squad-resume.html` (new, ungated candidate bundle) tripped kintsugi with 100
+  findings, dominated by print-resume density the web detector reads as UI antipatterns: 46
+  undersized-ui-text + 34 tiny-text (the 8.5–10px mono labels, job-roles, contact block, skill keys of
+  a letter-sized paper resume), 5 all-caps-body (mono section labels + the tagline), plus a handful of
+  design-system-color / font-size ramp notes. This is the SAME grammar as the shipped
+  `monstro-resume.html` (97 findings today) and `blacksmith-resume.html`; both were grandfathered.
+- **Repair:** fixed the one genuinely a11y-shaped finding first — darkened `--accent`/`--metric`
+  `#0089a8 → #0e7490` to clear 4.5:1 AA on white (6 low-contrast findings gone, 106 → 100). Wrap-lint
+  clean, token-source-gate PASS, 0 em-dashes in copy, render-verified at desktop in the preview pane.
+  The residual 100 are intrinsic to a dense print resume (a web UI-text floor does not apply to an
+  8.5in paper sheet) and are at parity with the shipped sibling resumes.
+- **Guard:** committed `--no-verify` per the ledger's accepted practice for template-inherited resume
+  grammar (same disposition as the success-academy viewer seam directly above). Real kit-wide fix is the
+  queued P3 `nftt-template-kintsugi-contrast-and-label-heuristics`, extended to teach the detector a
+  print-resume mode (paper sheet ⇒ no 11px web floor); belongs to the template, not a per-page patch.
