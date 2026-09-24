@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
+import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 
 export const dynamic = "force-dynamic"
 
@@ -61,6 +62,8 @@ export async function POST(req: NextRequest) {
     ? (prepIn.protecting as unknown[]).filter((p): p is string => typeof p === "string")
     : []
 
+  const savedWindow = WINDOWS.has(String(b.horizon)) ? String(b.horizon) : "THIS_WEEK"
+
   const receipt = await prisma.receipt.create({
     data: {
       userId,
@@ -86,15 +89,20 @@ export async function POST(req: NextRequest) {
       // is the attested payload as received — distinguishable via `surface`.
       rawResponse: JSON.stringify(b),
       entity: prepCtx?.entity ?? null,
-      window: WINDOWS.has(String(b.horizon)) ? String(b.horizon) : "THIS_WEEK",
+      // `window` is the legacy enum; `horizon` the canonical/indexed field;
+      // reviewDate the horizon-scaled check date. Same shared timing helpers as
+      // the compass route so the two create paths cannot drift.
+      window: savedWindow,
+      horizon: normalizeHorizon(savedWindow),
+      reviewDate: reviewDateForWindow(savedWindow),
       stakes: typeof b.stakes === "string" ? b.stakes : null,
       protecting: JSON.stringify(protecting),
       ...yGate,
       mergedFrom: "[]",
       forkPath: null,
       status: "OPEN",
-      // Enter the debrief pipeline like any other receipt (T+7 default).
-      reminderDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+      // Enter the debrief pipeline horizon-scaled, not a blind T+7.
+      reminderDate: reminderDateForWindow(savedWindow),
     },
   })
 

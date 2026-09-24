@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
+import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
@@ -426,8 +427,13 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       rawResponse: raw,
       // E
       entity: prep?.entity ?? null,
-      // W
+      // W — `window` is the legacy enum; `horizon` is the canonical, indexed
+      // field (both persisted so calibration/analytics can key on horizon and
+      // the @@index([horizon]) stops sitting on an all-null column); reviewDate
+      // is the horizon-scaled "did this land?" check date.
       window: activeHorizon,
+      horizon: normalizeHorizon(activeHorizon),
+      reviewDate: reviewDateForWindow(activeHorizon),
       stakes: activeStakes,
       protecting: JSON.stringify(protecting),
       // Y
@@ -438,11 +444,16 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       // Status
       status: "OPEN",
       // ADR-026 Bug 1: without a PrepSession outcomeHorizon, parsed.reminder_iso
-      // is always null and the receipt is permanently ineligible for the debrief
-      // email. Default to T+7 so every receipt enters the delivery pipeline.
-      reminderDate: typeof parsed.reminder_iso === "string"
-        ? parsed.reminder_iso
-        : new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+      // is null and the receipt would be ineligible for the debrief email.
+      // reminderDateForWindow defaults to a HORIZON-SCALED date (not a blind
+      // T+7) so every receipt enters the pipeline AND is nudged when its
+      // decision could plausibly have resolved — a 3-year decision is no longer
+      // asked "did this land?" seven days out. The cron sweeps far dates into
+      // the 30-day Resend window; see cron/debrief/route.ts.
+      reminderDate: reminderDateForWindow(
+        activeHorizon,
+        typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null,
+      ),
     }
 
     // Check for undefined values before creating receipt
