@@ -1,32 +1,30 @@
 {
-  "captured_at": "2026-09-24T03:20:00-04:00",
+  "captured_at": "2026-09-24T18:05:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "d6bfb875",
-    "head_message": "Merge origin/main into claude/arcs-pipeline-question-compass-02db28 (PR #490 squash-merged as 5da95c9f)",
-    "in_sync_with_origin": true,
-    "dirty_files": ["_INBOX/* and _STATE/pulse.json (session-hook artifacts only)"]
+    "head_sha": "8f0bb4a1",
+    "head_message": "Merge origin/main into claude/success-academy-ai-pm-5bf0d9 (Success Academy AI PM engagement)",
+    "branch": "claude/success-academy-ai-pm-5bf0d9",
+    "in_sync_with_origin": false,
+    "note": "branch ahead of main via keep-ours merge commits; all CONTENT landed on main via squash PRs #494-#504",
+    "dirty_files": ["_ARTIFACTS/forge-success-academy-ai-pm/*", "_STATE/job-search/success-academy-ai-pm-brief.md", "_INBOX/*", "_STATE/pulse.json"]
   },
   "vercel": {
     "project": "arcs-v9",
-    "production_alias": "https://app.arcs.care",
     "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "SAGE_URL"],
-    "notes": "SAGE_URL set this session = https://app.arcs.care/svc/sage (all 3 envs)"
+    "production_alias": "https://app.arcs.care",
+    "shipped_this_session": "success-academy.arcs.care (open candidate brief + /resume + PDF + ATS)",
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
-    "note": "Prod was bootstrapped via `prisma db push` — NO _prisma_migrations table. Migrations ship in code but never run against prod. Caused a ~6-week silent P0 (Receipt.batonId ColumnNotFound). Hotfixed live this session (batonId + Tribune). See P1 prod-db-onto-prisma-migrate-deploy.",
-    "diagnostic": "GET /api/health?deep=1 (admin/CRON_SECRET) now probes schema drift, DB, staleness, SAGE, env presence"
+    "role": "arcs_app",
+    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
+    "port": 6543,
+    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
   },
-  "shipped_this_session": [
-    "SAGE pre-screen re-activated (#487/#488): ONE_TO_THREE_YEARS enum fix + SAGE_URL; verified fired=true live",
-    "PROD P0 FIX (live hotfix, receipted): Receipt.batonId + Tribune table applied — restored signed-in compass + all receipt reads, revived the Tribune feature",
-    "compass graceful timeout recovery + /api/health diagnostics (#489)",
-    "NFTT post 'The Question That Found the Outage' live at good.arcs.care/blog/nftt/the-question-that-found-the-outage + index gap fix (#490)"
-  ],
-  "open_queue_P1": ["prod-db-onto-prisma-migrate-deploy", "outcome-capture-rate-keel-gap"],
-  "session_summary": "A 'how do I validate SAGE' question uncovered and fixed a 6-week silent prod P0 (schema drift), revived the dead Tribune feature, shipped timeout-recovery + a health-diagnostic endpoint, and published the NFTT war-story post.",
-  "next_action": "Start the P1 prod-db-onto-prisma-migrate-deploy (baseline prod into migrate history + wire migrate deploy) — it is the root-cause prevention for the drift class that caused this session's P0; nothing blocks it.",
+  "open_adrs": [],
+  "session_summary": "Built + shipped the Success Academy AI Product Manager engagement end to end: open candidate brief at success-academy.arcs.care (PM-first, discovery-led, Ahmed-ordered, analytics firing) + a Vico-pair resume (designed PDF + machine ATS), hardened via counterpart-gauntlet + dual-bar-raiser + impeccable, two late honesty fixes (resume-tailor overclaim, 0.91 pursue-score framing); note sent to Brian 2026-09-24 13:45 EDT.",
+  "next_action": "Await Brian/Jarrod reply (Jarrod on vacation the week of 2026-09-24; relaxed timeline, soft-nudge ~2026-10-08). On Zach's ping, check Gmail for Brian's reply + Vercel arcs-v9 analytics for success-academy.arcs.care visits (ignore the 2026-09-24 build-test views).",
   "blocking": "NONE"
 }

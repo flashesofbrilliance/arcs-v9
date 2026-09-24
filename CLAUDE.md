@@ -167,49 +167,40 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
 3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
    State-of-the-Union dashboard (source file still unidentified — get it first).
-# Handoff — v3.65.0 (2026-09-24)
 
-> **A validation question that found a 6-week silent P0.** Session started as "how do I test/validate
-> the SAGE pre-screen?" and the insistence on a live end-to-end check (not trusting green merges)
-> uncovered a total, weeks-old outage of the signed-in compass. Fixed it live, revived a dead feature
-> in the same move, shipped prevention + diagnostics, and published the NFTT war story. All on branch
-> `claude/arcs-pipeline-question-compass-02db28`; 4 PRs merged (#487–#490), 5 decision receipts filed.
+# Handoff — v3.66.0 (2026-09-24)
 
-## Shipped + verified (all live on prod)
-- **SAGE pre-screen re-activated** (#487/#488): the compass route's `SAGE_URL` seam was dormant since
-  2026-08-11. Fixed the `ONE_TO_THREE_YEARS` horizon enum (was HTTP 422 on `/svc/sage`, live-verified),
-  set `SAGE_URL` on all 3 Vercel envs. Confirmed `fired=true` on a real signed-in run.
-- **PROD P0 — schema drift (the big one).** Signed-in compass `create` + all Brief/receipt reads had
-  been 500ing for ~6 weeks on `Receipt.batonId ColumnNotFound` (P2022). Root cause: **prod has no
-  `_prisma_migrations` table — it was `db push`-bootstrapped, so migrations ship in code but never run
-  against prod** (the Tribune migration `20260906000000_tribune`, PR #297, never applied). Hotfixed live
-  via Supabase MCP (idempotent additive DDL: `batonId` + `Tribune` table). Restored persistence AND
-  revived the shipped-but-dead Tribune feature (anterior/proactive Tribune writes now land; verified).
-- **Compass graceful timeout recovery + `/api/health`** (#489): the run persists server-side even when
-  the mobile client times out ("Load failed" over a real 200). Client now owns a 65s AbortController and
-  polls `/api/history` to recover the session's receipt before erroring. New `/api/health?deep=1`
-  (admin/`CRON_SECRET`) probes schema drift, DB, staleness, SAGE, env presence — the 20-min RCA is now
-  one request. Live: `{status:ok, db:true}`.
-- **NFTT post live** (#490): `good.arcs.care/blog/nftt/the-question-that-found-the-outage` (The Factory
-  on Itself). Plus an index bug fix (featured card sat flush 0px against the grid → `.feat margin-bottom:18px`).
+> **Success Academy AI PM engagement, end to end in one session** (worktree `success-academy-ai-pm-5bf0d9`).
+> Built + shipped an open candidate brief + a designed/ATS resume pair, hardened through counterpart-gauntlet
+> + dual-bar-raiser + impeccable, and sent the note to Brian. All live, honest, detector-clean. Full durable
+> record: memory `project_jarrod_wolf_success_academy`.
 
-## Gate reconciliations (surfaced by shipping a new NFTT post)
-- `token_source_gate`: added a `blog-nftt-*` exemption (self-contained serif design system, canonical
-  token names; a renamed palette still FAILs).
-- `kintsugi`: new NFTT posts hard-block on inherited template grammar (mono labels read as body text;
-  `--dim` at 4.0:1). Seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`, committed `--no-verify`
-  per the ledger's accepted practice (other gates verified passing by hand).
+## Shipped (live on prod, PRs #494-#504)
+- **success-academy.arcs.care** (open, noindex) - PM-first, discovery-led candidate brief: Ahmed-ordered
+  (verdict -> 0.91 pursue-score -> 3 reasons -> buyer Q&A -> resume), 720px column, tightened type, Vercel
+  analytics + section-dwell firing, security-clean. `/resume` viewer + PDF + ATS. Routed via `src/proxy.ts`
+  MULTI_PATH_MAP; domain added to arcs-v9 Vercel by Zach; registered in `.impeccable/config.json` as a
+  recoil-kit visual world (font/size/label exemptions per the jack-rain precedent).
+- **Vico-pair resume** (designed PDF + machine ATS via `resume_ats_render.py`) + call brief + note-to-Brian
+  in `_ARTIFACTS/forge-success-academy-ai-pm/` and `_STATE/job-search/`; mirrored to
+  `iCloud/ARCS/2026-09-24-success-academy/`.
 
-## Open (next session) — queue in `_QUEUE/induced-backlog.jsonl`
-1. **P1 `prod-db-onto-prisma-migrate-deploy`** — the root-cause prevention: baseline prod into migrate
-   history + wire `prisma migrate deploy` into the Vercel build so drift can't ship silently again.
-   **Start here.** Nothing blocks it.
-2. **P1 `outcome-capture-rate-keel-gap`** — 2/247 closed; it masked the P0 for 6 weeks and gates the
-   SAGE-efficacy signal. Mechanical funnel pull before any UX lever; never self-close a receipt.
-3. P3s: `svc-sage-should-it-exist-decision`, `compass-mobile-timeout-recover-receipt` (impl shipped,
-   verify live on a slow run), `nftt-story-factory-index-instructions-stale`,
-   `nftt-template-kintsugi-contrast-and-label-heuristics` (real kit-wide --dim AA + label heuristic fix).
+## The honesty catches (load-bearing lessons, banked to memory)
+- resume-tailor did NOT generate the bundle -> removed the "built by a tool" overclaim (built to its
+  checkability *standard*; the resume + page were hand-built).
+- The 0.91 is Zach's own target-role **PURSUE** rubric (rates how the role fits *him*), reframed as such -
+  NOT an objective candidate-fit score.
+- Anticipatory objection-handling was doing a disservice -> flipped to strength-forward Q&A; kept only the
+  one non-negotiable honesty (ARCS is solo) as "The Arc" fusion strength, not a confessed gap.
+- Metrics trace to Zach's vetted Vico/Amy masters, not the partial `record-of-record.txt` (a bar-raiser
+  "unsupported" flag against the partial extract was a false alarm - verify against the fuller masters).
 
-## Lessons booked (2 new memories)
-`prod-schema-drift-migrate-deploy-not-db-push` · `client-fetch-failure-is-not-persistence-failure`
-(trust the persisted artifact, not the transient signal — the through-line of the whole session).
+## Open (next session)
+- **Await Brian/Jarrod reply.** Note SENT 2026-09-24 ~13:45 EDT (short, one link, no ask - Brian's making
+  the intro). Jarrod on vacation the week of 2026-09-24 -> relaxed timeline: soft-nudge ~2026-10-08,
+  close-loop review ~2026-10-13. Don't read this-week silence as bad.
+- **Watch (ping-based):** on Zach's ping, check Gmail for Brian's reply + Vercel arcs-v9 analytics for
+  success-academy.arcs.care visits / page_dwell / section_dwell (ignore the 2026-09-24 build-test views).
+  Cloud routines can't reach the Gmail/Vercel MCPs; true unattended push needs those as claude.ai connectors.
+- **Confirm which req** maps to Brian's convo (listed "Leader, AI Product Manager" vs an adjacent level).
+- Memory deep-dedup (265 files, index over the ~17.4KB soft budget) remains a separate queued task.

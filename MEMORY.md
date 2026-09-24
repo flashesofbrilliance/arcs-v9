@@ -7,6 +7,10 @@
 
 ---
 
+## [v3.66.0] 2026-09-24 — Success Academy AI PM engagement shipped end to end
+
+Built + shipped the open candidate brief `success-academy.arcs.care` (PM-first, discovery-led, Ahmed-ordered, 0.91 pursue-score, Vercel analytics) + a Vico-pair resume (designed PDF + machine ATS), hardened via counterpart-gauntlet + dual-bar-raiser + impeccable. Two late honesty fixes: removed the resume-tailor "built by" overclaim (it did not generate the bundle) and reframed the 0.91 as Zach's own target-role *pursue* rubric, not an objective fit score. Note sent to Brian 2026-09-24; awaiting reply (Jarrod on vacation, relaxed timeline). PRs #494-#504. Durable detail: memory `project_jarrod_wolf_success_academy`.
+
 ## [v3.65.2] 2026-09-24 — VICO: strip VP tonality per Joe (intro, not application); smoke-test fixes; close-loop reminder set
 
 - **Joe's morning ask (day of the 3 PM Lyndon call):** make the shared page an "introduction without

@@ -1,0 +1,64 @@
+Zach Harris
+Validates With Real Users, Then Ships
+New York Metro, on-site-ready
+zach.harris@gmail.com
+linkedin.com/in/zharris
+github.com/flashesofbrilliance
+Summary
+A product manager who owns strategy, discovery, and delivery, and whose edge is discovery, not just delivery. Building is table stakes; the seasoned call is not what we could build but what we should, with the evidence to say why. I take an ambiguous problem, prototype a working surface in code, put it in front of real users, validate the premise and read what actually gets used, kill what doesn't, and hand engineering a hardened premise instead of a hunch. I carry all three PM hats myself - project management, product, and design/prototyping. Currently building ARCS, a GenAI app I built and run largely solo on Claude (a RAG pipeline, a live MCP server, agentic orchestration, an evaluation layer) on Next.js / TypeScript - hands-on with OpenAI and Claude. Over 15 years turning ambiguous problems into shipped, adopted systems in regulated finance ($7B, SEC/FINRA) and a mission-driven non-profit. Public commit trail at status.arcs.care; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
+Core Strengths
+- Product discovery that de-risks before engineering: working prototypes in front of real users, user testing and usability studies, hypothesis and acceptance tests. Define done by what gets used, then hand hardened requirements to eng.
+- Hands-on GenAI, in production: RAG retrieval, a live MCP server, agentic tool use, and an evaluation layer - a builder who speaks engineering.
+- End-to-end product ownership, high agency: product strategy, management, and delivery, plus project management (Jira / Confluence, roadmap, dependency mapping) and design/prototyping - the whole loop, one person.
+- Business-to-technical translation: the connective tissue between business, technical, and non-technical teams; 40+ C-suite demos at 75% pilot conversion.
+- Operates at consequence: shipped a $7B SEC/FINRA launch through RBAC'd release gates and compliance-in-the-loop - governance as a discipline, not a checkbox.
+- Drives adoption, not just delivery: moved a non-technical org from intuition-led to data-led (CTF); led vendor evaluation & selection (CDP, Salesforce); ship AI tools other people actually run.
+Experience
+ARCS, GenAI app I built and run solo
+Founder & Builder, 2025 to Present
+Architect and run ARCS, a GenAI decision-intelligence app I built and operate largely solo on Claude: a RAG pipeline, a custom MCP server, orchestration, and an evaluation layer on Next.js / TypeScript / Prisma.
+- Ran ARCS as rapid prototyping and hypothesis testing: stood up a working surface, put it in front of real decision sessions, tested the premise against actual usage, kept what held and killed what didn't, and hardened only the survivors - the discovery-before-handoff loop.
+- Built the RAG pipeline, custom MCP server, and agentic pipelines (Claude API, tool use, extended thinking); carry the full delivery loop solo that Grayscale split across a release-train team.
+- Built an evidence-gate that decides when deterministic context suffices versus when LLM reasoning is required, tuned from watching what actually got used - the reliability layer an agentic product needs to be trusted.
+- Ship and maintain open-source developer tools, each with its own eval/test suite, including resume-tailor (a live tool that ships and gets run); build in public at good.arcs.care.
+Grayscale Investments, Digital Currency Group
+Product Lead, 2024 to 2025
+Product lead for institutional and retail surfaces on the team launching $7B in digital assets (10-product regulated launch): a domain where being wrong is expensive and provenance is not optional.
+- Operated inside SEC/FINRA governance and shipped through RBAC'd release gates with compliance-in-the-loop, so nothing unapproved could ship.
+- Ran the cross-functional release train across 4 time zones with a compliance-in-the-loop cadence, cutting release-cycle time 35%; delivered 40+ executive demos at 75% pilot conversion.
+Children's Tumor Foundation, Rare-Disease Non-Profit
+Sr. Director, Data & Strategy, 2018 to 2019
+- Built the first enterprise data and decision-intelligence layer this mission-driven org had and drove its adoption: moved non-technical program teams from intuition-led to data-led (CDP, Salesforce, lifecycle segmentation), 20% net-new revenue via personalization. The enablement muscle, made concrete.
+Squat New York, Behavioral Health ($350M ARR)
+Head of Product Innovation & Tech Lead, 2019 to 2020
+- Sole product and technology partner on a seven-figure embedded engagement, discovery through relaunch; rebuilt for mobile-first ( 70% of traffic) with a HIPAA and ADA/WCAG design system built in: +40% qualified leads, +63% booking-success, +23 NPS.
+Women's Tennis Association
+Head of Product & Strategic Partnerships, 2016 to 2018
+- Led CDP selection and built real-time fan-behavior scoring at <120ms; closed the first commercial data / API partnerships (Twitter, Facebook): attribution, event-driven revenue, $850K+ in year one.
+IBRShop, Direct-to-Consumer
+Co-Founder & EVP, 2012 to 2016
+- Bootstrapped a DTC brand from $0 to $2M+ in 24 months (8 collections, 86+ SKUs); cut COGS 30%. Selectable Media (GM, 2010 to 2012): grew revenue $4,500 to $1M+ /month with Fortune 500 advertisers, acquired by Meredith.
+Skills
+Product Discovery & Craft: Product discovery, user research, customer research, user testing, usability studies, rapid prototyping (Lovable, Replit, Figma Make, Magic Patterns, code), AI-assisted dev tools, hypothesis validation, acceptance testing, definition of done, feature-utilization analysis, A/B testing, design specs, product requirements & implementation plans, MVP definition
+Project & Delivery Management: Jira, Confluence, Agile / Scrum, roadmap ownership, dependency mapping, backlog & sprint planning, release management, KPI & instrumentation, cross-functional leadership (up to 12)
+GenAI & LLM Systems: Claude / Anthropic (API, tool use, extended thinking), OpenAI, Gemini, custom MCP servers, RAG / retrieval, vector search (pgvector), agentic orchestration, prompt engineering, AI-assisted dev tools, dev tools & evals
+Stack, Governance & Growth: Python, TypeScript, Next.js, Node.js (Prisma), SQL, Vercel, Supabase, RBAC, SEC/FINRA, HIPAA, GDPR, policy-at-the-glass, CDP (Segment, Salesforce), personalization & lifecycle
+Additional Detail
+- Role Fit, AI Product Manager, Success Academy
+- A Discovery that de-risks before engineering
+- Spec to working prototype to real user feedback (user testing, customer research, usability studies); validate the premise, prove it with acceptance testing, and define done by what actually gets used, before eng spends time.
+- In practice Twill: ran market-viability discovery on 3 AI product lines - primary user research + hypothesis tests + a utilization read drove go-forward on two and a disciplined kill on the third before engineering touched it. ARCS: prototyped, put it in front of real sessions, iterated on what got used. resume-tailor: a discovery-to-shipped-and-run tool, live.
+- B End-to-end product ownership - player, coach, pacecar
+- They cut the project managers, so the PM owns it all: product strategy, management, and delivery, plus the backlog, roadmap, specs, and the prototype.
+- In practice A senior product leader who plays (hands-on, I build and ship), coaches (led cross-functional pods of up to 12, servant-leader style), and sets the pace (the standard and tempo others follow). I own product end to end - strategy, management, and delivery - with project management (Jira / Confluence) and design/prototyping, no supporting cast.
+- C Ship real AI, and govern it at consequence
+- Hands-on with OpenAI and Claude and agentic tooling; deploy responsibly inside compliance, security, and governance.
+- In practice ARCS is RAG + a live MCP server + agentic orchestration + evals, in code, in production. I shipped a $7B SEC/FINRA launch through RBAC'd release gates and policy controls, plus HIPAA and GDPR deployments. FERPA / COPPA is the K-12 analog - operating at consequence is where I am strongest.
+FIRST 90 DAYS
+Pick one high-friction workflow, prototype an AI surface, put it in front of real teachers or ops, read what actually gets used, then scale the pattern into a repeatable adoption playbook and a champion network. Discovery first, then adoption.
+THE ARC
+Three modes I move between, and this role wants all three. Builder : I write and ship the code (ARCS, hands-on, in production). Founder : 0→1 under real ambiguity, army-of-one, with the discovery discipline to kill what won't work before it is built. Senior operator : shipped at organizational consequence with teams and release trains (a $7B SEC/FINRA launch; a non-profit's first data layer). ARCS is the newest and most hands-on; the operate-at-scale reps are in the prior record. Success Academy is where the three fuse.
+Education and Credentials
+Oberlin College, BA, Studio Art (Honors), design-first foundation applied to product craft
+MIT xPRO, AI: Implications for Business Strategy; Designing & Building AI Products & Services 2023
+Section4, Certified Product Strategist 2022

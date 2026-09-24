@@ -1,0 +1,20 @@
+@page { size: letter; margin: 0.5in; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; line-height: 1.28; color: #111; background: #fff; max-width: 7.5in; margin: 0 auto; }
+h1 { font-size: 19pt; line-height: 1.05; margin-bottom: 2pt; letter-spacing: -0.01em; }
+h1 + p, body > p:first-of-type { font-size: 9.4pt; }
+/* the bold subtitle line right under H1 (pandoc renders **...** as <strong> in a <p>) */
+body > p strong { font-weight: 700; }
+h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: 0.05em; margin: 9pt 0 3pt; padding-bottom: 1.5pt; border-bottom: 1px solid #111; break-after: avoid; }
+h3 { display: none; } /* not used */
+p { margin-bottom: 3.5pt; }
+strong { font-weight: 700; }
+ul { margin: 1pt 0 4pt 15pt; }
+li { margin-bottom: 2pt; break-inside: avoid; }
+hr { border: none; border-top: 1px solid #bbb; margin: 5pt 0; }
+a { color: #111; text-decoration: none; }
+/* experience employer lines are bold paragraphs (pandoc: **Company** ... *dates*) */
+em { font-style: italic; }
+p, li { orphans: 2; widows: 2; }
+/* keep an employer paragraph with its following bullet list */
+p:has(+ ul) { break-after: avoid; }
