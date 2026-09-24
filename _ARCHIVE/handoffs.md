@@ -4134,3 +4134,4 @@ BEFORE the first call, not after.
 2. **Queue `algorethics-in-scope-benchmark`** (P3): ~150 harmful tool calls + benign twins across the
    three classes in real tool phrasing; measure recall/FPR. Do not reopen "widen to broad harm".
 3. Joe Schriner follow-up + resume-tailor skill fold-back + State-of-the-Union dashboard (carried from v3.62.0).
+

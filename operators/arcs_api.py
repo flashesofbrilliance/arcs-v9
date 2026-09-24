@@ -400,8 +400,11 @@ def run_pipeline(req: RunRequest):
 class SageScoreRequest(BaseModel):
     """Human-language input from the Next.js compass route."""
     question:  str   = Field(..., min_length=4, max_length=2000)
+    # Accept the arcs-v9 canonical horizon enum (TODAY|THIS_WEEK|THIS_QUARTER|
+    # ONE_TO_THREE_YEARS — what the compass route actually sends) alongside the
+    # legacy THIS_YEAR|LONG_ARC values the service defined but the app never emits.
     horizon:   str   = Field(default="THIS_WEEK",
-                              pattern=r"^(TODAY|THIS_WEEK|THIS_QUARTER|THIS_YEAR|LONG_ARC)$")
+                              pattern=r"^(TODAY|THIS_WEEK|THIS_QUARTER|ONE_TO_THREE_YEARS|THIS_YEAR|LONG_ARC)$")
     stakes:    str   = Field(default="MEDIUM", pattern=r"^(LOW|MEDIUM|HIGH)$")
     hci_score: float = Field(default=0.72, ge=0.0, le=1.0)
 
@@ -440,7 +443,7 @@ class QuestionCompassRequest(BaseModel):
     """Native front-door contract. Accepts human language, not signal floats."""
     question:       str   = Field(..., min_length=4, max_length=2000)
     horizon:        str   = Field(default="THIS_WEEK",
-                                  pattern=r"^(TODAY|THIS_WEEK|THIS_QUARTER|THIS_YEAR|LONG_ARC)$")
+                                  pattern=r"^(TODAY|THIS_WEEK|THIS_QUARTER|ONE_TO_THREE_YEARS|THIS_YEAR|LONG_ARC)$")
     stakes:         str   = Field(default="MEDIUM", pattern=r"^(LOW|MEDIUM|HIGH)$")
     clarity_mode:   str   = Field(default="SIMPLE", pattern=r"^(SIMPLE|RICH|DEEP)$")
     jtbd:           str   = Field(default="", max_length=500)
@@ -474,11 +477,12 @@ _STAKES_SIGNALS: Dict[str, List[float]] = {
 }
 
 _HORIZON_IRREVERSIBILITY: Dict[str, float] = {
-    "TODAY":        0.10,
-    "THIS_WEEK":    0.20,
-    "THIS_QUARTER": 0.40,
-    "THIS_YEAR":    0.60,
-    "LONG_ARC":     0.85,
+    "TODAY":              0.10,
+    "THIS_WEEK":          0.20,
+    "THIS_QUARTER":       0.40,
+    "ONE_TO_THREE_YEARS": 0.70,  # arcs-v9 canonical long horizon (multi-year → high irreversibility)
+    "THIS_YEAR":          0.60,
+    "LONG_ARC":           0.85,
 }
 
 
@@ -490,6 +494,7 @@ def _compute_kairos(mode: str, nci_score: int, horizon: str) -> dict:
         "this_quarter": "QUARTER",
         "this quarter": "QUARTER",
         "this_year":    "QUARTER",
+        "one_to_three_years": "QUARTER",
         "1-3 years":    "QUARTER",
         "long_arc":     "QUARTER",
     }
@@ -508,7 +513,7 @@ def _compute_kairos(mode: str, nci_score: int, horizon: str) -> dict:
 
 
 def _select_decision_mode(stakes: str, horizon: str) -> str:
-    if stakes == "HIGH" or horizon in ("THIS_YEAR", "LONG_ARC"):
+    if stakes == "HIGH" or horizon in ("ONE_TO_THREE_YEARS", "THIS_YEAR", "LONG_ARC"):
         return "COURT"
     if stakes == "LOW" and horizon in ("TODAY", "THIS_WEEK"):
         return "QUICKMOVE"
@@ -516,7 +521,7 @@ def _select_decision_mode(stakes: str, horizon: str) -> str:
 
 
 def _select_door_class(stakes: str, horizon: str) -> str:
-    if stakes == "HIGH" or horizon in ("THIS_YEAR", "LONG_ARC"):
+    if stakes == "HIGH" or horizon in ("ONE_TO_THREE_YEARS", "THIS_YEAR", "LONG_ARC"):
         return "ONE_WAY"
     return "TWO_WAY"
 
@@ -524,7 +529,8 @@ def _select_door_class(stakes: str, horizon: str) -> str:
 _STAKES_TO_FIBER = {"LOW": "low", "MEDIUM": "medium", "HIGH": "high"}
 _HORIZON_TO_FIBER = {
     "TODAY": "today", "THIS_WEEK": "this-week",
-    "THIS_QUARTER": "this-quarter", "THIS_YEAR": "multi-year", "LONG_ARC": "multi-year",
+    "THIS_QUARTER": "this-quarter", "ONE_TO_THREE_YEARS": "multi-year",
+    "THIS_YEAR": "multi-year", "LONG_ARC": "multi-year",
 }
 
 
