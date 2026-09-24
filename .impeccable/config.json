@@ -1,134 +1,174 @@
 {
-  "detector": {
-    "ignoreRules": [],
-    "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:07:34.698Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans), the recoil-report family's own locked kit, a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:07:38.367Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:10:21.792Z",
-        "reason": "Status-LED glow (boxShadow 0 0 8px 1px color) is the shipped pattern from src/app/jobs/[jobid]/page.tsx's led() helper, used identically for BAND/GATES/SWIPE/FORGE indicators; not new decoration"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.261Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.287Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.309Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.330Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.350Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.370Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.153Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.175Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.200Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.222Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.243Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      }
-    ]
-  }
+ "detector": {
+  "ignoreRules": [],
+  "ignoreFiles": [],
+  "ignoreValues": [
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:07:34.698Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans), the recoil-report family's own locked kit, a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:07:38.367Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:10:21.792Z",
+    "reason": "Status-LED glow (boxShadow 0 0 8px 1px color) is the shipped pattern from src/app/jobs/[jobid]/page.tsx's led() helper, used identically for BAND/GATES/SWIPE/FORGE indicators; not new decoration"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.261Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.287Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.309Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.330Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.350Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.370Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.153Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.175Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.200Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.222Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.243Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "undersized-ui-text",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   }
+  ]
+ }
 }
