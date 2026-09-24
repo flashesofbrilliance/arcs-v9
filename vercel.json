@@ -1,5 +1,6 @@
 {
   "ignoreCommand": "bash scripts/vercel-ignore-build.sh",
+  "buildCommand": "bash scripts/vercel-migrate-deploy.sh && npm run build",
   "experimentalServices": {
     "web": {
       "entrypoint": ".",
