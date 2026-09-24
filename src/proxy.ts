@@ -42,6 +42,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
+  // fun.arcs.care — Fun.xyz Senior Product Marketing Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief (Grayscale-led, crypto/regulated-finance forward, honest payments gap stated), /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
+  'fun': { '/resume': '/fun-resume-viewer.html', '/fun-resume.pdf': '/fun-resume.pdf', '/fun-resume-ats.txt': '/fun-resume-ats.txt', default: '/fun.html' },
   // schriner.arcs.care — Oxenham Group recruiter bundle (2026-09-14): root = candidate pitch
   // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
   // text mapped to themselves so the default-page rewrite does not swallow them.
