@@ -15,6 +15,44 @@ import { Button } from "@/ui/Button"
 type Horizon = "TODAY" | "THIS_WEEK" | "THIS_QUARTER" | "ONE_TO_THREE_YEARS"
 type Stakes = "LOW" | "MEDIUM" | "HIGH"
 
+// Recovery poll: a compass run frequently completes and persists server-side
+// even when the client fetch times out or the connection drops (proven in prod
+// 2026-09-24 — a receipt + SAGE trace landed while the mobile client showed
+// "Load failed"). Before declaring failure, look for a receipt created in THIS
+// session and route to it — trust the persisted artifact, not the transient
+// fetch outcome. reqSessionId is a fresh UUID per run, so no cross-session
+// false positives even when /api/history runs in public (ungated) mode.
+// See _QUEUE item compass-mobile-timeout-recover-receipt.
+async function pollForRecoveredReceipt(
+  reqSessionId: string,
+  followUp: boolean,
+  tries = 6,
+  delayMs = 2500,
+): Promise<string | null> {
+  for (let i = 0; i < tries; i++) {
+    await new Promise((r) => setTimeout(r, delayMs))
+    try {
+      const res = await fetch("/api/history", { cache: "no-store" })
+      if (!res.ok) continue
+      const { receipts } = (await res.json()) as {
+        receipts?: Array<{ id: string; sessionId?: string; children?: Array<{ id: string }> }>
+      }
+      const seed = (receipts ?? []).find((r) => r.sessionId === reqSessionId)
+      if (seed) {
+        // Fresh run → the seed itself; follow-up → its newest child.
+        if (followUp) {
+          if (seed.children && seed.children.length) return seed.children[seed.children.length - 1].id
+        } else {
+          return seed.id
+        }
+      }
+    } catch {
+      /* keep polling — the run may still be completing */
+    }
+  }
+  return null
+}
+
 function DashboardInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -129,6 +167,12 @@ function DashboardInner() {
     if (loading) return
     setLoading(true)
     setError(null)
+    const reqSessionId = followUp ? sessionId : crypto.randomUUID()
+    // Own the timeout so a slow run surfaces an honest message instead of the
+    // browser's generic "Load failed" — set just above the server's 60s
+    // maxDuration so the server gets its full budget before we give up.
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 65_000)
     try {
       // Anonymous prep enrichment: read the inline prep handed off by /prep
       // via sessionStorage (nothing was persisted server-side).
@@ -139,16 +183,18 @@ function DashboardInner() {
       const res = await fetch("/api/compass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           question: q,
           horizon,
           stakes,
-          sessionId: followUp ? sessionId : crypto.randomUUID(),
+          sessionId: reqSessionId,
           prepId: inboundPrepId,
           prep: inlinePrep ?? undefined,
           parentReceiptId: followUp ? parentReceiptId : null,
         }),
       })
+      clearTimeout(timeout)
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
@@ -167,7 +213,23 @@ function DashboardInner() {
         router.push(`/receipt/${eid}`)
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
+      clearTimeout(timeout)
+      // The run may have completed and persisted server-side despite this
+      // client-side failure (timeout / dropped connection). Recover the saved
+      // receipt before showing an error — loading stays true through the poll
+      // so the UI keeps its "working" state (the bearing may still be landing).
+      const recoveredId = await pollForRecoveredReceipt(reqSessionId, followUp)
+      if (recoveredId) {
+        if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", reqSessionId)
+        router.push(`/receipt/${recoveredId}`)
+        return
+      }
+      const aborted = err instanceof DOMException && err.name === "AbortError"
+      setError(
+        aborted
+          ? "This is taking longer than usual — your bearing may still be landing. Check History in a moment, or re-run."
+          : err instanceof Error ? err.message : "Something went wrong",
+      )
       setLoading(false)
     }
   }
