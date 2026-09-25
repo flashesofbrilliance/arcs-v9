@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cold-recon reconstruction",
+  "description": "The structured report a ZERO-TRANSCRIPT cold agent returns after reading only the evidence pack. Permissive by design (extra keys allowed) but requires the load-bearing sections so a dropped field is caught. Every section carries its own confidence; the agent must self-report what it could NOT verify.",
+  "type": "object",
+  "required": ["range", "title", "root_invariant", "sections", "could_not_verify", "forward_items"],
+  "properties": {
+    "range": { "type": "string", "description": "the git range reconstructed" },
+    "repo": { "type": "string" },
+    "title": { "type": "string" },
+    "standfirst": { "type": "string", "description": "one-sentence what-happened" },
+    "root_invariant": {
+      "type": "string",
+      "description": "the single durable principle the incident turned on -- not the surface event"
+    },
+    "sections": {
+      "type": "array",
+      "description": "what happened / decisions & guardrails, each with its own confidence",
+      "items": {
+        "type": "object",
+        "required": ["tag", "heading", "body", "confidence"],
+        "properties": {
+          "tag": { "type": "string", "description": "short label, e.g. 'What happened', 'Decisions', 'Guardrails'" },
+          "heading": { "type": "string" },
+          "body": { "type": "string", "description": "prose, blank-line separated paragraphs" },
+          "confidence": {
+            "type": "number",
+            "description": "0..1 -- how well the committed record supports THIS section (not the agent's fluency)"
+          },
+          "evidence": {
+            "type": "array",
+            "description": "the pack anchors (paths / short shas) this section rests on",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "could_not_verify": {
+      "type": "array",
+      "description": "claims the agent cannot ground in the committed record -- e.g. 'described but not confirmed wired'. First-class output.",
+      "items": { "type": "string" }
+    },
+    "forward_items": {
+      "type": "array",
+      "description": "open work the record points to",
+      "items": { "type": "string" }
+    },
+    "leak_map": {
+      "type": "object",
+      "description": "optional: the agent's own guess at what the record failed to carry. The deterministic leakmap command supersedes this.",
+      "properties": {
+        "leaked": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "notice": { "type": "string", "description": "footer provenance line" }
+  }
+}
