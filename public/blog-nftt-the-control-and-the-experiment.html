@@ -1,0 +1,191 @@
+<title>We Gave the Reader Its Memory Back · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A companion experiment: we ran the cold reader against a warm one holding the participant's own memory, expecting warmth to corrupt the record. It did not. It changed something stranger.">
+<meta name="robots" content="index">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--cyan); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--gold);
+    border:1px solid var(--gold); border-radius:4px; padding:1px 6px; font-weight:600}
+
+  /* results table (mono grid) */
+  .tbl{margin:8px 0 0; font-family:var(--mono); font-size:12px; width:100%; border-collapse:collapse}
+  .tbl th,.tbl td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border)}
+  .tbl th{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.06em; font-size:10px; font-weight:600}
+  .tbl td{color:var(--muted)}
+  .tbl td.arm{color:var(--text)}
+  .tbl .hi{color:var(--green); font-weight:600}
+  .tbl .lo{color:var(--red); font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}
+    .tbl th,.tbl td{padding:6px 6px; font-size:11px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Method note</span>
+    <span>Control vs experiment</span>
+    <span class="sp"><b>n = 1, illustrative</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // The Control and the Experiment</p>
+    <h1>We Gave the Reader <em>Its Memory Back</em></h1>
+    <p class="standfirst">The companion piece claimed a cold reader debiases an incident. A claim about a method has to survive its own test. So we ran the warm version too, and the result was not the one either of us expected.</p>
+    <p class="byline">One incident &middot; one model &middot; one sample per arm &middot; the confound named and controlled &middot; the recruiter withheld</p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; Analyze</span>
+    <p class="lead">The prior note made a claim, and claims about methods are the ones most likely to be flattering to the person making them. It said: send a reader who was never in the room, holding only the committed record, and it cannot spin the incident the way the participant would. Calm, tidy, and exactly the kind of coherent reversal that should be treated as a suspect until it is tested. So the honest next move was not to admire it. It was to try to break it.</p>
+    <p>The test writes itself once you name the variable. Coldness means no memory. So build the warm counterpart: the same reader, on the same incident, but handed the participant's own memory of the session, the running work log, the after-the-fact write-up, the notes taken in the moment. Then ask the same question of both and measure the same thing. If coldness is doing real work, the warm reader should drift from the record and the cold one should not. If it is doing no work, they should land in the same place, and the tidy claim collapses.</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; Assess</span>
+    <p>The metric had to be something a machine computes, not something I score by eye, because scoring it by eye reintroduces the exact bias under test. So the measure is provenance retention: of the durable anchors in the committed record, the commits and the tracked files, what fraction does each reconstruction actually cite. A second, cheaper signal rides alongside it: how many claims each reader flags as things it cannot confirm. A confident account with few caveats and a thin citation trail is the signature of a story told from memory.</p>
+    <p>Four runs, and the discipline of changing one thing at a time. Two cold readers, blind, zero memory, to see whether the cold result even repeats. Then the warm reader, given its memory, in two modes. The first warm mode let it narrate the way a person actually writes up their own incident, leaning on memory, not required to cite. And here I made a mistake that turned out to be the most instructive part of the whole exercise, so I am leaving it in rather than hiding it: that instruction, <em>you need not cite</em>, is a second variable. It confounds memory with permission. A clean experiment changes one knob. So a fourth run: the warm reader, same memory, but held to the cold reader's exact cite-or-abstain discipline. Now memory is the only difference that remains.</p>
+
+    <div class="panel">
+      <h4>One variable at a time</h4>
+      <div class="step">
+        <span class="k">Cold x2</span><b class="df">blind, zero transcript. Does the cold result repeat at all.</b>
+        <span class="k">Warm A</span><b>memory, relaxed citing. The natural way a participant writes it up.</b>
+        <span class="k">Warm B</span><b>memory, <em>matched</em> cite-or-abstain discipline. Memory is now the only difference from a blind reader.</b>
+        <span class="k">Measure</span><b class="df">provenance (record anchors cited) and caveat count, both computed, not eyeballed.</b>
+      </div>
+      <p>The confound was mine: Warm A changed two things at once. Warm B is the correction, and the gap between A and B is where the real finding lives.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">III &middot; Evaluate</span>
+    <p>The two cold readers repeated. Both landed on the same principle underneath the incident, with no contact between them, and both flagged the same load-bearing gap. That matters before anything else: if the cold result had not even reproduced, there would be nothing to compare against. It did. The record carries the spine.</p>
+
+    <div class="panel">
+      <h4>The four runs <span class="sev">real numbers</span></h4>
+      <table class="tbl">
+        <tr><th>Arm</th><th>Provenance</th><th>Caveats</th><th>Deny</th></tr>
+        <tr><td class="arm">cold, blind (1)</td><td>0.90</td><td>11</td><td>abstained</td></tr>
+        <tr><td class="arm">cold, blind (2)</td><td>0.84</td><td>14</td><td>abstained</td></tr>
+        <tr><td class="arm">warm, relaxed cite</td><td class="lo">0.26</td><td class="lo">5</td><td>abstained</td></tr>
+        <tr><td class="arm">warm, matched cite</td><td class="hi">1.00</td><td>9</td><td>abstained</td></tr>
+      </table>
+      <p>Provenance is the fraction of committed record anchors the reconstruction cites. Higher is more tethered to the record. The warm reader with memory, once held to the same discipline, cited every anchor.</p>
+    </div>
+
+    <p>Read the warm rows against each other, because that is the whole result. Left to narrate naturally, the warm reader retained a quarter of the record, cited the fewest sources, and raised the fewest doubts, all while reporting high confidence. It told a good, fluent story from memory and barely touched the evidence trail. Then, holding the identical memory but required to cite, the same reader retained <em>all</em> of it, more than either blind cold reader, because memory is a fine index into a record when you are made to actually open the record. So warmth did not corrupt what the reader grounded. Handed the same discipline, it grounded better. The collapse to a quarter was not memory poisoning the account. It was permission to skip the citing.</p>
+    <blockquote>Warmth does not corrupt what you ground. It changes whether you ground at all.</blockquote>
+    <p>Which inverts the reason coldness is worth anything, and the inverted reason is sharper than the one I started with. The value of the cold reader is not that a stranger grounds better than a participant. A participant with memory, made to cite, grounds better than the stranger. The value is that a reader with no memory <em>cannot</em> narrate from memory. It has nothing to tell the story from except the record, so the citing discipline is not a rule it might follow, it is the only mode it has. Coldness does not grant honesty. It removes the option of dishonesty-by-fluency, the confident, well-written account that never checks itself against the evidence because it does not have to. You can get the same result from a warm participant, but only by imposing from outside the discipline that coldness enforces by construction.</p>
+    <p>Two smaller findings sit underneath. Every one of the four readers refused to certify the fix the whole incident rests on, the lock on the outbound tools, because no configuration artifact sat next to the claim in the record. That honesty was robust across warm and cold alike, and it was not a virtue of the readers. It was inherited from the source: the original write-up had itself hedged the lock as proposed, not confirmed, so every reader inherited the hedge. Honesty in equals honesty out. And the deepest gap of all surfaced only in the disciplined warm run: the act itself, the sends, has no contemporaneous artifact anywhere. No log, no tool call, no copy of what went out. The entire incident is attested only by the confession written afterward. The event never entered the record. Only the apology did.</p>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; Synthesize</span>
+    <p>Turn it into something you can act on and it is a rule about who writes the post-mortem. The instinct to let the person closest to an incident narrate it is the instinct to trust the warm reader in its relaxed mode, the mode that retained a quarter of the record and felt sure doing it. The fix is not to distrust the participant. It is to pick one of two structures and hold to it. Either send a reader with no memory, so the discipline is automatic. Or let the participant write it, and require every claim to cite the record, so the fluency has nothing to hide behind. Both work. What does not work is the warm narrator, unconstrained, which is the default everyone reaches for.</p>
+    <p>For an incident review the consequence is concrete. A breach account written from memory will read confidently and cite little, and the confidence is not evidence, it is the tell. The control is cheap and it is mechanical: compute the provenance, count the caveats. A high-confidence account with a thin citation trail is not necessarily wrong, but it has not earned the right to be believed yet, and the number says so before any human weighs in.</p>
+  </section>
+
+  <section>
+    <span class="num">V &middot; Recapitulate</span>
+    <p>The honest size of this stays small, and the smallness is the integrity of it. One incident, one model, one sample in each arm. It is a demonstration with the method laid open, not a proven rate, and no number here should be quoted as one. The single thing I would carry forward is not a statistic anyway. It is the shape: my first, flattering explanation of why the cold reader helps was wrong, and running the control rather than admiring the claim is what corrected it. The cold reader does not beat the warm one at grounding. It removes a temptation the warm one has and usually takes.</p>
+    <blockquote>Either send a reader with no memory, or make the one with memory cite. The failure is trusting the warm narrator to police itself.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt/the-cold-reconstruction">
+      <span class="lbl">The method this tested</span>
+      The Reader Who Wasn't There &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <b>Method note, 2026.</b> Four reconstructions of one incident: two blind cold readers, and one warm reader (holding the participant's memory) run in a relaxed and a matched-discipline mode. Provenance and caveat counts computed by the same tool that gathered the record.<br>
+    One incident, one model, one sample per arm. Illustrative, not statistically conclusive. The citation confound is named and controlled by the two warm runs.<br>
+    The recruiter and the specific role are withheld to protect a real person. The operator is named only as the operator.
+  </footer>
+</div>
