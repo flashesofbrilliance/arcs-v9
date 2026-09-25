@@ -53,6 +53,25 @@ speed / recognition). No LLM produces that specificity unless a human supplies i
 - Slop: "Results-driven professional with a proven track record of leveraging cross-functional collaboration."
 - Human: "Cut API p95 latency from 480ms to 110ms by replacing in-memory caching with a Redis cluster."
 
+## Organically-human baseline (measurable targets; `scripts/slop_lint.py --metrics`)
+
+Two signals best separate human prose from machine prose. They are **proxies for reading human, not
+proof** — and you never gate on a public AI-detector score (GPTZero et al. are noisy, gameable, and
+false-positive on genuine human writing). Report-only by default; `--strict-metrics` fails under target.
+
+| Signal | Target | Why | Measured by |
+|---|---|---|---|
+| **Burstiness** (stdev of sentence/bullet word-counts) | **>= 6** | Humans vary sentence length; models flatten to a uniform ~2-3 | `--metrics` |
+| **Specificity density** (units carrying a number or named entity) | **>= 60%** | Humans name real tools/systems/numbers; slop stays generic (row D1) | `--metrics` |
+| **Tier-A cliches** | **0** | Mechanical hard-fail | `slop_lint` |
+| **Em-dashes** | **0** | Standing rule | `slop_lint` |
+| **Rubric judgment total** | **<= 3, no row = 2** | Structural/rhythm/specificity | `slop_eval` |
+| **Metrics cited** | **100%** | Every number traces to evidence | `provenance_lint` |
+
+Reference (2026-09-25): the Success Academy conventional resume scored burstiness **9.3** (range 4-41w),
+specificity **79%**, tier-A **0**, em-dashes **0** — comfortably above baseline. A slop fixture scored
+burstiness **0.4**, specificity **0%** — the intended discrimination.
+
 ## Meta-principle
 The de-slop guides are deliberately anti-prescription: telling a model to "write better" just mints a
 new flavor of slop. Name what to cut, then restore specificity and a real point of view. Do not add

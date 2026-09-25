@@ -29,6 +29,8 @@ Usage:
   python3 scripts/slop_lint.py <file.html|.txt|.md> [...]         # exit 1 on any TIER-A / em-dash
   python3 scripts/slop_lint.py --pair <staged.html> <head.html|-> [...]   # ratcheted (pre-commit)
   python3 scripts/slop_lint.py --json <file> [...]               # machine-readable
+  python3 scripts/slop_lint.py --metrics <file> [...]            # organically-human baseline scorecard
+  python3 scripts/slop_lint.py --metrics --strict-metrics <f>    # exit 1 if under baseline
   python3 scripts/slop_lint.py --self-test                       # fail-on-bad + pass-on-good eval
 """
 import re, sys, json
@@ -78,6 +80,47 @@ def scan(text: str):
     em = vis.count("—")  # em-dash
     return {"tier_a": a, "tier_b": b, "em_dashes": em}
 
+# ---- organically-human baseline metrics (advisory; report-only unless --strict-metrics) --------
+# Two signals best separate human from machine prose: BURSTINESS (humans vary sentence length; models
+# flatten it) and SPECIFICITY DENSITY (humans name real tools/numbers; slop stays generic). Thresholds
+# are banked in _PATTERNS/slop-free-rubric.md. These are proxies for "reads human," never proof; do NOT
+# gate on public AI-detector scores (noisy, gameable, false-positive on genuine human writing).
+BASELINE = {"burstiness_min": 6.0, "specificity_min": 0.60}
+_STOPCAP = {"I", "The", "A", "An", "This", "My", "We", "It", "In", "Of", "And", "But", "Most", "Led",
+            "Built", "Ran", "Ship", "Closed", "Coordinated", "Delivered", "Grew"}
+
+def _units(text):
+    return [s.strip() for s in re.split(r'(?<=[.:])\s+', text) if len(s.split()) > 3]
+
+def _specific(u):
+    if re.search(r'\d|\$|%', u):
+        return True
+    toks = u.split()
+    for i, t in enumerate(toks):
+        w = t.strip('.,:;()')
+        if not w:
+            continue
+        if re.search(r'[a-z][A-Z]|\.[a-z]', w):        # CamelCase / dotted (Next.js, TypeScript)
+            return True
+        if i > 0 and w[:1].isupper() and w not in _STOPCAP and w.lower() != w:  # proper noun mid-unit
+            return True
+    return False
+
+def metrics(text):
+    import statistics
+    vis = strip_to_text(text)
+    us = _units(vis)
+    lens = [len(u.split()) for u in us] or [0]
+    burst = statistics.pstdev(lens) if len(lens) > 1 else 0.0
+    spec = sum(_specific(u) for u in us)
+    dens = spec / len(us) if us else 0.0
+    r = scan(vis)
+    ok = (burst >= BASELINE["burstiness_min"] and dens >= BASELINE["specificity_min"]
+          and not r["tier_a"] and r["em_dashes"] == 0)
+    return {"units": len(us), "len_min": min(lens), "len_max": max(lens),
+            "burstiness": round(burst, 1), "specificity": round(dens, 2),
+            "tier_a": len(r["tier_a"]), "em_dashes": r["em_dashes"], "meets_baseline": ok}
+
 def _head_terms(head_text):
     r = scan(head_text)
     return set(r["tier_a"]), r["em_dashes"]
@@ -117,9 +160,36 @@ def self_test():
     print("  RESULT:", "OK" if passed else "BROKEN")
     return 0 if passed else 1
 
+def run_metrics(files, as_json, strict):
+    results, bad = [], False
+    for path in files:
+        m = metrics(open(path, encoding="utf-8", errors="replace").read())
+        m["file"] = path
+        results.append(m)
+        bad = bad or not m["meets_baseline"]
+    if as_json:
+        print(json.dumps(results, indent=2))
+    else:
+        print(f"organically-human baseline: burstiness >= {BASELINE['burstiness_min']}, "
+              f"specificity >= {int(BASELINE['specificity_min']*100)}%, tier-A = 0, em-dashes = 0")
+        for m in results:
+            tag = "MEETS" if m["meets_baseline"] else "UNDER"
+            b = "ok" if m["burstiness"] >= BASELINE["burstiness_min"] else "LOW"
+            s = "ok" if m["specificity"] >= BASELINE["specificity_min"] else "LOW"
+            print(f"[{tag}] {m['file']}")
+            print(f"    burstiness {m['burstiness']} ({b}, range {m['len_min']}-{m['len_max']}w over {m['units']} units) · "
+                  f"specificity {int(m['specificity']*100)}% ({s}) · tier-A {m['tier_a']} · em-dashes {m['em_dashes']}")
+        print("\n(proxies for reads-human, not proof; never gate on public AI-detector scores)")
+    return 1 if (strict and bad) else 0
+
 def main(argv):
     if "--self-test" in argv:
         return self_test()
+    if "--metrics" in argv:
+        strict = "--strict-metrics" in argv
+        as_json = "--json" in argv
+        files = [a for a in argv if not a.startswith("--")]
+        return run_metrics(files, as_json, strict)
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
     results, bad = [], False
