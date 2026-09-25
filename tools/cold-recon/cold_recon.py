@@ -408,9 +408,11 @@ def _confidence_bar(conf):
     except (TypeError, ValueError):
         pct = 0
     color = "var(--green)" if pct >= 75 else ("var(--gold)" if pct >= 45 else "var(--red)")
-    return ('<span class="confbar" aria-label="confidence %d%%">'
+    word = "well grounded" if pct >= 75 else ("partial" if pct >= 45 else "thin")
+    return ('<span class="conflabel">record support</span>'
+            '<span class="confbar" aria-label="record support %d%% (%s)">'
             '<span class="conffill" style="width:%d%%;background:%s"></span></span>'
-            '<span class="confnum">%d%%</span>') % (pct, pct, color, pct)
+            '<span class="confnum">%d%% %s</span>') % (pct, word, pct, color, pct, word)
 
 
 def cmd_render(args):
@@ -447,6 +449,10 @@ def cmd_render(args):
     leak_html = ""
     if lm and lm.get("totals"):
         t = lm["totals"]
+        try:
+            rc_pct = "%d%% reconstructed" % int(round(float(t.get("reconstructability", 0)) * 100))
+        except (TypeError, ValueError):
+            rc_pct = "reconstructability n/a"
         leaked_rows = "".join("<li><span class='lk'>LEAKED</span> %s</li>" % _esc(x.get("ref")) for x in lm.get("leaked", []))
         partial_rows = "".join("<li><span class='pt'>PARTIAL</span> %s</li>" % _esc(x.get("ref")) for x in lm.get("partial", []))
         leak_html = (
@@ -454,11 +460,11 @@ def cmd_render(args):
             '<span class="rsec-conf">reconstructability %s</span></div>'
             '<h2>What failed to reconstruct</h2>'
             '<p class="leak-reads">%s</p>'
-            '<div class="leak-stat"><b>%s</b> anchors &middot; <b>%s</b> reconstructed &middot; '
-            '<b>%s</b> partial &middot; <b class="red">%s</b> leaked</div>'
+            '<div class="leak-stat"><b>%s</b> record anchors (durable artifacts + commits) &middot; '
+            '<b>%s</b> reconstructed &middot; <b>%s</b> partial &middot; <b class="red">%s</b> leaked</div>'
             '<ul class="leak-list">%s%s</ul></section>'
         ) % (
-            _esc(t.get("reconstructability")), _esc(lm.get("reads", "")),
+            _esc(rc_pct), _esc(lm.get("reads", "")),
             _esc(t.get("anchors")), _esc(t.get("reconstructed")),
             _esc(t.get("partial")), _esc(t.get("leaked")),
             partial_rows, leaked_rows or "<li class='none'>Nothing leaked -- full evidence trail.</li>",
@@ -502,9 +508,15 @@ _RENDER_TEMPLATE = """<!DOCTYPE html>
   .rsec-h{display:flex;align-items:center;gap:14px;margin-bottom:12px}
   .rsec-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
   .rsec-conf{font-family:var(--mono);font-size:11px;color:var(--dim);display:flex;align-items:center;gap:8px;margin-left:auto}
+  .conflabel{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
   .confbar{display:inline-block;width:70px;height:6px;border-radius:3px;background:var(--surface2);overflow:hidden;vertical-align:middle}
   .conffill{display:block;height:100%%}
   .confnum{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend{border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:26px 0;background:var(--surface)}
+  .legend p{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--muted);margin:0 0 10px}
+  .legend .keys{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend .key{display:flex;align-items:center;gap:7px}
+  .legend .sw{width:22px;height:6px;border-radius:3px;display:inline-block}
   h2{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;margin:0 0 14px;text-wrap:balance}
   p{margin:0 0 18px}
   .panel{border:1px solid var(--border2);background:var(--surface2);border-radius:10px;padding:20px 22px;margin:32px 0}
@@ -525,6 +537,14 @@ _RENDER_TEMPLATE = """<!DOCTYPE html>
   <h1>%(title)s</h1>
   <p class="standfirst">%(standfirst)s</p>
   <div class="keel"><span class="k">Root invariant</span>%(root_invariant)s</div>
+  <div class="legend">
+    <p>Each section carries a <b style="color:var(--muted)">record support</b> score: how well the committed record backs that claim, not how fluent the writing is. A section the cold reader could write well but only weakly ground scores low on purpose.</p>
+    <div class="keys">
+      <span class="key"><span class="sw" style="background:var(--green)"></span>75-100%% &middot; well grounded</span>
+      <span class="key"><span class="sw" style="background:var(--gold)"></span>45-74%% &middot; partial, record is thin</span>
+      <span class="key"><span class="sw" style="background:var(--red)"></span>under 45%% &middot; described, not confirmed</span>
+    </div>
+  </div>
   %(sections)s
   %(leak)s
   <div class="panel"><h3>Claims it could not verify</h3><ul>%(could_not)s</ul></div>
