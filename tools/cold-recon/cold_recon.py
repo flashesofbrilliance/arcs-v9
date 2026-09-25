@@ -134,6 +134,57 @@ def apply_sets(obj, sets):
     return obj
 
 
+# ----------------------------------------------------------- output normalization
+# The render output inherits em-dashes from commit subjects embedded in the pack /
+# leak-map anchor lists (e.g. a commit "NFTT — 'forge'..."). The repo's wrap gate
+# (scripts/artifact_wrap_lint.py) fails any published HTML with an em-dash, so a
+# rendered report has to be em-dash-0 BY CONSTRUCTION -- not by a hand post-process.
+# Mapping (task-fixed): em-dash / en-dash -> spaced hyphen; minus sign -> hyphen.
+# Surrounding spaces are collapsed so " x — y " and "x—y" both become "x - y".
+_DASH_SPACED_RE = re.compile(r"[ \t]*[—–][ \t]*")
+
+
+def normalize_dashes(text):
+    text = _DASH_SPACED_RE.sub(" - ", text)
+    text = text.replace("−", "-")  # U+2212 MINUS SIGN -> ASCII hyphen (no padding)
+    return text
+
+
+# ----------------------------------------------------------------- in-tool redaction
+# PII scrubbing lives IN the tool, not in a hand-written post-process. The unredacted
+# render is the internal record (private repo); the redacted render is the public
+# artifact. This is the internal/external air-gap. Redactions are applied
+# case-insensitively, LONGEST-PATTERN-FIRST, so "zach.harris@gmail.com" is scrubbed
+# before the shorter "Zach" can partially match inside it.
+def load_redactions(pairs, redact_file):
+    reds = {}
+    if redact_file:
+        data = load_json(redact_file)
+        if not isinstance(data, dict):
+            die("--redact-file must be a JSON object {pattern: replacement}, got %s"
+                % type(data).__name__)
+        for k, v in data.items():
+            reds[str(k)] = str(v)
+    for pair in pairs or []:
+        if "=" not in pair:
+            die("--redact expects PATTERN=REPLACEMENT, got %r" % pair)
+        k, v = pair.split("=", 1)
+        if not k:
+            die("--redact pattern is empty in %r" % pair)
+        reds[k] = v
+    # Longest pattern first: a superstring is scrubbed before any substring of it.
+    return sorted(reds.items(), key=lambda kv: len(kv[0]), reverse=True)
+
+
+def apply_redactions(text, reds):
+    for pat, repl in reds:
+        if not pat:
+            continue
+        # lambda replacement avoids backslash/group interpretation in `repl`.
+        text = re.sub(re.escape(pat), lambda _m, r=repl: r, text, flags=re.IGNORECASE)
+    return text
+
+
 # ----------------------------------------------------------------- schema validate
 def _type_ok(val, typ):
     return {
@@ -288,7 +339,16 @@ def cmd_gather(args):
         "files_touched": touched,
         "artifacts": artifacts,
     }
-    write_out(pack, args.out)
+    # Optional in-tool redaction: produce a shareable pack whose PII is scrubbed at the
+    # source, so the cold agent never sees it (same air-gap as `render --redact`). The
+    # un-redacted pack stays the internal record. Dashes are NOT normalized here -- a
+    # pack is faithful JSON data, not published HTML; that normalization is render-only.
+    reds = load_redactions(getattr(args, "redact", None), getattr(args, "redact_file", None))
+    if reds:
+        redacted = apply_redactions(json.dumps(pack, indent=2, ensure_ascii=False), reds)
+        write_out(redacted, args.out, is_html=True)
+    else:
+        write_out(pack, args.out)
 
 
 # ------------------------------------------------------------------------- prompt
@@ -482,6 +542,12 @@ def cmd_render(args):
         "forward": fwd_html,
         "notice": _esc(recon.get("notice", "Cold reconstruction. Built by a zero-transcript agent from the committed record alone.")),
     }
+    # Redact PII (opt-in, for the public artifact), THEN normalize dashes (always, so
+    # the output is em-dash-0 by construction and clears scripts/artifact_wrap_lint.py).
+    reds = load_redactions(getattr(args, "redact", None), getattr(args, "redact_file", None))
+    if reds:
+        page = apply_redactions(page, reds)
+    page = normalize_dashes(page)
     write_out(page, args.out, is_html=True)
 
 
@@ -554,6 +620,122 @@ _RENDER_TEMPLATE = """<!DOCTYPE html>
 """
 
 
+# ------------------------------------------------------------------------ selftest
+# Frustration-gate proofs (AGENTS.md gotcha #15): each hardening is proven to FAIL on
+# bad input AND PASS on good, wired to the tool's own runnable test path (`selftest`).
+# The PII grep here is the exact one used at publish time to clear the public reports.
+_PII_GREP = re.compile(r"lycett|riskpod|fun\.xyz|robert|zach|@gmail", re.IGNORECASE)
+_MDASH_CHARS = ("—", "–", "−")
+
+
+class _Args(object):
+    def __init__(self, **kw):
+        self.__dict__.update(kw)
+
+
+def _render_to_str(recon, leakmap=None, redact=None, redact_file=None):
+    import io
+    buf = io.StringIO()
+    old = sys.stdout
+    sys.stdout = buf
+    try:
+        # write to stdout ("-") and capture; validation stays on (fixtures are valid).
+        import tempfile
+        rf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+        json.dump(recon, rf); rf.close()
+        lf = None
+        if leakmap is not None:
+            lf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+            json.dump(leakmap, lf); lf.close()
+        cmd_render(_Args(reconstruction=rf.name, leakmap=(lf.name if lf else None),
+                         out="-", set=None, no_validate=False,
+                         redact=redact, redact_file=redact_file))
+    finally:
+        sys.stdout = old
+    return buf.getvalue()
+
+
+def cmd_selftest(args):
+    checks = []  # (name, ok, detail)
+
+    # ---- GAP 1: em-dash normalization ----------------------------------------
+    # Fixture carries em-dashes in a section body AND in a leaked commit-subject anchor,
+    # exactly how the live reports inherited them from the pack.
+    em_recon = {
+        "range": "A~1..B", "repo": "arcs-v9",
+        "title": "Fixture — em-dash in the title",
+        "root_invariant": "the record either carries it — or it leaked",
+        "standfirst": "one sentence – with an en-dash too",
+        "sections": [{
+            "tag": "What happened", "heading": "A heading",
+            "body": "First the commit — subject line — then the outcome.\n\n"
+                    "A minus−sign and an en–dash for good measure.",
+            "confidence": 0.9,
+        }],
+        "could_not_verify": ["a claim — unconfirmed"],
+        "forward_items": ["next – item"],
+    }
+    em_leakmap = {
+        "totals": {"anchors": 1, "reconstructed": 0, "partial": 0, "leaked": 1,
+                   "reconstructability": 0.0},
+        "reads": "observability audit",
+        "leaked": [{"kind": "commit",
+                    "ref": "39c9c0971  fix(blog): NFTT — 'forge' reads as counterfeit [NCI:50]"}],
+        "partial": [], "reconstructed": [],
+    }
+    # fails-on-bad: the fixture INPUT genuinely contains em/en/minus dashes.
+    raw_has = any(c in json.dumps(em_recon, ensure_ascii=False)
+                  + json.dumps(em_leakmap, ensure_ascii=False) for c in _MDASH_CHARS)
+    # passes-on-good: the rendered HTML is dash-clean by construction.
+    em_html = _render_to_str(em_recon, em_leakmap)
+    out_dashes = sum(em_html.count(c) for c in _MDASH_CHARS)
+    checks.append(("em-dash fails-on-bad (fixture has em/en/minus dashes)", raw_has,
+                   "found dashes in fixture" if raw_has else "FIXTURE HAS NO DASHES"))
+    checks.append(("em-dash passes-on-good (rendered HTML has 0)", out_dashes == 0,
+                   "0 dashes in output" if out_dashes == 0 else "%d dashes leaked" % out_dashes))
+
+    # ---- GAP 2: in-tool redaction --------------------------------------------
+    pii_recon = {
+        "range": "A~1..B", "repo": "arcs-v9",
+        "title": "Robert Lycett cold-recon",
+        "root_invariant": "Zach's air-gap holds",
+        "standfirst": "RiskPod at Fun.xyz (funxyz) — email zach.harris@gmail.com",
+        "sections": [{
+            "tag": "What happened", "heading": "Lycett review",
+            "body": "Robert reviewed the Fun.xyz brief. Contact zach.harris@gmail.com.",
+            "confidence": 0.8,
+        }],
+        "could_not_verify": ["Robert Lycett's title unconfirmed"],
+        "forward_items": ["ping Robert"],
+    }
+    redact_map = {
+        "zach.harris@gmail.com": "the operator's email",
+        "Robert Lycett": "the recruiter",
+        "Fun.xyz": "the company", "funxyz": "the company",
+        "RiskPod": "the product", "Lycett": "the recruiter",
+        "Robert": "the recruiter", "Zach's": "the operator's", "Zach": "the operator",
+    }
+    # fails-on-bad: no redaction -> the PII grep FINDS the tokens.
+    bad_html = _render_to_str(pii_recon)
+    bad_hits = _PII_GREP.findall(bad_html)
+    # passes-on-good: with the redaction map, the PII grep finds NOTHING.
+    good_html = _render_to_str(pii_recon, redact_file=None,
+                               redact=["%s=%s" % (k, v) for k, v in redact_map.items()])
+    good_hits = _PII_GREP.findall(good_html)
+    checks.append(("redaction fails-on-bad (no --redact -> PII present)", len(bad_hits) > 0,
+                   "grep found %d PII token(s)" % len(bad_hits)))
+    checks.append(("redaction passes-on-good (--redact -> PII grep clean)", len(good_hits) == 0,
+                   "0 PII tokens" if not good_hits else "leaked: %s" % sorted(set(good_hits))))
+
+    # ---- report --------------------------------------------------------------
+    ok_all = all(ok for _, ok, _ in checks)
+    for name, ok, detail in checks:
+        sys.stderr.write("  [%s] %s -- %s\n" % ("PASS" if ok else "FAIL", name, detail))
+    if not ok_all:
+        die("selftest FAILED", 1)
+    sys.stderr.write("cold-recon: selftest passed (%d checks)\n" % len(checks))
+
+
 # ---------------------------------------------------------------------------- main
 def build_parser():
     p = argparse.ArgumentParser(prog="cold-recon", description=__doc__,
@@ -567,6 +749,10 @@ def build_parser():
     g.add_argument("--until", help="time window end (git --until)")
     g.add_argument("--durable-glob", action="append", help="override durable globs (repeatable)")
     g.add_argument("--all-files", action="store_true", help="include all touched files, not just durable")
+    g.add_argument("--redact", action="append", metavar="PATTERN=REPLACEMENT",
+                   help="scrub PATTERN->REPLACEMENT in the pack, case-insensitive, longest-first (repeatable)")
+    g.add_argument("--redact-file", metavar="JSON",
+                   help="JSON object {pattern: replacement} of redactions to apply")
     g.add_argument("--out", default="-", help="output path or - for stdout")
     g.set_defaults(func=cmd_gather)
 
@@ -591,8 +777,17 @@ def build_parser():
     r.add_argument("--leakmap", help="optional leak-map JSON to embed")
     r.add_argument("--out", default="-")
     r.add_argument("--set", action="append", help="dotted.key=value override (repeatable)")
+    r.add_argument("--redact", action="append", metavar="PATTERN=REPLACEMENT",
+                   help="scrub PATTERN->REPLACEMENT in the rendered report, case-insensitive, "
+                        "longest-first (repeatable) -- the public artifact; the un-redacted render "
+                        "stays the internal record")
+    r.add_argument("--redact-file", metavar="JSON",
+                   help="JSON object {pattern: replacement} of redactions to apply")
     r.add_argument("--no-validate", action="store_true")
     r.set_defaults(func=cmd_render)
+
+    st = sub.add_parser("selftest", help="run the fails-on-bad + passes-on-good gate proofs")
+    st.set_defaults(func=cmd_selftest)
 
     return p
 
