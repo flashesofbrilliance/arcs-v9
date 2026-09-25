@@ -1,0 +1,10 @@
+# Evidence ledger for the Success Academy conventional resume. Every quantified claim -> its source.
+# Sources: vetted-master = present in _ARTIFACTS/resume-vico/resume-vico-product-engineer.html (line);
+# self-reported = confirmed by Zach directly (valid evidence). Enforced by scripts/provenance_lint.py.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139", "note": "10-product SEC/FINRA regulated digital-asset launch, $7B"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142", "note": "cut release-cycle time 35%"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157", "note": "+20% net-new revenue via data-driven personalization (CTF)"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165", "note": "real-time fan-behavior scoring <120ms (WTA)"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173", "note": "IBRShop DTC brand $0 to $2M+ in 24 months"}
+{"pattern": "24\\s?months", "source": "vetted-master:resume-vico-product-engineer.html:173", "note": "IBRShop grown in 24 months"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25", "note": "first WTA commercial data partnerships (Twitter, Facebook) worth $850K first year; Zach confirmed accurate this session"}
