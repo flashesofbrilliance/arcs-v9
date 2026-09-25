@@ -266,4 +266,33 @@ for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("sn
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# slop guard: a customer-facing surface (resume, candidate/marketing page, outbound artifact)
+# that carries high-precision AI-slop cliches (delve, leverage, spearheaded, results-driven,
+# proven track record, ...) or em-dashes reads as AI-generated -- the exact failure that got a
+# designed resume refused by the recruiter for the Success Academy AI PM role (2026-09-25). The
+# mechanical tier-A list + em-dashes hard-fail here; structural/rhythm tells are judgment and live
+# in _PATTERNS/slop-free-rubric.md, NOT this block. ADDED + MODIFIED (slop arrives via edits too);
+# ratcheted against HEAD via --pair so a term already in a legacy page WARNs, only NEW slop blocks.
+# Scoped to public + _ARTIFACTS html so internal docs (which legitimately discuss these words) never fail.
+if [ -f scripts/slop_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  slop=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$slop" ]; then
+    pairs=()
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      head_blob=$(mktemp)
+      git show "HEAD:$f" > "$head_blob" 2>/dev/null || : > "$head_blob"
+      pairs+=("$f" "$head_blob")
+    done <<< "$slop"
+    if ! python3 scripts/slop_lint.py --pair "${pairs[@]}"; then
+      echo "✖ commit blocked: AI-slop cliche / em-dash in a customer-facing surface (see above)." >&2
+      echo "  cut the tier-A terms + em-dashes; score structural tells against _PATTERNS/slop-free-rubric.md; re-stage." >&2
+      for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+      exit 1
+    fi
+    for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+  fi
+fi
+
 exit 0

@@ -298,3 +298,20 @@ Belongs to the template/`/design-sync`, not a per-post patch.
 - **Guard:** committed `--no-verify` per the ledger's accepted practice for template-inherited viewer
   grammar (same disposition as the NFTT viewer seams). If a per-company viewer design system is ever
   formalized in DESIGN.md, retire this exemption and conform the chrome.
+
+## Seam — 2026-09-25 · conventional print resume vs a screen-tuned detector
+- **Break:** the impeccable design detector flagged 25 findings on
+  `_ARTIFACTS/forge-success-academy-ai-pm/Zach-Harris-Resume-conventional.html`
+  (19 "Tight line height" @1.28, 5 "Color outside DESIGN.md" = greyscale #111/#333/#bbb,
+  1 "Monotonous spacing"). All are correct PRINT typography, not screen drift: this is a plain
+  one-page black-on-white Georgia print resume, built deliberately as NOT-AI-slop for a hiring
+  manager allergic to it (Success Academy AI PM). It is a separate visual world from the screen
+  DESIGN.md / recoil-kit surfaces the detector is tuned for.
+- **Repair:** committed via `--no-verify` (AGENTS.md sanctioned practice) — every OTHER gate
+  passed by hand: wrap-lint, token_source_gate, integrity, em-dash 0, slop_lint (writing-slop),
+  the rubric, 1-page render.
+- **Guard:** the findings carry `rule: null`, so the config `ignoreValues`/`ignoreFiles`
+  mechanism (which keys on rule id) cannot exempt them — an ignoreFiles entry looked like an
+  exemption but did nothing (verified: count stayed 25), so it was removed rather than left as a
+  described-not-wired control. If print resumes recur, add a rule id to the detector's
+  line-height/color/spacing checks OR a print-mode flag; until then this seam is the record.
