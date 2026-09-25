@@ -1,5 +1,19 @@
 # Call Brief — Success Academy · AI Product Manager
-**Hiring manager:** Jarrod Wolf (Head of AI) · **Recruiter:** Brian Mayer (Automated Industries) · **Comp:** $200–250K (in-line) · Built 2026-09-24
+**Hiring manager:** Jarrod Wolf (Head of AI) · **Recruiter:** Brian Mayer (Automated Industries) · **Comp:** $200–250K (in-line) · Built 2026-09-24 · **Refreshed 2026-09-25**
+
+> **INTERVIEW BOOKED: Tuesday 2026-09-30, 3:30 PM EST.** Confirm before the call: (1) WHO — Jarrod
+> direct, a first-round screen, or a panel? (2) format — video (Zoom/Meet) or on-site FiDi? (3) any
+> prep/take-home sent? Adjust altitude to the answer (a screen = credibility + fit; Jarrod = go deep technical).
+>
+> **What Jarrod has:** the conventional one-page résumé (New York Metro; verified metrics only). NOT the
+> designed one — Brian flagged it as reading AI-generated and Jarrod is allergic to AI slop, so the
+> hand-made résumé is what's in the room. The product page (success-academy.arcs.care) is the proof of
+> what you build; the résumé is the human artifact. Don't reference "AI-designed" anything.
+>
+> **Req ambiguity (still open):** the public ZipRecruiter listing is **$150–160K** ("AI Product Manager,"
+> 3+ yrs, on-site Wall St, start ~Oct 1). Your conversation with Brian was the **$200–250K** level. These
+> may be two different reqs. Do NOT let the call re-anchor to $150–160 — tie your number to level/scope,
+> and if it surfaces, ask Brian (not Jarrod) which req this maps to.
 
 ---
 
@@ -17,8 +31,15 @@ Two different bars are in play:
 
 **Lead with discovery rigor, not the builder brag.** Brian's #1 coaching: *"I have no doubt you can ship"* — build is granted; the screen is product discovery. Open on the loop: real working prototypes → user testing → validate the premise → read what actually gets used → iterate → *then* hand hardened requirements to eng. The proof is the **Twill kill-story** (ran discovery on 3 AI lines, validated 2, killed 1 before eng touched it), the **ARCS intake-to-feedback loop**, and **resume-tailor** (a tool you shipped *and* people run). Build ability (RAG, MCP, agentic, evals — your daily reality) is table stakes here; keep "I build the AI, not just spec it" as a *supporting* line, never the opener.
 
+### Identity anchor (say this to yourself first)
+**You are a product manager — strategy, discovery, delivery, end-to-end, high agency — who also happens to
+build.** It's an *AI Product Manager* role; ground in product management and let building/AI/founder be the
+differentiators on top, not the whole story. The arc is **builder → founder → senior operator** (your own
+framing to Brian): a senior product leader who is **player, coach, and pacecar**. "I build the AI" is a
+supporting line that proves the discovery is real, never the opener.
+
 ### The one-line positioning
-> *"My edge is discovery, not just delivery. I prototype in code, put it in front of real users, validate what actually gets used, and kill what doesn't before engineering spends time — that's how I ran 3 AI lines at Twill and how ARCS runs now. The building is table stakes; the discipline is knowing what's worth building."*
+> *"I'm a product manager who owns strategy, discovery, and delivery end-to-end. My edge is discovery, not just delivery: I prototype in code, put it in front of real users, validate what actually gets used, and kill what doesn't before engineering spends time — that's how I ran 3 AI lines at Twill and how ARCS runs now. Building is table stakes; the discipline is knowing what's worth building."*
 
 ---
 
@@ -90,3 +111,17 @@ They hire AI PMs across a **wide spectrum, no single mold** — which is leverag
 - **Momin is your nearest neighbor** (enterprise 0→1, transformation, cost/governance) — and his headline is the JD's own language. Signal that lane, then add what he lacks.
 - **Your wedge vs. all three: the builder who codes + runs discovery.** None of them prototype-and-build the AI themselves. You span Momin's enterprise-AI lane and add hands-on build + discovery rigor + governance. Position as the complement to the team, not a duplicate of anyone on it.
 - Titles vary ("AI Product Manager" vs "Product Manager — AI Implementation & Development") — reinforces: confirm the exact req with Brian.
+
+---
+
+## 6 · The three answers to have loaded (gauntlet surfaced these)
+
+These are the predictable pressure points. Don't volunteer them; have the answer ready when probed. Strength-forward, never confessional.
+
+1. **Degree (Studio Art BA, not CS/Stats/Math).** If it comes up: *"My degree is Studio Art — I came to AI product through building, not a CS track. I closed the formal side with MIT xPRO's AI-strategy and building-AI-products certificates and Section4 product strategy, but the real credential is ARCS in production and a public commit trail."* Do NOT over-apologize — two of the three current SA PMs have zero education background and Thomas Antishin has zero prior tech. Their hiring pattern says the degree line is soft.
+
+2. **ARCS is solo / "have you shipped AI at org scale with a team?" — "The Arc."** Frame the solo/early nature as the *fusion strength*, not a gap: *"ARCS is where I proved I can build the AI myself, end to end. The team-scale, high-consequence shipping is my pre-ARCS record — Grayscale's $7B regulated launch with a cross-functional release train, CTF's first intelligence layer across three business units, Twill's eval-driven go/no-go on three health lines. The arc is builder → founder → senior operator; Success Academy is where those fuse."* Own that ARCS is early — never inflate it to a team/scale it isn't.
+
+3. **The 2019→2020 gap (CTF ends 2019, Mañana consulting starts 2020).** If asked: it's the transition into independent/embedded product consulting (Twill, Axon, GoPro, Verizon Media under Mañana). Not a gap in work — a shift in model. State it plainly, no defensiveness.
+
+**Player / coach / pacecar** — the senior-leader register to carry throughout: you ship the work (player), you level up the people and process around you (coach), and you set the pace others follow (pacecar). This is the signal that separates you from an IC AI PM and justifies the $200–250K level.
