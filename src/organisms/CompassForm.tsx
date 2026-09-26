@@ -21,6 +21,12 @@ const EXAMPLES = [
   'Which of my skills and relationships travel with me? Where is the highest-leverage place to replant them?',
 ]
 
+// The meta-tributary beneath the portable-capital opener: the deeper fork the
+// literal question already implies. Same verbs (atomize, germinate), opposite
+// polarity. Rendered as a real meta-tributary, not a third example, because it
+// is the tributary[0] the compass would surface anyway.
+const META_TRIBUTARY = 'Am I using AI to compound what is mine, or am I dissolving into it?'
+
 export interface CompassFormProps {
   question: string
   horizon: string
@@ -93,6 +99,7 @@ export function CompassForm({
             {EXAMPLES.map(ex => (
               <TributaryTile key={ex} label="Example" glyph="⊕" color={signal.cyan} onClick={() => onQuestionChange(ex)}>{ex}</TributaryTile>
             ))}
+            <TributaryTile label="Meta" glyph="◆" color={signal.gold} onClick={() => onQuestionChange(META_TRIBUTARY)}>{META_TRIBUTARY}</TributaryTile>
           </div>
         </div>
       )}
