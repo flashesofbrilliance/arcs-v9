@@ -3,7 +3,7 @@
     "force-pushes are invisible to git log in a fresh clone (reflog is local/ephemeral); rework here is the git-visible proxy only",
     "merge commits are excluded (--no-merges); rework measures authored work, not merge bookkeeping"
   ],
-  "churn_ratio": 0.9819,
+  "churn_ratio": 0.9789,
   "definitions": {
     "churn_ratio": "reworked_files / files_touched",
     "rework": "files re-touched across >1 window commit OR touched by a revert/fix commit",
@@ -129,6 +129,9 @@
       "_ARCHIVE/nftt-threaded-engine/stories/take-home-trap.story.md",
       "_ARCHIVE/nftt-threaded-engine/story_render.py",
       "_ARTIFACTS/2026-08-21-scott-recoil.md",
+      "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
+      "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html",
+      "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.png",
       "_ARTIFACTS/720-brand-coherence-pickup.md",
       "_ARTIFACTS/README.md",
       "_ARTIFACTS/ahmed-reopen-note-draft.md",
@@ -2106,6 +2109,9 @@
       "public/fun.html",
       "public/germinate.html",
       "public/globe.svg",
+      "public/good-agent-receipts-audit.html",
+      "public/good-case-reader-who-remembered.html",
+      "public/good-case-six-week-outage.html",
       "public/good-instruments.html",
       "public/good.html",
       "public/growth-ai-cover.pdf",
@@ -2487,6 +2493,7 @@
       "scripts/calendar_scan.py",
       "scripts/canon_propagation_check.py",
       "scripts/canon_propagation_nightly.sh",
+      "scripts/case_evidence_lint.py",
       "scripts/claim_check.py",
       "scripts/concordance_render.py",
       "scripts/connector_render.py",
@@ -2769,6 +2776,7 @@
       "src/ui-kit/recoil-report/12-role-thesis.html",
       "src/ui-kit/recoil-report/13-90day-build.html",
       "src/ui-kit/recoil-report/14-earned-fidelity-twin.html",
+      "src/ui-kit/recoil-report/15-case-world.html",
       "src/ui-kit/recoil-report/_tokens.css",
       "src/ui-kit/recoil-report/chase-intro.html",
       "src/ui-kit/recoil-report/chris-lamontagne-recoil.html",
@@ -2939,28 +2947,38 @@
       {
         "sha": "b235654cef2b",
         "subject": "fix(nftt): make nftt-gates pass on take-home-trap-dossier (title/desc/robots/IOC defang)"
+      },
+      {
+        "sha": "ce2b504b4aa8",
+        "subject": "fix(nftt): conform all NFTT posts to the head-meta gate + add batch Frustration Gate"
+      },
+      {
+        "sha": "88c398b646e9",
+        "subject": "fix(security): patch 3 critical Auth.js advisories (next-auth beta.32) [NCI:70] (#548)"
+      },
+      {
+        "sha": "161ccf4a4d85",
+        "subject": "fix(artifacts): tighten the six vs czar wager's first reason on slip and card (#543)"
       }
     ],
-    "reworked_files": 2821
+    "reworked_files": 2830
   },
-  "schema": "signal-receipt/v1",
+  "schema": "signal-receipt/v2",
   "shipped": {
-    "commits": 120,
-    "files_added": 2873
+    "commits": 147,
+    "files_added": 2891
   },
   "spec": {
-    "ref": "HEAD",
+    "ref": "origin/main",
     "since": "2026-09-19"
   },
   "totals": {
-    "commits": 120,
-    "deletions": 1331,
-    "files_touched": 2873,
-    "insertions": 811160
+    "commits": 147,
+    "files_touched": 2891
   },
   "verdict": "mostly-rework",
   "window": {
-    "commit_count": 120,
+    "commit_count": 147,
     "commits": [
       "ba08c7c44baecf9947516e70cdffa6e699833881",
       "301600e4bae6fff2e4118811ed825d46f607af59",
@@ -3070,19 +3088,46 @@
       "1d4135ace9cc628d76841200a785735f79429ddc",
       "e203c86fe3e0249da7554d66bfc77ffff68af7b3",
       "667a249a4b653781f6840d8c252ec31286c4cd96",
+      "e1987711c05684835effd0217a9269e204e481ff",
+      "ba277a6bdda297442655260c233166e0248baffd",
+      "eb5bdc465174f73519b0817a87df25722ea468b0",
+      "9ede68dac5b47ddeecb79c7156fe91257099dc76",
+      "3b4ded16ed7e32c2bfdc51db4b9bc410cfd8e24a",
+      "dc6c50b6cafe7455792167dd78e34611b4210bdc",
+      "3b8c97eb47f0d924a60b3283e414c55f242c4871",
+      "480ce23365ec7fde936de850d32b2c89d8a3fc31",
       "8595ed3e33a37e6d75817765918a7f8b11898ac6",
       "7df70b2f3faf62ae6fdc49d549eaf85304e4337d",
+      "ce3a90bca6bad03d3097b414cd4306baa5fee749",
       "06c93e775f512f55b765d64f5925b9b2cee89db8",
+      "274de016216f6eba6372df526d2a516aafa7a4f5",
       "14d8489b5f19f4881daccc9a9f1b146ffff910d8",
       "d5bcf85c71f5bfb2ca3702359bc2b9cf651c02b9",
       "6b6ae039dac3f3a4401168a996c493782629cb14",
       "6116addd58c2b2aa883ef12bd20f4df75b53ae7f",
       "3138cdb21b4d9a38543a64ffe14d3d9480c4500d",
+      "707a59eef2dd22b3b339517cd6faa40a40142668",
       "12a50cb0c458eb640758716812ffc3498e1b99da",
       "b921bed4c22f4e23df569a706bd5b5672680956d",
       "3fbefb741382b8afdcf5cf3186ed4eda0570e17b",
-      "b235654cef2b0a3ad937936ba76bc077170b21b7"
+      "b235654cef2b0a3ad937936ba76bc077170b21b7",
+      "2ee0563d47bb1489731d961830a2a5515e827654",
+      "ce2b504b4aa805776518f62669bbb47075ed4728",
+      "a131d806bddb38550d0e3e0ffd0815c6b84f7de8",
+      "ebb47c8b4eb9675aa7c3a779c1c5ab9195dd62d7",
+      "d4deb137f1a658a8544fda192c34462da5c58397",
+      "3a66529549bd2a297c4045eb262b53f6ba311ae5",
+      "c715fa78d20a3f83f4d63eb21b98c194ba60047c",
+      "d3d5fdda806eb35fd51320bc24f0d33d0f5e0839",
+      "9291ef2a00c756922ce7bcce9a197600d95b9573",
+      "88c398b646e9ed28954ac4b4001c8e5c8a6a6987",
+      "a3539f3858ddf086b9710b7933e06fb1c08b8b32",
+      "1930bcb8f57a0db56d62aa3fc967a83015a01f68",
+      "b3110bac1e1ec940d9cc0759c6722b08ac243a38",
+      "d50a8675c97110c0794375e699e738a43278a9d8",
+      "8c85e750914c9aa8980479b2552bbceda2fa6a47",
+      "161ccf4a4d856617aaf24189efcd7fa3a58a56ff"
     ],
-    "head": "b235654cef2b0a3ad937936ba76bc077170b21b7"
+    "head": "161ccf4a4d856617aaf24189efcd7fa3a58a56ff"
   }
 }

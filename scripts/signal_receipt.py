@@ -97,7 +97,9 @@ REWORK_SUBJECT = re.compile(r"^\s*(revert|fix)\b", re.IGNORECASE)
 
 # Schema version -- bump only on a breaking change to the receipt shape so old
 # receipts fail --check loudly rather than silently comparing against a new layout.
-SCHEMA = "signal-receipt/v1"
+# v2: dropped totals.insertions/deletions (numstat line counts were git-version /
+# .gitattributes sensitive, breaking determinism); the metric is file-level only.
+SCHEMA = "signal-receipt/v2"
 
 
 # --------------------------------------------------------------------------- git
@@ -140,16 +142,24 @@ def resolve_commits(spec: dict, cwd: pathlib.Path = ROOT) -> list[str]:
 
 
 def commit_details(shas: list[str], cwd: pathlib.Path = ROOT) -> list[dict]:
-    """For each SHA (in the given order), return {sha, subject, files:[...],
-    insertions, deletions}. One git call. --no-renames keeps numstat lines a clean
-    `add<TAB>del<TAB>path` (a rename is add(new)+delete(old); both count as touched).
+    """For each SHA (in the given order), return {sha, subject, files:[...]}.
 
-    A record starts with US (\\x1f); fields within the header split on RS (\\x1e)."""
+    Uses `--name-only`, the changed-path SET of each commit's tree diff, NOT
+    `--numstat` line counts. This is deliberate: numstat's per-file +/- counts vary
+    across git versions and with `.gitattributes` text/binary/eol handling (which
+    differs between a local worktree and a fresh CI checkout), which broke the
+    determinism promise (recompute != stored under a newer git). A changed-path set
+    is a pure function of the two tree objects, identical on any git that can read
+    them. Line counts are not part of the signal metric (it is file-level), so they
+    are dropped rather than made fragile. One git call; --no-renames so a rename is
+    add(new)+delete(old), both counted as touched.
+
+    A record starts with US (\\x1f); the header's two fields split on RS (\\x1e)."""
     if not shas:
         return []
     fmt = "%x1f%H%x1e%s"  # US, sha, RS, subject
     out = git(
-        ["show", "--no-walk=unsorted", "--no-renames", "--numstat", f"--format={fmt}", *shas],
+        ["show", "--no-walk=unsorted", "--no-renames", "--name-only", f"--format={fmt}", *shas],
         cwd=cwd,
     )
     details: list[dict] = []
@@ -158,23 +168,8 @@ def commit_details(shas: list[str], cwd: pathlib.Path = ROOT) -> list[dict]:
             continue
         header, _, body = rec.partition("\n")
         sha, _, subject = header.partition("\x1e")
-        files: list[str] = []
-        ins = dels = 0
-        for line in body.splitlines():
-            if not line.strip():
-                continue
-            parts = line.split("\t")
-            if len(parts) != 3:
-                continue
-            a, d, path = parts
-            files.append(path)
-            if a.isdigit():
-                ins += int(a)
-            if d.isdigit():
-                dels += int(d)
-        details.append(
-            {"sha": sha, "subject": subject, "files": files, "insertions": ins, "deletions": dels}
-        )
+        files = [line for line in body.splitlines() if line.strip()]
+        details.append({"sha": sha, "subject": subject, "files": files})
     # Preserve requested order (show --no-walk=unsorted keeps input order, but be safe).
     order = {s: i for i, s in enumerate(shas)}
     details.sort(key=lambda d: order.get(d["sha"], 1 << 30))
@@ -190,14 +185,11 @@ def compute(details: list[dict]) -> dict:
     seen: set[str] = set()
     rework_files: set[str] = set()
     revert_fix: list[dict] = []
-    total_ins = total_dels = 0
 
     for c in details:
         is_rework_commit = bool(REWORK_SUBJECT.match(c["subject"]))
         if is_rework_commit:
             revert_fix.append({"sha": c["sha"][:12], "subject": c["subject"]})
-        total_ins += c["insertions"]
-        total_dels += c["deletions"]
         for f in c["files"]:
             touch_count[f] = touch_count.get(f, 0) + 1
             if f not in seen:
@@ -223,8 +215,6 @@ def compute(details: list[dict]) -> dict:
         "totals": {
             "commits": len(details),
             "files_touched": total_touched,
-            "insertions": total_ins,
-            "deletions": total_dels,
         },
         "shipped": {
             "commits": len(details),
@@ -304,8 +294,6 @@ def render_html(receipts: list[dict]) -> str:
             "files_touched": r["totals"]["files_touched"],
             "files_added": r["shipped"]["files_added"],
             "reworked_files": r["rework"]["reworked_files"],
-            "insertions": r["totals"]["insertions"],
-            "deletions": r["totals"]["deletions"],
             "head": (r["window"]["head"] or "")[:12],
         }
         for r in ordered

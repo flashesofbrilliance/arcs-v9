@@ -126,7 +126,7 @@
   </footer>
 </div>
 
-<script id="data" type="application/json">[{"receipt_id":"main-recent-2026-09-19","verdict":"mostly-rework","churn_ratio":0.9819,"commits":120,"files_touched":2873,"files_added":2873,"reworked_files":2821,"insertions":811160,"deletions":1331,"head":"b235654cef2b"}]</script>
+<script id="data" type="application/json">[{"receipt_id":"main-recent-2026-09-19","verdict":"mostly-rework","churn_ratio":0.9789,"commits":147,"files_touched":2891,"files_added":2891,"reworked_files":2830,"head":"161ccf4a4d85"}]</script>
 <script>
   const DATA = JSON.parse(document.getElementById("data").textContent);
   const VC = { "mostly-shipped": "#00FF9D", "mixed": "#FFC24B", "mostly-rework": "#FF4D6D" };
@@ -184,8 +184,6 @@
         ${m("files touched", r.files_touched)}
         ${m("files added", r.files_added)}
         ${m("reworked", r.reworked_files)}
-        ${m("+ ins", r.insertions)}
-        ${m("- del", r.deletions)}
       </div>
       <div class="headsha">head ${esc(r.head)}</div>
     </div>`;
