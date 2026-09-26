@@ -45,7 +45,8 @@ the corrected gate. This receipt does that.
 2. **Detector precision (REPLACES the corpus-count gate).** Rebuild with the injectable
    `signature_fn` (LLM structural extraction) and `orthogonality_fn` (embedding distance); the
    keyword library is a demo, not a detector. Re-run the dogfood; require **adversarial-FP ≤ 0.10
-   at recall ≥ 0.80**. Current: **FAIL** (adv-FP 1.0 @ default). — **OPEN, measured.**
+   at recall ≥ 0.80**. Current: **FAIL** (adv-FP 1.0 @ default). — **CLOSED 2026-09-26** (rebuild
+   landed; adv-FP 0.0 @ recall 1.0 across the full sweep + a held-out bench — see Update at end).
 3. **Blind-field precision.** Accumulate **K** source-independent, hindsight-confirmed echoes with
    **zero** confirmed false-positives in blind operation. K small and stated as a floor for a
    precision estimate (not a corpus proxy); provisionally K = 3. Current blind-count ≈ **1**. — **OPEN.**
@@ -76,3 +77,28 @@ the one measured criterion (precision) currently FAILS. Honest status: opened, n
 
 **Lineage:** witness 23:37 → wisdom `rom-graduation-earn-through-gate-never-decree` → dogfood
 receipt `_STATE/2026-08-29-echo-detector-dogfood.json` → this initiation → RC-REGISTRY transition.
+
+---
+
+## Update — 2026-09-26 · criterion 2 CLOSED (detector precision)
+
+The precision criterion above is now **closed**. The detector was rebuilt on branch
+`claude/echo-detector-seaworthy` (golden-inchworm fork off F34):
+
+- **Root cause (Red):** the v8.5.1 matcher scored on lone keyword-token overlap; the four
+  adversarial decoys share isolated generic words (`trust`, `shock`, `gradient`, `collapse`)
+  without the underlying dynamic, so every low threshold flagged them.
+- **Fix (Golden):** flat `PATTERN_LIBRARY` → `CONCEPT_LIBRARY` of named kinematic concepts, each
+  detected only by a **relational phrase** (never a lone word); a pattern fires only when
+  **≥ 2 concepts are present on both sides**. `signature_fn` + `orthogonality_fn` remain injectable
+  (`make_llm_signature_fn` / `make_embedding_orthogonality_fn`); offline defaults are deterministic
+  fixtures, labeled honestly as fixtures.
+- **Needle (measured):** `scripts/echo_detector_dogfood.py --sweep` → **precision 1.0 / recall 1.0 /
+  adv-FP 0.0 across the entire 0.10–0.60 sweep** on the unchanged 12-case bench. A **held-out** bench
+  (new domains + a decoy sharing exactly ONE real concept) also passes 1.0/1.0/0.0 — generalization,
+  not overfit. Receipt: `_STATE/2026-09-26-echo-detector-dogfood-seaworthy.json`. Pre-registration:
+  `_STATE/2026-09-26-echo-detector-seaworthy-prereg.md`. Ledger: F38 (closes F34's loop).
+
+**Still OPEN:** criteria 1 (unambiguous ROM to join), 3 (blind-field precision, K source-independent
+echoes), 4 (Observatory period). RC-OPS-001 stays **YELLOW / candidate** — one measured criterion
+closed is not graduation. Earned through the gate, not decreed.
