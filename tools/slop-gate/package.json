@@ -1,0 +1,35 @@
+{
+  "//": "SCAFFOLD - not publish-ready. `private: true` blocks `npm publish` on purpose. To publish, the user must (1) choose the final name + npm scope, (2) choose a license, (3) remove `private`, (4) run build.sh to vendor lib/. See README section 'Distribution (scaffold)'.",
+  "name": "@arcs/slop-gate",
+  "nameCandidatePendingApproval": true,
+  "version": "0.1.0",
+  "private": true,
+  "description": "Four-layer slop-free / factuality gate for customer-facing surfaces: style lint, human-baseline metrics, LLM judgment, and evidence-ledger provenance. Stdlib-only Python, shelled from a thin CLI.",
+  "bin": {
+    "slop-gate": "bin/slop-gate.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "fixtures/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "engineNote": "Runtime prerequisite NOT expressible in engines: python3 >= 3.8 must be on PATH. The linters are Python; this package shells to them (see README 'Why python3, not a JS port').",
+  "scripts": {
+    "build": "bash build.sh",
+    "test": "node bin/slop-gate.js self-test"
+  },
+  "keywords": ["ai-slop", "lint", "resume", "provenance", "evidence", "writing", "arcs"],
+  "license": "UNLICENSED",
+  "licenseNote": "UNLICENSED = license undecided; the user picks it at publish. Recommended: MIT (matches the sibling resume-tailor-skill and the 'public good' framing), but that is the user's call.",
+  "author": "Zach Harris (ARCS)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flashesofbrilliance/arcs-v9.git",
+    "directory": "tools/slop-gate"
+  }
+}

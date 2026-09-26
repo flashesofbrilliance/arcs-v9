@@ -1,0 +1,8 @@
+# build.sh vendors the linters + rubric into lib/ at pack time. The single source
+# of truth is the repo's scripts/ + _PATTERNS/, so the vendored copies are NOT
+# committed (avoids the two-copies drift the token/consolidation memories warn of).
+lib/*.py
+lib/*.md
+lib/*.bak
+*.tgz
+node_modules/

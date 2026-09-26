@@ -1,0 +1,3 @@
+# Per-file evidence ledger for bad.txt: enrolls it but deliberately covers NOTHING relevant,
+# so the fabricated "40+" and "75%" have no entry and the factual gate FAILs (demo of fail-on-bad).
+{"pattern": "\\$999", "source": "decoy:none", "note": "covers a figure that does not appear; 40+/75% stay uncovered on purpose"}

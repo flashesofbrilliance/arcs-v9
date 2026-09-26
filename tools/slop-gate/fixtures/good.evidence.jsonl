@@ -1,0 +1,6 @@
+# Per-file evidence ledger for good.txt: enrolls this fixture; every risky metric cites a source.
+# All fixture values (self-reported) so the pass-on-good provenance demo is honest about its provenance.
+{"pattern": "\\$7B", "source": "self-reported:fixture:2026-09-26", "note": "regulated digital-asset launch scale (fixture)"}
+{"pattern": "480\\s?ms", "source": "self-reported:fixture:2026-09-26", "note": "baseline p95 before the Redis change (fixture)"}
+{"pattern": "110\\s?ms", "source": "self-reported:fixture:2026-09-26", "note": "p95 after the Redis change (fixture)"}
+{"pattern": "\\$2M", "source": "self-reported:fixture:2026-09-26", "note": "IBRShop DTC brand grown to $2M (fixture)"}

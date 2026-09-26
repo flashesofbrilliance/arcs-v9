@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+#
+# slop-gate - the ARCS slop-free / factuality gate suite, one entrypoint.
+# --------------------------------------------------------------------------
+# Four checks that decide whether a customer-facing surface (resume, candidate
+# or marketing page, outbound artifact, public post) reads as human-written and
+# every number on it traces to evidence:
+#
+#   1. STYLE          slop_lint.py         mechanical cliche + em-dash lint (HARD FAIL)
+#   2. HUMAN BASELINE slop_lint.py --metrics  burstiness + specificity (advisory)
+#   3. JUDGMENT       slop_eval.py         LLM rubric rows B/C/D (advisory, needs API key)
+#   4. FACTUAL        provenance_lint.py   every metric cites an evidence.jsonl (opt-in)
+#
+# Deps: python3 (>= 3.8), standard library only. No pip install, no network
+# (except layer 3, which calls the Anthropic API over stdlib urllib when a key
+# is present). bash for this runner.
+#
+# The three linters are the single source of truth in scripts/. When this
+# package is built for distribution (build.sh), they are vendored into ./lib so
+# the tarball is self-contained. This runner prefers ./lib, then falls back to
+# the in-repo scripts/, so it works both ways with no copy committed.
+#
+# Usage:
+#   slop-gate lint <file.html|.txt|.md> [...]            # style lint (exit 1 on tier-A / em-dash)
+#   slop-gate lint --pair <staged> <head|-> [...]        # ratcheted (pre-commit form)
+#   slop-gate metrics [--mode persuade|read|resume|operate|default] <file> [...]
+#   slop-gate metrics --strict [--mode ...] <file>       # exit 1 under baseline
+#   slop-gate eval [--strict] <file> [...]               # judgment tier (ANTHROPIC_API_KEY)
+#   slop-gate provenance <file> [...]                    # factual tier (needs sibling evidence.jsonl)
+#   slop-gate all <file>                                 # style + metrics + provenance on one file
+#   slop-gate self-test                                  # prove every gate fails-on-bad + passes-on-good
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$DIR/lib/slop_lint.py" ]; then
+  LIB="$DIR/lib"
+elif [ -f "$DIR/../../scripts/slop_lint.py" ]; then
+  LIB="$(cd "$DIR/../../scripts" && pwd)"
+else
+  echo "slop-gate: cannot locate the linters (looked in ./lib and ../../scripts)" >&2
+  exit 2
+fi
+
+PY="${PYTHON:-python3}"
+command -v "$PY" >/dev/null 2>&1 || { echo "slop-gate: python3 not found on PATH" >&2; exit 2; }
+
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  lint)        exec "$PY" "$LIB/slop_lint.py" "$@" ;;
+  metrics)     exec "$PY" "$LIB/slop_lint.py" --metrics "$@" ;;
+  eval)        exec "$PY" "$LIB/slop_eval.py" "$@" ;;
+  provenance)  exec "$PY" "$LIB/provenance_lint.py" "$@" ;;
+  all)
+    rc=0
+    "$PY" "$LIB/slop_lint.py" "$@" || rc=$?
+    "$PY" "$LIB/slop_lint.py" --metrics "$@" || true
+    "$PY" "$LIB/provenance_lint.py" "$@" || rc=$?
+    exit $rc ;;
+  self-test)
+    "$PY" "$LIB/slop_lint.py" --self-test
+    "$PY" "$LIB/provenance_lint.py" --self-test
+    echo "(layer 3 / slop_eval is advisory and non-deterministic; it has no self-test)" ;;
+  help|-h|--help|"") sed -n '2,40p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' ;;
+  *) echo "slop-gate: unknown command '$cmd' (try: lint metrics eval provenance all self-test)" >&2; exit 2 ;;
+esac

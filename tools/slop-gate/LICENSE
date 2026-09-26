@@ -1,0 +1,12 @@
+LICENSE: UNDECIDED (scaffold placeholder)
+
+The arcs-v9 repository this suite lives in is "All rights reserved" (source-available).
+The slop-gate suite is being prepared as a standalone public good, but its license is
+an OPEN DECISION for the copyright holder (Zach Harris / ARCS), to be set at publish.
+
+Recommended: MIT, to match the sibling resume-tailor-skill and the "public good"
+framing on resume-tailor.arcs.care. This file must be replaced with the chosen
+license text (and package.json `license` + Formula `license` updated to match)
+before any npm publish or Homebrew tap push.
+
+Until then: no license is granted. Do not redistribute.
