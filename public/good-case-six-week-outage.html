@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Case of the Six-Week Outage · ARCS</title>
+<meta name="description" content="A playable case built from a real production outage. Every theory carries its kill condition. Falsify the wrong ones with the evidence; the one left standing is the answer.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer */
+:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+.draft { border: 1px solid var(--gold); background: var(--gold-bg); border-radius: var(--r-md); padding: 14px 18px; font-size: 15px; margin: 24px 0 0; }
+.draft strong { color: var(--gold); }
+h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 48px 0 20px; }
+h2 { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 0 0 8px; }
+.lede { max-width: none; font-size: 20px; margin: 0 0 12px; }
+p { max-width: var(--measure); }
+.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+.rules { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 22px; margin: 24px 0; }
+.rules ol { margin: 0; padding-left: 20px; }
+.rules li { margin: 0 0 6px; }
+
+.hud { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 0; margin: 32px 0 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; font-family: var(--font-mono); font-size: 15px; }
+.hud b { color: var(--cyan); font-weight: 600; }
+.status { min-height: 1.6em; color: var(--text); }
+.status.kill { color: var(--green); }
+.status.miss { color: var(--gold); }
+.status.hold { color: var(--cyan); }
+
+.act { margin: 0 0 56px; }
+.act[hidden] { display: none; }
+.q { font-size: 19px; margin: 0 0 20px; }
+.board { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.col h3 { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--dimmed); margin: 0 0 10px; }
+.card { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin: 0 0 10px; cursor: pointer; }
+.card:hover { border-color: var(--dimmed); }
+.card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.card .t { display: block; font-weight: 600; margin: 0 0 4px; }
+.card .k { display: block; font-size: 15px; color: var(--dimmed); }
+.card.sel { border-color: var(--cyan); background: var(--cyan-bg); }
+.card.dead { cursor: default; opacity: 0.6; border-style: dashed; }
+.card.dead .t { text-decoration: line-through; }
+.card.dead .k { color: var(--red); }
+.card.stand { border-color: var(--green); background: var(--green-bg); cursor: default; }
+.card.stand .k { color: var(--green); }
+.ev { font-family: var(--font-mono); font-size: 15px; }
+.ev .id { color: var(--cyan); margin-right: 6px; }
+
+.verdict { background: var(--surface); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 20px 24px; margin: 20px 0 0; }
+.verdict[hidden], .reveal[hidden] { display: none; }
+.verdict p { max-width: none; margin: 0 0 8px; }
+.next { margin: 12px 0 0; padding: 10px 18px; background: transparent; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); cursor: pointer; font-weight: 600; }
+
+.reveal h2 { margin-top: 8px; }
+.hole { max-width: var(--measure); border: 1px solid var(--gold); background: var(--gold-bg); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0 24px; }
+.hole p { max-width: none; margin: 0 0 8px; }
+.score { font-family: var(--font-mono); font-size: 18px; color: var(--green); margin: 8px 0 12px; }
+.share { font-family: var(--font-mono); font-size: 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; max-width: var(--measure); white-space: pre-wrap; }
+footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+@media (max-width: 760px) { .board { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+</style>
+</head>
+<body>
+<header class="pad">
+  <span class="mono">good.arcs.care · case file 001</span>
+  <div class="draft"><strong>DRAFT, not routed.</strong> Every evidence card paraphrases the published post <a href="/blog/nftt/the-question-that-found-the-outage">The Question That Found the Outage</a>. Nothing is invented. The cold-agent comparison score is not built yet.</div>
+</header>
+
+<main class="pad">
+  <h1>The Case of the Six-Week Outage</h1>
+  <p class="lede">A change shipped with every checkmark green. Then one person asked the smallest question in software, how do I know this actually works, and the answer was a core feature that had been dead in production for six weeks without a single complaint. You have the evidence. You do not get to guess. You get to falsify.</p>
+
+  <div class="rules">
+    <ol>
+      <li>Each theory states its <b>kill condition</b> up front: the evidence that would prove it false.</li>
+      <li>Pick a theory, then present the evidence you think kills it.</li>
+      <li>The right evidence strikes it out. The wrong evidence costs a test.</li>
+      <li>The true theory cannot be killed. Evidence against it only comes back consistent.</li>
+      <li>When one theory is left standing, the question closes.</li>
+    </ol>
+  </div>
+
+  <div class="hud" aria-live="polite">
+    <span>Tests used <b id="tests">0</b></span>
+    <span>Minimum <b id="min">0</b></span>
+    <span class="status" id="status">Pick a theory to begin.</span>
+  </div>
+
+  <div id="acts"></div>
+
+  <section class="reveal" id="reveal" hidden>
+    <h2>The hole in the middle</h2>
+    <div class="hole">
+      <p>You closed all three questions from the record alone. Now look at what the record never said.</p>
+      <p>The evidence shows the production database sat outside the step that applies migrations on deploy. It does not show when that was decided, by whom, or why. That missing decision is the donut hole: the one part of this case nobody can reconstruct, because it was never written down.</p>
+      <p>A receipt at that moment would have closed it. That is the entire argument for receipts, in one case.</p>
+    </div>
+    <p class="score" id="final"></p>
+    <p>What changed after this case: a health check that compares the live database to what the code expects, a screen that looks for the saved record before it claims failure, and migrations that run on every deploy.</p>
+    <div class="share" id="share"></div>
+    <button class="next" id="copy" type="button">Copy result</button>
+    <p style="margin-top:24px">Want this run on your own team's record? <a href="/good-agent-receipts-audit.html">The Agent Receipts Audit</a> is this case, played by a cold reader against your repo.</p>
+  </section>
+</main>
+
+<footer class="pad">
+  <p>ARCS · case file 001 · built from the public record of a real incident. No person is a suspect in any ARCS case; the culprit is always a gap in the record.</p>
+</footer>
+
+<script>
+(function () {
+  var ACTS = [
+    {
+      q: "Question 1 of 3 · Every signed-in save and every load is failing in production. Why?",
+      evidence: {
+        E1: "The recent change: tests green, pull request merged, deploy out.",
+        E2: "Server log: every signed-in save and every load returns a server error, not just slow ones.",
+        E3: "Every failure carries the same database error: a column the code expects does not exist in the live database.",
+        E4: "The last successfully saved decision is six weeks old.",
+        E5: "The migration that adds that column was written, committed, reviewed and merged weeks ago.",
+        E6: "The production database was never placed under the tool that applies migrations on deploy."
+      },
+      theories: [
+        { t: "The change that just shipped broke saving.", k: "Dies if saving was already broken before this change shipped.", kill: "E4" },
+        { t: "Flaky networks and slow phones. The server is fine.", k: "Dies if the server itself is logging the errors.", kill: "E2" },
+        { t: "The code has a bug the tests missed.", k: "Dies if the code matches a schema change that was written and approved.", kill: "E5" },
+        { t: "The code and the live database disagree: the migration never ran in production.", k: "Dies if the live database already has the column.", kill: null }
+      ],
+      verdict: "The code was right and the database was behind. A migration that exists in the code but never runs is, from the code's point of view, indistinguishable from one that did."
+    },
+    {
+      q: "Question 2 of 3 · The core loop was down for six weeks. Why did nobody report it?",
+      evidence: {
+        E7: "Completion: 2 of 247 runs ever reached a saved outcome.",
+        E8: "No health check compared the live database to the code. It was built after this case, not before.",
+        E9: "The failure was found by a person asking to see it work, not by a monitor or an alert."
+      },
+      theories: [
+        { t: "An alert fired and someone ignored it.", k: "Dies if there was no check that could have fired.", kill: "E8" },
+        { t: "Users hit it and complained, and the complaints were lost.", k: "Dies if almost nobody ever reached the step that was broken.", kill: "E7" },
+        { t: "Almost nobody finishes the loop, so a total outage produced zero complaints.", k: "Dies if real traffic regularly reached the save step.", kill: null }
+      ],
+      verdict: "Two gaps hid each other. The outage stayed hidden because the loop is rarely finished, and the rarely-finished loop stayed hidden because nothing forced the outage into view."
+    },
+    {
+      q: "Question 3 of 3 · The column is restored. The same run is tried again, and the screen says Load failed. Did the fix fail?",
+      evidence: {
+        E10: "The retest screen: Load failed, the same generic message as before.",
+        E11: "The database: a freshly saved decision, timestamped to the minute of the retest.",
+        E12: "The retest was slow, on a real phone, over a real network."
+      },
+      theories: [
+        { t: "The fix did not work.", k: "Dies if the database holds a record saved during the retest.", kill: "E11" },
+        { t: "The fix worked, but a second, unrelated bug is breaking saves.", k: "Dies if the save itself succeeded.", kill: "E11" },
+        { t: "The server finished. The screen gave up waiting first and reported a failure that never happened.", k: "Dies if no record was saved during the retest.", kill: null }
+      ],
+      verdict: "The saved record is the truth. The screen is a hint. When they disagree, the artifact wins, every time."
+    }
+  ];
+
+  var tests = 0, minimum = 0, actIndex = 0, selected = null;
+  ACTS.forEach(function (a) { a.theories.forEach(function (th) { if (th.kill) minimum++; }); });
+  var $ = function (id) { return document.getElementById(id); };
+  $("min").textContent = minimum;
+
+  function say(msg, cls) { var s = $("status"); s.textContent = msg; s.className = "status" + (cls ? " " + cls : ""); }
+
+  function renderAct(i) {
+    var a = ACTS[i], root = $("acts");
+    var sec = document.createElement("section");
+    sec.className = "act"; sec.id = "act" + i;
+    sec.innerHTML = '<p class="q"></p><div class="board"><div class="col"><h3>Theories</h3><div class="th"></div></div><div class="col"><h3>Evidence</h3><div class="evl"></div></div></div><div class="verdict" hidden></div>';
+    sec.querySelector(".q").textContent = a.q;
+    var thBox = sec.querySelector(".th"), evBox = sec.querySelector(".evl");
+    a.theories.forEach(function (th, j) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "card"; b.dataset.j = j;
+      b.innerHTML = '<span class="t"></span><span class="k"></span>';
+      b.querySelector(".t").textContent = th.t;
+      b.querySelector(".k").textContent = "Kill condition: " + th.k;
+      b.addEventListener("click", function () { pickTheory(i, j, b); });
+      thBox.appendChild(b);
+    });
+    Object.keys(a.evidence).forEach(function (id) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "card ev";
+      b.innerHTML = '<span class="id"></span><span></span>';
+      b.firstChild.textContent = id;
+      b.lastChild.textContent = a.evidence[id];
+      b.addEventListener("click", function () { present(i, id); });
+      evBox.appendChild(b);
+    });
+    root.appendChild(sec);
+  }
+
+  function pickTheory(i, j, btn) {
+    if (i !== actIndex) return;
+    var th = ACTS[i].theories[j];
+    if (th.dead || th.stand) return;
+    document.querySelectorAll("#act" + i + " .th .card").forEach(function (c) { c.classList.remove("sel"); });
+    btn.classList.add("sel"); selected = j;
+    say("Theory selected. Present the evidence that kills it.");
+  }
+
+  function present(i, id) {
+    if (i !== actIndex) return;
+    if (selected === null) { say("Pick a theory first, then present evidence against it.", "miss"); return; }
+    var a = ACTS[i], th = a.theories[selected];
+    var btn = document.querySelector("#act" + i + ' .th .card[data-j="' + selected + '"]');
+    tests++; $("tests").textContent = tests;
+    if (th.kill === null) {
+      say(id + " is consistent with that theory. It cannot kill it.", "hold");
+    } else if (th.kill === id) {
+      th.dead = true; btn.classList.remove("sel"); btn.classList.add("dead");
+      btn.querySelector(".k").textContent = "Falsified by " + id + ".";
+      say("Falsified. " + id + " meets the kill condition.", "kill");
+      selected = null; checkClosed(i);
+    } else {
+      say(id + " does not meet that theory's kill condition. Test spent.", "miss");
+    }
+  }
+
+  function checkClosed(i) {
+    var a = ACTS[i];
+    var alive = a.theories.filter(function (t) { return !t.dead; });
+    if (alive.length !== 1) return;
+    alive[0].stand = true;
+    var j = a.theories.indexOf(alive[0]);
+    var btn = document.querySelector("#act" + i + ' .th .card[data-j="' + j + '"]');
+    btn.classList.add("stand");
+    btn.querySelector(".k").textContent = "Left standing. Nothing in the record kills it.";
+    var v = document.querySelector("#act" + i + " .verdict");
+    v.hidden = false;
+    v.innerHTML = "<p></p>";
+    v.firstChild.textContent = a.verdict;
+    if (i + 1 < ACTS.length) {
+      var n = document.createElement("button");
+      n.type = "button"; n.className = "next"; n.textContent = "Next question";
+      n.addEventListener("click", function () {
+        n.remove(); actIndex = i + 1; renderAct(actIndex);
+        document.getElementById("act" + actIndex).scrollIntoView({ behavior: "smooth", block: "start" });
+        say("New question. Pick a theory.");
+      });
+      v.appendChild(n);
+    } else {
+      finish();
+    }
+  }
+
+  function finish() {
+    say("Case closed.", "kill");
+    var line = "Closed in " + tests + " tests (minimum " + minimum + ").";
+    $("final").textContent = line;
+    var text = "I closed The Case of the Six-Week Outage in " + tests + " tests. Minimum is " + minimum + ".\nThe culprit was a gap in the record.";
+    $("share").textContent = text;
+    $("copy").addEventListener("click", function () {
+      try { navigator.clipboard.writeText(text); $("copy").textContent = "Copied"; }
+      catch (e) { $("copy").textContent = "Select the text above to copy"; }
+    });
+    $("reveal").hidden = false;
+    $("reveal").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  renderAct(0);
+})();
+</script>
+</body>
+</html>
