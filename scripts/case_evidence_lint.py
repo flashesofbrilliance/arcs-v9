@@ -22,7 +22,7 @@ Ledger: sibling <page-stem>.evidence.jsonl (the same file provenance_lint reads)
               fact was never there.
   mechanic -> "page" must occur; "why" says what game rule it is. No source needed.
 
-Usage: python3 scripts/case_evidence_lint.py [page.html ...]   (default: enrolled case pages)
+Usage: python3 scripts/case_evidence_lint.py [page.html ...]   (default: case-world pages + any page with a ledger)
        exit 1 on any uncovered number, missing page string, or unverifiable quote. Stdlib only.
 """
 import glob, html, json, os, re, sys
@@ -103,7 +103,8 @@ def lint(page):
 
 def main(argv):
     pages = argv or sorted(p for p in glob.glob("public/*.html")
-                           if "case-world:" in open(p, encoding="utf-8").read())
+                           if "case-world:" in open(p, encoding="utf-8").read()
+                           or os.path.exists(ledger_for(p)))
     bad = 0
     for p in pages:
         errs = lint(p)

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Case of the Reader Who Remembered · ARCS</title>
 <meta name="description" content="A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -58,8 +58,8 @@ a { color: var(--cyan); text-underline-offset: 3px; }
 button { font: inherit; color: inherit; }
 .pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
 header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
-.draft { border: 1px solid var(--gold); background: var(--gold-bg); border-radius: var(--r-md); padding: 14px 18px; font-size: 15px; margin: 24px 0 0; }
-.draft strong { color: var(--gold); }
+.sources { border: 1px solid var(--border); background: var(--surface); border-radius: var(--r-md); padding: 12px 16px; font-size: 15px; color: var(--dimmed); margin: 24px 0 0; }
+.sources strong { color: var(--text); }
 h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 48px 0 20px; }
 h2 { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 0 0 8px; }
 .lede { max-width: none; font-size: 20px; margin: 0 0 12px; }
@@ -185,7 +185,7 @@ body { padding-bottom: 88px; }
 <body>
 <header class="pad">
   <span class="mono">good.arcs.care · case file 002</span>
-  <div class="draft"><strong>DRAFT, not routed.</strong> Every number and evidence card comes from the published post <a href="/blog/nftt/the-control-and-the-experiment">We Gave the Reader Its Memory Back</a> and its four redacted reports. One incident, one model, one sample per arm: illustrative, not a rate.</div>
+  <div class="sources"><strong>Sources.</strong> Every number and evidence card comes from the published post <a href="/blog/nftt/the-control-and-the-experiment">We Gave the Reader Its Memory Back</a> and its four redacted reports. One incident, one model, one sample per arm: illustrative, not a rate.</div>
 </header>
 
 <main class="pad world" id="world" data-render="GRAIN">
@@ -251,7 +251,7 @@ body { padding-bottom: 88px; }
     <p class="score" id="final"></p>
     <div class="share" id="share"></div>
     <button class="next" id="copy" type="button">Copy result</button>
-    <p style="margin-top:24px">Previous case: <a href="/good-case-six-week-outage.html">The Case of the Six-Week Outage</a>. Want your team's record read this way? <a href="/good-agent-receipts-audit.html">The Agent Receipts Audit</a>.</p>
+    <p style="margin-top:24px">Previous case: <a href="/cases/six-week-outage">The Case of the Six-Week Outage</a>. Want your team's record read this way? <a href="/audit">The Agent Receipts Audit</a>.</p>
   </section>
 </main>
 
@@ -269,7 +269,7 @@ body { padding-bottom: 88px; }
 
 <!-- case-world:runtime:begin -->
 <script>
-/* ARCS Case World runtime v1. Canonical source: src/ui-kit/recoil-report/15-case-world.html.
+/* ARCS Case World runtime v1 (kit primitive 15, synced into case pages).
    Requires the case-world scene + dock blocks and a .world element with id="world".
    API: say(text, tone) · calibration(score|null) -> render state · closed(n) · sheet(open) · seated(on) · mobile() */
 window.ArcsCaseWorld = function () {

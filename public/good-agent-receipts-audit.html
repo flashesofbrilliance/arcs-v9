@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent Receipts Audit · ARCS</title>
 <meta name="description" content="A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -49,7 +49,7 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-/* page layer: wrap-safety per _PATTERNS/arcs-artifact-css-base.css */
+/* page layer: wrap-safety (one shared measure) */
 :root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--text); }
@@ -57,8 +57,6 @@ body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflo
 a { color: var(--cyan); text-underline-offset: 3px; }
 .pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
 header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
-.draft { border: 1px solid var(--gold); background: var(--gold-bg); color: var(--text); border-radius: var(--r-md); padding: 14px 18px; font-size: 15px; margin: 24px 0 0; }
-.draft strong { color: var(--gold); }
 h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 56px 0 20px; }
 h2 { font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 64px 0 16px; }
 .lede { max-width: none; font-size: 20px; color: var(--text); margin: 0 0 12px; }
@@ -72,7 +70,6 @@ ol.steps b { color: var(--cyan); }
 .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
 .tier { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 24px; }
 .tier h3 { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
-.tier .price { font-family: var(--font-mono); font-size: 26px; color: var(--green); margin: 0 0 12px; }
 .tier ul { padding-left: 20px; margin: 0; }
 .tier li { max-width: none; margin: 0 0 6px; }
 .limits li { margin: 0 0 10px; }
@@ -84,7 +81,6 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 <body>
 <header class="pad">
   <span class="mono">good.arcs.care</span>
-  <div class="draft"><strong>DRAFT, not routed.</strong> Prices are benchmark guesses, not buyer-validated. Contact route is a placeholder. Nothing here links from a live page until Zach approves.</div>
 </header>
 
 <main class="pad">
@@ -104,15 +100,16 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 
   <h2>We ran it on ourselves first</h2>
   <div class="card">
-    <p>The method was built and tested on the ARCS build itself, in public. The first cold run scored <b>0.895</b> reconstructability. A controlled follow-up compared cold and warm readers and found the useful thing: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all. The runs, the table, and the redacted reports are published.</p>
+    <p>The method was built and tested on the ARCS build itself, in public. The first cold run reconstructed <b>90%</b> of the incident from the committed record alone (<a href="/blog/nftt/the-cold-reconstruction/report">the report</a>). A controlled follow-up compared cold and warm readers and found the useful thing: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all. The runs, the table, and the redacted reports are published.</p>
+    <p>Or play the method yourself: <a href="/cases/six-week-outage">Case 001</a> · <a href="/cases/reader-who-remembered">Case 002</a></p>
     <p><a href="/blog/nftt/the-cold-reconstruction">The cold reconstruction</a> · <a href="/blog/nftt/the-control-and-the-experiment">The control and the experiment</a> · <a href="/blog/nftt/receipts-or-it-didnt-happen">Receipts or it didn't happen</a></p>
   </div>
 
-  <h2>Two fixed prices</h2>
+  <h2>Two fixed scopes</h2>
+  <p>Both are fixed price, quoted after a twenty-minute scoping call, so the number fits your repo instead of a guess.</p>
   <div class="tiers">
     <div class="tier">
       <h3>Audit</h3>
-      <p class="price">$3,500</p>
       <ul>
         <li>One repo, one window you choose</li>
         <li>Cold reconstruction report with per-section confidence</li>
@@ -123,7 +120,6 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
     </div>
     <div class="tier">
       <h3>Audit + gate</h3>
-      <p class="price">$6,500</p>
       <ul>
         <li>Everything in Audit</li>
         <li>Receipt schema fitted to your workflow</li>
@@ -143,11 +139,11 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 
   <h2>Start with a twenty-minute scope</h2>
   <p>Tell us which repo and which week you would least like to explain from memory.</p>
-  <a class="cta" href="#contact">Scope an audit</a>
+  <a class="cta" href="https://arcs.care/advisory">Scope an audit</a>
 </main>
 
-<footer class="pad" id="contact">
-  <p>ARCS · decision receipts and the tools that keep them honest. Contact route to be set before routing.</p>
+<footer class="pad">
+  <p>ARCS · decision receipts and the tools that keep them honest.</p>
 </footer>
 </body>
 </html>
