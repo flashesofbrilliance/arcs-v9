@@ -2,16 +2,26 @@
   "captured_at": "2026-09-26T05:57:27Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b53865e6",
-    "head_message": "record(witness): commit the GREEN cold-vs-warm witness stub [NCI:50]",
+    "head_sha": "daf3fba",
+    "head_message": "Merge remote-tracking branch 'origin/main' into claude/eloquent-kapitsa-cdc9c4",
     "in_sync_with_origin": true,
-    "dirty_files": ["_INBOX/*.jsonl", "_STATE/pulse.json (hook-generated, non-source)"]
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
     "production_alias": "https://good.arcs.care (+ app/www/arcs.care)",
     "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -20,5 +30,6 @@
   },
   "session_summary": "Cold-reconstruction public good: tools/cold-recon CLI + NFTT trilogy (method, experiment, diptych) live on good.arcs.care; AI-slop safeguard wired into nftt-gates.sh via essay mode.",
   "next_action": "Wire the design-detector step into nftt-gates.sh once the design-system brand profile lands on main (gated on Zach reviewing the 7-wave migration plan).",
-  "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)"
+  "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)",
+  "git_refreshed_at": "2026-09-26T16:37:07Z"
 }
