@@ -72,6 +72,15 @@ positioning prose than a dense resume, so their floor is lower. Chasing 60% on a
 |---|---|
 | resume / operate / default | 60% |
 | persuade / read | 50% |
+| essay / reflective / longform (evidence-aware) | 10% |
+
+**Essay/reflective mode** (good.arcs.care NFTT method-essays): specificity is **evidence-aware** — a
+sentence counts as specific if it carries a receipt/anchor link, an inline `<code>` ref, a git sha, a
+filename/path, a number, or a named entity, because in a reflective essay the evidence lives in stat
+panels / chips / code refs / links, not in every prose sentence. Floor **10%**, CALIBRATED to real posts
+(6 measured 13-54%), deliberately *below* the 20-25% first guess, which would false-fail genuine essays
+(that would be the same Goodhart the rubric warns against). Burstiness (>=6), tier-A (0), em-dashes (0)
+are unchanged for this mode — those, not specificity, are the human signal for reflective longform.
 | **Tier-A cliches** | **0** | Mechanical hard-fail | `slop_lint` |
 | **Em-dashes** | **0** | Standing rule | `slop_lint` |
 | **Rubric judgment total** | **<= 3, no row = 2** | Structural/rhythm/specificity | `slop_eval` |

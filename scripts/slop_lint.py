@@ -58,9 +58,15 @@ TIER_B = [
     "in today's fast-paced", "realm of", "underscore", "underscores",
 ]
 
-def strip_to_text(s: str) -> str:
+def strip_to_text(s: str, evidence: bool = False) -> str:
     s = re.sub(r"<script\b[^>]*>.*?</script>", " ", s, flags=re.I | re.S)
     s = re.sub(r"<style\b[^>]*>.*?</style>", " ", s, flags=re.I | re.S)
+    if evidence:
+        # essay/read-longform: mark structured evidence that tag-stripping would erase (receipt/anchor
+        # links, inline code refs) so the sentence carrying it counts as specific. Numbers/shas/filenames
+        # already survive as text; this recovers link + <code> evidence. Sentinel EVREF is inert prose.
+        s = re.sub(r"<a\b[^>]*\bhref=[^>]*>", " EVREF ", s, flags=re.I)
+        s = re.sub(r"<code\b[^>]*>", " EVREF ", s, flags=re.I)
     s = re.sub(r"<[^>]+>", " ", s)                     # drop tags
     s = re.sub(r"&[a-zA-Z]+;|&#\d+;", " ", s)          # drop entities (&middot; etc.)
     return s
@@ -89,16 +95,30 @@ BASELINE = {"burstiness_min": 6.0, "specificity_min": 0.60}
 # Per-mode specificity floor (impeccable mode vocab): persuade/read surfaces legitimately carry more
 # connective/positioning prose than a dense resume, so their floor is lower. Burstiness floor is
 # mode-independent. Pick with --mode; default is the strict resume/operate bar.
-MODE_SPEC = {"persuade": 0.50, "read": 0.50, "operate": 0.60, "resume": 0.60, "default": 0.60}
+MODE_SPEC = {"persuade": 0.50, "read": 0.50, "operate": 0.60, "resume": 0.60, "default": 0.60,
+             # reflective method-essays (good.arcs.care NFTT): specificity legitimately lives in stat
+             # panels / evidence chips / code refs / receipt links, not in every prose sentence, so the
+             # prose-density floor is low and evidence-aware. Floor CALIBRATED to real posts (measured
+             # 14-54%), NOT the higher guess that would false-fail genuine essays. Burstiness + tier-A +
+             # em-dash unchanged. Modes below use the evidence-aware specificity counter.
+             "essay": 0.10, "reflective": 0.10, "longform": 0.10}
+ESSAY_MODES = {"essay", "reflective", "longform"}
 _STOPCAP = {"I", "The", "A", "An", "This", "My", "We", "It", "In", "Of", "And", "But", "Most", "Led",
             "Built", "Ran", "Ship", "Closed", "Coordinated", "Delivered", "Grew"}
 
 def _units(text):
     return [s.strip() for s in re.split(r'(?<=[.:])\s+', text) if len(s.split()) > 3]
 
-def _specific(u):
+def _specific(u, evidence=False):
     if re.search(r'\d|\$|%', u):
         return True
+    if evidence:
+        if 'EVREF' in u:                                          # link / <code> evidence marker
+            return True
+        if re.search(r'\b[0-9a-f]{7,40}\b', u):                   # git sha
+            return True
+        if re.search(r'\b[\w./-]+\.(?:html|py|js|ts|tsx|jsx|css|md|json|jsonl|rb|sh)\b', u):  # file/path ref
+            return True
     toks = u.split()
     for i, t in enumerate(toks):
         w = t.strip('.,:;()')
@@ -113,11 +133,12 @@ def _specific(u):
 def metrics(text, mode="default"):
     import statistics
     spec_min = MODE_SPEC.get(mode, MODE_SPEC["default"])
-    vis = strip_to_text(text)
+    ev = mode in ESSAY_MODES
+    vis = strip_to_text(text, evidence=ev)
     us = _units(vis)
     lens = [len(u.split()) for u in us] or [0]
     burst = statistics.pstdev(lens) if len(lens) > 1 else 0.0
-    spec = sum(_specific(u) for u in us)
+    spec = sum(_specific(u, ev) for u in us)
     dens = spec / len(us) if us else 0.0
     r = scan(vis)
     ok = (burst >= BASELINE["burstiness_min"] and dens >= spec_min
@@ -163,6 +184,31 @@ def self_test():
           f"  hits={rb['fail_tier_a']} em={rb['em_dashes']}")
     print(f"  good fixture -> {'PASS (correct)' if ok_good else 'FAIL (WRONG - false positive)'}"
           f"  hits={rg['fail_tier_a']} warnB={rg['warn_tier_b']}")
+    # --- mode/metrics coverage: essay + read fail-on-bad AND pass-on-good ---
+    # essay pass-on-good: reflective prose whose evidence is a link + a code ref (not in every sentence)
+    essay_good = ('<p>The question is not whether the model can write, but whether it can witness. '
+                  'A tree falls in the forest. Who attests to it, and when. The honest answer is timing, '
+                  'not a new artifact. See <a href="#receipt">the receipt</a> and <code>slop_lint.py</code> '
+                  'for how the attestation is enforced in practice, turn by turn.</p>')
+    # essay fail-on-bad: pure abstraction, zero evidence of any kind (no number/link/code/proper-noun)
+    essay_bad = ('<p>The essence of clarity is the absence of confusion. To know is to have known. '
+                 'What we build is what we are, and what we are is what we build. The truth reveals itself '
+                 'to those who wait for it. Meaning is a mirror. The work is the way and the way is the work.</p>')
+    # read fail-on-bad: generic marketing prose under the strict 50% floor
+    read_bad = ('<p>We deliver outcomes that matter. Our approach is trusted by teams everywhere. '
+                'We help you move forward with confidence. The future is here, and we are ready for it. '
+                'Together we can achieve more than ever before, one step at a time.</p>')
+    # isolate the specificity-floor + evidence-awareness (the added logic) from burstiness, which
+    # needs long text these short fixtures can't provide (real essays run 60-120 units).
+    sg = metrics(essay_good, "essay")["specificity"]
+    sb = metrics(essay_bad, "essay")["specificity"]
+    sr = metrics(read_bad, "read")["specificity"]
+    ef, rf = MODE_SPEC["essay"], MODE_SPEC["read"]
+    mode_ok = (sg >= ef) and (sb < ef) and (sr < rf)
+    passed = passed and mode_ok
+    print(f"  essay pass-on-good spec {sg:.2f} -> {'>=floor (correct)' if sg >= ef else 'UNDER (WRONG)'}"
+          f"  · essay fail-on-bad spec {sb:.2f} -> {'<floor (correct)' if sb < ef else 'WRONG'}"
+          f"  · read fail-on-bad spec {sr:.2f} -> {'<50% (correct)' if sr < rf else 'WRONG'}")
     print("  RESULT:", "OK" if passed else "BROKEN")
     return 0 if passed else 1
 
