@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""signal_receipt.py — a self-measuring shipped-vs-reworked signal instrument.
+"""signal_receipt.py - a self-measuring shipped-vs-reworked signal instrument.
 
 The ARCS instinct turned on itself: instead of vibes ("that felt productive"),
 compute a DETERMINISTIC receipt from git that makes a work window's signal-to-noise
@@ -74,6 +74,7 @@ stdlib-only (AGENTS.md foundation rule). No network. Reads git via subprocess.
 from __future__ import annotations
 
 import argparse
+import difflib
 import json
 import pathlib
 import re
@@ -105,9 +106,19 @@ SCHEMA = "signal-receipt/v2"
 # --------------------------------------------------------------------------- git
 
 def git(args: list[str], cwd: pathlib.Path = ROOT) -> str:
-    """Run a git command, return stdout. Raises on non-zero (fail loud)."""
+    """Run a git command, return stdout. Raises on non-zero (fail loud).
+
+    Decoding is pinned to UTF-8 (not the process locale) and octal path-quoting is
+    disabled, so output is byte-identical regardless of the runner's LANG/LC_ALL.
+    Without this, `text=True` decodes with the locale encoding and git octal-escapes
+    non-ASCII paths under core.quotePath=true (its default) -- so a commit subject or
+    filename containing an em-dash (this repo's are full of them) decoded/quoted one
+    way locally and another way in CI, which is what broke --check (recompute !=
+    stored under a runner with a different locale). `i18n.logOutputEncoding=UTF-8`
+    pins commit-message output too."""
     res = subprocess.run(
-        ["git", *args], cwd=str(cwd), capture_output=True, text=True, check=False
+        ["git", "-c", "core.quotePath=false", "-c", "i18n.logOutputEncoding=UTF-8", *args],
+        cwd=str(cwd), capture_output=True, encoding="utf-8", errors="surrogateescape", check=False,
     )
     if res.returncode != 0:
         raise RuntimeError(
@@ -269,8 +280,11 @@ def build_receipt(receipt_id: str, spec: dict, details: list[dict]) -> dict:
 
 def serialize(receipt: dict) -> str:
     """Canonical JSON: sorted keys, 2-space indent, one trailing newline.
-    Byte-identical for identical content."""
-    return json.dumps(receipt, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+    ensure_ascii=True so every non-ASCII char (em-dashes in commit subjects, any
+    non-ASCII path) is written as an escaped \\uXXXX -- a pure-ASCII file whose bytes
+    do not depend on how the environment renders UTF-8. Byte-identical for identical
+    content, everywhere."""
+    return json.dumps(receipt, indent=2, sort_keys=True, ensure_ascii=True) + "\n"
 
 
 # -------------------------------------------------------------------------- html
@@ -319,7 +333,7 @@ def do_emit(receipt_id: str, spec: dict) -> int:
     OUT_HTML.write_text(render_html(load_receipts()), encoding="utf-8")
     m = receipt
     print(
-        f"wrote {path.relative_to(ROOT).as_posix()} + signal-receipt.html — "
+        f"wrote {path.relative_to(ROOT).as_posix()} + signal-receipt.html - "
         f"{m['totals']['commits']} commits, churn {m['churn_ratio']:.2f} -> {m['verdict']}."
     )
     return 0
@@ -330,7 +344,7 @@ def do_check() -> int:
     Also verify the HTML view is current. Exit 1 on any drift."""
     receipts = load_receipts()
     if not receipts:
-        print("OK — no signal receipts to audit.")
+        print("OK - no signal receipts to audit.")
         return 0
     stale: list[str] = []
     for p in sorted(RECEIPTS_DIR.glob("*.json")):
@@ -343,7 +357,7 @@ def do_check() -> int:
         try:
             details = commit_details(shas, cwd=ROOT)
         except RuntimeError as e:
-            stale.append(f"{p.name} (range unreachable — need full history: {e})")
+            stale.append(f"{p.name} (range unreachable - need full history: {e})")
             continue
         got = {d["sha"] for d in details}
         if got != set(shas):
@@ -351,15 +365,28 @@ def do_check() -> int:
             continue
         recomputed = serialize(build_receipt(r["receipt_id"], r["spec"], details))
         if recomputed != stored:
-            stale.append(f"{p.name} (recompute != stored — hand-edited or algo changed)")
+            stale.append(f"{p.name} (recompute != stored - hand-edited or algo changed)")
+            # Diagnostic: show exactly which lines diverge, so a drift caused by an
+            # environment difference (git version, attributes) is legible in the log
+            # instead of a bare "DRIFT". Capped so a wholesale change stays readable.
+            diff = list(difflib.unified_diff(
+                stored.splitlines(), recomputed.splitlines(),
+                fromfile=f"{p.name} (stored)", tofile=f"{p.name} (recomputed)", lineterm="",
+            ))
+            if diff:
+                print(f"--- drift detail for {p.name} (stored -> recomputed) ---")
+                for line in diff[:40]:
+                    print(line)
+                if len(diff) > 40:
+                    print(f"... ({len(diff) - 40} more diff lines)")
     html_expected = render_html(receipts)
     html_actual = OUT_HTML.read_text(encoding="utf-8") if OUT_HTML.exists() else ""
     if html_actual != html_expected:
         stale.append("signal-receipt.html")
     if stale:
-        print(f"DRIFT: {', '.join(stale)} — re-run `python3 scripts/signal_receipt.py --branch/--since ...`.")
+        print(f"DRIFT: {', '.join(stale)} - re-run `python3 scripts/signal_receipt.py --branch/--since ...`.")
         return 1
-    print(f"OK — {len(receipts)} signal receipt(s) current with git (audit clean).")
+    print(f"OK - {len(receipts)} signal receipt(s) current with git (audit clean).")
     return 0
 
 
@@ -385,7 +412,7 @@ def do_selftest() -> int:
     """Pre-registered falsifiable kill condition, proven in throwaway git repos."""
     failures: list[str] = []
 
-    # Case A: MOSTLY REWORK — one file edited across 4 commits + a revert.
+    # Case A: MOSTLY REWORK - one file edited across 4 commits + a revert.
     with tempfile.TemporaryDirectory() as d:
         repo = pathlib.Path(d)
         _git_init_repo(repo)
@@ -400,7 +427,7 @@ def do_selftest() -> int:
                 f"(expected >= {REWORK_FLOOR} / mostly-rework)"
             )
 
-    # Case B: MOSTLY SHIPPED — 8 distinct files, each added once, no re-touch/revert.
+    # Case B: MOSTLY SHIPPED - 8 distinct files, each added once, no re-touch/revert.
     with tempfile.TemporaryDirectory() as d:
         repo = pathlib.Path(d)
         _git_init_repo(repo)
@@ -419,7 +446,7 @@ def do_selftest() -> int:
         for f in failures:
             print(f"  - {f}")
         return 1
-    print("SELFTEST OK — mostly-rework and mostly-shipped both score as pre-registered.")
+    print("SELFTEST OK - mostly-rework and mostly-shipped both score as pre-registered.")
     return 0
 
 
