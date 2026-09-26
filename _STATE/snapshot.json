@@ -1,42 +1,31 @@
 {
-  "captured_at": "2026-09-26T06:12:00Z",
+  "captured_at": "2026-09-26T16:26:24Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "5ae8d0fb",
-    "head_message": "fix(kintsugi-seam): correct the falsified rule:null claim",
+    "head_sha": "bfd1a487",
     "branch": "claude/success-academy-ai-pm-5bf0d9",
-    "in_sync_with_origin": true,
-    "ahead_of_main": 33,
-    "behind_main": 57,
-    "note": "branch pushed; NOT merged to main. Eval suite landed on main separately via PR #509 (focused branch, not this one).",
+    "ahead_of_main": 34,
+    "behind_main": 78,
+    "note": "branch unchanged since v3.67.0 handoff; all net-new work landed on MAIN via focused branches (#526/#527/#528), each receipted. This branch holds the SA resume + gate-build history only.",
     "dirty_files": [
       "_INBOX/*",
       "_STATE/pulse.json",
-      "runtime/specs/knowledge-lattice-v1.json (drift-hook artifacts, not this session's work)"
+      "runtime/specs/knowledge-lattice-v1.json (hook artifacts)"
     ]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_status": "NOT re-checked this session",
-    "production_alias": "https://app.arcs.care",
-    "note": "no deploy performed this session"
+    "note": "success-academy.arcs.care verified live serving the conventional resume (146811 bytes) post-#527"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
-    "role": "arcs_app",
-    "note": "one decision_receipt row written (2026-09-26--slop-eval-suite-to-main--ZH); schema not otherwise touched"
+    "note": "4 decision_receipts written this session (slop-eval-suite, ui-kit-design-system, sa-site-conventional-resume, nftt-low-contrast-ratchet)"
   },
-  "env_vars_present": [
-    "AUTH_SECRET",
-    "AUTH_RESEND_KEY",
-    "DATABASE_URL",
-    "ANTHROPIC_API_KEY (per prior session; not re-verified today)"
-  ],
   "open_adrs": [
-    "ADR-82 slop-gate-oss-publish (on bundle branch, PROPOSED, write-lock gates npm publish)",
-    "ADR-83 ui-kit-atomic-ssot (on design-system branch, PROPOSED)"
+    "ADR-82 slop-gate publish (bundle branch, write-lock gates npm publish)",
+    "ADR-083 ui-kit atomic SSOT (LANDED on main #526)"
   ],
-  "session_summary": "Built a four-layer anti-slop + provenance eval CoE (slop_lint style+metrics, slop_eval judgment, provenance_lint factual, rubric); landed it on main (PR #509); de-slopped + fact-checked the Success Academy conventional resume (cut untraceable 40/75 claim, kept Zach-confirmed 850K, New York Metro, ATS-verified) + refreshed the call brief; forked the resume-tailor SSOT bundle (npm+Homebrew scaffold, ADR-82, publish gated) and the design-system ui-kit normalization (inventory 225 surfaces, src/ui-kit extraction, component_source_gate, brand profile incl. good.arcs.care NFTT globs, PoC, 7-wave plan, ADR-83); corrected a false rule:null claim in canon + to the peer; coordinated cross-session with the good.arcs.care thread (they wired slop_lint into nftt-gates.sh #510).",
-  "next_action": "USER-GATED queue: (1) review _PATTERNS/2026-09-26-ui-kit-migration-plan.md then land design-system branch -> main (unblocks ui-kit migrations + the peer's NFTT visual gate); (2) open bundle -> main PR (governance-first per ADR-82); (3) run the 4 gated npm publish commands (@arcs-care org + npm login); (4) token-canonicalization fork (_tokens.css vs DESIGN.md font stacks). Also: SEND the Success Academy resume to Brian (interview Tue 2026-09-30 3:30 PM EST).",
-  "blocking": "NONE (all remaining items are user-gated by design)"
+  "session_summary": "Anti-slop+provenance eval CoE + design-system ui-kit + NFTT low-contrast ratchet, all on main (#509/#526/#527/#528); SA conventional resume sent to Brian + served live on the site; resume-tailor SSOT bundle prepped+governed (ADR-82, publish gated); rule:null canon correction; good.arcs.care cross-session thread closed.",
+  "next_action": "USER-GATED: (1) npm publish @arcs-care/slop-gate (4 cmds, npm login); (2) bundle->main PR (ADR-82 governance-first); (3) token-canonicalization fork (_tokens.css vs DESIGN.md); (4) take-home-trap-dossier --dimmed contrast fix (peer follow-up). SA interview Tue 2026-09-30 3:30 PM EST (brief refreshed).",
+  "blocking": "NONE"
 }

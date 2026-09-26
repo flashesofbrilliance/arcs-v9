@@ -4290,3 +4290,40 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
 2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
 3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
    State-of-the-Union dashboard (source file still unidentified — get it first).
+
+# Handoff — v3.66.0 (2026-09-24)
+
+> **Success Academy AI PM engagement, end to end in one session** (worktree `success-academy-ai-pm-5bf0d9`).
+> Built + shipped an open candidate brief + a designed/ATS resume pair, hardened through counterpart-gauntlet
+> + dual-bar-raiser + impeccable, and sent the note to Brian. All live, honest, detector-clean. Full durable
+> record: memory `project_jarrod_wolf_success_academy`.
+
+## Shipped (live on prod, PRs #494-#504)
+- **success-academy.arcs.care** (open, noindex) - PM-first, discovery-led candidate brief: Ahmed-ordered
+  (verdict -> 0.91 pursue-score -> 3 reasons -> buyer Q&A -> resume), 720px column, tightened type, Vercel
+  analytics + section-dwell firing, security-clean. `/resume` viewer + PDF + ATS. Routed via `src/proxy.ts`
+  MULTI_PATH_MAP; domain added to arcs-v9 Vercel by Zach; registered in `.impeccable/config.json` as a
+  recoil-kit visual world (font/size/label exemptions per the jack-rain precedent).
+- **Vico-pair resume** (designed PDF + machine ATS via `resume_ats_render.py`) + call brief + note-to-Brian
+  in `_ARTIFACTS/forge-success-academy-ai-pm/` and `_STATE/job-search/`; mirrored to
+  `iCloud/ARCS/2026-09-24-success-academy/`.
+
+## The honesty catches (load-bearing lessons, banked to memory)
+- resume-tailor did NOT generate the bundle -> removed the "built by a tool" overclaim (built to its
+  checkability *standard*; the resume + page were hand-built).
+- The 0.91 is Zach's own target-role **PURSUE** rubric (rates how the role fits *him*), reframed as such -
+  NOT an objective candidate-fit score.
+- Anticipatory objection-handling was doing a disservice -> flipped to strength-forward Q&A; kept only the
+  one non-negotiable honesty (ARCS is solo) as "The Arc" fusion strength, not a confessed gap.
+- Metrics trace to Zach's vetted Vico/Amy masters, not the partial `record-of-record.txt` (a bar-raiser
+  "unsupported" flag against the partial extract was a false alarm - verify against the fuller masters).
+
+## Open (next session)
+- **Await Brian/Jarrod reply.** Note SENT 2026-09-24 ~13:45 EDT (short, one link, no ask - Brian's making
+  the intro). Jarrod on vacation the week of 2026-09-24 -> relaxed timeline: soft-nudge ~2026-10-08,
+  close-loop review ~2026-10-13. Don't read this-week silence as bad.
+- **Watch (ping-based):** on Zach's ping, check Gmail for Brian's reply + Vercel arcs-v9 analytics for
+  success-academy.arcs.care visits / page_dwell / section_dwell (ignore the 2026-09-24 build-test views).
+  Cloud routines can't reach the Gmail/Vercel MCPs; true unattended push needs those as claude.ai connectors.
+- **Confirm which req** maps to Brian's convo (listed "Leader, AI Product Manager" vs an adjacent level).
+- Memory deep-dedup (265 files, index over the ~17.4KB soft budget) remains a separate queued task.

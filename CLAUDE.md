@@ -114,43 +114,6 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.66.0 (2026-09-24)
-
-> **Success Academy AI PM engagement, end to end in one session** (worktree `success-academy-ai-pm-5bf0d9`).
-> Built + shipped an open candidate brief + a designed/ATS resume pair, hardened through counterpart-gauntlet
-> + dual-bar-raiser + impeccable, and sent the note to Brian. All live, honest, detector-clean. Full durable
-> record: memory `project_jarrod_wolf_success_academy`.
-
-## Shipped (live on prod, PRs #494-#504)
-- **success-academy.arcs.care** (open, noindex) - PM-first, discovery-led candidate brief: Ahmed-ordered
-  (verdict -> 0.91 pursue-score -> 3 reasons -> buyer Q&A -> resume), 720px column, tightened type, Vercel
-  analytics + section-dwell firing, security-clean. `/resume` viewer + PDF + ATS. Routed via `src/proxy.ts`
-  MULTI_PATH_MAP; domain added to arcs-v9 Vercel by Zach; registered in `.impeccable/config.json` as a
-  recoil-kit visual world (font/size/label exemptions per the jack-rain precedent).
-- **Vico-pair resume** (designed PDF + machine ATS via `resume_ats_render.py`) + call brief + note-to-Brian
-  in `_ARTIFACTS/forge-success-academy-ai-pm/` and `_STATE/job-search/`; mirrored to
-  `iCloud/ARCS/2026-09-24-success-academy/`.
-
-## The honesty catches (load-bearing lessons, banked to memory)
-- resume-tailor did NOT generate the bundle -> removed the "built by a tool" overclaim (built to its
-  checkability *standard*; the resume + page were hand-built).
-- The 0.91 is Zach's own target-role **PURSUE** rubric (rates how the role fits *him*), reframed as such -
-  NOT an objective candidate-fit score.
-- Anticipatory objection-handling was doing a disservice -> flipped to strength-forward Q&A; kept only the
-  one non-negotiable honesty (ARCS is solo) as "The Arc" fusion strength, not a confessed gap.
-- Metrics trace to Zach's vetted Vico/Amy masters, not the partial `record-of-record.txt` (a bar-raiser
-  "unsupported" flag against the partial extract was a false alarm - verify against the fuller masters).
-
-## Open (next session)
-- **Await Brian/Jarrod reply.** Note SENT 2026-09-24 ~13:45 EDT (short, one link, no ask - Brian's making
-  the intro). Jarrod on vacation the week of 2026-09-24 -> relaxed timeline: soft-nudge ~2026-10-08,
-  close-loop review ~2026-10-13. Don't read this-week silence as bad.
-- **Watch (ping-based):** on Zach's ping, check Gmail for Brian's reply + Vercel arcs-v9 analytics for
-  success-academy.arcs.care visits / page_dwell / section_dwell (ignore the 2026-09-24 build-test views).
-  Cloud routines can't reach the Gmail/Vercel MCPs; true unattended push needs those as claude.ai connectors.
-- **Confirm which req** maps to Brian's convo (listed "Leader, AI Product Manager" vs an adjacent level).
-- Memory deep-dedup (265 files, index over the ~17.4KB soft budget) remains a separate queued task.
-
 # Handoff — v3.67.0 (2026-09-26)
 
 > **Built a four-layer anti-slop + provenance eval CoE, landed it on main, dogfooded it on the Success
@@ -196,3 +159,48 @@ Anthropic over stdlib urllib, no dep), `scripts/provenance_lint.py` (every metri
 good.arcs.care peer ("Build cold-reconstruction incident report") wired slop_lint into `nftt-gates.sh` (#510); waiting on
 the design-system branch landing on main to re-run the brand profile + add the detector step. ADR-82 (Track-B) vs ADR-83
 (design-system) resolved a same-number oracle collision; reconcile `_oracle.json` at merge time (normal).
+
+# Handoff — v3.68.0 (2026-09-26)
+
+> **Landed the design-system + two follow-ons on main and CLOSED the good.arcs.care cross-session thread.**
+> Continues v3.67.0. This branch (`claude/success-academy-ai-pm-5bf0d9`) is unchanged at `bfd1a487`; all net-new
+> work landed on **main** via focused branches (the eval-suite pattern), each receipted. Four main PRs this
+> session: #509 (eval suite), #526 (design-system), #527 (site resume swap), #528 (low-contrast ratchet).
+
+## Landed on main since v3.67.0
+- **#526 design-system ui-kit** (`8595ed3e`): `src/ui-kit` atomic SSOT + `templates.json` (template<->slop-`--mode`)
+  + `scripts/component_source_gate.py` + impeccable **brand profile** (recoil-report + good.arcs.care NFTT globs)
+  + **ADR-083** + `_PATTERNS/2026-09-26-ui-kit-migration-plan.md` (7 waves). Re-synced to a moving main twice
+  (deduped-union config, kept main's `--dim:#748699` + notomation post). Receipt `2026-09-26--ui-kit-design-system-to-main--ZH`.
+- **#527 site resume swap** (`7df70b2f`): success-academy.arcs.care `/resume` + PDF + ATS now serve the CONVENTIONAL
+  resume Zach emailed Brian (146811 bytes, New York Metro, **verified live**); the designed Vico resume is no longer
+  served anywhere. Receipt `2026-09-26--sa-site-serve-conventional-resume--ZH`.
+- **#528 NFTT low-contrast ratchet** (`12a50cb0`): `scripts/nftt_contrast_ratchet.py` + `_STATE/nftt-contrast-baseline.json`
+  (240 findings frozen as a labeled DEFERRAL). Honest middle (Zach call C): runs the detector `--no-config` so it's
+  independent of the config exemption + the kintsugi total-count ratchet; FAILS only on NEW low-contrast above baseline;
+  self-tested. Receipt `2026-09-26--nftt-low-contrast-ratchet-to-main--ZH`.
+
+## rule:null correction (banked)
+I asserted twice (kintsugi seam + to the peer) that impeccable findings carry `rule:null` so config exemptions can't
+apply. FALSE — they key under `antipattern`; exemptions work (proven A/B, 120->76). Corrected the seam (`5ae8d0fb`) +
+re-notified the peer. Lesson: A/B-test an exemption mechanism before declaring it broken (verify-don't-assert, the
+other direction — I called a working control broken).
+
+## good.arcs.care thread: CLOSED
+Peer wired `slop_lint` into `nftt-gates.sh` (#510); brand profile + contrast ratchet now on main with the exact
+invocation relayed (`python3 scripts/nftt_contrast_ratchet.py <file>`; `--no-config`; `--update-baseline` to re-snapshot).
+Peer to wire the detector step + re-arm. **artifact-vs-real settled:** the 3 named posts are white-bg detector artifacts
+(+ `#000000`-on-dark are artifacts too, no literal `color:#000` in markup); the only genuine debt is `--dimmed #64748b`
+on `#161b22` = 3.63:1, concentrated on `take-home-trap-dossier` (peer filing a fix task; fixing + `--update-baseline`
+drops it from the ratchet). Sampling-before-freezing kept a genuine-debt exemption from shipping as a silent clean bill.
+
+## Open (USER-GATED; nothing fires without Zach)
+1. **npm publish `@arcs-care/slop-gate`** — 4 gated cmds (create `@arcs-care` org + npm login, remove `private`, `build.sh`,
+   `npm publish --access public`). Governed by **ADR-82** write-lock. Bundle branch `claude/slop-gate-consolidate-dist-a34d1c` (pushed).
+2. **Bundle -> main PR** (governance-first per ADR-82) if landing the bundle before/with publish.
+3. **Token-canonicalization fork** — `_tokens.css` (Geist/Instrument) vs `DESIGN.md` (Inter/JetBrains): the root divergence.
+4. **`take-home-trap-dossier` `--dimmed` contrast fix** — the peer's follow-up (real sub-4.5:1 debt).
+
+## SA engagement
+Conventional resume SENT to Brian for Jarrod; **interview Tue 2026-09-30 3:30 PM EST**; site serves the same resume;
+call brief refreshed (PM-first, discovery-led, 3 loaded answers). Memory: `project_jarrod_wolf_success_academy`.
