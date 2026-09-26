@@ -219,9 +219,11 @@ applied to the tool by the sibling session that measured before asserting).
 - Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
 
 ## Open (next session)
-1. **Close the loop after Joe × Lyndon (3 PM EST Thu 2026-09-24).** Reminder ARMED via `send_later`
-   (`trig_01FS48pXd5V6vbPne6E7p8KB`, fires 20:30 UTC / 4:30 PM EST): did Lyndon reach vico.arcs.care or
-   only Joe's paraphrase (message-drift lever)? Score the 5 beats; plan follow-up.
+1. **Joe sync moved to Tue 2026-09-30** (the Thu 2026-09-24 Lyndon call did not land as scheduled; reminder
+   was CANCELLED per Zach — he pings after). Prep + close-loop when it happens: did Lyndon reach
+   vico.arcs.care or only Joe's paraphrase (message-drift lever)? Score the 5 beats (role fit /
+   regulated-industries / federal / honest gaps / self-scoring style); plan follow-up. Vico family is
+   shipped + prod-verified (memo/resume/ammo VP-free, gravity leaks closed); nothing to rebuild pre-call.
 2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
 3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
    State-of-the-Union dashboard (source file still unidentified — get it first).

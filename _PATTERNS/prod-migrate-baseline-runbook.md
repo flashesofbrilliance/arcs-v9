@@ -24,13 +24,18 @@ Postgres-native, 1 is a legacy SQLite `PRAGMA` rebuild (harmless — see below).
    The wrapper runs `migrate deploy` ONLY when `VERCEL_ENV=production`, so previews never migrate
    prod. Forward-only; fails the deploy loud if a migration cannot apply (the guard).
 
-3. **CI drift gate (frustration-gate).** Add a check that fails when `schema.prisma` has changes not
-   captured in a migration, so "edited schema, forgot the migration" can't merge. Needs a shadow DB:
+3. **CI drift gate (frustration-gate) — BUILT 2026-09-24.** `schema-has-migration` job in
+   `.github/workflows/preview-db-migrate.yml` (PRs touching `prisma/**`). Compares the PR's
+   schema.prisma datamodel to the base branch's; when they differ it requires a new
+   `prisma/migrations/*/migration.sql` in the PR, else fails loud. Catches "edited schema, forgot the
+   migration" (the batonId-class drift). It compares SCHEMAS, not migrations:
    ```bash
-   npx prisma migrate diff --from-migrations prisma/migrations \
-     --to-schema-datamodel prisma/schema.prisma --shadow-database-url "$SHADOW_DB" --exit-code
+   npx prisma migrate diff --from-schema <base>.prisma --to-schema prisma/schema.prisma --exit-code
    ```
-   Non-zero exit = uncaptured drift. Wire into the always-run path (`npm test` / a CI job).
+   `--from-migrations` is deliberately NOT used: prisma/migrations still holds April SQLite-dialect
+   entries (`migration_lock.toml` = sqlite) that fail replaying from zero (P3019 — KNOWN DEBT in the
+   workflow header). Comment/format-only schema edits do not trip it (datamodel-equal → pass).
+   Verified fail-on-bad / pass-on-good locally before shipping.
 
 ## Guardrails (from the ticket)
 - Never `--accept-data-loss`. A destructive diff must fail loud and go to a human.

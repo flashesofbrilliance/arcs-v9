@@ -386,3 +386,72 @@ stays honest. This surfaced a **new, separate** debt: `public/blog-nftt-take-hom
 FALSE-BLOCKED (HEAD read as "no findings"). Fixed to use a `.html` temp so the ratchet actually
 compares. Root-caused when this NFTT --dim fix tripped it on `a-draft-is-not-a-verb` (HEAD really
 had 19 findings; my change took it to 7, a net improvement that had been mis-reported as a new block).
+
+## 2026-09-26 · take-home-trap contrast audit — CORRECTION: not real debt, detector artifact
+
+Audited the 25 `low-contrast` findings on `public/blog-nftt-take-home-trap.html` that the P3 entry
+above flagged as "genuine debt, booked as a follow-up." **That characterization was wrong.** All 25 are
+a detector false-positive, not a real contrast problem:
+
+- The `.vector` threat-vector card uses `background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg))`.
+  The detector composites that translucent pink stop over **white**, yielding exactly `#fff6f8`
+  (255, 255*.95+77*.05=246, 255*.95+109*.05=248) and reporting dark-theme text at ~1.1:1.
+- Composited over the **actual** page (`--bg #020408`) the gradient renders `#0f080d` (near-black), where
+  body text `#e7ecf3` is **16.7:1** and `#00f0ff` is **14.1:1** — far above AA. The `#ffffff` findings are
+  the same class: transparent elements the detector backs with white instead of the dark page.
+- Confirmed there is **no light background anywhere** in the file (only the dark palette + translucent
+  overlays); the light bg is entirely detector-inferred.
+
+**Verdict:** nothing to fix. This is a general "translucent-layer-over-dark composited over white" detector
+limitation, not page debt. Recommend a scoped `low-contrast` ignore for this file (and any dark page using
+a translucent gradient/overlay callout) with this reason, rather than leaving 25 false positives as noise
+that would mask a future *real* regression. Deferred the suppression to an explicit call since low-contrast
+is deliberately kept out of the family glob to stay honest.
+
+## 2026-09-26 · audit: tiny-text / cramped-padding / theater-slop-phrase (NFTT family)
+
+Audited the three residual classes flagged after the low-contrast audit. Each judged on merits:
+
+- **cramped-padding** (7x on take-home-trap-dossier `.twrap`): FALSE POSITIVE. `.twrap` is a
+  horizontal-scroll wrapper around a bordered table; table cells carry `td{padding:11px 14px}`, so
+  content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as
+  cramped. → scoped ignore, family glob.
+- **tiny-text** (11px on recon-reports/receipts/tuning): FALSE POSITIVE. The flagged 11px is mono
+  CHROME (`.rsec-tag`, `.rsec-conf`, `.confnum`, `.keys` = section tags, meta lines, legends), not
+  reading body. The one GENUINE case, loop-hud `.honest` (a 10px explanatory sentence), was FIXED to
+  11px, not suppressed. → scoped ignore, family glob (the standard template notomation never triggers
+  it; only richer/data pages do).
+- **theater-slop-phrase** ("green theater" x3, recon-reports): BORDERLINE, LEFT VISIBLE. "green
+  theater" (cf. "security theater") is a substantive analytical term, but this is a WRITING-slop
+  signal on agent-generated recon output, and config-hiding a writing signal would defeat the slop
+  system's purpose. Not suppressed; the recon-reports ratchet-WARN. Not reworded either (they are
+  historical reconstruction artifacts; editing their content would alter a record).
+
+Result: dossier -> 0, loop-hud tiny-text cleared; recon-reports carry only the intentional
+theater-slop flag. Non-NFTT pages still get tiny-text/cramped-padding checks (wing.html tiny-text 2).
+Not audited (separate classes, left as-is): loop-hud `gpt-thin-border-wide-shadow`, index
+`gradient-text`/`dark-glow`/`overused-font`.
+
+## 2026-09-26 · sweep: last residual classes — audited, deliberately NOT suppressed
+
+Swept the final residual findings on the AUXILIARY NFTT pages (index, the post-1 exec/brief
+90-second variant renders, loop-hud) — not the literary posts, which are clean. Unlike the earlier
+three classes (translucent-over-white low-contrast, chrome-as-body, table-in-scroll cramped-padding),
+these are NOT detector bugs. The detector is correctly naming real "AI-tell" design choices:
+
+- `gradient-text` (index `.g`, one cyan->green accent word): intentional brand accent; gradient text
+  is nonetheless the most cliche AI tell.
+- `dark-glow` (index green halo x3): the ARCS brand glow, already an accepted class for the jack-rain
+  files.
+- `overused-font` (Inter, primary on index + post-1-exec/brief): functional sans on non-literary
+  summary pages; mild inconsistency vs the literary Newsreader.
+- `gpt-thin-border-wide-shadow` (loop-hud `0 14px 34px -22px`): actually a tight elevated-card shadow
+  (negative spread), mechanically caught by the 1px-border + wide-blur heuristic.
+- `theater-slop-phrase` (recon-reports): already audited — a real writing-slop signal on generated
+  output, left visible.
+
+**Decision (Zach, "leave them"):** do NOT config-suppress these. They are real signals, not false
+positives; silencing them to force a green gate would be gate-gaming, the exact thing the slop system
+exists to prevent. They ratchet/WARN and never block, so leaving them is zero-cost. No redesign either
+(taste choices on his own auxiliary pages). If a future session sees these findings, this is the
+record: audited, defensible, intentionally left — not an oversight, do not suppress.
