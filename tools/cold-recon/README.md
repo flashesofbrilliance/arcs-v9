@@ -99,6 +99,18 @@ it. `gather --redact` / `--redact-file` scrub at the source, so the cold agent n
 the PII. Verify the public artifact with the same grep used at publish
 (`lycett|riskpod|fun\.xyz|robert|zach|@gmail`, case-insensitive) — it must come back clean.
 
+**Doubled-article seam (map whole phrases, not tokens).** A token-shaped replacement can
+strand a doubled article: the prose `a Fun.xyz Senior PMM candidate bundle` with
+`--redact 'Fun.xyz Senior PMM=a candidate role'` becomes `a a candidate role candidate
+bundle` — PII-clean but ungrammatical. `render` collapses the doubled **article** (`a`/`an`/
+`the`) at the seam automatically, so that output reads `a candidate role candidate bundle`.
+Article-only collapse is deliberate (it never touches a legitimate `had had` / `that that`).
+It does **not** repair a non-adjacent repeat left by a phrase-shaped map (`… role candidate
+…`) — for that, map the **whole noun phrase including its article**:
+`--redact 'a Fun.xyz Senior PMM candidate bundle=a candidate bundle'` → `a candidate bundle`.
+Both behaviors are proven in `selftest` (fails-on-bad = the doubled article; passes-on-good =
+the collapsed seam and the clean whole-phrase map).
+
 ### Coldness is enforced structurally
 
 `gather` only ever touches **git history and tracked files**. It never reads a conversation

@@ -185,6 +185,28 @@ def apply_redactions(text, reds):
     return text
 
 
+# A token-by-token redaction can strand a doubled article at the seam: the source
+# "a Fun.xyz Senior PMM candidate bundle" with {Fun.xyz Senior PMM -> "a candidate role"}
+# renders "a a candidate role ...". Longest-match-first does not prevent this -- the leading
+# article is already in the prose, and the replacement re-introduces one. So after redaction
+# we collapse an immediately-repeated ARTICLE (a / an / the), case-insensitively, keeping the
+# first. Article-only is deliberate: "a a" / "the the" is never grammatical English, so this
+# has effectively zero false positives, unlike a blanket repeated-word collapse (which would
+# eat the legitimate "had had" / "that that"). A NON-adjacent repeat left by a phrase-shaped
+# redaction (".. candidate role candidate bundle") is a redaction-MAP design issue, not a seam
+# a mechanical pass can safely fix: map the whole noun phrase incl. its article instead
+# ("a Fun.xyz Senior PMM candidate bundle" -> "a candidate bundle"). See README + selftest.
+_DUP_ARTICLE_RE = re.compile(r"\b(a|an|the)(\s+)\1\b", re.IGNORECASE)
+
+
+def collapse_redaction_artifacts(text):
+    prev = None
+    while prev != text:  # loop dissolves chains, e.g. "the the the" -> "the"
+        prev = text
+        text = _DUP_ARTICLE_RE.sub(lambda m: m.group(1), text)
+    return text
+
+
 # ----------------------------------------------------------------- schema validate
 def _type_ok(val, typ):
     return {
@@ -542,11 +564,12 @@ def cmd_render(args):
         "forward": fwd_html,
         "notice": _esc(recon.get("notice", "Cold reconstruction. Built by a zero-transcript agent from the committed record alone.")),
     }
-    # Redact PII (opt-in, for the public artifact), THEN normalize dashes (always, so
-    # the output is em-dash-0 by construction and clears scripts/artifact_wrap_lint.py).
+    # Redact PII (opt-in, for the public artifact), collapse any doubled-article seam the
+    # redaction left, THEN normalize dashes (always, so the output is em-dash-0 by
+    # construction and clears scripts/artifact_wrap_lint.py).
     reds = load_redactions(getattr(args, "redact", None), getattr(args, "redact_file", None))
     if reds:
-        page = apply_redactions(page, reds)
+        page = collapse_redaction_artifacts(apply_redactions(page, reds))
     page = normalize_dashes(page)
     write_out(page, args.out, is_html=True)
 
@@ -726,6 +749,43 @@ def cmd_selftest(args):
                    "grep found %d PII token(s)" % len(bad_hits)))
     checks.append(("redaction passes-on-good (--redact -> PII grep clean)", len(good_hits) == 0,
                    "0 PII tokens" if not good_hits else "leaked: %s" % sorted(set(good_hits))))
+
+    # ---- GAP 3: doubled-article collapse at the redaction seam ----------------
+    # The live warm-relaxed report hit this: "a Fun.xyz Senior PMM candidate bundle" with
+    # {Fun.xyz Senior PMM -> "a candidate role"} rendered "a a candidate role candidate
+    # bundle" -- PII-clean but ungrammatical (doubled article + a stranded repeat).
+    seam_recon = {
+        "range": "A~1..B", "repo": "arcs-v9",
+        "title": "Seam fixture", "root_invariant": "the record either carries it or it leaked",
+        "standfirst": "Reviewed a Fun.xyz Senior PMM candidate bundle this week.",
+        "sections": [{"tag": "What happened", "heading": "Review",
+                      "body": "We shipped a Fun.xyz Senior PMM candidate bundle.",
+                      "confidence": 0.8}],
+        "could_not_verify": ["none"], "forward_items": ["none"],
+    }
+    dup_art = re.compile(r"\b(a|an|the)\s+\1\b", re.IGNORECASE)
+    # fails-on-bad: token-by-token map re-introduces the article -> raw redaction doubles it.
+    raw_tokenwise = apply_redactions(json.dumps(seam_recon),
+                                     load_redactions(["Fun.xyz Senior PMM=a candidate role"], None))
+    checks.append(("collapse fails-on-bad (token-wise redaction doubles the article)",
+                   bool(dup_art.search(raw_tokenwise)),
+                   "found doubled article pre-collapse" if dup_art.search(raw_tokenwise)
+                   else "NO DOUBLED ARTICLE IN FIXTURE"))
+    # passes-on-good #1: rendering with that same token-wise map now collapses the seam.
+    seam_html = _render_to_str(seam_recon, redact=["Fun.xyz Senior PMM=a candidate role"])
+    checks.append(("collapse passes-on-good (rendered report has no doubled article)",
+                   not dup_art.search(seam_html),
+                   "no doubled article" if not dup_art.search(seam_html) else "doubled article survived"))
+    # passes-on-good #2: the RECOMMENDED whole-phrase map (article included) leaves no repeat
+    # at all -- neither a doubled article nor the stranded "candidate .. candidate".
+    phrase_html = _render_to_str(seam_recon,
+                                 redact=["a Fun.xyz Senior PMM candidate bundle=a candidate bundle"])
+    no_stray_repeat = (not dup_art.search(phrase_html)
+                       and phrase_html.lower().count("candidate bundle") >= 1
+                       and "candidate role candidate" not in phrase_html.lower())
+    checks.append(("collapse passes-on-good (whole-phrase map leaves no repeat)",
+                   no_stray_repeat,
+                   "clean phrase" if no_stray_repeat else "phrase still repeats a word"))
 
     # ---- report --------------------------------------------------------------
     ok_all = all(ok for _, ok, _ in checks)
