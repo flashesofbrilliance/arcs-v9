@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARCS — Belief-Change Log</title>
+<meta name="description" content="A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* Mirrors the status.arcs.care design system (canonical ARCS tokens + fonts).
+     GENERATED — do not hand-edit. Source: scripts/belief_log_public_template.html
+     rendered by scripts/belief_log_emit.py --public. This is the PUBLIC projection:
+     only the shape of the ledger (id/scope/date/canon) is embedded — never the
+     internal claim/test/delta/fix/refs prose. */
+  :root {
+    --bg: #020408; --surface: #0d1117; --surface2: #111820; --border: #1e293b;
+    --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
+    --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+    --violet: #a78bfa; --magenta: #FF6EC7; --blue: #5B8DEF;
+    --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
+    --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+    --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    --track-wide: 0.04em; --track-wider: 0.08em; --track-widest: 0.14em;
+    --glow-gold: 0 0 8px rgba(255,215,0,.5);
+    color-scheme: dark;
+  }
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans);
+    padding: 56px 24px 80px; line-height: 1.55; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: var(--cyan); text-decoration: none; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
+    text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 9px; margin-bottom: 18px; }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em;
+    text-wrap: balance; margin-bottom: 20px; }
+  h1 .em { color: var(--cyan); }
+  .lede { font-size: clamp(15px, 2vw, 19px); color: var(--muted); max-width: 62ch;
+    text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 14px; }
+  .lede b { color: var(--text); font-weight: 600; }
+  .honesty { font-size: 14px; color: var(--dimmed); max-width: 62ch; text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 34px; }
+  .honesty b { color: var(--steel); font-weight: 600; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; margin-bottom: 44px; }
+  .stat { background: var(--surface); padding: 18px 20px; }
+  .stat-val { font-family: var(--mono); font-size: 28px; font-weight: 800; color: var(--text);
+    font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.01em; }
+  .stat-val.accent { color: var(--cyan); }
+  .stat-val small { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .stat-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; color: var(--dimmed); margin-top: 9px; line-height: 1.4; }
+
+  .section-label { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
+    text-transform: uppercase; color: var(--dimmed); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  .ribbon-shell { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);
+    padding: 22px 20px 14px; margin-bottom: 16px; overflow-x: auto; }
+  .ribbon { position: relative; min-width: 640px; }
+  .grid-overlay { position: absolute; left: 92px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
+  .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #0f1720; }
+  .lane { position: relative; height: 31px; border-top: 1px dashed #0e1622; }
+  .lane:first-child { border-top: none; }
+  .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; width: 82px; }
+  .lane-track { position: absolute; left: 92px; right: 8px; top: 0; bottom: 0; }
+  .node { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%;
+    transform: translate(-50%,-50%); cursor: default; transition: transform .12s ease;
+    box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
+  .node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid transparent; }
+  .node.canon::after { border-color: var(--gold); box-shadow: var(--glow-gold); }
+  .node.recent { animation: pulse 2.4s ease-in-out infinite; }
+  .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 6px currentColor; }
+    50% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 16px currentColor, 0 0 26px currentColor; } }
+  .axis { position: relative; height: 20px; margin: 8px 8px 0 92px; }
+  .tick { position: absolute; top: 0; font-family: var(--mono); font-size: 10px; color: var(--faint); transform: translateX(-50%); }
+  .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
+
+  .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
+    background: #060b13; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 11px;
+    font-family: var(--mono); box-shadow: 0 12px 30px rgba(0,0,0,.6); }
+  .tip .tid { font-size: 12px; font-weight: 700; }
+  .tip .tmeta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 44px; }
+  .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .legend .li .d { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 7px currentColor; }
+  .legend .li.meta { color: var(--dimmed); }
+  .legend .ring { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); box-shadow: var(--glow-gold); }
+
+  .method { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 40px; }
+  .m-card { border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: var(--r-md);
+    background: var(--surface); padding: 18px 20px; }
+  .m-card h3 { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
+  .m-card.gold { border-left-color: var(--gold); }
+  .m-card.gold h3 { color: var(--gold); }
+  .m-card.red { border-left-color: var(--red); }
+  .m-card.red h3 { color: var(--red); }
+  .m-card p { font-size: 14px; color: var(--muted); }
+
+  footer { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center;
+    font-family: var(--mono); font-size: 12px; color: var(--dimmed); }
+  footer .links { display: flex; gap: 18px; margin-left: auto; }
+
+  @media (prefers-reduced-motion: reduce) { .node.recent { animation: none; } *{ transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow"><span class="dot"></span>ARCS · BELIEF-CHANGE LOG</div>
+  <h1>Every belief we changed our mind about, <span class="em">on the record</span>.</h1>
+  <p class="lede">A falsification ledger. Each entry is a belief we held, the <b>test</b> that overturned it, and what <b>replaced</b> it. The same discipline that grades a decision after the fact, turned on our own reasoning — and the corrections are kept, not quietly edited out.</p>
+  <p class="honesty">What's public here is the <b>shape</b> of the record: how often we've been wrong, the cadence, which domains, and which reversals hardened into doctrine. The internal specifics of each call stay internal — the discipline is the point, not the disclosure.</p>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="section-label">The drift — every reversal, plotted in time</div>
+  <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
+  <div class="legend" id="legend"></div>
+
+  <div class="section-label">How to read this</div>
+  <div class="method">
+    <div class="m-card red"><h3>A belief that lost</h3><p>Every dot is a claim we once held that met a concrete, runnable test — and failed it. No dot is a guess we're still defending.</p></div>
+    <div class="m-card gold"><h3>The gold seam</h3><p>A gold ring marks a reversal that hardened into doctrine — the break repaired in gold, kept visible rather than sanded over. Kintsugi.</p></div>
+    <div class="m-card"><h3>The shape gains resolution</h3><p>The record only sharpens: each reversal narrows what we believe, and the ledger is one source of truth, never re-summarized into something softer.</p></div>
+  </div>
+
+  <footer>
+    <span>The shape of a self-correcting record.</span>
+    <span class="links">
+      <a href="https://status.arcs.care/">← full status</a>
+      <a href="https://app.arcs.care">app.arcs.care</a>
+      <a href="https://arcs.care/trust">trust</a>
+    </span>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script id="data" type="application/json">/*BELIEF_DATA*/</script>
+<script>
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const SCOPE = { canon:"#00F0FF", gauntlet:"#FFC24B", infra:"#5B8DEF", process:"#00FF9D", deploy:"#FF6EC7", security:"#FF4D6D", recoil:"#A78BFA" };
+  const asDate = s => new Date(s + "T00:00:00Z");
+  const min = asDate(DATA[0].ts), max = asDate(DATA[DATA.length-1].ts);
+  const span = (max - min) || 1;
+  const weekFloor = new Date(max.getTime() - 6*864e5);
+  const isRecent = ts => asDate(ts) >= weekFloor;
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  const byScope = {};
+  DATA.forEach(d => byScope[d.scope] = (byScope[d.scope]||0)+1);
+  const topScopes = Object.entries(byScope).sort((a,b)=>b[1]-a[1]);
+  const canonN = DATA.filter(d=>d.canon).length;
+  const monthsSpan = Math.max(1, Math.round((max-min)/2.63e9));
+  const fmt = d => `${MON[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  document.getElementById("stats").innerHTML = [
+    [`<span class="accent">${DATA.length}</span>`, "Beliefs overturned · on the record"],
+    [`${canonN}<small> / ${DATA.length}</small>`, "Hardened into doctrine"],
+    [`${topScopes.length}`, "Domains touched"],
+    [`${fmt(min)}<small> → ${fmt(max)}</small>`, `Span · ~${(DATA.length/monthsSpan).toFixed(1)}/mo`],
+  ].map(([v,l]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join("");
+
+  const ribbon = document.getElementById("ribbon");
+  const overlay = document.createElement("div"); overlay.className = "grid-overlay"; ribbon.appendChild(overlay);
+  topScopes.forEach(([scope]) => {
+    const c = SCOPE[scope] || "#94a3b8";
+    const lane = document.createElement("div"); lane.className = "lane";
+    lane.innerHTML = `<span class="lane-name" style="color:${c}">${scope}</span><div class="lane-track"></div>`;
+    const track = lane.querySelector(".lane-track");
+    DATA.filter(d=>d.scope===scope).forEach(d => {
+      const n = document.createElement("div");
+      n.className = "node" + (d.canon?" canon":"") + (isRecent(d.ts)?" recent":"");
+      n.style.left = (((asDate(d.ts)-min)/span)*100) + "%"; n.style.color = c; n.style.background = c;
+      n.tabIndex = 0; n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
+      track.appendChild(n);
+    });
+    ribbon.appendChild(lane);
+  });
+  const axis = document.getElementById("axis");
+  let cur = new Date(Date.UTC(min.getUTCFullYear(), min.getUTCMonth(), 1));
+  while (cur <= max) {
+    const p = Math.max(0, Math.min(100, ((cur-min)/span)*100));
+    const t = document.createElement("div"); t.className = "tick"; t.style.left = p + "%";
+    t.textContent = MON[cur.getUTCMonth()] + " " + String(cur.getUTCFullYear()).slice(2);
+    axis.appendChild(t);
+    const g = document.createElement("div"); g.className = "grid-line"; g.style.left = p + "%"; overlay.appendChild(g);
+    cur = new Date(Date.UTC(cur.getUTCFullYear(), cur.getUTCMonth()+1, 1));
+  }
+
+  const tip = document.getElementById("tip");
+  function showTip(e){
+    const el = e.currentTarget;
+    tip.innerHTML = `<div class="tid" style="color:${el.style.color}">${el.dataset.id}</div><div class="tmeta">${el.dataset.scope} · ${el.dataset.ts}</div>`;
+    tip.style.opacity = "1";
+    const r = el.getBoundingClientRect();
+    let x = Math.max(10, Math.min(window.innerWidth - 160, r.left + r.width/2 - 70));
+    let y = r.top - 12 - tip.offsetHeight; if (y < 8) y = r.bottom + 12;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  function hideTip(){ tip.style.opacity = "0"; }
+  ribbon.querySelectorAll(".node").forEach(n => {
+    n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
+    n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
+  });
+
+  document.getElementById("legend").innerHTML =
+    topScopes.map(([s,n]) => `<span class="li"><span class="d" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${s} · ${n}</span>`).join("") +
+    `<span class="li meta"><span class="ring"></span>hardened into doctrine</span>` +
+    `<span class="li meta">◦ pulse = this week</span>`;
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

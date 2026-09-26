@@ -1,0 +1,273 @@
+<title>Belief-Change Log</title>
+<meta name="description" content="The ARCS corpus record of every belief overturned — what we held, the test that broke it, and what replaced it." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<style>
+  /* ARCS observatory — deliberately single-world dark (WORLD.md). Every color
+     is painted explicitly so the page holds on any host ground.
+     GENERATED FILE — do not hand-edit. Source: scripts/belief_log_template.html
+     + _STATE/falsification-ledger.jsonl, via scripts/belief_log_emit.py. */
+  :root {
+    --ground: #04070d; --fog: #070c14; --panel: #0b111b; --panel-2: #0e1622;
+    --line: #1a2534; --line-soft: #131c28;
+    --text: #dfe7f0; --muted: #7688a0; --dim: #47566a;
+    --canon: #00F0FF; --gauntlet: #FFC24B; --infra: #5B8DEF; --process: #00FF9D;
+    --deploy: #FF6EC7; --security: #FF4D6D; --recoil: #A78BFA; --gold: #FFD700; --red: #FF4D6D;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 78% -8%, rgba(0,240,255,.05), transparent 60%),
+      radial-gradient(900px 600px at 6% 4%, rgba(167,139,250,.045), transparent 55%),
+      var(--ground);
+    color: var(--text);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* house pattern (chan/status/wing): body never scrolls sideways */
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 40px) 80px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--canon); margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, var(--canon), transparent); }
+  h1 { font-size: clamp(30px, 5.5vw, 52px); line-height: 1.02; margin: 0 0 18px; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  .thesis { font-size: clamp(15px, 1.9vw, 18px); color: var(--muted); max-width: 60ch; margin: 0 0 30px;
+    text-wrap: pretty; overflow-wrap: break-word; } /* widow control + long tokens wrap, never overflow */
+  .thesis b { color: var(--text); font-weight: 500; overflow-wrap: anywhere; }
+
+  .readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-bottom: 44px; }
+  .stat { background: var(--panel); padding: 16px 18px; }
+  .stat .k { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin: 0 0 8px; }
+  .stat .v { font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat .v small { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+  .section-label { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim); display: flex; align-items: center; gap: 12px; margin: 0 0 20px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .ribbon-shell { border: 1px solid var(--line); border-radius: 14px;
+    background: linear-gradient(180deg, var(--panel-2), var(--panel)); padding: 20px 20px 14px; margin-bottom: 16px; overflow-x: auto; }
+  .ribbon { position: relative; min-width: 620px; }
+  .lane { position: relative; height: 30px; border-top: 1px dashed var(--line-soft); }
+  .lane:first-child { border-top: none; }
+  .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; width: 74px; }
+  .lane-track { position: absolute; left: 84px; right: 8px; top: 0; bottom: 0; }
+  .node { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%;
+    transform: translate(-50%, -50%); cursor: default; transition: transform .12s ease;
+    box-shadow: 0 0 0 1px rgba(4,7,13,.9), 0 0 9px currentColor; }
+  .node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid transparent; }
+  .node.canon::after { border-color: var(--gold); box-shadow: 0 0 8px rgba(255,215,0,.55); }
+  .node.recent { animation: pulse 2.4s ease-in-out infinite; }
+  .node:hover, .node:focus { transform: translate(-50%, -50%) scale(1.55); outline: none; z-index: 5; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(4,7,13,.9), 0 0 6px currentColor; }
+    50% { box-shadow: 0 0 0 1px rgba(4,7,13,.9), 0 0 16px currentColor, 0 0 26px currentColor; } }
+  .axis { position: relative; height: 20px; margin: 8px 8px 0 84px; }
+  .grid-overlay { position: absolute; left: 84px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
+  .tick { position: absolute; top: 0; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--dim); transform: translateX(-50%); }
+  .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--line); }
+  .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-soft); }
+
+  .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
+    background: #060b13; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; max-width: 300px; box-shadow: 0 12px 30px rgba(0,0,0,.6); }
+  .tip .tid { font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600; }
+  .tip .tclaim { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 46px; padding-left: 2px; }
+  .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+  .legend .dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 7px currentColor; }
+  .legend .li.meta { color: var(--dim); }
+  .legend .ring { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); box-shadow: 0 0 6px rgba(255,215,0,.5); }
+
+  .spotlight { display: grid; gap: 14px; margin-bottom: 48px; }
+  .card { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 20px 22px; position: relative; overflow: hidden; }
+  .card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--sc, var(--muted)); }
+  .card.gold { box-shadow: inset 0 0 0 1px rgba(255,215,0,.14); }
+  .card-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card-id { font-family: "IBM Plex Mono", monospace; font-size: 19px; font-weight: 600; color: var(--text); }
+  .chip { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; border: 1px solid var(--sc, var(--muted)); color: var(--sc, var(--muted)); }
+  .card-date { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--dim); margin-left: auto; font-variant-numeric: tabular-nums; }
+  .canon-tag { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(255,215,0,.4); border-radius: 999px; padding: 3px 8px; }
+  .row { display: grid; grid-template-columns: 76px 1fr; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+  .row:first-of-type { border-top: none; }
+  .row .rl { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding-top: 2px; }
+  .row .rv { font-size: 14.5px; color: var(--text); }
+  .row.held .rv { color: var(--muted); }
+  .row.broke .rl { color: var(--red); }
+  .row.broke .rv { color: #ffd7de; }
+  .row.now .rl { color: var(--process); }
+  .refs { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); word-break: break-word; }
+
+  .month { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; }
+  .month .n { color: var(--dim); }
+  .lg { display: grid; gap: 8px; }
+  .le { display: grid; grid-template-columns: 54px 96px 1fr; gap: 14px; align-items: start;
+    border: 1px solid var(--line-soft); border-left: 3px solid var(--sc, var(--muted)); border-radius: 9px; background: var(--panel); padding: 13px 16px; }
+  .le .lid { font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; color: var(--text); }
+  .le .lid .cn { display: block; font-size: 9px; letter-spacing: .1em; color: var(--gold); margin-top: 3px; }
+  .le .lmeta { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+  .le .lmeta .ld { color: var(--dim); font-variant-numeric: tabular-nums; }
+  .le .lmeta .ls { display: block; margin-top: 4px; color: var(--sc, var(--muted)); letter-spacing: .06em; text-transform: uppercase; }
+  .le .lbody .bc { font-size: 14px; color: var(--muted); }
+  .le .lbody .bf { font-size: 14px; color: var(--text); margin-top: 4px; }
+  .le .lbody .bf .arw { color: var(--process); font-family: "IBM Plex Mono", monospace; }
+
+  footer { margin-top: 54px; padding-top: 20px; border-top: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--dim); line-height: 1.7; }
+  footer code { color: var(--muted); }
+  a { color: var(--canon); text-decoration: none; }
+
+  @media (max-width: 560px) {
+    .row { grid-template-columns: 1fr; gap: 3px; }
+    .le { grid-template-columns: 48px 1fr; }
+    .le .lmeta { grid-column: 1 / -1; display: flex; gap: 12px; }
+    .le .lmeta .ls { margin-top: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .node.recent { animation: none; } * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS · Observatory · Falsification Ledger</p>
+  <h1>Belief-Change Log</h1>
+  <p class="thesis">The corpus record of what we believed, the test that overturned it, and what replaced it. One field, one source of truth: generated from <b>falsification-ledger.jsonl</b> — every entry a belief that met a test and lost.</p>
+
+  <div class="readout" id="readout"></div>
+
+  <p class="section-label">Drift ribbon — every reversal, plotted in time</p>
+  <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
+  <div class="legend" id="legend"></div>
+
+  <p class="section-label">This week — spotlight</p>
+  <div class="spotlight" id="spotlight"></div>
+
+  <p class="section-label">Full ledger — newest first</p>
+  <div id="ledger"></div>
+
+  <footer>
+    <div>Generated from <code>_STATE/falsification-ledger.jsonl</code> by <code>scripts/belief_log_emit.py</code> — the ledger is the SSOT; this view is a lawful transform of it and is never hand-edited.</div>
+    <div style="margin-top:6px">Gold ring = promoted to canon (the break repaired in gold — Kintsugi). A pulsing node landed this week.</div>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script id="data" type="application/json">/*BELIEF_DATA*/</script>
+<script>
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const SCOPE = { canon:"#00F0FF", gauntlet:"#FFC24B", infra:"#5B8DEF", process:"#00FF9D", deploy:"#FF6EC7", security:"#FF4D6D", recoil:"#A78BFA" };
+  const asDate = s => new Date(s + "T00:00:00Z");
+  const min = asDate(DATA[0].ts), max = asDate(DATA[DATA.length-1].ts);
+  const span = (max - min) || 1;
+  const xPct = ts => ((asDate(ts) - min) / span) * 100;
+  const weekFloor = new Date(max.getTime() - 6*864e5);
+  const isRecent = ts => asDate(ts) >= weekFloor;
+
+  const canonN = DATA.filter(d => d.canon).length;
+  const byScope = {};
+  DATA.forEach(d => byScope[d.scope] = (byScope[d.scope]||0)+1);
+  const topScopes = Object.entries(byScope).sort((a,b)=>b[1]-a[1]);
+  const fmt = d => d.toISOString().slice(0,10);
+  const readout = [
+    ["Beliefs overturned", DATA.length],
+    ["Promoted to canon", `${canonN}<small> / ${DATA.length}</small>`],
+    ["This week", DATA.filter(d=>isRecent(d.ts)).length],
+    ["Span", `<small>${fmt(min)} → ${fmt(max)}</small>`],
+    ["Scopes", topScopes.length],
+  ];
+  document.getElementById("readout").innerHTML = readout.map(([k,v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+  const lanesOrder = topScopes.map(s=>s[0]);
+  const ribbon = document.getElementById("ribbon");
+  lanesOrder.forEach(scope => {
+    const lane = document.createElement("div"); lane.className = "lane";
+    const c = SCOPE[scope];
+    lane.innerHTML = `<span class="lane-name mono" style="color:${c}">${scope}</span><div class="lane-track"></div>`;
+    const track = lane.querySelector(".lane-track");
+    DATA.filter(d=>d.scope===scope).forEach(d => {
+      const n = document.createElement("div");
+      n.className = "node" + (d.canon?" canon":"") + (isRecent(d.ts)?" recent":"");
+      n.style.left = xPct(d.ts) + "%"; n.style.color = c; n.style.background = c;
+      n.tabIndex = 0; n.dataset.id = d.id; n.dataset.claim = d.claim;
+      track.appendChild(n);
+    });
+    ribbon.appendChild(lane);
+  });
+  const axis = document.getElementById("axis");
+  const overlay = document.createElement("div"); overlay.className = "grid-overlay";
+  ribbon.insertBefore(overlay, ribbon.firstChild);
+  const months = [];
+  let cur = new Date(Date.UTC(min.getUTCFullYear(), min.getUTCMonth(), 1));
+  while (cur <= max) { months.push(new Date(cur)); cur = new Date(Date.UTC(cur.getUTCFullYear(), cur.getUTCMonth()+1, 1)); }
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  months.forEach(m => {
+    const p = Math.max(0, Math.min(100, ((m - min)/span)*100));
+    const t = document.createElement("div"); t.className = "tick mono"; t.style.left = p + "%";
+    t.textContent = MON[m.getUTCMonth()] + " " + String(m.getUTCFullYear()).slice(2);
+    axis.appendChild(t);
+    const g = document.createElement("div"); g.className = "grid-line"; g.style.left = p + "%";
+    overlay.appendChild(g);
+  });
+
+  const tip = document.getElementById("tip");
+  function showTip(e){
+    const el = e.currentTarget;
+    tip.innerHTML = `<div class="tid mono" style="color:${el.style.color}">${el.dataset.id}</div><div class="tclaim">${el.dataset.claim}</div>`;
+    tip.style.opacity = "1";
+    const r = el.getBoundingClientRect();
+    let x = r.left + r.width/2 - 150, y = r.top - 12 - tip.offsetHeight;
+    x = Math.max(10, Math.min(window.innerWidth - 310, x));
+    if (y < 8) y = r.bottom + 12;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  function hideTip(){ tip.style.opacity = "0"; }
+  ribbon.querySelectorAll(".node").forEach(n => {
+    n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
+    n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
+  });
+
+  document.getElementById("legend").innerHTML =
+    lanesOrder.map(s=>`<span class="li"><span class="dot" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${s} · ${byScope[s]}</span>`).join("") +
+    `<span class="li meta"><span class="ring"></span>canon-promoted</span>` +
+    `<span class="li meta">◦ pulse = this week</span>`;
+
+  const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const week = DATA.filter(d=>isRecent(d.ts)).slice().reverse();
+  document.getElementById("spotlight").innerHTML = week.map(d => {
+    const c = SCOPE[d.scope];
+    return `<article class="card${d.canon?" gold":""}" style="--sc:${c}">
+      <div class="card-head"><span class="card-id">${d.id}</span><span class="chip">${d.scope}</span>${d.canon?'<span class="canon-tag">promoted</span>':''}<span class="card-date">${d.ts}</span></div>
+      <div class="row held"><div class="rl">Held</div><div class="rv">${esc(d.claim)}</div></div>
+      <div class="row"><div class="rl">Test</div><div class="rv">${esc(d.test)}</div></div>
+      <div class="row broke"><div class="rl">Falsified</div><div class="rv">${esc(d.delta)}</div></div>
+      <div class="row now"><div class="rl">Now</div><div class="rv">${esc(d.fix)}</div></div>
+      <div class="refs">refs · ${d.refs.map(esc).join("  ·  ")}  ·  confidence: ${d.confidence}</div>
+    </article>`;
+  }).join("");
+
+  const firstClause = t => { let h = t.split(". ")[0].replace(/\.$/,""); return h.length>150 ? h.slice(0,150).replace(/\s+\S*$/,"")+"…" : h; };
+  const rev = DATA.slice().reverse();
+  const groups = [];
+  rev.forEach(d => {
+    const key = d.ts.slice(0,7);
+    let g = groups.find(x=>x.key===key);
+    if(!g){ g={key, label: MON[+key.slice(5,7)-1]+" "+key.slice(0,4), items:[]}; groups.push(g); }
+    g.items.push(d);
+  });
+  document.getElementById("ledger").innerHTML = groups.map(g => `
+    <div class="month">${g.label}<span class="n">· ${g.items.length}</span></div>
+    <div class="lg">${g.items.map(d => {
+      const c = SCOPE[d.scope];
+      return `<div class="le" style="--sc:${c}">
+        <div class="lid">${d.id}${d.canon?'<span class="cn mono">PROMOTED</span>':''}</div>
+        <div class="lmeta"><span class="ld">${d.ts}</span><span class="ls">${d.scope}</span></div>
+        <div class="lbody"><div class="bc">${esc(firstClause(d.claim))}</div><div class="bf"><span class="arw">→ </span>${esc(firstClause(d.fix))}</div></div>
+      </div>`;
+    }).join("")}</div>`).join("");
+</script>
