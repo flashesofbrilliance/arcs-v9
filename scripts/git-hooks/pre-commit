@@ -211,22 +211,43 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
         continue
       fi
       [ "${n:-0}" -eq 0 ] && continue
+      hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        tmp=$(mktemp); git show "HEAD:$f" > "$tmp" 2>/dev/null
-        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -f "$tmp"
+        # Score HEAD's blob at a path INSIDE the repo working tree, a sibling of
+        # $f with the SAME extension, so the detector discovers the repo-root
+        # DESIGN.md exactly as the working-file run does. A mktemp path (outside
+        # the tree, no .html extension) makes the detector skip every
+        # "outside DESIGN.md" check -> HEAD scores ~0 -> a legit text-only edit
+        # to a page with a frozen baseline (e.g. public/prl-*) gets HARD BLOCKED
+        # instead of ratcheting (2026-09-17, PR #486 / commit c051d3c7). Same
+        # tree = same DESIGN.md = an honest HEAD-vs-working comparison.
+        htmp="$(dirname "$f")/.pc-kintsugi-head.$$.$(basename "$f")"
+        git show "HEAD:$f" > "$htmp" 2>/dev/null || true
+        hout=$("$IMP" detect --json "$htmp" 2>/dev/null || true); rm -f "$htmp"
         hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)
-        if [ "${hn:-0}" -gt 0 ]; then
-          echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD already had $hn. Not blocking (ratchet). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
-          continue
-        fi
       fi
-      echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s) and its HEAD version had none (or it is new)." >&2
-      printf '%s' "$out" | python3 -c 'import sys,json
+      # Count-aware ratchet. Only NET-NEW debt (working > HEAD) blocks; a page
+      # that carries a frozen pre-existing baseline (a new file has HEAD=0; the
+      # public/prl-* client design system is intentionally scored against a
+      # repo-root DESIGN.md it was never built for, ~27 findings) ratchets on
+      # its own count. A no-op / text-only edit keeps n == hn -> WARN, never
+      # block. This is the design-system scope decision: the frozen baseline is
+      # grandfathered per-file, and only a genuine regression trips the gate —
+      # no path exemption (which would let real new debt through) and no
+      # separate DESIGN.md per surface.
+      if [ "${n:-0}" -gt "${hn:-0}" ]; then
+        echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s), up from $hn in HEAD (net-new design debt)." >&2
+        printf '%s' "$out" | python3 -c 'import sys,json
 for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("snippet") or "")[:90])' >&2
-      echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
-      exit 1
+        echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
+        exit 1
+      fi
+      if [ "${hn:-0}" -gt 0 ]; then
+        echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD had $hn. Not blocking (ratchet — pre-existing/frozen baseline). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
+      fi
+      continue
     done <<< "$pages"
   fi
 fi

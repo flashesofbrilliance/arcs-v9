@@ -284,3 +284,29 @@ names; a renamed palette still FAILs).
 bump `--dim` to clear 4.5:1 AA and teach the detector to distinguish mono section-labels/eyebrows from
 body text, so future NFTT posts pass this gate cleanly instead of booking the same seam each time.
 Belongs to the template/`/design-sync`, not a per-post patch.
+
+## 2026-09-24 · the gate itself — HEAD-context false-block + count-aware ratchet (`scripts/git-hooks/pre-commit`)
+
+**Break.** The kintsugi block scored HEAD's blob from a `mktemp` path OUTSIDE the repo tree (and
+without the `.html` extension). The Impeccable detector discovers the repo-root `DESIGN.md` by walking
+up from the file's directory, so an out-of-tree temp file found no `DESIGN.md` and skipped every
+"outside DESIGN.md" check (font-size/color/radius/font). HEAD scored ~0 while the working file (scored
+in repo context) scored ~28. The ratchet then read "HEAD had none" and HARD-BLOCKED instead of warning.
+A text-only edit to `public/prl-status-progress.html` was blocked with "28 finding(s) and its HEAD
+version had none"; had to ship with `--no-verify` (PR #486 / commit c051d3c7). The ~28 are the frozen
+PRL client design system (its own inline palette/type-ramp per `.claude/skills/prl-page-factory`)
+measured against a repo-root `DESIGN.md` it was never built against.
+
+**Repair (two coupled fixes).**
+1. *HEAD-context.* Write HEAD's blob to a sibling of `$f` INSIDE the working tree with the SAME
+   extension (`.pc-kintsugi-head.$$.<basename>`), so `DESIGN.md` discovery matches the working-file run.
+   Removed immediately after. Verified: same file scored 0 (mktemp, outside) vs 28 (in-tree sibling).
+2. *Count-aware ratchet (the design-system scope decision).* Block only on NET-NEW debt (`n > hn`); a
+   frozen baseline (new file HEAD=0; PRL pages ~28) is grandfathered per-file by its own HEAD count.
+   Chosen over a `public/prl-*` path exemption (which would let genuine new debt through) and over a
+   separate per-surface `DESIGN.md`. No PRL page needs its own `DESIGN.md`; the frozen baseline rides
+   its HEAD count and only a regression trips the gate.
+
+**Guard.** Proven both directions against the live hook on `public/prl-status-progress.html`
+(HEAD baseline 28): a no-op text edit → `n==hn` → WARN, exit 0; a net-new `<style>` finding → 31 vs 28
+→ BLOCK, exit 1. This retires the recurring PRL/NFTT `--no-verify` seam class for frozen-baseline pages.
