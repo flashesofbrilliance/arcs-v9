@@ -1,0 +1,26 @@
+# Evidence ledger (case_evidence_lint + provenance_lint). facts cite a published post and a verbatim quote; mechanics name the game rule.
+{"pattern": "Cold\\s+reader\\s+1:\\s+provenance\\s+0\\.90,\\s+11\\s+claims\\s+flagged\\s+unconfirmed\\.", "kind": "fact", "page": "Cold reader 1: provenance 0.90, 11 claims flagged unconfirmed.", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (1) 0.90 11"}
+{"pattern": "Cold\\s+reader\\s+2:\\s+provenance\\s+0\\.84,\\s+14\\s+flagged\\.", "kind": "fact", "page": "Cold reader 2: provenance 0.84, 14 flagged.", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (2) 0.84 14"}
+{"pattern": "provenance\\s+0\\.26,\\s+only\\s+5\\s+flagged", "kind": "fact", "page": "provenance 0.26, only 5 flagged", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "warm, relaxed cite 0.26 5"}
+{"pattern": "provenance\\s+1\\.00,\\s+9\\s+flagged", "kind": "fact", "page": "provenance 1.00, 9 flagged", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "warm, matched cite 1.00 9"}
+{"pattern": "Two\\s+blind\\s+readers\\s+scored\\s+0\\.90\\s+and\\s+0\\.84\\.", "kind": "fact", "page": "Two blind readers scored 0.90 and 0.84.", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (1) 0.90 11 abstained cold, blind (2) 0.84"}
+{"pattern": "The\\s+warm\\s+reader\\s+scored\\s+0\\.26\\.", "kind": "fact", "page": "The warm reader scored 0.26.", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "warm, relaxed cite 0.26"}
+{"pattern": "Cold\\s+reader\\s+1\\s+\\(blind,\\s+no\\s+memory\\)", "kind": "fact", "page": "Cold reader 1 (blind, no memory)", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (1)"}
+{"pattern": "Cold\\s+reader\\s+2\\s+\\(blind,\\s+no\\s+memory\\)", "kind": "fact", "page": "Cold reader 2 (blind, no memory)", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (2)"}
+{"pattern": "real:\\s+90", "kind": "fact", "page": "real: 90", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (1) 0.90", "note": "0.90 expressed on the 0-100 prediction scale"}
+{"pattern": "real:\\s+84", "kind": "fact", "page": "real: 84", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "cold, blind (2) 0.84", "note": "0.84 on the 0-100 scale"}
+{"pattern": "real:\\s+26", "kind": "fact", "page": "real: 26", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "warm, relaxed cite 0.26", "note": "0.26 on the 0-100 scale"}
+{"pattern": "real:\\s+100", "kind": "fact", "page": "real: 100", "source": "public/blog-nftt-the-control-and-the-experiment.html", "quote": "warm, matched cite 1.00", "note": "1.00 on the 0-100 scale"}
+{"pattern": "case\\s+file\\s+002", "kind": "mechanic", "page": "case file 002", "why": "case number"}
+{"pattern": "chips\\s+\\(0\\s+to\\s+10\\)", "kind": "mechanic", "page": "chips (0 to 10)", "why": "conviction stake range"}
+{"pattern": "Parking\\s+every\\s+stake\\s+at\\s+5\\s+keeps\\s+you\\s+in\\s+the\\s+fog", "kind": "mechanic", "page": "Parking every stake at 5 keeps you in the fog", "why": "render rule: 75 is below the 80 DEGRADED threshold"}
+{"pattern": "100\\s+means\\s+it\\s+cited\\s+everything", "kind": "mechanic", "page": "100 means it cited everything", "why": "display scale for provenance in round zero"}
+{"pattern": "50", "kind": "mechanic", "page": "50", "why": "default round-zero prediction slider value"}
+{"pattern": "chairs\\s+closed\\s+0/3", "kind": "mechanic", "page": "chairs closed 0/3", "why": "scene counter, starts at zero of three chairs"}
+{"pattern": "Over\\s+0\\s+Under\\s+0", "kind": "mechanic", "page": "Over 0 Under 0", "why": "HUD counters at game start"}
+{"pattern": "Chair\\s+1\\s+of\\s+3", "kind": "mechanic", "page": "Chair 1 of 3", "why": "chair ordinal"}
+{"pattern": "Chair\\s+2\\s+of\\s+3", "kind": "mechanic", "page": "Chair 2 of 3", "why": "chair ordinal"}
+{"pattern": "Chair\\s+3\\s+of\\s+3", "kind": "mechanic", "page": "Chair 3 of 3", "why": "chair ordinal"}
+{"pattern": "5/10", "kind": "mechanic", "page": "5/10", "why": "default conviction stake label"}
+{"pattern": "/10", "kind": "mechanic", "page": "/10", "why": "conviction stake scale"}
+{"pattern": "/100", "kind": "mechanic", "page": "/100", "why": "calibration score scale"}
