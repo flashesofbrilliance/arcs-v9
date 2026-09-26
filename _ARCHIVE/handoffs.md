@@ -1,3 +1,54 @@
+# Handoff — v3.66.0 (2026-09-26)
+
+> **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
+> then the AI-slop safeguard back-propped and wired into the FE ship-gate.** Opt-in build forked to
+> its own session; ran daylight-first with a bless gate at every publish. All shipped to main and
+> LIVE on good.arcs.care. Five PRs merged (#505, #506 sibling, #507, #509 sibling, #510).
+
+## Shipped + LIVE (verified on prod, 200 + content + PII-clean)
+- **`tools/cold-recon/`** — stdlib-only CLI (recoil-report shape). `gather` (git+files, ZERO
+  transcript, coldness enforced structurally) → `prompt` (cold-agent contract) → `validate` /
+  `leakmap` / `render`. Leak map = observability audit (reconstructability as a measurable
+  property). Hardened by a sibling session (#506): em-dash normalization + in-tool `--redact` +
+  `selftest` 4/4. NOT claimed patentable; only as good as commit-as-you-go discipline.
+- **NFTT trilogy on good.arcs.care** (all own index cards): `the-cold-reconstruction` (method +
+  real PoC run, reconstructability 0.895), `the-control-and-the-experiment` (warm-vs-cold, n=1),
+  `receipts-or-it-didnt-happen` (the diptych). Plus 4 redacted companion reports at `/report`
+  depth-ladder routes (unredacted renders stay internal — int/ext air-gap).
+- **The experiment finding** (witnessed GREEN): warmth does not corrupt WHAT you ground, it changes
+  WHETHER you ground at all; coldness's value is structural (no memory → can't narrate from memory).
+  4-run table: cold 0.90/0.84, warm-relaxed 0.26, warm-matched 1.00 — the collapse was the cite
+  instruction (confound), controlled. Running the control corrected my flattering first explanation.
+- **Record hygiene** — committed the previously-untracked incident RCA + witness stubs (the live
+  leak the tool surfaced; insight #2 demonstrated on itself).
+- **AI-slop safeguard wired into the FE ship-gate** (#510): `slop_lint` landed on main via a sibling
+  session (#509, single source). I wired it into `scripts/nftt-gates.sh` — mechanical cliché/em-dash
+  = HARD FAIL, burstiness+specificity = ADVISORY in `--mode essay` (evidence-aware, 10% floor the
+  sibling calibrated to real essays, correcting my 20-25% which would have false-failed the genre).
+  Proven fails-on-bad AND passes-on-good.
+
+## Open (next session)
+1. **Visual-slop half (Adaptation 2) — brand-visual allowlist for the NFTT pages: BUILT + A/B-verified,
+   awaiting merge.** The design-system-normalization session (branch `worktree-agent-a9c05965613c705e2`,
+   local, unmerged) built the brand profile against my relayed spec and verified it: brand false-positives
+   drop to 0 on all 3 posts (cold-reconstruction 41→16, control-and-experiment 35→11, diptych 56→27),
+   real debt fully retained (undersized-ui-text, low-contrast, tiny-text). Exempted set (8, all
+   verified-firing): design-system-{font,font-size,color,radius}, all-caps-body, wide-tracking,
+   hero-eyebrow-chip, dark-glow. Note: `tiny-numbered-labels` + `border-accent-on-rounded` from my spec
+   fire 0 times (absorbed by all-caps-body/wide-tracking + design-system-radius) so they were omitted, not
+   added dead. **Gate: lands on main only when Zach reviews + lands the design-system branch (7-wave
+   migration plan needs his review).** Then: re-run the detector to confirm 0 brand-false-positives, add
+   the detector step to `nftt-gates.sh` beside the slop_lint step (#510).
+2. **cold-recon redaction phrasing** — the doubled-article artifact ("a a candidate role candidate
+   bundle") in the live warm-relaxed report; handed to the hardening session `[42a0ec]` as a test case.
+3. Carried: `_STATE/night-moves/2026-09-26.md` is the day's ledger (on main).
+
+## Lessons (in the record, not re-derived here)
+Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency). Decision receipts:
+`2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
+floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
+applied to the tool by the sibling session that measured before asserting).
+
 # Handoff — v3.65.2 (2026-09-24)
 
 > **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
