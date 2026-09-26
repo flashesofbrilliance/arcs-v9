@@ -114,6 +114,53 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.67.0 (2026-09-26)
+
+> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
+> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
+> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
+> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
+> explicit go.
+
+## Shipped + LIVE (verified on prod)
+- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
+  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
+  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
+  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
+  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
+  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
+  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
+  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
+  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
+- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
+  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
+  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
+  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
+  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
+- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
+  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
+  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
+  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
+- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
+  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
+
+## Open (next session)
+1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
+   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
+2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
+   NFTT block until it next lands on main; everyone via origin/main already has it.
+3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
+
+## Lessons (in the record)
+- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
+  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
+  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
+- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
+  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
+- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
+  fragments without ever pushing them to `index`; the air-gap survives the sweep.
+
+
 # Handoff — v3.66.0 (2026-09-26)
 
 > **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
@@ -164,66 +211,3 @@ Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency).
 `2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
 floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
 applied to the tool by the sibling session that measured before asserting).
-
-# Handoff — v3.65.2 (2026-09-24)
-
-> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
-> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
-> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
-> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
-> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
-
-## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
-- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
-  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
-  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
-  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
-  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
-- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
-  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
-  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
-  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
-- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
-  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
-- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
-  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
-  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
-- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
-  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
-- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
-  "finance" → "regulated industries".
-- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
-  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
-  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
-  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
-- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
-  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
-  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
-  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
-  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
-- **Gravity-well pressure-test + 2 leak fixes** (`65d3781`, prod-verified): pressure-tested the vico family
-  against the "leak list" (unverifiable · single-altitude · no owned-losses · no mirror · no-return ·
-  over-claim). Closed 2: résumé had zero mirror → added a "worked in public" ZIM clause; ammo described
-  running systems without linking them (1 link → 3: status log→status.arcs.care, pipeline→good.arcs.care).
-- **All of the above deployed to main and prod-verified** (latest `65d3781`, Vercel READY, cache-MISS fetches).
-
-## Lessons booked (MEMORY.md v3.65.1/.2/.3 + night-moves 2026-09-23/24)
-- **Gravity-well framework** (v3.65.3): a candidate page is an attractor for a hiring manager to the degree
-  it pre-answers their de-risk doubts with *verifiable* proof; mass = linked/checkable claims, the mirror
-  (their problem worked in public), owned losses, and a live/compounding surface. Leak list is the inverse.
-- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
-  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
-- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
-- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
-  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
-- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
-
-## Open (next session)
-1. **Joe sync moved to Tue 2026-09-30** (the Thu 2026-09-24 Lyndon call did not land as scheduled; reminder
-   was CANCELLED per Zach — he pings after). Prep + close-loop when it happens: did Lyndon reach
-   vico.arcs.care or only Joe's paraphrase (message-drift lever)? Score the 5 beats (role fit /
-   regulated-industries / federal / honest gaps / self-scoring style); plan follow-up. Vico family is
-   shipped + prod-verified (memo/resume/ammo VP-free, gravity leaks closed); nothing to rebuild pre-call.
-2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
-3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
-   State-of-the-Union dashboard (source file still unidentified — get it first).

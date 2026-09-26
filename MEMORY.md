@@ -7,6 +7,31 @@
 
 ---
 
+## [v3.67.0] 2026-09-26 — NFTT contrast debt repaid + whole-corpus head-meta conformance + batch gate (merged, live)
+
+- **take-home-trap-dossier genuine WCAG fix:** the `--dimmed` token failed AA on its real dark surfaces
+  (`#64748b` = 3.63:1 on `#161b22`, 3.98:1 on `#0d1117` — and 4.31:1 even on `#020408`) and in light mode
+  (`#75828f` = 3.46:1). Raised dark → kit-canonical `#748699` (AA, from `45fd49a5`), light → `#5e6b78`.
+  Detector low-contrast **111 → 81**; residue all verified artifacts. Ratchet baseline dropped 111 → 81
+  per its own provenance ("when fixed, drop those files' counts here"). Commits `3fbefb74`, `b235654c`.
+- **Method — classify detector findings against the ACTUAL surface, not the detector's inference:** the
+  impeccable detector cross-themes (dark text × light `#ffffff` fallback) and defaults unresolved text to
+  `#000000`. Compute the real contrast on the surface read from the CSS; artifact vs. real falls out.
+  No literal `#000` in the markup ⇒ every black-on-dark finding was a sampling artifact. See
+  [[verify-recalled-defect-with-dom-measurement-not-eyeball]].
+- **Whole-corpus head-meta conformance:** `nftt-gates.sh` checks title-suffix/description/robots ONE FILE
+  AT A TIME, so ~9 legacy NFTT pages drifted until touched. Conformed all 9 (`· NFTT` suffix + faithful
+  description; `robots=index` on the 4 public posts; `noindex` KEPT on the 4 recon-report fragments + HUD
+  — the gate checks robots *presence not value*, so a sweep never breaks the int/ext air-gap). Index page
+  exempt. New **Frustration Gate** `scripts/nftt_meta_gate.py` (per-file + `--all`, exempts index,
+  `--self-test`) wired into pre-commit. Commits `ce2b504b` → `ef4282ee`. See
+  [[run-the-repos-own-gates-before-shipping]], [[text-wrapping-defect-class-and-gate]].
+- **Defang IOC emails to `[.]com`** on published dossiers: clears the gate's blanket email/PII scan AND is
+  correct threat-intel hygiene; match the page's own existing defang convention rather than inventing one.
+- Both merges prod-verified live on good.arcs.care (deploys READY; recon fragment confirmed still `noindex`
+  live). Receipts `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
+  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH`.
+
 ## [v3.65.3] 2026-09-24 — gravity-well framework for candidate surfaces + 2 leak fixes; 3rd Frustration Gate
 
 - **Reusable framework (bank this):** what turns a candidate page into a *gravity well / attractor basin*
