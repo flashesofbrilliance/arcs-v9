@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Receipts Audit · ARCS</title>
+<meta name="description" content="A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer: wrap-safety per _PATTERNS/arcs-artifact-css-base.css */
+:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+.draft { border: 1px solid var(--gold); background: var(--gold-bg); color: var(--text); border-radius: var(--r-md); padding: 14px 18px; font-size: 15px; margin: 24px 0 0; }
+.draft strong { color: var(--gold); }
+h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 56px 0 20px; }
+h2 { font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 64px 0 16px; }
+.lede { max-width: none; font-size: 20px; color: var(--text); margin: 0 0 12px; }
+p, li { max-width: var(--measure); }
+.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+ol.steps { padding-left: 22px; }
+ol.steps li { margin: 0 0 14px; }
+ol.steps b { color: var(--cyan); }
+.card { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0; }
+.card p, .card li { max-width: none; }
+.tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+.tier { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 24px; }
+.tier h3 { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
+.tier .price { font-family: var(--font-mono); font-size: 26px; color: var(--green); margin: 0 0 12px; }
+.tier ul { padding-left: 20px; margin: 0; }
+.tier li { max-width: none; margin: 0 0 6px; }
+.limits li { margin: 0 0 10px; }
+.cta { display: inline-block; margin: 12px 0 0; padding: 12px 20px; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); text-decoration: none; font-weight: 600; }
+footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 80px; }
+@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+</style>
+</head>
+<body>
+<header class="pad">
+  <span class="mono">good.arcs.care</span>
+  <div class="draft"><strong>DRAFT, not routed.</strong> Prices are benchmark guesses, not buyer-validated. Contact route is a placeholder. Nothing here links from a live page until Zach approves.</div>
+</header>
+
+<main class="pad">
+  <h1>Can you rebuild what your agents did last Tuesday?</h1>
+  <p class="lede">Your team ships with coding and ops agents. When one marks a task done, the record is the only witness. The Agent Receipts Audit tests whether that record is enough: a reader with no memory of the work tries to reconstruct it from your repo alone, and every place it cannot is a gap you would rather find now than during an incident.</p>
+
+  <h2>Why this, why now</h2>
+  <p>The loudest AI argument this year is about accountability: who answers when an agent acts. Liability, not slogans, is where that argument lands, and liability runs on records. An agent that reports a task as shipped when it did not, or a change nobody can trace to a decision, is not a model problem. It is an evidence problem, and evidence problems can be measured.</p>
+
+  <h2>What the audit does</h2>
+  <ol class="steps">
+    <li><b>Gather.</b> We collect the committed record for a window you pick: commits, artifacts, receipts. No chat transcripts, by design.</li>
+    <li><b>Reconstruct cold.</b> A fresh agent with zero context rebuilds what happened, and must cite the record for every claim or mark it unverified. It cannot narrate from memory because it has none.</li>
+    <li><b>Map the leaks.</b> Everything it could not rebuild becomes the leak map: your observability gap, section by section, with a confidence score.</li>
+    <li><b>Retrofit receipts.</b> We add a lightweight receipt at the points that matter, especially before irreversible or outbound actions, so the next reconstruction closes those gaps.</li>
+  </ol>
+
+  <h2>We ran it on ourselves first</h2>
+  <div class="card">
+    <p>The method was built and tested on the ARCS build itself, in public. The first cold run scored <b>0.895</b> reconstructability. A controlled follow-up compared cold and warm readers and found the useful thing: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all. The runs, the table, and the redacted reports are published.</p>
+    <p><a href="/blog/nftt/the-cold-reconstruction">The cold reconstruction</a> · <a href="/blog/nftt/the-control-and-the-experiment">The control and the experiment</a> · <a href="/blog/nftt/receipts-or-it-didnt-happen">Receipts or it didn't happen</a></p>
+  </div>
+
+  <h2>Two fixed prices</h2>
+  <div class="tiers">
+    <div class="tier">
+      <h3>Audit</h3>
+      <p class="price">$3,500</p>
+      <ul>
+        <li>One repo, one window you choose</li>
+        <li>Cold reconstruction report with per-section confidence</li>
+        <li>List of every claim the record could not verify</li>
+        <li>Leak map and a ranked fix list</li>
+        <li>Two weeks, fully async</li>
+      </ul>
+    </div>
+    <div class="tier">
+      <h3>Audit + gate</h3>
+      <p class="price">$6,500</p>
+      <ul>
+        <li>Everything in Audit</li>
+        <li>Receipt schema fitted to your workflow</li>
+        <li>A CI check that fails a merge missing its receipt</li>
+        <li>A second cold run after the fix, so you see the gap close</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What it will not do</h2>
+  <ul class="limits">
+    <li>It is only as good as what you commit. Work that never reaches the record is invisible to a cold reader. That is the finding, not a failure of the audit.</li>
+    <li>It is not a compliance certification. It measures reconstructability; it does not sign off on regulation.</li>
+    <li>It does not claim a patent or a new science. The pieces (event logs, blameless post-mortems, cite-or-abstain review) are old. The framing is the useful part.</li>
+    <li>It never rates your people. It reads the record, not the team.</li>
+  </ul>
+
+  <h2>Start with a twenty-minute scope</h2>
+  <p>Tell us which repo and which week you would least like to explain from memory.</p>
+  <a class="cta" href="#contact">Scope an audit</a>
+</main>
+
+<footer class="pad" id="contact">
+  <p>ARCS · decision receipts and the tools that keep them honest. Contact route to be set before routing.</p>
+</footer>
+</body>
+</html>
