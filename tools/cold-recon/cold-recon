@@ -21,7 +21,16 @@
 #   cold-recon prompt pack.json --out cold-agent-prompt.md
 #   cold-recon validate reconstruction.json
 #   cold-recon leakmap pack.json reconstruction.json --out leakmap.json --min-rate 0.6
-#   cold-recon render reconstruction.json --leakmap leakmap.json --out report.html
+#   cold-recon render reconstruction.json --leakmap leakmap.json --out report.html   # internal
+#   cold-recon render reconstruction.json --leakmap leakmap.json \
+#                     --redact-file redactions.json --out report.public.html         # public
+#   cold-recon selftest                                                              # gate proofs
+#
+# render output is em-dash-0 BY CONSTRUCTION (clears scripts/artifact_wrap_lint.py).
+# --redact PATTERN=REPLACEMENT (repeatable) / --redact-file <json> scrub PII to roles,
+# case-insensitive, longest-pattern-first: the un-redacted render is the internal record,
+# the redacted render is the public artifact (the internal/external air-gap). gather takes
+# the same --redact flags to scrub the pack at the source.
 #
 # Env:
 #   PYTHON=/path/to/python3   override the interpreter
@@ -37,7 +46,7 @@ if ! command -v "$PY" >/dev/null 2>&1; then
 fi
 
 if [ "$#" -eq 0 ]; then
-  sed -n '2,33p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  sed -n '2,36p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
   exit 0
 fi
 

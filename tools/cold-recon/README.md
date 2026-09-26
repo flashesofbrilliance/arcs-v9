@@ -61,11 +61,43 @@ tools/cold-recon/
 
 | Command | Args | Does |
 |---|---|---|
-| `gather` | `<range>` or `--since/--until`, `--repo`, `--durable-glob`, `--all-files`, `--out` | **Deterministic, zero transcript.** git + tracked files only → an evidence pack JSON: commits (with trailers + NCI), merges, files touched, and the content of durable artifacts. |
+| `gather` | `<range>` or `--since/--until`, `--repo`, `--durable-glob`, `--all-files`, `--redact`, `--redact-file`, `--out` | **Deterministic, zero transcript.** git + tracked files only → an evidence pack JSON: commits (with trailers + NCI), merges, files touched, and the content of durable artifacts. `--redact` scrubs PII at the source (see air-gap below). |
 | `prompt` | `<pack>` `--out` | Emits the exact cold-agent prompt (pack + coldness contract + schema embedded) to hand a fresh agent. |
 | `validate` | `<reconstruction>` | Checks the agent's reconstruction against the bundled schema. Exit 1 on failure. |
 | `leakmap` | `<pack> <reconstruction>` `--out` `--min-rate` | **Deterministic.** Diffs the reconstruction's evidence trail against the pack's anchors → `{reconstructed, partial, leaked}` + a reconstructability ratio. The observability audit. |
-| `render` | `<reconstruction>` `--leakmap` `--set` `--no-validate` `--out` | **Deterministic.** Standalone `noindex` HTML incident report, per-section confidence bars + leak-map panel. |
+| `render` | `<reconstruction>` `--leakmap` `--set` `--redact` `--redact-file` `--no-validate` `--out` | **Deterministic.** Standalone `noindex` HTML incident report, per-section confidence bars + leak-map panel. Em-dash-0 **by construction**; `--redact` produces the public artifact. |
+| `selftest` | (none) | Runs the frustration-gate proofs (em-dash + redaction, each fails-on-bad **and** passes-on-good). Exit 1 if any check fails. |
+
+### Em-dash normalization is by construction (not a post-process)
+
+`render` inherits em-dashes from commit subjects embedded in the pack / leak-map anchor
+lists (e.g. a commit `NFTT — 'forge'...`). The repo's wrap gate
+(`scripts/artifact_wrap_lint.py`) **fails any published HTML with an em-dash**, so the
+render output is normalized on the way out — `—`/`–` → ` - `, `−` → `-` (surrounding
+spaces collapsed). A rendered report clears the gate with em-dash 0 with no hand
+post-process. (The pack from `gather` is faithful JSON data, not published HTML, so its
+dashes are left intact — normalization is render-only.)
+
+### In-tool redaction — the internal/external air-gap
+
+PII scrubbing lives **in the tool**, not in a hand-written post-process redactor. The
+**un-redacted** render is the internal record (private repo); the **redacted** render is
+the public artifact. Supply redactions two ways (combinable, repeatable):
+
+```bash
+# inline PATTERN=REPLACEMENT (repeatable)
+$T render recon.json --leakmap lm.json \
+   --redact 'Robert Lycett=the recruiter' --redact 'Fun.xyz=the company' --out public.html
+
+# or a JSON map { "pattern": "replacement", ... }
+$T render recon.json --leakmap lm.json --redact-file redactions.json --out public.html
+```
+
+Redactions apply **case-insensitively, longest-pattern-first**, so
+`zach.harris@gmail.com` is scrubbed before the shorter `Zach` can partially match inside
+it. `gather --redact` / `--redact-file` scrub at the source, so the cold agent never sees
+the PII. Verify the public artifact with the same grep used at publish
+(`lycett|riskpod|fun\.xyz|robert|zach|@gmail`, case-insensitive) — it must come back clean.
 
 ### Coldness is enforced structurally
 
@@ -102,8 +134,16 @@ $T prompt /tmp/pack.json --out /tmp/cold-agent-prompt.md
 $T validate /tmp/reconstruction.json
 $T leakmap /tmp/pack.json /tmp/reconstruction.json --out /tmp/leakmap.json --min-rate 0.6
 
-# 4. render the shareable report
+# 4a. render the INTERNAL record (un-redacted, private repo)
 $T render /tmp/reconstruction.json --leakmap /tmp/leakmap.json --out /tmp/report.html
+
+# 4b. render the PUBLIC artifact (PII scrubbed to roles — the air-gap)
+$T render /tmp/reconstruction.json --leakmap /tmp/leakmap.json \
+   --redact-file /tmp/redactions.json --out /tmp/report.public.html
+#    em-dash 0 by construction; clears scripts/artifact_wrap_lint.py
+
+# (any time) run the gate proofs
+$T selftest
 ```
 
 ## Exit codes
