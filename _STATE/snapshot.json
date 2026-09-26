@@ -2,14 +2,19 @@
   "captured_at": "2026-09-26T05:57:27Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "daf3fba",
-    "head_message": "Merge remote-tracking branch 'origin/main' into claude/eloquent-kapitsa-cdc9c4",
-    "in_sync_with_origin": true,
+    "head_sha": "6214aea",
+    "head_message": "chore(state): session telemetry churn (pulse/drift/snapshot heartbeat)",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
+      "_STATE/pulse.json",
+      "public/louisville-brooks-war.html",
+      "public/prl-todd-war.html",
+      "public/recruithaus-war.html",
+      "scripts/.leakignore",
+      "scripts/recoil_brief.py"
     ]
   },
   "vercel": {
@@ -31,5 +36,5 @@
   "session_summary": "Cold-reconstruction public good: tools/cold-recon CLI + NFTT trilogy (method, experiment, diptych) live on good.arcs.care; AI-slop safeguard wired into nftt-gates.sh via essay mode.",
   "next_action": "Wire the design-detector step into nftt-gates.sh once the design-system brand profile lands on main (gated on Zach reviewing the 7-wave migration plan).",
   "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)",
-  "git_refreshed_at": "2026-09-26T16:37:12Z"
+  "git_refreshed_at": "2026-09-26T17:30:30Z"
 }

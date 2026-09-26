@@ -30,7 +30,7 @@
       "artifacts": [
         "_INBOX/lattice-drift.jsonl"
       ],
-      "last_beat": 9,
+      "last_beat": 18,
       "max_beats": 14
     },
     "oracle": {
@@ -47,7 +47,7 @@
       "artifacts": [
         "_INBOX/seedbank-drift.jsonl"
       ],
-      "last_beat": 9,
+      "last_beat": 18,
       "max_beats": 21
     }
   }
