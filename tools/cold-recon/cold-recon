@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#
+# cold-recon - self-contained runner for the ARCS cold-reconstruction incident CLI.
+# ------------------------------------------------------------------
+# Zero third-party deps: pure python3 stdlib + git. Needs ONLY python3 and git.
+# Bundled resources travel with the package: schema/, sample/, prompts/.
+#
+# The loop:
+#   1. gather  an incident (commit range or time window) -> evidence pack (zero transcript)
+#   2. prompt  the pack -> the exact cold-agent prompt; hand it to a FRESH agent
+#   3. (agent) returns a reconstruction JSON conforming to schema/reconstruction.schema.json
+#   4. validate + leakmap the reconstruction against the pack -> observability audit
+#   5. render  the reconstruction (+leak map) -> standalone incident report
+#
+# Install (optional, put on PATH):
+#   ln -s "$(pwd)/tools/cold-recon/cold-recon" /usr/local/bin/cold-recon
+#
+# Usage:
+#   cold-recon gather A~1..B --repo /path/to/repo --out pack.json
+#   cold-recon gather --since 2026-09-24 --until 2026-09-25 --out pack.json
+#   cold-recon prompt pack.json --out cold-agent-prompt.md
+#   cold-recon validate reconstruction.json
+#   cold-recon leakmap pack.json reconstruction.json --out leakmap.json --min-rate 0.6
+#   cold-recon render reconstruction.json --leakmap leakmap.json --out report.html   # internal
+#   cold-recon render reconstruction.json --leakmap leakmap.json \
+#                     --redact-file redactions.json --out report.public.html         # public
+#   cold-recon selftest                                                              # gate proofs
+#
+# render output is em-dash-0 BY CONSTRUCTION (clears scripts/artifact_wrap_lint.py).
+# --redact PATTERN=REPLACEMENT (repeatable) / --redact-file <json> scrub PII to roles,
+# case-insensitive, longest-pattern-first: the un-redacted render is the internal record,
+# the redacted render is the public artifact (the internal/external air-gap). gather takes
+# the same --redact flags to scrub the pack at the source.
+#
+# Env:
+#   PYTHON=/path/to/python3   override the interpreter
+# ------------------------------------------------------------------
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PY="${PYTHON:-python3}"
+
+if ! command -v "$PY" >/dev/null 2>&1; then
+  echo "cold-recon: python3 not found. Install it (e.g. 'brew install python') or set PYTHON=..." >&2
+  exit 127
+fi
+
+if [ "$#" -eq 0 ]; then
+  sed -n '2,36p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  exit 0
+fi
+
+exec "$PY" "$HERE/cold_recon.py" "$@"
