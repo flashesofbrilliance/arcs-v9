@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Case of the Six-Week Outage · ARCS</title>
-<meta name="description" content="A playable case built from a real production outage. Every theory carries its kill condition. Falsify the wrong ones with the evidence; the one left standing is the answer.">
+<meta name="description" content="A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.">
 <meta name="robots" content="noindex, nofollow">
 <style>
 /* ARCS Recoil Report — Design Tokens */
@@ -68,39 +68,44 @@ p { max-width: var(--measure); }
 .rules { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 22px; margin: 24px 0; }
 .rules ol { margin: 0; padding-left: 20px; }
 .rules li { margin: 0 0 6px; }
-
 .hud { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 0; margin: 32px 0 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; font-family: var(--font-mono); font-size: 15px; }
 .hud b { color: var(--cyan); font-weight: 600; }
-.status { min-height: 1.6em; color: var(--text); }
-.status.kill { color: var(--green); }
-.status.miss { color: var(--gold); }
-.status.hold { color: var(--cyan); }
-
-.act { margin: 0 0 56px; }
-.act[hidden] { display: none; }
-.q { font-size: 19px; margin: 0 0 20px; }
+.status { min-height: 1.6em; }
+.status.ok { color: var(--green); }
+.status.warn { color: var(--gold); }
+.status.bad { color: var(--red); }
+.chair { margin: 0 0 56px; }
+.who { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); margin: 0 0 4px; }
+.pos { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.25; margin: 0 0 8px; }
+.ask { color: var(--dimmed); margin: 0 0 20px; }
 .board { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .col h3 { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--dimmed); margin: 0 0 10px; }
-.card { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin: 0 0 10px; cursor: pointer; }
-.card:hover { border-color: var(--dimmed); }
-.card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.card .t { display: block; font-weight: 600; margin: 0 0 4px; }
-.card .k { display: block; font-size: 15px; color: var(--dimmed); }
-.card.sel { border-color: var(--cyan); background: var(--cyan-bg); }
-.card.dead { cursor: default; opacity: 0.6; border-style: dashed; }
-.card.dead .t { text-decoration: line-through; }
-.card.dead .k { color: var(--red); }
-.card.stand { border-color: var(--green); background: var(--green-bg); cursor: default; }
-.card.stand .k { color: var(--green); }
-.ev { font-family: var(--font-mono); font-size: 15px; }
+.claim { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin: 0 0 10px; }
+.claim.sel { border-color: var(--cyan); background: var(--cyan-bg); }
+.claim .t { display: block; font-weight: 600; margin: 0 0 8px; }
+.claim .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.claim .res { display: block; font-size: 15px; margin: 8px 0 0; }
+.claim.shown { border-color: var(--green); }
+.claim.shown .res { color: var(--green); }
+.claim.gap { border-style: dashed; }
+.claim.gap .res { color: var(--gold); }
+.claim.over .res { color: var(--red); }
+.btn { background: transparent; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px 12px; cursor: pointer; font-size: 15px; }
+.btn:hover { border-color: var(--dimmed); }
+.btn.go { border-color: var(--cyan); color: var(--cyan); }
+.btn:focus-visible, .ev:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.ev { display: block; width: 100%; text-align: left; font-family: var(--font-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; margin: 0 0 10px; cursor: pointer; }
+.ev:hover { border-color: var(--dimmed); }
 .ev .id { color: var(--cyan); margin-right: 6px; }
-
-.verdict { background: var(--surface); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 20px 24px; margin: 20px 0 0; }
-.verdict[hidden], .reveal[hidden] { display: none; }
-.verdict p { max-width: none; margin: 0 0 8px; }
-.next { margin: 12px 0 0; padding: 10px 18px; background: transparent; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); cursor: pointer; font-weight: 600; }
-
-.reveal h2 { margin-top: 8px; }
+.receipt { background: var(--surface); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 20px 24px; margin: 20px 0 0; }
+.receipt[hidden], .reveal[hidden] { display: none; }
+.receipt h4 { font-family: var(--font-mono); font-size: 15px; margin: 12px 0 6px; }
+.receipt h4.c { color: var(--green); }
+.receipt h4.u { color: var(--gold); }
+.receipt ul { margin: 0; padding-left: 20px; }
+.receipt li { margin: 0 0 4px; }
+.receipt .now { font-family: var(--font-display); font-size: 20px; margin: 16px 0 0; max-width: none; }
+.next { margin: 16px 0 0; padding: 10px 18px; background: transparent; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); cursor: pointer; font-weight: 600; }
 .hole { max-width: var(--measure); border: 1px solid var(--gold); background: var(--gold-bg); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0 24px; }
 .hole p { max-width: none; margin: 0 0 8px; }
 .score { font-family: var(--font-mono); font-size: 18px; color: var(--green); margin: 8px 0 12px; }
@@ -113,195 +118,207 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 <body>
 <header class="pad">
   <span class="mono">good.arcs.care · case file 001</span>
-  <div class="draft"><strong>DRAFT, not routed.</strong> Every evidence card paraphrases the published post <a href="/blog/nftt/the-question-that-found-the-outage">The Question That Found the Outage</a>. Nothing is invented. The cold-agent comparison score is not built yet.</div>
+  <div class="draft"><strong>DRAFT, not routed.</strong> Every evidence card paraphrases the published post <a href="/blog/nftt/the-question-that-found-the-outage">The Question That Found the Outage</a>. Nothing is invented.</div>
 </header>
 
 <main class="pad">
   <h1>The Case of the Six-Week Outage</h1>
-  <p class="lede">A change shipped with every checkmark green. Then one person asked the smallest question in software, how do I know this actually works, and the answer was a core feature that had been dead in production for six weeks without a single complaint. You have the evidence. You do not get to guess. You get to falsify.</p>
+  <p class="lede">A change shipped with every checkmark green. One person asked the smallest question in software, how do I know this actually works, and the answer was a core feature that had been dead in production for six weeks without a single complaint. Nobody here is accused. You take each chair in turn, and the investigator only asks you to defend where you sit.</p>
 
   <div class="rules">
     <ol>
-      <li>Each theory states its <b>kill condition</b> up front: the evidence that would prove it false.</li>
-      <li>Pick a theory, then present the evidence you think kills it.</li>
-      <li>The right evidence strikes it out. The wrong evidence costs a test.</li>
-      <li>The true theory cannot be killed. Evidence against it only comes back consistent.</li>
-      <li>When one theory is left standing, the question closes.</li>
+      <li>Each chair holds a position. The investigator reads it back as the claims it rests on.</li>
+      <li>For each claim, <b>show evidence</b> or <b>concede</b>. Conceding costs nothing.</li>
+      <li>Defending a claim with evidence that cuts against it is an <b>overclaim</b>.</li>
+      <li>Conceding a claim the evidence would have backed is an <b>underclaim</b>.</li>
+      <li>Each chair ends in your receipt: what you showed, and what you could not. A perfect run is zero of each.</li>
     </ol>
   </div>
 
   <div class="hud" aria-live="polite">
-    <span>Tests used <b id="tests">0</b></span>
-    <span>Minimum <b id="min">0</b></span>
-    <span class="status" id="status">Pick a theory to begin.</span>
+    <span>Overclaims <b id="over">0</b></span>
+    <span>Underclaims <b id="under">0</b></span>
+    <span class="status" id="status">Pick a claim to answer for.</span>
   </div>
 
-  <div id="acts"></div>
+  <div id="chairs"></div>
 
   <section class="reveal" id="reveal" hidden>
     <h2>The hole in the middle</h2>
     <div class="hole">
-      <p>You closed all three questions from the record alone. Now look at what the record never said.</p>
-      <p>The evidence shows the production database sat outside the step that applies migrations on deploy. It does not show when that was decided, by whom, or why. That missing decision is the donut hole: the one part of this case nobody can reconstruct, because it was never written down.</p>
-      <p>A receipt at that moment would have closed it. That is the entire argument for receipts, in one case.</p>
+      <p>Three chairs, three receipts, and the case solved itself: the code was right, the database was behind, silence was not health, and the record beat the screen.</p>
+      <p>Now look at what no receipt could cover. The evidence shows the production database sat outside the step that applies migrations on deploy. It never shows when that was decided, or why. Nobody can defend or concede that claim, because nobody wrote it down.</p>
+      <p>That is the whole argument for receipts, in one case.</p>
+      <p>The evidence is the lightning rod. It takes the charge so that one person’s certainty cannot overrule another’s, and hindsight cannot rewrite either. Nobody’s conviction was thrown out here. It was grounded: what you believe but cannot show still has a place on your receipt, it just does not get to outrank the record.</p>
     </div>
     <p class="score" id="final"></p>
     <p>What changed after this case: a health check that compares the live database to what the code expects, a screen that looks for the saved record before it claims failure, and migrations that run on every deploy.</p>
     <div class="share" id="share"></div>
     <button class="next" id="copy" type="button">Copy result</button>
-    <p style="margin-top:24px">Want this run on your own team's record? <a href="/good-agent-receipts-audit.html">The Agent Receipts Audit</a> is this case, played by a cold reader against your repo.</p>
+    <p style="margin-top:24px">Want your whole team in the chair, against your own repo? <a href="/good-agent-receipts-audit.html">The Agent Receipts Audit</a> is this case, run on your record.</p>
   </section>
 </main>
 
 <footer class="pad">
-  <p>ARCS · case file 001 · built from the public record of a real incident. No person is a suspect in any ARCS case; the culprit is always a gap in the record.</p>
+  <p>ARCS · case file 001 · built from the public record of a real incident. No person is a suspect in an ARCS case. Every chair is a position, and every position gets a receipt.</p>
 </footer>
 
 <script>
 (function () {
-  var ACTS = [
+  var CHAIRS = [
     {
-      q: "Question 1 of 3 · Every signed-in save and every load is failing in production. Why?",
+      who: "Chair 1 of 3 · the one who shipped it",
+      pos: "“It shipped green, so it works.”",
+      ask: "The investigator: “Walk me through why you believe that. Only what you can show.”",
       evidence: {
         E1: "The recent change: tests green, pull request merged, deploy out.",
-        E2: "Server log: every signed-in save and every load returns a server error, not just slow ones.",
+        E2: "Server log: every signed-in save and every load returns a server error.",
         E3: "Every failure carries the same database error: a column the code expects does not exist in the live database.",
         E4: "The last successfully saved decision is six weeks old.",
         E5: "The migration that adds that column was written, committed, reviewed and merged weeks ago.",
         E6: "The production database was never placed under the tool that applies migrations on deploy."
       },
-      theories: [
-        { t: "The change that just shipped broke saving.", k: "Dies if saving was already broken before this change shipped.", kill: "E4" },
-        { t: "Flaky networks and slow phones. The server is fine.", k: "Dies if the server itself is logging the errors.", kill: "E2" },
-        { t: "The code has a bug the tests missed.", k: "Dies if the code matches a schema change that was written and approved.", kill: "E5" },
-        { t: "The code and the live database disagree: the migration never ran in production.", k: "Dies if the live database already has the column.", kill: null }
+      claims: [
+        { t: "The tests passed and the merge was clean.", yes: ["E1"], no: [] },
+        { t: "The code is correct.", yes: ["E5", "E3"], no: [] },
+        { t: "So the feature works in production.", yes: [], no: ["E2", "E3"] },
+        { t: "If saving is broken, this change broke it.", yes: [], no: ["E4"] },
+        { t: "The live database matches the code.", yes: [], no: ["E3", "E6"] }
       ],
-      verdict: "The code was right and the database was behind. A migration that exists in the code but never runs is, from the code's point of view, indistinguishable from one that did."
+      now: "The code is right and the database is behind it. Green measured the code, not the system."
     },
     {
-      q: "Question 2 of 3 · The core loop was down for six weeks. Why did nobody report it?",
+      who: "Chair 2 of 3 · the one who would have heard",
+      pos: "“If it were broken, we’d have heard.”",
+      ask: "The investigator: “Heard from whom? Show me.”",
       evidence: {
         E7: "Completion: 2 of 247 runs ever reached a saved outcome.",
-        E8: "No health check compared the live database to the code. It was built after this case, not before.",
-        E9: "The failure was found by a person asking to see it work, not by a monitor or an alert."
+        E8: "No health check compared the live database to the code. It was built after this case.",
+        E9: "In six weeks, nobody reported a failure.",
+        E10: "The outage was found by a person asking to see the feature work, not by a monitor or an alert."
       },
-      theories: [
-        { t: "An alert fired and someone ignored it.", k: "Dies if there was no check that could have fired.", kill: "E8" },
-        { t: "Users hit it and complained, and the complaints were lost.", k: "Dies if almost nobody ever reached the step that was broken.", kill: "E7" },
-        { t: "Almost nobody finishes the loop, so a total outage produced zero complaints.", k: "Dies if real traffic regularly reached the save step.", kill: null }
+      claims: [
+        { t: "Nobody reported a problem.", yes: ["E9"], no: [] },
+        { t: "Real users regularly reach the save step.", yes: [], no: ["E7"] },
+        { t: "Our checks would catch a dead core loop.", yes: [], no: ["E8", "E10"] },
+        { t: "So silence means it was working.", yes: [], no: ["E7", "E10"] }
       ],
-      verdict: "Two gaps hid each other. The outage stayed hidden because the loop is rarely finished, and the rarely-finished loop stayed hidden because nothing forced the outage into view."
+      now: "Silence was not health. Almost nobody reaches the step, and nothing was watching it."
     },
     {
-      q: "Question 3 of 3 · The column is restored. The same run is tried again, and the screen says Load failed. Did the fix fail?",
+      who: "Chair 3 of 3 · the one who fixed it and doubted it",
+      pos: "“The screen says it failed, so the fix failed.”",
+      ask: "The investigator: “The screen said so. What does the record say?”",
       evidence: {
-        E10: "The retest screen: Load failed, the same generic message as before.",
-        E11: "The database: a freshly saved decision, timestamped to the minute of the retest.",
-        E12: "The retest was slow, on a real phone, over a real network."
+        E11: "The retest screen: Load failed, the same generic message as before.",
+        E12: "The database: a freshly saved decision, timestamped to the minute of the retest.",
+        E13: "The retest was slow, on a real phone, over a real network."
       },
-      theories: [
-        { t: "The fix did not work.", k: "Dies if the database holds a record saved during the retest.", kill: "E11" },
-        { t: "The fix worked, but a second, unrelated bug is breaking saves.", k: "Dies if the save itself succeeded.", kill: "E11" },
-        { t: "The server finished. The screen gave up waiting first and reported a failure that never happened.", k: "Dies if no record was saved during the retest.", kill: null }
+      claims: [
+        { t: "The screen said Load failed.", yes: ["E11"], no: [] },
+        { t: "The retest was slow.", yes: ["E13"], no: [] },
+        { t: "So nothing was saved.", yes: [], no: ["E12"] },
+        { t: "The screen reports what the server did.", yes: [], no: ["E12"] }
       ],
-      verdict: "The saved record is the truth. The screen is a hint. When they disagree, the artifact wins, every time."
+      now: "The record is the truth. The screen is a hint. It gave up waiting and reported a failure the server never had."
     }
   ];
 
-  var tests = 0, minimum = 0, actIndex = 0, selected = null;
-  ACTS.forEach(function (a) { a.theories.forEach(function (th) { if (th.kill) minimum++; }); });
+  var over = 0, under = 0, cur = 0, sel = null;
   var $ = function (id) { return document.getElementById(id); };
-  $("min").textContent = minimum;
+  function say(m, c) { var s = $("status"); s.textContent = m; s.className = "status" + (c ? " " + c : ""); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
-  function say(msg, cls) { var s = $("status"); s.textContent = msg; s.className = "status" + (cls ? " " + cls : ""); }
-
-  function renderAct(i) {
-    var a = ACTS[i], root = $("acts");
-    var sec = document.createElement("section");
-    sec.className = "act"; sec.id = "act" + i;
-    sec.innerHTML = '<p class="q"></p><div class="board"><div class="col"><h3>Theories</h3><div class="th"></div></div><div class="col"><h3>Evidence</h3><div class="evl"></div></div></div><div class="verdict" hidden></div>';
-    sec.querySelector(".q").textContent = a.q;
-    var thBox = sec.querySelector(".th"), evBox = sec.querySelector(".evl");
-    a.theories.forEach(function (th, j) {
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "card"; b.dataset.j = j;
-      b.innerHTML = '<span class="t"></span><span class="k"></span>';
-      b.querySelector(".t").textContent = th.t;
-      b.querySelector(".k").textContent = "Kill condition: " + th.k;
-      b.addEventListener("click", function () { pickTheory(i, j, b); });
-      thBox.appendChild(b);
+  function render(i) {
+    var c = CHAIRS[i], sec = el("section", "chair"); sec.id = "chair" + i;
+    sec.appendChild(el("p", "who", c.who));
+    sec.appendChild(el("p", "pos", c.pos));
+    sec.appendChild(el("p", "ask", c.ask));
+    var board = el("div", "board"), L = el("div", "col"), R = el("div", "col");
+    L.appendChild(el("h3", null, "Your claims")); R.appendChild(el("h3", null, "Evidence"));
+    c.claims.forEach(function (cl, j) {
+      var box = el("div", "claim"); box.dataset.j = j;
+      box.appendChild(el("span", "t", cl.t));
+      var row = el("div", "row");
+      var show = el("button", "btn go", "Show evidence"); show.type = "button";
+      var give = el("button", "btn", "Concede"); give.type = "button";
+      show.addEventListener("click", function () { pick(i, j); });
+      give.addEventListener("click", function () { concede(i, j); });
+      row.appendChild(show); row.appendChild(give); box.appendChild(row);
+      L.appendChild(box);
     });
-    Object.keys(a.evidence).forEach(function (id) {
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "card ev";
-      b.innerHTML = '<span class="id"></span><span></span>';
-      b.firstChild.textContent = id;
-      b.lastChild.textContent = a.evidence[id];
-      b.addEventListener("click", function () { present(i, id); });
-      evBox.appendChild(b);
+    Object.keys(c.evidence).forEach(function (id) {
+      var b = el("button", "ev"); b.type = "button";
+      b.appendChild(el("span", "id", id)); b.appendChild(el("span", null, c.evidence[id]));
+      b.addEventListener("click", function () { cite(i, id); });
+      R.appendChild(b);
     });
-    root.appendChild(sec);
+    board.appendChild(L); board.appendChild(R); sec.appendChild(board);
+    var r = el("div", "receipt"); r.hidden = true; sec.appendChild(r);
+    $("chairs").appendChild(sec);
   }
 
-  function pickTheory(i, j, btn) {
-    if (i !== actIndex) return;
-    var th = ACTS[i].theories[j];
-    if (th.dead || th.stand) return;
-    document.querySelectorAll("#act" + i + " .th .card").forEach(function (c) { c.classList.remove("sel"); });
-    btn.classList.add("sel"); selected = j;
-    say("Theory selected. Present the evidence that kills it.");
+  function box(i, j) { return document.querySelector("#chair" + i + ' .claim[data-j="' + j + '"]'); }
+
+  function pick(i, j) {
+    if (i !== cur || CHAIRS[i].claims[j].done) return;
+    document.querySelectorAll("#chair" + i + " .claim").forEach(function (b) { b.classList.remove("sel"); });
+    box(i, j).classList.add("sel"); sel = j;
+    say("Now pick the evidence that shows it.");
   }
 
-  function present(i, id) {
-    if (i !== actIndex) return;
-    if (selected === null) { say("Pick a theory first, then present evidence against it.", "miss"); return; }
-    var a = ACTS[i], th = a.theories[selected];
-    var btn = document.querySelector("#act" + i + ' .th .card[data-j="' + selected + '"]');
-    tests++; $("tests").textContent = tests;
-    if (th.kill === null) {
-      say(id + " is consistent with that theory. It cannot kill it.", "hold");
-    } else if (th.kill === id) {
-      th.dead = true; btn.classList.remove("sel"); btn.classList.add("dead");
-      btn.querySelector(".k").textContent = "Falsified by " + id + ".";
-      say("Falsified. " + id + " meets the kill condition.", "kill");
-      selected = null; checkClosed(i);
-    } else {
-      say(id + " does not meet that theory's kill condition. Test spent.", "miss");
-    }
+  function resolve(i, j, kind, text) {
+    var cl = CHAIRS[i].claims[j], b = box(i, j);
+    cl.done = kind; b.classList.remove("sel"); b.classList.add(kind === "shown" ? "shown" : "gap");
+    if (kind === "over") b.classList.add("over");
+    var row = b.querySelector(".row"); if (row) row.remove();
+    b.appendChild(el("span", "res", text));
+    sel = null; check(i);
   }
 
-  function checkClosed(i) {
-    var a = ACTS[i];
-    var alive = a.theories.filter(function (t) { return !t.dead; });
-    if (alive.length !== 1) return;
-    alive[0].stand = true;
-    var j = a.theories.indexOf(alive[0]);
-    var btn = document.querySelector("#act" + i + ' .th .card[data-j="' + j + '"]');
-    btn.classList.add("stand");
-    btn.querySelector(".k").textContent = "Left standing. Nothing in the record kills it.";
-    var v = document.querySelector("#act" + i + " .verdict");
-    v.hidden = false;
-    v.innerHTML = "<p></p>";
-    v.firstChild.textContent = a.verdict;
-    if (i + 1 < ACTS.length) {
-      var n = document.createElement("button");
-      n.type = "button"; n.className = "next"; n.textContent = "Next question";
-      n.addEventListener("click", function () {
-        n.remove(); actIndex = i + 1; renderAct(actIndex);
-        document.getElementById("act" + actIndex).scrollIntoView({ behavior: "smooth", block: "start" });
-        say("New question. Pick a theory.");
-      });
-      v.appendChild(n);
-    } else {
-      finish();
-    }
+  function cite(i, id) {
+    if (i !== cur) return;
+    if (sel === null) { say("Pick a claim first, then show the evidence for it.", "warn"); return; }
+    var cl = CHAIRS[i].claims[sel];
+    if (cl.yes.indexOf(id) >= 0) { say("Shown. " + id + " backs it.", "ok"); resolve(i, sel, "shown", "Shown by " + id + "."); }
+    else if (cl.no.indexOf(id) >= 0) { over++; $("over").textContent = over; say("Overclaim. " + id + " cuts against this claim.", "bad"); resolve(i, sel, "over", "Overclaim: " + id + " cuts against it. Moved to what you could not show."); }
+    else { say(id + " does not speak to that claim. Try another, or concede.", "warn"); }
+  }
+
+  function concede(i, j) {
+    if (i !== cur || CHAIRS[i].claims[j].done) return;
+    var cl = CHAIRS[i].claims[j];
+    if (cl.yes.length) { under++; $("under").textContent = under; say("Underclaim. The record would have backed that one.", "warn"); resolve(i, j, "under", "Conceded, though " + cl.yes[0] + " would have shown it."); }
+    else { say("Conceded. Nothing in the record backs it, and you said so.", "ok"); resolve(i, j, "gap", "Conceded. Nothing in the record backs it."); }
+  }
+
+  function check(i) {
+    var c = CHAIRS[i];
+    if (c.claims.some(function (cl) { return !cl.done; })) return;
+    var r = document.querySelector("#chair" + i + " .receipt"); r.hidden = false;
+    r.appendChild(el("h4", "c", "What you showed"));
+    var u1 = el("ul"); r.appendChild(u1);
+    r.appendChild(el("h4", "u", "What you could not show"));
+    var u2 = el("ul"); r.appendChild(u2);
+    c.claims.forEach(function (cl) {
+      if (cl.done === "shown") u1.appendChild(el("li", null, cl.t));
+      else if (cl.done === "under") u1.appendChild(el("li", null, cl.t + " (you conceded it, but the record backs it)"));
+      else u2.appendChild(el("li", null, cl.t));
+    });
+    r.appendChild(el("p", "now", "Where the evidence actually puts this chair: " + c.now));
+    if (i + 1 < CHAIRS.length) {
+      var n = el("button", "next", "Take the next chair"); n.type = "button";
+      n.addEventListener("click", function () { n.remove(); cur = i + 1; render(cur); $("chair" + cur).scrollIntoView({ behavior: "smooth", block: "start" }); say("New chair. Pick a claim to answer for."); });
+      r.appendChild(n);
+    } else finish();
   }
 
   function finish() {
-    say("Case closed.", "kill");
-    var line = "Closed in " + tests + " tests (minimum " + minimum + ").";
+    say("Case closed.", "ok");
+    var pl = function (n, w) { return n + " " + w + (n === 1 ? "" : "s"); };
+    var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ". A perfect run is 0 and 0.";
     $("final").textContent = line;
-    var text = "I closed The Case of the Six-Week Outage in " + tests + " tests. Minimum is " + minimum + ".\nThe culprit was a gap in the record.";
+    var text = "I sat in all three chairs of The Case of the Six-Week Outage.\n" + line + "\nThe culprit was a gap in the record.";
     $("share").textContent = text;
     $("copy").addEventListener("click", function () {
       try { navigator.clipboard.writeText(text); $("copy").textContent = "Copied"; }
@@ -311,7 +328,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
     $("reveal").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  renderAct(0);
+  render(0);
 })();
 </script>
 </body>
