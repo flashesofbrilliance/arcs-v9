@@ -1,15 +1,21 @@
-# ARCS Session State — 2026-09-24
+# ARCS session state — updated 2026-09-26
 
-**Sprint:** Success Academy AI Product Manager job engagement (COMPLETE for now — sent, awaiting reply).
+## Active branch
+`claude/success-academy-ai-pm-5bf0d9` (HEAD `5ae8d0fb`, pushed, +33/-57 vs main). NOT merged.
 
-**Shipped:** success-academy.arcs.care (open candidate brief, PM-first, analytics firing) + Vico-pair resume
-(PDF + ATS) + call brief + note-to-Brian. Live, honest, detector 0/0, security-clean. PRs #494-#504.
+## On main
+Eval suite (PR #509): `slop_lint` / `slop_eval` / `provenance_lint` + `_PATTERNS/slop-free-rubric.md` + pre-commit slop+provenance guards.
 
-**Status:** Note SENT to Brian 2026-09-24 ~13:45 EDT. Jarrod on vacation → relaxed timeline (soft-nudge
-~2026-10-08, close-loop ~2026-10-13).
+## Idle forks (not merged)
+- `claude/slop-gate-consolidate-dist-a34d1c` (pushed) — resume-tailor SSOT bundle, **ADR-82**, publish gated (private:true).
+- `worktree-agent-a9c05965613c705e2` (local) — design-system ui-kit, **ADR-83**, 7-wave migration plan.
 
-**Next session starts with:** on Zach's ping, check Gmail (Brian reply) + Vercel arcs-v9 analytics
-(success-academy.arcs.care visits, ignore 2026-09-24 build-test views); confirm which req maps to Brian's
-convo. Full context: memory `project_jarrod_wolf_success_academy`.
+## Next (user-gated queue — nothing fires without Zach)
+1. Review `_PATTERNS/2026-09-26-ui-kit-migration-plan.md` -> land design-system branch to main (unblocks ui-kit migrations + peer NFTT visual gate).
+2. Open bundle -> main PR (governance-first per ADR-82).
+3. Run 4 gated npm publish commands (`@arcs-care` org + npm login) for `@arcs-care/slop-gate` (MIT).
+4. Token-canonicalization fork: `_tokens.css` (Geist/Instrument) vs `DESIGN.md` (Inter/JetBrains).
+5. SEND the Success Academy resume to Brian (interview **Tue 2026-09-30 3:30 PM EST**).
 
-**Blocking:** NONE.
+## Cross-session
+good.arcs.care peer ("Build cold-reconstruction incident report") wired `slop_lint` into `nftt-gates.sh` (#510); waiting on the design-system branch landing on main to re-run the brand profile + add the detector step.

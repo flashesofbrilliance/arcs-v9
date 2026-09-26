@@ -4236,3 +4236,57 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
 ## Lessons booked (2 new memories)
 `prod-schema-drift-migrate-deploy-not-db-push` · `client-fetch-failure-is-not-persistence-failure`
 (trust the persisted artifact, not the transient signal — the through-line of the whole session).
+
+# Handoff — v3.65.2 (2026-09-24)
+
+> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
+> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
+> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
+> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
+> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
+
+## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
+- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
+  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
+  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
+  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
+  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
+- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
+  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
+  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
+  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
+- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
+  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
+- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
+  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
+  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
+- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
+  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
+  "finance" → "regulated industries".
+- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
+  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
+  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
+  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
+- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
+  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
+  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
+  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
+  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
+- **All of the above deployed to main and prod-verified** (latest `2ec3adc`, Vercel READY, cache-MISS fetches).
+
+## Lessons booked (MEMORY.md v3.65.1/.2 + night-moves 2026-09-23/24)
+- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
+  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
+- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
+- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
+  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
+- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
+
+## Open (next session)
+1. **Close the loop after Joe × Lyndon (3 PM EST Thu 2026-09-24).** Reminder ARMED via `send_later`
+   (`trig_01FS48pXd5V6vbPne6E7p8KB`, fires 20:30 UTC / 4:30 PM EST): did Lyndon reach vico.arcs.care or
+   only Joe's paraphrase (message-drift lever)? Score the 5 beats; plan follow-up.
+2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
+3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
+   State-of-the-Union dashboard (source file still unidentified — get it first).

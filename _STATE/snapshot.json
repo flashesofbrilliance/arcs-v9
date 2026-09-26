@@ -1,30 +1,42 @@
 {
-  "captured_at": "2026-09-24T18:05:00-04:00",
+  "captured_at": "2026-09-26T06:12:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "8f0bb4a1",
-    "head_message": "Merge origin/main into claude/success-academy-ai-pm-5bf0d9 (Success Academy AI PM engagement)",
+    "head_sha": "5ae8d0fb",
+    "head_message": "fix(kintsugi-seam): correct the falsified rule:null claim",
     "branch": "claude/success-academy-ai-pm-5bf0d9",
-    "in_sync_with_origin": false,
-    "note": "branch ahead of main via keep-ours merge commits; all CONTENT landed on main via squash PRs #494-#504",
-    "dirty_files": ["_ARTIFACTS/forge-success-academy-ai-pm/*", "_STATE/job-search/success-academy-ai-pm-brief.md", "_INBOX/*", "_STATE/pulse.json"]
+    "in_sync_with_origin": true,
+    "ahead_of_main": 33,
+    "behind_main": 57,
+    "note": "branch pushed; NOT merged to main. Eval suite landed on main separately via PR #509 (focused branch, not this one).",
+    "dirty_files": [
+      "_INBOX/*",
+      "_STATE/pulse.json",
+      "runtime/specs/knowledge-lattice-v1.json (drift-hook artifacts, not this session's work)"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_status": "Ready",
+    "latest_deploy_status": "NOT re-checked this session",
     "production_alias": "https://app.arcs.care",
-    "shipped_this_session": "success-academy.arcs.care (open candidate brief + /resume + PDF + ATS)",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "note": "no deploy performed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
-    "port": 6543,
-    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
+    "note": "one decision_receipt row written (2026-09-26--slop-eval-suite-to-main--ZH); schema not otherwise touched"
   },
-  "open_adrs": [],
-  "session_summary": "Built + shipped the Success Academy AI Product Manager engagement end to end: open candidate brief at success-academy.arcs.care (PM-first, discovery-led, Ahmed-ordered, analytics firing) + a Vico-pair resume (designed PDF + machine ATS), hardened via counterpart-gauntlet + dual-bar-raiser + impeccable, two late honesty fixes (resume-tailor overclaim, 0.91 pursue-score framing); note sent to Brian 2026-09-24 13:45 EDT.",
-  "next_action": "Await Brian/Jarrod reply (Jarrod on vacation the week of 2026-09-24; relaxed timeline, soft-nudge ~2026-10-08). On Zach's ping, check Gmail for Brian's reply + Vercel arcs-v9 analytics for success-academy.arcs.care visits (ignore the 2026-09-24 build-test views).",
-  "blocking": "NONE"
+  "env_vars_present": [
+    "AUTH_SECRET",
+    "AUTH_RESEND_KEY",
+    "DATABASE_URL",
+    "ANTHROPIC_API_KEY (per prior session; not re-verified today)"
+  ],
+  "open_adrs": [
+    "ADR-82 slop-gate-oss-publish (on bundle branch, PROPOSED, write-lock gates npm publish)",
+    "ADR-83 ui-kit-atomic-ssot (on design-system branch, PROPOSED)"
+  ],
+  "session_summary": "Built a four-layer anti-slop + provenance eval CoE (slop_lint style+metrics, slop_eval judgment, provenance_lint factual, rubric); landed it on main (PR #509); de-slopped + fact-checked the Success Academy conventional resume (cut untraceable 40/75 claim, kept Zach-confirmed 850K, New York Metro, ATS-verified) + refreshed the call brief; forked the resume-tailor SSOT bundle (npm+Homebrew scaffold, ADR-82, publish gated) and the design-system ui-kit normalization (inventory 225 surfaces, src/ui-kit extraction, component_source_gate, brand profile incl. good.arcs.care NFTT globs, PoC, 7-wave plan, ADR-83); corrected a false rule:null claim in canon + to the peer; coordinated cross-session with the good.arcs.care thread (they wired slop_lint into nftt-gates.sh #510).",
+  "next_action": "USER-GATED queue: (1) review _PATTERNS/2026-09-26-ui-kit-migration-plan.md then land design-system branch -> main (unblocks ui-kit migrations + the peer's NFTT visual gate); (2) open bundle -> main PR (governance-first per ADR-82); (3) run the 4 gated npm publish commands (@arcs-care org + npm login); (4) token-canonicalization fork (_tokens.css vs DESIGN.md font stacks). Also: SEND the Success Academy resume to Brian (interview Tue 2026-09-30 3:30 PM EST).",
+  "blocking": "NONE (all remaining items are user-gated by design)"
 }
