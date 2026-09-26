@@ -1,561 +1,561 @@
 {
-  "detector": {
-    "ignoreRules": [],
-    "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:07:34.698Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans), the recoil-report family's own locked kit, a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:07:38.367Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:10:21.792Z",
-        "reason": "Status-LED glow (boxShadow 0 0 8px 1px color) is the shipped pattern from src/app/jobs/[jobid]/page.tsx's led() helper, used identically for BAND/GATES/SWIPE/FORGE indicators; not new decoration"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.261Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.287Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.309Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.330Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-ext.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.350Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "runtime/warroom/jack-rain.html"
-        ],
-        "createdAt": "2026-09-14T17:11:11.370Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.153Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.175Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.200Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.222Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "public/jack-rain-resume.html"
-        ],
-        "createdAt": "2026-09-14T17:29:41.243Z",
-        "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/success-academy.html",
-          "public/success-academy-resume-viewer.html"
-        ],
-        "createdAt": "2026-09-24T16:40:00.000Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/success-academy.html",
-          "public/success-academy-resume-viewer.html"
-        ],
-        "createdAt": "2026-09-24T16:40:00.000Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
-      },
-      {
-        "rule": "undersized-ui-text",
-        "value": "*",
-        "files": [
-          "public/success-academy.html",
-          "public/success-academy-resume-viewer.html"
-        ],
-        "createdAt": "2026-09-24T16:40:00.000Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "public/success-academy.html",
-          "public/success-academy-resume-viewer.html"
-        ],
-        "createdAt": "2026-09-24T16:40:00.000Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
-      },
-      {
-        "rule": "wide-tracking",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
-      },
-      {
-        "rule": "hero-eyebrow-chip",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
-      },
-      {
-        "rule": "undersized-ui-text",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: 10px uppercase mono key-labels (.k panel keys, .lbl link kickers) are deliberate micro-labels; consistent with the existing undersized-ui-text acceptance."
-      },
-      {
-        "rule": "skipped-heading",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T06:29:05.000Z",
-        "reason": "NFTT literary family: .panel h4 is a styled micro-title within a section (visual label, not a document-outline level); outline is h1 title then h2 movements."
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:39.279Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit locked visual world, separate from DESIGN.md): Geist/Instrument fonts, signal-color borders, status-LED glow, mono tracked-caps labels. Brand not slop; legibility debt left live."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:42.963Z",
-        "reason": "recoil-report kit visual world (inherits _tokens.css); type scale differs from DESIGN.md by design."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:46.008Z",
-        "reason": "recoil-report kit visual world (inherits _tokens.css signal palette)."
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:48.960Z",
-        "reason": "recoil-report kit visual world (inherits _tokens.css radii)."
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:52.330Z",
-        "reason": "Status-LED glow / earned-fidelity bloom is the shipped ARCS instrument pattern, not new decoration."
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:55.878Z",
-        "reason": "Mono tracked-caps section labels/eyebrows are the instrument-legend voice (label role), not all-caps body copy."
-      },
-      {
-        "rule": "wide-tracking",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:30:59.021Z",
-        "reason": "Wide letter-spacing lives on mono label/eyebrow roles (instrument legend), not body prose."
-      },
-      {
-        "rule": "border-accent-on-rounded",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:31:02.716Z",
-        "reason": "Signal-color border on a rounded panel is the ARCS card grammar (active/locked state shifts border tint), not decoration."
-      },
-      {
-        "rule": "side-tab",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/profile-scan-hud.html"
-        ],
-        "createdAt": "2026-09-26T05:31:06.261Z",
-        "reason": "The 4px thread rail / entity strip is the recoil-report kit's signal-rail primitive, not a stray side tab."
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "Earned-fidelity / signal glow is the shipped ARCS pattern, not new decoration."
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "NFTT literary house grammar: Newsreader serif body + IBM Plex Mono chrome (separate visual world from DESIGN.md)."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "NFTT literary type scale (editorial longform), differs from DESIGN.md by design."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "NFTT dark palette cyan/gold/green/red on #020408 (house signal palette)."
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "NFTT bordered rounded panels (house card grammar)."
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "IBM Plex Mono chrome/section labels are uppercase label role, not all-caps body copy."
-      },
-      {
-        "rule": "wide-tracking",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "Letter-spacing lives on the mono label/kicker role (instrument legend), not body prose."
-      },
-      {
-        "rule": "hero-eyebrow-chip",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "The NFTT eyebrow chip is house grammar (see backlog nftt-template-kintsugi-contrast-and-label-heuristics), not a stray hero chip."
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-recon-report-*.html"
-        ],
-        "createdAt": "2026-09-26T05:54:07Z",
-        "reason": "Earned-fidelity / signal glow is the shipped ARCS pattern, not new decoration."
-      },
-      {
-        "rule": "low-contrast",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T07:55:32.000Z",
-        "reason": "NFTT literary family: verified detector artifact, not real debt. The detector composites translucent backgrounds (e.g. .vector's linear-gradient(rgba(255,77,109,.05),var(--bg))) and transparent elements over WHITE instead of the actual #020408 page, producing phantom light bgs (#fff6f8 = that rgba over white exactly) and false low-contrast reports. Real rendered contrast is 14-17:1 on the near-black page; audited 2026-09-26, see _PATTERNS/kintsugi-visual-grammar-seams.md. The genuine --dim 4.0:1 issue was separately fixed to AA (#748699)."
-      },
-      {
-        "rule": "cramped-padding",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T08:03:07.000Z",
-        "reason": "NFTT literary family: verified false positive (audited 2026-09-26). Flagged on .twrap, a horizontal-scroll wrapper around a bordered table; the table cells carry td{padding:11px 14px}, so content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as cramped."
-      },
-      {
-        "rule": "tiny-text",
-        "value": "*",
-        "files": [
-          "public/blog-nftt-*.html"
-        ],
-        "createdAt": "2026-09-26T08:03:07.000Z",
-        "reason": "NFTT literary family: 11px mono CHROME (section tags .rsec-tag, confidence/meta lines .rsec-conf/.confnum, legend/key rows .keys, snapshot captions) read as body text by the detector; not reading copy. Audited 2026-09-26. The one genuine 10px explanatory line (loop-hud .honest) was bumped to 11px, not suppressed."
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.519Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.528Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.539Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.549Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.558Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:30:52.567Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
-      },
-      {
-        "rule": "low-contrast",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
-        ],
-        "createdAt": "2026-09-26T16:33:52.570Z",
-        "reason": "Verified false positive (2026-09-26): headless screenshot at 390x844 with the <details> disclosure forced open shows every text run as light-on-dark (e2e8f0/94a3b8/etc on #0d1117/#020408), 4.5:1+ AA-clean throughout. Same detector-artifact class as the documented public/blog-nftt-* low-contrast exemption (_PATTERNS/kintsugi-visual-grammar-seams.md): the checker reports several elements as if composited over white/black defaults rather than the actual painted page. Bisected piece-by-piece (sides=0, legs=1, fine-print table=0, sign=0 findings alone; combined=11) confirming it is a checker artifact, not additive real debt."
-      },
-      {
-        "rule": "design-system-font",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.489Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.500Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.509Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      },
-      {
-        "rule": "design-system-radius",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.518Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      },
-      {
-        "rule": "all-caps-body",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.527Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      },
-      {
-        "rule": "dark-glow",
-        "value": "*",
-        "files": [
-          "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
-        ],
-        "createdAt": "2026-09-26T16:36:01.535Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
-      }
-    ]
-  }
+ "detector": {
+  "ignoreRules": [],
+  "ignoreFiles": [],
+  "ignoreValues": [
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:07:34.698Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans), the recoil-report family's own locked kit, a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:07:38.367Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:10:21.792Z",
+    "reason": "Status-LED glow (boxShadow 0 0 8px 1px color) is the shipped pattern from src/app/jobs/[jobid]/page.tsx's led() helper, used identically for BAND/GATES/SWIPE/FORGE indicators; not new decoration"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.261Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.287Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.309Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.330Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/jack-rain-ext.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.350Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "runtime/warroom/jack-rain.html"
+    ],
+    "createdAt": "2026-09-14T17:11:11.370Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.153Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.175Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.200Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.222Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "public/jack-rain-resume.html"
+    ],
+    "createdAt": "2026-09-14T17:29:41.243Z",
+    "reason": "Same recoil-report kit inheritance as jack-rain-ext.html / runtime/warroom/jack-rain.html"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "undersized-ui-text",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "public/success-academy.html",
+     "public/success-academy-resume-viewer.html"
+    ],
+    "createdAt": "2026-09-24T16:40:00.000Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "wide-tracking",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "hero-eyebrow-chip",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "undersized-ui-text",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: 10px uppercase mono key-labels (.k panel keys, .lbl link kickers) are deliberate micro-labels; consistent with the existing undersized-ui-text acceptance."
+   },
+   {
+    "rule": "skipped-heading",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: .panel h4 is a styled micro-title within a section (visual label, not a document-outline level); outline is h1 title then h2 movements."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:39.279Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit locked visual world, separate from DESIGN.md): Geist/Instrument fonts, signal-color borders, status-LED glow, mono tracked-caps labels. Brand not slop; legibility debt left live."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:42.963Z",
+    "reason": "recoil-report kit visual world (inherits _tokens.css); type scale differs from DESIGN.md by design."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:46.008Z",
+    "reason": "recoil-report kit visual world (inherits _tokens.css signal palette)."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:48.960Z",
+    "reason": "recoil-report kit visual world (inherits _tokens.css radii)."
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:52.330Z",
+    "reason": "Status-LED glow / earned-fidelity bloom is the shipped ARCS instrument pattern, not new decoration."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:55.878Z",
+    "reason": "Mono tracked-caps section labels/eyebrows are the instrument-legend voice (label role), not all-caps body copy."
+   },
+   {
+    "rule": "wide-tracking",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:30:59.021Z",
+    "reason": "Wide letter-spacing lives on mono label/eyebrow roles (instrument legend), not body prose."
+   },
+   {
+    "rule": "border-accent-on-rounded",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:31:02.716Z",
+    "reason": "Signal-color border on a rounded panel is the ARCS card grammar (active/locked state shifts border tint), not decoration."
+   },
+   {
+    "rule": "side-tab",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/profile-scan-hud.html"
+    ],
+    "createdAt": "2026-09-26T05:31:06.261Z",
+    "reason": "The 4px thread rail / entity strip is the recoil-report kit's signal-rail primitive, not a stray side tab."
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "Earned-fidelity / signal glow is the shipped ARCS pattern, not new decoration."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "NFTT literary house grammar: Newsreader serif body + IBM Plex Mono chrome (separate visual world from DESIGN.md)."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "NFTT literary type scale (editorial longform), differs from DESIGN.md by design."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "NFTT dark palette cyan/gold/green/red on #020408 (house signal palette)."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "NFTT bordered rounded panels (house card grammar)."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "IBM Plex Mono chrome/section labels are uppercase label role, not all-caps body copy."
+   },
+   {
+    "rule": "wide-tracking",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "Letter-spacing lives on the mono label/kicker role (instrument legend), not body prose."
+   },
+   {
+    "rule": "hero-eyebrow-chip",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "The NFTT eyebrow chip is house grammar (see backlog nftt-template-kintsugi-contrast-and-label-heuristics), not a stray hero chip."
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-recon-report-*.html"
+    ],
+    "createdAt": "2026-09-26T05:54:07Z",
+    "reason": "Earned-fidelity / signal glow is the shipped ARCS pattern, not new decoration."
+   },
+   {
+    "rule": "low-contrast",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T07:55:32.000Z",
+    "reason": "NFTT literary family: verified detector artifact, not real debt. The detector composites translucent backgrounds (e.g. .vector's linear-gradient(rgba(255,77,109,.05),var(--bg))) and transparent elements over WHITE instead of the actual #020408 page, producing phantom light bgs (#fff6f8 = that rgba over white exactly) and false low-contrast reports. Real rendered contrast is 14-17:1 on the near-black page; audited 2026-09-26, see _PATTERNS/kintsugi-visual-grammar-seams.md. The genuine --dim 4.0:1 issue was separately fixed to AA (#748699)."
+   },
+   {
+    "rule": "cramped-padding",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T08:03:07.000Z",
+    "reason": "NFTT literary family: verified false positive (audited 2026-09-26). Flagged on .twrap, a horizontal-scroll wrapper around a bordered table; the table cells carry td{padding:11px 14px}, so content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as cramped."
+   },
+   {
+    "rule": "tiny-text",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T08:03:07.000Z",
+    "reason": "NFTT literary family: 11px mono CHROME (section tags .rsec-tag, confidence/meta lines .rsec-conf/.confnum, legend/key rows .keys, snapshot captions) read as body text by the detector; not reading copy. Audited 2026-09-26. The one genuine 10px explanatory line (loop-hud .honest) was bumped to 11px, not suppressed."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.519Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.528Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.539Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.549Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.558Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:30:52.567Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, enrolled @arcs-template), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift"
+   },
+   {
+    "rule": "low-contrast",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html"
+    ],
+    "createdAt": "2026-09-26T16:33:52.570Z",
+    "reason": "Verified false positive (2026-09-26): headless screenshot at 390x844 with the <details> disclosure forced open shows every text run as light-on-dark (e2e8f0/94a3b8/etc on #0d1117/#020408), 4.5:1+ AA-clean throughout. Same detector-artifact class as the documented public/blog-nftt-* low-contrast exemption (_PATTERNS/kintsugi-visual-grammar-seams.md): the checker reports several elements as if composited over white/black defaults rather than the actual painted page. Bisected piece-by-piece (sides=0, legs=1, fine-print table=0, sign=0 findings alone; combined=11) confirming it is a checker artifact, not additive real debt."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.489Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.500Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.509Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.518Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.527Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "dark-glow",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/2026-09-26-loop-closing-wager/settle-card.html"
+    ],
+    "createdAt": "2026-09-26T16:36:01.535Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   }
+  ]
+ }
 }

@@ -124,13 +124,15 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
   @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
   90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
-- **Settle-the-debate card** (PNG, 1170x2898): plain-language 3-test version for posting from a phone.
+- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
+  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
+  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
 - Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
 - **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
 
 ## Open (next session)
 1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
-   post the card, and collect "agreed" replies. Two blanks await the parties: six's diffusion deadline, a referee.
+   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
 2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
 3. Backfill gap: v3.66.0 has no MEMORY.md entry.
 4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
