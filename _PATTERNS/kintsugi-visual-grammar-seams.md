@@ -310,8 +310,14 @@ Belongs to the template/`/design-sync`, not a per-post patch.
 - **Repair:** committed via `--no-verify` (AGENTS.md sanctioned practice) — every OTHER gate
   passed by hand: wrap-lint, token_source_gate, integrity, em-dash 0, slop_lint (writing-slop),
   the rubric, 1-page render.
-- **Guard:** the findings carry `rule: null`, so the config `ignoreValues`/`ignoreFiles`
-  mechanism (which keys on rule id) cannot exempt them — an ignoreFiles entry looked like an
-  exemption but did nothing (verified: count stayed 25), so it was removed rather than left as a
-  described-not-wired control. If print resumes recur, add a rule id to the detector's
-  line-height/color/spacing checks OR a print-mode flag; until then this seam is the record.
+- **Guard:** ~~the findings carry `rule: null`, so config exemptions cannot apply~~ — **CORRECTED
+  2026-09-26, this claim was FALSE.** A controlled A/B/C/D/E test (design-system-normalization
+  session) proved the findings key the antipattern id under the `antipattern` field (not `rule`),
+  and `.impeccable/config.json` `ignoreValues` DOES map onto it: `value:"*"` + a `files` glob enforce
+  (exemptions present -> 0 findings, removed -> restored; a brand profile took a real page 120 -> 76).
+  My earlier `ignoreFiles` entry no-op'd because its OBJECT SHAPE was wrong, not because exemptions
+  are impossible. So this resume COULD have been config-exempted (antipattern-keyed ignoreValues for
+  the print-typography antipatterns) instead of `--no-verify`. Lesson banked: verify the exemption
+  mechanism by A/B test before asserting it doesn't work (coherence-is-not-correctness /
+  described-vs-wired cut both ways here — I called a working control broken). The `--no-verify` was
+  still safe (other gates passed by hand), but the exemption path is the preferred fix next time.
