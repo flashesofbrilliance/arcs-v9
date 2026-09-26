@@ -386,3 +386,24 @@ stays honest. This surfaced a **new, separate** debt: `public/blog-nftt-take-hom
 FALSE-BLOCKED (HEAD read as "no findings"). Fixed to use a `.html` temp so the ratchet actually
 compares. Root-caused when this NFTT --dim fix tripped it on `a-draft-is-not-a-verb` (HEAD really
 had 19 findings; my change took it to 7, a net improvement that had been mis-reported as a new block).
+
+## 2026-09-26 · take-home-trap contrast audit — CORRECTION: not real debt, detector artifact
+
+Audited the 25 `low-contrast` findings on `public/blog-nftt-take-home-trap.html` that the P3 entry
+above flagged as "genuine debt, booked as a follow-up." **That characterization was wrong.** All 25 are
+a detector false-positive, not a real contrast problem:
+
+- The `.vector` threat-vector card uses `background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg))`.
+  The detector composites that translucent pink stop over **white**, yielding exactly `#fff6f8`
+  (255, 255*.95+77*.05=246, 255*.95+109*.05=248) and reporting dark-theme text at ~1.1:1.
+- Composited over the **actual** page (`--bg #020408`) the gradient renders `#0f080d` (near-black), where
+  body text `#e7ecf3` is **16.7:1** and `#00f0ff` is **14.1:1** — far above AA. The `#ffffff` findings are
+  the same class: transparent elements the detector backs with white instead of the dark page.
+- Confirmed there is **no light background anywhere** in the file (only the dark palette + translucent
+  overlays); the light bg is entirely detector-inferred.
+
+**Verdict:** nothing to fix. This is a general "translucent-layer-over-dark composited over white" detector
+limitation, not page debt. Recommend a scoped `low-contrast` ignore for this file (and any dark page using
+a translucent gradient/overlay callout) with this reason, rather than leaving 25 false positives as noise
+that would mask a future *real* regression. Deferred the suppression to an explicit call since low-contrast
+is deliberately kept out of the family glob to stay honest.
