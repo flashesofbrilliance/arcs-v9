@@ -48,6 +48,11 @@ def strip_to_text(s: str) -> str:
 def find_ledger(path, explicit=None):
     if explicit:
         return explicit if os.path.exists(explicit) else None
+    # per-file ledger first (<stem>.evidence.jsonl) so a single page in a shared dir (public/) can
+    # enroll without a dir-wide ledger wrongly applying to its siblings; then the dir-level sibling.
+    per_file = os.path.splitext(path)[0] + ".evidence.jsonl"
+    if os.path.exists(per_file):
+        return per_file
     sib = os.path.join(os.path.dirname(path), "evidence.jsonl")
     return sib if os.path.exists(sib) else None
 

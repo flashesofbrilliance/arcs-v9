@@ -1,0 +1,4 @@
+# Evidence ledger for public/success-academy.html (per-file; enrolls this page only, not siblings).
+# The 0.91 / 74-81 pursue-score is a self-computed rubric value (runtime/specs/target-role-scan.json),
+# not a resume metric; it carries no $/%/unit so the provenance linter does not require it here.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139", "note": "Grayscale 10-product SEC/FINRA regulated launch, $7B (same source as the resume ledger)"}

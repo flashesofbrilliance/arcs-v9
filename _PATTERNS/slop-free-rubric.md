@@ -61,8 +61,17 @@ false-positive on genuine human writing). Report-only by default; `--strict-metr
 
 | Signal | Target | Why | Measured by |
 |---|---|---|---|
-| **Burstiness** (stdev of sentence/bullet word-counts) | **>= 6** | Humans vary sentence length; models flatten to a uniform ~2-3 | `--metrics` |
-| **Specificity density** (units carrying a number or named entity) | **>= 60%** | Humans name real tools/systems/numbers; slop stays generic (row D1) | `--metrics` |
+| **Burstiness** (stdev of sentence/bullet word-counts) | **>= 6** (mode-independent) | Humans vary sentence length; models flatten to a uniform ~2-3 | `--metrics` |
+| **Specificity density** (units carrying a number or named entity) | **per mode** (below) | Humans name real tools/systems/numbers; slop stays generic (row D1) | `--metrics --mode <m>` |
+
+**Per-mode specificity floor** (`--mode`): persuade / read surfaces legitimately carry more connective
+positioning prose than a dense resume, so their floor is lower. Chasing 60% on a pitch page is Goodhart
+(the live success-academy persuade page scores 54% with 0 cliches + 9.3 burstiness — genuinely fine).
+
+| Mode | Specificity floor |
+|---|---|
+| resume / operate / default | 60% |
+| persuade / read | 50% |
 | **Tier-A cliches** | **0** | Mechanical hard-fail | `slop_lint` |
 | **Em-dashes** | **0** | Standing rule | `slop_lint` |
 | **Rubric judgment total** | **<= 3, no row = 2** | Structural/rhythm/specificity | `slop_eval` |

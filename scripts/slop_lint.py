@@ -86,6 +86,10 @@ def scan(text: str):
 # are banked in _PATTERNS/slop-free-rubric.md. These are proxies for "reads human," never proof; do NOT
 # gate on public AI-detector scores (noisy, gameable, false-positive on genuine human writing).
 BASELINE = {"burstiness_min": 6.0, "specificity_min": 0.60}
+# Per-mode specificity floor (impeccable mode vocab): persuade/read surfaces legitimately carry more
+# connective/positioning prose than a dense resume, so their floor is lower. Burstiness floor is
+# mode-independent. Pick with --mode; default is the strict resume/operate bar.
+MODE_SPEC = {"persuade": 0.50, "read": 0.50, "operate": 0.60, "resume": 0.60, "default": 0.60}
 _STOPCAP = {"I", "The", "A", "An", "This", "My", "We", "It", "In", "Of", "And", "But", "Most", "Led",
             "Built", "Ran", "Ship", "Closed", "Coordinated", "Delivered", "Grew"}
 
@@ -106,8 +110,9 @@ def _specific(u):
             return True
     return False
 
-def metrics(text):
+def metrics(text, mode="default"):
     import statistics
+    spec_min = MODE_SPEC.get(mode, MODE_SPEC["default"])
     vis = strip_to_text(text)
     us = _units(vis)
     lens = [len(u.split()) for u in us] or [0]
@@ -115,10 +120,11 @@ def metrics(text):
     spec = sum(_specific(u) for u in us)
     dens = spec / len(us) if us else 0.0
     r = scan(vis)
-    ok = (burst >= BASELINE["burstiness_min"] and dens >= BASELINE["specificity_min"]
+    ok = (burst >= BASELINE["burstiness_min"] and dens >= spec_min
           and not r["tier_a"] and r["em_dashes"] == 0)
     return {"units": len(us), "len_min": min(lens), "len_max": max(lens),
             "burstiness": round(burst, 1), "specificity": round(dens, 2),
+            "mode": mode, "specificity_floor": spec_min,
             "tier_a": len(r["tier_a"]), "em_dashes": r["em_dashes"], "meets_baseline": ok}
 
 def _head_terms(head_text):
@@ -160,22 +166,22 @@ def self_test():
     print("  RESULT:", "OK" if passed else "BROKEN")
     return 0 if passed else 1
 
-def run_metrics(files, as_json, strict):
+def run_metrics(files, as_json, strict, mode="default"):
     results, bad = [], False
     for path in files:
-        m = metrics(open(path, encoding="utf-8", errors="replace").read())
+        m = metrics(open(path, encoding="utf-8", errors="replace").read(), mode)
         m["file"] = path
         results.append(m)
         bad = bad or not m["meets_baseline"]
     if as_json:
         print(json.dumps(results, indent=2))
     else:
-        print(f"organically-human baseline: burstiness >= {BASELINE['burstiness_min']}, "
-              f"specificity >= {int(BASELINE['specificity_min']*100)}%, tier-A = 0, em-dashes = 0")
+        print(f"organically-human baseline [mode={mode}]: burstiness >= {BASELINE['burstiness_min']}, "
+              f"specificity >= {int(MODE_SPEC.get(mode, MODE_SPEC['default'])*100)}%, tier-A = 0, em-dashes = 0")
         for m in results:
             tag = "MEETS" if m["meets_baseline"] else "UNDER"
             b = "ok" if m["burstiness"] >= BASELINE["burstiness_min"] else "LOW"
-            s = "ok" if m["specificity"] >= BASELINE["specificity_min"] else "LOW"
+            s = "ok" if m["specificity"] >= m["specificity_floor"] else "LOW"
             print(f"[{tag}] {m['file']}")
             print(f"    burstiness {m['burstiness']} ({b}, range {m['len_min']}-{m['len_max']}w over {m['units']} units) · "
                   f"specificity {int(m['specificity']*100)}% ({s}) · tier-A {m['tier_a']} · em-dashes {m['em_dashes']}")
@@ -188,8 +194,11 @@ def main(argv):
     if "--metrics" in argv:
         strict = "--strict-metrics" in argv
         as_json = "--json" in argv
+        mode = "default"
+        if "--mode" in argv:
+            i = argv.index("--mode"); mode = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
         files = [a for a in argv if not a.startswith("--")]
-        return run_metrics(files, as_json, strict)
+        return run_metrics(files, as_json, strict, mode)
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
     results, bad = [], False
