@@ -67,6 +67,25 @@ if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# NFTT head-meta gate: every blog-nftt-*.html post must carry the title '· NFTT'
+# suffix + a description meta + a robots meta (presence, not value -- noindex
+# fragments stay noindex). nftt-gates.sh enforces this ONE FILE AT A TIME, so
+# legacy posts predating the gate carried the gap for months (Frustration Gate,
+# banked 2026-09-26). ADDED + MODIFIED, by design: a new post OR an edit to an
+# existing one must conform. The index listing page is exempt (see the script).
+# Skips cleanly when the gate or python3 is absent. See scripts/nftt_meta_gate.py.
+if [ -f scripts/nftt_meta_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  nftt=$(git diff --cached --name-only --diff-filter=AM -- 'public/blog-nftt-*.html' 2>/dev/null || true)
+  if [ -n "$nftt" ]; then
+    if ! echo "$nftt" | tr '\n' '\0' | xargs -0 python3 scripts/nftt_meta_gate.py; then
+      echo "✖ commit blocked: NFTT head-meta gap in a staged post (see above)." >&2
+      echo "  add the '· NFTT' title suffix / description meta / robots meta, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # tooltip-link guard: a glossary `.term` tooltip whose click handler preventDefaults
 # without a closest('a') guard silently blocks link navigation when a term sits inside
 # an <a> (banked 2026-09-23). ADDED + MODIFIED, by design: the bug arrives via an edit
