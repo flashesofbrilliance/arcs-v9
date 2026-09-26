@@ -1,24 +1,25 @@
 {
-  "captured_at": "2026-09-26T05:57:27Z",
+  "captured_at": "2026-09-26T15:50:09Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b53865e6",
-    "head_message": "record(witness): commit the GREEN cold-vs-warm witness stub [NCI:50]",
+    "head_sha": "7df70b2",
+    "head_message": "(pre-commit base) fix(success-academy): serve the conventional resume Zach sent Brian (#527)",
+    "branch": "claude/falsifiable-position-criteria-inltlk",
     "in_sync_with_origin": true,
-    "dirty_files": ["_INBOX/*.jsonl", "_STATE/pulse.json (hook-generated, non-source)"]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
     "production_alias": "https://good.arcs.care (+ app/www/arcs.care)",
-    "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "latest_deploy_status": "UNVERIFIED this session (no Vercel CLI in cloud container; no deploy made)",
+    "env_vars_present": "UNVERIFIED this session (carried from prior snapshot: AUTH_SECRET, AUTH_RESEND_KEY, DATABASE_URL, ANTHROPIC_API_KEY)"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "note": "decision_receipt table used this session; 2 receipts filed"
+    "note": "not touched this session; no receipts filed"
   },
-  "session_summary": "Cold-reconstruction public good: tools/cold-recon CLI + NFTT trilogy (method, experiment, diptych) live on good.arcs.care; AI-slop safeguard wired into nftt-gates.sh via essay mode.",
-  "next_action": "Wire the design-detector step into nftt-gates.sh once the design-system brand profile lands on main (gated on Zach reviewing the 7-wave migration plan).",
-  "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)"
+  "session_summary": "Falsifiable-criteria bet for the @six vs @czar personal-agent debate: pre-registered wager Artifact + plain-language phone card PNG; MEMORY.md consolidated (pre-Sept entries archived).",
+  "next_action": "Zach shares the private Artifact, posts the card, collects 'agreed' replies; if agreed, file an ex-ante decision receipt for the wager.",
+  "blocking": "NONE"
 }
