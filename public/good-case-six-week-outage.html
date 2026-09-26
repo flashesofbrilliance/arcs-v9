@@ -83,6 +83,10 @@ p { max-width: var(--measure); }
 .claim { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin: 0 0 10px; }
 .claim.sel { border-color: var(--cyan); background: var(--cyan-bg); }
 .claim .t { display: block; font-weight: 600; margin: 0 0 8px; }
+.stake { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 15px; color: var(--dimmed); margin: 0 0 10px; }
+.stake input { accent-color: var(--cyan); width: 160px; }
+.stake b { font-family: var(--font-mono); color: var(--cyan); min-width: 3.2em; }
+.stake.locked input { opacity: 0.5; }
 .claim .row { display: flex; flex-wrap: wrap; gap: 8px; }
 .claim .res { display: block; font-size: 15px; margin: 8px 0 0; }
 .claim.shown { border-color: var(--green); }
@@ -131,6 +135,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
       <li>For each claim, <b>show evidence</b> or <b>concede</b>. Conceding costs nothing.</li>
       <li>Defending a claim with evidence that cuts against it is an <b>overclaim</b>.</li>
       <li>Conceding a claim the evidence would have backed is an <b>underclaim</b>.</li>
+      <li>Before you answer, stake <b>conviction chips</b> (0 to 10) on how sure you are the record backs the claim. The stake locks when you act. Play money, scored for calibration: parking every slider at 5 scores 75 out of 100, and knowing what you can show scores higher.</li>
       <li>Each chair ends in your receipt: what you showed, and what you could not. A perfect run is zero of each.</li>
     </ol>
   </div>
@@ -138,6 +143,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   <div class="hud" aria-live="polite">
     <span>Overclaims <b id="over">0</b></span>
     <span>Underclaims <b id="under">0</b></span>
+    <span>Calibration <b id="cal">pending</b></span>
     <span class="status" id="status">Pick a claim to answer for.</span>
   </div>
 
@@ -224,7 +230,8 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
     }
   ];
 
-  var over = 0, under = 0, cur = 0, sel = null;
+  var over = 0, under = 0, cur = 0, sel = null, briers = [];
+  function calScore() { var s = 0; briers.forEach(function (x) { s += x; }); return Math.round(100 * (1 - s / briers.length)); }
   var $ = function (id) { return document.getElementById(id); };
   function say(m, c) { var s = $("status"); s.textContent = m; s.className = "status" + (c ? " " + c : ""); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -239,6 +246,12 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
     c.claims.forEach(function (cl, j) {
       var box = el("div", "claim"); box.dataset.j = j;
       box.appendChild(el("span", "t", cl.t));
+      var st = el("label", "stake"); st.appendChild(el("span", null, "Conviction the record backs this"));
+      var rg = document.createElement("input"); rg.type = "range"; rg.min = 0; rg.max = 10; rg.value = 5;
+      rg.setAttribute("aria-label", "Conviction chips for: " + cl.t);
+      var rv = el("b", null, "5/10");
+      rg.addEventListener("input", function () { rv.textContent = rg.value + "/10"; });
+      st.appendChild(rg); st.appendChild(rv); box.appendChild(st);
       var row = el("div", "row");
       var show = el("button", "btn go", "Show evidence"); show.type = "button";
       var give = el("button", "btn", "Concede"); give.type = "button";
@@ -269,6 +282,11 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 
   function resolve(i, j, kind, text) {
     var cl = CHAIRS[i].claims[j], b = box(i, j);
+    var rg = b.querySelector(".stake input"), pct = Number(rg.value) / 10, o = cl.yes.length ? 1 : 0;
+    var br = (pct - o) * (pct - o); briers.push(br);
+    rg.disabled = true; b.querySelector(".stake").classList.add("locked");
+    $("cal").textContent = calScore() + "/100";
+    text += " You staked " + rg.value + "/10; the record " + (o ? "backs it" : "does not back it") + ".";
     cl.done = kind; b.classList.remove("sel"); b.classList.add(kind === "shown" ? "shown" : "gap");
     if (kind === "over") b.classList.add("over");
     var row = b.querySelector(".row"); if (row) row.remove();
@@ -316,7 +334,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   function finish() {
     say("Case closed.", "ok");
     var pl = function (n, w) { return n + " " + w + (n === 1 ? "" : "s"); };
-    var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ". A perfect run is 0 and 0.";
+    var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ", calibration " + calScore() + "/100. A perfect run is 0, 0 and 100.";
     $("final").textContent = line;
     var text = "I sat in all three chairs of The Case of the Six-Week Outage.\n" + line + "\nThe culprit was a gap in the record.";
     $("share").textContent = text;
