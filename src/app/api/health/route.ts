@@ -5,13 +5,13 @@ import { auth } from "@/lib/auth"
 import { isAdmin } from "@/lib/admin"
 
 // Admin health / diagnostics endpoint (ADR-006 direction; built 2026-09-24 after
-// a ~6-week silent persistence outage — prod was missing Receipt.batonId because
+// a ~6-week silent persistence outage - prod was missing Receipt.batonId because
 // a migration shipped in code but never reached the DB via `prisma migrate deploy`).
 // This turns that class of RCA (which took 20 min of Vercel log-diving) into one
-// request. It is READ-ONLY and NEVER returns env values — only presence booleans.
+// request. It is READ-ONLY and NEVER returns env values - only presence booleans.
 //
 // Two modes:
-//   GET /api/health            → shallow liveness {status, db}. Public — safe for
+//   GET /api/health            → shallow liveness {status, db}. Public - safe for
 //                                uptime monitors. No internals leaked.
 //   GET /api/health?deep=1     → full diagnostics. Gated: admin session (ADMIN_EMAILS)
 //                                OR `Authorization: Bearer <CRON_SECRET>` (so a future
@@ -23,7 +23,7 @@ export const dynamic = "force-dynamic"
 // each core model reproduces that failure and names the offending column (P2022).
 const CORE_MODELS = ["receipt", "brief", "outcome", "prepSession", "sageTrace", "tribune"] as const
 
-// Presence only — values are NEVER read or returned.
+// Presence only - values are NEVER read or returned.
 const REQUIRED_ENV = [
   "DATABASE_URL", "ANTHROPIC_API_KEY", "AUTH_SECRET", "AUTH_RESEND_KEY", "SAGE_URL",
 ] as const
@@ -38,7 +38,7 @@ async function deepAuthorized(req: NextRequest): Promise<boolean> {
 }
 
 export async function GET(req: NextRequest) {
-  // Shallow liveness — always available, no internals.
+  // Shallow liveness - always available, no internals.
   let dbOk = false
   try {
     await prisma.$queryRaw`SELECT 1`
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "deep diagnostics require admin or bearer token" }, { status: 401 })
   }
 
-  // 1. Per-model schema probe — catches missing columns (the batonId class).
+  // 1. Per-model schema probe - catches missing columns (the batonId class).
   const models: Record<string, { ok: boolean; error?: string }> = {}
   const delegates = prisma as unknown as Record<string, { findFirst: (args: unknown) => Promise<unknown> }>
   for (const m of CORE_MODELS) {
@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  // 2. Persistence freshness — a stale newest-receipt is the signal that would
+  // 2. Persistence freshness - a stale newest-receipt is the signal that would
   //    have caught this outage in days, not weeks.
   let lastReceipt: { at: string | null; ageDays: number | null; stale: boolean } = { at: null, ageDays: null, stale: false }
   try {
@@ -100,13 +100,13 @@ export async function GET(req: NextRequest) {
     } catch { /* covered by models.sageTrace */ }
   }
 
-  // 4. Outcome-capture funnel — the P1 keel gap (induced-backlog: outcome-capture-rate-keel-gap).
+  // 4. Outcome-capture funnel - the P1 keel gap (induced-backlog: outcome-capture-rate-keel-gap).
   //    Read-only aggregate over the full drop-off chain so the number is VISIBLE on the
   //    always-run path (Frustration Gate, AGENTS.md #15), not rediscovered via ad-hoc SQL.
   //    Anonymous receipts can't be closed (§5.1, human-supplied only), so the denominator
   //    is signed-in receipts, not total. Two mechanical leaks are surfaced explicitly:
   //    eligible-never-sent, and reminders scheduled beyond Resend's 30-day cap (silently dropped).
-  //    CRITICAL: the operator (ADMIN_EMAILS) is ~95% of eligible receipts — QA traffic, not
+  //    CRITICAL: the operator (ADMIN_EMAILS) is ~95% of eligible receipts - QA traffic, not
   //    organic. A blended capture rate is a measurement artifact. So we report an `external`
   //    segment (non-admin) as the honest funnel, and `operator` separately. Optimizing the
   //    blended number would tune against the founder's own test behavior (counterfeit signal).
@@ -146,7 +146,7 @@ export async function GET(req: NextRequest) {
         sent: n(r.sent),
         closed,
         captureRate: eligible > 0 ? Math.round((closed / eligible) * 1000) / 1000 : 0,
-        pastDueNeverSent: n(r.past_due_never_sent),   // the real leak — debrief owed but never sent
+        pastDueNeverSent: n(r.past_due_never_sent),   // the real leak - debrief owed but never sent
         waitingForCron: n(r.waiting_for_cron),        // future reminderDate; long-horizon cron will sweep. not a bug
         distribution: { matched, drifted },
       }
@@ -159,21 +159,21 @@ export async function GET(req: NextRequest) {
       ok: true,
       total,
       anonymous,                                     // can't be closed by design (§5.1)
-      external,                                      // the honest funnel — optimize THIS, not blended
+      external,                                      // the honest funnel - optimize THIS, not blended
       operator,                                      // ADMIN_EMAILS = QA traffic, reported for transparency
       // Calibration needs paired nci-vs-outcome rows across Y-states; a handful of all-matched
       // operator closures validates nothing (ticket meta-question). External is where organic
-      // signal must come from — and today it is starved (distribution gap, not a closure-UX gap).
+      // signal must come from - and today it is starved (distribution gap, not a closure-UX gap).
       calibrationUsable: external.closed >= 5 && external.distribution.matched > 0 && external.distribution.drifted > 0,
       note: external.eligible < 20
-        ? "external n too small to infer a conversion lever — this is a distribution problem, not a nudge problem"
+        ? "external n too small to infer a conversion lever - this is a distribution problem, not a nudge problem"
         : undefined,
     }
   } catch (err) {
     outcomeCapture = { ok: false, error: err instanceof Error ? err.message.slice(0, 300) : String(err) }
   }
 
-  // 5. Required env presence — names only, never values.
+  // 5. Required env presence - names only, never values.
   const env: Record<string, boolean> = {}
   for (const k of REQUIRED_ENV) env[k] = !!process.env[k]
 

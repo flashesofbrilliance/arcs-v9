@@ -107,7 +107,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
               {r.court.map((c, i) => (
                 <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.65rem', fontSize: '0.82rem' }}>
                   <span style={{ fontFamily: font.mono, color: c.verdict === 'PASS' ? signal.green : c.verdict === 'TENSION' ? signal.gold : signal.red, fontWeight: 700, minWidth: 64, lineHeight: 1.85 }}>{c.verdict}</span>
-                  <span style={{ color: text.secondary, lineHeight: 1.85 }}><strong style={{ color: text.primary }}>{c.name}</strong> — {c.detail}</span>
+                  <span style={{ color: text.secondary, lineHeight: 1.85 }}><strong style={{ color: text.primary }}>{c.name}</strong>: {c.detail}</span>
                 </div>
               ))}
             </Card>

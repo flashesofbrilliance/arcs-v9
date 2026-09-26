@@ -124,7 +124,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
                       {r.court.map((c, i) => (
                         <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem', fontSize: '0.8rem' }}>
                           <span style={{ fontFamily: font.mono, color: verdictColor(c.verdict), fontWeight: 700, minWidth: 64 }}>{c.verdict}</span>
-                          <span style={{ color: text.secondary }}><strong style={{ color: text.primary }}>{c.name}</strong> — {c.detail}</span>
+                          <span style={{ color: text.secondary }}><strong style={{ color: text.primary }}>{c.name}</strong>: {c.detail}</span>
                         </div>
                       ))}
                       {r.court_verdict && <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: `1px solid ${border.subtle}`, fontSize: '0.8rem', color: text.dimmed, fontStyle: 'italic' }}>{r.court_verdict}</div>}
@@ -136,7 +136,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
                       <div style={{ fontSize: '0.8rem', color: text.secondary, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <div><span style={{ color: signal.red, fontWeight: 600 }}>Loki: </span>{r.advisors.loki_challenge}</div>
                         <div><span style={{ color: signal.green, fontWeight: 600 }}>Counter: </span>{r.advisors.loki_counter}</div>
-                        <div><span style={{ color: text.muted }}>Bayesian risk: </span><span style={{ color: signal.gold, fontWeight: 600 }}>{r.advisors.bayesian_risk_pct}%</span> — {r.advisors.bayesian_rationale}</div>
+                        <div><span style={{ color: text.muted }}>Bayesian risk: </span><span style={{ color: signal.gold, fontWeight: 600 }}>{r.advisors.bayesian_risk_pct}%</span>. {r.advisors.bayesian_rationale}</div>
                       </div>
                     </>
                   ) }] : []),

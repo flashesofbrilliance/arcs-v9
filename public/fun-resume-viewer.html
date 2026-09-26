@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Résumé · Fun.xyz</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg:#020408;--surface:#0d1117;--surface-2:#121820;--border:#1e293b;--text:#e2e8f0;
+    --muted:#475569;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --font-mono:'GeistMono','JetBrains Mono','IBM Plex Mono',monospace;
+    --font-sans:'InstrumentSans','Work Sans',system-ui,sans-serif;
+  }
+  :root{--fg:var(--text);--fg3:#94a3b8;--border2:var(--border);--elev:var(--surface);--mono:var(--font-mono);--sans:var(--font-sans);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;} body{background:var(--bg);color:var(--fg);font-family:var(--sans);display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
+  .eyebrow{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:11px 18px;background:rgba(2,4,8,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+  .who{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap;} .who .g{color:var(--cyan);}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.02em;
+    padding:9px 14px;border-radius:6px;border:1px solid var(--border2);background:var(--elev);color:var(--fg);text-decoration:none;transition:.15s;cursor:pointer;}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan);}
+  .btn.p{color:var(--bg);background:var(--cyan);border:1px solid var(--cyan);}
+  .btn.p:hover{color:var(--bg);filter:brightness(1.06);}
+  .frame{flex:1 1 auto;border:none;width:100%;min-height:0;background:var(--surface);}
+  .fallback{padding:16px 18px;font-family:var(--mono);font-size:12px;color:var(--fg3);}
+  .fallback a{color:var(--cyan);}
+</style>
+</head>
+<body>
+  <div class="eyebrow">
+    <span class="who"><span class="g">&#9670;</span> Zach Harris &middot; R&eacute;sum&eacute; &middot; Senior PMM &middot; Fun.xyz</span>
+    <div class="btns">
+      <a class="btn" href="/">&#8592; Brief</a>
+      <a class="btn p" href="/fun-resume.pdf" download="Zach-Harris-Resume-Fun-xyz.pdf">&#8595; R&eacute;sum&eacute; PDF</a>
+      <a class="btn" href="/fun-resume-ats.txt" download="Zach-Harris-Resume-Fun-xyz-ATS.txt">&#8595; ATS text</a>
+    </div>
+  </div>
+  <iframe class="frame" src="/fun-resume.pdf#view=FitH" title="Zach Harris resume (PDF)"></iframe>
+  <noscript class="fallback">View the <a href="/fun-resume.pdf">PDF r&eacute;sum&eacute;</a> or the <a href="/fun-resume-ats.txt">ATS text version</a>.</noscript>
+</body>
+</html>

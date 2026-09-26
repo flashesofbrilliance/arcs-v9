@@ -17,14 +17,14 @@ const ALWAYS = [
 
 const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
-  { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link — content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
+  { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link. Content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
-  { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion — we notify you if permitted' },
-  { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging — purged after 30 days' },
+  { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion. We notify you if permitted' },
+  { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging, purged after 30 days' },
 ]
 
 const NEVER = [
-  { what: 'Sell or share your decision content', proof: 'No third-party data agreements — verify in source code' },
+  { what: 'Sell or share your decision content', proof: 'No third-party data agreements. Verify in source code' },
   { what: 'Use your data for advertising or profiling', proof: 'No ad infrastructure exists in the codebase' },
   { what: 'Hold your data hostage to keep you subscribed', proof: 'Delete is always available regardless of subscription' },
   { what: 'Publish content from your sessions without consent', proof: 'Journalism pipeline requires explicit opt-in per session' },
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
         <Rule style={{ marginBottom: '2rem' }} />
 
         <p style={{ fontFamily: mono, fontSize: '0.8125rem', color: text.muted, lineHeight: 1.6, margin: '0 0 1.75rem', letterSpacing: '0.01em' }}>
-          ARCS advocates for information access as a right. That obligation runs both ways. This policy tells you exactly what we collect, how long we keep it, who can see it, and what we will never do — receipted, not promised.
+          ARCS advocates for information access as a right. That obligation runs both ways. This policy tells you exactly what we collect, how long we keep it, who can see it, and what we will never do. Receipted, not promised.
         </p>
 
         <h1 style={{ fontFamily: sans, fontSize: '1.6rem', fontWeight: 600, color: text.primary, margin: '0 0 0.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
@@ -160,9 +160,9 @@ export default function PrivacyPage() {
           </div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don't have yet but should</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75 }}>
-            <strong style={{ color: text.primary }}>Export</strong> — not yet built. You can delete, but you can't yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
-            <strong style={{ color: text.primary }}>Audit log</strong> — you can't yet see a log of every time your data was accessed. We log it internally; the user-facing view isn't built. On the roadmap.<br /><br />
-            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong> — if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn't formalized yet. Contact us directly.
+            <strong style={{ color: text.primary }}>Export</strong>: not yet built. You can delete, but you can't yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
+            <strong style={{ color: text.primary }}>Audit log</strong>: you can't yet see a log of every time your data was accessed. We log it internally; the user-facing view isn't built. On the roadmap.<br /><br />
+            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong>: if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn't formalized yet. Contact us directly.
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 03 · Journalism pipeline" title="When ARCS produces content from sessions" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginTop: '0.5rem' }}>
-            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS's own analysis — not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in — not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
+            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS's own analysis, not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in, not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
           </div>
         </div>
 

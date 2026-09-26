@@ -20,9 +20,9 @@ import type { Tributary } from '@/lib/mockCompass'
 // Source: compass-app/Home.jsx (verbatim layout, window atoms → ES imports).
 
 const HOME_STEPS = [
-  { n: '01', title: 'Name the real fork', body: "Most people bring the symptom. ARCS asks for the actual decision — the fork, not the friction." },
+  { n: '01', title: 'Name the real fork', body: "Most people bring the symptom. ARCS asks for the actual decision: the fork, not the friction." },
   { n: '02', title: 'The question gets stress-tested', body: "What's actually at stake. What you might be missing. The strongest case against your instinct. Whether the ground is stable enough to move." },
-  { n: '03', title: 'One direction. A specific next move.', body: "Not hedged, not vague — a clear call, graded by conviction. If the terrain doesn't support confidence, ARCS says so instead of pretending it does." },
+  { n: '03', title: 'One direction. A specific next move.', body: "Not hedged, not vague. A clear call, graded by conviction. If the terrain doesn't support confidence, ARCS says so instead of pretending it does." },
   { n: '04', title: 'The full map', body: "Why this direction. What you're trading. What to watch. What's worth asking next." },
 ]
 
@@ -46,7 +46,7 @@ export interface HomeDemo {
 // the left column instead of growing past it.
 const DEMO_FALLBACK: HomeDemo = {
   decision: 'Should I take the Series A now or extend runway another 6 months and grow into a higher valuation?',
-  trueNorth: 'Extend runway — the valuation delta at your current growth rate outweighs the optionality cost of 6 months.',
+  trueNorth: 'Extend runway. The valuation delta at your current growth rate outweighs the optionality cost of 6 months.',
   nciScore: 74,
   coherence: 81,
   mode: 'COURT',
@@ -106,7 +106,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
             same as everywhere else it appears. */}
         <Card style={{ padding: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.85rem' }}>
-            <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
+            <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt: what ARCS produces')}</Label>
             <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
           </div>
           <div

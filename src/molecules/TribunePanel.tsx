@@ -65,7 +65,7 @@ export function TribunePanel({ receiptId }: { receiptId: string }) {
       if (r.status === 401) { setAuthed(false); return }
       if (!r.ok) { setErr(data.error ?? `Tribune ${phase} failed`); return }
       if (data.silent) {
-        setSilent((s) => ({ ...s, [phase]: `Silent — no threshold fired (risk ${data.risk_tier ?? '?'}, NCI Δ ${data.nci_delta ?? 'n/a'}).` }))
+        setSilent((s) => ({ ...s, [phase]: `Silent. No threshold fired (risk ${data.risk_tier ?? '?'}, NCI Δ ${data.nci_delta ?? 'n/a'}).` }))
         return
       }
       setRows((prev) => ({ ...prev, [phase]: { phase, risk_tier: data.risk_tier, drift_state: data.drift_state, nci_delta: data.nci_delta, court_invoked: data.court_invoked, content: data.content } }))
@@ -139,7 +139,7 @@ function PhaseBody({ row }: { row: Row }) {
         <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           {reds.map(([role, v]) => (
             <div key={role} style={{ fontFamily: font.mono, fontSize: '0.65rem', color: text.secondary }}>
-              <span style={{ color: signal.red, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{role}</span>{v.objection ? ` — ${v.objection}` : ''}
+              <span style={{ color: signal.red, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{role}</span>{v.objection ? `. ${v.objection}` : ''}
             </div>
           ))}
         </div>

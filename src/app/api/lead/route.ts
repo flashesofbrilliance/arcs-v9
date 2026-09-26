@@ -42,22 +42,16 @@ export async function POST(req: NextRequest) {
     const subject = src === "advisory" ? "Your ARCS advisory consult" : "You're on the ARCS waitlist"
     const cta = BOOKING_URL ? `\n\nBook your 30-minute session: ${BOOKING_URL}` : ""
     const text = src === "advisory"
-      ? `Thanks — we received your request for a 30-minute ARCS-powered advisory session.${cta}\n\nWe'll be in touch shortly.`
+      ? `Thanks. We received your request for a 30-minute ARCS-powered advisory session.${cta}\n\nWe'll be in touch shortly.`
       : `You're on the list for full-service ARCS. We'll reach out as spots open.${cta}`
     const html = src === "advisory"
       ? advisoryEmail(typeof name === "string" ? name : null, BOOKING_URL || null)
       : waitlistEmail(BOOKING_URL || null)
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: email.trim(), subject, text, html }),
-    }).catch(() => {})
 
-    // Internal alert — same best-effort posture, separate send so a failure
-    // on one side never blocks the other.
+    // Internal alert so a submission never just sits silently in the DB.
     const adminSubject = src === "advisory"
-      ? `New advisory request — ${email.trim()}`
-      : `New waitlist signup — ${email.trim()}`
+      ? `New advisory request: ${email.trim()}`
+      : `New waitlist signup: ${email.trim()}`
     const adminLines = [
       `Source: ${src}`,
       `Email: ${email.trim()}`,
@@ -65,11 +59,27 @@ export async function POST(req: NextRequest) {
       ...(typeof message === "string" && message.trim() ? [`Message: ${message.trim()}`] : []),
       ...(typeof receiptId === "string" && receiptId ? [`Receipt: ${receiptId}`] : []),
     ]
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: ADMIN_EMAIL, subject: adminSubject, text: adminLines.join("\n") }),
-    }).catch(() => {})
+
+    // One send helper. fetch resolves even on HTTP error, so check res.ok and
+    // LOG failures — the previous silent .catch() meant a dropped notification
+    // was invisible.
+    const send = (to: string, subj: string, txt: string, htmlBody?: string) =>
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from: FROM, to, subject: subj, text: txt, ...(htmlBody ? { html: htmlBody } : {}) }),
+      })
+        .then(async (r) => { if (!r.ok) console.error(`[lead] resend send to ${to} failed ${r.status}: ${await r.text().catch(() => "")}`) })
+        .catch((e) => console.error(`[lead] resend send to ${to} threw:`, e))
+
+    // AWAITED. An un-awaited fetch after the response is not guaranteed to run
+    // on Vercel serverless (the function can be frozen before it fires), which
+    // silently dropped signup alerts. allSettled keeps it best-effort: a
+    // delivery failure logs but never fails the capture above.
+    await Promise.allSettled([
+      send(email.trim(), subject, text, html),
+      send(ADMIN_EMAIL, adminSubject, adminLines.join("\n")),
+    ])
   }
 
   return NextResponse.json({ ok: true, bookingUrl: BOOKING_URL || null })

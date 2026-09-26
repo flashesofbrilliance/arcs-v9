@@ -64,7 +64,7 @@ export default function GlobalError({
               color: "#94a3b8",
             }}
           >
-            The terrain didn&rsquo;t render. This is on our side, not yours — try again,
+            The terrain didn&rsquo;t render. This is on our side, not yours. Try again,
             and if it keeps happening the fog is ours to clear.
           </p>
           <button

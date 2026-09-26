@@ -17,9 +17,15 @@ import { AuthControl } from '@/molecules/AuthControl'
 // pipeline (no fetch/api here). Source: compass-app/Compass.jsx.
 
 const EXAMPLES = [
-  'Should I take the Series A now or extend runway six months?',
-  'Should I exit this partnership now or try to restructure it?',
+  'What have I built that is mine to carry anywhere? And where can I break it into pieces, spread it, and grow it into the next thing?',
+  'Which of my skills and relationships travel with me? Where is the highest-leverage place to replant them?',
 ]
+
+// The meta-tributary beneath the portable-capital opener: the deeper fork the
+// literal question already implies. Same verbs (atomize, germinate), opposite
+// polarity. Rendered as a real meta-tributary, not a third example, because it
+// is the tributary[0] the compass would surface anyway.
+const META_TRIBUTARY = 'Am I using AI to compound what is mine, or am I dissolving into it?'
 
 export interface CompassFormProps {
   question: string
@@ -64,7 +70,7 @@ export function CompassForm({
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <Field as="textarea" rows={3} label="Decision" value={question} onChange={e => onQuestionChange(e.target.value)}
-            placeholder="Type the decision, not the stress around it. The real fork, not the symptom." />
+            placeholder="What have I built that is mine to carry anywhere? Where should I plant it to grow next?" />
           <HorizonStakesRow horizon={horizon} stakes={stakes} onHorizonChange={onHorizonChange} onStakesChange={onStakesChange} />
         </div>
 
@@ -79,7 +85,7 @@ export function CompassForm({
           <button type="button"
             onClick={() => { if (question.trim()) onCalibrate?.() }}
             style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? text.dimmed : text.dimmed + '55', opacity: question.trim() ? 1 : 0.4 }}>
-            Add context — stakes, confidence &amp; what you already know
+            Add context: stakes, confidence, and what you already know
           </button>
         )}
 
@@ -88,11 +94,12 @@ export function CompassForm({
 
       {!question && (
         <div style={{ marginTop: '2rem' }}>
-          <SectionLabel style={{ marginBottom: '0.75rem' }}>Not sure how to start? Try one of these:</SectionLabel>
+          <SectionLabel style={{ marginBottom: '0.75rem' }}>Point at what compounds, not what you fear losing. Try one:</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {EXAMPLES.map(ex => (
               <TributaryTile key={ex} label="Example" glyph="⊕" color={signal.cyan} onClick={() => onQuestionChange(ex)}>{ex}</TributaryTile>
             ))}
+            <TributaryTile label="Meta" glyph="◆" color={signal.gold} onClick={() => onQuestionChange(META_TRIBUTARY)}>{META_TRIBUTARY}</TributaryTile>
           </div>
         </div>
       )}
