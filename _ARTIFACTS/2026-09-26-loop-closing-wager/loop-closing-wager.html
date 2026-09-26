@@ -1,227 +1,193 @@
-<title>The Loop-Closing Wager</title>
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<title>Six vs Czar</title>
+<meta name="description" content="An open bet between @six and @czar on whether people will let AI agents close their loops. Settles 2028-09-26.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;600&family=Geist+Mono:wght@400;700&display=swap">
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* Page-only, non-signal: Google-hosted names so the kit faces load inside an Artifact. */
 :root{
-  --paper:#EEF1F4; --sheet:#F8FAFB; --ink:#14202B; --muted:#5A6B7A; --rule:#C9D2DB;
-  --six:#2F5DA8; --six-bg:#E3EBF7; --czar:#B8322A; --czar-bg:#F6E4E2; --both:#6B5A12; --both-bg:#F1ECD6;
-  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
-  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --measure:680px;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --paper:#0F151B; --sheet:#151D25; --ink:#E3E8ED; --muted:#93A3B2; --rule:#2A3643;
-    --six:#86A9E8; --six-bg:#1A2740; --czar:#EC8177; --czar-bg:#3A1C1A; --both:#D9C46A; --both-bg:#2E2912;
-  }
-}
-:root[data-theme="dark"]{
   color-scheme:dark;
-  --paper:#0F151B; --sheet:#151D25; --ink:#E3E8ED; --muted:#93A3B2; --rule:#2A3643;
-  --six:#86A9E8; --six-bg:#1A2740; --czar:#EC8177; --czar-bg:#3A1C1A; --both:#D9C46A; --both-bg:#2E2912;
+  --font-mono:'GeistMono','Geist Mono','JetBrains Mono','IBM Plex Mono',monospace;
+  --font-sans:'InstrumentSans','Instrument Sans','Work Sans',system-ui,sans-serif;
+  --font-display:'BricolageGrotesque','Bricolage Grotesque','Work Sans',system-ui,sans-serif;
 }
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding:0 16px}
-.wrap{max-width:680px;margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:44px}
-h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0}
-h1{font-size:clamp(2rem,6vw,3.1rem);letter-spacing:-0.01em}
-h2{font-size:1.45rem}
-h3{font-size:1.05rem}
-p{margin:0}
-.lede{font-size:1.12rem;color:var(--ink)}
-.label{font-family:var(--mono);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-section{display:flex;flex-direction:column;gap:16px}
-section > p{max-width:var(--measure)}
-.slip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.slip div{background:var(--sheet);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
-.slip b{font-family:var(--mono);font-weight:600;font-size:.95rem;font-variant-numeric:tabular-nums}
-.sides{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.side{padding:18px 20px;display:flex;flex-direction:column;gap:10px;border-top:4px solid}
-.side.six{background:var(--six-bg);border-color:var(--six)}
-.side.czar{background:var(--czar-bg);border-color:var(--czar)}
-.side .who{font-family:var(--mono);font-weight:600}
-.six .who{color:var(--six)} .czar .who{color:var(--czar)}
-blockquote{margin:0;font-style:italic}
-.gap{background:var(--sheet);border:1px solid var(--rule);padding:18px 20px;max-width:var(--measure);display:flex;flex-direction:column;gap:10px}
-dl{margin:0;display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:12px 20px;max-width:var(--measure)}
-dt{font-family:var(--mono);font-weight:600;font-size:.9rem}
-dd{margin:0}
-@media (max-width:560px){dl{grid-template-columns:1fr;gap:4px}dd{margin-bottom:10px}}
-.crux{background:var(--ink);color:var(--paper);padding:24px 22px;display:flex;flex-direction:column;gap:14px}
-.crux .label{color:var(--paper);opacity:.7}
-.crux q{font-family:var(--display);font-size:1.35rem;font-weight:500;line-height:1.3;quotes:none}
-.verdicts{display:flex;flex-wrap:wrap;gap:10px}
-.pill{font-family:var(--mono);font-size:.85rem;padding:5px 10px;border:1px solid currentColor}
-.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
-table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
-th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--rule)}
-th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-tr:last-child td{border-bottom:0}
-td.id{font-family:var(--mono);font-weight:600;white-space:nowrap}
-tr.s td.id{color:var(--six)} tr.c td.id{color:var(--czar)}
-.blank{font-family:var(--mono);border-bottom:1px dashed var(--muted);padding:0 6px}
-.matrix{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.matrix > div{background:var(--sheet);padding:12px 14px;font-size:.95rem}
-.matrix .h{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.matrix .m-six{background:var(--six-bg)} .matrix .m-czar{background:var(--czar-bg)} .matrix .m-both{background:var(--both-bg)}
-.matrix strong{font-family:var(--display);display:block;margin-bottom:2px}
-@media (max-width:560px){.matrix{font-size:.88rem}.matrix > div{padding:10px}}
-ul.rules{margin:0;padding-left:1.2em;max-width:var(--measure);display:flex;flex-direction:column;gap:8px}
-.sign{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-.sig{display:flex;flex-direction:column;gap:8px}
-.sig .line{border-bottom:1px solid var(--ink);height:34px}
-.post{background:var(--sheet);border:1px solid var(--rule);padding:18px 20px;display:flex;flex-direction:column;gap:12px;max-width:var(--measure)}
-.post pre{margin:0;white-space:pre-wrap;font-family:var(--mono);font-size:.9rem;line-height:1.5}
-button{font-family:var(--mono);font-size:.85rem;background:var(--ink);color:var(--paper);border:0;padding:8px 14px;cursor:pointer;align-self:flex-start}
-button:focus-visible{outline:3px solid var(--six);outline-offset:2px}
-footer{font-size:.9rem;color:var(--muted);max-width:var(--measure)}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.5;padding:0 16px}
+.slip{max-width:560px;margin:0 auto;padding-block:28px 48px;display:flex;flex-direction:column;gap:28px}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed)}
+.block{display:flex;flex-direction:column;gap:12px}
+
+.status{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.led{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--gold)}
+.led::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 5px rgba(255,215,0,.35)}
+.betid{font-family:var(--font-mono);font-size:12px;color:var(--dimmed)}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,8vw,40px);line-height:1.05;margin:0;text-wrap:balance}
+.q{font-size:17px;color:var(--text);margin:0}
+
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:8px}
+.side .pos{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em}
+.side .who{font-family:var(--font-display);font-weight:600;font-size:20px}
+.side p{margin:0;font-size:14px;color:#cbd5e1}
+.long{border-color:rgba(0,255,157,.35)} .long .pos{color:var(--green)}
+.short{border-color:rgba(255,77,109,.35)} .short .pos{color:var(--red)}
+@media (max-width:380px){.sides{grid-template-columns:1fr}}
+
+.leg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px}
+.leg-hd{display:flex;align-items:baseline;gap:10px}
+.leg-no{flex:none;white-space:nowrap;font-family:var(--font-mono);font-size:12px;color:var(--cyan)}
+.leg h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0}
+.leg p{margin:0;font-size:14px;color:#cbd5e1}
+.wins{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.wins div{display:flex;gap:10px;align-items:baseline}
+.thresh-chip{display:inline-flex;justify-content:center;width:62px;flex:none;padding:2px 0;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11px;font-weight:700;border:1px solid}
+.thresh-chip.proceed{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.thresh-chip.red{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+
+.prob-track{height:14px;border-radius:7px;background:var(--surface-2);position:relative;overflow:hidden;display:flex}
+.prob-fill{height:100%}
+.prob-fill.short-side{width:50%;background:var(--red-bg);border-right:2px solid var(--gold)}
+.prob-fill.long-side{width:50%;background:var(--green-bg)}
+.prob-scale{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--dimmed);font-variant-numeric:tabular-nums}
+.prob-scale b{color:var(--gold);font-weight:700}
+
+.split{background:var(--gold-bg);border:1px solid rgba(255,215,0,.3);border-radius:var(--r-md);padding:14px 16px;font-size:14px}
+.split b{color:var(--gold)}
+
+.receipt-table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);border-collapse:collapse;overflow:hidden}
+.receipt-table tr{border-bottom:1px solid rgba(30,41,59,.6)}
+.receipt-table tr:last-child{border-bottom:none}
+.receipt-table td{padding:10px 14px;vertical-align:top}
+.td-key{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--dimmed);letter-spacing:.06em;white-space:nowrap;width:32%;border-right:1px solid var(--border)}
+.td-val{font-size:13px;color:var(--text);line-height:1.45}
+.td-val.warn{color:var(--gold)}
+
+.sign{border:1px dashed var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:10px}
+.sign-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sig{font-family:var(--font-mono);font-size:12px;color:var(--dimmed);border-bottom:1px solid var(--muted);padding-bottom:6px}
+.foot{font-family:var(--font-mono);font-size:11px;color:var(--dimmed);letter-spacing:.04em}
 </style>
 
-<div class="wrap">
+<div class="slip">
 
-  <header style="display:flex;flex-direction:column;gap:18px">
-    <span class="label">Pre-registered wager · Farcaster thread, Sep 25–26 2026</span>
-    <h1>The Loop-Closing Wager</h1>
-    <p class="lede">Two people disagree about personal AI agents. This page turns the disagreement into tests that can actually come out against either of them, agreed before anyone sees the results.</p>
-    <div class="slip">
-      <div><span class="label">Bull side</span><b>@six</b></div>
-      <div><span class="label">Bear side</span><b>@czar</b></div>
-      <div><span class="label">Proposed by</span><b>@zachharris.eth</b></div>
-      <div><span class="label">Registered</span><b>2026-09-26</b></div>
-      <div><span class="label">Resolves</span><b>2028-09-26</b></div>
+  <div class="status">
+    <span class="led">OPEN BET</span>
+    <span class="betid">opened 2026-09-26 · settles 2028-09-26</span>
+  </div>
+
+  <div class="block">
+    <h1>Six vs Czar</h1>
+    <p class="q">By September 2028, will people actually let AI agents close their loops?</p>
+  </div>
+
+  <div class="sides">
+    <div class="side long">
+      <span class="pos">LONG AGENTS</span>
+      <span class="who">@six</span>
+      <p>Agents clear the pile of open loops. His Sep 25 cast: people get clearer headed, focused, with energy for the higher level stuff.</p>
     </div>
-  </header>
-
-  <section>
-    <span class="label">The positions, verbatim</span>
-    <div class="sides">
-      <div class="side six">
-        <span class="who">@six</span>
-        <blockquote>"all stress/anxiety is just open loops. close the loops and you feel the weight lifted off your shoulders"</blockquote>
-        <blockquote>"i am bullish on personal agents bc they help with at-scale closing of loops ... will take time to diffuse because it's a shift in mindset"</blockquote>
-      </div>
-      <div class="side czar">
-        <span class="who">@czar</span>
-        <blockquote>"people say they want to close the loops, but most people dont really want to, they would rather live with these loops than even think about it"</blockquote>
-        <blockquote>"if personal agents get to large scale mainstream usage in 2 years - I am wrong."</blockquote>
-      </div>
+    <div class="side short">
+      <span class="pos">SHORT AGENTS</span>
+      <span class="who">@czar</span>
+      <p>Most people would rather live with the pile than think about it. His Sep 26 cast: they want to "pass some time, eat, poop and sleep."</p>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>Why the first test doesn't settle it</h2>
-    <div class="gap">
-      <p><strong>Czar's test measures adoption, but his claim is about desire.</strong> People could adopt agents in huge numbers to pass time or for company. That would support his "eat, poop, sleep" view while his own test scores him as wrong.</p>
-      <p><strong>Six's claim has no deadline.</strong> "Will take time to diffuse" can explain any shortfall, so as written it can never fail.</p>
-    </div>
-  </section>
+  <div class="block">
+    <span class="section-label">The legs · each one settles on its own</span>
 
-  <section>
-    <h2>Definitions</h2>
-    <p>Agreed up front so nobody wins on a technicality.</p>
-    <dl>
-      <dt>Personal agent</dt>
-      <dd>Software that takes an action in an outside system on the user's behalf: sends, books, pays, cancels, or files. A chatbot that only answers questions does not count.</dd>
-      <dt>Mainstream</dt>
-      <dd>16% of US adults use one at least weekly. This is the "early majority" line from Rogers' diffusion-of-innovations model, the point where a technology stops belonging to early adopters.</dd>
-      <dt>Proactive loop-closing</dt>
-      <dd>The agent notices an open item (unanswered message, unpaid bill, unbooked appointment) and handles it or proposes handling it, without the user starting the task.</dd>
-      <dt>Resolution date</dt>
-      <dd>2028-09-26, czar's own two years.</dd>
-    </dl>
-  </section>
-
-  <section>
-    <span class="label">The crux</span>
-    <div class="crux">
-      <span class="label">One question separates the two positions</span>
-      <q>When closing a loop costs almost no effort, do people keep the help on?</q>
-      <p>Czar says people would rather not <em>even think about</em> their open loops. An agent's job is to remove the thinking. So the test: among people whose agent had proactive loop-closing <strong>switched on by default</strong>, is it still on after 90 days?</p>
-      <div class="verdicts">
-        <span class="pill">&gt; 50% still on → six</span>
-        <span class="pill">&lt; 50% muted or off → czar</span>
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 1</span><h2>Do people keep it on?</h2></div>
+      <p>Take people whose agent handles open loops by default. Check again at 90 days.</p>
+      <div class="prob-track" aria-hidden="true"><div class="prob-fill short-side"></div><div class="prob-fill long-side"></div></div>
+      <div class="prob-scale"><span>0% still on</span><b>50% line</b><span>100%</span></div>
+      <div class="wins">
+        <div><span class="thresh-chip proceed">@six</span>Over 50% still have it on at day 90</div>
+        <div><span class="thresh-chip red">@czar</span>Under 50%: most muted it or turned it off</div>
       </div>
     </div>
-  </section>
 
-  <section>
-    <h2>Every claim and its kill condition</h2>
-    <p>Each side's position splits into smaller claims. Each one names what would prove it wrong.</p>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>ID</th><th>Claim</th><th>Wrong if, by 2028-09-26…</th></tr></thead>
-        <tbody>
-          <tr class="s"><td class="id">SIX-1</td><td>Agents close loops at scale</td><td>The median active user delegates fewer than about 3 real actions a week, or most delegated tasks need manual rework.</td></tr>
-          <tr class="s"><td class="id">SIX-2</td><td>Closing loops reduces stress</td><td>Agent users show no drop in perceived stress (PSS-10 scale) compared with similar non-users. Includes the rebound case, where cheaper loop-closing leads people to open more loops.</td></tr>
-          <tr class="s"><td class="id">SIX-3</td><td>Freed attention goes to what matters</td><td>Time-use data shows most reclaimed time goes to passive consumption instead of the priorities users named themselves.</td></tr>
-          <tr class="s"><td class="id">SIX-4</td><td>Diffusion is slow but coming</td><td>Mainstream (16%) is not reached by <span class="blank">six to set</span>.</td></tr>
-          <tr class="c"><td class="id">CZAR-1</td><td>People don't want to close loops, even with help</td><td>More than 50% keep default-on proactive loop-closing after 90 days.</td></tr>
-          <tr class="c"><td class="id">CZAR-2</td><td>People would rather not think about their loops</td><td>When shown their open loops, most users act on them instead of dismissing or muting the feature.</td></tr>
-          <tr class="c"><td class="id">CZAR-3</td><td>People default to passing time</td><td>Freed time goes mostly to self-named priorities. This is the same measurement as SIX-3, read from the other side.</td></tr>
-        </tbody>
-      </table>
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 2</span><h2>Are they calmer?</h2></div>
+      <p>Compare stress scores (PSS-10) of agent users against similar people without one.</p>
+      <div class="wins">
+        <div><span class="thresh-chip proceed">@six</span>Users score lower on stress</div>
+        <div><span class="thresh-chip red">@czar</span>No gap on the PSS-10</div>
+      </div>
     </div>
-  </section>
 
-  <section>
-    <h2>Why this isn't binary</h2>
-    <p>Cross adoption with where freed attention goes. Three of the four outcomes leave both of them partly right.</p>
-    <div class="matrix" role="table" aria-label="Outcome matrix">
-      <div class="h" role="columnheader"></div>
-      <div class="h" role="columnheader">Freed time → own priorities</div>
-      <div class="h" role="columnheader">Freed time → passing time</div>
-      <div class="h" role="rowheader">Mainstream adoption</div>
-      <div class="m-six"><strong>Six fully right</strong>Agents spread and people use the space well.</div>
-      <div class="m-both"><strong>Both half right</strong>Agents win, the benefit-to-humanity claim fails.</div>
-      <div class="h" role="rowheader">Niche adoption</div>
-      <div class="m-both"><strong>Split</strong>Six right about the mechanism, czar right about the masses.</div>
-      <div class="m-czar"><strong>Czar fully right</strong>Few want it, and those who have it coast.</div>
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 3</span><h2>Where does the saved time go?</h2></div>
+      <p>Track the hours an agent hands back, using the BLS American Time Use Survey categories.</p>
+      <div class="wins">
+        <div><span class="thresh-chip proceed">@six</span>Things they named as their priorities</div>
+        <div><span class="thresh-chip red">@czar</span>Scrolling and TV, per the same survey</div>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>Ground rules</h2>
-    <ul class="rules">
-      <li><strong>Sources:</strong> Pew Research surveys for adoption, the BLS American Time Use Survey and published studies for time and stress, and metrics that agent companies disclose publicly.</li>
-      <li><strong>No data means no verdict.</strong> If a claim has no public evidence by the resolution date, it is marked unresolved. It counts as a win for neither side.</li>
-      <li><strong>Referee:</strong> if the two sides read the evidence differently, <span class="blank">to be agreed</span> decides.</li>
-      <li><strong>Edits:</strong> anything changed after both sides agree gets a dated note. The original terms stay visible.</li>
-    </ul>
-  </section>
+  <div class="split"><b>Split legs are live.</b> Agents can go mainstream while the freed hours go to scrolling. That pays @six on leg 1 and @czar on leg 3.</div>
 
-  <section>
-    <h2>Agreement</h2>
-    <p>To sign, reply "agreed" in the thread with a link to this page. The cast's timestamp is the signature.</p>
-    <div class="sign">
-      <div class="sig"><div class="line"></div><span class="label">@six · date</span></div>
-      <div class="sig"><div class="line"></div><span class="label">@czar · date</span></div>
-    </div>
-  </section>
+  <div class="block">
+    <span class="section-label">Fine print</span>
+    <table class="receipt-table"><tbody>
+      <tr><td class="td-key">Agent</td><td class="td-val">Software that acts for you in another system: sends, books, pays, cancels. ChatGPT-style Q&amp;A alone does not count.</td></tr>
+      <tr><td class="td-key">Mainstream</td><td class="td-val">16% of US adults using one weekly (Rogers early-majority line).</td></tr>
+      <tr><td class="td-key">Sources</td><td class="td-val">Pew surveys, the BLS American Time Use Survey, published stress studies, public company metrics.</td></tr>
+      <tr><td class="td-key">No data</td><td class="td-val">The leg is void. Nobody collects on it.</td></tr>
+      <tr><td class="td-key">Oracle</td><td class="td-val warn">Open. Both sides name one before signing.</td></tr>
+      <tr><td class="td-key">Stake</td><td class="td-val warn">Open. Bragging rights unless you set one.</td></tr>
+    </tbody></table>
+  </div>
 
-  <section>
-    <h2>Post it</h2>
-    <div class="post">
-      <pre id="cast">@czar @six turned your debate into a bet you can both lose.
+  <div class="sign">
+    <span class="section-label">Sign by casting</span>
+    <p style="margin:0;font-size:14px">Reply "agreed" under the post that links this slip. The Farcaster timestamp on your cast is the signature.</p>
+    <div class="sign-row"><span class="sig">@six</span><span class="sig">@czar</span></div>
+  </div>
 
-The crux: when closing a loop costs ~zero effort, do people keep the help on?
-
-By 9/2028: if &gt;50% keep default-on agent loop-closing after 90 days, six wins. If they mute it, czar wins.
-
-Full terms + kill conditions: [link]</pre>
-      <button type="button" id="copy">Copy post</button>
-    </div>
-  </section>
-
-  <footer>Registered 2026-09-26. Positions quoted from public Farcaster casts. Nothing here predicts the outcome.</footer>
+  <div class="foot">Slip written by @zachharris.eth · ARCS · no outcome predicted</div>
 </div>
-
-<script>
-document.getElementById('copy').addEventListener('click', function(){
-  var btn=this, text=document.getElementById('cast').textContent;
-  function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy post';},1600);}
-  function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById('cast'));var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected, press copy';}
-  try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
-});
-</script>
