@@ -223,6 +223,37 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
 fi
 
 # ---------------------------------------------------------------------------
+# component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
+# page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
+# ui-kit template in src/ui-kit/templates.json — tokens inherited, @arcs-mode matching the
+# template's slop --mode, and the template's signature selectors present — not a bespoke
+# redesign. Un-enrolled pages PASS ("not enrolled"), so this rolls out surface-by-surface and
+# does NOT touch the ~existing pages. Ratcheted via --pair (already-enrolled+failing HEAD WARNs).
+# See scripts/component_source_gate.py and src/ui-kit/README.md.
+if [ -f scripts/component_source_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  cpages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 'public/*.html' 'public/**/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$cpages" ]; then
+    ctmpd=$(mktemp -d); cargs=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      chead="-"
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        chead="$ctmpd/$(echo "$f" | tr '/' '_')"; git show "HEAD:$f" > "$chead" 2>/dev/null || chead="-"
+      fi
+      cargs="$cargs $f $chead"
+    done <<< "$cpages"
+    # shellcheck disable=SC2086
+    if ! python3 scripts/component_source_gate.py --pair $cargs; then
+      rm -rf "$ctmpd"
+      echo "✖ commit blocked: component-source gate — an enrolled page does not snap into its ui-kit template (see above)." >&2
+      echo "  register the template in src/ui-kit/templates.json, inherit _tokens.css, match @arcs-mode, and assemble from the kit primitives; or drop the @arcs-template marker to un-enroll." >&2
+      exit 1
+    fi
+    rm -rf "$ctmpd"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on
 # any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already
