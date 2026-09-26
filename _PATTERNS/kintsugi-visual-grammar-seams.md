@@ -407,3 +407,27 @@ limitation, not page debt. Recommend a scoped `low-contrast` ignore for this fil
 a translucent gradient/overlay callout) with this reason, rather than leaving 25 false positives as noise
 that would mask a future *real* regression. Deferred the suppression to an explicit call since low-contrast
 is deliberately kept out of the family glob to stay honest.
+
+## 2026-09-26 · audit: tiny-text / cramped-padding / theater-slop-phrase (NFTT family)
+
+Audited the three residual classes flagged after the low-contrast audit. Each judged on merits:
+
+- **cramped-padding** (7x on take-home-trap-dossier `.twrap`): FALSE POSITIVE. `.twrap` is a
+  horizontal-scroll wrapper around a bordered table; table cells carry `td{padding:11px 14px}`, so
+  content is not cramped. The detector reads the table flush to the rounded scroll-wrapper border as
+  cramped. → scoped ignore, family glob.
+- **tiny-text** (11px on recon-reports/receipts/tuning): FALSE POSITIVE. The flagged 11px is mono
+  CHROME (`.rsec-tag`, `.rsec-conf`, `.confnum`, `.keys` = section tags, meta lines, legends), not
+  reading body. The one GENUINE case, loop-hud `.honest` (a 10px explanatory sentence), was FIXED to
+  11px, not suppressed. → scoped ignore, family glob (the standard template notomation never triggers
+  it; only richer/data pages do).
+- **theater-slop-phrase** ("green theater" x3, recon-reports): BORDERLINE, LEFT VISIBLE. "green
+  theater" (cf. "security theater") is a substantive analytical term, but this is a WRITING-slop
+  signal on agent-generated recon output, and config-hiding a writing signal would defeat the slop
+  system's purpose. Not suppressed; the recon-reports ratchet-WARN. Not reworded either (they are
+  historical reconstruction artifacts; editing their content would alter a record).
+
+Result: dossier -> 0, loop-hud tiny-text cleared; recon-reports carry only the intentional
+theater-slop flag. Non-NFTT pages still get tiny-text/cramped-padding checks (wing.html tiny-text 2).
+Not audited (separate classes, left as-is): loop-hud `gpt-thin-border-wide-shadow`, index
+`gradient-text`/`dark-glow`/`overused-font`.
