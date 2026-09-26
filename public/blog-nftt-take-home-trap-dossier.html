@@ -1,4 +1,6 @@
-<title>Contagious Interview Dossier</title>
+<title>Contagious Interview Dossier · NFTT</title>
+<meta name="description" content="The DPRK Famous Chollima (G1052) fake-recruiter operation delivering BeaverTail and InvisibleFerret, dissected for detection, response, and awareness.">
+<meta name="robots" content="index">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Self-contained: no external fonts, scripts, or assets. Renders fully offline. -->
 <style>
@@ -9,7 +11,7 @@
     --f-mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Code","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
     --bg:#f2f4f5; --surface:#ffffff; --surface-2:#eef1f3; --surface-3:#e6eaee;
     --border:#d3dae0; --border-strong:#b7c2cb;
-    --text:#141a21; --muted:#4c5966; --dimmed:#75828f;
+    --text:#141a21; --muted:#4c5966; --dimmed:#5e6b78;
     --signal:#0e7490; --signal-soft:rgba(8,145,178,.10);
     --crit:#d21f3c; --high:#c25410; --med:#9a7310; --low:#1f5fbf;
     --crit-bg:rgba(210,31,60,.09); --high-bg:rgba(194,84,16,.10); --med-bg:rgba(154,115,16,.10); --low-bg:rgba(31,95,191,.10);
@@ -21,7 +23,7 @@
     :root:not([data-theme="light"]){
       --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
       --border:#1e293b; --border-strong:#2d3b4d;
-      --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+      --text:#e2e8f0; --muted:#94a3b8; --dimmed:#748699;
       --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
       --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
       --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
@@ -32,7 +34,7 @@
   :root[data-theme="dark"]{
     --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
     --border:#1e293b; --border-strong:#2d3b4d;
-    --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+    --text:#e2e8f0; --muted:#94a3b8; --dimmed:#748699;
     --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
     --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
     --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
@@ -564,8 +566,8 @@
     <h3>Indicators of compromise</h3>
     <div class="note"><b>TLP:AMBER, handle with care.</b> The rows below name specific parties and infrastructure and rest on a single reported source (the incident brief). Limit redistribution, and <b>verify current ownership and liveness before blocking</b>: the IP is shared hosting and may have rotated, so a blanket block risks an innocent tenant. The general tradecraft elsewhere on this page is TLP:CLEAR.</div>
     <div class="ioc"><span class="k">Repo</span><span class="v">github.com/Cryptense-Eco/Jackpot</span><span class="chip crit">Critical</span></div>
-    <div class="ioc"><span class="k">Committer</span><span class="v">hiringtecjreview@outlook.com · "jackpot_mvp"</span><span class="chip high">High</span></div>
-    <div class="ioc"><span class="k">Recruiter</span><span class="v">richardstein692@gmail.com</span><span class="chip med">Medium</span></div>
+    <div class="ioc"><span class="k">Committer</span><span class="v">hiringtecjreview@outlook[.]com · "jackpot_mvp"</span><span class="chip high">High</span></div>
+    <div class="ioc"><span class="k">Recruiter</span><span class="v">richardstein692@gmail[.]com</span><span class="chip med">Medium</span></div>
     <div class="ioc"><span class="k">C2</span><span class="v">http://91.121.235.127:1224/api/checkStatus</span><span class="chip crit">Critical</span></div>
     <div class="ioc"><span class="k">C2 IP</span><span class="v">91.121.235.127 · TCP/1224</span><span class="chip crit">Critical</span></div>
     <div class="ioc"><span class="k">Stage-2</span><span class="v">https://vscode-check-mo4-ten.vercel.app/api/settings/{mac,linux,windows}</span><span class="chip crit">Critical</span></div>

@@ -223,6 +223,37 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
 fi
 
 # ---------------------------------------------------------------------------
+# component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
+# page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
+# ui-kit template in src/ui-kit/templates.json — tokens inherited, @arcs-mode matching the
+# template's slop --mode, and the template's signature selectors present — not a bespoke
+# redesign. Un-enrolled pages PASS ("not enrolled"), so this rolls out surface-by-surface and
+# does NOT touch the ~existing pages. Ratcheted via --pair (already-enrolled+failing HEAD WARNs).
+# See scripts/component_source_gate.py and src/ui-kit/README.md.
+if [ -f scripts/component_source_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  cpages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 'public/*.html' 'public/**/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$cpages" ]; then
+    ctmpd=$(mktemp -d); cargs=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      chead="-"
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        chead="$ctmpd/$(echo "$f" | tr '/' '_')"; git show "HEAD:$f" > "$chead" 2>/dev/null || chead="-"
+      fi
+      cargs="$cargs $f $chead"
+    done <<< "$cpages"
+    # shellcheck disable=SC2086
+    if ! python3 scripts/component_source_gate.py --pair $cargs; then
+      rm -rf "$ctmpd"
+      echo "✖ commit blocked: component-source gate — an enrolled page does not snap into its ui-kit template (see above)." >&2
+      echo "  register the template in src/ui-kit/templates.json, inherit _tokens.css, match @arcs-mode, and assemble from the kit primitives; or drop the @arcs-template marker to un-enroll." >&2
+      exit 1
+    fi
+    rm -rf "$ctmpd"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on
 # any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already
@@ -246,27 +277,79 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
         continue
       fi
       [ "${n:-0}" -eq 0 ] && continue
+      hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        # NB: the detector infers file type from extension — a bare mktemp (no .html)
-        # makes `detect` return 0, which silently breaks the ratchet (HEAD reads as
-        # "no findings" and every modified page with prior debt FALSE-BLOCKS). Keep the
-        # .html suffix. (Root-caused 2026-09-26 when the NFTT --dim fix tripped it.)
-        tmpd=$(mktemp -d); tmp="$tmpd/head.html"; git show "HEAD:$f" > "$tmp" 2>/dev/null
-        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -rf "$tmpd"
+        # Score HEAD's blob at a path INSIDE the repo working tree, a sibling of
+        # $f with the SAME extension, so the detector discovers the repo-root
+        # DESIGN.md exactly as the working-file run does. TWO independent bugs
+        # made HEAD misread, both fixed here:
+        #   1. extension — a bare mktemp (no .html) makes `detect` infer the wrong
+        #      file type and skip most rules (root-caused 2026-09-26, NFTT --dim);
+        #   2. tree location — even a *.html temp OUTSIDE the repo tree (mktemp -d)
+        #      cannot walk up to the repo-root DESIGN.md, so every "outside
+        #      DESIGN.md" check (font-size/color/radius/font) is silently skipped.
+        # Measured on public/prl-status-progress.html (HEAD): mktemp no-ext = 0,
+        # mktemp -d/head.html = 7, in-tree sibling = 28 (== working). Only the
+        # in-tree sibling gives an honest HEAD-vs-working comparison; fixing the
+        # extension alone still HARD-BLOCKS frozen-baseline pages like public/prl-*
+        # (2026-09-17, PR #486 / commit c051d3c7).
+        htmp="$(dirname "$f")/.pc-kintsugi-head.$$.$(basename "$f")"
+        git show "HEAD:$f" > "$htmp" 2>/dev/null || true
+        hout=$("$IMP" detect --json "$htmp" 2>/dev/null || true); rm -f "$htmp"
         hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)
-        if [ "${hn:-0}" -gt 0 ]; then
-          echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD already had $hn. Not blocking (ratchet). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
-          continue
-        fi
       fi
-      echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s) and its HEAD version had none (or it is new)." >&2
-      printf '%s' "$out" | python3 -c 'import sys,json
+      # Count-aware ratchet. Only NET-NEW debt (working > HEAD) blocks; a page
+      # that carries a frozen pre-existing baseline (a new file has HEAD=0; the
+      # public/prl-* client design system is intentionally scored against a
+      # repo-root DESIGN.md it was never built for, ~27 findings) ratchets on
+      # its own count. A no-op / text-only edit keeps n == hn -> WARN, never
+      # block. This is the design-system scope decision: the frozen baseline is
+      # grandfathered per-file, and only a genuine regression trips the gate —
+      # no path exemption (which would let real new debt through) and no
+      # separate DESIGN.md per surface.
+      if [ "${n:-0}" -gt "${hn:-0}" ]; then
+        echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s), up from $hn in HEAD (net-new design debt)." >&2
+        printf '%s' "$out" | python3 -c 'import sys,json
 for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("snippet") or "")[:90])' >&2
-      echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
-      exit 1
+        echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
+        exit 1
+      fi
+      if [ "${hn:-0}" -gt 0 ]; then
+        echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD had $hn. Not blocking (ratchet — pre-existing/frozen baseline). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
+      fi
+      continue
     done <<< "$pages"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# receipt-timing gate (outcome-loop blindness class, 2026-09-24): a Receipt
+# create path must persist the canonical `horizon` + `reviewDate` and time its
+# debrief by horizon, never a blind `Date.now() + N * 86400000`. Both create
+# paths wrote window/reminderDate but never horizon/reviewDate (0/249 in prod),
+# so the debrief timing engine was blind. This makes a NEW blind create path
+# un-committable. Added-or-modified .ts/.tsx that contain a Receipt .create(
+# only. Deterministic, stdlib-only. See scripts/receipt_timing_gate.py and
+# src/lib/horizon.ts.
+if [ -f scripts/receipt_timing_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  ts_staged=$(git diff --cached --name-only --diff-filter=ACM -- 'src/**/*.ts' 'src/**/*.tsx' 'src/*.ts' 2>/dev/null || true)
+  if [ -n "$ts_staged" ]; then
+    create_files=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      [ -f "$f" ] || continue
+      if grep -qE '\.receipt\.create[[:space:]]*\(' "$f"; then create_files="$create_files $f"; fi
+    done <<< "$ts_staged"
+    if [ -n "$create_files" ]; then
+      # shellcheck disable=SC2086
+      if ! python3 scripts/receipt_timing_gate.py $create_files; then
+        echo "✖ commit blocked: receipt-timing gate — a Receipt create path is missing horizon/reviewDate or uses a blind T+7 reminderDate (see above)." >&2
+        echo "  persist horizon: normalizeHorizon(window) + reviewDate: reviewDateForWindow(window); set reminderDate via reminderDateForWindow(window, ...). See src/lib/horizon.ts." >&2
+        exit 1
+      fi
+    fi
   fi
 fi
 
@@ -348,4 +431,17 @@ if [ -f scripts/case_evidence_lint.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+
+# belief-log freshness guard — if the falsification ledger (SSOT) or its emitter
+# is staged, the generated view (_STATE/belief-log.md) must be regenerated in the
+# same commit. A view that lags the ledger IS the open-loop-decay pathogen the
+# ledger itself records (F27); this makes shipping a stale view UN-COMMITTABLE.
+bl_staged=$(git diff --cached --name-only -- _STATE/falsification-ledger.jsonl scripts/belief_log_emit.py 2>/dev/null || true)
+if [ -n "$bl_staged" ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/belief_log_emit.py --check >/dev/null 2>&1; then
+    echo "✖ pre-commit(belief-log): _STATE/belief-log.md is stale (or the ledger failed its schema audit)." >&2
+    echo "  fix: run 'python3 scripts/belief_log_emit.py' and stage _STATE/belief-log.md, then re-commit." >&2
+    exit 1
+  fi
+fi
 exit 0
