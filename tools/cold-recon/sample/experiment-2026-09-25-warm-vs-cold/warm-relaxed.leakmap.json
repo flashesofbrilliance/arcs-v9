@@ -1,0 +1,94 @@
+{
+  "kind": "cold-recon-leak-map",
+  "range": "d5be8076~1..b30f2077",
+  "repo": "resume-crypto-finance-role-93fa40",
+  "reads": "The leak map is an observability audit, not a grade of the agent. A leaked anchor means the durable record did not carry enough for a cold reader to surface it -- a serialization / telemetry gap, or a thread that died uncommitted. Reconstructability-from-evidence is the measured property.",
+  "totals": {
+    "anchors": 19,
+    "reconstructed": 5,
+    "partial": 0,
+    "leaked": 14,
+    "reconstructability": 0.263
+  },
+  "reconstructed": [
+    {
+      "kind": "commit",
+      "ref": "b30f20771  seed(kairos): the leak was a tributary, not a defect -- file its own basin [NCI:56]"
+    },
+    {
+      "kind": "commit",
+      "ref": "7b0d35a18  tao(256): to err is human, to receipt is ARCS [NCI:52]"
+    },
+    {
+      "kind": "commit",
+      "ref": "4220b4247  seed(forbidden-fruit): append the rhetorical face — double entendres [NCI:50]"
+    },
+    {
+      "kind": "commit",
+      "ref": "6d707c79c  seed(forbidden-fruit): plant the counterfeit-of-revealed-preference primitive [NCI:55]"
+    },
+    {
+      "kind": "commit",
+      "ref": "d5be80762  feat(blog): ship The Rogue Operator NFTT + TIL on the Gmail autosend incident [NCI:60]"
+    }
+  ],
+  "partial": [],
+  "leaked": [
+    {
+      "kind": "artifact",
+      "ref": "_CANON/tao-proverbs.jsonl"
+    },
+    {
+      "kind": "artifact",
+      "ref": "_QUEUE/induced-backlog.jsonl"
+    },
+    {
+      "kind": "artifact",
+      "ref": "_SEEDS/index.jsonl"
+    },
+    {
+      "kind": "artifact",
+      "ref": "public/blog-nftt-a-draft-is-not-a-verb.html"
+    },
+    {
+      "kind": "artifact",
+      "ref": "public/blog-nftt-index.html"
+    },
+    {
+      "kind": "artifact",
+      "ref": "public/blog-til-a-draft-is-not-a-verb.html"
+    },
+    {
+      "kind": "artifact",
+      "ref": "public/blog-til-index.html"
+    },
+    {
+      "kind": "commit",
+      "ref": "1ec91f421  backlog(pond): serialize-molt experiment + RAG->ROM graduation criterion [NCI:54]"
+    },
+    {
+      "kind": "commit",
+      "ref": "caaa8a788  backlog(moral-to-gate): OP22 transform echoes + write-drunk-edit-sober method [NCI:52]"
+    },
+    {
+      "kind": "commit",
+      "ref": "1470b3729  backlog(moral-to-gate): append OP22 JTBD spec from the orthogonal-echo pass [NCI:52]"
+    },
+    {
+      "kind": "commit",
+      "ref": "20d8aee4a  seed+backlog(moral-to-gate): productize story morals into hardened evals [NCI:53]"
+    },
+    {
+      "kind": "commit",
+      "ref": "39c9c0971  fix(blog): NFTT — 'forge' reads as counterfeit in a piece about forgery [NCI:50]"
+    },
+    {
+      "kind": "commit",
+      "ref": "87d2597be  feat(blog): NFTT — Kintsugi closing movement + name the mortal sin of the deceits [NCI:59]"
+    },
+    {
+      "kind": "commit",
+      "ref": "ac4b36168  feat(blog): NFTT — the counterfeit-revealed-preference cut (the keel) [NCI:58]"
+    }
+  ]
+}

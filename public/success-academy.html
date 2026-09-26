@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Zach Harris · AI Product Manager · Success Academy</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.85rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--secondary);}
+h1{font-size:clamp(1.35rem,3.6vw,1.65rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.78rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.02rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.85rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:2rem;color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.85rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.78rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);margin-top:2px;}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+
+<div>
+  <div class="eyebrow">◆ ARCS · Candidate Brief</div>
+  <h1>Zach Harris · AI Product Manager</h1>
+  <div class="sub">Success Academy · via Automated Industries</div>
+</div>
+
+<p class="verdict"><span class="lead">A product manager who owns strategy, discovery, and delivery.</span> My edge is discovery, not just delivery: building is table stakes, and <b>the seasoned call isn't what we could build, it's what we should, with the evidence to say why.</b> So I prototype in code, put it in front of real users, keep what gets used and kill what doesn't, and hand engineering a hardened premise instead of a hunch.</p>
+<p class="kicker">I'm the complement your AI PM bench doesn't have yet: <b>the builder who writes the code and runs the discovery</b>, and owns product end-to-end, strategy through delivery.</p>
+
+<div class="rule"></div>
+
+<div class="slabel">The number</div>
+<div class="card"><div class="scorebar"><div class="score">0.91</div><div class="scoremeta">Composite 74 / 81<br><b>Tier 1 · Pursue</b><br>ARCS target-role rubric</div></div>
+<div class="scorenote">This is my own rubric for deciding what to pursue, run on this role: it came back Tier 1, one of the highest fits in my pipeline. Top marks on role-shape fit, AI-native surface, and the rare builder-discovery-0→1 combination. The full record is below.</div></div>
+
+<div class="slabel">Three reasons it's real</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>Discovery rigor, shown not asserted.</b> Ran market-viability discovery on 3 AI product lines at Twill: primary user research plus hypothesis tests drove go-forward on two and a disciplined kill on the third, before engineering touched it.</span></li>
+<li><span class="dot"></span><span><b>Rapid prototyping and hypothesis testing, in code.</b> ARCS is my discovery engine: a working GenAI app on Claude (RAG, a live MCP server, agentic orchestration, evals) I stand up, put into real use, and keep only what holds. Building it myself means my requirements are tested, not guessed. Public commit trail at <a href="https://status.arcs.care">status.arcs.care</a>.</span></li>
+<li><span class="dot g"></span><span><b>End-to-end ownership, high agency.</b> Product strategy, management, and delivery; project management (Jira / Confluence, roadmap, dependency maps); and design/prototyping, carried by one person, no PMO. A senior product leader: player, coach, and pacecar.</span></li>
+</ul></div>
+
+<div class="slabel">Questions a buyer asks</div>
+<div class="card"><div class="qa">
+<div><div class="q">What have you actually shipped?</div><div class="a">ARCS: a GenAI app I built and run largely solo on Claude, with a <b>RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer</b>, in production with a public commit trail. And <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>, a tool I shipped that grades every resume claim by how checkable it is.</div></div>
+<div><div class="q">How do you work?</div><div class="a">Spec, then a working prototype (in code, or fast in Lovable or Replit), then real user feedback (user testing, customer research, usability studies), then I keep what gets used and kill what doesn't. Done is defined by evidence and acceptance testing, not a checklist. I own it end-to-end, strategy through delivery, plus the backlog and the design.</div></div>
+<div><div class="q">Why Success Academy, why now?</div><div class="a">It's where the three modes I move between fuse: <b>builder</b> (I ship the code), <b>founder</b> (0→1 under ambiguity), and <b>senior operator</b> (shipped at consequence, with teams, in a $7B regulated launch). I want to point that at educator productivity and student outcomes.</div></div>
+</div></div>
+
+<div class="slabel">The résumé</div>
+<div class="card"><p style="font-size:0.85rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">Human-readable and machine-readable, both built from the same source.</p>
+<div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/success-academy-resume.pdf" download="Zach-Harris-Resume.pdf">↓ PDF</a><a class="btn" href="/success-academy-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ ATS text</a></div></div>
+
+<div class="foot">The résumé here is built to the standard of a tool I shipped and run, <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>: every claim graded by how checkable it is, nothing I couldn't defend in the room.</div>
+<div class="stamp">◆ ARCS · rendered at earned fidelity</div>
+
+</div><script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.slabel'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body></html>

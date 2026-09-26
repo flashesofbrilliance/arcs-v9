@@ -1,0 +1,45 @@
+{
+  "_comment": "ARCS ui-kit template registry. Each template is an atomic-design composition that a self-contained page snaps into via the marker  <!-- @arcs-template: <name> -->  (and optionally  <!-- @arcs-mode: <mode> -->). The ORGANIZING SPINE: every template maps to exactly one slop_lint --mode, so the visual composition and the anti-slop eval thresholds are declared together and cannot silently drift. scripts/component_source_gate.py reads this file. signature_selectors are literal substrings (kit component class hooks); an enrolled page must reference at least min_signatures of them (proof it assembles from kit primitives rather than hand-rolling a bespoke redesign). Many templates may share one mode (mode drives eval thresholds; template drives composition). Modes are defined in scripts/slop_lint.py MODE_SPEC.",
+  "templates": {
+    "recoil-report": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "War-room / counterpart brief assembled from the numbered recoil-report primitives (01-14). The kit's home family.",
+      "canonical_examples": ["src/ui-kit/recoil-report/index.html", "src/ui-kit/recoil-report/03-entity-card.html"],
+      "signature_selectors": ["dsCard", ".recoil-header", ".entity-card", ".prob-track", ".arc-node", ".beat-", ".section-label"],
+      "min_signatures": 2
+    },
+    "scan-hud": {
+      "mode": "operate",
+      "kind": "instrument-dashboard",
+      "description": "Profile / target-role scan rendered as flight instrumentation (mast + telemetry band + dual-channel comparator + evidence ledger). @media print flattens to a light framed sheet.",
+      "canonical_examples": ["_ARTIFACTS/profile-scan-hud.html"],
+      "signature_selectors": [".mast", ".telemetry", ".comparator", ".ledger", ".thread", ".led", ".sec-hd"],
+      "min_signatures": 3
+    },
+    "candidate-brief": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Discovery-led candidate / counterpart brief: verdict -> pursue-score meter -> reasons -> buyer Q&A. squad.html and success-academy.html are the near-identical reference clones.",
+      "canonical_examples": ["public/success-academy.html", "public/squad.html"],
+      "signature_selectors": [".verdict", ".scorebar", ".slabel", ".stamp", ".scoremeta"],
+      "min_signatures": 2
+    },
+    "nftt-essay": {
+      "mode": "essay",
+      "kind": "editorial-longform",
+      "description": "Notes-from-the-Trenches literary essay at good.arcs.care/blog/nftt/<slug>. Hero + standfirst + tracked-caps section labels + numbered movements. NOTE: this family has a sanctioned self-authored-under-canonical-names token path (token_source_gate blog-nftt-* exemption); enrolling it in component-source is a later, separate step (see README migration plan).",
+      "canonical_examples": ["public/blog-nftt-the-loop-closes.html"],
+      "signature_selectors": [".hero", ".standfirst", ".eyebrow", ".step"],
+      "min_signatures": 2
+    },
+    "resume-print": {
+      "mode": "resume",
+      "kind": "print-paper",
+      "description": "Designed resume / CV print sheet (often a NOT-A-PALETTE light/paper surface). Signature selectors are intentionally empty until the first resume is enrolled and its shared class vocabulary is verified, so the gate checks only the tokens+mode binding for now and never false-fails on an unverified signature. Finalize signatures when enrolling the first resume (see README migration plan).",
+      "canonical_examples": ["public/vico-resume.html", "public/squad-resume.html"],
+      "signature_selectors": [],
+      "min_signatures": 0
+    }
+  }
+}

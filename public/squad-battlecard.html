@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>ARCS · Target Scan · Squad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* card-local aliases (fonts + AA-tuned neutrals; palette inherits verbatim above) */
+:root{
+  --secondary:#8ba3b2; --muted:#78899a;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#000;}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.card{position:relative;width:1080px;height:1350px;background:
+    radial-gradient(120% 90% at 78% 30%, #041016 0%, var(--bg) 58%);
+  color:var(--text);padding:74px 92px 64px;overflow:hidden;display:flex;flex-direction:column;}
+
+/* substrate: faint measurement grid, masked to center */
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(139,163,178,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(139,163,178,.05) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 90% 80% at 50% 45%,#000 40%,transparent 92%);}
+.card > *{position:relative;z-index:2;}
+
+/* instrument reticle behind the score */
+.reticle{position:absolute;top:118px;right:118px;width:342px;height:342px;z-index:1;opacity:.6;pointer-events:none;}
+
+/* header */
+.head{display:flex;justify-content:space-between;align-items:center;}
+.wordmark{font-family:var(--mono);font-size:23px;font-weight:700;letter-spacing:.36em;color:var(--cyan);}
+.wordmark .d{margin-right:.5em;}
+.stamp{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.18em;color:var(--muted);}
+.rule{height:1px;background:var(--border);margin-top:24px;}
+
+/* subject */
+.subject{margin-top:44px;}
+.company{font-size:70px;font-weight:800;letter-spacing:-.03em;line-height:.98;color:var(--text);}
+.role{margin-top:16px;font-family:var(--mono);font-size:21px;font-weight:500;letter-spacing:.02em;color:var(--secondary);}
+.role .on{color:var(--cyan);}
+
+/* score readout */
+.readout{margin-top:50px;display:flex;align-items:flex-end;gap:52px;}
+.figure{font-size:200px;font-weight:800;line-height:.74;letter-spacing:-.05em;color:var(--green);
+  text-shadow:0 6px 40px rgba(0,255,157,.34);}
+.figure .pt{color:var(--green);opacity:.5;font-weight:700;}
+.readside{display:flex;flex-direction:column;gap:14px;padding-bottom:14px;border-left:1px solid var(--border);padding-left:44px;}
+.tier{font-family:var(--mono);font-size:50px;font-weight:700;letter-spacing:.04em;line-height:.9;color:var(--gold);}
+.tiersub{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:.14em;color:var(--secondary);}
+.comp{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:.06em;color:var(--muted);}
+.comp b{color:var(--text);font-weight:600;}
+.rubric{margin-top:20px;font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+
+/* dimension readout */
+.dimhead{margin-top:52px;display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.dims{margin-top:26px;display:flex;flex-direction:column;gap:22px;}
+.dim{display:grid;grid-template-columns:296px 1fr 70px;align-items:center;gap:28px;}
+.dimk{font-family:var(--mono);font-size:18px;font-weight:500;letter-spacing:.06em;color:var(--secondary);text-transform:uppercase;}
+.track{height:12px;background:#0b1218;border-radius:6px;overflow:hidden;}
+.fill{height:100%;border-radius:6px;}
+.fill.g{background:var(--green);box-shadow:0 0 18px rgba(0,255,157,.35);}
+.fill.c{background:var(--cyan);box-shadow:0 0 18px rgba(0,240,255,.32);}
+.dimv{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text);text-align:right;}
+.dimv small{color:var(--muted);font-weight:400;}
+
+/* verdict + footer */
+.verdict{margin-top:auto;font-size:27px;font-weight:400;line-height:1.5;letter-spacing:-.01em;color:var(--secondary);max-width:820px;text-wrap:pretty;}
+.verdict b{color:var(--text);font-weight:600;}
+.verdict .hi{color:var(--green);font-weight:600;}
+.foot{margin-top:30px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.foot .d{color:var(--cyan);font-size:18px;}
+
+.footl{color:var(--secondary);}
+.qr{display:flex;flex-direction:column;align-items:center;gap:9px;}
+.qr img{width:112px;height:112px;display:block;background:#fff;border-radius:12px;padding:10px;}
+.qr .cap{font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--secondary);}
+.qr .cap b{color:var(--cyan);font-weight:600;}
+</style></head>
+<body>
+<div class="card">
+
+  <svg class="reticle" viewBox="0 0 520 520" fill="none" aria-hidden="true">
+    <circle cx="260" cy="260" r="256" stroke="#00F0FF" stroke-width="1" stroke-opacity="0.30"/>
+    <circle cx="260" cy="260" r="188" stroke="#00F0FF" stroke-width="1" stroke-opacity="0.22"/>
+    <circle cx="260" cy="260" r="120" stroke="#00F0FF" stroke-width="1" stroke-opacity="0.16"/>
+    <path d="M260 8 V116 M260 404 V512 M8 260 H116 M404 260 H512" stroke="#00F0FF" stroke-width="1" stroke-opacity="0.28"/>
+    <circle cx="260" cy="260" r="4" fill="#00F0FF" fill-opacity="0.5"/>
+  </svg>
+
+  <div class="head">
+    <div class="wordmark"><span class="d">&#9670;</span>ARCS</div>
+    <div class="stamp">TARGET-ROLE SCAN &middot; 2026.09.24</div>
+  </div>
+  <div class="rule"></div>
+
+  <div class="subject">
+    <div class="company">Squad</div>
+    <div class="role">gosquad.ai &nbsp; <span class="on">Product Engineer</span> &nbsp; first-engineer</div>
+  </div>
+
+  <div class="readout">
+    <div class="figure"><span class="pt">.</span>765</div>
+    <div class="readside">
+      <div class="tier">PURSUE</div>
+      <div class="tiersub">TIER 1 FIT</div>
+      <div class="comp">COMPOSITE &nbsp;<b>62</b> / 81</div>
+    </div>
+  </div>
+  <div class="rubric">Scored on the ARCS target-role rubric</div>
+
+  <div class="dimhead"><span>Dimension readout</span><span>Score / 3</span></div>
+  <div class="dims">
+    <div class="dim"><div class="dimk">Role-shape fit</div><div class="track"><div class="fill g" style="width:100%"></div></div><div class="dimv">3<small>/3</small></div></div>
+    <div class="dim"><div class="dimk">Scope &amp; authority</div><div class="track"><div class="fill g" style="width:100%"></div></div><div class="dimv">3<small>/3</small></div></div>
+    <div class="dim"><div class="dimk">Rare combination</div><div class="track"><div class="fill g" style="width:100%"></div></div><div class="dimv">3<small>/3</small></div></div>
+    <div class="dim"><div class="dimk">AI-native surface</div><div class="track"><div class="fill c" style="width:67%"></div></div><div class="dimv">2<small>/3</small></div></div>
+    <div class="dim"><div class="dimk">Logistics / NYC</div><div class="track"><div class="fill g" style="width:100%"></div></div><div class="dimv">3<small>/3</small></div></div>
+  </div>
+
+  <div class="verdict">My own algorithm scored this role before I applied. <span class="hi">One of the highest fits in my pipeline.</span> So I ran the honest-signal engine on your job the way you would run it on a candidate.</div>
+
+  <div class="foot">
+    <div class="footl">Scanned by ARCS &middot; Zach Harris</div>
+    <div class="qr"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOTAiIGhlaWdodD0iMjkwIiBjbGFzcz0ic2Vnbm8iPjxnIHRyYW5zZm9ybT0ic2NhbGUoMTApIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDI5djI5aC0yOXoiLz48cGF0aCBjbGFzcz0icXJsaW5lIiBzdHJva2U9IiMwODEzMWIiIGQ9Ik0yIDIuNWg3bTQgMGgzbTQgMGg3bS0yNSAxaDFtNSAwaDFtMSAwaDJtMyAwaDFtMiAwaDFtMSAwaDFtNSAwaDFtLTI1IDFoMW0xIDBoM20xIDBoMW0xIDBoM20zIDBoMW0zIDBoMW0xIDBoM20xIDBoMW0tMjUgMWgxbTEgMGgzbTEgMGgxbTEgMGgxbTEgMGg1bTEgMGgxbTEgMGgxbTEgMGgzbTEgMGgxbS0yNSAxaDFtMSAwaDNtMSAwaDFtMyAwaDJtMSAwaDFtMiAwaDFtMSAwaDFtMSAwaDNtMSAwaDFtLTI1IDFoMW01IDBoMW00IDBoMW0xIDBoMm0zIDBoMW01IDBoMW0tMjUgMWg3bTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGg3bS0xNyAxaDFtNiAwaDFtLTE2IDFoMW01IDBoMW0xIDBoMm0yIDBoN20yIDBoM20tMjIgMWgybTMgMGgxbTIgMGgzbTEgMGgybTEgMGgxbTEgMGg1bS0yNCAxaDFtMiAwaDFtMiAwaDJtMiAwaDFtMiAwaDFtMSAwaDJtMSAwaDRtMSAwaDJtLTI1IDFoMW0xIDBoNG0yIDBoNG0yIDBoMW0yIDBoMm0yIDBoMW0yIDBoMW0tMjQgMWgxbTEgMGgxbTIgMGgxbTMgMGgybTMgMGgybTEgMGgxbTUgMGgxbS0yNSAxaDFtMyAwaDFtNCAwaDJtMSAwaDFtMiAwaDNtMSAwaDFtMyAwaDFtLTI0IDFoMW0yIDBoMW0xIDBoNG02IDBoMW0xIDBoNW0xIDBoMm0tMjUgMWgxbTEgMGgybTEgMGgxbTEgMGgzbTIgMGgxbTIgMGgxbTEgMGgzbTEgMGgybTEgMGgxbS0yNSAxaDFtMSAwaDFtMSAwaDNtMSAwaDFtMyAwaDNtMSAwaDVtMSAwaDFtLTE1IDFoM20zIDBoMW0xIDBoMW0zIDBoMW0tMjEgMWg3bTIgMGgybTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTMgMGgxbS0yNSAxaDFtNSAwaDFtMiAwaDFtMSAwaDFtNCAwaDFtMyAwaDFtMiAwaDFtLTI0IDFoMW0xIDBoM20xIDBoMW00IDBoMTBtMSAwaDNtLTI1IDFoMW0xIDBoM20xIDBoMW0zIDBoMW0xIDBoMW0xIDBoMW0xIDBoM200IDBoMm0tMjUgMWgxbTEgMGgzbTEgMGgxbTIgMGgxbTIgMGgxbTEgMGgxbTYgMGgybTEgMGgxbS0yNSAxaDFtNSAwaDFtMiAwaDFtMiAwaDFtMSAwaDFtMSAwaDFtMSAwaDNtMyAwaDFtLTI1IDFoN20xIDBoN20xIDBoMW0xIDBoMW0yIDBoMW0yIDBoMSIvPjwvZz48L3N2Zz4K" alt="QR code linking to squad.arcs.care"><span class="cap">Scan &rarr; <b>squad.arcs.care</b></span></div>
+  </div>
+
+</div>
+</body></html>

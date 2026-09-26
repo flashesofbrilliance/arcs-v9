@@ -84,6 +84,41 @@ if [ -f scripts/tooltip_link_lint.py ] && command -v python3 >/dev/null 2>&1; th
 fi
 
 # ---------------------------------------------------------------------------
+# div-balance guard: an unclosed <div> (e.g. a `.row` ending in </p> with no </div>)
+# silently nests the next sibling inside it; when the parent lays children out in columns,
+# the nested block renders as a pinched column instead of its own full-width row -- a visual
+# regression the wrap-lint cannot see (nothing overflows). Banked 2026-09-23 (vico.html
+# how-I-work section). ADDED + MODIFIED: the bug arrives via an edit to an existing page.
+# The check ignores <script>/<style> bodies, so inline deck JS never false-fails.
+if [ -f scripts/html_div_balance_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  divs=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$divs" ]; then
+    if ! echo "$divs" | tr '\n' '\0' | xargs -0 python3 scripts/html_div_balance_lint.py; then
+      echo "✖ commit blocked: <div> imbalance in a staged page (see above) — an unclosed div collapses a sibling into a pinched column." >&2
+      echo "  find the row that ends in </p> without </div> and close it, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# gutter-consistency guard: in the recoil-report page template, header/footer horizontal
+# padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
+# element a few px inward of the body -- a left edge that lies about its lane, invisible to
+# the wrap-lint. Banked 2026-09-24 after it propagated to 6 sibling pages from one template.
+# ADDED + MODIFIED; the linter SKIPs pages with no `.pad` container so other layouts never fail.
+if [ -f scripts/gutter_consistency_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  gut=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$gut" ]; then
+    if ! echo "$gut" | tr '\n' '\0' | xargs -0 python3 scripts/gutter_consistency_lint.py; then
+      echo "✖ commit blocked: header/footer gutter differs from body .pad (see above) — align them so the left edge is true." >&2
+      echo "  set header{} and footer{} horizontal padding to the same px as .pad, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # informativeness ratchet: when the audit corpus or the gate machinery is staged,
 # block on NEW signal degeneracy beyond the committed baseline
 # (operators/audit_service/informativeness_baseline.json). Pre-existing SAGE
@@ -188,6 +223,37 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
 fi
 
 # ---------------------------------------------------------------------------
+# component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
+# page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
+# ui-kit template in src/ui-kit/templates.json — tokens inherited, @arcs-mode matching the
+# template's slop --mode, and the template's signature selectors present — not a bespoke
+# redesign. Un-enrolled pages PASS ("not enrolled"), so this rolls out surface-by-surface and
+# does NOT touch the ~existing pages. Ratcheted via --pair (already-enrolled+failing HEAD WARNs).
+# See scripts/component_source_gate.py and src/ui-kit/README.md.
+if [ -f scripts/component_source_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  cpages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 'public/*.html' 'public/**/*.html' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$cpages" ]; then
+    ctmpd=$(mktemp -d); cargs=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      chead="-"
+      if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        chead="$ctmpd/$(echo "$f" | tr '/' '_')"; git show "HEAD:$f" > "$chead" 2>/dev/null || chead="-"
+      fi
+      cargs="$cargs $f $chead"
+    done <<< "$cpages"
+    # shellcheck disable=SC2086
+    if ! python3 scripts/component_source_gate.py --pair $cargs; then
+      rm -rf "$ctmpd"
+      echo "✖ commit blocked: component-source gate — an enrolled page does not snap into its ui-kit template (see above)." >&2
+      echo "  register the template in src/ui-kit/templates.json, inherit _tokens.css, match @arcs-mode, and assemble from the kit primitives; or drop the @arcs-template marker to un-enroll." >&2
+      exit 1
+    fi
+    rm -rf "$ctmpd"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on
 # any finding (contrast, eyebrow, glow, ch caps, ...). MODIFIED pages whose HEAD version already
@@ -212,8 +278,12 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
       fi
       [ "${n:-0}" -eq 0 ] && continue
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        tmp=$(mktemp); git show "HEAD:$f" > "$tmp" 2>/dev/null
-        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -f "$tmp"
+        # NB: the detector infers file type from extension — a bare mktemp (no .html)
+        # makes `detect` return 0, which silently breaks the ratchet (HEAD reads as
+        # "no findings" and every modified page with prior debt FALSE-BLOCKS). Keep the
+        # .html suffix. (Root-caused 2026-09-26 when the NFTT --dim fix tripped it.)
+        tmpd=$(mktemp -d); tmp="$tmpd/head.html"; git show "HEAD:$f" > "$tmp" 2>/dev/null
+        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -rf "$tmpd"
         hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)
@@ -256,6 +326,53 @@ if [ -f scripts/receipt_timing_gate.py ] && command -v python3 >/dev/null 2>&1; 
         echo "  persist horizon: normalizeHorizon(window) + reviewDate: reviewDateForWindow(window); set reminderDate via reminderDateForWindow(window, ...). See src/lib/horizon.ts." >&2
         exit 1
       fi
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# slop guard: a customer-facing surface (resume, candidate/marketing page, outbound artifact)
+# that carries high-precision AI-slop cliches (delve, leverage, spearheaded, results-driven,
+# proven track record, ...) or em-dashes reads as AI-generated -- the exact failure that got a
+# designed resume refused by the recruiter for the Success Academy AI PM role (2026-09-25). The
+# mechanical tier-A list + em-dashes hard-fail here; structural/rhythm tells are judgment and live
+# in _PATTERNS/slop-free-rubric.md, NOT this block. ADDED + MODIFIED (slop arrives via edits too);
+# ratcheted against HEAD via --pair so a term already in a legacy page WARNs, only NEW slop blocks.
+# Scoped to public + _ARTIFACTS html so internal docs (which legitimately discuss these words) never fail.
+if [ -f scripts/slop_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  slop=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$slop" ]; then
+    pairs=()
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      head_blob=$(mktemp)
+      git show "HEAD:$f" > "$head_blob" 2>/dev/null || : > "$head_blob"
+      pairs+=("$f" "$head_blob")
+    done <<< "$slop"
+    if ! python3 scripts/slop_lint.py --pair "${pairs[@]}"; then
+      echo "✖ commit blocked: AI-slop cliche / em-dash in a customer-facing surface (see above)." >&2
+      echo "  cut the tier-A terms + em-dashes; score structural tells against _PATTERNS/slop-free-rubric.md; re-stage." >&2
+      for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+      exit 1
+    fi
+    for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# provenance guard: FACTUAL fabrication twin of the slop guard. A quantified claim (dollars,
+# percents, latency, "N+"/"more than N") on an ENROLLED customer surface must cite an evidence.jsonl
+# ledger entry; an uncovered number blocks the commit. Root cause: a "40+ demos / 75% pilot" metric
+# rode a resume from session scratch with no provenance in any vetted master (2026-09-25). Opt-in:
+# a file with no sibling evidence.jsonl is not enrolled (the linter skips it), so the gate rolls out
+# surface-by-surface. Self-reported-by-the-subject is valid evidence (the ledger records the source).
+if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  prov=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$prov" ]; then
+    if ! echo "$prov" | tr '\n' '\0' | xargs -0 python3 scripts/provenance_lint.py; then
+      echo "✖ commit blocked: a quantified claim on an enrolled surface has no evidence-ledger entry (see above)." >&2
+      echo "  add each metric to the sibling evidence.jsonl with its source (vetted-master:file:line or self-reported:Name:date), or cut it." >&2
+      exit 1
     fi
   fi
 fi

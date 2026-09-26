@@ -58,6 +58,55 @@ jobs:
         # exit 2 = drift detected; anything else is a hard error
         run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
 
+  # Drift gate (P1 prod-db-onto-prisma-migrate-deploy, 2026-09-24): now that prod is baselined
+  # and auto-applies `prisma migrate deploy` on deploy, the remaining silent-drift risk is a PR
+  # that changes schema.prisma's DATAMODEL without adding a migration to carry it — migrate deploy
+  # would then apply nothing and code + DB diverge again (the batonId P0 class). This job fails
+  # such a PR loudly. It compares the two schema DATAMODELS directly (no DB, no migration replay),
+  # so it is dialect-safe: `--from-migrations` cannot be used because prisma/migrations still holds
+  # the April SQLite-dialect entries that fail from zero (P3019 — the KNOWN DEBT above). A
+  # comment/format-only edit to schema.prisma does not trip it (datamodel-equal → pass).
+  schema-has-migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: schema.prisma datamodel change must carry a migration
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if ! git show "$BASE_SHA:prisma/schema.prisma" > /tmp/base-schema.prisma 2>/dev/null; then
+            echo "No base schema.prisma (new file) — nothing to compare."; exit 0
+          fi
+          # migrate diff on two datamodels needs no DB/shadow: exit 0 = identical, 2 = differs.
+          set +e
+          npx prisma migrate diff \
+            --from-schema /tmp/base-schema.prisma \
+            --to-schema prisma/schema.prisma \
+            --exit-code
+          diff_code=$?
+          set -e
+          if [ "$diff_code" -eq 0 ]; then
+            echo "OK: schema.prisma datamodel unchanged in this PR."; exit 0
+          fi
+          if [ "$diff_code" -ne 2 ]; then
+            echo "::error::prisma migrate diff errored (exit $diff_code)"; exit 1
+          fi
+          new_migrations=$(git diff --name-only --diff-filter=A "$BASE_SHA" HEAD -- 'prisma/migrations/*/migration.sql' || true)
+          if [ -z "$new_migrations" ]; then
+            echo "::error::schema.prisma datamodel changed but no new migration was added. Run 'npx prisma migrate dev --name <change>' and commit it — otherwise migrate deploy applies nothing and prod silently drifts from the schema (the batonId P0 class)."
+            exit 1
+          fi
+          echo "OK: datamodel change is carried by new migration(s):"
+          echo "$new_migrations"
+
   migrate-preview:
     needs: schema-dryrun
     runs-on: ubuntu-latest

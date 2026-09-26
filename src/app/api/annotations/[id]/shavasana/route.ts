@@ -24,7 +24,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   const message = await anthropic.messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 256,
-    system: "Extract the invariant kernel — the smallest truth that survives compression. One sentence. No hedges. Wuwei register: simple, direct, final.",
+    system: "Extract the invariant kernel - the smallest truth that survives compression. One sentence. No hedges. Wuwei register: simple, direct, final.",
     messages: [{
       role: "user",
       content: `TYPE: ${annotation.type}\nANCHOR: "${annotation.anchorText}"\nNOTE: "${annotation.body}"`,

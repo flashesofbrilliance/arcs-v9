@@ -5,7 +5,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
 
-// POST /api/jobs/score — the JD-read + score worker's model half. LinkedIn JD
+// POST /api/jobs/score - the JD-read + score worker's model half. LinkedIn JD
 // fetches are blocked from datacenter IPs, so the CALLER fetches each JD as text
 // (works from a residential path; scripts/jobs_score_sweep.mjs does this) and
 // posts { rows:[{jobid,title,company,jd,salary?,notes?}], spec? } here. This
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   const JD_CHARS = Number(s.rubric.jd_chars) || 6000 // spec may widen the JD window (bridge JDs carry a long company preamble)
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-  const jds = rows.map((r) => `### jobid ${r.jobid} — ${r.title} @ ${r.company}${r.notes ? `\nCaller notes: ${String(r.notes).slice(0, 400)}` : ""}\n${(r.jd || "").slice(0, JD_CHARS)}`).join("\n\n")
+  const jds = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}${r.notes ? `\nCaller notes: ${String(r.notes).slice(0, 400)}` : ""}\n${(r.jd || "").slice(0, JD_CHARS)}`).join("\n\n")
   const msg = await anthropic.messages.create({
     // ~200 output tokens per row on average (9 dims + gates + assessment) with real variance; 8 rows at a flat 1600
     // truncated mid-array and came back unparseable, so size the cap to the batch with headroom.

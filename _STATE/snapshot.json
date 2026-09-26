@@ -1,34 +1,24 @@
 {
-  "captured_at": "2026-09-17T13:57:52-04:00",
+  "captured_at": "2026-09-26T05:57:27Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9f89888f",
-    "head_message": "docs(prl): per-phase systems + dependency map (1.2A-1.5), corpus-reconciled [NCI:SKIP] (#476)",
-    "in_sync_with_origin": false,
-    "dirty_files": [
-      "CLAUDE.md",
-      "_ARCHIVE/handoffs.md",
-      "_STATE/snapshot.json (this)"
-    ]
+    "head_sha": "b53865e6",
+    "head_message": "record(witness): commit the GREEN cold-vs-warm witness stub [NCI:50]",
+    "in_sync_with_origin": true,
+    "dirty_files": ["_INBOX/*.jsonl", "_STATE/pulse.json (hook-generated, non-source)"]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_status": "Ready (inferred: prl.arcs.care serving new content live 2026-09-17)",
-    "production_alias": "https://app.arcs.care",
-    "env_vars_present": [
-      "AUTH_SECRET",
-      "AUTH_RESEND_KEY",
-      "DATABASE_URL",
-      "ANTHROPIC_API_KEY"
-    ]
+    "production_alias": "https://good.arcs.care (+ app/www/arcs.care)",
+    "latest_deploy_status": "Ready",
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "note": "decision_receipt writable via Supabase MCP this session; 4 PRL receipts filed"
+    "note": "decision_receipt table used this session; 2 receipts filed"
   },
-  "open_adrs": [],
-  "session_summary": "PRL/Todd 2pm-call wrap (overview+runbook+backlog+UAT+investigation-gate+phase-map live, 1.2 closed+receipted, DNS fact-check confirmed) + an epistemics-of-warrant thread that produced 3 memories, 2 seeds+ADR-candidate, 7 witness stubs.",
-  "next_action": "PRL phase cards HELD on 3 decisions (1.3 net-new scope / 1.5 curation owner / analytics plan); Tidio staging->prod cutover + 2 teed-up sandbox jobs await Zach's go.",
-  "blocking": "NONE"
+  "session_summary": "Cold-reconstruction public good: tools/cold-recon CLI + NFTT trilogy (method, experiment, diptych) live on good.arcs.care; AI-slop safeguard wired into nftt-gates.sh via essay mode.",
+  "next_action": "Wire the design-detector step into nftt-gates.sh once the design-system brand profile lands on main (gated on Zach reviewing the 7-wave migration plan).",
+  "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)"
 }

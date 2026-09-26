@@ -227,7 +227,7 @@ function DashboardInner() {
       const aborted = err instanceof DOMException && err.name === "AbortError"
       setError(
         aborted
-          ? "This is taking longer than usual — your bearing may still be landing. Check History in a moment, or re-run."
+          ? "This is taking longer than usual. Your bearing may still be landing. Check History in a moment, or re-run."
           : err instanceof Error ? err.message : "Something went wrong",
       )
       setLoading(false)
@@ -244,8 +244,8 @@ function DashboardInner() {
           }}>
             <span style={{ fontSize: 13, color: text.secondary }}>
               {onboardingNudge.hasPdf
-                ? "Add your full data export to deepen your Profile Scan — takes under 30 seconds."
-                : "Add your LinkedIn profile to enrich your Profile Scan — takes under 30 seconds."}
+                ? "Add your full data export to deepen your Profile Scan. Takes under 30 seconds."
+                : "Add your LinkedIn profile to enrich your Profile Scan. Takes under 30 seconds."}
             </span>
             <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
               <Button variant="ghost" size="sm" onClick={() => setOnboardingNudge(null)}>Dismiss</Button>
