@@ -1,77 +1,88 @@
 <!doctype html>
 <html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@500;700&display=swap">
+<title>Six vs Czar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;600&family=Geist+Mono:wght@400;700&display=swap">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0F151B;font-family:"Source Serif 4",Georgia,serif;color:#E3E8ED;width:390px}
-.card{padding:28px 20px 26px;display:flex;flex-direction:column;gap:20px}
-.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#93A3B2}
-h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:34px;line-height:1.05;margin:6px 0 0}
-.q{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:21px;line-height:1.25;margin:0}
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.who{padding:12px;border-top:4px solid;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.35}
-.who b{font-family:"JetBrains Mono",monospace;font-size:14px}
-.six{background:#1A2740;border-color:#86A9E8}.six b{color:#86A9E8}
-.czar{background:#3A1C1A;border-color:#EC8177}.czar b{color:#EC8177}
-.tests{display:flex;flex-direction:column;gap:10px}
-.t{background:#151D25;border:1px solid #2A3643;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
-.t h3{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:17px}
-.t h3 span{font-family:"JetBrains Mono",monospace;font-size:12px;color:#93A3B2;margin-right:6px}
-.t p{margin:0;font-size:14.5px;line-height:1.4;color:#C5CFD8}
-.row{display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.35}
-.row div{display:flex;gap:8px;align-items:baseline}
-.tag{width:46px;text-align:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;padding:2px 6px;flex:none}
-.tag.s{background:#86A9E8;color:#0F151B}.tag.c{background:#EC8177;color:#0F151B}
-.both{background:#2E2912;border-left:4px solid #D9C46A;padding:12px 14px;font-size:15px;line-height:1.4}
-.both b{color:#D9C46A}
-.foot{display:flex;flex-direction:column;gap:6px;border-top:1px solid #2A3643;padding-top:14px}
-.foot .lock{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:16px}
+/* ARCS Recoil Report — Design Tokens */
+:root{
+  --bg:#020408; --surface:#0d1117; --surface-2:#121820; --border:#1e293b;
+  --text:#e2e8f0; --muted:#475569; --dimmed:#64748b;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+  --green-bg:rgba(0,255,157,0.07); --red-bg:rgba(255,77,109,0.07);
+  --r-sm:4px; --r-md:8px;
+  --font-mono:'GeistMono','Geist Mono','JetBrains Mono',monospace;
+  --font-sans:'InstrumentSans','Instrument Sans','Work Sans',system-ui,sans-serif;
+  --font-display:'BricolageGrotesque','Bricolage Grotesque','Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);width:390px}
+.card{padding:26px 20px 24px;display:flex;flex-direction:column;gap:18px}
+.status{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--dimmed)}
+.led{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--gold)}
+.led::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.verdict{display:flex;align-items:baseline;gap:14px}
+.stat{font-family:var(--font-display);font-weight:800;font-size:60px;line-height:1;color:var(--gold)}
+.verdict-line{font-size:14px;line-height:1.4;color:var(--text)}
+.positions{display:flex;gap:12px;font-family:var(--font-mono);font-size:12px;font-weight:700}
+.positions .p-long{color:var(--green)} .positions .p-short{color:var(--red)}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
+.reasons{list-style:none;padding:0;counter-reset:step;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:#cbd5e1}
+.reasons li{position:relative;padding-left:20px;counter-increment:step}
+.reasons li::before{content:counter(step)".";position:absolute;left:0;color:var(--dimmed);font-family:var(--font-mono);font-weight:700}
+.legs{display:flex;flex-direction:column;gap:10px}
+.leg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.leg-hd{display:flex;gap:8px;align-items:baseline}
+.leg-no{font-family:var(--font-mono);font-size:11px;color:var(--cyan);flex:none}
+.leg h2{font-family:var(--font-display);font-weight:600;font-size:15px}
+.wins{display:flex;flex-direction:column;gap:4px;font-size:12.5px}
+.wins div{display:flex;gap:8px;align-items:baseline}
+.chip{display:inline-flex;justify-content:center;width:56px;flex:none;padding:1px 0;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11px;font-weight:700;border:1px solid}
+.chip.s{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.chip.c{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+.foot{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--dimmed)}
 </style></head><body>
 <div class="card">
+  <div class="status"><span class="led">OPEN BET</span><span>settles 2028-09-26</span></div>
+
   <div>
-    <div class="eyebrow">Settle the debate · judged Sept 2028</div>
-    <h1>Will people let AI handle their to-dos?</h1>
+    <div class="verdict"><span class="stat">50%</span></div>
+    <p class="verdict-line">If more than half of default-on agent users still have it running at day 90, @six wins the core bet. Under half, @czar wins the 2028 check.</p>
+  </div>
+  <div class="positions"><span class="p-long">@six: LONG, agents win</span><span class="p-short">@czar: SHORT, no</span></div>
+
+  <div>
+    <span class="section-label">Why this bet is real</span>
+    <ol class="reasons">
+      <li>Same claim, opposite predictions on the 50% line.</li>
+      <li>Settles on Pew and BLS data, not who argues better.</li>
+      <li>3 legs, each can go its own way.</li>
+    </ol>
   </div>
 
-  <div class="vs">
-    <div class="who six"><b>@six says yes</b>Agents clear your to-do pile, and life gets calmer.</div>
-    <div class="who czar"><b>@czar says no</b>Most people would rather ignore the pile than deal with it.</div>
-  </div>
-
-  <p class="q">Three ways we'll know who was right</p>
-
-  <div class="tests">
-    <div class="t">
-      <h3><span>1</span>Do people keep it on?</h3>
-      <p>Give people an AI that handles to-dos automatically. Check back in 3 months.</p>
-      <div class="row">
-        <div><span class="tag s">SIX</span>Over half still use it</div>
-        <div><span class="tag c">CZAR</span>Most switched it off</div>
+  <div class="legs">
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 1</span><h2>Do people keep it on?</h2></div>
+      <div class="wins">
+        <div><span class="chip s">@six</span>Over 50% at day 90</div>
+        <div><span class="chip c">@czar</span>Most mute it</div>
       </div>
     </div>
-    <div class="t">
-      <h3><span>2</span>Are they calmer?</h3>
-      <p>Compare stress levels of people who use one against people who don't.</p>
-      <div class="row">
-        <div><span class="tag s">SIX</span>Users are less stressed</div>
-        <div><span class="tag c">CZAR</span>No real difference</div>
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 2</span><h2>Are they calmer?</h2></div>
+      <div class="wins">
+        <div><span class="chip s">@six</span>Lower stress (PSS-10)</div>
+        <div><span class="chip c">@czar</span>No gap</div>
       </div>
     </div>
-    <div class="t">
-      <h3><span>3</span>Where does the saved time go?</h3>
-      <p>Track what people do with the time the AI frees up.</p>
-      <div class="row">
-        <div><span class="tag s">SIX</span>Things they care about</div>
-        <div><span class="tag c">CZAR</span>Scrolling and TV</div>
+    <div class="leg">
+      <div class="leg-hd"><span class="leg-no">LEG 3</span><h2>Where does saved time go?</h2></div>
+      <div class="wins">
+        <div><span class="chip s">@six</span>Their own priorities</div>
+        <div><span class="chip c">@czar</span>Scrolling and TV</div>
       </div>
     </div>
   </div>
 
-  <div class="both"><b>Plot twist:</b> both can be right. AI assistants catch on, and the saved time goes to scrolling.</div>
-
-  <div class="foot">
-    <span class="lock">Reply "agreed" to lock it in</span>
-    <span class="eyebrow">via @zachharris.eth</span>
-  </div>
+  <div class="foot"><span>Reply "agreed" to lock it in</span><span>ARCS</span></div>
 </div>
 </body></html>

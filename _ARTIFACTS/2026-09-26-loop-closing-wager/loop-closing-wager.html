@@ -109,6 +109,34 @@ h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,8vw,40px
 .sign-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sig{font-family:var(--font-mono);font-size:12px;color:var(--dimmed);border-bottom:1px solid var(--muted);padding-bottom:6px}
 .foot{font-family:var(--font-mono);font-size:11px;color:var(--dimmed);letter-spacing:.04em}
+
+/* Ahmed order: verdict -> reasons -> Q&A -> tasks -> evidence behind disclosure */
+.verdict{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.stat{font-family:var(--font-display);font-weight:800;font-size:clamp(48px,16vw,72px);line-height:1;color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.25)}
+.verdict-line{margin:0;font-size:15px;color:var(--text);flex:1;min-width:200px}
+.positions{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.positions span{font-family:var(--font-mono);font-weight:700}
+.positions .p-long{color:var(--green)} .positions .p-short{color:var(--red)}
+
+.reasons,.tasks{margin:0;padding:0;list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:6px;font-size:14px;color:#cbd5e1}
+.reasons li,.tasks li{position:relative;padding-left:24px;counter-increment:step}
+.reasons li::before,.tasks li::before{content:counter(step)".";position:absolute;left:0;top:0;color:var(--dimmed);font-family:var(--font-mono);font-weight:700}
+.tasks{color:var(--text)}
+
+.qa{display:flex;flex-direction:column;gap:10px}
+.qa-row{display:flex;gap:10px}
+.q-mark{font-family:var(--font-mono);font-weight:700;color:var(--cyan);flex:none;width:16px}
+.qa-body{display:flex;flex-direction:column;gap:2px}
+.qa-body .qtext{font-size:14px;color:var(--text);font-weight:600}
+.qa-body .atext{font-size:13px;color:#cbd5e1}
+
+details.evidence{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:2px 16px}
+details.evidence summary{cursor:pointer;padding:14px 0;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);list-style:none}
+details.evidence summary::-webkit-details-marker{display:none}
+details.evidence summary::before{content:"▸ ";color:var(--cyan)}
+details.evidence[open] summary::before{content:"▾ "}
+details.evidence[open] summary{border-bottom:1px solid var(--border);margin-bottom:14px}
+details.evidence>.block{padding-bottom:16px}
 </style>
 
 <div class="slip">
@@ -119,75 +147,111 @@ h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,8vw,40px
   </div>
 
   <div class="block">
-    <h1>Six vs Czar</h1>
-    <p class="q">By September 2028, will people actually let AI agents close their loops?</p>
-  </div>
-
-  <div class="sides">
-    <div class="side long">
-      <span class="pos">LONG AGENTS</span>
-      <span class="who">@six</span>
-      <p>Agents clear the pile of open loops. His Sep 25 cast: people get clearer headed, focused, with energy for the higher level stuff.</p>
+    <div class="verdict">
+      <span class="stat">50%</span>
+      <p class="verdict-line">If more than half of default-on agent users still have it running at day 90, @six wins the core bet. Under half, @czar wins. Checked 2028-09-26.</p>
     </div>
-    <div class="side short">
-      <span class="pos">SHORT AGENTS</span>
-      <span class="who">@czar</span>
-      <p>Most people would rather live with the pile than think about it. His Sep 26 cast: they want to "pass some time, eat, poop and sleep."</p>
+    <div class="positions">
+      <span class="p-long">@six: LONG, agents win</span>
+      <span class="p-short">@czar: SHORT, people won't let them</span>
     </div>
   </div>
 
   <div class="block">
-    <span class="section-label">The legs · each one settles on its own</span>
-
-    <div class="leg">
-      <div class="leg-hd"><span class="leg-no">LEG 1</span><h2>Do people keep it on?</h2></div>
-      <p>Take people whose agent handles open loops by default. Check again at 90 days.</p>
-      <div class="prob-track" aria-hidden="true"><div class="prob-fill short-side"></div><div class="prob-fill long-side"></div></div>
-      <div class="prob-scale"><span>0% still on</span><b>50% line</b><span>100%</span></div>
-      <div class="wins">
-        <div><span class="thresh-chip proceed">@six</span>Over 50% still have it on at day 90</div>
-        <div><span class="thresh-chip red">@czar</span>Under 50%: most muted it or turned it off</div>
-      </div>
-    </div>
-
-    <div class="leg">
-      <div class="leg-hd"><span class="leg-no">LEG 2</span><h2>Are they calmer?</h2></div>
-      <p>Compare stress scores (PSS-10) of agent users against similar people without one.</p>
-      <div class="wins">
-        <div><span class="thresh-chip proceed">@six</span>Users score lower on stress</div>
-        <div><span class="thresh-chip red">@czar</span>No gap on the PSS-10</div>
-      </div>
-    </div>
-
-    <div class="leg">
-      <div class="leg-hd"><span class="leg-no">LEG 3</span><h2>Where does the saved time go?</h2></div>
-      <p>Track the hours an agent hands back, using the BLS American Time Use Survey categories.</p>
-      <div class="wins">
-        <div><span class="thresh-chip proceed">@six</span>Things they named as their priorities</div>
-        <div><span class="thresh-chip red">@czar</span>Scrolling and TV, per the same survey</div>
-      </div>
-    </div>
+    <span class="section-label">Three reasons this bet is real</span>
+    <ol class="reasons">
+      <li>Same claim, opposite predictions: agents at scale, closing loops on their own.</li>
+      <li>It settles on outside data (Pew, BLS, PSS-10), not on who argues better.</li>
+      <li>Three legs, each can go its own way. No split-decision dodge.</li>
+    </ol>
   </div>
-
-  <div class="split"><b>Split legs are live.</b> Agents can go mainstream while the freed hours go to scrolling. That pays @six on leg 1 and @czar on leg 3.</div>
 
   <div class="block">
-    <span class="section-label">Fine print</span>
-    <table class="receipt-table"><tbody>
-      <tr><td class="td-key">Agent</td><td class="td-val">Software that acts for you in another system: sends, books, pays, cancels. ChatGPT-style Q&amp;A alone does not count.</td></tr>
-      <tr><td class="td-key">Mainstream</td><td class="td-val">16% of US adults using one weekly (Rogers early-majority line).</td></tr>
-      <tr><td class="td-key">Sources</td><td class="td-val">Pew surveys, the BLS American Time Use Survey, published stress studies, public company metrics.</td></tr>
-      <tr><td class="td-key">No data</td><td class="td-val">The leg is void. Nobody collects on it.</td></tr>
-      <tr><td class="td-key">Oracle</td><td class="td-val warn">Open. Both sides name one before signing.</td></tr>
-      <tr><td class="td-key">Stake</td><td class="td-val warn">Open. Bragging rights unless you set one.</td></tr>
-    </tbody></table>
+    <span class="section-label">The first three questions</span>
+    <div class="qa">
+      <div class="qa-row"><span class="q-mark">Q1</span><div class="qa-body"><span class="qtext">What counts as an agent?</span><span class="atext">Acts in another system: sends, books, pays. ChatGPT-style Q&amp;A alone does not count.</span></div></div>
+      <div class="qa-row"><span class="q-mark">Q2</span><div class="qa-body"><span class="qtext">What if only part of it comes true?</span><span class="atext">Split legs are live. Agents can go mainstream while the freed hours still go to scrolling.</span></div></div>
+      <div class="qa-row"><span class="q-mark">Q3</span><div class="qa-body"><span class="qtext">Who decides who won?</span><span class="atext">An oracle, open. Each side names one before signing.</span></div></div>
+    </div>
   </div>
 
-  <div class="sign">
-    <span class="section-label">Sign by casting</span>
-    <p style="margin:0;font-size:14px">Reply "agreed" under the post that links this slip. The Farcaster timestamp on your cast is the signature.</p>
-    <div class="sign-row"><span class="sig">@six</span><span class="sig">@czar</span></div>
+  <div class="block">
+    <span class="section-label">To lock it in</span>
+    <ol class="tasks">
+      <li>Reply "agreed" under the post that links this slip.</li>
+      <li>Name your oracle and your stake before signing (both open).</li>
+    </ol>
   </div>
+
+  <details class="evidence">
+    <summary>Full terms: the three legs, quotes, and fine print</summary>
+
+    <div class="block">
+      <div class="side long">
+        <span class="pos">LONG AGENTS</span>
+        <span class="who">@six</span>
+        <p>Agents clear the pile of open loops. His Sep 25 cast: people get clearer headed, focused, with energy for the higher level stuff.</p>
+      </div>
+      <div class="side short">
+        <span class="pos">SHORT AGENTS</span>
+        <span class="who">@czar</span>
+        <p>Most people would rather live with the pile than think about it. His Sep 26 cast: they want to "pass some time, eat, poop and sleep."</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="section-label">The legs · each one settles on its own</span>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 1</span><h2>Do people keep it on?</h2></div>
+        <p>Take people whose agent handles open loops by default. Check again at 90 days.</p>
+        <div class="prob-track" aria-hidden="true"><div class="prob-fill short-side"></div><div class="prob-fill long-side"></div></div>
+        <div class="prob-scale"><span>0% still on</span><b>50% line</b><span>100%</span></div>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Over 50% still have it on at day 90</div>
+          <div><span class="thresh-chip red">@czar</span>Under 50%: most muted it or turned it off</div>
+        </div>
+      </div>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 2</span><h2>Are they calmer?</h2></div>
+        <p>Compare stress scores (PSS-10) of agent users against similar people without one.</p>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Users score lower on stress</div>
+          <div><span class="thresh-chip red">@czar</span>No gap on the PSS-10</div>
+        </div>
+      </div>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 3</span><h2>Where does the saved time go?</h2></div>
+        <p>Track the hours an agent hands back, using the BLS American Time Use Survey categories.</p>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Things they named as their priorities</div>
+          <div><span class="thresh-chip red">@czar</span>Scrolling and TV, per the same survey</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="split"><b>Split legs are live.</b> Agents can go mainstream while the freed hours go to scrolling. That pays @six on leg 1 and @czar on leg 3.</div>
+
+    <div class="block">
+      <span class="section-label">Fine print</span>
+      <table class="receipt-table"><tbody>
+        <tr><td class="td-key">Agent</td><td class="td-val">Software that acts for you in another system: sends, books, pays, cancels. ChatGPT-style Q&amp;A alone does not count.</td></tr>
+        <tr><td class="td-key">Mainstream</td><td class="td-val">16% of US adults using one weekly (Rogers early-majority line).</td></tr>
+        <tr><td class="td-key">Sources</td><td class="td-val">Pew surveys, the BLS American Time Use Survey, published stress studies, public company metrics.</td></tr>
+        <tr><td class="td-key">No data</td><td class="td-val">The leg is void. Nobody collects on it.</td></tr>
+        <tr><td class="td-key">Oracle</td><td class="td-val warn">Open. Both sides name one before signing.</td></tr>
+        <tr><td class="td-key">Stake</td><td class="td-val warn">Open. Bragging rights unless you set one.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sign">
+      <span class="section-label">Sign by casting</span>
+      <p style="margin:0;font-size:14px">Reply "agreed" under the post that links this slip. The Farcaster timestamp on your cast is the signature.</p>
+      <div class="sign-row"><span class="sig">@six</span><span class="sig">@czar</span></div>
+    </div>
+  </details>
 
   <div class="foot">Slip written by @zachharris.eth · ARCS · no outcome predicted</div>
 </div>
