@@ -66,7 +66,7 @@ export default function ReceiptPage() {
     if (isEphemeral) {
       const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
       if (!raw) {
-        setError("This bearing wasn't stored — anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
+        setError("This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
         return
       }
       try {
@@ -122,7 +122,7 @@ export default function ReceiptPage() {
         <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
           <div style={{ width: "100%", maxWidth: 460, background: surface.panel, border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "1.75rem" }}>
             <div style={{ fontFamily: font.mono, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase", color: isEphemeral ? signal.gold : signal.red, marginBottom: "0.55rem" }}>
-              {isEphemeral ? "Nothing was stored — by design" : "Receipt unavailable"}
+              {isEphemeral ? "Nothing was stored, by design" : "Receipt unavailable"}
             </div>
             <h1 style={{ fontFamily: font.sans, fontSize: "1.25rem", fontWeight: 600, color: text.primary, margin: "0 0 0.55rem", lineHeight: 1.3, letterSpacing: "-0.01em" }}>
               {isEphemeral ? "This bearing didn’t travel here" : "Couldn’t load this receipt"}
@@ -215,7 +215,7 @@ export default function ReceiptPage() {
           <div style={{ ...contentContainer(vw), paddingBottom: "1.25rem" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", border: `0.5px solid ${signal.gold}44`, borderRadius: 6, padding: "0.6rem 1rem", background: `${signal.gold}0d` }}>
               <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary }}>
-                NOT STORED — this bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
+                NOT STORED. This bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
               </span>
               <Button variant="ghost" size="sm" onClick={() => {
                 // Opt-in save (ADR-049): stash the bearing in localStorage

@@ -5,12 +5,12 @@ import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
 
-// POST /api/jobs/rescore-dims — one-shot migration worker for the v1.1 -> v1.2
+// POST /api/jobs/rescore-dims - one-shot migration worker for the v1.1 -> v1.2
 // rubric split. v1.1 scored a single `strength_leverage` (0-3); v1.2 replaces it
 // with two axes: `rare_combination` (the operator-who-builds x transversal x 0->1
 // moat) and `domain_breadth` (regulated / cross-domain reach). The full JD is not
-// persisted, so this DECOMPOSES from what we have — title, company, assessment,
-// and the old strength_leverage score — into the two new dims, keeps the other 7
+// persisted, so this DECOMPOSES from what we have - title, company, assessment,
+// and the old strength_leverage score - into the two new dims, keeps the other 7
 // dims unchanged, recomputes composite against the live spec, and writes back a
 // v1.2 Score row (the v1.1 Score row is preserved by version, so this is
 // reversible). Caller posts stored rows; this route holds the prod key. Gated.
@@ -31,7 +31,7 @@ function systemPrompt(dims: Dim[]): string {
 
 A single old dimension "strength_leverage" is being split into TWO independent dimensions. For each row, using its title, company, prior assessment, and old strength_leverage score, output BOTH new scores as integers 0-3:
 
-- rare_combination (0 = ${rc.anchor0}; 3 = ${rc.anchor3}): does the ROLE'S SHAPE reward the candidate's rare combination — operator-who-also-builds, transversal cross-domain synthesizer, 0->1-under-ambiguity — such that few qualified applicants share the shape? Founding / first-hire / open-ended / GTM-engineer / forward-deployed roles score high; deep, well-staffed single-lane roles score low even when the candidate would do the job well.
+- rare_combination (0 = ${rc.anchor0}; 3 = ${rc.anchor3}): does the ROLE'S SHAPE reward the candidate's rare combination - operator-who-also-builds, transversal cross-domain synthesizer, 0->1-under-ambiguity - such that few qualified applicants share the shape? Founding / first-hire / open-ended / GTM-engineer / forward-deployed roles score high; deep, well-staffed single-lane roles score low even when the candidate would do the job well.
 - domain_breadth (0 = ${db.anchor0}; 3 = ${db.anchor3}): does the role sit in a regulated / high-stakes domain, or reward fluency across multiple such domains?
 
 These are orthogonal: a role can be high on one and low on the other. Do not just copy the old score to both.
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   }
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-  const lines = rows.map((r) => `### jobid ${r.jobid} — ${r.title} @ ${r.company}\nold strength_leverage: ${r.dims?.strength_leverage ?? "n/a"}\nassessment: ${r.assessment ?? "none"}`).join("\n\n")
+  const lines = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}\nold strength_leverage: ${r.dims?.strength_leverage ?? "n/a"}\nassessment: ${r.assessment ?? "none"}`).join("\n\n")
   const msg = await anthropic.messages.create({
     model: "claude-haiku-4-5-20251001", max_tokens: 1200, temperature: 0,
     system: [{ type: "text", text: systemPrompt(dims), cache_control: { type: "ephemeral" } }],
