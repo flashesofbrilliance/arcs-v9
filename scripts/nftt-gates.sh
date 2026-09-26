@@ -50,4 +50,16 @@ if [ -f scripts/slop_lint.py ] && command -v python3 >/dev/null 2>&1; then
   python3 scripts/slop_lint.py --metrics --mode essay "$FILE" 2>&1 | grep -E 'burstiness|UNDER|specificity' || true
 fi
 
+# 6. Visual-slop safeguard: the impeccable design detector, wired as a RATCHET (single
+#    source: scripts/nftt_contrast_ratchet.py, on main since PR #528). The brand profile
+#    (.impeccable/config.json) already exempts the ARCS house grammar so brand != slop.
+#    Low-contrast is NOT config-exempted; instead the ratchet FAILS only on a NEW low-contrast
+#    finding above the committed per-file baseline (_STATE/nftt-contrast-baseline.json, a
+#    labeled DEFERRAL of the mixed existing findings, not a clean bill). This catches a new
+#    contrast regression without turning red on legacy debt. After a deliberate accepted
+#    change or a debt fix, re-snapshot: python3 scripts/nftt_contrast_ratchet.py --update-baseline.
+if [ -f scripts/nftt_contrast_ratchet.py ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/nftt_contrast_ratchet.py "$FILE" || fail "NEW low-contrast regression above baseline in $FILE (raise the token, or --update-baseline if deliberate)"
+fi
+
 echo "GATE PASS: $FILE"
