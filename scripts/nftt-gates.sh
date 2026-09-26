@@ -38,4 +38,16 @@ sys.exit(1 if re.search(r'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}', t, re.I) else 
   fail "possible email address found in $FILE"
 fi
 
+# 5. AI-slop safeguard (single source: scripts/slop_lint.py, on main since PR #509).
+#    MECHANICAL half is a HARD FAIL (tier-A cliches + em-dashes, ~zero legit use on a
+#    public surface). The metrics half (burstiness + specificity) is ADVISORY, run in
+#    --mode essay for these reflective NFTT posts (evidence-aware, 10% floor calibrated
+#    to real essays) so it informs without false-failing the genre. Rubric:
+#    _PATTERNS/slop-free-rubric.md. Split rationale: mechanical blocks, judgment advises.
+if [ -f scripts/slop_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/slop_lint.py "$FILE" || fail "AI-slop mechanical lint (tier-A cliche or em-dash) in $FILE"
+  echo "-- slop metrics (advisory, mode=essay) --"
+  python3 scripts/slop_lint.py --metrics --mode essay "$FILE" 2>&1 | grep -E 'burstiness|UNDER|specificity' || true
+fi
+
 echo "GATE PASS: $FILE"
