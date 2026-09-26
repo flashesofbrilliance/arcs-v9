@@ -117,6 +117,7 @@ p { max-width: var(--measure); }
 footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
 @media (max-width: 760px) { .board { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+/* case-world:css:begin */
 /* earned fidelity: WORLD.md render scale, driven by live calibration */
 .world { transition: opacity 0.9s ease, letter-spacing 0.9s ease; }
 .world[data-render="GRAIN"] { opacity: 0.70; font-weight: 300; letter-spacing: 0.02em; }
@@ -168,7 +169,7 @@ body { padding-bottom: 88px; }
   .chair .col.evcol > h3:not(.evhead) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .world, body::before, .scene .fog, .scene .node, .scene .north, .chair .col.evcol { transition: none; } }
-
+/* case-world:css:end */
 </style>
 </head>
 <body>
@@ -178,6 +179,7 @@ body { padding-bottom: 88px; }
 </header>
 
 <main class="pad world" id="world" data-render="GRAIN">
+<!-- case-world:scene:begin -->
   <div class="scene" role="img" aria-label="An isometric terrain tile in fog. Your navigator node starts at the outer edge and climbs one waypoint per chair you close. The fog lifts as your calibration earns it, and a True North arrow appears at the clarity ridge.">
     <svg viewBox="0 0 640 260" aria-hidden="true">
       <defs><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter></defs>
@@ -200,6 +202,7 @@ body { padding-bottom: 88px; }
     </svg>
     <p class="where">You are <b id="zone">in the outer fog</b> · chairs closed <b id="closed">0/3</b></p>
   </div>
+<!-- case-world:scene:end -->
   <h1>The Case of the Six-Week Outage</h1>
   <p class="lede">A change shipped with every checkmark green. One person asked the smallest question in software, how do I know this actually works, and the answer was a core feature that had been dead in production for six weeks without a single complaint. Nobody here is accused. You take each chair in turn, and the investigator only asks you to defend where you sit.</p>
 
@@ -245,12 +248,53 @@ body { padding-bottom: 88px; }
   <p>ARCS · case file 001 · built from the public record of a real incident. No person is a suspect in an ARCS case. Every chair is a position, and every position gets a receipt.</p>
 </footer>
 
+<!-- case-world:dock:begin -->
 <div class="dock"><div class="in">
   <p class="line" id="status" aria-hidden="true"></p>
   <span class="sr" id="sr" aria-live="polite"></span>
   <button class="evbtn" id="evbtn" type="button">Evidence</button>
 </div></div>
+<!-- case-world:dock:end -->
 
+<!-- case-world:runtime:begin -->
+<script>
+/* ARCS Case World runtime v1. Canonical source: src/ui-kit/recoil-report/15-case-world.html.
+   Requires the case-world scene + dock blocks and a .world element with id="world".
+   API: say(text, tone) · calibration(score|null) -> render state · closed(n) · sheet(open) · seated(on) · mobile() */
+window.ArcsCaseWorld = function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var WP = [[120, 130], [196, 130], [262, 130], [320, 130]];
+  var typer = null, calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function say(m, c) {
+    var s = $("status"); s.className = "line" + (c ? " " + c : ""); $("sr").textContent = m;
+    if (typer) clearInterval(typer);
+    if (calm) { s.textContent = m; return; }
+    var k = 0; s.textContent = "";
+    typer = setInterval(function () { k += 2; s.textContent = m.slice(0, k); if (k >= m.length) { clearInterval(typer); typer = null; } }, 16);
+  }
+  function mobile() { return window.matchMedia("(max-width: 760px)").matches; }
+  function closed(n) {
+    var w = WP[Math.max(0, Math.min(n, WP.length - 1))];
+    $("node").style.transform = "translate(" + w[0] + "px," + w[1] + "px)";
+    $("closed").textContent = n + "/3";
+  }
+  function calibration(c) {
+    var r = "GRAIN", grain = 0.14;
+    if (c != null) { if (c >= 90) { r = "SHARP"; grain = 0; } else if (c >= 80) { r = "DEGRADED"; grain = 0.06; } }
+    $("world").setAttribute("data-render", r);
+    $("zone").textContent = r === "SHARP" ? "on the clarity ridge" : (r === "DEGRADED" ? "in the pressure band" : "in the outer fog");
+    document.body.style.setProperty("--grain", grain);
+    var b = $("rnd"); if (b) { b.textContent = r; b.className = "r-" + r; }
+    return r;
+  }
+  function sheet(open) { document.body.classList.toggle("sheet", !!open); }
+  function seated(on) { document.body.classList.toggle("inchair", !!on); if (!on) sheet(false); }
+  $("evbtn").addEventListener("click", function () { document.body.classList.toggle("sheet"); });
+  closed(0); calibration(null);
+  return { say: say, mobile: mobile, closed: closed, calibration: calibration, sheet: sheet, seated: seated };
+};
+</script>
+<!-- case-world:runtime:end -->
 <script>
 (function () {
   var CHAIRS = [
@@ -315,25 +359,9 @@ body { padding-bottom: 88px; }
   var over = 0, under = 0, cur = 0, sel = null, briers = [];
   function calScore() { var s = 0; briers.forEach(function (x) { s += x; }); return Math.round(100 * (1 - s / briers.length)); }
   var $ = function (id) { return document.getElementById(id); };
-  var typer = null, calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function say(m, c) {
-    var s = $("status"); s.className = "line" + (c ? " " + c : ""); $("sr").textContent = m;
-    if (typer) clearInterval(typer);
-    if (calm) { s.textContent = m; return; }
-    var k = 0; s.textContent = "";
-    typer = setInterval(function () { k += 2; s.textContent = m.slice(0, k); if (k >= m.length) { clearInterval(typer); typer = null; } }, 16);
-  }
-  function mobile() { return window.matchMedia("(max-width: 760px)").matches; }
-  var WP = [[120, 130], [196, 130], [262, 130], [320, 130]], closed = 0;
-  function moveNode() { var w = WP[closed]; $("node").style.transform = "translate(" + w[0] + "px," + w[1] + "px)"; $("closed").textContent = closed + "/3"; }
-  function renderWorld() {
-    var r = "GRAIN", grain = 0.14;
-    if (briers.length) { var c = calScore(); if (c >= 90) { r = "SHARP"; grain = 0; } else if (c >= 80) { r = "DEGRADED"; grain = 0.06; } }
-    $("world").setAttribute("data-render", r);
-    $("zone").textContent = r === "SHARP" ? "on the clarity ridge" : (r === "DEGRADED" ? "in the pressure band" : "in the outer fog");
-    document.body.style.setProperty("--grain", grain);
-    var b = $("rnd"); b.textContent = r; b.className = "r-" + r;
-  }
+  var world = ArcsCaseWorld();
+  function say(m, c) { world.say(m, c); }
+  function renderWorld() { world.calibration(briers.length ? calScore() : null); }
 
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
@@ -381,7 +409,7 @@ body { padding-bottom: 88px; }
     document.querySelectorAll("#chair" + i + " .claim").forEach(function (b) { b.classList.remove("sel"); });
     box(i, j).classList.add("sel"); sel = j;
     say("Now pick the evidence that shows it.");
-    if (mobile()) document.body.classList.add("sheet");
+    if (world.mobile()) world.sheet(true);
   }
 
   function resolve(i, j, kind, text) {
@@ -400,7 +428,7 @@ body { padding-bottom: 88px; }
 
   function cite(i, id) {
     if (i !== cur) return;
-    document.body.classList.remove("sheet");
+    world.sheet(false);
     if (sel === null) { say("Pick a claim first, then show the evidence for it.", "warn"); return; }
     var cl = CHAIRS[i].claims[sel];
     if (cl.yes.indexOf(id) >= 0) { say("Shown. " + id + " backs it.", "ok"); resolve(i, sel, "shown", "Shown by " + id + "."); }
@@ -429,7 +457,7 @@ body { padding-bottom: 88px; }
       else u2.appendChild(el("li", null, cl.t));
     });
     r.appendChild(el("p", "now", "Where the evidence actually puts this chair: " + c.now));
-    closed = i + 1; moveNode();
+    world.closed(i + 1);
     if (i + 1 < CHAIRS.length) {
       var n = el("button", "next", "Take the next chair"); n.type = "button";
       n.addEventListener("click", function () { n.remove(); cur = i + 1; render(cur); $("chair" + cur).scrollIntoView({ behavior: "smooth", block: "start" }); say(CHAIRS[cur].ask.replace("The investigator: ", "")); });
@@ -438,7 +466,7 @@ body { padding-bottom: 88px; }
   }
 
   function finish() {
-    say("Case closed.", "ok"); document.body.classList.remove("inchair", "sheet");
+    say("Case closed.", "ok"); world.seated(false);
     var pl = function (n, w) { return n + " " + w + (n === 1 ? "" : "s"); };
     var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ", calibration " + calScore() + "/100. A perfect run is 0, 0 and 100.";
     $("final").textContent = line;
@@ -453,9 +481,7 @@ body { padding-bottom: 88px; }
   }
 
   render(0);
-  document.body.classList.add("inchair");
-  $("evbtn").addEventListener("click", function () { document.body.classList.toggle("sheet"); });
-  moveNode(); renderWorld();
+  world.seated(true);
   say(CHAIRS[0].ask.replace("The investigator: ", ""));
 })();
 </script>
