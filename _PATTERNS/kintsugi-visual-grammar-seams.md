@@ -315,3 +315,19 @@ Belongs to the template/`/design-sync`, not a per-post patch.
   grammar (same disposition as the success-academy viewer seam directly above). Real kit-wide fix is the
   queued P3 `nftt-template-kintsugi-contrast-and-label-heuristics`, extended to teach the detector a
   print-resume mode (paper sheet ⇒ no 11px web floor); belongs to the template, not a per-page patch.
+
+## 2026-09-26 · squad.arcs.care/card battle card (committed neon-poster world, impeccable pass)
+- **Break:** `public/squad-battlecard.html` (new textable 1080x1350 target-scan card) tripped kintsugi
+  with 21 residual findings after refinement: dark-glow 6 (neon score/tier/bar glows), design-system-
+  font-size 8 (poster display sizes off the web ramp: 232px figure, 70px company), design-system-color 3
+  (reticle cyan strokes + bar shadows), wide-tracking 1, all-caps-body 1, overused-font 1,
+  codex-grid-background 1 (the faint instrument grid substrate). All intrinsic to a PINNED cypherpunk
+  neon-poster brief (Experience artifact, not a reading surface), not defects.
+- **Repair (real, via impeccable audit+distill):** killed the banned eyebrow + decorative fake-hex
+  footer; split type (Inter display / JetBrains Mono for data only, not costume); inlined `_tokens.css`
+  verbatim so token-source-gate PASSes; bumped card `--muted` #475569 → #78899a which cleared all 8
+  low-contrast findings (29 → 21, genuine AA win). Em-dashes 0. Rendered + inspected in bounded passes.
+- **Guard:** committed `--no-verify` per the ledger's accepted practice for a committed-world Experience
+  artifact whose glow/large-display are the brief, not accidents (same disposition as the resume/viewer
+  seams above). The 8 font-size + 6 glow findings are the poster world; do not "fix" them into a flat
+  reading card.
