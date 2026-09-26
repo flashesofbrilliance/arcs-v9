@@ -53,6 +53,24 @@ jobs:
       - name: Belief-log is current with the ledger
         run: python3 scripts/belief_log_emit.py --check
 
+  # Hard gate — signal-receipt determinism. The git object store (at fixed commit
+  # SHAs) is the SSOT; each _STATE/signal-receipts/*.json is a lawful transform of
+  # it (scripts/signal_receipt.py). --check recomputes every receipt from its own
+  # stored SHAs and asserts byte-identical, so a hand-edited or algo-drifted receipt
+  # is un-mergeable. fetch-depth: 0 is required because the recompute walks the full
+  # history the receipts reference (a shallow checkout would fail to resolve them).
+  # --selftest proves the pre-registered falsifiable kill condition each run.
+  signal-receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Falsifiable kill condition holds
+        run: python3 scripts/signal_receipt.py --selftest
+      - name: Signal receipts are current with git
+        run: python3 scripts/signal_receipt.py --check
+
   smoke:
     runs-on: ubuntu-latest
     env:

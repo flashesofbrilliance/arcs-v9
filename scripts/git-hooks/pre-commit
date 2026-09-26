@@ -413,4 +413,24 @@ if [ -n "$bl_staged" ] && command -v python3 >/dev/null 2>&1; then
     exit 1
   fi
 fi
+
+# signal-receipt freshness guard — if a signal receipt (SSOT projection), the
+# emitter, or its template is staged, every stored receipt must recompute
+# byte-identical from its own SHAs and the drift-ribbon HTML must be current. A
+# receipt that lags its git range is the same open-loop-decay the belief-log gate
+# closes; this makes shipping a hand-edited/stale receipt UN-COMMITTABLE. Also runs
+# the pre-registered falsifiable kill condition (--selftest). See scripts/signal_receipt.py.
+sr_staged=$(git diff --cached --name-only -- '_STATE/signal-receipts/*.json' scripts/signal_receipt.py scripts/signal_receipt_template.html 2>/dev/null || true)
+if [ -n "$sr_staged" ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/signal_receipt.py --selftest >/dev/null 2>&1; then
+    echo "✖ pre-commit(signal-receipt): the falsifiable kill condition failed (scripts/signal_receipt.py --selftest)." >&2
+    echo "  the metric no longer scores a mostly-rework / mostly-shipped window correctly — do not ship it." >&2
+    exit 1
+  fi
+  if ! python3 scripts/signal_receipt.py --check >/dev/null 2>&1; then
+    echo "✖ pre-commit(signal-receipt): a stored receipt is stale or hand-edited (recompute != stored), or the HTML lags." >&2
+    echo "  fix: re-run 'python3 scripts/signal_receipt.py --since/--branch ...' and stage the regenerated files, then re-commit." >&2
+    exit 1
+  fi
+fi
 exit 0

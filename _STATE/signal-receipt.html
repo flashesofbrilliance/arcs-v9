@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signal Receipt</title>
+<meta name="description" content="ARCS shipped-vs-reworked signal instrument: a deterministic receipt computed from git that makes a work window's signal-to-noise legible." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<style>
+  /* ARCS observatory drift-ribbon, single-world dark (WORLD.md). Every color is
+     painted explicitly so the page holds on any host ground.
+     GENERATED FILE - do not hand-edit. Source: scripts/signal_receipt_template.html
+     + _STATE/signal-receipts/*.json, via scripts/signal_receipt.py. */
+  :root {
+    --ground: #04070d; --panel: #0b111b; --panel-2: #0e1622;
+    --line: #1a2534; --line-soft: #131c28;
+    --text: #dfe7f0; --muted: #7688a0; --dim: #47566a;
+    --shipped: #00FF9D; --mixed: #FFC24B; --rework: #FF4D6D; --canon: #00F0FF;
+    --measure: 62ch;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 78% -8%, rgba(0,240,255,.05), transparent 60%),
+      radial-gradient(900px 600px at 6% 4%, rgba(0,255,157,.045), transparent 55%),
+      var(--ground);
+    color: var(--text);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* house pattern: body never scrolls sideways */
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 40px) 80px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--canon); margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, var(--canon), transparent); }
+  h1 { font-size: clamp(30px, 5.5vw, 52px); line-height: 1.02; margin: 0 0 18px; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  /* LEDE spans the full lane, matching the heading width (AGENTS.md gotcha 13c). */
+  .thesis { font-size: clamp(15px, 1.9vw, 18px); color: var(--muted); margin: 0 0 30px;
+    text-wrap: pretty; overflow-wrap: break-word; }
+  .thesis b { color: var(--text); font-weight: 500; overflow-wrap: anywhere; }
+
+  .readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-bottom: 44px; }
+  .stat { background: var(--panel); padding: 16px 18px; }
+  .stat .k { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin: 0 0 8px; }
+  .stat .v { font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat .v small { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+  .section-label { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim); display: flex; align-items: center; gap: 12px; margin: 0 0 20px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* churn ribbon: a 0..1 scale, each receipt a node placed by its churn ratio */
+  .ribbon-shell { border: 1px solid var(--line); border-radius: 14px;
+    background: linear-gradient(180deg, var(--panel-2), var(--panel)); padding: 22px 20px 16px; margin-bottom: 12px; }
+  .scale { position: relative; height: 46px; margin: 0 8px; }
+  .scale .band { position: absolute; top: 18px; height: 8px; border-radius: 4px; }
+  .band.b-shipped { left: 0; width: 25%; background: rgba(0,255,157,.20); }
+  .band.b-mixed { left: 25%; width: 25%; background: rgba(255,194,75,.20); }
+  .band.b-rework { left: 50%; width: 50%; background: rgba(255,77,109,.20); }
+  .node { position: absolute; top: 22px; width: 13px; height: 13px; border-radius: 50%;
+    transform: translate(-50%, -50%); box-shadow: 0 0 0 1px rgba(4,7,13,.9), 0 0 9px currentColor; }
+  .node .lbl { position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+  .ticks { position: relative; height: 16px; margin: 2px 8px 0; }
+  .tick { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--dim); transform: translateX(-50%); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 44px; padding-left: 2px; }
+  .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+  .legend .dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 7px currentColor; }
+
+  .cards { display: grid; gap: 14px; }
+  .card { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 20px 22px; position: relative; overflow: hidden; max-width: 100%; }
+  .card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--vc, var(--muted)); }
+  .card-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card-id { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 600; color: var(--text); word-break: break-word; }
+  .chip { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; border: 1px solid var(--vc, var(--muted)); color: var(--vc, var(--muted)); }
+  .card-head .churn { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 600;
+    color: var(--vc, var(--text)); font-variant-numeric: tabular-nums; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+  .metric { border: 1px solid var(--line-soft); border-radius: 9px; background: var(--panel-2); padding: 11px 13px; }
+  .metric .mk { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 0 0 6px; }
+  .metric .mv { font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .headsha { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); word-break: break-all; }
+
+  footer { margin-top: 54px; padding-top: 20px; border-top: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--dim); line-height: 1.7; max-width: var(--measure); }
+  footer code { color: var(--muted); }
+  a { color: var(--canon); text-decoration: none; }
+
+  @media (max-width: 560px) {
+    .card-head .churn { margin-left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">ARCS · Observatory · Signal Instrument</p>
+  <h1>Signal Receipt</h1>
+  <p class="thesis">The ARCS instinct turned on itself: how much of a work window was net-new <b>shipped</b> work versus <b>rework</b> and churn, computed mechanically from git instead of vibes. One field, one source of truth: each receipt is a lawful transform of a fixed set of commit SHAs, so the same git range renders byte-identical every time.</p>
+
+  <div class="readout" id="readout"></div>
+
+  <p class="section-label">Churn ribbon - each window placed by its rework ratio</p>
+  <div class="ribbon-shell">
+    <div class="scale" id="scale">
+      <div class="band b-shipped"></div><div class="band b-mixed"></div><div class="band b-rework"></div>
+    </div>
+    <div class="ticks" id="ticks"></div>
+  </div>
+  <div class="legend" id="legend"></div>
+
+  <p class="section-label">Receipts</p>
+  <div class="cards" id="cards"></div>
+
+  <footer>
+    <div>Generated from <code>_STATE/signal-receipts/*.json</code> by <code>scripts/signal_receipt.py</code> - the git object store (at fixed commit SHAs) is the source of truth; this view is a lawful transform of it and is never hand-edited.</div>
+    <div style="margin-top:6px">churn_ratio = reworked files / files touched. Bands: shipped &lt; 0.25 · mixed &lt; 0.50 · rework &gt;= 0.50.</div>
+  </footer>
+</div>
+
+<script id="data" type="application/json">[{"receipt_id":"main-recent-2026-09-19","verdict":"mostly-rework","churn_ratio":0.9819,"commits":120,"files_touched":2873,"files_added":2873,"reworked_files":2821,"insertions":811160,"deletions":1331,"head":"b235654cef2b"}]</script>
+<script>
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const VC = { "mostly-shipped": "#00FF9D", "mixed": "#FFC24B", "mostly-rework": "#FF4D6D" };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+  // readout: corpus rollup across all receipts
+  const totCommits = DATA.reduce((a, r) => a + r.commits, 0);
+  const totTouched = DATA.reduce((a, r) => a + r.files_touched, 0);
+  const totRework = DATA.reduce((a, r) => a + r.reworked_files, 0);
+  const overall = totTouched ? (totRework / totTouched) : 0;
+  const readout = [
+    ["receipts", DATA.length],
+    ["commits", totCommits],
+    ["files touched", totTouched],
+    ["overall churn", overall.toFixed(2)],
+  ];
+  document.getElementById("readout").innerHTML = readout.map(
+    ([k, v]) => `<div class="stat"><p class="k">${esc(k)}</p><p class="v">${esc(v)}</p></div>`
+  ).join("");
+
+  // ribbon: place each node at churn_ratio across a 0..1 scale
+  const scale = document.getElementById("scale");
+  DATA.forEach(r => {
+    const n = document.createElement("div");
+    n.className = "node";
+    const c = VC[r.verdict] || "#7688a0";
+    n.style.left = (r.churn_ratio * 100) + "%";
+    n.style.color = c; n.style.background = c;
+    n.innerHTML = `<span class="lbl">${esc(r.churn_ratio.toFixed(2))}</span>`;
+    n.title = `${r.receipt_id}: churn ${r.churn_ratio.toFixed(2)} (${r.verdict})`;
+    scale.appendChild(n);
+  });
+  document.getElementById("ticks").innerHTML =
+    ["0.0", "0.25", "0.50", "0.75", "1.0"].map((t, i) =>
+      `<span class="tick" style="left:${i * 25}%">${t}</span>`).join("");
+
+  document.getElementById("legend").innerHTML = [
+    ["mostly-shipped", VC["mostly-shipped"]],
+    ["mixed", VC["mixed"]],
+    ["mostly-rework", VC["mostly-rework"]],
+  ].map(([n, c]) => `<span class="li"><span class="dot" style="color:${c};background:${c}"></span>${n}</span>`).join("");
+
+  // cards
+  document.getElementById("cards").innerHTML = DATA.map(r => {
+    const c = VC[r.verdict] || "#7688a0";
+    const m = (k, v) => `<div class="metric"><p class="mk">${k}</p><p class="mv">${esc(v)}</p></div>`;
+    return `<div class="card" style="--vc:${c}">
+      <div class="card-head">
+        <span class="card-id">${esc(r.receipt_id)}</span>
+        <span class="chip">${esc(r.verdict)}</span>
+        <span class="churn">${esc(r.churn_ratio.toFixed(2))}</span>
+      </div>
+      <div class="metrics">
+        ${m("commits", r.commits)}
+        ${m("files touched", r.files_touched)}
+        ${m("files added", r.files_added)}
+        ${m("reworked", r.reworked_files)}
+        ${m("+ ins", r.insertions)}
+        ${m("- del", r.deletions)}
+      </div>
+      <div class="headsha">head ${esc(r.head)}</div>
+    </div>`;
+  }).join("");
+</script>
+</body>
+</html>
