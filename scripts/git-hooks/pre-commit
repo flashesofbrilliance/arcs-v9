@@ -302,6 +302,35 @@ for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("sn
 fi
 
 # ---------------------------------------------------------------------------
+# receipt-timing gate (outcome-loop blindness class, 2026-09-24): a Receipt
+# create path must persist the canonical `horizon` + `reviewDate` and time its
+# debrief by horizon, never a blind `Date.now() + N * 86400000`. Both create
+# paths wrote window/reminderDate but never horizon/reviewDate (0/249 in prod),
+# so the debrief timing engine was blind. This makes a NEW blind create path
+# un-committable. Added-or-modified .ts/.tsx that contain a Receipt .create(
+# only. Deterministic, stdlib-only. See scripts/receipt_timing_gate.py and
+# src/lib/horizon.ts.
+if [ -f scripts/receipt_timing_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  ts_staged=$(git diff --cached --name-only --diff-filter=ACM -- 'src/**/*.ts' 'src/**/*.tsx' 'src/*.ts' 2>/dev/null || true)
+  if [ -n "$ts_staged" ]; then
+    create_files=""
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      [ -f "$f" ] || continue
+      if grep -qE '\.receipt\.create[[:space:]]*\(' "$f"; then create_files="$create_files $f"; fi
+    done <<< "$ts_staged"
+    if [ -n "$create_files" ]; then
+      # shellcheck disable=SC2086
+      if ! python3 scripts/receipt_timing_gate.py $create_files; then
+        echo "✖ commit blocked: receipt-timing gate — a Receipt create path is missing horizon/reviewDate or uses a blind T+7 reminderDate (see above)." >&2
+        echo "  persist horizon: normalizeHorizon(window) + reviewDate: reviewDateForWindow(window); set reminderDate via reminderDateForWindow(window, ...). See src/lib/horizon.ts." >&2
+        exit 1
+      fi
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # slop guard: a customer-facing surface (resume, candidate/marketing page, outbound artifact)
 # that carries high-precision AI-slop cliches (delve, leverage, spearheaded, results-driven,
 # proven track record, ...) or em-dashes reads as AI-generated -- the exact failure that got a
