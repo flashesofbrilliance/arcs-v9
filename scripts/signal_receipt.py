@@ -144,35 +144,38 @@ def resolve_commits(spec: dict, cwd: pathlib.Path = ROOT) -> list[str]:
 def commit_details(shas: list[str], cwd: pathlib.Path = ROOT) -> list[dict]:
     """For each SHA (in the given order), return {sha, subject, files:[...]}.
 
-    Uses `--name-only`, the changed-path SET of each commit's tree diff, NOT
-    `--numstat` line counts. This is deliberate: numstat's per-file +/- counts vary
-    across git versions and with `.gitattributes` text/binary/eol handling (which
-    differs between a local worktree and a fresh CI checkout), which broke the
-    determinism promise (recompute != stored under a newer git). A changed-path set
-    is a pure function of the two tree objects, identical on any git that can read
-    them. Line counts are not part of the signal metric (it is file-level), so they
-    are dropped rather than made fragile. One git call; --no-renames so a rename is
-    add(new)+delete(old), both counted as touched.
+    Determinism is the whole point, so this uses PLUMBING with stable, documented
+    output contracts rather than porcelain:
 
-    A record starts with US (\\x1f); the header's two fields split on RS (\\x1e)."""
+      * subjects: one `git log --no-walk --format=%H<US>%s` call. %s is the first
+        message line, stable across versions.
+      * changed files: `git diff-tree` PER commit. diff-tree reports a path as
+        changed iff the two tree entries' blob OIDs differ -- a pure function of
+        the immutable objects, independent of git version, `.gitattributes`,
+        core.autocrlf, or any diff/textconv filter. `-r` recurses, `--root` emits
+        a root commit's full tree, `--no-renames` makes a rename add(new)+del(old)
+        (both counted as touched), `--no-commit-id --name-only` prints bare paths.
+
+    Earlier revisions used `git show --numstat` (line counts vary by git version /
+    attributes) and then `git show --no-walk=unsorted <many-shas>` (`--no-walk` is a
+    `git log` option whose `git show` handling differs between 2.43 and 2.55); both
+    broke `--check` on CI while passing locally. diff-tree by OID is the fix."""
     if not shas:
         return []
-    fmt = "%x1f%H%x1e%s"  # US, sha, RS, subject
-    out = git(
-        ["show", "--no-walk=unsorted", "--no-renames", "--name-only", f"--format={fmt}", *shas],
-        cwd=cwd,
-    )
+    subj_out = git(["log", "--no-walk", "--format=%H\x1f%s", *shas], cwd=cwd)
+    subjects: dict[str, str] = {}
+    for line in subj_out.splitlines():
+        if "\x1f" in line:
+            h, s = line.split("\x1f", 1)
+            subjects[h] = s
     details: list[dict] = []
-    for rec in out.split("\x1f"):
-        if not rec.strip():
-            continue
-        header, _, body = rec.partition("\n")
-        sha, _, subject = header.partition("\x1e")
-        files = [line for line in body.splitlines() if line.strip()]
-        details.append({"sha": sha, "subject": subject, "files": files})
-    # Preserve requested order (show --no-walk=unsorted keeps input order, but be safe).
-    order = {s: i for i, s in enumerate(shas)}
-    details.sort(key=lambda d: order.get(d["sha"], 1 << 30))
+    for sha in shas:  # requested order (oldest-first) preserved directly
+        out = git(
+            ["diff-tree", "--no-commit-id", "--no-renames", "-r", "--root", "--name-only", sha],
+            cwd=cwd,
+        )
+        files = [line for line in out.splitlines() if line.strip()]
+        details.append({"sha": sha, "subject": subjects.get(sha, ""), "files": files})
     return details
 
 
