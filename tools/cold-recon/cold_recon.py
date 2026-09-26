@@ -581,7 +581,7 @@ _RENDER_TEMPLATE = """<!DOCTYPE html>
 <title>%(title)s</title>
 <style>
   :root{--bg:#020408;--surface:#0b1017;--surface2:#111823;--border:#1e293b;--border2:#2a3a4d;
-    --text:#e7ecf3;--muted:#9aa8bc;--dim:#5f6f84;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --text:#e7ecf3;--muted:#9aa8bc;--dim:#748699;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
     --mono:ui-monospace,SFMono-Regular,Menlo,monospace;--serif:Georgia,"Times New Roman",serif;--measure:42rem;}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:var(--serif);font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}
