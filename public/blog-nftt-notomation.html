@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notomation · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Automation is sold as the only near future there is. There is a second road, where the machine sharpens the person instead of replacing them. ARCS calls it notomation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#5f6f84;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Thesis, with the mood numbers cited</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The near future is not one road</p>
+    <h1>Notomation</h1>
+    <p class="standfirst">Automation is sold as the only near future there is. It is not. There is a second road, quieter and harder to put on a keynote slide, where the machine sharpens the person instead of editing them out.</p>
+    <p class="byline">Field notes · the sentiment numbers are Pew 2026, cited. The stance is ARCS canon, marked as thesis.</p>
+  </header>
+
+  <section>
+    <span class="num">I · The only future on sale</span>
+    <p class="lead">Every roadmap points the same way. The demos, the keynotes, the funding decks all describe one near future and call it inevitable: automation, end to end, the person edited out of the loop as a favor to efficiency. Agents that do the work. Humans that approve, or eventually do not need to.</p>
+    <p>A future told as inevitable is usually a future someone is selling. When one road is the only road on the map, the first honest question is who drew the map, and what the other roads would have cost them. The people with the most compute have the most reason to describe a world where compute is the protagonist and you are overhead.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The wrong axis</span>
+    <p>Ask people how they feel about it and you get a mood, and the mood is not warm. It is worth looking at the real numbers before reaching for a slogan, so here they are, measured by someone with no product to sell you.</p>
+    <div class="panel">
+      <h4>How the public actually feels, 2026</h4>
+      <div class="step">
+        <span class="k">Concerned</span><b>52% of US adults are more concerned than excited about AI in daily life, up from 37% in 2021. Only 9% are more excited than concerned.</b>
+        <span class="k">Impact</span><b>40% expect AI's impact on society to be negative over the next twenty years. 16% expect it to be positive.</b>
+        <span class="k">Under 30</span><b>For the first time, a majority of adults under thirty, 55%, are more concerned than excited.</b>
+        <span class="k">Pace</span><b>About two thirds say AI is moving too fast.</b>
+      </div>
+      <p>Source: Pew Research Center, 2026. A mood, measured honestly. Read it as the room's temperature, not as the fork.</p>
+    </div>
+    <p>Now set the numbers down, because the mood is not the axis. Concern and excitement are a temperature reading. They tell you the room is uneasy. They do not tell you which future you are walking into, because the same person is glad the machine drafts their email and afraid it will grade their child's essay. The feeling is real, and it is not the fork.</p>
+    <blockquote>Optimist or pessimist is a weather report. It tells you how the day feels, not which direction you are walking.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · The fork that matters</span>
+    <p>The axis that decides things is not how you feel about AI. It is a question about direction of service. Is the model a sharpened instrument in your hand, or are you a training agent feeding the model? Both can wear the same interface. Both can feel productive. Only one of them leaves you more capable when you close the laptop.</p>
+    <p>ARCS has a name for the second road, and it is deliberately plain. Notomation. Not automation. The rule underneath it is one line: scaffold and sequence a person's thinking, never compress it, never replace it, never overrule what they actually want. The machine holds the map steady and burns off the fog. It does not take the wheel, and it does not quietly decide the destination while you watch the loading bar.</p>
+    <blockquote>Automation removes the human to save the step. Notomation keeps the human and removes the fog.</blockquote>
+    <p>This is the contrarian part, so it is worth saying flatly. The dominant story keeps a human in the frame the way a label keeps a warning: a footnote on machine output. Human oversight required. Results may vary. Notomation says the human is the point, not the asterisk. Put the person back in the sentence and let the model be the exoskeleton. One story treats your judgment as a disclaimer. The other treats it as the whole reason to build anything at all.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · Slop is the tell</span>
+    <p>You do not need a philosophy degree to tell which road a tool is on. You can read it in something as small as a dash. When a model writes for you and the output arrives dash-spliced, padded with the same tired phrases, the register slightly off, something quiet happens: you become its proofreader. You absorb its tics. You start writing a little more like it, so its drafts need less fixing. That is the whole failure mode in miniature. The human recalibrating to the machine's grain instead of the other way around.</p>
+    <p>That is a person turning into a training agent one small edit at a time, and almost no one notices, because each edit is tiny and the tool feels helpful the entire way down. Slop is not just ugly writing. It is the visible residue of the polarity running backward.</p>
+    <p>And the tell goes deeper than the words. A 2026 study of commercial web writing, SlopShape, found that AI text carries a structural signature, a tidy and self-announcing shape in how it orders information and stages its evidence, and that signature is detectable at ninety-eight percent accuracy even after each post is reworded by the model that wrote it. You can strip out every cliche and every dash and the machine shape stays. Human writing, by contrast, occupies the rarest regions of that space.</p>
+    <p>The study stops there, at detection. It makes no claim about agency, and the next step is ours to draw, so mark it as ours. That irregular, particular, hard-to-predict shape is the human fingerprint, and it is exactly what a person gives up by recalibrating to the tool. The drift is not a surface habit you can polish away. It moves your thinking into the shape a detector can already recognize as not you.</p>
+    <blockquote>You can reword the slop and the shape remains. The only thing that changes the shape is a human actually thinking. The tell and the cure are the same act.</blockquote>
+    <p>So the fix is not a better model, and it is not better polish. It is a stance. Make the instrument's output serve the reader, so the reader never has to finish the machine's sentence, and keep the reader's own shape intact instead of sanding it toward the tidy one. When the output reads like a machine, the reader does the machine's unfinished work, and serving has quietly become served. That is notomation in one gesture: the tool bends to the human's register, not the reverse.</p>
+  </section>
+
+  <section>
+    <span class="num">V · Compound, or dissolve</span>
+    <p>This is why the compass opens on the question it does. Not a productivity prompt, but an inventory: what have I built that is mine to carry anywhere, and where should I plant it to grow next. Portable career capital is the asset AI can either compound for you or quietly commoditize into itself, and the verbs are identical on both roads. Atomize your skill into reusable pieces. Spread it. Grow it into the next thing. The only variable is who ends up holding the result.</p>
+    <p>So underneath the literal question sits the one that actually forks your future, and the compass now names it out loud.</p>
+    <blockquote>Am I using AI to compound what is mine, or am I dissolving into it? Same verbs. Opposite polarity. That is the whole fork.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VI · Agency in the era of the beast</span>
+    <p>There is a timer on this. Tokens are cheap now and will not stay that way at the depth real thinking wants. In a near future where the good models are metered and expensive, the terms of that meter get set by a very small number of people. If you have spent the cheap years letting the tool shape how you think, you arrive at the expensive years already dependent, negotiating from inside the machine instead of standing beside it.</p>
+    <p>Which is the actual stakes, stated plainly. Do not let the people who own the compute be the ones who decide how your agency gets shaped, versus how your agency shapes the tool. Keeping that decision in your own hands is what it takes for a person to stay a person in the era of the beast.</p>
+    <p>The near future is not one road. Automation is the one being sold, because it is the one that scales without you. Notomation is the other one, and it does not arrive in a keynote. It is built in the small moves: the dash you refuse to leave in, the question you insist on answering yourself, the tool you keep as an instrument and refuse to become.</p>
+    <blockquote>The human is the point, not the asterisk. In a future metered by someone else, that is not a sentiment. It is the whole fight.</blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    The sentiment figures are Pew Research Center, 2026. The structural-signature finding is SlopShape (Madler, arXiv:2609.15369, 2026). Notomation is ARCS's stated stance, offered as thesis, not as proven fact.
+  </footer>
+</div>
+</body>
+</html>
