@@ -278,8 +278,12 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
       fi
       [ "${n:-0}" -eq 0 ] && continue
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        tmp=$(mktemp); git show "HEAD:$f" > "$tmp" 2>/dev/null
-        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -f "$tmp"
+        # NB: the detector infers file type from extension — a bare mktemp (no .html)
+        # makes `detect` return 0, which silently breaks the ratchet (HEAD reads as
+        # "no findings" and every modified page with prior debt FALSE-BLOCKS). Keep the
+        # .html suffix. (Root-caused 2026-09-26 when the NFTT --dim fix tripped it.)
+        tmpd=$(mktemp -d); tmp="$tmpd/head.html"; git show "HEAD:$f" > "$tmp" 2>/dev/null
+        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -rf "$tmpd"
         hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)

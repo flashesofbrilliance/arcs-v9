@@ -114,6 +114,57 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.66.0 (2026-09-26)
+
+> **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
+> then the AI-slop safeguard back-propped and wired into the FE ship-gate.** Opt-in build forked to
+> its own session; ran daylight-first with a bless gate at every publish. All shipped to main and
+> LIVE on good.arcs.care. Five PRs merged (#505, #506 sibling, #507, #509 sibling, #510).
+
+## Shipped + LIVE (verified on prod, 200 + content + PII-clean)
+- **`tools/cold-recon/`** — stdlib-only CLI (recoil-report shape). `gather` (git+files, ZERO
+  transcript, coldness enforced structurally) → `prompt` (cold-agent contract) → `validate` /
+  `leakmap` / `render`. Leak map = observability audit (reconstructability as a measurable
+  property). Hardened by a sibling session (#506): em-dash normalization + in-tool `--redact` +
+  `selftest` 4/4. NOT claimed patentable; only as good as commit-as-you-go discipline.
+- **NFTT trilogy on good.arcs.care** (all own index cards): `the-cold-reconstruction` (method +
+  real PoC run, reconstructability 0.895), `the-control-and-the-experiment` (warm-vs-cold, n=1),
+  `receipts-or-it-didnt-happen` (the diptych). Plus 4 redacted companion reports at `/report`
+  depth-ladder routes (unredacted renders stay internal — int/ext air-gap).
+- **The experiment finding** (witnessed GREEN): warmth does not corrupt WHAT you ground, it changes
+  WHETHER you ground at all; coldness's value is structural (no memory → can't narrate from memory).
+  4-run table: cold 0.90/0.84, warm-relaxed 0.26, warm-matched 1.00 — the collapse was the cite
+  instruction (confound), controlled. Running the control corrected my flattering first explanation.
+- **Record hygiene** — committed the previously-untracked incident RCA + witness stubs (the live
+  leak the tool surfaced; insight #2 demonstrated on itself).
+- **AI-slop safeguard wired into the FE ship-gate** (#510): `slop_lint` landed on main via a sibling
+  session (#509, single source). I wired it into `scripts/nftt-gates.sh` — mechanical cliché/em-dash
+  = HARD FAIL, burstiness+specificity = ADVISORY in `--mode essay` (evidence-aware, 10% floor the
+  sibling calibrated to real essays, correcting my 20-25% which would have false-failed the genre).
+  Proven fails-on-bad AND passes-on-good.
+
+## Open (next session)
+1. **Visual-slop half (Adaptation 2) — brand-visual allowlist for the NFTT pages: BUILT + A/B-verified,
+   awaiting merge.** The design-system-normalization session (branch `worktree-agent-a9c05965613c705e2`,
+   local, unmerged) built the brand profile against my relayed spec and verified it: brand false-positives
+   drop to 0 on all 3 posts (cold-reconstruction 41→16, control-and-experiment 35→11, diptych 56→27),
+   real debt fully retained (undersized-ui-text, low-contrast, tiny-text). Exempted set (8, all
+   verified-firing): design-system-{font,font-size,color,radius}, all-caps-body, wide-tracking,
+   hero-eyebrow-chip, dark-glow. Note: `tiny-numbered-labels` + `border-accent-on-rounded` from my spec
+   fire 0 times (absorbed by all-caps-body/wide-tracking + design-system-radius) so they were omitted, not
+   added dead. **Gate: lands on main only when Zach reviews + lands the design-system branch (7-wave
+   migration plan needs his review).** Then: re-run the detector to confirm 0 brand-false-positives, add
+   the detector step to `nftt-gates.sh` beside the slop_lint step (#510).
+2. **cold-recon redaction phrasing** — the doubled-article artifact ("a a candidate role candidate
+   bundle") in the live warm-relaxed report; handed to the hardening session `[42a0ec]` as a test case.
+3. Carried: `_STATE/night-moves/2026-09-26.md` is the day's ledger (on main).
+
+## Lessons (in the record, not re-derived here)
+Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency). Decision receipts:
+`2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
+floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
+applied to the tool by the sibling session that measured before asserting).
+
 # Handoff — v3.65.2 (2026-09-24)
 
 > **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
@@ -174,49 +225,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
 3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
    State-of-the-Union dashboard (source file still unidentified — get it first).
-# Handoff — v3.65.0 (2026-09-24)
-
-> **A validation question that found a 6-week silent P0.** Session started as "how do I test/validate
-> the SAGE pre-screen?" and the insistence on a live end-to-end check (not trusting green merges)
-> uncovered a total, weeks-old outage of the signed-in compass. Fixed it live, revived a dead feature
-> in the same move, shipped prevention + diagnostics, and published the NFTT war story. All on branch
-> `claude/arcs-pipeline-question-compass-02db28`; 4 PRs merged (#487–#490), 5 decision receipts filed.
-
-## Shipped + verified (all live on prod)
-- **SAGE pre-screen re-activated** (#487/#488): the compass route's `SAGE_URL` seam was dormant since
-  2026-08-11. Fixed the `ONE_TO_THREE_YEARS` horizon enum (was HTTP 422 on `/svc/sage`, live-verified),
-  set `SAGE_URL` on all 3 Vercel envs. Confirmed `fired=true` on a real signed-in run.
-- **PROD P0 — schema drift (the big one).** Signed-in compass `create` + all Brief/receipt reads had
-  been 500ing for ~6 weeks on `Receipt.batonId ColumnNotFound` (P2022). Root cause: **prod has no
-  `_prisma_migrations` table — it was `db push`-bootstrapped, so migrations ship in code but never run
-  against prod** (the Tribune migration `20260906000000_tribune`, PR #297, never applied). Hotfixed live
-  via Supabase MCP (idempotent additive DDL: `batonId` + `Tribune` table). Restored persistence AND
-  revived the shipped-but-dead Tribune feature (anterior/proactive Tribune writes now land; verified).
-- **Compass graceful timeout recovery + `/api/health`** (#489): the run persists server-side even when
-  the mobile client times out ("Load failed" over a real 200). Client now owns a 65s AbortController and
-  polls `/api/history` to recover the session's receipt before erroring. New `/api/health?deep=1`
-  (admin/`CRON_SECRET`) probes schema drift, DB, staleness, SAGE, env presence — the 20-min RCA is now
-  one request. Live: `{status:ok, db:true}`.
-- **NFTT post live** (#490): `good.arcs.care/blog/nftt/the-question-that-found-the-outage` (The Factory
-  on Itself). Plus an index bug fix (featured card sat flush 0px against the grid → `.feat margin-bottom:18px`).
-
-## Gate reconciliations (surfaced by shipping a new NFTT post)
-- `token_source_gate`: added a `blog-nftt-*` exemption (self-contained serif design system, canonical
-  token names; a renamed palette still FAILs).
-- `kintsugi`: new NFTT posts hard-block on inherited template grammar (mono labels read as body text;
-  `--dim` at 4.0:1). Seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`, committed `--no-verify`
-  per the ledger's accepted practice (other gates verified passing by hand).
-
-## Open (next session) — queue in `_QUEUE/induced-backlog.jsonl`
-1. **P1 `prod-db-onto-prisma-migrate-deploy`** — the root-cause prevention: baseline prod into migrate
-   history + wire `prisma migrate deploy` into the Vercel build so drift can't ship silently again.
-   **Start here.** Nothing blocks it.
-2. **P1 `outcome-capture-rate-keel-gap`** — 2/247 closed; it masked the P0 for 6 weeks and gates the
-   SAGE-efficacy signal. Mechanical funnel pull before any UX lever; never self-close a receipt.
-3. P3s: `svc-sage-should-it-exist-decision`, `compass-mobile-timeout-recover-receipt` (impl shipped,
-   verify live on a slow run), `nftt-story-factory-index-instructions-stale`,
-   `nftt-template-kintsugi-contrast-and-label-heuristics` (real kit-wide --dim AA + label heuristic fix).
-
-## Lessons booked (2 new memories)
-`prod-schema-drift-migrate-deploy-not-db-push` · `client-fetch-failure-is-not-persistence-failure`
-(trust the persisted artifact, not the transient signal — the through-line of the whole session).

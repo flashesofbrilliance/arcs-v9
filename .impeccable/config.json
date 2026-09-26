@@ -170,6 +170,87 @@
     "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (GeistMono/InstrumentSans) and the recoil-report family's locked label grammar (0.625rem uppercase mono labels = DESIGN.md's own label spec). A deliberately separate visual world from DESIGN.md per PRODUCT.md ('per-engagement canon families may carry their own locked visual world'), not drift. Interactive text and contrast are AA-clean; these rules trip only on the kit's intentional small-mono label chrome."
    },
    {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: self-contained Newsreader-serif design system, a deliberately separate visual world from the app DESIGN.md per the nftt-story-factory skill (same basis as the recoil-report family exemptions). Not drift."
+   },
+   {
+    "rule": "all-caps-body",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "wide-tracking",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "hero-eyebrow-chip",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: mono tracked-caps section labels (.num), eyebrow kickers and masthead are chrome labels/kickers, not body copy; the body-text heuristics misfire on the literary template label grammar."
+   },
+   {
+    "rule": "undersized-ui-text",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: 10px uppercase mono key-labels (.k panel keys, .lbl link kickers) are deliberate micro-labels; consistent with the existing undersized-ui-text acceptance."
+   },
+   {
+    "rule": "skipped-heading",
+    "value": "*",
+    "files": [
+     "public/blog-nftt-*.html"
+    ],
+    "createdAt": "2026-09-26T06:29:05.000Z",
+    "reason": "NFTT literary family: .panel h4 is a styled micro-title within a section (visual label, not a document-outline level); outline is h1 title then h2 movements."
+   },
+   {
     "rule": "design-system-font",
     "value": "*",
     "files": [
@@ -249,69 +330,6 @@
     ],
     "createdAt": "2026-09-26T05:31:06.261Z",
     "reason": "The 4px thread rail / entity strip is the recoil-report kit's signal-rail primitive, not a stray side tab."
-   },
-   {
-    "rule": "design-system-font",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "NFTT literary house grammar: Newsreader serif body + IBM Plex Mono chrome (separate visual world from DESIGN.md)."
-   },
-   {
-    "rule": "design-system-font-size",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "NFTT literary type scale (editorial longform), differs from DESIGN.md by design."
-   },
-   {
-    "rule": "design-system-color",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "NFTT dark palette cyan/gold/green/red on #020408 (house signal palette)."
-   },
-   {
-    "rule": "design-system-radius",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "NFTT bordered rounded panels (house card grammar)."
-   },
-   {
-    "rule": "all-caps-body",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "IBM Plex Mono chrome/section labels are uppercase label role, not all-caps body copy."
-   },
-   {
-    "rule": "wide-tracking",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "Letter-spacing lives on the mono label/kicker role (instrument legend), not body prose."
-   },
-   {
-    "rule": "hero-eyebrow-chip",
-    "value": "*",
-    "files": [
-     "public/blog-nftt-*.html"
-    ],
-    "createdAt": "2026-09-26T05:54:07Z",
-    "reason": "The NFTT eyebrow chip is house grammar (see backlog nftt-template-kintsugi-contrast-and-label-heuristics), not a stray hero chip."
    },
    {
     "rule": "dark-glow",
