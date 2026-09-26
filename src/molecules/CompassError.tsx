@@ -21,7 +21,7 @@ export function CompassError({ message, onRetry }: CompassErrorProps) {
         ◈ &nbsp;Compass offline · L0 signal lost
       </div>
       <p style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 1rem' }}>
-        The terrain dropped out before activation. Your fork is held — nothing was lost.
+        The terrain dropped out before activation. Your fork is held. Nothing was lost.
       </p>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', flexWrap: 'wrap' }}>
         {onRetry && (

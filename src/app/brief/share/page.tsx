@@ -53,7 +53,7 @@ export default function SharedBriefPage() {
   if (status === "loading" || !result) {
     return (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
-        <SequenceLoader title="Recomposing shared bearing…" stages={[{ name: "DECODE" }, { name: "RENDER" }]} footer="Rendering from the link — nothing is fetched from a server." />
+        <SequenceLoader title="Recomposing shared bearing…" stages={[{ name: "DECODE" }, { name: "RENDER" }]} footer="Rendering from the link. Nothing is fetched from a server." />
       </main>
     )
   }
@@ -66,7 +66,7 @@ export default function SharedBriefPage() {
         <div style={{ minWidth: 240, flex: 1 }}>
           <div style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>One-time shared bearing</div>
           <div style={{ color: text.secondary, fontSize: "0.8rem", lineHeight: 1.5 }}>
-            This link carries the sender&rsquo;s bearing inside the URL itself — nothing was stored on our servers. It opens <strong style={{ color: text.primary }}>once on this device</strong>, then becomes a sign-in page. Sign in to keep and revisit briefs of your own.
+            This link carries the sender&rsquo;s bearing inside the URL itself. Nothing was stored on our servers. It opens <strong style={{ color: text.primary }}>once on this device</strong>, then becomes a sign-in page. Sign in to keep and revisit briefs of your own.
           </div>
         </div>
         <Button variant="gold" size="sm" onClick={() => {

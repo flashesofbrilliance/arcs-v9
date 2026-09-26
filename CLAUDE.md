@@ -114,101 +114,116 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.64.0 (2026-09-17)
+# Handoff — v3.66.0 (2026-09-26)
 
-> **PRL/Todd 2pm-call wrap + an epistemics-of-warrant thread that hardened the tooling** (this
-> worktree `arcs-e2e-benchmarks-cicd-0369bd`, session across branches prl-land-plane / prl-uat-note /
-> defeasible-codec-seeds / prl-wrap-page / prl-phase-map / handoff). All PRL surfaces air-gapped,
-> wrap-lint clean, em-dashes 0. 8 PRs merged (#469–#476), 4 decision receipts filed.
+> **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
+> then the AI-slop safeguard back-propped and wired into the FE ship-gate.** Opt-in build forked to
+> its own session; ran daylight-first with a bless gate at every publish. All shipped to main and
+> LIVE on good.arcs.care. Five PRs merged (#505, #506 sibling, #507, #509 sibling, #510).
 
-## Shipped (merged to main, live)
-- **prl.arcs.care overview** (PR #475): payment history (1.1 $1,552.51 + 1.2 $4,500 + **Paid-to-date $6,052.51**),
-  **1.2 flipped to LANDED** cited to a filed close receipt, honest freshness sweep (killed stale
-  Aug-18 todos a relabel would have shipped as false-fresh), deferred-routing **outcome flag** (lose
-  auto-attribution → manual assign + the fix), reCAPTCHA v2/v3 fact-check fix, full **ELI5 pass**
-  (jargon glossed + a **Bottom line** punchline per section). New exec **/status/runbook** (#469/#473).
-- **Internal (#470/#471/#473/#476):** induced backlog + completeness audit; belief-linked
-  `prl-dependency-map.json` + `prl_depmap_check.py` eval with a **P-1 investigation-prework gate**
-  that hard-fails until the doc corpus is exhausted; runtime `prl_uat_harness.py` (corpus-anchored,
-  `--self-test`, reuses task7 test + STATE-OF-SUGAR schema); per-phase **systems/dependency map**.
-- **Receipts filed** (Supabase `decision_receipt`): `2026-09-17--todd-prl-recoil-close-pr463`,
-  `--prl-runbook-overview-ship-pr469`, `2026-08-26--prl-phase-1.2-close` (backfill),
-  `2026-09-17--prl-overview-wrap-ship-pr475`.
-- **Seeds + ADR-candidate (#474):** redactive-referential context codec + kinematic-adaptive
-  freshness gate (compose LLMLingua+Letta, don't rebuild). 7 witness stubs
-  `_STATE/witness/2026-09-17.jsonl`. 3 new epistemics memories (indexed).
-
-## Fact-check landed (KNOW, cited)
-For-IT DNS block **re-verified LIVE 2026-09-17**: SPF `include:outlook + mailgun`, DMARC `p=reject`,
-`mg.prlresins.com` SPF/MX/DKIM, M365 selector1/2 DKIM, Barracuda MX — all confirmed, no drift.
-
-## The epistemics thread (it hardened the tooling, not just the vocabulary)
-Defeasible warrant: a warranted null is time-indexed and decays; carry a freshness horizon + named
-defeater-triggers, kinematic-paced (Kairos / Operator21 knot-detection / Nyquist floor). Two-axis
-**claim-exit lattice**: falsification (null-flip ¬X→X OR its inverse **exoneration** X→¬X) vs
-**mootness** (superseded/vacated). think→know = acquiring **citable** justification; overclaim queues
-a self-exoneration. **Corpus-exhaustion is a PRE-WORK GATE on the plan**, not a step in it. Compression
-taxonomy: abstractive vs extractive/redactive vs referential (lossless = externalize+reference).
-Actor-level: pattern-of-defeated-nulls = believability sorting, but **triage-not-verdict**, level-aware
-(apple vs barrel), freshness-gated. Overclaim mislabeled as overconfidence(calibration) when often
-under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
+## Shipped + LIVE (verified on prod, 200 + content + PII-clean)
+- **`tools/cold-recon/`** — stdlib-only CLI (recoil-report shape). `gather` (git+files, ZERO
+  transcript, coldness enforced structurally) → `prompt` (cold-agent contract) → `validate` /
+  `leakmap` / `render`. Leak map = observability audit (reconstructability as a measurable
+  property). Hardened by a sibling session (#506): em-dash normalization + in-tool `--redact` +
+  `selftest` 4/4. NOT claimed patentable; only as good as commit-as-you-go discipline.
+- **NFTT trilogy on good.arcs.care** (all own index cards): `the-cold-reconstruction` (method +
+  real PoC run, reconstructability 0.895), `the-control-and-the-experiment` (warm-vs-cold, n=1),
+  `receipts-or-it-didnt-happen` (the diptych). Plus 4 redacted companion reports at `/report`
+  depth-ladder routes (unredacted renders stay internal — int/ext air-gap).
+- **The experiment finding** (witnessed GREEN): warmth does not corrupt WHAT you ground, it changes
+  WHETHER you ground at all; coldness's value is structural (no memory → can't narrate from memory).
+  4-run table: cold 0.90/0.84, warm-relaxed 0.26, warm-matched 1.00 — the collapse was the cite
+  instruction (confound), controlled. Running the control corrected my flattering first explanation.
+- **Record hygiene** — committed the previously-untracked incident RCA + witness stubs (the live
+  leak the tool surfaced; insight #2 demonstrated on itself).
+- **AI-slop safeguard wired into the FE ship-gate** (#510): `slop_lint` landed on main via a sibling
+  session (#509, single source). I wired it into `scripts/nftt-gates.sh` — mechanical cliché/em-dash
+  = HARD FAIL, burstiness+specificity = ADVISORY in `--mode essay` (evidence-aware, 10% floor the
+  sibling calibrated to real essays, correcting my 20-25% which would have false-failed the genre).
+  Proven fails-on-bad AND passes-on-good.
 
 ## Open (next session)
-1. **PRL phase cards (1.2-A/1.3/1.4/1.5 + analytics/tagging) HELD** pending 3 decisions the systems/deps
-   map surfaced: **(a)** 1.3 real net-new scope (its recognition engine already shipped under 1.1) or an
-   honest reframe; **(b)** 1.5 ongoing Lyro-curation owner (the real company-side "training-agent" dep,
-   currently unnamed); **(c)** analytics/attribution plan (only a `gad_source` check exists). Do NOT
-   stamp invented scope on the client page.
-2. **Tidio→Sugar pipeline: built + staging-proven, NOT prod-verified.** Staging→prod path documented
-   (publish drafted zaps in zap-kit order; prove old zap `series_376761228` OFF; 4 acceptance tests via
-   the UAT harness; then the 3-step cutover). Two teed-up sandbox jobs (full chat into ticket +
-   spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
-3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
-4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
+1. **Visual-slop half (Adaptation 2) — brand-visual allowlist for the NFTT pages: BUILT + A/B-verified,
+   awaiting merge.** The design-system-normalization session (branch `worktree-agent-a9c05965613c705e2`,
+   local, unmerged) built the brand profile against my relayed spec and verified it: brand false-positives
+   drop to 0 on all 3 posts (cold-reconstruction 41→16, control-and-experiment 35→11, diptych 56→27),
+   real debt fully retained (undersized-ui-text, low-contrast, tiny-text). Exempted set (8, all
+   verified-firing): design-system-{font,font-size,color,radius}, all-caps-body, wide-tracking,
+   hero-eyebrow-chip, dark-glow. Note: `tiny-numbered-labels` + `border-accent-on-rounded` from my spec
+   fire 0 times (absorbed by all-caps-body/wide-tracking + design-system-radius) so they were omitted, not
+   added dead. **Gate: lands on main only when Zach reviews + lands the design-system branch (7-wave
+   migration plan needs his review).** Then: re-run the detector to confirm 0 brand-false-positives, add
+   the detector step to `nftt-gates.sh` beside the slop_lint step (#510).
+2. **cold-recon redaction phrasing** — the doubled-article artifact ("a a candidate role candidate
+   bundle") in the live warm-relaxed report; handed to the hardening session `[42a0ec]` as a test case.
+3. Carried: `_STATE/night-moves/2026-09-26.md` is the day's ledger (on main).
 
-# Handoff — v3.65.0 (2026-09-24)
+## Lessons (in the record, not re-derived here)
+Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency). Decision receipts:
+`2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
+floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
+applied to the tool by the sibling session that measured before asserting).
 
-> **A validation question that found a 6-week silent P0.** Session started as "how do I test/validate
-> the SAGE pre-screen?" and the insistence on a live end-to-end check (not trusting green merges)
-> uncovered a total, weeks-old outage of the signed-in compass. Fixed it live, revived a dead feature
-> in the same move, shipped prevention + diagnostics, and published the NFTT war story. All on branch
-> `claude/arcs-pipeline-question-compass-02db28`; 4 PRs merged (#487–#490), 5 decision receipts filed.
+# Handoff — v3.65.2 (2026-09-24)
 
-## Shipped + verified (all live on prod)
-- **SAGE pre-screen re-activated** (#487/#488): the compass route's `SAGE_URL` seam was dormant since
-  2026-08-11. Fixed the `ONE_TO_THREE_YEARS` horizon enum (was HTTP 422 on `/svc/sage`, live-verified),
-  set `SAGE_URL` on all 3 Vercel envs. Confirmed `fired=true` on a real signed-in run.
-- **PROD P0 — schema drift (the big one).** Signed-in compass `create` + all Brief/receipt reads had
-  been 500ing for ~6 weeks on `Receipt.batonId ColumnNotFound` (P2022). Root cause: **prod has no
-  `_prisma_migrations` table — it was `db push`-bootstrapped, so migrations ship in code but never run
-  against prod** (the Tribune migration `20260906000000_tribune`, PR #297, never applied). Hotfixed live
-  via Supabase MCP (idempotent additive DDL: `batonId` + `Tribune` table). Restored persistence AND
-  revived the shipped-but-dead Tribune feature (anterior/proactive Tribune writes now land; verified).
-- **Compass graceful timeout recovery + `/api/health`** (#489): the run persists server-side even when
-  the mobile client times out ("Load failed" over a real 200). Client now owns a 65s AbortController and
-  polls `/api/history` to recover the session's receipt before erroring. New `/api/health?deep=1`
-  (admin/`CRON_SECRET`) probes schema drift, DB, staleness, SAGE, env presence — the 20-min RCA is now
-  one request. Live: `{status:ok, db:true}`.
-- **NFTT post live** (#490): `good.arcs.care/blog/nftt/the-question-that-found-the-outage` (The Factory
-  on Itself). Plus an index bug fix (featured card sat flush 0px against the grid → `.feat margin-bottom:18px`).
+> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
+> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
+> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
+> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
+> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
 
-## Gate reconciliations (surfaced by shipping a new NFTT post)
-- `token_source_gate`: added a `blog-nftt-*` exemption (self-contained serif design system, canonical
-  token names; a renamed palette still FAILs).
-- `kintsugi`: new NFTT posts hard-block on inherited template grammar (mono labels read as body text;
-  `--dim` at 4.0:1). Seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`, committed `--no-verify`
-  per the ledger's accepted practice (other gates verified passing by hand).
+## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
+- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
+  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
+  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
+  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
+  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
+- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
+  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
+  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
+  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
+- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
+  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
+- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
+  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
+  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
+- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
+  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
+  "finance" → "regulated industries".
+- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
+  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
+  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
+  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
+- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
+  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
+  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
+  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
+  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
+- **Gravity-well pressure-test + 2 leak fixes** (`65d3781`, prod-verified): pressure-tested the vico family
+  against the "leak list" (unverifiable · single-altitude · no owned-losses · no mirror · no-return ·
+  over-claim). Closed 2: résumé had zero mirror → added a "worked in public" ZIM clause; ammo described
+  running systems without linking them (1 link → 3: status log→status.arcs.care, pipeline→good.arcs.care).
+- **All of the above deployed to main and prod-verified** (latest `65d3781`, Vercel READY, cache-MISS fetches).
 
-## Open (next session) — queue in `_QUEUE/induced-backlog.jsonl`
-1. **P1 `prod-db-onto-prisma-migrate-deploy`** — the root-cause prevention: baseline prod into migrate
-   history + wire `prisma migrate deploy` into the Vercel build so drift can't ship silently again.
-   **Start here.** Nothing blocks it.
-2. **P1 `outcome-capture-rate-keel-gap`** — 2/247 closed; it masked the P0 for 6 weeks and gates the
-   SAGE-efficacy signal. Mechanical funnel pull before any UX lever; never self-close a receipt.
-3. P3s: `svc-sage-should-it-exist-decision`, `compass-mobile-timeout-recover-receipt` (impl shipped,
-   verify live on a slow run), `nftt-story-factory-index-instructions-stale`,
-   `nftt-template-kintsugi-contrast-and-label-heuristics` (real kit-wide --dim AA + label heuristic fix).
+## Lessons booked (MEMORY.md v3.65.1/.2/.3 + night-moves 2026-09-23/24)
+- **Gravity-well framework** (v3.65.3): a candidate page is an attractor for a hiring manager to the degree
+  it pre-answers their de-risk doubts with *verifiable* proof; mass = linked/checkable claims, the mirror
+  (their problem worked in public), owned losses, and a live/compounding surface. Leak list is the inverse.
+- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
+  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
+- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
+- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
+  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
+- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
 
-## Lessons booked (2 new memories)
-`prod-schema-drift-migrate-deploy-not-db-push` · `client-fetch-failure-is-not-persistence-failure`
-(trust the persisted artifact, not the transient signal — the through-line of the whole session).
+## Open (next session)
+1. **Joe sync moved to Tue 2026-09-30** (the Thu 2026-09-24 Lyndon call did not land as scheduled; reminder
+   was CANCELLED per Zach — he pings after). Prep + close-loop when it happens: did Lyndon reach
+   vico.arcs.care or only Joe's paraphrase (message-drift lever)? Score the 5 beats (role fit /
+   regulated-industries / federal / honest gaps / self-scoring style); plan follow-up. Vico family is
+   shipped + prod-verified (memo/resume/ammo VP-free, gravity leaks closed); nothing to rebuild pre-call.
+2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
+3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
+   State-of-the-Union dashboard (source file still unidentified — get it first).

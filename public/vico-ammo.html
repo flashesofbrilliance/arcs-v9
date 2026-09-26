@@ -26,7 +26,7 @@
   .pad{padding:26px 40px;}
   @media(max-width:600px){.pad{padding:26px 22px;}}
 
-  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 44px 22px;}
+  header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 40px 22px;}
   @media(max-width:600px){header{padding:26px 22px;}}
   .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
@@ -58,7 +58,7 @@
   .derisk p{font-size:13.5px;line-height:1.6;color:var(--ink2);}
   .derisk p+p{margin-top:8px;}
 
-  footer{padding:22px 44px 30px;border-top:1px solid var(--line);}
+  footer{padding:22px 40px 30px;border-top:1px solid var(--line);}
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);}
   .fine a{color:var(--accent2);}
@@ -82,14 +82,14 @@
       <a class="back" href="/">&larr; Back to the candidate brief</a>
       <div class="eyebrow"><span class="mk"></span>The deeper case</div>
       <h1>What the live demo showed, and the things worth naming directly</h1>
-      <div class="who">For Joe, on the VP of Engineering seat.</div>
+      <div class="who">For Joe, on where the work fits.</div>
     </header>
 
     <div class="pad">
       <div class="sec">
         <div class="verdict">
           <div class="vt">The one-line version</div>
-          <p>The clearest signal here isn't a resume line, it's what Joe already watched happen live: a working AI product (built on an <span class="term" data-def="A large language model, the kind of AI behind tools like ChatGPT and Claude.">LLM</span>), designed and shipped end to end, running the same kind of system this team is building. For a hands-on VP, that is the point: he can lead the build because he is already doing the build.</p>
+          <p>The clearest signal here isn't a resume line, it's what Joe already watched happen live: a working AI product (built on an <span class="term" data-def="A large language model, the kind of AI behind tools like ChatGPT and Claude.">LLM</span>), designed and shipped end to end, running the same kind of system this team is building. For a hands-on engineering leader, that is the point: he can lead the build because he is already doing the build.</p>
         </div>
       </div>
 
@@ -97,15 +97,15 @@
         <h2>What Joe actually saw on the call</h2>
         <div class="stack">
           <div class="row"><span class="n">1</span><p><b>A live scoring system:</b> a tool that takes each new opportunity, rates it against a set of weighted criteria, and adjusts those weights based on which past calls turned out right or wrong. Same habit as scoring a forecast: make the call first, check it against the outcome after. He does this in public too, with dated predictions where he writes down in advance what would prove him wrong, then scores and corrects them in the open (the <a href="https://good.arcs.care/blog/til/closing-the-loop" style="color:var(--accent2);">calibration receipts</a>). A small sample so far, but filed where anyone can check them.</p></div>
-          <div class="row"><span class="n">2</span><p><b>A working automation pipeline:</b> a tool that takes real evidence and produces a finished, checked output, end to end, not a mockup.</p></div>
-          <div class="row"><span class="n">3</span><p><b>A public status log:</b> a live site tracking how much ships, day by day, since the project started. Not a claim about moving fast, a record of it.</p></div>
+          <div class="row"><span class="n">2</span><p><b>A working automation pipeline:</b> a tool that takes real evidence and produces a finished, checked output, end to end, not a mockup. What it publishes is public at <a href="https://good.arcs.care" style="color:var(--accent2);">good.arcs.care</a>.</p></div>
+          <div class="row"><span class="n">3</span><p><b>A public status log:</b> a live site (<a href="https://status.arcs.care" style="color:var(--accent2);">status.arcs.care</a>) tracking how much ships, day by day, since the project started. Not a claim about moving fast, a record of it.</p></div>
         </div>
       </div>
 
       <div class="sec">
         <div class="honest">
           <div class="hh">The things worth naming directly</div>
-          <p><b>Title.</b> Zach hasn't formally held a "VP/Director of Engineering" title. The scope has: leading engineering teams, owning delivery and governance for a $7B launch, recruiting a company's first CTO. It's a title gap, not a scope gap, and he'll say so first.</p>
+          <p><b>Title.</b> Zach hasn't formally held a senior engineering-leadership title. The scope has: leading engineering teams, owning delivery and governance for a $7B launch, recruiting a company's first CTO. It's a title gap, not a scope gap, and he'll say so first.</p>
           <p><b>Stack.</b> Python, React, and Postgres are weekly tools. <span class="term" data-def="Google Cloud Platform, Google's cloud hosting service. It is the stack VICO runs on.">GCP</span> specifically is the one he would ramp on: his cloud experience is on Vercel and Supabase and next door, not GCP. Easy to name, fast to close.</p>
           <p><b>Look-up and fine-tuning in production.</b> The part that looks things up for the AI (<span class="term" data-def="Retrieval-augmented generation: the AI pulls relevant facts from your own data before it answers, so it cites real sources instead of guessing.">RAG</span>) is designed and partly built, a working <span class="term" data-def="Turning text into numbers so a computer can find the most relevant passages by meaning, not just matching keywords.">embedding</span> service and a sound database design. But the full always-on version is not shipped yet, and his AI work is orchestration and testing (<span class="term" data-def="A fixed set of test questions with known answers, run against the AI to catch when a change makes it worse.">evals</span>) rather than <span class="term" data-def="Further-training a model on your own examples so it specializes, instead of just prompting an off-the-shelf one.">fine-tuning</span> a model. The design is real; the at-scale production version is the gap, and it is the kind that closes fast inside a real system with a real team.</p>
         </div>

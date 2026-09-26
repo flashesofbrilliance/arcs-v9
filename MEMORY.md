@@ -7,6 +7,88 @@
 
 ---
 
+## [v3.65.3] 2026-09-24 — gravity-well framework for candidate surfaces + 2 leak fixes; 3rd Frustration Gate
+
+- **Reusable framework (bank this):** what turns a candidate page into a *gravity well / attractor basin*
+  for a hiring manager, whose real JTBD is **de-risk the hire**. Mass = **verifiability** (a checkable,
+  linked claim has mass; an adjective is massless). Depth = how much the page **pre-answers their private
+  doubts before they voice them**. Width of the basin = **read-at-any-depth** (skimmer/skeptic/peer/exec
+  all converge on "advance this candidate"). Other mass sources: **owned losses** (scored wrong-calls
+  neutralize the skeptic's escape velocity), **the loop as strange attractor** (score→check→correct
+  repeated across surfaces = "I get how they think"), **the mirror** (their exact problem worked in public
+  = heaviest pull), **the pre-registered receipt** (a call filed before the outcome makes rivals'
+  retrospective claims feel massless), and a **live/compounding surface** (status.arcs.care is the only one
+  with an intrinsic reason to return). **Leak list (inverse):** unverifiable claims · single altitude ·
+  no owned losses · no mirror · static/no-return · over-claiming (re-arms the skeptic).
+- **Pressure-tested the vico family against the leak list** (grounded in live content, not asserted): memo
+  = deep well already; status = compounding well; résumé + ammo each leaked. **Closed 2 leaks** (`65d3781`,
+  prod-verified cache-MISS): (1) résumé had **zero mirror** → added a "worked in public" clause linking the
+  ZIM/Hapag-Lloyd geopolitical call; (2) ammo **described running systems without linking them** (1 link) →
+  wired the public status log → status.arcs.care and the automation pipeline → good.arcs.care (now 3 links).
+  Left leak #3 (memo's own live pulse) per Zach — polish on an already-deep well.
+- **status.arcs.care milestone cards + template-wide gutter fix** (see v3.65.2 handoff): 3 curated cards
+  (DAY 159/167/168), and the 44-vs-40 header/footer gutter fixed on 6 sibling pages + banked
+  `scripts/gutter_consistency_lint.py` (3rd Frustration Gate: div-balance · tooltip-link · gutter).
+- **Deploy discipline confirmed all day:** the live domain serves `main`, not the branch — "stale" renders
+  were the real live version until merge. Verify prod via Vercel API + Vercel-side fetch (`cache: MISS` =
+  fresh); local `curl` is proxy-blocked (len=0 ≠ site down). `get_deployment_file_contents` 401s; gated
+  `*-ammo` pages can't be HTTP-fetched raw (proxy serves the passcode gate) — verify via the atomic deploy.
+
+## [v3.65.2] 2026-09-24 — VICO: strip VP tonality per Joe (intro, not application); smoke-test fixes; close-loop reminder set
+
+- **Joe's morning ask (day of the 3 PM Lyndon call):** make the shared page an "introduction without
+  expectations" — Lyndon should *conclude* the VP-of-Engineering fit himself, not have it pre-set.
+  **Removed VP-of-Engineering tonality across ALL live shared surfaces:** memo `vico.html` (`e7fbdde`:
+  the one role-claiming line + "No VP title" from the honesty beats), resume `vico-resume.html`
+  (`91c091e`, option B: title/target chip/pillar/role-fit heading/honest-gap/footer → role-agnostic
+  "Engineering Leadership"), and ammo `vico-ammo.html` ("VP of Engineering seat" / "hands-on VP" /
+  "VP/Director title" → "engineering leadership"). Honest-gap CONTENT kept (formal title not yet held),
+  just without presupposing the role. `EVP of Partnerships` (a real past IBRShop title) correctly stays.
+  Internal `_ARTIFACTS/vico-vp-wargame` left as-is (do-not-send; its subject IS the VP question).
+  Stale `_ARTIFACTS/vico-joe-eval` K3 evidence re-pointed to the current resume strings.
+- **Back-prop discipline lesson:** when asked "are you 100% nothing is stale," DO NOT assert — SWEEP.
+  A grep across every `<name>-*.html` + `_ARTIFACTS/` caught the ammo "VP seat" line and the eval's
+  dead resume quotes that the memo/resume fixes alone missed. (Matches forge phase-6 rule 3: sweep every
+  surface + domain, not just the one in front of you.)
+- **Visual smoke-test (headless Chromium, `/opt/pw-browsers/chromium-1194`):** two regressions the user
+  flagged, both verified + fixed by measurement, not eyeball. (1) The **column-collapse** (unclosed
+  `.row` div) — confirmed FIXED: How-I-build/Leadership/Craft now share x=271, w=738, stacked; the
+  user's screenshot of it was a stale pre-fix render. (2) **Footer indent** — real 4px: body sections
+  use `.pad` (40px gutter) while header+footer used 44px. Unified all three to 40px → delta 0 at
+  1280/768/375. Import gotcha: playwright is CJS — `import pw from '.../playwright/index.js'; const {chromium}=pw`,
+  and point the import at the repo's node_modules (scratchpad can't resolve it).
+- **Landing is the LEANED version** (confirmed vs a revert worry): Ahmed 60-second-read lean `2db5bee` +
+  Why-pruned-to-top-2 `3e40a5e` are both in HEAD, with all of today's edits stacked on top. ~1148 visible words.
+- **Close-loop reminder SET** (`send_later` trig `trig_01FS48pXd5V6vbPne6E7p8KB`, fires 2026-09-24
+  20:30 UTC / 4:30 PM EST): score the 5 beats after Joe×Lyndon, check if Lyndon reached the URL vs
+  Joe's paraphrase (message-drift lever), plan follow-up + the Autopilot parallel path.
+
+## [v3.65.1] 2026-09-23 — vico send: fact-check vs VICO's site, div-balance lint, Joe email SENT
+
+- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): corrected 5-beat memo pitch + one-screen Lyndon
+  talking-points card, for Joe's **3 PM EST Thu 2026-09-24 call with Lyndon**. Beat-2 corrected
+  **"finance" → "regulated industries"** (government/insurers/banks — honest AND points harder at
+  VICO's federal motion). The prior fuller Gmail draft was never sent and Gmail auto-discarded it;
+  a fresh reply draft was created and Zach sent it.
+- **VICO fact-check (uploaded vico.io careers + product HTML):** their site is a JS-SPA — tag-stripping
+  yields ~23 chars; grep the RAW file for fact-strings. CONFIRMED by their own copy: tagline "AI-powered
+  forecasting and simulation for decision superiority", "financial institutions AND governments",
+  geopolitical event tickers (Iran clerical-regime, Venezuela Risk `VICOIVNZ`), a Bloomberg comparator.
+  NOT on their site: "150,000 sources", Brier, Polymarket/Kalshi by name, "Israel". Memo opener reworded
+  to their vocabulary (prod `ca38b69`). **Careers page = 4 open GTM/leadership roles** (VP Eng NY "partner
+  with the CTO to drive execution + grow the team"; Head of Sales NY; **Head of Federal Sales DC** founding;
+  Head of Marketing) — confirms Zach's IC-to-manager + public-sector positioning is aimed right.
+- **Second Frustration Gate lint banked:** `scripts/html_div_balance_lint.py` — an unclosed `.row` `<div>`
+  (ends in `</p>`, no `</div>`) nests the next sibling and collapses it into a pinched column; invisible to
+  wrap-lint (nothing overflows). Gate counts `<div>` vs `</div>` per page (strips script/style), proven
+  fails-on-bad/passes-on-good, wired into pre-commit (added+modified). Fix commit `1859b86`, gate `6bd191f`.
+- **Lessons (portable):** (1) **Do not assert a tool's negative as a world-fact** — a failed measurement
+  (MCP 404 on analytics) is not "it's off"; verify against source. (2) **Gmail rewraps outbound hrefs**
+  through `google.com/url` at send; to get a clean URL in front of someone, paste the domain as PLAIN TEXT
+  (no `<a>`), which also forwards better. Use this by default on future Joe/Lyndon-facing emails.
+- Night-moves digest: `_STATE/night-moves/2026-09-23.md` (41 commits, 3 workstreams, 0 ADR/DEWY minted —
+  execution-heavy day; residue is the two lints, not new architecture).
+
 ## [v3.65.0] 2026-09-23 — vico.arcs.care family refit (plain-language, tooltips, moiré, eval) + two banked failure modes
 
 - **vico family shipped** (prod main `3e40a5e`): the "Zach × VICO" partnership memo, deeper case, and

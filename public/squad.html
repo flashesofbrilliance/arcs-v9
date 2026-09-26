@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Zach Harris · Product Engineer · Squad</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.85rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--secondary);}
+h1{font-size:clamp(1.35rem,3.6vw,1.65rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.78rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.02rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.85rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:2rem;color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.85rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.85rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.78rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--secondary);margin-top:2px;}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+
+<div>
+  <div class="eyebrow">◆ ARCS · For Iggy</div>
+  <h1>Zach Harris · Product Engineer</h1>
+  <div class="sub">Squad · the in-house first-engineer role</div>
+</div>
+
+<p class="verdict"><span class="lead">Iggy, we go back a bit, and I've watched Squad come together since the early days.</span> You're hiring your first product engineer, and I think I'm it: <b>a builder who ships the whole product in code, not someone who inherits a roadmap.</b></p>
+<p class="kicker">You keep writing that output stopped being a proxy for competence and the real signal is the one a model can't fake. <b>That is the whole premise of Squad's matching engine, and it is exactly what I have spent the last year building in ARCS.</b> Same thesis: you place the people, I want to build the product that does it.</p>
+
+<div class="rule"></div>
+
+<div class="slabel">The number</div>
+<div class="card"><div class="scorebar"><div class="score">0.765</div><div class="scoremeta">Composite 62 / 81<br><b>Tier 1 · Pursue</b><br>ARCS target-role rubric</div></div>
+<div class="scorenote">My own rubric for deciding what to chase, run on the Product Engineer role: Tier 1, one of the highest fits in my pipeline. Top marks on role-shape, scope and authority, and the rare builder-plus-0→1-plus-synthesis combination. The Applied AI Engineer twin scored 0.753, same company, so I picked the door that fits: I lead with product and carry the AI thesis in.</div></div>
+
+<div class="slabel">Three reasons it's real</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>Product instinct, not just code.</b> Reading a candidate the way a customer should be read, mapping the journey, instrumenting for promoters and detractors, putting a business-minded person on the first touch: that is the product mindset your JD asks for, care about the customer problem as much as the code. It is what I would build here.</span></li>
+<li><span class="dot"></span><span><b>A product engineer who ships the whole thing, solo.</b> ARCS is a working GenAI app I built and run largely alone on Next.js and TypeScript: a RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail at <a href="https://status.arcs.care">status.arcs.care</a>. First-engineer ownership is how I already work.</span></li>
+<li><span class="dot g"></span><span><b>Taste and consequence, not just velocity.</b> Fifteen-plus years owning product end to end, including a $7B SEC/FINRA launch shipped through release gates. I care as much about how a flow feels as whether it compiles, and I have shipped where being wrong is expensive. NYC, on-site, MIT xPRO on the AI side.</span></li>
+</ul></div>
+
+<div class="slabel">What I'd build first</div>
+<div class="card"><div class="qa">
+<div><div class="q">Where I'd start</div><div class="a">The first human moment. Prototype an intake that <b>reads the form and résumé and briefs whoever takes the call</b>, so the opening touch already knows who it is talking to. Then instrument it: capture a promoter-or-detractor signal per call, so the matching engine learns from the <b>experience</b>, not only the outcome.</div></div>
+<div><div class="q">Can I actually build it end to end?</div><div class="a">Yes, and I have a live one to show. ARCS is <b>RAG, a live MCP server, agentic orchestration, and an eval layer</b>, all in code, all mine, deployed with a public commit history. I turn an ambiguous problem into a working surface, put it in front of real use, keep what gets used, and harden the survivors. That is the first-engineer loop.</div></div>
+<div><div class="q">Why in-house, why now</div><div class="a">It is where my three modes fuse: <b>builder</b> (I write and ship the code), <b>founder</b> (0→1 under real ambiguity), and <b>senior operator</b> (shipped at consequence, $7B regulated). Squad is day 0, NYC, building the infrastructure layer for how talent meets opportunity, and I already care about this problem enough to have handed you unsolicited product feedback on it.</div></div>
+</div></div>
+
+<div class="slabel">The résumé</div>
+<div class="card"><p style="font-size:0.85rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">A technical cut for the Product Engineer role, leadership scope kept. Human-readable and machine-readable, both from the same source.</p>
+<div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/squad-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ ATS text</a></div></div>
+
+<div class="foot">Built to the standard of a tool I shipped and run, <a href="https://resume-tailor.arcs.care">resume-tailor.arcs.care</a>: every claim graded by how checkable it is, nothing I couldn't defend in the room.</div>
+<div class="stamp">◆ ARCS · rendered at earned fidelity</div>
+
+</div><script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.slabel'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})();</script></body></html>

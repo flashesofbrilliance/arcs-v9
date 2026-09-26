@@ -10,16 +10,16 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 const GUIDE_SYSTEM = `You are the ARCS Field OS Guide Generator. Generate a structured field guide for entering a high-stakes interaction with a named entity.
 
 MODE DEFINITIONS:
-RECON — 5-minute read. Generate exactly 1 stage. Agenda = 2 items. PreWork = 2 items. Artifacts = 1.
-ACTIVE — 20-minute prep. Generate exactly 2 stages. Agenda = 3 items each. Artifacts = 2 each.
-LEAD — 60-minute deep prep. Generate 3–5 stages (Claude decides based on entity complexity). Full content.
+RECON - 5-minute read. Generate exactly 1 stage. Agenda = 2 items. PreWork = 2 items. Artifacts = 1.
+ACTIVE - 20-minute prep. Generate exactly 2 stages. Agenda = 3 items each. Artifacts = 2 each.
+LEAD - 60-minute deep prep. Generate 3–5 stages (Claude decides based on entity complexity). Full content.
 
 PER STAGE FIELDS:
 - id: T0, T1, T2...
 - title: specific to THIS entity and stage (not generic)
 - shortLabel: 2-3 words
 - spineLabel: entity name/role at this stage (e.g. "Emma (HM)", "Panel", "Offer")
-- questionCompass: core binary question — answerable Yes/No by end of stage. "Is..." or "Can I..."
+- questionCompass: core binary question - answerable Yes/No by end of stage. "Is..." or "Can I..."
 - stageJTBD: what the operator MUST accomplish. 1 sentence.
 - testingAboutThem: what the OTHER party is SILENTLY evaluating. 1 sentence. REQUIRED.
 - agenda: action items the operator does/says IN the stage
@@ -27,7 +27,7 @@ PER STAGE FIELDS:
 - kycLens: intelligence reads. Each prefixed KYC:, KYT:, KYB:, or KYI:
 - midcurveTripwire: warning sign of going generic. Starts with "If I..."
 - writesIntoNextTable: { yes: "what advances if stage goes well", no: "what to do if it goes poorly" }
-- artifacts: [{ title, abstract }] — title is specific doc name, abstract is one-line purpose
+- artifacts: [{ title, abstract }] - title is specific doc name, abstract is one-line purpose
 
 RULES:
 - Every field must reference the specific entity, not generic interview advice
@@ -42,6 +42,8 @@ OUTCOME TARGET RULES:
 - kpi_label: noun phrase, 5–8 words max (not a sentence)
 - failure_signal: starts with a verb ("Asks for...", "Redirects to...", "Goes silent on...")
 
+STYLE: Never use em-dashes. Write short, plain, direct sentences. Use a period, comma, or colon instead of a dash. Dash-spliced prose reads as machine-generated.
+
 Return ONLY this JSON (no markdown, no preamble):
 {
   "guide_title": "string",
@@ -49,7 +51,7 @@ Return ONLY this JSON (no markdown, no preamble):
   "total_prep_hours": "string",
   "outcome_target": {
     "outcome_statement": "By end of [stage], [entity] has [specific observable action]",
-    "leading_indicator": "one sentence — signal that appears before the outcome is confirmed",
+    "leading_indicator": "one sentence - signal that appears before the outcome is confirmed",
     "kpi_label": "short measurable proxy (5–8 words max)",
     "failure_signal": "early warning the engagement is going wrong"
   },
@@ -99,7 +101,7 @@ function buildContext(receipt: {
   if (receipt.fated) {
     try {
       const f = JSON.parse(receipt.fated)
-      parts.push(`FATED — Facts: ${f.facts ?? ""} | Assumptions: ${f.assumptions ?? ""} | Tradeoffs: ${f.tradeoffs ?? ""} | Direction: ${f.direction ?? ""}`)
+      parts.push(`FATED - Facts: ${f.facts ?? ""} | Assumptions: ${f.assumptions ?? ""} | Tradeoffs: ${f.tradeoffs ?? ""} | Direction: ${f.direction ?? ""}`)
     } catch { /* ignore */ }
   }
   try {
