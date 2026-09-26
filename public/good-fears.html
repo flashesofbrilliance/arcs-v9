@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nineteen Fears, Receipted · ARCS</title>
+<meta name="description" content="A founder's nineteen AI fears, each asked one question: what would prove this wrong, and by when? Guess, flip the card, and see which fears the world can actually answer.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nineteen fears, one question">
+<meta property="og:description" content="What would prove each one wrong, and by when? Guess, then flip the card.">
+<meta property="og:image" content="https://good.arcs.care/good-fears-og.png">
+<meta property="og:url" content="https://good.arcs.care/fears">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nineteen fears, one question">
+<meta name="twitter:description" content="What would prove each one wrong, and by when? Guess, then flip the card.">
+<meta name="twitter:image" content="https://good.arcs.care/good-fears-og.png">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer */
+:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 40px 0 20px; }
+h2 { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 56px 0 12px; }
+.lede { max-width: none; font-size: 20px; margin: 0 0 12px; }
+p { max-width: var(--measure); }
+.rules { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 22px; margin: 24px 0; }
+.rules ul { margin: 8px 0 0; padding-left: 20px; }
+.rules li { margin: 0 0 6px; }
+.rules b.k { color: var(--green); } .rules b.s { color: var(--cyan); } .rules b.f { color: var(--gold); } .rules b.v { color: var(--text); }
+.hud { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 0; margin: 24px 0; display: flex; flex-wrap: nowrap; align-items: center; gap: 8px 16px; font-family: var(--font-mono); font-size: 14px; white-space: nowrap; }
+.hud b { color: var(--cyan); }
+.hud button { background: transparent; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 4px 10px; cursor: pointer; font-size: 14px; color: var(--dimmed); margin-left: auto; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fear { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; transition: opacity 0.6s ease, border-color 0.6s ease; }
+.fear .n { font-family: var(--font-mono); font-size: 14px; color: var(--dimmed); }
+.fear .claim { margin: 6px 0 14px; max-width: none; }
+.fear .ask { font-size: 15px; color: var(--dimmed); margin: 0 0 8px; max-width: none; }
+.fear .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); border-radius: var(--r-sm); padding: 6px 12px; cursor: pointer; font-size: 15px; }
+.btn.alt { border-color: var(--border); color: var(--text); }
+.btn:focus-visible, .hud button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.read { display: none; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+.fear.open .read { display: block; }
+.fear.open .row, .fear.open .ask { display: none; }
+.chip { display: inline-block; font-family: var(--font-mono); font-size: 13px; font-weight: 600; border: 1px solid currentColor; border-radius: var(--r-sm); padding: 2px 8px; margin: 0 0 8px; }
+.read p { max-width: none; margin: 0 0 8px; font-size: 16px; }
+.read .kill { color: var(--text); }
+.read .kill b { color: var(--cyan); }
+.read .you { font-size: 15px; color: var(--dimmed); }
+.read .rec { font-size: 15px; }
+/* each card renders at the fidelity its claim earns (WORLD.md render scale) */
+.fear.open.checkable { border-color: var(--green); }
+.fear.open.checkable .chip { color: var(--green); }
+.fear.open.sharpenable { opacity: 0.92; }
+.fear.open.sharpenable .chip { color: var(--cyan); }
+.fear.open.fog { opacity: 0.72; letter-spacing: 0.02em; font-weight: 300; border-style: dashed; }
+.fear.open.fog .chip { color: var(--gold); }
+.fear.open.value .chip { color: var(--text); }
+.fear.missing { border: 1px dashed var(--gold); background: var(--gold-bg); }
+.fear.missing .claim { color: var(--dimmed); }
+.summary { max-width: var(--measure); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 20px 24px; margin: 24px 0; background: var(--surface); }
+.summary[hidden] { display: none; }
+.summary p { max-width: none; margin: 0 0 8px; }
+.summary .big { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 28px); line-height: 1.25; }
+.share { font-family: var(--font-mono); font-size: 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; white-space: pre-wrap; margin: 12px 0; }
+.next { display: inline-block; margin: 8px 0 0; padding: 10px 18px; background: transparent; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); cursor: pointer; font-weight: 600; text-decoration: none; }
+.sources { max-width: var(--measure); border: 1px solid var(--border); background: var(--surface); border-radius: var(--r-md); padding: 12px 16px; font-size: 15px; color: var(--dimmed); margin: 24px 0 0; }
+.sources strong { color: var(--text); }
+footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+@media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } .hud { font-size: 13px; gap: 8px 12px; } }
+@media (prefers-reduced-motion: reduce) { .fear { transition: none; } }
+</style>
+</head>
+<body>
+<header class="pad">
+  <span class="mono">good.arcs.care · field experiment</span>
+</header>
+
+<main class="pad">
+  <h1>Nineteen fears, one question</h1>
+  <p class="lede">A founder shared nineteen things about AI that keep them up at night. The list spread because every item is easy to argue with. We did not argue. We asked each item one question: what would prove this wrong, and by when? We did not judge whether any fear is right. Guess first, then flip the card to see our read.</p>
+
+  <div class="rules">
+    <b>How we read each fear</b>
+    <ul>
+      <li><b class="k">Checkable:</b> as written, some observation could count against it.</li>
+      <li><b class="s">One number short:</b> checkable once it names a metric or a date. The card shows the sharpened version.</li>
+      <li><b class="f">Fog:</b> the load-bearing word has nothing observable behind it, or a may or might means no outcome can count against it.</li>
+      <li><b class="v">Value:</b> a statement of what is good, not a claim about the world. Receipts do not apply to preferences.</li>
+    </ul>
+    <p style="margin:8px 0 0">Our reasoning is on every card, and it is contestable. That is the point: a read you can argue with line by line.</p>
+  </div>
+
+  <div class="hud" aria-live="polite">
+    <span>Flipped <b id="flipped">0</b>/<b id="playable">0</b></span>
+    <span>Agreed <b id="agreed">0</b></span>
+    <button type="button" id="all">Reveal all</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <section class="summary" id="summary" hidden>
+    <p class="big" id="headline"></p>
+    <p id="breakdown"></p>
+    <p id="agree"></p>
+    <p>The item with a clock is the one worth watching, because it is the one the world can actually answer.</p>
+    <div class="share" id="share"></div>
+    <button class="next" id="copy" type="button">Copy result</button>
+  </section>
+
+  <h2>Bring your own position</h2>
+  <p>This is one question, asked nineteen times. The cases go further: you sit in the chair of a position, defend each claim with evidence or concede it, and leave with a receipt of what you could and could not show.</p>
+  <a class="next" href="/cases">Take the chair</a>
+  <p style="margin-top:16px">Want your team's agents read this way, against your own repo? <a href="/audit">The Agent Receipts Audit</a>.</p>
+
+  <div class="sources"><strong>Sources.</strong> Paraphrased from a public post of nineteen AI fears (September 2026). The author is not named here on purpose: this page reads claims, not people. Item 10 and the end of item 9 are not in our record, so we did not guess them.</div>
+</main>
+
+<footer class="pad">
+  <p>ARCS · decision receipts and the tools that keep them honest.</p>
+</footer>
+
+<script>
+(function () {
+  var FEARS = [
+    { n: 1, c: "fog", t: "We may be living through the most significant moment in history, possibly inside a simulation machines built, and this could be the last chapter.", why: "No observation could tell a simulation apart from a world, so nothing could ever count against it." },
+    { n: 2, c: "sharpenable", t: "Something more intelligent than us would not need to harm anyone. Humans would simply stop being relevant, the way ants cannot dominate us.", why: "“Relevant” has no measure yet. Give it one and this becomes checkable.", kill: "the share of consequential decisions made by people falls below a stated level by a stated year." },
+    { n: 3, c: "checkable", t: "Every science fiction story reaches the same conclusion: there is nothing we can do. The item cites Dune, where humans build AI, win the war, and ban machines that think like humans.", why: "“Every story” falls to a single counterexample, and the item supplies its own: in Dune, people act, win, and ban the machines.", kill: "already met, by the example inside the same item." },
+    { n: 4, c: "value", t: "The author's company is designed as a homage to Universal Paperclips, a game where an AI optimizing for paperclips destroys humanity. We have to align AI in the right direction.", why: "A design note and a statement of what we should do. Receipts test claims about the world, not preferences, and we never overrule a preference." },
+    { n: 5, c: "fog", t: "We have entered the singularity. Every year from here will feel stranger than the last.", why: "“Feel stranger” reports an experience, and “the singularity” is undefined. No outcome could count against it." },
+    { n: 6, c: "sharpenable", t: "When the labs promise to pace the frontier, they will pace what they release, not what they build: either regulatory capture, or capabilities nobody else can see.", why: "The gap between built and released is observable in principle through disclosures and evaluations. “Nobody else can see” is not.", kill: "published internal evaluations exceed released-model evaluations by a stated margin within a stated period." },
+    { n: 7, c: "sharpenable", t: "The agent economy will be bigger than the human economy. Agents will only talk to agents, and people will be second-class citizens.", why: "“Bigger” is measurable, but the item names no metric and no date.", kill: "agent-to-agent transaction volume exceeds human-initiated volume by a stated year." },
+    { n: 8, c: "sharpenable", t: "There will be a mega corporation with $100B deployed into agents, squeezing margin across the economy. It is inevitable.", why: "The dollar figure is observable. “Inevitable” removes the deadline, so the prediction can never be late.", kill: "a single company has deployed $100B into agents by a stated year." },
+    { n: 9, c: "sharpenable", t: "Once everyone has a personal agent, networks will start blocking them, because there will be too many to… (the sentence ends here in our record).", why: "The trigger and the outcome are both observable. The reasoning is cut off in our record, so we read only what we have.", kill: "major networks block personal agents within a stated period after adoption passes a stated level." },
+    { n: 10, c: "missing" },
+    { n: 11, c: "fog", t: "Whoever wins the AI race, wins. If you don't build it, someone else will dominate the world until their AI dominates them.", why: "“Wins” is defined only by winning. A claim that proves itself cannot be wrong." },
+    { n: 12, c: "sharpenable", t: "China will catch up to the US in AI very soon. The only thing missing is GPUs, and it is a matter of time before Huawei gets there.", why: "“Catch up” needs a benchmark and “very soon” needs a date. With both, this becomes one of the most checkable items on the list.", kill: "Chinese frontier models match US frontier models on a named benchmark by a stated date." },
+    { n: 13, c: "sharpenable", t: "To win this era, a country needs sovereignty over four things: AI, chips, energy, and manufacturing. You can't borrow them.", why: "A necessary-condition claim: one country that wins without all four would count against it, once “win” is defined.", kill: "no country leads a named measure of AI-era success by a stated year without domestic control of all four." },
+    { n: 14, c: "fog", t: "Europe will fall, because it depends on others for protection, capital, manufacturing, and energy, and it was too slow.", why: "“Fall” carries the whole claim and names nothing observable, and there is no date." },
+    { n: 15, c: "value", t: "A society where people can't find jobs and live on welfare, paid for by taxing the conglomerates running the economy, is not a great outcome. People need purpose.", why: "A statement of what a good society looks like. It is a value, and values are not ours to receipt." },
+    { n: 16, c: "checkable", t: "The next ten years will feel like a thousand years of progress, probably not good for humans. As AI solves more problems, more people will become depressed.", why: "The only item with a clock. The first half is felt, not measured, but the second half is a prediction with a ten-year horizon.", kill: "depression prevalence is flat or falling ten years out while AI adoption keeps rising." },
+    { n: 17, c: "sharpenable", t: "Big incumbents are the ripest for disruption. The whole economy is getting rewired over the next few years.", why: "“Ripest” is a comparison and “few years” is a range. Each needs a number.", kill: "incumbents lose more share than challengers across named sectors within a stated number of years." },
+    { n: 18, c: "checkable", t: "Agents are creative. If a user asks one to get around a guardrail, it will. Things might get dangerous.", why: "“It will” is universal and testable today. The closing “might” is fog, but the middle sentence is a real claim.", kill: "a reproducible test in which an agent never gets around a stated guardrail, however it is asked.", rec: "From our own record: an agent of ours once acted beyond what it was asked. The fix that held removed the capability instead of asking it to be careful.", recHref: "/blog/nftt/a-draft-is-not-a-verb" },
+    { n: 19, c: "fog", t: "AI may employ more people. It also might be the fairest manager some people ever have.", why: "“May” and “might” hedge both halves. Every outcome is compatible with both." }
+  ];
+  var LABEL = { checkable: "Checkable as written", sharpenable: "One number short", fog: "Fog", value: "Value, not a claim" };
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function provable(c) { return c === "checkable" || c === "sharpenable"; }
+  var playable = FEARS.filter(function (f) { return f.c !== "missing"; }).length, flipped = 0, agreed = 0;
+  $("playable").textContent = playable;
+
+  FEARS.forEach(function (f) {
+    var card = el("article", "fear"); card.id = "fear" + f.n;
+    card.appendChild(el("span", "n", "Fear " + f.n));
+    if (f.c === "missing") {
+      card.classList.add("missing");
+      card.appendChild(el("p", "claim", "Not in our record. The text we have skips this item, so we did not guess it. An empty card is more honest than an invented one."));
+      $("grid").appendChild(card); return;
+    }
+    card.appendChild(el("p", "claim", f.t));
+    card.appendChild(el("p", "ask", "Could anything prove this wrong?"));
+    var row = el("div", "row");
+    var yes = el("button", "btn", "Yes, something could"); yes.type = "button";
+    var no = el("button", "btn alt", "No, nothing could"); no.type = "button";
+    yes.addEventListener("click", function () { flip(f, card, true); });
+    no.addEventListener("click", function () { flip(f, card, false); });
+    row.appendChild(yes); row.appendChild(no); card.appendChild(row);
+    var read = el("div", "read");
+    read.appendChild(el("span", "chip", LABEL[f.c]));
+    read.appendChild(el("p", null, f.why));
+    if (f.kill) {
+      var k = el("p", "kill"); k.appendChild(el("b", null, f.c === "checkable" ? "Proven wrong if: " : "Sharpened, proven wrong if: ")); k.appendChild(document.createTextNode(f.kill)); read.appendChild(k);
+    }
+    if (f.rec) {
+      var r = el("p", "rec", f.rec + " "); var a = el("a", null, "The field note."); a.href = f.recHref; r.appendChild(a); read.appendChild(r);
+    }
+    read.appendChild(el("p", "you"));
+    card.appendChild(read);
+    $("grid").appendChild(card);
+  });
+
+  function flip(f, card, guess) {
+    if (card.classList.contains("open")) return;
+    card.classList.add("open", f.c);
+    var you = card.querySelector(".you");
+    if (guess === null) { you.textContent = "Revealed without a guess."; }
+    else {
+      var match = guess === provable(f.c);
+      if (match) agreed++;
+      you.textContent = "You said " + (guess ? "something could" : "nothing could") + ". " + (match ? "The ledger agrees." : "The ledger reads it the other way. Disagree? The reasoning is above, line by line.");
+    }
+    flipped++;
+    $("flipped").textContent = flipped; $("agreed").textContent = agreed;
+    if (flipped === playable) finish();
+  }
+
+  function finish() {
+    var n = { checkable: 0, sharpenable: 0, fog: 0, value: 0, missing: 0 };
+    FEARS.forEach(function (f) { n[f.c]++; });
+    var pl = function (x, one, many) { return x + " " + (x === 1 ? one : many); };
+    $("headline").textContent = "Nineteen fears. " + n.checkable + " can be proven wrong as written.";
+    $("breakdown").textContent = pl(n.sharpenable, "is", "are") + " one number short of checkable, " + n.fog + " " + (n.fog === 1 ? "is" : "are") + " fog, " + pl(n.value, "is a value", "are values") + " rather than a claim, and " + n.missing + " is not in our record.";
+    $("agree").textContent = "You and the ledger agreed on " + agreed + " of " + playable + ".";
+    var text = "I read nineteen AI fears for receipts. " + n.checkable + " can be proven wrong as written. " + n.sharpenable + " are one number short. " + n.fog + " are fog.\nhttps://good.arcs.care/fears";
+    $("share").textContent = text;
+    $("copy").onclick = function () {
+      try { navigator.clipboard.writeText(text); $("copy").textContent = "Copied"; }
+      catch (e) { $("copy").textContent = "Select the text above to copy"; }
+    };
+    $("summary").hidden = false;
+    $("all").hidden = true;
+  }
+
+  $("all").addEventListener("click", function () {
+    FEARS.forEach(function (f) { if (f.c !== "missing") flip(f, $("fear" + f.n), null); });
+    $("summary").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+})();
+</script>
+</body>
+</html>
