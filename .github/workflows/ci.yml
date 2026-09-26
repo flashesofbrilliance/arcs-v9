@@ -77,6 +77,13 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
+      # Hard gate — Tailwind must not creep back after the 2026-07-11 removal
+      # (ledger LINT-006). The advisory lint above does not block; this narrow
+      # guard does. Inspects className values for Tailwind utility signatures only,
+      # so it never false-fails on inline styles or globals.css classes.
+      - name: No-Tailwind guard (LINT-006)
+        run: python3 scripts/no_tailwind_guard.py
+
       # Advisory: canon-vs-code drift check (state-sync). Grep-based, narrow
       # assertions only — see scripts/state_sync_check.py. Never blocks; the
       # false-positive risk on a heuristic check isn't worth stopping a merge

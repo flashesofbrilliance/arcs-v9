@@ -14,7 +14,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Durable, cross-instance rate limiting + spend caps + LLM observability via Vercel AI Gateway (replaces RL-001 interim limiter; also covers /api/brief and /api/guide Claude calls).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Requires provisioning + configuring Vercel AI Gateway (dashboard + project env), an infra change not executable from a code PR. The RL-001 interim in-memory limiter (guard) remains in force on /api/compass in the meantime. Deferred with Zach's explicit sign-off (2026-09-26, echo-detector-seaworthy PR).", "expires": "2026-11-25" }
     },
     {
       "id": "DEL-003",
@@ -28,28 +28,28 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "Trust contract §1 (anonymous sessions write nothing server-side) has no regression test — the exact defect disclosed in §1 could silently recur.",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "A faithful regression test needs a DB-introspecting integration harness; the repo has no unit/integration runner (only Playwright e2e), so wiring one is a test-infra + dependency decision beyond this PR (AGENTS.md: no new deps without asking). Proper close = a real test; convert exit.type to 'test' once the runner is chosen. Short expiry (high severity) forces revisit. Deferred with Zach's sign-off 2026-09-26.", "expires": "2026-10-26" }
     },
     {
       "id": "YG-005",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "src/lib/ygate.ts (core scoring algorithm, pure function) has zero unit tests.",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "The repo has no unit-test runner (only Playwright e2e); adding one is a dependency decision deferred (AGENTS.md: no new deps without asking). ygate.ts is a pure function and is a good first unit-test target once a runner lands — convert exit.type to 'test' then. Deferred with Zach's sign-off 2026-09-26 (echo-detector-seaworthy PR).", "expires": "2026-11-25" }
     },
     {
       "id": "LINT-006",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "CI lint is advisory (continue-on-error); no lint rule prevents className/Tailwind recurrence after the 2026-07-11 removal.",
-      "exit": { "type": "open" }
+      "exit": { "type": "ci", "ref": "scripts/no_tailwind_guard.py wired as a HARD step 'No-Tailwind guard (LINT-006)' in .github/workflows/ci.yml (smoke job). Fails CI on any Tailwind utility-class signature in a src/ className; proven fails-on-bad + passes-on-good. The advisory lint stays; this is the non-advisory guard for the Tailwind-recurrence class.", "date": "2026-09-26" }
     },
     {
       "id": "OBS-007",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "No exception tracking on the app (SageTrace exposure was detected via a vendor email, not our own alerting).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Requires standing up an error-tracking service (e.g. Sentry) + a DSN secret + app wiring — an infra/ops decision and a new dependency, not executable from a code PR. Deferred with Zach's sign-off 2026-09-26 (echo-detector-seaworthy PR).", "expires": "2026-11-25" }
     },
     {
       "id": "DEP-008",
@@ -63,14 +63,14 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "DATABASE_URL manually set, rotation risk open since ADR-005 amendment (2026-05-28).",
-      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-08-15" }
+      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone. Prior waiver lapsed 2026-08-15; renewed with a SHORT 30d window (high-severity security) to force the rotation, not to park it. Re-acknowledged by Zach 2026-09-26 (echo-detector-seaworthy PR).", "expires": "2026-10-26" }
     },
     {
       "id": "BK-010",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Production DB backup restore has never been tested — an unrestored backup is a hope, not a backup.",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "A restore drill requires access to the Supabase production project and a staging target — an ops action not executable by a session/PR. Deferred with Zach's sign-off 2026-09-26 (echo-detector-seaworthy PR); should be scheduled as a real drill.", "expires": "2026-11-25" }
     },
     {
       "id": "PL-011",
