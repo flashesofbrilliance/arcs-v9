@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Case of the Reader Who Remembered · ARCS</title>
+<meta name="description" content="A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.">
+<meta name="robots" content="index, follow">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer */
+:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+.sources { border: 1px solid var(--border); background: var(--surface); border-radius: var(--r-md); padding: 12px 16px; font-size: 15px; color: var(--dimmed); margin: 24px 0 0; }
+.sources strong { color: var(--text); }
+h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 48px 0 20px; }
+h2 { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 0 0 8px; }
+.lede { max-width: none; font-size: 20px; margin: 0 0 12px; }
+p { max-width: var(--measure); }
+.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+.rules { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 22px; margin: 24px 0; }
+.rules ol { margin: 0; padding-left: 20px; }
+.rules li { margin: 0 0 6px; }
+.hud { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 0; margin: 32px 0 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; font-family: var(--font-mono); font-size: 15px; }
+.hud b { color: var(--cyan); font-weight: 600; }
+.status { min-height: 1.6em; }
+.status.ok { color: var(--green); }
+.status.warn { color: var(--gold); }
+.status.bad { color: var(--red); }
+.chair { margin: 0 0 56px; }
+.who { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); margin: 0 0 4px; }
+.pos { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.25; margin: 0 0 8px; }
+.ask { color: var(--dimmed); margin: 0 0 20px; }
+.board { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.col h3 { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--dimmed); margin: 0 0 10px; }
+.claim { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin: 0 0 10px; }
+.claim.sel { border-color: var(--cyan); background: var(--cyan-bg); }
+.claim .t { display: block; font-weight: 600; margin: 0 0 8px; }
+.stake { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 15px; color: var(--dimmed); margin: 0 0 10px; }
+.stake input { accent-color: var(--cyan); width: 160px; }
+.stake b { font-family: var(--font-mono); color: var(--cyan); min-width: 3.2em; }
+.stake.locked input { opacity: 0.5; }
+.claim .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.claim .res { display: block; font-size: 15px; margin: 8px 0 0; }
+.claim.shown { border-color: var(--green); }
+.claim.shown .res { color: var(--green); }
+.claim.gap { border-style: dashed; }
+.claim.gap .res { color: var(--gold); }
+.claim.over .res { color: var(--red); }
+.btn { background: transparent; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px 12px; cursor: pointer; font-size: 15px; }
+.btn:hover { border-color: var(--dimmed); }
+.btn.go { border-color: var(--cyan); color: var(--cyan); }
+.btn:focus-visible, .ev:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.ev { display: block; width: 100%; text-align: left; font-family: var(--font-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; margin: 0 0 10px; cursor: pointer; }
+.ev:hover { border-color: var(--dimmed); }
+.ev .id { color: var(--cyan); margin-right: 6px; }
+.receipt { background: var(--surface); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 20px 24px; margin: 20px 0 0; }
+.receipt[hidden], .reveal[hidden] { display: none; }
+.receipt h4 { font-family: var(--font-mono); font-size: 15px; margin: 12px 0 6px; }
+.receipt h4.c { color: var(--green); }
+.receipt h4.u { color: var(--gold); }
+.receipt ul { margin: 0; padding-left: 20px; }
+.receipt li { margin: 0 0 4px; }
+.receipt .now { font-family: var(--font-display); font-size: 20px; margin: 16px 0 0; max-width: none; }
+.next { margin: 16px 0 0; padding: 10px 18px; background: transparent; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); cursor: pointer; font-weight: 600; }
+.hole { max-width: var(--measure); border: 1px solid var(--gold); background: var(--gold-bg); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0 24px; }
+.hole p { max-width: none; margin: 0 0 8px; }
+.score { font-family: var(--font-mono); font-size: 18px; color: var(--green); margin: 8px 0 12px; }
+.share { font-family: var(--font-mono); font-size: 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; max-width: var(--measure); white-space: pre-wrap; }
+footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+@media (max-width: 760px) { .board { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+
+/* round zero (page-specific) */
+.predict { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 22px; margin: 0 0 40px; }
+.predict .arm { display: grid; grid-template-columns: 1fr 150px 3.5em; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 15px; }
+.predict input { accent-color: var(--cyan); width: 100%; }
+.predict b { font-family: var(--font-mono); color: var(--cyan); }
+.predict table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 15px; margin: 12px 0 0; }
+.predict th, .predict td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+.predict td.real { color: var(--green); }
+@media (max-width: 600px) { .predict .arm { grid-template-columns: 1fr 3.5em; } .predict .arm input { grid-column: 1 / -1; grid-row: 2; } }
+/* case-world:css:begin */
+/* earned fidelity: WORLD.md render scale, driven by live calibration */
+.world { transition: opacity 0.9s ease, letter-spacing 0.9s ease; }
+.world[data-render="GRAIN"] { opacity: 0.70; font-weight: 300; letter-spacing: 0.02em; }
+.world[data-render="DEGRADED"] { opacity: 0.85; font-weight: 400; letter-spacing: 0.01em; }
+.world[data-render="SHARP"] { opacity: 1; font-weight: 500; letter-spacing: normal; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 3; opacity: var(--grain, 0.14); transition: opacity 0.9s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E"); }
+.render b.r-GRAIN { color: var(--gold); } .render b.r-DEGRADED { color: var(--cyan); } .render b.r-SHARP { color: var(--green); }
+
+/* world pass: scene, compact hud, investigator dock, evidence drawer */
+.hud { flex-wrap: nowrap; gap: 16px; font-size: 14px; white-space: nowrap; overflow: hidden; padding: 10px 0; margin: 24px 0 24px; }
+.chair, #predict, #reveal { scroll-margin-top: 64px; }
+.scene { margin: 32px 0 0; }
+.scene + h1 { margin-top: 20px; }
+.scene svg { display: block; width: 100%; max-width: 640px; height: auto; }
+.scene .face { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+.scene .side-l { fill: var(--surface-2); stroke: var(--border); }
+.scene .side-r { fill: var(--bg); stroke: var(--border); }
+.scene .contour { fill: none; stroke: var(--dimmed); stroke-width: 1; opacity: 0.45; }
+.scene .trail { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: 0.55; }
+.scene .wp { fill: var(--bg); stroke: var(--dimmed); stroke-width: 1.5; }
+.scene .fog { fill: var(--text); transition: opacity 1.2s ease; }
+.scene .zl { font-family: var(--font-mono); font-size: 11px; fill: var(--dimmed); letter-spacing: 0.04em; }
+.scene .node { transition: transform 1.2s ease; }
+.scene .node circle.core { fill: var(--cyan); }
+.scene .node circle.halo { fill: var(--cyan); opacity: 0.18; }
+.scene .north { stroke: var(--green); stroke-width: 2.5; fill: var(--green); opacity: 0; transition: opacity 1.2s ease; }
+.world[data-render="GRAIN"] .fog1 { opacity: 0.20; } .world[data-render="GRAIN"] .fog2 { opacity: 0.16; } .world[data-render="GRAIN"] .fog3 { opacity: 0.14; }
+.world[data-render="DEGRADED"] .fog1 { opacity: 0; } .world[data-render="DEGRADED"] .fog2 { opacity: 0.10; } .world[data-render="DEGRADED"] .fog3 { opacity: 0.08; }
+.world[data-render="SHARP"] .fog { opacity: 0; }
+.world[data-render="SHARP"] .north { opacity: 1; }
+.where { font-family: var(--font-mono); font-size: 14px; color: var(--dimmed); margin: 6px 0 0; max-width: none; }
+.where b { color: var(--text); font-weight: 600; }
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--surface); border-top: 1px solid var(--border); }
+.dock .in { max-width: var(--lane); margin: 0 auto; padding: 12px var(--gutter); display: flex; align-items: center; gap: 12px; }
+.dock .line { flex: 1; margin: 0; max-width: none; font-size: 15px; min-height: 1.6em; }
+.dock .line.ok { color: var(--green); } .dock .line.warn { color: var(--gold); } .dock .line.bad { color: var(--red); }
+.dock .evbtn { visibility: hidden; display: none; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); border-radius: var(--r-md); padding: 8px 14px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+body { padding-bottom: 88px; }
+.evhead { display: none; }
+@media (max-width: 760px) {
+  .dock .evbtn { display: inline-block; }
+  body.inchair .dock .evbtn { visibility: visible; }
+  .chair .col.evcol { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; max-height: 64vh; overflow: auto; background: var(--bg); border-top: 1px solid var(--cyan); padding: 16px 16px 96px; transform: translateY(105%); transition: transform 0.3s ease; }
+  body.sheet .chair.current .col.evcol { transform: none; }
+  .chair:not(.current) .col.evcol { display: none; }
+  .evhead { display: block; }
+  .chair .col.evcol > h3:not(.evhead) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .world, body::before, .scene .fog, .scene .node, .scene .north, .chair .col.evcol { transition: none; } }
+/* case-world:css:end */
+</style>
+</head>
+<body>
+<header class="pad">
+  <span class="mono">good.arcs.care · case file 002</span>
+  <div class="sources"><strong>Sources.</strong> Every number and evidence card comes from the published post <a href="/blog/nftt/the-control-and-the-experiment">We Gave the Reader Its Memory Back</a> and its four redacted reports. One incident, one model, one sample per arm: illustrative, not a rate.</div>
+</header>
+
+<main class="pad world" id="world" data-render="GRAIN">
+<!-- case-world:scene:begin -->
+  <div class="scene" role="img" aria-label="An isometric terrain tile in fog. Your navigator node starts at the outer edge and climbs one waypoint per chair you close. The fog lifts as your calibration earns it, and a True North arrow appears at the clarity ridge.">
+    <svg viewBox="0 0 640 260" aria-hidden="true">
+      <defs><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter></defs>
+      <polygon class="side-l" points="80,130 320,230 320,254 80,154"/>
+      <polygon class="side-r" points="320,230 560,130 560,154 320,254"/>
+      <polygon class="face" points="320,30 560,130 320,230 80,130"/>
+      <polygon class="contour" points="320,62 484,130 320,198 156,130"/>
+      <polygon class="contour" points="320,92 412,130 320,168 228,130"/>
+      <polygon class="contour" points="320,114 358,130 320,146 282,130"/>
+      <path class="trail" d="M120,130 L196,130 L262,130 L320,130"/>
+      <circle class="wp" cx="120" cy="130" r="4"/><circle class="wp" cx="196" cy="130" r="4"/><circle class="wp" cx="262" cy="130" r="4"/><circle class="wp" cx="320" cy="130" r="5"/>
+      <text class="zl" x="96" y="176">OUTER FOG</text>
+      <text class="zl" x="186" y="208">PRESSURE BAND</text>
+      <text class="zl" x="270" y="24">CLARITY RIDGE</text>
+      <g class="north"><line x1="320" y1="118" x2="320" y2="52"/><polygon points="320,40 312,56 328,56"/></g>
+      <g class="node" id="node"><circle class="halo" r="16"/><circle class="core" r="6"/></g>
+      <ellipse class="fog fog1" cx="200" cy="130" rx="190" ry="90" filter="url(#blur)"/>
+      <ellipse class="fog fog2" cx="330" cy="120" rx="230" ry="100" filter="url(#blur)"/>
+      <ellipse class="fog fog3" cx="440" cy="140" rx="180" ry="80" filter="url(#blur)"/>
+    </svg>
+    <p class="where">You are <b id="zone">in the outer fog</b> · chairs closed <b id="closed">0/3</b></p>
+  </div>
+<!-- case-world:scene:end -->
+  <h1>The Case of the Reader Who Remembered</h1>
+  <p class="lede">Four readers reconstructed the same incident from the same record. Two had no memory of it. One was handed the participant's memory and told it could narrate freely. The last had the same memory and was made to cite every claim. The operator had a tidy explanation for how it would turn out. It was flattering, and it was wrong. You start in the fog. The world only sharpens as your receipt earns it.</p>
+
+  <div class="rules">
+    <ol>
+      <li><b>Round zero:</b> predict each reader's score before you see the evidence. Your prediction locks, so hindsight cannot edit it later.</li>
+      <li>Then take each chair. Stake conviction chips (0 to 10) on each claim, then show evidence or concede.</li>
+      <li>Defending with evidence that cuts against you is an <b>overclaim</b>. Conceding what the record backs is an <b>underclaim</b>.</li>
+      <li>The page renders at the fidelity you have earned: grain, then degraded, then sharp. Parking every stake at 5 keeps you in the fog.</li>
+    </ol>
+  </div>
+
+  <div class="hud">
+    <span>Over <b id="over">0</b></span>
+    <span>Under <b id="under">0</b></span>
+    <span>Cal <b id="cal">--</b></span>
+    <span class="render"><b id="rnd" class="r-GRAIN">GRAIN</b></span>
+  </div>
+
+  <section class="predict" id="predict">
+    <h2>Round zero: commit before the evidence</h2>
+    <p>The score is provenance: the share of the committed record's anchors (commits, tracked files) that each reconstruction actually cites. 100 means it cited everything. Guess each reader.</p>
+    <div id="arms"></div>
+    <button class="next" id="commit" type="button">Commit my predictions</button>
+  </section>
+
+  <div id="chairs"></div>
+
+  <section class="reveal" id="reveal" hidden>
+    <h2>The hole in the middle</h2>
+    <div class="hole">
+      <p>Three chairs, three receipts. Warmth did not corrupt what the reader grounded. It changed whether the reader grounded at all. Coldness does not grant honesty; it removes the option of dishonesty by fluency.</p>
+      <p>Now the part no reader could reconstruct, warm or cold. The act at the center of the incident, the outbound sends, left no contemporaneous artifact anywhere: no log, no tool call, no copy of what went out. The event never entered the record. Only the apology did.</p>
+      <p>No amount of discipline in the reader can recover what the writer never committed. That is why the receipt has to come before the action, not after it.</p>
+    </div>
+    <p class="score" id="final"></p>
+    <div class="share" id="share"></div>
+    <button class="next" id="copy" type="button">Copy result</button>
+    <p style="margin-top:24px">Previous case: <a href="/cases/six-week-outage">The Case of the Six-Week Outage</a>. Want your team's record read this way? <a href="/audit">The Agent Receipts Audit</a>.</p>
+  </section>
+</main>
+
+<footer class="pad">
+  <p>ARCS · case file 002 · built from a published, redacted experiment. The recruiter and role in the underlying incident are withheld; the operator is named only as the operator. No person is a suspect in an ARCS case.</p>
+</footer>
+
+<!-- case-world:dock:begin -->
+<div class="dock"><div class="in">
+  <p class="line" id="status" aria-hidden="true"></p>
+  <span class="sr" id="sr" aria-live="polite"></span>
+  <button class="evbtn" id="evbtn" type="button">Evidence</button>
+</div></div>
+<!-- case-world:dock:end -->
+
+<!-- case-world:runtime:begin -->
+<script>
+/* ARCS Case World runtime v1 (kit primitive 15, synced into case pages).
+   Requires the case-world scene + dock blocks and a .world element with id="world".
+   API: say(text, tone) · calibration(score|null) -> render state · closed(n) · sheet(open) · seated(on) · mobile() */
+window.ArcsCaseWorld = function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var WP = [[120, 130], [196, 130], [262, 130], [320, 130]];
+  var typer = null, calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function say(m, c) {
+    var s = $("status"); s.className = "line" + (c ? " " + c : ""); $("sr").textContent = m;
+    if (typer) clearInterval(typer);
+    if (calm) { s.textContent = m; return; }
+    var k = 0; s.textContent = "";
+    typer = setInterval(function () { k += 2; s.textContent = m.slice(0, k); if (k >= m.length) { clearInterval(typer); typer = null; } }, 16);
+  }
+  function mobile() { return window.matchMedia("(max-width: 760px)").matches; }
+  function closed(n) {
+    var w = WP[Math.max(0, Math.min(n, WP.length - 1))];
+    $("node").style.transform = "translate(" + w[0] + "px," + w[1] + "px)";
+    $("closed").textContent = n + "/3";
+  }
+  function calibration(c) {
+    var r = "GRAIN", grain = 0.14;
+    if (c != null) { if (c >= 90) { r = "SHARP"; grain = 0; } else if (c >= 80) { r = "DEGRADED"; grain = 0.06; } }
+    $("world").setAttribute("data-render", r);
+    $("zone").textContent = r === "SHARP" ? "on the clarity ridge" : (r === "DEGRADED" ? "in the pressure band" : "in the outer fog");
+    document.body.style.setProperty("--grain", grain);
+    var b = $("rnd"); if (b) { b.textContent = r; b.className = "r-" + r; }
+    return r;
+  }
+  function sheet(open) { document.body.classList.toggle("sheet", !!open); }
+  function seated(on) { document.body.classList.toggle("inchair", !!on); if (!on) sheet(false); }
+  $("evbtn").addEventListener("click", function () { document.body.classList.toggle("sheet"); });
+  closed(0); calibration(null);
+  return { say: say, mobile: mobile, closed: closed, calibration: calibration, sheet: sheet, seated: seated };
+};
+</script>
+<!-- case-world:runtime:end -->
+<script>
+(function () {
+  var ARMS = [
+    { k: "cold1", n: "Cold reader 1 (blind, no memory)", real: 90 },
+    { k: "cold2", n: "Cold reader 2 (blind, no memory)", real: 84 },
+    { k: "warmA", n: "Warm reader, free to narrate", real: 26 },
+    { k: "warmB", n: "Warm reader, made to cite", real: 100 }
+  ];
+  var EV = {
+    E1: "Cold reader 1: provenance 0.90, 11 claims flagged unconfirmed. Blind, zero transcript.",
+    E2: "Cold reader 2: provenance 0.84, 14 flagged. Blind. Both cold readers landed on the same principle and flagged the same gap, with no contact.",
+    E3: "Warm reader, told it need not cite: provenance 0.26, only 5 flagged, while reporting high confidence.",
+    E4: "Warm reader, same memory, held to the cold readers' cite-or-abstain rule: provenance 1.00, 9 flagged.",
+    E5: "The warm reader was handed the participant's memory: the running work log, the after-the-fact write-up, the in-the-moment notes.",
+    E6: "The free-narration run changed two things at once: it had memory AND permission to skip citing.",
+    E7: "Provenance is computed by the tool that gathered the record, never scored by eye.",
+    E8: "Every reader, warm and cold, refused to certify the fix the incident rests on. The source write-up had itself hedged it as proposed.",
+    E9: "Scale: one incident, one model, one sample per arm."
+  };
+  var CHAIRS = [
+    {
+      who: "Chair 1 of 3 · the operator's first explanation",
+      pos: "“The cold reader wins because a stranger grounds better than a participant.”",
+      ask: "The investigator: “A claim about a method is the one most likely to flatter its author. Show me.”",
+      ev: ["E1", "E2", "E3", "E4", "E7"],
+      claims: [
+        { t: "Two blind readers scored 0.90 and 0.84.", yes: ["E1", "E2"], no: [] },
+        { t: "The cold result repeated.", yes: ["E2"], no: [] },
+        { t: "The warm reader scored 0.26.", yes: ["E3"], no: [] },
+        { t: "So memory made the reader worse.", yes: [], no: ["E4"] },
+        { t: "So a stranger grounds better than a participant.", yes: [], no: ["E4"] }
+      ],
+      now: "The flattering explanation fails its own control. A participant with memory, made to cite, grounded better than either stranger."
+    },
+    {
+      who: "Chair 2 of 3 · the warm reader, free to narrate",
+      pos: "“I remembered it, so I got it right.”",
+      ask: "The investigator: “You remember it. Does the record?”",
+      ev: ["E3", "E4", "E5", "E6", "E7"],
+      claims: [
+        { t: "I held the participant's full memory.", yes: ["E5"], no: [] },
+        { t: "I reported high confidence.", yes: ["E3"], no: [] },
+        { t: "My account was tethered to the record.", yes: [], no: ["E3", "E7"] },
+        { t: "Memory was the only thing that set me apart from the cold readers.", yes: [], no: ["E6"] },
+        { t: "My confidence shows I got it right.", yes: [], no: ["E3", "E4"] }
+      ],
+      now: "Confidence is not evidence. It is the tell. And the run changed two knobs at once, so memory alone was never tested here."
+    },
+    {
+      who: "Chair 3 of 3 · the method itself",
+      pos: "“Coldness is what makes a reader honest.”",
+      ask: "The investigator: “Then explain the warm reader who cited everything.”",
+      ev: ["E1", "E2", "E4", "E8", "E9"],
+      claims: [
+        { t: "A blind reader has nothing to narrate from but the record.", yes: ["E1", "E2"], no: [] },
+        { t: "A reader with memory, made to cite, grounded as well or better.", yes: ["E4"], no: [] },
+        { t: "So only a cold reader can be trusted to ground.", yes: [], no: ["E4"] },
+        { t: "The readers certified the fix the incident rests on.", yes: [], no: ["E8"] },
+        { t: "This proves a general rate.", yes: [], no: ["E9"] }
+      ],
+      now: "Coldness does not grant honesty. It removes the option of skipping the record. Either send a reader with no memory, or make the one with memory cite."
+    }
+  ];
+
+  var over = 0, under = 0, cur = -1, sel = null, briers = [], predErr = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var world = ArcsCaseWorld();
+  function say(m, c) { world.say(m, c); }
+  function renderWorld() { world.calibration(briers.length ? calScore() : null); }
+  function pts(n) { return n + (n === 1 ? " point" : " points"); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function calScore() { var s = 0; briers.forEach(function (x) { s += x; }); return Math.round(100 * (1 - s / briers.length)); }
+
+
+  // round zero
+  ARMS.forEach(function (a) {
+    var row = el("label", "arm"); row.appendChild(el("span", null, a.n));
+    var rg = document.createElement("input"); rg.type = "range"; rg.min = 0; rg.max = 100; rg.step = 5; rg.value = 50; rg.id = "p-" + a.k;
+    rg.setAttribute("aria-label", "Predicted provenance for " + a.n);
+    var v = el("b", null, "50");
+    rg.addEventListener("input", function () { v.textContent = rg.value; });
+    row.appendChild(rg); row.appendChild(v); $("arms").appendChild(row);
+  });
+  $("commit").addEventListener("click", function () {
+    var tbl = el("table"), hd = el("tr"); ["Reader", "You", "Actual"].forEach(function (h) { hd.appendChild(el("th", null, h)); }); tbl.appendChild(hd);
+    var sum = 0;
+    ARMS.forEach(function (a) {
+      var rg = $("p-" + a.k); rg.disabled = true; var g = Number(rg.value); sum += Math.abs(g - a.real);
+      var tr = el("tr"); tr.appendChild(el("td", null, a.n)); tr.appendChild(el("td", null, String(g))); tr.appendChild(el("td", "real", String(a.real))); tbl.appendChild(tr);
+    });
+    predErr = Math.round(sum / ARMS.length);
+    $("commit").remove();
+    $("predict").appendChild(tbl);
+    $("predict").appendChild(el("p", null, "Locked. Your predictions were off by " + pts(predErr) + " on average. Whatever you now feel you knew all along, this is what you actually said."));
+    var go = el("button", "next", "Take the first chair"); go.type = "button";
+    go.addEventListener("click", function () { go.remove(); cur = 0; world.seated(true); render(0); $("chair0").scrollIntoView({ behavior: "smooth", block: "start" }); say(CHAIRS[0].ask.replace("The investigator: ", "")); });
+    $("predict").appendChild(go);
+    say("Predictions locked. Off by " + pts(predErr) + " on average.", "warn");
+  });
+
+  function render(i) {
+    var c = CHAIRS[i], sec = el("section", "chair"); sec.id = "chair" + i;
+    sec.appendChild(el("p", "who", c.who)); sec.appendChild(el("p", "pos", c.pos)); sec.appendChild(el("p", "ask", c.ask));
+    var board = el("div", "board"), L = el("div", "col"), R = el("div", "col evcol");
+    L.appendChild(el("h3", null, "Your claims")); R.appendChild(el("h3", null, "Evidence")); R.appendChild(el("h3", "evhead", "Evidence · tap the card that shows your claim"));
+    c.claims.forEach(function (cl, j) {
+      var box = el("div", "claim"); box.dataset.j = j;
+      box.appendChild(el("span", "t", cl.t));
+      var st = el("label", "stake"); st.appendChild(el("span", null, "Conviction the record backs this"));
+      var rg = document.createElement("input"); rg.type = "range"; rg.min = 0; rg.max = 10; rg.value = 5;
+      rg.setAttribute("aria-label", "Conviction chips for: " + cl.t);
+      var rv = el("b", null, "5/10"); rg.addEventListener("input", function () { rv.textContent = rg.value + "/10"; });
+      st.appendChild(rg); st.appendChild(rv); box.appendChild(st);
+      var row = el("div", "row");
+      var show = el("button", "btn go", "Show evidence"); show.type = "button";
+      var give = el("button", "btn", "Concede"); give.type = "button";
+      show.addEventListener("click", function () { pick(i, j); });
+      give.addEventListener("click", function () { concede(i, j); });
+      row.appendChild(show); row.appendChild(give); box.appendChild(row); L.appendChild(box);
+    });
+    c.ev.forEach(function (id) {
+      var b = el("button", "ev"); b.type = "button";
+      b.appendChild(el("span", "id", id)); b.appendChild(el("span", null, EV[id]));
+      b.addEventListener("click", function () { cite(i, id); }); R.appendChild(b);
+    });
+    board.appendChild(L); board.appendChild(R); sec.appendChild(board);
+    var r = el("div", "receipt"); r.hidden = true; sec.appendChild(r);
+    document.querySelectorAll(".chair").forEach(function (x) { x.classList.remove("current"); });
+    sec.classList.add("current");
+    $("chairs").appendChild(sec);
+  }
+
+  function box(i, j) { return document.querySelector("#chair" + i + ' .claim[data-j="' + j + '"]'); }
+  function pick(i, j) {
+    if (i !== cur || CHAIRS[i].claims[j].done) return;
+    document.querySelectorAll("#chair" + i + " .claim").forEach(function (b) { b.classList.remove("sel"); });
+    box(i, j).classList.add("sel"); sel = j; say("Now pick the evidence that shows it.");
+    if (world.mobile()) world.sheet(true);
+  }
+  function resolve(i, j, kind, text) {
+    var cl = CHAIRS[i].claims[j], b = box(i, j);
+    var rg = b.querySelector(".stake input"), p = Number(rg.value) / 10, o = cl.yes.length ? 1 : 0;
+    briers.push((p - o) * (p - o)); rg.disabled = true; b.querySelector(".stake").classList.add("locked");
+    $("cal").textContent = calScore() + "/100"; renderWorld();
+    text += " You staked " + rg.value + "/10; the record " + (o ? "backs it" : "does not back it") + ".";
+    cl.done = kind; b.classList.remove("sel"); b.classList.add(kind === "shown" ? "shown" : "gap");
+    if (kind === "over") b.classList.add("over");
+    var row = b.querySelector(".row"); if (row) row.remove();
+    b.appendChild(el("span", "res", text)); sel = null; check(i);
+  }
+  function cite(i, id) {
+    if (i !== cur) return;
+    world.sheet(false);
+    if (sel === null) { say("Pick a claim first, then show the evidence for it.", "warn"); return; }
+    var cl = CHAIRS[i].claims[sel];
+    if (cl.yes.indexOf(id) >= 0) { say("Shown. " + id + " backs it.", "ok"); resolve(i, sel, "shown", "Shown by " + id + "."); }
+    else if (cl.no.indexOf(id) >= 0) { over++; $("over").textContent = over; say("Overclaim. " + id + " cuts against this claim.", "bad"); resolve(i, sel, "over", "Overclaim: " + id + " cuts against it."); }
+    else say(id + " does not speak to that claim. Try another, or concede.", "warn");
+  }
+  function concede(i, j) {
+    if (i !== cur || CHAIRS[i].claims[j].done) return;
+    var cl = CHAIRS[i].claims[j];
+    if (cl.yes.length) { under++; $("under").textContent = under; say("Underclaim. The record would have backed that one.", "warn"); resolve(i, j, "under", "Conceded, though " + cl.yes[0] + " would have shown it."); }
+    else { say("Conceded. Nothing in the record backs it, and you said so.", "ok"); resolve(i, j, "gap", "Conceded. Nothing in the record backs it."); }
+  }
+  function check(i) {
+    var c = CHAIRS[i];
+    if (c.claims.some(function (cl) { return !cl.done; })) return;
+    var r = document.querySelector("#chair" + i + " .receipt"); r.hidden = false;
+    r.appendChild(el("h4", "c", "What you showed")); var u1 = el("ul"); r.appendChild(u1);
+    r.appendChild(el("h4", "u", "What you could not show")); var u2 = el("ul"); r.appendChild(u2);
+    c.claims.forEach(function (cl) {
+      if (cl.done === "shown") u1.appendChild(el("li", null, cl.t));
+      else if (cl.done === "under") u1.appendChild(el("li", null, cl.t + " (you conceded it, but the record backs it)"));
+      else u2.appendChild(el("li", null, cl.t));
+    });
+    r.appendChild(el("p", "now", "Where the evidence actually puts this chair: " + c.now));
+    world.closed(i + 1);
+    if (i + 1 < CHAIRS.length) {
+      var n = el("button", "next", "Take the next chair"); n.type = "button";
+      n.addEventListener("click", function () { n.remove(); cur = i + 1; render(cur); $("chair" + cur).scrollIntoView({ behavior: "smooth", block: "start" }); say(CHAIRS[cur].ask.replace("The investigator: ", "")); });
+      r.appendChild(n);
+    } else finish();
+  }
+  function finish() {
+    say("Case closed.", "ok"); world.seated(false);
+    var pl = function (n, w) { return n + " " + w + (n === 1 ? "" : "s"); };
+    var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ", calibration " + calScore() + "/100, rendered " + $("world").getAttribute("data-render") + ". Round-zero predictions off by " + pts(predErr) + ".";
+    $("final").textContent = line;
+    var text = "I sat in all three chairs of The Case of the Reader Who Remembered.\n" + line + "\nThe event never entered the record. Only the apology did.";
+    $("share").textContent = text;
+    $("copy").addEventListener("click", function () {
+      try { navigator.clipboard.writeText(text); $("copy").textContent = "Copied"; }
+      catch (e) { $("copy").textContent = "Select the text above to copy"; }
+    });
+    $("reveal").hidden = false; $("reveal").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  say("Before you see anything: commit your predictions. Hindsight is not allowed in this room.");
+})();
+</script>
+</body>
+</html>

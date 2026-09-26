@@ -158,11 +158,18 @@ const nextConfig: NextConfig = {
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/instruments", destination: "/good-instruments.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        // playable cases + the audit offer (2026-09-26). Mirrored in src/proxy.ts 'good'; the page
+        // filenames are also excluded from the catch-all below so the proxy's rewrite is not re-swallowed.
+        { source: "/audit", destination: "/good-agent-receipts-audit.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/fears", destination: "/good-fears.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/cases", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
         // good.arcs.care catch-all. The negative lookahead MUST also exclude api / _next / _vercel /
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|good-instruments|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|good-instruments|good-case-|good-agent-receipts-audit|good-fears|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },

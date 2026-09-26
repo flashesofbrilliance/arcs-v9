@@ -1,0 +1,3 @@
+# Evidence ledger (case_evidence_lint + provenance_lint).
+{"pattern": "90%", "kind": "fact", "page": "reconstructed 90% of the incident", "source": "public/blog-nftt-recon-report-cold-1.html", "quote": "reconstructability 90% reconstructed", "note": "leak map value 0.895, rendered as 90% in the published report"}
+{"pattern": "Case\\s+001\\s+·\\s+Case\\s+002", "kind": "mechanic", "page": "Case 001 · Case 002", "why": "case file numbers in the play-the-method links"}

@@ -114,116 +114,73 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.66.0 (2026-09-26)
+# Handoff — v3.67.0 (2026-09-26)
 
-> **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
-> then the AI-slop safeguard back-propped and wired into the FE ship-gate.** Opt-in build forked to
-> its own session; ran daylight-first with a bless gate at every publish. All shipped to main and
-> LIVE on good.arcs.care. Five PRs merged (#505, #506 sibling, #507, #509 sibling, #510).
+> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
+> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
+> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
+> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
+> explicit go.
 
-## Shipped + LIVE (verified on prod, 200 + content + PII-clean)
-- **`tools/cold-recon/`** — stdlib-only CLI (recoil-report shape). `gather` (git+files, ZERO
-  transcript, coldness enforced structurally) → `prompt` (cold-agent contract) → `validate` /
-  `leakmap` / `render`. Leak map = observability audit (reconstructability as a measurable
-  property). Hardened by a sibling session (#506): em-dash normalization + in-tool `--redact` +
-  `selftest` 4/4. NOT claimed patentable; only as good as commit-as-you-go discipline.
-- **NFTT trilogy on good.arcs.care** (all own index cards): `the-cold-reconstruction` (method +
-  real PoC run, reconstructability 0.895), `the-control-and-the-experiment` (warm-vs-cold, n=1),
-  `receipts-or-it-didnt-happen` (the diptych). Plus 4 redacted companion reports at `/report`
-  depth-ladder routes (unredacted renders stay internal — int/ext air-gap).
-- **The experiment finding** (witnessed GREEN): warmth does not corrupt WHAT you ground, it changes
-  WHETHER you ground at all; coldness's value is structural (no memory → can't narrate from memory).
-  4-run table: cold 0.90/0.84, warm-relaxed 0.26, warm-matched 1.00 — the collapse was the cite
-  instruction (confound), controlled. Running the control corrected my flattering first explanation.
-- **Record hygiene** — committed the previously-untracked incident RCA + witness stubs (the live
-  leak the tool surfaced; insight #2 demonstrated on itself).
-- **AI-slop safeguard wired into the FE ship-gate** (#510): `slop_lint` landed on main via a sibling
-  session (#509, single source). I wired it into `scripts/nftt-gates.sh` — mechanical cliché/em-dash
-  = HARD FAIL, burstiness+specificity = ADVISORY in `--mode essay` (evidence-aware, 10% floor the
-  sibling calibrated to real essays, correcting my 20-25% which would have false-failed the genre).
-  Proven fails-on-bad AND passes-on-good.
-
-## Open (next session)
-1. **Visual-slop half (Adaptation 2) — brand-visual allowlist for the NFTT pages: BUILT + A/B-verified,
-   awaiting merge.** The design-system-normalization session (branch `worktree-agent-a9c05965613c705e2`,
-   local, unmerged) built the brand profile against my relayed spec and verified it: brand false-positives
-   drop to 0 on all 3 posts (cold-reconstruction 41→16, control-and-experiment 35→11, diptych 56→27),
-   real debt fully retained (undersized-ui-text, low-contrast, tiny-text). Exempted set (8, all
-   verified-firing): design-system-{font,font-size,color,radius}, all-caps-body, wide-tracking,
-   hero-eyebrow-chip, dark-glow. Note: `tiny-numbered-labels` + `border-accent-on-rounded` from my spec
-   fire 0 times (absorbed by all-caps-body/wide-tracking + design-system-radius) so they were omitted, not
-   added dead. **Gate: lands on main only when Zach reviews + lands the design-system branch (7-wave
-   migration plan needs his review).** Then: re-run the detector to confirm 0 brand-false-positives, add
-   the detector step to `nftt-gates.sh` beside the slop_lint step (#510).
-2. **cold-recon redaction phrasing** — the doubled-article artifact ("a a candidate role candidate
-   bundle") in the live warm-relaxed report; handed to the hardening session `[42a0ec]` as a test case.
-3. Carried: `_STATE/night-moves/2026-09-26.md` is the day's ledger (on main).
-
-## Lessons (in the record, not re-derived here)
-Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency). Decision receipts:
-`2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
-floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
-applied to the tool by the sibling session that measured before asserting).
-
-# Handoff — v3.65.2 (2026-09-24)
-
-> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
-> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
-> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
-> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
-> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
-
-## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
-- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
-  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
-  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
-  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
-  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
-- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
-  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
-  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
-  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
-- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
-  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
-- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
-  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
-  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
-- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
-  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
-- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
-  "finance" → "regulated industries".
-- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
-  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
-  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
-  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
-- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
-  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
-  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
-  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
-  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
-- **Gravity-well pressure-test + 2 leak fixes** (`65d3781`, prod-verified): pressure-tested the vico family
-  against the "leak list" (unverifiable · single-altitude · no owned-losses · no mirror · no-return ·
-  over-claim). Closed 2: résumé had zero mirror → added a "worked in public" ZIM clause; ammo described
-  running systems without linking them (1 link → 3: status log→status.arcs.care, pipeline→good.arcs.care).
-- **All of the above deployed to main and prod-verified** (latest `65d3781`, Vercel READY, cache-MISS fetches).
-
-## Lessons booked (MEMORY.md v3.65.1/.2/.3 + night-moves 2026-09-23/24)
-- **Gravity-well framework** (v3.65.3): a candidate page is an attractor for a hiring manager to the degree
-  it pre-answers their de-risk doubts with *verifiable* proof; mass = linked/checkable claims, the mirror
-  (their problem worked in public), owned losses, and a live/compounding surface. Leak list is the inverse.
-- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
-  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
-- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
-- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
-  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
-- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
+## Shipped + LIVE (verified on prod)
+- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
+  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
+  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
+  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
+  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
+  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
+  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
+  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
+  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
+- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
+  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
+  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
+  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
+  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
+- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
+  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
+  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
+  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
+- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
+  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
 
 ## Open (next session)
-1. **Joe sync moved to Tue 2026-09-30** (the Thu 2026-09-24 Lyndon call did not land as scheduled; reminder
-   was CANCELLED per Zach — he pings after). Prep + close-loop when it happens: did Lyndon reach
-   vico.arcs.care or only Joe's paraphrase (message-drift lever)? Score the 5 beats (role fit /
-   regulated-industries / federal / honest gaps / self-scoring style); plan follow-up. Vico family is
-   shipped + prod-verified (memo/resume/ammo VP-free, gravity leaks closed); nothing to rebuild pre-call.
-2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
-3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
-   State-of-the-Union dashboard (source file still unidentified — get it first).
+1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
+   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
+2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
+   NFTT block until it next lands on main; everyone via origin/main already has it.
+3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
+
+## Lessons (in the record)
+- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
+  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
+  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
+- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
+  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
+- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
+  fragments without ever pushing them to `index`; the air-gap survives the sweep.
+
+
+# Handoff — v3.66.1 (2026-09-26)
+
+> **Off-repo thinking session: falsifiable criteria for a public Farcaster debate, shipped as a pre-registered
+> bet + a phone card; then memory consolidated.** No product code touched. Deliverables banked on branch
+> `claude/falsifiable-position-criteria-inltlk` (not merged; nothing deployed).
+
+## Shipped
+- **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
+  @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
+  90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
+- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
+  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
+  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
+- Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
+- **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
+
+## Open (next session)
+1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
+   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
+2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
+3. Backfill gap: v3.66.0 has no MEMORY.md entry.
+4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
+   redaction doubled-article fix.
