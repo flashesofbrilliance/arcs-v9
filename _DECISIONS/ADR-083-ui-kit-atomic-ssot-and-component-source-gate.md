@@ -1,9 +1,13 @@
-# ADR-082 — ui-kit atomic SSOT + component-source gate for self-contained HTML surfaces
+# ADR-083 — ui-kit atomic SSOT + component-source gate for self-contained HTML surfaces
 
 > **Status:** PROPOSED
 > **Date:** 2026-09-26
 > **Author:** Claude Opus 4.8
-> **Oracle:** number allocated via `scripts/oracle.py next adr` (82); `_SEEDS/_oracle.json` committed.
+> **Oracle:** number allocated via `scripts/oracle.py next adr` (83); `_SEEDS/_oracle.json` committed.
+> **Renumber note (2026-09-26):** originally minted as ADR-082, which collided with the Track-B
+> slop-gate-oss-publish fork's ADR-82 (already pushed to origin/claude/slop-gate-consolidate-dist-a34d1c);
+> both allocated 82 off a main at high-water 81. This un-pushed decision moved to the oracle-issued 83.
+> No content change.
 > **Stakeholders:** ARCS design-system owners; anyone shipping a `public/*.html` or `_ARTIFACTS/*.html` surface.
 > **Relationship to ADR-009:** ADR-009 canonicalized the React `src/ui/` component library for the
 > Next.js product. This ADR is its sibling for the ~225 SELF-CONTAINED single-file HTML surfaces

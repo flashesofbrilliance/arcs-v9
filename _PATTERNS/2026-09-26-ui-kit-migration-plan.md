@@ -1,6 +1,6 @@
 # ui-kit migration plan — ordered, per-surface, with coordination flags
 
-Companion to ADR-082 and `src/ui-kit/README.md`. The gate is opt-in and ratcheted, so migration is
+Companion to ADR-083 and `src/ui-kit/README.md`. The gate is opt-in and ratcheted, so migration is
 per-surface and reversible; nothing here is a mass rewrite. Each page: (1) inline `_tokens.css`
 verbatim (or `<link>`), map its palette to canonical names, keep non-signal extras in a second
 `:root{}`; (2) add `<!-- @arcs-template: <name> -->` (+ optional `@arcs-mode`); (3) add brand-profile
@@ -55,7 +55,7 @@ Each of these is a vertical an active session owns; migration must be done BY or
 that should be folded with backlog item `nftt-template-kintsugi-contrast-and-label-heuristics` (the
 `--dim` AA-contrast debt + the label-vs-body detector heuristic). Do the template + detector fix once,
 propagate to all 34; do not per-post patch. Decide whether to retire the token_source_gate NFTT
-exemption in favor of enrollment (open question in ADR-082).
+exemption in favor of enrollment (open question in ADR-083).
 
 ## Wave 6 — resume-print signatures
 When the first resume enrolls (`public/vico-resume.html` or `squad-resume.html`), read its shared class
