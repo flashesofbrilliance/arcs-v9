@@ -277,26 +277,49 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
         continue
       fi
       [ "${n:-0}" -eq 0 ] && continue
+      hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        # NB: the detector infers file type from extension — a bare mktemp (no .html)
-        # makes `detect` return 0, which silently breaks the ratchet (HEAD reads as
-        # "no findings" and every modified page with prior debt FALSE-BLOCKS). Keep the
-        # .html suffix. (Root-caused 2026-09-26 when the NFTT --dim fix tripped it.)
-        tmpd=$(mktemp -d); tmp="$tmpd/head.html"; git show "HEAD:$f" > "$tmp" 2>/dev/null
-        hout=$("$IMP" detect --json "$tmp" 2>/dev/null || true); rm -rf "$tmpd"
+        # Score HEAD's blob at a path INSIDE the repo working tree, a sibling of
+        # $f with the SAME extension, so the detector discovers the repo-root
+        # DESIGN.md exactly as the working-file run does. TWO independent bugs
+        # made HEAD misread, both fixed here:
+        #   1. extension — a bare mktemp (no .html) makes `detect` infer the wrong
+        #      file type and skip most rules (root-caused 2026-09-26, NFTT --dim);
+        #   2. tree location — even a *.html temp OUTSIDE the repo tree (mktemp -d)
+        #      cannot walk up to the repo-root DESIGN.md, so every "outside
+        #      DESIGN.md" check (font-size/color/radius/font) is silently skipped.
+        # Measured on public/prl-status-progress.html (HEAD): mktemp no-ext = 0,
+        # mktemp -d/head.html = 7, in-tree sibling = 28 (== working). Only the
+        # in-tree sibling gives an honest HEAD-vs-working comparison; fixing the
+        # extension alone still HARD-BLOCKS frozen-baseline pages like public/prl-*
+        # (2026-09-17, PR #486 / commit c051d3c7).
+        htmp="$(dirname "$f")/.pc-kintsugi-head.$$.$(basename "$f")"
+        git show "HEAD:$f" > "$htmp" 2>/dev/null || true
+        hout=$("$IMP" detect --json "$htmp" 2>/dev/null || true); rm -f "$htmp"
         hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)
-        if [ "${hn:-0}" -gt 0 ]; then
-          echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD already had $hn. Not blocking (ratchet). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
-          continue
-        fi
       fi
-      echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s) and its HEAD version had none (or it is new)." >&2
-      printf '%s' "$out" | python3 -c 'import sys,json
+      # Count-aware ratchet. Only NET-NEW debt (working > HEAD) blocks; a page
+      # that carries a frozen pre-existing baseline (a new file has HEAD=0; the
+      # public/prl-* client design system is intentionally scored against a
+      # repo-root DESIGN.md it was never built for, ~27 findings) ratchets on
+      # its own count. A no-op / text-only edit keeps n == hn -> WARN, never
+      # block. This is the design-system scope decision: the frozen baseline is
+      # grandfathered per-file, and only a genuine regression trips the gate —
+      # no path exemption (which would let real new debt through) and no
+      # separate DESIGN.md per surface.
+      if [ "${n:-0}" -gt "${hn:-0}" ]; then
+        echo "✖ commit blocked: kintsugi immune system — $f has $n design finding(s), up from $hn in HEAD (net-new design debt)." >&2
+        printf '%s' "$out" | python3 -c 'import sys,json
 for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("snippet") or "")[:90])' >&2
-      echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
-      exit 1
+        echo "  fix them, book the seam (break → repair → guard) in _PATTERNS/kintsugi-visual-grammar-seams.md, re-stage." >&2
+        exit 1
+      fi
+      if [ "${hn:-0}" -gt 0 ]; then
+        echo "⚠ pre-commit(kintsugi): $f carries $n design finding(s); HEAD had $hn. Not blocking (ratchet — pre-existing/frozen baseline). Book the seam in _PATTERNS/kintsugi-visual-grammar-seams.md." >&2
+      fi
+      continue
     done <<< "$pages"
   fi
 fi
