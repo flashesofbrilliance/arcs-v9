@@ -419,6 +419,37 @@ if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# case-world drift gate (AGENTS.md #13/#15): playable case pages carry the kit's Case World
+# blocks verbatim (src/ui-kit/recoil-report/15-case-world.html). Block the commit if an
+# enrolled page drifted or is half-enrolled. Fix by editing the kit and running
+# python3 scripts/case_world_sync.py (never hand-edit a stamped block in a page).
+if [ -f scripts/case_world_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  cw=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'src/ui-kit/recoil-report/15-case-world.html' 2>/dev/null || true)
+  if [ -n "$cw" ]; then
+    if ! python3 scripts/case_world_sync.py --check >/dev/null; then
+      python3 scripts/case_world_sync.py --check >&2
+      echo "✖ commit blocked: a case-world page drifted from the kit (see above)." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# case-evidence gate: every number in a playable case traces to a ledger entry
+# (<page>.evidence.jsonl), and every fact's quote is verified verbatim in its published source.
+# Re-runs when a case page, a ledger, or a source post changes (editing a post can break a quote).
+if [ -f scripts/case_evidence_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  ce=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/*.evidence.jsonl' 2>/dev/null || true)
+  if [ -n "$ce" ]; then
+    if ! python3 scripts/case_evidence_lint.py >/dev/null; then
+      python3 scripts/case_evidence_lint.py >&2
+      echo "✖ commit blocked: a case number lacks evidence or a quote no longer matches its source (see above)." >&2
+      exit 1
+    fi
+  fi
+fi
+
 
 # belief-log freshness guard — if the falsification ledger (SSOT) or its emitter
 # is staged, the generated view (_STATE/belief-log.md) must be regenerated in the
