@@ -1,32 +1,24 @@
 {
-  "captured_at": "2026-09-24T03:20:00-04:00",
+  "captured_at": "2026-09-26T05:57:27Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "d6bfb875",
-    "head_message": "Merge origin/main into claude/arcs-pipeline-question-compass-02db28 (PR #490 squash-merged as 5da95c9f)",
+    "head_sha": "b53865e6",
+    "head_message": "record(witness): commit the GREEN cold-vs-warm witness stub [NCI:50]",
     "in_sync_with_origin": true,
-    "dirty_files": ["_INBOX/* and _STATE/pulse.json (session-hook artifacts only)"]
+    "dirty_files": ["_INBOX/*.jsonl", "_STATE/pulse.json (hook-generated, non-source)"]
   },
   "vercel": {
     "project": "arcs-v9",
-    "production_alias": "https://app.arcs.care",
+    "production_alias": "https://good.arcs.care (+ app/www/arcs.care)",
     "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "SAGE_URL"],
-    "notes": "SAGE_URL set this session = https://app.arcs.care/svc/sage (all 3 envs)"
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
-    "note": "Prod was bootstrapped via `prisma db push` — NO _prisma_migrations table. Migrations ship in code but never run against prod. Caused a ~6-week silent P0 (Receipt.batonId ColumnNotFound). Hotfixed live this session (batonId + Tribune). See P1 prod-db-onto-prisma-migrate-deploy.",
-    "diagnostic": "GET /api/health?deep=1 (admin/CRON_SECRET) now probes schema drift, DB, staleness, SAGE, env presence"
+    "role": "arcs_app",
+    "note": "decision_receipt table used this session; 2 receipts filed"
   },
-  "shipped_this_session": [
-    "SAGE pre-screen re-activated (#487/#488): ONE_TO_THREE_YEARS enum fix + SAGE_URL; verified fired=true live",
-    "PROD P0 FIX (live hotfix, receipted): Receipt.batonId + Tribune table applied — restored signed-in compass + all receipt reads, revived the Tribune feature",
-    "compass graceful timeout recovery + /api/health diagnostics (#489)",
-    "NFTT post 'The Question That Found the Outage' live at good.arcs.care/blog/nftt/the-question-that-found-the-outage + index gap fix (#490)"
-  ],
-  "open_queue_P1": ["prod-db-onto-prisma-migrate-deploy", "outcome-capture-rate-keel-gap"],
-  "session_summary": "A 'how do I validate SAGE' question uncovered and fixed a 6-week silent prod P0 (schema drift), revived the dead Tribune feature, shipped timeout-recovery + a health-diagnostic endpoint, and published the NFTT war-story post.",
-  "next_action": "Start the P1 prod-db-onto-prisma-migrate-deploy (baseline prod into migrate history + wire migrate deploy) — it is the root-cause prevention for the drift class that caused this session's P0; nothing blocks it.",
-  "blocking": "NONE"
+  "session_summary": "Cold-reconstruction public good: tools/cold-recon CLI + NFTT trilogy (method, experiment, diptych) live on good.arcs.care; AI-slop safeguard wired into nftt-gates.sh via essay mode.",
+  "next_action": "Wire the design-detector step into nftt-gates.sh once the design-system brand profile lands on main (gated on Zach reviewing the 7-wave migration plan).",
+  "blocking": "NONE (visual-slop half waits on Zach landing the design-system branch)"
 }
