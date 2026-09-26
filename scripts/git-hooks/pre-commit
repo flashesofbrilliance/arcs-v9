@@ -266,4 +266,51 @@ for x in json.load(sys.stdin)[:8]: print("   -", x.get("name"), "·", (x.get("sn
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# slop guard: a customer-facing surface (resume, candidate/marketing page, outbound artifact)
+# that carries high-precision AI-slop cliches (delve, leverage, spearheaded, results-driven,
+# proven track record, ...) or em-dashes reads as AI-generated -- the exact failure that got a
+# designed resume refused by the recruiter for the Success Academy AI PM role (2026-09-25). The
+# mechanical tier-A list + em-dashes hard-fail here; structural/rhythm tells are judgment and live
+# in _PATTERNS/slop-free-rubric.md, NOT this block. ADDED + MODIFIED (slop arrives via edits too);
+# ratcheted against HEAD via --pair so a term already in a legacy page WARNs, only NEW slop blocks.
+# Scoped to public + _ARTIFACTS html so internal docs (which legitimately discuss these words) never fail.
+if [ -f scripts/slop_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  slop=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$slop" ]; then
+    pairs=()
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      head_blob=$(mktemp)
+      git show "HEAD:$f" > "$head_blob" 2>/dev/null || : > "$head_blob"
+      pairs+=("$f" "$head_blob")
+    done <<< "$slop"
+    if ! python3 scripts/slop_lint.py --pair "${pairs[@]}"; then
+      echo "✖ commit blocked: AI-slop cliche / em-dash in a customer-facing surface (see above)." >&2
+      echo "  cut the tier-A terms + em-dashes; score structural tells against _PATTERNS/slop-free-rubric.md; re-stage." >&2
+      for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+      exit 1
+    fi
+    for ((i=1; i<${#pairs[@]}; i+=2)); do rm -f "${pairs[$i]}" 2>/dev/null || true; done
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# provenance guard: FACTUAL fabrication twin of the slop guard. A quantified claim (dollars,
+# percents, latency, "N+"/"more than N") on an ENROLLED customer surface must cite an evidence.jsonl
+# ledger entry; an uncovered number blocks the commit. Root cause: a "40+ demos / 75% pilot" metric
+# rode a resume from session scratch with no provenance in any vetted master (2026-09-25). Opt-in:
+# a file with no sibling evidence.jsonl is not enrolled (the linter skips it), so the gate rolls out
+# surface-by-surface. Self-reported-by-the-subject is valid evidence (the ledger records the source).
+if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  prov=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' 2>/dev/null || true)
+  if [ -n "$prov" ]; then
+    if ! echo "$prov" | tr '\n' '\0' | xargs -0 python3 scripts/provenance_lint.py; then
+      echo "✖ commit blocked: a quantified claim on an enrolled surface has no evidence-ledger entry (see above)." >&2
+      echo "  add each metric to the sibling evidence.jsonl with its source (vetted-master:file:line or self-reported:Name:date), or cut it." >&2
+      exit 1
+    fi
+  fi
+fi
+
 exit 0
