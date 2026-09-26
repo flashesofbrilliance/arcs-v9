@@ -134,7 +134,49 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .predict th, .predict td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--border); }
 .predict td.real { color: var(--green); }
 @media (max-width: 600px) { .predict .arm { grid-template-columns: 1fr 3.5em; } .predict .arm input { grid-column: 1 / -1; grid-row: 2; } }
-@media (prefers-reduced-motion: reduce) { .world, body::before { transition: none; } }
+
+/* world pass: scene, compact hud, investigator dock, evidence drawer */
+.hud { flex-wrap: nowrap; gap: 16px; font-size: 14px; white-space: nowrap; overflow: hidden; padding: 10px 0; margin: 24px 0 24px; }
+.chair, #predict, #reveal { scroll-margin-top: 64px; }
+.scene { margin: 32px 0 0; }
+.scene + h1 { margin-top: 20px; }
+.scene svg { display: block; width: 100%; max-width: 640px; height: auto; }
+.scene .face { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+.scene .side-l { fill: var(--surface-2); stroke: var(--border); }
+.scene .side-r { fill: var(--bg); stroke: var(--border); }
+.scene .contour { fill: none; stroke: var(--dimmed); stroke-width: 1; opacity: 0.45; }
+.scene .trail { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: 0.55; }
+.scene .wp { fill: var(--bg); stroke: var(--dimmed); stroke-width: 1.5; }
+.scene .fog { fill: var(--text); transition: opacity 1.2s ease; }
+.scene .zl { font-family: var(--font-mono); font-size: 11px; fill: var(--dimmed); letter-spacing: 0.04em; }
+.scene .node { transition: transform 1.2s ease; }
+.scene .node circle.core { fill: var(--cyan); }
+.scene .node circle.halo { fill: var(--cyan); opacity: 0.18; }
+.scene .north { stroke: var(--green); stroke-width: 2.5; fill: var(--green); opacity: 0; transition: opacity 1.2s ease; }
+.world[data-render="GRAIN"] .fog1 { opacity: 0.20; } .world[data-render="GRAIN"] .fog2 { opacity: 0.16; } .world[data-render="GRAIN"] .fog3 { opacity: 0.14; }
+.world[data-render="DEGRADED"] .fog1 { opacity: 0; } .world[data-render="DEGRADED"] .fog2 { opacity: 0.10; } .world[data-render="DEGRADED"] .fog3 { opacity: 0.08; }
+.world[data-render="SHARP"] .fog { opacity: 0; }
+.world[data-render="SHARP"] .north { opacity: 1; }
+.where { font-family: var(--font-mono); font-size: 14px; color: var(--dimmed); margin: 6px 0 0; max-width: none; }
+.where b { color: var(--text); font-weight: 600; }
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--surface); border-top: 1px solid var(--border); }
+.dock .in { max-width: var(--lane); margin: 0 auto; padding: 12px var(--gutter); display: flex; align-items: center; gap: 12px; }
+.dock .line { flex: 1; margin: 0; max-width: none; font-size: 15px; min-height: 1.6em; }
+.dock .line.ok { color: var(--green); } .dock .line.warn { color: var(--gold); } .dock .line.bad { color: var(--red); }
+.dock .evbtn { visibility: hidden; display: none; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); border-radius: var(--r-md); padding: 8px 14px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+body { padding-bottom: 88px; }
+.evhead { display: none; }
+@media (max-width: 760px) {
+  .dock .evbtn { display: inline-block; }
+  body.inchair .dock .evbtn { visibility: visible; }
+  .chair .col.evcol { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; max-height: 64vh; overflow: auto; background: var(--bg); border-top: 1px solid var(--cyan); padding: 16px 16px 96px; transform: translateY(105%); transition: transform 0.3s ease; }
+  body.sheet .chair.current .col.evcol { transform: none; }
+  .chair:not(.current) .col.evcol { display: none; }
+  .evhead { display: block; }
+  .chair .col.evcol > h3:not(.evhead) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .world, body::before, .scene .fog, .scene .node, .scene .north, .chair .col.evcol { transition: none; } }
 </style>
 </head>
 <body>
@@ -144,6 +186,28 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 </header>
 
 <main class="pad world" id="world" data-render="GRAIN">
+  <div class="scene" role="img" aria-label="An isometric terrain tile in fog. Your navigator node starts at the outer edge and climbs one waypoint per chair you close. The fog lifts as your calibration earns it, and a True North arrow appears at the clarity ridge.">
+    <svg viewBox="0 0 640 260" aria-hidden="true">
+      <defs><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter></defs>
+      <polygon class="side-l" points="80,130 320,230 320,254 80,154"/>
+      <polygon class="side-r" points="320,230 560,130 560,154 320,254"/>
+      <polygon class="face" points="320,30 560,130 320,230 80,130"/>
+      <polygon class="contour" points="320,62 484,130 320,198 156,130"/>
+      <polygon class="contour" points="320,92 412,130 320,168 228,130"/>
+      <polygon class="contour" points="320,114 358,130 320,146 282,130"/>
+      <path class="trail" d="M120,130 L196,130 L262,130 L320,130"/>
+      <circle class="wp" cx="120" cy="130" r="4"/><circle class="wp" cx="196" cy="130" r="4"/><circle class="wp" cx="262" cy="130" r="4"/><circle class="wp" cx="320" cy="130" r="5"/>
+      <text class="zl" x="96" y="176">OUTER FOG</text>
+      <text class="zl" x="186" y="208">PRESSURE BAND</text>
+      <text class="zl" x="270" y="24">CLARITY RIDGE</text>
+      <g class="north"><line x1="320" y1="118" x2="320" y2="52"/><polygon points="320,40 312,56 328,56"/></g>
+      <g class="node" id="node"><circle class="halo" r="16"/><circle class="core" r="6"/></g>
+      <ellipse class="fog fog1" cx="200" cy="130" rx="190" ry="90" filter="url(#blur)"/>
+      <ellipse class="fog fog2" cx="330" cy="120" rx="230" ry="100" filter="url(#blur)"/>
+      <ellipse class="fog fog3" cx="440" cy="140" rx="180" ry="80" filter="url(#blur)"/>
+    </svg>
+    <p class="where">You are <b id="zone">in the outer fog</b> · chairs closed <b id="closed">0/3</b></p>
+  </div>
   <h1>The Case of the Reader Who Remembered</h1>
   <p class="lede">Four readers reconstructed the same incident from the same record. Two had no memory of it. One was handed the participant's memory and told it could narrate freely. The last had the same memory and was made to cite every claim. The operator had a tidy explanation for how it would turn out. It was flattering, and it was wrong. You start in the fog. The world only sharpens as your receipt earns it.</p>
 
@@ -156,12 +220,11 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     </ol>
   </div>
 
-  <div class="hud" aria-live="polite">
-    <span>Overclaims <b id="over">0</b></span>
-    <span>Underclaims <b id="under">0</b></span>
-    <span>Calibration <b id="cal">pending</b></span>
-    <span class="render">Render <b id="rnd" class="r-GRAIN">GRAIN</b></span>
-    <span class="status" id="status">Round zero: commit your predictions.</span>
+  <div class="hud">
+    <span>Over <b id="over">0</b></span>
+    <span>Under <b id="under">0</b></span>
+    <span>Cal <b id="cal">--</b></span>
+    <span class="render"><b id="rnd" class="r-GRAIN">GRAIN</b></span>
   </div>
 
   <section class="predict" id="predict">
@@ -190,6 +253,12 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 <footer class="pad">
   <p>ARCS · case file 002 · built from a published, redacted experiment. The recruiter and role in the underlying incident are withheld; the operator is named only as the operator. No person is a suspect in an ARCS case.</p>
 </footer>
+
+<div class="dock"><div class="in">
+  <p class="line" id="status" aria-hidden="true"></p>
+  <span class="sr" id="sr" aria-live="polite"></span>
+  <button class="evbtn" id="evbtn" type="button">Evidence</button>
+</div></div>
 
 <script>
 (function () {
@@ -258,7 +327,17 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   var over = 0, under = 0, cur = -1, sel = null, briers = [], predErr = null;
   var $ = function (id) { return document.getElementById(id); };
   function pts(n) { return n + (n === 1 ? " point" : " points"); }
-  function say(m, c) { var s = $("status"); s.textContent = m; s.className = "status" + (c ? " " + c : ""); }
+  var typer = null, calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function say(m, c) {
+    var s = $("status"); s.className = "line" + (c ? " " + c : ""); $("sr").textContent = m;
+    if (typer) clearInterval(typer);
+    if (calm) { s.textContent = m; return; }
+    var k = 0; s.textContent = "";
+    typer = setInterval(function () { k += 2; s.textContent = m.slice(0, k); if (k >= m.length) { clearInterval(typer); typer = null; } }, 16);
+  }
+  function mobile() { return window.matchMedia("(max-width: 760px)").matches; }
+  var WP = [[120, 130], [196, 130], [262, 130], [320, 130]], closed = 0;
+  function moveNode() { var w = WP[closed]; $("node").style.transform = "translate(" + w[0] + "px," + w[1] + "px)"; $("closed").textContent = closed + "/3"; }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function calScore() { var s = 0; briers.forEach(function (x) { s += x; }); return Math.round(100 * (1 - s / briers.length)); }
 
@@ -266,6 +345,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     var r = "GRAIN", grain = 0.14;
     if (briers.length) { var c = calScore(); if (c >= 90) { r = "SHARP"; grain = 0; } else if (c >= 80) { r = "DEGRADED"; grain = 0.06; } }
     $("world").setAttribute("data-render", r);
+    $("zone").textContent = r === "SHARP" ? "on the clarity ridge" : (r === "DEGRADED" ? "in the pressure band" : "in the outer fog");
     document.body.style.setProperty("--grain", grain);
     var b = $("rnd"); b.textContent = r; b.className = "r-" + r;
   }
@@ -291,7 +371,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     $("predict").appendChild(tbl);
     $("predict").appendChild(el("p", null, "Locked. Your predictions were off by " + pts(predErr) + " on average. Whatever you now feel you knew all along, this is what you actually said."));
     var go = el("button", "next", "Take the first chair"); go.type = "button";
-    go.addEventListener("click", function () { go.remove(); cur = 0; render(0); $("chair0").scrollIntoView({ behavior: "smooth", block: "start" }); say("Stake, then show evidence or concede."); });
+    go.addEventListener("click", function () { go.remove(); cur = 0; document.body.classList.add("inchair"); render(0); $("chair0").scrollIntoView({ behavior: "smooth", block: "start" }); say(CHAIRS[0].ask.replace("The investigator: ", "")); });
     $("predict").appendChild(go);
     say("Predictions locked. Off by " + pts(predErr) + " on average.", "warn");
   });
@@ -299,8 +379,8 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   function render(i) {
     var c = CHAIRS[i], sec = el("section", "chair"); sec.id = "chair" + i;
     sec.appendChild(el("p", "who", c.who)); sec.appendChild(el("p", "pos", c.pos)); sec.appendChild(el("p", "ask", c.ask));
-    var board = el("div", "board"), L = el("div", "col"), R = el("div", "col");
-    L.appendChild(el("h3", null, "Your claims")); R.appendChild(el("h3", null, "Evidence"));
+    var board = el("div", "board"), L = el("div", "col"), R = el("div", "col evcol");
+    L.appendChild(el("h3", null, "Your claims")); R.appendChild(el("h3", null, "Evidence")); R.appendChild(el("h3", "evhead", "Evidence · tap the card that shows your claim"));
     c.claims.forEach(function (cl, j) {
       var box = el("div", "claim"); box.dataset.j = j;
       box.appendChild(el("span", "t", cl.t));
@@ -323,6 +403,8 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     });
     board.appendChild(L); board.appendChild(R); sec.appendChild(board);
     var r = el("div", "receipt"); r.hidden = true; sec.appendChild(r);
+    document.querySelectorAll(".chair").forEach(function (x) { x.classList.remove("current"); });
+    sec.classList.add("current");
     $("chairs").appendChild(sec);
   }
 
@@ -331,6 +413,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     if (i !== cur || CHAIRS[i].claims[j].done) return;
     document.querySelectorAll("#chair" + i + " .claim").forEach(function (b) { b.classList.remove("sel"); });
     box(i, j).classList.add("sel"); sel = j; say("Now pick the evidence that shows it.");
+    if (mobile()) document.body.classList.add("sheet");
   }
   function resolve(i, j, kind, text) {
     var cl = CHAIRS[i].claims[j], b = box(i, j);
@@ -345,6 +428,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   }
   function cite(i, id) {
     if (i !== cur) return;
+    document.body.classList.remove("sheet");
     if (sel === null) { say("Pick a claim first, then show the evidence for it.", "warn"); return; }
     var cl = CHAIRS[i].claims[sel];
     if (cl.yes.indexOf(id) >= 0) { say("Shown. " + id + " backs it.", "ok"); resolve(i, sel, "shown", "Shown by " + id + "."); }
@@ -369,14 +453,15 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
       else u2.appendChild(el("li", null, cl.t));
     });
     r.appendChild(el("p", "now", "Where the evidence actually puts this chair: " + c.now));
+    closed = i + 1; moveNode();
     if (i + 1 < CHAIRS.length) {
       var n = el("button", "next", "Take the next chair"); n.type = "button";
-      n.addEventListener("click", function () { n.remove(); cur = i + 1; render(cur); $("chair" + cur).scrollIntoView({ behavior: "smooth", block: "start" }); say("New chair. Stake, then answer."); });
+      n.addEventListener("click", function () { n.remove(); cur = i + 1; render(cur); $("chair" + cur).scrollIntoView({ behavior: "smooth", block: "start" }); say(CHAIRS[cur].ask.replace("The investigator: ", "")); });
       r.appendChild(n);
     } else finish();
   }
   function finish() {
-    say("Case closed.", "ok");
+    say("Case closed.", "ok"); document.body.classList.remove("inchair", "sheet");
     var pl = function (n, w) { return n + " " + w + (n === 1 ? "" : "s"); };
     var line = pl(over, "overclaim") + ", " + pl(under, "underclaim") + ", calibration " + calScore() + "/100, rendered " + $("world").getAttribute("data-render") + ". Round-zero predictions off by " + pts(predErr) + ".";
     $("final").textContent = line;
@@ -388,7 +473,9 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     });
     $("reveal").hidden = false; $("reveal").scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  renderWorld();
+  $("evbtn").addEventListener("click", function () { document.body.classList.toggle("sheet"); });
+  moveNode(); renderWorld();
+  say("Before you see anything: commit your predictions. Hindsight is not allowed in this room.");
 })();
 </script>
 </body>
