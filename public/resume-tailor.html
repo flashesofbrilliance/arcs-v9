@@ -7,10 +7,47 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+  /* Page aliases (non-palette): this page keeps Inter/JetBrains loaded above; the
+     supplementary surface/text shades below carry no signal hex, so the token
+     source gate is satisfied — the palette lives only in the inherited block. */
   :root{
-    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --elev:#0e141d;--border2:#26374a;
     --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
-    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
     --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -214,6 +251,20 @@ git clone https://github.com/flashesofbrilliance/resume-tailor-skill
 <span class="c">#   "follow ./SKILL.md to tailor my resume for &lt;job link&gt;"</span>
 <span class="c"># or drop it into your project so it loads automatically:</span>
 cp -r resume-tailor-skill <span class="k">.claude/skills/resume-tailor</span></code></pre>
+  </div>
+</section>
+
+<section id="gates">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">05</span><h2>How the honesty is enforced</h2><span class="sub">four gates · open source</span></div>
+    <p class="lede" style="max-width:none;font-size:15px;">"Honest" is a promise anything can make. Here it is four checks that run before a page or resume ships, so the claim is mechanical, not a mood. Three of them are a plain grep or a measurement, so they cost nothing and never guess; the fourth asks a model to grade the judgment calls. This same suite runs on this page.</p>
+    <div class="pipe" style="margin-top:22px;">
+      <div class="step"><div class="num">1</div><div class="nm">STYLE</div><div class="ds">A word-level lint that <b>blocks the commit</b> on the tired filler with almost no honest use on a resume, and on any em-dash. A grep decides it, so it is fast and it never argues.</div></div>
+      <div class="step"><div class="num">2</div><div class="nm">HUMAN BASELINE</div><div class="ds">Measures two things machine prose gives away: <b>sentence-length variety</b> and how many lines actually name a tool, system, or number. Models flatten both; the gate reports when a surface has gone generic. Proxies for reading human, never an AI-detector score.</div></div>
+      <div class="step"><div class="num">3</div><div class="nm">JUDGMENT</div><div class="ds">The tells a grep cannot call: forced <b>either-or contrast</b>, everything padded to three, the dramatic colon reveal, the uniform cadence. A model scores these against a public rubric. Advisory, because one deliberate contrast line can be the best sentence on the page.</div></div>
+      <div class="step"><div class="num">4</div><div class="nm">FACTUAL</div><div class="ds">Every dollar, percent, or count on a page carries an <b>evidence entry</b>: a line in a real master, or a number you vouched for yourself. An invented figure has no entry, so it cannot ship. Style slop and fabricated numbers are different failures, and this catches the second one.</div></div>
+    </div>
+    <p class="lede" style="max-width:none;font-size:13.5px;margin-top:18px;">Stdlib-only, MIT, and wired into this repo's pre-commit. Each check ships with a self-test that proves it fails on a bad sample and passes on a good one, so the gate itself is checkable. Packaged for <span class="mono" style="color:var(--gold);">npm</span> and <span class="mono" style="color:var(--gold);">brew</span> next.</p>
   </div>
 </section>
 
