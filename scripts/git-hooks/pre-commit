@@ -333,4 +333,19 @@ if [ -f scripts/case_world_sync.py ] && command -v python3 >/dev/null 2>&1; then
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# case-evidence gate: every number in a playable case traces to a ledger entry
+# (<page>.evidence.jsonl), and every fact's quote is verified verbatim in its published source.
+# Re-runs when a case page, a ledger, or a source post changes (editing a post can break a quote).
+if [ -f scripts/case_evidence_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  ce=$(git diff --cached --name-only --diff-filter=ACM -- 'public/*.html' 'public/*.evidence.jsonl' 2>/dev/null || true)
+  if [ -n "$ce" ]; then
+    if ! python3 scripts/case_evidence_lint.py >/dev/null; then
+      python3 scripts/case_evidence_lint.py >&2
+      echo "✖ commit blocked: a case number lacks evidence or a quote no longer matches its source (see above)." >&2
+      exit 1
+    fi
+  fi
+fi
+
 exit 0
