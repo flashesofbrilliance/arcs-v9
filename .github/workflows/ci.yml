@@ -41,6 +41,18 @@ jobs:
       - name: External-surface leak check
         run: bash scripts/leak_check.sh
 
+  # Hard gate — belief-log freshness. The falsification ledger is the SSOT;
+  # _STATE/belief-log.md is a lawful transform of it (scripts/belief_log_emit.py).
+  # A stale view is the exact open-loop-decay the ledger itself catalogues (F27),
+  # so the check that closes that loop is a gate, not a comment. Python-only, no
+  # deps, seconds to run — also validates the ledger schema / dates / dup ids.
+  belief-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Belief-log is current with the ledger
+        run: python3 scripts/belief_log_emit.py --check
+
   smoke:
     runs-on: ubuntu-latest
     env:
