@@ -431,3 +431,27 @@ Result: dossier -> 0, loop-hud tiny-text cleared; recon-reports carry only the i
 theater-slop flag. Non-NFTT pages still get tiny-text/cramped-padding checks (wing.html tiny-text 2).
 Not audited (separate classes, left as-is): loop-hud `gpt-thin-border-wide-shadow`, index
 `gradient-text`/`dark-glow`/`overused-font`.
+
+## 2026-09-26 · sweep: last residual classes — audited, deliberately NOT suppressed
+
+Swept the final residual findings on the AUXILIARY NFTT pages (index, the post-1 exec/brief
+90-second variant renders, loop-hud) — not the literary posts, which are clean. Unlike the earlier
+three classes (translucent-over-white low-contrast, chrome-as-body, table-in-scroll cramped-padding),
+these are NOT detector bugs. The detector is correctly naming real "AI-tell" design choices:
+
+- `gradient-text` (index `.g`, one cyan->green accent word): intentional brand accent; gradient text
+  is nonetheless the most cliche AI tell.
+- `dark-glow` (index green halo x3): the ARCS brand glow, already an accepted class for the jack-rain
+  files.
+- `overused-font` (Inter, primary on index + post-1-exec/brief): functional sans on non-literary
+  summary pages; mild inconsistency vs the literary Newsreader.
+- `gpt-thin-border-wide-shadow` (loop-hud `0 14px 34px -22px`): actually a tight elevated-card shadow
+  (negative spread), mechanically caught by the 1px-border + wide-blur heuristic.
+- `theater-slop-phrase` (recon-reports): already audited — a real writing-slop signal on generated
+  output, left visible.
+
+**Decision (Zach, "leave them"):** do NOT config-suppress these. They are real signals, not false
+positives; silencing them to force a green gate would be gate-gaming, the exact thing the slop system
+exists to prevent. They ratchet/WARN and never block, so leaving them is zero-cost. No redesign either
+(taste choices on his own auxiliary pages). If a future session sees these findings, this is the
+record: audited, defensible, intentionally left — not an oversight, do not suppress.
