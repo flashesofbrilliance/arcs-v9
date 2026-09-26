@@ -117,7 +117,7 @@ export function waitlistEmail(bookingUrl: string | null): string {
         <!-- Body copy -->
         <tr>
           <td style="font-family:${SANS};font-size:15px;color:#94a3b8;line-height:1.7;">
-            We'll reach out as full-service access opens. In the meantime, the compass is live — you can run it anytime at <a href="https://arcs.care" style="color:${CYAN};text-decoration:none;">arcs.care</a>.
+            We'll reach out as full-service access opens. In the meantime, the compass is live. You can run it anytime at <a href="https://arcs.care" style="color:${CYAN};text-decoration:none;">arcs.care</a>.
           </td>
         </tr>
 
@@ -138,7 +138,7 @@ export function waitlistEmail(bookingUrl: string | null): string {
                         <table role="presentation" cellpadding="0" cellspacing="0">
                           <tr>
                             <td style="padding-right:10px;font-family:${MONO};font-size:10px;color:${CYAN};letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">01</td>
-                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Names the real fork — not the symptom you brought in</td>
+                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Names the real fork, not the symptom you brought in</td>
                           </tr>
                         </table>
                       </td>
@@ -149,7 +149,7 @@ export function waitlistEmail(bookingUrl: string | null): string {
                         <table role="presentation" cellpadding="0" cellspacing="0">
                           <tr>
                             <td style="padding-right:10px;font-family:${MONO};font-size:10px;color:${CYAN};letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">02</td>
-                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Stress-tests it — strongest case against your instinct, hidden constraints, ruin risk</td>
+                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Stress-tests it: strongest case against your instinct, hidden constraints, ruin risk</td>
                           </tr>
                         </table>
                       </td>
@@ -160,7 +160,7 @@ export function waitlistEmail(bookingUrl: string | null): string {
                         <table role="presentation" cellpadding="0" cellspacing="0">
                           <tr>
                             <td style="padding-right:10px;font-family:${MONO};font-size:10px;color:${CYAN};letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">03</td>
-                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Returns one clear direction, graded by conviction — with the full map</td>
+                            <td style="font-family:${SANS};font-size:13px;color:#94a3b8;line-height:1.55;">Returns one clear direction, graded by conviction, with the full map</td>
                           </tr>
                         </table>
                       </td>
@@ -175,7 +175,7 @@ ${bookingBlock}`)
 }
 
 export function advisoryEmail(name: string | null, bookingUrl: string | null): string {
-  const greeting = name ? `${name.split(" ")[0]},` : "Thanks —"
+  const greeting = name ? `${name.split(" ")[0]},` : "Thanks,"
   const bookingBlock = bookingUrl ? `
         <!-- CTA -->
         <tr>
@@ -191,7 +191,7 @@ export function advisoryEmail(name: string | null, bookingUrl: string | null): s
         </tr>
         <tr>
           <td style="padding-top:14px;font-family:${SANS};font-size:12px;color:${MUTED};line-height:1.6;">
-            30 minutes. We'll map the format — sprint, session, or something else entirely.
+            30 minutes. We'll map the format: sprint, session, or something else entirely.
           </td>
         </tr>` : ""
 
@@ -215,7 +215,7 @@ export function advisoryEmail(name: string | null, bookingUrl: string | null): s
         <!-- Body copy -->
         <tr>
           <td style="font-family:${SANS};font-size:15px;color:#94a3b8;line-height:1.7;">
-            We received your request for an ARCS-powered advisory session. We'll review what you're working on and reach out to figure out the right format — one-day sprint, multi-day workshop, or a focused session.
+            We received your request for an ARCS-powered advisory session. We'll review what you're working on and reach out to figure out the right format: one-day sprint, multi-day workshop, or a focused session.
           </td>
         </tr>
 ${bookingBlock}`)

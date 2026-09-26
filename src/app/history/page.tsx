@@ -81,7 +81,7 @@ export default function HistoryPage() {
           <Card style={{ padding: "1.5rem 1.75rem" }}>
             <div style={{ fontFamily: font.sans, fontSize: "1rem", fontWeight: 600, color: text.primary, marginBottom: "0.5rem" }}>Sign in to see your atlas</div>
             <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
-              Your questions, prep, and briefs are saved under your account. One magic link — no password.
+              Your questions, prep, and briefs are saved under your account. One magic link. No password.
             </p>
             <Button variant="primary" size="md" glyph="→" onClick={() => router.push("/compass?next=/history")}>Sign in</Button>
           </Card>
