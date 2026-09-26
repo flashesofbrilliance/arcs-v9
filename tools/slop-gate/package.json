@@ -1,7 +1,6 @@
 {
-  "//": "SCAFFOLD - not publish-ready. `private: true` blocks `npm publish` on purpose. To publish, the user must (1) choose the final name + npm scope, (2) choose a license, (3) remove `private`, (4) run build.sh to vendor lib/. See README section 'Distribution (scaffold)'.",
-  "name": "@arcs/slop-gate",
-  "nameCandidatePendingApproval": true,
+  "//": "Name + license DECIDED (ADR-82). `private: true` is kept as the publish safety. Remaining GATED user steps, in order: (1) create the free @arcs-care npm org, (2) remove `private` here, (3) `bash build.sh` to vendor lib/, (4) `npm publish --access public`. `npm publish` is a WRITE-LOCK one-way door (see ADR-82); it needs the user's explicit go. Homebrew is deferred behind npm.",
+  "name": "@arcs-care/slop-gate",
   "version": "0.1.0",
   "private": true,
   "description": "Four-layer slop-free / factuality gate for customer-facing surfaces: style lint, human-baseline metrics, LLM judgment, and evidence-ledger provenance. Stdlib-only Python, shelled from a thin CLI.",
@@ -24,8 +23,7 @@
     "test": "node bin/slop-gate.js self-test"
   },
   "keywords": ["ai-slop", "lint", "resume", "provenance", "evidence", "writing", "arcs"],
-  "license": "UNLICENSED",
-  "licenseNote": "UNLICENSED = license undecided; the user picks it at publish. Recommended: MIT (matches the sibling resume-tailor-skill and the 'public good' framing), but that is the user's call.",
+  "license": "MIT",
   "author": "Zach Harris (ARCS)",
   "repository": {
     "type": "git",

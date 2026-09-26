@@ -96,17 +96,19 @@ html) and layer 4 (opt-in, on any changed html), alongside `artifact_wrap_lint.p
 `token_source_gate.py`. This package does not change that wiring; it repackages the same scripts for
 use outside the repo.
 
-## Distribution (scaffold - NOT published)
+## Distribution (scaffold - built, NOT published)
 
-Everything below is built but deliberately unshipped. Three decisions are the user's:
+The decisions are LOCKED (ADR-82); everything below is built but deliberately unshipped, gated behind
+the user's explicit go:
 
-1. **Package name + npm scope.** `package.json` names it `@arcs/slop-gate` as a candidate, flagged
-   `nameCandidatePendingApproval`. Verify the name is free (`npm view <name>`) before claiming it; do
-   not squat an existing name. `private: true` blocks `npm publish` until removed on purpose.
-2. **License.** The repo is All-rights-reserved; the suite's license is undecided. `LICENSE`,
-   `package.json` (`UNLICENSED`), and the Homebrew formula (`:cannot_represent`) all hold placeholders.
-   Recommended: MIT, matching the sibling resume-tailor-skill and the public-good framing.
-3. **python3 shell vs JS port.** See the next section.
+1. **Package name: `@arcs-care/slop-gate`.** Unscoped `slop-gate` is already taken on npm, and the
+   `@arcs` scope cannot be assumed; `@arcs-care` is free but the scope requires creating the free
+   `@arcs-care` npm org (a gated user step). `private: true` in `package.json` blocks `npm publish`
+   until the user removes it on purpose.
+2. **License: MIT** (Copyright (c) 2026 Zach Harris (ARCS)). The tool is MIT even though the parent
+   repo is all-rights-reserved. Set in `LICENSE`, `package.json`, and the formula.
+3. **npm first, Homebrew deferred.** Ship to npm, then cut a Homebrew release later.
+4. **python3 shell vs JS port.** See the next section.
 
 ### Build the self-contained tarball
 
@@ -126,26 +128,30 @@ runtime prerequisite: npm users need python3 on PATH, documented in `package.jso
 above. If a pure-node install with no python3 ever becomes a hard requirement, port layers 1, 2, 4
 (the deterministic ones) and leave layer 3 as-is; but that is a later call, not this scaffold's.
 
-### npm (do NOT run until the decisions above are made)
+### npm publish (the user's gated steps, in order - `npm publish` is a WRITE-LOCK one-way door)
 
 ```
+# 1. create the free @arcs-care npm org (one time, in the npm web UI or `npm org`)
 cd tools/slop-gate
-# 1. set final name + scope, choose a license, then in package.json remove "private": true
-# 2. bash build.sh          # vendor lib/
-# 3. npm publish --access public
+# 2. remove "private": true from package.json (the publish safety)
+# 3. bash build.sh                 # vendor lib/ into the package
+# 4. npm publish --access public   # WRITE-LOCK: reserves the name + relies on MIT; needs explicit go (ADR-82)
 ```
 
-### Homebrew (do NOT run until a release tarball exists)
+### Homebrew (DEFERRED behind npm)
 
-Formula: `Formula/slop-gate.rb`. Intended tap repo: **`flashesofbrilliance/homebrew-arcs`**
-(recommendation; the tap repo name is the user's call). A repo named `homebrew-arcs` installs via
-`brew tap flashesofbrilliance/arcs && brew install slop-gate`. The formula's `url` + `sha256` are
-placeholders until a release is cut.
+Formula: `Formula/slop-gate.rb`, targeting the **existing** tap `flashesofbrilliance/homebrew-tap`
+(installs via `brew tap flashesofbrilliance/tap && brew install slop-gate`; do NOT invent a new
+`homebrew-arcs`). It mirrors the sibling `rosetta-shell.rb` (support dirs into `libexec`, runner
+symlinked into `bin`, `depends_on "python@3.12"`). The formula's `url` + `sha256` stay as TODO
+placeholders until a release tarball is cut. Because `lib/` is vendored at pack time, the release
+tarball must be built with `bash build.sh` first (a bare `git archive` omits the gitignored `lib/`).
 
 ```
-# after cutting a release tarball and filling url + sha256 + license in the formula:
-git clone https://github.com/flashesofbrilliance/homebrew-arcs
-cp Formula/slop-gate.rb homebrew-arcs/Formula/
+# LATER, after the npm release and after cutting a release tarball (with vendored lib/) + filling
+# url + sha256 in the formula:
+git clone https://github.com/flashesofbrilliance/homebrew-tap
+cp Formula/slop-gate.rb homebrew-tap/Formula/
 # commit + push the tap repo (the user's call)
 ```
 
@@ -155,12 +161,12 @@ cp Formula/slop-gate.rb homebrew-arcs/Formula/
 tools/slop-gate/
 ├── slop-gate              # bash entrypoint (dispatches to python3; resolves lib/ or ../../scripts)
 ├── bin/slop-gate.js       # npm bin wrapper (node -> python3; same resolution)
-├── package.json           # npm scaffold (private: true; name + license flagged for approval)
-├── Formula/slop-gate.rb   # Homebrew scaffold (url/sha256/license = placeholders)
+├── package.json           # npm scaffold (@arcs-care/slop-gate, MIT, private: true safety)
+├── Formula/slop-gate.rb   # Homebrew scaffold (MIT; url/sha256 = TODO placeholders, deferred)
 ├── build.sh               # vendors the linters + rubric into lib/ at pack time
 ├── fixtures/              # fail-on-bad + pass-on-good samples (+ per-file evidence ledgers)
 ├── lib/                   # (gitignored) vendored linters + rubric, produced by build.sh
-├── LICENSE                # placeholder: license undecided
+├── LICENSE                # MIT (Copyright (c) 2026 Zach Harris (ARCS))
 └── README.md              # this file
 ```
 
