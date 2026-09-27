@@ -2,9 +2,9 @@
   "captured_at": "2026-09-26T17:06:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ef4282ee",
-    "head_message": "Merge remote-tracking branch 'origin/main' into claude/eloquent-kapitsa-cdc9c4 (NFTT head-meta conformance + gate)",
-    "in_sync_with_origin": true,
+    "head_sha": "a65b8231",
+    "head_message": "fix(signal): guard against shallow clones - the real determinism root cause [NCI:57]",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
@@ -31,5 +31,6 @@
   },
   "session_summary": "NFTT take-home-trap-dossier genuine WCAG contrast debt fixed (--dimmed raised to AA, kit-canonical #748699 dark / #5e6b78 light; detector 111->81, ratchet baseline dropped 111->81); nftt-gates brought to pass (title/desc/robots + IOC email defang); then whole NFTT corpus (9 pages) conformed to the head-meta gate + new batch Frustration Gate scripts/nftt_meta_gate.py wired into pre-commit. All merged to main + prod-verified live.",
   "next_action": "Carried from v3.66.0: wire the design-detector (visual-slop) step into nftt-gates.sh once the design-system brand-profile branch lands on main (gated on Zach reviewing the 7-wave migration plan).",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-27T00:41:15Z"
 }

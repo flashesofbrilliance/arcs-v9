@@ -16,3 +16,4 @@
 {"ts": "2026-09-11T14:17:44Z", "global_beat": 3, "type": "pulse-check-receipt", "verdict": "ALARM", "flatlines": [{"subsystem": "commits", "beats_since": 2, "max_beats": 1}], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 77 >= disk high-water 77"]}
 {"ts": "2026-09-14T11:13:20Z", "global_beat": 6, "type": "pulse-check-receipt", "verdict": "STALE", "flatlines": [], "stale": [{"subsystem": "commits", "beats_since": 1, "max_beats": 1}], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 81 >= disk high-water 81"]}
 {"ts": "2026-09-26T16:37:06Z", "global_beat": 18, "type": "pulse-check-receipt", "verdict": "OK", "flatlines": [], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 83 >= disk high-water 83"]}
+{"ts": "2026-09-27T00:41:14Z", "global_beat": 19, "type": "pulse-check-receipt", "verdict": "OK", "flatlines": [], "stale": [], "oracle_ok": true, "oracle_notes": ["oracle: adr counter 83 >= disk high-water 83"]}
