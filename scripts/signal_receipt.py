@@ -127,6 +127,23 @@ def git(args: list[str], cwd: pathlib.Path = ROOT) -> str:
     return res.stdout
 
 
+def ensure_full_history(cwd: pathlib.Path = ROOT) -> None:
+    """Refuse to run against a SHALLOW clone. This was the real determinism bug:
+    a shallow clone truncates history, so a boundary commit appears PARENTLESS, and
+    `git diff-tree --root` then diffs it against the EMPTY tree -- dumping its whole
+    file tree as "changed" and massively over-counting touches (churn 0.98 on a
+    shallow local clone vs the true 0.53 on CI's full checkout). Rather than silently
+    emit or "verify" a wrong receipt, fail loudly. Full history is cheap to require:
+    `git fetch --unshallow`, or actions/checkout with `fetch-depth: 0` (which this
+    tool's CI job already sets)."""
+    if git(["rev-parse", "--is-shallow-repository"], cwd=cwd).strip() == "true":
+        sys.exit(
+            "ERROR: shallow clone detected -- signal_receipt needs full git history "
+            "(boundary commits otherwise diff against the empty tree and over-count). "
+            "Fix: `git fetch --unshallow`, or checkout with fetch-depth: 0."
+        )
+
+
 def resolve_commits(spec: dict, cwd: pathlib.Path = ROOT) -> list[str]:
     """Resolve a spec into an ORDERED (oldest-first) list of non-merge commit SHAs.
 
@@ -325,6 +342,7 @@ def render_html(receipts: list[dict]) -> str:
 # -------------------------------------------------------------------------- modes
 
 def do_emit(receipt_id: str, spec: dict) -> int:
+    ensure_full_history(ROOT)
     details = commit_details(resolve_commits(spec), cwd=ROOT)
     receipt = build_receipt(receipt_id, spec, details)
     RECEIPTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -342,6 +360,7 @@ def do_emit(receipt_id: str, spec: dict) -> int:
 def do_check() -> int:
     """Recompute every stored receipt from its own SHAs; verify byte-identical.
     Also verify the HTML view is current. Exit 1 on any drift."""
+    ensure_full_history(ROOT)
     receipts = load_receipts()
     if not receipts:
         print("OK - no signal receipts to audit.")
