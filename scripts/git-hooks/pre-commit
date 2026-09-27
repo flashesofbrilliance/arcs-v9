@@ -463,4 +463,19 @@ if [ -n "$bl_staged" ] && command -v python3 >/dev/null 2>&1; then
     exit 1
   fi
 fi
+
+# operator-registry freshness guard — OPERATOR-REGISTRY.json is GENERATED from
+# operators/docs/PERIODIC-TABLE.md + a grep-verified binding map. If the table,
+# the generator, or any bound operator module is staged, the committed registry
+# must still match (a stale registry lets the MCP bridge advertise operators
+# that no longer exist: the exact "audit claimed a file that isn't there" class).
+orx=$(git diff --cached --name-only -- operators/docs/PERIODIC-TABLE.md scripts/operator_registry_emit.py operators/OPERATOR-REGISTRY.json 'operators/*.py' 'operators/core/*.py' 2>/dev/null || true)
+if [ -n "$orx" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_registry_emit.py ]; then
+  if ! python3 scripts/operator_registry_emit.py --check >/dev/null 2>&1; then
+    python3 scripts/operator_registry_emit.py --check >&2 || true
+    echo "✖ pre-commit(operator-registry): operators/OPERATOR-REGISTRY.json is stale or a binding no longer exists." >&2
+    echo "  fix: python3 scripts/operator_registry_emit.py && git add operators/OPERATOR-REGISTRY.json" >&2
+    exit 1
+  fi
+fi
 exit 0
