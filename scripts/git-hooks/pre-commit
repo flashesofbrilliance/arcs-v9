@@ -478,4 +478,17 @@ if [ -n "$orx" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_
     exit 1
   fi
 fi
+
+# LEGEND freshness guard — runtime/specs/LEGEND.md is GENERATED from legend.jsonl.
+# If either is staged, the render must be fresh and every row must pass schema
+# (unique term/aliases, operational_definition >= 25 chars, real expansion).
+lg=$(git diff --cached --name-only -- runtime/specs/legend.jsonl runtime/specs/LEGEND.md scripts/legend.py 2>/dev/null || true)
+if [ -n "$lg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/legend.py ]; then
+  if ! python3 scripts/legend.py check >/dev/null 2>&1; then
+    python3 scripts/legend.py check >&2 || true
+    echo "✖ pre-commit(legend): legend.jsonl fails schema or LEGEND.md is stale. fix: python3 scripts/legend.py render && git add runtime/specs/LEGEND.md" >&2
+    exit 1
+  fi
+fi
 exit 0
+

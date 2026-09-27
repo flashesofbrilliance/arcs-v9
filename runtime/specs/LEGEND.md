@@ -1,0 +1,72 @@
+# LEGEND — the ARCS working dictionary
+
+> GENERATED from `runtime/specs/legend.jsonl` by `scripts/legend.py render` — do not hand-edit.
+> Tier: **LEGEND** (between RAM and the ordinals). Ordinal candidates are cut from here; the
+> ordinal chain itself is minted upstream (`_CANON/ordinals/README.md`). Rule of use: every
+> acronym gets its expansion + operational definition in parentheses on first use, every message
+> (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
+
+Rows: 53 (37 acronyms · 16 terms).
+
+## Acronyms
+
+| Acronym | Expansion | Operational definition | Domain | Source |
+|---|---|---|---|---|
+| **ADR** | architecture decision record | a numbered document (oracle-allocated, never guessed) fixing one decision, its context and consequences; lives in _DECISIONS/ | engineering | `_DECISIONS/` |
+| **ATG** | adjacent tributary generation | the backlog feature that gives every compass response 2 to 4 tributaries: the meta-question, the need-to-hear branch, the unnamed adjacent primitive | arcs | `CLAUDE.md#atg` |
+| **BAR** | baseline, asymmetry, ruin | the risk-of-ruin assessment: is the floor acceptable, is the bet asymmetric, can a single miss end you; RUIN_RISK escalates to the Constitutional Court | arcs | `operators/arcs_operators_bar.py` |
+| **CI** | continuous integration | the automated check suite that runs on every push (.github/workflows/ci.yml); a red job is a stop, never merge on a red X without verifying its conclusion | engineering | `.github/workflows/ci.yml` |
+| **CPM** | critical path method | find the longest chain of dependent steps from question to answer; that chain sets the minimum cost, so shortening any step on it shortens the whole job | ops | `session:2026-09-27` |
+| **CRUD** | create, read, update, delete | the four basic operations a store exposes on a record; PrepSession has a CRUD route | engineering | `session:2026-09-27` |
+| **DAG** | directed acyclic graph | a dependency map where each arrow means this-before-that and no path loops back on itself | engineering | `session:2026-09-27` |
+| **DBSCAN** | density-based spatial clustering of applications with noise | a clustering algorithm that groups dense points and labels sparse ones as noise; Operator 20 uses it over 54-dim receipt seeds | engineering | `operators/arcs_operator20.py` |
+| **DEWY** | decision, entity, window, yellow gate | the four-part state vector every receipt carries: the sharpened question, who else is in the terrain, the time horizon, and the conviction gradient | arcs | `WORLD.md#the-physics` |
+| **FP** | false positive | the detector fired on something not real; the Orthogonal Echo Detector's adversarial FP rate is 1.0 on defaults (RC-OPS-001) | engineering | `operators/RC-REGISTRY.json` |
+| **FTS** | full-text search | an index that answers word queries over text; Hermes session_search is FTS-backed and is ground truth for what Hermes did | engineering | `AGENTS.md#gotchas` |
+| **HEIC** | high efficiency image container | Apple's photo format; convert with sips before any web use | engineering | `_PATTERNS/durable-gotchas.md` |
+| **HITL** | human in the loop | a pipeline step that cannot complete without a human act (a send, a yes, a judgment); NOTOMATION requires it at every consent gate | ops | `WORLD.md` |
+| **JTBD** | job to be done | the outcome someone is hiring a tool or a session to produce, stated independently of any tool; every backlog item and catalog entry carries one | ops | `_QUEUE/induced-backlog.jsonl` |
+| **LAB** | Loki, Advisors, Bayesian | the three-lens adversarial review operator (Op 17 Detective role): contrarian challenge, advisor board, base-rate update; operators/arcs_operators_lab.py | arcs | `operators/docs/PERIODIC-TABLE.md` |
+| **LLM** | large language model | a model that predicts text and can follow instructions; Claude is one. Its output is M1 until backed | engineering | `session:2026-09-27` |
+| **LOC** | lines of code | a size count, not a quality measure; the operators library census is 22,171 LOC | engineering | `AGENTS.md#operators-library` |
+| **M0** | base money (primary record) | the record anyone can re-verify by re-running the check: a commit sha, a merge commit, live deployment state, a transcript. In a receipt, only M0-backed claims go in what_confirmed | finance | `AGENTS.md#receipts-or-it-didnt-happen` |
+| **M1** | bank money (derived claim) | any claim written on top of M0 that promises a primary record stands behind it: ADRs, memory, handoff prose, external audits. Legitimate to hold, but lives in what_unconfirmed until backed | finance | `AGENTS.md#receipts-or-it-didnt-happen` |
+| **MC** | Monte Carlo simulation | run the same calculation many times with randomly sampled inputs to get a distribution of outcomes instead of one number | ops | `session:2026-09-27` |
+| **MCP** | model context protocol | the standard by which Claude Code talks to an external tool server over stdio or HTTP; the operator bridge (operators/arcs_mcp_bridge.py) is one | engineering | `operators/README.md` |
+| **NCI** | net coherence index | 0 to 100 score for how coherent a decision (product nci_score) or a code change (commit NCI, ADR-035) is with its stated purpose; commit thresholds at 50 and 45 | arcs | `_DECISIONS/ADR-035` |
+| **PII** | personally identifiable information | anything identifying a real person; the gate that runs BEFORE an artifact goes public, never after (memory publish-requires-pii-gate-before-not-after) | ops | `scripts/leak_check.sh` |
+| **PLG** | product-led growth | users reach value inside the product before anyone sells to them; the compass without sign-in is the PLG on-ramp | gtm | `session:2026-09-27` |
+| **PR** | pull request | a proposed merge to main that CI and review gate; every merge ends with one decision_receipt row | engineering | `AGENTS.md#receipts-or-it-didnt-happen` |
+| **RAG** | retrieval-augmented generation | pull relevant documents into context first, then reason over them, instead of answering from model memory alone | engineering | `session:2026-09-27` |
+| **RAM** | random-access memory (session state) | volatile per-session state: scratchpad, handoff-progress trail, venv, a term used once in chat. Gitignored because it dies with the worktree and nothing downstream may depend on it | arcs | `session:2026-09-27` |
+| **RBAC** | role-based access control | permissions granted by role rather than per user; ADMIN_EMAILS is the interim RBAC for /recoil | engineering | `AGENTS.md#environment-variables` |
+| **RC-OPS-001** | ROM candidate, operators, 001 | the registry entry tracking the Golden Inchworm plus Orthogonal Echo Detector on its way to canon; four graduation criteria, none met as of 2026-08-29 | arcs | `operators/RC-REGISTRY.json` |
+| **RLS** | row-level security | Postgres policies deciding per row which database role may read or write it; hides rows from new roles until a policy grants them | engineering | `supabase` |
+| **ROM** | rules of motion (read-only memory) | in ARCS: canon with the highest write friction, the 7 primitives in .claude/arcs-canon.md plus ADRs. Read-only means the write path is gated by review, not that it is untracked | arcs | `runtime/specs/ROM-AXIS-INDEX.md` |
+| **SAGE** | somatic and epistemic reader | the first-pass operator reading a signal into a CoherenceReceipt (FATED reasoning, axiom check, somatic reading) before LAB and BAR | arcs | `operators/arcs_operators_sage.py` |
+| **SDK** | software development kit | a vendor's client library for calling their service from code, e.g. the Anthropic SDK the compass route uses | engineering | `session:2026-09-27` |
+| **SLA** | service level agreement | in scripts/ledger_check.py: the number of days a finding may stay open before the build goes red | ops | `scripts/ledger_check.py` |
+| **SSOT** | single source of truth | the one file or table that IS the state; everything else is a projection of it and may be regenerated (ADR-065: corpus = SSOT, derived = cache) | engineering | `_DECISIONS/ADR-065` |
+| **WIP** | work in progress | an unfinished change; a temporary WIP commit is how a worktree sets work aside instead of git stash | engineering | `AGENTS.md#gotchas` |
+| **YAML** | YAML ain't markup language | an indentation-based config format; GitHub workflow files and Hermes skill files are written in it | engineering | `session:2026-09-27` |
+
+## Terms
+
+| Term | Gloss | Operational definition | Domain | Source |
+|---|---|---|---|---|
+| **four quadrants** | read friction x write friction | cheap-read/expensive-write = ROM (correct for law); cheap/cheap = RAM (flashes); expensive/expensive = externals (wrap in a tool); expensive-read/cheap-write = the pathology (RAM pretending to be ROM: uncurated memory, raw ledgers) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
+| **Frustration Gate** | fix the class, not the instance | when a bug recurs, add the cheapest mechanical check that fails the build on the whole class, prove fail-on-bad and pass-on-good, wire it into the always-run path | arcs | `_PATTERNS/2026-09-08-frustration-gate-pattern.md` |
+| **Golden Inchworm** (aka inchworm) | Red Thread to Golden Thread to Needle | the 3-pass non-blocking ROM primitive: name the invariant, select the load-bearing backed path, collapse to one action. Each pass prints even at grain fidelity | arcs | `.claude/arcs-canon.md` |
+| **Kintsugi** | repair seams visibly | ROM primitive 6: never silently patch an integrity failure; show the break and the gold. In the bridge: unbuilt operators answer status=blocked with the reason | arcs | `.claude/arcs-canon.md` |
+| **LEGEND** | the working dictionary tier | runtime/specs/legend.jsonl: banked, gated terms between RAM (used once) and the ordinals (minted upstream). Ordinal candidates are cut from here | arcs | `scripts/legend.py` |
+| **moire** (aka moiré) | difference-frequency pattern between overlaid signals | what two fine patterns share at a coarser scale; the render state for Y=PARADOX, and the physical model of a cross-domain echo (always grain, never sharp). Survives dither = real; vanishes = aliasing | arcs | `WORLD.md#the-render-scale` |
+| **molted shell** | the debit entry kept after the credit posts | the superseded or promoted source (witness stub, ledger row, v1 of a ROM) archived rather than deleted so the double-entry books balance; deleting it leaves a credit with no debit (drifted-at-birth) | arcs | `CLAUDE.md#versioning-handoff-policy` |
+| **NOTOMATION** | scaffold cognition, never replace revealed preference | ROM primitive 1: the machine sequences and surfaces; the human adjudicates every consent gate and judgment node | arcs | `.claude/arcs-canon.md` |
+| **ordinal** | an immutable chained vocabulary artifact | _CANON/ordinals/*: mint-don't-edit, numbered by the primary disciple upstream; this repo inscribes verbatim and never mints | arcs | `_CANON/ordinals/README.md` |
+| **Orthogonal Echo Detector** (aka echo detector) | cross-domain kinematic isomorphism finder | the ROM primitive that proposes an edge from another domain whose derivation had the same shape; provenance before execution, enters the graph as M1 until it closes once | arcs | `operators/arcs_inchworm_echo.py` |
+| **read friction** | cost to get an answer you can act on | tokens to load plus verification steps before the item can be acted on; tiered from auto-loaded surfaces (zero) up to external audits and Hermes attestations (every claim needs a grep) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
+| **ridgeline** | the edges a fold cut carried out | field on the trunk-fold receipt: per chip, the ground truth, SSOT paths, routes, gates and corrections it inherited; left_on_bench mandatory. The saddle between peaks the atlas needs to render a range | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
+| **shift** | a breadcrumb laid when a tectonic plate moves | a row appended when an inherited edge is falsified or superseded after the cut, naming everything else that inherited it so they re-verify | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
+| **waypoint** | a committed step along a child session's ridge | a commit sha or receipt id appended as each load-bearing step lands; the committed analogue of the gitignored handoff-progress trail | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
+| **write friction** | number of gates between intent and a durable, attributable commit | the gradient the write lock sits at the top of: ROM promotion (oracle, graduation gate, Court, write-lock) at the top, gitignored scratch at zero. Tunable per surface, unlike a lock | arcs | `session:2026-09-27` |
+| **write lock** | git's non-fast-forward rejection as the atomic lock | the binary mechanism (held or not) that serializes concurrent writers; the Court is where write FRICTION peaks, which is a different, tunable thing | arcs | `AGENTS.md#gotchas` |
