@@ -97,3 +97,6 @@ _STATE/handoff-progress.md
 
 # generated job-search output (scored rows, raw digests); the board + _STATE carry the durable record
 runtime/job-search/
+
+# python venvs (operators/.venv is created by scripts/operator_registry_emit.py --bootstrap)
+.venv/
