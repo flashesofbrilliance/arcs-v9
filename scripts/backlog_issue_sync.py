@@ -63,7 +63,10 @@ def board(all_rows: list[dict]) -> None:
     by_id = {r["id"]: r for r in all_rows if r.get("id")}
     def is_open(i: str) -> bool:
         r = by_id.get(i); st = str(r.get("status", "")).upper() if r else ""
-        return bool(r) and (st.startswith("OPEN") or st.startswith("INDUCED"))
+        # a row is open until its status records a landing (statuses are append-only, so the
+        # landing note sits AFTER the original OPEN prefix)
+        landed = any(t in st for t in ("LANDED", "MERGED", "DONE", "CLOSED", "SHIPPED", "INSTRUMENTED"))
+        return bool(r) and (st.startswith("OPEN") or st.startswith("INDUCED")) and not landed
     def unblocks(i: str) -> list[str]:
         direct = list(by_id.get(i, {}).get("unblocks", []))
         direct += [k for k, r in by_id.items() if i in (r.get("depends_on") or []) and k not in direct]
