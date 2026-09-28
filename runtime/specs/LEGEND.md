@@ -6,7 +6,7 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 64 (37 acronyms · 27 terms).
+Rows: 65 (37 acronyms · 28 terms).
 
 ## Acronyms
 
@@ -64,6 +64,7 @@ Rows: 64 (37 acronyms · 27 terms).
 | **Kawasaki's theorem** (aka Kawasaki) | at any interior vertex, the alternating sum of the angles between consecutive creases is zero (alternate angles sum to 180 degrees) | a condition on the GEOMETRY of the crease pattern, independent of which way any crease folds; necessary and sufficient for local flat-foldability. ARCS reading (choreography): the domain wedges around a node must alternate-balance; a dependency graph whose wedges do not close cannot fold, whatever sequence you choose | arcs | `runtime/specs/LORE.md#lore-013` |
 | **Kintsugi** | repair seams visibly | ROM primitive 6: never silently patch an integrity failure; show the break and the gold. In the bridge: unbuilt operators answer status=blocked with the reason | arcs | `.claude/arcs-canon.md` |
 | **kirigami** | folding plus deliberate cuts (origami forbids cutting) | ARCS is kirigami, not origami: folds are lawful, lossless transforms (Tao section V) and cuts remove occlusion and are RECORDED (left_on_bench on the fold receipt). The ridgeline is knowing which lines are creases (reversible) and which are cuts (kept as the shell) | arcs | `runtime/specs/LORE.md#lore-014` |
+| **kumbhaka** (aka bahya kumbhaka, the hold) | breath retention; bahya kumbhaka is the hold after a full exhale, before the inhale resumes | the point between the full exhale and the resuming inhale, holding space for the emptiness before filling the void again (Zach, 2026-09-27). In ARCS this is Operator 25's stillness window (spec component 2): the interval after the last effortful operator and before any irreversible act, in which nothing is generated. Maekawa says the node needs a net direction to fold; kumbhaka is where the direction is read before the next fold | arcs | `runtime/specs/operator-25-shavasana-v0.md` |
 | **LEGEND** | the working dictionary tier | runtime/specs/legend.jsonl: banked, gated terms between RAM (used once) and the ordinals (minted upstream). Ordinal candidates are cut from here | arcs | `scripts/legend.py` |
 | **LORE** | the book of stories with their verdicts (LEGEND's uncle) | runtime/specs/lore.jsonl: each story carries its observation, the mechanism claimed, a binding verdict (true | durable-myth | old-wives-tale | undecided | inspiration), the test that decided it, and what it teaches; stories are never deleted, a flipped verdict adds a row that the old one points to | arcs | `scripts/lore.py` |
 | **Maekawa's theorem** (aka Maekawa) | at any interior vertex of a flat-foldable crease pattern, mountain folds and valley folds differ by exactly two | a condition on the DIRECTION assignment, not the geometry: a node with equal mountains and valleys cannot fold flat. ARCS reading (orchestration): at any interior decision node the exhales (fold, outward) and inhales (unfold, inward) must net to a small fixed direction, never balance; the breath audit looks for direction, not symmetry | arcs | `runtime/specs/LORE.md#lore-013` |
