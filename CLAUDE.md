@@ -114,6 +114,62 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.71.0 (2026-09-28)
+
+> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
+> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
+> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
+> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
+
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
+  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
+  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
+  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
+  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
+  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
+  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
+  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
+  F-row demotes its class. `--self-test` 13/13.
+- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
+- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
+  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
+  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
+- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
+  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
+  the query terms: the ouroboros clause visible on day one.
+- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
+
+## Open (next session)
+1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
+   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
+   `150beb19`, and the receipt id when that branch lands; then close issue #584.
+2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
+   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
+3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
+   named as a defeater but no ridgeline file exists on main to read.
+4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
+
+## Lessons (in the record)
+- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
+  registry note as a candidate, not as ground.
+- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
+  its job: the record is drifted-at-birth until the merge lands.
+
+
 # Handoff — v3.70.0 (2026-09-28)
 
 > **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
@@ -167,59 +223,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
 - The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
   not only the named gates, before calling a page clean.
-
-
-# Handoff — v3.69.0 (2026-09-27)
-
-> **The Orthogonal Echo Detector got a signature that is a function of the text, and the first
-> thing it found was the template.** One PR merged to main (#612 at `defaecc4`), one
-> `decision_receipt` row (`2026-09-27--echo-embedding-signature-merge--ZH`). Draft-first; merged
-> on Zach's explicit go behind a guard that proved the two red CI jobs (`leak-check`, `smoke`) were
-> inherited from main at `e36084f4`.
-
-### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 75 commits, 23 merges to main, receipts in digest: 0.
-- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 7 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 55 / dissent 26 (ratio 2.04) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a receipt id, or a number from the committed report. Nothing downgraded. The exhale counts are the whole day across sessions, not this chip's (this chip: 1 commit, 1 merge, 1 receipt).
-- **Somatic read**: `somatic: asked in this handoff` (Zach present; certainty now vs at start, sends today?). No sends from this session.
-- **Disposition**: RELEASED on Zach's "Go ahead" (canary GROUNDED, dissent present).
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **`operators/arcs_echo_embedding.py`** (`24bbcb15`, PR #612): `build_embedding_detector()` binds
-  the two injectables `OrthogonalEchoDetector` already exposed. Signature = segment embeddings +
-  `PATTERN_LIBRARY` phrase embeddings via the same local model `arcs_api.py` serves at `/api/embed`
-  (`all-MiniLM-L6-v2`, offline from the HF cache). Orthogonality = 1 - cosine of the domain TEXT
-  vectors; names are only the lookup key. Detector untouched. No new dependency (the declared
-  `embeddings` extra). Self-test 6/6 incl. fail-on-bad on scrambled smoke domains.
-- **`scripts/echo_ridgeline_feed.py`**: `--signature keyword|embedding`, `--seed`, evidence
-  segments, a pre-registered TEMPLATE control, `--compare OUT` for a same-seed before/after.
-- **`_STATE/2026-09-27-echo-signature-before-after.json`** (seed 27, three unfold stones):
-  keyword baseline 0 / scrambled FP proxy 0.8 (4 of 5) -> embedding baseline 3 / FP proxy 0.0
-  (0 of 5), all 3 survive 8-11/12 dithers. Template control: 0 echoes for BOTH.
-- Fate recorded: `fp-proxy-improved` (mechanical half). The "baseline finds real echoes" half is
-  NOT met: all three matches were one keyword ("path dependent") on one boilerplate line shared by
-  every stone ("every path below was checked to exist on main at cut time").
-- AGENTS.md catalog row; memory `template-aliasing-shared-boilerplate-fakes-cross-domain-echo`.
-
-## Open (next session)
-1. **Backlog row status append** for `echo-detector-embedding-signature`: the row is still in
-   PR #585 (open), not on main. Waypoints posted on issue #580. Append once #585 lands.
-2. **Rank-4 chip (#581)** is level-triggered by this merge: propose RC-OPS-001 criterion 2 from the
-   report; `criteria_status` stays Zach's ruling. Recall >= 0.80 is unmeasured (no labeled echoes).
-3. **Independent-source input for the feed**: the three stones share one generator, so the detector
-   has never seen a clean cross-domain pair. Feed it texts from different authors/templates before
-   reading any echo as real.
-4. Inherited CI red on main: `leak-check` (5 markers in `public/`), `smoke` (`ledger_check.py`
-   delinquency). Not touched here.
-
-## Lessons (in the record)
-- Two adversarial controls catch two fabrication classes: scramble catches bags-of-words, the
-  shared-line control catches structure the inputs share by construction. A detector fed inputs
-  from one generator will always find the generator.
-- Report both halves of a two-part JTBD even when the fate vocabulary names only one.

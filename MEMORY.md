@@ -7,6 +7,12 @@
 
 ---
 
+## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
+
+- `operators/arcs_librarian.py` (stdlib, 3.9+): value = p_load_bearing x cost_if_absent(stakes); cost = read_friction + displacement; source-trust tier before backing; unbacked -> `what_unconfirmed` only; ZERO-WEIGHT source -> no backing; `reserve_ratio` + `curation_debt` always; ouroboros demotes classes whose prior picks were falsified. `--self-test` 13/13.
+- `runtime/specs/read-friction-tiers.json` (tier prose made data). Registry row 21 READY on `--probe`; bridge self-test 15/15. First real run `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json` (1087 candidates, 6 taken, reserve 0:6; `op:21` ranked itself first).
+- Receipt `2026-09-28--librarian-recommend-op21-merge--ZH`. Owed: backlog row `librarian-recommend-needle` status append (row not on main; lives on `claude/fanout-ranks-2-7`), issue #584 close.
+
 ## [v3.70.0] 2026-09-28 — Chip rank 2: falsification count on the public audit page, stamped from the ledger (PR #591 -> `740aa55f`)
 
 - **good.arcs.care/audit** now shows the ledger count (40), latest date (2026-09-27), and links status.arcs.care/beliefs.

@@ -4530,3 +4530,58 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
 - Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
 - Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
+
+# Handoff — v3.69.0 (2026-09-27)
+
+> **The Orthogonal Echo Detector got a signature that is a function of the text, and the first
+> thing it found was the template.** One PR merged to main (#612 at `defaecc4`), one
+> `decision_receipt` row (`2026-09-27--echo-embedding-signature-merge--ZH`). Draft-first; merged
+> on Zach's explicit go behind a guard that proved the two red CI jobs (`leak-check`, `smoke`) were
+> inherited from main at `e36084f4`.
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 75 commits, 23 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 7 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 55 / dissent 26 (ratio 2.04) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a receipt id, or a number from the committed report. Nothing downgraded. The exhale counts are the whole day across sessions, not this chip's (this chip: 1 commit, 1 merge, 1 receipt).
+- **Somatic read**: `somatic: asked in this handoff` (Zach present; certainty now vs at start, sends today?). No sends from this session.
+- **Disposition**: RELEASED on Zach's "Go ahead" (canary GROUNDED, dissent present).
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **`operators/arcs_echo_embedding.py`** (`24bbcb15`, PR #612): `build_embedding_detector()` binds
+  the two injectables `OrthogonalEchoDetector` already exposed. Signature = segment embeddings +
+  `PATTERN_LIBRARY` phrase embeddings via the same local model `arcs_api.py` serves at `/api/embed`
+  (`all-MiniLM-L6-v2`, offline from the HF cache). Orthogonality = 1 - cosine of the domain TEXT
+  vectors; names are only the lookup key. Detector untouched. No new dependency (the declared
+  `embeddings` extra). Self-test 6/6 incl. fail-on-bad on scrambled smoke domains.
+- **`scripts/echo_ridgeline_feed.py`**: `--signature keyword|embedding`, `--seed`, evidence
+  segments, a pre-registered TEMPLATE control, `--compare OUT` for a same-seed before/after.
+- **`_STATE/2026-09-27-echo-signature-before-after.json`** (seed 27, three unfold stones):
+  keyword baseline 0 / scrambled FP proxy 0.8 (4 of 5) -> embedding baseline 3 / FP proxy 0.0
+  (0 of 5), all 3 survive 8-11/12 dithers. Template control: 0 echoes for BOTH.
+- Fate recorded: `fp-proxy-improved` (mechanical half). The "baseline finds real echoes" half is
+  NOT met: all three matches were one keyword ("path dependent") on one boilerplate line shared by
+  every stone ("every path below was checked to exist on main at cut time").
+- AGENTS.md catalog row; memory `template-aliasing-shared-boilerplate-fakes-cross-domain-echo`.
+
+## Open (next session)
+1. **Backlog row status append** for `echo-detector-embedding-signature`: the row is still in
+   PR #585 (open), not on main. Waypoints posted on issue #580. Append once #585 lands.
+2. **Rank-4 chip (#581)** is level-triggered by this merge: propose RC-OPS-001 criterion 2 from the
+   report; `criteria_status` stays Zach's ruling. Recall >= 0.80 is unmeasured (no labeled echoes).
+3. **Independent-source input for the feed**: the three stones share one generator, so the detector
+   has never seen a clean cross-domain pair. Feed it texts from different authors/templates before
+   reading any echo as real.
+4. Inherited CI red on main: `leak-check` (5 markers in `public/`), `smoke` (`ledger_check.py`
+   delinquency). Not touched here.
+
+## Lessons (in the record)
+- Two adversarial controls catch two fabrication classes: scramble catches bags-of-words, the
+  shared-line control catches structure the inputs share by construction. A detector fed inputs
+  from one generator will always find the generator.
+- Report both halves of a two-part JTBD even when the fate vocabulary names only one.
