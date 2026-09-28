@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>War room · Annie x Conduit Health</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);}
+h1{font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.925rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(1.5rem, 4vw, 2.4rem);color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.925rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;color:var(--secondary);margin-top:2px;}
+:root{--sans:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;}table{width:100%;border-collapse:collapse;font-size:0.925rem}td,th{text-align:left;vertical-align:top;padding:6px 8px 6px 0;border-top:1px solid var(--border)}th{color:var(--secondary);font-weight:700}.up{color:var(--green)}.dn{color:var(--red)}</style></head><body><div class="page"><nav class="btns" style="margin-bottom:6px;"><a class="btn" href="/warroom">← All war rooms</a><a class="btn p" href="https://conduit.arcs.care">Public bundle →</a></nav>
+<div><div class="eyebrow">Internal · war room · 2026-09-28</div><h1>Annie Wasserman × Conduit Health</h1><div class="sub">PM, Patient Experience · HappyPath (Annie) → Conduit (Rocky Seftel, co-founder)</div></div>
+<p class="verdict"><span class="lead">Status: bundle sent, waiting on Rocky's first call.</span> Conviction ended Green on fit; two open doubts on her side are affordability and whether you stay interested. The Wednesday call with Rocky is the next gate.</p>
+<div class="rule"></div>
+<div class="slabel">People</div><div class="card"><table><tr><th>Who</th><th>Role</th><th>Source</th><th>Notes</th></tr><tr><td>Annie Wasserman</td><td>Co-founder, HappyPath (boutique recruiter); ex-CyberCoders 10 yrs</td><td>LinkedIn PDF + call</td><td>Paid % of first-year base. Core fear: PMs who "can't do what they say". Non-technical, fast, warm; types notes in chat. Rapport: son turning 2, moved LA to Doylestown PA.</td></tr><tr><td>Rocky Seftel</td><td>Co-founder, Conduit Health (NOT CEO)</td><td>His LinkedIn PDF</td><td>Ex-PM Remedy/Signify (300+ health systems), VP Product Fitango (DME supply chain), Head of Product Medtel; Columbia MHA. New baby. Asked for "builder, go-to-market" and "sticky but engaging" for older patients.</td></tr><tr><td>Natan Wise</td><td>CEO, Conduit Health</td><td>Press (Series A coverage)</td><td>Not yet in the loop.</td></tr></table></div>
+<div class="slabel">The opportunity</div><div class="card"><ul class="plain"><li><span class="dot"></span><span>Medicare/Medicaid insurance-covered supplies (incontinence, mobility, home safety, CGMs): telehealth visit, automated authorization, ~7-day delivery. 50k+ patients, 100+ plans (~90M lives). Public: $22M raised incl. $17M Series A (Drive); Rocky's profile says $23M+.</span></li><li><span class="dot"></span><span>From Annie (secondhand, 15-min call with Rocky): ~$30M revenue, not cash-flow positive, 35 people, raising again "this month", 12 open roles, in-house HR "not hitting the mark". Two early product people already hired; a separate internal healthcare-focused product role.</span></li><li><span class="dot"></span><span>Band $170-200K, stretch for exceptional. Prior finalist reached $230K base and took another offer. No product bonus today (open to it). Benefits: 401(k), healthcare "I want to say completely covered" (unconfirmed).</span></li><li><span class="dot"></span><span>Hybrid 3 days, Union Square. Annie thinks flex is possible at your level.</span></li></ul></div>
+<div class="slabel">Kairos map (Annie call)</div><div class="card"><table><tr><th>%</th><th>Moment</th><th>State</th></tr><tr><td>5</td><td>"I really liked your background"</td><td><span class="up">warm open</span></td></tr><tr><td>8</td><td>Her fear: people who "can't do what they say… actually owned"</td><td>test set</td></tr><tr><td>18</td><td>"Hold on, I want to take notes" (Squat/Ideal Protein)</td><td><span class="up">KAIROS 1: peak attention</span></td></tr><tr><td>20</td><td>"I don't see that on your LinkedIn"</td><td><span class="dn">trust wobble</span></td></tr><tr><td>22</td><td>"I would love that case study"</td><td><span class="up">KAIROS 2: case study owed (now shipped)</span></td></tr><tr><td>30</td><td>"Strategy product guy who happens to know AI"</td><td>label locked (Yellow)</td></tr><tr><td>37</td><td>"Can I share this with Conduit Health?" (ARCS)</td><td><span class="up">KAIROS 3</span></td></tr><tr><td>50-62</td><td>Comp asked 4 times; fundraising / WeWork risk; "don't send me first"</td><td><span class="dn">TROUGH</span></td></tr><tr><td>63</td><td>You walk it back, compliment her judgment</td><td><span class="up">recovery</span></td></tr><tr><td>65</td><td>"I'm not worried about you at all… can they afford you?"</td><td>Green on fit</td></tr><tr><td>88</td><td>"Your profile doesn't really do your job… so relevant"</td><td><span class="up">KAIROS 4: global peak</span></td></tr><tr><td>97</td><td>Ended on the AI-upskilling pitch to her</td><td>neutral tail</td></tr></table></div>
+<div class="slabel">Negotiation position</div><div class="card"><ul class="plain"><li><span class="dot"></span><span>Floor stated on the call: $230K base "a good place to start". Emailed as the starting point, equity and benefits alongside.</span></li><li><span class="dot"></span><span>Asks outstanding with Annie: top of band, round/stage, equity allocation, strike/exercise window terms, healthcare coverage %, who leads product.</span></li><li><span class="dot"></span><span>Levers she floated: base bump tied to the October raise closing; product bonus they are "open to".</span></li><li><span class="dot"></span><span>Do not repeat: negotiating against yourself, asking not to be sent first, stacking risk talk.</span></li></ul></div>
+<div class="slabel">Rocky objections to pre-empt (gauntlet)</div><div class="card"><ul class="plain"><li><span class="dot"></span><span><b>"Will he do PM work, not strategy?"</b> Lead with the hands-on: weekly shipping, own eval gates, the labeled-baseline first move.</span></li><li><span class="dot"></span><span><b>Flight risk (runs ARCS).</b> Page is silent by your choice. Have a spoken answer ready.</span></li><li><span class="dot"></span><span><b>DME depth.</b> Ask the refill question (reorder confirmation, doctor order and authorization renewal, by product line) and listen.</span></li><li><span class="dot"></span><span><b>Squat scope.</b> Say "Head of Product Innovation on an 11-person turnaround team" before he asks; scale is the client's, not your org.</span></li><li><span class="dot"></span><span><b>Cost vs the $230K finalist.</b> Frame value as retention and AI-quality leverage, not seniority.</span></li></ul></div>
+<div class="slabel">Annie objections (gauntlet)</div><div class="card"><ul class="plain"><li><span class="dot"></span><span>Squat is not on LinkedIn: add it, or lean on the case study link.</span></li><li><span class="dot"></span><span>Grayscale is not on LinkedIn: "white-labeled through Mañana, confidential".</span></li><li><span class="dot"></span><span>Keep it short; she forwards, she does not read deep.</span></li></ul></div>
+<div class="slabel">Talk track for Rocky (30 min)</div><div class="card"><ul class="plain"><li><span class="dot"></span><span>Open: his two asks back to him (builder + GTM; sticky but engaging for older patients).</span></li><li><span class="dot"></span><span>The 80-year-old vs adult-child journey, and SMS/voice beating an app, tied to owning Voice AI quality.</span></li><li><span class="dot"></span><span>Proof: Ideal Protein 73% adherence, +40% qualified leads, nearest-clinic-first +63% booking.</span></li><li><span class="dot"></span><span>First 30 days: sit with reorder ops; pull a few hundred real refill threads, label handoff misses, publish the baseline.</span></li><li><span class="dot"></span><span>Ask: where LTV leaks (first order, reorder, telehealth follow-up) and how AI quality is measured today.</span></li></ul></div>
+<div class="slabel">Commitments</div><div class="card"><table><tr><th>Owner</th><th>Item</th><th>Status</th></tr><tr><td>You</td><td>Tailored résumé</td><td>Done</td></tr><tr><td>You</td><td>Candidate brief / SSOT bundle</td><td>Done: conduit.arcs.care</td></tr><tr><td>You</td><td>Ideal Protein case study</td><td>Done: /case-study</td></tr><tr><td>You</td><td>Email to Annie with link, $230K+, Wed 10:30/11</td><td>Draft in Gmail; you said you emailed her</td></tr><tr><td>Annie</td><td>Get Rocky's availability; pitch at $230K+</td><td>Open</td></tr><tr><td>Annie</td><td>Band ceiling, round, equity, benefits, product leadership</td><td>Open</td></tr></table></div>
+<div class="slabel">Artifacts</div><div class="card"><ul class="plain"><li><span class="dot"></span><span>Public: <a href="https://conduit.arcs.care">conduit.arcs.care</a> · /resume · /case-study · /conduit-brief.pdf</span></li><li><span class="dot"></span><span>Granola transcript: 6d5a3167-7276-4941-ba8d-d87622120e63</span></li><li><span class="dot"></span><span>Evidence ledger: _ARTIFACTS/forge-conduit-health-pm-patient-experience/evidence.jsonl</span></li><li><span class="dot"></span><span>Receipts: 2026-09-28--conduit-candidate-bundle--ZH, --conduit-case-study-page--ZH, --conduit-viewer-wrap-fix--ZH, --conduit-case-study-nav--ZH</span></li><li><span class="dot"></span><span>Gauntlet runs: wf_12d6220d-d57 (Annie), wf_ed3429fb-e8f (Rocky)</span></li></ul></div>
+</div></body></html>
