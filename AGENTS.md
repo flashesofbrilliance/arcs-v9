@@ -150,6 +150,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | | OPERATOR20 | `operators/arcs_operator20.py` | 38KB | Phase 5 synthesis · Folksonomy Cultivator (54-dim DBSCAN) | READY |
 | | OPERATOR21 | `operators/arcs_operator21.py` | 24KB | Anterior/posterior spline inference — knot resolution. P1 determinism PASS (2026-08-28) | READY |
 | | KINTSUGI | `operators/arcs_kintsugi.py` | 26KB | Phase gate validation + healing | READY |
+| | ACCOUNTANT (Op 19) | `operators/arcs_accountant.py` + `prod_receipt_to_accountant.py` | 15KB | The Scoreboard: per-cohort (founder/external/anonymous) closed positions, closure rate, fates; NCI-vs-outcome calibration only at n>=30 closed per cohort, else `sufficiency=insufficient` with n. Bound in the registry (`callable`, `run`); report `_STATE/2026-09-27-accountant-scoreboard.json` | READY |
 | **Primitives** | Core Elements | `operators/arcs_primitives.py` | 23KB | CoherenceSignal/Receipt, ARCS Law (C = αA - β(S-S_min)² + γW) | READY |
 | | Bridge | `operators/arcs_primitives_bridge.py` | 10KB | Type conversions | READY |
 | | Receipt | `operators/arcs_receipt_core.py` | 7.6KB | Receipt contract | READY |
