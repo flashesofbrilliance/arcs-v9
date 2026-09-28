@@ -4,8 +4,8 @@
   "generator": "scripts/operator_registry_emit.py",
   "verification": "every binding grep-verified at emit; --probe adds an import test via operators/.venv",
   "counts": {
-    "READY": 11,
-    "UNBUILT": 11,
+    "READY": 12,
+    "UNBUILT": 10,
     "PARTIAL": 5,
     "BLOCKED": 1
   },
@@ -290,8 +290,17 @@
       "role": "CFO",
       "function": "Measure outcomes",
       "level": "boardroom",
-      "status": "UNBUILT",
-      "nearest": "receipt_evaluator + prisma Outcome model measure outcomes; no Accountant operator (n=2 closed loops)"
+      "binding": {
+        "module": "arcs_accountant.py",
+        "symbol": "AccountantOperator",
+        "entrypoint": "run",
+        "call": "callable",
+        "adapter": "prod_receipt_to_accountant",
+        "input": "payload.receipts: list[dict] (receipt_id, cohort, nci_score, horizon, drift_state); payload.outcomes: list[dict] (receipt_id, matched, regret_score)",
+        "note": "the Scoreboard: per-cohort (founder|external|anonymous) counts, closure rate, fates; NCI-vs-outcome calibration only at n >= 30 closed per cohort, else sufficiency=insufficient with n. Never invents a missing field. Adapter: operators/prod_receipt_to_accountant.py"
+      },
+      "status": "READY",
+      "probe": "ok"
     },
     {
       "op": 20,
