@@ -459,5 +459,15 @@
         ]
       }
     ]
-  }
+  },
+  "send_log": [
+    {
+      "audience": "internal",
+      "sent_at": "2026-09-28T16:41:39-04:00",
+      "channel": "gmail reply in thread 1a0e8e9ef1916972",
+      "what": "FT vs contract history + claritai.arcs.care link",
+      "pre_committed_move": "wait; no more material unless asked a specific question",
+      "close_loop_owed": "/recoil-close on Jeff's reply"
+    }
+  ]
 }
