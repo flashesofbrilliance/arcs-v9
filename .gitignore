@@ -103,3 +103,4 @@ runtime/job-search/
 
 # witness backfill scout output: regenerable derived cache of verbatim chat excerpts (scripts/witness_backfill_scout.py scan)
 _INBOX/witness-backfill-candidates.jsonl
+_INBOX/unfold-*.md

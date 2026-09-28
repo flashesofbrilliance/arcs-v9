@@ -47,6 +47,33 @@ Compare `snapshot.vercel.latest_deploy_status` — flag if Error.
 Compare `snapshot.next_action` — this is what the Implementor surface flagged as the next task.
 Surface `snapshot.blocking` — if not NONE, this is the open question between surfaces.
 
+## Step 3 — Unfold (the bench: categorize, pressurize, cut; the human sets)
+
+The fold sweeps residue OUT at close; the unfold sweeps inherited state IN at open and lays cut
+stones on the bench. It never spawns a session. Run it after the snapshot read:
+
+```bash
+python3 scripts/unfold.py
+```
+
+It gathers five sources (the latest handoff's Open list, OPEN backlog rows, ripe/seedling seeds,
+LORE inspiration rows, pollination gaps), pre-clusters by domain gravity, drafts one chip per
+cluster in the fold Step 3 shape, and runs `scripts/cold_molt_lint.py` on each draft. Read
+`_INBOX/unfold-<date>.md`:
+
+- **FLAWLESS** stones are self-contained for a cold molt (no session-relative references, every
+  category present or declared empty, every cite on main, grounded on the canary). Offer them as
+  `spawn_task` chips; Zach picks. A chip whose ridgeline is empty in every category is a task,
+  not a session.
+- **UNCUT** stones list what a cold session could not reconstruct. The usual cause is the two
+  human categories (verified routes, corrections): fill them from this session's own verification,
+  re-lint, then offer.
+- **PILE** rows (massifs or unsorted) need a human sort before any stone is cut. Do not spawn a pile.
+- **LINE** rows stay backlog lines.
+
+Cost guard: every child session pays the memory-index load at start; if the index is over the
+measured 25,000-char cap, curate first or the stones land in sessions that cannot read their map.
+
 ## Token budget
 
 Reads at most 6 files:
