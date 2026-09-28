@@ -502,5 +502,17 @@ if [ -f scripts/altitude_canary.py ] && command -v python3 >/dev/null 2>&1; then
     python3 scripts/altitude_canary.py --staged >&2 || true
   fi
 fi
+
+# source-trust freshness guard — runtime/specs/source-trust.json is GENERATED from the events
+# ledger + sources registry (asymmetric decayed counts). If any of the three is staged, the
+# generated table must match (tiers + counts; the decayed float is allowed to drift with time).
+st=$(git diff --cached --name-only -- _STATE/source-trust-events.jsonl runtime/specs/source-trust-sources.json runtime/specs/source-trust.json scripts/source_trust_emit.py 2>/dev/null || true)
+if [ -n "$st" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/source_trust_emit.py ]; then
+  if ! python3 scripts/source_trust_emit.py --check >/dev/null 2>&1; then
+    python3 scripts/source_trust_emit.py --check >&2 || true
+    echo "✖ pre-commit(source-trust): generated table stale or an event names an unregistered source. fix: python3 scripts/source_trust_emit.py && git add runtime/specs/source-trust.json" >&2
+    exit 1
+  fi
+fi
 exit 0
 
