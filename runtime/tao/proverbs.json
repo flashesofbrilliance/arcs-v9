@@ -2460,6 +2460,56 @@
       "text": "Cron asks \"is it time?\" Kairos asks \"is it ripe?\" The clock fires whether the fruit is ready or not, and misses nothing but the point; the ripe moment fires once, and does not wait to be scheduled.",
       "gloss": "the clock is chronos; the trigger is kairos. Schedule the checks, but capture at the moment.",
       "canon_ref": "_CANON/tao-proverbs.jsonl#tao-257"
+    },
+    {
+      "id": "nftt-assets-and-liabilities-C-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "evaluate",
+      "source": "nftt/assets-and-liabilities",
+      "minted": "2026-09-28",
+      "text": "A book that carries only its wins is not strong; it is survivorship written as a document. Book the deceipt beside the receipt, and report the difference, never the sum.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-259"
+    },
+    {
+      "id": "nftt-cheapest-edit-is-a-diff-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/cheapest-edit-is-a-diff",
+      "minted": "2026-09-28",
+      "text": "The cheapest edit is a diff. Ask the model for only what changed; ask for the whole page again and you have paid full price for a copy, and waited for it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-260"
+    },
+    {
+      "id": "nftt-closing-the-loop-receipts-C-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "recapitulate",
+      "source": "nftt/closing-the-loop-receipts",
+      "minted": "2026-09-28",
+      "text": "The falsifier was the cheap half. The loop closes only when you go back on the date, score it in public, and print the number you got wrong beside the ones you got right.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-261"
+    },
+    {
+      "id": "nftt-confirmed-not-my-bug-R-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "assess",
+      "source": "nftt/confirmed-not-my-bug",
+      "minted": "2026-09-28",
+      "text": "A clean zero looks exactly like a systemic finding and exactly like a search that stopped too early. Check one layer deeper before you say \"not my bug.\"",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-262"
+    },
+    {
+      "id": "nftt-four-dates-one-thesis-three-confirmations-D-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "D",
+      "verb": "analyze",
+      "source": "nftt/four-dates-one-thesis-three-confirmations",
+      "minted": "2026-09-28",
+      "text": "Say something specific enough to be wrong. \"Behind\" has no expiration date, so it can never be right either; name the mechanism, the date, and the check.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-263"
     }
   ]
 }
