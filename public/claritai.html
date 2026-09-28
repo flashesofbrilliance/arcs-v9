@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Zach Harris · Head of Operational Excellence and AI Systems · Claritai</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);}
+h1{font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.925rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(1.5rem, 4vw, 2.4rem);color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.925rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;color:var(--secondary);margin-top:2px;}
+:root{--sans:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;}details.card>summary{cursor:pointer;font-weight:700;list-style:none}details.card>summary::-webkit-details-marker{display:none}details.card>summary::after{content:" +";color:var(--cyan)}details[open].card>summary::after{content:" −"}details.card>div{margin-top:10px}</style><script defer src="/_vercel/insights/script.js"></script><style>table.hist{width:100%;border-collapse:collapse;font-size:0.925rem}table.hist th{font-family:var(--mono);font-size:0.925rem;font-weight:700;color:var(--secondary);text-align:left;padding:0 8px 8px 0;border-bottom:1px solid var(--border)}table.hist td{padding:9px 8px 9px 0;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45}table.hist td:first-child{font-weight:600}.scroll{overflow-x:auto}</style></head><body><div class="page">
+<div>
+  <div class="eyebrow">◆ Candidate Brief</div>
+  <h1>Zach Harris · Head of Operational Excellence and AI Systems</h1>
+  <div class="sub">Claritai · via Harris Allied · New York, onsite five days</div>
+</div>
+
+<p class="verdict"><span class="lead">Operator: owned the numbers, ran regulated financial operations, builds governed AI systems hands-on.</span> I have run a P&amp;L, worked inside a PE turnaround across thousands of locations, and I build and ship the AI and release tooling this role governs, in code.</p>
+
+<div class="btns"><a class="btn p" href="/claritai-resume.pdf" download="Zach-Harris-Resume.pdf">↓ Resume (one page)</a><a class="btn" href="https://arcs.care/case-study">PE case study</a></div>
+
+<div class="rule"></div>
+
+<div class="slabel">Three reasons it fits</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>Regulated financial operations.</b> At Grayscale I ran the operating cadence for ten SEC and FINRA regulated products, a $7B portfolio, across product, engineering, legal, risk, and compliance. Release cycles got 35 percent faster with zero SEC or FINRA violations.</span></li>
+<li><span class="dot c"></span><span><b>Owned the P&amp;L.</b> As General Manager of a video ad network I grew revenue from $4,500 to more than $1M a month and expanded net operating margin by 25 percent; the company was later acquired by Meredith.</span></li>
+<li><span class="dot c"></span><span><b>PE and multi-location.</b> At Squat New York (full-time) I was the sole product and technology partner to our client's executive team: a newly PE-acquired, medically supervised weight-loss program with more than 3,500 clinics in 64 countries, where a trusted professional stood between the company and its customer. <a href="https://arcs.care/case-study">The case study</a> shows what moved.</span></li>
+</ul></div>
+
+<div class="slabel">Questions you will likely have</div>
+<div class="card"><div class="qa">
+<div><div class="q">Has he originated a financial calculation methodology?</div><div class="a">Not an accrual or cash-flow forecasting model, and I won't claim one. I have originated operating and audit methods: a decision-scoring method with evidence-traced controls modeled on forensic accounting, where no figure is reported until the data supports it. For NEO I would build the accrual and cash logic from scratch with your accountants and your data, and govern it the same way.</div></div>
+<div><div class="q">Can he work inside the technical build, not just around it?</div><div class="a">Yes. I build ARCS myself on Claude: AI agents that run multi-step work, automated tests that grade the AI's output before release, and nearly 500 reviewed code changes shipped from one triaged backlog, each failing check traced to its cause before anything went live. I work in the repository and the build pipeline directly.</div></div>
+<div><div class="q">Six years independent: why a full-time seat now?</div><div class="a">Yes, I'm available, full-time and in the New York office five days a week. On hire, Mañana takes no new clients, and ARCS becomes the toolkit I bring to the job, not a business competing for my time.</div></div>
+<div><div class="q">Why does this fit an accounting-first platform?</div><div class="a">NEO reaches the customer through a trusted advisor. I have built for exactly that channel (clinicians between Ideal Protein and its patients), owned margin as a General Manager, and run regulated release gates, so I can sign off the logic and the release without a translator.</div></div>
+</div></div>
+
+<div class="slabel">Employment history: full-time vs. contract</div>
+<div class="card scroll"><table class="hist"><thead><tr><th>Company</th><th>Dates</th><th>Type</th><th>Why it ended</th></tr></thead><tbody><tr><td>ARCS</td><td>2025 to now</td><td>Founder</td><td>Ongoing; becomes my toolkit on hire.</td></tr><tr><td>Mañana</td><td>2020 to now</td><td>Independent practice</td><td>Ongoing; takes no new clients on hire.</td></tr><tr><td>Grayscale</td><td>2024 to 2025</td><td>Contract, via Mañana</td><td>Fixed-term embedded engagement; completed.</td></tr><tr><td>Squat New York</td><td>2019 to 2020</td><td>Full-time</td><td>Role ended mid-2020 when the pandemic hit the business.</td></tr><tr><td>Children's Tumor Foundation</td><td>2018 to 2019</td><td>Full-time</td><td>Left for a faster-moving, for-profit operating seat.</td></tr><tr><td>WTA</td><td>2016 to 2018</td><td>Full-time</td><td>Stepped away after a death in the family.</td></tr><tr><td>IBRShop</td><td>2012 to 2016</td><td>Co-founder, full-time</td><td>Wound the business down; the upside no longer justified the cost.</td></tr><tr><td>Selectable Media</td><td>2010 to 2011</td><td>Full-time</td><td>Left to co-found IBRShop.</td></tr></tbody></table></div>
+
+<p class="foot">Zach Harris · zach.harris@gmail.com · linkedin.com/in/zharris</p>
+</div></body></html>
