@@ -114,6 +114,53 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.69.0 (2026-09-27, flow-state-om-metric)
+
+> **The Flow-State axis got its first instrument.** Backlog rank 5 (`flow-state-om-metric`, GitHub #582;
+> the row itself is on PR #585, not yet main). Draft PR #598, UNMERGED, awaiting Zach's go; no
+> `decision_receipt` yet because nothing merged. Sibling sessions ran ranks 2-7 concurrently.
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 64 commits, 19 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 7 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Breath net direction** (Maekawa; asm-009 open, read across ten handoffs): exhale 64 minus inhale 26 = +38, exhale-leaning.
+- **Sycophancy check**: agreement 49 / dissent 26 (ratio 1.81) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Om** (Flow-State axis; component 7): confidence 0.33 (1 of 3 sections carry a ground return); conviction: not given (--conviction absent); om_gap: null, not imputed.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today? Give the number as `--conviction 0-10` and re-run.
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+- **Attachment release** (Claude, cold re-read): the draft's Open and Lessons sections carry no cite class
+  (confidence 0.33 is the honest number for a three-section draft); nothing downgraded, nothing dropped.
+- **Somatic read**: somatic: not asked (Zach absent); om_gap null, not imputed.
+- **Disposition**: released as a draft PR; merge is Zach's move.
+
+## Shipped on branch `claude/zen-pasteur-85c635` (PR #598, draft)
+- `f8bd5ec3` `scripts/shavasana_handoff.py`: `confidence` (sections with a ground return / non-empty
+  sections, via `scripts/altitude_canary.py`), `--conviction 0-10` (null when absent, not imputed),
+  `om_gap` = |confidence - conviction/10| or null, `breath_net_direction` = exhale_n - inhale_n (signed,
+  no verdict; asm-009 open), `--json`. Self-test 4 -> 15 checks; the block is asserted to have ZERO
+  confidence markers by the canary's own regex. Spec `runtime/specs/operator-25-shavasana-v0.md`
+  components 3/6/7 + contract; `.claude/commands/handoff.md` Step -2; `_STATE/assumptions.jsonl` asm-009 notes.
+- `aafb90aa` `_STATE/2026-09-27-om-first-reading.md`: zero point of the series (conviction null, confidence 0.33, net +33).
+
+## Open (next session)
+1. Zach: merge #598 or return it; on merge, one `decision_receipt` row + append `status` on the backlog row
+   once #585 lands it on main (do not duplicate the row).
+2. The first reading WITH a conviction number: run Step -2 with `--conviction N` at the next handoff Zach attends.
+3. v1 candidate, spec-table change not a silent one: sentence- or bullet-level claim unit for `confidence`.
+4. Registry row 25 stays UNBUILT (`operators/arcs_shavasana.py` does not exist); this is the handoff-door half only.
+
+## Lessons (in the record)
+- The fifth axis is a fraction and a subtraction; the work was refusing to fill in the human's number.
+- A block that describes itself as claim-free should be checked by the same regex that would catch it.
+
+
 # Handoff — v3.68.0 (2026-09-27)
 
 > **The membrane day: an external audit of the operator suite was falsified by grep, and the repo grew
@@ -172,50 +219,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
 - Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
 - Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
-
-
-# Handoff — v3.67.0 (2026-09-26)
-
-> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
-> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
-> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
-> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
-> explicit go.
-
-## Shipped + LIVE (verified on prod)
-- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
-  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
-  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
-  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
-  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
-  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
-  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
-  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
-  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
-- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
-  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
-  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
-  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
-  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
-- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
-  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
-  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
-  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
-- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
-  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
-
-## Open (next session)
-1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
-   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
-2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
-   NFTT block until it next lands on main; everyone via origin/main already has it.
-3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
-
-## Lessons (in the record)
-- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
-  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
-  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
-- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
-  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
-- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
-  fragments without ever pushing them to `index`; the air-gap survives the sweep.

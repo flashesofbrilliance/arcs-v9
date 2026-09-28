@@ -192,6 +192,7 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 
 ## Changelog
 
+- **v3.69.0** (2026-09-27): `scripts/shavasana_handoff.py` gains the om metric (`confidence` backed fraction via the altitude canary, `--conviction 0-10` human input or null, `om_gap`), signed `breath_net_direction`, `--json`; self-test 15 checks. First reading `_STATE/2026-09-27-om-first-reading.md`. Draft PR #598.
 - **v3.68.0** (2026-09-27): +`scripts/operator_registry_emit.py` + `operators/arcs_mcp_bridge.py` (registry-driven MCP bridge; numbering locked to the periodic table); +`scripts/legend.py` (LEGEND), +`scripts/lore.py` (LORE), +`scripts/fates.py` (fate registry), +`scripts/source_trust_emit.py` (per-source trust), +`scripts/altitude_canary.py`, +`scripts/witness_backfill_scout.py`, +`scripts/tao_coverage_check.py`, +`scripts/shavasana_handoff.py` (/handoff Step -2, Operator 25); /fold ridgeline+waypoints+shifts; tao-257; deceipts F38-F40.
 - **v3.61.0** (2026-09-13): +`scripts/bridge_index_scan.py` (bridge employer index → board); +`scripts/scout_dossier_ingest.py` (Perplexity dossier intake gate); AGENTS.md receipt enums; ADR-078..081 landed from hold branches.
 - **v3.53.0** (2026-09-04): +`scripts/research_render.py` (the Reader: 3-altitude Almanac over the digest node schema); ADR-075 Metabolic Router doctrine (mechanical vs judgment; integrity gate spec'd); `_SPECS/reading-room-build-plan-v1.md` locked; `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock` passcode gate.

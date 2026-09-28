@@ -7,6 +7,15 @@
 
 ---
 
+## [v3.69.0] 2026-09-27 — Flow-State axis instrumented: om_gap + breath_net_direction on the Shavasana block (PR #598, draft)
+
+- `scripts/shavasana_handoff.py` now reads the fifth Hypersphere axis: `confidence` = backed fraction of the
+  draft's sections (altitude canary cite classes), `conviction` = `--conviction 0-10` (human, null when absent,
+  not imputed), `om_gap` = their distance or null; `breath_net_direction` = exhale_n - inhale_n, signed, no
+  verdict (asm-009 open, Maekawa). Self-test asserts zero confidence markers on the block by the canary's regex.
+- First reading `_STATE/2026-09-27-om-first-reading.md`: conviction null, confidence 0.33, net +33.
+- Backlog row `flow-state-om-metric` (#582) is on PR #585, not main; status append waits for that merge.
+
 ## [v3.68.0] 2026-09-27 — The membrane day: operator registry + MCP bridge, LEGEND, LORE, source-trust, altitude canary, witness scout, Operator 25 (11 PRs merged, 11 receipts)
 
 - **An external "audit" (Perplexity) mapped an invented 1-19 operator numbering onto files that implement

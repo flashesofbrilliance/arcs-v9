@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-09-27T21:59:20-04:00",
+  "captured_at": "2026-09-27T23:11:30-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
     "head_sha": "cdb1107f",
@@ -40,7 +40,7 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Falsified an external operator audit by grep and built the organs that make that class detectable: generated operator registry + MCP bridge, LEGEND, LORE, fate registry, source-trust ledger, altitude canary, witness scout, Operator 25 at the handoff door.",
-  "next_action": "Merge + receipt PR #570 (fate registry); then Zach rules on the Tao two-books collision and the memory-index curation pass runs against the measured 25,000-char cap.",
-  "blocking": "NONE"
+  "session_summary": "Built the Flow-State axis's first instrument: om_gap (confidence vs --conviction, null when the human is absent) and signed breath_net_direction on the Shavasana handoff block, spec + handoff command updated, first reading recorded; draft PR #598 unmerged.",
+  "next_action": "Zach merges or returns PR #598; on merge, one decision_receipt row and append status on backlog row flow-state-om-metric once PR #585 lands it on main.",
+  "blocking": "PR #598 merge is Zach's call"
 }
