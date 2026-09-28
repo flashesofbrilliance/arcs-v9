@@ -2510,6 +2510,56 @@
       "minted": "2026-09-28",
       "text": "Say something specific enough to be wrong. \"Behind\" has no expiration date, so it can never be right either; name the mechanism, the date, and the check.",
       "canon_ref": "_CANON/tao-proverbs.jsonl#tao-263"
+    },
+    {
+      "id": "nftt-ledger-not-story-C-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "assess",
+      "source": "nftt/ledger-not-story",
+      "minted": "2026-09-28",
+      "text": "The outcome can be known while the reason stays unverified. Thirty-eight endings, one stated cause; hold the two at their proper distance and never let the count become the story.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-264"
+    },
+    {
+      "id": "nftt-post-1-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/post-1",
+      "minted": "2026-09-28",
+      "text": "Build the machine once. The first run is slow and the hundredth is free; use the tool to make the method, not to make the document faster.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-265"
+    },
+    {
+      "id": "nftt-post-2-R-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "evaluate",
+      "source": "nftt/post-2",
+      "minted": "2026-09-28",
+      "text": "Never quote anyone from memory; grep the transcript first. Memory rewrites whose line it was, and the provenance is the one thing a flattering story cannot fake.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-266"
+    },
+    {
+      "id": "nftt-post-3-C-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "evaluate",
+      "source": "nftt/post-3",
+      "minted": "2026-09-28",
+      "text": "A pattern you went looking for is a weaker witness than one that ambushed you. A hit column with no miss column is survivorship in a nice coat.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-267"
+    },
+    {
+      "id": "nftt-post-4-R-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "recapitulate",
+      "source": "nftt/post-4",
+      "minted": "2026-09-28",
+      "text": "A gate you have not watched fail is a sentence in a document. The only proof a check works is the red X you produced on purpose.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-268"
     }
   ]
 }
