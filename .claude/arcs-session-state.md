@@ -1,16 +1,12 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-27 · head `cdb1107f` (origin/main) · deploy: https://arcs-v9-j62feqn63-arcs-care.vercel.app  
+**As of:** 2026-09-28 · branch `claude/vibrant-dirac-cd95af` · PR #591 MERGED at `740aa55f` · worktree synced to origin/main `2ffef9b4`
 
-## What just shipped (v3.68.0)
-- Operator registry + MCP bridge (#559), /fold ridgeline (#559), librarian seed (#560), LEGEND (#561), tao-257 +
-  two-books collision (#562), night-moves + forensic recoil (#563), witness scout (#564), altitude canary (#565),
-  Operator 25 spec (#566), handoff Step -2 + deceipts F38-F40 (#567), source-trust ledger (#568), LORE + Tao
-  coverage gate (#569). All on main, 11 receipts in `decision_receipt`. Fate registry (#570) OPEN.
+## What this session did (v3.70.0, chip rank 2 / issue #579)
+- `public/good-agent-receipts-audit.html`: "We keep our own ledger" card (count + latest date + belief-log link).
+- `scripts/belief_log_emit.py`: stamps that block and the generated row of `public/good-agent-receipts-audit.evidence.jsonl`; `--check` covers both.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH`. Live verified on good.arcs.care (prod sha `740aa55f`).
 
-## Next unblocked action
-1. Merge + receipt #570 (fate registry). 2. Zach rules on the Tao two-books collision. 3. Memory-index curation
-(80KB vs 25,000-char cap; budget 24576). 4. Yuri (invite expires 10-02) and Robert (Teams invite 09-24) need Zach.
-
-## Blocking
-NONE on the machine side. Two human rulings pending (Tao books; memory curation is a judgment pass).
+## Next
+1. When PR #585 lands the backlog row on main: append `live · 740aa55f · 2026-09-28--audit-page-falsification-count--ZH` to `kintsugi-public-falsification-count`.status, close issue #579.
+2. Inherited red on main untouched: `smoke` ledger delinquency, six `leak_check` hits.

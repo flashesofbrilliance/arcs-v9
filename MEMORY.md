@@ -7,6 +7,31 @@
 
 ---
 
+## [v3.70.0] 2026-09-28 — Chip rank 2: falsification count on the public audit page, stamped from the ledger (PR #591 -> `740aa55f`)
+
+- **good.arcs.care/audit** now shows the ledger count (40), latest date (2026-09-27), and links status.arcs.care/beliefs.
+  `scripts/belief_log_emit.py` stamps the marked block on the page AND the generated row of its `.evidence.jsonl`;
+  `--check` (CI `belief-log` job) fails on drift, fail-on-bad proved both ways. Live verified via `get_deployment`.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH`. Backlog row is on PR #585's branch, not main; status
+  append + closing issue #579 wait on that merge.
+- Lesson: the blocking gate was `case_evidence_lint` (pre-commit), not one of the four the chip named. Run the
+  hook path, not only the named gates. A computed public number must be stamped by the script that computes it.
+
+## [v3.68.1] 2026-09-27 — Accountant keel chip: external funnel measured, distribution gap located (PR #586, draft)
+
+- **The external funnel, from prod, founder split out:** external 10 receipts / 4 users / 6 debriefed / 0 closed,
+  last external receipt 2026-07-10 (79 days, 0 in 30d). Founder 196 / 135 / 3 (a third closure, drifted, on
+  2026-09-26). Anonymous 48, none after 2026-07-13. Instrument: `scripts/outcome_funnel.py` (read-only, stdlib,
+  `--self-test`), feed `_STATE/outcome-funnel/2026-09-27.json`. Queries ran verbatim via Supabase `execute_sql`.
+- **The gap is inflow, not conversion, and it was findable by grep:** the three live good.arcs.care surfaces
+  (`/copypasta`, `/fears`, `/audit`) carried no link to the compass at all. The move: 11 kill-clause cards on
+  `/fears` hand the sharpened claim to `app.arcs.care/dashboard?q=&horizon=`; dashboard reads `?horizon=`.
+- **Detector comparisons must share a directory:** the kintsugi ratchet's 15-vs-2 was the HEAD copy sitting in
+  `/tmp` without `DESIGN.md`. Inside the repo: 15 vs 15, no new findings.
+- Unmerged: PR #586 awaits Zach's go; receipt follows the merge.
+
+---
+
 ## [v3.68.0] 2026-09-27 — The membrane day: operator registry + MCP bridge, LEGEND, LORE, source-trust, altitude canary, witness scout, Operator 25 (11 PRs merged, 11 receipts)
 
 - **An external "audit" (Perplexity) mapped an invented 1-19 operator numbering onto files that implement

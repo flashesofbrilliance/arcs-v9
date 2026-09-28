@@ -1,25 +1,25 @@
 {
-  "captured_at": "2026-09-27T21:59:20-04:00",
+  "captured_at": "2026-09-28T09:50:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "cdb1107f",
-    "head_message": "Merge pull request #569 from flashesofbrilliance/claude/lore-book",
+    "head_sha": "2ffef9b4",
+    "head_message": "Merge pull request #617 from flashesofbrilliance/claude/tao-backfill-batch-2",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "(hook noise only: _INBOX/*.jsonl, _STATE/pulse.json, _STATE/snapshot.json)"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-j62feqn63-arcs-care.vercel.app",
-    "latest_deploy_status": "unknown",
+    "latest_deploy_url": "arcs-v9-ktk2n9u9w-arcs-care.vercel.app",
+    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
-    ]
+    ],
+    "verified_sha": "740aa55f",
+    "note": "latest_deploy = merge of PR #591; env list carried from prior snapshot, not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,12 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt: 11 rows added 2026-09-27 (one per merge #559-#569)"
+    "note": "decision_receipt: no row from this session yet; one follows the merge of PR #586. Funnel read-only pull 2026-09-27: external 10/4/6/0, founder 196/135/3."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Falsified an external operator audit by grep and built the organs that make that class detectable: generated operator registry + MCP bridge, LEGEND, LORE, fate registry, source-trust ledger, altitude canary, witness scout, Operator 25 at the handoff door.",
-  "next_action": "Merge + receipt PR #570 (fate registry); then Zach rules on the Tao two-books collision and the memory-index curation pass runs against the measured 25,000-char cap.",
-  "blocking": "NONE"
+  "session_summary": "Chip rank 2: falsification count + latest date + belief-log link on good.arcs.care/audit, stamped by belief_log_emit.py and covered by its --check; PR #591 merged 740aa55f, receipt 2026-09-28--audit-page-falsification-count--ZH.",
+  "next_action": "After PR #585 merges, append live status to backlog row kintsugi-public-falsification-count and close issue #579.",
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-28T02:51:49Z"
 }

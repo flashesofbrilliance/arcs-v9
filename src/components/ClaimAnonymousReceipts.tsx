@@ -58,29 +58,39 @@ export function ClaimAnonymousReceipts() {
         // (2) Pending ephemeral save — persist the bearing the user chose to
         // keep, then land them on the real receipt.
         if (rawPending) {
+          let pending: { bearing?: unknown; savedAt?: number } | null = null
+          try { pending = JSON.parse(rawPending) } catch { pending = null }
+          const fresh = !!pending?.bearing && Date.now() - (pending?.savedAt ?? 0) < PENDING_TTL_MS
+          if (!fresh) {
+            // Pending save expired or malformed: the write was never attempted,
+            // and there is nothing usable to retry. Drop the stash.
+            track("receipt_save_failed", { reason: "expired_or_malformed" })
+            localStorage.removeItem("arcs_pending_save")
+            return
+          }
           try {
-            const pending = JSON.parse(rawPending)
-            if (pending?.bearing && Date.now() - (pending.savedAt ?? 0) < PENDING_TTL_MS) {
-              const r = await fetch("/api/receipts/save", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ bearing: pending.bearing }),
-              })
-              if (r.ok) {
-                const d = await r.json()
-                localStorage.removeItem("arcs_pending_save")
-                track("receipt_save_completed")
-                if (d?.receipt_id && !cancelled) window.location.assign(`/receipt/${d.receipt_id}`)
-              } else {
-                track("receipt_save_failed", { status: r.status })
-              }
-            } else {
-              // Pending save expired or malformed — never attempted the write.
-              track("receipt_save_failed", { reason: "expired_or_malformed" })
+            const r = await fetch("/api/receipts/save", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ bearing: pending!.bearing }),
+            })
+            if (r.ok) {
+              const d = await r.json()
               localStorage.removeItem("arcs_pending_save")
+              track("receipt_save_completed")
+              if (d?.receipt_id && !cancelled) window.location.assign(`/receipt/${d.receipt_id}`)
+            } else {
+              // Server said no; keep the stash so the next page load retries
+              // inside the TTL.
+              track("receipt_save_failed", { status: r.status })
             }
           } catch {
-            localStorage.removeItem("arcs_pending_save")
+            // Network exception (dropped connection, offline): the bearing is
+            // not lost and the write did not happen. Keep the stash so the
+            // next page load retries, same as the !r.ok branch. Before this
+            // (spec _SPECS/receipt-save-nudge-v1.md §6.2) a flaky network
+            // silently discarded the one bearing the visitor chose to keep.
+            track("receipt_save_failed", { reason: "network" })
           }
         }
       })
