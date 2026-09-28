@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Zach Harris · Product Manager, Patient Experience · Conduit Health</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);}
+h1{font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.925rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(1.5rem, 4vw, 2.4rem);color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.925rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;color:var(--secondary);margin-top:2px;}
+:root{--sans:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;}</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+
+<div>
+  <div class="eyebrow">◆ ARCS · Candidate Brief</div>
+  <h1>Zach Harris · Product Manager, Patient Experience</h1>
+  <div class="sub">Conduit Health · via HappyPath</div>
+</div>
+
+<p class="verdict"><span class="lead">A product builder who owns the whole loop, pointed at the problem at the center of this role.</span> Set the roadmap, talk to users, read the funnel, prototype, work with engineering, test, launch, and iterate on behavior. For two years I have built an AI product end to end on Claude, where the hard problem was never generation. <b>It was quality: deciding when the AI runs the interaction, when it assists, and when a person takes over, then proving it with evals.</b></p>
+<p class="kicker">Two decades in regulated, high-trust domains, including HIPAA digital health and a direct-to-consumer brand I took from zero to profit. <b>I reach for AI before headcount, and I design for the patient in front of the screen</b>, including the one for whom a screen is the wrong channel.</p>
+
+<div class="rule"></div>
+
+<div class="slabel">Four reasons it fits</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>LLM evaluation and quality is my recent work.</b> On ARCS I built the evaluation layer: rubrics, gates that stop a regression before it ships, diagnosis of failed runs, and routing between fixed rules, model reasoning, and a human reviewer. The AI structures and scores; it never issues the final verdict.</span></li>
+<li><span class="dot"></span><span><b>Retention and lifecycle, measured.</b> Grew net-new revenue 20 percent at the Children's Tumor Foundation through lifecycle segmentation; ran a before, during, and after-event fan lifecycle loop at the WTA; built a direct-to-consumer brand to more than $2M in 24 months.</span></li>
+<li><span class="dot g"></span><span><b>Regulated health with many kinds of customers.</b> Head of Product Innovation for a $350M ARR, PE-backed medically supervised diet program in 64 countries, serving consumers, clinicians, and provider partners under HIPAA. AI-enabled digital therapeutics at Twill Health.</span></li>
+<li><span class="dot c"></span><span><b>Designing for older patients.</b> An 80-year-old and their adult child should not get the same journey, and for many patients SMS or a voice call beats an app. That is exactly why owning SMS and Voice AI quality is the job.</span></li>
+</ul></div>
+
+<div class="slabel">The full loop, with evidence</div>
+<div class="card"><div class="qa">
+<div><div class="q">Roadmap, users, funnel</div><div class="a">Owned the roadmap and customer-experience overhaul at Squat New York, with time-to-interaction as the conversion KPI, across clinical, operations, and marketing stakeholders.</div></div>
+<div><div class="q">Prototype and build</div><div class="a">I still ship production code weekly with coding agents; new product surfaces go from idea to working prototype in days.</div></div>
+<div><div class="q">Test, launch, iterate</div><div class="a">Ran the release train with compliance in the loop on a $7B regulated launch at Grayscale, cutting release-cycle time 35 percent.</div></div>
+<div><div class="q">Know when the data is lying</div><div class="a">ARCS withholds calibration per cohort until the sample can carry it, and logs every belief the data proved wrong.</div></div>
+</div></div>
+
+<div class="slabel">Honest gaps</div>
+<div class="card"><ul class="plain">
+<li><span class="dot"></span><span><b>No production Voice AI for patients yet.</b> My eval work is on text-based AI. The method (rubrics, eval sets, regression gates, handoff rules) transfers, and I would start by building the eval set from real Conduit conversations.</span></li>
+<li><span class="dot"></span><span><b>No DME or Medicare supply background.</b> I learn a domain fast by working next to clinical and operations teams, as I did at Squat and Twill.</span></li>
+</ul></div>
+
+<div class="slabel">Questions I would bring to Rocky</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span>Which patient moment loses the most people today: first order, reorder, or telehealth follow-up?</span></li>
+<li><span class="dot c"></span><span>Where do SMS and Voice AI run end to end today, and how is quality measured now?</span></li>
+<li><span class="dot c"></span><span>How does this role work with the other product hires and with Clinical Operations?</span></li>
+</ul></div>
+
+<div class="slabel">The résumé</div>
+<div class="card"><p style="font-size:0.925rem;color:var(--secondary);margin-bottom:14px;line-height:1.5;">Human-readable and machine-readable, both built from the same source.</p>
+<div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/conduit-resume.pdf" download="Zach-Harris-Resume.pdf">↓ PDF</a><a class="btn" href="/conduit-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ ATS text</a></div></div>
+
+<div class="foot">Every number on this page and in the résumé traces to a source I can provide on request.</div>
+<div class="stamp">◆ ARCS · rendered at earned fidelity</div>
+
+</div><script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.slabel'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body></html>

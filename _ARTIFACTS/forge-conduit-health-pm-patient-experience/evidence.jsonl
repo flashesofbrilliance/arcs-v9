@@ -1,0 +1,13 @@
+# Evidence ledger, Conduit Health PM resume. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; self-reported = Zach confirmed.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "30\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:173 (supply-chain streamlined 30%+)"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat)"}
+{"pattern": "64\\s?countries", "source": "self-reported:Zach:2026-09-28 (Annie call, Granola 6d5a3167; confirmed in session)"}
+{"pattern": "up to 12\\s?", "source": "self-reported:Zach:2026-09-28 (Amy master; confirmed in session)"}
+{"pattern": "24 months", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "\\$230K", "source": "self-reported:Zach:2026-09-28 (Annie call, confirmed in session)"}
