@@ -130,7 +130,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
 - **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
 - **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: higher than at start; no sends today` (Zach, 2026-09-28).
 - **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
 
 _This block asserts nothing new. Counts, paths, and questions only._
