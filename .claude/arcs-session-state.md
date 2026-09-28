@@ -1,16 +1,16 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-27 · head `cdb1107f` (origin/main) · deploy: https://arcs-v9-j62feqn63-arcs-care.vercel.app  
+**As of:** 2026-09-28 · branch `claude/handoff-v3.69.0` cut from origin/main `0e8ef253` · PR #612 MERGED at `defaecc4`
 
-## What just shipped (v3.68.0)
-- Operator registry + MCP bridge (#559), /fold ridgeline (#559), librarian seed (#560), LEGEND (#561), tao-257 +
-  two-books collision (#562), night-moves + forensic recoil (#563), witness scout (#564), altitude canary (#565),
-  Operator 25 spec (#566), handoff Step -2 + deceipts F38-F40 (#567), source-trust ledger (#568), LORE + Tao
-  coverage gate (#569). All on main, 11 receipts in `decision_receipt`. Fate registry (#570) OPEN.
+## What this session did (v3.69.0, the echo-detector embedding chip, rank 3 / issue #580)
+- `operators/arcs_echo_embedding.py`: embedding-backed `signature_fn` + `orthogonality_fn` for the Orthogonal Echo
+  Detector (detector untouched, no new dep). Orthogonality = 1 - cosine of domain TEXT vectors.
+- `scripts/echo_ridgeline_feed.py`: `--signature`, `--seed`, template control, `--compare` before/after.
+- Report `_STATE/2026-09-27-echo-signature-before-after.json` (seed 27): keyword 0 / FP 0.8 -> embedding 3 / FP 0.0;
+  template control leaves 0 real echoes for both. Fate `fp-proxy-improved`; the real-echo half is NOT met.
+- Receipt `2026-09-27--echo-embedding-signature-merge--ZH`. Waypoints on issue #580.
 
-## Next unblocked action
-1. Merge + receipt #570 (fate registry). 2. Zach rules on the Tao two-books collision. 3. Memory-index curation
-(80KB vs 25,000-char cap; budget 24576). 4. Yuri (invite expires 10-02) and Robert (Teams invite 09-24) need Zach.
-
-## Blocking
-NONE on the machine side. Two human rulings pending (Tao books; memory curation is a judgment pass).
+## Next
+1. Append status to backlog row `echo-detector-embedding-signature` once PR #585 lands the row on main.
+2. Rank-4 chip (#581): propose RC-OPS-001 criterion 2 from the report; `criteria_status` is Zach's ruling.
+3. Feed the detector inputs from independent generators before reading any echo as real.

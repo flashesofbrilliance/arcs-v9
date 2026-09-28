@@ -1,13 +1,12 @@
 {
-  "captured_at": "2026-09-27T21:59:20-04:00",
+  "captured_at": "2026-09-28T09:35:39-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "cdb1107f",
-    "head_message": "Merge pull request #569 from flashesofbrilliance/claude/lore-book",
+    "head_sha": "0e8ef253",
+    "head_message": "chore(audit): weekly drift audit 2026-09-28 [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "(hook noise only: _INBOX/*.jsonl, _STATE/pulse.json, _STATE/snapshot.json)"
-    ]
+    "dirty_files": [],
+    "branch": "claude/handoff-v3.69.0"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -35,12 +34,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt: 11 rows added 2026-09-27 (one per merge #559-#569)"
+    "note": "decision_receipt: no row from this session yet; one follows the merge of PR #586. Funnel read-only pull 2026-09-27: external 10/4/6/0, founder 196/135/3."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Falsified an external operator audit by grep and built the organs that make that class detectable: generated operator registry + MCP bridge, LEGEND, LORE, fate registry, source-trust ledger, altitude canary, witness scout, Operator 25 at the handoff door.",
-  "next_action": "Merge + receipt PR #570 (fate registry); then Zach rules on the Tao two-books collision and the memory-index curation pass runs against the measured 25,000-char cap.",
-  "blocking": "NONE"
+  "session_summary": "Accountant keel chip: measured the external decision funnel from prod (founder split out; external inflow zero for 79 days), found by grep that no live good.arcs.care surface linked to the compass, and routed one move: the /fears kill-clause cards hand the claim into the dashboard with its horizon set.",
+  "next_action": "Zach's go on PR #586, then merge + one decision_receipt row + get_deployment check of /fears; re-run scripts/outcome_funnel.py a week after deploy and watch external last_30d.",
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-28T02:51:49Z"
 }

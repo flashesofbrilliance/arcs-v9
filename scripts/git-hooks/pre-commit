@@ -526,6 +526,18 @@ if [ -n "$lo" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/lore.py ];
   fi
 fi
 
+# Tao projection freshness — runtime/tao/proverbs.json is GENERATED from _CANON/tao-proverbs.jsonl
+# (Option A ruling, _DECISIONS/CANON-COLLISION-tao-two-books.md). If canon, the projection, or the
+# generator is staged, the committed projection must still match canon.
+tp=$(git diff --cached --name-only -- _CANON/tao-proverbs.jsonl runtime/tao/proverbs.json scripts/tao_project.py 2>/dev/null || true)
+if [ -n "$tp" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/tao_project.py ]; then
+  if ! python3 scripts/tao_project.py --check >/dev/null 2>&1; then
+    python3 scripts/tao_project.py --check >&2 || true
+    echo "✖ pre-commit(tao-project): runtime/tao/proverbs.json is stale vs canon. fix: python3 scripts/tao_project.py && git add runtime/tao/proverbs.json" >&2
+    exit 1
+  fi
+fi
+
 # Tao coverage — a NEWLY ADDED NFTT/TIL post must have a proverb citing its slug in a Tao book,
 # or carry <!-- tao-waiver: reason --> (an honest, declared zero). Legacy posts are reported by
 # `python3 scripts/tao_coverage_check.py`, not blocked (2026-09-27: 2/37 covered).

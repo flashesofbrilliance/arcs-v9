@@ -1,0 +1,130 @@
+{
+  "$schema": "arcs-read-friction-tiers/v1",
+  "source": "_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy (definitions from the 2026-09-27 friction stack), made data by operators/arcs_librarian.py",
+  "unit": "verification steps before the item can be acted on; tokens are added as tokens / tokens_per_step; cost_if_absent is in the same step units (a medium-stakes miss costs about 3 verification steps to recover from)",
+  "tokens_per_step": 8000,
+  "stale_surcharge_steps": 1.0,
+  "tiers": {
+    "T0-auto-loaded": {
+      "steps": 0.0,
+      "examples": "CLAUDE.md, AGENTS.md, WORLD.md, the memory index: already in context"
+    },
+    "T1-generated-verified": {
+      "steps": 0.25,
+      "examples": "grep-verified registries, the periodic table, LEGEND/LORE renders, oracle-minted tao proverbs"
+    },
+    "T2-open-one-file": {
+      "steps": 0.5,
+      "examples": "memory bodies, ADRs, lattice nodes: one open, then read"
+    },
+    "T3-scan-and-reconcile": {
+      "steps": 1.0,
+      "examples": "ledgers, backlog, seed ledger, witness stubs, receipt stores: scan the file, reconcile against siblings"
+    },
+    "T4-mcp-external": {
+      "steps": 2.0,
+      "examples": "Granola, Sugar, Supabase: fetch + scope + PII gate; retrieve only through a wrapping tool"
+    },
+    "T5-main-checkout-path": {
+      "steps": 2.5,
+      "examples": "/Users/.../arcs-v9/... absolute paths: must be re-verified against origin/main first (AGENTS.md gotcha 14)"
+    },
+    "T6-zero-weight-attestation": {
+      "steps": 4.0,
+      "examples": "external audits, Hermes attestations: every claim needs its own grep; evidentiary weight 0"
+    }
+  },
+  "classes": {
+    "adr": {
+      "tier": "T2-open-one-file",
+      "quadrant": "ROM",
+      "horizon_days": 180
+    },
+    "tao": {
+      "tier": "T1-generated-verified",
+      "quadrant": "ROM",
+      "horizon_days": 365
+    },
+    "legend": {
+      "tier": "T1-generated-verified",
+      "quadrant": "ROM",
+      "horizon_days": 90
+    },
+    "lore": {
+      "tier": "T1-generated-verified",
+      "quadrant": "ROM",
+      "horizon_days": 180
+    },
+    "registry": {
+      "tier": "T1-generated-verified",
+      "quadrant": "ROM",
+      "horizon_days": 30
+    },
+    "seed": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "ROM",
+      "horizon_days": 90
+    },
+    "lattice": {
+      "tier": "T2-open-one-file",
+      "quadrant": "ROM",
+      "horizon_days": 30
+    },
+    "memory": {
+      "tier": "T2-open-one-file",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 90
+    },
+    "seed-ledger": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 30
+    },
+    "falsification": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 30
+    },
+    "assumption": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 30
+    },
+    "backlog": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 14
+    },
+    "operator-receipt": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 30
+    },
+    "store-receipt": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 30
+    },
+    "witness": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "RAM",
+      "horizon_days": 7
+    },
+    "librarian-pick": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "RAM",
+      "horizon_days": 7
+    },
+    "external": {
+      "tier": "T4-mcp-external",
+      "quadrant": "EXTERNALS",
+      "horizon_days": 1
+    }
+  },
+  "cost_if_absent_by_stakes": {
+    "low": 1.5,
+    "medium": 3.0,
+    "high": 6.0,
+    "critical": 12.0
+  }
+}
