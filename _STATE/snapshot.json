@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-09-28T09:50:00-04:00",
+  "captured_at": "2026-09-28T09:54:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "2ffef9b4",
-    "head_message": "Merge pull request #617 from flashesofbrilliance/claude/tao-backfill-batch-2",
+    "head_sha": "7e812c6c",
+    "head_message": "Merge pull request #621 from flashesofbrilliance/claude/tao-backfill-batch-5",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Chip rank 2: falsification count + latest date + belief-log link on good.arcs.care/audit, stamped by belief_log_emit.py and covered by its --check; PR #591 merged 740aa55f, receipt 2026-09-28--audit-page-falsification-count--ZH.",
-  "next_action": "After PR #585 merges, append live status to backlog row kintsugi-public-falsification-count and close issue #579.",
+  "session_summary": "Chip rank 7: Librarian.recommend(q, budget) by expected value; Operator 21 rebound latest -> recommend, READY on probe; PR #613 merged 150beb19, receipt 2026-09-28--librarian-recommend-op21-merge--ZH.",
+  "next_action": "Append status to backlog row librarian-recommend-needle when claude/fanout-ranks-2-7 lands on main, close issue #584, then wire unfold.py to recommend.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-09-28T02:51:49Z"
 }
