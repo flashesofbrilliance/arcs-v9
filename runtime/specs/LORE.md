@@ -5,7 +5,7 @@
 > what we stopped believing. A story is never deleted when its verdict flips; a new row is
 > added and the old one points forward. `undecided` may be told but not cited.
 
-Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
+Rows: 14 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 5
 
 ## lore-001 · MYTH · ✖ DURABLE MYTH
 
@@ -138,3 +138,25 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Test that decided:** (a mood board: cite as aspiration, never as fact)
 - **Teaches:** Mood board for the ephemeral-to-durable etch: the song releases rather than resolves, which is what the witness register does to a moment.
 - **Date:** 2026-09-27 · **Refs:** `_INBOX/witness-backfill-candidates.jsonl (candidate 2026-08-01T06:10)`
+
+## lore-013 · PARABLE · ✓ TRUE
+
+**Story.** Two origami theorems govern whether a crease pattern folds flat at an interior vertex. Kawasaki: the alternating sum of the angles between creases is zero. Maekawa: mountain and valley folds differ by exactly two. One is about the sheet's geometry, the other about the direction each crease is folded; a vertex where the folds balance perfectly cannot lie flat. Told in the fold/unfold session as the shape of choreography (Kawasaki: is the dependency geometry feasible at all?) versus orchestration (Maekawa: do the chosen directions balance?). Both are local; whether a whole sheet folds flat is NP-hard, which is the four-mind problem in paper.
+
+- **Told where:** session arcs-production-harness-arch-f4f38e, 2026-09-27 (Zach: 'is there an analogy for one vs the other?')
+- **Observation (real):** Flat-foldable crease patterns satisfy both conditions at every interior vertex; boundary vertices are exempt.
+- **Mechanism claimed:** Feasibility (geometry) and consistency (direction assignment) are separable conditions; balance is not the same as foldability.
+- **Test that decided:** Kawasaki (1989) and Maekawa (via Justin/Kasahara, 1980s) are proven theorems; Bern and Hayes (1996) proved global flat-foldability NP-hard. The point the parable underscores, that the breath audit should read for a small net direction rather than balance, is backed by Maekawa directly.
+- **Teaches:** Separate 'can this fold at all' from 'are the directions consistent'; and a node whose inflows and outflows balance exactly is not at rest, it is unfoldable. Boundary vertices (one-way doors) are exempt from both.
+- **Date:** 2026-09-27 · **Refs:** `runtime/specs/LEGEND.md`, `scripts/shavasana_handoff.py`, `_STATE/2026-09-27-forensic-recoil.md`
+
+## lore-014 · PARABLE · ✓ TRUE
+
+**Story.** Origami forbids cutting: every fold is reversible and the sheet is never diminished. Kirigami allows cuts. The fold/unfold pair in ARCS was first told as origami, and the correction is the lesson: the diamond cut removes occlusion, and the fold receipt records what was cut (left_on_bench). ARCS is kirigami. Lossless with respect to the creases; lossy, by design and on the record, at the cuts.
+
+- **Told where:** same session, 2026-09-27 (Zach: 'multi dimensional origami')
+- **Observation (real):** The fold receipt has a mandatory left_on_bench field; the diamond-cut witness stub (2026-09-27) describes carat lost for brilliance gained.
+- **Mechanism claimed:** Compression in ARCS is a mix of reversible transforms and recorded removals, and the honesty of the system rests on knowing which is which.
+- **Test that decided:** The fold SKILL.md ridgeline spec makes left_on_bench mandatory even when empty; the lossless-compression claim in the forensic recoil is bounded to invariants. The metaphor's own rule (origami = no cuts) forces the distinction.
+- **Teaches:** Name the cuts. A compression that claims to be lossless everywhere is hiding its cuts; one that records them can be trusted at the creases.
+- **Date:** 2026-09-27 · **Refs:** `.claude/skills/fold/SKILL.md`, `_STATE/witness/2026-09-27.jsonl`
