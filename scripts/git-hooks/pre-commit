@@ -535,5 +535,16 @@ if [ -f scripts/tao_coverage_check.py ] && command -v python3 >/dev/null 2>&1; t
     exit 1
   fi
 fi
+
+# fate registry — every artifact class may only land in a fate runtime/specs/fates.json allows.
+# Runs when the registry or any hard-class ledger is staged; hard misses block, soft are reported.
+fr=$(git diff --cached --name-only -- runtime/specs/fates.json scripts/fates.py runtime/specs/lore.jsonl '_STATE/witness/*.jsonl' _STATE/falsification-ledger.jsonl operators/OPERATOR-REGISTRY.json runtime/specs/source-trust.json operators/RC-REGISTRY.json '_DECISIONS/ADR-*.md' 2>/dev/null || true)
+if [ -n "$fr" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/fates.py ]; then
+  if ! python3 scripts/fates.py check >/dev/null 2>&1; then
+    python3 scripts/fates.py check >&2 || true
+    echo "✖ pre-commit(fates): a hard-class ledger records a fate its class may not have (see above). Fix the value, or amend runtime/specs/fates.json with a reason." >&2
+    exit 1
+  fi
+fi
 exit 0
 

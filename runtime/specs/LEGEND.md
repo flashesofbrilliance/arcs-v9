@@ -6,7 +6,7 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 57 (37 acronyms · 20 terms).
+Rows: 58 (37 acronyms · 21 terms).
 
 ## Acronyms
 
@@ -55,6 +55,7 @@ Rows: 57 (37 acronyms · 20 terms).
 | Term | Gloss | Operational definition | Domain | Source |
 |---|---|---|---|---|
 | **durable myth** (aka durable-myth) | real observation + plausible mechanism + false binding | a story that survives careful people because its evidence is real and its mechanism is plausible; only the causal link is wrong (old glass, the Perplexity inventory). Passes the altitude canary, fails the integrity gate | arcs | `runtime/specs/LORE.md` |
+| **fate** (aka fates, fate gate) | the resolution an artifact lands in after its gate | ADR-068's third term: print -> gate -> fate. Each artifact class declares its allowed fates in runtime/specs/fates.json (hard classes fail check on a stray value; soft classes are reported). A LORE verdict, a witness y, an operator status, a source tier are all fates | arcs | `runtime/specs/fates.json` |
 | **four quadrants** | read friction x write friction | cheap-read/expensive-write = ROM (correct for law); cheap/cheap = RAM (flashes); expensive/expensive = externals (wrap in a tool); expensive-read/cheap-write = the pathology (RAM pretending to be ROM: uncurated memory, raw ledgers) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
 | **Frustration Gate** | fix the class, not the instance | when a bug recurs, add the cheapest mechanical check that fails the build on the whole class, prove fail-on-bad and pass-on-good, wire it into the always-run path | arcs | `_PATTERNS/2026-09-08-frustration-gate-pattern.md` |
 | **Golden Inchworm** (aka inchworm) | Red Thread to Golden Thread to Needle | the 3-pass non-blocking ROM primitive: name the invariant, select the load-bearing backed path, collapse to one action. Each pass prints even at grain fidelity | arcs | `.claude/arcs-canon.md` |
