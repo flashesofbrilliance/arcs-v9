@@ -100,3 +100,6 @@ runtime/job-search/
 
 # python venvs (operators/.venv is created by scripts/operator_registry_emit.py --bootstrap)
 .venv/
+
+# witness backfill scout output: regenerable derived cache of verbatim chat excerpts (scripts/witness_backfill_scout.py scan)
+_INBOX/witness-backfill-candidates.jsonl
