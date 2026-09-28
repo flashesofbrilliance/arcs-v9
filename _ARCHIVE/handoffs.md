@@ -1,3 +1,49 @@
+# Handoff — v3.68.1 (2026-09-27)
+
+> **The Accountant keel chip: the external decision funnel measured from prod, founder and external split,
+> and the distribution gap located by grep.** One draft PR (#586, commit `498386c6`, cut from `850d203f`),
+> not merged; awaits Zach's go. No receipt yet (a receipt follows the merge, never precedes it).
+
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 52 commits, 18 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 8 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 49 / dissent 27 (ratio 1.75) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a query, or a PR number; the funnel numbers are the ingest of queries that ran verbatim. Nothing downgraded, nothing dropped. The exhale counts above are the whole day across sessions, not this chip's (this chip: 1 commit, 0 merges).
+- **Somatic read**: `somatic: not asked` (Zach not present; no sends today from this session).
+- **Disposition**: RELEASED (canary GROUNDED, dissent present). The PR itself stays draft until Zach's go.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## In the PR (#586, unmerged)
+- `scripts/outcome_funnel.py`: read-only instrument over the Prisma tables (`--sql`, `--ingest`, `--self-test`
+  passes). First feed at `_STATE/outcome-funnel/2026-09-27.json`, pulled via Supabase `execute_sql` on 2026-09-27.
+- External: 10 receipts, 4 users, 6 debriefed, 0 closed, last receipt 2026-07-10, 0 in the last 30 days.
+  Founder (separate, always): 196 receipts, 135 debriefed, 3 closed (2 matched, 1 drifted; the third landed
+  2026-09-26). Anonymous: 48, none after 2026-07-13.
+- Located by grep in `src/proxy.ts` + the three `public/good-*.html` pages: `/copypasta`, `/fears`, `/audit`
+  are live (200) and none linked to the compass. Every CTA went to `/audit`, `/cases` or `arcs.care/advisory`.
+- The move, on `/fears`: 11 kill-clause cards link into `app.arcs.care/dashboard?q=&horizon=`; the dashboard
+  reads `?horizon=` (`src/app/dashboard/page.tsx`). `fears_attribution` query baseline 0.
+- Backlog rows `outcome-capture-rate-keel-gap`, `receipted-fears-stunt`: status appended.
+
+## Open (next session)
+1. Zach's go on #586; then merge, one `decision_receipt` row, and `get_deployment` to confirm `/fears` live.
+2. Re-run `python3 scripts/outcome_funnel.py --sql` a week after deploy; the only number that matters is
+   external `last_30d` moving off 0.
+3. Unconfirmed: prod `ADMIN_EMAILS` vs the founder identity; the script's `--run` mode (no psql here).
+4. Carried from v3.68.0: Tao two-books ruling; memory index curation; the counterpart pulse (Yuri, Robert).
+
+## Lessons (in the record)
+- A funnel with zero inflow has no conversion problem. Check the link graph of the live surfaces (grep the hrefs)
+  before designing a nudge.
+- Compare detector findings from the same directory: the kintsugi ratchet read 15 vs 2 because the HEAD copy sat
+  in `/tmp` without `DESIGN.md`; inside the repo it is 15 vs 15.
+
+
 # Handoff — v3.67.0 (2026-09-26)
 
 > **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
