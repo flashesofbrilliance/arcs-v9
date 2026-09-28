@@ -151,7 +151,7 @@
       "notes": "composted and molted are registered from the ripeness-resolution family (memory) though no seed has landed there yet; two rows carry dated ad-hoc statuses (named-2026-08-19, minted-2026-08-23) that a curation pass should normalize."
     },
     "receipt": {
-      "field": "status; drift",
+      "field": "status (derived: LOGGED iff an Outcome row exists for the receipt, else OPEN; EXPIRED has no rule yet); drift = Receipt.driftState",
       "gate": "POST /api/receipts/[id]/outcome (the human supplies matched/regretScore; a receipt cannot close itself)",
       "fates": [
         "LOGGED",
@@ -162,9 +162,9 @@
       "non_terminal": [
         "OPEN"
       ],
-      "ledger": "prisma/schema.prisma (Receipt.status; Outcome drift)",
+      "ledger": "prisma/schema.prisma (Outcome row presence; Receipt.driftState) — counted per cohort by Operator 19, operators/arcs_accountant.py -> _STATE/<date>-accountant-scoreboard.json",
       "strictness": "soft",
-      "notes": "not checked mechanically here (prod DB); registered so the vocabulary is in one place. 2/247 closed as of 2026-09-24."
+      "notes": "not checked mechanically here (prod DB); registered so the vocabulary is in one place. Receipt carries NO status column (the earlier note was wrong): status is derived from Outcome presence. Counts as of 2026-09-27 (read-only query, _STATE/2026-09-27-accountant-scoreboard.json): founder 196 receipts / 3 closed (2 matched, 1 unmatched), external 10 / 0, anonymous 48 / 0 — 254 / 3 total. The retired '2/247' figure mixed cohorts; report them separately."
     },
     "decision-receipt": {
       "field": "(none) — a ship-event receipt has no fate column; what_confirmed[] vs what_unconfirmed[] is its resolution",

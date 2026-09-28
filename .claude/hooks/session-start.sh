@@ -35,7 +35,13 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || tru
 # merging, retiring, size trims) stays human-owned — the script only ever ADDS.
 # Replaces the old inline comm check, whose regex missed dotted filenames
 # (*-v0.2-*.md) and false-positived ORPHANS. Guarded to never fail the hook.
-python3 "$CLAUDE_PROJECT_DIR/scripts/memory_index_sync.py" --append 2>/dev/null || true
+# PINNED to origin/main's copy (2026-09-27): the hook runs from whatever worktree the session
+# starts in, and 34 stale worktrees carried a pre-bare-slug script that re-catalogued all 274
+# indexed memories into a 63KB Uncurated band 21 minutes after it was deleted. Falls back to the
+# local copy only if origin/main is unreadable.
+_MIS=$(git -C "$CLAUDE_PROJECT_DIR" show origin/main:scripts/memory_index_sync.py 2>/dev/null)
+if [ -n "$_MIS" ]; then printf '%s\n' "$_MIS" | python3 - --append 2>/dev/null || true
+else python3 "$CLAUDE_PROJECT_DIR/scripts/memory_index_sync.py" --append 2>/dev/null || true; fi
 
 # Snapshot auto-refresh (mechanical fields only — local file, never committed/pushed
 # by this hook). Narrative fields (session_summary, next_action, nci_counter,

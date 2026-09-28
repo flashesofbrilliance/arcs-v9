@@ -1,3 +1,50 @@
+# Handoff — v3.67.0 (2026-09-26)
+
+> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
+> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
+> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
+> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
+> explicit go.
+
+## Shipped + LIVE (verified on prod)
+- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
+  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
+  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
+  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
+  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
+  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
+  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
+  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
+  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
+- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
+  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
+  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
+  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
+  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
+- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
+  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
+  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
+  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
+- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
+  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
+
+## Open (next session)
+1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
+   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
+2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
+   NFTT block until it next lands on main; everyone via origin/main already has it.
+3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
+
+## Lessons (in the record)
+- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
+  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
+  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
+- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
+  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
+- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
+  fragments without ever pushing them to `index`; the air-gap survives the sweep.
+
+
 # Handoff — v3.66.0 (2026-09-26)
 
 > **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,

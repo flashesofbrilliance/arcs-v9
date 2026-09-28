@@ -1,16 +1,19 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-27 · head `cdb1107f` (origin/main) · deploy: https://arcs-v9-j62feqn63-arcs-care.vercel.app  
+**As of:** 2026-09-27 · branch `claude/accountant-keel-funnel` at `498386c6` (cut from origin/main `850d203f`) · PR #586 DRAFT, unmerged
 
-## What just shipped (v3.68.0)
-- Operator registry + MCP bridge (#559), /fold ridgeline (#559), librarian seed (#560), LEGEND (#561), tao-257 +
-  two-books collision (#562), night-moves + forensic recoil (#563), witness scout (#564), altitude canary (#565),
-  Operator 25 spec (#566), handoff Step -2 + deceipts F38-F40 (#567), source-trust ledger (#568), LORE + Tao
-  coverage gate (#569). All on main, 11 receipts in `decision_receipt`. Fate registry (#570) OPEN.
+## What this session did (v3.68.1, the Accountant keel chip)
+- Measured the external decision funnel from prod, founder split out: external 10 receipts / 4 users / 6 debriefed /
+  0 closed, last external receipt 2026-07-10, 0 in 30d. Founder 196 / 135 / 3. Anonymous 48, none after 2026-07-13.
+  `scripts/outcome_funnel.py` + `_STATE/outcome-funnel/2026-09-27.json`.
+- Found by grep that none of `/copypasta`, `/fears`, `/audit` on good.arcs.care linked to the compass. Routed one
+  move: 11 kill-clause cards on `/fears` link into `app.arcs.care/dashboard?q=&horizon=`; dashboard reads `?horizon=`.
+- Backlog rows `outcome-capture-rate-keel-gap` and `receipted-fears-stunt`: status appended.
 
 ## Next unblocked action
-1. Merge + receipt #570 (fate registry). 2. Zach rules on the Tao two-books collision. 3. Memory-index curation
-(80KB vs 25,000-char cap; budget 24576). 4. Yuri (invite expires 10-02) and Robert (Teams invite 09-24) need Zach.
+1. Zach's go on PR #586 → merge → one `decision_receipt` row → `get_deployment` confirms `/fears` carries the links live.
+2. A week after deploy: `python3 scripts/outcome_funnel.py --sql`, re-run the queries, `--ingest`; watch external `last_30d`.
+3. Carried: Tao two-books ruling; memory-index curation; Yuri (invite expires 10-02) and Robert need Zach.
 
 ## Blocking
-NONE on the machine side. Two human rulings pending (Tao books; memory curation is a judgment pass).
+NONE for the build. The merge is gated on Zach's explicit go (draft-first).
