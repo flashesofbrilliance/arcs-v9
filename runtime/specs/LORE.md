@@ -7,7 +7,7 @@
 
 Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 
-## lore-001 · ✖ DURABLE MYTH
+## lore-001 · MYTH · ✖ DURABLE MYTH
 
 **Story.** Old window panes are thicker at the bottom because glass is a slow liquid and gravity has pulled it down over the centuries.
 
@@ -18,7 +18,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** A real observation plus a plausible mechanism can carry a false binding for a century; the falsifying calculation cost one afternoon nobody spent. Apparent drift may be a birth defect.
 - **Date:** 2026-09-27 · **Refs:** `_STATE/source-trust-events.jsonl`, `runtime/specs/LEGEND.md`
 
-## lore-002 · ✖ DURABLE MYTH
+## lore-002 · MYTH · ✖ DURABLE MYTH
 
 **Story.** An external audit crawled the repo and mapped ARCS Operators 1 through 19 to specific files at 'Full Production' status.
 
@@ -29,7 +29,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Real files, plausible mapping, wrong binding: the exact shape the integrity gate exists for. A hand-written map lies silently; a generated one that greps cannot.
 - **Date:** 2026-09-27 · **Refs:** `F40`, `operators/OPERATOR-REGISTRY.json`, `scripts/operator_registry_emit.py`
 
-## lore-003 · ✖ DURABLE MYTH
+## lore-003 · MYTH · ✖ DURABLE MYTH
 
 **Story.** In the vacuum of space there is no hot; heat instantly diffuses away.
 
@@ -40,7 +40,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** The corrected mechanism was the better lesson: the vacuum is where nothing can be handed off, and the only loss is slow, invisible, toward the background.
 - **Date:** 2026-09-27 · **Refs:** `forensic-quality-bar-correct-premise-name-loss-channel`, `_STATE/2026-09-27-forensic-recoil.md`
 
-## lore-004 · ✖ OLD WIVES' TALE
+## lore-004 · MYTH · ✖ OLD WIVES' TALE
 
 **Story.** A clean room needs a vacuum.
 
@@ -51,7 +51,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Clean because nothing stays, not because nothing enters. ARCS is the second kind: the corpus is supposed to breathe.
 - **Date:** 2026-09-27 · **Refs:** `_STATE/2026-09-27-forensic-recoil.md`
 
-## lore-005 · ✖ DURABLE MYTH
+## lore-005 · MYTH · ✖ DURABLE MYTH
 
 **Story.** Operator 20 (the folksonomy cultivator) has an import bug and is starved of real receipts; it is gated vaporware.
 
@@ -62,7 +62,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** The observed error was real; the diagnosis was not. Test the operator, not the story about it.
 - **Date:** 2026-08-28 · **Refs:** `F36`, `operators/prod_receipt_to_op20_seed.py`
 
-## lore-006 · ✖ DURABLE MYTH
+## lore-006 · MYTH · ✖ DURABLE MYTH
 
 **Story.** Hermes never did any arcs-v9 work; its sessions table shows zero.
 
@@ -73,7 +73,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** A SQL-table absence is not proof of absence; the index you queried may not be the one that records the thing.
 - **Date:** 2026-09-13 · **Refs:** `AGENTS.md#gotchas 14a`
 
-## lore-007 · ✓ TRUE
+## lore-007 · TESTIMONY · ✓ TRUE
 
 **Story.** An end user, mid-call, said he was 'smelling arcs' while reaching for a word for how the conversation felt.
 
@@ -84,7 +84,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** The first recorded instance of the product being felt rather than described. Lore of the pre-witness era, recovered by generative recoil.
 - **Date:** 2026-08-23 · **Refs:** `_CANON/great-moments.jsonl`, `ADR-066`
 
-## lore-008 · ◇ INSPIRATION
+## lore-008 · ASPIRATION · ◇ INSPIRATION
 
 **Story.** Trust is an outcome of a successful earned opinion.
 
@@ -95,7 +95,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Mood board for the source-trust ledger built 2026-09-27: tiers are derived from the record, never claimed. The text-register proverb became a generated table five weeks later.
 - **Date:** 2026-08-23 · **Refs:** `_CANON/great-moments.jsonl`, `runtime/specs/source-trust.json`
 
-## lore-009 · ✓ TRUE
+## lore-009 · PRACTICE · ✓ TRUE
 
 **Story.** A flash of brilliance mid-conversation needs a scribe: 'can I get a witness' that the tree did fall and this is the sound it made.
 
@@ -106,7 +106,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Lore that became mechanism: the request was itself the first witness-shaped moment, and the scout found it.
 - **Date:** 2026-08-11 · **Refs:** `_STATE/witness/`, `scripts/witness_backfill_scout.py`
 
-## lore-010 · ✓ TRUE
+## lore-010 · MEASUREMENT · ✓ TRUE
 
 **Story.** The Claude Code harness loads only the first ~24KB of the memory index and silently drops the rest.
 
@@ -117,7 +117,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Measure the constant instead of repeating it. The earlier '~24.4KB' note was the same number, unverified until a session was spent on it.
 - **Date:** 2026-09-27 · **Refs:** `memory-index-load-cap-observed`
 
-## lore-011 · ◇ INSPIRATION
+## lore-011 · ASPIRATION · ◇ INSPIRATION
 
 **Story.** ARCS should hold an Olympics: primitives, operators, ordinals and invariants compete under load, and the ones with unknown use cases are exalted. The torch is the flame's chain of custody, lit from one source, never from a lighter.
 
@@ -128,7 +128,7 @@ Rows: 12 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 3
 - **Teaches:** Mood board for the graduation ceremony: gauntlets as events, Loki and the Detective as judges, provenance as the drug test, write-lock as the truce. Kept as aspiration until a first games is held.
 - **Date:** 2026-09-27 · **Refs:** `_STATE/witness/2026-09-27.jsonl`, `operators/RC-REGISTRY.json`
 
-## lore-012 · ◇ INSPIRATION
+## lore-012 · ASPIRATION · ◇ INSPIRATION
 
 **Story.** A song called Ephemeral Beauty, written the same day the membrane started breathing differently, embodies the mono no aware moment ARCS keeps circling: holding what fades.
 

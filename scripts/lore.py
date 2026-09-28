@@ -11,6 +11,15 @@ witness stubs, WORLD.md, the falsification ledger's verdict column without the s
 Row schema (runtime/specs/lore.jsonl, one JSON object per line, append-mostly):
   id               lore-NNN (sequential; the oracle has no `lore` namespace yet, so the check
                    enforces uniqueness + monotonic order instead)
+  class            myth | testimony | aspiration | measurement | practice
+                   myth        = a causal story about how the world works (the verdict then grades it)
+                   testimony   = someone said a thing; the observation IS the saying (great-moments)
+                   aspiration  = a mood board; verdict must be `inspiration`
+                   measurement = a number or constant someone measured
+                   practice    = a way of working that a story carries (the witness request)
+                   Zach 2026-09-27: "MYTH should also be a property / class" — class is WHAT KIND of
+                   story; binding_verdict is HOW IT RESOLVED. durable-myth/old-wives-tale need class
+                   myth; inspiration needs class aspiration.
   story            the tale as told, one paragraph, in the teller's words where possible
   told_where       where it circulates (NFTT slug, session, textbook, museum guide, WORLD.md ...)
   observation      the real thing people can see/measure that the story explains
@@ -47,8 +56,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "runtime" / "specs" / "lore.jsonl"
 RENDER = ROOT / "runtime" / "specs" / "LORE.md"
-REQUIRED = ("id", "story", "told_where", "observation", "mechanism_claimed", "binding_verdict", "test_that_decided", "teaches", "date", "refs", "superseded_by")
+REQUIRED = ("id", "class", "story", "told_where", "observation", "mechanism_claimed", "binding_verdict", "test_that_decided", "teaches", "date", "refs", "superseded_by")
 VERDICTS = ("true", "durable-myth", "old-wives-tale", "undecided", "inspiration")
+CLASSES = ("myth", "testimony", "aspiration", "measurement", "practice")
 ID_RE = re.compile(r"^lore-(\d{3})$")
 
 
@@ -84,7 +94,16 @@ def validate(rows: list[dict]) -> list[str]:
             if num <= last:
                 errs.append(f"row {n}: id {r['id']} not monotonic (append-only; previous {last:03d})")
             seen.add(r["id"]); last = max(last, num)
+        c = r.get("class")
+        if c not in CLASSES:
+            errs.append(f"row {n} ({r.get('id','?')}): class must be one of {CLASSES}")
         v = r.get("binding_verdict")
+        if v in ("durable-myth", "old-wives-tale") and c != "myth":
+            errs.append(f"row {n} ({r.get('id','?')}): verdict {v} requires class myth")
+        if v == "inspiration" and c != "aspiration":
+            errs.append(f"row {n} ({r.get('id','?')}): verdict inspiration requires class aspiration")
+        if c == "aspiration" and v != "inspiration":
+            errs.append(f"row {n} ({r.get('id','?')}): class aspiration resolves only to inspiration")
         if v not in VERDICTS:
             errs.append(f"row {n} ({r.get('id','?')}): binding_verdict must be one of {VERDICTS}")
         elif v not in ("undecided", "inspiration") and not r.get("test_that_decided"):
@@ -114,7 +133,7 @@ def render_md(rows: list[dict]) -> str:
            ""]
     for r in rows:
         badge = {"true": "✓ TRUE", "durable-myth": "✖ DURABLE MYTH", "old-wives-tale": "✖ OLD WIVES' TALE", "undecided": "? UNDECIDED", "inspiration": "◇ INSPIRATION"}[r["binding_verdict"]]
-        out += [f"## {r['id']} · {badge}" + (f" · superseded by {r['superseded_by']}" if r.get("superseded_by") else ""),
+        out += [f"## {r['id']} · {r['class'].upper()} · {badge}" + (f" · superseded by {r['superseded_by']}" if r.get("superseded_by") else ""),
                 "",
                 f"**Story.** {r['story']}",
                 "",
@@ -153,7 +172,7 @@ def cmd_tell(i: str) -> int:
 
 
 def self_test() -> int:
-    good = {"id": "lore-001", "story": "s", "told_where": "t", "observation": "o", "mechanism_claimed": "m",
+    good = {"id": "lore-001", "class": "myth", "story": "s", "told_where": "t", "observation": "o", "mechanism_claimed": "m",
             "binding_verdict": "durable-myth", "test_that_decided": "the calculation", "teaches": "a lesson long enough to count",
             "date": "2026-09-27", "refs": [], "superseded_by": None}
     fails = 0
@@ -164,7 +183,9 @@ def self_test() -> int:
     check("good row passes", validate([good]) == [], validate([good]))
     check("verdict without a test is rejected", validate([dict(good, test_that_decided=None)]) != [])
     check("undecided without a test is allowed", validate([dict(good, binding_verdict="undecided", test_that_decided=None)]) == [])
-    check("inspiration without a test is allowed", validate([dict(good, binding_verdict="inspiration", test_that_decided=None)]) == [])
+    check("inspiration without a test is allowed (class aspiration)", validate([dict(good, **{"class": "aspiration"}, binding_verdict="inspiration", test_that_decided=None)]) == [])
+    check("durable-myth on a non-myth class rejected", validate([dict(good, **{"class": "testimony"})]) != [])
+    check("aspiration class must resolve to inspiration", validate([dict(good, **{"class": "aspiration"}, binding_verdict="true")]) != [])
     check("non-monotonic ids rejected (append-only)", validate([dict(good, id="lore-002"), dict(good, id="lore-001")]) != [])
     check("superseded_by must exist", validate([dict(good, superseded_by="lore-099")]) != [])
     check("supersession chain valid", validate([dict(good, superseded_by="lore-002"), dict(good, id="lore-002")]) == [])
