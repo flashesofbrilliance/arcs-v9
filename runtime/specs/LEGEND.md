@@ -6,7 +6,7 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 53 (37 acronyms · 16 terms).
+Rows: 54 (37 acronyms · 17 terms).
 
 ## Acronyms
 
@@ -66,6 +66,7 @@ Rows: 53 (37 acronyms · 16 terms).
 | **Orthogonal Echo Detector** (aka echo detector) | cross-domain kinematic isomorphism finder | the ROM primitive that proposes an edge from another domain whose derivation had the same shape; provenance before execution, enters the graph as M1 until it closes once | arcs | `operators/arcs_inchworm_echo.py` |
 | **read friction** | cost to get an answer you can act on | tokens to load plus verification steps before the item can be acted on; tiered from auto-loaded surfaces (zero) up to external audits and Hermes attestations (every claim needs a grep) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
 | **ridgeline** | the edges a fold cut carried out | field on the trunk-fold receipt: per chip, the ground truth, SSOT paths, routes, gates and corrections it inherited; left_on_bench mandatory. The saddle between peaks the atlas needs to render a range | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
+| **Shavasana** (aka ShavasanaSpace, op 25) | Operator 25, the contemplative pause (corpse pose) | the mandatory do-nothing interval before an irreversible act: stop generating, audit the session's breath (recoil in, hyperstition out), release claims that fail a cold re-read, check agreement-without-dissent, take the human's felt read, emit an integration receipt with no new claim; then the human releases or returns the act. Level-triggered, never a timer | arcs | `runtime/specs/operator-25-shavasana-v0.md` |
 | **shift** | a breadcrumb laid when a tectonic plate moves | a row appended when an inherited edge is falsified or superseded after the cut, naming everything else that inherited it so they re-verify | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
 | **waypoint** | a committed step along a child session's ridge | a commit sha or receipt id appended as each load-bearing step lands; the committed analogue of the gitignored handoff-progress trail | arcs | `.claude/skills/fold/SKILL.md#ridgeline` |
 | **write friction** | number of gates between intent and a durable, attributable commit | the gradient the write lock sits at the top of: ROM promotion (oracle, graduation gate, Court, write-lock) at the top, gitignored scratch at zero. Tunable per surface, unlike a lock | arcs | `session:2026-09-27` |

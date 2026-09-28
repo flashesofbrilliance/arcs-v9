@@ -108,7 +108,7 @@ NEAREST: dict[int, str] = {
     15: "no energy catalyst atom",
     19: "receipt_evaluator + prisma Outcome model measure outcomes; no Accountant operator (n=2 closed loops)",
     24: "arcs_operators_lab.LokiChallenge is generated inside LAB; no standalone steel-man",
-    25: "no Shavasana pause anywhere in code (0 grep hits 2026-09-27)",
+    25: "no Shavasana code (0 grep hits 2026-09-27); operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; prototype-without-the-name = /thread-recoil + /night-moves",
     27: "scripts/arcs_core.py Folksonomist builds taxonomies from scans; not wired as an operator",
     28: "operators/audit_service/ is an informativeness gate, not a transaction auditor",
 }
