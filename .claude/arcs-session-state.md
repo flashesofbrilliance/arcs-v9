@@ -1,26 +1,16 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-26 · head `ef4282ee` · in sync with origin/main · deploy READY on good.arcs.care
+**As of:** 2026-09-27 · head `cdb1107f` (origin/main) · deploy: https://arcs-v9-j62feqn63-arcs-care.vercel.app  
 
-## What just shipped (v3.67.0)
-- **take-home-trap-dossier**: genuine WCAG contrast debt repaired — `--dimmed` raised to AA
-  (dark `#748699` kit-canonical, light `#5e6b78`); detector 111→81 (residue all verified artifacts);
-  ratchet baseline dropped 111→81. `nftt-gates.sh` brought to pass (title suffix, desc, robots, IOC
-  email defang). Commits `3fbefb74`, `b235654c`.
-- **Whole NFTT corpus** (9 pages) conformed to the head-meta gate; new batch **Frustration Gate**
-  `scripts/nftt_meta_gate.py` wired into pre-commit. `--all` sweep GREEN across 38 files (index exempt).
-  Recon-report fragments kept `noindex` (air-gap). Commits `ce2b504b` → `ef4282ee`.
-- All merged to main + prod-verified live. 2 decision receipts filed (fully confirmed).
+## What just shipped (v3.68.0)
+- Operator registry + MCP bridge (#559), /fold ridgeline (#559), librarian seed (#560), LEGEND (#561), tao-257 +
+  two-books collision (#562), night-moves + forensic recoil (#563), witness scout (#564), altitude canary (#565),
+  Operator 25 spec (#566), handoff Step -2 + deceipts F38-F40 (#567), source-trust ledger (#568), LORE + Tao
+  coverage gate (#569). All on main, 11 receipts in `decision_receipt`. Fate registry (#570) OPEN.
 
 ## Next unblocked action
-Wire the design-detector (visual-slop) step into `nftt-gates.sh` — **gated** on Zach landing the
-design-system brand-profile branch (his 7-wave migration review). Carried from v3.66.0.
+1. Merge + receipt #570 (fate registry). 2. Zach rules on the Tao two-books collision. 3. Memory-index curation
+(80KB vs 25,000-char cap; budget 24576). 4. Yuri (invite expires 10-02) and Robert (Teams invite 09-24) need Zach.
 
-## Watch-outs
-- Local main checkout is parked on another branch → its pre-commit won't run the new NFTT gate block
-  until it lands on main; origin/main already has it.
-- Classify detector contrast findings against the ACTUAL rendered surface (CSS), never the detector's
-  `#ffffff`/`#000000` inference.
-
-## Blocking question
-NONE.
+## Blocking
+NONE on the machine side. Two human rulings pending (Tao books; memory curation is a judgment pass).

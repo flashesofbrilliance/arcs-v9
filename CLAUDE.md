@@ -114,6 +114,66 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.68.0 (2026-09-27)
+
+> **The membrane day: an external audit of the operator suite was falsified by grep, and the repo grew
+> the organs that make that class of fabrication mechanically detectable.** Eleven PRs merged to main
+> (#559 to #569), eleven `decision_receipt` rows, each with an honest `what_unconfirmed`. A twelfth
+> (#570, the fate registry) is open. Draft-first throughout; merged only on Zach's explicit go, every
+> merge behind a guard that verified the two red CI jobs (`smoke` ledger delinquency, `leak-check`)
+> were inherited from main at `ac087aa3` and untouched by the diff.
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 31 commits, 11 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 20 dissent markers, 7 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 44 / dissent 30 (ratio 1.42) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): dropped one muddled line ('the deceipt rows for F-rows are filed'); every other claim carries a sha, a path, or a receipt id. Nothing downgraded.
+- **Somatic read**: asked in the handoff receipt (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main (each with a receipt in `decision_receipt`)
+- **Operator registry + MCP bridge** (`1ffed09e`, PR #559): `scripts/operator_registry_emit.py` generates
+  `operators/OPERATOR-REGISTRY.json` from `operators/docs/PERIODIC-TABLE.md` (numbering LOCKED: Folksonomy=20,
+  Librarian=21) and refuses any binding whose symbol it cannot grep (proved fail-on-bad). 11 READY / 6 PARTIAL /
+  1 BLOCKED (`core/operators.py` needs undeclared pandas) / 11 UNBUILT. `operators/arcs_mcp_bridge.py` (mcp 2.x,
+  py>=3.10 venv via `operators/mcp-bridge.sh`, `.mcp.json.example`): six tools; unbuilt operators answer
+  `status=blocked`; every call appends to `operators/ledger/operator-receipts.jsonl`. `/fold` gained ridgeline,
+  waypoints, shifts (`7b6616c3`). AGENTS.md gotcha 16.
+- **Seeds + vocabulary**: `seed-service-librarian-retrieval-policy` (`9868f9d3`, #560); the **LEGEND** working
+  dictionary `runtime/specs/legend.jsonl` + `scripts/legend.py`, 58 rows (`ba0242d3`, #561); **tao-257** minted through
+  the oracle into BOTH Tao books + `CANON-COLLISION-tao-two-books.md` raised (`84880b00`, #562).
+- **Records**: night-moves + forensic recoil (`9d966113`, #563): 10 priors revised, 10/10 by external ground.
+- **Instruments**: witness backfill scout over 199 transcripts, 141 candidates, none filed (`d5a6d851`, #564);
+  altitude canary for fluent-confident-uncited prose (`4356f502`, #565); Operator 25 Shavasana spec v0
+  (`b0647345`, #566); `/handoff` Step -2 invokes it via `scripts/shavasana_handoff.py` + deceipts F38-F40
+  (`0222d489`, #567); per-source trust ledger `runtime/specs/source-trust.json` (`d104cc50`, #568);
+  **LORE** `runtime/specs/lore.jsonl` (class x verdict, 12 rows) + Tao coverage gate (`cdb1107f`, #569).
+- Memory: 4 new files (numbering lock; acronym rule; forensic bar; load-cap measured 25,000 chars by a spawned session).
+
+## Open (next session)
+1. **Tao two-books ruling** (`_DECISIONS/CANON-COLLISION-tao-two-books.md`, options A/B/C). Blocks the
+   `tao-mint-nftt-til-backfill` backlog item: NFTT 2/29 essays cited by a proverb, TIL 0/5.
+2. **Memory index curation**: 80KB vs a measured 25,000-char harness cap; entries below line 144 never load.
+   Set `MEM_BUDGET` + `memory_index_sync.py` to 24576. Move the Uncurated section out.
+3. **PR #570 fate registry** awaits merge + receipt. Then: `INTEGRITY_GATE_BLOCK=1`, ledger delinquency
+   findings (GW-002, TC-004, YG-005, LINT-006, OBS-007, ROT-009, BK-010), leak-check markers in `public/`.
+4. Counterpart pulse (inbox ahead of memory): Yuri's Google invitation expires 2026-10-02 + 3 unread LinkedIn
+   digests; Robert's Teams invite 09-24 after the CV send. Both need Zach.
+5. Queued: Supabase sync of the operator ledger; `Librarian.recommend()`; Op 28 Auditor binding; the
+   asset/liability agent pass over the 141 scout + crawl candidates; the LORE sweep over great-moments/NFTT.
+
+## Lessons (in the record)
+- A hand-written operator map lies silently; a generated one that greps cannot. Its first run caught its author.
+- Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
+- Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
+- Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
+
+
 # Handoff — v3.67.0 (2026-09-26)
 
 > **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
@@ -159,28 +219,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
 - **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
   fragments without ever pushing them to `index`; the air-gap survives the sweep.
-
-
-# Handoff — v3.66.1 (2026-09-26)
-
-> **Off-repo thinking session: falsifiable criteria for a public Farcaster debate, shipped as a pre-registered
-> bet + a phone card; then memory consolidated.** No product code touched. Deliverables banked on branch
-> `claude/falsifiable-position-criteria-inltlk` (not merged; nothing deployed).
-
-## Shipped
-- **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
-  @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
-  90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
-- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
-  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
-  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
-- Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
-- **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
-
-## Open (next session)
-1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
-   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
-2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
-3. Backfill gap: v3.66.0 has no MEMORY.md entry.
-4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
-   redaction doubled-article fix.

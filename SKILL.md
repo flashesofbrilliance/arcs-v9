@@ -67,6 +67,8 @@ Two slash commands live in `.claude/commands/`. They fire inside Claude Code (SU
 |---|---|---|
 | v0.7.0 | 2026-08-26 | ADR-068 gates wired into the artifact-arc skills: teardown-page-factory gains Pre-send gates (ex-ante receipt BLOCKING, counterpart-gauntlet, close-loop obligation); forge phase-8 ex-ante-current check; recoil-ship Step 5b; matrix recital in omakase-pipeline + recoil-new/prep/close. Seed bank gains pollinate/projection-registry/prospecting/sovereign-services patterns (ledger-receipted). |
 | `/handoff` | `.claude/commands/handoff.md` | END of every session. Updates MEMORY.md, SKILL.md changelog, CLAUDE.md handoff block, and `arcs-session-state.md`. Outputs a HANDOFF RECEIPT. |
+| `/handoff` Step -2 (Shavasana) | `scripts/shavasana_handoff.py` | 2026-09-27: the handoff pause (Operator 25, mechanical half) runs BEFORE the handoff block is written; breath audit + sycophancy check + canary cold re-read; adds no claim. |
+| new gates 2026-09-27 | `scripts/operator_registry_emit.py` · `scripts/legend.py` · `scripts/lore.py` · `scripts/fates.py` · `scripts/source_trust_emit.py` · `scripts/altitude_canary.py` · `scripts/witness_backfill_scout.py` · `scripts/tao_coverage_check.py` | registry / dictionary / stories / fates / trust / altitude / witness backfill / tao coverage — all generated-with-check, all wired into pre-commit (canary + coverage advisory). |
 | `/handoff-pickup` | `.claude/commands/handoff-pickup.md` | START of a new session. Reads `arcs-session-state.md` + last CLAUDE.md handoff block only. Produces ORIENTATION BRIEF. |
 
 **Token budget contract:**
@@ -190,6 +192,7 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 
 ## Changelog
 
+- **v3.68.0** (2026-09-27): +`scripts/operator_registry_emit.py` + `operators/arcs_mcp_bridge.py` (registry-driven MCP bridge; numbering locked to the periodic table); +`scripts/legend.py` (LEGEND), +`scripts/lore.py` (LORE), +`scripts/fates.py` (fate registry), +`scripts/source_trust_emit.py` (per-source trust), +`scripts/altitude_canary.py`, +`scripts/witness_backfill_scout.py`, +`scripts/tao_coverage_check.py`, +`scripts/shavasana_handoff.py` (/handoff Step -2, Operator 25); /fold ridgeline+waypoints+shifts; tao-257; deceipts F38-F40.
 - **v3.61.0** (2026-09-13): +`scripts/bridge_index_scan.py` (bridge employer index → board); +`scripts/scout_dossier_ingest.py` (Perplexity dossier intake gate); AGENTS.md receipt enums; ADR-078..081 landed from hold branches.
 - **v3.53.0** (2026-09-04): +`scripts/research_render.py` (the Reader: 3-altitude Almanac over the digest node schema); ADR-075 Metabolic Router doctrine (mechanical vs judgment; integrity gate spec'd); `_SPECS/reading-room-build-plan-v1.md` locked; `src/lib/ammo-gate.ts` + `/api/recruithaus/unlock` passcode gate.
 

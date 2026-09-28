@@ -4352,3 +4352,28 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
    spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
 3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
 4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
+
+
+# Handoff — v3.66.1 (2026-09-26)
+
+> **Off-repo thinking session: falsifiable criteria for a public Farcaster debate, shipped as a pre-registered
+> bet + a phone card; then memory consolidated.** No product code touched. Deliverables banked on branch
+> `claude/falsifiable-position-criteria-inltlk` (not merged; nothing deployed).
+
+## Shipped
+- **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
+  @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
+  90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
+- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
+  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
+  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
+- Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
+- **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
+
+## Open (next session)
+1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
+   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
+2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
+3. Backfill gap: v3.66.0 has no MEMORY.md entry.
+4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
+   redaction doubled-article fix.
