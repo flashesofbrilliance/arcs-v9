@@ -114,6 +114,52 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.68.1 (2026-09-27)
+
+> **The Accountant keel chip: the external decision funnel measured from prod, founder and external split,
+> and the distribution gap located by grep.** One draft PR (#586, commit `498386c6`, cut from `850d203f`),
+> not merged; awaits Zach's go. No receipt yet (a receipt follows the merge, never precedes it).
+
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 52 commits, 18 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 8 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 49 / dissent 27 (ratio 1.75) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a query, or a PR number; the funnel numbers are the ingest of queries that ran verbatim. Nothing downgraded, nothing dropped. The exhale counts above are the whole day across sessions, not this chip's (this chip: 1 commit, 0 merges).
+- **Somatic read**: `somatic: not asked` (Zach not present; no sends today from this session).
+- **Disposition**: RELEASED (canary GROUNDED, dissent present). The PR itself stays draft until Zach's go.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## In the PR (#586, unmerged)
+- `scripts/outcome_funnel.py`: read-only instrument over the Prisma tables (`--sql`, `--ingest`, `--self-test`
+  passes). First feed at `_STATE/outcome-funnel/2026-09-27.json`, pulled via Supabase `execute_sql` on 2026-09-27.
+- External: 10 receipts, 4 users, 6 debriefed, 0 closed, last receipt 2026-07-10, 0 in the last 30 days.
+  Founder (separate, always): 196 receipts, 135 debriefed, 3 closed (2 matched, 1 drifted; the third landed
+  2026-09-26). Anonymous: 48, none after 2026-07-13.
+- Located by grep in `src/proxy.ts` + the three `public/good-*.html` pages: `/copypasta`, `/fears`, `/audit`
+  are live (200) and none linked to the compass. Every CTA went to `/audit`, `/cases` or `arcs.care/advisory`.
+- The move, on `/fears`: 11 kill-clause cards link into `app.arcs.care/dashboard?q=&horizon=`; the dashboard
+  reads `?horizon=` (`src/app/dashboard/page.tsx`). `fears_attribution` query baseline 0.
+- Backlog rows `outcome-capture-rate-keel-gap`, `receipted-fears-stunt`: status appended.
+
+## Open (next session)
+1. Zach's go on #586; then merge, one `decision_receipt` row, and `get_deployment` to confirm `/fears` live.
+2. Re-run `python3 scripts/outcome_funnel.py --sql` a week after deploy; the only number that matters is
+   external `last_30d` moving off 0.
+3. Unconfirmed: prod `ADMIN_EMAILS` vs the founder identity; the script's `--run` mode (no psql here).
+4. Carried from v3.68.0: Tao two-books ruling; memory index curation; the counterpart pulse (Yuri, Robert).
+
+## Lessons (in the record)
+- A funnel with zero inflow has no conversion problem. Check the link graph of the live surfaces (grep the hrefs)
+  before designing a nudge.
+- Compare detector findings from the same directory: the kintsugi ratchet read 15 vs 2 because the HEAD copy sat
+  in `/tmp` without `DESIGN.md`; inside the repo it is 15 vs 15.
+
+
 # Handoff — v3.68.0 (2026-09-27)
 
 > **The membrane day: an external audit of the operator suite was falsified by grep, and the repo grew
@@ -172,50 +218,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
 - Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
 - Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
-
-
-# Handoff — v3.67.0 (2026-09-26)
-
-> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
-> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
-> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
-> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
-> explicit go.
-
-## Shipped + LIVE (verified on prod)
-- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
-  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
-  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
-  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
-  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
-  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
-  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
-  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
-  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
-- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
-  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
-  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
-  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
-  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
-- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
-  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
-  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
-  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
-- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
-  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
-
-## Open (next session)
-1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
-   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
-2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
-   NFTT block until it next lands on main; everyone via origin/main already has it.
-3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
-
-## Lessons (in the record)
-- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
-  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
-  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
-- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
-  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
-- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
-  fragments without ever pushing them to `index`; the air-gap survives the sweep.
