@@ -1,0 +1,29 @@
+# Evidence ledger, Conduit Health PM resume. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; self-reported = Zach confirmed.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "30\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:173 (supply-chain streamlined 30%+)"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat)"}
+{"pattern": "64\\s?countries", "source": "self-reported:Zach:2026-09-28 (Annie call, Granola 6d5a3167; confirmed in session)"}
+{"pattern": "up to 12\\s?", "source": "self-reported:Zach:2026-09-28 (Amy master; confirmed in session)"}
+{"pattern": "24 months", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "\\$230K", "source": "self-reported:Zach:2026-09-28 (Annie call, confirmed in session)"}
+{"pattern": "7 days", "source": "public:conduithealth.com (fetched 2026-09-28)"}
+{"pattern": "50\\+", "source": "public:conduithealth.com (fetched 2026-09-28)"}
+{"pattern": "More than 50,000\\s?", "source": "public:finance.yahoo.com Series A release"}
+{"pattern": "100\\+", "source": "public:finance.yahoo.com Series A release"}
+{"pattern": "90 million", "source": "public:finance.yahoo.com Series A release"}
+{"pattern": "\\$22M", "source": "public:finance.yahoo.com Series A release"}
+{"pattern": "\\$17M", "source": "public:homecaremag.com"}
+{"pattern": "month 1, 3, 6, 12", "source": "proposal, not a claim"}
+{"pattern": "73 percent", "source": "document:~/Downloads/Ideal Protein Growth Case.pdf p17 (73% Dieter Adherence Rate)"}
+{"pattern": "40 percent", "source": "document:Ideal Protein Growth Case.pdf p17 (+40% PQL Increase)"}
+{"pattern": "63 percent", "source": "document:Ideal Protein Growth Case.pdf p15 (+63% Booking Success Rate, radius <5 miles)"}
+{"pattern": "3,500\\+", "source": "document:Ideal Protein Growth Case.pdf p2 (Local Clinic Footprint +3,500)"}
+{"pattern": "five miles", "source": "document:Ideal Protein Growth Case.pdf p15"}
+{"pattern": "30 percent", "source": "document:Ideal Protein Growth Case.pdf p14 (Clinic Finder Leads & HCP Form Fills +30%)"}
+{"pattern": "Twenty years", "source": "vetted-master career span 2006-present"}
+{"pattern": "month-3", "source": "proposal, not a claim"}
