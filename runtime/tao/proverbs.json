@@ -2660,6 +2660,56 @@
       "minted": "2026-09-28",
       "text": "The foam is the earliest legible form the wave takes. Read the mess in front of you as a compressed signal about the system underneath it, and you were running the method before it had a name.",
       "canon_ref": "_CANON/tao-proverbs.jsonl#tao-278"
+    },
+    {
+      "id": "nftt-the-lock-that-was-already-there-R-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "analyze",
+      "source": "nftt/the-lock-that-was-already-there",
+      "minted": "2026-09-28",
+      "text": "The protocol with the right name never fired; it was watching simulated futures, not git. Two sessions can fix the same file an hour apart, and the lock that catches it is the plain one already running.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-279"
+    },
+    {
+      "id": "nftt-the-loop-closes-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/the-loop-closes",
+      "minted": "2026-09-28",
+      "text": "A pile of good tools is still a pile. The machine is not the tools, it is the last wire between them, the unglamorous consumer that lets the current run the whole way without you in the middle.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-280"
+    },
+    {
+      "id": "nftt-the-method-that-was-already-built-C-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "recapitulate",
+      "source": "nftt/the-method-that-was-already-built",
+      "minted": "2026-09-28",
+      "text": "Eight months before the pipeline existed, it was written down in prose as six named principles and one decision made by hand. Name the parts of how you decided so you can do it again, and the software will follow the description.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-281"
+    },
+    {
+      "id": "nftt-the-pre-mortem-that-asked-to-be-wrong-W-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "W",
+      "verb": "assess",
+      "source": "nftt/the-pre-mortem-that-asked-to-be-wrong",
+      "minted": "2026-09-28",
+      "text": "Publish the risk before the stress, name the exact instrument that carries it, and hand the reader the conditions under which they should stop believing you. Then say plainly which pieces made no such claim.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-282"
+    },
+    {
+      "id": "nftt-the-question-that-found-the-outage-R-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "evaluate",
+      "source": "nftt/the-question-that-found-the-outage",
+      "minted": "2026-09-28",
+      "text": "A green merge is a statement about the code. Whether the system is alive is a separate question, answered only by someone refusing the checkmark and watching the thing do the thing in production.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-283"
     }
   ]
 }
