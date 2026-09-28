@@ -4,9 +4,9 @@
 > One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by
 > `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.
 
-**40 beliefs overturned** · 19 promoted to canon · span 2026-06-03 → 2026-09-27
+**41 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-09-27
 
-By scope: canon 10 · infra 9 · process 9 · gauntlet 5 · deploy 4 · security 2 · recoil 1
+By scope: canon 11 · infra 9 · process 9 · gauntlet 5 · deploy 4 · security 2 · recoil 1
 
 ---
 
@@ -35,6 +35,13 @@ The reversals that went most against the grain this week:
 - **Now:** Corrected in-thread within one turn; memory [[memory-index-load-cap-observed]] carries the measured number; MEM_BUDGET guidance set to 24576. Lesson: a load-time size is only evidence of clipping if the file was over the cap AT load time.
 - _refs: _STATE/2026-09-27-forensic-recoil.md, _STATE/night-moves/2026-09-27.md · confidence: high_
 
+### F41 · 2026-09-26 · `canon`  — CANON
+- **Held:** F34's 'Now' fix is scoped but unbuilt, so the Orthogonal Echo Detector (ROM Primitive #5) remains architecturally blind on its stub matcher and keeps failing its own kill-test (adversarial-FP 1.0 at the operating threshold).
+- **Test:** Rebuild the detector, then re-run scripts/echo_detector_dogfood.py --sweep on the UNCHANGED 12-case bench plus a new held-out bench; pre-registered kill-condition adv-FP <= 0.10 at recall >= 0.80 (fixed and committed BEFORE building: _STATE/2026-09-26-echo-detector-seaworthy-prereg.md).
+- **FALSIFIED →** Concept-gated rebuild passes: precision 1.0 / recall 1.0 / adversarial-FP 0.0 across the full 0.10-0.60 sweep on the unchanged bench, and 1.0/1.0/0.0 on a held-out bench that includes a decoy sharing exactly ONE real concept (locks_in). The blindness was lone-keyword-token scoring; replacing the flat keyword library with named kinematic concepts detected only by relational phrases, and gating a match on >= 2 concepts shared on both sides, discriminates genuine isomorphisms from generic-word collisions. RC-OPS-001 graduation criterion 2 (detector precision) CLOSED.
+- **Now:** signature_fn + orthogonality_fn made real and injectable with honest deterministic offline fixtures (make_llm_signature_fn / make_embedding_orthogonality_fn); default orthogonality upgraded from a constant to a char-trigram distance. NOTE still open: a bench is not blind-field proof. RC-OPS-001 criteria 3 (blind-field precision, K source-independent echoes) and 4 (Observatory period) remain OPEN; the candidate stays YELLOW, not graduated.
+- _refs: _STATE/2026-09-26-echo-detector-dogfood-seaworthy.json, _STATE/2026-09-26-echo-detector-seaworthy-prereg.md, operators/arcs_inchworm_echo.py, scripts/echo_detector_dogfood.py, RC-OPS-001, closes-loop:F34 · confidence: high_
+
 ---
 
 ## Full ledger — newest first
@@ -44,6 +51,7 @@ The reversals that went most against the grain this week:
 | F40 | 2026-09-27 | canon | ✓ | **External audit (Perplexity, 'Job to Be Done.md'): Operators 1-19 mapped to repo files with 'Full Production' / 'Production Code' status, e.g** → Numbering LOCKED to the periodic table (AGENTS.md gotcha 16); registry generated and grep-verified; altitude canary + integrity gate pair for this class… |
 | F39 | 2026-09-27 | infra | — | **Operator 21 (Librarian) binds to ARCSStore.query as its entrypoint** → operators/OPERATOR-REGISTRY.json generated only from grep-verified bindings; --check on pre-commit |
 | F38 | 2026-09-27 | process | — | **'Live evidence this session shows the memory index clipped': the auto-loaded MEMORY.md ending at the consolidation stamp proved the harness truncates at ~24KB** → Corrected in-thread within one turn; memory [[memory-index-load-cap-observed]] carries the measured number; MEM_BUDGET guidance set to 24576 |
+| F41 | 2026-09-26 | canon | ✓ | **F34's 'Now' fix is scoped but unbuilt, so the Orthogonal Echo Detector (ROM Primitive #5) remains architecturally blind on its stub matcher and keeps failing…** → signature_fn + orthogonality_fn made real and injectable with honest deterministic offline fixtures (make_llm_signature_fn / make_embedding_orthogonality_fn)… |
 | F34 | 2026-08-29 | canon | ✓ | **The Orthogonal Echo Detector (ROM Primitive #5) works — it reliably surfaces true cross-domain kinematic isomorphisms and can be trusted as the immune guard…** → Replace stub with injectable LLM signature_fn + embedding orthogonality_fn; RC-OPS-001 graduation HELD on measured precision failure (target adv-FP<=0.10 @… |
 | F37 | 2026-08-28 | process | ✓ | **The ADR-number collisions (033/067 each doubled) are caused by worktree sprawl / branches borrowing each other's numbers** → Oracle-first numbering as a git-backed logical clock (git non-fast-forward reject = the atomic lock); pre-commit hook rejects any duplicate ADR number… |
 | F36 | 2026-08-28 | infra | — | **Operator-20 (folksonomy cultivator) has an import bug and is starved of real receipts — it is gated vaporware** → operators/prod_receipt_to_op20_seed.py adapter landed (never fabricates somatic/axiom fields) |
@@ -83,4 +91,4 @@ The reversals that went most against the grain this week:
 | F14 | 2026-06-03 | infra | — | **A green Next.js production build means the database layer works** → explicit Pool + PrismaPg with SSL; run a real query against prod before calling the DB layer 'working' |
 
 ---
-_Regenerated by `scripts/belief_log_emit.py` · 40 entries · do not hand-edit — the ledger is the SSOT._
+_Regenerated by `scripts/belief_log_emit.py` · 41 entries · do not hand-edit — the ledger is the SSOT._

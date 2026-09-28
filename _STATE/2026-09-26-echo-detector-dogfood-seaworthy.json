@@ -1,0 +1,1315 @@
+{
+  "kind": "echo-detector-dogfood-sweep",
+  "sweep": [
+    {
+      "min_sim": 0.1,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.15,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.2,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.25,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.3,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.4,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.5,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "min_sim": 0.6,
+      "positives": 5,
+      "negatives": 7,
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "tn": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "adversarial_fp": 0,
+      "adversarial_total": 4,
+      "adversarial_fp_rate": 0.0,
+      "rows": [
+        {
+          "id": "pos_autocatalytic",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "autocatalytic_loop",
+          "top_sim": 0.95,
+          "expected_pattern": "autocatalytic_loop",
+          "correct": true
+        },
+        {
+          "id": "pos_immune_memory",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "adaptive_immune_memory",
+          "top_sim": 0.92,
+          "expected_pattern": "adaptive_immune_memory",
+          "correct": true
+        },
+        {
+          "id": "pos_ratchet",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "ratchet_irreversibility",
+          "top_sim": 0.619,
+          "expected_pattern": "ratchet_irreversibility",
+          "correct": true
+        },
+        {
+          "id": "pos_threshold",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "threshold_cascade",
+          "top_sim": 1.0,
+          "expected_pattern": "threshold_cascade",
+          "correct": true
+        },
+        {
+          "id": "pos_punctuated",
+          "expect": true,
+          "adversarial": false,
+          "matched": true,
+          "top_pattern": "punctuated_equilibrium",
+          "top_sim": 1.0,
+          "expected_pattern": "punctuated_equilibrium",
+          "correct": true
+        },
+        {
+          "id": "neg_mundane",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_procedural",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "neg_disjoint_dynamics",
+          "expect": false,
+          "adversarial": false,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_trust_collision",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_stability_shock",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_gradient_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        },
+        {
+          "id": "adv_collapse_generic",
+          "expect": false,
+          "adversarial": true,
+          "matched": false,
+          "top_pattern": null,
+          "top_sim": 0.0,
+          "expected_pattern": null,
+          "correct": true
+        }
+      ]
+    }
+  ],
+  "best": {
+    "min_sim": 0.1,
+    "positives": 5,
+    "negatives": 7,
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "tn": 7,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "adversarial_fp": 0,
+    "adversarial_total": 4,
+    "adversarial_fp_rate": 0.0,
+    "rows": [
+      {
+        "id": "pos_autocatalytic",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "autocatalytic_loop",
+        "top_sim": 0.95,
+        "expected_pattern": "autocatalytic_loop",
+        "correct": true
+      },
+      {
+        "id": "pos_immune_memory",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "adaptive_immune_memory",
+        "top_sim": 0.92,
+        "expected_pattern": "adaptive_immune_memory",
+        "correct": true
+      },
+      {
+        "id": "pos_ratchet",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "ratchet_irreversibility",
+        "top_sim": 0.619,
+        "expected_pattern": "ratchet_irreversibility",
+        "correct": true
+      },
+      {
+        "id": "pos_threshold",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "threshold_cascade",
+        "top_sim": 1.0,
+        "expected_pattern": "threshold_cascade",
+        "correct": true
+      },
+      {
+        "id": "pos_punctuated",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "punctuated_equilibrium",
+        "top_sim": 1.0,
+        "expected_pattern": "punctuated_equilibrium",
+        "correct": true
+      },
+      {
+        "id": "neg_mundane",
+        "expect": false,
+        "adversarial": false,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "neg_procedural",
+        "expect": false,
+        "adversarial": false,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "neg_disjoint_dynamics",
+        "expect": false,
+        "adversarial": false,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "adv_trust_collision",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "adv_stability_shock",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "adv_gradient_generic",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "adv_collapse_generic",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      }
+    ]
+  },
+  "holdout": {
+    "min_sim": 0.35,
+    "positives": 3,
+    "negatives": 3,
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "tn": 3,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "adversarial_fp": 0,
+    "adversarial_total": 2,
+    "adversarial_fp_rate": 0.0,
+    "rows": [
+      {
+        "id": "ho_pos_autocatalytic",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "autocatalytic_loop",
+        "top_sim": 1.0,
+        "expected_pattern": "autocatalytic_loop",
+        "correct": true
+      },
+      {
+        "id": "ho_pos_ratchet",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "ratchet_irreversibility",
+        "top_sim": 0.675,
+        "expected_pattern": "ratchet_irreversibility",
+        "correct": true
+      },
+      {
+        "id": "ho_pos_threshold",
+        "expect": true,
+        "adversarial": false,
+        "matched": true,
+        "top_pattern": "threshold_cascade",
+        "top_sim": 1.0,
+        "expected_pattern": "threshold_cascade",
+        "correct": true
+      },
+      {
+        "id": "ho_adv_single_concept",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "ho_adv_generic_words",
+        "expect": false,
+        "adversarial": true,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      },
+      {
+        "id": "ho_neg_clean",
+        "expect": false,
+        "adversarial": false,
+        "matched": false,
+        "top_pattern": null,
+        "top_sim": 0.0,
+        "expected_pattern": null,
+        "correct": true
+      }
+    ]
+  }
+}
