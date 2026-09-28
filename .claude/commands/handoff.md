@@ -25,13 +25,18 @@ fires on (spec: `runtime/specs/operator-25-shavasana-v0.md`). Not a timer. The p
    ```bash
    python3 scripts/shavasana_handoff.py --draft /path/to/draft-handoff.md
    ```
-   It reports the breath (exhale: commits/merges/receipts; inhale: falsifications/dissent/unconfirmed),
-   the sycophancy check (agreement with no dissent on record → RETURN), and the cold re-read
-   (altitude canary on the draft: sections with no ground return).
+   It reports the breath (exhale: commits/merges/receipts; inhale: falsifications/dissent/unconfirmed)
+   with its balance AND signed net direction (Maekawa; asm-009 open), the sycophancy check (agreement
+   with no dissent on record → RETURN), the cold re-read (altitude canary on the draft: sections with no
+   ground return), and the om line: `confidence` = backed fraction of the draft's sections (mechanical),
+   `conviction` = Zach's 0-10 read via `--conviction`, `om_gap` = their distance, null when conviction
+   is absent. Add `--json` to get the same fields machine-readable for a `_STATE/` reading.
 3. Attachment release (judgment, yours): re-read each claim in the draft cold. If it does not survive
    without the session's momentum, downgrade it to `what_unconfirmed` or drop it, and say which.
 4. Somatic read (human, one question, only if Zach is present): certainty now vs at session start;
-   any sends today? If not present, write `somatic: not asked`.
+   any sends today? Take the certainty as a 0-10 number and re-run step 2 with `--conviction N` so the
+   block carries `om_gap`. If not present, write `somatic: not asked` and leave `om_gap` null (do not
+   guess the number).
 5. Disposition: release the handoff, or return it to `_QUEUE/induced-backlog.jsonl` with the block attached.
    A block that verdicts RETURN and a handoff that ships anyway must say so in the block.
 

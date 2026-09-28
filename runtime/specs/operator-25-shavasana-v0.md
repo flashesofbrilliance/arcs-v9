@@ -40,11 +40,11 @@ driving it. Not a timer. A level trigger on conditions.
 |---|---|---|---|---|
 | 1 | **Trigger** | fires on level: pre-send, pre-merge, pre-handoff, pre-write-lock, drift sentinel (N turns no artifact), post-gauntlet. Never on a timer. | mechanical | `scripts/git-hooks/pre-commit` (pre-merge hooks), WORLD.md drift sentinel (prose only) |
 | 2 | **Stillness window** | a read-only interval: no mutating tool calls, no new generation of claims. Length scales with stakes × irreversibility (BAR inputs), never with the clock. | mechanical guard | none; nearest is the outbound-send deny (forbidden-fruit guard) |
-| 3 | **Breath audit** | runs the inhale ledger (thread-recoil: priors moved by external ground) and the exhale ledger (what was claimed, committed, sent this session). Computes the balance: exhale with no inhale = manifesto; inhale with no exhale = mirror. | mechanical counts, judgment on rows | `/thread-recoil`, `/night-moves` gather |
+| 3 | **Breath audit** | runs the inhale ledger (thread-recoil: priors moved by external ground) and the exhale ledger (what was claimed, committed, sent this session). Computes the balance (exhale with no inhale = manifesto; inhale with no exhale = mirror) AND the signed net direction `exhale_n - inhale_n` (Maekawa, LEGEND: a node whose folds balance does not lie flat; asm-009 in `_STATE/assumptions.jsonl` is OPEN on whether balanced sessions leave more loops open, tested across ten handoffs, so the script reports the sign and attaches no verdict). | mechanical counts, judgment on rows | `scripts/shavasana_handoff.py` `breath()`; `/thread-recoil`, `/night-moves` gather |
 | 4 | **Attachment release** | each open claim is re-read cold (the cold-reconstruction control: no momentum, no author warmth). Survives → stays at its Y. Does not → downgraded or dropped, logged. | judgment (human, or a LAB pass as pre-score) | `arcs_operators_lab.py` LokiChallenge; NFTT cold-reconstruction post |
 | 5 | **Sycophancy check** | agreement ratio across the session's operators vs presence of dissent. Agreement above threshold with no Loki/Detective dissent on record → the act returns to the queue for re-evaluation. (The one net-new mechanic salvaged from the 2026-09-27 external audit, its FR-3.) | mechanical threshold | none built; LAB emits the dissent it would read |
-| 6 | **Somatic read** | the human's felt state, asked once: certainty now vs certainty at the prep. The delta is data; the human supplies it (a receipt cannot close itself). | human input | PrepSession fields (`stakes`, `confidence`); `SomaticReading` in `arcs_primitives.py` |
-| 7 | **Integration receipt** | emitted with NO new claim: what was released, what stayed, the breath balance, the sycophancy reading, the somatic delta, and the om metric (convergence of confidence and conviction on the surviving claims). | mechanical emit | `CoherenceReceipt`; `decision_receipt` form (`what_confirmed` / `what_unconfirmed`) |
+| 6 | **Somatic read** | the human's felt state, asked once: certainty now vs certainty at the prep, given as one number, conviction 0-10 (`--conviction`). The delta is data; the human supplies it (a receipt cannot close itself). Absent → recorded as null; the script does not impute it from anything. | human input | `scripts/shavasana_handoff.py --conviction`; PrepSession fields (`stakes`, `confidence`); `SomaticReading` in `arcs_primitives.py` |
+| 7 | **Integration receipt** | emitted with NO new claim: what was released, what stayed, the breath balance and its net direction (`breath_net_direction`, signed), the sycophancy reading, the somatic delta, and the om metric (`confidence`, `conviction`, `om_gap`; contract below). Self-test asserts zero confidence markers by the altitude canary's own regex and at least one ground return. | mechanical emit | `scripts/shavasana_handoff.py` `block()` / `fields()` (`--json`); `CoherenceReceipt`; `decision_receipt` form (`what_confirmed` / `what_unconfirmed`) |
 | 8 | **Release or return** | the act proceeds, or goes back to the induced backlog with the receipt attached. Always the human's move. | human | `_QUEUE/induced-backlog.jsonl` |
 
 ## The om metric (the entanglement, made countable)
@@ -56,6 +56,23 @@ frequency, a standing wave. It is a reading, not a target: a session can be perf
 still leave the human unconvinced, and that gap is the most useful line on the receipt. The books
 still record which direction each claim arrived by; the om is the felt state, not the bookkeeping.
 
+**Instrument (v0, built 2026-09-27; the first reading of the Hypersphere manifold's fifth axis,
+Flow-State, WORLD.md).** Emitted by `scripts/shavasana_handoff.py` on the handoff block and as
+`--json` fields:
+
+| Field | Definition | Kind |
+|---|---|---|
+| `confidence` | backed fraction of the draft: sections with at least one ground return (the cite classes `scripts/altitude_canary.py` counts: ADR, sha, repo path, script name, URL, receipt id, memory link) divided by non-empty sections. Reads the draft as handed; re-run after the cold re-read (component 4) drops claims to read the survivors. Null with no draft. | mechanical |
+| `conviction` | the human's felt read, 0-10, from `--conviction` (component 6). Null when absent. Not imputed from PrepSession, from the canary, or from anything else. | human |
+| `om_gap` | `abs(confidence - conviction/10)`, rounded to 2 places. Null when either side is null. | mechanical |
+| `breath_net_direction` | `exhale_n - inhale_n`, signed. `exhale_n` = commits + receipts in the digest; `inhale_n` = falsification rows + dissent markers + unconfirmed markers. Reported alongside the balance string; no verdict on the sign until asm-009 is decided. | mechanical |
+
+Reading the gap: near zero with a high `confidence` is the om; near zero with a low `confidence` is
+shared doubt (also honest); a large gap is the line to talk about before the release. The section
+denominator is coarse by design (v0): a finer claim unit (sentence or bullet) is a v1 change to
+this table, not a silent reinterpretation of the number. First dated reading:
+`_STATE/2026-09-27-om-first-reading.md`.
+
 ## Input / output contract (for the eventual `operators/arcs_shavasana.py`)
 
 ```
@@ -65,10 +82,11 @@ ShavasanaOperator.run(
     somatic: SomaticReading | None, # the human's felt read, if given
     stakes: str, irreversibility: float,
 ) -> ShavasanaReceipt {
-    trigger, window_len, breath_balance {inhale_n, exhale_n, verdict},
+    trigger, window_len, breath_balance {inhale_n, exhale_n, net_direction (signed), verdict},
     released [claim, from_y, to_y, why_cold_failed], kept [claim, y],
     sycophancy {agreement, dissent_present, verdict},
-    somatic_delta, om_gap, new_claims: 0 (asserted, checked),
+    somatic_delta, confidence (0..1 | null), conviction (0..10 | null, human), om_gap (| null),
+    new_claims: 0 (asserted, checked),
     disposition: "released" | "returned"
 }
 ```
