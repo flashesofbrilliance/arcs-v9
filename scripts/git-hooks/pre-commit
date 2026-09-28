@@ -490,5 +490,17 @@ if [ -n "$lg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/legend.py 
     exit 1
   fi
 fi
+
+# altitude canary — the coal-mine smoke test for prose that is fluent and confident with NO
+# ground return (no sha / path / ADR / receipt / URL / memory-link in a long assertive section).
+# ADVISORY by default (a canary warns; it does not fly the plane). Set ALTITUDE_CANARY_BLOCK=1
+# to make NO GROUND RETURN block, once the record corpus is clean. Pairs with the integrity gate.
+if [ -f scripts/altitude_canary.py ] && command -v python3 >/dev/null 2>&1; then
+  if [ "${ALTITUDE_CANARY_BLOCK:-0}" = "1" ]; then
+    python3 scripts/altitude_canary.py --staged --strict >&2 || { echo "✖ pre-commit(altitude-canary): a staged record has a section with NO GROUND RETURN (see above)." >&2; exit 1; }
+  else
+    python3 scripts/altitude_canary.py --staged >&2 || true
+  fi
+fi
 exit 0
 
