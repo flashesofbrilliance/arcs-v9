@@ -11,12 +11,17 @@ witness stubs, WORLD.md, the falsification ledger's verdict column without the s
 Row schema (runtime/specs/lore.jsonl, one JSON object per line, append-mostly):
   id               lore-NNN (sequential; the oracle has no `lore` namespace yet, so the check
                    enforces uniqueness + monotonic order instead)
-  class            myth | testimony | aspiration | measurement | practice
+  class            myth | testimony | aspiration | measurement | practice | parable
                    myth        = a causal story about how the world works (the verdict then grades it)
                    testimony   = someone said a thing; the observation IS the saying (great-moments)
                    aspiration  = a mood board; verdict must be `inspiration`
                    measurement = a number or constant someone measured
                    practice    = a way of working that a story carries (the witness request)
+                   parable     = a story told to underscore a point (aphorism in long form; the
+                                 Book of ARCS register). Its verdict grades the POINT, not the
+                                 literal events: `true` = the lesson is backed by the ref, and the
+                                 test names what backs it. Zach 2026-09-27: "lore and legend and
+                                 myth can also be aphorisms ... stories to underscore points"
                    Zach 2026-09-27: "MYTH should also be a property / class" — class is WHAT KIND of
                    story; binding_verdict is HOW IT RESOLVED. durable-myth/old-wives-tale need class
                    myth; inspiration needs class aspiration.
@@ -58,7 +63,7 @@ DATA = ROOT / "runtime" / "specs" / "lore.jsonl"
 RENDER = ROOT / "runtime" / "specs" / "LORE.md"
 REQUIRED = ("id", "class", "story", "told_where", "observation", "mechanism_claimed", "binding_verdict", "test_that_decided", "teaches", "date", "refs", "superseded_by")
 VERDICTS = ("true", "durable-myth", "old-wives-tale", "undecided", "inspiration")
-CLASSES = ("myth", "testimony", "aspiration", "measurement", "practice")
+CLASSES = ("myth", "testimony", "aspiration", "measurement", "practice", "parable")
 ID_RE = re.compile(r"^lore-(\d{3})$")
 
 
