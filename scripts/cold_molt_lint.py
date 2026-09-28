@@ -16,6 +16,8 @@ first tool call is an ACTION (lossless) or a RE-DERIVATION (it leaked)):
                                    scratchpad or gitignored paths, bare "it"/"that one" openers
   2. Step 3 categories present or DECLARED EMPTY  (fold SKILL.md Step 3): ground truth, SSOT,
                                    routes, gates, corrections, close protocol (timing optional)
+     A "## Outputs" section (files the chip will CREATE) is exempt from check 3: a stone may name
+     what it is about to make; it may not cite, as existing, a thing that is not on main.
   3. integrity gate --strict       every path / sha / ADR the prompt cites exists on origin/main
   4. altitude canary               every assertive section has a ground return
 
@@ -79,7 +81,12 @@ def lint(path: Path, run_gate: bool = True) -> dict:
         if not re.search(pat, low):
             reasons.append(f"missing category '{cat}' (present it, or declare it empty)")
     if run_gate and (ROOT / "scripts" / "integrity_gate.py").exists():
-        r = subprocess.run([sys.executable, "scripts/integrity_gate.py", "--strict", str(path)], capture_output=True, text=True, cwd=ROOT)
+        # strip the Outputs section (declared-new files) before the strict integrity pass
+        import tempfile
+        body = re.sub(r"^## Outputs.*?(?=^## |\Z)", "", text, flags=re.M | re.S)
+        tf = Path(tempfile.mkdtemp()) / path.name
+        tf.write_text(body, encoding="utf-8")
+        r = subprocess.run([sys.executable, "scripts/integrity_gate.py", "--strict", str(tf)], capture_output=True, text=True, cwd=ROOT)
         if r.returncode != 0:
             bad = [l.strip() for l in (r.stdout + r.stderr).splitlines() if l.strip().startswith(("✖", "⚠"))]
             reasons.append("integrity gate --strict: " + ("; ".join(bad[:4]) if bad else "failed"))

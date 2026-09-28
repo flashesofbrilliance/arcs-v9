@@ -546,5 +546,16 @@ if [ -n "$fr" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/fates.py ]
     exit 1
   fi
 fi
+
+# assumptions ledger — an open row must name its deciding test; a decided row must cite its ref;
+# _STATE/assumptions.md is generated. Runs when the ledger, its render, or the script is staged.
+am=$(git diff --cached --name-only -- _STATE/assumptions.jsonl _STATE/assumptions.md scripts/assumptions.py 2>/dev/null || true)
+if [ -n "$am" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/assumptions.py ]; then
+  if ! python3 scripts/assumptions.py check >/dev/null 2>&1; then
+    python3 scripts/assumptions.py check >&2 || true
+    echo "✖ pre-commit(assumptions): ledger fails schema or render is stale. fix: python3 scripts/assumptions.py render && git add _STATE/assumptions.md" >&2
+    exit 1
+  fi
+fi
 exit 0
 
