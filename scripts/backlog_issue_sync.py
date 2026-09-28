@@ -15,6 +15,7 @@ Usage:
   python3 scripts/backlog_issue_sync.py            # create missing issues, write numbers back
   python3 scripts/backlog_issue_sync.py --dry-run  # print what would be created
   python3 scripts/backlog_issue_sync.py --check    # exit 1 if any gh_sync row lacks gh_issue
+  python3 scripts/backlog_issue_sync.py board      # air-traffic board: open rows, blockers, 2nd/3rd/4th-order unblocks
 """
 from __future__ import annotations
 
@@ -55,9 +56,39 @@ def body(r: dict, by_id: dict[str, dict]) -> str:
     return "\n".join(lines)
 
 
+def board(all_rows: list[dict]) -> None:
+    """Air-traffic control without a conductor: what each open row waits on, and what its landing
+    clears at depth 2, 3, 4. Level-triggered by construction: a blocker is CLEAR when its row's
+    status no longer starts OPEN (or it has landed on main); nothing here schedules anything."""
+    by_id = {r["id"]: r for r in all_rows if r.get("id")}
+    def is_open(i: str) -> bool:
+        r = by_id.get(i); return bool(r) and str(r.get("status", "")).upper().startswith("OPEN")
+    def unblocks(i: str) -> list[str]:
+        direct = list(by_id.get(i, {}).get("unblocks", []))
+        direct += [k for k, r in by_id.items() if i in (r.get("depends_on") or []) and k not in direct]
+        return direct
+    def chain(i: str, depth: int, seen: set) -> list[tuple[int, str]]:
+        out = []
+        for j in unblocks(i):
+            if j in seen: continue
+            seen.add(j); out.append((depth, j))
+            if depth < 4: out += chain(j, depth + 1, seen)
+        return out
+    tracked = [r for r in all_rows if r.get("id") and (r.get("gh_sync") or r.get("depends_on") or r.get("unblocks"))]
+    print(f"{'issue':<6} {'row':<40} {'state':<9} blocked-by -> clears (depth)")
+    for r in sorted(tracked, key=lambda r: (str(r.get('rank', 99)), r['id'])):
+        blockers = [f"{b}{'(OPEN)' if is_open(b) else '(clear/absent)'}" for b in (r.get("depends_on") or [])]
+        st = "HOLDING" if any(is_open(b) for b in (r.get("depends_on") or [])) else ("OPEN" if is_open(r["id"]) else "LANDED?")
+        downstream = chain(r["id"], 2, set())
+        ds = ", ".join(f"{j}@{d}" for d, j in downstream) or "-"
+        print(f"#{str(r.get('gh_issue') or '-'):<5} {r['id'][:40]:<40} {st:<9} {'; '.join(blockers) or '-'} -> {ds}")
+
+
 def main(argv: list[str]) -> int:
     all_rows = rows()
     by_id = {r["id"]: r for r in all_rows if r.get("id")}
+    if argv[:1] == ["board"]:
+        board(all_rows); return 0
     todo = [r for r in all_rows if r.get("id") and r.get("gh_sync") and not r.get("gh_issue")]
     if "--check" in argv:
         print(f"backlog-sync: {len(todo)} gh_sync row(s) without an issue")

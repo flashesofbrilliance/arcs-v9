@@ -317,6 +317,11 @@ def self_test() -> int:
     check("op21 Librarian latest(n=2) runs", e["status"] == "ok" and isinstance(e["result"], list), e.get("error"))
     e = dispatch(22, payload={"receipt": {"nci_score": 72, "phase_id": "phase_3"}})
     check("op22 Conductor evaluate_receipt runs", e["status"] == "ok", e.get("error"))
+    e = dispatch(19, payload={"receipts": [{"receipt_id": "a", "cohort": "founder", "nci_score": 60, "horizon": "WEEK", "drift_state": "LANDED"},
+                                           {"receipt_id": "b", "cohort": "external", "nci_score": 40, "horizon": "WEEK", "drift_state": "ON_TRACK"}],
+                              "outcomes": [{"receipt_id": "a", "matched": True, "regret_score": 2}]})
+    check("op19 Accountant runs; n=1 -> sufficiency insufficient, no curve", e["status"] == "ok" and e["result"]["sufficiency"] == "insufficient"
+          and e["result"]["cohorts"]["founder"]["calibration"]["spearman_nci_vs_regret"] is None, e.get("error") or e["result"]["totals"])
     e = dispatch(20, payload={"receipts": [{"question": "q", "nci_score": 50}]})
     check("op20 Folksonomy under-corpus returns a report (not an error)", e["status"] == "ok" and "n_seeds" in json.dumps(e["result"]) or e["status"] == "ok", e.get("error") or str(e.get("result"))[:80])
     try:
