@@ -114,6 +114,61 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.70.0 (2026-09-28)
+
+> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
+> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
+> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
+> were the same two red on main's own run and untouched by the diff.
+
+
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
+- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
+  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
+  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
+- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
+  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
+  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
+  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
+  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
+  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
+- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
+  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
+  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
+  `white-space:nowrap` on the stamped date.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
+  PR #591 and issue #579.
+
+## Open (next session)
+1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
+   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
+   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
+2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
+   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
+3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
+   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
+   emitter; reuse it before hand-stating any number on a gated page.
+
+## Lessons (in the record)
+- A number on a public page that a script can compute must be stamped by that script and covered by the
+  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
+- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
+  not only the named gates, before calling a page clean.
+
+
 # Handoff — v3.69.0 (2026-09-27)
 
 > **The Orthogonal Echo Detector got a signature that is a function of the text, and the first
@@ -168,49 +223,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   shared-line control catches structure the inputs share by construction. A detector fed inputs
   from one generator will always find the generator.
 - Report both halves of a two-part JTBD even when the fate vocabulary names only one.
-
-
-# Handoff — v3.68.1 (2026-09-27)
-
-> **The Accountant keel chip: the external decision funnel measured from prod, founder and external split,
-> and the distribution gap located by grep.** One draft PR (#586, commit `498386c6`, cut from `850d203f`),
-> not merged; awaits Zach's go. No receipt yet (a receipt follows the merge, never precedes it).
-
-
-### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 52 commits, 18 merges to main, receipts in digest: 0.
-- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 8 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 49 / dissent 27 (ratio 1.75) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a query, or a PR number; the funnel numbers are the ingest of queries that ran verbatim. Nothing downgraded, nothing dropped. The exhale counts above are the whole day across sessions, not this chip's (this chip: 1 commit, 0 merges).
-- **Somatic read**: `somatic: not asked` (Zach not present; no sends today from this session).
-- **Disposition**: RELEASED (canary GROUNDED, dissent present). The PR itself stays draft until Zach's go.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## In the PR (#586, unmerged)
-- `scripts/outcome_funnel.py`: read-only instrument over the Prisma tables (`--sql`, `--ingest`, `--self-test`
-  passes). First feed at `_STATE/outcome-funnel/2026-09-27.json`, pulled via Supabase `execute_sql` on 2026-09-27.
-- External: 10 receipts, 4 users, 6 debriefed, 0 closed, last receipt 2026-07-10, 0 in the last 30 days.
-  Founder (separate, always): 196 receipts, 135 debriefed, 3 closed (2 matched, 1 drifted; the third landed
-  2026-09-26). Anonymous: 48, none after 2026-07-13.
-- Located by grep in `src/proxy.ts` + the three `public/good-*.html` pages: `/copypasta`, `/fears`, `/audit`
-  are live (200) and none linked to the compass. Every CTA went to `/audit`, `/cases` or `arcs.care/advisory`.
-- The move, on `/fears`: 11 kill-clause cards link into `app.arcs.care/dashboard?q=&horizon=`; the dashboard
-  reads `?horizon=` (`src/app/dashboard/page.tsx`). `fears_attribution` query baseline 0.
-- Backlog rows `outcome-capture-rate-keel-gap`, `receipted-fears-stunt`: status appended.
-
-## Open (next session)
-1. Zach's go on #586; then merge, one `decision_receipt` row, and `get_deployment` to confirm `/fears` live.
-2. Re-run `python3 scripts/outcome_funnel.py --sql` a week after deploy; the only number that matters is
-   external `last_30d` moving off 0.
-3. Unconfirmed: prod `ADMIN_EMAILS` vs the founder identity; the script's `--run` mode (no psql here).
-4. Carried from v3.68.0: Tao two-books ruling; memory index curation; the counterpart pulse (Yuri, Robert).
-
-## Lessons (in the record)
-- A funnel with zero inflow has no conversion problem. Check the link graph of the live surfaces (grep the hrefs)
-  before designing a nudge.
-- Compare detector findings from the same directory: the kintsugi ratchet read 15 vs 2 because the HEAD copy sat
-  in `/tmp` without `DESIGN.md`; inside the repo it is 15 vs 15.

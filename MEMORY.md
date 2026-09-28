@@ -7,6 +7,16 @@
 
 ---
 
+## [v3.70.0] 2026-09-28 — Chip rank 2: falsification count on the public audit page, stamped from the ledger (PR #591 -> `740aa55f`)
+
+- **good.arcs.care/audit** now shows the ledger count (40), latest date (2026-09-27), and links status.arcs.care/beliefs.
+  `scripts/belief_log_emit.py` stamps the marked block on the page AND the generated row of its `.evidence.jsonl`;
+  `--check` (CI `belief-log` job) fails on drift, fail-on-bad proved both ways. Live verified via `get_deployment`.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH`. Backlog row is on PR #585's branch, not main; status
+  append + closing issue #579 wait on that merge.
+- Lesson: the blocking gate was `case_evidence_lint` (pre-commit), not one of the four the chip named. Run the
+  hook path, not only the named gates. A computed public number must be stamped by the script that computes it.
+
 ## [v3.68.1] 2026-09-27 — Accountant keel chip: external funnel measured, distribution gap located (PR #586, draft)
 
 - **The external funnel, from prod, founder split out:** external 10 receipts / 4 users / 6 debriefed / 0 closed,
