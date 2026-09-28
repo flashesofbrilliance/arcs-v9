@@ -1,7 +1,7 @@
 # Receipt-Save Nudge Spec - v1 (consent surface, not a capture fix)
 
-**Status: SPEC-ONLY. Level trigger NOT met on 2026-09-27; no dashboard edit in this PR.**
-**Date:** 2026-09-27
+**Status: BUILT BEHIND FLAG (default OFF). Trigger was NOT met on 2026-09-27 (spec-only); it flipped on 2026-09-28 when PR #586 merged the funnel split to origin/main, and §6.2 + §6.3 were built the same day in PR #595. §6.1 (Vercel Web Analytics toggle) remains Zach's.**
+**Date:** 2026-09-27, amended 2026-09-28
 **Backlog row:** `notomation-receipt-save-nudge` (rank 6, GitHub issue #583), blocked by `outcome-capture-rate-keel-gap`
 **ADR references:** ADR-016 Option C (anonymous compass), ADR-049 (opt-in save, trust contract v1.2), ADR-068 (print schedule)
 **Verified against:** origin/main `e36084f4`, sibling branch `claude/accountant-keel-funnel` (PR #586, open), Vercel project `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9`
