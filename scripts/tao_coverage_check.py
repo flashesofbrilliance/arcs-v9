@@ -7,8 +7,9 @@ mechanical miss." Count on that day: 2 of 37 NFTT posts cited by any proverb, TI
 The Tao is lore distilled; a post that produced no proverb either taught nothing (unlikely) or
 its lesson evaporated (the cheap-write / expensive-read sink, in essay form).
 
-Mechanical half (this script): which posts have NO proverb citing their slug in EITHER Tao
-book (_CANON/tao-proverbs.jsonl, runtime/tao/proverbs.json). Judgment half (NOT this script):
+Mechanical half (this script): which posts have NO proverb citing their slug in the Tao canon
+(_CANON/tao-proverbs.jsonl, the single source of truth since the Option A ruling of 2026-09-27;
+runtime/tao/proverbs.json is a derived projection and is NOT read here). Judgment half (NOT this script):
 minting, via /tao-mint (anti-padding: an honest zero is allowed, but must be DECLARED with a
 `<!-- tao-waiver: <reason> -->` marker in the post).
 
@@ -22,7 +23,6 @@ Usage:
 """
 from __future__ import annotations
 
-import json
 import re
 import subprocess
 import sys
@@ -47,14 +47,10 @@ def posts() -> list[tuple[str, str, Path]]:
 
 
 def tao_blob() -> str:
-    parts = []
     c = ROOT / "_CANON" / "tao-proverbs.jsonl"
-    if c.exists():
-        parts += [l.lower() for l in c.read_text(encoding="utf-8").splitlines() if l.strip()]
-    r = ROOT / "runtime" / "tao" / "proverbs.json"
-    if r.exists():
-        parts.append(json.dumps(json.load(r.open(encoding="utf-8"))).lower())
-    return "\n".join(parts)
+    if not c.exists():
+        return ""
+    return "\n".join(l.lower() for l in c.read_text(encoding="utf-8").splitlines() if l.strip())
 
 
 def coverage() -> list[dict]:
