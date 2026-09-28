@@ -1,19 +1,16 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-27 · branch `claude/accountant-keel-funnel` at `498386c6` (cut from origin/main `850d203f`) · PR #586 DRAFT, unmerged
+**As of:** 2026-09-28 · branch `claude/handoff-v3.69.0` cut from origin/main `0e8ef253` · PR #612 MERGED at `defaecc4`
 
-## What this session did (v3.68.1, the Accountant keel chip)
-- Measured the external decision funnel from prod, founder split out: external 10 receipts / 4 users / 6 debriefed /
-  0 closed, last external receipt 2026-07-10, 0 in 30d. Founder 196 / 135 / 3. Anonymous 48, none after 2026-07-13.
-  `scripts/outcome_funnel.py` + `_STATE/outcome-funnel/2026-09-27.json`.
-- Found by grep that none of `/copypasta`, `/fears`, `/audit` on good.arcs.care linked to the compass. Routed one
-  move: 11 kill-clause cards on `/fears` link into `app.arcs.care/dashboard?q=&horizon=`; dashboard reads `?horizon=`.
-- Backlog rows `outcome-capture-rate-keel-gap` and `receipted-fears-stunt`: status appended.
+## What this session did (v3.69.0, the echo-detector embedding chip, rank 3 / issue #580)
+- `operators/arcs_echo_embedding.py`: embedding-backed `signature_fn` + `orthogonality_fn` for the Orthogonal Echo
+  Detector (detector untouched, no new dep). Orthogonality = 1 - cosine of domain TEXT vectors.
+- `scripts/echo_ridgeline_feed.py`: `--signature`, `--seed`, template control, `--compare` before/after.
+- Report `_STATE/2026-09-27-echo-signature-before-after.json` (seed 27): keyword 0 / FP 0.8 -> embedding 3 / FP 0.0;
+  template control leaves 0 real echoes for both. Fate `fp-proxy-improved`; the real-echo half is NOT met.
+- Receipt `2026-09-27--echo-embedding-signature-merge--ZH`. Waypoints on issue #580.
 
-## Next unblocked action
-1. Zach's go on PR #586 → merge → one `decision_receipt` row → `get_deployment` confirms `/fears` carries the links live.
-2. A week after deploy: `python3 scripts/outcome_funnel.py --sql`, re-run the queries, `--ingest`; watch external `last_30d`.
-3. Carried: Tao two-books ruling; memory-index curation; Yuri (invite expires 10-02) and Robert need Zach.
-
-## Blocking
-NONE for the build. The merge is gated on Zach's explicit go (draft-first).
+## Next
+1. Append status to backlog row `echo-detector-embedding-signature` once PR #585 lands the row on main.
+2. Rank-4 chip (#581): propose RC-OPS-001 criterion 2 from the report; `criteria_status` is Zach's ruling.
+3. Feed the detector inputs from independent generators before reading any echo as real.

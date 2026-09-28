@@ -1,17 +1,12 @@
 {
-  "captured_at": "2026-09-27T23:03:20-04:00",
+  "captured_at": "2026-09-28T09:35:39-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "498386c6",
-    "head_message": "feat(accountant): external decision funnel instrument + the fears page opens into the compass [NCI:58]",
+    "head_sha": "0e8ef253",
+    "head_message": "chore(audit): weekly drift audit 2026-09-28 [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
-    ],
-    "branch": "claude/accountant-keel-funnel (PR #586 draft, cut from origin/main 850d203f)"
+    "dirty_files": [],
+    "branch": "claude/handoff-v3.69.0"
   },
   "vercel": {
     "project": "arcs-v9",
