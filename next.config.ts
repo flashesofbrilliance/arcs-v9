@@ -181,6 +181,8 @@ const nextConfig: NextConfig = {
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
+        // arcs.care/case-study: neutral (counterpart-agnostic) Ideal Protein case study, forked from conduit-case-study.html 2026-09-28.
+        { source: "/case-study", destination: "/case-study.html" },
       ],
       fallback: [],
     };
