@@ -12,8 +12,10 @@ description: Mint net-new Tao of ARCS proverbs from a source (an ADR, a session 
 ## What it does
 
 Turns a **source** (usually a filed ADR, but also a session recapitulation or a single decision)
-into up to **25 net-new proverbs** and appends the load-bearing ones to the **Tao SSOT**
-(`runtime/tao/proverbs.json`). The Tao stops being hand-curated and starts *compounding*: every
+into up to **25 net-new proverbs** and appends the load-bearing ones to the **Tao canon**
+(`_CANON/tao-proverbs.jsonl`, oracle-numbered, append-only; the single source of truth since the
+Option A ruling of 2026-09-27, `_DECISIONS/CANON-COLLISION-tao-two-books.md`). The rendered book
+`runtime/tao/proverbs.json` is a DERIVED projection: never edit it by hand, regenerate it. The Tao stops being hand-curated and starts *compounding*: every
 decision the house makes grows the oral tradition, and the same SSOT is the source material for
 visual artifacts (each proverb -> a silkscreen card via the DESIGN.md grammar).
 
@@ -41,7 +43,13 @@ Five aspects (kimonos) x five verbs = 25 cells:
    custody, no mint.
 5. **Voice:** serif-register, carried-in-the-mouth, plain language, NO em-dashes (DESIGN.md
    Three-Voice + PRODUCT.md). A proverb is a truth shaped to be passed down, not a clever line.
-6. **Append to `runtime/tao/proverbs.json`**; the Tao HTML and visual pipeline render from it.
+6. **Number through the oracle, write canon, regenerate.** Per proverb: `python3 scripts/oracle.py next tao`
+   gives the id (`tao-NNN`, never inferred); append one line to `_CANON/tao-proverbs.jsonl` with the
+   canon fields plus `grid_id` (the grid cell id, e.g. `adr041-C-recapitulate`) and a `grid` object
+   carrying the custody `{seq, aspect, verb, source, minted, text, movement, gloss}`; then run
+   `python3 scripts/tao_project.py` and commit canon + `runtime/tao/proverbs.json` + `_SEEDS/_oracle.json`
+   together (pre-commit runs `tao_project.py --check`). A proverb that cites a blog post carries the
+   post slug in `source` or `associations` so `scripts/tao_coverage_check.py` can see it.
 
 ## Anti-goals (the honesty floor)
 
@@ -51,20 +59,27 @@ Five aspects (kimonos) x five verbs = 25 cells:
 - **Never keep a proverb for being quotable.** Load-bearing or cut (the considered molt).
 - **Never cross voices** (no mono proverb, no em-dash).
 
-## SSOT entry shape (`runtime/tao/proverbs.json`)
+## Canon entry shape (`_CANON/tao-proverbs.jsonl`, one JSON object per line)
 
 ```jsonc
 {
-  "id": "adr041-C-recapitulate",
-  "aspect": "C",              // D | R | W | C | H
-  "verb": "recapitulate",     // analyze | assess | evaluate | synthesize | recapitulate
-  "source": "ADR-041",        // custody: where it was distilled from
+  "id": "tao-259",                       // from `python3 scripts/oracle.py next tao`; never inferred
+  "type": "proverb", "tenant": "user0",
+  "aspect": "C", "aspect_name": "Clarity", "verb": "recapitulate",
+  "source_adr": "ADR-041",               // custody: where it was distilled from (ADR, seed, post slug)
   "text": "Keep the load-bearing grain; a line kept for being quotable is sediment, not signal.",
-  "gloss": null,              // optional one-line context
   "minted": "YYYY-MM-DD",
-  "movement": "VI · The Echo" // optional: which Tao movement it joins front-of-house
+  "provenance": "one line: who asked, what closed on it, session or witness ref",
+  "associations": [{"rel": "generated-from", "ref": "ADR-041"}],
+  "grid_id": "adr041-C-recapitulate",    // the rendered id; a row is projected iff it carries grid_id
+  "grid": {"seq": 243, "aspect": "C", "verb": "recapitulate", "source": "ADR-041",
+           "minted": "YYYY-MM-DD", "text": "…cased form as rendered…",
+           "movement": "VI · The Echo", "gloss": null}   // seq = next reading-order slot
 }
 ```
+
+The projection `runtime/tao/proverbs.json` is rebuilt by `scripts/tao_project.py` (self-test:
+`--self-test` proves zero rows lost and the three renderers byte-identical).
 
 ## Forms
 

@@ -54,3 +54,16 @@ Consequences, in order:
    gets a proverb through the oracle, in batches of five with Zach approving lines before allocation;
    an honest zero gets a `<!-- tao-waiver -->` marker in the post, never a padded line.
 Executed by backlog rows `tao-projection-generator-option-a` and `tao-mint-blog-backfill`.
+
+## EXECUTION FINDING (2026-09-28, session hopeful-bhaskara, set-diff over normalized text)
+
+The finding above was true by id and false by content. Of the 242 grid rows in the runtime book,
+**241 were the same proverbs as canon rows tao-001..tao-241**, lowercased, under grid ids. The books
+shared 1 id and 242 texts. So consequence 1 executed as a LINK, not an append: each canon twin gained
+`grid_id` + a `grid` custody object (`{seq, aspect, verb, source, minted, text, movement[, gloss]}`,
+verbatim from the grid book, since 68 rows carry a different ADR number there after the ADR
+renumbering and all 241 carry a different `minted`). Appending 242 rows would have minted 242
+duplicates, which the tao-mint skill forbids. One grid row had no canon twin
+(`field-2026-08-01-R-assess`) and was minted through the oracle as `tao-258`. `tao-257` gained its
+grid custody the same way. Oracle: tao 257 -> 258. Proof: `python3 scripts/tao_project.py --self-test`
+(243 ids in, 243 out, zero lost, three renderers byte-identical against the pre-projection book).
