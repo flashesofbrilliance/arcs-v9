@@ -62,7 +62,8 @@ def board(all_rows: list[dict]) -> None:
     status no longer starts OPEN (or it has landed on main); nothing here schedules anything."""
     by_id = {r["id"]: r for r in all_rows if r.get("id")}
     def is_open(i: str) -> bool:
-        r = by_id.get(i); return bool(r) and str(r.get("status", "")).upper().startswith("OPEN")
+        r = by_id.get(i); st = str(r.get("status", "")).upper() if r else ""
+        return bool(r) and (st.startswith("OPEN") or st.startswith("INDUCED"))
     def unblocks(i: str) -> list[str]:
         direct = list(by_id.get(i, {}).get("unblocks", []))
         direct += [k for k, r in by_id.items() if i in (r.get("depends_on") or []) and k not in direct]
@@ -78,7 +79,7 @@ def board(all_rows: list[dict]) -> None:
     print(f"{'issue':<6} {'row':<40} {'state':<9} blocked-by -> clears (depth)")
     for r in sorted(tracked, key=lambda r: (str(r.get('rank', 99)), r['id'])):
         blockers = [f"{b}{'(OPEN)' if is_open(b) else '(clear/absent)'}" for b in (r.get("depends_on") or [])]
-        st = "HOLDING" if any(is_open(b) for b in (r.get("depends_on") or [])) else ("OPEN" if is_open(r["id"]) else "LANDED?")
+        st = "HOLDING" if any(is_open(b) for b in (r.get("depends_on") or [])) else ("READY" if is_open(r["id"]) else "LANDED?")
         downstream = chain(r["id"], 2, set())
         ds = ", ".join(f"{j}@{d}" for d, j in downstream) or "-"
         print(f"#{str(r.get('gh_issue') or '-'):<5} {r['id'][:40]:<40} {st:<9} {'; '.join(blockers) or '-'} -> {ds}")
