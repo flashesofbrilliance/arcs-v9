@@ -514,5 +514,26 @@ if [ -n "$st" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/source_tru
     exit 1
   fi
 fi
+
+# LORE freshness guard — runtime/specs/LORE.md is GENERATED from lore.jsonl. Verdicts need tests
+# (a verdict without a test is a rumor); ids are append-only; superseded_by must exist.
+lo=$(git diff --cached --name-only -- runtime/specs/lore.jsonl runtime/specs/LORE.md scripts/lore.py 2>/dev/null || true)
+if [ -n "$lo" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/lore.py ]; then
+  if ! python3 scripts/lore.py check >/dev/null 2>&1; then
+    python3 scripts/lore.py check >&2 || true
+    echo "✖ pre-commit(lore): lore.jsonl fails schema or LORE.md is stale. fix: python3 scripts/lore.py render && git add runtime/specs/LORE.md" >&2
+    exit 1
+  fi
+fi
+
+# Tao coverage — a NEWLY ADDED NFTT/TIL post must have a proverb citing its slug in a Tao book,
+# or carry <!-- tao-waiver: reason --> (an honest, declared zero). Legacy posts are reported by
+# `python3 scripts/tao_coverage_check.py`, not blocked (2026-09-27: 2/37 covered).
+if [ -f scripts/tao_coverage_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/tao_coverage_check.py --staged; then
+    echo "✖ pre-commit(tao-coverage): mint via /tao-mint (oracle-numbered) or add a tao-waiver marker to the post." >&2
+    exit 1
+  fi
+fi
 exit 0
 
