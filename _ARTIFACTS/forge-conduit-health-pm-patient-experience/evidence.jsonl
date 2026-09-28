@@ -19,3 +19,11 @@
 {"pattern": "\\$22M", "source": "public:finance.yahoo.com Series A release"}
 {"pattern": "\\$17M", "source": "public:homecaremag.com"}
 {"pattern": "month 1, 3, 6, 12", "source": "proposal, not a claim"}
+{"pattern": "73 percent", "source": "document:~/Downloads/Ideal Protein Growth Case.pdf p17 (73% Dieter Adherence Rate)"}
+{"pattern": "40 percent", "source": "document:Ideal Protein Growth Case.pdf p17 (+40% PQL Increase)"}
+{"pattern": "63 percent", "source": "document:Ideal Protein Growth Case.pdf p15 (+63% Booking Success Rate, radius <5 miles)"}
+{"pattern": "3,500\\+", "source": "document:Ideal Protein Growth Case.pdf p2 (Local Clinic Footprint +3,500)"}
+{"pattern": "five miles", "source": "document:Ideal Protein Growth Case.pdf p15"}
+{"pattern": "30 percent", "source": "document:Ideal Protein Growth Case.pdf p14 (Clinic Finder Leads & HCP Form Fills +30%)"}
+{"pattern": "Twenty years", "source": "vetted-master career span 2006-present"}
+{"pattern": "month-3", "source": "proposal, not a claim"}

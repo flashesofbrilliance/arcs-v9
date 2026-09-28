@@ -4,19 +4,19 @@ New York Metro, hybrid · zach.harris@gmail.com · linkedin.com/in/zharris · gi
 
 Product leader who owns the whole loop: set the roadmap, talk to users, read the funnel, prototype, work with engineering,
 test, launch, and iterate on behavior. Two decades building product in regulated, high-trust domains, including HIPAA
-digital health, a behavioral health turnaround, and a direct-to-consumer brand I took from zero to profit. For two years I
-have built an AI product end to end on Claude, where the hard problem was quality: deciding when the AI runs the
-interaction, when it assists, and when a person decides, then proving it with evals. I reach for AI before headcount, and I
-design for the person in front of the screen, including the person for whom a screen is the wrong channel.
+digital health, a behavioral health turnaround, and a direct-to-consumer brand I took from zero to profit. Since 2025 I have
+built an AI product end to end on Claude, where the hard problem was quality: deciding when the AI runs the interaction,
+when it assists, and when a person decides, then proving it with evals. I reach for AI before headcount, and I design for the
+person in front of the screen, including the person for whom a screen is the wrong channel.
 EXPERIENCE
 ARCS, Founder and Builder                                                                                         2025 to Present
   Built an AI decision product on Claude end to end: intake, analysis, human review, and outcome capture, with agentic
   workflows and a Model Context Protocol server on a Next.js and TypeScript stack.
   Built the evaluation layer: rubrics, gates that stop a regression before it ships, diagnosis of failed runs, and routing
   between fixed rules, LLM reasoning, and human review. The AI structures and scores; it never issues the final verdict.
-  Designed outcome capture so every recommendation is checked against what happened; calibration is withheld per
-  cohort until the sample can carry it, and beliefs the data proved wrong go on a public ledger.
-Grayscale Investments (Digital Currency Group), Product Lead                                                        2024 to 2025
+  Designed outcome capture so every recommendation is checked against what happened; a lift is not reported until the
+  sample can carry it.
+Grayscale Investments (Digital Currency Group, via Mañana, confidential), Product Lead                              2024 to 2025
   Led four product workstreams on the team launching $7B in digital assets across ten SEC and FINRA regulated
   products, including eight private placements, with compliance rules enforced inside the product.
   Built governance and role-based access so no unapproved content could reach a customer, and ran the release train
@@ -26,7 +26,7 @@ Mañana, Embedded Product Partner                                               
   Fortune 500 (Axon, GoPro, Verizon Media).
   Twill Health (HIPAA digital health): tested three AI-enabled digital therapeutics lines; built the KPI and efficacy
   frameworks that validated two and stopped the third.
-Squat New York, Head of Product Innovation and Tech Lead                                                            2019 to 2020
+Squat New York (client: Ideal Protein), Head of Product Innovation and Tech Lead                                    2019 to 2020
   Owned product end to end for a $350M ARR, PE-backed medically supervised diet program in 64 countries for
   consumers, clinicians, and providers under HIPAA: roadmap, CX overhaul, and time-to-interaction as the KPI.
 Children's Tumor Foundation, Senior Director, Data and Strategy                                                      2018 to 2019
