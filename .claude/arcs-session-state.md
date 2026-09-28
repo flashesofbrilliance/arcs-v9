@@ -1,26 +1,16 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-26 · head `ef4282ee` · in sync with origin/main · deploy READY on good.arcs.care
+**As of:** 2026-09-28 · branch `claude/handoff-v3.69.0` cut from origin/main `0e8ef253` · PR #612 MERGED at `defaecc4`
 
-## What just shipped (v3.67.0)
-- **take-home-trap-dossier**: genuine WCAG contrast debt repaired — `--dimmed` raised to AA
-  (dark `#748699` kit-canonical, light `#5e6b78`); detector 111→81 (residue all verified artifacts);
-  ratchet baseline dropped 111→81. `nftt-gates.sh` brought to pass (title suffix, desc, robots, IOC
-  email defang). Commits `3fbefb74`, `b235654c`.
-- **Whole NFTT corpus** (9 pages) conformed to the head-meta gate; new batch **Frustration Gate**
-  `scripts/nftt_meta_gate.py` wired into pre-commit. `--all` sweep GREEN across 38 files (index exempt).
-  Recon-report fragments kept `noindex` (air-gap). Commits `ce2b504b` → `ef4282ee`.
-- All merged to main + prod-verified live. 2 decision receipts filed (fully confirmed).
+## What this session did (v3.69.0, the echo-detector embedding chip, rank 3 / issue #580)
+- `operators/arcs_echo_embedding.py`: embedding-backed `signature_fn` + `orthogonality_fn` for the Orthogonal Echo
+  Detector (detector untouched, no new dep). Orthogonality = 1 - cosine of domain TEXT vectors.
+- `scripts/echo_ridgeline_feed.py`: `--signature`, `--seed`, template control, `--compare` before/after.
+- Report `_STATE/2026-09-27-echo-signature-before-after.json` (seed 27): keyword 0 / FP 0.8 -> embedding 3 / FP 0.0;
+  template control leaves 0 real echoes for both. Fate `fp-proxy-improved`; the real-echo half is NOT met.
+- Receipt `2026-09-27--echo-embedding-signature-merge--ZH`. Waypoints on issue #580.
 
-## Next unblocked action
-Wire the design-detector (visual-slop) step into `nftt-gates.sh` — **gated** on Zach landing the
-design-system brand-profile branch (his 7-wave migration review). Carried from v3.66.0.
-
-## Watch-outs
-- Local main checkout is parked on another branch → its pre-commit won't run the new NFTT gate block
-  until it lands on main; origin/main already has it.
-- Classify detector contrast findings against the ACTUAL rendered surface (CSS), never the detector's
-  `#ffffff`/`#000000` inference.
-
-## Blocking question
-NONE.
+## Next
+1. Append status to backlog row `echo-detector-embedding-signature` once PR #585 lands the row on main.
+2. Rank-4 chip (#581): propose RC-OPS-001 criterion 2 from the report; `criteria_status` is Zach's ruling.
+3. Feed the detector inputs from independent generators before reading any echo as real.

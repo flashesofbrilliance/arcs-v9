@@ -97,7 +97,7 @@ The precision criterion above is now **closed**. The detector was rebuilt on bra
   adv-FP 0.0 across the entire 0.10–0.60 sweep** on the unchanged 12-case bench. A **held-out** bench
   (new domains + a decoy sharing exactly ONE real concept) also passes 1.0/1.0/0.0 — generalization,
   not overfit. Receipt: `_STATE/2026-09-26-echo-detector-dogfood-seaworthy.json`. Pre-registration:
-  `_STATE/2026-09-26-echo-detector-seaworthy-prereg.md`. Ledger: F38 (closes F34's loop).
+  `_STATE/2026-09-26-echo-detector-seaworthy-prereg.md`. Ledger: F41 (closes F34's loop).
 
 **Still OPEN:** criteria 1 (unambiguous ROM to join), 3 (blind-field precision, K source-independent
 echoes), 4 (Observatory period). RC-OPS-001 stays **YELLOW / candidate** — one measured criterion

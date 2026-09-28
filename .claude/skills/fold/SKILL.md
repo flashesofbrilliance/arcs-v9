@@ -46,6 +46,47 @@ sessions in the handoff, and keep the trunk clean for cross-domain work. When a 
 session completes (task notification), fold its receipts back: memory updates, backlog closes,
 drift fixes. The trunk is the integral; composed sessions are the derivatives.
 
+**Ridgeline (added 2026-09-27).** The trunk-fold receipt in `_QUEUE/induced-backlog.jsonl` carries a
+`ridgeline` field: for every chip, WHICH load-bearing edges it carried out of the parent. This is
+the saddle between peaks: the atlas can only render a range (not one massif) if each cut records
+what crossed it, and a child session can only falsify its parent (ADR-062 ouroboros) if the
+inherited claims are enumerated, not implied. Enumerate edges by Step 3 category; point at
+SSOT paths, never inline. Shape:
+
+```json
+"ridgeline": {
+  "parent": {"session": "<worktree-or-branch>", "head": "<sha>", "cut_at": "2026-09-27T17:40-04:00"},
+  "chips": [
+    {"task_id": "task_xxxx", "domain": "<one domain>",
+     "ground_truth": ["<fact, verified <date>>"],
+     "ssot": ["_QUEUE/induced-backlog.jsonl#<id>", "runtime/recoil/generated/<x>.json"],
+     "routes": ["<tool -> surface, verified <date>>"],
+     "gates": ["<ADR-068 print or consent gate>"],
+     "corrections": ["<stale claim retired this session>"],
+     "waypoints": ["<sha or receipt_id, in order, as the child progresses>"]}
+  ],
+  "left_on_bench": ["<residue kept on the trunk, and why>"],
+  "shifts": [
+    {"at": "2026-09-30T10:12-04:00", "edge": "ground_truth[0] of task_xxxx",
+     "falsified_by": "<child session / commit / falsification-ledger row F##>",
+     "replaced_with": "<the new ground, or null if the edge simply died>",
+     "breadcrumbs": ["<what else inherited that edge and must re-verify: chip ids, ADRs, memories>"]}
+  ]
+}
+```
+`left_on_bench` is mandatory even when empty: the rough kept on the bench is the part of the
+stone you can still recut from. A chip whose ridgeline is empty in every category is not a
+composed session; it is a task, and it goes to the backlog as an item (Step 2).
+
+**Waypoints** are the child's own trail along the ridge: append a commit sha or receipt id as
+each load-bearing step lands (the committed analogue of `_STATE/handoff-progress.jsonl`, which
+is gitignored and dies with the worktree). **Shifts** are breadcrumbs laid when a tectonic plate
+moves: an inherited edge is falsified or superseded AFTER the cut. The session that discovers
+the shift appends the row (refetch before write; append-only; never rewrite a sibling's entry),
+and `breadcrumbs` names every other chip, ADR, or memory that inherited the same edge so they
+re-verify instead of carrying a dead claim forward. A shift with no breadcrumbs is a claim that
+the plate moved and nothing stood on it; treat that as suspect.
+
 ## Guardrails
 - NOTOMATION: /fold induces execution, never consent - a chip is a suggestion the human starts.
 - One domain per chip. A chip needing two SSOers from unrelated domains is two chips.
