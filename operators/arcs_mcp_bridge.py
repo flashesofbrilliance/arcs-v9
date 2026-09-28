@@ -313,8 +313,10 @@ def self_test() -> int:
     check("op13 TemporalSequencer BLOCKED (pandas) -> blocked", e["status"] == "blocked", e.get("blocked_reason"))
     e = dispatch(18)
     check("op18 Immune PARTIAL -> blocked (no standalone entrypoint)", e["status"] == "blocked", e.get("blocked_reason"))
-    e = dispatch(21, payload={"n": 2})
-    check("op21 Librarian latest(n=2) runs", e["status"] == "ok" and isinstance(e["result"], list), e.get("error"))
+    e = dispatch(21, payload={"q": "operator 21 librarian retrieval policy", "budget": 8000, "stakes": "medium"})
+    check("op21 Librarian recommend(q, budget) runs; reserve_ratio + curation_debt + what_unconfirmed present",
+          e["status"] == "ok" and all(k in e["result"] for k in ("items", "reserve_ratio", "curation_debt", "what_confirmed", "what_unconfirmed"))
+          and e["result"]["budget"]["used_bytes"] <= 8000, e.get("error") or e["result"].get("reserve_ratio"))
     e = dispatch(22, payload={"receipt": {"nci_score": 72, "phase_id": "phase_3"}})
     check("op22 Conductor evaluate_receipt runs", e["status"] == "ok", e.get("error"))
     e = dispatch(19, payload={"receipts": [{"receipt_id": "a", "cohort": "founder", "nci_score": 60, "horizon": "WEEK", "drift_state": "LANDED"},
