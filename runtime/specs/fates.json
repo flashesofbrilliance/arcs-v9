@@ -174,6 +174,20 @@
       "ledger": "supabase public.decision_receipt",
       "strictness": "soft",
       "notes": "registered as a deliberate absence: the receipt's fate is the merge/deploy it attests, which is recorded in git, not in the row."
+    },
+    "assumption": {
+      "field": "status",
+      "gate": "test_that_would_decide (required while open; a decided row must cite decided_ref)",
+      "fates": [
+        "held",
+        "falsified"
+      ],
+      "non_terminal": [
+        "open"
+      ],
+      "ledger": "_STATE/assumptions.jsonl",
+      "strictness": "hard",
+      "notes": "the ethereal-stage ledger: premises registered BEFORE the test. Closes into the falsification ledger (F-row) or a HELD row."
     }
   }
 }

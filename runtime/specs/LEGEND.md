@@ -6,7 +6,7 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 61 (37 acronyms · 24 terms).
+Rows: 62 (37 acronyms · 25 terms).
 
 ## Acronyms
 
@@ -54,6 +54,7 @@ Rows: 61 (37 acronyms · 24 terms).
 
 | Term | Gloss | Operational definition | Domain | Source |
 |---|---|---|---|---|
+| **assumptions ledger** (aka assumption ledger) | premises registered before they are tested, with the test that would decide them | _STATE/assumptions.jsonl: status open | held | falsified; an open row must name its deciding test (an assumption with no test is a belief); a decided row must cite its F-row or receipt. The ethereal stage of the hyperstition pipeline, given a book; closes into the falsification ledger | arcs | `scripts/assumptions.py` |
 | **cold molt** | a receiving session with none of the parent's RAM | the child gets the chip prompt plus the committed repo and nothing else: no transcript, no scratchpad, no 'as we discussed'. The test of a chip is whether a cold session's first tool call is an action (lossless) or a re-derivation (it leaked) | arcs | `scripts/cold_molt_lint.py` |
 | **durable myth** (aka durable-myth) | real observation + plausible mechanism + false binding | a story that survives careful people because its evidence is real and its mechanism is plausible; only the causal link is wrong (old glass, the Perplexity inventory). Passes the altitude canary, fails the integrity gate | arcs | `runtime/specs/LORE.md` |
 | **fate** (aka fates, fate gate) | the resolution an artifact lands in after its gate | ADR-068's third term: print -> gate -> fate. Each artifact class declares its allowed fates in runtime/specs/fates.json (hard classes fail check on a stray value; soft classes are reported). A LORE verdict, a witness y, an operator status, a source tier are all fates | arcs | `runtime/specs/fates.json` |

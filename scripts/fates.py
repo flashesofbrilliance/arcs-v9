@@ -70,6 +70,8 @@ def observe(cls: str, spec: dict) -> list[tuple[str, str]]:
         for r in _rows(led):
             st = re.split(r"[\s(—:,-]", str(r.get("status", "")))[0].upper() or "UNSTATED"
             out.append((st, r.get("id", "?")))
+    elif cls == "assumption":
+        out += [(r.get("status", ""), r.get("id", "?")) for r in _rows(led)]
     elif cls == "seed":
         out += [(str(r.get("status")), r.get("id", "?")) for r in _rows(led)]
     return out
