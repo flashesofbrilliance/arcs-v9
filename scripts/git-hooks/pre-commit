@@ -514,5 +514,16 @@ if [ -n "$st" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/source_tru
     exit 1
   fi
 fi
+
+# LORE freshness guard — runtime/specs/LORE.md is GENERATED from lore.jsonl. Verdicts need tests
+# (a verdict without a test is a rumor); ids are append-only; superseded_by must exist.
+lo=$(git diff --cached --name-only -- runtime/specs/lore.jsonl runtime/specs/LORE.md scripts/lore.py 2>/dev/null || true)
+if [ -n "$lo" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/lore.py ]; then
+  if ! python3 scripts/lore.py check >/dev/null 2>&1; then
+    python3 scripts/lore.py check >&2 || true
+    echo "✖ pre-commit(lore): lore.jsonl fails schema or LORE.md is stale. fix: python3 scripts/lore.py render && git add runtime/specs/LORE.md" >&2
+    exit 1
+  fi
+fi
 exit 0
 

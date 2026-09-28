@@ -6,7 +6,7 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 54 (37 acronyms · 17 terms).
+Rows: 57 (37 acronyms · 20 terms).
 
 ## Acronyms
 
@@ -54,14 +54,17 @@ Rows: 54 (37 acronyms · 17 terms).
 
 | Term | Gloss | Operational definition | Domain | Source |
 |---|---|---|---|---|
+| **durable myth** (aka durable-myth) | real observation + plausible mechanism + false binding | a story that survives careful people because its evidence is real and its mechanism is plausible; only the causal link is wrong (old glass, the Perplexity inventory). Passes the altitude canary, fails the integrity gate | arcs | `runtime/specs/LORE.md` |
 | **four quadrants** | read friction x write friction | cheap-read/expensive-write = ROM (correct for law); cheap/cheap = RAM (flashes); expensive/expensive = externals (wrap in a tool); expensive-read/cheap-write = the pathology (RAM pretending to be ROM: uncurated memory, raw ledgers) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
 | **Frustration Gate** | fix the class, not the instance | when a bug recurs, add the cheapest mechanical check that fails the build on the whole class, prove fail-on-bad and pass-on-good, wire it into the always-run path | arcs | `_PATTERNS/2026-09-08-frustration-gate-pattern.md` |
 | **Golden Inchworm** (aka inchworm) | Red Thread to Golden Thread to Needle | the 3-pass non-blocking ROM primitive: name the invariant, select the load-bearing backed path, collapse to one action. Each pass prints even at grain fidelity | arcs | `.claude/arcs-canon.md` |
 | **Kintsugi** | repair seams visibly | ROM primitive 6: never silently patch an integrity failure; show the break and the gold. In the bridge: unbuilt operators answer status=blocked with the reason | arcs | `.claude/arcs-canon.md` |
 | **LEGEND** | the working dictionary tier | runtime/specs/legend.jsonl: banked, gated terms between RAM (used once) and the ordinals (minted upstream). Ordinal candidates are cut from here | arcs | `scripts/legend.py` |
+| **LORE** | the book of stories with their verdicts (LEGEND's uncle) | runtime/specs/lore.jsonl: each story carries its observation, the mechanism claimed, a binding verdict (true | durable-myth | old-wives-tale | undecided | inspiration), the test that decided it, and what it teaches; stories are never deleted, a flipped verdict adds a row that the old one points to | arcs | `scripts/lore.py` |
 | **moire** (aka moiré) | difference-frequency pattern between overlaid signals | what two fine patterns share at a coarser scale; the render state for Y=PARADOX, and the physical model of a cross-domain echo (always grain, never sharp). Survives dither = real; vanishes = aliasing | arcs | `WORLD.md#the-render-scale` |
 | **molted shell** | the debit entry kept after the credit posts | the superseded or promoted source (witness stub, ledger row, v1 of a ROM) archived rather than deleted so the double-entry books balance; deleting it leaves a credit with no debit (drifted-at-birth) | arcs | `CLAUDE.md#versioning-handoff-policy` |
 | **NOTOMATION** | scaffold cognition, never replace revealed preference | ROM primitive 1: the machine sequences and surfaces; the human adjudicates every consent gate and judgment node | arcs | `.claude/arcs-canon.md` |
+| **old wives' tale** (aka old-wives-tale) | a rule of thumb with no evidence | dies on first contact with a careful person; fails the altitude canary because it cites nothing. Less dangerous than a durable myth | arcs | `runtime/specs/LORE.md` |
 | **ordinal** | an immutable chained vocabulary artifact | _CANON/ordinals/*: mint-don't-edit, numbered by the primary disciple upstream; this repo inscribes verbatim and never mints | arcs | `_CANON/ordinals/README.md` |
 | **Orthogonal Echo Detector** (aka echo detector) | cross-domain kinematic isomorphism finder | the ROM primitive that proposes an edge from another domain whose derivation had the same shape; provenance before execution, enters the graph as M1 until it closes once | arcs | `operators/arcs_inchworm_echo.py` |
 | **read friction** | cost to get an answer you can act on | tokens to load plus verification steps before the item can be acted on; tiered from auto-loaded surfaces (zero) up to external audits and Hermes attestations (every claim needs a grep) | arcs | `_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy` |
