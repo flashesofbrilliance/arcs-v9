@@ -21,7 +21,7 @@ import argparse, os, re, sys
 
 MEMDIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
 INDEX = os.path.join(MEMDIR, "MEMORY.md")
-BUDGET = 17 * 1024  # soft byte budget for the always-loaded index
+BUDGET = 24 * 1024  # soft byte budget for the always-loaded index. Harness loads only the first 25,000 CHARS of MEMORY.md (measured 2026-09-27; memory-index-load-cap-observed); bytes >= chars so 24576B is safe. Keep in sync with MEM_BUDGET in ~/.claude/hooks/global-session-start.sh
 AUTO_HEADER = "## Uncurated (auto-catalogued — move into a real section when curating)"
 
 # link targets: anything inside ](...) ending in .md, dots allowed in the name
