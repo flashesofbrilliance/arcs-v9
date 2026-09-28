@@ -14,3 +14,4 @@ dependencies = [
 [project.optional-dependencies]
 supabase = ["supabase>=2.7"]
 embeddings = ["sentence-transformers>=3.0"]
+mcp = ["mcp>=2"]  # arcs_mcp_bridge.py (Claude Code stdio bridge); py>=3.10

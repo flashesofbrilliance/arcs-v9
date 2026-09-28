@@ -1,0 +1,192 @@
+{
+ "schema": "arcs-accountant-report/v1",
+ "operator": 19,
+ "symbol": "Acco",
+ "name": "Accountant",
+ "generated_at": "2026-09-28T02:57:50+00:00",
+ "thresholds": {
+  "calibration_min_n": 30
+ },
+ "totals": {
+  "receipts": 254,
+  "outcomes": 3,
+  "outcomes_joined": 3,
+  "cohorts": {
+   "anonymous": 48,
+   "founder": 196,
+   "external": 10
+  },
+  "closed_by_cohort": {
+   "anonymous": 0,
+   "founder": 3,
+   "external": 0
+  }
+ },
+ "cohorts": {
+  "anonymous": {
+   "cohort": "anonymous",
+   "receipts": 48,
+   "receipts_with_horizon": 48,
+   "by_horizon": {
+    "WEEK": 31,
+    "QUARTER": 12,
+    "TODAY": 3,
+    "YEARS": 2
+   },
+   "by_mode": {
+    "PLAN": 29,
+    "COURT": 18,
+    "QUICKMOVE": 1
+   },
+   "outcomes_logged": 0,
+   "matched": 0,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 48,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 48,
+    "LANDED": 0,
+    "DRIFTING": 0
+   },
+   "closure_rate": 0.0,
+   "regret_scores": [],
+   "mean_regret": null,
+   "mean_nci_all": 58.396,
+   "nci_scored": 48,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 0,
+    "threshold": 30,
+    "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "external": {
+   "cohort": "external",
+   "receipts": 10,
+   "receipts_with_horizon": 10,
+   "by_horizon": {
+    "QUARTER": 3,
+    "TODAY": 2,
+    "WEEK": 5
+   },
+   "by_mode": {
+    "COURT": 5,
+    "PLAN": 5
+   },
+   "outcomes_logged": 0,
+   "matched": 0,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 10,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 10,
+    "LANDED": 0,
+    "DRIFTING": 0
+   },
+   "closure_rate": 0.0,
+   "regret_scores": [],
+   "mean_regret": null,
+   "mean_nci_all": 53.7,
+   "nci_scored": 10,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 0,
+    "threshold": 30,
+    "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "founder": {
+   "cohort": "founder",
+   "receipts": 196,
+   "receipts_with_horizon": 196,
+   "by_horizon": {
+    "QUARTER": 34,
+    "WEEK": 130,
+    "TODAY": 15,
+    "YEARS": 17
+   },
+   "by_mode": {
+    "COURT": 69,
+    "PLAN": 120,
+    "QUICKMOVE": 7
+   },
+   "outcomes_logged": 3,
+   "matched": 2,
+   "unmatched": 1,
+   "fate": {
+    "OPEN": 193,
+    "LOGGED": 3,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 190,
+    "DRIFTING": 4,
+    "LANDED": 2
+   },
+   "closure_rate": 0.0153,
+   "regret_scores": [
+    1,
+    3,
+    3
+   ],
+   "mean_regret": 2.333,
+   "mean_nci_all": 58.015,
+   "nci_scored": 196,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 3,
+    "threshold": 30,
+    "reason": "n=3 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  }
+ },
+ "sufficiency": "insufficient",
+ "refusals": [
+  "anonymous: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "founder: calibration refused, n=3 closed positions with nci+outcome < threshold 30",
+  "external: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "EXPIRED not computed: no expiry rule registered for receipt horizons (fates.json receipt class is soft; Receipt has no status column)."
+ ],
+ "orphans": {},
+ "vocabulary": {
+  "receipt_fates": {
+   "OPEN": "non_terminal",
+   "LOGGED": "terminal",
+   "EXPIRED": "terminal"
+  },
+  "drift_fates": [
+   "LANDED",
+   "DRIFTING"
+  ],
+  "source": "runtime/specs/fates.json (class receipt)"
+ },
+ "provenance": {
+  "source_export": "2026-09-27-receipt-outcome-export.json",
+  "source_query": "read-only SELECT on prod Receipt LEFT JOIN User LEFT JOIN Outcome (EXPORT_SQL in operators/prod_receipt_to_accountant.py)",
+  "adapter": "operators/prod_receipt_to_accountant.py",
+  "cohort_rule": "founder = sha256(email) in FOUNDER_SHA256; external = other userId; anonymous = null userId",
+  "rows_in": 254
+ }
+}

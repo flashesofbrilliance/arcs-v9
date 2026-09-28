@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "arcs-operators": {
+      "command": "bash",
+      "args": ["operators/mcp-bridge.sh"]
+    }
+  }
+}
