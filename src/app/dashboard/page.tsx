@@ -66,7 +66,13 @@ function DashboardInner() {
   // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
   const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
-  const [horizon, setHorizon] = useState<Horizon>("THIS_WEEK")
+  // A public surface can hand off a decision with its window already set
+  // (good.arcs.care/fears links each sharpened claim here with ?q=&horizon=).
+  // Unknown values fall back to the default; nothing else changes.
+  const [horizon, setHorizon] = useState<Horizon>(() => {
+    const h = searchParams.get("horizon")
+    return h === "TODAY" || h === "THIS_WEEK" || h === "THIS_QUARTER" || h === "ONE_TO_THREE_YEARS" ? h : "THIS_WEEK"
+  })
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState(0)

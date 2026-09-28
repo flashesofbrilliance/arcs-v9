@@ -25,6 +25,13 @@ export const flags = {
   // server-side mirror is for any server gate. Flip both to widen (the
   // write-lock-paradox governor: narrow default, widen only on evidence).
   outcomeNudge: process.env.OUTCOME_NUDGE === "true",
+  // Default OFF → the v1.1 copy of the ephemeral-receipt save nudge (named
+  // exchange + a real "Let it go" dismiss) ships dark; OFF renders the July
+  // 2026 banner unchanged. Draft-first: Zach blesses the copy before this is
+  // flipped for any real user. The RECEIPT PAGE reads
+  // NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 (client-inlined); this is the server
+  // mirror. Spec: _SPECS/receipt-save-nudge-v1.md §6.3.
+  receiptSaveNudgeV11: process.env.RECEIPT_SAVE_NUDGE_V11 === "true",
 } as const
 
 export type Flags = typeof flags

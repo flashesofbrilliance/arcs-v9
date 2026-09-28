@@ -114,108 +114,112 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.69.0 (2026-09-27, flow-state-om-metric)
+# Handoff — v3.70.0 (2026-09-28)
 
-> **The Flow-State axis got its first instrument.** Backlog rank 5 (`flow-state-om-metric`, GitHub #582;
-> the row itself is on PR #585, not yet main). Draft PR #598, UNMERGED, awaiting Zach's go; no
-> `decision_receipt` yet because nothing merged. Sibling sessions ran ranks 2-7 concurrently.
+> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
+> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
+> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
+> were the same two red on main's own run and untouched by the diff.
+
+
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
+- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
+  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
+  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
+- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
+  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
+  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
+  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
+  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
+  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
+- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
+  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
+  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
+  `white-space:nowrap` on the stamped date.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
+  PR #591 and issue #579.
+
+## Open (next session)
+1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
+   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
+   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
+2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
+   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
+3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
+   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
+   emitter; reuse it before hand-stating any number on a gated page.
+
+## Lessons (in the record)
+- A number on a public page that a script can compute must be stamped by that script and covered by the
+  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
+- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
+  not only the named gates, before calling a page clean.
+
+
+# Handoff — v3.69.0 (2026-09-27)
+
+> **The Orthogonal Echo Detector got a signature that is a function of the text, and the first
+> thing it found was the template.** One PR merged to main (#612 at `defaecc4`), one
+> `decision_receipt` row (`2026-09-27--echo-embedding-signature-merge--ZH`). Draft-first; merged
+> on Zach's explicit go behind a guard that proved the two red CI jobs (`leak-check`, `smoke`) were
+> inherited from main at `e36084f4`.
 
 ### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
 
-- **Exhale** (what went out): 64 commits, 19 merges to main, receipts in digest: 0.
+- **Exhale** (what went out): 75 commits, 23 merges to main, receipts in digest: 0.
 - **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 7 unconfirmed markers in the day's records.
 - **Breath balance**: breathing (both directions).
-- **Breath net direction** (Maekawa; asm-009 open, read across ten handoffs): exhale 64 minus inhale 26 = +38, exhale-leaning.
-- **Sycophancy check**: agreement 49 / dissent 26 (ratio 1.81) → OK: dissent present.
+- **Sycophancy check**: agreement 55 / dissent 26 (ratio 2.04) → OK: dissent present.
 - **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Om** (Flow-State axis; component 7): confidence 0.33 (1 of 3 sections carry a ground return); conviction: not given (--conviction absent); om_gap: null, not imputed.
-- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today? Give the number as `--conviction 0-10` and re-run.
-- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a receipt id, or a number from the committed report. Nothing downgraded. The exhale counts are the whole day across sessions, not this chip's (this chip: 1 commit, 1 merge, 1 receipt).
+- **Somatic read**: `somatic: asked in this handoff` (Zach present; certainty now vs at start, sends today?). No sends from this session.
+- **Disposition**: RELEASED on Zach's "Go ahead" (canary GROUNDED, dissent present).
 
 _This block asserts nothing new. Counts, paths, and questions only._
 
-- **Attachment release** (Claude, cold re-read): the draft's Open and Lessons sections carry no cite class
-  (confidence 0.33 is the honest number for a three-section draft); nothing downgraded, nothing dropped.
-- **Somatic read**: somatic: not asked (Zach absent); om_gap null, not imputed.
-- **Disposition**: released as a draft PR; merge is Zach's move.
-
-## Shipped on branch `claude/zen-pasteur-85c635` (PR #598, draft)
-- `f8bd5ec3` `scripts/shavasana_handoff.py`: `confidence` (sections with a ground return / non-empty
-  sections, via `scripts/altitude_canary.py`), `--conviction 0-10` (null when absent, not imputed),
-  `om_gap` = |confidence - conviction/10| or null, `breath_net_direction` = exhale_n - inhale_n (signed,
-  no verdict; asm-009 open), `--json`. Self-test 4 -> 15 checks; the block is asserted to have ZERO
-  confidence markers by the canary's own regex. Spec `runtime/specs/operator-25-shavasana-v0.md`
-  components 3/6/7 + contract; `.claude/commands/handoff.md` Step -2; `_STATE/assumptions.jsonl` asm-009 notes.
-- `aafb90aa` `_STATE/2026-09-27-om-first-reading.md`: zero point of the series (conviction null, confidence 0.33, net +33).
-
-## Open (next session)
-1. Zach: merge #598 or return it; on merge, one `decision_receipt` row + append `status` on the backlog row
-   once #585 lands it on main (do not duplicate the row).
-2. The first reading WITH a conviction number: run Step -2 with `--conviction N` at the next handoff Zach attends.
-3. v1 candidate, spec-table change not a silent one: sentence- or bullet-level claim unit for `confidence`.
-4. Registry row 25 stays UNBUILT (`operators/arcs_shavasana.py` does not exist); this is the handoff-door half only.
-
-## Lessons (in the record)
-- The fifth axis is a fraction and a subtraction; the work was refusing to fill in the human's number.
-- A block that describes itself as claim-free should be checked by the same regex that would catch it.
-
-
-# Handoff — v3.68.0 (2026-09-27)
-
-> **The membrane day: an external audit of the operator suite was falsified by grep, and the repo grew
-> the organs that make that class of fabrication mechanically detectable.** Eleven PRs merged to main
-> (#559 to #569), eleven `decision_receipt` rows, each with an honest `what_unconfirmed`. A twelfth
-> (#570, the fate registry) is open. Draft-first throughout; merged only on Zach's explicit go, every
-> merge behind a guard that verified the two red CI jobs (`smoke` ledger delinquency, `leak-check`)
-> were inherited from main at `ac087aa3` and untouched by the diff.
-
-### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 31 commits, 11 merges to main, receipts in digest: 0.
-- **Inhale** (what came in): 3 falsification rows today, 20 dissent markers, 7 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 44 / dissent 30 (ratio 1.42) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): dropped one muddled line ('the deceipt rows for F-rows are filed'); every other claim carries a sha, a path, or a receipt id. Nothing downgraded.
-- **Somatic read**: asked in the handoff receipt (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
-- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read OK, so no RETURN.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main (each with a receipt in `decision_receipt`)
-- **Operator registry + MCP bridge** (`1ffed09e`, PR #559): `scripts/operator_registry_emit.py` generates
-  `operators/OPERATOR-REGISTRY.json` from `operators/docs/PERIODIC-TABLE.md` (numbering LOCKED: Folksonomy=20,
-  Librarian=21) and refuses any binding whose symbol it cannot grep (proved fail-on-bad). 11 READY / 6 PARTIAL /
-  1 BLOCKED (`core/operators.py` needs undeclared pandas) / 11 UNBUILT. `operators/arcs_mcp_bridge.py` (mcp 2.x,
-  py>=3.10 venv via `operators/mcp-bridge.sh`, `.mcp.json.example`): six tools; unbuilt operators answer
-  `status=blocked`; every call appends to `operators/ledger/operator-receipts.jsonl`. `/fold` gained ridgeline,
-  waypoints, shifts (`7b6616c3`). AGENTS.md gotcha 16.
-- **Seeds + vocabulary**: `seed-service-librarian-retrieval-policy` (`9868f9d3`, #560); the **LEGEND** working
-  dictionary `runtime/specs/legend.jsonl` + `scripts/legend.py`, 58 rows (`ba0242d3`, #561); **tao-257** minted through
-  the oracle into BOTH Tao books + `CANON-COLLISION-tao-two-books.md` raised (`84880b00`, #562).
-- **Records**: night-moves + forensic recoil (`9d966113`, #563): 10 priors revised, 10/10 by external ground.
-- **Instruments**: witness backfill scout over 199 transcripts, 141 candidates, none filed (`d5a6d851`, #564);
-  altitude canary for fluent-confident-uncited prose (`4356f502`, #565); Operator 25 Shavasana spec v0
-  (`b0647345`, #566); `/handoff` Step -2 invokes it via `scripts/shavasana_handoff.py` + deceipts F38-F40
-  (`0222d489`, #567); per-source trust ledger `runtime/specs/source-trust.json` (`d104cc50`, #568);
-  **LORE** `runtime/specs/lore.jsonl` (class x verdict, 12 rows) + Tao coverage gate (`cdb1107f`, #569).
-- Memory: 4 new files (numbering lock; acronym rule; forensic bar; load-cap measured 25,000 chars by a spawned session).
+## Shipped + on main
+- **`operators/arcs_echo_embedding.py`** (`24bbcb15`, PR #612): `build_embedding_detector()` binds
+  the two injectables `OrthogonalEchoDetector` already exposed. Signature = segment embeddings +
+  `PATTERN_LIBRARY` phrase embeddings via the same local model `arcs_api.py` serves at `/api/embed`
+  (`all-MiniLM-L6-v2`, offline from the HF cache). Orthogonality = 1 - cosine of the domain TEXT
+  vectors; names are only the lookup key. Detector untouched. No new dependency (the declared
+  `embeddings` extra). Self-test 6/6 incl. fail-on-bad on scrambled smoke domains.
+- **`scripts/echo_ridgeline_feed.py`**: `--signature keyword|embedding`, `--seed`, evidence
+  segments, a pre-registered TEMPLATE control, `--compare OUT` for a same-seed before/after.
+- **`_STATE/2026-09-27-echo-signature-before-after.json`** (seed 27, three unfold stones):
+  keyword baseline 0 / scrambled FP proxy 0.8 (4 of 5) -> embedding baseline 3 / FP proxy 0.0
+  (0 of 5), all 3 survive 8-11/12 dithers. Template control: 0 echoes for BOTH.
+- Fate recorded: `fp-proxy-improved` (mechanical half). The "baseline finds real echoes" half is
+  NOT met: all three matches were one keyword ("path dependent") on one boilerplate line shared by
+  every stone ("every path below was checked to exist on main at cut time").
+- AGENTS.md catalog row; memory `template-aliasing-shared-boilerplate-fakes-cross-domain-echo`.
 
 ## Open (next session)
-1. **Tao two-books ruling** (`_DECISIONS/CANON-COLLISION-tao-two-books.md`, options A/B/C). Blocks the
-   `tao-mint-nftt-til-backfill` backlog item: NFTT 2/29 essays cited by a proverb, TIL 0/5.
-2. **Memory index curation**: 80KB vs a measured 25,000-char harness cap; entries below line 144 never load.
-   Set `MEM_BUDGET` + `memory_index_sync.py` to 24576. Move the Uncurated section out.
-3. **PR #570 fate registry** awaits merge + receipt. Then: `INTEGRITY_GATE_BLOCK=1`, ledger delinquency
-   findings (GW-002, TC-004, YG-005, LINT-006, OBS-007, ROT-009, BK-010), leak-check markers in `public/`.
-4. Counterpart pulse (inbox ahead of memory): Yuri's Google invitation expires 2026-10-02 + 3 unread LinkedIn
-   digests; Robert's Teams invite 09-24 after the CV send. Both need Zach.
-5. Queued: Supabase sync of the operator ledger; `Librarian.recommend()`; Op 28 Auditor binding; the
-   asset/liability agent pass over the 141 scout + crawl candidates; the LORE sweep over great-moments/NFTT.
+1. **Backlog row status append** for `echo-detector-embedding-signature`: the row is still in
+   PR #585 (open), not on main. Waypoints posted on issue #580. Append once #585 lands.
+2. **Rank-4 chip (#581)** is level-triggered by this merge: propose RC-OPS-001 criterion 2 from the
+   report; `criteria_status` stays Zach's ruling. Recall >= 0.80 is unmeasured (no labeled echoes).
+3. **Independent-source input for the feed**: the three stones share one generator, so the detector
+   has never seen a clean cross-domain pair. Feed it texts from different authors/templates before
+   reading any echo as real.
+4. Inherited CI red on main: `leak-check` (5 markers in `public/`), `smoke` (`ledger_check.py`
+   delinquency). Not touched here.
 
 ## Lessons (in the record)
-- A hand-written operator map lies silently; a generated one that greps cannot. Its first run caught its author.
-- Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
-- Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
-- Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
+- Two adversarial controls catch two fabrication classes: scramble catches bags-of-words, the
+  shared-line control catches structure the inputs share by construction. A detector fed inputs
+  from one generator will always find the generator.
+- Report both halves of a two-part JTBD even when the fate vocabulary names only one.
