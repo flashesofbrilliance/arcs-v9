@@ -63,14 +63,14 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "DATABASE_URL manually set, rotation risk open since ADR-005 amendment (2026-05-28).",
-      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-08-15" }
+      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-10-28", "renewed": "2026-09-28 by Zach (prior waiver expired 2026-08-15)" }
     },
     {
       "id": "BK-010",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Production DB backup restore has never been tested — an unrestored backup is a hope, not a backup.",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: restore drill not scheduled this cycle.", "expires": "2026-10-28" }
     },
     {
       "id": "PL-011",
