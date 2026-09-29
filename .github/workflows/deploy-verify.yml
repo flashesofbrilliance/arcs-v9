@@ -29,7 +29,18 @@ jobs:
     if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'production'
     runs-on: ubuntu-latest
     env:
-      TARGET_URL: ${{ github.event.deployment_status.target_url }}
+      # Smoke against the PRODUCTION ALIAS, not the raw per-deploy vercel.app URL.
+      # deployment_status.target_url is the bare deployment host (e.g.
+      # arcs-v9-<hash>-arcs-care.vercel.app), where this app's host-based routing
+      # (src/proxy.ts + next.config.ts rewrites keyed on *.arcs.care) and the
+      # recoil gating do NOT apply -- so /observatory, /forge, /recoil/* and the
+      # air-gap checks all false-fail and (with rollback wired) would roll back a
+      # HEALTHY prod deploy. The alias carries the real host routing. Root-caused
+      # on the first prod run after re-enable (2026-09-26): API + FE smoke failed
+      # on the vercel.app host while app.arcs.care served 200s across the board.
+      TARGET_URL: https://app.arcs.care
+      # The specific deployment this event is for -- recorded in the incident issue.
+      DEPLOY_URL: ${{ github.event.deployment_status.target_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -135,6 +146,7 @@ jobs:
       # deployment. `vercel rollback` targets the most recent prior READY
       # deployment for this project automatically.
       - name: Auto-rollback production alias
+        id: rollback
         if: steps.eval.outputs.failed == 'true'
         run: |
           vercel rollback --token="${{ secrets.VERCEL_TOKEN }}" --yes \
@@ -144,24 +156,35 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Open incident issue
-        if: steps.eval.outputs.failed == 'true'
+        # always() so the alert still fires when the rollback step itself errors
+        # (e.g. missing VERCEL_* secrets) -- otherwise a failed rollback silently
+        # swallows the incident notification.
+        if: always() && steps.eval.outputs.failed == 'true'
         uses: actions/github-script@v9
         with:
           script: |
             const apiOutcome = "${{ steps.api_smoke.outcome }}";
             const feOutcome = "${{ steps.fe_smoke.outcome }}";
-            const targetUrl = process.env.TARGET_URL;
+            const rollback = "${{ steps.rollback.outcome }}";
+            const verified = process.env.TARGET_URL;
+            const deployUrl = process.env.DEPLOY_URL;
+            const rolledBack = rollback === "success";
+            const action = rolledBack
+              ? "`vercel rollback` executed automatically -- production alias reverted to the prior READY deployment."
+              : `\`vercel rollback\` did NOT complete (step outcome: ${rollback}) -- production alias was NOT reverted. Roll back manually and check the VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID secrets.`;
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Auto-rollback triggered — deploy verify failed (${targetUrl})`,
+              title: `Deploy verify failed on production${rolledBack ? " -- auto-rollback triggered" : " -- ROLLBACK FAILED"} (${deployUrl})`,
               body: [
-                `**SIGNAL_FAIL** — post-deploy verification failed on production deployment.`,
+                `**SIGNAL_FAIL** -- post-deploy verification failed on production.`,
                 ``,
-                `- Target: ${targetUrl}`,
+                `- Verified alias: ${verified}`,
+                `- Deployment: ${deployUrl}`,
                 `- API smoke (scripts/smoke.sh): ${apiOutcome}`,
                 `- FE smoke (Playwright): ${feOutcome}`,
-                `- Action taken: \`vercel rollback\` executed automatically — production alias reverted to the prior READY deployment.`,
+                `- Auto-rollback step: ${rollback}`,
+                `- Action: ${action}`,
                 ``,
                 `This is the auto-rollback circuit breaker from deploy-verify.yml. Investigate the failing commit before redeploying; the rollback is a stopgap, not a fix.`,
               ].join("\n"),

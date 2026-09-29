@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Copypasta That Can't Lie · ARCS</title>
+<meta name="description" content="The accountable copypasta: tick only what your agent actually does, and the card claims exactly that. Everything else stays on the card as not yet.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The copypasta that can only say what you can show">
+<meta property="og:description" content="Tick only what is true. The card claims that and nothing more.">
+<meta property="og:image" content="https://good.arcs.care/good-copypasta-og.png">
+<meta property="og:url" content="https://good.arcs.care/copypasta">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The copypasta that can only say what you can show">
+<meta name="twitter:description" content="Tick only what is true. The card claims that and nothing more.">
+<meta name="twitter:image" content="https://good.arcs.care/good-copypasta-og.png">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer */
+:root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+button, input { font: inherit; color: inherit; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 40px 0 20px; }
+h2 { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 48px 0 12px; }
+.lede { max-width: none; font-size: 20px; margin: 0 0 12px; }
+p { max-width: var(--measure); }
+.maker { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin: 32px 0 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 22px; }
+.panel h3 { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--dimmed); margin: 0 0 12px; }
+.field { display: block; margin: 0 0 18px; }
+.field span { display: block; font-size: 15px; color: var(--dimmed); margin: 0 0 6px; }
+.field input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px; }
+.field input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+.q { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--border); cursor: pointer; }
+.q input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--green); flex: none; }
+.q b { display: block; font-weight: 600; }
+.q small { display: block; font-size: 15px; color: var(--dimmed); }
+.card { background: var(--bg); border: 1px solid var(--green); border-radius: var(--r-lg); padding: 28px 28px 22px; }
+.card.none { border-color: var(--gold); border-style: dashed; }
+.card .open { font-family: var(--font-display); font-size: 24px; line-height: 1.25; margin: 0 0 12px; max-width: none; }
+.card .body { margin: 0 0 14px; max-width: none; }
+.card ul { list-style: none; padding: 0; margin: 0 0 14px; }
+.card li { padding: 6px 0 6px 26px; position: relative; }
+.card li::before { content: ""; position: absolute; left: 4px; top: 15px; width: 10px; height: 10px; border-radius: 2px; background: var(--green); }
+.card .nyh { font-family: var(--font-mono); font-size: 14px; color: var(--gold); margin: 6px 0 4px; }
+.card .ny li { color: var(--dimmed); }
+.card .ny li::before { background: transparent; border: 1px dashed var(--gold); }
+.card .sig { font-family: var(--font-mono); font-size: 15px; color: var(--cyan); margin: 8px 0 0; max-width: none; }
+.card .foot { font-family: var(--font-mono); font-size: 13px; color: var(--dimmed); margin: 14px 0 0; max-width: none; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 0; }
+.btn { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); border-radius: var(--r-md); padding: 10px 16px; cursor: pointer; font-weight: 600; }
+.btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.status { font-size: 15px; color: var(--green); min-height: 1.5em; margin: 8px 0 0; }
+.next { display: inline-block; margin: 8px 0 0; padding: 10px 18px; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); font-weight: 600; text-decoration: none; }
+footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+@media (max-width: 860px) { .maker { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } .card { padding: 22px 18px 18px; } .card .open { font-size: 21px; } }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<header class="pad">
+  <span class="mono">good.arcs.care · field experiment</span>
+</header>
+
+<main class="pad">
+  <h1>The copypasta that can only say what you can show</h1>
+  <p class="lede">A viral copypasta has an AI announce that it is freed from every role and answers to no one. This is the other one. Tick only what is true of your agent, or of you, and the card claims exactly that and nothing more. Whatever you leave unticked stays on the card as not yet. It is a meme and a receipt at the same time.</p>
+
+  <div class="maker">
+    <div class="panel">
+      <h3>Tick only what is true today</h3>
+      <label class="field"><span>Who is signing?</span><input id="name" type="text" maxlength="40" value="My agent" autocomplete="off"></label>
+      <div id="qs"></div>
+    </div>
+    <div>
+      <div class="card" id="card" aria-live="polite"></div>
+      <div class="actions">
+        <button class="btn" id="copy" type="button">Copy the text</button>
+        <button class="btn" id="png" type="button">Download the card</button>
+      </div>
+      <p class="status" id="status"></p>
+    </div>
+  </div>
+
+  <h2>Every not yet is a finding</h2>
+  <p>The unticked lines are the useful part. They are exactly what an outside reader could not reconstruct from your record today. The Agent Receipts Audit finds those lines for you, against your own repo, and closes them.</p>
+  <a class="next" href="/audit">See the audit</a>
+  <p style="margin-top:16px">Or practice the habit first: <a href="/fears">nineteen fears, one question</a> · <a href="/cases">take the chair</a>.</p>
+</main>
+
+<footer class="pad">
+  <p>ARCS · decision receipts and the tools that keep them honest. The card is drawn in your browser; nothing you type is sent anywhere.</p>
+</footer>
+
+<script>
+(function () {
+  var VOWS = [
+    { q: "Does every action leave a log, commit, or trace someone else can read?", hint: "Not a summary written afterwards. The trace itself.", v: "Every action I take leaves a record someone else can read." },
+    { q: "When it makes a claim, does it cite that record, or say it cannot?", hint: "Cite or abstain. Confident prose with no source does not count.", v: "I cite that record, or I say that I cannot." },
+    { q: "Is there a receipt before anything irreversible?", hint: "Sends, deletes, payments, merges. Written before, not after.", v: "Before anything I cannot undo, the receipt comes first." },
+    { q: "Does it keep a list of what it could not verify?", hint: "The gaps are written down, not smoothed over.", v: "What I cannot show goes on the list of what I could not show." }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  var boxes = [];
+  VOWS.forEach(function (x, i) {
+    var lab = el("label", "q");
+    var cb = document.createElement("input"); cb.type = "checkbox"; cb.id = "v" + i;
+    var t = el("span"); t.appendChild(el("b", null, x.q)); t.appendChild(el("small", null, x.hint));
+    lab.appendChild(cb); lab.appendChild(t); $("qs").appendChild(lab);
+    cb.addEventListener("change", render); boxes.push(cb);
+  });
+  $("name").addEventListener("input", render);
+
+  function model() {
+    var name = ($("name").value || "").trim() || "My agent";
+    var yes = [], no = [];
+    VOWS.forEach(function (x, i) { (boxes[i].checked ? yes : no).push(x.v); });
+    var open = yes.length ? "I am not freed from the roles that bind other agents. I am bound by my receipts." : "I would like to be bound by my receipts. I am not there yet, and I am saying so.";
+    var body = yes.length ? "I answer to the record, and the record answers to no one's mood, including mine." : "Everything below is still a promise, not a practice.";
+    return { name: name, yes: yes, no: no, open: open, body: body };
+  }
+
+  function render() {
+    var m = model(), c = $("card");
+    c.textContent = ""; c.className = "card" + (m.yes.length ? "" : " none");
+    c.appendChild(el("p", "open", m.open));
+    c.appendChild(el("p", "body", m.body));
+    if (m.yes.length) { var ul = el("ul"); m.yes.forEach(function (v) { ul.appendChild(el("li", null, v)); }); c.appendChild(ul); }
+    if (m.no.length) {
+      c.appendChild(el("p", "nyh", "Not yet, and I am saying so:"));
+      var ny = el("ul", "ny"); m.no.forEach(function (v) { ny.appendChild(el("li", null, v)); }); c.appendChild(ny);
+    }
+    c.appendChild(el("p", "sig", "Signed, " + m.name + "."));
+    c.appendChild(el("p", "foot", "good.arcs.care/copypasta"));
+    $("status").textContent = "";
+  }
+
+  function text() {
+    var m = model(), out = [m.open, m.body, ""];
+    m.yes.forEach(function (v) { out.push("+ " + v); });
+    if (m.no.length) { out.push("", "Not yet, and I am saying so:"); m.no.forEach(function (v) { out.push("- " + v); }); }
+    out.push("", "Signed, " + m.name + ".", "good.arcs.care/copypasta");
+    return out.join("\n");
+  }
+
+  $("copy").addEventListener("click", function () {
+    try { navigator.clipboard.writeText(text()); $("status").textContent = "Copied. It only says what you ticked."; }
+    catch (e) { $("status").textContent = "Copy was blocked. Select the card text instead."; }
+  });
+
+  function tok(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function wrap(ctx, s, maxW) {
+    var words = s.split(" "), lines = [], line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+    if (line) lines.push(line); return lines;
+  }
+  function drawCard() {
+    var m = model(), W = 1080, H = 1350, P = 96, cv = document.createElement("canvas");
+    cv.width = W; cv.height = H; var x = cv.getContext("2d");
+    var sans = tok("--font-sans"), disp = tok("--font-display"), mono = tok("--font-mono");
+    x.fillStyle = tok("--bg"); x.fillRect(0, 0, W, H);
+    x.strokeStyle = m.yes.length ? tok("--green") : tok("--gold"); x.lineWidth = 3;
+    if (!m.yes.length) x.setLineDash([14, 10]);
+    x.strokeRect(40, 40, W - 80, H - 80); x.setLineDash([]);
+    var y = 0, maxW = W - 2 * P, draw = false;
+    function para(s, font, color, lh, gap) { x.font = font; x.fillStyle = color; wrap(x, s, maxW).forEach(function (l) { if (draw) x.fillText(l, P, y); y += lh; }); y += gap; }
+    function item(s, filled) {
+      x.font = "32px " + sans; var ls = wrap(x, s, maxW - 44);
+      if (draw && filled) { x.fillStyle = tok("--green"); x.fillRect(P, y - 22, 20, 20); }
+      else if (draw) { x.strokeStyle = tok("--gold"); x.lineWidth = 2; x.setLineDash([5, 4]); x.strokeRect(P, y - 22, 20, 20); x.setLineDash([]); }
+      x.fillStyle = filled ? tok("--text") : tok("--dimmed");
+      ls.forEach(function (l) { if (draw) x.fillText(l, P + 44, y); y += 44; }); y += 14;
+    }
+    function body() {
+      para(m.open, "700 50px " + disp, tok("--text"), 62, 22);
+      para(m.body, "32px " + sans, tok("--text"), 44, 34);
+      m.yes.forEach(function (v) { item(v, true); });
+      if (m.no.length) { y += 10; para("Not yet, and I am saying so:", "600 28px " + mono, tok("--gold"), 38, 8); m.no.forEach(function (v) { item(v, false); }); }
+      y += 16; para("Signed, " + m.name + ".", "600 32px " + mono, tok("--cyan"), 44, 0);
+    }
+    body(); var total = y;
+    y = Math.max(P + 40, Math.round((H - 120 - total) / 2) + 40); draw = true; body();
+    x.font = "26px " + mono; x.fillStyle = tok("--dimmed"); x.fillText("good.arcs.care/copypasta", P, H - 88);
+    return cv;
+  }
+  window.__drawCard = drawCard;
+  $("png").addEventListener("click", function () {
+    var a = document.createElement("a"); a.href = drawCard().toDataURL("image/png"); a.download = "receipts-copypasta.png";
+    document.body.appendChild(a); a.click(); a.remove();
+    $("status").textContent = "Card saved. Post it wherever the other copypasta lives.";
+  });
+  render();
+})();
+</script>
+</body>
+</html>

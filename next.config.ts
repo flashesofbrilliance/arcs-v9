@@ -152,7 +152,8 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/beliefs", destination: "/belief-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
-        { source: "/:path((?!.*beliefs).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/:path((?!.*beliefs|.*gauntlets).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -162,6 +163,7 @@ const nextConfig: NextConfig = {
         // filenames are also excluded from the catch-all below so the proxy's rewrite is not re-swallowed.
         { source: "/audit", destination: "/good-agent-receipts-audit.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/fears", destination: "/good-fears.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/copypasta", destination: "/good-copypasta.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -169,7 +171,7 @@ const nextConfig: NextConfig = {
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|good-instruments|good-case-|good-agent-receipts-audit|good-fears|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
@@ -180,6 +182,8 @@ const nextConfig: NextConfig = {
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
+        // arcs.care/case-study: neutral (counterpart-agnostic) Ideal Protein case study, forked from conduit-case-study.html 2026-09-28.
+        { source: "/case-study", destination: "/case-study.html" },
       ],
       fallback: [],
     };

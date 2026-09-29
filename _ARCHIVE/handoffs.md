@@ -1,3 +1,96 @@
+# Handoff — v3.68.1 (2026-09-27)
+
+> **The Accountant keel chip: the external decision funnel measured from prod, founder and external split,
+> and the distribution gap located by grep.** One draft PR (#586, commit `498386c6`, cut from `850d203f`),
+> not merged; awaits Zach's go. No receipt yet (a receipt follows the merge, never precedes it).
+
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 52 commits, 18 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 8 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 49 / dissent 27 (ratio 1.75) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a query, or a PR number; the funnel numbers are the ingest of queries that ran verbatim. Nothing downgraded, nothing dropped. The exhale counts above are the whole day across sessions, not this chip's (this chip: 1 commit, 0 merges).
+- **Somatic read**: `somatic: not asked` (Zach not present; no sends today from this session).
+- **Disposition**: RELEASED (canary GROUNDED, dissent present). The PR itself stays draft until Zach's go.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## In the PR (#586, unmerged)
+- `scripts/outcome_funnel.py`: read-only instrument over the Prisma tables (`--sql`, `--ingest`, `--self-test`
+  passes). First feed at `_STATE/outcome-funnel/2026-09-27.json`, pulled via Supabase `execute_sql` on 2026-09-27.
+- External: 10 receipts, 4 users, 6 debriefed, 0 closed, last receipt 2026-07-10, 0 in the last 30 days.
+  Founder (separate, always): 196 receipts, 135 debriefed, 3 closed (2 matched, 1 drifted; the third landed
+  2026-09-26). Anonymous: 48, none after 2026-07-13.
+- Located by grep in `src/proxy.ts` + the three `public/good-*.html` pages: `/copypasta`, `/fears`, `/audit`
+  are live (200) and none linked to the compass. Every CTA went to `/audit`, `/cases` or `arcs.care/advisory`.
+- The move, on `/fears`: 11 kill-clause cards link into `app.arcs.care/dashboard?q=&horizon=`; the dashboard
+  reads `?horizon=` (`src/app/dashboard/page.tsx`). `fears_attribution` query baseline 0.
+- Backlog rows `outcome-capture-rate-keel-gap`, `receipted-fears-stunt`: status appended.
+
+## Open (next session)
+1. Zach's go on #586; then merge, one `decision_receipt` row, and `get_deployment` to confirm `/fears` live.
+2. Re-run `python3 scripts/outcome_funnel.py --sql` a week after deploy; the only number that matters is
+   external `last_30d` moving off 0.
+3. Unconfirmed: prod `ADMIN_EMAILS` vs the founder identity; the script's `--run` mode (no psql here).
+4. Carried from v3.68.0: Tao two-books ruling; memory index curation; the counterpart pulse (Yuri, Robert).
+
+## Lessons (in the record)
+- A funnel with zero inflow has no conversion problem. Check the link graph of the live surfaces (grep the hrefs)
+  before designing a nudge.
+- Compare detector findings from the same directory: the kintsugi ratchet read 15 vs 2 because the HEAD copy sat
+  in `/tmp` without `DESIGN.md`; inside the repo it is 15 vs 15.
+
+
+# Handoff — v3.67.0 (2026-09-26)
+
+> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
+> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
+> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
+> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
+> explicit go.
+
+## Shipped + LIVE (verified on prod)
+- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
+  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
+  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
+  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
+  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
+  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
+  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
+  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
+  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
+- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
+  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
+  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
+  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
+  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
+- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
+  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
+  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
+  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
+- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
+  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
+
+## Open (next session)
+1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
+   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
+2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
+   NFTT block until it next lands on main; everyone via origin/main already has it.
+3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
+
+## Lessons (in the record)
+- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
+  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
+  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
+- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
+  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
+- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
+  fragments without ever pushing them to `index`; the air-gap survives the sweep.
+
+
 # Handoff — v3.66.0 (2026-09-26)
 
 > **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
@@ -4352,3 +4445,143 @@ under-informed(coverage) — orthogonal axes; receipts are the diagnostic.
    spec-code cross-ref) **staged for Chrome/Comet on Zach's go** (HITL, sandbox only).
 3. **Deep memory dedup pass** — index over the soft budget across 263 files; needs per-file review.
 4. Joe Schriner follow-up + resume-tailor skill fold-back (carried from v3.62/63).
+
+
+# Handoff — v3.66.1 (2026-09-26)
+
+> **Off-repo thinking session: falsifiable criteria for a public Farcaster debate, shipped as a pre-registered
+> bet + a phone card; then memory consolidated.** No product code touched. Deliverables banked on branch
+> `claude/falsifiable-position-criteria-inltlk` (not merged; nothing deployed).
+
+## Shipped
+- **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
+  @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
+  90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
+- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
+  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
+  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
+- Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
+- **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
+
+## Open (next session)
+1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
+   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
+2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
+3. Backfill gap: v3.66.0 has no MEMORY.md entry.
+4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
+   redaction doubled-article fix.
+
+
+# Handoff — v3.68.0 (2026-09-27)
+
+> **The membrane day: an external audit of the operator suite was falsified by grep, and the repo grew
+> the organs that make that class of fabrication mechanically detectable.** Eleven PRs merged to main
+> (#559 to #569), eleven `decision_receipt` rows, each with an honest `what_unconfirmed`. A twelfth
+> (#570, the fate registry) is open. Draft-first throughout; merged only on Zach's explicit go, every
+> merge behind a guard that verified the two red CI jobs (`smoke` ledger delinquency, `leak-check`)
+> were inherited from main at `ac087aa3` and untouched by the diff.
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 31 commits, 11 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 20 dissent markers, 7 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 44 / dissent 30 (ratio 1.42) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): dropped one muddled line ('the deceipt rows for F-rows are filed'); every other claim carries a sha, a path, or a receipt id. Nothing downgraded.
+- **Somatic read**: asked in the handoff receipt (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main (each with a receipt in `decision_receipt`)
+- **Operator registry + MCP bridge** (`1ffed09e`, PR #559): `scripts/operator_registry_emit.py` generates
+  `operators/OPERATOR-REGISTRY.json` from `operators/docs/PERIODIC-TABLE.md` (numbering LOCKED: Folksonomy=20,
+  Librarian=21) and refuses any binding whose symbol it cannot grep (proved fail-on-bad). 11 READY / 6 PARTIAL /
+  1 BLOCKED (`core/operators.py` needs undeclared pandas) / 11 UNBUILT. `operators/arcs_mcp_bridge.py` (mcp 2.x,
+  py>=3.10 venv via `operators/mcp-bridge.sh`, `.mcp.json.example`): six tools; unbuilt operators answer
+  `status=blocked`; every call appends to `operators/ledger/operator-receipts.jsonl`. `/fold` gained ridgeline,
+  waypoints, shifts (`7b6616c3`). AGENTS.md gotcha 16.
+- **Seeds + vocabulary**: `seed-service-librarian-retrieval-policy` (`9868f9d3`, #560); the **LEGEND** working
+  dictionary `runtime/specs/legend.jsonl` + `scripts/legend.py`, 58 rows (`ba0242d3`, #561); **tao-257** minted through
+  the oracle into BOTH Tao books + `CANON-COLLISION-tao-two-books.md` raised (`84880b00`, #562).
+- **Records**: night-moves + forensic recoil (`9d966113`, #563): 10 priors revised, 10/10 by external ground.
+- **Instruments**: witness backfill scout over 199 transcripts, 141 candidates, none filed (`d5a6d851`, #564);
+  altitude canary for fluent-confident-uncited prose (`4356f502`, #565); Operator 25 Shavasana spec v0
+  (`b0647345`, #566); `/handoff` Step -2 invokes it via `scripts/shavasana_handoff.py` + deceipts F38-F40
+  (`0222d489`, #567); per-source trust ledger `runtime/specs/source-trust.json` (`d104cc50`, #568);
+  **LORE** `runtime/specs/lore.jsonl` (class x verdict, 12 rows) + Tao coverage gate (`cdb1107f`, #569).
+- Memory: 4 new files (numbering lock; acronym rule; forensic bar; load-cap measured 25,000 chars by a spawned session).
+
+## Open (next session)
+1. **Tao two-books ruling** (`_DECISIONS/CANON-COLLISION-tao-two-books.md`, options A/B/C). Blocks the
+   `tao-mint-nftt-til-backfill` backlog item: NFTT 2/29 essays cited by a proverb, TIL 0/5.
+2. **Memory index curation**: 80KB vs a measured 25,000-char harness cap; entries below line 144 never load.
+   Set `MEM_BUDGET` + `memory_index_sync.py` to 24576. Move the Uncurated section out.
+3. **PR #570 fate registry** awaits merge + receipt. Then: `INTEGRITY_GATE_BLOCK=1`, ledger delinquency
+   findings (GW-002, TC-004, YG-005, LINT-006, OBS-007, ROT-009, BK-010), leak-check markers in `public/`.
+4. Counterpart pulse (inbox ahead of memory): Yuri's Google invitation expires 2026-10-02 + 3 unread LinkedIn
+   digests; Robert's Teams invite 09-24 after the CV send. Both need Zach.
+5. Queued: Supabase sync of the operator ledger; `Librarian.recommend()`; Op 28 Auditor binding; the
+   asset/liability agent pass over the 141 scout + crawl candidates; the LORE sweep over great-moments/NFTT.
+
+## Lessons (in the record)
+- A hand-written operator map lies silently; a generated one that greps cannot. Its first run caught its author.
+- Recursion terminates at git: every check of a check ends at a sha or a grep, never at another opinion.
+- Malleability is conditional on the source's record (asymmetric, decaying, per source, never global).
+- Correct the premise before mapping it; name every loss channel by rate, visibility, direction.
+
+# Handoff — v3.69.0 (2026-09-27)
+
+> **The Orthogonal Echo Detector got a signature that is a function of the text, and the first
+> thing it found was the template.** One PR merged to main (#612 at `defaecc4`), one
+> `decision_receipt` row (`2026-09-27--echo-embedding-signature-merge--ZH`). Draft-first; merged
+> on Zach's explicit go behind a guard that proved the two red CI jobs (`leak-check`, `smoke`) were
+> inherited from main at `e36084f4`.
+
+### Shavasana — handoff pause, 2026-09-27 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 75 commits, 23 merges to main, receipts in digest: 0.
+- **Inhale** (what came in): 3 falsification rows today, 16 dissent markers, 7 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 55 / dissent 26 (ratio 2.04) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a receipt id, or a number from the committed report. Nothing downgraded. The exhale counts are the whole day across sessions, not this chip's (this chip: 1 commit, 1 merge, 1 receipt).
+- **Somatic read**: `somatic: asked in this handoff` (Zach present; certainty now vs at start, sends today?). No sends from this session.
+- **Disposition**: RELEASED on Zach's "Go ahead" (canary GROUNDED, dissent present).
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **`operators/arcs_echo_embedding.py`** (`24bbcb15`, PR #612): `build_embedding_detector()` binds
+  the two injectables `OrthogonalEchoDetector` already exposed. Signature = segment embeddings +
+  `PATTERN_LIBRARY` phrase embeddings via the same local model `arcs_api.py` serves at `/api/embed`
+  (`all-MiniLM-L6-v2`, offline from the HF cache). Orthogonality = 1 - cosine of the domain TEXT
+  vectors; names are only the lookup key. Detector untouched. No new dependency (the declared
+  `embeddings` extra). Self-test 6/6 incl. fail-on-bad on scrambled smoke domains.
+- **`scripts/echo_ridgeline_feed.py`**: `--signature keyword|embedding`, `--seed`, evidence
+  segments, a pre-registered TEMPLATE control, `--compare OUT` for a same-seed before/after.
+- **`_STATE/2026-09-27-echo-signature-before-after.json`** (seed 27, three unfold stones):
+  keyword baseline 0 / scrambled FP proxy 0.8 (4 of 5) -> embedding baseline 3 / FP proxy 0.0
+  (0 of 5), all 3 survive 8-11/12 dithers. Template control: 0 echoes for BOTH.
+- Fate recorded: `fp-proxy-improved` (mechanical half). The "baseline finds real echoes" half is
+  NOT met: all three matches were one keyword ("path dependent") on one boilerplate line shared by
+  every stone ("every path below was checked to exist on main at cut time").
+- AGENTS.md catalog row; memory `template-aliasing-shared-boilerplate-fakes-cross-domain-echo`.
+
+## Open (next session)
+1. **Backlog row status append** for `echo-detector-embedding-signature`: the row is still in
+   PR #585 (open), not on main. Waypoints posted on issue #580. Append once #585 lands.
+2. **Rank-4 chip (#581)** is level-triggered by this merge: propose RC-OPS-001 criterion 2 from the
+   report; `criteria_status` stays Zach's ruling. Recall >= 0.80 is unmeasured (no labeled echoes).
+3. **Independent-source input for the feed**: the three stones share one generator, so the detector
+   has never seen a clean cross-domain pair. Feed it texts from different authors/templates before
+   reading any echo as real.
+4. Inherited CI red on main: `leak-check` (5 markers in `public/`), `smoke` (`ledger_check.py`
+   delinquency). Not touched here.
+
+## Lessons (in the record)
+- Two adversarial controls catch two fabrication classes: scramble catches bags-of-words, the
+  shared-line control catches structure the inputs share by construction. A detector fed inputs
+  from one generator will always find the generator.
+- Report both halves of a two-part JTBD even when the fate vocabulary names only one.

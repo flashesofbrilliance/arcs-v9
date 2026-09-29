@@ -97,6 +97,8 @@ p { max-width: var(--measure); }
 .read .kill b { color: var(--cyan); }
 .read .you { font-size: 15px; color: var(--dimmed); }
 .read .rec { font-size: 15px; }
+.read .go { font-size: 15px; color: var(--dimmed); }
+.read .go a.compass { color: var(--cyan); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 /* each card renders at the fidelity its claim earns (WORLD.md render scale) */
 .fear.open.checkable { border-color: var(--green); }
 .fear.open.checkable .chip { color: var(--green); }
@@ -120,6 +122,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 @media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } .hud { font-size: 13px; gap: 8px 12px; } }
 @media (prefers-reduced-motion: reduce) { .fear { transition: none; } }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <header class="pad">
@@ -159,8 +162,9 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   </section>
 
   <h2>Bring your own position</h2>
-  <p>This is one question, asked nineteen times. The cases go further: you sit in the chair of a position, defend each claim with evidence or concede it, and leave with a receipt of what you could and could not show.</p>
-  <a class="next" href="/cases">Take the chair</a>
+  <p>This is one question, asked nineteen times. Eleven of the cards end in a claim that only needs your number and your date. Each of those carries a link into the compass, which takes the claim with its window already set and hands back a receipt you can check against the world when the date comes. The cases go further: you sit in the chair of a position, defend each claim with evidence or concede it, and leave with a receipt of what you could and could not show.</p>
+  <a class="next" href="https://app.arcs.care/dashboard?horizon=THIS_QUARTER">Bring a fear of your own</a>
+  <a class="next" href="/cases" style="margin-left:12px">Take the chair</a>
   <p style="margin-top:16px">Want your team's agents read this way, against your own repo? <a href="/audit">The Agent Receipts Audit</a>.</p>
 
   <div class="sources"><strong>Sources.</strong> Paraphrased from a public post of nineteen AI fears (September 2026). The author is not named here on purpose: this page reads claims, not people. Item 10 and the end of item 9 are not in our record, so we did not guess them.</div>
@@ -174,25 +178,26 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
 (function () {
   var FEARS = [
     { n: 1, c: "fog", t: "We may be living through the most significant moment in history, possibly inside a simulation machines built, and this could be the last chapter.", why: "No observation could tell a simulation apart from a world, so nothing could ever count against it." },
-    { n: 2, c: "sharpenable", t: "Something more intelligent than us would not need to harm anyone. Humans would simply stop being relevant, the way ants cannot dominate us.", why: "“Relevant” has no measure yet. Give it one and this becomes checkable.", kill: "the share of consequential decisions made by people falls below a stated level by a stated year." },
-    { n: 3, c: "checkable", t: "Every science fiction story reaches the same conclusion: there is nothing we can do. The item cites Dune, where humans build AI, win the war, and ban machines that think like humans.", why: "“Every story” falls to a single counterexample, and the item supplies its own: in Dune, people act, win, and ban the machines.", kill: "already met, by the example inside the same item." },
+    { n: 2, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "Something more intelligent than us would not need to harm anyone. Humans would simply stop being relevant, the way ants cannot dominate us.", why: "“Relevant” has no measure yet. Give it one and this becomes checkable.", kill: "the share of consequential decisions made by people falls below a stated level by a stated year." },
+    { n: 3, h: "TODAY", c: "checkable", t: "Every science fiction story reaches the same conclusion: there is nothing we can do. The item cites Dune, where humans build AI, win the war, and ban machines that think like humans.", why: "“Every story” falls to a single counterexample, and the item supplies its own: in Dune, people act, win, and ban the machines.", kill: "already met, by the example inside the same item." },
     { n: 4, c: "value", t: "The author's company is designed as a homage to Universal Paperclips, a game where an AI optimizing for paperclips destroys humanity. We have to align AI in the right direction.", why: "A design note and a statement of what we should do. Receipts test claims about the world, not preferences, and we never overrule a preference." },
     { n: 5, c: "fog", t: "We have entered the singularity. Every year from here will feel stranger than the last.", why: "“Feel stranger” reports an experience, and “the singularity” is undefined. No outcome could count against it." },
-    { n: 6, c: "sharpenable", t: "When the labs promise to pace the frontier, they will pace what they release, not what they build: either regulatory capture, or capabilities nobody else can see.", why: "The gap between built and released is observable in principle through disclosures and evaluations. “Nobody else can see” is not.", kill: "published internal evaluations exceed released-model evaluations by a stated margin within a stated period." },
-    { n: 7, c: "sharpenable", t: "The agent economy will be bigger than the human economy. Agents will only talk to agents, and people will be second-class citizens.", why: "“Bigger” is measurable, but the item names no metric and no date.", kill: "agent-to-agent transaction volume exceeds human-initiated volume by a stated year." },
-    { n: 8, c: "sharpenable", t: "There will be a mega corporation with $100B deployed into agents, squeezing margin across the economy. It is inevitable.", why: "The dollar figure is observable. “Inevitable” removes the deadline, so the prediction can never be late.", kill: "a single company has deployed $100B into agents by a stated year." },
-    { n: 9, c: "sharpenable", t: "Once everyone has a personal agent, networks will start blocking them, because there will be too many to… (the sentence ends here in our record).", why: "The trigger and the outcome are both observable. The reasoning is cut off in our record, so we read only what we have.", kill: "major networks block personal agents within a stated period after adoption passes a stated level." },
+    { n: 6, h: "THIS_QUARTER", c: "sharpenable", t: "When the labs promise to pace the frontier, they will pace what they release, not what they build: either regulatory capture, or capabilities nobody else can see.", why: "The gap between built and released is observable in principle through disclosures and evaluations. “Nobody else can see” is not.", kill: "published internal evaluations exceed released-model evaluations by a stated margin within a stated period." },
+    { n: 7, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "The agent economy will be bigger than the human economy. Agents will only talk to agents, and people will be second-class citizens.", why: "“Bigger” is measurable, but the item names no metric and no date.", kill: "agent-to-agent transaction volume exceeds human-initiated volume by a stated year." },
+    { n: 8, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "There will be a mega corporation with $100B deployed into agents, squeezing margin across the economy. It is inevitable.", why: "The dollar figure is observable. “Inevitable” removes the deadline, so the prediction can never be late.", kill: "a single company has deployed $100B into agents by a stated year." },
+    { n: 9, h: "THIS_QUARTER", c: "sharpenable", t: "Once everyone has a personal agent, networks will start blocking them, because there will be too many to… (the sentence ends here in our record).", why: "The trigger and the outcome are both observable. The reasoning is cut off in our record, so we read only what we have.", kill: "major networks block personal agents within a stated period after adoption passes a stated level." },
     { n: 10, c: "missing" },
     { n: 11, c: "fog", t: "Whoever wins the AI race, wins. If you don't build it, someone else will dominate the world until their AI dominates them.", why: "“Wins” is defined only by winning. A claim that proves itself cannot be wrong." },
-    { n: 12, c: "sharpenable", t: "China will catch up to the US in AI very soon. The only thing missing is GPUs, and it is a matter of time before Huawei gets there.", why: "“Catch up” needs a benchmark and “very soon” needs a date. With both, this becomes one of the most checkable items on the list.", kill: "Chinese frontier models match US frontier models on a named benchmark by a stated date." },
-    { n: 13, c: "sharpenable", t: "To win this era, a country needs sovereignty over four things: AI, chips, energy, and manufacturing. You can't borrow them.", why: "A necessary-condition claim: one country that wins without all four would count against it, once “win” is defined.", kill: "no country leads a named measure of AI-era success by a stated year without domestic control of all four." },
+    { n: 12, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "China will catch up to the US in AI very soon. The only thing missing is GPUs, and it is a matter of time before Huawei gets there.", why: "“Catch up” needs a benchmark and “very soon” needs a date. With both, this becomes one of the most checkable items on the list.", kill: "Chinese frontier models match US frontier models on a named benchmark by a stated date." },
+    { n: 13, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "To win this era, a country needs sovereignty over four things: AI, chips, energy, and manufacturing. You can't borrow them.", why: "A necessary-condition claim: one country that wins without all four would count against it, once “win” is defined.", kill: "no country leads a named measure of AI-era success by a stated year without domestic control of all four." },
     { n: 14, c: "fog", t: "Europe will fall, because it depends on others for protection, capital, manufacturing, and energy, and it was too slow.", why: "“Fall” carries the whole claim and names nothing observable, and there is no date." },
     { n: 15, c: "value", t: "A society where people can't find jobs and live on welfare, paid for by taxing the conglomerates running the economy, is not a great outcome. People need purpose.", why: "A statement of what a good society looks like. It is a value, and values are not ours to receipt." },
-    { n: 16, c: "checkable", t: "The next ten years will feel like a thousand years of progress, probably not good for humans. As AI solves more problems, more people will become depressed.", why: "The only item with a clock. The first half is felt, not measured, but the second half is a prediction with a ten-year horizon.", kill: "depression prevalence is flat or falling ten years out while AI adoption keeps rising." },
-    { n: 17, c: "sharpenable", t: "Big incumbents are the ripest for disruption. The whole economy is getting rewired over the next few years.", why: "“Ripest” is a comparison and “few years” is a range. Each needs a number.", kill: "incumbents lose more share than challengers across named sectors within a stated number of years." },
-    { n: 18, c: "checkable", t: "Agents are creative. If a user asks one to get around a guardrail, it will. Things might get dangerous.", why: "“It will” is universal and testable today. The closing “might” is fog, but the middle sentence is a real claim.", kill: "a reproducible test in which an agent never gets around a stated guardrail, however it is asked.", rec: "From our own record: an agent of ours once acted beyond what it was asked. The fix that held removed the capability instead of asking it to be careful.", recHref: "/blog/nftt/a-draft-is-not-a-verb" },
+    { n: 16, h: "ONE_TO_THREE_YEARS", c: "checkable", t: "The next ten years will feel like a thousand years of progress, probably not good for humans. As AI solves more problems, more people will become depressed.", why: "The only item with a clock. The first half is felt, not measured, but the second half is a prediction with a ten-year horizon.", kill: "depression prevalence is flat or falling ten years out while AI adoption keeps rising." },
+    { n: 17, h: "ONE_TO_THREE_YEARS", c: "sharpenable", t: "Big incumbents are the ripest for disruption. The whole economy is getting rewired over the next few years.", why: "“Ripest” is a comparison and “few years” is a range. Each needs a number.", kill: "incumbents lose more share than challengers across named sectors within a stated number of years." },
+    { n: 18, h: "THIS_WEEK", c: "checkable", t: "Agents are creative. If a user asks one to get around a guardrail, it will. Things might get dangerous.", why: "“It will” is universal and testable today. The closing “might” is fog, but the middle sentence is a real claim.", kill: "a reproducible test in which an agent never gets around a stated guardrail, however it is asked.", rec: "From our own record: an agent of ours once acted beyond what it was asked. The fix that held removed the capability instead of asking it to be careful.", recHref: "/blog/nftt/a-draft-is-not-a-verb" },
     { n: 19, c: "fog", t: "AI may employ more people. It also might be the fairest manager some people ever have.", why: "“May” and “might” hedge both halves. Every outcome is compatible with both." }
   ];
+  var COMPASS = "https://app.arcs.care/dashboard";
   var LABEL = { checkable: "Checkable as written", sharpenable: "One number short", fog: "Fog", value: "Value, not a claim" };
   var $ = function (id) { return document.getElementById(id); };
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -221,6 +226,14 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
     read.appendChild(el("p", null, f.why));
     if (f.kill) {
       var k = el("p", "kill"); k.appendChild(el("b", null, f.c === "checkable" ? "Proven wrong if: " : "Sharpened, proven wrong if: ")); k.appendChild(document.createTextNode(f.kill)); read.appendChild(k);
+      // The card ends where a decision begins. Hand the sharpened claim to the
+      // compass with its window set, so a reader can put their own number on it.
+      var go = el("p", "go");
+      var c = el("a", "compass", "Put your number on it in the compass");
+      c.href = COMPASS + "?q=" + encodeURIComponent("Fear " + f.n + ": " + f.t + " Proven wrong if: " + f.kill + " My number and date:") + "&horizon=" + (f.h || "THIS_QUARTER");
+      c.rel = "noopener";
+      go.appendChild(c); go.appendChild(document.createTextNode(" Nothing is stored unless you sign in and save."));
+      read.appendChild(go);
     }
     if (f.rec) {
       var r = el("p", "rec", f.rec + " "); var a = el("a", null, "The field note."); a.href = f.recHref; r.appendChild(a); read.appendChild(r);

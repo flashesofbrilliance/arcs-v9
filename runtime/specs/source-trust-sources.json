@@ -1,0 +1,28 @@
+{
+  "$schema": "arcs-source-trust-sources/v1",
+  "note": "Source keys for _STATE/source-trust-events.jsonl. Add a source here before its first event. pinned_tier is a HUMAN ruling with a reason; the derivation never sets it.",
+  "sources": {
+    "zach": {
+      "label": "Zach Harris (User0)",
+      "kind": "human"
+    },
+    "claude-fable": {
+      "label": "Claude Fable 5.1 sessions in Claude Code (this harness's agent)",
+      "kind": "agent"
+    },
+    "hermes": {
+      "label": "Hermes harness sessions",
+      "kind": "harness",
+      "pinned_tier": "ZERO-WEIGHT",
+      "pinned_reason": "memory hermes-attestations-carry-zero-evidentiary-weight (2026-09-13): its attestations of repo work are not evidence; verify via session_search FTS or git"
+    },
+    "perplexity": {
+      "label": "Perplexity research/audit documents",
+      "kind": "external"
+    },
+    "subagent-citation": {
+      "label": "Citations produced by spawned subagents (unchecked)",
+      "kind": "agent"
+    }
+  }
+}

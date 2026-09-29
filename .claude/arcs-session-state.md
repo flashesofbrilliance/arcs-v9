@@ -1,26 +1,15 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-09-26 · head `ef4282ee` · in sync with origin/main · deploy READY on good.arcs.care
+**As of:** 2026-09-28 · branch `claude/recursing-bardeen-fbe53d` · PR #613 MERGED at `150beb19` · worktree synced to origin/main `7e812c6c`
 
-## What just shipped (v3.67.0)
-- **take-home-trap-dossier**: genuine WCAG contrast debt repaired — `--dimmed` raised to AA
-  (dark `#748699` kit-canonical, light `#5e6b78`); detector 111→81 (residue all verified artifacts);
-  ratchet baseline dropped 111→81. `nftt-gates.sh` brought to pass (title suffix, desc, robots, IOC
-  email defang). Commits `3fbefb74`, `b235654c`.
-- **Whole NFTT corpus** (9 pages) conformed to the head-meta gate; new batch **Frustration Gate**
-  `scripts/nftt_meta_gate.py` wired into pre-commit. `--all` sweep GREEN across 38 files (index exempt).
-  Recon-report fragments kept `noindex` (air-gap). Commits `ce2b504b` → `ef4282ee`.
-- All merged to main + prod-verified live. 2 decision receipts filed (fully confirmed).
+## What this session did (v3.71.0, chip rank 7 / issue #584)
+- `operators/arcs_librarian.py`: Operator 21 `recommend(q, budget, stakes)` by expected value; tiers as data at `runtime/specs/read-friction-tiers.json`; registry row 21 rebound and READY; bridge self-test green; first real run committed under `_STATE/librarian/`.
+- Receipt `2026-09-28--librarian-recommend-op21-merge--ZH`; seed ledger `germinated` row.
 
 ## Next unblocked action
-Wire the design-detector (visual-slop) step into `nftt-gates.sh` — **gated** on Zach landing the
-design-system brand-profile branch (his 7-wave migration review). Carried from v3.66.0.
+1. Append status to backlog row `librarian-recommend-needle` once `claude/fanout-ranks-2-7` lands on main; close #584.
+2. `unfold-uses-librarian`: wire `scripts/unfold.py` pickup to call `recommend`.
+3. Give `reserve_ratio` / `curation_debt` a consumer (Op 28 Auditor).
 
-## Watch-outs
-- Local main checkout is parked on another branch → its pre-commit won't run the new NFTT gate block
-  until it lands on main; origin/main already has it.
-- Classify detector contrast findings against the ACTUAL rendered surface (CSS), never the detector's
-  `#ffffff`/`#000000` inference.
-
-## Blocking question
-NONE.
+## Blocking
+NONE. Calibration of the pre-score awaits a human adjudication pass (judgment, not machine).

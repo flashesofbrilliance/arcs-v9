@@ -1,0 +1,198 @@
+{
+ "date": "2026-09-27",
+ "seed": 27,
+ "params": {
+  "dithers": 12,
+  "keep": 0.85,
+  "k": 8
+ },
+ "inputs": [
+  "stone:nftt-surfaces",
+  "stone:receipts-outcomes",
+  "stone:tao-lore"
+ ],
+ "before": {
+  "date": "2026-09-27",
+  "domains": [
+   "stone:nftt-surfaces",
+   "stone:receipts-outcomes",
+   "stone:tao-lore"
+  ],
+  "signature": "keyword",
+  "detector": "OrthogonalEchoDetector defaults (keyword signature, name-based orthogonality)",
+  "params": {
+   "dithers": 12,
+   "keep": 0.85,
+   "k": 8,
+   "seed": 27
+  },
+  "baseline_matches": 0,
+  "baseline_status": "ARCSStatus.NULL",
+  "baseline": [],
+  "template_control": {
+   "shared_lines_dropped": 13,
+   "matches": 0,
+   "patterns": [],
+   "pairs": []
+  },
+  "real_echoes_after_template_control": 0,
+  "survivors": [],
+  "aliasing": [],
+  "fp_proxy": 0.8,
+  "fp_scrambled_hits": 4,
+  "fp_scrambled_runs": 5,
+  "fp_scrambled_per_run": [
+   1,
+   1,
+   0,
+   1,
+   1
+  ],
+  "fp_proxy_defn": "matches on word-scrambled controls / (runs x max(1, baseline matches)); RC-OPS-001 criterion 2 wants adv-FP <= 0.10 at recall >= 0.80 on LABELED echoes, which this is not"
+ },
+ "after": {
+  "date": "2026-09-27",
+  "domains": [
+   "stone:nftt-surfaces",
+   "stone:receipts-outcomes",
+   "stone:tao-lore"
+  ],
+  "signature": "embedding",
+  "detector": "arcs_echo_embedding (segment embeddings via all-MiniLM-L6-v2, keyword_tau=0.45; orthogonality = 1 - cosine of domain text vectors)",
+  "params": {
+   "dithers": 12,
+   "keep": 0.85,
+   "k": 8,
+   "seed": 27
+  },
+  "baseline_matches": 3,
+  "baseline_status": "ARCSStatus.PASS",
+  "baseline": [
+   {
+    "domains": [
+     "stone:receipts-outcomes",
+     "stone:tao-lore"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.436,
+    "evidence_a": [
+     "path dependent"
+    ],
+    "evidence_b": [
+     "path dependent"
+    ],
+    "segments_a": [
+     "every path below was checked to exist on main at cut time"
+    ],
+    "segments_b": [
+     "every path below was checked to exist on main at cut time"
+    ]
+   },
+   {
+    "domains": [
+     "stone:nftt-surfaces",
+     "stone:receipts-outcomes"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.436,
+    "evidence_a": [
+     "path dependent"
+    ],
+    "evidence_b": [
+     "path dependent"
+    ],
+    "segments_a": [
+     "every path below was checked to exist on main at cut time"
+    ],
+    "segments_b": [
+     "every path below was checked to exist on main at cut time"
+    ]
+   },
+   {
+    "domains": [
+     "stone:nftt-surfaces",
+     "stone:tao-lore"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.435,
+    "evidence_a": [
+     "path dependent"
+    ],
+    "evidence_b": [
+     "path dependent"
+    ],
+    "segments_a": [
+     "every path below was checked to exist on main at cut time"
+    ],
+    "segments_b": [
+     "every path below was checked to exist on main at cut time"
+    ]
+   }
+  ],
+  "template_control": {
+   "shared_lines_dropped": 13,
+   "matches": 0,
+   "patterns": [],
+   "pairs": []
+  },
+  "real_echoes_after_template_control": 0,
+  "survivors": [
+   {
+    "domains": [
+     "stone:nftt-surfaces",
+     "stone:receipts-outcomes"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.436,
+    "survived": "11/12",
+    "insight": "Decisions in stone:nftt-surfaces and stone:receipts-outcomes lock in; model reversibility cost before committing."
+   },
+   {
+    "domains": [
+     "stone:receipts-outcomes",
+     "stone:tao-lore"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.436,
+    "survived": "8/12",
+    "insight": "Decisions in stone:receipts-outcomes and stone:tao-lore lock in; model reversibility cost before committing."
+   },
+   {
+    "domains": [
+     "stone:nftt-surfaces",
+     "stone:tao-lore"
+    ],
+    "pattern": "ratchet_irreversibility",
+    "similarity": 0.435,
+    "survived": "9/12",
+    "insight": "Decisions in stone:nftt-surfaces and stone:tao-lore lock in; model reversibility cost before committing."
+   }
+  ],
+  "aliasing": [],
+  "fp_proxy": 0.0,
+  "fp_scrambled_hits": 0,
+  "fp_scrambled_runs": 5,
+  "fp_scrambled_per_run": [
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "fp_proxy_defn": "matches on word-scrambled controls / (runs x max(1, baseline matches)); RC-OPS-001 criterion 2 wants adv-FP <= 0.10 at recall >= 0.80 on LABELED echoes, which this is not"
+ },
+ "delta": {
+  "baseline_matches": 3,
+  "survivors": 3,
+  "fp_proxy": -0.8,
+  "fp_scrambled_hits": -4,
+  "real_echoes_after_template_control": 0
+ },
+ "fate": "fp-proxy-improved",
+ "jtbd": {
+  "fp_proxy_below_keyword_baseline": true,
+  "baseline_finds_real_echoes": false,
+  "note": "the row's JTBD has two halves; both are reported, the fate names only the mechanical one"
+ },
+ "note": "fate is the backlog row's own vocabulary (echo-detector-embedding-signature). This file is evidence for RC-OPS-001 criterion 2; criteria_status in operators/RC-REGISTRY.json is a human ruling and is not written here."
+}
