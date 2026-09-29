@@ -14,7 +14,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Durable, cross-instance rate limiting + spend caps + LLM observability via Vercel AI Gateway (replaces RL-001 interim limiter; also covers /api/brief and /api/guide Claude calls).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: AI Gateway rate limiting + spend caps rescheduled; RL-001 interim limiter stays in place meanwhile.", "expires": "2026-10-28" }
     },
     {
       "id": "DEL-003",
@@ -49,7 +49,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "No exception tracking on the app (SageTrace exposure was detected via a vendor email, not our own alerting).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: error-tracking vendor choice tabled one month (new dependency decision).", "expires": "2026-10-28" }
     },
     {
       "id": "DEP-008",
