@@ -1,0 +1,193 @@
+{
+  "$schema": "arcs-fates/v1",
+  "law": "ADR-068: every stage cut prints an artifact, through a gate, to a fate. This registry names, per artifact class, the fates it may land in, the field that records the fate, and the gate that decides it. hard classes fail `scripts/fates.py check` on a value outside the set; soft classes are reported only (their vocabularies are still accreting; forcing them would be taxonomy overfit).",
+  "classes": {
+    "lore": {
+      "field": "binding_verdict",
+      "gate": "test_that_decided (a verdict without a test is rejected)",
+      "fates": [
+        "true",
+        "durable-myth",
+        "old-wives-tale",
+        "inspiration"
+      ],
+      "non_terminal": [
+        "undecided"
+      ],
+      "ledger": "runtime/specs/lore.jsonl",
+      "strictness": "hard",
+      "notes": "inspiration is deliberately non-terminal in spirit: a mood board pointed at until something real prints; kept as a fate because it is a declared resolution (ADR-044 aspiration column)."
+    },
+    "witness": {
+      "field": "y",
+      "gate": "the human's yes at the moment (or accept on a backfilled stub)",
+      "fates": [
+        "GREEN",
+        "YELLOW",
+        "SCRATCH"
+      ],
+      "non_terminal": [
+        "None"
+      ],
+      "ledger": "_STATE/witness/",
+      "strictness": "hard",
+      "notes": "y is the gut read, not a scored conviction; promoted (null | ADR/memory/DEWY id) is the second fate, set later by the promoting artifact's session. One legacy stub carries y=None."
+    },
+    "falsification": {
+      "field": "verdict",
+      "gate": "the test named in `test`",
+      "fates": [
+        "FALSIFIED",
+        "HELD"
+      ],
+      "non_terminal": [],
+      "ledger": "_STATE/falsification-ledger.jsonl",
+      "strictness": "hard",
+      "notes": "40 rows to date, all FALSIFIED: the ledger records claims that fell. HELD is registered for a claim that was tested and survived, so a test that vindicates can be printed too (ADR-062: the falsifier must be able to say it was wrong to doubt)."
+    },
+    "operator": {
+      "field": "status",
+      "gate": "scripts/operator_registry_emit.py (grep-verified binding; --probe import)",
+      "fates": [
+        "READY",
+        "PARTIAL",
+        "BLOCKED",
+        "UNBUILT"
+      ],
+      "non_terminal": [],
+      "ledger": "operators/OPERATOR-REGISTRY.json",
+      "strictness": "hard"
+    },
+    "source": {
+      "field": "tier",
+      "gate": "scripts/source_trust_emit.py (asymmetric decayed counts) or a pinned human ruling",
+      "fates": [
+        "ZERO-WEIGHT",
+        "ELEVATED",
+        "STANDARD",
+        "LOW"
+      ],
+      "non_terminal": [],
+      "ledger": "runtime/specs/source-trust.json",
+      "strictness": "hard"
+    },
+    "rom-candidate": {
+      "field": "status",
+      "gate": "the four graduation criteria in the registry entry",
+      "fates": [
+        "READY",
+        "GRADUATION_INITIATED",
+        "PROMOTED",
+        "WITHDRAWN"
+      ],
+      "non_terminal": [],
+      "ledger": "operators/RC-REGISTRY.json",
+      "strictness": "hard",
+      "notes": "RC-OPS-001 is GRADUATION_INITIATED with 0/4 criteria met."
+    },
+    "adr": {
+      "field": "**Status:** line in the file header",
+      "gate": "oracle-allocated number + merge to main; SUPERSEDED by a later ADR",
+      "fates": [
+        "DECIDED",
+        "ACCEPTED",
+        "SUPERSEDED",
+        "RC",
+        "SEED"
+      ],
+      "non_terminal": [
+        "DRAFT",
+        "PROPOSED",
+        "PROVISIONAL",
+        "UNSTATED"
+      ],
+      "ledger": "_DECISIONS/",
+      "strictness": "hard",
+      "notes": "DECIDED and ACCEPTED are the same fate in two spellings (44 vs 18 files); a future doc-rot pass may unify them. UNSTATED = the header has no Status line (3 files): allowed as non-terminal, reported."
+    },
+    "backlog": {
+      "field": "status (prefix) + fates[] (free text)",
+      "gate": "the item's gates[]",
+      "fates": [
+        "DONE",
+        "CLOSED",
+        "BUILT",
+        "ROUTED",
+        "DELEGATED",
+        "RETIRED"
+      ],
+      "non_terminal": [
+        "OPEN",
+        "HELD",
+        "TABLED",
+        "LOCKED",
+        "PROTOTYPED",
+        "MOSTLY_DONE",
+        "UNSTATED"
+      ],
+      "ledger": "_QUEUE/induced-backlog.jsonl",
+      "strictness": "soft",
+      "notes": "fates[] arrays are free text (30 distinct values across 62 items on 2026-09-27: published, parked, deferred, proven, minted, ...). Soft until the vocabulary settles; the status prefix is what check reads."
+    },
+    "seed": {
+      "field": "status (+ lab_candidate.status)",
+      "gate": "ripeness judgment / Kairos (ADR-053); /lab-mint",
+      "fates": [
+        "published",
+        "planted",
+        "candidate",
+        "built-first-instance",
+        "built-unpublished",
+        "proven-poc",
+        "composted",
+        "molted"
+      ],
+      "non_terminal": [
+        "proposed-fork",
+        "None"
+      ],
+      "ledger": "_SEEDS/index.jsonl",
+      "strictness": "soft",
+      "notes": "composted and molted are registered from the ripeness-resolution family (memory) though no seed has landed there yet; two rows carry dated ad-hoc statuses (named-2026-08-19, minted-2026-08-23) that a curation pass should normalize."
+    },
+    "receipt": {
+      "field": "status (derived: LOGGED iff an Outcome row exists for the receipt, else OPEN; EXPIRED has no rule yet); drift = Receipt.driftState",
+      "gate": "POST /api/receipts/[id]/outcome (the human supplies matched/regretScore; a receipt cannot close itself)",
+      "fates": [
+        "LOGGED",
+        "EXPIRED",
+        "LANDED",
+        "DRIFTING"
+      ],
+      "non_terminal": [
+        "OPEN"
+      ],
+      "ledger": "prisma/schema.prisma (Outcome row presence; Receipt.driftState) — counted per cohort by Operator 19, operators/arcs_accountant.py -> _STATE/<date>-accountant-scoreboard.json",
+      "strictness": "soft",
+      "notes": "not checked mechanically here (prod DB); registered so the vocabulary is in one place. Receipt carries NO status column (the earlier note was wrong): status is derived from Outcome presence. Counts as of 2026-09-27 (read-only query, _STATE/2026-09-27-accountant-scoreboard.json): founder 196 receipts / 3 closed (2 matched, 1 unmatched), external 10 / 0, anonymous 48 / 0 — 254 / 3 total. The retired '2/247' figure mixed cohorts; report them separately."
+    },
+    "decision-receipt": {
+      "field": "(none) — a ship-event receipt has no fate column; what_confirmed[] vs what_unconfirmed[] is its resolution",
+      "gate": "verifier against git/GitHub/Vercel state",
+      "fates": [],
+      "non_terminal": [],
+      "ledger": "supabase public.decision_receipt",
+      "strictness": "soft",
+      "notes": "registered as a deliberate absence: the receipt's fate is the merge/deploy it attests, which is recorded in git, not in the row."
+    },
+    "assumption": {
+      "field": "status",
+      "gate": "test_that_would_decide (required while open; a decided row must cite decided_ref)",
+      "fates": [
+        "held",
+        "falsified"
+      ],
+      "non_terminal": [
+        "open"
+      ],
+      "ledger": "_STATE/assumptions.jsonl",
+      "strictness": "hard",
+      "notes": "the ethereal-stage ledger: premises registered BEFORE the test. Closes into the falsification ledger (F-row) or a HELD row."
+    }
+  }
+}

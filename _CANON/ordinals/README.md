@@ -16,3 +16,5 @@ and [[btw-gambit-multiwindow-fork-failure-modes]] in memory.
 
 **Reload incantation:** load #001 (`ARCS-Glossary-v0.1.md`) at session start to reconstruct the
 shared vocabulary board without re-deriving terms from scratch.
+
+**Working tier (2026-09-27):** the day-to-day dictionary is `runtime/specs/legend.jsonl` (rendered to `runtime/specs/LEGEND.md`, tool `scripts/legend.py`). It is the LEGEND tier between RAM (a term used once) and this chain: banked and gated, but NOT an ordinal. The next ordinal candidate is cut from it; this repo still never mints.

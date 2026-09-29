@@ -1,0 +1,435 @@
+{
+  "$schema": "arcs-operator-registry/v1",
+  "source_of_truth": "operators/docs/PERIODIC-TABLE.md (numbering LOCKED 2026-09-27)",
+  "generator": "scripts/operator_registry_emit.py",
+  "verification": "every binding grep-verified at emit; --probe adds an import test via operators/.venv",
+  "counts": {
+    "READY": 12,
+    "UNBUILT": 10,
+    "PARTIAL": 5,
+    "BLOCKED": 1
+  },
+  "operators": [
+    {
+      "op": 1,
+      "symbol": "Fd",
+      "name": "FirstDerivative",
+      "role": "Velocity",
+      "function": "Detect trend emergence",
+      "level": "atom",
+      "binding": {
+        "module": "core/atoms.py",
+        "symbol": "FirstDerivative",
+        "entrypoint": "apply",
+        "call": "apply_series",
+        "input": "series: list[float]; params: {spacing, order}"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 2,
+      "symbol": "Sd",
+      "name": "SecondDerivative",
+      "role": "Acceleration",
+      "function": "Detect inflection points",
+      "level": "atom",
+      "binding": {
+        "module": "core/atoms.py",
+        "symbol": "SecondDerivative",
+        "entrypoint": "apply",
+        "call": "apply_series",
+        "input": "series: list[float]; params: {spacing, order}"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 3,
+      "symbol": "Td",
+      "name": "ThirdDerivative",
+      "role": "Jerk",
+      "function": "Detect rate of acceleration change",
+      "level": "atom",
+      "binding": {
+        "module": "arcs_kinematics.py",
+        "symbol": "KinematicManifold",
+        "entrypoint": "jerk",
+        "call": "series_method",
+        "input": "series: list[float]; params: {dt}",
+        "note": "third derivative is the jerk() method of the 12-D manifold; no standalone atom"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 4,
+      "symbol": "Wd",
+      "name": "WaveDiffusion",
+      "role": "Propagation",
+      "function": "Predict network spread",
+      "level": "atom",
+      "binding": {
+        "module": "core/atoms.py",
+        "symbol": "WaveDiffusion",
+        "entrypoint": "apply",
+        "call": "apply_series",
+        "input": "series: list[float]; params: {sigma, mode}"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 5,
+      "symbol": "Pc",
+      "name": "PhaseCancel",
+      "role": "Interference",
+      "function": "Prevent destructive interference",
+      "level": "atom",
+      "binding": {
+        "module": "core/atoms.py",
+        "symbol": "PhaseCancel",
+        "entrypoint": "apply",
+        "call": "apply_series",
+        "input": "series: list[float]; params: {sample_rate, targets[], bandwidth, attenuation}"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 6,
+      "symbol": "Pl",
+      "name": "PhaseLock",
+      "role": "Synchronization",
+      "function": "Force phase alignment",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "no phase-lock primitive; PhaseCancel (5) is the only wave-domain atom"
+    },
+    {
+      "op": 7,
+      "symbol": "De",
+      "name": "Decelerator",
+      "role": "Decay",
+      "function": "Detect decay and exit signals",
+      "level": "atom",
+      "binding": {
+        "module": "core/atoms.py",
+        "symbol": "Decelerator",
+        "entrypoint": "apply",
+        "call": "apply_series",
+        "input": "series: list[float]; params: {alpha, warm_start}"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 8,
+      "symbol": "Ra",
+      "name": "ResonanceAtom",
+      "role": "Alignment",
+      "function": "Measure wavefunction alignment",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "no resonance atom; Operator21 spline knots carry alignment implicitly"
+    },
+    {
+      "op": 9,
+      "symbol": "Ha",
+      "name": "HarmonyIndex",
+      "role": "Optimization",
+      "function": "Composite coherence scoring",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "no composite HarmonyIndex; ~30 lines of weighted sum over atom outputs"
+    },
+    {
+      "op": 10,
+      "symbol": "Ns",
+      "name": "NoiseFilter",
+      "role": "Signal",
+      "function": "Separate signal from noise",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "no noise filter atom; WaveDiffusion (4) smooths but does not separate signal/noise"
+    },
+    {
+      "op": 11,
+      "symbol": "Ci",
+      "name": "ConfidenceIndex",
+      "role": "Certainty",
+      "function": "Calibrated probability",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "arcs_trace_loki.AbductiveCalibrator records calibration but is not a ConfidenceIndex"
+    },
+    {
+      "op": 12,
+      "symbol": "Ba",
+      "name": "BayesianUpdater",
+      "role": "Learning",
+      "function": "Update beliefs from evidence",
+      "level": "atom",
+      "binding": {
+        "module": "arcs_operators_lab.py",
+        "symbol": "BayesianUpdate",
+        "entrypoint": null,
+        "call": "none",
+        "input": "n/a",
+        "note": "the Bayesian lens runs inside LABOperator.run(); no standalone updater"
+      },
+      "status": "PARTIAL",
+      "probe": "ok"
+    },
+    {
+      "op": 13,
+      "symbol": "Ts",
+      "name": "TemporalSequencer",
+      "role": "Timing",
+      "function": "Optimal action sequencing",
+      "level": "atom",
+      "binding": {
+        "module": "core/operators.py",
+        "symbol": "Conductor",
+        "entrypoint": "sequence",
+        "call": "none",
+        "input": "tasks: [{id, deps[], priority}]",
+        "note": "module imports pandas + loguru (neither declared in pyproject); expect BLOCKED on probe"
+      },
+      "status": "BLOCKED",
+      "probe": "ModuleNotFoundError: No module named 'pandas'",
+      "blocked_reason": "ModuleNotFoundError: No module named 'pandas'"
+    },
+    {
+      "op": 14,
+      "symbol": "Cs",
+      "name": "CoherenceScorer",
+      "role": "Measurement",
+      "function": "System-wide coherence",
+      "level": "atom",
+      "binding": {
+        "module": "arcs_primitives.py",
+        "symbol": "CoherenceReceipt",
+        "entrypoint": "coherence_law_score",
+        "call": "none",
+        "input": "n/a",
+        "note": "ARCS Law C = aA - b(S-S_min)^2 + gW is a method on the receipt, not a free atom"
+      },
+      "status": "PARTIAL",
+      "probe": "ok"
+    },
+    {
+      "op": 15,
+      "symbol": "Ec",
+      "name": "EnergyCatalyst",
+      "role": "Transformation",
+      "function": "Convert potential→kinetic",
+      "level": "atom",
+      "status": "UNBUILT",
+      "nearest": "no energy catalyst atom"
+    },
+    {
+      "op": 16,
+      "symbol": "Orch",
+      "name": "Orchestrator",
+      "role": "CEO",
+      "function": "Synthesize decisions",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_pipeline_v1.py",
+        "symbol": "ARCSPipeline",
+        "entrypoint": "run",
+        "call": "operator_client",
+        "client_id": "PIPELINE",
+        "input": "structured: CoherenceSignal + FATEDReasoning + AxiomCheck + SomaticReading + hci_score + phase_id + next_action"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 17,
+      "symbol": "Dete",
+      "name": "Detective",
+      "role": "CRO",
+      "function": "Challenge via adversarial reasoning",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_operators_lab.py",
+        "symbol": "LABOperator",
+        "entrypoint": "run",
+        "call": "operator_client",
+        "client_id": "LAB",
+        "input": "text signal (routed through the CIS pipeline)",
+        "note": "Loki / Advisors / Bayesian three-lens adversarial review = the Detective role"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 18,
+      "symbol": "Immu",
+      "name": "Immune",
+      "role": "CSO",
+      "function": "Protect identity coherence",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_constitutional_court.py",
+        "symbol": "ConstitutionalCourt",
+        "entrypoint": "adjudicate",
+        "call": "none",
+        "input": "sage_receipt + lab_assessment + bar_assessment + phase_id",
+        "note": "only invoked on a BAR RUIN_RISK verdict; not a default pipeline step"
+      },
+      "status": "PARTIAL",
+      "probe": "ok"
+    },
+    {
+      "op": 19,
+      "symbol": "Acco",
+      "name": "Accountant",
+      "role": "CFO",
+      "function": "Measure outcomes",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_accountant.py",
+        "symbol": "AccountantOperator",
+        "entrypoint": "run",
+        "call": "callable",
+        "adapter": "prod_receipt_to_accountant",
+        "input": "payload.receipts: list[dict] (receipt_id, cohort, nci_score, horizon, drift_state); payload.outcomes: list[dict] (receipt_id, matched, regret_score)",
+        "note": "the Scoreboard: per-cohort (founder|external|anonymous) counts, closure rate, fates; NCI-vs-outcome calibration only at n >= 30 closed per cohort, else sufficiency=insufficient with n. Never invents a missing field. Adapter: operators/prod_receipt_to_accountant.py"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 20,
+      "symbol": "Folk",
+      "name": "Folksonomy",
+      "role": "CMO",
+      "function": "Discover emergent patterns",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_operator20.py",
+        "symbol": "Operator20",
+        "entrypoint": "cultivate",
+        "call": "callable",
+        "adapter": "receipts_to_seeds",
+        "input": "payload.receipts: list[dict] (>= MIN_CORPUS_SIZE for clusters); payload.phase_id",
+        "note": "gated at 100 receipts; auto-sweep lives in arcs_api.cultivate_auto_sweep"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 21,
+      "symbol": "Libr",
+      "name": "Librarian",
+      "role": "CTO",
+      "function": "Store and retrieve decisions",
+      "level": "boardroom",
+      "binding": {
+        "module": "arcs_store.py",
+        "symbol": "ARCSStore",
+        "entrypoint": "recommend",
+        "call": "callable",
+        "input": "params.store_path (optional); payload.q: str; payload.budget: int bytes (default 16000); payload.stakes: low|medium|high|critical; payload.n_max; payload.classes[]",
+        "note": "retrieval by expected value under a context budget (seed-service-librarian-retrieval-policy): value = p_load_bearing x cost_if_absent, cost = read_friction + displacement; source-trust tier read before backing; unbacked items only in what_unconfirmed; reserve_ratio + curation_debt in every result; ouroboros demotes classes whose prior picks were falsified. Ranking in operators/arcs_librarian.py; p_load_bearing is surfaced, never acted on. latest/by_phase/by_status/by_nci_range remain as plain filters"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 22,
+      "symbol": "Cond",
+      "name": "Conductor",
+      "role": "Maestro",
+      "function": "Meta-review, final quality",
+      "level": "chorus",
+      "binding": {
+        "module": "receipt_evaluator.py",
+        "symbol": "evaluate_receipt",
+        "entrypoint": "evaluate_receipt",
+        "call": "callable",
+        "input": "receipt: dict (nci_score, phase_id); repair: bool",
+        "note": "Kintsugi phase gate over a DEWY receipt = the meta-review"
+      },
+      "status": "READY",
+      "probe": "ok"
+    },
+    {
+      "op": 23,
+      "symbol": "Loki",
+      "name": "Loki",
+      "role": "Trickster",
+      "function": "Playful contrarian",
+      "level": "chorus",
+      "binding": {
+        "module": "arcs_trace_loki.py",
+        "symbol": "LokiEngine",
+        "entrypoint": "bar_review",
+        "call": "none",
+        "input": "TraceLogger-bound; open_debug_session(span_id) first"
+      },
+      "status": "PARTIAL",
+      "probe": "ok"
+    },
+    {
+      "op": 24,
+      "symbol": "DevA",
+      "name": "DevilsAdvocate",
+      "role": "Prosecutor",
+      "function": "Steel-man opposition",
+      "level": "chorus",
+      "status": "UNBUILT",
+      "nearest": "arcs_operators_lab.LokiChallenge is generated inside LAB; no standalone steel-man"
+    },
+    {
+      "op": 25,
+      "symbol": "Shav",
+      "name": "ShavasanaSpace",
+      "role": "Wisdom",
+      "function": "Contemplative pause",
+      "level": "chorus",
+      "status": "UNBUILT",
+      "nearest": "no Shavasana code (0 grep hits 2026-09-27); operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; prototype-without-the-name = /thread-recoil + /night-moves"
+    },
+    {
+      "op": 26,
+      "symbol": "SupA",
+      "name": "SuperAdmin",
+      "role": "Root",
+      "function": "Omniscient observation, override",
+      "level": "superadmin",
+      "binding": {
+        "module": "arcs_runtime_service.py",
+        "symbol": "ARCSRuntimeService",
+        "entrypoint": "run_pipeline",
+        "call": "none",
+        "input": "session-scoped; start_session() then run_pipeline(...)"
+      },
+      "status": "PARTIAL",
+      "probe": "ok"
+    },
+    {
+      "op": 27,
+      "symbol": "Taxa",
+      "name": "Taxonomist",
+      "role": "Classifier",
+      "function": "Build classification structures",
+      "level": "superadmin",
+      "status": "UNBUILT",
+      "nearest": "scripts/arcs_core.py Folksonomist builds taxonomies from scans; not wired as an operator"
+    },
+    {
+      "op": 28,
+      "symbol": "Audi",
+      "name": "Auditor",
+      "role": "Compliance",
+      "function": "System-wide accounting",
+      "level": "superadmin",
+      "status": "UNBUILT",
+      "nearest": "operators/audit_service/ is an informativeness gate, not a transaction auditor"
+    }
+  ]
+}

@@ -37,7 +37,7 @@ jobs:
   leak-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: External-surface leak check
         run: bash scripts/leak_check.sh
 
@@ -53,6 +53,32 @@ jobs:
       - name: Belief-log is current with the ledger
         run: python3 scripts/belief_log_emit.py --check
 
+  # Hard gate — generated views are current with their sources. Pre-commit catches a stale
+  # generated file at COMMIT time; a merge can stale it afterwards (two branches appending to
+  # the same ledger tail did exactly that twice on 2026-09-27) and nothing turned red. This job
+  # makes merge ORDER irrelevant for freshness: whichever lands second must regenerate. Each
+  # check is stdlib python, seconds to run. Dependency order (HOLDING rows) is a different
+  # question and lives in the air-traffic board, not here.
+  generated-views:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Operator registry matches the periodic table + bindings
+        run: python3 scripts/operator_registry_emit.py --check
+      - name: LEGEND render current
+        run: python3 scripts/legend.py check
+      - name: LORE render current
+        run: python3 scripts/lore.py check
+      - name: Fate registry has no hard misses
+        run: python3 scripts/fates.py check
+      - name: Assumptions ledger valid + render current
+        run: python3 scripts/assumptions.py check
+      - name: Source-trust table current
+        run: python3 scripts/source_trust_emit.py --check
+      - name: Every gh_sync backlog row has an issue
+        run: python3 scripts/backlog_issue_sync.py --check
+
   smoke:
     runs-on: ubuntu-latest
     env:
@@ -61,7 +87,7 @@ jobs:
       ANTHROPIC_API_KEY: "sk-ant-ci-placeholder"
       AUTH_SECRET: "ci-placeholder-secret"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:
@@ -129,7 +155,7 @@ jobs:
       # 500s on every page (root layout probes it via ClaimAnonymousReceipts).
       AUTH_TRUST_HOST: "true"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:

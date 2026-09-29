@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Zach Harris · Product Manager, Patient Experience · Conduit Health</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);}
+h1{font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.925rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(1.5rem, 4vw, 2.4rem);color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.925rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;color:var(--secondary);margin-top:2px;}
+:root{--sans:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;}</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+<nav class="btns" aria-label="Bundle" style="margin-bottom:6px;"><a class="btn p" href="/conduit-brief.pdf" download="Zach-Harris-Conduit-Brief.pdf">↓ Two-page memo</a><a class="btn" href="/resume">Résumé →</a><a class="btn" href="/case-study">Ideal Protein case study →</a></nav>
+
+<div>
+  <div class="eyebrow">Zach Harris · Candidate Brief</div>
+  <h1>Zach Harris · Product Manager, Patient Experience</h1>
+  <div class="sub">Conduit Health · via HappyPath</div>
+</div>
+
+<p class="verdict"><span class="lead">A hands-on product manager who owns the whole loop:</span> set the roadmap, talk to users, read the funnel, prototype, work with engineering, test, launch, and iterate on behavior. I still ship production code weekly and built my own eval gates. <b>Your two asks, as I heard them: a builder who can also carry go-to-market, and a patient experience that is sticky but engaging for older patients.</b></p>
+<p class="kicker">Actively interested in this role. New York metro; three days a week in Union Square works. Twenty years in product across regulated health, finance, and direct-to-consumer.</p>
+
+<div class="rule"></div>
+
+<div class="slabel">What you'll own, one to one</div>
+<div class="card"><div class="qa">
+<div><div class="q">Retention and LTV</div><div class="a"><b>Done before:</b> 73 percent program adherence at Ideal Protein, a PE-backed medically supervised diet program, where I was Head of Product Innovation on the turnaround team; lifecycle segmentation that grew net-new revenue 20 percent at the Children's Tumor Foundation. <b>Where I'd start:</b> a reorder cohort view (month 1, 3, 6, 12) by product line and health plan, aimed at the biggest drop.</div></div>
+<div><div class="q">Go-to-market</div><div class="a"><b>Done before:</b> a two-step lead qualification flow at Ideal Protein that grew qualified leads 40 percent; took a direct-to-consumer brand from zero to profitability and more than $2M in revenue in 24 months. <b>Where I'd start:</b> first orders by health plan and referral source, read against month-3 reorders, so acquisition is judged on patients who stay.</div></div>
+<div><div class="q">End-to-end patient experience</div><div class="a"><b>Done before:</b> owned the roadmap and customer-experience rebuild at Ideal Protein (patients, clinicians, and 3,500+ clinics, under HIPAA), with time-to-interaction as the conversion KPI; booking success rose 63 percent for patients within five miles of a clinic. <b>Where I'd start:</b> instrument order, visit, authorization, delivery, and refill as one journey, so the worst hand-off shows up in one view.</div></div>
+<div><div class="q">AI-powered support</div><div class="a"><b>Done before:</b> built routing in my own AI product between fixed rules, the model, and a human reviewer. An 80-year-old and their adult child should not get the same journey, and for many patients SMS or a voice call beats an app. <b>Where I'd start:</b> a map of which moments AI runs (refill reminders, delivery status), which it assists (coverage questions), and which go to a person (clinical concerns, a caregiver in distress).</div></div>
+<div><div class="q">LLM evaluation and quality</div><div class="a"><b>Done before:</b> rubrics, regression gates, and failure diagnosis on my own AI product (text, one operator, not patient traffic). <b>Where I'd start:</b> pull a few hundred real refill SMS and voice threads, label accuracy, tone for older patients, and handoff misses, and publish that baseline before changing anything.</div></div>
+<div><div class="q">Experiments and metrics</div><div class="a"><b>Done before:</b> split-tested calls to action at Ideal Protein (clinic-finder leads and clinician form fills up 30 percent); built the KPI and efficacy scorecards that decided which of three AI product lines at Twill Health moved forward. <b>Where I'd start:</b> a ranked backlog of reorder experiments, each with a metric and a kill rule, read against seasonality and payer mix before anyone calls a win.</div></div>
+</div></div>
+
+<div class="slabel">Honest gaps</div>
+<div class="card"><ul class="plain">
+<li><span class="dot"></span><span><b>No production Voice AI for patients yet.</b> My eval work is on text. First move: the labeled baseline above, from real Conduit conversations.</span></li>
+<li><span class="dot"></span><span><b>No DME or Medicare supply background.</b> First two weeks: sit with intake, authorization, and reorder operations, listen to reorder calls, and map where refills lapse before touching the roadmap.</span></li>
+</ul></div>
+
+<div class="slabel">Questions I would bring to Rocky</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span>From the outside, my guess is that LTV on the consumables (incontinence, CGM supplies) is set at the reorder confirmation and the doctor's-order and authorization renewal, not the first order. Is that right, and how does it differ by product line?</span></li>
+<li><span class="dot c"></span><span>Where do SMS and Voice AI run end to end today, and how is quality measured now?</span></li>
+<li><span class="dot c"></span><span>How does this role work with the other product hires and with Clinical Operations?</span></li>
+</ul></div>
+
+<div class="slabel">Conduit, from public sources</div>
+<div class="card"><p style="line-height:1.55;">Insurance-covered supplies for Medicare and Medicaid patients (incontinence, mobility, home safety, diabetes monitoring) through a telehealth visit, automated authorization, and home delivery in about 7 days instead of 50+. More than 50,000 patients served and 100+ health plans covering nearly 90 million lives.</p></div>
+
+<div class="card"><div class="btns"><a class="btn p" href="/resume">View résumé →</a><a class="btn" href="/conduit-resume.pdf" download="Zach-Harris-Resume.pdf">↓ Résumé PDF</a><a class="btn" href="/conduit-resume-ats.txt" download="Zach-Harris-Resume-ATS.txt">↓ Plain text</a></div></div>
+
+<div class="foot">Conduit figures are from public press. Mine are from my own records and case studies, and I'm glad to walk through any of them. The Ideal Protein growth case study is linked above, condensed with the full deck attached; it was marked confidential while the company was an active PE investment and has since been sold.</div>
+
+
+</div><script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.slabel'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body></html>

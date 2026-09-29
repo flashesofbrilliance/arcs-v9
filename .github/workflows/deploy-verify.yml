@@ -42,7 +42,7 @@ jobs:
       # The specific deployment this event is for -- recorded in the incident issue.
       DEPLOY_URL: ${{ github.event.deployment_status.target_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Cost gate (2026-08-19): 242 verify runs in 19 days, most triggered by
       # doc-only deploys that cannot change runtime behavior. Diff the deployed
@@ -160,7 +160,7 @@ jobs:
         # (e.g. missing VERCEL_* secrets) -- otherwise a failed rollback silently
         # swallows the incident notification.
         if: always() && steps.eval.outputs.failed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const apiOutcome = "${{ steps.api_smoke.outcome }}";

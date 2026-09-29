@@ -61,10 +61,31 @@ export default function ReceiptPage() {
   // stored rawResponse (see that route) — just wasn't read here before.
   const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
   const [shareCopied, setShareCopied] = useState(false)
+  // Save-nudge v1.1 (spec _SPECS/receipt-save-nudge-v1.md §6.3), dark by
+  // default: OFF renders the July 2026 banner unchanged. Dismiss is scoped to
+  // this one bearing (sessionStorage, keyed by eph id) and never carries to the
+  // next run; each new bearing is a new consent moment.
+  const saveNudgeV11 = process.env.NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 === "true"
+  const [saveDismissed, setSaveDismissed] = useState(false)
 
   useEffect(() => {
     if (isEphemeral) {
-      const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
+      try { if (sessionStorage.getItem(`arcs_eph_dismiss_${receiptId}`)) setSaveDismissed(true) } catch {}
+      let raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
+      if (!raw) {
+        // Recovery (spec _SPECS/receipt-save-nudge-v1.md §6.2): the bearing
+        // may be one storage layer over, not lost. "Sign in & save" copies it
+        // to localStorage (arcs_pending_save, keyed by this eph id) before the
+        // magic-link tab hop. If the visitor comes back to this URL in a tab
+        // whose sessionStorage is gone, render from that stash. Never re-run
+        // the compass to "recover" (client-fetch-failure-is-not-persistence-failure).
+        try {
+          const pending = JSON.parse(localStorage.getItem("arcs_pending_save") ?? "null")
+          if (pending?.ephId === receiptId && pending?.bearing && Date.now() - (pending.savedAt ?? 0) < 7 * 86400000) {
+            raw = JSON.stringify(pending.bearing)
+          }
+        } catch { /* fall through to the honest error */ }
+      }
       if (!raw) {
         setError("This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
         return
@@ -211,24 +232,42 @@ export default function ReceiptPage() {
         </div>
 
         {/* Ephemeral notice — the trust contract's "nothing is stored" made visible */}
-        {isEphemeral && (
+        {isEphemeral && !(saveNudgeV11 && saveDismissed) && (
           <div style={{ ...contentContainer(vw), paddingBottom: "1.25rem" }}>
+            {/* DRAFT COPY behind NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 (default OFF).
+                Zach blesses the v1.1 wording before the flag is flipped for any
+                real user. OFF = the ADR-049 banner, byte-for-byte. */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", border: `0.5px solid ${signal.gold}44`, borderRadius: 6, padding: "0.6rem 1rem", background: `${signal.gold}0d` }}>
-              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary }}>
-                NOT STORED. This bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
+              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary, minWidth: 0 }}>
+                {saveNudgeV11
+                  ? "NOT STORED. This bearing lives only in this tab and is gone when you close it. Keep it: sign in with a magic link and it lands in your ledger, with a check-in at the horizon you chose."
+                  : "NOT STORED. This bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in."}
               </span>
-              <Button variant="ghost" size="sm" onClick={() => {
-                // Opt-in save (ADR-049): stash the bearing in localStorage
-                // (sessionStorage is tab-scoped — a magic-link click opens a
-                // new tab and would lose it), then route to sign-in. The
-                // post-auth consumer (ClaimAnonymousReceipts) persists it.
-                track("receipt_save_clicked", { receiptId })
-                const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
-                if (raw) {
-                  try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: JSON.parse(raw) })) } catch {}
-                }
-                router.push("/compass")
-              }}>Sign in &amp; save</Button>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {saveNudgeV11 && (
+                  <Button variant="ghost" size="sm" onClick={() => {
+                    // A real dismiss: hides the banner for THIS bearing only.
+                    // Nothing is written server-side; the result stays rendered.
+                    track("receipt_save_dismissed", { receiptId })
+                    try { sessionStorage.setItem(`arcs_eph_dismiss_${receiptId}`, "1") } catch {}
+                    setSaveDismissed(true)
+                  }}>Let it go</Button>
+                )}
+                <Button variant="ghost" size="sm" onClick={() => {
+                  // Opt-in save (ADR-049): stash the bearing in localStorage
+                  // (sessionStorage is tab-scoped; a magic-link click opens a
+                  // new tab and would lose it), then route to sign-in. The
+                  // post-auth consumer (ClaimAnonymousReceipts) persists it.
+                  // ephId lets this page recover the bearing from the stash if
+                  // the visitor returns to this URL in a fresh tab (§6.2).
+                  track("receipt_save_clicked", { receiptId })
+                  const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
+                  if (raw) {
+                    try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), ephId: receiptId, bearing: JSON.parse(raw) })) } catch {}
+                  }
+                  router.push("/compass")
+                }}>{saveNudgeV11 ? "Keep this bearing" : "Sign in & save"}</Button>
+              </div>
             </div>
           </div>
         )}

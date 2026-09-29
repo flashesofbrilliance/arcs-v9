@@ -134,6 +134,24 @@ class ARCSStore:
         """Generic filter with a predicate function."""
         return [r for r in self._receipts if predicate(r)]
 
+    # ── Librarian (Operator 21) ───────────────
+
+    def recommend(self, q: str, budget: int = 16000, stakes: str = "medium", n_max: int = 12,
+                  classes: Optional[List[str]] = None) -> Dict[str, Any]:
+        """
+        Operator 21 entrypoint: retrieve by EXPECTED VALUE under a context budget
+        (policy: _SEEDS/index.jsonl#seed-service-librarian-retrieval-policy).
+        The store's own receipts join the corpus (ADRs, seeds, tao, LEGEND/LORE,
+        ledgers, memory, prior picks) as `store-receipt` candidates. The ranking
+        lives in operators/arcs_librarian.py; this method only adds the store.
+        Output contract: items[{id, value, cost, read_friction, backing|null,
+        freshness, why_load_bearing, quadrant}] + what_confirmed / what_unconfirmed
+        + reserve_ratio + curation_debt + ouroboros. Surfaced, never acted on.
+        """
+        from arcs_librarian import Candidate, Librarian
+        extra = [Candidate.from_store_receipt(r) for r in self._receipts]
+        return Librarian(extra_candidates=extra).recommend(q, budget=budget, stakes=stakes, n_max=n_max, classes=classes)
+
     # ── Operator20 Seed Export ────────────────
 
     def seed_matrix(self) -> List[Dict[str, Any]]:

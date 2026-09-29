@@ -14,6 +14,30 @@
 7. Commits `_STATE/snapshot.json` alongside the session commit
 8. Outputs a one-shot pickup prompt the next session can use immediately
 
+## Step -2 — Shavasana (run BEFORE anything else; Operator 25 at the handoff door)
+
+The handoff is the session's last one-way door: once the block is written and the worktree parks,
+the claims stop being editable by the mind that made them. That is the level trigger Operator 25
+fires on (spec: `runtime/specs/operator-25-shavasana-v0.md`). Not a timer. The pause adds NO claim.
+
+1. Draft the handoff block to a scratch file first (do not write CLAUDE.md yet).
+2. Run the mechanical half and paste its output as the FIRST sub-block of the handoff, above the delta prose:
+   ```bash
+   python3 scripts/shavasana_handoff.py --draft /path/to/draft-handoff.md
+   ```
+   It reports the breath (exhale: commits/merges/receipts; inhale: falsifications/dissent/unconfirmed),
+   the sycophancy check (agreement with no dissent on record → RETURN), and the cold re-read
+   (altitude canary on the draft: sections with no ground return).
+3. Attachment release (judgment, yours): re-read each claim in the draft cold. If it does not survive
+   without the session's momentum, downgrade it to `what_unconfirmed` or drop it, and say which.
+4. Somatic read (human, one question, only if Zach is present): certainty now vs at session start;
+   any sends today? If not present, write `somatic: not asked`.
+5. Disposition: release the handoff, or return it to `_QUEUE/induced-backlog.jsonl` with the block attached.
+   A block that verdicts RETURN and a handoff that ships anyway must say so in the block.
+
+Self-test of the rule the block enforces on itself: `python3 scripts/shavasana_handoff.py --self-test`
+(the block must pass the altitude canary: no confidence markers, ground returns present).
+
 ## Step -1 — Fold the progressive ledger (run FIRST)
 
 The global Stop/PreCompact/SessionEnd hook (`~/.claude/hooks/progressive-handoff.sh`) has been

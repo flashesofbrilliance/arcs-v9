@@ -101,13 +101,55 @@ BENCH = [
          b=("tent_teardown", "The poles collapse; suddenly the tent folds flat.")),
 ]
 
+# ── HELD-OUT BENCH ──────────────────────────────────────────────────────────────
+# Added by the F34 seaworthiness rebuild (2026-09-26) and reported SEPARATELY from
+# the canonical 12 above (which are left byte-identical for a like-for-like F34
+# comparison). These are NEW domains/wording the concept library was NOT tuned
+# against — the generalization check. The critical case is `ho_adv_single_concept`:
+# both sides genuinely share ONE real concept ("locks in"), so it probes the
+# MIN_SHARED_CONCEPTS>=2 rule directly — a single coincident structural feature must
+# still be rejected, or the fix is just a narrower keyword filter.
+HOLDOUT_BENCH = [
+    # ---- HELD-OUT POSITIVES (genuine isomorphisms, unseen wording) ----
+    dict(id="ho_pos_autocatalytic", expect=True, pattern="autocatalytic_loop",
+         a=("bacterial_culture", "Each division yields two cells that themselves divide; the "
+            "output becomes input and the population compounds toward exponential growth, a "
+            "self-reinforcing rise."),
+         b=("open_source_adoption", "Every new contributor recruits more contributors; output "
+            "becomes input, a positive feedback that compounds into exponential growth.")),
+    dict(id="ho_pos_ratchet", expect=True, pattern="ratchet_irreversibility",
+         a=("getting_a_tattoo", "Once inked it locks in; the choice is one-way and effectively "
+            "irreversible, you cannot undo it."),
+         b=("constitutional_amendment", "A ratified amendment locks in; repeal is a one-way "
+            "cost, path dependent with no return.")),
+    dict(id="ho_pos_threshold", expect=True, pattern="threshold_cascade",
+         a=("forest_fire", "Below critical mass nothing spreads; past a threshold one spark "
+            "sets off a chain reaction and the fire cascades."),
+         b=("online_pileon", "A single quote past the tipping point triggers contagion; the "
+            "cascade is a chain reaction of outrage.")),
+    # ---- HELD-OUT NEGATIVES ----
+    # Shares EXACTLY ONE real concept (locks_in) and nothing else -> must be rejected
+    # (an isomorphism is a shared multi-feature structure, not one coincident feature).
+    dict(id="ho_adv_single_concept", expect=False, adversarial=True,
+         a=("door_deadbolt", "Turn the deadbolt and it locks in place; the door is secure."),
+         b=("salary_offer", "Once you accept, the number locks in for the year.")),
+    # Lone generic-word collisions in fresh wording (the F34 failure class, unseen).
+    dict(id="ho_adv_generic_words", expect=False, adversarial=True,
+         a=("plating_a_dish", "The sauce spreads across the plate in a gradient of flavor."),
+         b=("traffic_report", "Cars spread out; the gradient of the on-ramp eases.")),
+    # Clean unrelated pair, no dynamics on either side.
+    dict(id="ho_neg_clean", expect=False,
+         a=("dentist_visit", "The hygienist cleaned my teeth and booked a follow-up in six months."),
+         b=("library_return", "I returned three books and paid a small late fee at the desk.")),
+]
 
-def evaluate(min_sim: float):
+
+def evaluate(min_sim: float, bench: list = BENCH):
     det = OrthogonalEchoDetector(min_similarity=min_sim)
     rows, tp = [], 0
     fp = fn = tn = 0
     adv_fp = adv_total = 0
-    for c in BENCH:
+    for c in bench:
         rec = det.run({c["a"][0]: c["a"][1], c["b"][0]: c["b"][1]})
         matched = len(rec.matches) > 0
         top = rec.matches[0].pattern_name if rec.matches else None
@@ -126,8 +168,8 @@ def evaluate(min_sim: float):
         rows.append(dict(id=c["id"], expect=c["expect"], adversarial=c.get("adversarial", False),
                          matched=matched, top_pattern=top, top_sim=round(top_sim, 3),
                          expected_pattern=c.get("pattern"), correct=correct))
-    P = len([c for c in BENCH if c["expect"]])
-    N = len([c for c in BENCH if not c["expect"]])
+    P = len([c for c in bench if c["expect"]])
+    N = len([c for c in bench if not c["expect"]])
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall    = tp / (tp + fn) if (tp + fn) else 0.0
     f1        = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
@@ -141,12 +183,40 @@ def evaluate(min_sim: float):
     )
 
 
+# The pre-registered kill-condition for F34 (seaworthiness of RC-OPS-001).
+TARGET_ADV_FP_MAX = 0.10
+TARGET_RECALL_MIN = 0.80
+GATE_MIN_SIM      = 0.35   # the detector's shipped operating default
+
+
+def _print_rows(r, label):
+    print(f"[{label}] min_sim={r['min_sim']}  P={r['precision']}  R={r['recall']}  "
+          f"F1={r['f1']}  adv_fp_rate={r['adversarial_fp_rate']} "
+          f"({r['adversarial_fp']}/{r['adversarial_total']})")
+    for row in r["rows"]:
+        flag = "OK " if row["correct"] else "XX "
+        print(f"  {flag}{row['id']:24s} matched={row['matched']!s:5s} "
+              f"top={row['top_pattern']} sim={row['top_sim']}")
+
+
+def _meets_target(r) -> bool:
+    return r["adversarial_fp_rate"] <= TARGET_ADV_FP_MAX and r["recall"] >= TARGET_RECALL_MIN
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--min-sim", type=float, default=0.20)
     ap.add_argument("--sweep", action="store_true", help="sweep thresholds 0.10..0.60")
     ap.add_argument("--emit", default=None, help="write JSON receipt to this path")
+    ap.add_argument("--gate", action="store_true",
+                    help=f"exit 1 unless BENCH and HOLDOUT both meet the F34 target "
+                         f"(adv-FP<={TARGET_ADV_FP_MAX} @ recall>={TARGET_RECALL_MIN}) at "
+                         f"min_sim={GATE_MIN_SIM}")
     args = ap.parse_args()
+
+    # Always also measure the held-out bench, reported separately (never merged
+    # into the canonical 12 — they stay F34-comparable).
+    holdout = evaluate(GATE_MIN_SIM, bench=HOLDOUT_BENCH)
 
     if args.sweep:
         sweep = [evaluate(round(s, 2)) for s in [0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60]]
@@ -158,21 +228,29 @@ def main():
         print(f"\nbest-F1 threshold: min_sim={best['min_sim']} "
               f"(P={best['precision']} R={best['recall']} F1={best['f1']} "
               f"adv_fp_rate={best['adversarial_fp_rate']})")
-        out = dict(kind="echo-detector-dogfood-sweep", sweep=sweep, best=best)
+        out = dict(kind="echo-detector-dogfood-sweep", sweep=sweep, best=best, holdout=holdout)
     else:
-        out = dict(kind="echo-detector-dogfood", result=evaluate(args.min_sim))
-        r = out["result"]
-        print(f"min_sim={r['min_sim']}  P={r['precision']}  R={r['recall']}  F1={r['f1']}  "
-              f"adv_fp_rate={r['adversarial_fp_rate']} ({r['adversarial_fp']}/{r['adversarial_total']})")
-        for row in r["rows"]:
-            flag = "OK " if row["correct"] else "XX "
-            print(f"  {flag}{row['id']:24s} matched={row['matched']!s:5s} "
-                  f"top={row['top_pattern']} sim={row['top_sim']}")
+        result = evaluate(args.min_sim)
+        out = dict(kind="echo-detector-dogfood", result=result, holdout=holdout)
+        _print_rows(result, "BENCH")
+
+    print()
+    _print_rows(holdout, "HOLDOUT")
 
     if args.emit:
         with open(args.emit, "w") as f:
             json.dump(out, f, indent=2)
         print(f"\nreceipt -> {args.emit}")
+
+    if args.gate:
+        bench_at_gate = evaluate(GATE_MIN_SIM)
+        ok = _meets_target(bench_at_gate) and _meets_target(holdout)
+        print(f"\nGATE @ min_sim={GATE_MIN_SIM}: "
+              f"BENCH(adv_fp={bench_at_gate['adversarial_fp_rate']} R={bench_at_gate['recall']}) "
+              f"HOLDOUT(adv_fp={holdout['adversarial_fp_rate']} R={holdout['recall']}) "
+              f"-> {'PASS' if ok else 'FAIL'} "
+              f"(target adv-FP<={TARGET_ADV_FP_MAX} @ recall>={TARGET_RECALL_MIN})")
+        sys.exit(0 if ok else 1)
 
 
 if __name__ == "__main__":
