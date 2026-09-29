@@ -112,6 +112,11 @@ jobs:
         run: python3 scripts/state_sync_check.py
         continue-on-error: true
 
+      # Hard gate: stdlib unit tests (node:test, no framework dep). Covers ygate.ts
+      # (ledger YG-005) and the trust-contract section 1 no-anonymous-write regression (TC-004).
+      - name: Unit tests
+        run: npm run test:unit
+
       # Hard gate: inline styles only. Blocks className / Tailwind / stray stylesheets
       # from returning to src/ (closes ledger LINT-006).
       - name: className / Tailwind guard

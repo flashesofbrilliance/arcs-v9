@@ -14,7 +14,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Durable, cross-instance rate limiting + spend caps + LLM observability via Vercel AI Gateway (replaces RL-001 interim limiter; also covers /api/brief and /api/guide Claude calls).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: AI Gateway rate limiting + spend caps rescheduled; RL-001 interim limiter stays in place meanwhile.", "expires": "2026-10-28" }
     },
     {
       "id": "DEL-003",
@@ -28,14 +28,14 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "Trust contract §1 (anonymous sessions write nothing server-side) has no regression test — the exact defect disclosed in §1 could silently recur.",
-      "exit": { "type": "open" }
+      "exit": { "type": "test", "ref": "tests/unit/trust-contract.test.ts (ci.yml smoke: Unit tests)", "date": "2026-09-28" }
     },
     {
       "id": "YG-005",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "src/lib/ygate.ts (core scoring algorithm, pure function) has zero unit tests.",
-      "exit": { "type": "open" }
+      "exit": { "type": "test", "ref": "tests/unit/ygate.test.ts (ci.yml smoke: Unit tests)", "date": "2026-09-28" }
     },
     {
       "id": "LINT-006",
@@ -49,7 +49,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "No exception tracking on the app (SageTrace exposure was detected via a vendor email, not our own alerting).",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: error-tracking vendor choice tabled one month (new dependency decision).", "expires": "2026-10-28" }
     },
     {
       "id": "DEP-008",
@@ -63,14 +63,14 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "DATABASE_URL manually set, rotation risk open since ADR-005 amendment (2026-05-28).",
-      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-08-15" }
+      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-10-28", "renewed": "2026-09-28 by Zach (prior waiver expired 2026-08-15)" }
     },
     {
       "id": "BK-010",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "Production DB backup restore has never been tested — an unrestored backup is a hope, not a backup.",
-      "exit": { "type": "open" }
+      "exit": { "type": "waiver", "reason": "Deferred by Zach 2026-09-28: restore drill not scheduled this cycle.", "expires": "2026-10-28" }
     },
     {
       "id": "PL-011",

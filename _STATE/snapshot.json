@@ -2,10 +2,15 @@
   "captured_at": "2026-09-28T09:54:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "7e812c6c",
-    "head_message": "Merge pull request #621 from flashesofbrilliance/claude/tao-backfill-batch-5",
+    "head_sha": "739373f0",
+    "head_message": "Merge pull request #636 from flashesofbrilliance/claude/conduit-viewer-analytics",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -43,5 +48,5 @@
   "session_summary": "Chip rank 7: Librarian.recommend(q, budget) by expected value; Operator 21 rebound latest -> recommend, READY on probe; PR #613 merged 150beb19, receipt 2026-09-28--librarian-recommend-op21-merge--ZH.",
   "next_action": "Append status to backlog row librarian-recommend-needle when claude/fanout-ranks-2-7 lands on main, close issue #584, then wire unfold.py to recommend.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-09-28T02:51:49Z"
+  "git_refreshed_at": "2026-09-29T01:51:36Z"
 }
