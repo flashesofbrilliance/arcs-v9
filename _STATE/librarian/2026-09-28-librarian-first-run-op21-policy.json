@@ -1,0 +1,365 @@
+{
+  "generator": "operators/arcs_librarian.py@0.1.0",
+  "operator": 21,
+  "name": "Librarian",
+  "entrypoint": "recommend",
+  "ts": "2026-09-28T09:35:01-04:00",
+  "q": "operator 21 librarian retrieval policy: rank by value and backing, source trust tier first",
+  "stakes": "medium",
+  "budget": {
+    "given_bytes": 16000,
+    "used_bytes": 6824,
+    "remaining_bytes": 9176
+  },
+  "formula": "value = p_load_bearing * cost_if_absent(stakes); cost = read_friction(tier.steps + tokens/tokens_per_step + stale_surcharge) + 1.0 * bytes/remaining_budget; take iff value - cost >= 0, ranked by value - cost",
+  "notomation": "p_load_bearing is a mechanical pre-score (idf-weighted query overlap, amplified by lineage in-degree, ouroboros-demoted). The rank is surfaced for a human to adjudicate; nothing here is acted on.",
+  "items": [
+    {
+      "id": "op:21",
+      "class": "registry",
+      "quadrant": "ROM",
+      "path": "operators/OPERATOR-REGISTRY.json",
+      "bytes": 593,
+      "p_load_bearing": 0.9606,
+      "cost_if_absent": 3.0,
+      "value": 2.8818,
+      "read_friction": {
+        "tier": "T1-generated-verified",
+        "verification_steps": 0.25,
+        "tokens_est": 148,
+        "stale_surcharge": 0.0,
+        "score": 0.2685
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 30,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['backing', 'retrieval', 'librarian', 'policy', 'rank', 'tier', 'value', 'trust'] (10/11, idf share 0.96); cited by 78 other item(s)",
+      "displacement": 0.0371,
+      "cost": 0.3056,
+      "net": 2.5762,
+      "confirmed": false
+    },
+    {
+      "id": "seed-service-librarian-retrieval-policy",
+      "class": "seed",
+      "quadrant": "ROM",
+      "path": "_SEEDS/index.jsonl",
+      "bytes": 4894,
+      "p_load_bearing": 0.9242,
+      "cost_if_absent": 3.0,
+      "value": 2.7726,
+      "read_friction": {
+        "tier": "T3-scan-and-reconcile",
+        "verification_steps": 1.0,
+        "tokens_est": 1223,
+        "stale_surcharge": 0.0,
+        "score": 1.1529
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 90,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['backing', 'retrieval', 'librarian', 'policy', 'rank', 'tier', 'value', 'trust'] (11/11, idf share 1.00); cited by 5 other item(s)",
+      "displacement": 0.3176,
+      "cost": 1.4706,
+      "net": 1.302,
+      "confirmed": false
+    },
+    {
+      "id": "legend:read friction",
+      "class": "legend",
+      "quadrant": "ROM",
+      "path": "runtime/specs/legend.jsonl",
+      "bytes": 297,
+      "p_load_bearing": 0.3071,
+      "cost_if_absent": 3.0,
+      "value": 0.9213,
+      "read_friction": {
+        "tier": "T1-generated-verified",
+        "verification_steps": 0.25,
+        "tokens_est": 74,
+        "stale_surcharge": 0.0,
+        "score": 0.2593
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 90,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['retrieval', 'librarian', 'policy', 'tier'] (4/11, idf share 0.44); cited by 0 other item(s)",
+      "displacement": 0.0283,
+      "cost": 0.2875,
+      "net": 0.6338,
+      "confirmed": false
+    },
+    {
+      "id": "legend:four quadrants",
+      "class": "legend",
+      "quadrant": "ROM",
+      "path": "runtime/specs/legend.jsonl",
+      "bytes": 339,
+      "p_load_bearing": 0.2555,
+      "cost_if_absent": 3.0,
+      "value": 0.7665,
+      "read_friction": {
+        "tier": "T1-generated-verified",
+        "verification_steps": 0.25,
+        "tokens_est": 84,
+        "stale_surcharge": 0.0,
+        "score": 0.2606
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 90,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['retrieval', 'librarian', 'policy'] (3/11, idf share 0.36); cited by 0 other item(s)",
+      "displacement": 0.0332,
+      "cost": 0.2938,
+      "net": 0.4727,
+      "confirmed": false
+    },
+    {
+      "id": "seed-ledger:seed-service-librarian-retrieval-policy:pollinated:2026-09-27",
+      "class": "seed-ledger",
+      "quadrant": "PATHOLOGY",
+      "path": "_SEEDS/ledger.jsonl",
+      "bytes": 330,
+      "p_load_bearing": 0.5037,
+      "cost_if_absent": 3.0,
+      "value": 1.5111,
+      "read_friction": {
+        "tier": "T3-scan-and-reconcile",
+        "verification_steps": 1.0,
+        "tokens_est": 82,
+        "stale_surcharge": 0.0,
+        "score": 1.0103
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 30,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['backing', 'retrieval', 'librarian', 'policy', 'tier', 'trust', 'source'] (7/11, idf share 0.72); cited by 0 other item(s)",
+      "displacement": 0.0334,
+      "cost": 1.0437,
+      "net": 0.4674,
+      "confirmed": false
+    },
+    {
+      "id": "legend:fate",
+      "class": "legend",
+      "quadrant": "ROM",
+      "path": "runtime/specs/legend.jsonl",
+      "bytes": 371,
+      "p_load_bearing": 0.2318,
+      "cost_if_absent": 3.0,
+      "value": 0.6954,
+      "read_friction": {
+        "tier": "T1-generated-verified",
+        "verification_steps": 0.25,
+        "tokens_est": 92,
+        "stale_surcharge": 0.0,
+        "score": 0.2616
+      },
+      "backing": null,
+      "m1_refs": [],
+      "backing_note": null,
+      "source": {
+        "key": "claude-fable",
+        "tier": "ELEVATED",
+        "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+      },
+      "freshness": {
+        "verified": "2026-09-27",
+        "age_days": 1,
+        "horizon_days": 90,
+        "stale": false,
+        "defeaters": [
+          "FALSIFIED F-row citing this id",
+          "superseded_by set",
+          "shift row in a fold ridgeline"
+        ],
+        "defeated_by": [],
+        "superseded_by": null
+      },
+      "why_load_bearing": "query terms hit (idf-ranked): ['tier', 'value', 'operator', 'source'] (4/11, idf share 0.27); cited by 3 other item(s)",
+      "displacement": 0.0389,
+      "cost": 0.3005,
+      "net": 0.3949,
+      "confirmed": false
+    }
+  ],
+  "what_confirmed": [],
+  "what_unconfirmed": [
+    "op:21",
+    "seed-service-librarian-retrieval-policy",
+    "legend:read friction",
+    "legend:four quadrants",
+    "seed-ledger:seed-service-librarian-retrieval-policy:pollinated:2026-09-27",
+    "legend:fate"
+  ],
+  "reserve_ratio": {
+    "backed": 0,
+    "unbacked": 6,
+    "ratio": "0:6",
+    "backed_share": 0.0
+  },
+  "curation_debt": [
+    {
+      "sink": "memory/ (all bodies)",
+      "class": "memory",
+      "scanned": 280,
+      "returned": 0,
+      "only_source": false
+    },
+    {
+      "sink": "_SEEDS/ledger.jsonl",
+      "class": "seed-ledger",
+      "scanned": 82,
+      "returned": 1,
+      "only_source": false
+    },
+    {
+      "sink": "_QUEUE/induced-backlog.jsonl",
+      "class": "backlog",
+      "scanned": 63,
+      "returned": 0,
+      "only_source": false
+    },
+    {
+      "sink": "_STATE/falsification-ledger.jsonl",
+      "class": "falsification",
+      "scanned": 40,
+      "returned": 0,
+      "only_source": false
+    },
+    {
+      "sink": "_STATE/assumptions.jsonl",
+      "class": "assumption",
+      "scanned": 10,
+      "returned": 0,
+      "only_source": false
+    },
+    {
+      "sink": "operators/ledger/operator-receipts.jsonl",
+      "class": "operator-receipt",
+      "scanned": 2,
+      "returned": 0,
+      "only_source": false
+    }
+  ],
+  "ouroboros": {
+    "prior_picks_considered": 0,
+    "prior_picks_falsified": [],
+    "class_demotions": {}
+  },
+  "skipped_for_displacement": [],
+  "stopped_because": "marginal item value - cost < 0",
+  "not_consulted": [
+    "externals (Granola / Sugar / Supabase): expensive-read, expensive-write; retrieve only via a wrapping tool that pays the read once, never raw"
+  ],
+  "corpus": {
+    "candidates": 1087,
+    "by_class": {
+      "adr": 78,
+      "assumption": 10,
+      "backlog": 63,
+      "falsification": 40,
+      "lattice": 81,
+      "legend": 66,
+      "lore": 14,
+      "memory": 280,
+      "operator-receipt": 2,
+      "registry": 28,
+      "seed": 50,
+      "seed-ledger": 82,
+      "tao": 257,
+      "witness": 36
+    }
+  },
+  "elapsed_s": 1.373
+}

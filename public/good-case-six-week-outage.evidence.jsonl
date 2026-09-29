@@ -1,0 +1,15 @@
+# Evidence ledger (case_evidence_lint + provenance_lint). facts cite a published post and a verbatim quote; mechanics name the game rule.
+{"pattern": "Completion:\\s+2\\s+of\\s+247\\s+runs\\s+ever\\s+reached\\s+a\\s+saved\\s+outcome\\.", "kind": "fact", "page": "Completion: 2 of 247 runs ever reached a saved outcome.", "source": "public/blog-nftt-the-question-that-found-the-outage.html", "quote": "Two out of two hundred forty-seven", "note": "the post writes the count in words; 2 of 247 runs reached a saved outcome"}
+{"pattern": "case\\s+file\\s+001", "kind": "mechanic", "page": "case file 001", "why": "case number"}
+{"pattern": "chips\\s+\\(0\\s+to\\s+10\\)", "kind": "mechanic", "page": "chips (0 to 10)", "why": "conviction stake range"}
+{"pattern": "every\\s+slider\\s+at\\s+5\\s+scores\\s+75\\s+out\\s+of\\s+100", "kind": "mechanic", "page": "every slider at 5 scores 75 out of 100", "why": "Brier math: all stakes at 5 score 75/100 (verified by known-answer run)"}
+{"pattern": "Parking\\s+every\\s+stake\\s+at\\s+5\\s+keeps\\s+you\\s+in\\s+the\\s+fog", "kind": "mechanic", "page": "Parking every stake at 5 keeps you in the fog", "why": "render rule: 75 is below the 80 DEGRADED threshold"}
+{"pattern": "\\.\\s+A\\s+perfect\\s+run\\s+is\\s+0,\\s+0\\s+and\\s+100\\.", "kind": "mechanic", "page": ". A perfect run is 0, 0 and 100.", "why": "perfect-run definition"}
+{"pattern": "chairs\\s+closed\\s+0/3", "kind": "mechanic", "page": "chairs closed 0/3", "why": "scene counter, starts at zero of three chairs"}
+{"pattern": "Over\\s+0\\s+Under\\s+0", "kind": "mechanic", "page": "Over 0 Under 0", "why": "HUD counters at game start"}
+{"pattern": "Chair\\s+1\\s+of\\s+3", "kind": "mechanic", "page": "Chair 1 of 3", "why": "chair ordinal"}
+{"pattern": "Chair\\s+2\\s+of\\s+3", "kind": "mechanic", "page": "Chair 2 of 3", "why": "chair ordinal"}
+{"pattern": "Chair\\s+3\\s+of\\s+3", "kind": "mechanic", "page": "Chair 3 of 3", "why": "chair ordinal"}
+{"pattern": "5/10", "kind": "mechanic", "page": "5/10", "why": "default conviction stake label"}
+{"pattern": "/10", "kind": "mechanic", "page": "/10", "why": "conviction stake scale"}
+{"pattern": "/100", "kind": "mechanic", "page": "/100", "why": "calibration score scale"}

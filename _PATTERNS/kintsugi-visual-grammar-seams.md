@@ -22,6 +22,32 @@
   machine that has it.
 
 
+## 2026-09-26 · Loop-Closing Wager slip + card: Ahmed order applied, 2 real fixes + 1 verified false positive
+
+Found by: applying the Ahmed feedback plan (verdict → 3 reasons → 3 Q&A → tasks → evidence behind
+disclosure) to `_ARTIFACTS/2026-09-26-loop-closing-wager/{loop-closing-wager.html,settle-card.html}`
+surfaced that a cloud session had shipped both files without ever running the Impeccable design
+detector (not installed there). First local run: 21 findings (slip), 13 (card).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Card's `.chip` labels (`@six`/`@czar` inside legs) rendered at 10px, one pixel under the detector's 11px functional-text floor | `impeccable detect --viewport 390x844` | Bumped `.chip` font-size 10px → 11px, widened the fixed box 52px → 56px to keep the label centered | `undersized-ui-text` rule in the Impeccable detector; re-run after every copy/size edit to this family |
+| 2 | `<ol class="reasons">`/`<ol class="tasks">` numbering used native `::marker`, colored via `li::marker{color:...}`; the color never took effect in headless Chromium (verified: identical finding count before and after the marker-color rule, isolated by bisecting the file into 5 sub-files) | `impeccable detect` kept reporting `1.1:1 — text #000000 on #0d1117` on both ordered lists even after the marker-color fix | Replaced native markers with `list-style:none; counter-reset` + explicit `::before{content:counter(step)"."; color:var(--dimmed)}` — a color declaration the detector (and every browser) can actually see | None yet; candidate — a repo-wide grep for `::marker{color` as a smell (prefer `::before` counters for anything the detector must verify) |
+| 3 | 11 `low-contrast` findings (`#000000 on #0d1117`, one `#e2e8f0 on #ffffff`) persisted on the slip after fix #2, but bisecting the file into isolated sub-files (sides=0, legs=1, fine-print table=0, sign=0 findings alone; the same pieces combined=11) showed the count is not additive — a detector artifact, not real text. Confirmed genuinely false by a real Playwright screenshot at 390x844 with the `<details>` forced open: every line renders light-on-dark, matching hand-read AA contrast throughout | Bisection + a real headless-Chromium screenshot (not eyeballed from code) | Added a scoped `low-contrast=*` exemption in `.impeccable/config.json` for both files, citing the bisection + screenshot method, same false-positive class as the existing `public/blog-nftt-*` `low-contrast` exemption (`_PATTERNS/kintsugi-visual-grammar-seams.md` precedent, composited-over-white/black artifact) | `low-contrast` rule; the exemption is scoped to these 2 files only, not a blanket suppression |
+
+**Left live, not exempted:** `tiny-text` at 11px on both files' mono chrome labels (section labels,
+leg tags, footer) — same accepted debt class already carried by `profile-scan-hud.html` and
+`success-academy.html` per `src/ui-kit/README.md`'s brand profile (tiny-text is explicitly NOT
+brand-exempt, kept as real-but-known debt across the whole recoil-report kit family).
+
+**Process lesson:** a cloud session with no Impeccable install is a real design-gate gap, not just
+a missing nice-to-have — it shipped a v1 that had never been checked against anything but the repo's
+own mechanical CSS/text gates (wrap-lint, token/component source, slop_lint). The design detector
+itself is not infallible either: it needs the same "verify, don't trust" discipline as any other
+gate (memory `false-null-requires-provenance-exhaustion`) — a finding that survives a targeted fix
+attempt, bisects non-additively, or contradicts a real screenshot is a candidate false positive to
+document and exempt, not to chase with more speculative CSS changes.
+
 ## 2026-09-14 · Jack/Rain radar charts + methodology table (found on Zach's "feels underbaked" prompt, not by any gate)
 
 Found by: Zach asking directly whether the full design gauntlet had actually run. It had not — only

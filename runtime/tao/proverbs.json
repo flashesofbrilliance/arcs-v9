@@ -1,12 +1,16 @@
 {
   "_meta": {
-    "title": "The Tao of ARCS — proverb SSOT",
+    "title": "The Tao of ARCS — rendered book (derived projection)",
+    "ssot": "_CANON/tao-proverbs.jsonl",
+    "generated_by": "scripts/tao_project.py (do not edit by hand; edit canon, then regenerate)",
+    "ruling": "_DECISIONS/CANON-COLLISION-tao-two-books.md (Option A, 2026-09-27)",
     "north_star": "Render Through the Fog",
     "governed_by": "ADR-041 (5x5 grid, recapitulate = deep-kairos distill, anti-padding)",
-    "minted_by": ".claude/skills/tao-mint",
+    "minted_by": ".claude/skills/tao-mint (writes canon through the oracle, then runs this script)",
     "renders_to": [
-      "_ARTIFACTS/arcs-tao.html (front of house)",
-      "Phase-2/3 visual engineering"
+      "_ARTIFACTS/arcs-tao-corpus.html",
+      "_ARTIFACTS/arcs-tao-views.html",
+      "_ARTIFACTS/arcs-tao-alchemist.html"
     ],
     "aspects": {
       "D": "Decision",
@@ -22,7 +26,7 @@
       "synthesize",
       "recapitulate"
     ],
-    "note": "Founding batch (source 'founding-v1') predates the 5x5 grid and carries movement only; aspect/verb are ~ (unassigned) for these. ADR-minted proverbs carry full custody {aspect, verb, source}. The remaining founding verses live in _ARTIFACTS/arcs-tao.html and backfill here on render-wiring."
+    "note": "Founding batch (source 'founding-v1') predates the 5x5 grid and carries movement only; aspect/verb are ~ (unassigned) for these. A canon row appears here iff it carries grid_id; canon rows without grid custody are canon-only until /tao-mint assigns a cell."
   },
   "proverbs": [
     {
@@ -32,7 +36,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "A decision is a position under pressure, not an event on a timeline."
+      "text": "A decision is a position under pressure, not an event on a timeline.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-227"
     },
     {
       "id": "f-field-02",
@@ -42,7 +47,8 @@
       "source": "founding-v1",
       "minted": "2026-08-01",
       "text": "Busy is magnitude without a bearing.",
-      "gloss": "From the inside, sprinting the wrong way feels exactly like sprinting the right way."
+      "gloss": "From the inside, sprinting the wrong way feels exactly like sprinting the right way.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-228"
     },
     {
       "id": "f-size-01",
@@ -51,7 +57,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Size the opportunity before you shape the work. Sometimes the work is none."
+      "text": "Size the opportunity before you shape the work. Sometimes the work is none.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-229"
     },
     {
       "id": "f-size-02",
@@ -60,7 +67,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Cook the whole menu so your hands are sure. Serve only what the guest can eat."
+      "text": "Cook the whole menu so your hands are sure. Serve only what the guest can eat.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-230"
     },
     {
       "id": "f-window-01",
@@ -69,7 +77,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "The opportune moment is not later. It is over there, when the gap aligns."
+      "text": "The opportune moment is not later. It is over there, when the gap aligns.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-231"
     },
     {
       "id": "f-window-02",
@@ -78,7 +87,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "To one who is drowning, more horizon is only more noise. Remove a weight instead."
+      "text": "To one who is drowning, more horizon is only more noise. Remove a weight instead.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-232"
     },
     {
       "id": "f-lens-01",
@@ -87,7 +97,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Clear the lens before you read the terrain. Some fog is on the world; some is on your own eye."
+      "text": "Clear the lens before you read the terrain. Some fog is on the world; some is on your own eye.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-233"
     },
     {
       "id": "f-lens-02",
@@ -96,7 +107,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "The first judgment ego clouds is your read of whether another's is clouded."
+      "text": "The first judgment ego clouds is your read of whether another's is clouded.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-234"
     },
     {
       "id": "f-forge-01",
@@ -105,7 +117,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Do not build tools. Build the thing that casts them."
+      "text": "Do not build tools. Build the thing that casts them.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-235"
     },
     {
       "id": "f-forge-02",
@@ -114,7 +127,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "The recipe and the receipt are one word: the instruction you take, and the record of what you received."
+      "text": "The recipe and the receipt are one word: the instruction you take, and the record of what you received.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-236"
     },
     {
       "id": "f-echo-01",
@@ -123,7 +137,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "An echo is signal only if it was independent before it was linked."
+      "text": "An echo is signal only if it was independent before it was linked.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-237"
     },
     {
       "id": "f-echo-02",
@@ -132,7 +147,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Three axes bracing one point make a structure. One axis makes a story."
+      "text": "Three axes bracing one point make a structure. One axis makes a story.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-238"
     },
     {
       "id": "f-reactor-01",
@@ -141,7 +157,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "The leap is the fuel. The landing is the discipline."
+      "text": "The leap is the fuel. The landing is the discipline.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-239"
     },
     {
       "id": "f-reactor-02",
@@ -150,7 +167,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Reflexiveness is prepaid. It is never free."
+      "text": "Reflexiveness is prepaid. It is never free.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-240"
     },
     {
       "id": "f-coda",
@@ -159,7 +177,8 @@
       "verb": "~",
       "source": "founding-v1",
       "minted": "2026-08-01",
-      "text": "Render through the fog to earned clarity."
+      "text": "Render through the fog to earned clarity.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-241"
     },
     {
       "id": "adr040-D-analyze",
@@ -168,7 +187,8 @@
       "verb": "analyze",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "A decision is a discharge: it fires when the potential peaks and the gap aligns, not when the clock says so."
+      "text": "A decision is a discharge: it fires when the potential peaks and the gap aligns, not when the clock says so.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-011"
     },
     {
       "id": "adr040-D-assess",
@@ -177,7 +197,8 @@
       "verb": "assess",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The flash is not the decision. The confirmed receipt is; a spark no one received went to ground."
+      "text": "The flash is not the decision. The confirmed receipt is; a spark no one received went to ground.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-018"
     },
     {
       "id": "adr040-D-evaluate",
@@ -186,7 +207,8 @@
       "verb": "evaluate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Weigh a decision by whether it would survive its own recoil, not by how bright it looked when it fired."
+      "text": "Weigh a decision by whether it would survive its own recoil, not by how bright it looked when it fired.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-023"
     },
     {
       "id": "adr040-D-synthesize",
@@ -195,7 +217,8 @@
       "verb": "synthesize",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Recipe, discharge, receipt: the instruction given, the arc across the gap, the record of what arrived. One decision, three moments."
+      "text": "Recipe, discharge, receipt: the instruction given, the arc across the gap, the record of what arrived. One decision, three moments.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-041"
     },
     {
       "id": "adr040-D-recapitulate",
@@ -204,7 +227,8 @@
       "verb": "recapitulate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Every decision leaves a coordinate. The receipt is where it stood, so the next one knows where it stands."
+      "text": "Every decision leaves a coordinate. The receipt is where it stood, so the next one knows where it stands.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-045"
     },
     {
       "id": "adr040-R-analyze",
@@ -213,7 +237,8 @@
       "verb": "analyze",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "An attractor that pulls too eagerly does not find the pattern. It manufactures one."
+      "text": "An attractor that pulls too eagerly does not find the pattern. It manufactures one.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-060"
     },
     {
       "id": "adr040-R-assess",
@@ -222,7 +247,8 @@
       "verb": "assess",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Rank a signal by how hard it resists refutation, not by how well it fits the story you already carry."
+      "text": "Rank a signal by how hard it resists refutation, not by how well it fits the story you already carry.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-077"
     },
     {
       "id": "adr040-R-evaluate",
@@ -231,7 +257,8 @@
       "verb": "evaluate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "A finding held by one stream is a story. Require a second stream to brace it before you stake anything on it."
+      "text": "A finding held by one stream is a story. Require a second stream to brace it before you stake anything on it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-085"
     },
     {
       "id": "adr040-R-synthesize",
@@ -240,7 +267,8 @@
       "verb": "synthesize",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The same basin that condenses fuel condenses delusion. The only difference is the control rod."
+      "text": "The same basin that condenses fuel condenses delusion. The only difference is the control rod.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-088"
     },
     {
       "id": "adr040-R-recapitulate",
@@ -249,7 +277,8 @@
       "verb": "recapitulate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "What did not re-converge across the runs was never a bond. Let it decay before it costs you."
+      "text": "What did not re-converge across the runs was never a bond. Let it decay before it costs you.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-095"
     },
     {
       "id": "adr040-W-analyze",
@@ -258,7 +287,8 @@
       "verb": "analyze",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Voltage without an aligned gap is only stored potential. Read the gap before you read the charge."
+      "text": "Voltage without an aligned gap is only stored potential. Read the gap before you read the charge.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-098"
     },
     {
       "id": "adr040-W-assess",
@@ -267,7 +297,8 @@
       "verb": "assess",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Do not fire early. A discharge across the wrong gap is a short, and a short burns the circuit it meant to serve."
+      "text": "Do not fire early. A discharge across the wrong gap is a short, and a short burns the circuit it meant to serve.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-111"
     },
     {
       "id": "adr040-W-evaluate",
@@ -276,7 +307,8 @@
       "verb": "evaluate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The safe condition to proceed is a gap aligned and a potential peaked. Absent either, hold."
+      "text": "The safe condition to proceed is a gap aligned and a potential peaked. Absent either, hold.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-124"
     },
     {
       "id": "adr040-W-synthesize",
@@ -285,7 +317,8 @@
       "verb": "synthesize",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Timing is a position, not a schedule. The window opens where the conditions meet, and closes when they part."
+      "text": "Timing is a position, not a schedule. The window opens where the conditions meet, and closes when they part.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-130"
     },
     {
       "id": "adr040-W-recapitulate",
@@ -294,7 +327,8 @@
       "verb": "recapitulate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Mark where the arc struck and where it refused. The record of struck gaps is the map of when to move."
+      "text": "Mark where the arc struck and where it refused. The record of struck gaps is the map of when to move.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-134"
     },
     {
       "id": "adr040-C-analyze",
@@ -303,7 +337,8 @@
       "verb": "analyze",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Amplify the signal, never the noise, and never past the evidence that carried it in."
+      "text": "Amplify the signal, never the noise, and never past the evidence that carried it in.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-141"
     },
     {
       "id": "adr040-C-assess",
@@ -312,7 +347,8 @@
       "verb": "assess",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The speaker cannot broadcast sharp when the microphone only heard grain. Check the input before you trust the output."
+      "text": "The speaker cannot broadcast sharp when the microphone only heard grain. Check the input before you trust the output.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-152"
     },
     {
       "id": "adr040-C-evaluate",
@@ -321,7 +357,8 @@
       "verb": "evaluate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Coherence is a basin deep enough to hold, not an agreement loud enough to drown the dissent."
+      "text": "Coherence is a basin deep enough to hold, not an agreement loud enough to drown the dissent.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-165"
     },
     {
       "id": "adr040-C-synthesize",
@@ -330,7 +367,8 @@
       "verb": "synthesize",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Custody is how honesty is enforced: no belief moves without citing what moved it. No custody, no gain."
+      "text": "Custody is how honesty is enforced: no belief moves without citing what moved it. No custody, no gain.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-178"
     },
     {
       "id": "adr040-C-recapitulate",
@@ -339,7 +377,8 @@
       "verb": "recapitulate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "You cannot rewrite why a belief changed. The chain of custody already wrote it down."
+      "text": "You cannot rewrite why a belief changed. The chain of custody already wrote it down.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-188"
     },
     {
       "id": "adr040-H-analyze",
@@ -348,7 +387,8 @@
       "verb": "analyze",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The uncaught window is the true cost. What the fog buried, you paid for in a bearing you never took."
+      "text": "The uncaught window is the true cost. What the fog buried, you paid for in a bearing you never took.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-194"
     },
     {
       "id": "adr040-H-assess",
@@ -357,7 +397,8 @@
       "verb": "assess",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Weigh the condenser against the blower: a system that only listens hoards, and one that only projects lies."
+      "text": "Weigh the condenser against the blower: a system that only listens hoards, and one that only projects lies.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-200"
     },
     {
       "id": "adr040-H-evaluate",
@@ -366,7 +407,8 @@
       "verb": "evaluate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Leverage is the gain stage. The same weak signal, amplified honestly, moves what the whisper could not."
+      "text": "Leverage is the gain stage. The same weak signal, amplified honestly, moves what the whisper could not.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-214"
     },
     {
       "id": "adr040-H-synthesize",
@@ -375,7 +417,8 @@
       "verb": "synthesize",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "The reactor compounds; the bomb spends. Contained fission is the only fusion that pays over time."
+      "text": "The reactor compounds; the bomb spends. Contained fission is the only fusion that pays over time.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-219"
     },
     {
       "id": "adr040-H-recapitulate",
@@ -384,7 +427,8 @@
       "verb": "recapitulate",
       "source": "ADR-081",
       "minted": "2026-08-01",
-      "text": "Every discharge that lands clean lowers the cost of the next. Received-as-intended is how the horizon widens."
+      "text": "Every discharge that lands clean lowers the cost of the next. Received-as-intended is how the horizon widens.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-226"
     },
     {
       "id": "adr039-D-analyze",
@@ -393,7 +437,8 @@
       "verb": "analyze",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The decision is not what to build. It is whether this will be built again."
+      "text": "The decision is not what to build. It is whether this will be built again.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-010"
     },
     {
       "id": "adr039-D-assess",
@@ -402,7 +447,8 @@
       "verb": "assess",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Judge a build by whether the second case would fork it or reuse it."
+      "text": "Judge a build by whether the second case would fork it or reuse it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-017"
     },
     {
       "id": "adr039-D-evaluate",
@@ -411,7 +457,8 @@
       "verb": "evaluate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "A one-off earns no mold. Promote on the second real case, not the first."
+      "text": "A one-off earns no mold. Promote on the second real case, not the first.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-022"
     },
     {
       "id": "adr039-D-synthesize",
@@ -420,7 +467,8 @@
       "verb": "synthesize",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Instance, then class: solve it once concretely, then cast the mold the second case asks for."
+      "text": "Instance, then class: solve it once concretely, then cast the mold the second case asks for.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-040"
     },
     {
       "id": "adr039-D-recapitulate",
@@ -429,7 +477,8 @@
       "verb": "recapitulate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "What you built twice by hand, you should have built once as a mold."
+      "text": "What you built twice by hand, you should have built once as a mold.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-044"
     },
     {
       "id": "adr039-R-analyze",
@@ -438,7 +487,8 @@
       "verb": "analyze",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Silent fork-drift is the slow ruin: three copies that no longer agree, and no one chose it."
+      "text": "Silent fork-drift is the slow ruin: three copies that no longer agree, and no one chose it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-059"
     },
     {
       "id": "adr039-R-assess",
@@ -447,7 +497,8 @@
       "verb": "assess",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "A one-off packaged too early is speculative generality, the waste that hides as foresight."
+      "text": "A one-off packaged too early is speculative generality, the waste that hides as foresight.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-076"
     },
     {
       "id": "adr039-R-evaluate",
@@ -456,7 +507,8 @@
       "verb": "evaluate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Weigh the fork against the mold: copy-paste is cheap today and dear at the tenth spoon."
+      "text": "Weigh the fork against the mold: copy-paste is cheap today and dear at the tenth spoon.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-084"
     },
     {
       "id": "adr039-R-synthesize",
@@ -465,7 +517,8 @@
       "verb": "synthesize",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The promotion compulsion is its own drift: packaging for the pleasure of packaging."
+      "text": "The promotion compulsion is its own drift: packaging for the pleasure of packaging.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-087"
     },
     {
       "id": "adr039-R-recapitulate",
@@ -474,7 +527,8 @@
       "verb": "recapitulate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Every drifted shape was a mold you refused to cut when the second case arrived."
+      "text": "Every drifted shape was a mold you refused to cut when the second case arrived.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-094"
     },
     {
       "id": "adr039-W-analyze",
@@ -483,7 +537,8 @@
       "verb": "analyze",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The window to promote opens on the second use, not the first and not the tenth."
+      "text": "The window to promote opens on the second use, not the first and not the tenth.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-097"
     },
     {
       "id": "adr039-W-assess",
@@ -492,7 +547,8 @@
       "verb": "assess",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Do not cast the mold while the shape is still moving. Wait for the second case to name it."
+      "text": "Do not cast the mold while the shape is still moving. Wait for the second case to name it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-110"
     },
     {
       "id": "adr039-W-evaluate",
@@ -501,7 +557,8 @@
       "verb": "evaluate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Rule of three is the ceiling, not the target: promote at two when the second is already in hand."
+      "text": "Rule of three is the ceiling, not the target: promote at two when the second is already in hand.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-123"
     },
     {
       "id": "adr039-W-synthesize",
@@ -510,7 +567,8 @@
       "verb": "synthesize",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Promote too early and you abstract before you understand; too late and every case is a fork."
+      "text": "Promote too early and you abstract before you understand; too late and every case is a fork.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-129"
     },
     {
       "id": "adr039-W-recapitulate",
@@ -519,7 +577,8 @@
       "verb": "recapitulate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The moment to cut the mold was the moment the copy-paste began."
+      "text": "The moment to cut the mold was the moment the copy-paste began.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-133"
     },
     {
       "id": "adr039-C-analyze",
@@ -528,7 +587,8 @@
       "verb": "analyze",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "A class is only as clear as its contract: deps, args, params, resources, schema, the manifest."
+      "text": "A class is only as clear as its contract: deps, args, params, resources, schema, the manifest.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-140"
     },
     {
       "id": "adr039-C-assess",
@@ -537,7 +597,8 @@
       "verb": "assess",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "If the shape cannot be stated as one fixed contract, it is not yet ready to be a class."
+      "text": "If the shape cannot be stated as one fixed contract, it is not yet ready to be a class.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-151"
     },
     {
       "id": "adr039-C-evaluate",
@@ -546,7 +607,8 @@
       "verb": "evaluate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Prefer subtraction on promotion: the class keeps only what is load-bearing across cases."
+      "text": "Prefer subtraction on promotion: the class keeps only what is load-bearing across cases.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-164"
     },
     {
       "id": "adr039-C-synthesize",
@@ -555,7 +617,8 @@
       "verb": "synthesize",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "A schema is how tools validate each other instead of drifting apart."
+      "text": "A schema is how tools validate each other instead of drifting apart.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-177"
     },
     {
       "id": "adr039-C-recapitulate",
@@ -564,7 +627,8 @@
       "verb": "recapitulate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The mold that made the tenth spoon identical to the first was the contract, not the care that night."
+      "text": "The mold that made the tenth spoon identical to the first was the contract, not the care that night.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-187"
     },
     {
       "id": "adr039-H-analyze",
@@ -573,7 +637,8 @@
       "verb": "analyze",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The cost of a fork is paid later, at every case that must be changed in parallel."
+      "text": "The cost of a fork is paid later, at every case that must be changed in parallel.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-193"
     },
     {
       "id": "adr039-H-assess",
@@ -582,7 +647,8 @@
       "verb": "assess",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Cheap promotion is what makes the loop compound; an expensive mold is never cut."
+      "text": "Cheap promotion is what makes the loop compound; an expensive mold is never cut.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-199"
     },
     {
       "id": "adr039-H-evaluate",
@@ -591,7 +657,8 @@
       "verb": "evaluate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The mold is the leverage: cut it once, and every casting after comes nearly free."
+      "text": "The mold is the leverage: cut it once, and every casting after comes nearly free.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-213"
     },
     {
       "id": "adr039-H-synthesize",
@@ -600,7 +667,8 @@
       "verb": "synthesize",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "Instance to class to class-of-the-class: each promotion lowers the cost of the next."
+      "text": "Instance to class to class-of-the-class: each promotion lowers the cost of the next.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-218"
     },
     {
       "id": "adr039-H-recapitulate",
@@ -609,7 +677,8 @@
       "verb": "recapitulate",
       "source": "ADR-080",
       "minted": "2026-08-01",
-      "text": "The mold pays for itself on the second casting and profits on every one after."
+      "text": "The mold pays for itself on the second casting and profits on every one after.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-225"
     },
     {
       "id": "adr041-C-analyze",
@@ -618,7 +687,8 @@
       "verb": "analyze",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Before you trust a number, look for its tilde or its custody; a value with neither is not yet real."
+      "text": "Before you trust a number, look for its tilde or its custody; a value with neither is not yet real.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-142"
     },
     {
       "id": "adr041-C-assess",
@@ -627,7 +697,8 @@
       "verb": "assess",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "The only dishonesty is the assessed worn as the audited. The tilde is the whole safeguard."
+      "text": "The only dishonesty is the assessed worn as the audited. The tilde is the whole safeguard.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-153"
     },
     {
       "id": "adr041-C-evaluate",
@@ -636,7 +707,8 @@
       "verb": "evaluate",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Coherence is not agreement. It is a body of drops holding tension without going flat."
+      "text": "Coherence is not agreement. It is a body of drops holding tension without going flat.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-166"
     },
     {
       "id": "adr041-C-synthesize",
@@ -645,7 +717,8 @@
       "verb": "synthesize",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Confidence is the posterior, conviction is its stability. Fuse them into one loud number and you have lied twice."
+      "text": "Confidence is the posterior, conviction is its stability. Fuse them into one loud number and you have lied twice.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-179"
     },
     {
       "id": "adr041-C-recapitulate",
@@ -654,7 +727,8 @@
       "verb": "recapitulate",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Keep the load-bearing grain; a line kept for being quotable is sediment, not signal."
+      "text": "Keep the load-bearing grain; a line kept for being quotable is sediment, not signal.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-189"
     },
     {
       "id": "adr041-D-analyze",
@@ -663,7 +737,8 @@
       "verb": "analyze",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "A decision carries two numbers, the audited and the assessed. Never let the second wear the first's clothes."
+      "text": "A decision carries two numbers, the audited and the assessed. Never let the second wear the first's clothes.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-012"
     },
     {
       "id": "adr041-D-synthesize",
@@ -672,7 +747,8 @@
       "verb": "synthesize",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "An empty cell is not a failure. It is a stub: a place kept for a proverb not yet earned."
+      "text": "An empty cell is not a failure. It is a stub: a place kept for a proverb not yet earned.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-042"
     },
     {
       "id": "adr041-D-recapitulate",
@@ -681,7 +757,8 @@
       "verb": "recapitulate",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "A filed decision that keeps its tildes can be trusted years later; one that hid them cannot."
+      "text": "A filed decision that keeps its tildes can be trusted years later; one that hid them cannot.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-046"
     },
     {
       "id": "adr041-R-assess",
@@ -690,7 +767,8 @@
       "verb": "assess",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Unlabeled non-GAAP presented as GAAP is what quietly rots a house."
+      "text": "Unlabeled non-GAAP presented as GAAP is what quietly rots a house.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-078"
     },
     {
       "id": "adr041-R-recapitulate",
@@ -699,7 +777,8 @@
       "verb": "recapitulate",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "A grid that comes back full is the tell of padding. The empty cells are the honesty."
+      "text": "A grid that comes back full is the tell of padding. The empty cells are the honesty.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-096"
     },
     {
       "id": "adr041-W-recapitulate",
@@ -708,7 +787,8 @@
       "verb": "recapitulate",
       "source": "ADR-041",
       "minted": "2026-08-01",
-      "text": "Strip the formwork only after the concrete sets. Pull it while curing and the structure falls."
+      "text": "Strip the formwork only after the concrete sets. Pull it while curing and the structure falls.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-135"
     },
     {
       "id": "adr-001-R-assess",
@@ -717,7 +797,8 @@
       "verb": "assess",
       "source": "ADR-001",
       "minted": "2026-08-01",
-      "text": "Defense in depth is a maintenance cost you buy when the access paths multiply, not before."
+      "text": "Defense in depth is a maintenance cost you buy when the access paths multiply, not before.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-061"
     },
     {
       "id": "adr-001-W-evaluate",
@@ -726,7 +807,8 @@
       "verb": "evaluate",
       "source": "ADR-001",
       "minted": "2026-08-01",
-      "text": "One access path needs one gate; a second enforcement layer earns its keep only when the surface outgrows what review can audit."
+      "text": "One access path needs one gate; a second enforcement layer earns its keep only when the surface outgrows what review can audit.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-112"
     },
     {
       "id": "adr-001-R-analyze",
@@ -735,7 +817,8 @@
       "verb": "analyze",
       "source": "ADR-001",
       "minted": "2026-08-01",
-      "text": "Route discipline is a real control only while the routes stay few enough to audit by hand."
+      "text": "Route discipline is a real control only while the routes stay few enough to audit by hand.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-047"
     },
     {
       "id": "adr-002-W-assess",
@@ -744,7 +827,8 @@
       "verb": "assess",
       "source": "ADR-002",
       "minted": "2026-08-01",
-      "text": "A gap between dev and prod stays hidden until the crossing; put the gate at the crossing, not after it."
+      "text": "A gap between dev and prod stays hidden until the crossing; put the gate at the crossing, not after it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-099"
     },
     {
       "id": "adr-002-H-evaluate",
@@ -753,7 +837,8 @@
       "verb": "evaluate",
       "source": "ADR-002",
       "minted": "2026-08-01",
-      "text": "Local velocity compounds every day; zero-config is a feature, not a compromise."
+      "text": "Local velocity compounds every day; zero-config is a feature, not a compromise.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-201"
     },
     {
       "id": "adr-002-C-synthesize",
@@ -762,7 +847,8 @@
       "verb": "synthesize",
       "source": "ADR-002",
       "minted": "2026-08-01",
-      "text": "Keep the local data in the shape production will accept, and the migration is already half done."
+      "text": "Keep the local data in the shape production will accept, and the migration is already half done.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-167"
     },
     {
       "id": "adr-003-C-evaluate",
@@ -771,7 +857,8 @@
       "verb": "evaluate",
       "source": "ADR-003",
       "minted": "2026-08-01",
-      "text": "Copy that could describe any tool answers no one who asked what this is."
+      "text": "Copy that could describe any tool answers no one who asked what this is.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-154"
     },
     {
       "id": "adr-003-C-assess",
@@ -780,7 +867,8 @@
       "verb": "assess",
       "source": "ADR-003",
       "minted": "2026-08-01",
-      "text": "An unmeasurable claim is noise; one specific believable claim outweighs an impressive vague one."
+      "text": "An unmeasurable claim is noise; one specific believable claim outweighs an impressive vague one.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-143"
     },
     {
       "id": "adr-003-D-analyze",
@@ -789,7 +877,8 @@
       "verb": "analyze",
       "source": "ADR-003",
       "minted": "2026-08-01",
-      "text": "Two unsequenced calls to action compete; number the steps or the visitor guesses which comes first."
+      "text": "Two unsequenced calls to action compete; number the steps or the visitor guesses which comes first.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-001"
     },
     {
       "id": "adr-003-C-assess-2",
@@ -798,7 +887,8 @@
       "verb": "assess",
       "source": "ADR-003",
       "minted": "2026-08-01",
-      "text": "Better too specific for the few who lean in than too generic for the many who leave."
+      "text": "Better too specific for the few who lean in than too generic for the many who leave.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-144"
     },
     {
       "id": "adr-004-D-analyze",
@@ -807,7 +897,8 @@
       "verb": "analyze",
       "source": "ADR-004",
       "minted": "2026-08-01",
-      "text": "Name the mechanical task as mechanical, and spend no deliberation it does not deserve."
+      "text": "Name the mechanical task as mechanical, and spend no deliberation it does not deserve.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-002"
     },
     {
       "id": "adr-005-C-recapitulate",
@@ -816,7 +907,8 @@
       "verb": "recapitulate",
       "source": "ADR-005",
       "minted": "2026-08-01",
-      "text": "Let your conviction track the live state, not the intent you declared; when execution diverges, the score moves with reality."
+      "text": "Let your conviction track the live state, not the intent you declared; when execution diverges, the score moves with reality.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-180"
     },
     {
       "id": "adr-005-R-assess",
@@ -825,7 +917,8 @@
       "verb": "assess",
       "source": "ADR-005",
       "minted": "2026-08-01",
-      "text": "The risk you reject an option for is the risk you inherit the day circumstance forces that option on you."
+      "text": "The risk you reject an option for is the risk you inherit the day circumstance forces that option on you.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-062"
     },
     {
       "id": "adr-005-R-analyze",
@@ -834,7 +927,8 @@
       "verb": "analyze",
       "source": "ADR-005",
       "minted": "2026-08-01",
-      "text": "A dependency that fails silently takes your value away without warning."
+      "text": "A dependency that fails silently takes your value away without warning.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-048"
     },
     {
       "id": "adr-005-C-assess",
@@ -843,7 +937,8 @@
       "verb": "assess",
       "source": "ADR-005",
       "minted": "2026-08-01",
-      "text": "Presence is not correctness; verify the value, not merely that a value is there."
+      "text": "Presence is not correctness; verify the value, not merely that a value is there.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-145"
     },
     {
       "id": "adr-005-H-synthesize",
@@ -852,7 +947,8 @@
       "verb": "synthesize",
       "source": "ADR-005",
       "minted": "2026-08-01",
-      "text": "Take the manual fallback when the automation stalls, but write the debt down where it will be found."
+      "text": "Take the manual fallback when the automation stalls, but write the debt down where it will be found.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-215"
     },
     {
       "id": "adr-006-H-evaluate",
@@ -861,7 +957,8 @@
       "verb": "evaluate",
       "source": "ADR-006",
       "minted": "2026-08-01",
-      "text": "Solve the problem that exists, not the one that only might; complexity is not owed to a risk with no data behind it yet."
+      "text": "Solve the problem that exists, not the one that only might; complexity is not owed to a risk with no data behind it yet.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-202"
     },
     {
       "id": "adr-006-W-synthesize",
@@ -870,7 +967,8 @@
       "verb": "synthesize",
       "source": "ADR-006",
       "minted": "2026-08-01",
-      "text": "A named gate turns an accepted risk into a scheduled action; without the gate, acceptable-for-now quietly becomes permanent."
+      "text": "A named gate turns an accepted risk into a scheduled action; without the gate, acceptable-for-now quietly becomes permanent.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-125"
     },
     {
       "id": "adr-006-R-assess",
@@ -879,7 +977,8 @@
       "verb": "assess",
       "source": "ADR-006",
       "minted": "2026-08-01",
-      "text": "Every accepted trade-off should carry the condition under which it expires."
+      "text": "Every accepted trade-off should carry the condition under which it expires.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-063"
     },
     {
       "id": "adr-007-D-synthesize",
@@ -888,7 +987,8 @@
       "verb": "synthesize",
       "source": "ADR-007",
       "minted": "2026-08-01",
-      "text": "Use the fast tool to bootstrap and the tracked tool to live; one decision names both and the trigger that switches between them."
+      "text": "Use the fast tool to bootstrap and the tracked tool to live; one decision names both and the trigger that switches between them.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-024"
     },
     {
       "id": "adr-007-W-assess",
@@ -897,7 +997,8 @@
       "verb": "assess",
       "source": "ADR-007",
       "minted": "2026-08-01",
-      "text": "The window to change migration tools closes the moment production holds a real row; baseline the history before that, not after."
+      "text": "The window to change migration tools closes the moment production holds a real row; baseline the history before that, not after.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-100"
     },
     {
       "id": "adr-007-R-analyze",
@@ -906,7 +1007,8 @@
       "verb": "analyze",
       "source": "ADR-007",
       "minted": "2026-08-01",
-      "text": "A bootstrap shortcut used past bootstrap stops being a shortcut and becomes permanent divergence."
+      "text": "A bootstrap shortcut used past bootstrap stops being a shortcut and becomes permanent divergence.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-049"
     },
     {
       "id": "adr-007-H-recapitulate",
@@ -915,7 +1017,8 @@
       "verb": "recapitulate",
       "source": "ADR-007",
       "minted": "2026-08-01",
-      "text": "The path you decided and the path you walked are rarely the same; record what execution actually did, not what the plan chose."
+      "text": "The path you decided and the path you walked are rarely the same; record what execution actually did, not what the plan chose.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-220"
     },
     {
       "id": "adr-008-R-analyze",
@@ -924,7 +1027,8 @@
       "verb": "analyze",
       "source": "ADR-008",
       "minted": "2026-08-01",
-      "text": "Match the control to the real attack surface; a policy guarding a door no one opens is theater."
+      "text": "Match the control to the real attack surface; a policy guarding a door no one opens is theater.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-050"
     },
     {
       "id": "adr-008-D-assess",
@@ -933,7 +1037,8 @@
       "verb": "assess",
       "source": "ADR-008",
       "minted": "2026-08-01",
-      "text": "The isolation that actually holds is the one at the layer your queries pass through; everything the privileged path bypasses protects only strangers."
+      "text": "The isolation that actually holds is the one at the layer your queries pass through; everything the privileged path bypasses protects only strangers.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-013"
     },
     {
       "id": "adr-008-C-evaluate",
@@ -942,7 +1047,8 @@
       "verb": "evaluate",
       "source": "ADR-008",
       "minted": "2026-08-01",
-      "text": "A rule that silently returns nothing is worse than no rule; confirm the mechanism fires for the caller you actually have."
+      "text": "A rule that silently returns nothing is worse than no rule; confirm the mechanism fires for the caller you actually have.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-155"
     },
     {
       "id": "adr-008-W-assess",
@@ -951,7 +1057,8 @@
       "verb": "assess",
       "source": "ADR-008",
       "minted": "2026-08-01",
-      "text": "Put the default denial in place before the first outsider arrives, not after the exposure teaches you why."
+      "text": "Put the default denial in place before the first outsider arrives, not after the exposure teaches you why.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-101"
     },
     {
       "id": "adr-009-H-evaluate",
@@ -960,7 +1067,8 @@
       "verb": "evaluate",
       "source": "ADR-009",
       "minted": "2026-08-01",
-      "text": "Recovering proven work costs hours; rebuilding from a blank file costs days; search the history before you reach for the empty page."
+      "text": "Recovering proven work costs hours; rebuilding from a blank file costs days; search the history before you reach for the empty page.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-203"
     },
     {
       "id": "adr-009-C-synthesize",
@@ -969,7 +1077,8 @@
       "verb": "synthesize",
       "source": "ADR-009",
       "minted": "2026-08-01",
-      "text": "A rule already locked settles the tool debate before it can start; do not relitigate the constitution to save a keystroke."
+      "text": "A rule already locked settles the tool debate before it can start; do not relitigate the constitution to save a keystroke.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-168"
     },
     {
       "id": "adr-009-R-assess",
@@ -978,7 +1087,8 @@
       "verb": "assess",
       "source": "ADR-009",
       "minted": "2026-08-01",
-      "text": "Accept duplication only while it stays visible and localized, and name the horizon at which you will pay it down."
+      "text": "Accept duplication only while it stays visible and localized, and name the horizon at which you will pay it down.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-064"
     },
     {
       "id": "adr-010-R-analyze",
@@ -987,7 +1097,8 @@
       "verb": "analyze",
       "source": "ADR-010",
       "minted": "2026-08-01",
-      "text": "A silent fallback that hands back the wrong type disables every check downstream of it, and nothing tells you."
+      "text": "A silent fallback that hands back the wrong type disables every check downstream of it, and nothing tells you.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-051"
     },
     {
       "id": "adr-010-D-assess",
@@ -996,7 +1107,8 @@
       "verb": "assess",
       "source": "ADR-010",
       "minted": "2026-08-01",
-      "text": "Prefer the clean end-state over the workaround whose suffix leaks into all future code."
+      "text": "Prefer the clean end-state over the workaround whose suffix leaks into all future code.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-014"
     },
     {
       "id": "adr-010-W-evaluate",
@@ -1005,7 +1117,8 @@
       "verb": "evaluate",
       "source": "ADR-010",
       "minted": "2026-08-01",
-      "text": "Audit every caller before you delete; the grep that proves zero callers is cheaper than the break that proves one."
+      "text": "Audit every caller before you delete; the grep that proves zero callers is cheaper than the break that proves one.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-113"
     },
     {
       "id": "adr-010-C-analyze",
@@ -1014,7 +1127,8 @@
       "verb": "analyze",
       "source": "ADR-010",
       "minted": "2026-08-01",
-      "text": "An ambiguous name resolves to whichever match comes first, never to the one you meant."
+      "text": "An ambiguous name resolves to whichever match comes first, never to the one you meant.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-136"
     },
     {
       "id": "adr-011-H-evaluate",
@@ -1023,7 +1137,8 @@
       "verb": "evaluate",
       "source": "ADR-011",
       "minted": "2026-08-01",
-      "text": "Do not pay a real cost for a benefit that is zero at your current scale."
+      "text": "Do not pay a real cost for a benefit that is zero at your current scale.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-204"
     },
     {
       "id": "adr-011-W-assess",
@@ -1032,7 +1147,8 @@
       "verb": "assess",
       "source": "ADR-011",
       "minted": "2026-08-01",
-      "text": "Name the explicit count or condition that flips the decision, so the revisit is a trigger and not a someday."
+      "text": "Name the explicit count or condition that flips the decision, so the revisit is a trigger and not a someday.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-102"
     },
     {
       "id": "adr-011-R-analyze",
@@ -1041,7 +1157,8 @@
       "verb": "analyze",
       "source": "ADR-011",
       "minted": "2026-08-01",
-      "text": "Convenience machinery that quietly defeats the optimizer trades a hidden build cost for a cosmetic gain."
+      "text": "Convenience machinery that quietly defeats the optimizer trades a hidden build cost for a cosmetic gain.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-052"
     },
     {
       "id": "adr-012-W-assess",
@@ -1050,7 +1167,8 @@
       "verb": "assess",
       "source": "ADR-012",
       "minted": "2026-08-01",
-      "text": "Surface the price only after the value has rendered; the moment clarity is earned is the safe condition to ask for more."
+      "text": "Surface the price only after the value has rendered; the moment clarity is earned is the safe condition to ask for more.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-103"
     },
     {
       "id": "adr-012-R-analyze",
@@ -1059,7 +1177,8 @@
       "verb": "analyze",
       "source": "ADR-012",
       "minted": "2026-08-01",
-      "text": "An offer shown before sense-making finishes interrupts it, and you lose both the free flow and the sale."
+      "text": "An offer shown before sense-making finishes interrupts it, and you lose both the free flow and the sale.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-053"
     },
     {
       "id": "adr-012-C-evaluate",
@@ -1068,7 +1187,8 @@
       "verb": "evaluate",
       "source": "ADR-012",
       "minted": "2026-08-01",
-      "text": "Scaffold cognition that is complete, not cognition still in progress; the tool serves the finished thought."
+      "text": "Scaffold cognition that is complete, not cognition still in progress; the tool serves the finished thought.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-156"
     },
     {
       "id": "adr-013-D-analyze",
@@ -1077,7 +1197,8 @@
       "verb": "analyze",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Know your actual distribution model before you optimize the surface; a warm-referral artifact is not a cold funnel and must not be tuned like one."
+      "text": "Know your actual distribution model before you optimize the surface; a warm-referral artifact is not a cold funnel and must not be tuned like one.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-003"
     },
     {
       "id": "adr-013-H-evaluate",
@@ -1086,7 +1207,8 @@
       "verb": "evaluate",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "The page's real job may be credibility rather than conversion; the private conversation is where the deal actually closes."
+      "text": "The page's real job may be credibility rather than conversion; the private conversation is where the deal actually closes.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-205"
     },
     {
       "id": "adr-013-C-synthesize",
@@ -1095,7 +1217,8 @@
       "verb": "synthesize",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Name one specific human, one decision, one outcome; concrete proof moves more than any layout change."
+      "text": "Name one specific human, one decision, one outcome; concrete proof moves more than any layout change.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-169"
     },
     {
       "id": "adr-013-R-assess",
@@ -1104,7 +1227,8 @@
       "verb": "assess",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Options that look like rivals are often complementary; do not strawman the fallback you may have to promote."
+      "text": "Options that look like rivals are often complementary; do not strawman the fallback you may have to promote.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-065"
     },
     {
       "id": "adr-013-W-assess",
@@ -1113,7 +1237,8 @@
       "verb": "assess",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Set a falsifiable threshold conservative enough to be observable even at low volume, or the signal you wait for will only ever be noise."
+      "text": "Set a falsifiable threshold conservative enough to be observable even at low volume, or the signal you wait for will only ever be noise.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-104"
     },
     {
       "id": "adr-013-H-recapitulate",
@@ -1122,7 +1247,8 @@
       "verb": "recapitulate",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Separate content dependencies from code dependencies; the two wait on different things and slip for different reasons."
+      "text": "Separate content dependencies from code dependencies; the two wait on different things and slip for different reasons.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-221"
     },
     {
       "id": "adr-013-D-evaluate",
@@ -1131,7 +1257,8 @@
       "verb": "evaluate",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Ship changes that are independently deployable and individually falsifiable, so each one can teach you something alone."
+      "text": "Ship changes that are independently deployable and individually falsifiable, so each one can teach you something alone.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-019"
     },
     {
       "id": "adr-013-W-evaluate",
@@ -1140,7 +1267,8 @@
       "verb": "evaluate",
       "source": "ADR-013",
       "minted": "2026-08-01",
-      "text": "Sequence the sure gains first and defer the aesthetic rebuild until the data earns it; the correct third move is wrong as the first."
+      "text": "Sequence the sure gains first and defer the aesthetic rebuild until the data earns it; the correct third move is wrong as the first.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-114"
     },
     {
       "id": "adr-014-D-synthesize",
@@ -1149,7 +1277,8 @@
       "verb": "synthesize",
       "source": "ADR-014",
       "minted": "2026-08-01",
-      "text": "Automation authority is a topology, not a tier. Do not ask what level of automation is safe. Ask at what boundary automation stops and human agency begins."
+      "text": "Automation authority is a topology, not a tier. Do not ask what level of automation is safe. Ask at what boundary automation stops and human agency begins.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-025"
     },
     {
       "id": "adr-014-R-assess",
@@ -1158,7 +1287,8 @@
       "verb": "assess",
       "source": "ADR-014",
       "minted": "2026-08-01",
-      "text": "Name the exact boundary conditions. A trip signal you can name is one you can audit on its own."
+      "text": "Name the exact boundary conditions. A trip signal you can name is one you can audit on its own.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-066"
     },
     {
       "id": "adr-014-W-evaluate",
@@ -1167,7 +1297,8 @@
       "verb": "evaluate",
       "source": "ADR-014",
       "minted": "2026-08-01",
-      "text": "The slowdown at the gate is not overhead. It is the integrity check the product exists to teach."
+      "text": "The slowdown at the gate is not overhead. It is the integrity check the product exists to teach.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-115"
     },
     {
       "id": "adr-014-H-analyze",
@@ -1176,7 +1307,8 @@
       "verb": "analyze",
       "source": "ADR-014",
       "minted": "2026-08-01",
-      "text": "Let automation repair freely where a mistake is cheap, and require a human hand only where a mistake is not."
+      "text": "Let automation repair freely where a mistake is cheap, and require a human hand only where a mistake is not.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-190"
     },
     {
       "id": "adr-014-C-recapitulate",
@@ -1185,7 +1317,8 @@
       "verb": "recapitulate",
       "source": "ADR-014",
       "minted": "2026-08-01",
-      "text": "A tool that ships to production without a human hand violates the first principle it was built to defend."
+      "text": "A tool that ships to production without a human hand violates the first principle it was built to defend.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-181"
     },
     {
       "id": "adr-015-H-analyze",
@@ -1194,7 +1327,8 @@
       "verb": "analyze",
       "source": "ADR-015",
       "minted": "2026-08-01",
-      "text": "Do not chain a ready thing to a blocked thing. Artificial sequencing spends real opportunity for no gain."
+      "text": "Do not chain a ready thing to a blocked thing. Artificial sequencing spends real opportunity for no gain.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-191"
     },
     {
       "id": "adr-015-D-assess",
@@ -1203,7 +1337,8 @@
       "verb": "assess",
       "source": "ADR-015",
       "minted": "2026-08-01",
-      "text": "A dependency blocks only what truly depends on it. Ship the independent parts now."
+      "text": "A dependency blocks only what truly depends on it. Ship the independent parts now.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-015"
     },
     {
       "id": "adr-015-W-synthesize",
@@ -1212,7 +1347,8 @@
       "verb": "synthesize",
       "source": "ADR-015",
       "minted": "2026-08-01",
-      "text": "When a thing waits on content that may never come, give it a deadline and a placeholder, so the wait cannot quietly become forever."
+      "text": "When a thing waits on content that may never come, give it a deadline and a placeholder, so the wait cannot quietly become forever.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-126"
     },
     {
       "id": "adr-016-W-synthesize",
@@ -1221,7 +1357,8 @@
       "verb": "synthesize",
       "source": "ADR-016",
       "minted": "2026-08-01",
-      "text": "Place the gate where the value has been proven, not at the door. A wall before the first taste kills the appetite it means to guard."
+      "text": "Place the gate where the value has been proven, not at the door. A wall before the first taste kills the appetite it means to guard.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-127"
     },
     {
       "id": "adr-016-R-evaluate",
@@ -1230,7 +1367,8 @@
       "verb": "evaluate",
       "source": "ADR-016",
       "minted": "2026-08-01",
-      "text": "Weigh failure modes, not features. Bounded, one-directional complexity beats an unbounded, silent failure every time."
+      "text": "Weigh failure modes, not features. Bounded, one-directional complexity beats an unbounded, silent failure every time.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-079"
     },
     {
       "id": "adr-016-H-assess",
@@ -1239,7 +1377,8 @@
       "verb": "assess",
       "source": "ADR-016",
       "minted": "2026-08-01",
-      "text": "An account is earned, not demanded. Ask after the tool has shown its worth, and the asking answers itself."
+      "text": "An account is earned, not demanded. Ask after the tool has shown its worth, and the asking answers itself.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-195"
     },
     {
       "id": "adr-017-C-assess",
@@ -1248,7 +1387,8 @@
       "verb": "assess",
       "source": "ADR-017",
       "minted": "2026-08-01",
-      "text": "Canonical without enforcement is only a wish. Two schemas will drift unless one source validates them both."
+      "text": "Canonical without enforcement is only a wish. Two schemas will drift unless one source validates them both.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-146"
     },
     {
       "id": "adr-017-D-synthesize",
@@ -1257,7 +1397,8 @@
       "verb": "synthesize",
       "source": "ADR-017",
       "minted": "2026-08-01",
-      "text": "Lock the minimum that every surface must share, and let each surface own whatever it needs above it."
+      "text": "Lock the minimum that every surface must share, and let each surface own whatever it needs above it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-026"
     },
     {
       "id": "adr-017-W-recapitulate",
@@ -1266,7 +1407,8 @@
       "verb": "recapitulate",
       "source": "ADR-017",
       "minted": "2026-08-01",
-      "text": "Never edit a locked schema in place. When it must grow, cut a version two and leave the first untouched."
+      "text": "Never edit a locked schema in place. When it must grow, cut a version two and leave the first untouched.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-131"
     },
     {
       "id": "adr-018-D-analyze",
@@ -1275,7 +1417,8 @@
       "verb": "analyze",
       "source": "ADR-018",
       "minted": "2026-08-01",
-      "text": "When the form itself is the cognitive tax you promised to remove, the form is the bug."
+      "text": "When the form itself is the cognitive tax you promised to remove, the form is the bug.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-004"
     },
     {
       "id": "adr-018-D-synthesize",
@@ -1284,7 +1427,8 @@
       "verb": "synthesize",
       "source": "ADR-018",
       "minted": "2026-08-01",
-      "text": "An instrument panel makes the user assemble the data first. A navigator takes the raw signal and finds the structure. Build the one the hardest cases need."
+      "text": "An instrument panel makes the user assemble the data first. A navigator takes the raw signal and finds the structure. Build the one the hardest cases need.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-027"
     },
     {
       "id": "adr-018-H-evaluate",
@@ -1293,7 +1437,8 @@
       "verb": "evaluate",
       "source": "ADR-018",
       "minted": "2026-08-01",
-      "text": "Optimize for the valuable cases, not the easy ones. The moments that matter most are exactly the ones that resist your neat fields."
+      "text": "Optimize for the valuable cases, not the easy ones. The moments that matter most are exactly the ones that resist your neat fields.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-206"
     },
     {
       "id": "adr-018-C-assess",
@@ -1302,7 +1447,8 @@
       "verb": "assess",
       "source": "ADR-018",
       "minted": "2026-08-01",
-      "text": "When conviction is still shifting, decide the direction but hold the build. A yellow gate is not a green one."
+      "text": "When conviction is still shifting, decide the direction but hold the build. A yellow gate is not a green one.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-147"
     },
     {
       "id": "adr-019-C-synthesize",
@@ -1311,7 +1457,8 @@
       "verb": "synthesize",
       "source": "ADR-019",
       "minted": "2026-08-01",
-      "text": "Validate at the edges and stay light in the core. Guard the wire and the storage; do not drag heavy checks into every inner loop."
+      "text": "Validate at the edges and stay light in the core. Guard the wire and the storage; do not drag heavy checks into every inner loop.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-170"
     },
     {
       "id": "adr-019-H-evaluate",
@@ -1320,7 +1467,8 @@
       "verb": "evaluate",
       "source": "ADR-019",
       "minted": "2026-08-01",
-      "text": "Do not rewrite the whole for a question that lives at the boundary. Blast radius with no gain in correctness is pure cost."
+      "text": "Do not rewrite the whole for a question that lives at the boundary. Blast radius with no gain in correctness is pure cost.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-207"
     },
     {
       "id": "adr-019-R-assess",
@@ -1329,7 +1477,8 @@
       "verb": "assess",
       "source": "ADR-019",
       "minted": "2026-08-01",
-      "text": "Fail fast at the bridge, not silently at the database. A missing field should raise where it crosses, not rot where it lands."
+      "text": "Fail fast at the bridge, not silently at the database. A missing field should raise where it crosses, not rot where it lands.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-067"
     },
     {
       "id": "adr-020-D-synthesize",
@@ -1338,7 +1487,8 @@
       "verb": "synthesize",
       "source": "ADR-020",
       "minted": "2026-08-01",
-      "text": "Annotate the sealed record, never rewrite it; a decision gains meaning from what wraps it, not from tampering with the thing itself."
+      "text": "Annotate the sealed record, never rewrite it; a decision gains meaning from what wraps it, not from tampering with the thing itself.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-028"
     },
     {
       "id": "adr-020-R-assess",
@@ -1347,7 +1497,8 @@
       "verb": "assess",
       "source": "ADR-020",
       "minted": "2026-08-01",
-      "text": "Speak only when ruin, derailment, or a sharp swing in conviction fires; commentary that runs constantly is noise no one reads."
+      "text": "Speak only when ruin, derailment, or a sharp swing in conviction fires; commentary that runs constantly is noise no one reads.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-068"
     },
     {
       "id": "adr-020-C-evaluate",
@@ -1356,7 +1507,8 @@
       "verb": "evaluate",
       "source": "ADR-020",
       "minted": "2026-08-01",
-      "text": "Below the threshold, stay silent; clarity already earned asks for no commentary."
+      "text": "Below the threshold, stay silent; clarity already earned asks for no commentary.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-157"
     },
     {
       "id": "adr-020-H-recapitulate",
@@ -1365,7 +1517,8 @@
       "verb": "recapitulate",
       "source": "ADR-020",
       "minted": "2026-08-01",
-      "text": "A decision is not closed until its outcome is measured and handed forward; a chain of receipts that debriefs itself becomes an atlas the next choice can read."
+      "text": "A decision is not closed until its outcome is measured and handed forward; a chain of receipts that debriefs itself becomes an atlas the next choice can read.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-222"
     },
     {
       "id": "adr-022-R-recapitulate",
@@ -1374,7 +1527,8 @@
       "verb": "recapitulate",
       "source": "ADR-022",
       "minted": "2026-08-01",
-      "text": "A fix applied only to the live system is not finished; write it back into the baseline, or the next fresh start reopens the same wound."
+      "text": "A fix applied only to the live system is not finished; write it back into the baseline, or the next fresh start reopens the same wound.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-089"
     },
     {
       "id": "adr-023-D-analyze",
@@ -1383,7 +1537,8 @@
       "verb": "analyze",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "Goals do not hang from a single parent; one small aim serves many large ones, so the honest shape is a lattice, not a tree."
+      "text": "Goals do not hang from a single parent; one small aim serves many large ones, so the honest shape is a lattice, not a tree.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-005"
     },
     {
       "id": "adr-023-D-synthesize",
@@ -1392,7 +1547,8 @@
       "verb": "synthesize",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "Infer the structure from the trail already left behind; to declare it up front is to freeze a preference still taking form."
+      "text": "Infer the structure from the trail already left behind; to declare it up front is to freeze a preference still taking form.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-029"
     },
     {
       "id": "adr-023-R-analyze",
@@ -1401,7 +1557,8 @@
       "verb": "analyze",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "A bottom-up order left ungoverned calcifies into the rigid hierarchy it meant to escape; the heavy edges only grow heavier until nothing can move."
+      "text": "A bottom-up order left ungoverned calcifies into the rigid hierarchy it meant to escape; the heavy edges only grow heavier until nothing can move.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-054"
     },
     {
       "id": "adr-023-R-assess",
@@ -1410,7 +1567,8 @@
       "verb": "assess",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "When nothing yet exists to challenge an early commitment, hold, do not infer; locking before the flow can test it is the very breach the discipline exists to prevent."
+      "text": "When nothing yet exists to challenge an early commitment, hold, do not infer; locking before the flow can test it is the very breach the discipline exists to prevent.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-069"
     },
     {
       "id": "adr-023-R-synthesize",
@@ -1419,7 +1577,8 @@
       "verb": "synthesize",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "The counter-forces are load-bearing members, not patches; remove one and the structure slumps into a squat, dark, solid mass."
+      "text": "The counter-forces are load-bearing members, not patches; remove one and the structure slumps into a squat, dark, solid mass.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-086"
     },
     {
       "id": "adr-023-W-assess",
@@ -1428,7 +1587,8 @@
       "verb": "assess",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "A gate that clears on a count alone has not cleared; run the measurement the gate actually asks for before you walk through it."
+      "text": "A gate that clears on a count alone has not cleared; run the measurement the gate actually asks for before you walk through it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-105"
     },
     {
       "id": "adr-023-W-evaluate",
@@ -1437,7 +1597,8 @@
       "verb": "evaluate",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "A synthetic test can prove the structure bears load and map where it breaks, yet it cannot set the operating point; only measured load can do that."
+      "text": "A synthetic test can prove the structure bears load and map where it breaks, yet it cannot set the operating point; only measured load can do that.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-116"
     },
     {
       "id": "adr-023-C-evaluate",
@@ -1446,7 +1607,8 @@
       "verb": "evaluate",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "The aim you truly serve is whichever attractor the tightening connections point toward; it precipitates out of the record rather than being imposed on it."
+      "text": "The aim you truly serve is whichever attractor the tightening connections point toward; it precipitates out of the record rather than being imposed on it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-158"
     },
     {
       "id": "adr-023-C-synthesize",
@@ -1455,7 +1617,8 @@
       "verb": "synthesize",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "Seek the state that is crystalline and fluid at once: sharp enough to read clearly, loose enough to rearrange when new evidence presses."
+      "text": "Seek the state that is crystalline and fluid at once: sharp enough to read clearly, loose enough to rearrange when new evidence presses.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-171"
     },
     {
       "id": "adr-023-C-recapitulate",
@@ -1464,7 +1627,8 @@
       "verb": "recapitulate",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "After the adversarial pass, keep only what dynamics hold up, not what a theorem seemed to promise; claim what survived, not what merely sounded clean."
+      "text": "After the adversarial pass, keep only what dynamics hold up, not what a theorem seemed to promise; claim what survived, not what merely sounded clean.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-182"
     },
     {
       "id": "adr-023-H-analyze",
@@ -1473,7 +1637,8 @@
       "verb": "analyze",
       "source": "ADR-023",
       "minted": "2026-08-01",
-      "text": "The power to set its own rate of forgetting is the power to overrule what you revealed you wanted; keep that constant out of the system's reach."
+      "text": "The power to set its own rate of forgetting is the power to overrule what you revealed you wanted; keep that constant out of the system's reach.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-192"
     },
     {
       "id": "adr-024-D-analyze",
@@ -1482,7 +1647,8 @@
       "verb": "analyze",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Beneath the stated problem lies the core want; transmute the raw complaint into the truth it is actually reaching for."
+      "text": "Beneath the stated problem lies the core want; transmute the raw complaint into the truth it is actually reaching for.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-006"
     },
     {
       "id": "adr-024-C-assess",
@@ -1491,7 +1657,8 @@
       "verb": "assess",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Decide which pieces are load-bearing and which are merely nice; cut everything non-essential to a later phase so the first build carries only what proves the idea."
+      "text": "Decide which pieces are load-bearing and which are merely nice; cut everything non-essential to a later phase so the first build carries only what proves the idea.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-148"
     },
     {
       "id": "adr-024-R-evaluate",
@@ -1500,7 +1667,8 @@
       "verb": "evaluate",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Name the falsifiable test and the number that would kill the idea before you begin; a hypothesis with no veto threshold cannot fail, and so can teach you nothing."
+      "text": "Name the falsifiable test and the number that would kill the idea before you begin; a hypothesis with no veto threshold cannot fail, and so can teach you nothing.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-080"
     },
     {
       "id": "adr-024-W-evaluate",
@@ -1509,7 +1677,8 @@
       "verb": "evaluate",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Advance only when a set share of the gates pass; short of that, shelve gracefully rather than push a thing the signal did not earn."
+      "text": "Advance only when a set share of the gates pass; short of that, shelve gracefully rather than push a thing the signal did not earn.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-117"
     },
     {
       "id": "adr-024-H-assess",
@@ -1518,7 +1687,8 @@
       "verb": "assess",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Prefer the bet with low sunk cost and high signal; when a failed run still leaves an asset behind, the downside is bounded and the trial is cheap."
+      "text": "Prefer the bet with low sunk cost and high signal; when a failed run still leaves an asset behind, the downside is bounded and the trial is cheap.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-196"
     },
     {
       "id": "adr-024-C-synthesize",
@@ -1527,7 +1697,8 @@
       "verb": "synthesize",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "A narrative that is true, specific, and repeatable does not manufacture demand; it crystallizes demand that already exists, and grows truer each time it is proven."
+      "text": "A narrative that is true, specific, and repeatable does not manufacture demand; it crystallizes demand that already exists, and grows truer each time it is proven.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-172"
     },
     {
       "id": "adr-024-D-synthesize",
@@ -1536,7 +1707,8 @@
       "verb": "synthesize",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Resolve the architecture forks before any code is laid; name the gates first, and every downstream build inherits a settled answer."
+      "text": "Resolve the architecture forks before any code is laid; name the gates first, and every downstream build inherits a settled answer.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-030"
     },
     {
       "id": "adr-024-D-evaluate",
@@ -1545,7 +1717,8 @@
       "verb": "evaluate",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Keep the calibrating step as fuel, not a destination; put no extra stop between the question and the answer it feeds."
+      "text": "Keep the calibrating step as fuel, not a destination; put no extra stop between the question and the answer it feeds.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-020"
     },
     {
       "id": "adr-024-R-assess",
@@ -1554,7 +1727,8 @@
       "verb": "assess",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "A generated id is not a secret; enforce the owner-plus-record key at the application layer and treat row-level rules as a backup, not the primary gate."
+      "text": "A generated id is not a secret; enforce the owner-plus-record key at the application layer and treat row-level rules as a backup, not the primary gate.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-070"
     },
     {
       "id": "adr-024-C-evaluate",
@@ -1563,7 +1737,8 @@
       "verb": "evaluate",
       "source": "ADR-024",
       "minted": "2026-08-01",
-      "text": "Render in degraded resolution until the work is done; the confidence of a preliminary scan is not the confidence of a finished receipt."
+      "text": "Render in degraded resolution until the work is done; the confidence of a preliminary scan is not the confidence of a finished receipt.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-159"
     },
     {
       "id": "adr-025-D-synthesize",
@@ -1572,7 +1747,8 @@
       "verb": "synthesize",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "A public act is one-way, but the decisions beneath it stay two-way; make the irreversible claim while keeping the mechanism revisable."
+      "text": "A public act is one-way, but the decisions beneath it stay two-way; make the irreversible claim while keeping the mechanism revisable.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-031"
     },
     {
       "id": "adr-025-W-assess",
@@ -1581,7 +1757,8 @@
       "verb": "assess",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Place the only friction exactly where intent runs highest, at the moment of saving or sharing, never as a wall in front of the core value."
+      "text": "Place the only friction exactly where intent runs highest, at the moment of saving or sharing, never as a wall in front of the core value.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-106"
     },
     {
       "id": "adr-025-R-evaluate",
@@ -1590,7 +1767,8 @@
       "verb": "evaluate",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Instrumentation turns a launch from an assertion into a measurable bet; ship the measuring apparatus with the claim, and pre-commit the signal that would prove you wrong."
+      "text": "Instrumentation turns a launch from an assertion into a measurable bet; ship the measuring apparatus with the claim, and pre-commit the signal that would prove you wrong.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-081"
     },
     {
       "id": "adr-025-H-recapitulate",
@@ -1599,7 +1777,8 @@
       "verb": "recapitulate",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Hold the decision provisional and updatable, and set a dated review against a signal named in advance; a bet with no scheduled reckoning is just a hope."
+      "text": "Hold the decision provisional and updatable, and set a dated review against a signal named in advance; a bet with no scheduled reckoning is just a hope.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-223"
     },
     {
       "id": "adr-025-D-synthesize-2",
@@ -1608,7 +1787,8 @@
       "verb": "synthesize",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Build the instrument that will tell you whether a better signal helps before you build the better signal; precision you cannot measure is precision spent in the dark."
+      "text": "Build the instrument that will tell you whether a better signal helps before you build the better signal; precision you cannot measure is precision spent in the dark.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-032"
     },
     {
       "id": "adr-025-R-analyze",
@@ -1617,7 +1797,8 @@
       "verb": "analyze",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Find the true bottleneck before optimizing anything; a loop that closes half a percent of the time is not failing for want of a sharper signal."
+      "text": "Find the true bottleneck before optimizing anything; a loop that closes half a percent of the time is not failing for want of a sharper signal.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-055"
     },
     {
       "id": "adr-025-H-evaluate",
@@ -1626,7 +1807,8 @@
       "verb": "evaluate",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "An improvement can be right in principle and wrong in sequence; do the cheap high-leverage repair first and let the ambitious build wait for the data that would judge it."
+      "text": "An improvement can be right in principle and wrong in sequence; do the cheap high-leverage repair first and let the ambitious build wait for the data that would judge it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-208"
     },
     {
       "id": "adr-025-C-recapitulate",
@@ -1635,7 +1817,8 @@
       "verb": "recapitulate",
       "source": "ADR-025",
       "minted": "2026-08-01",
-      "text": "Ground-check the assumed problem before prescribing the fix; what looked like a missing surface was a broken delivery pipe, and the cure was a repair, not a build."
+      "text": "Ground-check the assumed problem before prescribing the fix; what looked like a missing surface was a broken delivery pipe, and the cure was a repair, not a build.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-183"
     },
     {
       "id": "adr-026-R-assess",
@@ -1644,7 +1827,8 @@
       "verb": "assess",
       "source": "ADR-026",
       "minted": "2026-08-01",
-      "text": "A message that reports success but never arrives is more dangerous than one that errors, because nothing tells you to go look."
+      "text": "A message that reports success but never arrives is more dangerous than one that errors, because nothing tells you to go look.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-071"
     },
     {
       "id": "adr-026-H-evaluate",
@@ -1653,7 +1837,8 @@
       "verb": "evaluate",
       "source": "ADR-026",
       "minted": "2026-08-01",
-      "text": "A known failure with named victims costs less to fix while the fix is already scoped than to triage after it has quietly compounded."
+      "text": "A known failure with named victims costs less to fix while the fix is already scoped than to triage after it has quietly compounded.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-209"
     },
     {
       "id": "adr-027-C-evaluate",
@@ -1662,7 +1847,8 @@
       "verb": "evaluate",
       "source": "ADR-027",
       "minted": "2026-08-01",
-      "text": "Render only what the data earns. Some quantities can be measured and some can only be modeled, so never draw the modeled ones as if they were measured."
+      "text": "Render only what the data earns. Some quantities can be measured and some can only be modeled, so never draw the modeled ones as if they were measured.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-160"
     },
     {
       "id": "adr-027-D-synthesize",
@@ -1671,7 +1857,8 @@
       "verb": "synthesize",
       "source": "ADR-027",
       "minted": "2026-08-01",
-      "text": "A record of a decision is not the decision remade. The instrument renders the terrain, it does not adjudicate it."
+      "text": "A record of a decision is not the decision remade. The instrument renders the terrain, it does not adjudicate it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-033"
     },
     {
       "id": "adr-028-D-synthesize",
@@ -1680,7 +1867,8 @@
       "verb": "synthesize",
       "source": "ADR-028",
       "minted": "2026-08-01",
-      "text": "Do not guess an unconfirmed distinction into a schema, because the schema outlives the guess. Route it as a cheap question instead."
+      "text": "Do not guess an unconfirmed distinction into a schema, because the schema outlives the guess. Route it as a cheap question instead.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-034"
     },
     {
       "id": "adr-028-W-evaluate",
@@ -1689,7 +1877,8 @@
       "verb": "evaluate",
       "source": "ADR-028",
       "minted": "2026-08-01",
-      "text": "A change that is additive, defaulted off, and reversible can ship even while the model behind it is still unsettled."
+      "text": "A change that is additive, defaulted off, and reversible can ship even while the model behind it is still unsettled.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-118"
     },
     {
       "id": "adr-029-H-evaluate",
@@ -1698,7 +1887,8 @@
       "verb": "evaluate",
       "source": "ADR-029",
       "minted": "2026-08-01",
-      "text": "Capture the input now even when the pipeline that will use it does not yet exist. Asking twice costs more than storing once."
+      "text": "Capture the input now even when the pipeline that will use it does not yet exist. Asking twice costs more than storing once.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-210"
     },
     {
       "id": "adr-030-C-assess",
@@ -1707,7 +1897,8 @@
       "verb": "assess",
       "source": "ADR-030",
       "minted": "2026-08-01",
-      "text": "Do not choose the cheap path on an assumption of shallowness. Query the real data first, for it has often already run deeper than you guessed."
+      "text": "Do not choose the cheap path on an assumption of shallowness. Query the real data first, for it has often already run deeper than you guessed.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-149"
     },
     {
       "id": "adr-030-D-analyze",
@@ -1716,7 +1907,8 @@
       "verb": "analyze",
       "source": "ADR-030",
       "minted": "2026-08-01",
-      "text": "A prompt to ask next and an answered question already logged are different artifacts. Do not let one stand in for the other."
+      "text": "A prompt to ask next and an answered question already logged are different artifacts. Do not let one stand in for the other.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-007"
     },
     {
       "id": "adr-031-H-evaluate",
@@ -1725,7 +1917,8 @@
       "verb": "evaluate",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "Reconcile the second version into the one source of truth while the port is still small. Two parallel systems compound their divergence with every commit."
+      "text": "Reconcile the second version into the one source of truth while the port is still small. Two parallel systems compound their divergence with every commit.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-211"
     },
     {
       "id": "adr-031-D-synthesize",
@@ -1734,7 +1927,8 @@
       "verb": "synthesize",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "When a richer version arrives, extend the single source of truth rather than stand up a parallel one to move faster. The fork is a debt paid later with interest."
+      "text": "When a richer version arrives, extend the single source of truth rather than stand up a parallel one to move faster. The fork is a debt paid later with interest.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-035"
     },
     {
       "id": "adr-031-R-assess",
@@ -1743,7 +1937,8 @@
       "verb": "assess",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "A secret in git history is a rotation event, not a fix. Treat it as disclosed the moment it lands."
+      "text": "A secret in git history is a rotation event, not a fix. Treat it as disclosed the moment it lands.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-072"
     },
     {
       "id": "adr-031-C-synthesize",
@@ -1752,7 +1947,8 @@
       "verb": "synthesize",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "You cannot protect what you have never inventoried. The list of what exists is the precondition for every control over it."
+      "text": "You cannot protect what you have never inventoried. The list of what exists is the precondition for every control over it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-173"
     },
     {
       "id": "adr-031-R-evaluate",
@@ -1761,7 +1957,8 @@
       "verb": "evaluate",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "Rank the guarded things by blast radius. The key that bypasses every other guard is the one to rotate first."
+      "text": "Rank the guarded things by blast radius. The key that bypasses every other guard is the one to rotate first.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-082"
     },
     {
       "id": "adr-031-R-recapitulate",
@@ -1770,7 +1967,8 @@
       "verb": "recapitulate",
       "source": "ADR-031",
       "minted": "2026-08-01",
-      "text": "A rotation cadence that no human owns will not happen. A control without an owner is decoration."
+      "text": "A rotation cadence that no human owns will not happen. A control without an owner is decoration.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-090"
     },
     {
       "id": "adr-032-D-synthesize",
@@ -1779,7 +1977,8 @@
       "verb": "synthesize",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "When the code and the promise diverge, bend the code to the promise. The promise is your position; the code is only how you hold it."
+      "text": "When the code and the promise diverge, bend the code to the promise. The promise is your position; the code is only how you hold it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-036"
     },
     {
       "id": "adr-032-R-assess",
@@ -1788,7 +1987,8 @@
       "verb": "assess",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "A shared link is a debt to everyone who kept it. Delete the record and you break their reference, not merely your own."
+      "text": "A shared link is a debt to everyone who kept it. Delete the record and you break their reference, not merely your own.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-073"
     },
     {
       "id": "adr-032-W-evaluate",
@@ -1797,7 +1997,8 @@
       "verb": "evaluate",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Keep by default to protect what others rely on, but yield the moment someone asks you to erase their own trace. Retention is a courtesy, not a refusal."
+      "text": "Keep by default to protect what others rely on, but yield the moment someone asks you to erase their own trace. Retention is a courtesy, not a refusal.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-119"
     },
     {
       "id": "adr-032-C-recapitulate",
@@ -1806,7 +2007,8 @@
       "verb": "recapitulate",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Show the repair seam. A thing mended and shown honest outranks a thing that pretends it never broke."
+      "text": "Show the repair seam. A thing mended and shown honest outranks a thing that pretends it never broke.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-184"
     },
     {
       "id": "adr-032-D-analyze",
@@ -1815,7 +2017,8 @@
       "verb": "analyze",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "No source is trusted for being familiar. Another agent's output, and even your own prior word, is input until verified."
+      "text": "No source is trusted for being familiar. Another agent's output, and even your own prior word, is input until verified.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-008"
     },
     {
       "id": "adr-032-R-assess-2",
@@ -1824,7 +2027,8 @@
       "verb": "assess",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Assume breach. The architecture's task is not to prevent every compromise but to bound what one compromise can reach."
+      "text": "Assume breach. The architecture's task is not to prevent every compromise but to bound what one compromise can reach.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-074"
     },
     {
       "id": "adr-032-R-analyze",
@@ -1833,7 +2037,8 @@
       "verb": "analyze",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Egress is a control, not just ingress. Read-only is not safe. Every outbound channel is a way for stolen truth to leave."
+      "text": "Egress is a control, not just ingress. Read-only is not safe. Every outbound channel is a way for stolen truth to leave.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-056"
     },
     {
       "id": "adr-032-C-evaluate",
@@ -1842,7 +2047,8 @@
       "verb": "evaluate",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Verify provenance, not just plausibility. A claim can be well-formed and still be built on poisoned ground."
+      "text": "Verify provenance, not just plausibility. A claim can be well-formed and still be built on poisoned ground.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-161"
     },
     {
       "id": "adr-032-C-synthesize",
@@ -1851,7 +2057,8 @@
       "verb": "synthesize",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Cryptography can prove who, what, and unaltered. It cannot prove harmless. Authenticate the actor, then still question the payload."
+      "text": "Cryptography can prove who, what, and unaltered. It cannot prove harmless. Authenticate the actor, then still question the payload.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-174"
     },
     {
       "id": "adr-032-H-synthesize",
@@ -1860,7 +2067,8 @@
       "verb": "synthesize",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Spend your strongest guard where untrusted input meets a way out. Everywhere else the cheap model is enough. Security concentrated is security you can afford."
+      "text": "Spend your strongest guard where untrusted input meets a way out. Everywhere else the cheap model is enough. Security concentrated is security you can afford.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-216"
     },
     {
       "id": "adr-032-H-recapitulate",
@@ -1869,7 +2077,8 @@
       "verb": "recapitulate",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Log every probe. A system that learns from each attack grows stronger from being tested, rather than merely surviving it."
+      "text": "Log every probe. A system that learns from each attack grows stronger from being tested, rather than merely surviving it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-224"
     },
     {
       "id": "adr-032-W-assess",
@@ -1878,7 +2087,8 @@
       "verb": "assess",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "When unsure whether a safeguard applies, apply it. Over-caution costs minutes; the skipped check fails in silence."
+      "text": "When unsure whether a safeguard applies, apply it. Over-caution costs minutes; the skipped check fails in silence.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-107"
     },
     {
       "id": "adr-032-W-recapitulate",
@@ -1887,7 +2097,8 @@
       "verb": "recapitulate",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "Recency and position are not authority. A point-in-time record becomes dead state wearing a live face the moment work continues past it."
+      "text": "Recency and position are not authority. A point-in-time record becomes dead state wearing a live face the moment work continues past it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-132"
     },
     {
       "id": "adr-032-C-analyze",
@@ -1896,7 +2107,8 @@
       "verb": "analyze",
       "source": "ADR-032",
       "minted": "2026-08-01",
-      "text": "A named gap is honest; a hidden one is a lie. When you cannot check the box, state the residual risk out loud."
+      "text": "A named gap is honest; a hidden one is a lie. When you cannot check the box, state the residual risk out loud.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-137"
     },
     {
       "id": "adr-033-D-synthesize",
@@ -1905,7 +2117,8 @@
       "verb": "synthesize",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "A stored belief is never just a claim. It carries its time, its scope, its warrant, its debts, and its dictionary. Drop any one and the belief reads wrong later."
+      "text": "A stored belief is never just a claim. It carries its time, its scope, its warrant, its debts, and its dictionary. Drop any one and the belief reads wrong later.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-037"
     },
     {
       "id": "adr-033-C-analyze",
@@ -1914,7 +2127,8 @@
       "verb": "analyze",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "Never consume a claim that has lost a coordinate. Trust it only to the fidelity it can still prove."
+      "text": "Never consume a claim that has lost a coordinate. Trust it only to the fidelity it can still prove.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-138"
     },
     {
       "id": "adr-033-W-evaluate",
@@ -1923,7 +2137,8 @@
       "verb": "evaluate",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "Do not name a problem you cannot enforce. Without a distinct mechanism and a reader that applies it, a category is decoration, not defense."
+      "text": "Do not name a problem you cannot enforce. Without a distinct mechanism and a reader that applies it, a category is decoration, not defense.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-120"
     },
     {
       "id": "adr-033-H-assess",
@@ -1932,7 +2147,8 @@
       "verb": "assess",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "A catalog no one enforces is inventory. And an inventory of open loops is itself an open loop."
+      "text": "A catalog no one enforces is inventory. And an inventory of open loops is itself an open loop.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-197"
     },
     {
       "id": "adr-033-W-synthesize",
@@ -1941,7 +2157,8 @@
       "verb": "synthesize",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "An owed action decays unread until someone closes it out loud. Closure is a written event, never silence."
+      "text": "An owed action decays unread until someone closes it out loud. Closure is a written event, never silence.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-128"
     },
     {
       "id": "adr-033-R-recapitulate",
@@ -1950,7 +2167,8 @@
       "verb": "recapitulate",
       "source": "ADR-033",
       "minted": "2026-08-01",
-      "text": "Governance about governance feels like progress while being motion in place. Judge it by whether the next person acts differently, not by how well it reads."
+      "text": "Governance about governance feels like progress while being motion in place. Judge it by whether the next person acts differently, not by how well it reads.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-091"
     },
     {
       "id": "adr-034-D-assess",
@@ -1959,7 +2177,8 @@
       "verb": "assess",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "A finding is not closed because it is written down. It closes with a mechanism that prevents recurrence, or a dated waiver that owns the deferral."
+      "text": "A finding is not closed because it is written down. It closes with a mechanism that prevents recurrence, or a dated waiver that owns the deferral.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-016"
     },
     {
       "id": "adr-034-R-analyze",
@@ -1968,7 +2187,8 @@
       "verb": "analyze",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "The recurring failure is always the same: documentation ends the loop. A finding that terminates in a file with no gate will happen again."
+      "text": "The recurring failure is always the same: documentation ends the loop. A finding that terminates in a file with no gate will happen again.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-057"
     },
     {
       "id": "adr-034-C-synthesize",
@@ -1977,7 +2197,8 @@
       "verb": "synthesize",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "Hold your own invariants to the same gate you hold the work you ship to others. Rigor that only points outward is the cobbler's children going barefoot."
+      "text": "Hold your own invariants to the same gate you hold the work you ship to others. Rigor that only points outward is the cobbler's children going barefoot.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-175"
     },
     {
       "id": "adr-034-H-evaluate",
@@ -1986,7 +2207,8 @@
       "verb": "evaluate",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "Only a machine that can fail the build restores parity. Discipline and memory have already been tried, and already failed."
+      "text": "Only a machine that can fail the build restores parity. Discipline and memory have already been tried, and already failed.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-212"
     },
     {
       "id": "adr-034-W-assess",
@@ -1995,7 +2217,8 @@
       "verb": "assess",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "Age every open finding against a clock. A deadline turns an unknown-unknown into something someone must act on the day it is filed."
+      "text": "Age every open finding against a clock. A deadline turns an unknown-unknown into something someone must act on the day it is filed.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-108"
     },
     {
       "id": "adr-034-C-recapitulate",
@@ -2004,7 +2227,8 @@
       "verb": "recapitulate",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "You cannot prevent a dishonest waiver, but you can make its churn visible. Surfaced abuse is itself the signal to revisit."
+      "text": "You cannot prevent a dishonest waiver, but you can make its churn visible. Surfaced abuse is itself the signal to revisit.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-185"
     },
     {
       "id": "adr-034-H-synthesize",
@@ -2013,7 +2237,8 @@
       "verb": "synthesize",
       "source": "ADR-034",
       "minted": "2026-08-01",
-      "text": "Make the enforcement boring: one file, a little code, one step. The reinvented-wheel warning applies to governance machinery too."
+      "text": "Make the enforcement boring: one file, a little code, one step. The reinvented-wheel warning applies to governance machinery too.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-217"
     },
     {
       "id": "adr-035-C-evaluate",
@@ -2022,7 +2247,8 @@
       "verb": "evaluate",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "A score's job is to force the five questions, not to be precise. Do not tune the digits; the discipline is in the asking."
+      "text": "A score's job is to force the five questions, not to be precise. Do not tune the digits; the discipline is in the asking.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-162"
     },
     {
       "id": "adr-035-H-assess",
@@ -2031,7 +2257,8 @@
       "verb": "assess",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "When torn between two scores, choose the lower and name the weak lens. False precision upward is exactly the failure a gut-check exists to catch."
+      "text": "When torn between two scores, choose the lower and name the weak lens. False precision upward is exactly the failure a gut-check exists to catch.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-198"
     },
     {
       "id": "adr-035-W-evaluate",
@@ -2040,7 +2267,8 @@
       "verb": "evaluate",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "Scoring a change that carries no judgment is false precision. Rate what encodes a decision, skip the chore, and say plainly which it was."
+      "text": "Scoring a change that carries no judgment is false precision. Rate what encodes a decision, skip the chore, and say plainly which it was.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-121"
     },
     {
       "id": "adr-035-D-analyze",
@@ -2049,7 +2277,8 @@
       "verb": "analyze",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "Keep parallel frames parallel. The same five lenses aimed at a commit and at a decision must not be merged; a commit is not a decision receipt."
+      "text": "Keep parallel frames parallel. The same five lenses aimed at a commit and at a decision must not be merged; a commit is not a decision receipt.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-009"
     },
     {
       "id": "adr-035-C-synthesize",
@@ -2058,7 +2287,8 @@
       "verb": "synthesize",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "When you inherit a rule you cannot yet justify, flag it, do not silently fix it. Naming the doubt is more honest than quiet correction."
+      "text": "When you inherit a rule you cannot yet justify, flag it, do not silently fix it. Naming the doubt is more honest than quiet correction.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-176"
     },
     {
       "id": "adr-035-D-recapitulate",
@@ -2067,7 +2297,8 @@
       "verb": "recapitulate",
       "source": "ADR-035",
       "minted": "2026-08-01",
-      "text": "When a change falls short, do not just block it. Report the score, the weakest lens, and the one or two edits that would clear the bar."
+      "text": "When a change falls short, do not just block it. Report the score, the weakest lens, and the one or two edits that would clear the bar.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-043"
     },
     {
       "id": "adr-036-R-analyze",
@@ -2076,7 +2307,8 @@
       "verb": "analyze",
       "source": "ADR-036",
       "minted": "2026-08-01",
-      "text": "Gating a page hides the surface, not the source. The history stays cloneable long after the view is closed."
+      "text": "Gating a page hides the surface, not the source. The history stays cloneable long after the view is closed.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-058"
     },
     {
       "id": "adr-036-R-recapitulate",
@@ -2085,7 +2317,8 @@
       "verb": "recapitulate",
       "source": "ADR-036",
       "minted": "2026-08-01",
-      "text": "What is already cloned is already disclosed. A rewrite limits the future spread; it cannot un-ring a bell that has rung."
+      "text": "What is already cloned is already disclosed. A rewrite limits the future spread; it cannot un-ring a bell that has rung.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-092"
     },
     {
       "id": "adr-036-W-evaluate",
@@ -2094,7 +2327,8 @@
       "verb": "evaluate",
       "source": "ADR-036",
       "minted": "2026-08-01",
-      "text": "Order the work so the reversible, verifiable steps come first and the one-way gate comes last."
+      "text": "Order the work so the reversible, verifiable steps come first and the one-way gate comes last.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-122"
     },
     {
       "id": "adr-036-R-assess",
@@ -2103,7 +2337,8 @@
       "verb": "assess",
       "source": "ADR-036",
       "minted": "2026-08-01",
-      "text": "A zero-margin operation is a design bug, not a test of nerve. Add a checkpoint that proves nothing is lost before you delete."
+      "text": "A zero-margin operation is a design bug, not a test of nerve. Add a checkpoint that proves nothing is lost before you delete.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-075"
     },
     {
       "id": "adr-036-D-evaluate",
@@ -2112,7 +2347,8 @@
       "verb": "evaluate",
       "source": "ADR-036",
       "minted": "2026-08-01",
-      "text": "Sealing everything is over-broad and throws away a real asset. Split instead, so the value survives in the open and the secret survives in the dark."
+      "text": "Sealing everything is over-broad and throws away a real asset. Split instead, so the value survives in the open and the secret survives in the dark.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-021"
     },
     {
       "id": "adr-037-D-synthesize",
@@ -2121,7 +2357,8 @@
       "verb": "synthesize",
       "source": "ADR-037",
       "minted": "2026-08-01",
-      "text": "To share a thing without storing it, hand the whole payload in the part of the link the server never sees."
+      "text": "To share a thing without storing it, hand the whole payload in the part of the link the server never sees.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-038"
     },
     {
       "id": "adr-037-C-assess",
@@ -2130,7 +2367,8 @@
       "verb": "assess",
       "source": "ADR-037",
       "minted": "2026-08-01",
-      "text": "Amend the source of truth first, then the pages that derive from it, so the promise stays literally true and not merely presented as true."
+      "text": "Amend the source of truth first, then the pages that derive from it, so the promise stays literally true and not merely presented as true.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-150"
     },
     {
       "id": "adr-037-R-evaluate",
@@ -2139,7 +2377,8 @@
       "verb": "evaluate",
       "source": "ADR-037",
       "minted": "2026-08-01",
-      "text": "Refuse the fix that quietly reverses a promise you already published, even when it buys a stronger guarantee."
+      "text": "Refuse the fix that quietly reverses a promise you already published, even when it buys a stronger guarantee.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-083"
     },
     {
       "id": "adr-037-C-recapitulate",
@@ -2148,7 +2387,8 @@
       "verb": "recapitulate",
       "source": "ADR-037",
       "minted": "2026-08-01",
-      "text": "Name the soft limit plainly. A per-device flag is not cryptographic enforcement, and saying so is cheaper than being caught overclaiming."
+      "text": "Name the soft limit plainly. A per-device flag is not cryptographic enforcement, and saying so is cheaper than being caught overclaiming.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-186"
     },
     {
       "id": "adr-038-C-analyze",
@@ -2157,7 +2397,8 @@
       "verb": "analyze",
       "source": "ADR-038",
       "minted": "2026-08-01",
-      "text": "Do not score a continuous gradient over input that is only qualitative. Precision the data cannot support is a lie dressed as rigor."
+      "text": "Do not score a continuous gradient over input that is only qualitative. Precision the data cannot support is a lie dressed as rigor.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-139"
     },
     {
       "id": "adr-038-D-synthesize",
@@ -2166,7 +2407,8 @@
       "verb": "synthesize",
       "source": "ADR-038",
       "minted": "2026-08-01",
-      "text": "Author the cheap primitive and derive the expensive view from it. One source of truth, and the rich picture is rendered, never separately maintained."
+      "text": "Author the cheap primitive and derive the expensive view from it. One source of truth, and the rich picture is rendered, never separately maintained.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-039"
     },
     {
       "id": "adr-038-W-assess",
@@ -2175,7 +2417,8 @@
       "verb": "assess",
       "source": "ADR-038",
       "minted": "2026-08-01",
-      "text": "Ship it small, additive, and reversible, then let a few real uses decide whether it earns its keep."
+      "text": "Ship it small, additive, and reversible, then let a few real uses decide whether it earns its keep.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-109"
     },
     {
       "id": "adr-038-C-evaluate",
@@ -2184,7 +2427,8 @@
       "verb": "evaluate",
       "source": "ADR-038",
       "minted": "2026-08-01",
-      "text": "Mark the peak, the park, and the probe. Not every moment worth revisiting is resonance or resistance; some are simply unresolved."
+      "text": "Mark the peak, the park, and the probe. Not every moment worth revisiting is resonance or resistance; some are simply unresolved.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-163"
     },
     {
       "id": "adr-038-R-recapitulate",
@@ -2193,7 +2437,8 @@
       "verb": "recapitulate",
       "source": "ADR-038",
       "minted": "2026-08-01",
-      "text": "Name in advance the evidence that would prove you wrong, and the date you will look for it. A choice with no falsifier cannot be corrected."
+      "text": "Name in advance the evidence that would prove you wrong, and the date you will look for it. A choice with no falsifier cannot be corrected.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-093"
     },
     {
       "id": "field-2026-08-01-R-assess",
@@ -2202,7 +2447,269 @@
       "verb": "assess",
       "source": "field-2026-08-01",
       "minted": "2026-08-01",
-      "text": "When the water is white, you cannot read the current. Under threat the mind follows its loudest voice to the wrong reward and throws the quiet true thing back as noise. Do not hand a drowning person a map; remove one stone from the load and the sorter comes back online."
+      "text": "When the water is white, you cannot read the current. Under threat the mind follows its loudest voice to the wrong reward and throws the quiet true thing back as noise. Do not hand a drowning person a map; remove one stone from the load and the sorter comes back online.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-258"
+    },
+    {
+      "id": "tao-257",
+      "movement": null,
+      "aspect": "W",
+      "verb": "assess",
+      "source": "session-2026-09-27-cron-vs-kairos",
+      "minted": "2026-09-27",
+      "text": "Cron asks \"is it time?\" Kairos asks \"is it ripe?\" The clock fires whether the fruit is ready or not, and misses nothing but the point; the ripe moment fires once, and does not wait to be scheduled.",
+      "gloss": "the clock is chronos; the trigger is kairos. Schedule the checks, but capture at the moment.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-257"
+    },
+    {
+      "id": "nftt-assets-and-liabilities-C-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "evaluate",
+      "source": "nftt/assets-and-liabilities",
+      "minted": "2026-09-28",
+      "text": "A book that carries only its wins is not strong; it is survivorship written as a document. Book the deceipt beside the receipt, and report the difference, never the sum.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-259"
+    },
+    {
+      "id": "nftt-cheapest-edit-is-a-diff-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/cheapest-edit-is-a-diff",
+      "minted": "2026-09-28",
+      "text": "The cheapest edit is a diff. Ask the model for only what changed; ask for the whole page again and you have paid full price for a copy, and waited for it.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-260"
+    },
+    {
+      "id": "nftt-closing-the-loop-receipts-C-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "recapitulate",
+      "source": "nftt/closing-the-loop-receipts",
+      "minted": "2026-09-28",
+      "text": "The falsifier was the cheap half. The loop closes only when you go back on the date, score it in public, and print the number you got wrong beside the ones you got right.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-261"
+    },
+    {
+      "id": "nftt-confirmed-not-my-bug-R-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "assess",
+      "source": "nftt/confirmed-not-my-bug",
+      "minted": "2026-09-28",
+      "text": "A clean zero looks exactly like a systemic finding and exactly like a search that stopped too early. Check one layer deeper before you say \"not my bug.\"",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-262"
+    },
+    {
+      "id": "nftt-four-dates-one-thesis-three-confirmations-D-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "D",
+      "verb": "analyze",
+      "source": "nftt/four-dates-one-thesis-three-confirmations",
+      "minted": "2026-09-28",
+      "text": "Say something specific enough to be wrong. \"Behind\" has no expiration date, so it can never be right either; name the mechanism, the date, and the check.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-263"
+    },
+    {
+      "id": "nftt-ledger-not-story-C-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "assess",
+      "source": "nftt/ledger-not-story",
+      "minted": "2026-09-28",
+      "text": "The outcome can be known while the reason stays unverified. Thirty-eight endings, one stated cause; hold the two at their proper distance and never let the count become the story.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-264"
+    },
+    {
+      "id": "nftt-post-1-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/post-1",
+      "minted": "2026-09-28",
+      "text": "Build the machine once. The first run is slow and the hundredth is free; use the tool to make the method, not to make the document faster.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-265"
+    },
+    {
+      "id": "nftt-post-2-R-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "evaluate",
+      "source": "nftt/post-2",
+      "minted": "2026-09-28",
+      "text": "Never quote anyone from memory; grep the transcript first. Memory rewrites whose line it was, and the provenance is the one thing a flattering story cannot fake.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-266"
+    },
+    {
+      "id": "nftt-post-3-C-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "evaluate",
+      "source": "nftt/post-3",
+      "minted": "2026-09-28",
+      "text": "A pattern you went looking for is a weaker witness than one that ambushed you. A hit column with no miss column is survivorship in a nice coat.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-267"
+    },
+    {
+      "id": "nftt-post-4-R-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "recapitulate",
+      "source": "nftt/post-4",
+      "minted": "2026-09-28",
+      "text": "A gate you have not watched fail is a sentence in a document. The only proof a check works is the red X you produced on purpose.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-268"
+    },
+    {
+      "id": "nftt-probably-confirmation-bias-C-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "evaluate",
+      "source": "nftt/probably-confirmation-bias",
+      "minted": "2026-09-28",
+      "text": "Elaboration is not evidence. The more beautiful the monument to a conclusion, the harder it needs the check; the pleasure is not proof, it is the thing proof has to survive.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-269"
+    },
+    {
+      "id": "nftt-pulp-governance-R-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "assess",
+      "source": "nftt/pulp-governance",
+      "minted": "2026-09-28",
+      "text": "A claim can be true on disk and absent from the place where truth has to operate. Ask the rude question: can main reach this commit? Exit 1 is the whole answer.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-270"
+    },
+    {
+      "id": "nftt-receipts-or-it-didnt-happen-C-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "recapitulate",
+      "source": "nftt/receipts-or-it-didnt-happen",
+      "minted": "2026-09-28",
+      "text": "Two accounts from one memory can report the same confidence. The only distance between hand-waving and a report you can trust is whether it cites the record or abstains.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-271"
+    },
+    {
+      "id": "nftt-schematic-scaffolds-D-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "D",
+      "verb": "analyze",
+      "source": "nftt/schematic-scaffolds",
+      "minted": "2026-09-28",
+      "text": "Draw the map of the thing you think is finished. Empty boxes appear where you expected filled ones, and a box with nothing in it cannot be argued away the way a feeling can.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-272"
+    },
+    {
+      "id": "nftt-second-pass-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/second-pass",
+      "minted": "2026-09-28",
+      "text": "A check measures the distance between claim and source and stops. A validator that repairs its own findings is not an audit; it is an accomplice with a timestamp.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-273"
+    },
+    {
+      "id": "nftt-take-home-trap-R-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "assess",
+      "source": "nftt/take-home-trap",
+      "minted": "2026-09-28",
+      "text": "A conversation is a live thing; it yields, overlaps, and repairs itself in the moment. When the words have the shape of a person and none of the pressure of one, nobody is home, and the take-home is the lure.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-274"
+    },
+    {
+      "id": "nftt-the-cold-reconstruction-C-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "analyze",
+      "source": "nftt/the-cold-reconstruction",
+      "minted": "2026-09-28",
+      "text": "The participant is the worst narrator of his own incident. Hand the committed record to a reader who was never in the room, and what it cannot rebuild is the finding.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-275"
+    },
+    {
+      "id": "nftt-the-control-and-the-experiment-R-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "evaluate",
+      "source": "nftt/the-control-and-the-experiment",
+      "minted": "2026-09-28",
+      "text": "A claim about your own method is the one most likely to flatter you. Build the warm arm beside the cold one, change one thing, and let a machine score it; a tidy reversal is a suspect until it survives its own test.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-276"
+    },
+    {
+      "id": "nftt-the-factory-on-itself-W-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "W",
+      "verb": "recapitulate",
+      "source": "nftt/the-factory-on-itself",
+      "minted": "2026-09-28",
+      "text": "A description of yourself that no longer touches you is the most convincing kind of false, because it reads exactly like the truth it used to be. Whoever moves the territory must redraw the map.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-277"
+    },
+    {
+      "id": "nftt-the-instinct-before-it-had-a-name-D-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "D",
+      "verb": "synthesize",
+      "source": "nftt/the-instinct-before-it-had-a-name",
+      "minted": "2026-09-28",
+      "text": "The foam is the earliest legible form the wave takes. Read the mess in front of you as a compressed signal about the system underneath it, and you were running the method before it had a name.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-278"
+    },
+    {
+      "id": "nftt-the-lock-that-was-already-there-R-analyze",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "analyze",
+      "source": "nftt/the-lock-that-was-already-there",
+      "minted": "2026-09-28",
+      "text": "The protocol with the right name never fired; it was watching simulated futures, not git. Two sessions can fix the same file an hour apart, and the lock that catches it is the plain one already running.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-279"
+    },
+    {
+      "id": "nftt-the-loop-closes-H-synthesize",
+      "movement": "NFTT · The Trenches",
+      "aspect": "H",
+      "verb": "synthesize",
+      "source": "nftt/the-loop-closes",
+      "minted": "2026-09-28",
+      "text": "A pile of good tools is still a pile. The machine is not the tools, it is the last wire between them, the unglamorous consumer that lets the current run the whole way without you in the middle.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-280"
+    },
+    {
+      "id": "nftt-the-method-that-was-already-built-C-recapitulate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "C",
+      "verb": "recapitulate",
+      "source": "nftt/the-method-that-was-already-built",
+      "minted": "2026-09-28",
+      "text": "Eight months before the pipeline existed, it was written down in prose as six named principles and one decision made by hand. Name the parts of how you decided so you can do it again, and the software will follow the description.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-281"
+    },
+    {
+      "id": "nftt-the-pre-mortem-that-asked-to-be-wrong-W-assess",
+      "movement": "NFTT · The Trenches",
+      "aspect": "W",
+      "verb": "assess",
+      "source": "nftt/the-pre-mortem-that-asked-to-be-wrong",
+      "minted": "2026-09-28",
+      "text": "Publish the risk before the stress, name the exact instrument that carries it, and hand the reader the conditions under which they should stop believing you. Then say plainly which pieces made no such claim.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-282"
+    },
+    {
+      "id": "nftt-the-question-that-found-the-outage-R-evaluate",
+      "movement": "NFTT · The Trenches",
+      "aspect": "R",
+      "verb": "evaluate",
+      "source": "nftt/the-question-that-found-the-outage",
+      "minted": "2026-09-28",
+      "text": "A green merge is a statement about the code. Whether the system is alive is a separate question, answered only by someone refusing the checkmark and watching the thing do the thing in production.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-283"
     }
   ]
 }

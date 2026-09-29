@@ -4,43 +4,43 @@
 > One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by
 > `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.
 
-**37 beliefs overturned** · 18 promoted to canon · span 2026-06-03 → 2026-08-29
+**41 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-09-27
 
-By scope: canon 9 · infra 8 · process 8 · gauntlet 5 · deploy 4 · security 2 · recoil 1
+By scope: canon 11 · infra 9 · process 9 · gauntlet 5 · deploy 4 · security 2 · recoil 1
 
 ---
 
-## This week — spotlight (2026-08-23 → 2026-08-29)
+## This week — spotlight (2026-09-21 → 2026-09-27)
 
 The reversals that went most against the grain this week:
 
-### F34 · 2026-08-29 · `canon`  — CANON
-- **Held:** The Orthogonal Echo Detector (ROM Primitive #5) works — it reliably surfaces true cross-domain kinematic isomorphisms and can be trusted as the immune guard the witness->echo->oracle->air-gap stack was hardened around.
-- **Test:** First falsifiable seaworthiness bench (scripts/echo_detector_dogfood.py): 5 true positives + 7 negatives incl. 4 adversarial decoys, min_sim threshold swept 0.1->0.6.
-- **FALSIFIED →** No threshold gives both high recall AND low adversarial-FP. At best-F1 (min_sim=0.30) recall=1.0 but adversarial-FP rate=0.5; adversarial-FP only reaches 0.0 by collapsing recall to 0.2. Below 0.30 it flags EVERY adversarial decoy (adv-FP=1.0). The stub matcher is architecturally incapable of discrimination — a constitutional primitive failing its own kill-test.
-- **Now:** Replace stub with injectable LLM signature_fn + embedding orthogonality_fn; RC-OPS-001 graduation HELD on measured precision failure (target adv-FP<=0.10 @ recall>=0.80). Directly reverses F33's assumption that the echo detector was a trustworthy guard.
-- _refs: _STATE/2026-08-29-echo-detector-dogfood.json, commit:015a0c4, RC-OPS-001, supersedes-assumption:F33 · confidence: high_
+### F40 · 2026-09-27 · `canon`  — CANON
+- **Held:** External audit (Perplexity, 'Job to Be Done.md'): Operators 1-19 mapped to repo files with 'Full Production' / 'Production Code' status, e.g. Op 4 Accountant = kryptonite_scorer.py, Op 6 Librarian = audit_service/, Op 3 Immune = core/governance.py, Op 9 Shavasana = arcs_substrate.py, Op 18 Hyperstition = arcs_rom.py.
+- **Test:** grep -rli over operators/ for shavasana | hyperstition | accountant | sycophan | OperatorVote (0 hits each); read the five named files; compare the 1-19 enumeration against operators/docs/PERIODIC-TABLE.md (Folksonomy=20, Librarian=21).
+- **FALSIFIED →** The 1-19 numbering was the document's own invention (it admits this in its first clarifying question). Five of its file bindings name files that implement something else (a job-description risk scorer, an informativeness gate, dead code with an undeclared loguru import, a GIGI template library, ROM thresholds). Its first inventory table cites paths that do not exist at all. One idea survived: the sycophancy gate (its FR-3), now component 5 of the Operator 25 spec.
+- **Now:** Numbering LOCKED to the periodic table (AGENTS.md gotcha 16); registry generated and grep-verified; altitude canary + integrity gate pair for this class (fabricated ground returns).
+- _refs: operators/docs/PERIODIC-TABLE.md, scripts/operator_registry_emit.py, scripts/altitude_canary.py, runtime/specs/operator-25-shavasana-v0.md · confidence: high_
 
-### F37 · 2026-08-28 · `process`  — CANON
-- **Held:** The ADR-number collisions (033/067 each doubled) are caused by worktree sprawl / branches borrowing each other's numbers.
-- **Test:** branch_hygiene_check.py over the full worktree set (69 worktrees).
-- **FALSIFIED →** 0 of 69 worktrees share a branch (verified). The collisions are an off-oracle MINTING problem — parallel sessions across harnesses (Claude Code, Hermes) independently guessing 'highest existing + 1' — not branch-sharing. Wrong root cause would have driven a worktree-prune fix that fixes nothing.
-- **Now:** Oracle-first numbering as a git-backed logical clock (git non-fast-forward reject = the atomic lock); pre-commit hook rejects any duplicate ADR number regardless of harness; the 'oracle-first, never infer' rule mirrored into both Claude AGENTS.md and Hermes USER.md.
-- _refs: _STATE/night-moves/2026-08-28.md, scripts/git-hooks/pre-commit, scripts/branch_hygiene_check.py · confidence: high_
+### F39 · 2026-09-27 · `infra`
+- **Held:** Operator 21 (Librarian) binds to ARCSStore.query as its entrypoint.
+- **Test:** scripts/operator_registry_emit.py static verify: grep for `def query` on ARCSStore in operators/arcs_store.py.
+- **FALSIFIED →** ARCSStore has no query method (latest / by_phase / by_status / by_nci_range / filter). The generator refused to emit the registry ('entrypoint query not found on ARCSStore') on its first run, catching its own author. Binding corrected to `latest`.
+- **Now:** operators/OPERATOR-REGISTRY.json generated only from grep-verified bindings; --check on pre-commit. ADR-062 self-catch logged as the highest-information row of the day.
+- _refs: scripts/operator_registry_emit.py, operators/OPERATOR-REGISTRY.json, operators/arcs_store.py · confidence: high_
 
-### F36 · 2026-08-28 · `infra`
-- **Held:** Operator-20 (folksonomy cultivator) has an import bug and is starved of real receipts — it is gated vaporware.
-- **Test:** Full-fidelity op20 run over 247 real prod receipts via a new prod->op20 seed adapter.
-- **FALSIFIED →** The 'op20 import bug' was a harness error, not a code bug; op20 clusters real receipts cleanly — 17 decision archetypes at silhouette 0.765. It was neither broken nor fuel-starved: the missing piece was a faithful field adapter (prod Receipt contract != operator seed contract).
-- **Now:** operators/prod_receipt_to_op20_seed.py adapter landed (never fabricates somatic/axiom fields). The Observatory/Kairos machinery finally has proven fuel and a proven adapter — moves it off the 'not built / gated vaporware' list.
-- _refs: _STATE/night-moves/2026-08-28.md, commit:5f7ac6d2, operators/prod_receipt_to_op20_seed.py · confidence: high_
+### F38 · 2026-09-27 · `process`
+- **Held:** 'Live evidence this session shows the memory index clipped': the auto-loaded MEMORY.md ending at the consolidation stamp proved the harness truncates at ~24KB.
+- **Test:** Compare the session-start hook's measured size (16982B at 17:06) with the commit that appended the 63KB Uncurated section (17:07). head -107 MEMORY.md | wc -c = 17056.
+- **FALSIFIED →** The file was 17KB when it loaded; nothing was clipped that session. The claim mistook 'small file' for 'truncated file'. The real cap was measured minutes later by a spawned session: 25,000 characters, 144 of 382 lines loaded, warning appended.
+- **Now:** Corrected in-thread within one turn; memory [[memory-index-load-cap-observed]] carries the measured number; MEM_BUDGET guidance set to 24576. Lesson: a load-time size is only evidence of clipping if the file was over the cap AT load time.
+- _refs: _STATE/2026-09-27-forensic-recoil.md, _STATE/night-moves/2026-09-27.md · confidence: high_
 
-### F35 · 2026-08-27 · `canon`  — CANON
-- **Held:** The legacy / pre-v9 repos hold high-value net-new ROM primitives waiting to be recovered into arcs-v9 canon — mine them for lost wisdom.
-- **Test:** Forensic-recoil sweep over ~25 repos (190 decision-lineage records), folksonomist bottom-up DBSCAN clustering, skeptic adjudication of the 24-item net-new ledger against LIVE arcs-v9 canon.
-- **FALSIFIED →** Inverted the intuition: nearly every 'highest-value net-new' candidate (Kintsugi #6, Write-Lock #7, Time-Quality-Attribution ROM, Court relief RC-III-001, Accumulation Protocol, Satoshi coherence-quantum) was ALREADY canon in arcs-v9 — the mining baseline that listed only 5 constitutional primitives was itself the stale artifact. The sole genuine net-new recovery was the Norse pre-verbal witness stack living only in arcs-care-local.
-- **Now:** Reframe the work from discovery to canonization hygiene: number the de-facto axioms, consolidate divergent schema copies, escalate the 3 colliding constitutional vocabularies. Discharged same week as ADR-072/073 + runtime/specs/ROM-AXIS-INDEX.md and the CLAUDE.md 5->7 primitive de-rot.
-- _refs: _ARTIFACTS/forensic-recoil-2026-08-27/FORENSIC_REPORT.md, commit:b63f453, ADR-072, ADR-073 · confidence: high_
+### F41 · 2026-09-26 · `canon`  — CANON
+- **Held:** F34's 'Now' fix is scoped but unbuilt, so the Orthogonal Echo Detector (ROM Primitive #5) remains architecturally blind on its stub matcher and keeps failing its own kill-test (adversarial-FP 1.0 at the operating threshold).
+- **Test:** Rebuild the detector, then re-run scripts/echo_detector_dogfood.py --sweep on the UNCHANGED 12-case bench plus a new held-out bench; pre-registered kill-condition adv-FP <= 0.10 at recall >= 0.80 (fixed and committed BEFORE building: _STATE/2026-09-26-echo-detector-seaworthy-prereg.md).
+- **FALSIFIED →** Concept-gated rebuild passes: precision 1.0 / recall 1.0 / adversarial-FP 0.0 across the full 0.10-0.60 sweep on the unchanged bench, and 1.0/1.0/0.0 on a held-out bench that includes a decoy sharing exactly ONE real concept (locks_in). The blindness was lone-keyword-token scoring; replacing the flat keyword library with named kinematic concepts detected only by relational phrases, and gating a match on >= 2 concepts shared on both sides, discriminates genuine isomorphisms from generic-word collisions. RC-OPS-001 graduation criterion 2 (detector precision) CLOSED.
+- **Now:** signature_fn + orthogonality_fn made real and injectable with honest deterministic offline fixtures (make_llm_signature_fn / make_embedding_orthogonality_fn); default orthogonality upgraded from a constant to a char-trigram distance. NOTE still open: a bench is not blind-field proof. RC-OPS-001 criteria 3 (blind-field precision, K source-independent echoes) and 4 (Observatory period) remain OPEN; the candidate stays YELLOW, not graduated.
+- _refs: _STATE/2026-09-26-echo-detector-dogfood-seaworthy.json, _STATE/2026-09-26-echo-detector-seaworthy-prereg.md, operators/arcs_inchworm_echo.py, scripts/echo_detector_dogfood.py, RC-OPS-001, closes-loop:F34 · confidence: high_
 
 ---
 
@@ -48,6 +48,10 @@ The reversals that went most against the grain this week:
 
 | id | date | scope | canon | belief that broke → what replaced it |
 |----|------|-------|-------|--------------------------------------|
+| F40 | 2026-09-27 | canon | ✓ | **External audit (Perplexity, 'Job to Be Done.md'): Operators 1-19 mapped to repo files with 'Full Production' / 'Production Code' status, e.g** → Numbering LOCKED to the periodic table (AGENTS.md gotcha 16); registry generated and grep-verified; altitude canary + integrity gate pair for this class… |
+| F39 | 2026-09-27 | infra | — | **Operator 21 (Librarian) binds to ARCSStore.query as its entrypoint** → operators/OPERATOR-REGISTRY.json generated only from grep-verified bindings; --check on pre-commit |
+| F38 | 2026-09-27 | process | — | **'Live evidence this session shows the memory index clipped': the auto-loaded MEMORY.md ending at the consolidation stamp proved the harness truncates at ~24KB** → Corrected in-thread within one turn; memory [[memory-index-load-cap-observed]] carries the measured number; MEM_BUDGET guidance set to 24576 |
+| F41 | 2026-09-26 | canon | ✓ | **F34's 'Now' fix is scoped but unbuilt, so the Orthogonal Echo Detector (ROM Primitive #5) remains architecturally blind on its stub matcher and keeps failing…** → signature_fn + orthogonality_fn made real and injectable with honest deterministic offline fixtures (make_llm_signature_fn / make_embedding_orthogonality_fn)… |
 | F34 | 2026-08-29 | canon | ✓ | **The Orthogonal Echo Detector (ROM Primitive #5) works — it reliably surfaces true cross-domain kinematic isomorphisms and can be trusted as the immune guard…** → Replace stub with injectable LLM signature_fn + embedding orthogonality_fn; RC-OPS-001 graduation HELD on measured precision failure (target adv-FP<=0.10 @… |
 | F37 | 2026-08-28 | process | ✓ | **The ADR-number collisions (033/067 each doubled) are caused by worktree sprawl / branches borrowing each other's numbers** → Oracle-first numbering as a git-backed logical clock (git non-fast-forward reject = the atomic lock); pre-commit hook rejects any duplicate ADR number… |
 | F36 | 2026-08-28 | infra | — | **Operator-20 (folksonomy cultivator) has an import bug and is starved of real receipts — it is gated vaporware** → operators/prod_receipt_to_op20_seed.py adapter landed (never fabricates somatic/axiom fields) |
@@ -87,4 +91,4 @@ The reversals that went most against the grain this week:
 | F14 | 2026-06-03 | infra | — | **A green Next.js production build means the database layer works** → explicit Pool + PrismaPg with SSL; run a real query against prod before calling the DB layer 'working' |
 
 ---
-_Regenerated by `scripts/belief_log_emit.py` · 37 entries · do not hand-edit — the ledger is the SSOT._
+_Regenerated by `scripts/belief_log_emit.py` · 41 entries · do not hand-edit — the ledger is the SSOT._

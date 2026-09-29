@@ -114,116 +114,112 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.66.0 (2026-09-26)
+# Handoff — v3.71.0 (2026-09-28)
 
-> **Cold-reconstruction public good: CLI + a published NFTT trilogy + a warm-vs-cold experiment,
-> then the AI-slop safeguard back-propped and wired into the FE ship-gate.** Opt-in build forked to
-> its own session; ran daylight-first with a bless gate at every publish. All shipped to main and
-> LIVE on good.arcs.care. Five PRs merged (#505, #506 sibling, #507, #509 sibling, #510).
+> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
+> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
+> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
+> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
 
-## Shipped + LIVE (verified on prod, 200 + content + PII-clean)
-- **`tools/cold-recon/`** — stdlib-only CLI (recoil-report shape). `gather` (git+files, ZERO
-  transcript, coldness enforced structurally) → `prompt` (cold-agent contract) → `validate` /
-  `leakmap` / `render`. Leak map = observability audit (reconstructability as a measurable
-  property). Hardened by a sibling session (#506): em-dash normalization + in-tool `--redact` +
-  `selftest` 4/4. NOT claimed patentable; only as good as commit-as-you-go discipline.
-- **NFTT trilogy on good.arcs.care** (all own index cards): `the-cold-reconstruction` (method +
-  real PoC run, reconstructability 0.895), `the-control-and-the-experiment` (warm-vs-cold, n=1),
-  `receipts-or-it-didnt-happen` (the diptych). Plus 4 redacted companion reports at `/report`
-  depth-ladder routes (unredacted renders stay internal — int/ext air-gap).
-- **The experiment finding** (witnessed GREEN): warmth does not corrupt WHAT you ground, it changes
-  WHETHER you ground at all; coldness's value is structural (no memory → can't narrate from memory).
-  4-run table: cold 0.90/0.84, warm-relaxed 0.26, warm-matched 1.00 — the collapse was the cite
-  instruction (confound), controlled. Running the control corrected my flattering first explanation.
-- **Record hygiene** — committed the previously-untracked incident RCA + witness stubs (the live
-  leak the tool surfaced; insight #2 demonstrated on itself).
-- **AI-slop safeguard wired into the FE ship-gate** (#510): `slop_lint` landed on main via a sibling
-  session (#509, single source). I wired it into `scripts/nftt-gates.sh` — mechanical cliché/em-dash
-  = HARD FAIL, burstiness+specificity = ADVISORY in `--mode essay` (evidence-aware, 10% floor the
-  sibling calibrated to real essays, correcting my 20-25% which would have false-failed the genre).
-  Proven fails-on-bad AND passes-on-good.
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
 
-## Open (next session)
-1. **Visual-slop half (Adaptation 2) — brand-visual allowlist for the NFTT pages: BUILT + A/B-verified,
-   awaiting merge.** The design-system-normalization session (branch `worktree-agent-a9c05965613c705e2`,
-   local, unmerged) built the brand profile against my relayed spec and verified it: brand false-positives
-   drop to 0 on all 3 posts (cold-reconstruction 41→16, control-and-experiment 35→11, diptych 56→27),
-   real debt fully retained (undersized-ui-text, low-contrast, tiny-text). Exempted set (8, all
-   verified-firing): design-system-{font,font-size,color,radius}, all-caps-body, wide-tracking,
-   hero-eyebrow-chip, dark-glow. Note: `tiny-numbered-labels` + `border-accent-on-rounded` from my spec
-   fire 0 times (absorbed by all-caps-body/wide-tracking + design-system-radius) so they were omitted, not
-   added dead. **Gate: lands on main only when Zach reviews + lands the design-system branch (7-wave
-   migration plan needs his review).** Then: re-run the detector to confirm 0 brand-false-positives, add
-   the detector step to `nftt-gates.sh` beside the slop_lint step (#510).
-2. **cold-recon redaction phrasing** — the doubled-article artifact ("a a candidate role candidate
-   bundle") in the live warm-relaxed report; handed to the hardening session `[42a0ec]` as a test case.
-3. Carried: `_STATE/night-moves/2026-09-26.md` is the day's ledger (on main).
+- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
 
-## Lessons (in the record, not re-derived here)
-Witness GREEN 2026-09-25 (coldness removes the option of dishonesty-by-fluency). Decision receipts:
-`2026-09-25--cold-reconstruction-publish--ZH`, `2026-09-26--receipts-diptych-publish--ZH`. Specificity
-floors are mode-relative — forcing an essay to a marketing floor is Goodhart (the diptych's own lesson,
-applied to the tool by the sibling session that measured before asserting).
+_This block asserts nothing new. Counts, paths, and questions only._
 
-# Handoff — v3.65.2 (2026-09-24)
-
-> **VICO VP-of-Engineering candidacy: fact-checked, VP-tonality stripped per Joe, MERGED TO MAIN and
-> LIVE on prod.** Continues v3.65.0/.1 (the vico.arcs.care family refit + send). Took the family from
-> "sent" to "shipped to production, verified live" the morning of Joe's 3 PM Lyndon call. Branch
-> `claude/vico-arcs-care-not-to-do-uh4gze` merged to `main` (`5e2aebe`); Vercel prod deploy READY,
-> `vico.arcs.care` aliased + content-verified. 0 ADR/DEWY minted (execution days).
-
-## Shipped + LIVE on prod (verified via Vercel fetch, status 200, cache MISS)
-- **Merged to main + deployed** (`5e2aebe`): the live domain serves from `main`; today's 7 vico commits
-  were branch-only, which is why earlier "stale" renders were the real live version, not a browser cache.
-  Merge pulled in 9 other-session commits (db migrate-deploy, health funnel, success-academy); only
-  conflict was the two handoff docs → resolved as a UNION (kept both sessions' handoffs; note the
-  v3.65.0/v3.65.1 version-number collision from parallel sessions — handoffs aren't oracle-numbered).
-- **VP-of-Engineering tonality removed across ALL live shared surfaces** (Joe's morning ask: make it an
-  intro without expectations, Lyndon concludes the VP fit himself). memo `vico.html` (`e7fbdde`), resume
-  `vico-resume.html` (`91c091e`, option B → "Engineering Leadership"), ammo `vico-ammo.html` (`dba7535`).
-  Honest-gap CONTENT kept; `EVP of Partnerships` (real past title) + internal `vico-vp-wargame` left as-is.
-- **Memo fact-checked vs VICO's real site** (`ca38b69`): JS-SPA → grep RAW file. Reworded to VICO's own
-  vocabulary (Iran regime-risk / Venezuela risk; dropped "Israel strikes" + Polymarket/Kalshi names).
-- **Two visual regressions fixed + verified by headless Chromium** (not eyeball): column-collapse
-  (unclosed `.row` div, `1859b86`, gated by new `scripts/html_div_balance_lint.py` `6bd191f`) and the
-  4px footer indent (header/footer 44px vs body `.pad` 40px → unified to 40px on memo + ammo; delta 0).
-- **Ammo left UNLINKED from the memo footer** (Zach's call): keeps the intro low-pressure; ammo still
-  reachable at `vico.arcs.care/ammo` for Joe. Do NOT add the link back without a new ask.
-- **Joe email SENT** (thread `1a0cf7ab604aa2e4`): 5-beat pitch + Lyndon talking-points; beat-2
-  "finance" → "regulated industries".
-- **status.arcs.care brought current** (`9ab77ab`, live): 3 curated milestone cards (DAY 159 algorethics
-  honest benchmarks · DAY 167 the question that found the 6-week outage · DAY 168 the prevention +
-  capture-rate honesty), sourced from git + night-moves, in the page's own voice. Private client (PRL) +
-  job-candidacy (VICO) deliberately kept OFF the public build log. Was stale at DAY 151 (Sep 7).
-- **Template-wide gutter bug fixed + gated** (`8b047f6` `595ffd9`, live): the 44-vs-40 header/footer indent
-  had propagated to 6 sibling pages (autopilot, autopilot-ammo, schriner, schriner-ammo, recruithaus,
-  monstro-full). All aligned; 4 verified byte-exact on prod, 2 (`*-ammo`, passcode-gated) via the atomic
-  deploy. Banked `scripts/gutter_consistency_lint.py` (fails when header/footer gutter != `.pad`, skips
-  no-`.pad` pages) into pre-commit. **Third Frustration Gate this session** (div-balance, tooltip-link, gutter).
-- **Gravity-well pressure-test + 2 leak fixes** (`65d3781`, prod-verified): pressure-tested the vico family
-  against the "leak list" (unverifiable · single-altitude · no owned-losses · no mirror · no-return ·
-  over-claim). Closed 2: résumé had zero mirror → added a "worked in public" ZIM clause; ammo described
-  running systems without linking them (1 link → 3: status log→status.arcs.care, pipeline→good.arcs.care).
-- **All of the above deployed to main and prod-verified** (latest `65d3781`, Vercel READY, cache-MISS fetches).
-
-## Lessons booked (MEMORY.md v3.65.1/.2/.3 + night-moves 2026-09-23/24)
-- **Gravity-well framework** (v3.65.3): a candidate page is an attractor for a hiring manager to the degree
-  it pre-answers their de-risk doubts with *verifiable* proof; mass = linked/checkable claims, the mirror
-  (their problem worked in public), owned losses, and a live/compounding surface. Leak list is the inverse.
-- Do NOT assert a tool's negative as a world-fact (MCP 404 on analytics, and local `curl` returning
-  len=0 through the blocked agent proxy, are BOTH tool failures, not "site down" — verify via Vercel API/fetch).
-- Gmail rewraps outbound hrefs via `google.com/url` at send → for Joe/Lyndon emails paste the URL as PLAIN TEXT.
-- "Are you 100% nothing's stale?" → SWEEP every `<name>-*.html` + `_ARTIFACTS/`, don't assert (the sweep
-  caught the ammo "VP seat" line + dead eval quotes the first pass missed).
-- Fact-check a JS-SPA by grepping the raw file; tag-stripping yields ~23 chars.
+## Shipped + on main
+- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
+  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
+  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
+  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
+  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
+  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
+  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
+  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
+  F-row demotes its class. `--self-test` 13/13.
+- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
+- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
+  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
+  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
+- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
+  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
+  the query terms: the ouroboros clause visible on day one.
+- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
 
 ## Open (next session)
-1. **Joe sync moved to Tue 2026-09-30** (the Thu 2026-09-24 Lyndon call did not land as scheduled; reminder
-   was CANCELLED per Zach — he pings after). Prep + close-loop when it happens: did Lyndon reach
-   vico.arcs.care or only Joe's paraphrase (message-drift lever)? Score the 5 beats (role fit /
-   regulated-industries / federal / honest gaps / self-scoring style); plan follow-up. Vico family is
-   shipped + prod-verified (memo/resume/ammo VP-free, gravity leaks closed); nothing to rebuild pre-call.
-2. **Autopilot** — parallel path (Sep-14 call = Autopilot copy-trading RIA), kept separate from VICO.
-3. Carried: NFTT receipt-line primitive fast-follow; Joe Schriner resume-tailor skill fold-back;
-   State-of-the-Union dashboard (source file still unidentified — get it first).
+1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
+   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
+   `150beb19`, and the receipt id when that branch lands; then close issue #584.
+2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
+   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
+3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
+   named as a defeater but no ridgeline file exists on main to read.
+4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
+
+## Lessons (in the record)
+- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
+  registry note as a candidate, not as ground.
+- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
+  its job: the record is drifted-at-birth until the merge lands.
+
+
+# Handoff — v3.70.0 (2026-09-28)
+
+> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
+> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
+> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
+> were the same two red on main's own run and untouched by the diff.
+
+
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: higher than at start; no sends today` (Zach, 2026-09-28).
+- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
+- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
+  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
+  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
+- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
+  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
+  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
+  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
+  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
+  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
+- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
+  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
+  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
+  `white-space:nowrap` on the stamped date.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
+  PR #591 and issue #579.
+
+## Open (next session)
+1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
+   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
+   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
+2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
+   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
+3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
+   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
+   emitter; reuse it before hand-stating any number on a gated page.
+
+## Lessons (in the record)
+- A number on a public page that a script can compute must be stamped by that script and covered by the
+  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
+- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
+  not only the named gates, before calling a page clean.

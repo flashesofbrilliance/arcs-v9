@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Ideal Protein Growth Case · Zach Harris</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+}
+/* DESIGN.md-conformant aliases: text-secondary for readable de-emphasis (WCAG AA),
+   rounded scale (md/lg), one shared reading measure. Palette + fonts inherit verbatim above. */
+:root{--secondary:#94a3b8;--mono:var(--font-mono);--sans:var(--font-sans);--r-md:10px;--r-lg:16px;--measure:720px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:0.925rem;line-height:1.62;padding:52px 20px 104px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);}
+h1{font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-top:9px;}
+.sub{font-size:0.925rem;color:var(--secondary);margin-top:5px;font-family:var(--mono);letter-spacing:0.02em;}
+
+.verdict{font-size:1.15rem;line-height:1.5;color:var(--text);letter-spacing:-0.01em;text-wrap:pretty;margin:6px 0 2px;}
+.verdict b{font-weight:600;}
+.verdict .lead{color:var(--cyan);font-weight:600;}
+.kicker{font-size:0.925rem;line-height:1.55;color:var(--secondary);text-wrap:pretty;}
+.kicker b{color:var(--text);font-weight:600;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.28;margin:6px 0 2px;}
+
+.slabel{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;color:var(--secondary);margin:12px 2px -4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;}
+
+.scorebar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(1.5rem, 4vw, 2.4rem);color:var(--green);line-height:0.9;letter-spacing:-0.02em;}
+.scoremeta{font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;line-height:1.55;color:var(--secondary);}
+.scoremeta b{color:var(--gold);font-weight:700;}
+.scorenote{font-size:0.925rem;color:var(--text);margin-top:14px;line-height:1.55;}
+
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:12px;align-items:flex-start;font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+ul.plain li b{font-weight:600;}
+.dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;margin-top:8px;}.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+
+.qa{display:flex;flex-direction:column;gap:16px;}
+.qa .q{font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.01em;color:var(--cyan);margin-bottom:4px;line-height:1.4;}
+.qa .a{font-size:0.925rem;line-height:1.55;color:var(--text);text-wrap:pretty;}
+.qa .a b{font-weight:600;}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.925rem;font-weight:700;letter-spacing:0.02em;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+.btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn.p{color:var(--cyan);border-color:var(--cyan);}.btn.p:hover{color:var(--bg);background:var(--cyan);}
+a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}a:hover{opacity:0.82;}
+.foot{font-size:0.925rem;color:var(--secondary);text-align:center;padding-top:10px;line-height:1.6;text-wrap:pretty;}
+.stamp{text-align:center;font-family:var(--mono);font-size:0.925rem;letter-spacing:0.02em;color:var(--secondary);margin-top:2px;}
+:root{--sans:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;}details.card>summary{cursor:pointer;font-weight:700;list-style:none}details.card>summary::-webkit-details-marker{display:none}details.card>summary::after{content:" +";color:var(--cyan)}details[open].card>summary::after{content:" −"}details.card>div{margin-top:10px}</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page"><nav class="btns" aria-label="Bundle" style="margin-bottom:6px;"><a class="btn p" href="/case-study.pdf" download="Zach-Harris-Ideal-Protein-Case-Study.pdf">↓ Full deck (18 slides)</a></nav>
+
+<div>
+  <div class="eyebrow">Growth case study · 2019 to 2020</div>
+  <h1>Ideal Protein: a PE turnaround, rebuilt around the patient journey</h1>
+  <div class="sub">Head of Product Innovation, Squat New York · client: Ideal Protein</div>
+</div>
+
+<p class="verdict"><span class="lead">Qualified leads up 40 percent and program adherence at 73 percent,</span> after we rebuilt how patients found a clinic, qualified, and booked, for a PE-backed medically supervised diet program ($350M ARR, 64 countries, 3,500+ clinics, under HIPAA).</p>
+
+<div class="rule"></div>
+
+<div class="slabel">Three things that moved the numbers</div>
+<div class="card"><ul class="plain">
+<li><span class="dot c"></span><span><b>Qualify before you ask.</b> Turned the highest-traffic unbranded page, a BMI calculator, into step one of a two-step qualification flow. Qualified leads rose 40 percent.</span></li>
+<li><span class="dot"></span><span><b>Nearest clinic first.</b> 70 percent of clinic-finder traffic was mobile. Re-sorting results by distance, not clinic age, lifted booking success 63 percent for patients within five miles.</span></li>
+<li><span class="dot g"></span><span><b>Test the path, not the page.</b> Split-tested a simplified patient and clinician journey; clinic-finder leads and clinician form fills rose 30 percent.</span></li>
+</ul></div>
+
+<div class="slabel">Why this matters for a multi-location, PE-backed platform</div>
+<div class="card"><p style="line-height:1.55;">Same shape of problem: a newly PE-acquired business with a new board, a network of more than 3,500 locations in 64 countries, a trusted professional between the company and the end customer, and a regulated flow. The levers were operating ones: a single qualification flow, one journey across the whole clinic network, and measured experiments.</p></div>
+
+<details class="card"><summary>The situation we walked into</summary><div><ul class="plain">
+<li><span class="dot"></span><span>Newly PE-acquired, with new sales, marketing, and board leadership; a full rebrand, redesign, rebuild, and relaunch.</span></li>
+<li><span class="dot"></span><span>Traffic was not segmented by patient versus clinician, conversion goals were out of date, and there was no behavioral data to prioritize with.</span></li>
+<li><span class="dot"></span><span>Technical debt, a high API failure rate, WCAG and HIPAA blind spots, and no roadmap.</span></li>
+</ul></div></details>
+
+<details class="card"><summary>What I owned</summary><div><ul class="plain">
+<li><span class="dot c"></span><span>Four phases: research and discovery, strategy and org alignment, rebrand, redesign and relaunch.</span></li>
+<li><span class="dot c"></span><span>The roadmap, set with the aligned stakeholders; persona and journey mapping; the two-step lead qualification process.</span></li>
+<li><span class="dot c"></span><span>Rebuilt front end and publishing, accessibility and HIPAA-safe form handling in the design system, peer code review, New Relic monitoring, and a tighter QA cadence.</span></li>
+</ul></div></details>
+
+<details class="card"><summary>All the results</summary><div><ul class="plain">
+<li><span class="dot g"></span><span>73 percent program adherence rate.</span></li>
+<li><span class="dot g"></span><span>40 percent increase in qualified leads.</span></li>
+<li><span class="dot g"></span><span>63 percent higher booking success within five miles.</span></li>
+<li><span class="dot g"></span><span>30 percent more clinic-finder leads and clinician form fills.</span></li>
+<li><span class="dot g"></span><span>Website NPS up 23 points; new-clinic growth of 15.8 percent a year.</span></li>
+</ul></div></details>
+
+<div class="foot">Condensed from the original 18-slide deck, which was marked confidential while Ideal Protein was an active PE investment; the company has since been sold. Names in the deck are anonymized.</div>
+</div><script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,.slabel'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body></html>

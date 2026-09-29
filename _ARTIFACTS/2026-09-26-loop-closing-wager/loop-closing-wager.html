@@ -1,0 +1,257 @@
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<title>Six vs Czar</title>
+<meta name="description" content="An open bet between @six and @czar on whether people will let AI agents close their loops. Settles 2028-09-26.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;600&family=Geist+Mono:wght@400;700&display=swap">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* Page-only, non-signal: Google-hosted names so the kit faces load inside an Artifact. */
+:root{
+  color-scheme:dark;
+  --font-mono:'GeistMono','Geist Mono','JetBrains Mono','IBM Plex Mono',monospace;
+  --font-sans:'InstrumentSans','Instrument Sans','Work Sans',system-ui,sans-serif;
+  --font-display:'BricolageGrotesque','Bricolage Grotesque','Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.5;padding:0 16px}
+.slip{max-width:560px;margin:0 auto;padding-block:28px 48px;display:flex;flex-direction:column;gap:28px}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed)}
+.block{display:flex;flex-direction:column;gap:12px}
+
+.status{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.led{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--gold)}
+.led::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 5px rgba(255,215,0,.35)}
+.betid{font-family:var(--font-mono);font-size:12px;color:var(--dimmed)}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,8vw,40px);line-height:1.05;margin:0;text-wrap:balance}
+.q{font-size:17px;color:var(--text);margin:0}
+
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:8px}
+.side .pos{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em}
+.side .who{font-family:var(--font-display);font-weight:600;font-size:20px}
+.side p{margin:0;font-size:14px;color:#cbd5e1}
+.long{border-color:rgba(0,255,157,.35)} .long .pos{color:var(--green)}
+.short{border-color:rgba(255,77,109,.35)} .short .pos{color:var(--red)}
+@media (max-width:380px){.sides{grid-template-columns:1fr}}
+
+.leg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px}
+.leg-hd{display:flex;align-items:baseline;gap:10px}
+.leg-no{flex:none;white-space:nowrap;font-family:var(--font-mono);font-size:12px;color:var(--cyan)}
+.leg h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0}
+.leg p{margin:0;font-size:14px;color:#cbd5e1}
+.wins{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.wins div{display:flex;gap:10px;align-items:baseline}
+.thresh-chip{display:inline-flex;justify-content:center;width:62px;flex:none;padding:2px 0;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11px;font-weight:700;border:1px solid}
+.thresh-chip.proceed{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.thresh-chip.red{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+
+.prob-track{height:14px;border-radius:7px;background:var(--surface-2);position:relative;overflow:hidden;display:flex}
+.prob-fill{height:100%}
+.prob-fill.short-side{width:50%;background:var(--red-bg);border-right:2px solid var(--gold)}
+.prob-fill.long-side{width:50%;background:var(--green-bg)}
+.prob-scale{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--dimmed);font-variant-numeric:tabular-nums}
+.prob-scale b{color:var(--gold);font-weight:700}
+
+.split{background:var(--gold-bg);border:1px solid rgba(255,215,0,.3);border-radius:var(--r-md);padding:14px 16px;font-size:14px}
+.split b{color:var(--gold)}
+
+.receipt-table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);border-collapse:collapse;overflow:hidden}
+.receipt-table tr{border-bottom:1px solid rgba(30,41,59,.6)}
+.receipt-table tr:last-child{border-bottom:none}
+.receipt-table td{padding:10px 14px;vertical-align:top}
+.td-key{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--dimmed);letter-spacing:.06em;white-space:nowrap;width:32%;border-right:1px solid var(--border)}
+.td-val{font-size:13px;color:var(--text);line-height:1.45}
+.td-val.warn{color:var(--gold)}
+
+.sign{border:1px dashed var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:10px}
+.sign-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sig{font-family:var(--font-mono);font-size:12px;color:var(--dimmed);border-bottom:1px solid var(--muted);padding-bottom:6px}
+.foot{font-family:var(--font-mono);font-size:11px;color:var(--dimmed);letter-spacing:.04em}
+
+/* Ahmed order: verdict -> reasons -> Q&A -> tasks -> evidence behind disclosure */
+.verdict{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.stat{font-family:var(--font-display);font-weight:800;font-size:clamp(48px,16vw,72px);line-height:1;color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.25)}
+.verdict-line{margin:0;font-size:15px;color:var(--text);flex:1;min-width:200px}
+.positions{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.positions span{font-family:var(--font-mono);font-weight:700}
+.positions .p-long{color:var(--green)} .positions .p-short{color:var(--red)}
+
+.reasons,.tasks{margin:0;padding:0;list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:6px;font-size:14px;color:#cbd5e1}
+.reasons li,.tasks li{position:relative;padding-left:24px;counter-increment:step}
+.reasons li::before,.tasks li::before{content:counter(step)".";position:absolute;left:0;top:0;color:var(--dimmed);font-family:var(--font-mono);font-weight:700}
+.tasks{color:var(--text)}
+
+.qa{display:flex;flex-direction:column;gap:10px}
+.qa-row{display:flex;gap:10px}
+.q-mark{font-family:var(--font-mono);font-weight:700;color:var(--cyan);flex:none;width:16px}
+.qa-body{display:flex;flex-direction:column;gap:2px}
+.qa-body .qtext{font-size:14px;color:var(--text);font-weight:600}
+.qa-body .atext{font-size:13px;color:#cbd5e1}
+
+details.evidence{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:2px 16px}
+details.evidence summary{cursor:pointer;padding:14px 0;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);list-style:none}
+details.evidence summary::-webkit-details-marker{display:none}
+details.evidence summary::before{content:"▸ ";color:var(--cyan)}
+details.evidence[open] summary::before{content:"▾ "}
+details.evidence[open] summary{border-bottom:1px solid var(--border);margin-bottom:14px}
+details.evidence>.block{padding-bottom:16px}
+</style>
+
+<div class="slip">
+
+  <div class="status">
+    <span class="led">OPEN BET</span>
+    <span class="betid">opened 2026-09-26 · settles 2028-09-26</span>
+  </div>
+
+  <div class="block">
+    <div class="verdict">
+      <span class="stat">50%</span>
+      <p class="verdict-line">If more than half of default-on agent users still have it running at day 90, @six wins the core bet. Under half, @czar wins. Checked 2028-09-26.</p>
+    </div>
+    <div class="positions">
+      <span class="p-long">@six: LONG, agents win</span>
+      <span class="p-short">@czar: SHORT, people won't let them</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <span class="section-label">Three reasons this bet is real</span>
+    <ol class="reasons">
+      <li>Both agree agents can close loops. They disagree on whether people will let them.</li>
+      <li>It settles on outside data (Pew, BLS, PSS-10), not on who argues better.</li>
+      <li>Three legs, each can go its own way. No split-decision dodge.</li>
+    </ol>
+  </div>
+
+  <div class="block">
+    <span class="section-label">The first three questions</span>
+    <div class="qa">
+      <div class="qa-row"><span class="q-mark">Q1</span><div class="qa-body"><span class="qtext">What counts as an agent?</span><span class="atext">Acts in another system: sends, books, pays. ChatGPT-style Q&amp;A alone does not count.</span></div></div>
+      <div class="qa-row"><span class="q-mark">Q2</span><div class="qa-body"><span class="qtext">What if only part of it comes true?</span><span class="atext">Split legs are live. Agents can go mainstream while the freed hours still go to scrolling.</span></div></div>
+      <div class="qa-row"><span class="q-mark">Q3</span><div class="qa-body"><span class="qtext">Who decides who won?</span><span class="atext">An oracle, open. Each side names one before signing.</span></div></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <span class="section-label">To lock it in</span>
+    <ol class="tasks">
+      <li>Reply "agreed" under the post that links this slip.</li>
+      <li>Name your oracle and your stake before signing (both open).</li>
+    </ol>
+  </div>
+
+  <details class="evidence">
+    <summary>Full terms: the three legs, quotes, and fine print</summary>
+
+    <div class="block">
+      <div class="side long">
+        <span class="pos">LONG AGENTS</span>
+        <span class="who">@six</span>
+        <p>Agents clear the pile of open loops. His Sep 25 cast: people get clearer headed, focused, with energy for the higher level stuff.</p>
+      </div>
+      <div class="side short">
+        <span class="pos">SHORT AGENTS</span>
+        <span class="who">@czar</span>
+        <p>Most people would rather live with the pile than think about it. His Sep 26 cast: they want to "pass some time, eat, poop and sleep."</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="section-label">The legs · each one settles on its own</span>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 1</span><h2>Do people keep it on?</h2></div>
+        <p>Take people whose agent handles open loops by default. Check again at 90 days.</p>
+        <div class="prob-track" aria-hidden="true"><div class="prob-fill short-side"></div><div class="prob-fill long-side"></div></div>
+        <div class="prob-scale"><span>0% still on</span><b>50% line</b><span>100%</span></div>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Over 50% still have it on at day 90</div>
+          <div><span class="thresh-chip red">@czar</span>Under 50%: most muted it or turned it off</div>
+        </div>
+      </div>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 2</span><h2>Are they calmer?</h2></div>
+        <p>Compare stress scores (PSS-10) of agent users against similar people without one.</p>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Users score lower on stress</div>
+          <div><span class="thresh-chip red">@czar</span>No gap on the PSS-10</div>
+        </div>
+      </div>
+
+      <div class="leg">
+        <div class="leg-hd"><span class="leg-no">LEG 3</span><h2>Where does the saved time go?</h2></div>
+        <p>Track the hours an agent hands back, using the BLS American Time Use Survey categories.</p>
+        <div class="wins">
+          <div><span class="thresh-chip proceed">@six</span>Things they named as their priorities</div>
+          <div><span class="thresh-chip red">@czar</span>Scrolling and TV, per the same survey</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="split"><b>Split legs are live.</b> Agents can go mainstream while the freed hours go to scrolling. That pays @six on leg 1 and @czar on leg 3.</div>
+
+    <div class="block">
+      <span class="section-label">Fine print</span>
+      <table class="receipt-table"><tbody>
+        <tr><td class="td-key">Agent</td><td class="td-val">Software that acts for you in another system: sends, books, pays, cancels. ChatGPT-style Q&amp;A alone does not count.</td></tr>
+        <tr><td class="td-key">Mainstream</td><td class="td-val">16% of US adults using one weekly (Rogers early-majority line).</td></tr>
+        <tr><td class="td-key">Sources</td><td class="td-val">Pew surveys, the BLS American Time Use Survey, published stress studies, public company metrics.</td></tr>
+        <tr><td class="td-key">No data</td><td class="td-val">The leg is void. Nobody collects on it.</td></tr>
+        <tr><td class="td-key">Oracle</td><td class="td-val warn">Open. Both sides name one before signing.</td></tr>
+        <tr><td class="td-key">Stake</td><td class="td-val warn">Open. Bragging rights unless you set one.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="sign">
+      <span class="section-label">Sign by casting</span>
+      <p style="margin:0;font-size:14px">Reply "agreed" under the post that links this slip. The Farcaster timestamp on your cast is the signature.</p>
+      <div class="sign-row"><span class="sig">@six</span><span class="sig">@czar</span></div>
+    </div>
+  </details>
+
+  <div class="foot">Slip written by @zachharris.eth · ARCS · no outcome predicted</div>
+</div>
