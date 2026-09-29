@@ -60,6 +60,7 @@ import datetime as dt
 import json
 import pathlib
 import subprocess
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -105,7 +106,9 @@ def load(path: pathlib.Path, required_keys, *, id_key: str = "id", date_key: str
                 dt.date.fromisoformat(v)            # bare YYYY-MM-DD
             except ValueError:
                 try:
-                    dt.datetime.fromisoformat(v)    # full timestamp (coarsen on projection)
+                    # full timestamp; normalize Z and +HHMM so py3.9 parses what py3.11+ does
+                    iso = re.sub(r"([+-]\d{2})(\d{2})$", r"\1:\2", v[:-1] + "+00:00" if v.endswith("Z") else v)
+                    dt.datetime.fromisoformat(iso)
                 except ValueError:
                     sys.exit(f"AUDIT FAIL: entry {d.get(id_key, '?')} (line {n}) has malformed {date_key}: {v!r}")
         rows.append(d)
