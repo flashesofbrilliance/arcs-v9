@@ -112,6 +112,11 @@ jobs:
         run: python3 scripts/state_sync_check.py
         continue-on-error: true
 
+      # Hard gate: stdlib unit tests (node:test, no framework dep). Covers ygate.ts
+      # (ledger YG-005) and the trust-contract section 1 no-anonymous-write regression (TC-004).
+      - name: Unit tests
+        run: npm run test:unit
+
       # Hard gate — enforcement-parity ledger (ADR-034): audit findings must
       # exit via a mechanism or dated waiver within their severity SLA.
       - name: Ledger delinquency check
