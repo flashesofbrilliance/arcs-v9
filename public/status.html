@@ -1392,6 +1392,65 @@ var MILESTONES = [
       { sha: "625fe0b", msg: "feat(db): complete P1 - baseline prod + wire production-gated migrate deploy" },
       { sha: "b5076f6", msg: "feat(health): honest outcome-capture funnel - 2/247 keel gap was a founder-QA artifact" }
     ]
+  },
+  {
+    date: "DAY 169 · SEP 25", title: "Can a cold agent rebuild a session from git alone?", rank: 2, proof: {url:"https://good.arcs.care/blog/nftt/the-control-and-the-experiment", label:"the experiment"},
+    alt: [
+      "A new open tool, tools/cold-recon, hands an agent only the commits and files from a session, never the transcript, and asks it to reconstruct what happened. Whatever it cannot rebuild is a gap in the record. The coldness is structural: the gather step has no code path that reads a transcript.",
+      "The tool was then tested against its own claim. Two cold runs scored 0.90 and 0.84 on provenance. A warm run given a relaxed instruction to cite scored 0.26; a warm run held to the same citation rule scored 1.00. One small run, stated as illustrative, not as proof.",
+      "The finding is narrower than the pitch would have been: memory does not corrupt what an agent grounds, it changes whether the agent bothers to ground at all. A reader with no memory cannot narrate from memory, and that is the whole value."
+    ],
+    commits: [
+      { sha: "87ac486", msg: "PR #505 cold-reconstruction CLI + NFTT pair + warm-vs-cold experiment" }
+    ]
+  },
+  {
+    date: "DAY 170 · SEP 26", title: "The audit offer went live, with two cases you can play first.", rank: 2, proof: {url:"https://good.arcs.care/audit", label:"the audit page"},
+    alt: [
+      "good.arcs.care/audit now describes a fixed-scope Agent Receipts Audit: every claim an agent made about a repo, checked against the repo. Two free playable cases sit in front of it, built from published posts. In each one you defend a claim with evidence or concede it, and stake play-money conviction that is scored when the case resolves.",
+      "Prices stay off the page on purpose until real scoping conversations set them. The routing bug found on the way (a catch-all rewrite swallowing the new paths) was caught by serving the build with the production host header, not by the build passing."
+    ],
+    commits: [
+      { sha: "24e2fee", msg: "PR #530 route the Agent Receipts Audit + two playable cases on good.arcs.care" },
+      { sha: "ac087aa", msg: "PR #553 the accountable copypasta card at good.arcs.care/copypasta" }
+    ]
+  },
+  {
+    date: "DAY 171 · SEP 27", title: "A scoreboard that refuses to grade itself on too little data.", rank: 1, proof: {url:"https://good.arcs.care/audit", label:"the ledger count"},
+    alt: [
+      "Operator 19, the Accountant, now reads real production receipts and reports, per cohort (founder, external, anonymous), how many decisions were logged and how many were ever closed with an outcome. The first run: 254 receipts, 3 closed, all 3 by the founder. It emits a calibration score only once a cohort has 30 closed positions; below that it prints the n and the word insufficient.",
+      "The echo detector, which looks for the same pattern across unrelated domains, moved from keyword matching to sentence embeddings. On scrambled-text controls its false-positive rate fell from 0.8 to 0.0. Then a second control removed boilerplate lines shared across inputs, and the real echo count went to zero. That result is published as it came out.",
+      "Two small gates landed alongside: an altitude canary that flags confident prose with no citation in it, and a per-source trust ledger. The audit page gained a count of the project's own falsified beliefs, stamped by a script from the belief log so it can never be typed by hand."
+    ],
+    commits: [
+      { sha: "e36084f", msg: "PR #578 bind Operator 19 Accountant + scoreboard from real data" },
+      { sha: "defaecc", msg: "PR #612 embedding-backed signature/orthogonality for the echo detector" },
+      { sha: "4356f50", msg: "PR #565 altitude canary: fluent, confident, uncited prose" },
+      { sha: "740aa55", msg: "PR #591 falsification count on the audit page, stamped from the ledger" }
+    ]
+  },
+  {
+    date: "DAY 172 · SEP 28", title: "Retrieval by expected value, and a hole closed in the database.", rank: 1,
+    alt: [
+      "Operator 21, the Librarian, used to hand back the most recent material. It now scores each candidate by how likely it is to be load-bearing for the question, minus the cost of reading it, under a context budget, and takes it only if the value clears the cost. Anything it cannot back with a commit or path goes into an explicitly unconfirmed list. Its first run ranked its own registry note first, because that note was written in the same change; that is written down as a lesson, not hidden.",
+      "An outside audit flagged two tables readable through the public API. It was verified, fixed live the same day (row-level security on, deny-all), and a pre-commit check now fails any new table created without it. A daily job now also flags any pull request merged by squash, since squashing erases the per-PR history that receipts cite."
+    ],
+    commits: [
+      { sha: "150beb1", msg: "PR #613 Librarian.recommend(q, budget), Operator 21 rebound" },
+      { sha: "01af2f3", msg: "PR #637 enable RLS on Tribune + _prisma_migrations, gate new tables" },
+      { sha: "f0f9d92", msg: "PR #640 no-squash policy + daily squash-merge detector" }
+    ]
+  },
+  {
+    date: "DAY 173 · SEP 29", title: "The privacy promise now has a test that fails if it breaks.", rank: 2,
+    alt: [
+      "The trust page promises that visitors without an account are not saved. A unit test now runs the real prep and compass handlers anonymously and asserts zero database writes, no email and no cookie. Removing either route's guard makes the test fail; that was checked, not assumed. The decision-gate logic got 17 cases of its own. No new dependencies.",
+      "A second guard fails CI on any Tailwind or className creep outside the two sanctioned exceptions. Both close findings on the project's own open-defect ledger."
+    ],
+    commits: [
+      { sha: "df94e60", msg: "PR #642 ygate + trust-contract no-anon-write tests, close YG-005 + TC-004" },
+      { sha: "62edaa9", msg: "PR #641 className/Tailwind guard, close LINT-006" }
+    ]
   }
 ];
 
