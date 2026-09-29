@@ -192,7 +192,7 @@ TEMPLATE = r"""<!doctype html>
   .node .nh{display:grid;grid-template-columns:auto 1fr auto auto;gap:11px;align-items:start;padding:12px 14px;}
   .node .nh:hover{background:var(--elev);}
   .node .sd{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:0 0 auto;}
-  .node .nt{min-width:0;cursor:pointer;} .node .ntitle{font-size:14px;font-weight:700;color:var(--fg1);line-height:1.35;}
+  .node .nt{min-width:0;cursor:pointer;} .node .ntitle{font-size:14px;font-weight:700;color:var(--fg1);line-height:1.35;overflow-wrap:anywhere;}
   .node .nclaim{font-size:13px;color:var(--fg2);line-height:1.5;margin-top:3px;text-wrap:pretty;}
   .node .st{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;align-self:center;}
   .node .exp{align-self:center;font-family:var(--mono);font-size:15px;line-height:1;color:var(--fg4);background:none;border:none;cursor:pointer;padding:2px 4px;border-radius:6px;}
