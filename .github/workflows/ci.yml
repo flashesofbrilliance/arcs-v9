@@ -117,6 +117,11 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
+      # Hard gate: inline styles only. Blocks className / Tailwind / stray stylesheets
+      # from returning to src/ (closes ledger LINT-006).
+      - name: className / Tailwind guard
+        run: python3 scripts/classname_guard.py
+
       # Hard gate — enforcement-parity ledger (ADR-034): audit findings must
       # exit via a mechanism or dated waiver within their severity SLA.
       - name: Ledger delinquency check
