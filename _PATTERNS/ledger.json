@@ -42,7 +42,7 @@
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "CI lint is advisory (continue-on-error); no lint rule prevents className/Tailwind recurrence after the 2026-07-11 removal.",
-      "exit": { "type": "open" }
+      "exit": { "type": "ci", "ref": "scripts/classname_guard.py (ci.yml smoke: className / Tailwind guard)", "date": "2026-09-28" }
     },
     {
       "id": "OBS-007",
