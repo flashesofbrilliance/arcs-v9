@@ -1,0 +1,20 @@
+name: no-squash
+# Daily: fail (and notify) if any PR merged to main in the last 2 days has no merge commit.
+# Policy: AGENTS.md gotcha 17. Detection only; branch protection is unavailable on this plan.
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - run: python3 scripts/squash_merge_detector.py --days 2
+        env:
+          GH_TOKEN: ${{ github.token }}
