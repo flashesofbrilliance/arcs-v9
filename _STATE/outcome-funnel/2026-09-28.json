@@ -1,0 +1,314 @@
+{
+  "generated": "2026-09-28",
+  "source": "prod Supabase xbbpiryokswwvcrcutge, Prisma tables Receipt/User/Outcome/PrepSession, read-only",
+  "founder_identity": "zach.harris@gmail.com",
+  "queries": "python3 scripts/outcome_funnel.py --sql",
+  "external_funnel": [
+    {
+      "stage": "visitors_on_good_arcs_care",
+      "n": null,
+      "note": "not instrumented: no pageview table, no analytics"
+    },
+    {
+      "stage": "anonymous_compass_runs",
+      "n": null,
+      "note": "not persisted by design (trust contract: no auth = no write path)"
+    },
+    {
+      "stage": "external_receipts_saved",
+      "n": 10
+    },
+    {
+      "stage": "external_with_horizon",
+      "n": 10
+    },
+    {
+      "stage": "external_debrief_sent",
+      "n": 6
+    },
+    {
+      "stage": "external_outcomes_logged",
+      "n": 0
+    }
+  ],
+  "external_inflow": {
+    "last_receipt": "2026-07-10",
+    "days_since_last_external_receipt": 80,
+    "last_30d": 0,
+    "last_7d": 0,
+    "read": "distribution gap: no external decision traffic, so no funnel exists to convert"
+  },
+  "segments": {
+    "founder": {
+      "receipts": 200,
+      "users": 1,
+      "with_horizon": 200,
+      "with_review_date": 200,
+      "with_reminder_date": 200,
+      "with_prep": 29,
+      "ephemeral_saves": 1,
+      "debrief_sent": 135,
+      "past_due_never_sent": 33,
+      "waiting_for_cron": 30,
+      "closed": 3,
+      "closed_matched": 2,
+      "closed_drifted": 1,
+      "closure_rate": 0.015,
+      "closure_rate_of_debriefed": 0.0222,
+      "first_receipt": "2026-06-04",
+      "last_receipt": "2026-09-28",
+      "last_30d": 11,
+      "last_7d": 11
+    },
+    "external": {
+      "receipts": 10,
+      "users": 4,
+      "with_horizon": 10,
+      "with_review_date": 10,
+      "with_reminder_date": 10,
+      "with_prep": 2,
+      "ephemeral_saves": 0,
+      "debrief_sent": 6,
+      "past_due_never_sent": 2,
+      "waiting_for_cron": 2,
+      "closed": 0,
+      "closed_matched": 0,
+      "closed_drifted": 0,
+      "closure_rate": 0.0,
+      "closure_rate_of_debriefed": 0.0,
+      "first_receipt": "2026-06-21",
+      "last_receipt": "2026-07-10",
+      "last_30d": 0,
+      "last_7d": 0
+    },
+    "anonymous": {
+      "receipts": 48,
+      "users": 0,
+      "with_horizon": 48,
+      "with_review_date": 48,
+      "with_reminder_date": 48,
+      "with_prep": 3,
+      "ephemeral_saves": 0,
+      "debrief_sent": 0,
+      "past_due_never_sent": 39,
+      "waiting_for_cron": 9,
+      "closed": 0,
+      "closed_matched": 0,
+      "closed_drifted": 0,
+      "closure_rate": 0.0,
+      "closure_rate_of_debriefed": null,
+      "first_receipt": "2026-06-03",
+      "last_receipt": "2026-07-13",
+      "last_30d": 0,
+      "last_7d": 0
+    }
+  },
+  "external_users": [
+    {
+      "user_pseudonym": "ext-user-1",
+      "receipts": 1,
+      "first_receipt": "2026-06-21",
+      "last_receipt": "2026-06-21",
+      "debrief_sent": 1,
+      "closed": 0,
+      "with_prep": 0,
+      "horizons": "QUARTER",
+      "y_states": "PARADOX",
+      "surfaces": "ORIENT"
+    },
+    {
+      "user_pseudonym": "ext-user-2",
+      "receipts": 3,
+      "first_receipt": "2026-06-25",
+      "last_receipt": "2026-06-25",
+      "debrief_sent": 3,
+      "closed": 0,
+      "with_prep": 0,
+      "horizons": "TODAY,WEEK",
+      "y_states": "FORK",
+      "surfaces": "ORIENT"
+    },
+    {
+      "user_pseudonym": "ext-user-3",
+      "receipts": 3,
+      "first_receipt": "2026-07-08",
+      "last_receipt": "2026-07-08",
+      "debrief_sent": 1,
+      "closed": 0,
+      "with_prep": 0,
+      "horizons": "QUARTER,WEEK",
+      "y_states": "FORK,PARADOX",
+      "surfaces": "ORIENT"
+    },
+    {
+      "user_pseudonym": "ext-user-4",
+      "receipts": 3,
+      "first_receipt": "2026-07-10",
+      "last_receipt": "2026-07-10",
+      "debrief_sent": 1,
+      "closed": 0,
+      "with_prep": 2,
+      "horizons": "QUARTER,WEEK",
+      "y_states": "FORK,PARADOX",
+      "surfaces": "ORIENT"
+    }
+  ],
+  "horizon_by_y_state": [
+    {
+      "seg": "anonymous",
+      "horizon": "QUARTER",
+      "yState": "FORK",
+      "n": 1
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "QUARTER",
+      "yState": "PARADOX",
+      "n": 11
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "TODAY",
+      "yState": "FORK",
+      "n": 3
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "WEEK",
+      "yState": "FORK",
+      "n": 19
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "WEEK",
+      "yState": "PARADOX",
+      "n": 11
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "WEEK",
+      "yState": "YELLOW",
+      "n": 1
+    },
+    {
+      "seg": "anonymous",
+      "horizon": "YEARS",
+      "yState": "PARADOX",
+      "n": 2
+    },
+    {
+      "seg": "external",
+      "horizon": "QUARTER",
+      "yState": "PARADOX",
+      "n": 3
+    },
+    {
+      "seg": "external",
+      "horizon": "TODAY",
+      "yState": "FORK",
+      "n": 2
+    },
+    {
+      "seg": "external",
+      "horizon": "WEEK",
+      "yState": "FORK",
+      "n": 4
+    },
+    {
+      "seg": "external",
+      "horizon": "WEEK",
+      "yState": "PARADOX",
+      "n": 1
+    },
+    {
+      "seg": "founder",
+      "horizon": "QUARTER",
+      "yState": "FORK",
+      "n": 12
+    },
+    {
+      "seg": "founder",
+      "horizon": "QUARTER",
+      "yState": "PARADOX",
+      "n": 17
+    },
+    {
+      "seg": "founder",
+      "horizon": "QUARTER",
+      "yState": "SCRATCH",
+      "n": 5
+    },
+    {
+      "seg": "founder",
+      "horizon": "TODAY",
+      "yState": "FORK",
+      "n": 6
+    },
+    {
+      "seg": "founder",
+      "horizon": "TODAY",
+      "yState": "PARADOX",
+      "n": 8
+    },
+    {
+      "seg": "founder",
+      "horizon": "TODAY",
+      "yState": "SCRATCH",
+      "n": 1
+    },
+    {
+      "seg": "founder",
+      "horizon": "WEEK",
+      "yState": "DELTA",
+      "n": 2
+    },
+    {
+      "seg": "founder",
+      "horizon": "WEEK",
+      "yState": "FORK",
+      "n": 83
+    },
+    {
+      "seg": "founder",
+      "horizon": "WEEK",
+      "yState": "PARADOX",
+      "n": 45
+    },
+    {
+      "seg": "founder",
+      "horizon": "WEEK",
+      "yState": "YELLOW",
+      "n": 4
+    },
+    {
+      "seg": "founder",
+      "horizon": "YEARS",
+      "yState": "FORK",
+      "n": 3
+    },
+    {
+      "seg": "founder",
+      "horizon": "YEARS",
+      "yState": "PARADOX",
+      "n": 14
+    }
+  ],
+  "globals": {
+    "users_total": 7,
+    "users_external": 6,
+    "users_external_zero_receipts": 2,
+    "users_debrief_optin": 0,
+    "users_first_debrief_sent": 4,
+    "prep_sessions": 39,
+    "outcomes_total": 3,
+    "last_outcome": "2026-09-26"
+  },
+  "fears_attribution": [],
+  "calibration_usable": false,
+  "not_measured": [
+    "debrief email opens/clicks (no tracking; Resend events not stored)",
+    "visits to /debrief/[receiptId] (no server log table)",
+    "anonymous compass runs (never persisted)",
+    "whether ADMIN_EMAILS in prod equals the founder identity used here"
+  ]
+}
