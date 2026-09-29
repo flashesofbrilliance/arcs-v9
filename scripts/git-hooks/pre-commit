@@ -142,6 +142,20 @@ if [ -f scripts/html_div_balance_lint.py ] && command -v python3 >/dev/null 2>&1
 fi
 
 # ---------------------------------------------------------------------------
+# migration-RLS guard: a Prisma migration that CREATEs a table without ENABLE ROW LEVEL
+# SECURITY leaves it readable+writable with the public anon key over Supabase PostgREST.
+# Tribune shipped that way (2026-09-06) and sat open for three weeks. Banked 2026-09-28.
+if [ -f scripts/migration_rls_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only -- 'prisma/migrations/' 2>/dev/null | grep -q .; then
+    if ! python3 scripts/migration_rls_lint.py; then
+      echo "✖ commit blocked: a migration creates a table without enabling RLS (see above)." >&2
+      echo "  add ALTER TABLE \"<Name>\" ENABLE ROW LEVEL SECURITY; to the same migration." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # gutter-consistency guard: in the recoil-report page template, header/footer horizontal
 # padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
 # element a few px inward of the body -- a left edge that lies about its lane, invisible to
