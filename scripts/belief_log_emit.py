@@ -28,7 +28,8 @@ import argparse
 import datetime as dt
 import json
 import pathlib
-import sys
+
+import projection_factory as pf  # the reusable public-projection base (load + inject)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "_STATE" / "falsification-ledger.jsonl"
@@ -69,38 +70,18 @@ def first_clause(text: str, cap: int = 160) -> str:
 
 
 def load(path: pathlib.Path) -> list[dict]:
-    rows: list[dict] = []
-    for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            d = json.loads(line)
-        except json.JSONDecodeError as e:
-            sys.exit(f"AUDIT FAIL: line {n} is not valid JSON: {e}")
-        missing = REQUIRED_KEYS - d.keys()
-        if missing:
-            sys.exit(f"AUDIT FAIL: entry {d.get('id', '?')} (line {n}) missing keys: {sorted(missing)}")
-        dt.date.fromisoformat(d["ts"])  # raises on malformed date
-        rows.append(d)
-    ids = [r["id"] for r in rows]
-    dupes = sorted({i for i in ids if ids.count(i) > 1})
-    if dupes:
-        sys.exit(f"AUDIT FAIL: duplicate ledger ids: {dupes}")
-    return rows
+    """Validate + read the ledger via the shared factory base (byte-for-byte the
+    same contract this file used to inline: required-key, date, and dup-id checks)."""
+    return pf.load(path, REQUIRED_KEYS, id_key="id", date_key="ts")
 
 
 def _inject(template_path: pathlib.Path, rows: list[dict], keys: tuple[str, ...]) -> str:
     """Inject a keyed projection of the ledger (oldest-first, as the page JS
-    expects) into a template. `<` is escaped so no field can break out of the
-    <script> tag; only `keys` are embedded (the air-gap for the public file)."""
-    ordered = sorted(rows, key=lambda r: (r["ts"], r["id"]))
-    data = [{k: r[k] for k in keys} for r in ordered]
-    blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
-    template = template_path.read_text(encoding="utf-8")
-    if DATA_MARKER not in template:
-        sys.exit(f"AUDIT FAIL: {template_path.name} is missing the {DATA_MARKER} injection marker.")
-    return template.replace(DATA_MARKER, blob)
+    expects) into a template — the reusable lawful transform. `<` is escaped so no
+    field can break out of the <script> tag; only `keys` are embedded (the air-gap
+    for the public file). This file keeps its own `/*BELIEF_DATA*/` marker so its
+    output stays byte-identical to the pre-factory version."""
+    return pf.inject(template_path, rows, keys, marker=DATA_MARKER, sort_keys=("ts", "id"))
 
 
 def render_html(rows: list[dict]) -> str:

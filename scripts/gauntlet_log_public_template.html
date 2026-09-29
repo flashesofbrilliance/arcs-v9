@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARCS · Pressure Ledger</title>
+<meta name="description" content="The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* GENERATED, do not hand-edit. PUBLIC projection: only the shape of the gauntlet
+     ledger (date / class / agent-count) is embedded, never the subject, finding,
+     outcome, or counterpart. Air-gap by construction.
+     Tokens are the shared ARCS kit, inlined verbatim (do not re-author the palette). */
+  /* ARCS Recoil Report — Design Tokens */
+  :root {
+    /* Surface */
+    --bg:        #020408;
+    --surface:   #0d1117;
+    --surface-2: #121820;
+    --border:    #1e293b;
+
+    /* Text */
+    --text:      #e2e8f0;
+    --muted:     #475569;
+    --dimmed:    #64748b;
+
+    /* Signal */
+    --cyan:      #00F0FF;
+    --green:     #00FF9D;
+    --gold:      #FFD700;
+    --red:       #FF4D6D;
+
+    /* Signal backgrounds (5% opacity) */
+    --cyan-bg:   rgba(0, 240, 255, 0.07);
+    --green-bg:  rgba(0, 255, 157, 0.07);
+    --gold-bg:   rgba(255, 215,   0, 0.07);
+    --red-bg:    rgba(255,  77, 109, 0.07);
+
+    /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+       dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+    --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+    --green-glow: 0 0 5px rgba(0,255,157,0.22);
+    --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+    /* Radius */
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 12px;
+
+    /* Font stacks */
+    --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+    --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+    --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+  }
+  /* page-local additions the kit does not define (NO signal hex re-declared here) */
+  :root {
+    --muted-hi: #94a3b8;   /* a lighter secondary text than kit --muted, for the lede/stats */
+    --faint:    #475569;
+    --steel:    #7dd3fc;
+    --violet:   #a78bfa;
+    --magenta:  #FF6EC7;
+    --blue:     #5B8DEF;
+    --r-pill:   999px;
+    --track-wide: 0.04em; --track-wider: 0.08em; --track-widest: 0.14em;
+    color-scheme: dark;
+  }
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
+    padding: 56px 24px 80px; line-height: 1.55; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: var(--cyan); text-decoration: none; }
+  /* one lane for hero + data. the hero lede spans the full lane, matching its
+     heading (house rule): no narrow reading-measure cap on the prose. */
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
+    text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 9px; margin-bottom: 18px; }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em;
+    text-wrap: balance; margin-bottom: 20px; }
+  h1 .em { color: var(--cyan); }
+  .lede { font-size: clamp(15px, 2vw, 19px); color: var(--muted-hi);
+    text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 14px; }
+  .lede b { color: var(--text); font-weight: 600; }
+  .honesty { font-size: 14px; color: var(--dimmed); text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 34px; }
+  .honesty b { color: var(--steel); font-weight: 600; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; margin-bottom: 44px; }
+  .stat { background: var(--surface); padding: 18px 20px; }
+  .stat-val { font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--text);
+    font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.01em; }
+  .stat-val.accent { color: var(--cyan); }
+  .stat-val small { font-size: 14px; color: var(--muted-hi); font-weight: 500; }
+  .stat-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; color: var(--dimmed); margin-top: 9px; line-height: 1.4; }
+
+  .section-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
+    text-transform: uppercase; color: var(--dimmed); display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  .ribbon-shell { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);
+    padding: 22px 20px 14px; margin-bottom: 16px; overflow-x: auto; }
+  .ribbon { position: relative; min-width: 640px; }
+  .grid-overlay { position: absolute; left: 150px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
+  .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #0f1720; }
+  .lane { position: relative; height: 34px; border-top: 1px dashed #0e1622; }
+  .lane:first-child { border-top: none; }
+  .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lane-track { position: absolute; left: 150px; right: 8px; top: 0; bottom: 0; }
+  .node { position: absolute; top: 50%; border-radius: 50%;
+    transform: translate(-50%,-50%); cursor: default; transition: transform .12s ease;
+    box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
+  .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.4); outline: none; z-index: 5; }
+  .axis { position: relative; height: 20px; margin: 8px 8px 0 150px; }
+  .tick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 10px; color: var(--faint); transform: translateX(-50%); }
+  .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
+
+  .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
+    background: #060b13; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 11px;
+    font-family: var(--font-mono); box-shadow: 0 12px 30px rgba(0,0,0,.6); }
+  .tip .tid { font-size: 12px; font-weight: 700; }
+  .tip .tmeta { font-size: 11px; color: var(--muted-hi); margin-top: 2px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 44px; }
+  .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 11px; color: var(--muted-hi); }
+  .legend .li .d { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 7px currentColor; }
+  .legend .li.meta { color: var(--dimmed); }
+
+  .method { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 40px; }
+  .m-card { border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: var(--r-md);
+    background: var(--surface); padding: 18px 20px; }
+  .m-card h3 { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: var(--track-wide);
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
+  .m-card.gold { border-left-color: var(--gold); }
+  .m-card.gold h3 { color: var(--gold); }
+  .m-card.violet { border-left-color: var(--violet); }
+  .m-card.violet h3 { color: var(--violet); }
+  .m-card p { font-size: 14px; color: var(--muted-hi); }
+
+  footer { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--dimmed); }
+  footer .links { display: flex; gap: 18px; margin-left: auto; }
+
+  @media (prefers-reduced-motion: reduce) { *{ transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow"><span class="dot"></span>ARCS · PRESSURE LEDGER</div>
+  <h1>Every artifact, <span class="em">pressure-tested</span> before it ships.</h1>
+  <p class="lede">Before an ARCS artifact reaches a counterpart, it runs an adversarial gauntlet: independent agents attack it across many facets at a high burden of proof, and only what survives goes out. This is the shape of that record. How often we pressure-test, the cadence over time, and how many independent agents each run put on the problem.</p>
+  <p class="honesty">What is public here is the <b>shape</b> only: when each run happened, what class of pressure-test it was, and how many agents ran it. What each run found, and about whom, stays internal. The rigor is the point, not the disclosure.</p>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="section-label">The gauntlet record, plotted in time</div>
+  <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
+  <div class="legend" id="legend"></div>
+
+  <div class="section-label">How to read this</div>
+  <div class="method">
+    <div class="m-card"><h3>Every dot is a run</h3><p>Each dot is one adversarial gauntlet against a real artifact before it went out. Its lane is the class of pressure-test; its position is when the run happened.</p></div>
+    <div class="m-card violet"><h3>Size is the fan-out</h3><p>A larger dot ran more independent agents. More agents is a wider net of attack, at higher cost, reserved for the runs that carried the most weight.</p></div>
+    <div class="m-card gold"><h3>The shape is the promise</h3><p>The record only grows. Every artifact that ships has a run behind it, and the cadence is the evidence that the discipline is real, not a claim.</p></div>
+  </div>
+
+  <footer>
+    <span>The shape of a self-checking process.</span>
+    <span class="links">
+      <a href="https://status.arcs.care/">full status</a>
+      <a href="https://status.arcs.care/beliefs">belief log</a>
+      <a href="https://arcs.care/trust">trust</a>
+    </span>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script id="data" type="application/json">/*DATA*/</script>
+<script>
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  // color per pressure-test class (unknown classes fall back to steel grey)
+  const KIND = {
+    "self-audit-gauntlet":"#00F0FF", "counterpart-gauntlet":"#FF6EC7",
+    "counterpart-gauntlet (war-game variant)":"#a78bfa", "advisory-panel":"#00FF9D",
+    "engine-run":"#5B8DEF", "cost-ripple":"#FFD700", "cost-single-pass-threshold":"#7dd3fc"
+  };
+  const asDate = s => new Date(s + "T00:00:00Z");
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const sorted = DATA.slice().sort((a,b)=> a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0);
+  const min = asDate(sorted[0].ts), max = asDate(sorted[sorted.length-1].ts);
+  const span = (max - min) || 1;
+  const fmt = d => `${MON[d.getUTCMonth()]} ${d.getUTCDate()}`;
+
+  const byKind = {};
+  DATA.forEach(d => byKind[d.kind] = (byKind[d.kind]||0)+1);
+  const kinds = Object.entries(byKind).sort((a,b)=>b[1]-a[1]);
+  const agentVals = DATA.map(d => Number(d.agents)).filter(n => Number.isFinite(n) && n > 0);
+  const totalAgents = agentVals.reduce((s,n)=>s+n, 0);
+  const maxAgents = agentVals.length ? Math.max(...agentVals) : 1;
+  const radius = a => { const n = Number(a); if (!Number.isFinite(n) || n <= 0) return 5;
+    return 5 + Math.round(7 * Math.sqrt(n / maxAgents)); };
+
+  document.getElementById("stats").innerHTML = [
+    [`<span class="accent">${DATA.length}</span>`, "Gauntlet runs · on the record"],
+    [`${kinds.length}`, "Classes of pressure-test"],
+    [`${totalAgents}`, "Independent agent-passes"],
+    [`${fmt(min)}<small> to ${fmt(max)}</small>`, "Span of the record"],
+  ].map(([v,l]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join("");
+
+  const ribbon = document.getElementById("ribbon");
+  const overlay = document.createElement("div"); overlay.className = "grid-overlay"; ribbon.appendChild(overlay);
+  kinds.forEach(([kind]) => {
+    const c = KIND[kind] || "#94a3b8";
+    const lane = document.createElement("div"); lane.className = "lane";
+    lane.innerHTML = `<span class="lane-name" style="color:${c}" title="${kind}">${kind}</span><div class="lane-track"></div>`;
+    const track = lane.querySelector(".lane-track");
+    DATA.filter(d=>d.kind===kind).forEach(d => {
+      const n = document.createElement("div");
+      n.className = "node";
+      const r = radius(d.agents);
+      n.style.width = n.style.height = (r*2) + "px";
+      n.style.left = (((asDate(d.ts)-min)/span)*100) + "%"; n.style.color = c; n.style.background = c;
+      n.tabIndex = 0; n.dataset.kind = kind; n.dataset.ts = d.ts;
+      n.dataset.agents = (d.agents == null ? "" : d.agents);
+      track.appendChild(n);
+    });
+    ribbon.appendChild(lane);
+  });
+
+  const axis = document.getElementById("axis");
+  let cur = new Date(Date.UTC(min.getUTCFullYear(), min.getUTCMonth(), 1));
+  while (cur <= max) {
+    const p = Math.max(0, Math.min(100, ((cur-min)/span)*100));
+    const t = document.createElement("div"); t.className = "tick"; t.style.left = p + "%";
+    t.textContent = MON[cur.getUTCMonth()] + " " + String(cur.getUTCFullYear()).slice(2);
+    axis.appendChild(t);
+    const g = document.createElement("div"); g.className = "grid-line"; g.style.left = p + "%"; overlay.appendChild(g);
+    cur = new Date(Date.UTC(cur.getUTCFullYear(), cur.getUTCMonth()+1, 1));
+  }
+
+  const tip = document.getElementById("tip");
+  function showTip(e){
+    const el = e.currentTarget;
+    const agents = el.dataset.agents ? `${el.dataset.agents} agents` : "agent count not recorded";
+    tip.innerHTML = `<div class="tid" style="color:${el.style.color}">${el.dataset.kind}</div><div class="tmeta">${el.dataset.ts} · ${agents}</div>`;
+    tip.style.opacity = "1";
+    const r = el.getBoundingClientRect();
+    let x = Math.max(10, Math.min(window.innerWidth - 190, r.left + r.width/2 - 90));
+    let y = r.top - 12 - tip.offsetHeight; if (y < 8) y = r.bottom + 12;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  function hideTip(){ tip.style.opacity = "0"; }
+  ribbon.querySelectorAll(".node").forEach(n => {
+    n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
+    n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
+  });
+
+  document.getElementById("legend").innerHTML =
+    kinds.map(([k,n]) => `<span class="li"><span class="d" style="color:${KIND[k]||'#94a3b8'};background:${KIND[k]||'#94a3b8'}"></span>${k} · ${n}</span>`).join("") +
+    `<span class="li meta">larger dot = more agents</span>`;
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
