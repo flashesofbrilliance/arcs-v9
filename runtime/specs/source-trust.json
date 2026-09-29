@@ -1,0 +1,76 @@
+{
+  "$schema": "arcs-source-trust/v1",
+  "generated_from": [
+    "_STATE/source-trust-events.jsonl",
+    "runtime/specs/source-trust-sources.json"
+  ],
+  "generator": "scripts/source_trust_emit.py",
+  "derivation": "asymmetric decayed counts; see script docstring",
+  "half_life_days": 90.0,
+  "weights": {
+    "falsified": 1.0,
+    "confirmed": 0.1
+  },
+  "sources": {
+    "zach": {
+      "label": "Zach Harris (User0)",
+      "kind": "human",
+      "tier": "ELEVATED",
+      "suspicion": 0.714,
+      "falsified": 2,
+      "confirmed": 2,
+      "last_falsified": "2026-09-27",
+      "last_confirmed": "2026-09-27",
+      "pinned_reason": null,
+      "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "claude-fable": {
+      "label": "Claude Fable 5.1 sessions in Claude Code (this harness's agent)",
+      "kind": "agent",
+      "tier": "ELEVATED",
+      "suspicion": 0.79,
+      "falsified": 5,
+      "confirmed": 5,
+      "last_falsified": "2026-09-27",
+      "last_confirmed": "2026-09-27",
+      "pinned_reason": null,
+      "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "hermes": {
+      "label": "Hermes harness sessions",
+      "kind": "harness",
+      "tier": "ZERO-WEIGHT",
+      "suspicion": 0.65,
+      "falsified": 1,
+      "confirmed": 0,
+      "last_falsified": "2026-09-13",
+      "last_confirmed": null,
+      "pinned_reason": "memory hermes-attestations-carry-zero-evidentiary-weight (2026-09-13): its attestations of repo work are not evidence; verify via session_search FTS or git",
+      "verification_demand": "every claim needs an independent primary record; the source's word counts for nothing"
+    },
+    "perplexity": {
+      "label": "Perplexity research/audit documents",
+      "kind": "external",
+      "tier": "ELEVATED",
+      "suspicion": 0.645,
+      "falsified": 1,
+      "confirmed": 1,
+      "last_falsified": "2026-09-27",
+      "last_confirmed": "2026-09-27",
+      "pinned_reason": null,
+      "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "subagent-citation": {
+      "label": "Citations produced by spawned subagents (unchecked)",
+      "kind": "agent",
+      "tier": "STANDARD",
+      "suspicion": 0.5,
+      "falsified": 0,
+      "confirmed": 0,
+      "last_falsified": null,
+      "last_confirmed": null,
+      "pinned_reason": null,
+      "verification_demand": "spot-check load-bearing claims; unbacked claims stay what_unconfirmed"
+    }
+  }
+}

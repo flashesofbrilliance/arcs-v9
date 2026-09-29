@@ -34,6 +34,16 @@
       "port": 8765
     },
     {
+      "name": "Save nudge v1.1 preview (priceless-brattain, flag ON)",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/zharris/arcs-v9/.claude/worktrees/priceless-brattain-208033 && NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11=true npm run dev -- --port 3002"
+      ],
+      "port": 3002,
+      "autoPort": true
+    },
+    {
       "name": "Static public/ (nftt preview)",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "5055", "--directory", "public"],

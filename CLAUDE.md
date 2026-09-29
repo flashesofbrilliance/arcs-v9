@@ -114,73 +114,112 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.67.0 (2026-09-26)
+# Handoff — v3.71.0 (2026-09-28)
 
-> **NFTT contrast debt repaired + the whole NFTT corpus brought into head-meta conformance, behind
-> two Frustration Gates. All merged to main and prod-verified live on good.arcs.care.** Follow-up to
-> v3.66.0's call-C low-contrast ratchet: paid down the genuine debt the ratchet deferred, then swept
-> the gap-class it revealed across all 38 NFTT pages. Draft-first throughout; merged only on Zach's
-> explicit go.
+> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
+> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
+> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
+> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
 
-## Shipped + LIVE (verified on prod)
-- **take-home-trap-dossier genuine WCAG fix** (`3fbefb74`, `b235654c` -> `daf3fbad`): the `--dimmed`
-  token failed AA on its real dark surfaces (`#64748b` = 3.63:1 on `#161b22`) and in light mode. Raised
-  dark -> kit-canonical `#748699` (AA, from `45fd49a5`), light -> `#5e6b78`. Detector low-contrast
-  **111 -> 81**; the 81 residue is all VERIFIED artifacts (cross-theme `#ffffff` fallback + unresolved
-  `#000000` default — every flagged dark token passes on its real surface). Ratchet baseline dropped
-  111 -> 81 per its own provenance, so it no longer exempts the repaired debt. Also brought
-  `nftt-gates.sh` to PASS: `· NFTT` title suffix, description + robots meta, and defanged the two live
-  IOC emails to `[.]com` (matches the page's own convention; correct threat-intel hygiene, clears the
-  blanket PII scan). Redaction/PII discipline intact (only color tokens + meta changed).
-- **Whole-corpus head-meta conformance** (`ce2b504b` -> `ef4282ee`): 9 nonconforming `blog-nftt-*.html`
-  given the `· NFTT` title suffix + a faithful description (from each page's own lede/h1). `robots=index`
-  added to the 4 public standalone posts; the 4 recon-report fragments + the HUD KEEP `robots=noindex`
-  (redacted companion reports — int/ext air-gap; verified still noindex live). `blog-nftt-index.html`
-  exempt (listing page, deliberate `· ARCS` title). Fixed a pre-existing en-dash (`L0–L7` -> `L0-L7`).
-- **New Frustration Gate** `scripts/nftt_meta_gate.py` (stdlib-only; per-file for pre-commit ADDED+MODIFIED
-  + `--all` sweep; exempts index; `--self-test` proves fail-on-bad + pass-on-good) wired into
-  `scripts/git-hooks/pre-commit`. `--all` sweep GREEN (38 files, only index exempt). Root cause it closes:
-  `nftt-gates.sh` checks head-meta ONE FILE AT A TIME, so legacy posts drifted until touched.
-- Receipts: `2026-09-26--nftt-dossier-contrast-and-gate-merge--ZH`,
-  `2026-09-26--nftt-headmeta-conform-all-plus-gate--ZH` (both fully confirmed against live prod).
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
+  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
+  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
+  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
+  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
+  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
+  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
+  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
+  F-row demotes its class. `--self-test` 13/13.
+- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
+- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
+  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
+  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
+- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
+  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
+  the query terms: the ouroboros clause visible on day one.
+- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
 
 ## Open (next session)
-1. **Carried from v3.66.0**: visual-slop half — wire the design-detector step into `nftt-gates.sh` once
-   the design-system brand-profile branch lands on main (gated on Zach's 7-wave-migration review).
-2. **Local main checkout is parked on another branch**, so ITS `git-hooks/pre-commit` won't run the new
-   NFTT block until it next lands on main; everyone via origin/main already has it.
-3. Carried: cold-recon redaction phrasing test case (`[42a0ec]`); `_STATE/night-moves/2026-09-26.md`.
+1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
+   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
+   `150beb19`, and the receipt id when that branch lands; then close issue #584.
+2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
+   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
+3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
+   named as a defeater but no ridgeline file exists on main to read.
+4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
 
 ## Lessons (in the record)
-- **The "legacy page predates the gate" class**: a per-file gate that only fires on touch lets whole
-  corpora drift silently. The fix is a batch `--all` gate wired to the always-run path (Frustration
-  Gate, AGENTS.md #15) — fire it on round 2, not round 15.
-- **Detector bg-inference is not ground truth**: classify artifact-vs-real by computing contrast on the
-  ACTUAL rendered surface read from the CSS, not the detector's `#ffffff`/`#000000` fallback.
-- **Robots gate checks presence, not value** — so a conformance sweep can add the tag to `noindex`
-  fragments without ever pushing them to `index`; the air-gap survives the sweep.
+- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
+  registry note as a candidate, not as ground.
+- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
+  its job: the record is drifted-at-birth until the merge lands.
 
 
-# Handoff — v3.66.1 (2026-09-26)
+# Handoff — v3.70.0 (2026-09-28)
 
-> **Off-repo thinking session: falsifiable criteria for a public Farcaster debate, shipped as a pre-registered
-> bet + a phone card; then memory consolidated.** No product code touched. Deliverables banked on branch
-> `claude/falsifiable-position-criteria-inltlk` (not merged; nothing deployed).
+> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
+> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
+> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
+> were the same two red on main's own run and untouched by the diff.
 
-## Shipped
-- **The Loop-Closing Wager** (private Artifact, v2): https://claude.ai/artifact/ApVz1HbRKh575HTSBDEZZY.
-  @six vs @czar, 7 sub-claims with kill conditions, crux test (>50% keep default-on proactive agent after
-  90 days), adoption x attention 2x2, ground rules, sign-by-reply. Wrap-lint clean after a measure fix.
-- **Ahmed-order re-cut + ARCS phone card** (local session, `4fba4f5`): verdict + one big number (50%) first,
-  depth behind disclosure; `settle-card.png` (1170x2013) replaces the old off-brand card. All gates incl.
-  Impeccable; 1 low-contrast false positive exempted and booked in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
-- Sources: `_ARTIFACTS/2026-09-26-loop-closing-wager/` (page html, card html, png).
-- **Memory consolidated:** MEMORY.md live window = September; v3.46.0 and older moved verbatim to archive.
+
+### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
+- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: higher than at start; no sends today` (Zach, 2026-09-28).
+- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
+- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
+  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
+  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
+- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
+  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
+  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
+  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
+  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
+  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
+- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
+  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
+  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
+  `white-space:nowrap` on the stamped date.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
+  PR #591 and issue #579.
 
 ## Open (next session)
-1. Zach to share the Artifact (Share menu; it is private, the tagged people hit a sign-in wall otherwise),
-   post the card, and collect "agreed" replies. Two blanks await the parties: the oracle and the stake.
-2. If both agree: file a decision receipt for the wager (ex-ante, horizon `1-3y`) and set a 2028-09-26 check.
-3. Backfill gap: v3.66.0 has no MEMORY.md entry.
-4. Carried from v3.66.0: visual-slop brand allowlist awaits Zach landing the design-system branch; cold-recon
-   redaction doubled-article fix.
+1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
+   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
+   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
+2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
+   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
+3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
+   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
+   emitter; reuse it before hand-stating any number on a gated page.
+
+## Lessons (in the record)
+- A number on a public page that a script can compute must be stamped by that script and covered by the
+  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
+- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
+  not only the named gates, before calling a page clean.

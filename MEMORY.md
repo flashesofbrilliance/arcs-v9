@@ -7,6 +7,63 @@
 
 ---
 
+## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
+
+- `operators/arcs_librarian.py` (stdlib, 3.9+): value = p_load_bearing x cost_if_absent(stakes); cost = read_friction + displacement; source-trust tier before backing; unbacked -> `what_unconfirmed` only; ZERO-WEIGHT source -> no backing; `reserve_ratio` + `curation_debt` always; ouroboros demotes classes whose prior picks were falsified. `--self-test` 13/13.
+- `runtime/specs/read-friction-tiers.json` (tier prose made data). Registry row 21 READY on `--probe`; bridge self-test 15/15. First real run `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json` (1087 candidates, 6 taken, reserve 0:6; `op:21` ranked itself first).
+- Receipt `2026-09-28--librarian-recommend-op21-merge--ZH`. Owed: backlog row `librarian-recommend-needle` status append (row not on main; lives on `claude/fanout-ranks-2-7`), issue #584 close.
+
+## [v3.70.0] 2026-09-28 — Chip rank 2: falsification count on the public audit page, stamped from the ledger (PR #591 -> `740aa55f`)
+
+- **good.arcs.care/audit** now shows the ledger count (40), latest date (2026-09-27), and links status.arcs.care/beliefs.
+  `scripts/belief_log_emit.py` stamps the marked block on the page AND the generated row of its `.evidence.jsonl`;
+  `--check` (CI `belief-log` job) fails on drift, fail-on-bad proved both ways. Live verified via `get_deployment`.
+- Receipt `2026-09-28--audit-page-falsification-count--ZH`. Backlog row is on PR #585's branch, not main; status
+  append + closing issue #579 wait on that merge.
+- Lesson: the blocking gate was `case_evidence_lint` (pre-commit), not one of the four the chip named. Run the
+  hook path, not only the named gates. A computed public number must be stamped by the script that computes it.
+
+## [v3.68.1] 2026-09-27 — Accountant keel chip: external funnel measured, distribution gap located (PR #586, draft)
+
+- **The external funnel, from prod, founder split out:** external 10 receipts / 4 users / 6 debriefed / 0 closed,
+  last external receipt 2026-07-10 (79 days, 0 in 30d). Founder 196 / 135 / 3 (a third closure, drifted, on
+  2026-09-26). Anonymous 48, none after 2026-07-13. Instrument: `scripts/outcome_funnel.py` (read-only, stdlib,
+  `--self-test`), feed `_STATE/outcome-funnel/2026-09-27.json`. Queries ran verbatim via Supabase `execute_sql`.
+- **The gap is inflow, not conversion, and it was findable by grep:** the three live good.arcs.care surfaces
+  (`/copypasta`, `/fears`, `/audit`) carried no link to the compass at all. The move: 11 kill-clause cards on
+  `/fears` hand the sharpened claim to `app.arcs.care/dashboard?q=&horizon=`; dashboard reads `?horizon=`.
+- **Detector comparisons must share a directory:** the kintsugi ratchet's 15-vs-2 was the HEAD copy sitting in
+  `/tmp` without `DESIGN.md`. Inside the repo: 15 vs 15, no new findings.
+- Unmerged: PR #586 awaits Zach's go; receipt follows the merge.
+
+---
+
+## [v3.68.0] 2026-09-27 — The membrane day: operator registry + MCP bridge, LEGEND, LORE, source-trust, altitude canary, witness scout, Operator 25 (11 PRs merged, 11 receipts)
+
+- **An external "audit" (Perplexity) mapped an invented 1-19 operator numbering onto files that implement
+  something else; ~1/3 of its "Full Production" cells failed a grep.** Numbering LOCKED to
+  `operators/docs/PERIODIC-TABLE.md`. `scripts/operator_registry_emit.py` generates
+  `operators/OPERATOR-REGISTRY.json` and refuses any binding it cannot grep (it caught its own author on run 1:
+  Librarian `query` did not exist). `operators/arcs_mcp_bridge.py` (mcp 2.x, py>=3.10 venv) dispatches only via the
+  registry; unbuilt operators answer `status=blocked`. PR #559 `1ffed09e`. See
+  [[operator-numbering-locked-periodic-table-registry-generated]].
+- **Vocabulary became data with gates:** LEGEND (`runtime/specs/legend.jsonl`, `scripts/legend.py`; every acronym
+  carries an operational definition, [[always-expand-acronyms-with-operational-definition]]); LORE
+  (`runtime/specs/lore.jsonl`: class x verdict, a verdict without a test is a rumor, stories never deleted);
+  fate registry (`runtime/specs/fates.json`, PR #570 open). PRs #561, #569.
+- **Trust became a generated table:** `runtime/specs/source-trust.json` from an events ledger; asymmetric (falsified
+  1.0, confirmed 0.1, 90-day half-life, Beta prior). Its v0 formula could not let decay act; the self-test caught it
+  before the first table. PR #568.
+- **Operator 25 Shavasana** spec v0 + `/handoff` Step -2 (`scripts/shavasana_handoff.py`): this handoff is the first
+  to run through it (breath: 31 commits / 11 merges out, 3 falsifications + 20 dissent markers in; sycophancy OK).
+  PRs #566, #567. Deceipts F38-F40 filed.
+- **Measured, not asserted:** the harness loads only the first 25,000 chars of MEMORY.md (spawned session), so the
+  80KB project index is mostly invisible until curated. [[memory-index-load-cap-observed]].
+- **Tao two-books collision raised, not resolved** (`_DECISIONS/CANON-COLLISION-tao-two-books.md`): 256 oracle rows vs
+  242 rendered rows, 0 shared ids; tao-257 minted into both. Tao coverage: NFTT 2/29, TIL 0/5 → gate + backlog.
+- Method banked: [[forensic-quality-bar-correct-premise-name-loss-channel]] (correct the premise, name the loss
+  channel by rate/visibility/direction); recursion terminates at git.
+
 ## [v3.67.0] 2026-09-26 — NFTT contrast debt repaid + whole-corpus head-meta conformance + batch gate (merged, live)
 
 - **take-home-trap-dossier genuine WCAG fix:** the `--dimmed` token failed AA on its real dark surfaces

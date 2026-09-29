@@ -463,4 +463,111 @@ if [ -n "$bl_staged" ] && command -v python3 >/dev/null 2>&1; then
     exit 1
   fi
 fi
+
+# operator-registry freshness guard — OPERATOR-REGISTRY.json is GENERATED from
+# operators/docs/PERIODIC-TABLE.md + a grep-verified binding map. If the table,
+# the generator, or any bound operator module is staged, the committed registry
+# must still match (a stale registry lets the MCP bridge advertise operators
+# that no longer exist: the exact "audit claimed a file that isn't there" class).
+orx=$(git diff --cached --name-only -- operators/docs/PERIODIC-TABLE.md scripts/operator_registry_emit.py operators/OPERATOR-REGISTRY.json 'operators/*.py' 'operators/core/*.py' 2>/dev/null || true)
+if [ -n "$orx" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/operator_registry_emit.py ]; then
+  if ! python3 scripts/operator_registry_emit.py --check >/dev/null 2>&1; then
+    python3 scripts/operator_registry_emit.py --check >&2 || true
+    echo "✖ pre-commit(operator-registry): operators/OPERATOR-REGISTRY.json is stale or a binding no longer exists." >&2
+    echo "  fix: python3 scripts/operator_registry_emit.py && git add operators/OPERATOR-REGISTRY.json" >&2
+    exit 1
+  fi
+fi
+
+# LEGEND freshness guard — runtime/specs/LEGEND.md is GENERATED from legend.jsonl.
+# If either is staged, the render must be fresh and every row must pass schema
+# (unique term/aliases, operational_definition >= 25 chars, real expansion).
+lg=$(git diff --cached --name-only -- runtime/specs/legend.jsonl runtime/specs/LEGEND.md scripts/legend.py 2>/dev/null || true)
+if [ -n "$lg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/legend.py ]; then
+  if ! python3 scripts/legend.py check >/dev/null 2>&1; then
+    python3 scripts/legend.py check >&2 || true
+    echo "✖ pre-commit(legend): legend.jsonl fails schema or LEGEND.md is stale. fix: python3 scripts/legend.py render && git add runtime/specs/LEGEND.md" >&2
+    exit 1
+  fi
+fi
+
+# altitude canary — the coal-mine smoke test for prose that is fluent and confident with NO
+# ground return (no sha / path / ADR / receipt / URL / memory-link in a long assertive section).
+# ADVISORY by default (a canary warns; it does not fly the plane). Set ALTITUDE_CANARY_BLOCK=1
+# to make NO GROUND RETURN block, once the record corpus is clean. Pairs with the integrity gate.
+if [ -f scripts/altitude_canary.py ] && command -v python3 >/dev/null 2>&1; then
+  if [ "${ALTITUDE_CANARY_BLOCK:-0}" = "1" ]; then
+    python3 scripts/altitude_canary.py --staged --strict >&2 || { echo "✖ pre-commit(altitude-canary): a staged record has a section with NO GROUND RETURN (see above)." >&2; exit 1; }
+  else
+    python3 scripts/altitude_canary.py --staged >&2 || true
+  fi
+fi
+
+# source-trust freshness guard — runtime/specs/source-trust.json is GENERATED from the events
+# ledger + sources registry (asymmetric decayed counts). If any of the three is staged, the
+# generated table must match (tiers + counts; the decayed float is allowed to drift with time).
+st=$(git diff --cached --name-only -- _STATE/source-trust-events.jsonl runtime/specs/source-trust-sources.json runtime/specs/source-trust.json scripts/source_trust_emit.py 2>/dev/null || true)
+if [ -n "$st" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/source_trust_emit.py ]; then
+  if ! python3 scripts/source_trust_emit.py --check >/dev/null 2>&1; then
+    python3 scripts/source_trust_emit.py --check >&2 || true
+    echo "✖ pre-commit(source-trust): generated table stale or an event names an unregistered source. fix: python3 scripts/source_trust_emit.py && git add runtime/specs/source-trust.json" >&2
+    exit 1
+  fi
+fi
+
+# LORE freshness guard — runtime/specs/LORE.md is GENERATED from lore.jsonl. Verdicts need tests
+# (a verdict without a test is a rumor); ids are append-only; superseded_by must exist.
+lo=$(git diff --cached --name-only -- runtime/specs/lore.jsonl runtime/specs/LORE.md scripts/lore.py 2>/dev/null || true)
+if [ -n "$lo" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/lore.py ]; then
+  if ! python3 scripts/lore.py check >/dev/null 2>&1; then
+    python3 scripts/lore.py check >&2 || true
+    echo "✖ pre-commit(lore): lore.jsonl fails schema or LORE.md is stale. fix: python3 scripts/lore.py render && git add runtime/specs/LORE.md" >&2
+    exit 1
+  fi
+fi
+
+# Tao projection freshness — runtime/tao/proverbs.json is GENERATED from _CANON/tao-proverbs.jsonl
+# (Option A ruling, _DECISIONS/CANON-COLLISION-tao-two-books.md). If canon, the projection, or the
+# generator is staged, the committed projection must still match canon.
+tp=$(git diff --cached --name-only -- _CANON/tao-proverbs.jsonl runtime/tao/proverbs.json scripts/tao_project.py 2>/dev/null || true)
+if [ -n "$tp" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/tao_project.py ]; then
+  if ! python3 scripts/tao_project.py --check >/dev/null 2>&1; then
+    python3 scripts/tao_project.py --check >&2 || true
+    echo "✖ pre-commit(tao-project): runtime/tao/proverbs.json is stale vs canon. fix: python3 scripts/tao_project.py && git add runtime/tao/proverbs.json" >&2
+    exit 1
+  fi
+fi
+
+# Tao coverage — a NEWLY ADDED NFTT/TIL post must have a proverb citing its slug in a Tao book,
+# or carry <!-- tao-waiver: reason --> (an honest, declared zero). Legacy posts are reported by
+# `python3 scripts/tao_coverage_check.py`, not blocked (2026-09-27: 2/37 covered).
+if [ -f scripts/tao_coverage_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/tao_coverage_check.py --staged; then
+    echo "✖ pre-commit(tao-coverage): mint via /tao-mint (oracle-numbered) or add a tao-waiver marker to the post." >&2
+    exit 1
+  fi
+fi
+
+# fate registry — every artifact class may only land in a fate runtime/specs/fates.json allows.
+# Runs when the registry or any hard-class ledger is staged; hard misses block, soft are reported.
+fr=$(git diff --cached --name-only -- runtime/specs/fates.json scripts/fates.py runtime/specs/lore.jsonl '_STATE/witness/*.jsonl' _STATE/falsification-ledger.jsonl operators/OPERATOR-REGISTRY.json runtime/specs/source-trust.json operators/RC-REGISTRY.json '_DECISIONS/ADR-*.md' 2>/dev/null || true)
+if [ -n "$fr" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/fates.py ]; then
+  if ! python3 scripts/fates.py check >/dev/null 2>&1; then
+    python3 scripts/fates.py check >&2 || true
+    echo "✖ pre-commit(fates): a hard-class ledger records a fate its class may not have (see above). Fix the value, or amend runtime/specs/fates.json with a reason." >&2
+    exit 1
+  fi
+fi
+
+# assumptions ledger — an open row must name its deciding test; a decided row must cite its ref;
+# _STATE/assumptions.md is generated. Runs when the ledger, its render, or the script is staged.
+am=$(git diff --cached --name-only -- _STATE/assumptions.jsonl _STATE/assumptions.md scripts/assumptions.py 2>/dev/null || true)
+if [ -n "$am" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/assumptions.py ]; then
+  if ! python3 scripts/assumptions.py check >/dev/null 2>&1; then
+    python3 scripts/assumptions.py check >&2 || true
+    echo "✖ pre-commit(assumptions): ledger fails schema or render is stale. fix: python3 scripts/assumptions.py render && git add _STATE/assumptions.md" >&2
+    exit 1
+  fi
+fi
 exit 0
+

@@ -152,7 +152,8 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/beliefs", destination: "/belief-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
-        { source: "/:path((?!.*beliefs).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/:path((?!.*beliefs|.*gauntlets).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -181,6 +182,8 @@ const nextConfig: NextConfig = {
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
+        // arcs.care/case-study: neutral (counterpart-agnostic) Ideal Protein case study, forked from conduit-case-study.html 2026-09-28.
+        { source: "/case-study", destination: "/case-study.html" },
       ],
       fallback: [],
     };

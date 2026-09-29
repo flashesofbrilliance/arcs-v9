@@ -1,35 +1,47 @@
 {
-  "captured_at": "2026-09-26T17:06:00Z",
+  "captured_at": "2026-09-28T09:54:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ef4282ee",
-    "head_message": "Merge remote-tracking branch 'origin/main' into claude/eloquent-kapitsa-cdc9c4 (NFTT head-meta conformance + gate)",
+    "head_sha": "7e812c6c",
+    "head_message": "Merge pull request #621 from flashesofbrilliance/claude/tao-backfill-batch-5",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
-    "production_alias": "https://good.arcs.care (+ app/www/arcs.care)",
+    "latest_deploy_url": "arcs-v9-ktk2n9u9w-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
-    "latest_deploy_sha": "ef4282ee",
+    "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
-    ]
+    ],
+    "verified_sha": "740aa55f",
+    "note": "latest_deploy = merge of PR #591; env list carried from prior snapshot, not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
-    "note": "decision_receipt table used this session; 2 receipts filed (dossier-contrast merge, headmeta-conform-all)"
+    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
+    "port": 6543,
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Account",
+      "Session",
+      "VerificationToken"
+    ],
+    "note": "decision_receipt: no row from this session yet; one follows the merge of PR #586. Funnel read-only pull 2026-09-27: external 10/4/6/0, founder 196/135/3."
   },
-  "session_summary": "NFTT take-home-trap-dossier genuine WCAG contrast debt fixed (--dimmed raised to AA, kit-canonical #748699 dark / #5e6b78 light; detector 111->81, ratchet baseline dropped 111->81); nftt-gates brought to pass (title/desc/robots + IOC email defang); then whole NFTT corpus (9 pages) conformed to the head-meta gate + new batch Frustration Gate scripts/nftt_meta_gate.py wired into pre-commit. All merged to main + prod-verified live.",
-  "next_action": "Carried from v3.66.0: wire the design-detector (visual-slop) step into nftt-gates.sh once the design-system brand-profile branch lands on main (gated on Zach reviewing the 7-wave migration plan).",
-  "blocking": "NONE"
+  "open_adrs": [
+    "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
+  ],
+  "session_summary": "Chip rank 7: Librarian.recommend(q, budget) by expected value; Operator 21 rebound latest -> recommend, READY on probe; PR #613 merged 150beb19, receipt 2026-09-28--librarian-recommend-op21-merge--ZH.",
+  "next_action": "Append status to backlog row librarian-recommend-needle when claude/fanout-ranks-2-7 lands on main, close issue #584, then wire unfold.py to recommend.",
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-28T02:51:49Z"
 }
