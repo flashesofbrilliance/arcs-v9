@@ -209,6 +209,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 16. **Operator numbering is the periodic table, nothing else.** `operators/docs/PERIODIC-TABLE.md` is the only enumeration (1-15 atoms · 16-21 boardroom · 22-25 chorus · 26-28 super-admin; Folksonomy=20, Librarian=21). An external "audit" (2026-09-27) invented a 1-19 map and bound it to files that do not implement those operators (`kryptonite_scorer.py` as Accountant, `audit_service/` as Librarian, `core/governance.py` as Immune). Never hand-write an operator→file map: regenerate `operators/OPERATOR-REGISTRY.json` with `python3 scripts/operator_registry_emit.py` (refuses to emit any binding whose symbol it cannot grep; `--probe` import-tests with `operators/.venv`; `--check` is on pre-commit). `core/governance.py` + `core/operators.py` import `loguru`/`pandas` that are not declared anywhere: they are dead until someone owns that dep decision.
 
+17. **Merge with `gh pr merge --merge`, never `--squash` or `--rebase`.** A merge commit keeps the branch's own commits and the per-PR boundary that decision receipts cite; a squash or rebase lands as a 1-parent commit and erases both. Branch protection cannot enforce this on the free private plan, so `scripts/squash_merge_detector.py` checks it daily (`.github/workflows/no-squash.yml`, fails red on any merged PR without a merge commit). `scripts/ship_docs.sh` already uses `--merge`.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
