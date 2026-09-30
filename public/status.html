@@ -1442,7 +1442,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 173 · SEP 29", title: "The privacy promise now has a test that fails if it breaks.", rank: 2,
+    date: "DAY 173 · SEP 29", title: "The privacy promise now has a test that fails if it breaks.", rank: 1,
     alt: [
       "The trust page promises that visitors without an account are not saved. A unit test now runs the real prep and compass handlers anonymously and asserts zero database writes, no email and no cookie. Removing either route's guard makes the test fail; that was checked, not assumed. The decision-gate logic got 17 cases of its own. No new dependencies.",
       "A second guard fails CI on any Tailwind or className creep outside the two sanctioned exceptions. Both close findings on the project's own open-defect ledger."
