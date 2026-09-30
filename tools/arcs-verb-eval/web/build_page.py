@@ -144,10 +144,6 @@ section > h2 {{ font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-bott
 .qa dd {{ margin: 0; color: var(--soft); }}
 .qa dd strong {{ color: var(--text); font-weight: 600; }}
 
-/* try it */
-.try {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }}
-.try .code pre {{ font-size: 14px; }}
-.try p {{ margin-bottom: 8px; }}
 
 /* code */
 .code {{ position: relative; min-width: 0; }}
@@ -254,7 +250,7 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
   .step .kid {{ grid-column: 2; }}
   .step .stamp {{ grid-column: 3; grid-row: 1 / span 3; margin: 0; }}
   .step .foot {{ grid-column: 2; }}
-  .reasons, .try {{ grid-template-columns: minmax(0, 1fr); gap: 20px; }}
+  .reasons {{ grid-template-columns: minmax(0, 1fr); gap: 20px; }}
   .qa div {{ grid-template-columns: minmax(0, 1fr); gap: 4px; }}
   .deep-body, .play-grid {{ grid-template-columns: minmax(0, 1fr); }}
   summary {{ grid-template-columns: auto minmax(0, 1fr) auto auto; }}
@@ -327,7 +323,6 @@ code, pre, kbd, textarea, .tool {{ font-variant-ligatures: none !important; font
   <section aria-labelledby="builders">
     <h2 id="builders">For builders</h2>
     <div class="depth">
-      <div class="try"><div><p>Prove every check catches a bad example:</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>make test</code></pre></div></div><div><p>Run all five steps on the sample:</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>make demo</code></pre></div></div></div>
       <details class="deep"><summary><span class="st-name">All five steps as one GitHub workflow</span><span></span><span></span><span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="deep-body"><div class="full"><div class="code"><button type="button" class="copy">Copy</button><pre><code>{E(sn["_full"])}</code></pre></div></div></div></details>
       <details class="deep"><summary><span class="st-name">What each step saves</span><span></span><span></span><span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="deep-body"><div class="full"><p class="note">One format for all five. The next step reads it.</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>{E(json.dumps({"verb":"synthesis","fate":"hold","upstream":"evaluation.json#sha256:9f1c","gates":[{"id":"no-new-claims","ok":False,"evidence":"line 212"}],"rubric":[{"row":"D-specificity","score":2,"judge":"human"}],"sycophancy":{"agreement":4,"dissent":3,"verdict":"OK","blocking":False}}, indent=2))}</code></pre></div></div></div></details>
     </div>
