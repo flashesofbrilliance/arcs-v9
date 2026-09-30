@@ -114,6 +114,42 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.72.0 (2026-09-30)
+
+> **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
+> main at `e902a439` on Zach's explicit go; one `decision_receipt` row
+> (`2026-09-30--chronicle-reading-room-tenant--ZH`). The fe-smoke job was red on 5 tests (blacksmith `/`, `/observatory`,
+> growth-ai `/forge`, two smoke `/recoil` gates), the same 5 failing on main run 36668935316; the chronicle
+> tests pass in CI.
+
+## Shipped + on main
+- **Shape (Zach, 2026-09-29):** five books by git epoch (Genesis `471d5739`..`a61d492e`, Exodus ..`445ebf08`,
+  Leviticus ..`1dffaa2e`, Numbers ..`d21c7ee6`, Deuteronomy ..`aef6180a`; Day 0 = `471d5739`, matching
+  status.arcs.care DAY 173) x five fathoms (the profile-scan "Five Fathoms", rendered as a resolution descent:
+  30,000 ft / 8-bit to ground truth / 8K). Each book: a chakra (Muladhara..Vishuddha; Ajna and Sahasrara shown
+  as not yet reached), a canon epigraph (`tao-137`, `tao-150`, `tao-099`, `tao-012`, `tao-028`), and a closing
+  Operator 25 Shavasana. Oxherding was proposed and dropped for chakras.
+- **SSOT:** `runtime/specs/chronicle-books.json` (prose + claims + the written half of each Shavasana). Renderer
+  `scripts/chronicle_render.py` computes every fathom-4 count and the Shavasana mechanical half from git + the
+  falsification ledger, reads epigraph text from `_CANON/tao-proverbs.jsonl` by id, and exits 1 on an em-dash,
+  an unknown tao id, or a non-contiguous boundary. `--check` and `--self-test` (9/9).
+- **Route:** `/api/reading-room/chronicle` (concordance clone) + `outputFileTracingIncludes` entry; manifest
+  `chronicle` built:true. Test `tests/chronicle.spec.ts` (22: one-fathom-at-a-time in every book, 4 widths x 5
+  fathoms, lede spans the lane).
+
+## Open (next session)
+1. Live admin render at app.arcs.care/reading-room/chronicle not verified after deploy.
+2. Somatic reads for all five Shavasanas are pending Zach.
+3. Unproven in the page: first READY deploy date, the ADR-collision cause, 2/247 closed outcomes (re-measure
+   against the DB), the Nov 2025 Book of ARCS.
+4. Concordance route has no `outputFileTracingIncludes` entry; spun off as its own task (running separately).
+
+## Lessons (in the record)
+- A count named "merges" was a count of PR-merge subjects (Numbers 139 vs 214 merge commits). The skeptic pass
+  caught it in five places; name a count by the predicate that produced it.
+- CI checks out shallow: any gate that re-derives from deep history must fall back to the committed render.
+- The impeccable pre-commit detector reads DESIGN.md: `--dimmed` fails 4.5:1; muted copy uses text-secondary.
+
 # Handoff — v3.71.0 (2026-09-28)
 
 > **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
@@ -168,58 +204,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   registry note as a candidate, not as ground.
 - An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
   its job: the record is drifted-at-birth until the merge lands.
-
-
-# Handoff — v3.70.0 (2026-09-28)
-
-> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
-> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
-> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
-> were the same two red on main's own run and untouched by the diff.
-
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: higher than at start; no sends today` (Zach, 2026-09-28).
-- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
-- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
-  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
-  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
-- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
-  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
-  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
-  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
-  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
-  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
-- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
-  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
-  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
-  `white-space:nowrap` on the stamped date.
-- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
-  PR #591 and issue #579.
-
-## Open (next session)
-1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
-   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
-   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
-2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
-   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
-3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
-   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
-   emitter; reuse it before hand-stating any number on a gated page.
-
-## Lessons (in the record)
-- A number on a public page that a script can compute must be stamped by that script and covered by the
-  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
-- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
-  not only the named gates, before calling a page clean.

@@ -531,3 +531,14 @@ earlier `cramped-padding` on result rows.
 shorthand, not `padding-block`, and expect CLI flags in code to read as em-dashes. When the
 `impeccable hooks ignore-value` helper writes `.impeccable/config.json` it re-indents the whole file;
 re-serialize with `indent=1` before committing so the diff is only the new entries.
+||||||| 68b6b7bd
+
+
+## Seam 2026-09-30: "ceremony and theater" in the bar-raiser NFTT post
+
+- **Break:** `blog-nftt-any-stranger-can-be-a-bar-raiser.html` section I paraphrased the hiring manager's
+  allergy as "ceremony and theater". The design detector flagged `theater-slop-phrase` on a new file.
+- **Repair:** changed to "ceremony and buzzwords", which is the record's own wording (the engagement
+  memory says "PM ceremony/buzzword theater"). Real signal, not a false positive: a post about a resume
+  reading as AI slop should not carry a stock AI phrase.
+- **Guard:** the kintsugi pre-commit hook already blocks this class on new files; no new gate needed.

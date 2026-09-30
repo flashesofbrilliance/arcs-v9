@@ -105,3 +105,6 @@ runtime/job-search/
 _INBOX/witness-backfill-candidates.jsonl
 _INBOX/unfold-*.md
 _INBOX/echo-ridgeline-*
+
+# linkedin_render.py output (queue files are the SSOT)
+_ARTIFACTS/linkedin/
