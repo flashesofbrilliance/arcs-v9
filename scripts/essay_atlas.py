@@ -18,6 +18,7 @@ Method (stdlib only, no new deps):
 Lexical, not semantic: TF-IDF sees shared vocabulary, not shared ideas. Treat it as a tripwire.
 
 Usage: python3 scripts/essay_atlas.py [--eps 0.80] [--min 2] [--sweep] [--json out.json]
+       python3 scripts/essay_atlas.py --bundles [--json out.json]   # Op 21 fills each show
 """
 import glob, html, json, math, os, random, re, sys, collections
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -142,5 +143,45 @@ def main(a):
     return 0
 
 
+def _entry(a):
+    if "--bundles" in a:
+        out = bundles()
+        if "--json" in a:
+            json.dump(out, open(a[a.index("--json") + 1], "w"), indent=1, default=str)
+        return 0
+    return main(a)
+
+
+# --- Op 21: fill each show's bundle by expected value (Librarian, unchanged) ------------------
+SHOWS = {
+    "Receipts": "prediction falsifier scored checked against the primary document filing ledger correction conviction Apple margin",
+    "The Agent That Sent It": "agent sent email unauthorized memory reconstruction cold warm reader send attested gated",
+    "In the Repo": "governance branch pull request main merge ledger lattice outage second pass ancestry",
+}
+
+
+def bundles(budget=60000, n_max=8, stakes="medium"):
+    from pathlib import Path
+    from arcs_librarian import Librarian, Candidate
+    cands = []
+    for p in sorted(glob.glob(os.path.join(ROOT, "public", "blog-*.html"))):
+        slug = os.path.basename(p)[5:-5]
+        if SKIP.search(slug):
+            continue
+        t = body_text(p)
+        cands.append(Candidate(id=slug, cls="essay", text=t[:6000], path=os.path.relpath(p, ROOT),
+                               date="2026-09-29", source="claude-fable"))
+    lib = Librarian(root=Path(ROOT), load_corpus=False, extra_candidates=cands)
+    out = {}
+    for show, q in SHOWS.items():
+        r = lib.recommend(q, budget=budget, stakes=stakes, n_max=n_max, classes=["essay"])
+        out[show] = r
+        taken = r.get("items") or []
+        print(f"\n## {show}  (reserve {r.get('reserve_ratio')}, curation_debt {r.get('curation_debt')})")
+        for t in taken:
+            print(f"   {t.get('id'):<52} value={t.get('value')} cost={t.get('cost')}")
+    return out
+
+
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(_entry(sys.argv[1:]))
