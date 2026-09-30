@@ -94,7 +94,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
             What are you really<br />trying to decide?
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: '1.125rem', color: text.secondary, lineHeight: 1.75, margin: '0 0 1.75rem' }}>
-            Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
+            ARCS questions your question first, so you don&rsquo;t accidentally solve the wrong problem.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>

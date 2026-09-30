@@ -19,6 +19,10 @@ const PINNED_BRIEF_ID = 'cmqbd3i3k000104lawptiz7x0'
 // build, baking whatever it returned into a static HTML shell forever).
 export const dynamic = 'force-dynamic'
 
+// Stored receipts are frozen records and some predate the no-em-dash rule, so the
+// landing copy is scrubbed at render time instead of rewriting the row.
+const noDash = (t: string) => t.replace(/\s*\u2014\s*/g, ': ')
+
 async function getPinnedDemo(): Promise<HomeDemo | null> {
   try {
     const r = await prisma.receipt.findUnique({ where: { id: PINNED_BRIEF_ID } })
@@ -28,8 +32,8 @@ async function getPinnedDemo(): Promise<HomeDemo | null> {
       if (r.atgTributaries) tributaries = JSON.parse(r.atgTributaries)
     } catch { /* malformed — omit */ }
     return {
-      decision: r.decision ?? r.trueNorth ?? '',
-      trueNorth: r.trueNorth ?? '',
+      decision: noDash(r.decision ?? r.trueNorth ?? ''),
+      trueNorth: noDash(r.trueNorth ?? ''),
       nciScore: r.nciScore ?? 50,
       coherence: r.coherencePct ?? null,
       mode: r.mode,
