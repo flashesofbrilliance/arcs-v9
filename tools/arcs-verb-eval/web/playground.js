@@ -2,10 +2,10 @@
   var LABEL = { analysis: 'Your work (HTML with marked facts)', assessment: 'Your checked facts (HTML with verdicts)', evaluation: 'Your reviews (JSON)', synthesis: 'Your short version (HTML)', recapitulation: 'Your draft note (text)' };
   var TOOL = { analysis: 'Analysis by ARCS', assessment: 'Assessment by ARCS', evaluation: 'Evaluation by ARCS', synthesis: 'Synthesis by ARCS', recapitulation: 'Recapitulation by ARCS' };
   var NAMES = { analysis: 'Find the facts', assessment: 'Check the facts', evaluation: 'Poke holes', synthesis: 'Make it short', recapitulation: 'Write the note' };
-  var PLAIN = { 'has-claims': 'Found facts to check', 'every-claim-sourced': 'Every fact says where it came from', 'high-stakes-two-sources': 'Big claims have two separate sources',
+  var PLAIN = { 'has-claims': 'Found marked facts to check', 'every-claim-sourced': 'Every marked fact names a source', 'high-stakes-two-sources': 'Facts marked big name two sources',
     'verdict-and-severity': 'Every fact has a verdict and a size', 'verified-was-sourced': 'A fact marked true was found in step 1', 'verified-numbers-in-evidence': 'True facts match their source numbers',
-    'summary-matches-rows': 'The totals match the list', 'min-lenses': 'Enough reviewers ran', 'lens-result-and-reason': 'Each reviewer gave a reason', 'dissent-floor': 'Someone actually disagreed',
-    'verdict-follows': 'The result follows from the reviews', 'conditions-cite-claims': 'Required fixes point at real facts', sycophancy: 'Not too agreeable', 'no-new-claims': 'No new facts snuck in',
+    'summary-matches-rows': 'The totals match the list', 'min-lenses': 'Enough reviewers ran', 'lens-result-and-reason': 'Each reviewer gave a reason', 'dissent-floor': 'At least one review disagrees',
+    'verdict-follows': 'The result follows from the reviews', 'conditions-cite-claims': 'Required fixes point at real facts', sycophancy: 'Not too agreeable', 'no-new-claims': 'No new marked facts snuck in',
     'conditions-honored': 'Required fixes were made', 'render-matches-verdict': 'Shaky facts look shaky', 'em-dash-zero': 'No long dashes', noindex: 'Hidden from search until ready',
     'draft-marker': 'Still marked as a draft', 'ex-ante-receipt': 'Our prediction was written down first', 'pre-send-gauntlet': 'The pre-send review is on file', 'note-claims-resolve': 'The note only says what the short version said' };
   var state = { verb: null, text: {}, prints: {} };

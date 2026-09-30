@@ -4,18 +4,18 @@ E = html.escape
 
 STEPS = [
  dict(v="analysis", n=1, name="Find the facts", kid="When you need to know what's true before building on it.", tool="Analysis by ARCS", stamp="go",
-      gates=[("pass","Every fact says where it came from","41 of 41"),("pass","Big claims have two separate sources","6 big claims, all with 2+"),("pass","Every source is on the evidence list","0 missing")],
+      gates=[("pass","Every marked fact names a source","41 of 41"),("pass","Facts marked big name two sources","6 big claims, all with 2+"),("pass","Every source is on the evidence list","0 missing")],
       rubric=[("Did we look in the obvious places?",None),("Did we use the original, not a summary?",None),("Did we keep the question open?",None),("Did we log the weird stuff?",None)], extra=""),
  dict(v="assessment", n=2, name="Check the facts", kid="When you need to tell a solid fact from a shaky one.", tool="Assessment by ARCS", stamp="go",
       gates=[("pass","Every fact has a verdict and a size","41 of 41"),("pass","A fact marked true was found in step 1","36 of 36"),("pass","The totals match the list","36 true, 2 gaps, 3 unsure")],
       rubric=[("Is each problem sized right?",2),("Are the gaps said as plainly as the wins?",1),("No hedging to sound safe?",2),("Are the objections written down?",2)],
       extra='''<div class="fid"><p class="fid-row sharp"><span class="tag t-go">true</span>Setup takes under 10 minutes on the demo.</p><p class="fid-row degraded"><span class="tag t-warn">gap</span>The deck says 40 customers. The case page lists 12.</p><p class="fid-row grain"><span class="tag t-unsure">unsure</span>No security report (SOC 2) was found.</p><p class="note">Shaky facts look shaky. Only true facts render sharp.</p></div>'''),
  dict(v="evaluation", n=3, name="Poke holes", kid="When you need to find the weak spot before someone else does.", tool="Evaluation by ARCS", stamp="go",
-      gates=[("pass","At least 4 reviewers ran","6 ran"),("pass","Each reviewer gave a reason","6 of 6"),("pass","Someone actually disagreed","2 disagreed: the risk reviewer and the skeptic"),("pass","The result follows from the reviews","pass, with 2 fixes required")],
+      gates=[("pass","At least 4 reviewers ran","6 ran"),("pass","Each reviewer gave a reason","6 of 6"),("pass","At least one review disagrees","2 disagreed: the risk reviewer and the skeptic"),("pass","The result follows from the reviews","pass, with 2 fixes required")],
       rubric=[("Was the best objection a real one?",2),("Did we argue the product works?",2),("Did we argue we can prove it?",1),("Are the required fixes concrete?",2)],
       extra='''<div class="meter"><p><strong>Too-agreeable check:</strong> fine. 9 agreements, 5 disagreements.</p><div class="bar" role="img" aria-label="Agreement ratio 1.5, limit 4"><i style="width:36%" class="b-go"></i><span class="lim" style="left:80%"></span></div><p class="note">If reviewers only agree, this step stops. A test nothing could fail is not a test.</p></div>'''),
  dict(v="synthesis", n=4, name="Make it short", kid="When you need it short without adding anything unchecked.", tool="Synthesis by ARCS", stamp="stop",
-      gates=[("fail","No new facts snuck in",'"Trusted by 50+ teams" was never checked'),("fail","Required fixes were made","the 40-customer number still looks certain"),("pass","Writing has no filler","clean"),("pass","No long dashes","0"),("pass","Hidden from search until ready","yes")],
+      gates=[("fail","No new marked facts snuck in",'"Trusted by 50+ teams" was never checked'),("fail","Required fixes were made","the 40-customer number still looks certain"),("pass","Writing has no filler","clean"),("pass","No long dashes","0"),("pass","Hidden from search until ready","yes")],
       rubric=[("Plain words?",2),("Clear structure?",1),("Easy rhythm?",2),("Specific, not vague?",2),("About five times shorter?",2)], extra=""),
  dict(v="recapitulation", n=5, name="Write the note", kid="When you need a note that's ready for a person to send.", tool="Recapitulation by ARCS", stamp="wait",
       gates=[("pass","Still marked as a draft","DRAFT"),("pass","Our prediction was written down first","filed before the draft"),("pass","The note says nothing the short version didn't","5 of 5"),("pass","Not too agreeable","borderline: 13 agreements, 2 disagreements")],
@@ -57,7 +57,7 @@ FIXTURES = open("fixtures.json").read().replace("</", "<\\/")
 CONTROLLER = open("controller.js").read()
 page = f'''<title>Five Verbs by ARCS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 /* inlined verbatim from src/ui-kit/recoil-report/_tokens.css; single dark world by choice */
@@ -89,7 +89,12 @@ page = f'''<title>Five Verbs by ARCS</title>
 }}
 /* page layer: one readable secondary text tone (the kit's --dimmed is 3.9:1 on surface, under 4.5) */
 /* layout: verdict, the five steps as one flowing strip, three reasons, three answers, try it, then the evidence behind a click */
-:root {{ --soft: #9aa7b8; --lane: 1080px; --measure: 640px; color-scheme: dark; }}
+/* DESIGN.md layer (repo root, the global system): three voices, its radii and neutrals override the kit's.
+   Type sizes stay at marketing scale on purpose (documented exception: the page is a Persuade surface). */
+:root {{ --soft: #94a3b8; --surface-2: #111827; --lane: 1080px; --measure: 640px; color-scheme: dark;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif; --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace; --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --r-sm: 3px; --r-md: 6px; --r-lg: 10px; }}
 * {{ box-sizing: border-box; }}
 code, pre, kbd, textarea {{ font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }}
 html {{ scrollbar-color: var(--border) var(--bg); }}
@@ -106,7 +111,7 @@ section > h2 {{ font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-bott
 
 /* verdict */
 .verdict {{ padding-block: 72px 36px; display: grid; gap: 18px; }}
-.verdict h1 {{ font-size: clamp(40px, 7vw, 76px); font-weight: 700; line-height: 1; letter-spacing: -0.03em; }}
+.verdict h1 {{ font-family: var(--font-serif) !important; font-weight: 500 !important; letter-spacing: -0.02em !important; font-size: clamp(40px, 7vw, 76px); font-weight: 700; line-height: 1; letter-spacing: -0.03em; }}
 .verdict h1 span {{ color: var(--cyan); }}
 .verdict .lede {{ font-size: clamp(18px, 2vw, 21px); color: var(--text); opacity: 0.88; max-width: none; }}
 
@@ -190,8 +195,8 @@ details[open] .chev {{ transform: rotate(180deg); }}
 .sharp {{ opacity: 1; font-weight: 500; }} .degraded {{ opacity: 0.85; }} .grain {{ opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }}
 .tag {{ font: 600 11px var(--font-sans); text-align: center; padding: 2px 6px; border-radius: var(--r-sm); border: 1px solid currentColor; }}
 .t-go {{ color: var(--green); }} .t-warn {{ color: var(--gold); }} .t-unsure {{ color: var(--soft); }}
-.bar {{ position: relative; height: 8px; border-radius: 4px; background: var(--surface-2); }}
-.bar i {{ position: absolute; inset: 0 auto 0 0; border-radius: 4px; }} .b-go {{ background: var(--green); }}
+.bar {{ position: relative; height: 8px; border-radius: 3px; background: var(--surface-2); }}
+.bar i {{ position: absolute; inset: 0 auto 0 0; border-radius: 3px; }} .b-go {{ background: var(--green); }}
 .lim {{ position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--gold); }}
 
 /* playground */
@@ -203,10 +208,10 @@ textarea {{ width: 100%; min-height: 150px; max-height: 40vh; resize: vertical; 
 textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .play-actions {{ display: flex; flex-wrap: wrap; gap: 8px; }}
 #play-nb-wrap {{ display: contents; }} #play-nb-wrap[hidden] {{ display: none; }}
-.btn {{ display: inline-flex; align-items: center; line-height: 1.2; font: 500 14px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 9px 14px; cursor: pointer; }}
-.btn:hover {{ border-color: var(--soft); }}
-.btn.primary {{ background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 600; }}
-.btn.primary:hover {{ filter: brightness(1.08); }}
+.btn {{ display: inline-flex; align-items: center; line-height: 1.2; font: 700 12px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); background: transparent; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 14px; cursor: pointer; }}
+.btn:hover, .btn:focus-visible {{ border-color: var(--cyan); color: var(--cyan); }}
+.btn.primary {{ background: rgba(0,240,255,0.08); color: var(--cyan); border-color: var(--cyan); }}
+.btn.primary:hover {{ background: rgba(0,240,255,0.14); }}
 .vh {{ position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }}
 .vh:focus-visible + label {{ outline: 2px solid var(--cyan); outline-offset: 3px; }}
 .play-out {{ min-height: 320px; min-width: 0; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); padding: 16px; display: grid; gap: 12px; align-content: start; }}
@@ -256,6 +261,10 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .hero-meter .bar {{ height: 12px; border-radius: 6px; }}
 .hero-meter .bar i {{ border-radius: 6px; }}
 
+.wordmark {{ font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; }}
+.wordmark .wa {{ color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }}
+.wordmark .wf {{ color: #64748b; font-weight: 400; letter-spacing: 0.14em; }}
+
 /* depth last */
 .depth {{ display: grid; gap: 10px; }}
 footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; gap: 4px; }}
@@ -280,6 +289,7 @@ code, pre, kbd, textarea, .tool {{ font-variant-ligatures: none !important; font
 
 <main class="lane">
   <header class="verdict">
+    <p class="wordmark" aria-label="ARCS Field OS"><span class="wa">ARCS</span><span class="wf">Field OS</span></p>
     <h1>Check it <span>before you say it.</span></h1>
     <p class="lede">Five steps between an idea and a message. Each step gets a stamp: go or stop. If any step says stop, you fix it before anyone hears it.</p>
     <p class="scope">It checks that every fact says where it came from, that nothing new sneaks in along the way, and that someone really pushed back. It can't tell you whether a claim is true. That part is still yours.</p>
