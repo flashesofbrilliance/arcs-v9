@@ -221,6 +221,7 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .lanes {{ display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }}
 .lane-col {{ min-width: 0; display: grid; gap: 8px; align-content: start; }}
 .lane-col .gates, .jcards {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; row-gap: 8px; }}
+@media (min-width: 1000px) {{ .lane-col .gates {{ grid-template-columns: repeat(3, minmax(0, 1fr)); }} }}
 @media (max-width: 640px) {{ .lane-col .gates, .jcards {{ grid-template-columns: minmax(0, 1fr); }} }}
 .lane-col .gates .g {{ border-bottom: 0; border-top: 1px solid var(--border); }}
 .lane-col h4 {{ margin: 0; font: 600 14px var(--font-sans); display: flex; gap: 8px; align-items: baseline; }}
