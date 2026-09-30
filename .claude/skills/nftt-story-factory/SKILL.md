@@ -10,10 +10,13 @@ take-home-trap "With Life" standard. You clone the template chrome, write the es
 sections, wire the route, add the index card, pass the gates, ship. There is no renderer and no
 JSON envelope in this path.
 
-- **Platinum master (chrome + register):** `public/blog-nftt-take-home-trap.html` — same naming
-  convention as `forge`'s Robin platinum master: the canonical reference, verified fresh below,
-  never trusted from memory of a past session.
-- **Latest worked example (this recipe, gauntlet-clean):** `public/blog-nftt-confirmed-not-my-bug.html`
+- **Clone source (head + chrome + body grammar):** `public/blog-nftt-confirmed-not-my-bug.html`.
+  It carries the full `<head>` (title, description, robots, fonts, `<style>`) and the `.topbar`
+  masthead the grammar below documents. Verified fresh below, never trusted from memory.
+- **Register reference only, do NOT clone:** `public/blog-nftt-take-home-trap.html` (the "With
+  Life" standard) sets the voice, but its file is a head-less fragment (it opens at `<title>`, no
+  `<!DOCTYPE>`/`<html>`/`<head>`) and its masthead class is `.cls`, not `.topbar`. Cloning it
+  yields a post that fails the documented grammar.
 - **Closest reflective-voice peer:** `public/blog-nftt-post-2.html`
 - **Optional hero-image layer** (`.cover` treatment, added 2026-09-13): a subset of posts
   (`the-instinct-before-it-had-a-name`, `the-method-that-was-already-built`,
@@ -53,8 +56,8 @@ reference post, never hand-retyped. Only the title, description, and the `<body>
 ## Make a new post
 
 ```bash
-# 1. clone the gold standard as your starting file
-cp public/blog-nftt-take-home-trap.html public/blog-nftt-<slug>.html
+# 1. clone the clone source (full head + .topbar grammar) as your starting file
+cp public/blog-nftt-confirmed-not-my-bug.html public/blog-nftt-<slug>.html
 ```
 Then, in the new file:
 - **`<head>`**: change `<title>` (`... · NFTT`), the `<meta name="description">` (one real sentence,
@@ -64,8 +67,14 @@ Then, in the new file:
 ```bash
 # 2. route it — add to the 'good' block in src/proxy.ts:
 #    '/blog/nftt/<slug>': '/blog-nftt-<slug>.html', '/blog/nftt/<slug>/full': '/blog-nftt-<slug>.html'
-# 3. index it — add a card to public/blog-nftt-index.html:
-#    new card = "Latest"; demote the previous "Latest" to its number (No. N).
+# 3. index it with the GENERATOR, never by hand-editing public/blog-nftt-index.html:
+#    a. add the post to POSTS in scripts/nftt_index_build.mjs (href, title, desc; img+alt only
+#       if it has hero art),
+#    b. add {slug, section, view} to "items" in scripts/nftt_index_layout.json (and the same
+#       row to DEFAULT_LAYOUT in the builder); view is featured | grid | compact,
+#    c. node scripts/nftt_index_build.mjs          # regenerates the index HTML
+#    d. node scripts/nftt_index_build.mjs --check  # must print OK (pre-commit + CI enforce it)
+#    A hand edit to the index HTML fails --check; the builder is the source of truth.
 # 4. run the gates (below), then commit; good.arcs.care deploys from main.
 ```
 
@@ -101,7 +110,10 @@ tonal register (Myst, not SaaS).
 6. **Build green**: `npm run build` (validates the proxy.ts route change; NODE_ENV pinned, per AGENTS gotcha 4).
 7. **Depth ladder never dead-links**: the single served file answers both `/<slug>` and `/<slug>/full`;
    do not link tiers that do not exist.
-8. **PII / counterpart gate** (publish is outward-facing): scan for any real name/email; if a real
+8. **NFTT spec**: `npm run test:nftt` (Playwright, `tests/nftt.spec.ts`) passes for the new post
+   (`NFTT_ONLY=<slug>` narrows it to the one post). It covers posts, not the index.
+9. **Index generator in sync**: `node scripts/nftt_index_build.mjs --check` prints OK.
+10. **PII / counterpart gate** (publish is outward-facing): scan for any real name/email; if a real
    counterpart is involved, apply the pseudonym/redaction convention before the publish-bless.
 
 ## Publish-bless (consent gate)

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * nftt_index_build.mjs — single source of truth for the "Notes from the Trenches" index.
+ * nftt_index_build.mjs: single source of truth for the "Notes from the Trenches" index.
  *
  * WHY THIS EXISTS
  *   The index is an every.to-style modular landing page: a featured lead, image grids for the
  *   art-bearing posts, and a compact archive for the text-only ones, grouped into thematic
  *   sections. Zach can rearrange it visually from the page itself (drag-and-drop) at
- *   good.arcs.care/blog/nftt?edit=1 — that editor exports a layout.json which this script
+ *   good.arcs.care/blog/nftt?edit=1; that editor exports a layout.json which this script
  *   consumes to regenerate the static HTML. The reader view is always fully static (SEO-safe);
  *   the editor never persists to readers on its own. Export -> commit -> live.
  *
@@ -14,6 +14,11 @@
  *   1. In edit mode, click "Export layout", save the JSON as scripts/nftt_index_layout.json
  *   2. node scripts/nftt_index_build.mjs        # regenerates public/blog-nftt-index.html
  *   3. commit both files
+ *
+ * ADDING A POST: add its entry to POSTS and an item to the layout JSON (and DEFAULT_LAYOUT), then
+ * regenerate. Never hand-edit public/blog-nftt-index.html: `--check` (pre-commit + CI) fails when
+ * the committed HTML differs from a regen, so a hand edit cannot silently drift from this file.
+ *   node scripts/nftt_index_build.mjs --check   # exit 1 on drift, writes nothing
  *
  * No em-dashes anywhere (repo gate). No new dependencies (native drag-and-drop, stdlib only).
  */
@@ -25,6 +30,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const OUT = join(ROOT, 'public', 'blog-nftt-index.html');
 const LAYOUT_OVERRIDE = join(__dirname, 'nftt_index_layout.json');
+const CHECK = process.argv.includes('--check');
 
 // ---- hero images (only 4 distinct files exist; reused across 7 posts) --------------------
 const IMG = {
@@ -36,6 +42,14 @@ const IMG = {
 
 // ---- POSTS: the content model (single source of truth) -----------------------------------
 const POSTS = {
+  'notomation': { href: '/blog/nftt/notomation', title: `Notomation`,
+    desc: `Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing.` },
+  'receipts-or-it-didnt-happen': { href: '/blog/nftt/receipts-or-it-didnt-happen', title: `A Tale of Two Incident Reports`,
+    desc: `Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen.` },
+  'the-cold-reconstruction': { href: '/blog/nftt/the-cold-reconstruction', title: `The Reader Who Wasn't There`,
+    desc: `A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark.` },
+  'the-control-and-the-experiment': { href: '/blog/nftt/the-control-and-the-experiment', title: `We Gave the Reader Its Memory Back`,
+    desc: `The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural.` },
   'post-1': { href: '/blog/nftt/post-1', title: `The week my notes started filing themselves`,
     desc: `A corpus that learned to catalog itself, from cold DM to witnessed law.` },
   'post-2': { href: '/blog/nftt/post-2', title: `The week my own memory tried to make me lie to a friend`,
@@ -44,6 +58,8 @@ const POSTS = {
     desc: `Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later.` },
   'post-4': { href: '/blog/nftt/post-4', title: `The detector's first catch was the document it was built to protect`,
     desc: `A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.` },
+  'a-draft-is-not-a-verb': { href: '/blog/nftt/a-draft-is-not-a-verb', title: `You Can Train Agency But You Can't Teach Good Judgment (Yet)`,
+    desc: `The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, not a bug, and the fix was a guardrail that removes the capability rather than a promise to be careful.` },
   'take-home-trap': { href: '/blog/nftt/take-home-trap', title: `With Life, and Without It`,
     desc: `Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis.` },
   'confirmed-not-my-bug': { href: '/blog/nftt/confirmed-not-my-bug', title: `Confirmed Not My Bug`,
@@ -67,29 +83,27 @@ const POSTS = {
   'second-pass': { href: '/blog/nftt/second-pass', title: `The Second Pass`,
     desc: `An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands.` },
   'the-instinct-before-it-had-a-name': { href: '/blog/nftt/the-instinct-before-it-had-a-name', title: `The Instinct Before It Had a Name`,
-    desc: `Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people.`,
-    img: IMG.instinct, alt: `A luminous Mobius surface, the instinct seen before it had a name.` },
+    desc: `Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people.` },
   'four-dates-one-thesis-three-confirmations': { href: '/blog/nftt/four-dates-one-thesis-three-confirmations', title: `Four Dates, One Thesis, Three Confirmations`,
-    desc: `A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open.`,
-    img: IMG.closing, alt: `A luminous Mobius figure-eight closing on itself, the prediction loop resolving into receipt.` },
+    desc: `A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open.` },
   'the-pre-mortem-that-asked-to-be-wrong': { href: '/blog/nftt/the-pre-mortem-that-asked-to-be-wrong', title: `The Pre-Mortem That Asked to Be Wrong`,
-    desc: `Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.`,
-    img: IMG.instinct, alt: `A luminous Mobius surface from a new vantage, the same circuit read with the opposite sign.` },
+    desc: `Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.` },
   'the-same-rigor-applied-to-slang': { href: '/blog/nftt/the-same-rigor-applied-to-slang', title: `The Same Rigor, Applied to Slang`,
-    desc: `Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.`,
-    img: IMG.method, alt: `A luminous Mobius traversal from another orientation, the same instrument turned to a new bench.` },
+    desc: `Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.` },
   'the-method-that-was-already-built': { href: '/blog/nftt/the-method-that-was-already-built', title: `The Method That Was Already Built`,
-    desc: `Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.`,
-    img: IMG.method, alt: `A luminous Mobius traversal, the method that was already built.` },
+    desc: `Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.` },
   'closing-the-loop-receipts': { href: '/blog/nftt/closing-the-loop-receipts', title: `Closing the Loop: Receipts on Three Predictions`,
-    desc: `Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record.`,
-    img: IMG.closing, alt: `A luminous Mobius figure-eight drawing tight, the same loop seen as it closes.` },
+    desc: `Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record.` },
   'tuning-into-the-distortion-field': { href: '/blog/nftt/tuning-into-the-distortion-field', title: `Tuning into the Distortion Field`,
     desc: `A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.`,
     img: IMG.tuning, alt: `A composite portrait dissolving into a distortion field, force leaving a wave.` },
+  'the-question-that-found-the-outage': { href: '/blog/nftt/the-question-that-found-the-outage', title: `The Question That Found the Outage`,
+    desc: `A routine question, how do I know this works, uncovered a six-week-old outage no one had reported: a migration that shipped in code but never reached the database. The fix revived a dead feature and turned the whole failure class loud.` },
   'the-lock-that-was-already-there': { href: '/blog/nftt/the-lock-that-was-already-there', title: `The Lock That Was Already There`,
     desc: `Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.`,
     img: IMG.closing, alt: `A luminous Mobius figure-eight drawing tight, the same loop seen as it closes, echoing a lock closing on itself.` },
+  'any-stranger-can-be-a-bar-raiser': { href: '/blog/nftt/any-stranger-can-be-a-bar-raiser', title: `Any Stranger Can Be a Bar Raiser`,
+    desc: `A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Every gate I owned had passed it. Notes on the review nobody on your team can give you.` },
 };
 
 // ---- SECTIONS + default LAYOUT (overridable by nftt_index_layout.json) --------------------
@@ -99,13 +113,19 @@ const DEFAULT_SECTIONS = [
   { id: 'field',        label: 'Field Accounts', blurb: 'Dispatches from the morning it actually happened.' },
 ];
 const DEFAULT_LAYOUT = [
-  { slug: 'tuning-into-the-distortion-field', section: 'apple-ledger', view: 'featured' },
-  { slug: 'closing-the-loop-receipts', section: 'apple-ledger', view: 'grid' },
-  { slug: 'four-dates-one-thesis-three-confirmations', section: 'apple-ledger', view: 'grid' },
+  { slug: 'the-instinct-before-it-had-a-name', section: 'apple-ledger', view: 'grid' },
+  { slug: 'the-method-that-was-already-built', section: 'apple-ledger', view: 'grid' },
   { slug: 'the-pre-mortem-that-asked-to-be-wrong', section: 'apple-ledger', view: 'grid' },
   { slug: 'the-same-rigor-applied-to-slang', section: 'apple-ledger', view: 'grid' },
-  { slug: 'the-method-that-was-already-built', section: 'apple-ledger', view: 'grid' },
-  { slug: 'the-instinct-before-it-had-a-name', section: 'apple-ledger', view: 'grid' },
+  { slug: 'four-dates-one-thesis-three-confirmations', section: 'apple-ledger', view: 'grid' },
+  { slug: 'closing-the-loop-receipts', section: 'apple-ledger', view: 'grid' },
+  { slug: 'tuning-into-the-distortion-field', section: 'apple-ledger', view: 'featured' },
+  { slug: 'notomation', section: 'factory', view: 'compact' },
+  { slug: 'receipts-or-it-didnt-happen', section: 'factory', view: 'compact' },
+  { slug: 'the-cold-reconstruction', section: 'factory', view: 'compact' },
+  { slug: 'the-control-and-the-experiment', section: 'factory', view: 'compact' },
+  { slug: 'the-question-that-found-the-outage', section: 'factory', view: 'compact' },
+  { slug: 'the-lock-that-was-already-there', section: 'factory', view: 'compact' },
   { slug: 'the-factory-on-itself', section: 'factory', view: 'compact' },
   { slug: 'the-loop-closes', section: 'factory', view: 'compact' },
   { slug: 'confirmed-not-my-bug', section: 'factory', view: 'compact' },
@@ -116,11 +136,13 @@ const DEFAULT_LAYOUT = [
   { slug: 'cheapest-edit-is-a-diff', section: 'factory', view: 'compact' },
   { slug: 'ledger-not-story', section: 'factory', view: 'compact' },
   { slug: 'probably-confirmation-bias', section: 'factory', view: 'compact' },
-  { slug: 'post-4', section: 'field', view: 'compact' },
+  { slug: 'any-stranger-can-be-a-bar-raiser', section: 'field', view: 'compact' },
+  { slug: 'a-draft-is-not-a-verb', section: 'field', view: 'compact' },
+  { slug: 'take-home-trap', section: 'field', view: 'compact' },
   { slug: 'post-3', section: 'field', view: 'compact' },
   { slug: 'post-2', section: 'field', view: 'compact' },
+  { slug: 'post-4', section: 'field', view: 'compact' },
   { slug: 'post-1', section: 'field', view: 'compact' },
-  { slug: 'take-home-trap', section: 'field', view: 'compact' },
 ];
 
 let SECTIONS = DEFAULT_SECTIONS, LAYOUT = DEFAULT_LAYOUT;
@@ -129,7 +151,7 @@ if (existsSync(LAYOUT_OVERRIDE)) {
     const o = JSON.parse(readFileSync(LAYOUT_OVERRIDE, 'utf8'));
     if (Array.isArray(o.sections) && o.sections.length) SECTIONS = o.sections;
     if (Array.isArray(o.items) && o.items.length) LAYOUT = o.items;
-    console.log(`[nftt-index] using layout override: ${LAYOUT_OVERRIDE}`);
+    if (!CHECK) console.log(`[nftt-index] using layout override: ${LAYOUT_OVERRIDE}`);
   } catch (e) { console.warn(`[nftt-index] layout override ignored (${e.message}); using defaults`); }
 }
 
@@ -150,9 +172,8 @@ function featuredCard(p) {
     </a>`;
 }
 function gridCard(p) {
-  const img = p.img ? `<div class="card-img"><img src="${p.img}" alt="${esc(p.alt || p.title)}" loading="lazy" width="1280" height="853"></div>` : '';
-  return `<a class="card${p.img ? '' : ' card-noimg'}" href="${p.href}">
-        ${img}
+  const img = p.img ? `\n        <div class="card-img"><img src="${p.img}" alt="${esc(p.alt || p.title)}" loading="lazy" width="1280" height="853"></div>` : '';
+  return `<a class="card" href="${p.href}">${img}
         <div class="card-body">
           <h3 class="card-t">${esc(p.title)}</h3>
           <p class="card-d">${esc(p.desc)}</p>
@@ -376,7 +397,7 @@ const page = `<!DOCTYPE html>
 
   /* featured */
   .feat{display:grid;grid-template-columns:1.12fr .88fr;border:1px solid var(--border);border-radius:18px;overflow:hidden;
-    background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.18));transition:.18s;}
+    background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.18));transition:.18s;margin-bottom:18px;}
   .feat:hover{border-color:var(--cyan);transform:translateY(-2px);}
   .feat-img{position:relative;min-height:260px;background:var(--surface-2);}
   .feat-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
@@ -532,5 +553,19 @@ ${readerHTML}
 </html>
 `;
 
+if (CHECK) {
+  const committed = existsSync(OUT) ? readFileSync(OUT, 'utf8') : '';
+  if (committed === page) {
+    console.log(`[nftt-index] --check OK: ${OUT} matches a fresh regen (${LAYOUT.length} posts)`);
+    process.exit(0);
+  }
+  const a = committed.split('\n'), b = page.split('\n');
+  let i = 0; while (i < a.length && a[i] === b[i]) i++;
+  console.error(`[nftt-index] --check FAILED: public/blog-nftt-index.html differs from a regen of scripts/nftt_index_build.mjs + scripts/nftt_index_layout.json.`);
+  console.error(`  first difference at line ${i + 1}:\n  committed: ${(a[i] ?? '<EOF>').slice(0, 200)}\n  generated: ${(b[i] ?? '<EOF>').slice(0, 200)}`);
+  console.error(`  Fix: edit POSTS / the layout JSON / the template in the builder, then run: node scripts/nftt_index_build.mjs`);
+  console.error(`  Never hand-edit the index HTML; the next regen would clobber it.`);
+  process.exit(1);
+}
 writeFileSync(OUT, page);
 console.log(`[nftt-index] wrote ${OUT} (${SECTIONS.length} sections, ${LAYOUT.length} posts, ${page.length} bytes)`);

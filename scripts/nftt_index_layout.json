@@ -53,6 +53,31 @@
       "view": "featured"
     },
     {
+      "slug": "notomation",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "receipts-or-it-didnt-happen",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "the-cold-reconstruction",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "the-control-and-the-experiment",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "the-question-that-found-the-outage",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
       "slug": "the-lock-that-was-already-there",
       "section": "factory",
       "view": "compact"
@@ -105,6 +130,16 @@
     {
       "slug": "probably-confirmation-bias",
       "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "any-stranger-can-be-a-bar-raiser",
+      "section": "field",
+      "view": "compact"
+    },
+    {
+      "slug": "a-draft-is-not-a-verb",
+      "section": "field",
       "view": "compact"
     },
     {

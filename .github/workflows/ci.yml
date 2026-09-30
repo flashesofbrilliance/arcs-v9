@@ -80,6 +80,8 @@ jobs:
         run: python3 scripts/source_trust_emit.py --check
       - name: Every gh_sync backlog row has an issue
         run: python3 scripts/backlog_issue_sync.py --check
+      - name: NFTT index HTML matches a regen of its builder + layout
+        run: node scripts/nftt_index_build.mjs --check
 
   smoke:
     runs-on: ubuntu-latest
