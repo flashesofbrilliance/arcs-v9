@@ -159,12 +159,14 @@ def sentence(s: str) -> str:
     return re.sub(r"(^|[.?!]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s.strip())
 
 
-def render_book(b: dict) -> str:
+def render_book(b: dict, fathoms: list) -> str:
+    alt = {f["n"]: f["altitude"] for f in fathoms}
+    res = {f["n"]: f["resolution"] for f in fathoms}
     t = b["t"]
     written = b.get("status") == "written"
     ep = (f'<blockquote class="ep"><p>{E(sentence(b["epigraph_text"]))}</p><cite>{E(b["epigraph"])} · _CANON/tao-proverbs.jsonl</cite></blockquote>'
           if b.get("epigraph_text") else
-          '<blockquote class="ep seam"><p>Epigraph unproven: no canon proverb chosen yet. A mint goes through /tao-mint, never coined here.</p></blockquote>')
+          '')  # no canon proverb chosen: render nothing (never coin one here; mints go through /tao-mint)
     head = (f'<header class="bh"><div class="eyebrow">Book {["I","II","III","IV","V"][b["n"]-1]} · {E(b["chakra"])} ({E(b["chakra_gloss"])})</div>'
             f'<h2>{E(b["name"])}</h2><div class="theme">{E(b["theme"])}</div>'
             f'<div class="span"><code>{b["open_sha"]}</code> {b["open_date"]} to <code>{b["close_sha"]}</code> {b["close_date"]} · cut: {E(b["cut"])}</div></header>')
@@ -182,8 +184,8 @@ def render_book(b: dict) -> str:
             for c in b["claims"])
         f5 = f'<ul class="claims">{f5}</ul>'
     else:
-        seam = lambda what: f'<p class="seam-note">Unwritten: {what} waits on the Genesis voice read. Fathom 4 (Tactical) is computed and live now.</p>'
-        f1, f2, f3 = seam("the one-line summary"), seam("the turn (left behind, taken up, the seam)"), seam("the narrative")
+        seam = lambda what: f'<p class="seam-note">Not yet written: {what}. The counts at 100 ft are already live.</p>'
+        f1, f2, f3 = seam("the view from 30,000 ft"), seam("what was left behind and what was taken up"), seam("the story")
         f5 = '<ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul>'
     f4 = ('<dl class="stats">'
           f'<div><dt>commits</dt><dd>{t["commits"]}</dd></div>'
@@ -201,7 +203,7 @@ def render_book(b: dict) -> str:
             f'<li><b>Somatic read</b> {E(sh.get("somatic", "pending"))} <span class="tag">somatic: pending Zach</span></li>'
             f'<li><b>Disposition</b> {E(sh.get("disposition", "pending"))}</li>'
             '</ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section>')
-    layers = "".join(f'<section class="f" data-depth="{n}"><div class="flab">Fathom {n} · {name}</div>{body}</section>'
+    layers = "".join(f'<section class="f" data-depth="{n}"><div class="flab">{alt[n]} · {res[n]} · {name}</div>{body}</section>'
                      for n, name, body in [(1, "Executive", f1), (2, "Strategic", ep + f2), (3, "Operational", f3),
                                            (4, "Tactical", f4), (5, "Surgical", f5)] if body)
     return f'<article class="book" id="{b["id"]}" data-status="{E(b.get("status", ""))}">{head}{layers}{shav}</article>'
@@ -222,6 +224,12 @@ code{font-family:var(--mono);font-size:.925rem;color:var(--gold);white-space:now
 .fbar button{font:inherit;background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:3px;padding:6px 10px;cursor:pointer;white-space:nowrap}
 .fbar button:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
 .fbar button[aria-pressed=true]{color:var(--cyan);border-color:var(--cyan)}
+.fbar button{flex:1 1 0;min-width:118px;text-align:left;white-space:normal}
+.fbar button b{display:block;font-weight:700}
+.fbar button small{display:block;font-size:.925rem}
+body[data-fathom="1"] .f{font-family:var(--mono);letter-spacing:.04em;font-weight:400}
+body[data-fathom="2"] .f{letter-spacing:.02em}
+body[data-fathom="5"] .f{letter-spacing:-.01em}
 .tl{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 8px}
 .tl a{flex:1 1 130px;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px}
 .tl small{display:block;color:var(--text-2);font-size:.925rem;white-space:nowrap}
@@ -270,11 +278,11 @@ var s=null;try{s=localStorage.getItem('chronicle-fathom')}catch(e){}set(s||'3');
 
 def render(model: dict) -> str:
     tokens = TOKENS.read_text(encoding="utf-8")
-    fbar = "".join(f'<button type="button" data-fathom-btn="{f["n"]}" aria-pressed="false">{f["n"]} {f["name"]}</button>' for f in model["fathoms"])
+    fbar = "".join(f'<button type="button" data-fathom-btn="{f["n"]}" aria-pressed="false"><b>{E(f["altitude"])}</b><small>{E(f["resolution"])}</small><small>{E(f["name"])}</small></button>' for f in model["fathoms"])
     tl = "".join(f'<a href="#{b["id"]}" data-status="{b.get("status","")}">{E(b["name"])}<small>{b["open_date"]}</small><small>{b["t"]["commits"]} commits</small></a>' for b in model["books"])
     tl += "".join(f'<span class="gone" title="{E(u["why"])}">{E(u["chakra"])}<small>not yet reached</small></span>' for u in model["unreached"])
     un = "".join(f'<p><b>{E(u["chakra"])}</b> ({E(u["gloss"])}): {E(u["why"])}.</p>' for u in model["unreached"])
-    body = "".join(render_book(b) for b in model["books"])
+    body = "".join(render_book(b, model["fathoms"]) for b in model["books"])
     return f"""<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -287,9 +295,9 @@ def render(model: dict) -> str:
 <body data-fathom="3"><div class="wrap">
 <div class="eyebrow">Reading Room · Chronicle · how did we get here?</div>
 <h1>{E(model["title"])}: {E(model["subtitle"])}</h1>
-<p class="lede">Five books from Day 0 to now, each readable at five depths, one depth at a time, each closed by a Shavasana that adds no claim. Drishti is the fixed gaze: choose a fathom and hold it.</p>
+<p class="lede">Five books from Day 0 to now. Start at 30,000 feet, where each book is a single coarse line, and descend to the ground, where every claim sits beside the commit that proves it. Each book closes with a Shavasana, a pause that adds no claim.</p>
 <div class="byline">rendered from <code>runtime/specs/chronicle-books.json</code> at main <code>{model["head"]}</code> · counts computed from git · proverbs from <code>_CANON/tao-proverbs.jsonl</code></div>
-<nav class="fbar" aria-label="Fathom depth">Fathom {fbar}</nav>
+<nav class="fbar" aria-label="Descend">{fbar}</nav>
 <nav class="tl" aria-label="Books">{tl}</nav>
 {body}
 <section class="unreached"><div class="eyebrow">Not yet reached</div>{un}</section>
