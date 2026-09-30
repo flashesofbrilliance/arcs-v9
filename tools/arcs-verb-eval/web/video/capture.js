@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- standalone Node script, not app code */
 // Frame-accurate capture of explainer.html: renderAt(t) per frame, then ffmpeg joins them.
 // node capture.js            -> frames/00000.jpg ... at 30 fps
 // node capture.js 2.5,8.5    -> still-2.5.png, still-8.5.png (layout check)

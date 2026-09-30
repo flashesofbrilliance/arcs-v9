@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- standalone Node script, not app code */
 // Frame-accurate capture for recut.html (both formats).
 // node capture2.js <src.html> <wide|square> stills 1.3,3.0     -> stills/<fmt>-<t>.png
 // node capture2.js <src.html> <wide|square> frames <outdir>     -> <outdir>/00000.jpg ... at 30 fps

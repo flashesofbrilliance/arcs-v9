@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- standalone Node script, not app code */
 // Runs parity cases through web/arcs-verb-eval.js in node (no DOMParser, so the engine's parseLite
 // path is used). stdin: JSON [{verb, text, up}], where up names an earlier case index or null.
 // stdout: JSON [[failed gate ids], ...]. Driven by test_arcs_verb_eval.py.
