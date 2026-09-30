@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Any Stranger Can Be a Bar Raiser · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Notes on the review nobody on your team can give you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">The outside strand</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">A review from someone with no reason to give it</p>
+    <h1>Any Stranger Can Be a Bar Raiser</h1>
+    <p class="standfirst">I built a careful bundle for a role I wanted. The first person to read it had known me for a single phone call, and he sent it back. He was right, and every gate I owned had passed it.</p>
+    <p class="byline">Field notes, receipts included · the counterparts are unnamed on purpose; the only subject here is the author and the record</p>
+  </header>
+
+  <blockquote lang="ja">良薬は口に苦し<br><span lang="en">Good medicine is bitter to the mouth.</span></blockquote>
+
+  <section>
+    <span class="num">I · The bundle</span>
+    <p class="lead">The call was with a recruiter I had never spoken to before. He was placing a product role at a school network, and he knew the hiring manager personally: classmates once, colleagues after. The relationship was the channel. He told me what the manager screens for, which was people who actually ship AI, and what he is allergic to, which was ceremony and buzzwords.</p>
+    <p>So I did what I do. I built him a bundle. A one-page brief on why the role fit, a tailored resume in a designed layout, a short note he could pass along. Every piece went through the gates I keep for anything customer-facing: no em-dashes, no cliches from the banned list, every number traced to a source. It was, by my own instruments, clean.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The one-line review</span>
+    <p>He read it and came back with the review that mattered. The resume read as AI-generated. The manager would see it that way inside a few seconds, and he was not going to forward it. Not a style note. A refusal to spend his relationship on it.</p>
+    <p>My first reflex was the one I have written about before: the gates passed, so the problem must be his taste. That reflex lasted about as long as it took to look at the page with his eyes instead of mine. The layout was polished in exactly the way generated things are polished. The phrasing was tidy in exactly the way generated things are tidy. Nothing on it was false. All of it was suspect, because correct and trustworthy are different properties and I had only built gates for the first one.</p>
+    <blockquote>A gate can only catch the failures its author already imagined. The failure you cannot imagine arrives in the voice of someone who owes you nothing.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · Why a stranger could see it</span>
+    <p>Bar raisers are usually appointed. A company picks someone from outside the hiring team, gives them a veto, and asks them to hold the line on quality with no stake in filling the seat. The design works because the outsider does not share the team's momentum.</p>
+    <p>This recruiter had no appointment. He had something better: a reputation he would spend by forwarding me, and a precise model of one reader. He was not grading the resume against a rubric. He was simulating a specific person opening it. My gates checked the artifact against rules I wrote. He checked it against the reader it was actually for. That is the whole difference, and it is not one my own review could close from the inside, because my rules and my blind spots came from the same place.</p>
+    <p>His note sent me back through the whole bundle with his reader in mind, and that second pass found something worse than a tone problem. A metric had drifted into the draft from a scratch file during tailoring, a clean-looking percentage that no vetted master could back up. No gate caught it. A blunt question did: did this come from anywhere? It had not. It came out.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · What changed</span>
+    <p>The fix was not to argue. It was to ship the plainest possible version and then make the lesson mechanical so it could not depend on meeting the right stranger again.</p>
+    <div class="panel">
+      <h4>The ledger: what the outside review caught, and what it became</h4>
+      <div class="step">
+        <span class="k">Caught</span><b>A designed resume that read as generated to its one real reader.</b>
+        <span class="k">Shipped</span><b>A one-page resume in a serif face, black on white, verified metrics only. Forwarded the same week.</b>
+        <span class="k">Found after</span><b>A percentage with no source, carried in from session scratch.</b>
+        <span class="k">Shipped</span><b>A provenance gate: every number on a customer-facing surface cites an evidence ledger or it fails the commit.</b>
+        <span class="k">Caught</span><b>Style gates that measured rules, not readers.</b>
+        <span class="k">Shipped</span><b>A slop-free rubric with a judgment half, not only a lint half, and a specificity floor that varies by genre.</b>
+      </div>
+      <p>The plain resume went out. The interview got booked. Whether it lands is not known at the time of writing, and this note does not pretend otherwise.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">V · The strand you cannot supply</span>
+    <p>In an earlier note I wrote that a strand cannot audit itself, that it takes a second strand with no stake to give the first an edge to stand off of. I built that second strand as a reviewer agent and felt good about it. This was the version I could not build. The reviewer agent shares my rubric. The recruiter shared nothing with me but one phone call and an interest in not being embarrassed.</p>
+    <p>So the practice I am keeping is small. When a stranger gives you a review for free, the default is to assume it is the bar raiser you did not appoint. Treat the objection as signal before you treat it as taste. Then turn the part that generalizes into a gate, so the next draft does not need the stranger to be there.</p>
+    <p>Anyone who reads your work for someone else is a bar raiser. They are holding a reader you cannot simulate, and they are telling you what that reader will see.</p>
+    <blockquote lang="ja">灯台下暗し<br><span lang="en">It is darkest at the foot of the lighthouse.</span></blockquote>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>

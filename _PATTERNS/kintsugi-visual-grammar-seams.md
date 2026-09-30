@@ -507,3 +507,12 @@ positives; silencing them to force a green gate would be gate-gaming, the exact 
 exists to prevent. They ratchet/WARN and never block, so leaving them is zero-cost. No redesign either
 (taste choices on his own auxiliary pages). If a future session sees these findings, this is the
 record: audited, defensible, intentionally left — not an oversight, do not suppress.
+
+## Seam 2026-09-30: "ceremony and theater" in the bar-raiser NFTT post
+
+- **Break:** `blog-nftt-any-stranger-can-be-a-bar-raiser.html` section I paraphrased the hiring manager's
+  allergy as "ceremony and theater". The design detector flagged `theater-slop-phrase` on a new file.
+- **Repair:** changed to "ceremony and buzzwords", which is the record's own wording (the engagement
+  memory says "PM ceremony/buzzword theater"). Real signal, not a false positive: a post about a resume
+  reading as AI slop should not carry a stock AI phrase.
+- **Guard:** the kintsugi pre-commit hook already blocks this class on new files; no new gate needed.
