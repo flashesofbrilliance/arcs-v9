@@ -11,15 +11,38 @@
     "Ranges: a book holds the commits in (open, close]; Genesis also holds the root commit. Boundaries approved by Zach 2026-09-29 (original ranges, Day 0 = 471d5739). Leviticus/Numbers and Numbers/Deuteronomy are calendar cuts pinned to the first first-parent commit on the date, not event cuts."
   ],
   "fathoms": [
-    {"n": 1, "name": "Executive"},
-    {"n": 2, "name": "Strategic"},
-    {"n": 3, "name": "Operational"},
-    {"n": 4, "name": "Tactical"},
-    {"n": 5, "name": "Surgical"}
+    {
+      "n": 1,
+      "name": "Executive"
+    },
+    {
+      "n": 2,
+      "name": "Strategic"
+    },
+    {
+      "n": 3,
+      "name": "Operational"
+    },
+    {
+      "n": 4,
+      "name": "Tactical"
+    },
+    {
+      "n": 5,
+      "name": "Surgical"
+    }
   ],
   "unreached": [
-    {"chakra": "Ajna", "gloss": "third eye, the seat of drishti", "why": "not yet reached: the Chronicle has not earned a book that sees without being told where to look"},
-    {"chakra": "Sahasrara", "gloss": "crown", "why": "not yet reached"}
+    {
+      "chakra": "Ajna",
+      "gloss": "third eye, the seat of drishti",
+      "why": "not yet reached: the Chronicle has not earned a book that sees without being told where to look"
+    },
+    {
+      "chakra": "Sahasrara",
+      "gloss": "crown",
+      "why": "not yet reached"
+    }
   ],
   "books": [
     {
@@ -35,7 +58,11 @@
       "epigraph": "tao-137",
       "status": "written",
       "executive": "Two commits and thirty-nine days of silence between them: a scaffold that named itself Day 1, and a pipeline that arrived carrying the physics of the world it was built for.",
-      "strategic": "Nothing was left behind, because nothing existed yet. What was taken up was a noun: the Receipt, a table in the first schema before there was any decision to put in it. The book of origin is also the book of the first seam, the gap the record does not cover.",
+      "strategic": {
+        "left": "Nothing yet. The only thing on the ground was a template: Next.js, Prisma, a magic link, and Tailwind, which the next book carries out.",
+        "taken": "A noun before a verb. The Receipt was a table in the first schema before there was any decision to put in it, and the compass, the Y-gate, and WORLD.md arrived to give it something to record.",
+        "seam": "Thirty-nine days with no commits. The record shows that work happened in them and not what it was."
+      },
       "operational": [
         "The first commit on main is 471d5739, at 11:39 on the morning of 9 April 2026. Its subject calls it Day 1. The status page counts differently: on 29 September it reads DAY 173, which only works if 9 April is Day 0. The world began on a disagreement about where to start counting, and both counts are in the record.",
         "What the scaffold contains is plain. Next.js 16, Prisma 7, Auth.js with a magic link. A schema with a User, a Receipt, and an Outcome. A proxy that guards two routes and sends everyone else to /compass. A package manifest that pulls in Tailwind, which the next book will have to carry out. The commit message ends with a done-state rather than a boast: fill the environment file, migrate, click the link, arrive at /dashboard with a session.",
@@ -44,14 +71,46 @@
         "Before any of it, there is an older book. ADR-071 and the apex-spine canon cite a Book of ARCS from November 2025 as the earliest artifact, the place where three was first named the minimum for coherence. It is not in this repository's history, so this Chronicle cannot prove it. It is cited here as what came before, and marked as such."
       ],
       "claims": [
-        {"text": "The first commit on main is 471d5739, dated 2026-04-09 11:39, subject 'Day 1 scaffold'.", "ref": "471d5739", "proven": true},
-        {"text": "status.arcs.care reads DAY 173 on 2026-09-29, which counts 2026-04-09 as Day 0.", "ref": "public/status.html", "proven": true},
-        {"text": "The Day 1 schema declares User, Receipt, and Outcome; the scaffold depends on tailwindcss ^4.", "ref": "471d5739:package.json", "proven": true},
-        {"text": "No commits exist on main between 471d5739 and a61d492e.", "ref": "git rev-list 471d5739..a61d492e", "proven": true},
-        {"text": "a61d492e carries migrations named 20260410143234_dewy_v1 and 20260410143652_add_coherence_satoshi_clarity.", "ref": "a61d492e", "proven": true},
-        {"text": "a61d492e adds WORLD.md (188 lines) across 31 files and 5,762 insertions, under a different author email than 471d5739.", "ref": "a61d492e", "proven": true},
-        {"text": "What happened in the 39 uncommitted days, beyond the two migration timestamps.", "ref": "none", "proven": false},
-        {"text": "A Book of ARCS existed in November 2025 and named three as the minimum for coherence.", "ref": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md", "proven": false}
+        {
+          "text": "The first commit on main is 471d5739, dated 2026-04-09 11:39, subject 'Day 1 scaffold'.",
+          "ref": "471d5739",
+          "proven": true
+        },
+        {
+          "text": "status.arcs.care reads DAY 173 on 2026-09-29, which counts 2026-04-09 as Day 0.",
+          "ref": "public/status.html",
+          "proven": true
+        },
+        {
+          "text": "The Day 1 schema declares User, Receipt, and Outcome; the scaffold depends on tailwindcss ^4.",
+          "ref": "471d5739:package.json",
+          "proven": true
+        },
+        {
+          "text": "No commits exist on main between 471d5739 and a61d492e.",
+          "ref": "git rev-list 471d5739..a61d492e",
+          "proven": true
+        },
+        {
+          "text": "a61d492e carries migrations named 20260410143234_dewy_v1 and 20260410143652_add_coherence_satoshi_clarity.",
+          "ref": "a61d492e",
+          "proven": true
+        },
+        {
+          "text": "a61d492e adds WORLD.md (188 lines) across 31 files and 5,762 insertions, under a different author email than 471d5739.",
+          "ref": "a61d492e",
+          "proven": true
+        },
+        {
+          "text": "What happened in the 39 uncommitted days, beyond the two migration timestamps.",
+          "ref": "none",
+          "proven": false
+        },
+        {
+          "text": "A Book of ARCS existed in November 2025 and named three as the minimum for coherence.",
+          "ref": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md",
+          "proven": false
+        }
       ],
       "shavasana": {
         "release": "Released: any reading of the 39 days as idleness. The migration timestamps say work happened; they do not say what or how much, so the Chronicle keeps only the timestamps. Kept: every claim with a sha. Downgraded to unproven: the November 2025 book, which is cited by the canon but not held by git.",
@@ -60,28 +119,56 @@
       }
     },
     {
-      "id": "exodus", "n": 2, "name": "Exodus", "theme": "leaving the old stack and form",
-      "chakra": "Svadhisthana", "chakra_gloss": "flow",
-      "open": "a61d492e", "close": "445ebf08", "cut": "event",
-      "epigraph": null, "status": "unwritten"
+      "id": "exodus",
+      "n": 2,
+      "name": "Exodus",
+      "theme": "leaving the old stack and form",
+      "chakra": "Svadhisthana",
+      "chakra_gloss": "flow",
+      "open": "a61d492e",
+      "close": "445ebf08",
+      "cut": "event",
+      "epigraph": null,
+      "status": "unwritten"
     },
     {
-      "id": "leviticus", "n": 3, "name": "Leviticus", "theme": "the laws and gates",
-      "chakra": "Manipura", "chakra_gloss": "will, fire",
-      "open": "445ebf08", "close": "1dffaa2e", "cut": "calendar 2026-08-01",
-      "epigraph": null, "status": "unwritten"
+      "id": "leviticus",
+      "n": 3,
+      "name": "Leviticus",
+      "theme": "the laws and gates",
+      "chakra": "Manipura",
+      "chakra_gloss": "will, fire",
+      "open": "445ebf08",
+      "close": "1dffaa2e",
+      "cut": "calendar 2026-08-01",
+      "epigraph": null,
+      "status": "unwritten"
     },
     {
-      "id": "numbers", "n": 4, "name": "Numbers", "theme": "the census and counts",
-      "chakra": "Anahata", "chakra_gloss": "heart, balance",
-      "open": "1dffaa2e", "close": "d21c7ee6", "cut": "calendar 2026-09-16",
-      "epigraph": null, "status": "unwritten"
+      "id": "numbers",
+      "n": 4,
+      "name": "Numbers",
+      "theme": "the census and counts",
+      "chakra": "Anahata",
+      "chakra_gloss": "heart, balance",
+      "open": "1dffaa2e",
+      "close": "d21c7ee6",
+      "cut": "calendar 2026-09-16",
+      "epigraph": null,
+      "status": "unwritten"
     },
     {
-      "id": "deuteronomy", "n": 5, "name": "Deuteronomy", "theme": "the law restated, looking back",
-      "chakra": "Vishuddha", "chakra_gloss": "throat, speech",
-      "open": "d21c7ee6", "close": "aef6180a", "cut": "open-ended; pinned to main at first render",
-      "epigraph": null, "status": "unwritten"
+      "id": "deuteronomy",
+      "n": 5,
+      "name": "Deuteronomy",
+      "theme": "the law restated, looking back",
+      "chakra": "Vishuddha",
+      "chakra_gloss": "throat, speech",
+      "open": "d21c7ee6",
+      "close": "aef6180a",
+      "cut": "open-ended; pinned to main at first render",
+      "epigraph": null,
+      "status": "unwritten"
     }
   ]
 }

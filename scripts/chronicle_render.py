@@ -170,7 +170,11 @@ def render_book(b: dict) -> str:
             f'<div class="span"><code>{b["open_sha"]}</code> {b["open_date"]} to <code>{b["close_sha"]}</code> {b["close_date"]} · cut: {E(b["cut"])}</div></header>')
     if written:
         f1 = f'<p class="exec">{E(b["executive"])}</p>'
-        f2 = f'<p class="strat">{E(b["strategic"])}</p>'
+        st = b["strategic"]
+        f2 = ('<dl class="turn">'
+              f'<div><dt>Left behind</dt><dd>{E(st["left"])}</dd></div>'
+              f'<div><dt>Taken up</dt><dd>{E(st["taken"])}</dd></div>'
+              f'<div class="seam"><dt>The seam</dt><dd>{E(st["seam"])}</dd></div></dl>')
         lead = ' class="lead"'
         f3 = "".join(f'<p{lead if i == 0 else ""}>{E(p)}</p>' for i, p in enumerate(b["operational"]))
         f5 = "".join(
@@ -178,8 +182,9 @@ def render_book(b: dict) -> str:
             for c in b["claims"])
         f5 = f'<ul class="claims">{f5}</ul>'
     else:
-        seam = '<p class="seam-note">Unwritten. This book waits on the Genesis voice read. Its boundaries and counts below are computed and live.</p>'
-        f1, f2, f3, f5 = seam, "", "", '<ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul>'
+        seam = lambda what: f'<p class="seam-note">Unwritten: {what} waits on the Genesis voice read. Fathom 4 (Tactical) is computed and live now.</p>'
+        f1, f2, f3 = seam("the one-line summary"), seam("the turn (left behind, taken up, the seam)"), seam("the narrative")
+        f5 = '<ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul>'
     f4 = ('<dl class="stats">'
           f'<div><dt>commits</dt><dd>{t["commits"]}</dd></div>'
           f'<div><dt>merges</dt><dd>{t["merges"]}</dd></div>'
@@ -246,10 +251,12 @@ code{font-family:var(--mono);font-size:.925rem;color:var(--gold);white-space:now
 .shav p.src{max-width:none}
 .unreached{margin-top:48px;border-top:1px dashed var(--border);padding-top:20px;color:var(--text-2)}
 .unreached p{max-width:none}
-body[data-fathom="1"] .f[data-depth="2"],body[data-fathom="1"] .f[data-depth="3"],body[data-fathom="1"] .f[data-depth="4"],body[data-fathom="1"] .f[data-depth="5"],
-body[data-fathom="2"] .f[data-depth="3"],body[data-fathom="2"] .f[data-depth="4"],body[data-fathom="2"] .f[data-depth="5"],
-body[data-fathom="3"] .f[data-depth="4"],body[data-fathom="3"] .f[data-depth="5"],
-body[data-fathom="4"] .f[data-depth="5"]{display:none}
+body[data-fathom="1"] .f:not([data-depth="1"]),body[data-fathom="2"] .f:not([data-depth="2"]),body[data-fathom="3"] .f:not([data-depth="3"]),body[data-fathom="4"] .f:not([data-depth="4"]),body[data-fathom="5"] .f:not([data-depth="5"]){display:none}
+.turn{display:grid;gap:8px;margin:0}
+.turn div{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px}
+.turn dt{font-family:var(--mono);font-size:.925rem;color:var(--text-2)}
+.turn .seam dt{color:var(--gold)}
+.turn dd{margin:4px 0 0}
 """
 
 JS = """
@@ -280,7 +287,7 @@ def render(model: dict) -> str:
 <body data-fathom="3"><div class="wrap">
 <div class="eyebrow">Reading Room · Chronicle · how did we get here?</div>
 <h1>{E(model["title"])}: {E(model["subtitle"])}</h1>
-<p class="lede">Five books from Day 0 to now, each readable at five depths, each closed by a Shavasana that adds no claim. Drishti is the fixed gaze: choose a fathom and hold it.</p>
+<p class="lede">Five books from Day 0 to now, each readable at five depths, one depth at a time, each closed by a Shavasana that adds no claim. Drishti is the fixed gaze: choose a fathom and hold it.</p>
 <div class="byline">rendered from <code>runtime/specs/chronicle-books.json</code> at main <code>{model["head"]}</code> · counts computed from git · proverbs from <code>_CANON/tao-proverbs.jsonl</code></div>
 <nav class="fbar" aria-label="Fathom depth">Fathom {fbar}</nav>
 <nav class="tl" aria-label="Books">{tl}</nav>

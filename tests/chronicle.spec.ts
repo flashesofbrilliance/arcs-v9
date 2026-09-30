@@ -14,7 +14,8 @@ if (fs.existsSync(PINNED)) test.use({ launchOptions: { executablePath: PINNED } 
 //
 //  1. smoke       - five books in order, five fathom controls, every book carries a Shavasana,
 //                   per-epoch counts render (the "scrub Apr to Sep with per-epoch health" gate).
-//  2. fathoms     - depth is cumulative: fathom N shows layers 1..N and hides the rest.
+//  2. fathoms     - one depth at a time: fathom N shows only layer N, in EVERY book, and each
+//                   depth reads differently (distinct text), so switching is never a no-op.
 //  3. responsive  - no horizontal overflow at four widths on EACH fathom, plus the lede spans
 //                   the lane like its heading (AGENTS gotcha 13c).
 
@@ -57,15 +58,20 @@ test("chronicle renders five books, five fathoms, a Shavasana per book, per-epoc
   expect(errors, errors.join("\n")).toEqual([])
 })
 
-test("fathom depth is cumulative", async ({ page }) => {
+test("each fathom is its own view, in every book", async ({ page }) => {
   await page.goto(fileUrl(), { waitUntil: "load" })
-  for (const n of FATHOMS) {
-    await page.locator(`[data-fathom-btn="${n}"]`).click()
-    for (const d of FATHOMS) {
-      const layer = page.locator(`#genesis .f[data-depth="${d}"]`)
-      if (d <= n) await expect(layer, `fathom ${n} should show depth ${d}`).toBeVisible()
-      else await expect(layer, `fathom ${n} should hide depth ${d}`).toBeHidden()
+  for (const id of BOOKS) {
+    const seen = new Set<string>()
+    for (const n of FATHOMS) {
+      await page.locator(`[data-fathom-btn="${n}"]`).click()
+      for (const d of FATHOMS) {
+        const layer = page.locator(`#${id} .f[data-depth="${d}"]`)
+        if (d === n) await expect(layer, `${id}: fathom ${n} should show depth ${d}`).toBeVisible()
+        else await expect(layer, `${id}: fathom ${n} should hide depth ${d}`).toBeHidden()
+      }
+      seen.add(await page.locator(`#${id} .f[data-depth="${n}"]`).innerText())
     }
+    expect(seen.size, `${id}: two fathoms render identical text`).toBe(FATHOMS.length)
   }
 })
 
