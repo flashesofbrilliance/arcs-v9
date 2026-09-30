@@ -43,7 +43,7 @@
    "altitude": "exec",
    "format": "image",
    "date": "2026-10-12",
-   "status": "draft",
+   "status": "scheduled",
    "card_line": "Three Apple calls. Each one said what would prove it wrong. 3 for 3.",
    "caption": "January: Ternus as heir. February: margin holds above 47 percent. May: Apple routes AI at the OS layer. Every falsifier was published with the call.",
    "first_comment": "The full ledger, including the number I got wrong: https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations",
@@ -59,7 +59,7 @@
    "altitude": "strategic",
    "format": "poll",
    "date": "2026-10-13",
-   "status": "draft",
+   "status": "scheduled",
    "poll": {
     "question": "When you make a call at work, do you write down what would prove you wrong?",
     "options": [
@@ -82,7 +82,7 @@
    "altitude": "operational",
    "format": "carousel",
    "date": "2026-10-14",
-   "status": "draft",
+   "status": "scheduled",
    "slides": [
     "How to write a prediction that can actually be wrong. Three Apple calls from 2026, all dated in advance.",
     "Rule 1. Name the mechanism, not a mood. 'Apple is behind' can never expire. 'Ternus is Cook's heir' can.",
@@ -106,8 +106,8 @@
    "altitude": "tactical",
    "format": "post",
    "date": "2026-10-15",
-   "status": "draft",
-   "text": "Most predictions about big companies are built so they can never be wrong. \"Apple is behind on AI\" has no expiration date.\n\nThis year I tried a different habit. Every time I made a call about Apple, I wrote down in the same post what would prove me wrong.\n\nIn February, a memory chip shortage was supposed to crush Apple's margins. I wrote: if gross margin falls materially below 47 percent in Q2, the argument weakens and I'll say so. Q2 came in at 49.3 percent.\n\nThe part I'm proudest of is a correction. My first draft cited 48.7 percent from a secondhand summary. The SEC filing says 49.3. The fix helped my case, and I published it anyway, next to the call.\n\nThe habit takes two minutes:\n1. Name a specific outcome and a date.\n2. Write the evidence that would prove you wrong.\n3. Check it against the primary document later, not your memory.\n\nWhat's one call you're making this quarter that you could write a falsifier for?\n\nPart of Receipts, a series where every prediction carries its own falsifier. Full index: good.arcs.care/series/receipts",
+   "status": "scheduled",
+   "text": "Most predictions about big companies are built so they can never be wrong. \"Apple is behind on AI\" has no expiration date.\n\nThis year I tried a different habit. Every time I made a call about Apple, I wrote down in the same post what would prove me wrong.\n\nIn February, a memory chip shortage was supposed to crush Apple's margins. I wrote: if gross margin falls materially below 47 percent in Q2, the argument weakens and I'll say so. Q2 came in at 49.3 percent.\n\nThe part that matters most is a correction. My first draft cited 48.7 percent from a secondhand summary. The SEC filing says 49.3. The fix helped my case, and I published it anyway, next to the call.\n\nThe habit takes two minutes:\n1. Name a specific outcome and a date.\n2. Write the evidence that would prove you wrong.\n3. Check it against the primary document later, not your memory.\n\nWhat's one call you're making this quarter that you could write a falsifier for?\n\nPart of Receipts, a series where every prediction carries its own falsifier. Full index: good.arcs.care/series/receipts",
    "expected": {
     "impressions_low": 2000,
     "impressions_high": 10000,

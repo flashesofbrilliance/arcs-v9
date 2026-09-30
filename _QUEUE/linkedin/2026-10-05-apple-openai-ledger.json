@@ -33,7 +33,7 @@
    "altitude": "exec",
    "format": "image",
    "date": "2026-10-05",
-   "status": "draft",
+   "status": "scheduled",
    "card_line": "I scored my own Apple calls against the filing. Three didn't survive.",
    "caption": "Twelve posts before Apple v. Liu et al. (5:26-CV-07078). One complaint after it. The scorecard keeps the three misses. Full ledger Friday.",
    "first_comment": "The original audit: good.arcs.care/blog/til/apple-openai",
@@ -49,7 +49,7 @@
    "altitude": "strategic",
    "format": "poll",
    "date": "2026-10-06",
-   "status": "draft",
+   "status": "scheduled",
    "poll": {
     "question": "When a big lawsuit drops, what do you actually read first?",
     "options": [
@@ -72,7 +72,7 @@
    "altitude": "operational",
    "format": "carousel",
    "date": "2026-10-07",
-   "status": "draft",
+   "status": "scheduled",
    "slides": [
     "How to score your own forecast against a real filing. A worked example: Apple v. Liu et al.",
     "Step 1. Write the claim down with a number before the event. Mine: Apple defends the layer models plug into. Conviction 85.",
@@ -96,8 +96,8 @@
    "altitude": "tactical",
    "format": "post",
    "date": "2026-10-08",
-   "status": "draft",
-   "text": "Three months ago my post on Apple suing OpenAI's io reached 270,000 impressions. The part people asked about most was not the call. It was the scorecard.\n\nHere is the habit, so you can steal it:\n\nBefore an event, write your claim down with a number from 0 to 100. After the primary document lands, re-score it and write one line on what moved it.\n\nWhen I did this against the complaint, my core thesis moved up, from 85 to 90. Apple rents the model slot and owns the layer around it.\n\nThree of my claims died. I had called the suit retaliation for Apple picking Gemini. The complaint's footnote 13 disclaims that, so it went from 60 to 5. It stays on the record.\n\nThe misses are the point. A list of hits is a highlight reel. A list of hits and misses, scored before and after, is something people can calibrate against.\n\nTry it on the next decision you are confident about. What number would you write down today?\n\nPart of Primary Source, a series where I read the filing before the coverage. Full index: good.arcs.care/blog/til",
+   "status": "scheduled",
+   "text": "Three months ago my post on Apple suing OpenAI's io reached 270,000 impressions. The part I kept coming back to was not the call. It was the scorecard.\n\nHere is the habit, so you can steal it:\n\nBefore an event, write your claim down with a number from 0 to 100. After the primary document lands, re-score it and write one line on what moved it.\n\nWhen I did this against the complaint, my core thesis moved up, from 85 to 90. Apple rents the model slot and owns the layer around it.\n\nThree of my claims died. I had called the suit retaliation for Apple picking Gemini. The complaint's footnote 13 disclaims that, so it went from 60 to 5. It stays on the record.\n\nThe misses are the point. A list of hits is a highlight reel. A list of hits and misses, scored before and after, is something people can calibrate against.\n\nTry it on the next decision you are confident about. What number would you write down today?\n\nPart of Primary Source, a series where I read the filing before the coverage. Full index: good.arcs.care/blog/til",
    "expected": {
     "impressions_low": 2000,
     "impressions_high": 10000,
@@ -110,7 +110,7 @@
    "altitude": "surgical",
    "format": "article",
    "date": "2026-10-09",
-   "status": "draft",
+   "status": "scheduled",
    "title": "Apple v. OpenAI's io: I Scored My Own Calls Against the Filing",
    "text": "Apple's July 10, 2026 complaint against former employees and OpenAI's io is about hardware, not chatbots. Apple is defending the layer models plug into: the OS, the silicon, the sensors, and the manufacturing know-how. ChatGPT inside Apple Intelligence continues. The device fight moved to federal court.\n\nI wrote twelve pieces about Apple between January and June, before anyone had filed anything. When the complaint landed (Apple v. Liu et al., 5:26-CV-07078, N.D. Cal., filed July 10, 2026), I did the part most forecasters skip. I went back, took each claim I had made, and scored it against the filed document instead of the coverage of it.\n\n## What does the complaint actually say?\n\nIt is a trade-secret case aimed at the hardware lineage. A design group left Apple between 2019 and 2022 and reconvened at io, which OpenAI acquired for $6.5B. The complaint is careful about scope. It carves ChatGPT-in-Apple-Intelligence out of the suit. So the partnership did not end on July 10. It split in two: the software deal continues and the device fight is in court.\n\nPrimary source: https://good.arcs.care/blog/til/apple-openai (the full audit, with the 35-slide PDF and every link back to the original posts).\n\n## What did I get right?\n\nThe core thesis held and got sharper. Apple was never racing to win the model. It rents out the model slot and owns everything around it. A partner that tries to win the rented slot and also take the owned layer stops being a partner. I had that at a conviction of 85 in February. After reading the complaint's own split between hardware and software, it sits at 90.\n\nThe Q.ai read also moved up. In January I called it a hardware bet and not chatbot panic, at a speculative 55. The patent claims and one executive's title in the filing moved it to 85.\n\n## What did I get wrong?\n\nThree claims got struck, and I kept them on the record instead of editing them away.\n\nFirst, I had written that the lawsuit was retaliation for Apple choosing Gemini and Private Cloud Compute. I asserted it as cause at 60. Footnote 13 of the complaint disclaims that connection. It is now at 5.\n\nSecond, I said io was built \"in the shadow of\" Humane's failure. As a broad causal claim that drops to 10. A narrower version survives at 60.\n\nThird, I had called Jony Ive's exit terms a four-year noncompete. The filing describes three years of paid consulting exclusivity, which is a different legal instrument. The fact survived and my label for it did not.\n\nOne more correction belongs here even though it was a reframe, not a strike. I had read the Titan car cancellation as internal decision drift. The better-supported version is external talent loss. That framing went from 75 down to 30, and the corrected version sits at 80.\n\n## Why score it at all?\n\nA forecast is worth very little on its own. Anyone can point at the calls that landed. What gives a call value is the checkable record behind it: the score when it was written, the score after the evidence arrived, and what moved it. Without the misses on the page, the hits are just a highlight reel.\n\nThat is the whole method, and it is cheap. Write the claim down with a number before the event. Read the primary document when it arrives, not the headline about it. Move the number and say what moved it. Keep the claims that died.\n\n## How was it checked?\n\nI read every claim against the complaint itself. Then I built the strongest version of Apple's case, the strongest version of OpenAI's defense, and a neutral read, each separately. For each argument I looked for the single fact that would break it if it were wrong, then checked that fact. The facts mostly held. The story I had wrapped around some of them is what needed correcting.\n\n## What should you take from it?\n\nIf you work anywhere near AI strategy, the useful signal is the scope line in the complaint. Software partnerships and hardware ambitions can now sit on opposite sides of the same courtroom. Plan for partners who are allies at one layer and rivals at the next.\n\nAnd if you publish forecasts, publish the ledger with them. It will cost you a little pride and buy you a lot of trust.\n\nDisclosure: independent analysis. No compensation, access, or coordination from any named party, and no position in AAPL or OpenAI-linked securities. Every allegation is an allegation from a filed complaint, not an adjudicated fact. Not investment or legal advice.\n\nPart of Primary Source, a series where I read the filing before the coverage. Full index: good.arcs.care/blog/til",
    "expected": {
