@@ -30,7 +30,15 @@ const WIDTHS = [
   { name: "desktop", width: 1280, height: 900 },
 ]
 
+// Re-render fresh when the full history is present (the render reads every book boundary back to
+// Day 0). CI checks out shallow, where 471d5739 does not exist: there the gate tests the committed
+// render, whose freshness is the author's `chronicle_render.py --check` before commit.
 test.beforeAll(() => {
+  try {
+    execFileSync("git", ["cat-file", "-e", "471d5739^{commit}"], { cwd: ROOT, stdio: "pipe" })
+  } catch {
+    return
+  }
   execFileSync("python3", ["scripts/chronicle_render.py"], { cwd: ROOT, stdio: "pipe" })
 })
 
