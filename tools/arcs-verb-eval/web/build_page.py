@@ -239,6 +239,11 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .panel-head {{ display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 14px; align-items: center; padding: 16px 18px; }}
 @media (max-width: 900px) {{ .panel-head {{ grid-template-columns: auto minmax(0, 1fr) auto; }} }}
 
+.export {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }}
+.export-note {{ font-size: 13px; color: var(--soft); }}
+.export-note code {{ font: 400 12px var(--font-mono); color: var(--text); }}
+.export-fallback {{ margin: 0; max-height: 240px; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; font: 400 11.5px/1.5 var(--font-mono); white-space: pre-wrap; }}
+
 /* depth last */
 .depth {{ display: grid; gap: 10px; }}
 footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; gap: 4px; }}

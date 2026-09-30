@@ -1,5 +1,6 @@
 (function () {
   var LABEL = { analysis: 'Your work (HTML with marked facts)', assessment: 'Your checked facts (HTML with verdicts)', evaluation: 'Your reviews (JSON)', synthesis: 'Your short version (HTML)', recapitulation: 'Your draft note (text)' };
+  var TOOL = { analysis: 'Analysis by ARCS', assessment: 'Assessment by ARCS', evaluation: 'Evaluation by ARCS', synthesis: 'Synthesis by ARCS', recapitulation: 'Recapitulation by ARCS' };
   var NAMES = { analysis: 'Find the facts', assessment: 'Check the facts', evaluation: 'Poke holes', synthesis: 'Make it short', recapitulation: 'Write the note' };
   var PLAIN = { 'has-claims': 'Found facts to check', 'every-claim-sourced': 'Every fact says where it came from', 'high-stakes-two-sources': 'Big claims have two separate sources',
     'verdict-and-severity': 'Every fact has a verdict and a size', 'verified-was-sourced': 'A fact marked true was found in step 1', 'verified-numbers-in-evidence': 'True facts match their source numbers',
@@ -44,6 +45,13 @@
     try { rep = AVE.evaluate(v, ta.value, up); }
     catch (err) { out.innerHTML = '<p class="err">Could not read this as ' + (v === 'evaluation' ? 'JSON' : 'input') + ': ' + esc(err.message) + '. Try "Load example" to see the expected shape.</p>'; return; }
     state.prints[v] = rep; state.text[v] = ta.value;
+    state.json = state.json || {};
+    var tr0 = AVE.trace(rep, ta.value, FX.rubric[v]);
+    state.json[v] = { verb: v, tool: TOOL[v], fate: rep.fate, ok: rep.ok, failed: rep.failed, upstream: pv && up ? pv : null,
+      gates: rep.gates.map(function (g) { return { id: g.id, ok: g.ok, evidence: g.evidence, ms: g.ms, cli_only: g.cliOnly || undefined }; }),
+      rubric: FX.rubric[v].map(function (r) { return { row: r.row, label: r.label, score: null, judge: 'pending' }; }),
+      sycophancy: rep.sycophancy, claims: rep.claims || [], conditions: rep.conditions || [], trace: tr0,
+      source: 'arcs-verb-eval web (browser engine)' };
     var tr = AVE.trace(rep, ta.value, FX.rubric[v]), sum = tr[tr.length - 1];
     var html = '<div class="res-head"><strong>' + NAMES[v] + '</strong><span class="big ' + (rep.ok ? 'go' : 'stop') + '">' + (rep.ok ? (v === 'recapitulation' ? 'Ready for a person' : 'Go') : 'Stop') + '</span></div>';
     html += '<p class="meter-line"><b>' + sum.rules + '</b> checks by rules · <b>0</b> calls to an AI · <b>' + sum.judge_pending + '</b> questions waiting for a judge</p>';
@@ -62,8 +70,27 @@
     if (v === 'synthesis') notes.push('The writing-filler check runs in the command-line tool only.');
     if (rep.gates.some(function (g) { return g.cliOnly; })) notes.push('Hollow dots: the command-line tool also confirms those files exist.');
     html += notes.map(function (n) { return '<p class="res-note">' + n + '</p>'; }).join('');
+    var nDone = Object.keys(state.json).length;
+    html += '<div class="export"><button type="button" class="btn" data-export="step">Copy this step as JSON</button>' +
+      (nDone > 1 ? '<button type="button" class="btn" data-export="run">Copy all ' + nDone + ' checked steps as JSON</button>' : '') +
+      '<span class="export-note">Same shape as <code>--out</code> in the command-line tool.</span></div><pre class="export-fallback" hidden></pre>';
     html += '<details class="rawtrace"><summary>Trace (the same JSON lines <code>--trace</code> writes)</summary><pre>' + esc(tr.map(function (e) { var o = Object.assign({}, e); if (o.prompt) o.prompt = '(shown above)'; return JSON.stringify(o); }).join('\n')) + '</pre></details>';
     out.innerHTML = html;
+    out.querySelectorAll('[data-export]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var data = b.getAttribute('data-export') === 'step' ? state.json[v]
+          : { tool: 'arcs-verb-eval', steps: AVE.VERBS.filter(function (k) { return state.json[k]; }).map(function (k) { return state.json[k]; }) };
+        var text = JSON.stringify(data, null, 2), label = b.textContent, fb = out.querySelector('.export-fallback');
+        var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = label; }, 1400); };
+        var fallback = function () {
+          fb.hidden = false; fb.textContent = text;
+          var r = document.createRange(); r.selectNodeContents(fb);
+          var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+          b.textContent = 'Selected below: press Cmd+C';
+        };
+        try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+      });
+    });
     var card = document.querySelector('.step a[href="#' + v + '"]');
     if (card) {
       var li = card.parentNode, st = card.querySelector('.stamp');
