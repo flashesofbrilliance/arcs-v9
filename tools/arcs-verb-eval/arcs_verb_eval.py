@@ -47,6 +47,8 @@ import sys
 import tempfile
 from html.parser import HTMLParser
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from urllib.parse import urlparse
 
 VERBS = ("analysis", "assessment", "evaluation", "synthesis", "recapitulation")
@@ -110,6 +112,7 @@ class _ClaimParser(HTMLParser):
             "verdict": a.get("data-verdict"),
             "severity": a.get("data-severity"),
             "render": a.get("data-render"),
+            "evidence": a.get("data-evidence"),
         })
 
     def handle_data(self, data):
@@ -219,6 +222,11 @@ def assessment(text: str, upstream: dict | None = None, **_) -> tuple[Run, dict]
         sourced = {c["id"] for c in upstream.get("claims", []) if c.get("src")}
         rogue = [c["id"] for c in cl if c["verdict"] == "verified" and c["id"] not in sourced]
         run.gate("verified-was-sourced", not rogue, f"{sum(c['verdict'] == 'verified' for c in cl) - len(rogue)} verified resolve upstream" + (f"; not sourced upstream: {', '.join(rogue)}" if rogue else ""))
+    with_ev = [c for c in cl if c["verdict"] == "verified" and c.get("evidence")]
+    if with_ev:
+        num = re.compile(r"(?<![\w.])\d+(?:\.\d+)?")
+        drift = [c["id"] for c in with_ev if not set(num.findall(c["text"])) & set(num.findall(c["evidence"]))]
+        run.gate("verified-numbers-in-evidence", not drift, f"{len(with_ev) - len(drift)}/{len(with_ev)} verified claims share a number with their evidence" + (f"; drifted: {', '.join(drift)}" if drift else ""))
     counts = [sum(c["verdict"] == v for c in cl) for v in VERDICTS]
     actual = "/".join(map(str, counts))
     run.gate("summary-matches-rows", p.summary == actual, f"header {p.summary or 'missing'} vs rows {actual}")
@@ -590,14 +598,41 @@ def main(argv=None) -> int:
         pp.add_argument(f"--{v}", help=f"{v} artifact")
     pp.add_argument("--outdir", default=None, help="where to write <verb>.json prints")
     pp.add_argument("--keep-going", action="store_true", help="continue past a failing verb")
+    ig = sub.add_parser("ingest", parents=[common], help="data in: notebook (.ipynb) or claims table (.csv/.jsonl) -> artifacts")
+    ig.add_argument("source")
+    ig.add_argument("--outdir", required=True)
+    ig.add_argument("--format", choices=("ipynb", "table"))
+    ig.add_argument("--mutate", type=int, default=0, help="also write N corrupted negative fixtures")
+    ex = sub.add_parser("export", parents=[common], help="data out: prints dir -> jsonl | csv | md | junit | receipt")
+    ex.add_argument("prints_dir")
+    ex.add_argument("--format", required=True, choices=("jsonl", "csv", "md", "junit", "receipt"))
+    ex.add_argument("--question", default="")
+    ex.add_argument("--out", help="file to write (default stdout)")
     sub.add_parser("env", parents=[common], help="show runtime, deps, resolved srcs, effective opts")
     sv = sub.add_parser("serve", parents=[common], help="stdlib HTTP: POST /eval/<verb>")
     sv.add_argument("--port", type=int, default=8787)
 
     a = ap.parse_args(argv)
     if a.self_test:
-        return self_test()
+        import arcs_verb_eval_io as vio
+        print("== core ==")
+        rc = self_test()
+        print("\n== io ==")
+        return rc or vio.self_test()
     cfg = load_config(a.config)
+    if a.cmd == "ingest":
+        import arcs_verb_eval_io as vio
+        print(json.dumps(vio.ingest(a.source, a.outdir, a.format, a.mutate), indent=2))
+        return 0
+    if a.cmd == "export":
+        import arcs_verb_eval_io as vio
+        text = vio.export(a.prints_dir, a.format, a.question)
+        if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(a.out).write_text(text)
+        else:
+            sys.stdout.write(text)
+        return 0
     if a.cmd == "env":
         print(json.dumps(env_report(cfg, a.set), indent=2))
         return 0
@@ -613,6 +648,7 @@ def main(argv=None) -> int:
         if a.skip_gate: opts["skip_gates"] = opts.get("skip_gates", []) + a.skip_gate
         rep = run_one(a.cmd, a.artifact, opts, load_json(a.upstream), load_json(a.scores))
         if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
             Path(a.out).write_text(json.dumps(rep, indent=2) + "\n")
         print(json.dumps(rep, indent=2) if a.json else human(rep))
         return 0 if rep["ok"] else 1

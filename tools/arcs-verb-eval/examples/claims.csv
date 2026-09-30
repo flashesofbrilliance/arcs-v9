@@ -1,0 +1,4 @@
+id,text,src,stakes,verdict,severity
+c1,Onboarding takes under 10 minutes.,https://a.example/demo,normal,verified,low
+c2,The deck says 40 customers.,"https://a.example/deck,https://b.example/cases",high,gap,high
+c3,No SOC 2 report was found.,https://c.example/trust,normal,unresolved,medium

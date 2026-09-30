@@ -19,6 +19,8 @@ Each stage reads the previous stage's JSON output through `--upstream`. That mea
 
 Everything uses the Python standard library only, with nothing to install. JSON config works on any Python 3; TOML config needs Python 3.11 or later.
 
+**New here? Read [docs/HOWTO.md](docs/HOWTO.md) first.** It takes a few minutes.
+
 ## Quick start
 
 ```bash
@@ -70,6 +72,11 @@ Working examples of all of these are in `sample/`.
 ## Anti-sycophancy
 
 This is the Operator 25 Shavasana check: it counts agreement markers against dissent markers. It returns RETURN when there are 5 or more agreements and no dissent, and THIN when the ratio is above 4. It is report-only at Analysis, Assessment and Synthesis, and blocks at Evaluation and Recapitulation, where agreement pressure costs the most. The Evaluation gate also has a **dissent floor**: if no lens dissented, it wasn't a real gauntlet.
+
+## Data in and out
+
+- `ingest` reads a notebook (`.ipynb`) or a claims table (`.csv`/`.jsonl`) and writes the step inputs, plus deliberately broken copies with `--mutate N`.
+- `export` writes your saved step outputs as `jsonl`, `csv`, `md`, `junit` or `receipt`.
 
 ## Surfaces
 

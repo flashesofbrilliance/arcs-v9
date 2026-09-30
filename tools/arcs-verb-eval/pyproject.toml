@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arcs-verb-eval"
+version = "0.1.0"
+description = "Five-verb print-schedule evals: Analysis, Assessment, Evaluation, Synthesis, Recapitulation by ARCS"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []  # stdlib only, on purpose
+
+[project.scripts]
+arcs-verb-eval = "arcs_verb_eval:main"
+
+[tool.setuptools]
+py-modules = ["arcs_verb_eval", "arcs_verb_eval_io"]
