@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check It Before You Say It: explainer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=block">
+<style>
+/* same tokens as the page (src/ui-kit/recoil-report/_tokens.css values) */
+:root {
+  --bg: #020408; --surface: #0d1117; --surface-2: #121820; --border: #1e293b;
+  --text: #e2e8f0; --soft: #9aa7b8; --muted: #475569;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --sans: 'Instrument Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+.scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+.cap { position: absolute; left: 140px; right: 140px; bottom: 72px; text-align: center; font: 500 44px/1.3 var(--sans); color: var(--text); }
+.g { color: var(--green); } .y { color: var(--gold); } .r { color: var(--red); } .cy { color: var(--cyan); } .s { color: var(--soft); }
+
+/* title + end */
+.center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; text-align: center; }
+.title { font: 700 150px/1.02 var(--display); letter-spacing: -0.035em; }
+.title .c { color: var(--cyan); display: block; }
+.sub { font: 400 40px/1.4 var(--sans); color: var(--soft); }
+.url { font: 500 38px var(--mono); color: var(--cyan); }
+.url.big { font-size: 56px; }
+
+/* progress strip for steps 1-5 */
+#strip { position: absolute; top: 56px; left: 0; right: 0; display: flex; justify-content: center; gap: 56px; opacity: 0; z-index: 5; }
+.sd { display: flex; align-items: center; gap: 14px; font: 500 24px var(--sans); color: var(--muted); }
+.sd i { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--muted); }
+.sd.done { color: var(--soft); } .sd.done i { border-color: var(--green); }
+.sd.on { color: var(--text); } .sd.on i { border-color: var(--cyan); background: var(--cyan); }
+
+/* five cards */
+.h2c { position: absolute; left: 0; right: 0; top: 190px; text-align: center; font: 700 72px/1.1 var(--display); letter-spacing: -0.025em; }
+.row5 { position: absolute; left: 120px; right: 120px; top: 360px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; }
+.card { background: var(--surface); border: 2px solid var(--border); border-radius: 20px; padding: 30px; display: flex; flex-direction: column; gap: 14px; min-height: 350px; }
+.card .n { width: 56px; height: 56px; border-radius: 50%; border: 3px solid var(--cyan); display: grid; place-items: center; font: 500 26px var(--mono); }
+.card b { font: 600 36px/1.15 var(--display); }
+.card span { font: 400 26px/1.35 var(--sans); color: var(--soft); }
+.mini { margin-top: auto; align-self: flex-start; font: 600 22px var(--sans); padding: 4px 16px; border-radius: 999px; border: 2px solid currentColor; }
+
+/* step scenes */
+.stepwrap { position: absolute; left: 140px; right: 140px; top: 170px; bottom: 210px; display: grid; grid-template-columns: 540px 1fr; gap: 90px; align-items: center; }
+.lead .num { width: 96px; height: 96px; border-radius: 50%; border: 4px solid var(--cyan); display: grid; place-items: center; font: 500 44px var(--mono); }
+.lead h2 { font: 700 84px/1.05 var(--display); letter-spacing: -0.025em; margin-top: 28px; }
+.lead p { font: 400 36px/1.4 var(--sans); color: var(--soft); margin-top: 18px; }
+.panel { position: relative; background: var(--surface); border: 2px solid var(--border); border-radius: 20px; padding: 36px 44px; display: flex; flex-direction: column; gap: 6px; }
+.ph { font: 500 26px var(--sans); color: var(--soft); margin-bottom: 10px; }
+.fact { display: flex; align-items: center; justify-content: space-between; gap: 24px; font: 500 34px/1.3 var(--sans); padding: 18px 0; border-top: 2px solid var(--border); }
+.fact.bad { color: var(--red); }
+.chip { font: 600 24px var(--sans); padding: 6px 16px; border-radius: 999px; border: 2px solid currentColor; white-space: nowrap; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.box { background: var(--bg); border: 2px solid var(--border); border-radius: 16px; padding: 26px 28px; display: grid; gap: 10px; }
+.box small { font: 500 24px var(--sans); color: var(--soft); }
+.box div { font: 500 34px/1.3 var(--sans); }
+.verdicts { display: grid; gap: 14px; margin-top: 26px; }
+.vr { display: flex; align-items: center; gap: 20px; font: 500 30px var(--sans); }
+.vr .chip { min-width: 150px; text-align: center; }
+.rev { display: flex; align-items: flex-start; gap: 20px; font: 500 30px/1.35 var(--sans); padding: 14px 0; border-top: 2px solid var(--border); }
+.rev .dot { width: 18px; height: 18px; border-radius: 50%; margin-top: 12px; flex: none; }
+.rev b { font-weight: 600; min-width: 150px; }
+.meterbox { margin-top: 22px; background: rgba(0,255,157,0.07); border: 2px solid rgba(0,255,157,0.35); border-radius: 16px; padding: 24px 28px; display: grid; gap: 16px; }
+.meterbox p { font: 600 32px var(--display); }
+.bar { height: 22px; background: var(--surface-2); border-radius: 11px; position: relative; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 11px; background: var(--green); width: 0; }
+.bar .lim { position: absolute; top: -8px; bottom: -8px; width: 4px; background: var(--gold); left: 80%; }
+.line { font: 500 34px/1.35 var(--sans); padding: 16px 0; border-top: 2px solid var(--border); }
+.line.deg { opacity: 0.8; } .line.grain { opacity: 0.66; font-weight: 400; letter-spacing: 0.02em; }
+.line.new { color: var(--red); }
+.stamp { position: absolute; font: 700 60px var(--display); padding: 8px 32px; border: 6px solid currentColor; border-radius: 14px; letter-spacing: 0.04em; background: rgba(2,4,8,0.88); opacity: 0; }
+.note { font: 400 32px/1.5 var(--sans); min-height: 150px; }
+.draft { align-self: flex-start; font: 600 22px var(--mono); color: var(--gold); border: 2px solid var(--gold); border-radius: 8px; padding: 4px 12px; margin-bottom: 12px; }
+.sendrow { display: flex; align-items: center; gap: 22px; margin-top: 20px; }
+.sendbtn { font: 600 28px var(--sans); padding: 14px 30px; border-radius: 12px; border: 2px dashed var(--muted); color: var(--muted); }
+.sendrow span { font: 500 28px var(--sans); color: var(--soft); }
+
+/* browser mock */
+.browser { position: absolute; left: 210px; top: 60px; width: 1500px; height: 700px; background: var(--surface); border: 2px solid var(--border); border-radius: 22px; overflow: hidden; }
+.btop { height: 64px; background: var(--surface-2); display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 2px solid var(--border); }
+.btop i { width: 14px; height: 14px; border-radius: 50%; background: var(--muted); }
+.urlbox { margin-left: 24px; flex: 1; height: 38px; border-radius: 10px; background: var(--bg); font: 400 22px var(--mono); color: var(--soft); display: flex; align-items: center; padding: 0 16px; }
+.bcontent { padding: 30px 44px; display: flex; flex-direction: column; gap: 18px; }
+.bcontent h3 { font: 700 34px var(--display); }
+.pills { display: flex; gap: 12px; }
+.pill { font: 500 22px var(--sans); padding: 8px 18px; border-radius: 999px; border: 2px solid var(--border); color: var(--soft); }
+.pill.on { background: var(--cyan); border-color: var(--cyan); color: var(--bg); }
+.ta { height: 150px; background: var(--bg); border: 2px solid var(--border); border-radius: 12px; padding: 16px 20px; font: 400 20px/1.5 var(--mono); white-space: pre-wrap; color: var(--text); overflow: hidden; font-variant-ligatures: none; }
+.btns { display: flex; gap: 12px; }
+.btn { font: 500 22px var(--sans); padding: 12px 22px; border-radius: 10px; border: 2px solid var(--border); background: var(--surface-2); }
+.btn.p { background: var(--cyan); border-color: var(--cyan); color: var(--bg); font-weight: 600; }
+.res { background: var(--bg); border: 2px solid var(--border); border-radius: 14px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+.resh { display: flex; justify-content: space-between; align-items: center; }
+.resh b { font: 700 32px var(--display); }
+.go { font: 700 24px var(--sans); color: var(--green); border: 2px solid var(--green); border-radius: 999px; padding: 4px 20px; background: rgba(0,255,157,0.07); }
+.ml { font: 400 21px var(--sans); color: var(--soft); }
+.ml b { color: var(--text); }
+.rl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ri { display: flex; gap: 12px; align-items: flex-start; font: 500 21px/1.3 var(--sans); border-top: 2px solid var(--border); padding-top: 12px; }
+.ri i { width: 14px; height: 14px; border-radius: 50%; background: var(--green); margin-top: 6px; flex: none; }
+#cursor { position: absolute; left: 0; top: 0; width: 44px; height: 44px; z-index: 10; }
+
+/* glass box */
+.gb { position: absolute; left: 180px; right: 180px; top: 150px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.gcol { display: flex; flex-direction: column; gap: 14px; }
+.gcol h3 { font: 700 44px var(--display); display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; }
+.gcol h3 span { font: 500 22px var(--sans); color: var(--soft); border: 2px solid var(--border); border-radius: 999px; padding: 2px 14px; }
+.grow { display: flex; gap: 16px; align-items: center; font: 500 30px var(--sans); padding: 16px 0; border-top: 2px solid var(--border); }
+.grow i { width: 16px; height: 16px; border-radius: 50%; background: var(--green); flex: none; }
+.jq { border: 2px dashed var(--border); border-radius: 14px; padding: 20px 24px; font: 500 30px var(--sans); }
+.lockline { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font: 500 36px var(--sans); color: var(--soft); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div id="strip">
+    <div class="sd"><i></i>Find the facts</div>
+    <div class="sd"><i></i>Check the facts</div>
+    <div class="sd"><i></i>Poke holes</div>
+    <div class="sd"><i></i>Make it short</div>
+    <div class="sd"><i></i>Write the note</div>
+  </div>
+
+  <!-- 1. title -->
+  <div class="scene" id="s1"><div class="center">
+    <h1 class="title" data-at="0.2">Check it <span class="c">before you say it.</span></h1>
+    <p class="sub" data-at="1.4">A five-step check for anything you're about to tell someone.</p>
+    <p class="url" data-at="2.3">honest.arcs.care</p>
+  </div></div>
+
+  <!-- 2. the five steps -->
+  <div class="scene" id="s2">
+    <h2 class="h2c" data-at="0.2">Five steps between an idea and a message.</h2>
+    <div class="row5">
+      <div class="card" data-at="0.9"><div class="n">1</div><b>Find the facts</b><span>Where did each one come from?</span><em class="mini g" data-at="3.9" data-stamp-soft>Go</em></div>
+      <div class="card" data-at="1.2"><div class="n">2</div><b>Check the facts</b><span>Does the source really say that?</span><em class="mini g" data-at="4.1" data-stamp-soft>Go</em></div>
+      <div class="card" data-at="1.5"><div class="n">3</div><b>Poke holes</b><span>Let someone try to prove it wrong.</span><em class="mini g" data-at="4.3" data-stamp-soft>Go</em></div>
+      <div class="card" data-at="1.8"><div class="n">4</div><b>Make it short</b><span>No new facts allowed in.</span><em class="mini r" data-at="4.5" data-stamp-soft>Stop</em></div>
+      <div class="card" data-at="2.1"><div class="n">5</div><b>Write the note</b><span>A person sends it, not the tool.</span><em class="mini cy" data-at="4.7" data-stamp-soft>Ready</em></div>
+    </div>
+    <p class="cap" data-at="3.3">Each step gets a stamp: go or stop.</p>
+  </div>
+
+  <!-- 3. step 1 -->
+  <div class="scene" id="s3"><div class="stepwrap">
+    <div class="lead" data-at="0.1"><div class="num">1</div><h2>Find the facts</h2><p>Every fact says where it came from.</p></div>
+    <div class="panel" data-at="0.4">
+      <div class="ph">Your draft</div>
+      <div class="fact">Setup takes under 10 minutes.<span class="chip g" data-at="1.3">source: demo</span></div>
+      <div class="fact">The deck says 40 customers.<span class="chip g" data-at="1.7">2 sources</span></div>
+      <div class="fact">No security report was found.<span class="chip g" data-at="2.1">source: trust page</span></div>
+      <div class="fact" data-at="2.9" data-cls="bad" data-cls-at="3.6">Churn is under 2%.<span class="chip r" data-at="3.6">no source: stop</span></div>
+    </div>
+  </div>
+    <p class="cap" data-at="0.3" data-out="3.4">Step 1 checks that every fact says where it came from.</p>
+    <p class="cap" data-at="3.8">A fact with no source stops here.</p>
+  </div>
+
+  <!-- 4. step 2 -->
+  <div class="scene" id="s4"><div class="stepwrap">
+    <div class="lead" data-at="0.1"><div class="num">2</div><h2>Check the facts</h2><p>Does the source really say that?</p></div>
+    <div class="panel" data-at="0.4">
+      <div class="two">
+        <div class="box" data-at="1.0"><small>You wrote</small><div>The deck says 40 customers.</div></div>
+        <div class="box" data-at="1.6"><small>The source says</small><div>Case study page: 12 customers.</div></div>
+      </div>
+      <div class="verdicts">
+        <div class="vr" data-at="2.6"><span class="chip g">true</span>Setup takes under 10 minutes.</div>
+        <div class="vr" data-at="3.0"><span class="chip y">gap</span>40 customers vs 12 on the source.</div>
+        <div class="vr" data-at="3.4"><span class="chip s">not sure</span>Security report status.</div>
+      </div>
+    </div>
+  </div>
+    <p class="cap" data-at="0.3" data-out="3.2">Step 2 checks that the source really says it.</p>
+    <p class="cap" data-at="3.6">Each fact gets a verdict: true, a gap, or not sure yet.</p>
+  </div>
+
+  <!-- 5. step 3 -->
+  <div class="scene" id="s5"><div class="stepwrap">
+    <div class="lead" data-at="0.1"><div class="num">3</div><h2>Poke holes</h2><p>Let someone try to prove it wrong.</p></div>
+    <div class="panel" data-at="0.4">
+      <div class="ph">Reviewers</div>
+      <div class="rev" data-at="1.0"><i class="dot" style="background:var(--green)"></i><b>Logic</b><span>passes</span></div>
+      <div class="rev" data-at="1.4"><i class="dot" style="background:var(--red)"></i><b class="r">Risk</b><span>disagrees: the 40 figure could sink this</span></div>
+      <div class="rev" data-at="1.8"><i class="dot" style="background:var(--red)"></i><b class="r">Skeptic</b><span>disagrees: the security gap was glossed over</span></div>
+      <div class="rev" data-at="2.2"><i class="dot" style="background:var(--green)"></i><b>Product</b><span>passes</span></div>
+      <div class="meterbox" data-at="3.1"><p>Too-agreeable check: fine</p><div class="bar"><i data-fill="36" data-at="3.3" data-dur="1.3"></i><span class="lim"></span></div></div>
+    </div>
+  </div>
+    <p class="cap" data-at="0.3" data-out="3.4">Step 3 has reviewers try to break it.</p>
+    <p class="cap" data-at="3.8">If everyone just agrees, it stops. A test nothing could fail isn't a test.</p>
+  </div>
+
+  <!-- 6. step 4 -->
+  <div class="scene" id="s6"><div class="stepwrap">
+    <div class="lead" data-at="0.1"><div class="num">4</div><h2>Make it short</h2><p>Only facts that passed. Nothing new.</p></div>
+    <div class="panel" data-at="0.4">
+      <div class="ph">The short version</div>
+      <div class="line" data-at="0.9">Setup is quick: under ten minutes.</div>
+      <div class="line deg" data-at="1.3">Customer count is contested: 40 vs 12.</div>
+      <div class="line grain" data-at="1.7">Security report: not confirmed.</div>
+      <div class="line new" data-at="3.0" id="sneak">Trusted by 50+ teams.</div>
+      <div class="stamp r" data-at="4.0" data-stamp style="right:40px;bottom:30px">STOP</div>
+    </div>
+  </div>
+    <p class="cap" data-at="0.3" data-out="2.9">Step 4 makes it short, using only facts that passed.</p>
+    <p class="cap" data-at="3.3" data-out="5.4">Then a new claim sneaks in. Nobody checked it.</p>
+    <p class="cap" data-at="5.7">So the step stops, before anyone reads it.</p>
+  </div>
+
+  <!-- 7. step 5 -->
+  <div class="scene" id="s7"><div class="stepwrap">
+    <div class="lead" data-at="0.1"><div class="num">5</div><h2>Write the note</h2><p>It stays a draft. A person sends it.</p></div>
+    <div class="panel" data-at="0.4">
+      <span class="draft" data-at="0.7">DRAFT</span>
+      <p class="note" data-at="0.8" data-still data-type data-dur="2.2" data-full="Thanks for the time today. One thing I couldn't square: the customer count. Could you point me to the source for 40?"></p>
+      <div class="sendrow" data-at="3.0"><span class="sendbtn">Send</span><span>A person presses this, never the tool.</span></div>
+      <div class="stamp cy" data-at="3.5" data-stamp style="right:36px;bottom:-34px;font-size:38px">READY FOR A PERSON</div>
+    </div>
+  </div>
+    <p class="cap" data-at="0.3" data-out="3.0">Step 5 writes the note and leaves it as a draft.</p>
+    <p class="cap" data-at="3.3">The tool never presses send. You do.</p>
+  </div>
+
+  <!-- 8. how to use it -->
+  <div class="scene" id="s8">
+    <div class="browser" data-at="0.1">
+      <div class="btop"><i></i><i></i><i></i><div class="urlbox">honest.arcs.care</div></div>
+      <div class="bcontent">
+        <h3>Try it on your own work</h3>
+        <div class="pills"><span class="pill on" id="p1">1. Find the facts</span><span class="pill">2. Check the facts</span><span class="pill">3. Poke holes</span><span class="pill">4. Make it short</span><span class="pill">5. Write the note</span></div>
+        <div class="ta" id="ta" data-at="0.4" data-still><span data-at="2.0" data-still data-type data-dur="1.8" data-full="&lt;span class=&quot;claim&quot; data-src=&quot;https://a.example/demo&quot;&gt;Setup takes under 10 minutes.&lt;/span&gt;
+&lt;span class=&quot;claim&quot; data-src=&quot;https://c.example/trust&quot;&gt;No security report was found.&lt;/span&gt;"></span></div>
+        <div class="btns"><span class="btn p" id="chk">Check it</span><span class="btn">Load example</span><span class="btn">Load a broken one</span><span class="btn" id="nb">Use a notebook (.ipynb)</span></div>
+        <div class="res" data-at="5.6">
+          <div class="resh"><b>Find the facts</b><span class="go">Go</span></div>
+          <div class="ml" data-at="6.0"><b>3</b> checks by rules &#183; <b>0</b> calls to an AI &#183; <b>4</b> questions waiting for a judge</div>
+          <div class="rl">
+            <div class="ri" data-at="6.4"><i></i>Found facts to check</div>
+            <div class="ri" data-at="6.7"><i></i>Every fact says where it came from</div>
+            <div class="ri" data-at="7.0"><i></i>Big claims have two sources</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24" data-path="0:1560,960|1.0:#p1|1.8:#p1|2.3:#ta|4.2:#ta|5.0:#chk|6.6:#chk|7.6:1640,980"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#e2e8f0" stroke="#020408" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <span data-pulse="#p1" data-at="1.3"></span>
+    <span data-pulse="#chk" data-at="5.1"></span>
+    <p class="cap" data-at="0.3" data-out="1.9">Open honest.arcs.care and pick a step.</p>
+    <p class="cap" data-at="2.1" data-out="4.3">Paste your work, or drop in a notebook.</p>
+    <p class="cap" data-at="4.5" data-out="5.9">Press Check it.</p>
+    <p class="cap" data-at="6.1">Read the stamp, and every check that decided it.</p>
+  </div>
+
+  <!-- 9. glass box -->
+  <div class="scene" id="s9">
+    <div class="gb">
+      <div class="gcol" data-at="0.3">
+        <h3>Decided by rules <span>no AI</span></h3>
+        <div class="grow" data-at="0.8"><i></i>Every fact says where it came from</div>
+        <div class="grow" data-at="1.0"><i></i>Nothing new sneaked in</div>
+        <div class="grow" data-at="1.2"><i></i>Someone actually disagreed</div>
+      </div>
+      <div class="gcol" data-at="0.6">
+        <h3>Waiting for a judge <span>not sent</span></h3>
+        <div class="jq" data-at="1.4">Is the ask clear?</div>
+        <div class="jq" data-at="1.6">Are the gaps said plainly?</div>
+      </div>
+    </div>
+    <p class="lockline" data-at="2.2">Nothing you paste is uploaded. The checks run in your browser.</p>
+    <p class="cap" data-at="0.3">The stamp comes from rules you can read. Not from an AI.</p>
+  </div>
+
+  <!-- 10. end -->
+  <div class="scene" id="s10"><div class="center">
+    <h1 class="title" data-at="0.2">Check it <span class="c">before you say it.</span></h1>
+    <p class="url big" data-at="1.0">honest.arcs.care</p>
+    <p class="sub" data-at="1.6">Five steps. Go or stop. Runs in your browser.</p>
+  </div></div>
+
+</div>
+<script>
+var SC = [['s1', 0, 4.5], ['s2', 4.5, 11], ['s3', 11, 17.5], ['s4', 17.5, 24], ['s5', 24, 31], ['s6', 31, 39], ['s7', 39, 45], ['s8', 45, 55.5], ['s9', 55.5, 60.5], ['s10', 60.5, 65]];
+var TOTAL = 65;
+var STEP_SCENES = { s3: 0, s4: 1, s5: 2, s6: 3, s7: 4 };
+function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+function eo(p) { return p >= 1 ? 1 : 1 - Math.pow(2, -10 * p); }
+function eio(p) { return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; }
+function center(sel) {
+  var r = document.querySelector(sel).getBoundingClientRect();
+  return [r.left + r.width / 2, r.top + r.height / 2];
+}
+function point(spec) {
+  if (spec.charAt(0) === '#') return center(spec);
+  var xy = spec.split(','); return [+xy[0], +xy[1]];
+}
+function renderAt(t) {
+  SC.forEach(function (s) {
+    var el = document.getElementById(s[0]), a = s[1], b = s[2];
+    var on = t >= a && t < b + 0.001;
+    var o = on ? Math.min(a === 0 ? eo(clamp(t / 0.8)) : eo(clamp((t - a) / 0.5)), s[0] === 's10' ? 1 : 1 - clamp((t - (b - 0.45)) / 0.45)) : 0;
+    el.style.opacity = o; el.style.visibility = o > 0 ? 'visible' : 'hidden';
+    if (!on) return;
+    var lt = t - a;
+    el.querySelectorAll('[data-at]').forEach(function (n) {
+      var at = +n.dataset.at, d = +(n.dataset.dur || 0.6);
+      if ('pulse' in n.dataset) return;
+      if ('stamp' in n.dataset) {
+        var q = eo(clamp((lt - at) / 0.35));
+        n.style.opacity = q; n.style.transform = 'scale(' + (1.7 - 0.7 * q) + ') rotate(-5deg)'; return;
+      }
+      var p = eo(clamp((lt - at) / 0.6));
+      var op = p;
+      if (n.dataset.out) op = Math.min(op, 1 - clamp((lt - +n.dataset.out) / 0.35));
+      n.style.opacity = op;
+      if ('stampSoft' in n.dataset) { n.style.transform = 'scale(' + (1.25 - 0.25 * eo(clamp((lt - at) / 0.3))) + ')'; }
+      else if (!('still' in n.dataset)) n.style.transform = 'translateY(' + ((1 - p) * 22) + 'px)';
+      if ('type' in n.dataset) { var full = n.dataset.full; n.textContent = full.slice(0, Math.round(full.length * clamp((lt - at) / d))); }
+      if (n.dataset.fill) n.style.width = (+n.dataset.fill * eo(clamp((lt - at) / d))) + '%';
+    });
+    el.querySelectorAll('[data-cls-at]').forEach(function (n) { n.classList.toggle(n.dataset.cls, lt >= +n.dataset.clsAt); });
+    el.querySelectorAll('[data-pulse]').forEach(function (n) {
+      var tgt = document.querySelector(n.dataset.pulse), p = clamp((lt - +n.dataset.at) / 0.6);
+      tgt.style.boxShadow = p > 0 && p < 1 ? '0 0 0 ' + (4 + p * 16) + 'px rgba(0,240,255,' + (0.55 * (1 - p)) + ')' : 'none';
+    });
+    var cur = el.querySelector('#cursor');
+    if (cur) {
+      var kf = cur.dataset.path.split('|').map(function (k) { var i = k.indexOf(':'); return [+k.slice(0, i), k.slice(i + 1)]; });
+      var pos = point(kf[0][1]);
+      for (var i = 0; i < kf.length - 1; i++) {
+        if (lt >= kf[i][0] && lt < kf[i + 1][0]) {
+          var A = point(kf[i][1]), B = point(kf[i + 1][1]), f = eio(clamp((lt - kf[i][0]) / (kf[i + 1][0] - kf[i][0])));
+          pos = [A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f]; break;
+        }
+        if (lt >= kf[kf.length - 1][0]) pos = point(kf[kf.length - 1][1]);
+      }
+      cur.style.transform = 'translate(' + (pos[0] - 5) + 'px,' + (pos[1] - 4) + 'px)';
+    }
+  });
+  var strip = document.getElementById('strip');
+  var so = t < 11 ? 0 : t < 11.5 ? eo((t - 11) / 0.5) : t < 44.55 ? 1 : 1 - clamp((t - 44.55) / 0.45);
+  strip.style.opacity = so;
+  var idx = -1;
+  SC.forEach(function (s) { if (t >= s[1] && t < s[2] && s[0] in STEP_SCENES) idx = STEP_SCENES[s[0]]; });
+  strip.querySelectorAll('.sd').forEach(function (d, i) { d.classList.toggle('on', i === idx); d.classList.toggle('done', i < idx); });
+}
+window.renderAt = renderAt; window.TOTAL = TOTAL;
+renderAt(0);
+</script>
+</body>
+</html>
