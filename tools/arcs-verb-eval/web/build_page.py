@@ -139,7 +139,7 @@ section > h2 {{ font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-bott
 
 /* three answers */
 .qa {{ display: grid; gap: 0; border-top: 1px solid var(--border); }}
-.qa div {{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; padding-block: 18px; border-bottom: 1px solid var(--border); }}
+.qa div {{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--border); }}
 .qa dt {{ font: 600 18px/1.35 var(--font-display); }}
 .qa dd {{ margin: 0; color: var(--soft); }}
 .qa dd strong {{ color: var(--text); font-weight: 600; }}
@@ -171,17 +171,17 @@ details[open] .chev {{ transform: rotate(180deg); }}
 .half, .full {{ display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-content: start; min-width: 0; }}
 .deep h3 {{ font-size: 16px; font-weight: 600; }}
 .gates, .rubric {{ list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }}
-.g {{ display: grid; grid-template-columns: 14px minmax(0, 1fr); column-gap: 10px; padding-block: 10px; border-bottom: 1px solid var(--border); }}
+.g {{ display: grid; grid-template-columns: 14px minmax(0, 1fr); column-gap: 10px; padding: 10px 0 12px; border-bottom: 1px solid var(--border); }}
 .g .dot {{ width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; grid-row: span 2; }}
 .g-pass .dot {{ background: var(--green); }} .g-fail .dot {{ background: var(--red); box-shadow: 0 0 0 3px var(--red-bg); }}
 .gt {{ font-weight: 500; }} .g-fail .gt {{ color: var(--red); }}
 .ge {{ color: var(--soft); font-size: 14px; }}
 .sr {{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }}
-.rubric li {{ display: flex; justify-content: space-between; gap: 16px; align-items: center; padding-block: 10px; border-bottom: 1px solid var(--border); }}
+.rubric li {{ display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 0 12px; border-bottom: 1px solid var(--border); }}
 .pips {{ display: inline-flex; gap: 4px; flex: none; }}
 .pips i {{ width: 18px; height: 6px; border-radius: 3px; background: var(--border); }}
 .pips i.on {{ background: var(--cyan); }}
-.pips i.pend {{ background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 4px); }}
+.pips i.pend {{ background: transparent; box-shadow: inset 0 0 0 1px var(--muted); }}
 .fid, .meter {{ display: grid; gap: 8px; padding: 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); margin-top: 6px; }}
 .fid-row {{ display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 15px; }}
 .sharp {{ opacity: 1; font-weight: 500; }} .degraded {{ opacity: 0.85; }} .grain {{ opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }}
@@ -297,7 +297,7 @@ code, pre, kbd, textarea, .tool {{ font-variant-ligatures: none !important; font
 
   <section aria-labelledby="try">
     <h2 id="try">Try it on your own work</h2>
-    <p class="note" style="margin:-8px 0 18px">Pick a step, paste your work, press Check it. It runs in this page. Nothing is uploaded.</p>
+    <p class="note" style="margin:-8px 0 18px">Pick a step, paste your work, press Check it. It runs in this page. Nothing you paste is uploaded.</p>
     <div class="play">
       <div class="tabs" role="tablist" aria-label="Step to check" id="play-tabs">{"".join(f'<button type="button" role="tab" data-verb="{s["v"]}" aria-selected="{str(i==0).lower()}">{s["n"]}. {s["name"]}</button>' for i, s in enumerate(STEPS))}</div>
       <div class="play-grid">
