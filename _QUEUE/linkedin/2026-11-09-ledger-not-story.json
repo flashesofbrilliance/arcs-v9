@@ -1,0 +1,128 @@
+{
+ "id": "2026-11-09-ledger-not-story",
+ "show": "Notes from the Trenches",
+ "source": "public/blog-nftt-ledger-not-story.html",
+ "index_url": "https://good.arcs.care/blog/nftt",
+ "thesis": "Keep the outcome and the reason in separate fields: 38 rejections had a known ending and one stated reason, and a READY preview is a known build, not a release.",
+ "aeo": {
+  "question": "Can you know why a job application was rejected?",
+  "answer": "An outcome can be known while its reason stays unverified. Of 38 job applications that ended this year, the outcome was known in all 38 and a person stated a reason in exactly one. The discipline is to keep the outcome and the reason in separate fields, and let the reason stay empty.",
+  "entities": [
+   "reason_unverified",
+   "process context",
+   "preview deployment"
+  ],
+  "sources": [
+   "https://good.arcs.care/blog/nftt/ledger-not-story"
+  ]
+ },
+ "evidence": [
+  {
+   "pattern": "\\b38\\b",
+   "source": "public/blog-nftt-ledger-not-story.html (counts from the normalized application ledger); total outcomes"
+  },
+  {
+   "pattern": "\\b34\\b",
+   "source": "public/blog-nftt-ledger-not-story.html (counts from the normalized application ledger); ended before a screen"
+  },
+  {
+   "pattern": "\\b37\\b",
+   "source": "public/blog-nftt-ledger-not-story.html (counts from the normalized application ledger); reasons held unverified"
+  }
+ ],
+ "cuts": [
+  {
+   "altitude": "exec",
+   "format": "image",
+   "date": "2026-11-09",
+   "status": "draft",
+   "card_line": "38 rejections. 38 known outcomes. One stated reason.",
+   "caption": "I logged every job application that ended this year. The ending was knowable every time. The reason was knowable once. Full story Friday.",
+   "first_comment": "The essay: https://good.arcs.care/blog/nftt/ledger-not-story",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "strategic",
+   "format": "poll",
+   "date": "2026-11-10",
+   "status": "draft",
+   "poll": {
+    "question": "When a rejection gives no reason, what do you do with the silence?",
+    "options": [
+     "Guess the reason",
+     "Ask for feedback",
+     "Log it and move on",
+     "Change the resume"
+    ]
+   },
+   "caption": "Asking because I counted mine: 38 endings, one reason a person actually stated. The rest I had to leave blank. Results feed Wednesday's carousel.",
+   "expected": {
+    "impressions_low": 1000,
+    "impressions_high": 4000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "operational",
+   "format": "carousel",
+   "date": "2026-11-11",
+   "status": "draft",
+   "slides": [
+    "The ledger is not the story. How to hold an outcome apart from its reason.",
+    "I logged 38 job applications that ended this year. Outcome known: 38. Reason a person stated: one.",
+    "Rule 1. Keep two fields: outcome and reason. Let the reason field stay empty when nobody filled it.",
+    "Rule 2. A status notice proves a record changed state. It proves nothing else.",
+    "Rule 3. Process context is not cause. A flooded queue is a fact about the queue, not about you.",
+    "Rule 4. One stated reason is one data point. Keep it, attribute it, and fence it. It is not a pattern.",
+    "Rule 5. Warmth is not a ranking. Regret is not a reason.",
+    "Same rule in code: a READY preview is a build, not a release. It waits for main.",
+    "Do not upgrade a claim's certainty past its evidence. The unproven parts stay marked unproven.",
+    "Part of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt"
+   ],
+   "expected": {
+    "impressions_low": 2000,
+    "impressions_high": 8000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "tactical",
+   "format": "post",
+   "date": "2026-11-12",
+   "status": "draft",
+   "text": "I built a record of every job application that ended this year.\n\n38 endings. The outcome was known in all 38. The reason was stated by a person in one.\n\nThe rest were templates, status notices, and lines about other candidates aligning more closely. Some employers shared real process facts: a flood of applicants, a narrow focus. True, and still not a reason. A crowded queue is a fact about the queue.\n\nThe one real reason came from a recruiter relaying a client's criterion for one role. I kept it, attributed it, and fenced it. One data point is not a pattern.\n\nThen I shipped a three-line change to a scoring rubric and held it to the same rule. The preview went READY. Production was still serving the old commit. READY on a branch is a build, not a release, so I waited for the merge and the production build before calling it live.\n\nThe discipline is boring on purpose: separate the outcome field from the reason field, and let the reason stay empty until someone fills it with evidence.\n\nWhere are you filling an empty reason field with something plausible?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "surgical",
+   "format": "article",
+   "date": "2026-11-13",
+   "status": "draft",
+   "title": "The Ledger Is Not the Story: 38 Rejections, One Stated Reason",
+   "text": "An outcome can be known while its reason stays unverified. Of 38 job applications that ended this year, the outcome was known in all 38 and a person stated a reason in exactly one. The discipline is to keep the outcome and the reason in separate fields, and let the reason stay empty.\n\nI did not believe that first sentence when I wrote it into a schema. It was a field definition, a value called reason_unverified, the kind of thing you add so the shape is honest. Then I ran the extraction and the count came back, and it stopped being a design choice.\n\nFull essay: https://good.arcs.care/blog/nftt/ledger-not-story\n\n## What did 38 rejections actually say?\n\nMostly templates. A status notification from a professional network that means a door closed. Sentences about other candidates whose experience aligned more closely, which is a true statement about a decision and carries no information about the decision. Eight of the endings were nothing but a status notice, and a notice is evidence that a record changed state, not evidence of anything else.\n\n34 of the 38 ended before a screen. I counted them. I did not interpret them.\n\n## Why is process context not a reason?\n\nSeveral employers volunteered real facts about their own situation: an overwhelming response to the posting, many qualified applicants, a small company focused on a narrow set of skills. Those are true statements about a hiring process. They are not statements about me. Volume is a fact about the queue, and it belongs in the context column, not the cause column. This is the most seductive category in the pile, because it sounds like an explanation.\n\n## What was the one real reason?\n\nOne recruiter relayed what a client had told her: they wanted to see zero-to-one experience inside a startup that resembled their own. That is a named criterion, attributed to a source, tied to one role at one company at one moment.\n\nIt is also one data point, and I want the limitation carried alongside it rather than in small print. It is not a pattern, not a career diagnosis, and not a rule for the next posting. My own threshold for claiming a cross-case pattern is several comparable receipts, and I have one. So the ledger keeps the sentence, keeps the attribution, and keeps the fence around it.\n\nTwo other human messages were warmer and told me less. One team enjoyed the meeting and picked someone else. One praised my grasp of the business and preferred another background. Both are kind, and neither contains a criterion. Warmth is not a ranking. Regret is not a reason.\n\n## How does the same discipline apply to code?\n\nThe ledger took a day. The next code change took three lines, and I held it to the same rule: a claim may not rise above its evidence.\n\nThe change fixed two scoring artifacts in a job-fit rubric. Compensation a posting did not disclose had been scoring as a penalty, as if silence were a low number. It now scores neutral. And a single regulated domain had been zeroing strong roles over a nice-to-have; it now has a floor. The diff was data only, and it recalculated nothing already stored.\n\n## Why is a READY preview not a release?\n\nA preview deployment built from the branch went READY. The commit was real and the page rendered. Production was still serving the previous commit from main, which did not contain the change. Calling that shipped would be the same error as calling a template rejection a diagnosis: upgrading a claim because the evidence feels close.\n\nSo I audited it read-only before touching anything. The branch commit, the pull request head, and the deployment all matched. The pull request was open, not merged, and the commit was not reachable from main. Classification: preview, ready, not mainline. The merge was a human call. Only after a fresh build from the merge commit reported READY with the production domains attached did the change earn the word released.\n\n## What stays unproven?\n\nI cannot tell you why 34 of 38 ended before a screen: the shape of my applications, the filters, the volume of applicants, or some mix. Coverage is unknown, because a search over one inbox is not proof of a complete record, and an ending whose message never arrived is invisible by construction. A few records could not be tied to a verifiable message and are kept as unresolved rather than repaired by guessing.\n\nNone of this supports a pattern claim about me, the roles, or the market. What I have is smaller and sturdier: a record where every claim sits at its evidence level, and a habit that runs the same way on prose and on production.\n\nThe ledger is not the story. The story is the distance I kept between what I knew and what I said. Where in your work are you filling an empty reason field with something plausible?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 500,
+    "impressions_high": 3000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  }
+ ]
+}
