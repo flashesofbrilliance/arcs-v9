@@ -203,7 +203,8 @@ details[open] .chev {{ transform: rotate(180deg); }}
 textarea {{ width: 100%; min-height: 150px; max-height: 40vh; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; font: 400 13px/1.55 var(--font-mono); }}
 textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .play-actions {{ display: flex; flex-wrap: wrap; gap: 8px; }}
-.btn {{ font: 500 14px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 9px 14px; cursor: pointer; }}
+#play-nb-wrap {{ display: contents; }} #play-nb-wrap[hidden] {{ display: none; }}
+.btn {{ display: inline-flex; align-items: center; line-height: 1.2; font: 500 14px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 9px 14px; cursor: pointer; }}
 .btn:hover {{ border-color: var(--soft); }}
 .btn.primary {{ background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 600; }}
 .btn.primary:hover {{ filter: brightness(1.08); }}
