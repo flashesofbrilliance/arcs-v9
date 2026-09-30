@@ -1,0 +1,253 @@
+{
+ "eps": 0.85,
+ "min_samples": 2,
+ "n": 34,
+ "agreement": 0.761,
+ "shuffle_band_90": [
+  0.701,
+  0.738
+ ],
+ "signal": "ABOVE-CONTROL",
+ "clusters": [
+  {
+   "label": 0,
+   "terms": [
+    "memory",
+    "send",
+    "cold",
+    "warm",
+    "reader",
+    "his"
+   ],
+   "members": [
+    {
+     "slug": "nftt-a-draft-is-not-a-verb",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-notomation",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-post-1",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-post-2",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-post-4",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-receipts-or-it-didnt-happen",
+     "hand": "Rogue Operator"
+    },
+    {
+     "slug": "nftt-recon-report-cold-2",
+     "hand": "Rogue Operator"
+    },
+    {
+     "slug": "nftt-the-cold-reconstruction",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-the-control-and-the-experiment",
+     "hand": "Reader"
+    },
+    {
+     "slug": "til-a-draft-is-not-a-verb",
+     "hand": "Notomation"
+    }
+   ]
+  },
+  {
+   "label": 1,
+   "terms": [
+    "week",
+    "assets",
+    "eight",
+    "forty-seven",
+    "column",
+    "liability"
+   ],
+   "members": [
+    {
+     "slug": "nftt-assets-and-liabilities",
+     "hand": "(unsorted)"
+    },
+    {
+     "slug": "nftt-confirmed-not-my-bug",
+     "hand": "Rogue Operator"
+    },
+    {
+     "slug": "nftt-post-3",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-the-method-that-was-already-built",
+     "hand": "(unsorted)"
+    }
+   ]
+  },
+  {
+   "label": 2,
+   "terms": [
+    "seed",
+    "resume",
+    "cents",
+    "posting",
+    "wire",
+    "cheap"
+   ],
+   "members": [
+    {
+     "slug": "nftt-cheapest-edit-is-a-diff",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-the-loop-closes",
+     "hand": "Receipts"
+    }
+   ]
+  },
+  {
+   "label": 3,
+   "terms": [
+    "apple",
+    "falsifier",
+    "margin",
+    "gross",
+    "published",
+    "piece"
+   ],
+   "members": [
+    {
+     "slug": "nftt-closing-the-loop-receipts",
+     "hand": "Receipts"
+    },
+    {
+     "slug": "nftt-four-dates-one-thesis-three-confirmations",
+     "hand": "Receipts"
+    },
+    {
+     "slug": "nftt-the-pre-mortem-that-asked-to-be-wrong",
+     "hand": "Receipts"
+    },
+    {
+     "slug": "nftt-tuning-into-the-distortion-field",
+     "hand": "Primary Source"
+    },
+    {
+     "slug": "til-apple-openai",
+     "hand": "Primary Source"
+    },
+    {
+     "slug": "til-closing-the-loop",
+     "hand": "Receipts"
+    }
+   ]
+  },
+  {
+   "label": 4,
+   "terms": [
+    "branch",
+    "request",
+    "main",
+    "thirty-eight",
+    "pull",
+    "lattice"
+   ],
+   "members": [
+    {
+     "slug": "nftt-ledger-not-story",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-pulp-governance",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-second-pass",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-the-question-that-found-the-outage",
+     "hand": "Rogue Operator"
+    }
+   ]
+  },
+  {
+   "label": 5,
+   "terms": [
+    "territory",
+    "engine",
+    "instructions",
+    "picture",
+    "draw",
+    "map"
+   ],
+   "members": [
+    {
+     "slug": "nftt-schematic-scaffolds",
+     "hand": "Notomation"
+    },
+    {
+     "slug": "nftt-the-factory-on-itself",
+     "hand": "(unsorted)"
+    }
+   ]
+  },
+  {
+   "label": 6,
+   "terms": [
+    "post",
+    "slang",
+    "desktop",
+    "laptop",
+    "post's",
+    "locked"
+   ],
+   "members": [
+    {
+     "slug": "nftt-the-instinct-before-it-had-a-name",
+     "hand": "Reader"
+    },
+    {
+     "slug": "nftt-the-same-rigor-applied-to-slang",
+     "hand": "(unsorted)"
+    }
+   ]
+  },
+  {
+   "label": -1,
+   "terms": [
+    "conclusion",
+    "her",
+    "bias",
+    "percent",
+    "security",
+    "spread"
+   ],
+   "members": [
+    {
+     "slug": "nftt-probably-confirmation-bias",
+     "hand": "Receipts"
+    },
+    {
+     "slug": "nftt-take-home-trap",
+     "hand": "Primary Source"
+    },
+    {
+     "slug": "nftt-the-lock-that-was-already-there",
+     "hand": "Rogue Operator"
+    },
+    {
+     "slug": "til-zim",
+     "hand": "Primary Source"
+    }
+   ]
+  }
+ ]
+}

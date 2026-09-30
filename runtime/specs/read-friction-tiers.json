@@ -119,6 +119,11 @@
       "tier": "T4-mcp-external",
       "quadrant": "EXTERNALS",
       "horizon_days": 1
+    },
+    "essay": {
+      "tier": "T2-open-one-file",
+      "quadrant": "ROM",
+      "horizon_days": 365
     }
   },
   "cost_if_absent_by_stakes": {

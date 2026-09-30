@@ -12,6 +12,7 @@ Altitude ladder (bite-sized -> Flintstone gauge), one thesis carried through all
   surgical    article    >= 700 words, opens with the AEO answer, cites primary sources
 
 Gates per cut (any miss exits 1):
+  expected (pre-registered impressions band, dated before the post: Op 19 closes against it)
   slop_lint (clichés + em-dashes)   provenance_lint (every metric covered by the queue's evidence)
   altitude_canary --strict (article) series footer (post/carousel/article)   PII grep
   AEO: question ends in '?', answer 40-60 words and verbatim in the article's first paragraph,
@@ -106,6 +107,12 @@ def check_file(path):
             tag = f"[{c.get('altitude')}/{c.get('format')}]"
             text = cut_text(c)
             errs += [f"{tag} {m}" for m in shape_errors(c)]
+            ex = c.get("expected") or {}
+            if not (isinstance(ex.get("impressions_low"), int) and isinstance(ex.get("impressions_high"), int)
+                    and ex["impressions_low"] <= ex["impressions_high"] and ex.get("registered_at")):
+                errs.append(f"{tag} expected: pre-register impressions_low/high + registered_at before posting (Op 19 closes against it)")
+            elif c.get("date") and ex["registered_at"] > c["date"]:
+                errs.append(f"{tag} expected registered after the post date: that is a retrofit, not a prediction")
             if c.get("format") in FOOTER_FORMATS and footer not in text:
                 errs.append(f"{tag} missing series footer '{footer}'")
             errs += [f"{tag} PII-shaped string: {m.group(0)}" for r in PII for m in r.finditer(text)]
@@ -160,6 +167,7 @@ def self_test():
             "em-dash": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"] + " — end"),
             "uncited metric": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"] + " It grew 87%."),
             "no footer": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"].replace(f"Part of {q['show']}", "")),
+            "no prior": lambda q: q["cuts"][2].pop("expected"),
             "aeo drift": lambda q: q["aeo"].__setitem__("answer", "Short answer that is not in the article at all " * 5),
         }
         for name, mut in mutations.items():
