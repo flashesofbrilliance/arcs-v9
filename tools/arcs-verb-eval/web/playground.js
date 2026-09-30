@@ -51,8 +51,11 @@
     html += '<div class="lanes"><div class="lane-col"><h4>Decided by rules <span>no AI</span></h4><ul class="gates">' + tr.filter(function (e) { return e.lane === 'rules'; }).map(function (g, i) {
       return '<li class="g lit ' + (g.ok ? 'g-pass' : 'g-fail') + (g.cliOnly ? ' g-cli' : '') + '" style="--i:' + i + '"><span class="dot" aria-hidden="true"></span><span class="gt">' + esc(PLAIN[g.id] || g.id) + '</span><span class="ge">' + esc(g.evidence) + ' · ' + (g.ms < 0.01 ? '<0.01' : g.ms.toFixed(2)) + ' ms</span><span class="sr">' + (g.ok ? 'passed' : 'failed') + '</span></li>';
     }).join('') + '</ul></div>';
-    html += '<div class="lane-col"><h4>Waiting for a judge <span>not sent</span></h4><ul class="jcards">' + tr.filter(function (e) { return e.lane === 'judge'; }).map(function (j, i) {
-      return '<li class="lit" style="--i:' + (i + sum.rules) + '"><span class="jq">' + esc(j.label) + '</span><details><summary>See the exact prompt</summary><pre>' + esc(j.prompt.system + '\n\n' + j.prompt.user) + '</pre></details></li>';
+    var jud = tr.filter(function (e) { return e.lane === 'judge'; });
+    html += '<div class="lane-col"><h4>Waiting for a judge <span>not sent</span></h4>';
+    if (jud.length) html += '<details class="shared"><summary>Instructions every question shares (same for all ' + jud.length + ')</summary><pre>' + esc(jud[0].prompt.system) + '</pre></details>';
+    html += '<ul class="jcards">' + jud.map(function (j, i) {
+      return '<li class="lit" style="--i:' + (i + sum.rules) + '"><span class="jq">' + esc(j.label) + '</span><span class="jmsg">Sent with the shared instructions as: <code>' + esc(j.prompt.user) + '</code></span></li>';
     }).join('') + '</ul><p class="res-note">Scores come from a person, or from Claude with <code>--judge</code> in the command-line tool. They never change the stamp.</p></div></div>';
     var notes = [];
     if (pv && !up) notes.push('Checked on its own. Check step ' + (AVE.VERBS.indexOf(pv) + 1) + ' first and this step will also test what it inherited.');

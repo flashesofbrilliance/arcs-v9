@@ -229,6 +229,10 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .jcards {{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }}
 .jcards li {{ border: 1px dashed var(--border); border-radius: var(--r-md); padding: 10px 12px; display: grid; gap: 6px; }}
 .jq {{ font-size: 14px; }}
+.jmsg {{ font-size: 12.5px; color: var(--soft); overflow-wrap: anywhere; }}
+.jmsg code {{ font: 400 12px var(--font-mono); color: var(--text); }}
+.shared summary {{ display: block; padding: 0; font-size: 13px; color: var(--cyan); cursor: pointer; }}
+.shared pre {{ margin: 6px 0 0; max-height: 260px; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; font: 400 11.5px/1.5 var(--font-mono); white-space: pre-wrap; }}
 .jcards summary, .rawtrace summary {{ display: block; padding: 0; font-size: 13px; color: var(--cyan); cursor: pointer; }}
 .jcards pre, .rawtrace pre {{ margin: 6px 0 0; max-height: 220px; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; font: 400 11.5px/1.5 var(--font-mono); white-space: pre-wrap; }}
 .lit {{ animation: lit .45s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(var(--i) * 70ms); }}
