@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCS Chronicle</title><meta name="robots" content="noindex, nofollow">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+:root{--measure:640px}
+
+:root{--text-2:#94a3b8;--serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--serif);font-size:1.15rem;line-height:1.65}
+.wrap{max-width:calc(var(--measure) + 48px);margin:0 auto;padding:32px 16px 96px}
+p,li,blockquote{max-width:var(--measure);text-wrap:pretty;overflow-wrap:anywhere}
+h1,h2{font-family:var(--serif);font-weight:500;text-wrap:balance;margin:0;font-size:clamp(1.5rem, 4vw, 2.4rem);line-height:1.2}
+code{font-family:var(--mono);font-size:.925rem;color:var(--gold);white-space:nowrap}
+.eyebrow,.flab,.theme,.span,.tag,.src,.byline,.tl,.fbar{font-family:var(--mono);font-size:.925rem;max-width:none;text-wrap:balance}
+.eyebrow{color:var(--cyan)}
+.lede{max-width:none;font-style:italic}
+.byline,.src,.theme,.span,.flab{color:var(--text-2)}
+.fbar{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--border);padding:10px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fbar button{font:inherit;background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:3px;padding:6px 10px;cursor:pointer;white-space:nowrap}
+.fbar button:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+.fbar button[aria-pressed=true]{color:var(--cyan);border-color:var(--cyan)}
+.tl{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 8px}
+.tl a{flex:1 1 130px;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px}
+.tl small{display:block;color:var(--text-2);font-size:.925rem;white-space:nowrap}
+.tl .gone{flex:1 1 130px;color:var(--text-2);border:1px dashed var(--border);border-radius:6px;padding:8px}
+.book{border-top:1px solid var(--border);margin-top:48px;padding-top:24px}
+.f{margin-top:22px}
+.flab{margin-bottom:6px}
+.lead::first-letter{color:var(--cyan)}
+.ep{margin:0 0 14px;border-left:2px solid var(--cyan);padding:4px 0 4px 14px}
+.ep p{margin:0;font-style:italic}
+.ep cite{display:block;font-family:var(--mono);font-size:.925rem;color:var(--text-2);font-style:normal;margin-top:4px}
+.seam,.seam-note{color:var(--gold)}
+.ep.seam{border-left-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:0}
+.stats div{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px}
+.stats dt{font-family:var(--mono);font-size:.925rem;color:var(--text-2)}
+.stats dd{margin:0;font-family:var(--mono);font-size:1.15rem;color:var(--cyan);white-space:nowrap}
+.claims{list-style:none;padding:0;margin:0}
+.claims li{padding:6px 0;border-bottom:1px solid var(--border)}
+.claims li code{white-space:normal;overflow-wrap:anywhere}
+.tag{border:1px solid var(--border);border-radius:3px;padding:1px 5px;white-space:nowrap}
+.ok .tag{color:var(--green)}
+.seam .tag{color:var(--gold)}
+.shav{margin-top:28px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px}
+.shav ul{padding-left:18px;margin:8px 0}
+.shav li{margin:4px 0;max-width:none}
+.shav p.src{max-width:none}
+.unreached{margin-top:48px;border-top:1px dashed var(--border);padding-top:20px;color:var(--text-2)}
+.unreached p{max-width:none}
+body[data-fathom="1"] .f[data-depth="2"],body[data-fathom="1"] .f[data-depth="3"],body[data-fathom="1"] .f[data-depth="4"],body[data-fathom="1"] .f[data-depth="5"],
+body[data-fathom="2"] .f[data-depth="3"],body[data-fathom="2"] .f[data-depth="4"],body[data-fathom="2"] .f[data-depth="5"],
+body[data-fathom="3"] .f[data-depth="4"],body[data-fathom="3"] .f[data-depth="5"],
+body[data-fathom="4"] .f[data-depth="5"]{display:none}
+
+</style></head>
+<body data-fathom="3"><div class="wrap">
+<div class="eyebrow">Reading Room · Chronicle · how did we get here?</div>
+<h1>Drishti: a Chronicle of ARCS</h1>
+<p class="lede">Five books from Day 0 to now, each readable at five depths, each closed by a Shavasana that adds no claim. Drishti is the fixed gaze: choose a fathom and hold it.</p>
+<div class="byline">rendered from <code>runtime/specs/chronicle-books.json</code> at main <code>aef6180a</code> · counts computed from git · proverbs from <code>_CANON/tao-proverbs.jsonl</code></div>
+<nav class="fbar" aria-label="Fathom depth">Fathom <button type="button" data-fathom-btn="1" aria-pressed="false">1 Executive</button><button type="button" data-fathom-btn="2" aria-pressed="false">2 Strategic</button><button type="button" data-fathom-btn="3" aria-pressed="false">3 Operational</button><button type="button" data-fathom-btn="4" aria-pressed="false">4 Tactical</button><button type="button" data-fathom-btn="5" aria-pressed="false">5 Surgical</button></nav>
+<nav class="tl" aria-label="Books"><a href="#genesis" data-status="written">Genesis<small>2026-04-09</small><small>2 commits</small></a><a href="#exodus" data-status="unwritten">Exodus<small>2026-05-18</small><small>760 commits</small></a><a href="#leviticus" data-status="unwritten">Leviticus<small>2026-07-11</small><small>503 commits</small></a><a href="#numbers" data-status="unwritten">Numbers<small>2026-08-01</small><small>1114 commits</small></a><a href="#deuteronomy" data-status="unwritten">Deuteronomy<small>2026-09-16</small><small>413 commits</small></a><span class="gone" title="not yet reached: the Chronicle has not earned a book that sees without being told where to look">Ajna<small>not yet reached</small></span><span class="gone" title="not yet reached">Sahasrara<small>not yet reached</small></span></nav>
+<article class="book" id="genesis" data-status="written"><header class="bh"><div class="eyebrow">Book I · Muladhara (root)</div><h2>Genesis</h2><div class="theme">origin</div><div class="span"><code>471d5739</code> 2026-04-09 to <code>a61d492e</code> 2026-05-18 · cut: event</div></header><section class="f" data-depth="1"><div class="flab">Fathom 1 · Executive</div><p class="exec">Two commits and thirty-nine days of silence between them: a scaffold that named itself Day 1, and a pipeline that arrived carrying the physics of the world it was built for.</p></section><section class="f" data-depth="2"><div class="flab">Fathom 2 · Strategic</div><blockquote class="ep"><p>A named gap is honest; a hidden one is a lie. When you cannot check the box, state the residual risk out loud.</p><cite>tao-137 · _CANON/tao-proverbs.jsonl</cite></blockquote><p class="strat">Nothing was left behind, because nothing existed yet. What was taken up was a noun: the Receipt, a table in the first schema before there was any decision to put in it. The book of origin is also the book of the first seam, the gap the record does not cover.</p></section><section class="f" data-depth="3"><div class="flab">Fathom 3 · Operational</div><p class="lead">The first commit on main is 471d5739, at 11:39 on the morning of 9 April 2026. Its subject calls it Day 1. The status page counts differently: on 29 September it reads DAY 173, which only works if 9 April is Day 0. The world began on a disagreement about where to start counting, and both counts are in the record.</p><p>What the scaffold contains is plain. Next.js 16, Prisma 7, Auth.js with a magic link. A schema with a User, a Receipt, and an Outcome. A proxy that guards two routes and sends everyone else to /compass. A package manifest that pulls in Tailwind, which the next book will have to carry out. The commit message ends with a done-state rather than a boast: fill the environment file, migrate, click the link, arrive at /dashboard with a session.</p><p>Then the record goes quiet. Between 471d5739 and a61d492e there are no commits on main at all. Thirty-nine days. It would be easy to fill that silence with a story. The Chronicle does not, and the reason is written into the second commit itself.</p><p>a61d492e lands on 18 May at 13:32. It carries two database migrations whose own folder names are timestamps: 20260410143234 and 20260410143652, the afternoon of 10 April, the day after Day 0. The work was being done. It was not being committed. The pipeline, the Y-gate, the brief, the guide, and a 188-line WORLD.md all arrive together, thirty-one files and 5,762 lines in one breath, authored from a different address than the first commit.</p><p>Before any of it, there is an older book. ADR-071 and the apex-spine canon cite a Book of ARCS from November 2025 as the earliest artifact, the place where three was first named the minimum for coherence. It is not in this repository&#x27;s history, so this Chronicle cannot prove it. It is cited here as what came before, and marked as such.</p></section><section class="f" data-depth="4"><div class="flab">Fathom 4 · Tactical</div><dl class="stats"><div><dt>commits</dt><dd>2</dd></div><div><dt>merges</dt><dd>0</dd></div><div><dt>ADRs added</dt><dd>0</dd></div><div><dt>falsified</dt><dd>0</dd></div></dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p></section><section class="f" data-depth="5"><div class="flab">Fathom 5 · Surgical</div><ul class="claims"><li class="ok"><span class="tag">proven</span> The first commit on main is 471d5739, dated 2026-04-09 11:39, subject &#x27;Day 1 scaffold&#x27;. <code>471d5739</code></li><li class="ok"><span class="tag">proven</span> status.arcs.care reads DAY 173 on 2026-09-29, which counts 2026-04-09 as Day 0. <code>public/status.html</code></li><li class="ok"><span class="tag">proven</span> The Day 1 schema declares User, Receipt, and Outcome; the scaffold depends on tailwindcss ^4. <code>471d5739:package.json</code></li><li class="ok"><span class="tag">proven</span> No commits exist on main between 471d5739 and a61d492e. <code>git rev-list 471d5739..a61d492e</code></li><li class="ok"><span class="tag">proven</span> a61d492e carries migrations named 20260410143234_dewy_v1 and 20260410143652_add_coherence_satoshi_clarity. <code>a61d492e</code></li><li class="ok"><span class="tag">proven</span> a61d492e adds WORLD.md (188 lines) across 31 files and 5,762 insertions, under a different author email than 471d5739. <code>a61d492e</code></li><li class="seam"><span class="tag">unproven</span> What happened in the 39 uncommitted days, beyond the two migration timestamps. <code>none</code></li><li class="seam"><span class="tag">unproven</span> A Book of ARCS existed in November 2025 and named three as the minimum for coherence. <code>_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md</code></li></ul></section><section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul><li><b>Exhale</b> 2 commits, 0 merges.</li><li><b>Inhale</b> 0 falsification rows, 0 dissent markers in commit subjects.</li><li><b>Breath balance</b> manifesto (exhale, no inhale).</li><li><b>Sycophancy check</b> agreement 0 / dissent 0 (ratio 0.0) : SILENT: no agreement or dissent markers to weigh.</li><li><b>Attachment release</b> Released: any reading of the 39 days as idleness. The migration timestamps say work happened; they do not say what or how much, so the Chronicle keeps only the timestamps. Kept: every claim with a sha. Downgraded to unproven: the November 2025 book, which is cited by the canon but not held by git.</li><li><b>Somatic read</b> Reading this now: is the origin you remember the one the record shows, or does Day 0 for you sit earlier than 471d5739? <span class="tag">somatic: pending Zach</span></li><li><b>Disposition</b> RETURN to Zach for the voice read. The other four books wait on it.</li></ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section></article><article class="book" id="exodus" data-status="unwritten"><header class="bh"><div class="eyebrow">Book II · Svadhisthana (flow)</div><h2>Exodus</h2><div class="theme">leaving the old stack and form</div><div class="span"><code>a61d492e</code> 2026-05-18 to <code>445ebf08</code> 2026-07-11 · cut: event</div></header><section class="f" data-depth="1"><div class="flab">Fathom 1 · Executive</div><p class="seam-note">Unwritten. This book waits on the Genesis voice read. Its boundaries and counts below are computed and live.</p></section><section class="f" data-depth="2"><div class="flab">Fathom 2 · Strategic</div><blockquote class="ep seam"><p>Epigraph unproven: no canon proverb chosen yet. A mint goes through /tao-mint, never coined here.</p></blockquote></section><section class="f" data-depth="4"><div class="flab">Fathom 4 · Tactical</div><dl class="stats"><div><dt>commits</dt><dd>760</dd></div><div><dt>merges</dt><dd>36</dd></div><div><dt>ADRs added</dt><dd>32</dd></div><div><dt>falsified</dt><dd>8</dd></div></dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p></section><section class="f" data-depth="5"><div class="flab">Fathom 5 · Surgical</div><ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul></section><section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul><li><b>Exhale</b> 760 commits, 36 merges.</li><li><b>Inhale</b> 8 falsification rows, 0 dissent markers in commit subjects.</li><li><b>Breath balance</b> breathing (both directions).</li><li><b>Sycophancy check</b> agreement 61 / dissent 8 (ratio 6.78) : THIN: high agreement, little dissent.</li><li><b>Attachment release</b> pending: the book is unwritten, so nothing is held yet.</li><li><b>Somatic read</b> pending <span class="tag">somatic: pending Zach</span></li><li><b>Disposition</b> pending</li></ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section></article><article class="book" id="leviticus" data-status="unwritten"><header class="bh"><div class="eyebrow">Book III · Manipura (will, fire)</div><h2>Leviticus</h2><div class="theme">the laws and gates</div><div class="span"><code>445ebf08</code> 2026-07-11 to <code>1dffaa2e</code> 2026-08-01 · cut: calendar 2026-08-01</div></header><section class="f" data-depth="1"><div class="flab">Fathom 1 · Executive</div><p class="seam-note">Unwritten. This book waits on the Genesis voice read. Its boundaries and counts below are computed and live.</p></section><section class="f" data-depth="2"><div class="flab">Fathom 2 · Strategic</div><blockquote class="ep seam"><p>Epigraph unproven: no canon proverb chosen yet. A mint goes through /tao-mint, never coined here.</p></blockquote></section><section class="f" data-depth="4"><div class="flab">Fathom 4 · Tactical</div><dl class="stats"><div><dt>commits</dt><dd>503</dd></div><div><dt>merges</dt><dd>6</dd></div><div><dt>ADRs added</dt><dd>9</dd></div><div><dt>falsified</dt><dd>13</dd></div></dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p></section><section class="f" data-depth="5"><div class="flab">Fathom 5 · Surgical</div><ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul></section><section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul><li><b>Exhale</b> 503 commits, 6 merges.</li><li><b>Inhale</b> 13 falsification rows, 2 dissent markers in commit subjects.</li><li><b>Breath balance</b> breathing (both directions).</li><li><b>Sycophancy check</b> agreement 26 / dissent 15 (ratio 1.62) : OK: dissent present.</li><li><b>Attachment release</b> pending: the book is unwritten, so nothing is held yet.</li><li><b>Somatic read</b> pending <span class="tag">somatic: pending Zach</span></li><li><b>Disposition</b> pending</li></ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section></article><article class="book" id="numbers" data-status="unwritten"><header class="bh"><div class="eyebrow">Book IV · Anahata (heart, balance)</div><h2>Numbers</h2><div class="theme">the census and counts</div><div class="span"><code>1dffaa2e</code> 2026-08-01 to <code>d21c7ee6</code> 2026-09-16 · cut: calendar 2026-09-16</div></header><section class="f" data-depth="1"><div class="flab">Fathom 1 · Executive</div><p class="seam-note">Unwritten. This book waits on the Genesis voice read. Its boundaries and counts below are computed and live.</p></section><section class="f" data-depth="2"><div class="flab">Fathom 2 · Strategic</div><blockquote class="ep seam"><p>Epigraph unproven: no canon proverb chosen yet. A mint goes through /tao-mint, never coined here.</p></blockquote></section><section class="f" data-depth="4"><div class="flab">Fathom 4 · Tactical</div><dl class="stats"><div><dt>commits</dt><dd>1114</dd></div><div><dt>merges</dt><dd>139</dd></div><div><dt>ADRs added</dt><dd>38</dd></div><div><dt>falsified</dt><dd>19</dd></div></dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p></section><section class="f" data-depth="5"><div class="flab">Fathom 5 · Surgical</div><ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul></section><section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul><li><b>Exhale</b> 1114 commits, 139 merges.</li><li><b>Inhale</b> 19 falsification rows, 7 dissent markers in commit subjects.</li><li><b>Breath balance</b> breathing (both directions).</li><li><b>Sycophancy check</b> agreement 182 / dissent 26 (ratio 6.74) : THIN: high agreement, little dissent.</li><li><b>Attachment release</b> pending: the book is unwritten, so nothing is held yet.</li><li><b>Somatic read</b> pending <span class="tag">somatic: pending Zach</span></li><li><b>Disposition</b> pending</li></ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section></article><article class="book" id="deuteronomy" data-status="unwritten"><header class="bh"><div class="eyebrow">Book V · Vishuddha (throat, speech)</div><h2>Deuteronomy</h2><div class="theme">the law restated, looking back</div><div class="span"><code>d21c7ee6</code> 2026-09-16 to <code>aef6180a</code> 2026-09-29 · cut: open-ended; pinned to main at first render</div></header><section class="f" data-depth="1"><div class="flab">Fathom 1 · Executive</div><p class="seam-note">Unwritten. This book waits on the Genesis voice read. Its boundaries and counts below are computed and live.</p></section><section class="f" data-depth="2"><div class="flab">Fathom 2 · Strategic</div><blockquote class="ep seam"><p>Epigraph unproven: no canon proverb chosen yet. A mint goes through /tao-mint, never coined here.</p></blockquote></section><section class="f" data-depth="4"><div class="flab">Fathom 4 · Tactical</div><dl class="stats"><div><dt>commits</dt><dd>413</dd></div><div><dt>merges</dt><dd>83</dd></div><div><dt>ADRs added</dt><dd>1</dd></div><div><dt>falsified</dt><dd>4</dd></div></dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p></section><section class="f" data-depth="5"><div class="flab">Fathom 5 · Surgical</div><ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul></section><section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul><li><b>Exhale</b> 413 commits, 83 merges.</li><li><b>Inhale</b> 4 falsification rows, 2 dissent markers in commit subjects.</li><li><b>Breath balance</b> breathing (both directions).</li><li><b>Sycophancy check</b> agreement 93 / dissent 6 (ratio 13.29) : THIN: high agreement, little dissent.</li><li><b>Attachment release</b> pending: the book is unwritten, so nothing is held yet.</li><li><b>Somatic read</b> pending <span class="tag">somatic: pending Zach</span></li><li><b>Disposition</b> pending</li></ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section></article>
+<section class="unreached"><div class="eyebrow">Not yet reached</div><p><b>Ajna</b> (third eye, the seat of drishti): not yet reached: the Chronicle has not earned a book that sees without being told where to look.</p><p><b>Sahasrara</b> (crown): not yet reached.</p></section>
+</div><script>
+(function(){var b=document.body,btns=document.querySelectorAll('[data-fathom-btn]');
+function set(n){b.setAttribute('data-fathom',n);btns.forEach(function(x){x.setAttribute('aria-pressed',String(x.getAttribute('data-fathom-btn')===String(n)))});
+try{localStorage.setItem('chronicle-fathom',n)}catch(e){}}
+btns.forEach(function(x){x.addEventListener('click',function(){set(x.getAttribute('data-fathom-btn'))})});
+var s=null;try{s=localStorage.getItem('chronicle-fathom')}catch(e){}set(s||'3');})();
+</script></body></html>

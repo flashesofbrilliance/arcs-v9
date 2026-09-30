@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
     "/reading-room": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
     "/reading-room/[tenant]": ["./runtime/specs/reading-room-manifest.json", "./_ARTIFACTS/atlas/cache-manifest.json"],
     "/api/reading-room/almanac": ["./_ARTIFACTS/atlas/atlas-almanac.html"],
+    "/api/reading-room/chronicle": ["./_ARTIFACTS/atlas/chronicle.html"],
   },
   async headers() {
     return [
