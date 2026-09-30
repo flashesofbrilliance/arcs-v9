@@ -1,0 +1,20 @@
+{
+  "defaults": {},
+  "analysis": {
+    "ledger": "sample/evidence.jsonl"
+  },
+  "evaluation": {
+    "min_lenses": 4
+  },
+  "synthesis": {
+    "public": false
+  },
+  "pipeline": {
+    "analysis": "sample/analysis.html",
+    "assessment": "sample/assessment.html",
+    "evaluation": "sample/evaluation.json",
+    "synthesis": "sample/synthesis.html",
+    "recapitulation": "sample/recapitulation.md",
+    "outdir": "sample/prints"
+  }
+}

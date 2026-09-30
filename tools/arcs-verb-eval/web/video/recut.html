@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check It Before You Say It: recut</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=block">
+<style>
+/* Tokens: DESIGN.md (repo root), the global ARCS system. Three voices: Inter = reading and
+   statements, JetBrains Mono = instruments (rules, stamps, wordmark, URL), Iowan Old Style =
+   canon (the tagline only). Radii 3/6/10/16. Glow, never cast shadow. */
+:root {
+  --bg: #020408; --panel: #0d1117; --elevated: #111827; --border: #1e293b;
+  --text: #e2e8f0; --text2: #94a3b8; --dimmed: #64748b; --muted: #475569;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --W: 1920px; --H: 1080px; --g: 120px;
+  --t1: 300px; --t2: 200px; --t3: 150px; --t4: 104px; --t5: 72px;
+  --mk: 64px; --ring: 96px; --gap: 48px;
+}
+.sq {
+  --W: 1080px; --H: 1080px; --g: 72px;
+  --t1: 240px; --t2: 170px; --t3: 130px; --t4: 80px; --t5: 64px;
+  --ring: 80px; --gap: 32px;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { background: var(--bg); color: var(--text); overflow: hidden; }
+.w { transform: translateY(115%); }
+#stage { position: relative; width: var(--W); height: var(--H); overflow: hidden; background: var(--bg); font-family: var(--sans); font-variant-ligatures: none; }
+.shot { position: absolute; inset: 0; visibility: hidden; background: var(--bg); }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+
+/* voices */
+.state { font: 700 var(--t3)/1.02 var(--sans); letter-spacing: -0.03em; }      /* film statements */
+.name  { font: 700 var(--t2)/1.0 var(--sans); letter-spacing: -0.035em; }      /* step names */
+.canon { font: 500 var(--t3)/1.02 var(--serif); letter-spacing: -0.015em; }    /* the tagline */
+.work  { font: 400 var(--t3)/1.1 var(--sans); letter-spacing: -0.02em; }       /* the person's work */
+.rule  { font: 600 var(--t4)/1.08 var(--sans); letter-spacing: -0.02em; }
+.slate { position: absolute; left: var(--g); right: var(--g); top: 176px; text-align: center; font: 600 var(--t5)/1 var(--sans); letter-spacing: -0.02em; color: var(--text2); }
+.c-cyan { color: var(--cyan); }
+
+/* centered stacks */
+.center { position: absolute; left: var(--g); right: var(--g); top: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.12em; }
+.ln { display: block; overflow: hidden; padding: 0.08em 0.02em 0.16em; margin: -0.08em 0 -0.16em; }
+.w { display: inline-block; will-change: transform; }
+.namewrap { display: inline-flex; flex-direction: column; align-items: center; transform-origin: center; }
+.bignum { display: grid; place-items: center; width: 150px; height: 150px; border-radius: 50%; border: 6px solid var(--cyan); color: var(--cyan); font: 700 var(--t5)/1 var(--mono); margin-bottom: 36px; }
+
+/* earned fidelity (DESIGN.md render scale) */
+.sharp { opacity: 1; font-weight: 500; letter-spacing: 0; }
+.grain { opacity: 0.70; font-weight: 300; letter-spacing: 0.02em; color: var(--text2); }
+
+/* rule block */
+.ruleblock { position: absolute; left: 160px; top: 262px; display: flex; align-items: center; gap: 36px; background: var(--panel); border: 2px solid var(--border); border-radius: 10px; padding: 28px 48px 28px 36px; max-width: calc(var(--W) - 160px - var(--g)); }
+.rring { position: relative; flex: none; width: var(--ring); height: var(--ring); margin-top: 6px; border-radius: 50%; border: 4px solid var(--text2); }
+.rring .disc { position: absolute; inset: -4px; border-radius: 50%; opacity: 0; }
+.rring.pass .disc { background: var(--green); }
+.rring.fail .disc { background: var(--red); }
+.rring svg { position: absolute; inset: 18%; width: 64%; height: 64%; }
+.sq .ruleblock { left: var(--g); right: var(--g); gap: 24px; top: 256px; padding: 22px 28px; }
+
+/* greeked lines: the person's work, shown as shapes, never read */
+.greek { display: flex; gap: 16px; align-items: center; }
+.greek i { display: block; height: 56px; background: #1e293b; border-radius: 3px; }
+.facts, .shortcard { background: var(--panel); border: 2px solid var(--border); border-radius: 10px; padding: 36px 44px; }
+.pill { flex: none; width: 96px; height: 96px; border: 3px solid var(--text2); border-radius: 999px; display: grid; place-items: center; }
+.tick { flex: none; width: 64px; height: 64px; }
+
+/* stamps: instrument voice, mono caps, bordered, md radius, glow on state */
+.stamp { position: absolute; transform-origin: center; font: 700 var(--t3)/1 var(--sans); letter-spacing: -0.01em; padding: 0.1em 0.55em 0.14em; border-radius: 999px; background: rgba(2,4,8,0.92); white-space: nowrap; visibility: hidden; }
+.stamp.go    { color: var(--green); border: 8px solid var(--green); box-shadow: 0 0 54px rgba(0,255,157,0.16); }
+.stamp.stop  { color: var(--red);   border: 14px solid var(--red);   box-shadow: 0 0 64px rgba(255,77,109,0.22); font: 700 var(--t2)/1 var(--mono); letter-spacing: 0.04em; border-radius: 6px; padding: 0.1em 0.3em 0.08em; }
+.stamp.ready { color: var(--cyan);  border: 8px solid var(--cyan);  box-shadow: 0 0 54px rgba(0,240,255,0.16); }
+
+/* ledger */
+#ledger { position: absolute; left: 0; right: 0; top: 40px; display: flex; justify-content: center; gap: var(--gap); visibility: hidden; z-index: 40; }
+.sq #ledger { top: 24px; }
+.mk { position: relative; width: var(--mk); height: var(--mk); }
+.mk b { position: absolute; inset: 0; border-radius: 50%; border: 4px solid var(--text2); display: grid; place-items: center; font: 700 calc(var(--mk) * 0.46)/1 var(--mono); color: var(--text2); }
+.mk.cur b { border-color: var(--cyan); color: var(--cyan); }
+.mk.go b { border: 0; background: var(--green); color: var(--bg); }
+.mk.stop b { border: 0; background: var(--red); color: var(--bg); border-radius: 6px; transform: rotate(-6deg); }
+.mk.fixed b { border: 0; background: var(--green); color: var(--bg); box-shadow: 0 0 0 6px var(--red); }
+.mk.ready b { border: 0; background: var(--cyan); color: var(--bg); }
+.mk.ready b::after { display: none; content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--bg); }
+.mk .echo { position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--cyan); opacity: 0; }
+
+/* current wipe bar */
+#bar { position: absolute; top: 0; bottom: 0; left: 0; width: 10px; visibility: hidden; z-index: 50; }
+.sq #bar { width: 8px; }
+
+/* S11 */
+.trail { flex: none; width: 64px; height: 64px; border-radius: 50%; }
+.trail.full { background: var(--green); }
+.trail.empty { border: 4px dashed var(--text2); }
+.trail.empty.isred { border-color: var(--red); }
+.sneak.isred { color: var(--red); }
+.strike { position: absolute; left: 0; right: 0; top: 52%; height: 10px; background: var(--text2); transform-origin: left center; transform: scaleX(0); }
+.struck { color: var(--text2); opacity: 0.7; }
+
+/* S15 note */
+.note { position: absolute; left: 288px; top: 480px; width: 1200px; height: 380px; border: 4px dashed var(--text2); border-radius: 10px; padding: 70px 60px; display: flex; flex-direction: column; gap: 36px; }
+.note .outline { position: absolute; inset: -14px; border: 6px solid var(--cyan); border-radius: 16px; opacity: 0; }
+
+/* URL + button */
+#urlbar { position: absolute; left: 50%; top: 36px; width: 900px; height: 110px; margin-left: -450px; background: var(--panel); border: 2px solid var(--border); border-radius: 10px; visibility: hidden; z-index: 20; }
+.sq #urlbar { width: 936px; height: 96px; margin-left: -468px; top: 24px; }
+#url { position: absolute; left: 0; right: 0; text-align: center; font: 500 var(--t3)/1 var(--mono); color: var(--cyan); letter-spacing: 0.01em; transform-origin: center; visibility: hidden; z-index: 30; }
+.btn { position: relative; display: inline-grid; place-items: center; padding: 0 64px; height: 190px; border: 4px solid var(--border); border-radius: 3px; background: transparent; color: var(--text2); font: 700 var(--t4)/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }
+.btn.on { border-color: var(--cyan); background: rgba(0,240,255,0.08); color: var(--cyan); }
+.btn .ring { position: absolute; inset: -4px; border: 4px solid var(--cyan); border-radius: 3px; opacity: 0; }
+
+/* format switches: same words and timings, per-format line breaks */
+.sq .w-only, :root:not(.sq) .s-only { display: none !important; }
+.s-br { display: none; } .sq .s-br { display: inline; }
+.sq .strike { display: none; }
+.sq .struck.strk { text-decoration: line-through; text-decoration-thickness: 8px; text-decoration-color: var(--text2); }
+/* square layout */
+.sq .greek i { max-width: 150px; }
+.sq .facts { left: var(--g) !important; right: var(--g); top: 540px !important; gap: 24px !important; padding: 28px 32px !important; }
+.sq .verdicts { left: var(--g) !important; top: 520px !important; flex-direction: column; gap: 36px !important; }
+.sq .verdicts > div { flex-direction: row !important; align-items: center !important; }
+.sq .dots { top: 560px !important; gap: 60px !important; }
+.sq .dots > span { width: 100px !important; height: 100px !important; }
+.sq .short { left: var(--g) !important; top: 520px !important; }
+.sq .short .greek { margin-left: 24px !important; }
+.sq #sneak { left: var(--g) !important; top: 700px !important; flex-wrap: wrap; row-gap: 16px; }
+.sq #sneak .sneak { flex-basis: 100%; margin-left: 0 !important; }
+.sq .note { left: var(--g); top: 540px; width: 936px; height: 330px; padding: 56px 44px; }
+.sq .inbox { top: 624px !important; width: 936px !important; height: 280px !important; margin-left: -468px !important; }
+.sq #url { font-size: 80px; }
+.sq #urlend { height: 80px !important; }
+.sq #s13sneak { left: var(--g) !important; top: 700px !important; flex-wrap: wrap; row-gap: 16px; }
+.sq #s13sneak .sneak { flex-basis: 100%; margin-left: 0 !important; }
+
+/* wordmark: src/ui/Wordmark.tsx lockup */
+.wordmark { font-family: var(--mono); text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: baseline; gap: 0.45em; font-size: var(--t5); }
+.wordmark .a { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }
+.wordmark .f { color: var(--dimmed); font-weight: 400; letter-spacing: 0.14em; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- DESIGN.md GRAIN: sparse static speckle knocked out of the glyphs -->
+    <filter id="speckle" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.35" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
+    <symbol id="i-tick" viewBox="0 0 64 64"><path d="M12 34 L27 48 L53 18" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 64 64"><path d="M16 16 L48 48 M48 16 L16 48" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/></symbol>
+    <symbol id="i-link" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><path d="M27 37 L37 27"/><path d="M22 30 L16 36 a9 9 0 0 0 12 12 L34 42"/><path d="M42 34 L48 28 a9 9 0 0 0 -12 -12 L30 22"/></g></symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+
+  <!-- S01 cold open: the person's line, then STOP -->
+  <div class="shot" id="S01"><div class="center">
+    <div class="work sneak0" style="position:relative" data-red="1.0" id="s01line">
+      <span class="ln"><span>Trusted by <br class="s-br">50+ teams.</span><span class="caret" data-caret="0,1.0" style="display:inline-block;width:8px;height:0.9em;background:var(--text);margin-left:10px;vertical-align:-0.1em"></span></span>
+      </div>
+  </div></div>
+
+  <!-- S02 title (canon voice) -->
+  <div class="shot" id="S02"><div class="center canon" data-rise>
+    <div class="ln" data-at="2.00">Check it</div>
+    <div class="ln c-cyan w-only" data-at="2.50">before you say it.</div>
+    <div class="ln c-cyan s-only" data-at="2.50">before you</div>
+    <div class="ln c-cyan s-only" data-at="2.64">say it.</div>
+  </div></div>
+
+  <!-- S03 premise -->
+  <div class="shot" id="S03"><div class="center state" data-rise>
+    <div class="ln" data-at="4.50">You do it.</div>
+    <div class="ln c-cyan" data-at="5.00">Rules check it.</div>
+  </div></div>
+
+  <!-- S04 step 1 name -->
+  <div class="shot" id="S04"><div class="center name"><span class="bignum" data-mark>1</span><div class="namewrap" data-rise data-dock="8.26:#S05 .slate">
+    <div class="ln w-only" data-at="7.00" data-stag="0.06" data-dur="0.16">Find the facts</div>
+    <div class="ln s-only" data-at="7.00" data-stag="0.06" data-dur="0.16">Find</div>
+    <div class="ln s-only" data-at="7.06" data-stag="0.06" data-dur="0.16">the facts</div>
+  </div></div></div>
+
+  <!-- S05 step 1 check -->
+  <div class="shot" id="S05">
+    <div class="slate">Find the facts</div>
+    <div class="ruleblock"><div class="rring pass" data-answer="10.0"><span class="disc"></span><svg style="color:var(--bg)"><use href="#i-tick"/></svg></div>
+      <div class="rule" data-rule="every-claim-sourced">Every marked fact<br>names a source</div></div>
+    <div class="facts" style="position:absolute;left:288px;top:560px;display:flex;flex-direction:column;gap:20px">
+      <div class="greek"><i style="width:220px"></i><i style="width:140px"></i><i style="width:260px"></i><span class="pill" style="color:var(--text2)"><svg width="64" height="64"><use href="#i-link"/></svg></span><svg class="tick" style="color:var(--cyan)" data-reveal="9.00"><use href="#i-tick"/></svg></div>
+      <div class="greek"><i style="width:180px"></i><i style="width:300px"></i><i style="width:110px"></i><span class="pill" style="color:var(--text2)"><svg width="64" height="64"><use href="#i-link"/></svg></span><svg class="tick" style="color:var(--cyan)" data-reveal="9.25"><use href="#i-tick"/></svg></div>
+      <div class="greek"><i style="width:260px"></i><i style="width:200px"></i><span class="pill" style="color:var(--text2)"><svg width="64" height="64"><use href="#i-link"/></svg></span><svg class="tick" style="color:var(--cyan)" data-reveal="9.50"><use href="#i-tick"/></svg></div>
+    </div>
+  </div>
+
+  <!-- S06 step 2 name (revealed by the current) -->
+  <div class="shot" id="S06"><div class="center name"><span class="bignum" data-mark>2</span><div class="namewrap" data-dock="12.76:#S07 .slate"><div class="ln w-only">Check the facts</div><div class="ln s-only">Check</div><div class="ln s-only">the facts</div></div></div></div>
+
+  <!-- S07 step 2 check -->
+  <div class="shot" id="S07">
+    <div class="slate">Check the facts</div>
+    <div class="ruleblock"><div class="rring pass" data-answer="14.5"><span class="disc"></span><svg style="color:var(--bg)"><use href="#i-tick"/></svg></div>
+      <div class="rule" data-rule="verdict-and-severity" data-crop="Every fact has a verdict">Every fact has<br>a verdict</div></div>
+    <div class="verdicts" style="position:absolute;left:288px;right:var(--g);top:600px;display:flex;gap:140px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:30px" data-show="13.5">
+        <div class="sharp" style="font:500 var(--t2)/1 var(--sans)">true</div>
+        <svg class="tick" style="color:var(--cyan)" data-reveal="14.25"><use href="#i-tick"/></svg>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:30px" data-show="14.0">
+        <div class="grain" style="font:300 var(--t2)/1 var(--sans);letter-spacing:0.02em">unsure</div>
+        <svg class="tick" style="color:var(--cyan)" data-reveal="14.375"><use href="#i-tick"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- S08 step 3 name -->
+  <div class="shot" id="S08"><div class="center name"><span class="bignum" data-mark>3</span><div class="namewrap" data-dock="17.26:#S09 .slate"><div class="ln w-only">Poke holes</div><div class="ln s-only">Poke</div><div class="ln s-only">holes</div></div></div></div>
+
+  <!-- S09 step 3 check -->
+  <div class="shot" id="S09">
+    <div class="slate">Poke holes</div>
+    <div class="ruleblock"><div class="rring pass" data-answer="18.25"><span class="disc"></span><svg style="color:var(--bg)"><use href="#i-tick"/></svg></div>
+      <div class="rule" data-rule="dissent-floor">At least one<br>review disagrees</div></div>
+    <div class="dots" style="position:absolute;left:0;right:0;top:640px;display:flex;justify-content:center;gap:120px">
+      <span data-show="17.500" style="width:120px;height:120px;border-radius:50%;background:var(--green)"></span>
+      <span data-show="17.625" style="width:120px;height:120px;border-radius:50%;background:var(--green)"></span>
+      <span data-show="17.750" style="position:relative;width:120px;height:120px;border-radius:50%;background:#A78BFA"><span data-snap="18.0" style="position:absolute;inset:-22px;border:6px solid var(--cyan);border-radius:50%"></span></span>
+      <span data-show="17.875" style="width:120px;height:120px;border-radius:50%;background:var(--green)"></span>
+    </div>
+  </div>
+
+  <!-- S10 step 4 name -->
+  <div class="shot" id="S10"><div class="center name"><span class="bignum" data-mark>4</span><div class="namewrap" data-dock="20.76:#S11 .slate"><div class="ln w-only">Make it short</div><div class="ln s-only">Make</div><div class="ln s-only">it short</div></div></div></div>
+
+  <!-- S11 step 4: the sneak and the STOP -->
+  <div class="shot" id="S11">
+    <div class="slate">Make it short</div>
+    <div class="ruleblock" style="z-index:2"><div class="rring fail" data-answer="23.0"><span class="disc"></span><svg style="color:var(--bg)"><use href="#i-cross"/></svg></div>
+      <div class="rule" data-rule="no-new-claims">No new marked<br>facts snuck in</div></div>
+    <div class="content" id="s11content" style="position:absolute;inset:0">
+      <div class="short" data-dim="22.5" style="position:absolute;left:160px;top:560px;display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;gap:16px;align-items:center"><span class="trail full"></span><span class="trail full"></span><span class="trail full"></span><div class="greek" style="margin-left:48px"><i style="width:260px"></i><i style="width:180px"></i><i style="width:220px"></i></div></div>
+        <div style="display:flex;gap:16px;align-items:center"><span class="trail full"></span><span class="trail full"></span><span class="trail full"></span><div class="greek" style="margin-left:48px;opacity:0.7"><i style="width:200px"></i><i style="width:300px"></i></div></div>
+      </div>
+      <div id="sneak" data-slide="22.0" style="position:absolute;left:160px;top:780px;display:flex;gap:16px;align-items:center">
+        <span class="trail empty" data-red="23.0"></span><span class="trail empty" data-red="23.0"></span><span class="trail empty" data-red="23.0"></span>
+        <div class="sneak" data-red="23.0" style="position:relative;margin-left:48px;font:400 var(--t4)/1.1 var(--sans);letter-spacing:-0.01em">Trusted by <br class="s-br">50+ teams.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S12 match cut: Fix it -->
+  <div class="shot" id="S12"><div class="center canon" data-rise>
+    <div class="ln" data-at="25.00">Fix it</div>
+    <div class="ln c-cyan w-only" data-at="-1">before you say it.</div>
+    <div class="ln c-cyan s-only" data-at="-1">before you</div>
+    <div class="ln c-cyan s-only" data-at="-1">say it.</div>
+  </div></div>
+
+  <!-- S13 the fix: line gone, STOP flips to GO -->
+  <div class="shot" id="S13">
+    <div class="content" id="s13content" style="position:absolute;inset:0">
+      <div class="short" id="s13short" style="position:absolute;left:160px;top:560px;display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;gap:16px;align-items:center"><span class="trail full"></span><span class="trail full"></span><span class="trail full"></span><div class="greek" style="margin-left:48px"><i style="width:260px"></i><i style="width:180px"></i><i style="width:220px"></i></div></div>
+        <div style="display:flex;gap:16px;align-items:center"><span class="trail full"></span><span class="trail full"></span><span class="trail full"></span><div class="greek" style="margin-left:48px;opacity:0.7"><i style="width:200px"></i><i style="width:300px"></i></div></div>
+      </div>
+      <div id="s13sneak" style="position:absolute;left:160px;top:780px;display:flex;gap:16px;align-items:center">
+        <span class="trail empty"></span><span class="trail empty"></span><span class="trail empty"></span>
+        <div class="sneak struck strk" style="position:relative;margin-left:48px;font:400 var(--t4)/1.1 var(--sans);letter-spacing:-0.01em">Trusted by <br class="s-br">50+ teams.<div class="strike" data-strike="27.62"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S14 step 5 name -->
+  <div class="shot" id="S14"><div class="center name"><span class="bignum" data-mark>5</span><div class="namewrap" data-dock="30.26:#S15 .slate"><div class="ln w-only">Write the note</div><div class="ln s-only">Write</div><div class="ln s-only">the note</div></div></div></div>
+
+  <!-- S15 step 5 check -->
+  <div class="shot" id="S15">
+    <div class="slate">Write the note</div>
+    <div class="ruleblock"><div class="rring pass" data-answer="31.5"><span class="disc"></span><svg style="color:var(--bg)"><use href="#i-tick"/></svg></div>
+      <div class="rule" data-rule="draft-marker">Still marked <br class="s-br">as a draft</div></div>
+    <div class="note" data-snapin="31.0"><span class="outline"></span>
+      <div class="greek"><i style="width:300px"></i><i style="width:220px"></i><i style="width:340px"></i></div>
+      <div class="greek"><i style="width:240px"></i><i style="width:380px"></i></div>
+      <div class="greek"><i style="width:320px"></i><i style="width:160px"></i></div>
+    </div>
+  </div>
+
+  <!-- S16 -->
+  <div class="shot" id="S16"><div class="center state"><div class="ln">You press send.</div></div></div>
+
+  <!-- S17 -->
+  <div class="shot" id="S17"><div class="center" style="gap:0.5em">
+    <div class="state" data-rise><div class="ln" data-at="34.50">Every stamp:</div></div>
+    <div data-show="35.5" style="font:800 var(--t2)/1.02 var(--sans);letter-spacing:-0.04em"><span class="w-only">rules, not AI.</span><span class="s-only" style="display:block">rules,</span><span class="s-only" style="display:block">not AI.</span></div>
+  </div></div>
+
+  <!-- S18 how to use: pick, paste -->
+  <div class="shot" id="S18">
+    <div class="picker" style="position:absolute;left:0;right:0;top:218px;display:flex;justify-content:center;gap:var(--gap)">
+      <span class="mk" data-pick="37.25"><b data-mark>1</b><span class="echo"></span></span><span class="mk"><b data-mark>2</b></span><span class="mk"><b data-mark>3</b></span><span class="mk"><b data-mark>4</b></span><span class="mk"><b data-mark>5</b></span>
+    </div>
+    <div class="state" data-rise style="position:absolute;left:var(--g);right:var(--g);top:330px;text-align:center"><div class="ln w-only" data-at="37.50">Paste marked facts.</div><div class="ln s-only" data-at="37.50">Paste</div><div class="ln s-only" data-at="37.57">marked facts.</div></div>
+    <div class="inbox" style="position:absolute;left:50%;top:580px;width:1200px;height:300px;margin-left:-600px;border:3px solid var(--border);border-radius:10px;background:var(--elevated);padding:48px 56px;display:flex;flex-direction:column;gap:28px">
+      <span data-caret="37.0,38.5" data-gone="38.5" style="width:6px;height:72px;background:var(--text)"></span>
+      <div data-show="38.5" style="display:flex;flex-direction:column;gap:28px">
+        <div class="greek"><i style="width:280px"></i><i style="width:200px"></i><i style="width:320px"></i></div>
+        <div class="greek"><i style="width:360px"></i><i style="width:240px"></i></div>
+        <div class="greek"><i style="width:220px"></i><i style="width:300px"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S19 press Check it -->
+  <div class="shot" id="S19">
+    <div class="state" data-rise style="position:absolute;left:var(--g);right:var(--g);top:260px;text-align:center"><div class="ln" data-at="39.50">Press</div></div>
+    <div style="position:absolute;left:0;right:0;top:560px;display:flex;justify-content:center"><span class="btn" id="checkbtn" data-press="40.0"><span class="ring"></span>Check it</span></div>
+  </div>
+
+  <!-- S20 end card -->
+  <div class="shot" id="S20">
+    <div class="record" style="position:absolute;left:0;right:0;top:232px;display:flex;justify-content:center;gap:var(--gap)">
+      <span class="mk go" style="--mk:96px"><b data-mark>1</b></span><span class="mk go" style="--mk:96px"><b data-mark>2</b></span><span class="mk go" style="--mk:96px"><b data-mark>3</b></span><span class="mk fixed" style="--mk:96px"><b data-mark>4</b></span><span class="mk ready" style="--mk:96px"><b data-mark>5</b></span>
+    </div>
+    <div id="urlend" style="position:absolute;left:0;right:0;top:440px;height:var(--t3)"></div>
+    <div data-rise style="position:absolute;left:var(--g);right:var(--g);top:680px;text-align:center;font:500 var(--t5)/1.1 var(--sans);color:var(--text2)"><div class="ln w-only" data-at="42.00">Nothing you paste is uploaded.</div><div class="ln s-only" data-at="42.00">Nothing you paste</div><div class="ln s-only" data-at="42.21">is uploaded.</div></div>
+    <div data-show="42.5" style="position:absolute;left:0;right:0;top:860px;text-align:center"><span class="wordmark"><span class="a">ARCS</span><span class="f">Field OS</span></span></div>
+  </div>
+
+  <!-- stamps layer (never clipped by the current) -->
+  <div class="layer" id="stamps" style="z-index:35">
+    <div class="stamp stop" id="st01" data-slam="1.0" data-dur="0.2" data-rot="-6" data-live="1.0,2.0" data-at-xy="1380,720">STOP</div>
+    <div class="stamp go" id="st05" data-slam="10.5" data-live="10.5,11.52" data-at-xy="1600,750" data-fly="11.125,0">Go</div>
+    <div class="stamp go" id="st07" data-slam="15.0" data-live="15.0,16.02" data-at-xy="1660,920" data-fly="15.625,1">Go</div>
+    <div class="stamp go" id="st09" data-slam="18.5" data-live="18.5,19.52" data-at-xy="1640,700" data-fly="19.125,2">Go</div>
+    <div class="stamp stop" id="st11" data-slam="23.0" data-dur="0.2" data-rot="-6" data-live="23.0,25.0" data-at-xy="1560,640">STOP</div>
+    <div class="stamp stop" id="st13s" data-rot="-6" data-live="27.5,28.0" data-at-xy="1560,640" data-flipout="27.88">STOP</div>
+    <div class="stamp go" id="st13g" data-live="28.0,29.02" data-at-xy="1560,640" data-flipin="28.0" data-fly="28.625,3">Go</div>
+    <div class="stamp ready" id="st15" data-wipein="32.0" data-live="32.0,33.02" data-at-xy="1480,860" data-fly="32.625,4">Ready</div>
+    <div class="stamp go" id="st19" data-slam="40.5" data-live="40.5,41.5" data-at-xy="1560,655">Go</div>
+  </div>
+
+  <div id="ledger"><span class="mk"><b data-mark>1</b><span class="echo"></span></span><span class="mk"><b data-mark>2</b><span class="echo"></span></span><span class="mk"><b data-mark>3</b><span class="echo"></span></span><span class="mk"><b data-mark>4</b><span class="echo"></span></span><span class="mk"><b data-mark>5</b><span class="echo"></span></span></div>
+  <div id="urlbar"></div>
+  <div id="url">honest.arcs.care</div>
+  <div id="bar"></div>
+</div>
+
+<script>
+var SQ = /fmt=square/.test(location.search);
+if (SQ) document.documentElement.classList.add('sq');
+var TOTAL = 44.5, BEAT = 0.5;
+// shots: id, in, out (a wiped shot stays until the wipe finishes)
+var SHOTS = [['S01',0,2],['S02',2,4.5],['S03',4.5,7],['S04',7,8.5],['S05',8.5,11.5],['S06',11.26,13],['S07',13,16],['S08',15.76,17.5],['S09',17.5,19.5],['S10',19.26,21],['S11',21,25],['S12',25,27.5],['S13',27.5,29],['S14',28.76,30.5],['S15',30.5,33],['S16',32.76,34.5],['S17',34.5,37],['S18',37,39.5],['S19',39.5,41.5],['S20',41.5,44.5]];
+var WIPES = [[11.26,'S05','var(--green)'],[15.76,'S07','var(--green)'],[19.26,'S09','var(--green)'],[28.76,'S13','var(--green)'],[32.76,'S15','var(--cyan)']];
+// ledger mark states over time: [time, mark, state]
+var MARKS = [[7,0,'cur'],[11.405,0,'go'],[11.5,1,'cur'],[15.905,1,'go'],[16,2,'cur'],[19.405,2,'go'],[19.5,3,'cur'],[23,3,'stop'],[28.905,3,'fixed'],[29,4,'cur'],[32.905,4,'ready']];
+var METRO = []; for (var b = 7; b <= 22.5001; b += BEAT) METRO.push(b); for (b = 27.5; b <= 32.0001; b += BEAT) METRO.push(b);
+
+function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+function eo(p) { return p >= 1 ? 1 : 1 - Math.pow(2, -10 * p); }          // expo-out: entrances
+function ei(p) { return p <= 0 ? 0 : Math.pow(2, 10 * (p - 1)); }          // expo-in: exits
+function eio(p) { return p <= 0 ? 0 : p >= 1 ? 1 : p < 0.5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2; }
+function $(s, r) { return (r || document).querySelector(s); }
+function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function shotOf(el) { return el.closest('.shot'); }
+function live(id, t) { for (var i = 0; i < SHOTS.length; i++) if (SHOTS[i][0] === id) return t >= SHOTS[i][1] && t < SHOTS[i][2]; return false; }
+
+var ST = {}; // measured geometry, filled by init()
+function init() {
+  // split rising lines into words
+  $$('[data-rise] .ln').forEach(function (ln) {
+    if (ln.dataset.at === '-1') return;
+    var words = ln.textContent.trim().split(/\s+/);
+    ln.innerHTML = words.map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ');
+  });
+  // stamp home positions (center at data-at-xy, scaled for square)
+  var sx = SQ ? 1080 / 1920 : 1, sy = SQ ? 1080 / 1080 : 1;
+  $$('.stamp').forEach(function (s) {
+    var xy = s.dataset.atXy.split(',').map(Number);
+    var x = SQ ? Math.min(1080 - 72 - s.offsetWidth / 2, Math.max(72 + s.offsetWidth / 2, xy[0] * sx)) : xy[0];
+    var y = SQ ? SQ_Y[s.id] || xy[1] : xy[1];
+    s.style.left = (x - s.offsetWidth / 2) + 'px'; s.style.top = (y - s.offsetHeight / 2) + 'px';
+  });
+  var stage = $('#stage').getBoundingClientRect();
+  function c(el) { var r = el.getBoundingClientRect(); return { x: r.left - stage.left + r.width / 2, y: r.top - stage.top + r.height / 2, w: r.width, h: r.height }; }
+  ST.marks = $$('#ledger .mk').map(c);
+  ST.fly = {}; $$('.stamp[data-fly]').forEach(function (s) { var m = ST.marks[+s.dataset.fly.split(',')[1]], a = c(s); ST.fly[s.id] = { dx: m.x - a.x, dy: m.y - a.y, k: m.h / a.h }; });
+  ST.dock = new Map(); $$('[data-dock]').forEach(function (n) { var tgt = $(n.dataset.dock.split(':')[1]), a = c(n), b = c(tgt); ST.dock.set(n, { dx: b.x - a.x, dy: b.y - a.y, k: b.h / a.h }); });
+  var u = $('#url'); u.style.top = $('#urlend').offsetTop + 'px';
+  var ub = c($('#urlbar')), ue = c(u); ST.url = { dx: ub.x - ue.x, dy: ub.y - ue.y, k: (SQ ? 64 : 72) / (SQ ? 80 : 150) };
+  ST.stopLeft = c($('#st11')).x - $('#st11').offsetWidth / 2;
+}
+var SQ_Y = { st01: 800, st05: 1000, st07: 960, st09: 880, st11: 670, st13s: 670, st13g: 670, st15: 960, st19: 900 };
+
+function rgbMix(a, b, p) { return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * p); }).join(',') + ')'; }
+
+function renderAt(t) {
+  // shots
+  SHOTS.forEach(function (s) { var el = document.getElementById(s[0]); var on = t >= s[1] && t < s[2]; el.style.visibility = on ? 'visible' : 'hidden'; el.style.clipPath = ''; el.style.zIndex = 10 + SHOTS.indexOf(s) * -0 + 0; });
+  // wipes: outgoing shot on top, clipped from the left as the current passes
+  var bar = $('#bar'); bar.style.visibility = 'hidden';
+  WIPES.forEach(function (w) {
+    var p = eio(clamp((t - w[0]) / 0.24));
+    if (t >= w[0] && t < w[0] + 0.24) {
+      var out = document.getElementById(w[1]); out.style.zIndex = 12; out.style.clipPath = 'inset(0 0 0 ' + (p * 100) + '%)';
+      bar.style.visibility = 'visible'; bar.style.background = w[2]; bar.style.transform = 'translateX(' + (p * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--W') || (SQ ? 1080 : 1920))) + 'px)';
+    }
+  });
+  // halted current in S11: sweeps to the STOP and snaps red
+  bar.style.top = '0px';
+  if (t >= 23.76 && t < 25) {
+    var hp = eio(clamp((t - 23.76) / 0.24));
+    bar.style.visibility = 'visible'; bar.style.top = (SQ ? 530 : 560) + 'px'; bar.style.background = t >= 24.0 ? 'var(--red)' : 'var(--green)';
+    bar.style.transform = 'translateX(' + (hp * (ST.stopLeft - 24)) + 'px)';
+  }
+  // word rises
+  $$('[data-rise] .ln').forEach(function (ln) {
+    if (ln.dataset.at === '-1') return;
+    var at = +ln.dataset.at, stag = +(ln.dataset.stag || 0.07), dur = +(ln.dataset.dur || 0.18);
+    $$('.w', ln).forEach(function (w, i) { var p = eo(clamp((t - at - i * stag) / dur)); w.style.transform = 'translateY(' + ((1 - p) * 115) + '%)'; });
+  });
+  // docks: step name flips into the slate
+  ST.dock.forEach(function (d, n) {
+    var t0 = +n.dataset.dock.split(':')[0], p = eio(clamp((t - t0) / 0.24));
+    var bn = n.parentNode.querySelector('.bignum'); if (bn) bn.style.opacity = 1 - ei(clamp((t - t0) / 0.12));
+    n.style.transform = 'translate(' + d.dx * p + 'px,' + d.dy * p + 'px) scale(' + (1 + (d.k - 1) * p) + ')';
+    n.style.color = rgbMix([226, 232, 240], [148, 163, 184], clamp((t - t0 - 0.12) / 0.12));
+  });
+  // one-frame appearances, carets, reveals, answers, pulls, snaps, strikes, reds
+  $$('[data-show]').forEach(function (e) { e.style.visibility = t >= +e.dataset.show ? '' : 'hidden'; });
+  $$('[data-gone]').forEach(function (e) { e.style.display = t >= +e.dataset.gone ? 'none' : ''; });
+  $$('[data-caret]').forEach(function (e) { var r = e.dataset.caret.split(',').map(Number); var on = t >= r[0] && t < r[1] && ((t - r[0]) % 0.5) < 0.25; e.style.visibility = on ? 'visible' : 'hidden'; });
+  $$('[data-reveal]').forEach(function (e) { var p = eo(clamp((t - +e.dataset.reveal) / 0.12)); e.style.clipPath = 'inset(0 ' + ((1 - p) * 100) + '% 0 0)'; });
+  $$('[data-answer]').forEach(function (e) { var p = eo(clamp((t - +e.dataset.answer) / 0.12)); $('.disc', e).style.opacity = p; $('svg', e).style.clipPath = 'inset(0 ' + ((1 - eo(clamp((t - +e.dataset.answer - 0.06) / 0.12))) * 100) + '% 0 0)'; e.style.borderColor = p > 0 ? 'transparent' : ''; });
+  
+  $$('[data-snap]').forEach(function (e) { var s = +e.dataset.snap; e.style.opacity = t >= s ? 1 : 0; e.style.transform = 'scale(' + (1.15 - 0.15 * eo(clamp((t - s) / 0.12))) + ')'; });
+  $$('[data-snapin]').forEach(function (e) { var s = +e.dataset.snapin, o = $('.outline', e); o.style.opacity = t >= s ? 1 : 0; o.style.transform = 'scale(' + (1.03 - 0.03 * eo(clamp((t - s) / 0.12))) + ')'; });
+  $$('[data-strike]').forEach(function (e) { e.style.transform = 'scaleX(' + eo(clamp((t - +e.dataset.strike) / 0.15)) + ')'; });
+  $$('[data-red]').forEach(function (e) { e.classList.toggle('isred', t >= +e.dataset.red); if (e.id === 's01line') e.style.color = t >= 1.0 ? 'var(--red)' : ''; });
+  $$('[data-dim]').forEach(function (e) { e.style.opacity = 1 - 0.75 * eo(clamp((t - +e.dataset.dim) / 0.2)); });
+  $$('[data-slide]').forEach(function (e) { var s = +e.dataset.slide; e.style.visibility = t >= s ? '' : 'hidden'; e.style.transform = 'translateX(' + (1 - eo(clamp((t - s) / 0.16))) * 160 + 'px)'; });
+  $$('[data-pick]').forEach(function (e) { var s = +e.dataset.pick; e.classList.toggle('ready', false); $('b', e).style.background = t >= s ? 'var(--cyan)' : ''; $('b', e).style.borderColor = t >= s ? 'var(--cyan)' : ''; var ep = clamp((t - s) / 0.3); $('.echo', e).style.opacity = t >= s && ep < 1 ? 0.5 * (1 - eo(ep)) : 0; $('.echo', e).style.transform = 'scale(' + (1 + 0.625 * eo(ep)) + ')'; });
+  $$('[data-press]').forEach(function (e) { var s = +e.dataset.press; e.classList.toggle('on', t >= s); a = clamp((t - s) / 0.08), b2 = clamp((t - s - 0.08) / 0.08); var k = t < s ? 1 : t < s + 0.08 ? 1 - 0.05 * eo(a) : 0.95 + 0.05 * eo(b2); e.style.transform = 'scale(' + k + ')'; var rp = clamp((t - s) / 0.4); var r = $('.ring', e); r.style.opacity = t >= s && rp < 1 ? 0.5 * (1 - eo(rp)) : 0; r.style.transform = 'scale(' + (1 + 0.25 * eo(rp)) + ')'; });
+  // S11 push-in and S13 pull-back of the content layer (the rule never moves)
+  var c11 = $('#s11content'), pushK = SQ ? 1.18 : 1.15;
+  var pk = 1 + (pushK - 1) * eo(clamp((t - 22.5) / 0.26));
+  c11.style.transformOrigin = SQ ? '72px 780px' : '160px 840px'; c11.style.transform = 'scale(' + pk + ')'; c11.style.clipPath = t >= 22.5 ? 'inset(' + (SQ ? 530 : 560) + 'px 0 0 0)' : '';
+  var c13 = $('#s13content'), pb = eo(clamp((t - 28.0) / 0.26));
+  c13.style.transformOrigin = SQ ? '72px 780px' : '160px 840px'; c13.style.transform = 'scale(' + (pushK - (pushK - 1) * pb) + ')'; c13.style.clipPath = pb < 1 ? 'inset(' + (SQ ? 530 : 560) + 'px 0 0 0)' : '';
+  $('#s13short').style.opacity = 0.25 + 0.75 * eo(clamp((t - 28.0) / 0.2));
+  // stamps
+  $$('.stamp').forEach(function (s) {
+    var lv = s.dataset.live.split(',').map(Number), on = t >= lv[0] && t < lv[1];
+    s.style.visibility = on ? 'visible' : 'hidden'; if (!on) return;
+    var rot = +(s.dataset.rot || 0), k = 1, sx = 1, dx = 0, dy = 0, clip = '';
+    if (s.dataset.slam) { var sp = eo(clamp((t - +s.dataset.slam) / +(s.dataset.dur || 0.16))); k = 1.4 - 0.4 * sp; }
+    if (s.dataset.flipout) sx = 1 - ei(clamp((t - +s.dataset.flipout) / 0.12));
+    if (s.dataset.flipin) sx = eo(clamp((t - +s.dataset.flipin) / 0.12));
+    if (s.dataset.wipein) clip = 'inset(0 ' + ((1 - eo(clamp((t - +s.dataset.wipein) / 0.2))) * 100) + '% 0 0)';
+    if (s.dataset.fly) { var f = ST.fly[s.id], fp = eio(clamp((t - +s.dataset.fly.split(',')[0]) / 0.28)); dx = f.dx * fp; dy = f.dy * fp; k *= 1 + (f.k - 1) * fp; rot *= 1 - fp; if (fp >= 1) s.style.visibility = 'hidden'; }
+    s.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg) scale(' + (k * sx) + ',' + k + ')';
+    s.style.clipPath = clip;
+  });
+  // ledger
+  var led = $('#ledger'); led.style.visibility = t >= 5.5 && t < 37 ? 'visible' : 'hidden';
+  $$('.mk', led).forEach(function (m, i) {
+    var pop = eo(clamp((t - 5.5 - i * 0.1) / 0.12)); m.style.transform = 'scale(' + pop + ')';
+    var st = ''; MARKS.forEach(function (e) { if (t >= e[0] && e[1] === i) st = e[2]; });
+    m.className = 'mk' + (st ? ' ' + st : '');
+    var echo = $('.echo', m), eo2 = 0, es = 1;
+    METRO.forEach(function (bt) { if (st === 'cur' || (i === 3 && bt >= 27.5 && bt < 29)) { if (t >= bt && t < bt + 0.3) { var q = eo((t - bt) / 0.3); eo2 = 0.5 * (1 - q); es = 1 + 0.625 * q; } } });
+    if (t >= 35 && t < 35.6) { var q2 = clamp((t - 35 - i * 0.05) / 0.3); if (q2 > 0 && q2 < 1) { eo2 = 0.5 * (1 - eo(q2)); es = 1 + 0.625 * eo(q2); } }
+    echo.style.opacity = eo2; echo.style.transform = 'scale(' + es + ')';
+  });
+  // URL bar (shared across S18 and S19), then the URL moves to the end card
+  var ub = $('#urlbar'), u = $('#url');
+  ub.style.visibility = t >= 37 && t < 41.62 ? 'visible' : 'hidden';
+  ub.style.clipPath = t >= 41.5 ? 'inset(0 ' + (eo(clamp((t - 41.5) / 0.12)) * 50) + '% 0 ' + (eo(clamp((t - 41.5) / 0.12)) * 50) + '%)' : '';
+  u.style.visibility = t >= 37 ? 'visible' : 'hidden';
+  var up = eio(clamp((t - 41.5) / 0.36));
+  u.style.transform = 'translate(' + ST.url.dx * (1 - up) + 'px,' + ST.url.dy * (1 - up) + 'px) scale(' + (ST.url.k + (1 - ST.url.k) * up) + ')';
+}
+
+window.renderAt = renderAt; window.TOTAL = TOTAL;
+document.fonts.ready.then(function () { init(); renderAt(0); window.READY = true; });
+</script>
+</body>
+</html>
