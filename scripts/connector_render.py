@@ -332,7 +332,7 @@ def _card(name, line, chips, page, gh, group, live=True, variant="full"):
     if live:
         primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
                    else f'<a class="clink" href="{esc(gh)}">github ↗</a>')
-        gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page else ""
+        gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page and gh else ""
         tag = ""
     else:
         primary = f'<a class="clink" href="{esc(gh)}">github ↗</a>'
@@ -416,7 +416,7 @@ def render_gallery(ssot, blob):
             f'    <div class="{grid}">\n' + "\n".join(cards) + "\n    </div>\n  </div>\n</section>")
 
     body = "\n\n".join(x for x in [
-        block("Featured", "fully baked · installable today", featured, "cards featured"),
+        block("Featured", "fully baked · usable today", featured, "cards featured"),
         block("Also in the toolkit", "smaller Claude Code skills · clone and add", minor, "cards minor"),
         block("Coming soon", "built · not yet published", soon_cards, "cards minor"),
     ] if x)
