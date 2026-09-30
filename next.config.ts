@@ -153,7 +153,9 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/beliefs", destination: "/belief-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
-        { source: "/:path((?!.*beliefs|.*gauntlets).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // Exclude the rewrite DESTINATIONS too (belief-log.html, gauntlet-log.html): beforeFiles rewrites
+        // chain, so "/beliefs" -> "/belief-log.html" was re-caught here and served status.html.
+        { source: "/:path((?!.*belief|.*gauntlet).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },

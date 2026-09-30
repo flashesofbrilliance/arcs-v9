@@ -52,6 +52,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Belief-log is current with the ledger
         run: python3 scripts/belief_log_emit.py --check
+      - name: status.arcs.care static floor is stamped and fresh
+        run: python3 scripts/status_floor_emit.py --check
 
   # Hard gate — generated views are current with their sources. Pre-commit catches a stale
   # generated file at COMMIT time; a merge can stale it afterwards (two branches appending to
