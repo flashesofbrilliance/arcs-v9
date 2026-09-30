@@ -555,6 +555,51 @@
     ],
     "createdAt": "2026-09-26T16:36:01.535Z",
     "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family), a deliberately separate visual world per src/ui-kit/README.md brand profile, not drift. Companion phone-card render of the enrolled loop-closing-wager.html slip."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/honest.html"
+    ],
+    "createdAt": "2026-09-30T03:18:39.821Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, token_source_gate PASS), a deliberately separate visual world from DESIGN.md, same basis as the jack-rain / success-academy / loop-closing-wager exemptions. Zach approved kit pages passing, 2026-09-29."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/honest.html"
+    ],
+    "createdAt": "2026-09-30T03:18:39.844Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, token_source_gate PASS), a deliberately separate visual world from DESIGN.md, same basis as the jack-rain / success-academy / loop-closing-wager exemptions. Zach approved kit pages passing, 2026-09-29."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/honest.html"
+    ],
+    "createdAt": "2026-09-30T03:18:39.867Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, token_source_gate PASS), a deliberately separate visual world from DESIGN.md, same basis as the jack-rain / success-academy / loop-closing-wager exemptions. Zach approved kit pages passing, 2026-09-29."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/honest.html"
+    ],
+    "createdAt": "2026-09-30T03:18:39.890Z",
+    "reason": "Inherits src/ui-kit/recoil-report/_tokens.css (recoil-report kit family, token_source_gate PASS), a deliberately separate visual world from DESIGN.md, same basis as the jack-rain / success-academy / loop-closing-wager exemptions. Zach approved kit pages passing, 2026-09-29."
+   },
+   {
+    "rule": "em-dash-overuse",
+    "value": "*",
+    "files": [
+     "public/honest.html"
+    ],
+    "createdAt": "2026-09-30T03:18:39.912Z",
+    "reason": "Verified false positive 2026-09-29: page copy has 0 em-dashes (scripts/slop_lint.py PASS); the detector counts the double hyphens in CLI flags (--upstream, --judge, --trace) inside code snippets."
    }
   ]
  }

@@ -507,3 +507,27 @@ positives; silencing them to force a green gate would be gate-gaming, the exact 
 exists to prevent. They ratchet/WARN and never block, so leaving them is zero-cost. No redesign either
 (taste choices on his own auxiliary pages). If a future session sees these findings, this is the
 record: audited, defensible, intentionally left — not an oversight, do not suppress.
+
+## 2026-09-29 · honest.arcs.care: kit page vs DESIGN.md, plus two detector blind spots
+
+**Break.** `public/honest.html` (Check It Before You Say It) was blocked as a new file with 21
+findings. 20 were `design-system-*` (fonts, sizes, colors, radii outside DESIGN.md): the page
+inherits `src/ui-kit/recoil-report/_tokens.css` verbatim (token_source_gate PASS), which is a
+different visual world from the app DESIGN.md. The 21st was `em-dash-overuse` ("33 em-dashes"), and
+earlier `cramped-padding` on result rows.
+
+**Repair.**
+- Kit fonts/sizes/colors/radii: per-file `ignoreValues` for `public/honest.html`, the same scope
+  decision as jack-rain, success-academy and loop-closing-wager (no path glob, no DESIGN.md rewrite).
+  Zach approved kit pages passing on 2026-09-29.
+- `em-dash-overuse`: verified false positive. Copy has 0 em-dashes (slop_lint PASS); the detector
+  counts the double hyphens in CLI flags (`--upstream`, `--judge`) inside code snippets. Per-file
+  ignore with that evidence.
+- `cramped-padding`: detector blind spot, not suppressed. Rows had `padding-block: 10px`; the
+  detector does not read `padding-block`. Rewritten as `padding: 10px 0 12px` and the finding cleared.
+- `repeating-stripes-gradient` on the "not scored yet" pips: real, fixed (inset outline instead).
+
+**Guard.** Two detector facts for the next kit page: write vertical padding with the `padding`
+shorthand, not `padding-block`, and expect CLI flags in code to read as em-dashes. When the
+`impeccable hooks ignore-value` helper writes `.impeccable/config.json` it re-indents the whole file;
+re-serialize with `indent=1` before committing so the diff is only the new entries.

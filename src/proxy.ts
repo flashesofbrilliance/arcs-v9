@@ -6,6 +6,9 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
   'lewoof':       '/lewoof-intake.html',
   'schriner-ext': '/schriner-ext.html',
+  // honest.arcs.care: "Check it before you say it", the in-browser front door to
+  // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
+  'honest':       '/honest.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
