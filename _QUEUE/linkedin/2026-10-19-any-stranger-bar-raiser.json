@@ -1,0 +1,116 @@
+{
+ "id": "2026-10-19-any-stranger-bar-raiser",
+ "show": "Notes from the Trenches",
+ "source": "public/blog-nftt-any-stranger-can-be-a-bar-raiser.html",
+ "index_url": "https://good.arcs.care/blog/nftt",
+ "thesis": "Anyone who reads your work for someone else is a bar raiser: they hold a reader you cannot simulate, so treat their objection as signal before taste.",
+ "aeo": {
+  "question": "What is a bar raiser, and can anyone be one?",
+  "answer": "A bar raiser is a reviewer with no stake in the outcome who can veto work that falls below the bar. Anyone can play that role. A recruiter who reads your resume for a specific hiring manager is simulating a reader you cannot, and an objection from them is signal before it is taste.",
+  "entities": [
+   "bar raiser",
+   "recruiter",
+   "hiring manager",
+   "provenance gate"
+  ],
+  "sources": [
+   "https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser"
+  ]
+ },
+ "evidence": [],
+ "cuts": [
+  {
+   "altitude": "exec",
+   "format": "image",
+   "date": "2026-10-19",
+   "status": "draft",
+   "card_line": "A stranger refused to forward my resume. Every gate I owned had passed it.",
+   "caption": "A recruiter I had known for one phone call refused to forward my resume. It read as AI slop, and he was right. Good medicine is bitter to the mouth. Full story Friday.",
+   "first_comment": "The essay: https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "strategic",
+   "format": "poll",
+   "date": "2026-10-20",
+   "status": "draft",
+   "poll": {
+    "question": "A stranger says your work reads as AI-generated. What is your first move?",
+    "options": [
+     "Defend it",
+     "Ask them why",
+     "Rewrite it plainly",
+     "Ignore it"
+    ]
+   },
+   "caption": "Asking because it happened to me last month, from a recruiter I had spoken to once. My first instinct was the wrong option. Results feed Wednesday's carousel.",
+   "expected": {
+    "impressions_low": 1000,
+    "impressions_high": 4000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "operational",
+   "format": "carousel",
+   "date": "2026-10-21",
+   "status": "draft",
+   "slides": [
+    "Any stranger can be a bar raiser. How to use a review you did not ask for.",
+    "The setup: I built a resume bundle that passed every gate I own. No cliches, no em-dashes, every number sourced.",
+    "The review: a recruiter I had met once refused to forward it. It read as AI-generated to the one reader it was for.",
+    "Why I missed it: my gates checked the page against my rules. He checked it against a specific reader. Different tests.",
+    "Step 1. Treat the objection as signal before you treat it as taste. Taste is the last explanation, not the first.",
+    "Step 2. Reread everything with their reader in mind. My second pass found a metric with no source. It came out.",
+    "Step 3. Ship the plain version fast. One page, serif, black on white, verified numbers only. Out the same week.",
+    "Step 4. Turn the part that generalizes into a gate, so the next draft does not need the stranger to be there.",
+    "It is darkest at the foot of the lighthouse. Your own light cannot reach the ground right under it.",
+    "Part of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt"
+   ],
+   "expected": {
+    "impressions_low": 2000,
+    "impressions_high": 8000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "tactical",
+   "format": "post",
+   "date": "2026-10-22",
+   "status": "draft",
+   "text": "Last month a recruiter I had known for one phone call refused to forward my resume.\n\nIt had passed every check I run on anything customer-facing. No cliches, no em-dashes, every number traced to a source. His review was one line: this reads as AI-generated, the hiring manager will see it in seconds, and I am not sending it.\n\nHe was right. My gates tested the page against rules I wrote. He tested it against the one person who would read it. Nothing on the page was false. All of it was suspect.\n\nSome companies appoint a bar raiser, an outside reviewer with a veto and no stake in the hire. This recruiter had no appointment. He had something better: a reputation he would spend by forwarding me, and a precise model of one reader.\n\nSo I did three things. I shipped a plain one-page version the same week. I reread everything with his reader in mind, which caught a metric with no source. And I turned the lesson into a gate, so the next draft does not need him.\n\nThe practice: when a stranger reviews your work for free, treat the objection as signal before you treat it as taste.\n\nWho was the last stranger who told you something true about your work?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "surgical",
+   "format": "article",
+   "date": "2026-10-23",
+   "status": "draft",
+   "title": "Any Stranger Can Be a Bar Raiser: The Review Nobody on Your Team Can Give You",
+   "text": "A bar raiser is a reviewer with no stake in the outcome who can veto work that falls below the bar. Anyone can play that role. A recruiter who reads your resume for a specific hiring manager is simulating a reader you cannot, and an objection from them is signal before it is taste.\n\nI learned this the uncomfortable way, from a recruiter I had known for exactly one phone call. The Japanese have a proverb for how it felt: ryōyaku wa kuchi ni nigashi. Good medicine is bitter to the mouth.\n\nFull essay: https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser\n\n## What happened?\n\nA recruiter called about a product role at a school network. He knew the hiring manager personally, classmates once and colleagues after, and he told me two things: the manager screens for people who actually ship AI, and he is allergic to ceremony and buzzwords.\n\nSo I built a bundle. A one-page brief on why the role fit, a tailored resume in a designed layout, and a short note he could pass along. Every piece went through the gates I keep for anything customer-facing. No em-dashes. No phrases from a banned list of cliches. Every number traced to a source. By my own instruments, it was clean.\n\nHe read it and sent it back. The resume read as AI-generated, the manager would see that in seconds, and he was not going to forward it. That was not a style note. It was a refusal to spend his relationship on my document.\n\n## Why did my own review miss it?\n\nMy gates checked the artifact against rules I wrote. He checked it against the one reader it was for. Those are different tests, and only one of them was ever going to fail.\n\nThe layout was polished in exactly the way generated things are polished. The phrasing was tidy in exactly the way generated things are tidy. Nothing on the page was false, and all of it was suspect. Correct and trustworthy are different properties, and I had only built gates for the first.\n\nThere is a second proverb for this: tōdai moto kurashi. It is darkest at the foot of the lighthouse. The place your own light cannot reach is the ground directly under it.\n\n## What is a bar raiser, and why can a stranger be one?\n\nSome hiring processes appoint a bar raiser: a reviewer from outside the team, with a veto and no stake in filling the seat. The design works because the outsider does not share the team's momentum.\n\nThe recruiter had no appointment. He had something better: a reputation he would spend by forwarding me, and a precise model of one reader. He was not grading my resume against a rubric. He was simulating a specific person opening it. My review could not close that gap from the inside, because my rules and my blind spots came from the same place.\n\n## What did the review catch that I could not?\n\nHis note sent me back through the whole bundle with his reader in mind, and that second pass found something worse than a tone problem. A metric had drifted into the draft from a scratch file during tailoring, a clean-looking percentage that no vetted source could back up. No gate caught it. A blunt question did: did this come from anywhere? It had not. It came out.\n\n## What changed afterward?\n\nI did not argue. I shipped the plainest possible version: one page, a serif face, black on white, verified numbers only. It went out the same week, and the interview got booked. Whether it lands is not known as I write this.\n\nThen I made the lesson mechanical, so it would not depend on meeting the right stranger again:\n\n- A provenance gate. Every number on a customer-facing surface must cite an evidence ledger, or the commit fails.\n- A slop-free rubric with a judgment half, not only a lint half, because a list of banned words cannot measure how a page reads.\n- A specificity floor that varies by genre, so a reflective essay is not graded like a marketing page.\n\n## What is the practice?\n\nWhen a stranger gives you a review for free, assume it is the bar raiser you did not appoint. Treat the objection as signal before you treat it as taste. Then turn the part that generalizes into a gate, so the next draft does not need the stranger to be there.\n\nI had already built a second reviewer for my own work, an agent that audits my claims. It helps. But it shares my rubric. The recruiter shared nothing with me but one phone call and an interest in not being embarrassed in front of a friend. That is the reviewer you cannot build, only listen to.\n\nAnyone who reads your work for someone else is a bar raiser. Who read your last draft for someone you will never meet?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 500,
+    "impressions_high": 3000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  }
+ ]
+}
