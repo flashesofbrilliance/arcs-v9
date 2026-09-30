@@ -101,6 +101,24 @@ print(report["fate"], report["failed"])
 curl -s localhost:8787/eval/analysis -d '{"artifact": "<span class=\"claim\" data-src=\"x\">A fact.</span>"}'
 ```
 
+## 7. See what decided what (the trace)
+
+```bash
+./arcs-verb-eval pipeline --config sample/arc.json --trace trace.jsonl
+```
+
+One JSON line per event. `lane: rules` events are the checks that decided go or stop. `lane: judge` events are the scorecard questions, with the exact prompt and `sent: false`. The last event per step says how many LLM calls were made (0 unless you turned the judge on).
+
+## 8. Let Claude fill in the scorecards (optional)
+
+```bash
+pip install anthropic                 # only needed for this
+export ANTHROPIC_API_KEY=...          # in your own shell; never commit it
+./arcs-verb-eval synthesis surface.html --upstream p/evaluation.json --judge --trace -
+```
+
+Claude scores each scorecard question 0 to 2 with a one-line reason. It never changes go or stop, and it never overwrites a score a person already gave.
+
 ## What the tool will never do
 
 - **Grade the judgment half for you.** Rubric rows stay blank until a person or a model fills them in with `--scores`.

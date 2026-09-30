@@ -44,15 +44,22 @@
     try { rep = AVE.evaluate(v, ta.value, up); }
     catch (err) { out.innerHTML = '<p class="err">Could not read this as ' + (v === 'evaluation' ? 'JSON' : 'input') + ': ' + esc(err.message) + '. Try "Load example" to see the expected shape.</p>'; return; }
     state.prints[v] = rep; state.text[v] = ta.value;
+    var tr = AVE.trace(rep, ta.value, FX.rubric[v]), sum = tr[tr.length - 1];
     var html = '<div class="res-head"><strong>' + NAMES[v] + '</strong><span class="big ' + (rep.ok ? 'go' : 'stop') + '">' + (rep.ok ? (v === 'recapitulation' ? 'Ready for a person' : 'Go') : 'Stop') + '</span></div>';
-    html += '<ul class="gates">' + rep.gates.map(function (g) {
-      return '<li class="g ' + (g.ok ? 'g-pass' : 'g-fail') + (g.cliOnly ? ' g-cli' : '') + '"><span class="dot" aria-hidden="true"></span><span class="gt">' + esc(PLAIN[g.id] || g.id) + '</span><span class="ge">' + esc(g.evidence) + '</span><span class="sr">' + (g.ok ? 'passed' : 'failed') + '</span></li>';
-    }).join('') + '</ul>';
+    html += '<p class="meter-line"><b>' + sum.rules + '</b> checks by rules · <b>0</b> calls to an AI · <b>' + sum.judge_pending + '</b> questions waiting for a judge</p>';
+    if (pv && up) html += '<p class="handoff">Read step ' + (AVE.VERBS.indexOf(pv) + 1) + '\'s result: ' + (up.claims ? up.claims.length : 0) + ' facts' + (up.conditions && up.conditions.length ? ', ' + up.conditions.length + ' required fixes' : '') + '.</p>';
+    html += '<div class="lanes"><div class="lane-col"><h4>Decided by rules <span>no AI</span></h4><ul class="gates">' + tr.filter(function (e) { return e.lane === 'rules'; }).map(function (g, i) {
+      return '<li class="g lit ' + (g.ok ? 'g-pass' : 'g-fail') + (g.cliOnly ? ' g-cli' : '') + '" style="--i:' + i + '"><span class="dot" aria-hidden="true"></span><span class="gt">' + esc(PLAIN[g.id] || g.id) + '</span><span class="ge">' + esc(g.evidence) + ' · ' + (g.ms < 0.01 ? '<0.01' : g.ms.toFixed(2)) + ' ms</span><span class="sr">' + (g.ok ? 'passed' : 'failed') + '</span></li>';
+    }).join('') + '</ul></div>';
+    html += '<div class="lane-col"><h4>Waiting for a judge <span>not sent</span></h4><ul class="jcards">' + tr.filter(function (e) { return e.lane === 'judge'; }).map(function (j, i) {
+      return '<li class="lit" style="--i:' + (i + sum.rules) + '"><span class="jq">' + esc(j.label) + '</span><details><summary>See the exact prompt</summary><pre>' + esc(j.prompt.system + '\n\n' + j.prompt.user) + '</pre></details></li>';
+    }).join('') + '</ul><p class="res-note">Scores come from a person, or from Claude with <code>--judge</code> in the command-line tool. They never change the stamp.</p></div></div>';
     var notes = [];
     if (pv && !up) notes.push('Checked on its own. Check step ' + (AVE.VERBS.indexOf(pv) + 1) + ' first and this step will also test what it inherited.');
     if (v === 'synthesis') notes.push('The writing-filler check runs in the command-line tool only.');
     if (rep.gates.some(function (g) { return g.cliOnly; })) notes.push('Hollow dots: the command-line tool also confirms those files exist.');
     html += notes.map(function (n) { return '<p class="res-note">' + n + '</p>'; }).join('');
+    html += '<details class="rawtrace"><summary>Trace (the same JSON lines <code>--trace</code> writes)</summary><pre>' + esc(tr.map(function (e) { var o = Object.assign({}, e); if (o.prompt) o.prompt = '(shown above)'; return JSON.stringify(o); }).join('\n')) + '</pre></details>';
     out.innerHTML = html;
     var card = document.querySelector('.step a[href="#' + v + '"]');
     if (card) {

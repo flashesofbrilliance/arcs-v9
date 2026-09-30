@@ -206,9 +206,8 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .btn:hover {{ border-color: var(--soft); }}
 .btn.primary {{ background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 600; }}
 .btn.primary:hover {{ filter: brightness(1.08); }}
-.btn.file {{ position: relative; overflow: hidden; }}
-.btn.file input {{ position: absolute; inset: 0; opacity: 0; cursor: pointer; }}
-.btn.file:focus-within {{ outline: 2px solid var(--cyan); outline-offset: 3px; }}
+.vh {{ position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }}
+.vh:focus-visible + label {{ outline: 2px solid var(--cyan); outline-offset: 3px; }}
 .play-out {{ min-width: 0; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); padding: 16px; display: grid; gap: 12px; align-content: start; }}
 .play-out .empty {{ color: var(--soft); }}
 .res-head {{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }}
@@ -218,6 +217,22 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .g-cli .dot {{ background: transparent; border: 1.5px solid var(--soft); }}
 .res-note {{ color: var(--soft); font-size: 14px; }}
 .err {{ color: var(--red); }}
+
+.meter-line {{ font-size: 14px; color: var(--soft); }} .meter-line b {{ color: var(--text); font-variant-numeric: tabular-nums; }}
+.handoff {{ font-size: 14px; color: var(--cyan); }}
+.lanes {{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }}
+.lane-col {{ min-width: 0; display: grid; gap: 8px; align-content: start; }}
+.lane-col h4 {{ margin: 0; font: 600 14px var(--font-sans); display: flex; gap: 8px; align-items: baseline; }}
+.lane-col h4 span {{ font-weight: 500; font-size: 12px; color: var(--soft); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; }}
+.jcards {{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }}
+.jcards li {{ border: 1px dashed var(--border); border-radius: var(--r-md); padding: 10px 12px; display: grid; gap: 6px; }}
+.jq {{ font-size: 14px; }}
+.jcards summary, .rawtrace summary {{ display: block; padding: 0; font-size: 13px; color: var(--cyan); cursor: pointer; }}
+.jcards pre, .rawtrace pre {{ margin: 6px 0 0; max-height: 220px; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; font: 400 11.5px/1.5 var(--font-mono); white-space: pre-wrap; }}
+.lit {{ animation: lit .45s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(var(--i) * 70ms); }}
+@keyframes lit {{ from {{ opacity: .15; transform: translateY(4px); }} to {{ opacity: 1; transform: none; }} }}
+@media (prefers-reduced-motion: reduce) {{ .lit {{ animation: none; }} }}
+@media (max-width: 900px) {{ .lanes {{ grid-template-columns: minmax(0, 1fr); }} }}
 
 /* depth last */
 .depth {{ display: grid; gap: 10px; }}
@@ -281,7 +296,7 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
             <button type="button" class="btn primary" id="play-run">Check it</button>
             <button type="button" class="btn" id="play-good">Load example</button>
             <button type="button" class="btn" id="play-bad">Load a broken one</button>
-            <label class="btn file" id="play-nb-wrap">Use a notebook (.ipynb)<input type="file" id="play-nb" accept=".ipynb,application/json"></label>
+            <span id="play-nb-wrap"><input type="file" id="play-nb" class="vh" accept=".ipynb,application/json"><label class="btn" for="play-nb">Use a notebook (.ipynb)</label></span>
           </div>
         </div>
         <div class="play-out" id="play-out" aria-live="polite">

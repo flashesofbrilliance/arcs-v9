@@ -26,8 +26,9 @@ var AVE = (function () {
     [].forEach.call(doc.querySelectorAll('script,style'), function (n) { n.remove(); });
     return { claims: claims, summary: sum ? sum.getAttribute('data-summary') : null, noindex: robots, text: doc.documentElement.textContent };
   }
-  function Run() { this.gates = []; }
-  Run.prototype.gate = function (id, ok, ev, cliOnly) { this.gates.push({ id: id, ok: !!ok, evidence: ev, cliOnly: !!cliOnly }); };
+  function now() { return (typeof performance !== 'undefined' ? performance.now() : Date.now()); }
+  function Run() { this.gates = []; this._t = now(); }
+  Run.prototype.gate = function (id, ok, ev, cliOnly) { var t = now(); this.gates.push({ id: id, ok: !!ok, evidence: ev, cliOnly: !!cliOnly, ms: Math.round((t - this._t) * 1000) / 1000 }); this._t = t; };
   Run.prototype.ok = function () { return this.gates.every(function (g) { return g.ok; }); };
   Run.prototype.failed = function () { return this.gates.filter(function (g) { return !g.ok; }).map(function (g) { return g.id; }); };
   function ids(a) { return a.join(', '); }
@@ -144,5 +145,20 @@ var AVE = (function () {
     var counts = VERDICTS.map(function (v) { return claims.filter(function (c) { return c.verdict === v; }).length; }).join('/');
     return { claims: claims, analysis: '<ul>\n' + claims.map(function (c) { return span(c, false); }).join('\n') + '\n</ul>', assessment: '<ul data-summary="' + counts + '">\n' + claims.map(function (c) { return span(c, true); }).join('\n') + '\n</ul>' };
   }
-  return { VERBS: VERBS, evaluate: evaluate, fromNotebook: fromNotebook };
+  /* the judge lane: same prompt text as arcs_verb_eval_judge.py; the page never sends it */
+  var TOOLS = { analysis: 'Analysis by ARCS', assessment: 'Assessment by ARCS', evaluation: 'Evaluation by ARCS', synthesis: 'Synthesis by ARCS', recapitulation: 'Recapitulation by ARCS' };
+  function judgePrompt(rep, text, row) {
+    var ev = rep.gates.map(function (g) { return '- ' + g.id + ': ' + (g.ok ? 'pass' : 'fail') + ' (' + g.evidence + ')'; }).join('\n');
+    var system = 'You score one rubric row at a time for ' + TOOLS[rep.verb] + ', one step of a five-step check that runs before anything is said to someone.\n' +
+      'Score 0 (no), 1 (partly) or 2 (yes). Judge only the artifact below. Machine checks already decided go or stop; your score informs a person and changes nothing else.\n' +
+      'Be strict: a 2 means a skeptical reader would agree without argument.\n\nMachine-check results:\n' + ev + '\n\n<artifact>\n' + text + '\n</artifact>';
+    return { system: system, user: 'Rubric question: ' + row.label };
+  }
+  function trace(rep, text, rubric) {
+    var ev = rep.gates.map(function (g) { return { lane: 'rules', verb: rep.verb, id: g.id, ok: g.ok, ms: g.ms, evidence: g.evidence, cliOnly: g.cliOnly }; });
+    (rubric || []).forEach(function (r) { ev.push({ lane: 'judge', verb: rep.verb, id: r.row, label: r.label, sent: false, score: null, prompt: judgePrompt(rep, text, r) }); });
+    ev.push({ lane: 'summary', verb: rep.verb, rules: rep.gates.length, llm_calls: 0, judge_pending: (rubric || []).length, fate: rep.fate, decided_by: 'rules' });
+    return ev;
+  }
+  return { VERBS: VERBS, evaluate: evaluate, fromNotebook: fromNotebook, trace: trace };
 })();

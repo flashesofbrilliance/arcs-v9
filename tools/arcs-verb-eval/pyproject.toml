@@ -10,8 +10,11 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = []  # stdlib only, on purpose
 
+[project.optional-dependencies]
+judge = ["anthropic>=0.100"]  # only for --judge; the core never imports it
+
 [project.scripts]
 arcs-verb-eval = "arcs_verb_eval:main"
 
 [tool.setuptools]
-py-modules = ["arcs_verb_eval", "arcs_verb_eval_io"]
+py-modules = ["arcs_verb_eval", "arcs_verb_eval_io", "arcs_verb_eval_judge"]

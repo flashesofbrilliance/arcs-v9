@@ -162,10 +162,15 @@ def digest(text: str) -> str:
 # ---- report plumbing -------------------------------------------------------------------
 class Run:
     def __init__(self, verb: str):
+        import time
+        self._clock = time.perf_counter
+        self._last = self._clock()
         self.verb, self.gates, self.rubric = verb, [], []
 
     def gate(self, gid: str, ok: bool, evidence: str):
-        self.gates.append({"id": gid, "ok": bool(ok), "evidence": evidence})
+        now = self._clock()
+        self.gates.append({"id": gid, "ok": bool(ok), "evidence": evidence, "ms": round((now - self._last) * 1000, 3)})
+        self._last = now
 
     def row(self, rid: str, label: str, evidence: str = ""):
         self.rubric.append({"row": rid, "label": label, "evidence": evidence, "score": None, "judge": "pending"})
@@ -369,7 +374,49 @@ def evaluate(verb: str, text: str, upstream: dict | None = None, scores: dict | 
            "upstream": (upstream or {}).get("artifact"), "gates": run.gates,
            "rubric": run.rubric, "sycophancy": syc}
     out.update(carry)
+    out["trace"] = trace_events(out)
     return out
+
+
+# ---- trace: which lane decided what ---------------------------------------------------
+# lane "rules": a fixed check; same input, same answer; decides go/stop.
+# lane "judge": a rubric question for a person or a model. The tool never sends it; the event
+# carries the exact prompt that WOULD be sent, and sent=false. Judge scores never change fate.
+JUDGE_PROMPT = ("You are scoring one row of the {tool} rubric.\n"
+                "Question: {label}\n"
+                "Score 0, 1 or 2. Reply with the number and one sentence of reason.\n"
+                "Machine-check evidence for this step:\n{evidence}\n"
+                "Artifact: {artifact}")
+
+
+def judge_prompt(rep: dict, row: dict) -> str:
+    ev = "\n".join(f"- {g['id']}: {'pass' if g['ok'] else 'fail'} ({g['evidence']})" for g in rep["gates"])
+    if row.get("evidence"):
+        ev += f"\n- row hint: {row['evidence']}"
+    return JUDGE_PROMPT.format(tool=rep["tool"], label=row["label"], evidence=ev, artifact=rep["artifact"])
+
+
+def trace_events(rep: dict) -> list[dict]:
+    ev = [{"lane": "rules", "verb": rep["verb"], "id": g["id"], "ok": g["ok"], "ms": g.get("ms"),
+           "evidence": g["evidence"], "skipped": bool(g.get("skipped"))} for g in rep["gates"]]
+    for r in rep["rubric"]:
+        ev.append({"lane": "judge", "verb": rep["verb"], "id": r["row"], "label": r["label"],
+                   "sent": False, "score": r["score"], "judge": r["judge"], "prompt": judge_prompt(rep, r)})
+    ev.append({"lane": "summary", "verb": rep["verb"], "rules": len(rep["gates"]), "llm_calls": 0,
+               "judge_pending": sum(r["score"] is None for r in rep["rubric"]), "fate": rep["fate"],
+               "decided_by": "rules"})
+    return ev
+
+
+def write_trace(rep: dict, dest: str | None):
+    if not dest:
+        return
+    lines = "".join(json.dumps(e) + "\n" for e in rep["trace"])
+    if dest == "-":
+        sys.stderr.write(lines)
+    else:
+        with open(dest, "a") as fh:
+            fh.write(lines)
 
 
 # ---- rendering -------------------------------------------------------------------------
@@ -384,6 +431,13 @@ def human(rep: dict) -> str:
     for r in rep["rubric"]:
         sc = "--" if r["score"] is None else f"{r['score']}/2"
         lines.append(f"    [{sc}] {r['label']}" + (f"  ({r['evidence']})" if r["evidence"] else ""))
+        if r.get("reason"):
+            lines.append(f"          {r['judge']}: {r['reason']}")
+    calls = rep.get("judge_calls")
+    summ = rep["trace"][-1] if rep.get("trace") else {}
+    n_llm = summ.get("llm_calls", 0)
+    lines.append(f"\n  lanes: {len(rep['gates'])} rule checks decided the stamp · {n_llm} LLM calls" + (" (scores only)" if n_llm else "")
+                 + (f" · {summ['llm_errors']} judge errors" if summ.get("llm_errors") else ""))
     return "\n".join(lines)
 
 
@@ -468,6 +522,11 @@ def self_test() -> int:
         up = prints[VERBS[VERBS.index(v) - 1]] if v != "analysis" else None
         rep = evaluate(v, mut(GOOD[v]), upstream=up, **opts)
         check(gate in rep["failed"], f"{v:<15} {gate:<26} fires" + ("" if gate in rep["failed"] else f"  (failed: {rep['failed']})"))
+    tr = prints["synthesis"]["trace"]
+    check(all(e["sent"] is False for e in tr if e["lane"] == "judge") and tr[-1]["llm_calls"] == 0,
+          "trace: judge lane never sends; llm_calls is 0")
+    check(all(e["lane"] == "rules" for e in tr if e.get("ok") is not None) and tr[-1]["decided_by"] == "rules",
+          "trace: every go/stop decision comes from the rules lane")
     covered = {g for _, _, g in BAD}
     all_gates = {g["id"] for r in prints.values() for g in r["gates"]} - {"has-claims", "lens-result-and-reason", "conditions-cite-claims", "pre-send-gauntlet", "sources-in-ledger", "slop-lint"}
     check(all_gates <= covered, f"every gate that can fail has a bad fixture (uncovered: {sorted(all_gates - covered) or 'none'})")
@@ -579,6 +638,9 @@ def main(argv=None) -> int:
     common.add_argument("--set", action="append", default=[], metavar="K=V", help="pass-through override; verb-scoped as verb.key=value (repeatable)")
     common.add_argument("--skip-gate", action="append", default=[], metavar="ID", help="waive a gate by id; recorded as SKIPPED in the print")
     common.add_argument("--json", action="store_true", help="print JSON instead of the human report")
+    common.add_argument("--judge", action="store_true", help="score the rubric with Claude (needs the anthropic SDK + ANTHROPIC_API_KEY); never changes go/stop")
+    common.add_argument("--judge-model", default=None, help="judge model (default claude-opus-5-5)")
+    common.add_argument("--trace", metavar="FILE", help="append one JSON event per check (lane rules|judge|summary); - for stderr")
 
     ap = argparse.ArgumentParser(prog="arcs-verb-eval", description="Five-verb print-schedule evals (ADR-068).", parents=[common])
     ap.add_argument("--self-test", action="store_true", help="prove fails-on-bad and passes-on-good for every gate")
@@ -618,7 +680,10 @@ def main(argv=None) -> int:
         print("== core ==")
         rc = self_test()
         print("\n== io ==")
-        return rc or vio.self_test()
+        rc = rc or vio.self_test()
+        import arcs_verb_eval_judge as vj
+        print("\n== judge (offline, fake client) ==")
+        return rc or vj.self_test()
     cfg = load_config(a.config)
     if a.cmd == "ingest":
         import arcs_verb_eval_io as vio
@@ -647,6 +712,11 @@ def main(argv=None) -> int:
         if a.slop_arg: opts["slop_args"] = a.slop_arg
         if a.skip_gate: opts["skip_gates"] = opts.get("skip_gates", []) + a.skip_gate
         rep = run_one(a.cmd, a.artifact, opts, load_json(a.upstream), load_json(a.scores))
+        if a.judge:
+            import arcs_verb_eval_judge as vj
+            art = sys.stdin.read() if a.artifact == "-" else Path(a.artifact).read_text()
+            rep = vj.judge(rep, art, model=a.judge_model or vj.DEFAULT_MODEL)
+        write_trace(rep, a.trace)
         if a.out:
             Path(a.out).parent.mkdir(parents=True, exist_ok=True)
             Path(a.out).write_text(json.dumps(rep, indent=2) + "\n")
@@ -665,6 +735,10 @@ def main(argv=None) -> int:
             opts = resolve_opts(v, cfg, a.set)
             if a.skip_gate: opts["skip_gates"] = opts.get("skip_gates", []) + a.skip_gate
             rep = run_one(v, art, opts, up, None)
+            if a.judge:
+                import arcs_verb_eval_judge as vj
+                rep = vj.judge(rep, Path(art).read_text(), model=a.judge_model or vj.DEFAULT_MODEL)
+            write_trace(rep, a.trace)
             (outdir / f"{v}.json").write_text(json.dumps(rep, indent=2) + "\n")
             summary.append({"verb": v, "fate": rep["fate"], "failed": rep["failed"]})
             if not a.json:
