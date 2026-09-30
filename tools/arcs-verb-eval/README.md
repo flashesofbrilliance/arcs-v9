@@ -19,7 +19,7 @@ Each stage reads the previous stage's JSON output through `--upstream`. That mea
 
 Everything uses the Python standard library only, with nothing to install. JSON config works on any Python 3; TOML config needs Python 3.11 or later.
 
-**New here? Read [docs/HOWTO.md](docs/HOWTO.md) first.** It takes a few minutes.
+**New here? Read [docs/HOWTO.md](docs/HOWTO.md) first.** Copy-paste Shell, Python, GitHub Actions and pre-commit snippets for every step are in [docs/SNIPPETS.md](docs/SNIPPETS.md).
 
 ## Quick start
 
