@@ -1,0 +1,100 @@
+{
+ "id": "2026-10-12-four-dates-receipts",
+ "show": "Receipts",
+ "source": "public/blog-nftt-four-dates-one-thesis-three-confirmations.html",
+ "index_url": "https://good.arcs.care/series/receipts",
+ "thesis": "A prediction only counts if it carries its own falsifier and gets checked against the primary document.",
+ "aeo": {
+  "question": "What makes a business prediction falsifiable?",
+  "answer": "A falsifiable prediction names a specific outcome, a date, and the evidence that would prove it wrong, written down before the outcome exists. I made three such calls about Apple in 2026: a CEO succession, a gross margin floor, and system-level AI model routing. All three resolved as called, with one wrong number corrected.",
+  "entities": [
+   "Apple",
+   "John Ternus",
+   "Tim Cook",
+   "Q.ai",
+   "WWDC 2026",
+   "Extensions"
+  ],
+  "sources": [
+   "https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations",
+   "https://www.apple.com/newsroom/"
+  ]
+ },
+ "evidence": [
+  {
+   "pattern": "47(\\.1)? percent|47(\\.1)?%",
+   "source": "public/blog-nftt-four-dates-one-thesis-three-confirmations.html (falsifier line; Apple Q2 FY25 margin)"
+  },
+  {
+   "pattern": "49\\.3 percent|49\\.3%",
+   "source": "Apple Newsroom + SEC filing, Q2 FY26, as cited in the NFTT essay"
+  },
+  {
+   "pattern": "50\\.1 percent|50\\.1%",
+   "source": "Apple Q3 FY26 results + SEC 8-K, as cited in the NFTT essay"
+  },
+  {
+   "pattern": "48\\.7 percent|48\\.7%",
+   "source": "the corrected wrong figure, disclosed in the NFTT essay"
+  }
+ ],
+ "cuts": [
+  {
+   "altitude": "exec",
+   "format": "image",
+   "date": "2026-10-12",
+   "status": "draft",
+   "card_line": "Three Apple calls. Each one said what would prove it wrong. 3 for 3.",
+   "caption": "January: Ternus as heir. February: margin holds above 47 percent. May: Apple routes AI at the OS layer. Every falsifier was published with the call.",
+   "first_comment": "The full ledger, including the number I got wrong: https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations"
+  },
+  {
+   "altitude": "strategic",
+   "format": "poll",
+   "date": "2026-10-13",
+   "status": "draft",
+   "poll": {
+    "question": "When you make a call at work, do you write down what would prove you wrong?",
+    "options": [
+     "Always, in writing",
+     "Sometimes, in my head",
+     "Never thought to",
+     "We don't make calls"
+    ]
+   },
+   "caption": "I did it for three Apple predictions this year, with the falsifier in the same post as the call. Results shape Wednesday's carousel."
+  },
+  {
+   "altitude": "operational",
+   "format": "carousel",
+   "date": "2026-10-14",
+   "status": "draft",
+   "slides": [
+    "How to write a prediction that can actually be wrong. Three Apple calls from 2026, all dated in advance.",
+    "Rule 1. Name the mechanism, not a mood. 'Apple is behind' can never expire. 'Ternus is Cook's heir' can.",
+    "Call 1, January 30. Falsifier: no transition ever announced. April 20: Apple announced it. Ternus became CEO on September 1.",
+    "Rule 2. Put a number on your own failure. 'If Q2 gross margin falls materially below 47 percent, I'm wrong.'",
+    "Call 2, February 19. Q2 FY26 came in at 49.3 percent. Q3 came in at 50.1 percent, with about two points from one-off tariff refunds.",
+    "Call 3, May 25. Apple routes AI at the OS layer. Falsifier: Extensions is a cosmetic menu. WWDC, June 8: a real framework.",
+    "Rule 3. Correct in the same place you called it. My draft said 48.7 percent. The filing says 49.3. The fix is on the page.",
+    "One piece made no falsifiable claim. It isn't counted. Three calls, three resolved.",
+    "Part of Receipts, a series where every prediction carries its own falsifier. Full index: good.arcs.care/series/receipts"
+   ]
+  },
+  {
+   "altitude": "tactical",
+   "format": "post",
+   "date": "2026-10-15",
+   "status": "draft",
+   "text": "Most predictions about big companies are built so they can never be wrong. \"Apple is behind on AI\" has no expiration date.\n\nThis year I tried a different habit. Every time I made a call about Apple, I wrote down in the same post what would prove me wrong.\n\nIn February, a memory chip shortage was supposed to crush Apple's margins. I wrote: if gross margin falls materially below 47 percent in Q2, the argument weakens and I'll say so. Q2 came in at 49.3 percent.\n\nThe part I'm proudest of is a correction. My first draft cited 48.7 percent from a secondhand summary. The SEC filing says 49.3. The fix helped my case, and I published it anyway, next to the call.\n\nThe habit takes two minutes:\n1. Name a specific outcome and a date.\n2. Write the evidence that would prove you wrong.\n3. Check it against the primary document later, not your memory.\n\nWhat's one call you're making this quarter that you could write a falsifier for?\n\nPart of Receipts, a series where every prediction carries its own falsifier. Full index: good.arcs.care/series/receipts"
+  },
+  {
+   "altitude": "surgical",
+   "format": "article",
+   "date": "2026-10-16",
+   "status": "draft",
+   "title": "Four Dates, One Thesis, Three Confirmations: How to Make Predictions That Can Be Wrong",
+   "text": "A falsifiable prediction names a specific outcome, a date, and the evidence that would prove it wrong, written down before the outcome exists. I made three such calls about Apple in 2026: a CEO succession, a gross margin floor, and system-level AI model routing. All three resolved as called, with one wrong number corrected.\n\nMost commentary about a company as large as Apple is built to survive the future by never quite touching it. Say Apple is \"behind\" and you can be right forever, because \"behind\" has no expiration date. This year I tried writing the other way. Four times I wrote about Apple in public. Three of those pieces carried a claim specific enough to be wrong, with the failure condition written into the piece itself.\n\nFull essay with sources: https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations\n\n## What was the first call?\n\nOn January 30, 2026, the week a well-known investor went on television to say Tim Cook needed to go, Apple closed a two billion dollar acquisition of an Israeli sensor startup called Q.ai. I argued the market was reading the wrong signal. You do not spend that kind of money fixing a chatbot. You spend it on a platform shift, and platform shifts get assigned to whoever will own the next era.\n\nThe deal sat under hardware, which meant it sat under John Ternus. I named him as Cook's presumptive heir. The falsifier was simple: no transition ever announced.\n\nApple announced the transition on April 20, 2026. Ternus became CEO effective September 1, with Cook moving to executive chairman.\n\n## What was the second call?\n\nOn February 19, Bloomberg framed a global memory chip shortage as the crisis that would finally catch Cook flat-footed. I argued the opposite: vertical integration and pricing power would let Apple absorb the memory cost cycle that was squeezing everyone else.\n\nI set the falsifier in writing before the numbers existed. If gross margin fell materially below 47 percent in the second fiscal quarter of 2026, the argument would weaken and I would say so publicly.\n\nQ2 FY26 gross margin came in at 49.3 percent. Q3 came in at 50.1 percent.\n\n## What was the third call?\n\nBy late May the coverage had settled on one sentence: Apple missed AI. I argued the sentence answered the wrong question. The real question was where Apple wanted intelligence to live, and the answer was the operating system layer underneath whichever model the user picked.\n\nThat week Reuters reported a planned feature called Extensions, letting users route Apple Intelligence, Siri, and Writing Tools to third-party models while Apple kept the OS and the privacy boundary. My falsifier: it only counts if Extensions is real platform-level routing and not a cosmetic menu. It was confirmed as a real framework at WWDC 2026 on June 8. I am not claiming it has shipped to every user.\n\n## What did I get wrong?\n\nAn earlier draft cited Q2 gross margin as 48.7 percent. That figure came from a secondhand summary and it was wrong. Apple's own release and SEC filing report 49.3 percent, up from 47.1 percent a year earlier. The correction happened to help the thesis, and it still gets stated, because the discipline does not get to skip its own gate when the error is convenient.\n\nThere is also a caveat on the Q3 number. The 50.1 percent included roughly two points of favorable impact from tariff refunds, a one-off. Reporting it without that caveat would be technically accurate and quietly misleading, which is exactly the failure I was arguing against in other people's coverage.\n\n## What are three confirmations worth?\n\nNot proof that I understand Apple better than the analysts I was arguing with. Three out of three is a small sample, and one of the four pieces made no falsifiable claim, so it is not counted.\n\nWhat it does show is that the habit survives contact with being wrong. Write the falsifier before the outcome. Check the claim against the primary document, not against your memory of having been right. Publish the correction in the same place as the call.\n\nIf you make calls for a living, in strategy, product, or investing, try it on your next one. Write the number and the falsifier down today, date it, and put it somewhere you cannot quietly edit.\n\nSources: Apple Newsroom (Q3 FY26 results; April 2026 leadership transition), SEC 8-K for Q3 FY26, and reporting on iOS 27 Extensions from WWDC 2026. Not investment advice.\n\nPart of Receipts, a series where every prediction carries its own falsifier. Full index: good.arcs.care/series/receipts"
+  }
+ ]
+}
