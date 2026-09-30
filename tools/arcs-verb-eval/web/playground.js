@@ -55,7 +55,8 @@
     var tr = AVE.trace(rep, ta.value, FX.rubric[v]), sum = tr[tr.length - 1];
     var html = '<div class="res-head"><strong>' + NAMES[v] + '</strong><span class="big ' + (rep.ok ? 'go' : 'stop') + '">' + (rep.ok ? (v === 'recapitulation' ? 'Ready for a person' : 'Go') : 'Stop') + '</span></div>';
     html += '<p class="meter-line"><b>' + sum.rules + '</b> checks by rules · <b>0</b> calls to an AI · <b>' + sum.judge_pending + '</b> questions waiting for a judge</p>';
-    if (pv && up) html += '<p class="handoff">Read step ' + (AVE.VERBS.indexOf(pv) + 1) + '\'s result: ' + (up.claims ? up.claims.length : 0) + ' facts' + (up.conditions && up.conditions.length ? ', ' + up.conditions.length + ' required fixes' : '') + '.</p>';
+    if (pv && up) var nF = up.claims ? up.claims.length : 0, nC = up.conditions ? up.conditions.length : 0;
+    html += '<p class="handoff">Picked up ' + nF + (nF === 1 ? ' fact' : ' facts') + (nC ? ' and ' + nC + (nC === 1 ? ' required fix' : ' required fixes') : '') + ' from step ' + (AVE.VERBS.indexOf(pv) + 1) + '.</p>';
     html += '<div class="lanes"><div class="lane-col"><h4>Decided by rules <span>no AI</span></h4><ul class="gates">' + tr.filter(function (e) { return e.lane === 'rules'; }).map(function (g, i) {
       return '<li class="g lit ' + (g.ok ? 'g-pass' : 'g-fail') + (g.cliOnly ? ' g-cli' : '') + '" style="--i:' + i + '"><span class="dot" aria-hidden="true"></span><span class="gt">' + esc(PLAIN[g.id] || g.id) + '</span><span class="ge">' + esc(g.evidence) + ' · ' + (g.ms < 0.01 ? '<0.01' : g.ms.toFixed(2)) + ' ms</span><span class="sr">' + (g.ok ? 'passed' : 'failed') + '</span></li>';
     }).join('') + '</ul></div>';

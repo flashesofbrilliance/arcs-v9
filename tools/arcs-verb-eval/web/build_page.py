@@ -220,6 +220,9 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .handoff {{ font-size: 14px; color: var(--cyan); }}
 .lanes {{ display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }}
 .lane-col {{ min-width: 0; display: grid; gap: 8px; align-content: start; }}
+.lane-col .gates, .jcards {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; row-gap: 8px; }}
+@media (max-width: 640px) {{ .lane-col .gates, .jcards {{ grid-template-columns: minmax(0, 1fr); }} }}
+.lane-col .gates .g {{ border-bottom: 0; border-top: 1px solid var(--border); }}
 .lane-col h4 {{ margin: 0; font: 600 14px var(--font-sans); display: flex; gap: 8px; align-items: baseline; }}
 .lane-col h4 span {{ font-weight: 500; font-size: 12px; color: var(--soft); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; }}
 .jcards {{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }}
