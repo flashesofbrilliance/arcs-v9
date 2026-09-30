@@ -189,13 +189,13 @@ def render_book(b: dict, fathoms: list) -> str:
         f5 = '<ul class="claims"><li class="seam"><span class="tag">unproven</span> No claims authored yet.</li></ul>'
     f4 = ('<dl class="stats">'
           f'<div><dt>commits</dt><dd>{t["commits"]}</dd></div>'
-          f'<div><dt>merges</dt><dd>{t["merges"]}</dd></div>'
+          f'<div><dt>PR merges</dt><dd>{t["merges"]}</dd></div>'
           f'<div><dt>ADRs added</dt><dd>{t["adrs_added"]}</dd></div>'
           f'<div><dt>falsified</dt><dd>{t["falsified"]}</dd></div>'
           '</dl><p class="src">Computed at render from <code>git log</code> over the range and <code>_STATE/falsification-ledger.jsonl</code> by date.</p>')
     sh = b.get("shavasana") or {}
     shav = (f'<section class="shav" data-depth="1"><div class="eyebrow">Shavasana · Operator 25</div><ul>'
-            f'<li><b>Exhale</b> {t["commits"]} commits, {t["merges"]} merges.</li>'
+            f'<li><b>Exhale</b> {t["commits"]} commits, {t["merges"]} pull-request merges.</li>'
             f'<li><b>Inhale</b> {t["falsified"]} falsification rows, {t["dissent"] - t["falsified"]} dissent markers in commit subjects.</li>'
             f'<li><b>Breath balance</b> {E(t["balance"])}.</li>'
             f'<li><b>Sycophancy check</b> agreement {t["agree"]} / dissent {t["dissent"]} (ratio {t["ratio"]}) : {E(t["verdict"])}.</li>'

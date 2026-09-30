@@ -26,7 +26,9 @@
       "tenant": "chronicle",
       "question": "how did we get here?",
       "work": "Chronicle",
-      "built": false,
+      "built": true,
+      "frame": "/api/reading-room/chronicle",
+      "render": "_ARTIFACTS/atlas/chronicle.html",
       "domains": ["handoffs"]
     },
     {
