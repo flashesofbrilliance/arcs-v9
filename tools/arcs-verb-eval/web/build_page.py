@@ -42,14 +42,14 @@ def detail(s):
     lab, cls = STAMP[s["stamp"]]
     g = "".join(f'<li class="g g-{st}"><span class="dot" aria-hidden="true"></span><span class="gt">{E(t)}</span><span class="ge">{E(ev)}</span><span class="sr">{"passed" if st=="pass" else "failed"}</span></li>' for st, t, ev in s["gates"])
     r = "".join(f'<li><span>{E(t)}</span>{pips(sc)}</li>' for t, sc in s["rubric"])
-    return f'''<details class="deep {cls}" id="{s["v"]}"{" open" if s["stamp"]=="stop" else ""}>
-  <summary><span class="num">{s["n"]}</span><span class="st-name">{s["name"]}</span><span class="st-tool">{s["tool"]}</span><span class="stamp">{lab}</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+    return f'''<div class="deep panel {cls}" id="{s["v"]}" role="tabpanel" aria-labelledby="st-{s["v"]}"{"" if s["stamp"]=="stop" else " hidden"}>
+  <div class="panel-head"><span class="num">{s["n"]}</span><span class="st-name">{s["name"]}</span><span class="st-tool">{s["tool"]}</span><span class="stamp">{lab}</span></div>
   <div class="deep-body">
     <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates">{g}</ul>{s["extra"] if s["v"]!="assessment" else ""}</div>
     <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric">{r}</ul>{s["extra"] if s["v"]=="assessment" else ""}</div>
     <div class="full"><h3>Copy it</h3>{snip(s["v"])}</div>
   </div>
-</details>'''
+</div>'''
 
 ENGINE = open("engine.js").read()
 FIXTURES = open("fixtures.json").read().replace("</", "<\\/")
@@ -90,6 +90,7 @@ page = f'''<title>Five Verbs by ARCS</title>
 /* layout: verdict, the five steps as one flowing strip, three reasons, three answers, try it, then the evidence behind a click */
 :root {{ --soft: #9aa7b8; --lane: 1080px; --measure: 640px; color-scheme: dark; }}
 * {{ box-sizing: border-box; }}
+code, pre, kbd, textarea {{ font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }}
 html {{ scrollbar-color: var(--border) var(--bg); }}
 ::selection {{ background: rgba(0,240,255,0.28); color: var(--text); }}
 body {{ margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 var(--font-sans); padding-inline: 16px; padding-block: 0 72px; caret-color: var(--cyan); }}
@@ -196,10 +197,10 @@ details[open] .chev {{ transform: rotate(180deg); }}
 
 /* playground */
 .play {{ border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); padding: 18px; display: grid; gap: 16px; }}
-.play-grid {{ display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; }}
+.play-grid {{ display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }}
 .play-in {{ display: grid; gap: 10px; min-width: 0; align-content: start; }}
 .play-in label {{ font-weight: 500; }}
-textarea {{ width: 100%; min-height: 260px; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; font: 400 13px/1.55 var(--font-mono); }}
+textarea {{ width: 100%; min-height: 150px; max-height: 40vh; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; font: 400 13px/1.55 var(--font-mono); }}
 textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .play-actions {{ display: flex; flex-wrap: wrap; gap: 8px; }}
 .btn {{ font: 500 14px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 9px 14px; cursor: pointer; }}
@@ -208,7 +209,7 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .btn.primary:hover {{ filter: brightness(1.08); }}
 .vh {{ position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }}
 .vh:focus-visible + label {{ outline: 2px solid var(--cyan); outline-offset: 3px; }}
-.play-out {{ min-width: 0; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); padding: 16px; display: grid; gap: 12px; align-content: start; }}
+.play-out {{ min-height: 320px; min-width: 0; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); padding: 16px; display: grid; gap: 12px; align-content: start; }}
 .play-out .empty {{ color: var(--soft); }}
 .res-head {{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }}
 .res-head strong {{ font: 700 22px var(--font-display); }}
@@ -234,6 +235,10 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 @media (prefers-reduced-motion: reduce) {{ .lit {{ animation: none; }} }}
 @media (max-width: 900px) {{ .lanes {{ grid-template-columns: minmax(0, 1fr); }} }}
 
+.steptabs {{ margin-bottom: 14px; }}
+.panel-head {{ display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 14px; align-items: center; padding: 16px 18px; }}
+@media (max-width: 900px) {{ .panel-head {{ grid-template-columns: auto minmax(0, 1fr) auto; }} }}
+
 /* depth last */
 .depth {{ display: grid; gap: 10px; }}
 footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; gap: 4px; }}
@@ -251,6 +256,8 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
   summary {{ grid-template-columns: auto minmax(0, 1fr) auto auto; }}
   .st-tool {{ display: none; }}
 }}
+/* last: font shorthands above reset ligatures, so this must come after them */
+code, pre, kbd, textarea, .tool {{ font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "calt" 0 !important; }}
 @media (prefers-reduced-motion: reduce) {{ .strip::after {{ animation: none; }} .step a, .chev {{ transition: none; }} }}
 </style>
 
@@ -291,7 +298,7 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
       <div class="play-grid">
         <div class="play-in">
           <label for="play-text" id="play-label">Your work (HTML with marked facts)</label>
-          <textarea id="play-text" spellcheck="false" rows="12"></textarea>
+          <textarea id="play-text" spellcheck="false" rows="7"></textarea>
           <div class="play-actions">
             <button type="button" class="btn primary" id="play-run">Check it</button>
             <button type="button" class="btn" id="play-good">Load example</button>
@@ -308,7 +315,8 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
 
   <section aria-labelledby="inside">
     <h2 id="inside">Inside each step</h2>
-    <p class="note" style="margin:-8px 0 16px">Open a step to see its checks and copy its code. Step 4 is open because that's where the example stopped.</p>
+    <p class="note" style="margin:-8px 0 16px">Pick a step to see its checks and copy its code. Step 4 is showing because that's where the example stopped.</p>
+    <div class="tabs steptabs" role="tablist" aria-label="Step details" id="step-tabs">{"".join(f'<button type="button" role="tab" id="st-{s["v"]}" data-verb="{s["v"]}" aria-controls="{s["v"]}" aria-selected="{str(s["stamp"]=="stop").lower()}">{s["n"]}. {s["name"]}</button>' for s in STEPS)}</div>
     {"".join(detail(s) for s in STEPS)}
   </section>
 
@@ -331,7 +339,7 @@ footer {{ margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; 
 {ENGINE}
 var FX = {FIXTURES};
 {CONTROLLER}
-document.querySelectorAll('[role=tablist]:not(#play-tabs)').forEach(function (list) {{
+document.querySelectorAll('[role=tablist]:not(#play-tabs):not(#step-tabs)').forEach(function (list) {{
   var tabs = list.querySelectorAll('[role=tab]');
   tabs.forEach(function (t, i) {{
     t.addEventListener('click', function () {{ pick(i); }});
@@ -363,12 +371,47 @@ document.querySelectorAll('.copy').forEach(function (b) {{
     try {{ navigator.clipboard.writeText(code.textContent).then(done, fallback); }} catch (e) {{ fallback(); }}
   }});
 }});
-document.querySelectorAll('.step a').forEach(function (a) {{
-  a.addEventListener('click', function () {{
-    var d = document.querySelector(a.getAttribute('href'));
-    if (d && d.tagName === 'DETAILS') d.open = true;
+(function () {{
+  var tabs = document.querySelectorAll('#step-tabs [role=tab]');
+  function pick(v) {{
+    tabs.forEach(function (t) {{
+      var on = t.getAttribute('data-verb') === v;
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }});
+  }}
+  tabs.forEach(function (t, i) {{
+    t.addEventListener('click', function () {{ pick(t.getAttribute('data-verb')); }});
+    t.addEventListener('keydown', function (e) {{
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {{
+        var j = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        tabs[j].click(); tabs[j].focus();
+      }}
+    }});
   }});
-}});
+  document.querySelectorAll('.step a').forEach(function (a) {{
+    a.addEventListener('click', function (e) {{
+      e.preventDefault();
+      var v = a.getAttribute('href').slice(1);
+      pick(v);
+      document.getElementById('step-tabs').scrollIntoView({{ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }});
+    }});
+  }});
+  pick((document.querySelector('#step-tabs [aria-selected=true]') || tabs[0]).getAttribute('data-verb'));
+}})();
 </script>
 '''
+import re as _re
+def _asciify(doc):
+    parts = _re.split(r'(<script>.*?</script>|<style>.*?</style>)', doc, flags=_re.S)
+    out = []
+    for p in parts:
+        if p.startswith('<style>'):
+            out.append(p)
+        elif p.startswith('<script>'):
+            out.append(''.join(c if ord(c) < 128 else '\\u%04x' % ord(c) for c in p))
+        else:
+            out.append(''.join(c if ord(c) < 128 else '&#x%x;' % ord(c) for c in p))
+    return ''.join(out)
+page = _asciify(page)
 open("verb-eval-mockups.html", "w").write(page)
