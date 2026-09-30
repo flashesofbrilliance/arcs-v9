@@ -45,7 +45,8 @@ def detail(s):
     return f'''<div class="deep panel {cls}" id="{s["v"]}" role="tabpanel" aria-labelledby="st-{s["v"]}"{"" if s["stamp"]=="stop" else " hidden"}>
   <div class="panel-head"><span class="num">{s["n"]}</span><span class="st-name">{s["name"]}</span><span class="st-tool">{s["tool"]}</span><span class="stamp">{lab}</span></div>
   <div class="deep-body">
-    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates">{g}</ul>{s["extra"] if s["v"]!="assessment" else ""}</div>
+    {('<div class="full hero-meter">' + s["extra"] + '</div>') if s["v"]=="evaluation" else ""}
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates">{g}</ul>{s["extra"] if s["v"] not in ("assessment","evaluation") else ""}</div>
     <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric">{r}</ul>{s["extra"] if s["v"]=="assessment" else ""}</div>
     <div class="full"><h3>Copy it</h3>{snip(s["v"])}</div>
   </div>
@@ -247,6 +248,11 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 .export-note {{ font-size: 13px; color: var(--soft); }}
 .export-note code {{ font: 400 12px var(--font-mono); color: var(--text); }}
 .export-fallback {{ margin: 0; max-height: 240px; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px; font: 400 11.5px/1.5 var(--font-mono); white-space: pre-wrap; }}
+
+.hero-meter .meter {{ margin: 0; padding: 18px 20px; gap: 12px; border-color: rgba(0,255,157,0.35); background: linear-gradient(var(--green-bg), var(--green-bg)), var(--bg); }}
+.hero-meter .meter p:first-child {{ font: 600 18px/1.35 var(--font-display); }}
+.hero-meter .bar {{ height: 12px; border-radius: 6px; }}
+.hero-meter .bar i {{ border-radius: 6px; }}
 
 /* depth last */
 .depth {{ display: grid; gap: 10px; }}
