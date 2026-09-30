@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db'
 import type { HomeDemo } from '@/organisms/Home'
+import type { Tributary } from '@/lib/mockCompass'
 import { HomePageClient } from './HomePageClient'
+import { scrubProse } from '@/lib/prose'
 
 // Landing surface. Server component: fetches the pinned featured receipt
 // directly via Prisma at render time, so the correct content is in the HTML
@@ -21,7 +23,6 @@ export const dynamic = 'force-dynamic'
 
 // Stored receipts are frozen records and some predate the no-em-dash rule, so the
 // landing copy is scrubbed at render time instead of rewriting the row.
-const noDash = (t: string) => t.replace(/\s*\u2014\s*/g, ': ')
 
 async function getPinnedDemo(): Promise<HomeDemo | null> {
   try {
@@ -29,11 +30,11 @@ async function getPinnedDemo(): Promise<HomeDemo | null> {
     if (!r) return null
     let tributaries = undefined
     try {
-      if (r.atgTributaries) tributaries = JSON.parse(r.atgTributaries)
+      if (r.atgTributaries) tributaries = (JSON.parse(r.atgTributaries) as Tributary[]).map((t) => ({ ...t, prompt: scrubProse(t.prompt) }))
     } catch { /* malformed — omit */ }
     return {
-      decision: noDash(r.decision ?? r.trueNorth ?? ''),
-      trueNorth: noDash(r.trueNorth ?? ''),
+      decision: scrubProse(r.decision ?? r.trueNorth ?? ''),
+      trueNorth: scrubProse(r.trueNorth ?? ''),
       nciScore: r.nciScore ?? 50,
       coherence: r.coherencePct ?? null,
       mode: r.mode,

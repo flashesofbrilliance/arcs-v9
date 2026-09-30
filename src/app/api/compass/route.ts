@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { clampText, clampInt, clampTextArray } from "@/lib/sanitize"
+import { scrubProse, scrubProseArray } from "@/lib/prose"
 import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
@@ -88,7 +89,7 @@ RULES:
   - action: does true_north give one concrete next step, not a hedge?
   - notes: if ANY of the above is false, explain which claim/section is unsupported. Otherwise "".
 - Never add preamble. Return only the JSON object.
-- STYLE: Never use em-dashes. Write short, plain, direct sentences. If a clause needs a break, use a period, comma, or colon, never a dash. Dash-spliced prose reads as machine-generated.
+- STYLE: Never use em-dashes. Write short, plain, direct sentences. If a clause needs a break, use a period, comma, or colon, never a dash. Dash-spliced prose reads as machine-generated. No "not X, it is Y" or "not X but Y" contrasts in true_north or why. In any user-facing string, never name internal scores or codes (NCI, SATOSHI, SAGE, Y state, ONE_WAY/TWO_WAY); say "hard to reverse" or "easy to undo".
 
 OUTPUT SHAPE (strict JSON, no markdown fences):
 {
@@ -359,6 +360,16 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
     const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
     parsed = JSON.parse(cleaned)
+    // Backstop for the STYLE rule: user-facing prose leaves this route dash-free and
+    // without internal door codes, whatever the model did.
+    if (typeof parsed.true_north === "string") parsed.true_north = scrubProse(parsed.true_north)
+    if (Array.isArray(parsed.why)) parsed.why = scrubProseArray(parsed.why)
+    if (Array.isArray(parsed.tributaries)) {
+      parsed.tributaries = (parsed.tributaries as unknown[]).map((tr) => {
+        const o = (tr ?? {}) as Record<string, unknown>
+        return typeof o.prompt === "string" ? { ...o, prompt: scrubProse(o.prompt) } : o
+      })
+    }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     if (err instanceof SyntaxError) {
