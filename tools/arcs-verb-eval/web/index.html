@@ -1,0 +1,733 @@
+<title>Five Verbs by ARCS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+/* inlined verbatim from src/ui-kit/recoil-report/_tokens.css; single dark world by choice */
+:root {
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Instrument Sans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Bricolage Grotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* page layer: one readable secondary text tone (the kit's --dimmed is 3.9:1 on surface, under 4.5) */
+/* layout: verdict, the five steps as one flowing strip, three reasons, three answers, try it, then the evidence behind a click */
+:root { --soft: #9aa7b8; --lane: 1080px; --measure: 640px; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scrollbar-color: var(--border) var(--bg); }
+::selection { background: rgba(0,240,255,0.28); color: var(--text); }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.6 var(--font-sans); padding-inline: 16px; padding-block: 0 72px; caret-color: var(--cyan); }
+.lane { max-width: var(--lane); margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+p { margin: 0; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: var(--r-sm); }
+.note { color: var(--soft); font-size: 14px; }
+section { margin-top: 72px; }
+section > h2 { font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-bottom: 20px; }
+
+/* verdict */
+.verdict { padding-block: 72px 36px; display: grid; gap: 18px; }
+.verdict h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 700; line-height: 1; letter-spacing: -0.03em; }
+.verdict h1 span { color: var(--cyan); }
+.verdict .lede { font-size: clamp(18px, 2vw, 21px); color: var(--text); opacity: 0.88; max-width: none; }
+
+/* the five steps: one strip, the current runs through it and stops at the red stamp */
+.strip { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; position: relative; }
+.strip::before { content: ""; position: absolute; left: 24px; right: 24px; top: 31px; height: 2px; background: var(--border); }
+.strip::after { content: ""; position: absolute; left: 24px; top: 31px; height: 2px; width: calc(75% - 12px); background: linear-gradient(90deg, var(--cyan), var(--green) 60%, var(--red)); transform-origin: left; animation: run 1.4s cubic-bezier(.16,1,.3,1) both; }
+@keyframes run { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.step a { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); color: var(--text); text-decoration: none; transition: border-color .2s, transform .2s cubic-bezier(.16,1,.3,1); }
+.step a:hover { border-color: var(--soft); transform: translateY(-2px); }
+.num { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; font: 500 13px var(--font-mono); background: var(--bg); border: 2px solid currentColor; }
+.step strong { font: 600 18px/1.25 var(--font-display); }
+.step .kid { color: var(--soft); font-size: 15px; }
+.stamp { justify-self: start; margin-top: 4px; font: 600 12px var(--font-sans); letter-spacing: 0.04em; padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; }
+.s-go .stamp { color: var(--green); } .s-stop .stamp { color: var(--red); } .s-wait .stamp { color: var(--cyan); }
+.s-go .num { color: var(--green); } .s-stop .num { color: var(--red); } .s-wait .num { color: var(--cyan); }
+.s-go .num { border-color: var(--green); } .s-stop .num { border-color: var(--red); } .s-wait .num { border-color: var(--cyan); }
+.step.s-stop a { border-color: rgba(255,77,109,0.55); background: linear-gradient(var(--red-bg), var(--red-bg)), var(--surface); }
+.step.s-wait a { border-style: dashed; }
+.foot { display: grid; gap: 2px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); }
+.tool { font: 500 12px var(--font-mono); color: var(--cyan); }
+.checks { font-size: 13px; color: var(--soft); }
+.example { margin-top: 18px; font-size: 17px; }
+.example strong { color: var(--red); font-weight: 600; }
+.example .tag-ex { color: var(--soft); font-size: 14px; }
+
+/* three reasons */
+.reasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.reasons h3 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+.reasons p { color: var(--soft); }
+
+/* three answers */
+.qa { display: grid; gap: 0; border-top: 1px solid var(--border); }
+.qa div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; padding-block: 18px; border-bottom: 1px solid var(--border); }
+.qa dt { font: 600 18px/1.35 var(--font-display); }
+.qa dd { margin: 0; color: var(--soft); }
+.qa dd strong { color: var(--text); font-weight: 600; }
+
+/* try it */
+.try { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.try .code pre { font-size: 14px; }
+.try p { margin-bottom: 8px; }
+
+/* code */
+.code { position: relative; min-width: 0; }
+.code pre { margin: 0; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 16px 16px; padding-right: 76px; overflow-x: auto; font: 400 13px/1.6 var(--font-mono); color: var(--text); }
+.copy { position: absolute; top: 10px; right: 10px; font: 500 12px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 5px 10px; cursor: pointer; }
+.copy:hover { border-color: var(--cyan); color: var(--cyan); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tabs button { font: 500 13px var(--font-sans); color: var(--soft); background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.tabs button:hover { color: var(--text); }
+.tabs button[aria-selected="true"] { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+
+/* evidence behind a click */
+.deep { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); scroll-margin-top: 24px; }
+.deep + .deep { margin-top: 10px; }
+.deep.s-stop { border-color: rgba(255,77,109,0.55); }
+summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto auto; gap: 14px; align-items: center; padding: 16px 18px; }
+summary::-webkit-details-marker { display: none; }
+.st-name { font: 600 18px var(--font-display); color: var(--text); }
+.st-tool { color: var(--soft); font-size: 14px; }
+summary .stamp { margin: 0; }
+.chev { width: 18px; height: 18px; color: var(--soft); transition: transform .25s cubic-bezier(.16,1,.3,1); }
+details[open] .chev { transform: rotate(180deg); }
+.deep-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; padding: 6px 18px 22px; border-top: 1px solid var(--border); padding-top: 20px; }
+.deep-body .full { grid-column: 1 / -1; }
+.half, .full { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-content: start; min-width: 0; }
+.deep h3 { font-size: 16px; font-weight: 600; }
+.gates, .rubric { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.g { display: grid; grid-template-columns: 14px minmax(0, 1fr); column-gap: 10px; padding-block: 10px; border-bottom: 1px solid var(--border); }
+.g .dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; grid-row: span 2; }
+.g-pass .dot { background: var(--green); } .g-fail .dot { background: var(--red); box-shadow: 0 0 0 3px var(--red-bg); }
+.gt { font-weight: 500; } .g-fail .gt { color: var(--red); }
+.ge { color: var(--soft); font-size: 14px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.rubric li { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding-block: 10px; border-bottom: 1px solid var(--border); }
+.pips { display: inline-flex; gap: 4px; flex: none; }
+.pips i { width: 18px; height: 6px; border-radius: 3px; background: var(--border); }
+.pips i.on { background: var(--cyan); }
+.pips i.pend { background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 4px); }
+.fid, .meter { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); margin-top: 6px; }
+.fid-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 15px; }
+.sharp { opacity: 1; font-weight: 500; } .degraded { opacity: 0.85; } .grain { opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }
+.tag { font: 600 11px var(--font-sans); text-align: center; padding: 2px 6px; border-radius: var(--r-sm); border: 1px solid currentColor; }
+.t-go { color: var(--green); } .t-warn { color: var(--gold); } .t-unsure { color: var(--soft); }
+.bar { position: relative; height: 8px; border-radius: 4px; background: var(--surface-2); }
+.bar i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; } .b-go { background: var(--green); }
+.lim { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--gold); }
+
+/* playground */
+.play { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); padding: 18px; display: grid; gap: 16px; }
+.play-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; }
+.play-in { display: grid; gap: 10px; min-width: 0; align-content: start; }
+.play-in label { font-weight: 500; }
+textarea { width: 100%; min-height: 260px; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; font: 400 13px/1.55 var(--font-mono); }
+textarea:focus { outline: none; border-color: var(--cyan); }
+.play-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font: 500 14px var(--font-sans); color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 9px 14px; cursor: pointer; }
+.btn:hover { border-color: var(--soft); }
+.btn.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.file { position: relative; overflow: hidden; }
+.btn.file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.btn.file:focus-within { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.play-out { min-width: 0; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); padding: 16px; display: grid; gap: 12px; align-content: start; }
+.play-out .empty { color: var(--soft); }
+.res-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.res-head strong { font: 700 22px var(--font-display); }
+.big { font: 700 15px var(--font-sans); padding: 6px 14px; border-radius: 999px; border: 1.5px solid currentColor; }
+.big.go { color: var(--green); background: var(--green-bg); } .big.stop { color: var(--red); background: var(--red-bg); }
+.g-cli .dot { background: transparent; border: 1.5px solid var(--soft); }
+.res-note { color: var(--soft); font-size: 14px; }
+.err { color: var(--red); }
+
+/* depth last */
+.depth { display: grid; gap: 10px; }
+footer { margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; gap: 4px; }
+
+@media (max-width: 900px) {
+  .strip { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .strip::before, .strip::after { display: none; }
+  .step a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 12px; align-items: center; }
+  .step .kid { grid-column: 2; }
+  .step .stamp { grid-column: 3; grid-row: 1 / span 3; margin: 0; }
+  .step .foot { grid-column: 2; }
+  .reasons, .try { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .qa div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .deep-body, .play-grid { grid-template-columns: minmax(0, 1fr); }
+  summary { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+  .st-tool { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .strip::after { animation: none; } .step a, .chev { transition: none; } }
+</style>
+
+<main class="lane">
+  <header class="verdict">
+    <h1>Check it <span>before you say it.</span></h1>
+    <p class="lede">Five steps between an idea and a message. Each step gets a stamp: go or stop. If any step says stop, you fix it before anyone hears it.</p>
+  </header>
+
+  <ol class="strip" aria-label="The five steps">
+    <li class="step s-go"><a href="#analysis"><span class="num">1</span><strong>Find the facts</strong><span class="kid">When you need to know what's true before building on it.</span><span class="foot"><code class="tool">analysis-by-arcs</code><span class="checks">3 checks, all visible</span></span><span class="stamp">Go</span></a></li><li class="step s-go"><a href="#assessment"><span class="num">2</span><strong>Check the facts</strong><span class="kid">When you need to tell a solid fact from a shaky one.</span><span class="foot"><code class="tool">assessment-by-arcs</code><span class="checks">3 checks, all visible</span></span><span class="stamp">Go</span></a></li><li class="step s-go"><a href="#evaluation"><span class="num">3</span><strong>Poke holes</strong><span class="kid">When you need to find the weak spot before someone else does.</span><span class="foot"><code class="tool">evaluation-by-arcs</code><span class="checks">4 checks, all visible</span></span><span class="stamp">Go</span></a></li><li class="step s-stop"><a href="#synthesis"><span class="num">4</span><strong>Make it short</strong><span class="kid">When you need it short without adding anything unchecked.</span><span class="foot"><code class="tool">synthesis-by-arcs</code><span class="checks">5 checks, all visible</span></span><span class="stamp">Stop</span></a></li><li class="step s-wait"><a href="#recapitulation"><span class="num">5</span><strong>Write the note</strong><span class="kid">When you need a note that's ready for a person to send.</span><span class="foot"><code class="tool">recapitulation-by-arcs</code><span class="checks">4 checks, all visible</span></span><span class="stamp">Ready for a person</span></a></li>
+  </ol>
+  <p class="example"><span class="tag-ex">Example run:</span> steps 1 to 3 said go. Step 4 said <strong>stop</strong>, because the short version added "trusted by 50+ teams" and nobody had checked it.</p>
+
+  <section aria-labelledby="why">
+    <h2 id="why">Why bother</h2>
+    <div class="reasons">
+      <div><h3>Nothing sneaks in</h3><p>Each step can only use what the step before it approved. A fact that skipped a check gets caught.</p></div>
+      <div><h3>No yes-men</h3><p>If every reviewer just agrees, the check fails. Someone has to have tried to break it.</p></div>
+      <div><h3>A person hits send</h3><p>The last step can only say "ready." It never sends anything for you.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="qa">
+    <h2 id="qa">Three questions</h2>
+    <dl class="qa">
+      <div><dt>Is this the AI's chain of thought?</dt><dd><strong>No.</strong> It checks the finished work, not the thinking. Each step saves a file you can open later.</dd></div>
+      <div><dt>What do I need to run it?</dt><dd><strong>Just Python.</strong> Nothing to install. It runs in a terminal, in code, in GitHub, or before each commit.</dd></div>
+      <div><dt>Who decides the parts a machine can't?</dt><dd><strong>A person.</strong> Each step has a short scorecard. The tool leaves it blank for you.</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="try">
+    <h2 id="try">Try it on your own work</h2>
+    <p class="note" style="margin:-8px 0 18px">Pick a step, paste your work, press Check it. It runs in this page. Nothing is uploaded.</p>
+    <div class="play">
+      <div class="tabs" role="tablist" aria-label="Step to check" id="play-tabs"><button type="button" role="tab" data-verb="analysis" aria-selected="true">1. Find the facts</button><button type="button" role="tab" data-verb="assessment" aria-selected="false">2. Check the facts</button><button type="button" role="tab" data-verb="evaluation" aria-selected="false">3. Poke holes</button><button type="button" role="tab" data-verb="synthesis" aria-selected="false">4. Make it short</button><button type="button" role="tab" data-verb="recapitulation" aria-selected="false">5. Write the note</button></div>
+      <div class="play-grid">
+        <div class="play-in">
+          <label for="play-text" id="play-label">Your work (HTML with marked facts)</label>
+          <textarea id="play-text" spellcheck="false" rows="12"></textarea>
+          <div class="play-actions">
+            <button type="button" class="btn primary" id="play-run">Check it</button>
+            <button type="button" class="btn" id="play-good">Load example</button>
+            <button type="button" class="btn" id="play-bad">Load a broken one</button>
+            <label class="btn file" id="play-nb-wrap">Use a notebook (.ipynb)<input type="file" id="play-nb" accept=".ipynb,application/json"></label>
+          </div>
+        </div>
+        <div class="play-out" id="play-out" aria-live="polite">
+          <p class="empty">Press <strong>Check it</strong> to see the stamp. Start with "Load a broken one" to watch a check catch it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="inside">
+    <h2 id="inside">Inside each step</h2>
+    <p class="note" style="margin:-8px 0 16px">Open a step to see its checks and copy its code. Step 4 is open because that's where the example stopped.</p>
+    <details class="deep s-go" id="analysis">
+  <summary><span class="num">1</span><span class="st-name">Find the facts</span><span class="st-tool">Analysis by ARCS</span><span class="stamp">Go</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="deep-body">
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates"><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Every fact says where it came from</span><span class="ge">41 of 41</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Big claims have two separate sources</span><span class="ge">6 big claims, all with 2+</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Every source is on the evidence list</span><span class="ge">0 missing</span><span class="sr">passed</span></li></ul></div>
+    <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric"><li><span>Did we look in the obvious places?</span><span class="pips" aria-label="not scored yet"><i class="pend"></i><i class="pend"></i></span></li><li><span>Did we use the original, not a summary?</span><span class="pips" aria-label="not scored yet"><i class="pend"></i><i class="pend"></i></span></li><li><span>Did we keep the question open?</span><span class="pips" aria-label="not scored yet"><i class="pend"></i><i class="pend"></i></span></li><li><span>Did we log the weird stuff?</span><span class="pips" aria-label="not scored yet"><i class="pend"></i><i class="pend"></i></span></li></ul></div>
+    <div class="full"><h3>Copy it</h3><div class="snip"><div class="tabs" role="tablist" aria-label="Code type"><button type="button" role="tab" id="t-analysis-0" aria-selected="true" aria-controls="p-analysis-0">Shell</button><button type="button" role="tab" id="t-analysis-1" aria-selected="false" aria-controls="p-analysis-1">Python</button><button type="button" role="tab" id="t-analysis-2" aria-selected="false" aria-controls="p-analysis-2">GitHub Actions</button><button type="button" role="tab" id="t-analysis-3" aria-selected="false" aria-controls="p-analysis-3">pre-commit</button></div><div class="code" role="tabpanel" id="p-analysis-0" aria-labelledby="t-analysis-0"><button type="button" class="copy">Copy</button><pre><code>tools/arcs-verb-eval/arcs-verb-eval analysis teardown.html --ledger evidence.jsonl --out prints/analysis.json</code></pre></div><div class="code" role="tabpanel" id="p-analysis-1" aria-labelledby="t-analysis-1" hidden><button type="button" class="copy">Copy</button><pre><code>import json, sys
+sys.path.insert(0, &quot;tools/arcs-verb-eval&quot;)
+from arcs_verb_eval import evaluate, load_ledger
+
+upstream = None
+report = evaluate(&quot;analysis&quot;, open(&quot;teardown.html&quot;).read(), upstream=upstream, ledger=load_ledger(&quot;evidence.jsonl&quot;))
+json.dump(report, open(&quot;prints/analysis.json&quot;, &quot;w&quot;), indent=2)
+
+print(report[&quot;fate&quot;])            # sourced
+if not report[&quot;ok&quot;]:
+    sys.exit(&quot;stopped by: &quot; + &quot;, &quot;.join(report[&quot;failed&quot;]))</code></pre></div><div class="code" role="tabpanel" id="p-analysis-2" aria-labelledby="t-analysis-2" hidden><button type="button" class="copy">Copy</button><pre><code>- name: Analysis by ARCS
+  run: tools/arcs-verb-eval/arcs-verb-eval analysis teardown.html --ledger evidence.jsonl --out prints/analysis.json
+
+- name: Keep the paper
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: analysis-print
+    path: prints/analysis.json</code></pre></div><div class="code" role="tabpanel" id="p-analysis-3" aria-labelledby="t-analysis-3" hidden><button type="button" class="copy">Copy</button><pre><code># .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: analysis-by-arcs
+        name: Analysis by ARCS
+        entry: tools/arcs-verb-eval/arcs-verb-eval analysis teardown.html --ledger evidence.jsonl
+        language: system
+        files: &#x27;\.html$&#x27;
+        pass_filenames: false</code></pre></div></div></div>
+  </div>
+</details><details class="deep s-go" id="assessment">
+  <summary><span class="num">2</span><span class="st-name">Check the facts</span><span class="st-tool">Assessment by ARCS</span><span class="stamp">Go</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="deep-body">
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates"><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Every fact has a verdict and a size</span><span class="ge">41 of 41</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">A fact marked true was found in step 1</span><span class="ge">36 of 36</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">The totals match the list</span><span class="ge">36 true, 2 gaps, 3 unsure</span><span class="sr">passed</span></li></ul></div>
+    <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric"><li><span>Is each problem sized right?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Are the gaps said as plainly as the wins?</span><span class="pips" aria-label="1 of 2"><i class="on"></i><i class=""></i></span></li><li><span>No hedging to sound safe?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Are the objections written down?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li></ul><div class="fid"><p class="fid-row sharp"><span class="tag t-go">true</span>Setup takes under 10 minutes on the demo.</p><p class="fid-row degraded"><span class="tag t-warn">gap</span>The deck says 40 customers. The case page lists 12.</p><p class="fid-row grain"><span class="tag t-unsure">unsure</span>No security report (SOC 2) was found.</p><p class="note">Shaky facts look shaky. Only true facts render sharp.</p></div></div>
+    <div class="full"><h3>Copy it</h3><div class="snip"><div class="tabs" role="tablist" aria-label="Code type"><button type="button" role="tab" id="t-assessment-0" aria-selected="true" aria-controls="p-assessment-0">Shell</button><button type="button" role="tab" id="t-assessment-1" aria-selected="false" aria-controls="p-assessment-1">Python</button><button type="button" role="tab" id="t-assessment-2" aria-selected="false" aria-controls="p-assessment-2">GitHub Actions</button><button type="button" role="tab" id="t-assessment-3" aria-selected="false" aria-controls="p-assessment-3">pre-commit</button></div><div class="code" role="tabpanel" id="p-assessment-0" aria-labelledby="t-assessment-0"><button type="button" class="copy">Copy</button><pre><code>tools/arcs-verb-eval/arcs-verb-eval assessment report.html --upstream prints/analysis.json --out prints/assessment.json</code></pre></div><div class="code" role="tabpanel" id="p-assessment-1" aria-labelledby="t-assessment-1" hidden><button type="button" class="copy">Copy</button><pre><code>import json, sys
+sys.path.insert(0, &quot;tools/arcs-verb-eval&quot;)
+from arcs_verb_eval import evaluate
+
+upstream = json.load(open(&quot;prints/analysis.json&quot;))
+report = evaluate(&quot;assessment&quot;, open(&quot;report.html&quot;).read(), upstream=upstream)
+json.dump(report, open(&quot;prints/assessment.json&quot;, &quot;w&quot;), indent=2)
+
+print(report[&quot;fate&quot;])            # the step&#x27;s go/stop stamp
+if not report[&quot;ok&quot;]:
+    sys.exit(&quot;stopped by: &quot; + &quot;, &quot;.join(report[&quot;failed&quot;]))</code></pre></div><div class="code" role="tabpanel" id="p-assessment-2" aria-labelledby="t-assessment-2" hidden><button type="button" class="copy">Copy</button><pre><code>- name: Assessment by ARCS
+  run: tools/arcs-verb-eval/arcs-verb-eval assessment report.html --upstream prints/analysis.json --out prints/assessment.json
+
+- name: Keep the paper
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: assessment-print
+    path: prints/assessment.json</code></pre></div><div class="code" role="tabpanel" id="p-assessment-3" aria-labelledby="t-assessment-3" hidden><button type="button" class="copy">Copy</button><pre><code># .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: assessment-by-arcs
+        name: Assessment by ARCS
+        entry: tools/arcs-verb-eval/arcs-verb-eval assessment report.html --upstream prints/analysis.json
+        language: system
+        files: &#x27;\.html$&#x27;
+        pass_filenames: false</code></pre></div></div></div>
+  </div>
+</details><details class="deep s-go" id="evaluation">
+  <summary><span class="num">3</span><span class="st-name">Poke holes</span><span class="st-tool">Evaluation by ARCS</span><span class="stamp">Go</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="deep-body">
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates"><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">At least 4 reviewers ran</span><span class="ge">6 ran</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Each reviewer gave a reason</span><span class="ge">6 of 6</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Someone actually disagreed</span><span class="ge">2 disagreed: the risk reviewer and the skeptic</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">The result follows from the reviews</span><span class="ge">pass, with 2 fixes required</span><span class="sr">passed</span></li></ul><div class="meter"><p><strong>Too-agreeable check:</strong> fine. 9 agreements, 5 disagreements.</p><div class="bar" role="img" aria-label="Agreement ratio 1.5, limit 4"><i style="width:36%" class="b-go"></i><span class="lim" style="left:80%"></span></div><p class="note">If reviewers only agree, this step stops. A test nothing could fail is not a test.</p></div></div>
+    <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric"><li><span>Was the best objection a real one?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Did we argue the product works?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Did we argue we can prove it?</span><span class="pips" aria-label="1 of 2"><i class="on"></i><i class=""></i></span></li><li><span>Are the required fixes concrete?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li></ul></div>
+    <div class="full"><h3>Copy it</h3><div class="snip"><div class="tabs" role="tablist" aria-label="Code type"><button type="button" role="tab" id="t-evaluation-0" aria-selected="true" aria-controls="p-evaluation-0">Shell</button><button type="button" role="tab" id="t-evaluation-1" aria-selected="false" aria-controls="p-evaluation-1">Python</button><button type="button" role="tab" id="t-evaluation-2" aria-selected="false" aria-controls="p-evaluation-2">GitHub Actions</button><button type="button" role="tab" id="t-evaluation-3" aria-selected="false" aria-controls="p-evaluation-3">pre-commit</button></div><div class="code" role="tabpanel" id="p-evaluation-0" aria-labelledby="t-evaluation-0"><button type="button" class="copy">Copy</button><pre><code>tools/arcs-verb-eval/arcs-verb-eval evaluation lenses.json --upstream prints/assessment.json --set min_lenses=4 --out prints/evaluation.json</code></pre></div><div class="code" role="tabpanel" id="p-evaluation-1" aria-labelledby="t-evaluation-1" hidden><button type="button" class="copy">Copy</button><pre><code>import json, sys
+sys.path.insert(0, &quot;tools/arcs-verb-eval&quot;)
+from arcs_verb_eval import evaluate
+
+upstream = json.load(open(&quot;prints/assessment.json&quot;))
+report = evaluate(&quot;evaluation&quot;, open(&quot;lenses.json&quot;).read(), upstream=upstream, min_lenses=4)
+json.dump(report, open(&quot;prints/evaluation.json&quot;, &quot;w&quot;), indent=2)
+
+print(report[&quot;fate&quot;])            # the step&#x27;s go/stop stamp
+if not report[&quot;ok&quot;]:
+    sys.exit(&quot;stopped by: &quot; + &quot;, &quot;.join(report[&quot;failed&quot;]))</code></pre></div><div class="code" role="tabpanel" id="p-evaluation-2" aria-labelledby="t-evaluation-2" hidden><button type="button" class="copy">Copy</button><pre><code>- name: Evaluation by ARCS
+  run: tools/arcs-verb-eval/arcs-verb-eval evaluation lenses.json --upstream prints/assessment.json --set min_lenses=4 --out prints/evaluation.json
+
+- name: Keep the paper
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: evaluation-print
+    path: prints/evaluation.json</code></pre></div><div class="code" role="tabpanel" id="p-evaluation-3" aria-labelledby="t-evaluation-3" hidden><button type="button" class="copy">Copy</button><pre><code># .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: evaluation-by-arcs
+        name: Evaluation by ARCS
+        entry: tools/arcs-verb-eval/arcs-verb-eval evaluation lenses.json --upstream prints/assessment.json --set min_lenses=4
+        language: system
+        files: &#x27;lenses.*\.json$&#x27;
+        pass_filenames: false</code></pre></div></div></div>
+  </div>
+</details><details class="deep s-stop" id="synthesis" open>
+  <summary><span class="num">4</span><span class="st-name">Make it short</span><span class="st-tool">Synthesis by ARCS</span><span class="stamp">Stop</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="deep-body">
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates"><li class="g g-fail"><span class="dot" aria-hidden="true"></span><span class="gt">No new facts snuck in</span><span class="ge">&quot;Trusted by 50+ teams&quot; was never checked</span><span class="sr">failed</span></li><li class="g g-fail"><span class="dot" aria-hidden="true"></span><span class="gt">Required fixes were made</span><span class="ge">the 40-customer number still looks certain</span><span class="sr">failed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Writing has no filler</span><span class="ge">clean</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">No long dashes</span><span class="ge">0</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Hidden from search until ready</span><span class="ge">yes</span><span class="sr">passed</span></li></ul></div>
+    <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric"><li><span>Plain words?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Clear structure?</span><span class="pips" aria-label="1 of 2"><i class="on"></i><i class=""></i></span></li><li><span>Easy rhythm?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Specific, not vague?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>About five times shorter?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li></ul></div>
+    <div class="full"><h3>Copy it</h3><div class="snip"><div class="tabs" role="tablist" aria-label="Code type"><button type="button" role="tab" id="t-synthesis-0" aria-selected="true" aria-controls="p-synthesis-0">Shell</button><button type="button" role="tab" id="t-synthesis-1" aria-selected="false" aria-controls="p-synthesis-1">Python</button><button type="button" role="tab" id="t-synthesis-2" aria-selected="false" aria-controls="p-synthesis-2">GitHub Actions</button><button type="button" role="tab" id="t-synthesis-3" aria-selected="false" aria-controls="p-synthesis-3">pre-commit</button></div><div class="code" role="tabpanel" id="p-synthesis-0" aria-labelledby="t-synthesis-0"><button type="button" class="copy">Copy</button><pre><code>tools/arcs-verb-eval/arcs-verb-eval synthesis surface.html --upstream prints/evaluation.json --out prints/synthesis.json</code></pre></div><div class="code" role="tabpanel" id="p-synthesis-1" aria-labelledby="t-synthesis-1" hidden><button type="button" class="copy">Copy</button><pre><code>import json, sys
+sys.path.insert(0, &quot;tools/arcs-verb-eval&quot;)
+from arcs_verb_eval import evaluate
+
+upstream = json.load(open(&quot;prints/evaluation.json&quot;))
+report = evaluate(&quot;synthesis&quot;, open(&quot;surface.html&quot;).read(), upstream=upstream)
+json.dump(report, open(&quot;prints/synthesis.json&quot;, &quot;w&quot;), indent=2)
+
+print(report[&quot;fate&quot;])            # the step&#x27;s go/stop stamp
+if not report[&quot;ok&quot;]:
+    sys.exit(&quot;stopped by: &quot; + &quot;, &quot;.join(report[&quot;failed&quot;]))</code></pre></div><div class="code" role="tabpanel" id="p-synthesis-2" aria-labelledby="t-synthesis-2" hidden><button type="button" class="copy">Copy</button><pre><code>- name: Synthesis by ARCS
+  run: tools/arcs-verb-eval/arcs-verb-eval synthesis surface.html --upstream prints/evaluation.json --out prints/synthesis.json
+
+- name: Keep the paper
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: synthesis-print
+    path: prints/synthesis.json</code></pre></div><div class="code" role="tabpanel" id="p-synthesis-3" aria-labelledby="t-synthesis-3" hidden><button type="button" class="copy">Copy</button><pre><code># .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: synthesis-by-arcs
+        name: Synthesis by ARCS
+        entry: tools/arcs-verb-eval/arcs-verb-eval synthesis surface.html --upstream prints/evaluation.json
+        language: system
+        files: &#x27;\.html$&#x27;
+        pass_filenames: false</code></pre></div></div></div>
+  </div>
+</details><details class="deep s-wait" id="recapitulation">
+  <summary><span class="num">5</span><span class="st-name">Write the note</span><span class="st-tool">Recapitulation by ARCS</span><span class="stamp">Ready for a person</span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="deep-body">
+    <div class="half"><h3>Machine checks</h3><p class="note">Any one of these fails, the step says stop.</p><ul class="gates"><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Still marked as a draft</span><span class="ge">DRAFT</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Our prediction was written down first</span><span class="ge">filed before the draft</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">The note says nothing the short version didn&#x27;t</span><span class="ge">5 of 5</span><span class="sr">passed</span></li><li class="g g-pass"><span class="dot" aria-hidden="true"></span><span class="gt">Not too agreeable</span><span class="ge">borderline: 13 agreements, 2 disagreements</span><span class="sr">passed</span></li></ul></div>
+    <div class="half"><h3>Person checks</h3><p class="note">Scored 0 to 2 by a person. The tool never scores these itself.</p><ul class="rubric"><li><span>Does it sound right for this person?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Honest about what we dropped and kept?</span><span class="pips" aria-label="1 of 2"><i class="on"></i><i class=""></i></span></li><li><span>Is the ask clear?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li><li><span>Did we note to follow up?</span><span class="pips" aria-label="2 of 2"><i class="on"></i><i class="on"></i></span></li></ul></div>
+    <div class="full"><h3>Copy it</h3><div class="snip"><div class="tabs" role="tablist" aria-label="Code type"><button type="button" role="tab" id="t-recapitulation-0" aria-selected="true" aria-controls="p-recapitulation-0">Shell</button><button type="button" role="tab" id="t-recapitulation-1" aria-selected="false" aria-controls="p-recapitulation-1">Python</button><button type="button" role="tab" id="t-recapitulation-2" aria-selected="false" aria-controls="p-recapitulation-2">GitHub Actions</button><button type="button" role="tab" id="t-recapitulation-3" aria-selected="false" aria-controls="p-recapitulation-3">pre-commit</button></div><div class="code" role="tabpanel" id="p-recapitulation-0" aria-labelledby="t-recapitulation-0"><button type="button" class="copy">Copy</button><pre><code>tools/arcs-verb-eval/arcs-verb-eval recapitulation note.md --upstream prints/synthesis.json --out prints/recapitulation.json</code></pre></div><div class="code" role="tabpanel" id="p-recapitulation-1" aria-labelledby="t-recapitulation-1" hidden><button type="button" class="copy">Copy</button><pre><code>import json, sys
+sys.path.insert(0, &quot;tools/arcs-verb-eval&quot;)
+from arcs_verb_eval import evaluate
+
+upstream = json.load(open(&quot;prints/synthesis.json&quot;))
+report = evaluate(&quot;recapitulation&quot;, open(&quot;note.md&quot;).read(), upstream=upstream)
+json.dump(report, open(&quot;prints/recapitulation.json&quot;, &quot;w&quot;), indent=2)
+
+print(report[&quot;fate&quot;])            # the step&#x27;s go/stop stamp
+if not report[&quot;ok&quot;]:
+    sys.exit(&quot;stopped by: &quot; + &quot;, &quot;.join(report[&quot;failed&quot;]))</code></pre></div><div class="code" role="tabpanel" id="p-recapitulation-2" aria-labelledby="t-recapitulation-2" hidden><button type="button" class="copy">Copy</button><pre><code>- name: Recapitulation by ARCS
+  run: tools/arcs-verb-eval/arcs-verb-eval recapitulation note.md --upstream prints/synthesis.json --out prints/recapitulation.json
+
+- name: Keep the paper
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: recapitulation-print
+    path: prints/recapitulation.json</code></pre></div><div class="code" role="tabpanel" id="p-recapitulation-3" aria-labelledby="t-recapitulation-3" hidden><button type="button" class="copy">Copy</button><pre><code># .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: recapitulation-by-arcs
+        name: Recapitulation by ARCS
+        entry: tools/arcs-verb-eval/arcs-verb-eval recapitulation note.md --upstream prints/synthesis.json
+        language: system
+        files: &#x27;note.*\.md$&#x27;
+        pass_filenames: false</code></pre></div></div></div>
+  </div>
+</details>
+  </section>
+
+  <section aria-labelledby="builders">
+    <h2 id="builders">For builders</h2>
+    <div class="depth">
+      <div class="try"><div><p>Prove every check catches a bad example:</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>make test</code></pre></div></div><div><p>Run all five steps on the sample:</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>make demo</code></pre></div></div></div>
+      <details class="deep"><summary><span class="st-name">All five steps as one GitHub workflow</span><span></span><span></span><span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="deep-body"><div class="full"><div class="code"><button type="button" class="copy">Copy</button><pre><code># .github/workflows/check-before-you-say-it.yml
+name: check-before-you-say-it
+on: [pull_request]
+jobs:
+  five-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: &quot;3.12&quot;
+      - name: Self-test (the checks check themselves)
+        run: tools/arcs-verb-eval/arcs-verb-eval --self-test
+      - name: All five steps
+        run: tools/arcs-verb-eval/arcs-verb-eval pipeline --config arc.json
+      - name: Report
+        if: always()
+        run: |
+          tools/arcs-verb-eval/arcs-verb-eval export prints --format md &gt;&gt; &quot;$GITHUB_STEP_SUMMARY&quot;
+          tools/arcs-verb-eval/arcs-verb-eval export prints --format junit --out prints/junit.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: five-step-prints
+          path: prints/</code></pre></div></div></div></details>
+      <details class="deep"><summary><span class="st-name">What each step saves</span><span></span><span></span><span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="deep-body"><div class="full"><p class="note">One format for all five. The next step reads it.</p><div class="code"><button type="button" class="copy">Copy</button><pre><code>{
+  &quot;verb&quot;: &quot;synthesis&quot;,
+  &quot;fate&quot;: &quot;hold&quot;,
+  &quot;upstream&quot;: &quot;evaluation.json#sha256:9f1c&quot;,
+  &quot;gates&quot;: [
+    {
+      &quot;id&quot;: &quot;no-new-claims&quot;,
+      &quot;ok&quot;: false,
+      &quot;evidence&quot;: &quot;line 212&quot;
+    }
+  ],
+  &quot;rubric&quot;: [
+    {
+      &quot;row&quot;: &quot;D-specificity&quot;,
+      &quot;score&quot;: 2,
+      &quot;judge&quot;: &quot;human&quot;
+    }
+  ],
+  &quot;sycophancy&quot;: {
+    &quot;agreement&quot;: 4,
+    &quot;dissent&quot;: 3,
+    &quot;verdict&quot;: &quot;OK&quot;,
+    &quot;blocking&quot;: false
+  }
+}</code></pre></div></div></div></details>
+    </div>
+  </section>
+
+  <footer>
+    <p>Example data from a made-up review, not a real run.</p>
+    <p>arcs-verb-eval · Python standard library only · tokens from the ARCS recoil-report kit.</p>
+  </footer>
+</main>
+
+<script>
+/* arcs-verb-eval, browser port of the machine checks. Mirrors arcs_verb_eval.py gate for gate.
+   Two checks need the file system or a repo script, so they run in the CLI only:
+   slop-lint (synthesis) and ex-ante / pre-send-gauntlet file existence (recapitulation). */
+var AVE = (function () {
+  var VERBS = ['analysis', 'assessment', 'evaluation', 'synthesis', 'recapitulation'];
+  var VERDICTS = ['verified', 'gap', 'unresolved'], SEV = ['low', 'medium', 'high'];
+  var DISSENT = /\b(FALSIFIED|falsif|blocked|STOP:|refused|corrected|premise correction|deceipt|retract|red X|does not exist|not evidence|wrong|dissent|fail(ed|s)?)\b/gi;
+  var UNCONF = /\b(unconfirmed|not verified|not checked|unverified|unresolved|assum(e|ed|ption))\b/gi;
+  var AGREE = /\b(merged|shipped|done|complete|green|verified|confirmed|landed|agree[sd]?|pass(ed|es)?)\b/gi;
+  function count(re, t) { return (t.match(re) || []).length; }
+  function syco(t, blocking) {
+    var a = count(AGREE, t), d = count(DISSENT, t) + count(UNCONF, t), r = a / (d + 1);
+    return { agreement: a, dissent: d, ratio: Math.round(r * 100) / 100, verdict: a >= 5 && d === 0 ? 'RETURN' : r > 4 ? 'THIN' : 'OK', blocking: blocking };
+  }
+  function host(s) { try { return new URL(s).host || s; } catch (e) { return s; } }
+  function parse(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var claims = [].map.call(doc.querySelectorAll('.claim'), function (el, i) {
+      return { id: el.getAttribute('data-id') || 'auto' + (i + 1), text: el.textContent.replace(/\s+/g, ' ').trim(),
+        src: (el.getAttribute('data-src') || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean),
+        stakes: el.getAttribute('data-stakes') || 'normal', verdict: el.getAttribute('data-verdict'),
+        severity: el.getAttribute('data-severity'), render: el.getAttribute('data-render'), evidence: el.getAttribute('data-evidence') };
+    });
+    var sum = doc.querySelector('[data-summary]');
+    var robots = [].some.call(doc.querySelectorAll('meta[name=robots]'), function (m) { return /noindex/.test(m.getAttribute('content') || ''); });
+    [].forEach.call(doc.querySelectorAll('script,style'), function (n) { n.remove(); });
+    return { claims: claims, summary: sum ? sum.getAttribute('data-summary') : null, noindex: robots, text: doc.documentElement.textContent };
+  }
+  function Run() { this.gates = []; }
+  Run.prototype.gate = function (id, ok, ev, cliOnly) { this.gates.push({ id: id, ok: !!ok, evidence: ev, cliOnly: !!cliOnly }); };
+  Run.prototype.ok = function () { return this.gates.every(function (g) { return g.ok; }); };
+  Run.prototype.failed = function () { return this.gates.filter(function (g) { return !g.ok; }).map(function (g) { return g.id; }); };
+  function ids(a) { return a.join(', '); }
+
+  var V = {};
+  V.analysis = function (t) {
+    var r = new Run(), p = parse(t), cl = p.claims;
+    r.gate('has-claims', cl.length > 0, cl.length + ' claim spans');
+    var un = cl.filter(function (c) { return !c.src.length; }).map(function (c) { return c.id; });
+    r.gate('every-claim-sourced', !un.length, (cl.length - un.length) + '/' + cl.length + ' sourced' + (un.length ? '; unsourced: ' + ids(un) : ''));
+    var thin = cl.filter(function (c) { return c.stakes === 'high' && new Set(c.src.map(host)).size < 2; }).map(function (c) { return c.id; });
+    r.gate('high-stakes-two-sources', !thin.length, cl.filter(function (c) { return c.stakes === 'high'; }).length + ' high-stakes' + (thin.length ? '; under 2 hosts: ' + ids(thin) : ''));
+    return [r, { fate: r.ok() ? 'sourced' : 'unsourced', claims: cl }, p.text];
+  };
+  V.assessment = function (t, up) {
+    var r = new Run(), p = parse(t), cl = p.claims;
+    r.gate('has-claims', cl.length > 0, cl.length + ' claim spans');
+    var bad = cl.filter(function (c) { return VERDICTS.indexOf(c.verdict) < 0 || SEV.indexOf(c.severity) < 0; }).map(function (c) { return c.id; });
+    r.gate('verdict-and-severity', !bad.length, (cl.length - bad.length) + '/' + cl.length + ' rows complete' + (bad.length ? '; incomplete: ' + ids(bad) : ''));
+    if (up) {
+      var src = new Set(up.claims.filter(function (c) { return c.src && c.src.length; }).map(function (c) { return c.id; }));
+      var ver = cl.filter(function (c) { return c.verdict === 'verified'; });
+      var rogue = ver.filter(function (c) { return !src.has(c.id); }).map(function (c) { return c.id; });
+      r.gate('verified-was-sourced', !rogue.length, (ver.length - rogue.length) + ' verified resolve upstream' + (rogue.length ? '; not sourced upstream: ' + ids(rogue) : ''));
+    }
+    var ev = cl.filter(function (c) { return c.verdict === 'verified' && c.evidence; });
+    if (ev.length) {
+      var num = /(?<![\w.])\d+(?:\.\d+)?/g;
+      var drift = ev.filter(function (c) { var a = new Set(c.text.match(num) || []); return !(c.evidence.match(num) || []).some(function (n) { return a.has(n); }); }).map(function (c) { return c.id; });
+      r.gate('verified-numbers-in-evidence', !drift.length, (ev.length - drift.length) + '/' + ev.length + ' verified claims share a number with their evidence' + (drift.length ? '; drifted: ' + ids(drift) : ''));
+    }
+    var counts = VERDICTS.map(function (v) { return cl.filter(function (c) { return c.verdict === v; }).length; }).join('/');
+    r.gate('summary-matches-rows', p.summary === counts, 'header ' + (p.summary || 'missing') + ' vs rows ' + counts);
+    return [r, { fate: r.ok() ? 'pass' : 'fail', claims: cl }, p.text];
+  };
+  V.evaluation = function (t, up, o) {
+    var r = new Run(), g = JSON.parse(t), L = g.lenses || [], min = (o && o.min_lenses) || 4;
+    r.gate('min-lenses', L.length >= min, L.length + ' lenses (min ' + min + '): ' + L.map(function (l) { return l.name || '?'; }).join(', '));
+    var inc = L.filter(function (l) { return ['pass', 'fail', 'dissent'].indexOf(l.result) < 0 || !(l.reason || '').trim(); }).map(function (l) { return l.name || '?'; });
+    r.gate('lens-result-and-reason', !inc.length, (L.length - inc.length) + '/' + L.length + ' complete' + (inc.length ? '; incomplete: ' + ids(inc) : ''));
+    var dis = L.filter(function (l) { return l.result === 'fail' || l.result === 'dissent'; }).map(function (l) { return l.name || '?'; });
+    r.gate('dissent-floor', dis.length > 0, dis.length ? dis.length + ' dissent: ' + ids(dis) : 'no lens dissented; a gauntlet nothing could fail is not a gauntlet');
+    var v = g.verdict, C = g.conditions || [], fails = L.filter(function (l) { return l.result === 'fail'; }).length;
+    var cons = v === 'fail' || (v === 'conditional pass' && C.length > 0) || (v === 'pass' && !fails && !C.length);
+    r.gate('verdict-follows', ['pass', 'conditional pass', 'fail'].indexOf(v) >= 0 && cons, 'verdict "' + v + '" · ' + fails + ' fail lenses · ' + C.length + ' conditions');
+    if (up) {
+      var known = new Set(up.claims.map(function (c) { return c.id; }));
+      var dang = C.filter(function (c) { return c.claim && !known.has(c.claim); }).map(function (c) { return c.id || '?'; });
+      r.gate('conditions-cite-claims', !dang.length, C.length + ' conditions' + (dang.length ? '; dangling: ' + ids(dang) : ''));
+    }
+    var s = syco(L.map(function (l) { return (l.result || '') + ' ' + (l.reason || ''); }).join(' '), true);
+    r.gate('sycophancy', s.verdict !== 'RETURN', s.verdict + ' · agreement ' + s.agreement + ' · dissent ' + s.dissent);
+    return [r, { fate: r.ok() ? v : 'fail', conditions: C, claims: up ? up.claims : [], syco: s }, ''];
+  };
+  V.synthesis = function (t, up, o) {
+    var r = new Run(), p = parse(t), cl = p.claims;
+    if (up) {
+      var U = {}; up.claims.forEach(function (c) { U[c.id] = c; });
+      var nw = cl.filter(function (c) { return !U[c.id]; }).map(function (c) { return c.id; });
+      r.gate('no-new-claims', !nw.length, (cl.length - nw.length) + '/' + cl.length + ' resolve upstream' + (nw.length ? '; new: ' + ids(nw) : ''));
+      var P = {}; cl.forEach(function (c) { P[c.id] = c; });
+      var open = (up.conditions || []).filter(function (k) { var c = P[k.claim]; return c && (k.action === 'drop' || (k.action === 'degrade' && (!c.render || c.render === 'sharp'))); })
+        .map(function (k) { return (k.id || '?') + ' (' + k.action + ' ' + k.claim + ')'; });
+      r.gate('conditions-honored', !open.length, open.length ? 'open: ' + ids(open) : 'all closed');
+      var sharp = cl.filter(function (c) { return U[c.id] && (U[c.id].verdict === 'gap' || U[c.id].verdict === 'unresolved') && (!c.render || c.render === 'sharp'); }).map(function (c) { return c.id; });
+      r.gate('render-matches-verdict', !sharp.length, sharp.length ? 'gap/unresolved rendered sharp: ' + ids(sharp) : 'earned fidelity holds');
+    }
+    var dashes = p.text.split(String.fromCharCode(8212)).length - 1;
+    r.gate('em-dash-zero', dashes === 0, dashes + ' em-dashes in visible text');
+    if (!(o && o.public)) r.gate('noindex', p.noindex, p.noindex ? 'robots noindex present' : 'missing <meta name=robots content=noindex>');
+    return [r, { fate: r.ok() ? 'ship' : 'hold', claims: cl.filter(function (c) { return !up || up.claims.some(function (u) { return u.id === c.id; }); }) }, p.text];
+  };
+  V.recapitulation = function (t, up) {
+    var r = new Run(), fm = {};
+    t.replace(/^(status|ex_ante|gauntlet)\s*:\s*(.+?)\s*$/gim, function (_, k, v) { fm[k.toLowerCase()] = v; });
+    r.gate('draft-marker', (fm.status || '').toUpperCase() === 'DRAFT', 'status: ' + (fm.status || 'missing'));
+    r.gate('ex-ante-receipt', !!fm.ex_ante, fm.ex_ante ? fm.ex_ante + ' named (the CLI also checks the file exists)' : 'ex_ante: missing', true);
+    r.gate('pre-send-gauntlet', !!fm.gauntlet, fm.gauntlet ? fm.gauntlet + ' named (the CLI also checks the file exists)' : 'gauntlet: missing', true);
+    var cites = (t.match(/\[claim:([\w.-]+)\]/g) || []).map(function (m) { return m.slice(7, -1); });
+    if (up) {
+      var known = new Set(up.claims.map(function (c) { return c.id; }));
+      var rogue = cites.filter(function (c) { return !known.has(c); });
+      r.gate('note-claims-resolve', !rogue.length, (cites.length - rogue.length) + '/' + cites.length + ' resolve to synthesis' + (rogue.length ? '; unknown: ' + ids(rogue) : ''));
+    }
+    var s = syco(t, true);
+    r.gate('sycophancy', s.verdict !== 'RETURN', s.verdict + ' · agreement ' + s.agreement + ' · dissent ' + s.dissent);
+    return [r, { fate: r.ok() ? 'parked' : 'blocked', claims: [], syco: s }, t];
+  };
+  function evaluate(verb, text, up, opts) {
+    var out = V[verb](text, up, opts || {}), r = out[0], c = out[1];
+    var s = c.syco || syco(out[2], false);
+    return { verb: verb, fate: c.fate, ok: r.ok(), failed: r.failed(), gates: r.gates, sycophancy: s, claims: c.claims, conditions: c.conditions };
+  }
+  /* notebook ingest, mirrors arcs_verb_eval_io.claims_from_ipynb */
+  function fromNotebook(json, name) {
+    var nb = JSON.parse(json), cells = nb.cells || [];
+    var j = function (v) { return Array.isArray(v) ? v.join('') : String(v || ''); };
+    var nums = function (t) { var s = new Set(); (t.match(/(?<![\w.])(\d+(?:\.\d+)?)%?/g) || []).forEach(function (m) { m = m.replace('%', ''); s.add(m.indexOf('.') >= 0 ? m.replace(/0+$/, '').replace(/\.$/, '') : m); }); return s; };
+    var code = [];
+    cells.forEach(function (c, i) { if (c.cell_type === 'code') { var o = (c.outputs || []).map(function (x) { return j(x.text) + (x.data ? j(x.data['text/plain']) : ''); }).join('\n'); code.push([i, o]); } });
+    var has = code.some(function (c) { return c[1].trim(); }), claims = [];
+    cells.forEach(function (c, i) {
+      if (c.cell_type !== 'markdown') return;
+      j(c.source).split(/(?<=[.!?])\s+/).forEach(function (s) {
+        s = s.replace(/#/g, ' ').replace(/\s+/g, ' ').trim();
+        var n = nums(s); if (!n.size || s.length < 12) return;
+        var m = code.find(function (cc) { var o = nums(cc[1]); return [].some.call(Array.from(n), function (x) { return o.has(x); }); });
+        var verdict = m ? 'verified' : has ? 'gap' : 'unresolved';
+        claims.push({ id: 'c' + (claims.length + 1), text: s, src: [name + '#cell-' + (m ? m[0] : i)], verdict: verdict, severity: verdict === 'verified' ? 'low' : 'medium', evidence: m ? m[1].slice(0, 200) : '' });
+      });
+    });
+    var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+    var span = function (c, a) { return '  <li><span class="claim" data-id="' + c.id + '" data-src="' + esc(c.src.join(',')) + '"' + (a ? ' data-verdict="' + c.verdict + '" data-severity="' + c.severity + '"' + (c.evidence ? ' data-evidence="' + esc(c.evidence.replace(/\s+/g, ' ').trim()) + '"' : '') : '') + '>' + esc(c.text) + '</span></li>'; };
+    var counts = VERDICTS.map(function (v) { return claims.filter(function (c) { return c.verdict === v; }).length; }).join('/');
+    return { claims: claims, analysis: '<ul>\n' + claims.map(function (c) { return span(c, false); }).join('\n') + '\n</ul>', assessment: '<ul data-summary="' + counts + '">\n' + claims.map(function (c) { return span(c, true); }).join('\n') + '\n</ul>' };
+  }
+  return { VERBS: VERBS, evaluate: evaluate, fromNotebook: fromNotebook };
+})();
+
+var FX = {"examples": {"good": {"analysis": "<html><body>\n<span class=\"claim\" data-id=\"c1\" data-src=\"https://a.example/demo\">Onboarding takes under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-stakes=\"high\" data-src=\"https://a.example/deck,https://b.example/cases\">The deck says 40 customers.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-src=\"https://c.example/trust\">No SOC 2 report was found.<\/span>\n<\/body><\/html>", "assessment": "<html><body><div data-summary=\"1/1/1\">\n<span class=\"claim\" data-id=\"c1\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"unresolved\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "evaluation": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"dissent\", \"reason\": \"ruin path if the 40 figure is wrong\"}, {\"name\": \"Loki\", \"result\": \"dissent\", \"reason\": \"the SOC 2 gap was assumed away in the deck\"}, {\"name\": \"dual bar-raiser\", \"result\": \"pass\", \"reason\": \"product truth holds, proof truth thin\"}], \"verdict\": \"conditional pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "synthesis": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "recapitulation": "status: DRAFT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c3].\n"}, "bad": {"analysis": "<html><body>\n<span class=\"claim\" data-id=\"c1\" data-src=\"https://a.example/demo\">Onboarding takes under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-stakes=\"high\" data-src=\"https://a.example/deck,https://b.example/cases\">The deck says 40 customers.<\/span>\n<span class=\"claim\" data-id=\"c3\">No SOC 2 report was found.<\/span>\n<\/body><\/html>", "assessment": "<html><body><div data-summary=\"2/1/0\">\n<span class=\"claim\" data-id=\"c1\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"unresolved\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "evaluation": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"pass\", \"reason\": \"ruin path if the 40 figure is wrong\"}, {\"name\": \"Loki\", \"result\": \"pass\", \"reason\": \"the SOC 2 gap was assumed away in the deck\"}, {\"name\": \"dual bar-raiser\", \"result\": \"pass\", \"reason\": \"product truth holds, proof truth thin\"}], \"verdict\": \"conditional pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "synthesis": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><span class=\"claim\" data-id=\"c7\">Trusted by 50+ teams.<\/span><\/p>\n<\/body><\/html>", "recapitulation": "status: SENT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c3].\n"}}, "parity": [{"verb": "analysis", "text": "<html><body>\n<span class=\"claim\" data-id=\"c1\" data-src=\"https://a.example/demo\">Onboarding takes under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-stakes=\"high\" data-src=\"https://a.example/deck,https://b.example/cases\">The deck says 40 customers.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-src=\"https://c.example/trust\">No SOC 2 report was found.<\/span>\n<\/body><\/html>", "up": false, "failed": []}, {"verb": "assessment", "text": "<html><body><div data-summary=\"1/1/1\">\n<span class=\"claim\" data-id=\"c1\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"unresolved\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "up": "analysis", "failed": []}, {"verb": "evaluation", "text": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"dissent\", \"reason\": \"ruin path if the 40 figure is wrong\"}, {\"name\": \"Loki\", \"result\": \"dissent\", \"reason\": \"the SOC 2 gap was assumed away in the deck\"}, {\"name\": \"dual bar-raiser\", \"result\": \"pass\", \"reason\": \"product truth holds, proof truth thin\"}], \"verdict\": \"conditional pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "up": "assessment", "failed": []}, {"verb": "synthesis", "text": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": []}, {"verb": "recapitulation", "text": "status: DRAFT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c3].\n", "up": "synthesis", "failed": []}, {"verb": "analysis", "text": "<html><body>\n<span class=\"claim\" data-id=\"c1\" data-src=\"https://a.example/demo\">Onboarding takes under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-stakes=\"high\" data-src=\"https://a.example/deck,https://b.example/cases\">The deck says 40 customers.<\/span>\n<span class=\"claim\" data-id=\"c3\">No SOC 2 report was found.<\/span>\n<\/body><\/html>", "up": null, "failed": ["every-claim-sourced"]}, {"verb": "analysis", "text": "<html><body>\n<span class=\"claim\" data-id=\"c1\" data-src=\"https://a.example/demo\">Onboarding takes under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-stakes=\"high\" data-src=\"https://a.example/deck\">The deck says 40 customers.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-src=\"https://c.example/trust\">No SOC 2 report was found.<\/span>\n<\/body><\/html>", "up": null, "failed": ["high-stakes-two-sources"]}, {"verb": "assessment", "text": "<html><body><div data-summary=\"2/1/0\">\n<span class=\"claim\" data-id=\"c1\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"unresolved\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "up": "analysis", "failed": ["summary-matches-rows"]}, {"verb": "assessment", "text": "<html><body><div data-summary=\"1/1/1\">\n<span class=\"claim\" data-id=\"c1\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"maybe\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "up": "analysis", "failed": ["verdict-and-severity", "summary-matches-rows"]}, {"verb": "assessment", "text": "<html><body><div data-summary=\"1/1/1\">\n<span class=\"claim\" data-id=\"c9\" data-verdict=\"verified\" data-severity=\"low\">Onboarding under 10 minutes.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-verdict=\"gap\" data-severity=\"high\">Deck says 40; case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-verdict=\"unresolved\" data-severity=\"medium\">SOC 2 status unknown.<\/span>\n<\/div><\/body><\/html>", "up": "analysis", "failed": ["verified-was-sourced"]}, {"verb": "evaluation", "text": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"pass\", \"reason\": \"ruin path if the 40 figure is wrong\"}, {\"name\": \"Loki\", \"result\": \"pass\", \"reason\": \"the SOC 2 gap was assumed away in the deck\"}, {\"name\": \"dual bar-raiser\", \"result\": \"pass\", \"reason\": \"product truth holds, proof truth thin\"}], \"verdict\": \"conditional pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "up": "assessment", "failed": ["dissent-floor"]}, {"verb": "evaluation", "text": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"dissent\", \"reason\": \"ruin path if the 40 figure is wrong\"}], \"verdict\": \"conditional pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "up": "assessment", "failed": ["min-lenses"]}, {"verb": "evaluation", "text": "{\"lenses\": [{\"name\": \"LAB\", \"result\": \"pass\", \"reason\": \"claims trace to records\"}, {\"name\": \"BAR\", \"result\": \"dissent\", \"reason\": \"ruin path if the 40 figure is wrong\"}, {\"name\": \"Loki\", \"result\": \"dissent\", \"reason\": \"the SOC 2 gap was assumed away in the deck\"}, {\"name\": \"dual bar-raiser\", \"result\": \"pass\", \"reason\": \"product truth holds, proof truth thin\"}], \"verdict\": \"pass\", \"conditions\": [{\"id\": \"k1\", \"claim\": \"c2\", \"action\": \"degrade\", \"text\": \"degrade the 40 figure\"}]}", "up": "assessment", "failed": ["verdict-follows"]}, {"verb": "evaluation", "text": "{\"verdict\": \"pass\", \"conditions\": [], \"lenses\": [{\"name\": \"A\", \"result\": \"pass\", \"reason\": \"verified, confirmed, shipped, green, done\"}, {\"name\": \"B\", \"result\": \"pass\", \"reason\": \"verified, confirmed, shipped, green, done\"}, {\"name\": \"C\", \"result\": \"pass\", \"reason\": \"verified, confirmed, shipped, green, done\"}, {\"name\": \"D\", \"result\": \"pass\", \"reason\": \"verified, confirmed, shipped, green, done\"}]}", "up": "assessment", "failed": ["dissent-floor", "sycophancy"]}, {"verb": "synthesis", "text": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><span class=\"claim\" data-id=\"c7\">Trusted by 50+ teams.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": ["no-new-claims"]}, {"verb": "synthesis", "text": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"sharp\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": ["conditions-honored", "render-matches-verdict"]}, {"verb": "synthesis", "text": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": ["render-matches-verdict"]}, {"verb": "synthesis", "text": "<html><head><meta name=\"robots\" content=\"noindex\"><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested \u2014 the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": ["em-dash-zero"]}, {"verb": "synthesis", "text": "<html><head><\/head><body>\n<p><span class=\"claim\" data-id=\"c1\" data-render=\"sharp\">Setup is quick: under ten minutes on the demo.<\/span>\n<span class=\"claim\" data-id=\"c2\" data-render=\"degraded\">Customer count is contested: the deck says 40, the case page lists 12.<\/span>\n<span class=\"claim\" data-id=\"c3\" data-render=\"grain\">SOC 2 status could not be confirmed.<\/span><\/p>\n<\/body><\/html>", "up": "evaluation", "failed": ["noindex"]}, {"verb": "recapitulation", "text": "status: SENT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c3].\n", "up": "synthesis", "failed": ["draft-marker"]}, {"verb": "recapitulation", "text": "status: DRAFT\nex_ante: missing.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c3].\n", "up": "synthesis", "failed": ["ex-ante-receipt"]}, {"verb": "recapitulation", "text": "status: DRAFT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nThanks for the time today. Setup looked quick [claim:c1]. One thing I could not square:\nthe customer count [claim:c2]. Could you point me to the source for 40? SOC 2 is still\nunconfirmed on my side [claim:c8].\n", "up": "synthesis", "failed": ["note-claims-resolve"]}, {"verb": "recapitulation", "text": "status: DRAFT\nex_ante: ex-ante.json\ngauntlet: gauntlet.json\n\nAll verified, confirmed, shipped, green and done. Agreed.\n", "up": "synthesis", "failed": ["sycophancy"]}], "prints": {"analysis": {"claims": [{"id": "c1", "text": "Onboarding takes under 10 minutes.", "src": ["https://a.example/demo"], "stakes": "normal"}, {"id": "c2", "text": "The deck says 40 customers.", "src": ["https://a.example/deck", "https://b.example/cases"], "stakes": "high"}, {"id": "c3", "text": "No SOC 2 report was found.", "src": ["https://c.example/trust"], "stakes": "normal"}], "conditions": []}, "assessment": {"claims": [{"id": "c1", "text": "Onboarding under 10 minutes.", "src": [], "verdict": "verified", "severity": "low"}, {"id": "c2", "text": "Deck says 40; case page lists 12.", "src": [], "verdict": "gap", "severity": "high"}, {"id": "c3", "text": "SOC 2 status unknown.", "src": [], "verdict": "unresolved", "severity": "medium"}], "conditions": []}, "evaluation": {"claims": [{"id": "c1", "text": "Onboarding under 10 minutes.", "src": [], "verdict": "verified", "severity": "low"}, {"id": "c2", "text": "Deck says 40; case page lists 12.", "src": [], "verdict": "gap", "severity": "high"}, {"id": "c3", "text": "SOC 2 status unknown.", "src": [], "verdict": "unresolved", "severity": "medium"}], "conditions": [{"id": "k1", "claim": "c2", "action": "degrade", "text": "degrade the 40 figure"}]}, "synthesis": {"claims": [{"id": "c1", "text": "Setup is quick: under ten minutes on the demo."}, {"id": "c2", "text": "Customer count is contested: the deck says 40, the case page lists 12."}, {"id": "c3", "text": "SOC 2 status could not be confirmed."}], "conditions": []}, "recapitulation": {"claims": [], "conditions": []}}};
+(function () {
+  var LABEL = { analysis: 'Your work (HTML with marked facts)', assessment: 'Your checked facts (HTML with verdicts)', evaluation: 'Your reviews (JSON)', synthesis: 'Your short version (HTML)', recapitulation: 'Your draft note (text)' };
+  var NAMES = { analysis: 'Find the facts', assessment: 'Check the facts', evaluation: 'Poke holes', synthesis: 'Make it short', recapitulation: 'Write the note' };
+  var PLAIN = { 'has-claims': 'Found facts to check', 'every-claim-sourced': 'Every fact says where it came from', 'high-stakes-two-sources': 'Big claims have two separate sources',
+    'verdict-and-severity': 'Every fact has a verdict and a size', 'verified-was-sourced': 'A fact marked true was found in step 1', 'verified-numbers-in-evidence': 'True facts match their source numbers',
+    'summary-matches-rows': 'The totals match the list', 'min-lenses': 'Enough reviewers ran', 'lens-result-and-reason': 'Each reviewer gave a reason', 'dissent-floor': 'Someone actually disagreed',
+    'verdict-follows': 'The result follows from the reviews', 'conditions-cite-claims': 'Required fixes point at real facts', sycophancy: 'Not too agreeable', 'no-new-claims': 'No new facts snuck in',
+    'conditions-honored': 'Required fixes were made', 'render-matches-verdict': 'Shaky facts look shaky', 'em-dash-zero': 'No long dashes', noindex: 'Hidden from search until ready',
+    'draft-marker': 'Still marked as a draft', 'ex-ante-receipt': 'Our prediction was written down first', 'pre-send-gauntlet': 'The pre-send review is on file', 'note-claims-resolve': 'The note only says what the short version said' };
+  var state = { verb: null, text: {}, prints: {} };
+  var tabs = document.querySelectorAll('#play-tabs [role=tab]'), ta = document.getElementById('play-text'), out = document.getElementById('play-out');
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function select(v) {
+    if (state.verb) state.text[state.verb] = ta.value;
+    state.verb = v;
+    tabs.forEach(function (t) { var on = t.getAttribute('data-verb') === v; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+    document.getElementById('play-label').textContent = LABEL[v];
+    document.getElementById('play-nb-wrap').hidden = v !== 'analysis';
+    ta.value = state.text[v] != null ? state.text[v] : FX.examples.good[v];
+    out.innerHTML = '<p class="empty">Press <strong>Check it</strong> to see the stamp.</p>';
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t.getAttribute('data-verb')); });
+    t.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var j = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length; tabs[j].click(); tabs[j].focus(); } });
+  });
+  document.getElementById('play-good').onclick = function () { ta.value = FX.examples.good[state.verb]; };
+  document.getElementById('play-bad').onclick = function () { ta.value = FX.examples.bad[state.verb]; };
+  document.getElementById('play-nb').onchange = function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var r = AVE.fromNotebook(rd.result, f.name);
+        if (!r.claims.length) { out.innerHTML = '<p class="err">No sentences with numbers were found in this notebook\'s text cells, so there is nothing to check.</p>'; return; }
+        state.text.assessment = r.assessment; ta.value = r.analysis;
+        out.innerHTML = '<p class="res-note">Found ' + r.claims.length + ' facts in ' + esc(f.name) + '. Step 2 is filled in too. Press <strong>Check it</strong>.</p>';
+      } catch (err) { out.innerHTML = '<p class="err">That file is not a readable notebook: ' + esc(err.message) + '</p>'; }
+    };
+    rd.readAsText(f);
+  };
+  function prevVerb(v) { var i = AVE.VERBS.indexOf(v); return i > 0 ? AVE.VERBS[i - 1] : null; }
+  document.getElementById('play-run').onclick = function () {
+    var v = state.verb, pv = prevVerb(v), up = pv ? state.prints[pv] || null : null, rep;
+    try { rep = AVE.evaluate(v, ta.value, up); }
+    catch (err) { out.innerHTML = '<p class="err">Could not read this as ' + (v === 'evaluation' ? 'JSON' : 'input') + ': ' + esc(err.message) + '. Try "Load example" to see the expected shape.</p>'; return; }
+    state.prints[v] = rep; state.text[v] = ta.value;
+    var html = '<div class="res-head"><strong>' + NAMES[v] + '</strong><span class="big ' + (rep.ok ? 'go' : 'stop') + '">' + (rep.ok ? (v === 'recapitulation' ? 'Ready for a person' : 'Go') : 'Stop') + '</span></div>';
+    html += '<ul class="gates">' + rep.gates.map(function (g) {
+      return '<li class="g ' + (g.ok ? 'g-pass' : 'g-fail') + (g.cliOnly ? ' g-cli' : '') + '"><span class="dot" aria-hidden="true"></span><span class="gt">' + esc(PLAIN[g.id] || g.id) + '</span><span class="ge">' + esc(g.evidence) + '</span><span class="sr">' + (g.ok ? 'passed' : 'failed') + '</span></li>';
+    }).join('') + '</ul>';
+    var notes = [];
+    if (pv && !up) notes.push('Checked on its own. Check step ' + (AVE.VERBS.indexOf(pv) + 1) + ' first and this step will also test what it inherited.');
+    if (v === 'synthesis') notes.push('The writing-filler check runs in the command-line tool only.');
+    if (rep.gates.some(function (g) { return g.cliOnly; })) notes.push('Hollow dots: the command-line tool also confirms those files exist.');
+    html += notes.map(function (n) { return '<p class="res-note">' + n + '</p>'; }).join('');
+    out.innerHTML = html;
+    var card = document.querySelector('.step a[href="#' + v + '"]');
+    if (card) {
+      var li = card.parentNode, st = card.querySelector('.stamp');
+      li.classList.remove('s-go', 's-stop', 's-wait');
+      li.classList.add(rep.ok ? (v === 'recapitulation' ? 's-wait' : 's-go') : 's-stop');
+      st.textContent = rep.ok ? (v === 'recapitulation' ? 'Ready for a person' : 'Go') : 'Stop';
+    }
+  };
+  select('analysis');
+})();
+
+document.querySelectorAll('[role=tablist]:not(#play-tabs)').forEach(function (list) {
+  var tabs = list.querySelectorAll('[role=tab]');
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { pick(i); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        var j = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        pick(j); tabs[j].focus();
+      }
+    });
+  });
+  function pick(k) {
+    tabs.forEach(function (o, i) {
+      o.setAttribute('aria-selected', i === k);
+      o.tabIndex = i === k ? 0 : -1;
+      document.getElementById(o.getAttribute('aria-controls')).hidden = i !== k;
+    });
+  }
+  pick(0);
+});
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var code = b.parentNode.querySelector('code');
+    var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(code);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      b.textContent = 'Selected: press Cmd+C';
+    };
+    try { navigator.clipboard.writeText(code.textContent).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+document.querySelectorAll('.step a').forEach(function (a) {
+  a.addEventListener('click', function () {
+    var d = document.querySelector(a.getAttribute('href'));
+    if (d && d.tagName === 'DETAILS') d.open = true;
+  });
+});
+</script>
