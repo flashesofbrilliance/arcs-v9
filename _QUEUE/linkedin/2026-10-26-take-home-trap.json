@@ -1,0 +1,115 @@
+{
+ "id": "2026-10-26-take-home-trap",
+ "show": "Notes from the Trenches",
+ "source": "public/blog-nftt-take-home-trap.html",
+ "index_url": "https://good.arcs.care/blog/nftt",
+ "thesis": "Read a stranger's call for animacy first, then provenance, then the ask to execute: a fake recruiter has the shape of a person and a push to open code.",
+ "aeo": {
+  "question": "How do you spot a fake recruiter call that is really a malware lure?",
+  "answer": "A fake recruiter call is a job interview run by an attacker whose real goal is to get you to open a rigged code repository. The first tell is animacy: is anyone home behind the voice. Then check provenance, and whether they push you to open or run code on the call.",
+  "entities": [
+   "fake recruiter",
+   "Contagious Interview",
+   "read-only scanner"
+  ],
+  "sources": [
+   "https://good.arcs.care/blog/nftt/take-home-trap"
+  ]
+ },
+ "evidence": [],
+ "cuts": [
+  {
+   "altitude": "exec",
+   "format": "image",
+   "date": "2026-10-26",
+   "status": "draft",
+   "card_line": "Two recruiters called an hour apart. One of them had no one home.",
+   "caption": "Same rainy Wednesday, same video window, two recruiter calls. One was alive. The other wanted me to open a code repository on the call. Full story Friday.",
+   "first_comment": "The essay: https://good.arcs.care/blog/nftt/take-home-trap",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "strategic",
+   "format": "poll",
+   "date": "2026-10-27",
+   "status": "draft",
+   "poll": {
+    "question": "A recruiter asks you to clone and open a take-home repo during the call. What do you do?",
+    "options": [
+     "Open it on the call",
+     "Review it later, safely",
+     "Decline outright",
+     "Ask who wrote it"
+    ]
+   },
+   "caption": "Asking because it happened to me. The caller said I did not need to run the code, only open it. That sentence was the trap. Results feed Wednesday's carousel.",
+   "expected": {
+    "impressions_low": 1000,
+    "impressions_high": 4000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "operational",
+   "format": "carousel",
+   "date": "2026-10-28",
+   "status": "draft",
+   "slides": [
+    "Two recruiters called an hour apart. One was a malware lure. How to tell which is which.",
+    "The first call: static, a hello loop that would not resolve, camera off, and a second voice prompting him underneath.",
+    "The ask: clone the take-home repo and open it in your editor. You do not need to run it, only review it.",
+    "Why that is the trap: in an editor that trusts the folder, opening it is enough. A task can fire on load.",
+    "The second call: interruptions, a family digression, a detail she had to look up. She asked me to run nothing.",
+    "Axis 1. Animacy. Is anyone home? It fires first and it is felt. A prompt to verify, never a verdict.",
+    "Axis 2. Provenance. Offered and checkable, or hidden behind a vague company and a dark camera?",
+    "Axis 3. Execution. Asked to run nothing, or pushed to open code now, on the call, under guidance?",
+    "Protect your watch, your wallet, your keys: your time, your money, your access.",
+    "Part of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt"
+   ],
+   "expected": {
+    "impressions_low": 2000,
+    "impressions_high": 8000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "tactical",
+   "format": "post",
+   "date": "2026-10-29",
+   "status": "draft",
+   "text": "Two recruiters called me an hour apart on the same Wednesday. One of them had no one home.\n\nThe first call opened in a hello loop that would not resolve. Camera off. He could not take an unscripted turn, and a second voice kept surfacing underneath to prompt him. Then the ask: clone the take-home repo and open it in your editor. You do not need to run it.\n\nThat last sentence is the trap. In an editor that trusts the folder, opening a project can be enough to fire a task on load. I looked at the repo page without cloning it, saw a single squashed commit, and declined.\n\nAn hour later the second recruiter interrupted me, let me digress, looked up a detail she had forgotten, named her client, and asked me to run nothing.\n\nThe pair gave me three axes, in order:\nAnimacy: is anyone home?\nProvenance: is it offered and checkable?\nExecution: are they pushing you to open code now?\n\nThe first one is a feeling, and a feeling is not a verdict. Honest people are nervous and on bad lines. It is the reason to check the other two.\n\nI left the first call ten minutes early. I stayed on the second ten minutes late. You already carry that instrument.\n\nWhat is the tell you trust most on a call with a stranger?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 1500,
+    "impressions_high": 6000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  },
+  {
+   "altitude": "surgical",
+   "format": "article",
+   "date": "2026-10-30",
+   "status": "draft",
+   "title": "With Life, and Without It: How to Tell a Fake Recruiter Call from a Real One",
+   "text": "A fake recruiter call is a job interview run by an attacker whose real goal is to get you to open a rigged code repository. The first tell is animacy: is anyone home behind the voice. Then check provenance, and whether they push you to open or run code on the call.\n\nTwo recruiters called me an hour apart on the same rainy Wednesday. One of them had no one behind it. This is how I knew, and what I did with the knowing.\n\nFull essay: https://good.arcs.care/blog/nftt/take-home-trap\n\n## What did the fake recruiter call sound like?\n\nIt opened in static. Not the ordinary fumbling of a bad connection, but a loop that would not resolve. Can you hear me. Hello. Hello. I answered clearly, three times, and the question came back unchanged, as if my voice were arriving somewhere that could not hand it on in time. Turn off your camera, he said, it is better. His own was already dark.\n\nWhen I offered a small human aside, the sentence broke against him. He could not take an unscripted turn. When I asked what part of France, there was a stall, a retrieval, and then the recited answer. Every so often a second voice surfaced underneath to prompt him.\n\nI want to be precise about what I felt. It was not that he was foreign, or nervous, or reading from a script. Many honest people are all three. It was that there was no one there. The words had the shape of a person and none of the pressure of one.\n\n## What did the caller actually want?\n\nIt wanted me inside a repository. Clone the project, open it in your editor. I said I would run a security review first. No, it said, for security you do not need to run the code. Only review it in your editor.\n\nThat sentence is the tell inside the tell. It is true, in the narrow way traps are true. On an editor set to trust the folder, merely opening the project is enough: a task rigged to fire on load runs before you have decided anything. Keep your editor set to distrust unknown folders and the auto-run never fires, which is the protection the caller was talking me out of. Glancing at the repository page, without cloning it, I saw a single squashed commit. No history. I declined and left the call.\n\nThe pattern matches a campaign security researchers track as Contagious Interview: a trojanized assessment repository that fires on folder-open and on install. The repository was never cloned, opened, or installed. No compromise. The campaign reporting and the defanged indicators are in the companion dossier: https://good.arcs.care/blog/nftt/take-home-trap/dossier\n\n## How was the second call different?\n\nAn hour later a second recruiter called about a different role, and within ten seconds the contrast was total. We interrupted each other and neither of us minded. I digressed about a family thing and she made room for it. She admitted a detail was escaping her and went to look it up. She named her client before I asked, offered numbers I could check, and never asked me to run anything at all. She is a real person doing honest work, so everything identifying about her stays withheld.\n\n## How do you read a stranger's call?\n\nThe pair taught me three axes, and they fire in order.\n\n- Animacy. Is anyone home: living turn-taking, repair, friction, versus a relay with no one behind it. It fires first and it is felt in the body. It is a prompt to verify, never a verdict on a stranger.\n- Provenance. Offered and checkable, versus hidden: a vague company, camera off, code it will not claim.\n- Execution. Asked to run nothing, versus clone it now, you do not need to run it.\n\nBe careful with the first axis. Plenty of honest people are nervous, on a bad line, speaking a second language, or private with their camera. The absence I felt was a reason to slow down and check the other two. It was the hidden provenance and the push to execute that turned a feeling into a finding.\n\n## What did I build afterward?\n\nThe felt thing became a written thing, and the written thing became a tool: a read-only scanner that inspects a hostile repository without ever opening it, installing it, or running it. It checks for the triggers this campaign uses, including folder-open tasks and install hooks, and it fails a build on any hit. A bad morning became a small public good.\n\n## What is the short version?\n\nProtect your watch, your wallet, and your keys. Your watch is your time and attention. Your wallet is your money. Your keys are your access. The caller was reaching for all three at once, dressed as an opportunity.\n\nThe last tell was in the clock. I left the first call ten minutes early, because I could not get out of the room fast enough. I stayed on the second ten minutes late, because I did not want to go. The hollow ones you cannot leave soon enough. The living ones you lose track of the time.\n\nWhen a stranger asks you to open something on a call, who is actually home?\n\nPart of Notes from the Trenches, field notes with the receipts included. Full index: good.arcs.care/blog/nftt",
+   "expected": {
+    "impressions_low": 500,
+    "impressions_high": 3000,
+    "registered_at": "2026-09-30",
+    "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
+    "close_after_days": 7
+   }
+  }
+ ]
+}
