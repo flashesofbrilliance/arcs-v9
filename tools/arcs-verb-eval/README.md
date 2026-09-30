@@ -1,6 +1,8 @@
 # arcs-verb-eval
 
-Five small evals, one per stage of a research-to-message arc. Each stage produces an artifact, the artifact goes through a gate, and the gate assigns it a fate. If a stage doesn't produce anything, it happened only in conversation. If an artifact skips its gate, it's just decoration.
+Check it before you say it: five evals, one per step between an idea and a message, each ending in a go or stop stamp.
+
+Each stage produces an artifact, the artifact goes through a gate, and the gate assigns it a fate. If a stage doesn't produce anything, it happened only in conversation. If an artifact skips its gate, it's just decoration.
 
 | Tool | Checks | Fates |
 |---|---|---|
@@ -68,6 +70,28 @@ Settings are applied in this order, lowest to highest precedence:
 - **Note:** front matter of `status: DRAFT`, `ex_ante: <path>` and `gauntlet: <path>`, with claims cited inline as `[claim:c1]`.
 
 Working examples of all of these are in `sample/`.
+
+## Pass floors (the rubric becomes a gate)
+
+Once a **person** has scored every rubric row, each step must clear a floor, the same idea as slop-gate's ship bar: the total must reach the step's minimum, and no must-pass row may be 0. Fail it and the step stops (`held`, `fail`, `hold` or `blocked`, depending on the step).
+
+| Step | Floor | Must-pass rows |
+|---|---|---|
+| Analysis | 5 of 8 | coverage, primary |
+| Assessment | 6 of 8 | severity-calibrated, gaps-plain |
+| Evaluation | 6 of 8 | dissent-real, conditions-concrete |
+| Synthesis | 7 of 10 | A-word, D-specificity |
+| Recapitulation | 6 of 8 | release-honest, ask-concrete |
+
+Until every row has a person's score, the floor is `pending` and blocks nothing. Scores from `--judge` (Claude) never trip the floor; they produce an advisory reading only, so an AI can never change go or stop. Override per step in config: `{"synthesis": {"floor": {"min_total": 8}}}`.
+
+## Fact-sourcing layer (reuses `scripts/provenance_lint.py`)
+
+At Analysis and Synthesis, every money, percent or "N+" figure must match a pattern in an evidence ledger (`{"pattern": "...", "source": "..."}` rows), found beside the artifact or passed with `--metrics-ledger`. With no such ledger the report says "not enrolled" instead of passing silently. A beside-the-file `evidence.jsonl` of `{"source": url}` rows is Analysis's source list, not a metrics ledger, and is recognised as such.
+
+## Output schema
+
+Every step report matches `schema/report.schema.json`. Check a saved one with `./arcs-verb-eval validate report.json`.
 
 ## Anti-sycophancy
 

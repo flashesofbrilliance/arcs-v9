@@ -100,7 +100,7 @@ def judge(rep: dict, artifact_text: str, client=None, model: str = DEFAULT_MODEL
                 call["outcome"] = "cut off"
             else:
                 data = json.loads(next(b.text for b in resp.content if b.type == "text"))
-                row["score"], row["judge"], row["reason"] = int(data["score"]), call["served_by"], data["reason"]
+                row["score"], row["judge"], row["reason"], row["by"] = int(data["score"]), call["served_by"], data["reason"], "model"
                 call["outcome"], call["score"] = "scored", row["score"]
         except Exception as e:  # classify, never let a judge failure touch the fate
             if sdk is not None and isinstance(e, sdk.AuthenticationError):
@@ -117,6 +117,8 @@ def judge(rep: dict, artifact_text: str, client=None, model: str = DEFAULT_MODEL
                 call["outcome"] = f"error: {type(e).__name__}: {str(e)[:120]}"
         calls.append(call)
     out["judge_calls"] = calls
+    import arcs_verb_eval as _core
+    out["floor_advisory"] = _core.rubric_floor(out["verb"], out["rubric"], by="any")  # never gates
     # rewrite the judge lane of the trace with what actually happened
     by_row = {c["row"]: c for c in calls}
     for ev in out["trace"]:

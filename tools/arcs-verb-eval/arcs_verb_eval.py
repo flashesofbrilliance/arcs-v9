@@ -183,6 +183,33 @@ class Run:
         return [g["id"] for g in self.gates if not g["ok"]]
 
 
+# ---- pass floors (slop-gate style): the rubric becomes a gate once a PERSON has scored it ----
+# A step fails its floor if the person-scored total is under min_total, or any must_pass row is 0.
+# Rows scored by a model (--judge) never trip the floor; they only produce an advisory reading,
+# so an AI can never change go/stop. Override per verb in config: {"<verb>": {"floor": {...}}}.
+FLOORS = {
+    "analysis":       {"min_total": 5, "must_pass": ["coverage", "primary"]},
+    "assessment":     {"min_total": 6, "must_pass": ["severity-calibrated", "gaps-plain"]},
+    "evaluation":     {"min_total": 6, "must_pass": ["dissent-real", "conditions-concrete"]},
+    "synthesis":      {"min_total": 7, "must_pass": ["A-word", "D-specificity"]},
+    "recapitulation": {"min_total": 6, "must_pass": ["release-honest", "ask-concrete"]},
+}
+FLOOR_FAIL_FATE = {"analysis": "held", "assessment": "fail", "evaluation": "fail", "synthesis": "hold", "recapitulation": "blocked"}
+
+
+def rubric_floor(verb: str, rubric: list, spec: dict | None = None, by: str = "person") -> dict:
+    spec = {**FLOORS[verb], **(spec or {})}
+    rows = rubric
+    counted = [r for r in rows if r["score"] is not None and (by == "any" or r.get("by", "person") == by)]
+    out = {"min_total": spec["min_total"], "max_total": 2 * len(rows), "must_pass": spec["must_pass"]}
+    if len(counted) < len(rows):
+        return {**out, "status": "pending", "scored": len(counted), "rows": len(rows)}
+    total = sum(r["score"] for r in rows)
+    zeros = [r["row"] for r in rows if r["row"] in spec["must_pass"] and r["score"] == 0]
+    ok = total >= spec["min_total"] and not zeros
+    return {**out, "status": "pass" if ok else "fail", "total": total, "zeros": zeros}
+
+
 def apply_scores(run: Run, scores: dict | None):
     if not scores:
         return
@@ -191,11 +218,11 @@ def apply_scores(run: Run, scores: dict | None):
             v = scores[r["row"]]
             if v not in (0, 1, 2):
                 raise SystemExit(f"score for {r['row']} must be 0, 1 or 2, got {v!r}")
-            r["score"], r["judge"] = v, scores.get("_judge", "human")
+            r["score"], r["judge"], r["by"] = v, scores.get("_judge", "human"), "person"
 
 
 # ---- the five verbs --------------------------------------------------------------------
-def analysis(text: str, ledger: set | None = None, **_) -> tuple[Run, dict]:
+def analysis(text: str, ledger: set | None = None, artifact_path=None, metrics_ledger=None, **_) -> tuple[Run, dict]:
     run = Run("analysis")
     p = parse_html(text)
     cl = p.claims
@@ -207,13 +234,14 @@ def analysis(text: str, ledger: set | None = None, **_) -> tuple[Run, dict]:
     if ledger is not None and ledger:
         orphan = sorted({s for c in cl for s in c["src"] if s not in ledger})
         run.gate("sources-in-ledger", not orphan, f"{len(orphan)} orphan" + (f": {', '.join(orphan[:5])}" if orphan else ""))
+    note = provenance_layer(run, text, artifact_path, metrics_ledger)
     hosts = {host(s) for c in cl for s in c["src"]}
     run.row("coverage", "Coverage: the obvious records were pulled", f"{len(hosts)} source hosts")
     run.row("primary", "Primary source over a summary of it")
     run.row("open-question", "The question stays open; no conclusion slipped in")
     run.row("anomalies", "Anomalies logged, not dropped")
     fate = "sourced" if run.ok else "unsourced"
-    return run, {"fate": fate, "claims": [{k: c[k] for k in ("id", "text", "src", "stakes")} for c in cl]}
+    return run, {"fate": fate, "notes": [note] if note else [], "claims": [{k: c[k] for k in ("id", "text", "src", "stakes")} for c in cl]}
 
 
 def assessment(text: str, upstream: dict | None = None, **_) -> tuple[Run, dict]:
@@ -274,7 +302,7 @@ def evaluation(text: str, upstream: dict | None = None, min_lenses: int = MIN_LE
     return run, {"fate": fate, "verdict": verdict, "conditions": conds, "claims": carried, "_syc": syc}
 
 
-def synthesis(text: str, upstream: dict | None = None, public: bool = False, slop: bool = True, slop_lint: str | None = None, slop_args: list | None = None, **_) -> tuple[Run, dict]:
+def synthesis(text: str, upstream: dict | None = None, public: bool = False, slop: bool = True, slop_lint: str | None = None, slop_args: list | None = None, artifact_path=None, metrics_ledger=None, **_) -> tuple[Run, dict]:
     run = Run("synthesis")
     p = parse_html(text)
     cl = p.claims
@@ -305,6 +333,7 @@ def synthesis(text: str, upstream: dict | None = None, public: bool = False, slo
             Path(fh.name).unlink(missing_ok=True)
             tail = (r.stdout.strip().splitlines() or ["clean"])[-1][:160]
             run.gate("slop-lint", r.returncode == 0, tail)
+    note = provenance_layer(run, text, artifact_path, metrics_ledger)
     words_out = len(visible_text(text).split())
     run.row("A-word", "Slop-free rubric A: word level")
     run.row("B-structure", "Slop-free rubric B: structure")
@@ -313,7 +342,7 @@ def synthesis(text: str, upstream: dict | None = None, public: bool = False, slo
     run.row("compression", "Compression holds near 1:5", f"{words_out} words out")
     fate = "ship" if run.ok else "hold"
     carried = [c for c in cl if c["id"] in up_claims] if upstream is not None else cl
-    return run, {"fate": fate, "claims": [{"id": c["id"], "text": c["text"]} for c in carried]}
+    return run, {"fate": fate, "notes": [note] if note else [], "claims": [{"id": c["id"], "text": c["text"]} for c in carried]}
 
 
 FM_RE = re.compile(r"^(status|ex_ante|gauntlet)\s*:\s*(.+?)\s*$", re.M | re.I)
@@ -344,6 +373,34 @@ def recapitulation(text: str, upstream: dict | None = None, base: Path | None = 
     return run, {"fate": fate, "claims_cited": cites, "_syc": syc}
 
 
+def provenance_layer(run: Run, text: str, artifact_path, metrics_ledger=None) -> str | None:
+    """Reuse scripts/provenance_lint.py: every money/percent/N+ metric must match an evidence.jsonl
+    pattern. Adds a gate only when the artifact is enrolled (a sibling evidence.jsonl, or
+    --metrics-ledger); otherwise returns a note, because a check that always passes is theater."""
+    if not artifact_path:
+        return None
+    lint = find_repo_script("provenance_lint.py")
+    if not lint:
+        return "provenance layer unavailable: scripts/provenance_lint.py not found"
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("provenance_lint", lint)
+    pl = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(pl)
+    ledger = pl.find_ledger(str(artifact_path), metrics_ledger)
+    if ledger:
+        rows = [json.loads(l) for l in Path(ledger).read_text().splitlines() if l.strip()]
+        if rows and not all("pattern" in r for r in rows):
+            # same filename, different job: {"source": url} rows are Analysis's source list
+            # (--ledger), not provenance_lint's {"pattern": regex} metrics ledger
+            return (f"provenance: {Path(ledger).name} here is a source list, not a metrics ledger "
+                    "(no \"pattern\" rows); numbers unchecked. Pass --metrics-ledger to enrol.")
+    ok, r = pl.report(str(artifact_path), pl.strip_to_text(text), ledger)
+    if not r.get("enrolled"):
+        return f"provenance: not enrolled ({r.get('note', 'no evidence.jsonl')}); numbers unchecked"
+    run.gate("provenance", ok, f"{r.get('metrics_found', 0)} metric(s)" + ("" if ok else "; uncovered: " + ", ".join(r.get("unverified", []))))
+    return None
+
+
 VERB_FN = {"analysis": analysis, "assessment": assessment, "evaluation": evaluation,
            "synthesis": synthesis, "recapitulation": recapitulation}
 
@@ -360,19 +417,27 @@ def evaluate(verb: str, text: str, upstream: dict | None = None, scores: dict | 
     if verb not in VERB_FN:
         raise ValueError(f"unknown verb {verb!r}; one of {', '.join(VERBS)}")
     skip = set(opts.pop("skip_gates", None) or [])
+    floor_spec = opts.pop("floor", None)
     run, carry = VERB_FN[verb](text, upstream=upstream, **opts)
+    apply_scores(run, scores)
+    floor = rubric_floor(verb, run.rubric, floor_spec)
+    if floor["status"] != "pending":
+        why = (f"person-scored {floor['total']}/{floor['max_total']}, floor {floor['min_total']}"
+               + (f"; must-pass rows at 0: {', '.join(floor['zeros'])}" if floor["zeros"] else ""))
+        run.gate("rubric-floor", floor["status"] == "pass", why)
+        if floor["status"] == "fail":
+            carry["fate"] = FLOOR_FAIL_FATE[verb]
     for g in run.gates:
         if g["id"] in skip:
             g.update(ok=True, skipped=True, evidence="SKIPPED by config: " + g["evidence"])
     if skip and carry.get("fate") in ("unsourced", "fail", "hold", "blocked") and run.ok:
         carry["fate"] = {"analysis": "sourced", "assessment": "pass", "synthesis": "ship",
                          "recapitulation": "parked", "evaluation": carry.get("verdict")}.get(verb, carry["fate"])
-    apply_scores(run, scores)
     syc = carry.pop("_syc", None) or sycophancy(visible_text(text), blocking=False)
     out = {"verb": verb, "tool": f"{verb.capitalize()} by ARCS", "fate": carry.pop("fate"),
            "ok": run.ok, "failed": run.failed(), "artifact": digest(text),
            "upstream": (upstream or {}).get("artifact"), "gates": run.gates,
-           "rubric": run.rubric, "sycophancy": syc}
+           "rubric": run.rubric, "floor": floor, "sycophancy": syc}
     out.update(carry)
     out["trace"] = trace_events(out)
     return out
@@ -419,6 +484,35 @@ def write_trace(rep: dict, dest: str | None):
             fh.write(lines)
 
 
+# ---- schema: a small stdlib validator for schema/report.schema.json ----------------------
+_TYPES = {"object": dict, "array": list, "string": str, "boolean": bool, "number": (int, float), "integer": int, "null": type(None)}
+
+
+def validate(doc, schema=None, path="$") -> list[str]:
+    """Checks type, required, properties, items and enum. Enough for our own schema; not a full
+    JSON Schema implementation. Returns a list of problems (empty means valid)."""
+    if schema is None:
+        schema = json.loads((Path(__file__).resolve().parent / "schema" / "report.schema.json").read_text())
+    errs = []
+    t = schema.get("type")
+    if t:
+        ts = t if isinstance(t, list) else [t]
+        ok = any(isinstance(doc, _TYPES[x]) and not (x in ("integer", "number") and isinstance(doc, bool)) for x in ts)
+        if not ok:
+            return [f"{path}: expected {t}, got {type(doc).__name__}"]
+    if "enum" in schema and doc not in schema["enum"]:
+        errs.append(f"{path}: {doc!r} not in {schema['enum']}")
+    if isinstance(doc, dict):
+        errs += [f"{path}: missing {k}" for k in schema.get("required", []) if k not in doc]
+        for k, sub in schema.get("properties", {}).items():
+            if k in doc:
+                errs += validate(doc[k], sub, f"{path}.{k}")
+    if isinstance(doc, list) and "items" in schema:
+        for i, x in enumerate(doc):
+            errs += validate(x, schema["items"], f"{path}[{i}]")
+    return errs
+
+
 # ---- rendering -------------------------------------------------------------------------
 def human(rep: dict) -> str:
     lines = [f"{rep['tool']}  ->  fate: {rep['fate'].upper()}", ""]
@@ -427,6 +521,15 @@ def human(rep: dict) -> str:
         lines.append(f"  {tag}  {g['id']:<26} {g['evidence']}")
     s = rep["sycophancy"]
     lines.append(f"  {'----' if not s['blocking'] else 'GATE'}  sycophancy {s['verdict']:<15} agreement {s['agreement']} · dissent {s['dissent']} · ratio {s['ratio']}")
+    fl = rep.get("floor") or {}
+    if fl:
+        if fl["status"] == "pending":
+            lines.append(f"  ----  rubric floor pending: {fl['scored']}/{fl['rows']} rows scored by a person (floor {fl['min_total']}/{fl['max_total']}, must-pass: {', '.join(fl['must_pass'])})")
+        adv = rep.get("floor_advisory")
+        if adv and adv["status"] != "pending":
+            lines.append(f"  ----  advisory floor with model scores: {adv['status'].upper()} ({adv['total']}/{adv['max_total']}); never changes the stamp")
+    for n in rep.get("notes") or []:
+        lines.append(f"  note  {n}")
     lines += ["", "  judgment (0-2, scored by a judge, never by this tool):"]
     for r in rep["rubric"]:
         sc = "--" if r["score"] is None else f"{r['score']}/2"
@@ -527,8 +630,47 @@ def self_test() -> int:
           "trace: judge lane never sends; llm_calls is 0")
     check(all(e["lane"] == "rules" for e in tr if e.get("ok") is not None) and tr[-1]["decided_by"] == "rules",
           "trace: every go/stop decision comes from the rules lane")
+    lambda_bad = dict(prints["analysis"], fate="maybe")
+    check(not [e for r in prints.values() for e in validate(r)], "schema: every good print matches schema/report.schema.json")
+    check(any("fate" in e for e in validate(lambda_bad)), "schema: a print with an unknown fate fails validation")
+    # pass floors: pass, low total, must-pass zero, pending, model scores never gate
+    rows = {r["row"]: 2 for r in prints["synthesis"]["rubric"]}
+    ok_rep = evaluate("synthesis", GOOD["synthesis"], upstream=prints["evaluation"], scores=rows, **opts)
+    check(ok_rep["fate"] == "ship" and "rubric-floor" not in ok_rep["failed"], "floor: all rows 2 -> passes, still ship")
+    low = {k: 1 for k in rows}
+    lo_rep = evaluate("synthesis", GOOD["synthesis"], upstream=prints["evaluation"], scores=low, **opts)
+    check("rubric-floor" in lo_rep["failed"] and lo_rep["fate"] == "hold", "floor: total under the floor -> hold")
+    zero = dict(rows, **{"D-specificity": 0})
+    z_rep = evaluate("synthesis", GOOD["synthesis"], upstream=prints["evaluation"], scores=zero, **opts)
+    check("rubric-floor" in z_rep["failed"], "floor: a must-pass row at 0 -> hold even with a high total")
+    part = {"A-word": 2}
+    p_rep = evaluate("synthesis", GOOD["synthesis"], upstream=prints["evaluation"], scores=part, **opts)
+    check(p_rep["floor"]["status"] == "pending" and p_rep["fate"] == "ship", "floor: partly scored -> pending, no gate")
+    import arcs_verb_eval_judge as vj
+    mj = vj.judge(prints["synthesis"], GOOD["synthesis"], client=vj.FakeClient(score=0))
+    check(mj["fate"] == prints["synthesis"]["fate"] and mj.get("floor_advisory", {}).get("status") == "fail",
+          "floor: model scores of 0 read FAIL as advisory only; stamp unchanged")
+    # provenance layer (reuses scripts/provenance_lint.py)
+    if find_repo_script("provenance_lint.py"):
+        pdir = Path(tempfile.mkdtemp(prefix="arcs-verb-eval-prov-"))
+        art = pdir / "surface.html"
+        art.write_text(GOOD["analysis"].replace("The deck says 40 customers.", "The deck says 40% conversion."))
+        (pdir / "evidence.jsonl").write_text(json.dumps({"pattern": "40%", "source": "self-test"}) + "\n")
+        pv_ok = evaluate("analysis", art.read_text(), artifact_path=art, **opts)
+        check(any(g["id"] == "provenance" and g["ok"] for g in pv_ok["gates"]), "provenance: enrolled + covered metric -> pass")
+        (pdir / "evidence.jsonl").write_text(json.dumps({"pattern": "99%", "source": "self-test"}) + "\n")
+        pv_bad = evaluate("analysis", art.read_text(), artifact_path=art, **opts)
+        check("provenance" in pv_bad["failed"], "provenance: uncovered metric -> fails")
+        (pdir / "evidence.jsonl").write_text(json.dumps({"source": "https://a.example/demo"}) + "\n")
+        pv_src = evaluate("analysis", art.read_text(), artifact_path=art, **opts)
+        check(all(g["id"] != "provenance" for g in pv_src["gates"]) and any("source list" in n for n in pv_src["notes"]),
+              "provenance: a source-list evidence.jsonl is recognised, not crashed on or treated as a metrics ledger")
+        (pdir / "evidence.jsonl").unlink()
+        pv_none = evaluate("analysis", art.read_text(), artifact_path=art, **opts)
+        check(all(g["id"] != "provenance" for g in pv_none["gates"]) and any("not enrolled" in n for n in pv_none["notes"]),
+              "provenance: not enrolled -> a note, never a free pass gate")
     covered = {g for _, _, g in BAD}
-    all_gates = {g["id"] for r in prints.values() for g in r["gates"]} - {"has-claims", "lens-result-and-reason", "conditions-cite-claims", "pre-send-gauntlet", "sources-in-ledger", "slop-lint"}
+    all_gates = {g["id"] for r in prints.values() for g in r["gates"]} - {"rubric-floor", "provenance", "has-claims", "lens-result-and-reason", "conditions-cite-claims", "pre-send-gauntlet", "sources-in-ledger", "slop-lint"}
     check(all_gates <= covered, f"every gate that can fail has a bad fixture (uncovered: {sorted(all_gates - covered) or 'none'})")
     print(f"\n{passed} passed, {failed} failed")
     return 0 if failed == 0 else 1
@@ -617,6 +759,8 @@ def run_one(verb: str, artifact: str, opts: dict, upstream: dict | None, scores:
     opts = dict(opts)
     ledger = opts.pop("ledger", None)
     opts.setdefault("base", path.parent if path else Path.cwd())
+    if path is not None and verb in ("analysis", "synthesis"):
+        opts.setdefault("artifact_path", path)
     return evaluate(verb, text, upstream=upstream, scores=scores,
                     ledger=load_ledger(ledger) if ledger else None, **opts)
 
@@ -649,7 +793,8 @@ def main(argv=None) -> int:
         sp = sub.add_parser(v, parents=[common], help=f"{v.capitalize()} by ARCS")
         sp.add_argument("artifact", help="artifact file, or - for stdin")
         sp.add_argument("--upstream", help="previous verb's JSON print")
-        sp.add_argument("--ledger", help="evidence.jsonl (analysis)")
+        sp.add_argument("--ledger", help="evidence.jsonl (analysis): every data-src must appear in it")
+        sp.add_argument("--metrics-ledger", help="provenance_lint evidence.jsonl (pattern rows) for money/percent/N+ metrics; default: a sibling evidence.jsonl")
         sp.add_argument("--scores", help="JSON {row_id: 0|1|2, _judge: name}")
         sp.add_argument("--out", help="write the JSON print here")
         sp.add_argument("--public", action="store_true", help="synthesis: waive noindex")
@@ -670,6 +815,8 @@ def main(argv=None) -> int:
     ex.add_argument("--format", required=True, choices=("jsonl", "csv", "md", "junit", "receipt"))
     ex.add_argument("--question", default="")
     ex.add_argument("--out", help="file to write (default stdout)")
+    va = sub.add_parser("validate", parents=[common], help="check a saved step report against schema/report.schema.json")
+    va.add_argument("report")
     sub.add_parser("env", parents=[common], help="show runtime, deps, resolved srcs, effective opts")
     sv = sub.add_parser("serve", parents=[common], help="stdlib HTTP: POST /eval/<verb>")
     sv.add_argument("--port", type=int, default=8787)
@@ -685,6 +832,10 @@ def main(argv=None) -> int:
         print("\n== judge (offline, fake client) ==")
         return rc or vj.self_test()
     cfg = load_config(a.config)
+    if a.cmd == "validate":
+        errs = validate(json.loads(Path(a.report).read_text()))
+        print("valid" if not errs else "\n".join(errs))
+        return 0 if not errs else 1
     if a.cmd == "ingest":
         import arcs_verb_eval_io as vio
         print(json.dumps(vio.ingest(a.source, a.outdir, a.format, a.mutate), indent=2))
@@ -707,6 +858,7 @@ def main(argv=None) -> int:
     if a.cmd in VERBS:
         opts = resolve_opts(a.cmd, cfg, a.set)
         if a.ledger: opts["ledger"] = a.ledger
+        if a.metrics_ledger: opts["metrics_ledger"] = a.metrics_ledger
         if a.public: opts["public"] = True
         if a.no_slop: opts["slop"] = False
         if a.slop_arg: opts["slop_args"] = a.slop_arg
