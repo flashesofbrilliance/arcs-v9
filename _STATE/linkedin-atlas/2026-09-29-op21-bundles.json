@@ -1,0 +1,695 @@
+{
+ "Receipts": {
+  "generator": "operators/arcs_librarian.py@0.1.0",
+  "operator": 21,
+  "name": "Librarian",
+  "entrypoint": "recommend",
+  "ts": "2026-09-29T21:54:53-04:00",
+  "q": "prediction falsifier scored checked against the primary document filing ledger correction conviction Apple margin",
+  "stakes": "medium",
+  "budget": {
+   "given_bytes": 60000,
+   "used_bytes": 28065,
+   "remaining_bytes": 31935
+  },
+  "formula": "value = p_load_bearing * cost_if_absent(stakes); cost = read_friction(tier.steps + tokens/tokens_per_step + stale_surcharge) + 1.0 * bytes/remaining_budget; take iff value - cost >= 0, ranked by value - cost",
+  "notomation": "p_load_bearing is a mechanical pre-score (idf-weighted query overlap, amplified by lineage in-degree, ouroboros-demoted). The rank is surfaced for a human to adjudicate; nothing here is acted on.",
+  "items": [
+   {
+    "id": "til-closing-the-loop",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-til-closing-the-loop.html",
+    "bytes": 5738,
+    "p_load_bearing": 0.5559,
+    "cost_if_absent": 3.0,
+    "value": 1.6677,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1434,
+     "stale_surcharge": 0.0,
+     "score": 0.6793
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['conviction', 'primary', 'scored', 'falsifier', 'margin', 'apple', 'prediction', 'correction'] (10/13, idf share 0.79); cited by 0 other item(s)",
+    "displacement": 0.0956,
+    "cost": 0.7749,
+    "net": 0.8928,
+    "confirmed": false
+   },
+   {
+    "id": "nftt-tuning-into-the-distortion-field",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-tuning-into-the-distortion-field.html",
+    "bytes": 6012,
+    "p_load_bearing": 0.4422,
+    "cost_if_absent": 3.0,
+    "value": 1.3266,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1503,
+     "stale_surcharge": 0.0,
+     "score": 0.6879
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['falsifier', 'filing', 'margin', 'apple', 'prediction', 'correction', 'checked', 'ledger'] (9/13, idf share 0.63); cited by 0 other item(s)",
+    "displacement": 0.1108,
+    "cost": 0.7987,
+    "net": 0.5279,
+    "confirmed": false
+   },
+   {
+    "id": "til-apple-openai",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-til-apple-openai.html",
+    "bytes": 4273,
+    "p_load_bearing": 0.4212,
+    "cost_if_absent": 3.0,
+    "value": 1.2636,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1068,
+     "stale_surcharge": 0.0,
+     "score": 0.6335
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['conviction', 'primary', 'scored', 'filing', 'apple', 'checked', 'ledger', 'against'] (8/13, idf share 0.60); cited by 0 other item(s)",
+    "displacement": 0.0886,
+    "cost": 0.7221,
+    "net": 0.5415,
+    "confirmed": false
+   },
+   {
+    "id": "nftt-four-dates-one-thesis-three-confirmations",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-four-dates-one-thesis-three-confirmations.html",
+    "bytes": 6025,
+    "p_load_bearing": 0.4043,
+    "cost_if_absent": 3.0,
+    "value": 1.2129,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1506,
+     "stale_surcharge": 0.0,
+     "score": 0.6883
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['falsifier', 'filing', 'margin', 'apple', 'prediction', 'correction', 'ledger', 'against'] (8/13, idf share 0.58); cited by 0 other item(s)",
+    "displacement": 0.137,
+    "cost": 0.8253,
+    "net": 0.3876,
+    "confirmed": false
+   },
+   {
+    "id": "nftt-closing-the-loop-receipts",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-closing-the-loop-receipts.html",
+    "bytes": 6017,
+    "p_load_bearing": 0.3821,
+    "cost_if_absent": 3.0,
+    "value": 1.1463,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1504,
+     "stale_surcharge": 0.0,
+     "score": 0.688
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['primary', 'falsifier', 'margin', 'apple', 'prediction', 'correction', 'against'] (7/13, idf share 0.55); cited by 0 other item(s)",
+    "displacement": 0.1585,
+    "cost": 0.8466,
+    "net": 0.2997,
+    "confirmed": false
+   }
+  ],
+  "what_confirmed": [],
+  "what_unconfirmed": [
+   "til-closing-the-loop",
+   "nftt-tuning-into-the-distortion-field",
+   "til-apple-openai",
+   "nftt-four-dates-one-thesis-three-confirmations",
+   "nftt-closing-the-loop-receipts"
+  ],
+  "reserve_ratio": {
+   "backed": 0,
+   "unbacked": 5,
+   "ratio": "0:5",
+   "backed_share": 0.0
+  },
+  "curation_debt": [],
+  "ouroboros": {
+   "prior_picks_considered": 0,
+   "prior_picks_falsified": [],
+   "class_demotions": {}
+  },
+  "skipped_for_displacement": [],
+  "stopped_because": "marginal item value - cost < 0",
+  "not_consulted": [
+   "externals (Granola / Sugar / Supabase): expensive-read, expensive-write; retrieve only via a wrapping tool that pays the read once, never raw"
+  ],
+  "corpus": {
+   "candidates": 34,
+   "by_class": {
+    "essay": 34
+   }
+  },
+  "elapsed_s": 0.037
+ },
+ "The Agent That Sent It": {
+  "generator": "operators/arcs_librarian.py@0.1.0",
+  "operator": 21,
+  "name": "Librarian",
+  "entrypoint": "recommend",
+  "ts": "2026-09-29T21:54:53-04:00",
+  "q": "agent sent email unauthorized memory reconstruction cold warm reader send attested gated",
+  "stakes": "medium",
+  "budget": {
+   "given_bytes": 60000,
+   "used_bytes": 22287,
+   "remaining_bytes": 37713
+  },
+  "formula": "value = p_load_bearing * cost_if_absent(stakes); cost = read_friction(tier.steps + tokens/tokens_per_step + stale_surcharge) + 1.0 * bytes/remaining_budget; take iff value - cost >= 0, ranked by value - cost",
+  "notomation": "p_load_bearing is a mechanical pre-score (idf-weighted query overlap, amplified by lineage in-degree, ouroboros-demoted). The rank is surfaced for a human to adjudicate; nothing here is acted on.",
+  "items": [
+   {
+    "id": "nftt-recon-report-cold-2",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-recon-report-cold-2.html",
+    "bytes": 6004,
+    "p_load_bearing": 0.5287,
+    "cost_if_absent": 3.0,
+    "value": 1.5861,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1501,
+     "stale_surcharge": 0.0,
+     "score": 0.6876
+    },
+    "backing": [
+     "b30f2077",
+     "d5be8076"
+    ],
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['attested', 'gated', 'reconstruction', 'cold', 'email', 'agent', 'memory', 'reader'] (10/12, idf share 0.76); cited by 0 other item(s)",
+    "displacement": 0.1001,
+    "cost": 0.7877,
+    "net": 0.7984,
+    "confirmed": true
+   },
+   {
+    "id": "nftt-the-cold-reconstruction",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-the-cold-reconstruction.html",
+    "bytes": 6004,
+    "p_load_bearing": 0.3524,
+    "cost_if_absent": 3.0,
+    "value": 1.0572,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1501,
+     "stale_surcharge": 0.0,
+     "score": 0.6876
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['reconstruction', 'cold', 'email', 'agent', 'memory', 'reader', 'send', 'sent'] (8/12, idf share 0.50); cited by 0 other item(s)",
+    "displacement": 0.1112,
+    "cost": 0.7988,
+    "net": 0.2584,
+    "confirmed": false
+   },
+   {
+    "id": "nftt-receipts-or-it-didnt-happen",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-receipts-or-it-didnt-happen.html",
+    "bytes": 4275,
+    "p_load_bearing": 0.302,
+    "cost_if_absent": 3.0,
+    "value": 0.906,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1068,
+     "stale_surcharge": 0.0,
+     "score": 0.6336
+    },
+    "backing": [
+     "6d707c79",
+     "87d2597b",
+     "ac4b3616",
+     "d5be8076"
+    ],
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['reconstruction', 'email', 'agent', 'memory', 'reader', 'send', 'sent'] (7/12, idf share 0.43); cited by 0 other item(s)",
+    "displacement": 0.0891,
+    "cost": 0.7227,
+    "net": 0.1833,
+    "confirmed": true
+   },
+   {
+    "id": "nftt-the-control-and-the-experiment",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-the-control-and-the-experiment.html",
+    "bytes": 6004,
+    "p_load_bearing": 0.2999,
+    "cost_if_absent": 3.0,
+    "value": 0.8997,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1501,
+     "stale_surcharge": 0.0,
+     "score": 0.6876
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['reconstruction', 'warm', 'cold', 'memory', 'reader', 'send'] (6/12, idf share 0.43); cited by 0 other item(s)",
+    "displacement": 0.1373,
+    "cost": 0.825,
+    "net": 0.0747,
+    "confirmed": false
+   }
+  ],
+  "what_confirmed": [
+   "nftt-recon-report-cold-2",
+   "nftt-receipts-or-it-didnt-happen"
+  ],
+  "what_unconfirmed": [
+   "nftt-the-cold-reconstruction",
+   "nftt-the-control-and-the-experiment"
+  ],
+  "reserve_ratio": {
+   "backed": 2,
+   "unbacked": 2,
+   "ratio": "2:2",
+   "backed_share": 0.5
+  },
+  "curation_debt": [],
+  "ouroboros": {
+   "prior_picks_considered": 0,
+   "prior_picks_falsified": [],
+   "class_demotions": {}
+  },
+  "skipped_for_displacement": [],
+  "stopped_because": "marginal item value - cost < 0",
+  "not_consulted": [
+   "externals (Granola / Sugar / Supabase): expensive-read, expensive-write; retrieve only via a wrapping tool that pays the read once, never raw"
+  ],
+  "corpus": {
+   "candidates": 34,
+   "by_class": {
+    "essay": 34
+   }
+  },
+  "elapsed_s": 0.036
+ },
+ "In the Repo": {
+  "generator": "operators/arcs_librarian.py@0.1.0",
+  "operator": 21,
+  "name": "Librarian",
+  "entrypoint": "recommend",
+  "ts": "2026-09-29T21:54:53-04:00",
+  "q": "governance branch pull request main merge ledger lattice outage second pass ancestry",
+  "stakes": "medium",
+  "budget": {
+   "given_bytes": 60000,
+   "used_bytes": 17624,
+   "remaining_bytes": 42376
+  },
+  "formula": "value = p_load_bearing * cost_if_absent(stakes); cost = read_friction(tier.steps + tokens/tokens_per_step + stale_surcharge) + 1.0 * bytes/remaining_budget; take iff value - cost >= 0, ranked by value - cost",
+  "notomation": "p_load_bearing is a mechanical pre-score (idf-weighted query overlap, amplified by lineage in-degree, ouroboros-demoted). The rank is surfaced for a human to adjudicate; nothing here is acted on.",
+  "items": [
+   {
+    "id": "nftt-second-pass",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-second-pass.html",
+    "bytes": 6006,
+    "p_load_bearing": 0.6009,
+    "cost_if_absent": 3.0,
+    "value": 1.8027,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1501,
+     "stale_surcharge": 0.0,
+     "score": 0.6877
+    },
+    "backing": [
+     "06bd757b",
+     "06bd757ba01c8362852b150152569214e0d86bf3",
+     "3d0f6f91",
+     "7ab32ec9",
+     "7ab32ec9b71570067fefc62d81373cce0697ea28",
+     "860bac74"
+    ],
+    "m1_refs": [
+     "PR#357",
+     "PR#395"
+    ],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['governance', 'ancestry', 'lattice', 'branch', 'request', 'merge', 'main', 'pull'] (11/12, idf share 0.86); cited by 0 other item(s)",
+    "displacement": 0.1001,
+    "cost": 0.7878,
+    "net": 1.0149,
+    "confirmed": true
+   },
+   {
+    "id": "nftt-pulp-governance",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-pulp-governance.html",
+    "bytes": 5611,
+    "p_load_bearing": 0.5008,
+    "cost_if_absent": 3.0,
+    "value": 1.5024,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1402,
+     "stale_surcharge": 0.0,
+     "score": 0.6753
+    },
+    "backing": [
+     "06bd757ba01c8362852b150152569214e0d86bf3",
+     "52a45f9d",
+     "7ab32ec9b71570067fefc62d81373cce0697ea28",
+     "860bac743b414e5f98ec2a5cb0d28c301c5bc3e2",
+     "f4bcbf19"
+    ],
+    "m1_refs": [
+     "2026-09-11--pr-357-scope-anomaly-close--ZH",
+     "PR#357",
+     "PR#395"
+    ],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['ancestry', 'lattice', 'branch', 'request', 'merge', 'main', 'pull', 'ledger'] (9/12, idf share 0.72); cited by 0 other item(s)",
+    "displacement": 0.1039,
+    "cost": 0.7793,
+    "net": 0.7231,
+    "confirmed": true
+   },
+   {
+    "id": "nftt-the-question-that-found-the-outage",
+    "class": "essay",
+    "quadrant": "ROM",
+    "path": "public/blog-nftt-the-question-that-found-the-outage.html",
+    "bytes": 6007,
+    "p_load_bearing": 0.2947,
+    "cost_if_absent": 3.0,
+    "value": 0.8841,
+    "read_friction": {
+     "tier": "T2-open-one-file",
+     "verification_steps": 0.5,
+     "tokens_est": 1501,
+     "stale_surcharge": 0.0,
+     "score": 0.6877
+    },
+    "backing": null,
+    "m1_refs": [],
+    "backing_note": null,
+    "source": {
+     "key": "claude-fable",
+     "tier": "ELEVATED",
+     "verification_demand": "every claim needs a grep or a sha before it enters what_confirmed"
+    },
+    "freshness": {
+     "verified": "2026-09-29",
+     "age_days": 0,
+     "horizon_days": 365,
+     "stale": false,
+     "defeaters": [
+      "FALSIFIED F-row citing this id",
+      "superseded_by set",
+      "shift row in a fold ridgeline"
+     ],
+     "defeated_by": [],
+     "superseded_by": null
+    },
+    "why_load_bearing": "query terms hit (idf-ranked): ['outage', 'request', 'merge', 'pull', 'pass', 'second'] (6/12, idf share 0.42); cited by 0 other item(s)",
+    "displacement": 0.1242,
+    "cost": 0.8119,
+    "net": 0.0722,
+    "confirmed": false
+   }
+  ],
+  "what_confirmed": [
+   "nftt-second-pass",
+   "nftt-pulp-governance"
+  ],
+  "what_unconfirmed": [
+   "nftt-the-question-that-found-the-outage"
+  ],
+  "reserve_ratio": {
+   "backed": 2,
+   "unbacked": 1,
+   "ratio": "2:1",
+   "backed_share": 0.667
+  },
+  "curation_debt": [],
+  "ouroboros": {
+   "prior_picks_considered": 0,
+   "prior_picks_falsified": [],
+   "class_demotions": {}
+  },
+  "skipped_for_displacement": [],
+  "stopped_because": "marginal item value - cost < 0",
+  "not_consulted": [
+   "externals (Granola / Sugar / Supabase): expensive-read, expensive-write; retrieve only via a wrapping tool that pays the read once, never raw"
+  ],
+  "corpus": {
+   "candidates": 34,
+   "by_class": {
+    "essay": 34
+   }
+  },
+  "elapsed_s": 0.036
+ }
+}

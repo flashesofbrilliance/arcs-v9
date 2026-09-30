@@ -490,6 +490,12 @@ fi
 # is staged, the generated view (_STATE/belief-log.md) must be regenerated in the
 # same commit. A view that lags the ledger IS the open-loop-decay pathogen the
 # ledger itself records (F27); this makes shipping a stale view UN-COMMITTABLE.
+sf_staged=$(git diff --cached --name-only -- public/status.html scripts/status_floor_emit.py 2>/dev/null || true)
+if [ -n "$sf_staged" ] && ! python3 scripts/status_floor_emit.py --check >/dev/null 2>&1; then
+  echo "✖ status.arcs.care static floor is stale or inconsistent" >&2
+  echo "  fix: run 'python3 scripts/status_floor_emit.py' and stage public/status.html, then re-commit." >&2
+  exit 1
+fi
 bl_staged=$(git diff --cached --name-only -- _STATE/falsification-ledger.jsonl scripts/belief_log_emit.py 2>/dev/null || true)
 if [ -n "$bl_staged" ] && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/belief_log_emit.py --check >/dev/null 2>&1; then

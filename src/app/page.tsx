@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db'
 import type { HomeDemo } from '@/organisms/Home'
+import type { Tributary } from '@/lib/mockCompass'
 import { HomePageClient } from './HomePageClient'
+import { scrubProse } from '@/lib/prose'
 
 // Landing surface. Server component: fetches the pinned featured receipt
 // directly via Prisma at render time, so the correct content is in the HTML
@@ -19,17 +21,20 @@ const PINNED_BRIEF_ID = 'cmqbd3i3k000104lawptiz7x0'
 // build, baking whatever it returned into a static HTML shell forever).
 export const dynamic = 'force-dynamic'
 
+// Stored receipts are frozen records and some predate the no-em-dash rule, so the
+// landing copy is scrubbed at render time instead of rewriting the row.
+
 async function getPinnedDemo(): Promise<HomeDemo | null> {
   try {
     const r = await prisma.receipt.findUnique({ where: { id: PINNED_BRIEF_ID } })
     if (!r) return null
     let tributaries = undefined
     try {
-      if (r.atgTributaries) tributaries = JSON.parse(r.atgTributaries)
+      if (r.atgTributaries) tributaries = (JSON.parse(r.atgTributaries) as Tributary[]).map((t) => ({ ...t, prompt: scrubProse(t.prompt) }))
     } catch { /* malformed — omit */ }
     return {
-      decision: r.decision ?? r.trueNorth ?? '',
-      trueNorth: r.trueNorth ?? '',
+      decision: scrubProse(r.decision ?? r.trueNorth ?? ''),
+      trueNorth: scrubProse(r.trueNorth ?? ''),
       nciScore: r.nciScore ?? 50,
       coherence: r.coherencePct ?? null,
       mode: r.mode,

@@ -153,7 +153,9 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         { source: "/beliefs", destination: "/belief-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
-        { source: "/:path((?!.*beliefs|.*gauntlets).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // Exclude the rewrite DESTINATIONS too (belief-log.html, gauntlet-log.html): beforeFiles rewrites
+        // chain, so "/beliefs" -> "/belief-log.html" was re-caught here and served status.html.
+        { source: "/:path((?!.*belief|.*gauntlet).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -167,11 +169,12 @@ const nextConfig: NextConfig = {
         { source: "/cases", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/series/receipts", destination: "/good-series-receipts.html", has: [{ type: "host", value: "good.arcs.care" }] },
         // good.arcs.care catch-all. The negative lookahead MUST also exclude api / _next / _vercel /
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
