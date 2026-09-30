@@ -110,6 +110,8 @@ section > h2 {{ font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-bott
 .verdict h1 span {{ color: var(--cyan); }}
 .verdict .lede {{ font-size: clamp(18px, 2vw, 21px); color: var(--text); opacity: 0.88; max-width: none; }}
 
+.scope {{ font-size: 16px; color: var(--soft); max-width: none; }}
+
 /* the five steps: one strip, the current runs through it and stops at the red stamp */
 .strip {{ list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; position: relative; }}
 .strip::before {{ content: ""; position: absolute; left: 24px; right: 24px; top: 31px; height: 2px; background: var(--border); }}
@@ -225,8 +227,8 @@ textarea:focus {{ outline: none; border-color: var(--cyan); }}
 @media (min-width: 1000px) {{ .lane-col .gates {{ grid-template-columns: repeat(3, minmax(0, 1fr)); }} }}
 @media (max-width: 640px) {{ .lane-col .gates, .jcards {{ grid-template-columns: minmax(0, 1fr); }} }}
 .lane-col .gates .g {{ border-bottom: 0; border-top: 1px solid var(--border); }}
-.lane-col h4 {{ margin: 0; font: 600 14px var(--font-sans); display: flex; gap: 8px; align-items: baseline; }}
-.lane-col h4 span {{ font-weight: 500; font-size: 12px; color: var(--soft); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; }}
+.lane-col h3.lane-h {{ margin: 0; font: 600 14px var(--font-sans); display: flex; gap: 8px; align-items: baseline; }}
+.lane-col h3.lane-h span {{ font-weight: 500; font-size: 12px; color: var(--soft); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; }}
 .jcards {{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }}
 .jcards li {{ border: 1px dashed var(--border); border-radius: var(--r-md); padding: 10px 12px; display: grid; gap: 6px; }}
 .jq {{ font-size: 14px; }}
@@ -280,6 +282,7 @@ code, pre, kbd, textarea, .tool {{ font-variant-ligatures: none !important; font
   <header class="verdict">
     <h1>Check it <span>before you say it.</span></h1>
     <p class="lede">Five steps between an idea and a message. Each step gets a stamp: go or stop. If any step says stop, you fix it before anyone hears it.</p>
+    <p class="scope">It checks that every fact says where it came from, that nothing new sneaks in along the way, and that someone really pushed back. It can't tell you whether a claim is true. That part is still yours.</p>
   </header>
 
   <ol class="strip" aria-label="The five steps">

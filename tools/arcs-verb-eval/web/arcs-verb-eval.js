@@ -13,7 +13,37 @@ var AVE = (function () {
     return { agreement: a, dissent: d, ratio: Math.round(r * 100) / 100, verdict: a >= 5 && d === 0 ? 'RETURN' : r > 4 ? 'THIN' : 'OK', blocking: blocking };
   }
   function host(s) { try { return new URL(s).host || s; } catch (e) { return s; } }
+  /* parseLite: a small tag scanner used only where DOMParser does not exist (node, for the CI
+     parity test). It mirrors arcs_verb_eval.py's _ClaimParser: claim spans by class, nested tags
+     counted by depth, data-summary, meta robots, text without script/style. */
+  var ENT = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", apos: "'" };
+  function unent(s) { return s.replace(/&(amp|lt|gt|quot|#39|apos);/g, function (_, k) { return ENT[k]; }).replace(/&#x([0-9a-f]+);/gi, function (_, h) { return String.fromCharCode(parseInt(h, 16)); }).replace(/&#(\d+);/g, function (_, d) { return String.fromCharCode(+d); }); }
+  function attrs(s) { var a = {}, m, re = /([\w-]+)\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/g; while ((m = re.exec(s))) a[m[1].toLowerCase()] = unent(m[3] != null ? m[3] : m[4] != null ? m[4] : m[5]); return a; }
+  function parseLite(html) {
+    html = html.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, ' ');
+    var claims = [], stack = [], summary = null, noindex = false, text = [], re = /<(\/?)([a-zA-Z0-9]+)([^>]*)>|([^<]+)/g, m;
+    while ((m = re.exec(html))) {
+      if (m[4] != null) { var t = unent(m[4]); text.push(t); stack.forEach(function (s) { s.text.push(t); }); continue; }
+      var close = m[1] === '/', tag = m[2].toLowerCase(), a = close ? {} : attrs(m[3]);
+      if (!close) {
+        if (a['data-summary'] != null && summary === null) summary = a['data-summary'];
+        if (tag === 'meta' && a.name === 'robots' && /noindex/.test(a.content || '')) noindex = true;
+        var voidTag = /^(meta|br|img|input|link|hr)$/.test(tag) || /\/\s*$/.test(m[3]);
+        if ((' ' + (a['class'] || '') + ' ').indexOf(' claim ') >= 0) stack.push({ a: a, text: [], depth: 0 });
+        else if (stack.length && !voidTag) stack[stack.length - 1].depth++;
+      } else if (stack.length) {
+        var top = stack[stack.length - 1];
+        if (top.depth) top.depth--; else { stack.pop(); var c = top.a, i = claims.length;
+          claims.push({ id: c['data-id'] || 'auto' + (i + 1), text: top.text.join('').replace(/\s+/g, ' ').trim(),
+            src: (c['data-src'] || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean), stakes: c['data-stakes'] || 'normal',
+            verdict: c['data-verdict'] == null ? null : c['data-verdict'], severity: c['data-severity'] == null ? null : c['data-severity'],
+            render: c['data-render'] == null ? null : c['data-render'], evidence: c['data-evidence'] == null ? null : c['data-evidence'] }); }
+      }
+    }
+    return { claims: claims, summary: summary, noindex: noindex, text: text.join('') };
+  }
   function parse(html) {
+    if (typeof DOMParser === 'undefined') return parseLite(html);
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var claims = [].map.call(doc.querySelectorAll('.claim'), function (el, i) {
       return { id: el.getAttribute('data-id') || 'auto' + (i + 1), text: el.textContent.replace(/\s+/g, ' ').trim(),
@@ -160,5 +190,5 @@ var AVE = (function () {
     ev.push({ lane: 'summary', verb: rep.verb, rules: rep.gates.length, llm_calls: 0, judge_pending: (rubric || []).length, fate: rep.fate, decided_by: 'rules' });
     return ev;
   }
-  return { VERBS: VERBS, evaluate: evaluate, fromNotebook: fromNotebook, trace: trace };
+  return { VERBS: VERBS, evaluate: evaluate, fromNotebook: fromNotebook, trace: trace, _parseLite: parseLite };
 })();
