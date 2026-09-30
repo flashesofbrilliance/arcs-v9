@@ -16,7 +16,8 @@
     "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close",
     "test:smoke": "playwright test",
     "test:unit": "node --experimental-strip-types --import ./tests/unit/register.mjs --test tests/unit/*.test.ts",
-    "test:almanac": "playwright test tests/almanac.spec.ts"
+    "test:almanac": "playwright test tests/almanac.spec.ts",
+    "test:nftt": "playwright test tests/nftt.spec.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
