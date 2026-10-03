@@ -25,8 +25,6 @@ tell us whether it works.
 
 ## I. Lambo engine, bike brakes
 
-I identify as ADHD. `[ZACH: confirm you want this named publicly, in these words.]`
-
 The description I have used for years is a Lambo engine with bike brakes: high acceleration, high
 synthesis, and throttle control as the edge I have never fully owned. `[ZACH: one concrete scene.
 A specific morning, a specific loop you could see yourself in and could not exit. The essay lives
@@ -78,7 +76,7 @@ closed number **3 of 261** (production database, `Receipt` and `Outcome` tables,
 2026-10-03; the handbook's older figure was 2 of 247).
 
 An exoskeleton for executive function should help a mind like mine *finish*, not only *start*.
-Starting is where ADHD already has horsepower to spare. If ARCS is brilliant at opening loops and
+Starting is where an engine like mine already has horsepower to spare. If ARCS is brilliant at opening loops and
 nearly silent at closing them, then what I have built so far is an exoskeleton for the engine,
 not the brakes. That is a real finding, and it goes on the page in gold, not under a patch.
 
@@ -116,7 +114,9 @@ notice you walked the last mile with it switched off.]`
 ```
 
 ### Open before building the page
-1. Zach's voice pass on every `[ZACH]` mark, and an explicit yes on naming ADHD publicly.
+1. Zach's voice pass on every `[ZACH]` mark. **Ruled 2026-10-03 (Zach): no diagnostic label in
+   public, in this entry or any derivative (page, LinkedIn cut, lore row). The essay stays on
+   executive function and the "Lambo engine, bike brakes" self-description.**
 2. ~~Re-measure the 2/247 figure~~ done 2026-10-03: 3/261. Re-count on publish day.
 3. Confirm the lore.jsonl id (the file's own check enforces sequence; next is `lore-015` if 14 rows hold).
 4. Then: `good.arcs.care/series/lore` index (clone the `/series/receipts` shape), the entry page,
