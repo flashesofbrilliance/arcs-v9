@@ -29,7 +29,7 @@ import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS = os.path.join(ROOT, "public", "fonts")
-MANIFEST = os.path.join(FONTS, "manifest.json")
+MANIFEST = os.path.join(ROOT, "runtime", "specs", "fonts-manifest.json")
 METRICS = os.path.join(ROOT, "node_modules", "next", "dist", "server", "capsize-font-metrics.json")
 VERSION = "v1"
 SUBSETS = ("latin", "latin-ext")
