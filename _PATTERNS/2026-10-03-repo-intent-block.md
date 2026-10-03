@@ -13,9 +13,9 @@ only. No separate `intent.md`: a new file is one more surface to drift. `SPEC.md
 is a contract other code must conform to (germinate is the model: RFC 2119 text + schemas +
 fixtures), and every root `SPEC.md` gets a declared standing.
 
-**Gate.** `scripts/intent_lint.py <repo> [...]` fails on: no block, an empty field, an unknown
+**Gate.** `tools/intent_lint.py <repo> [...]` (canonical copy in the public `flashesofbrilliance/arcs-skills`, run in every repo by its reusable `intent-lint` workflow: push, PR, and weekly) fails on: no block, an empty field, an unknown
 status, a verified date older than 90 days or with no "how", an unvouched root `SPEC.md`, or a
-CLAUDE.md that does not import AGENTS.md. `--self-test` proves fail-on-bad and pass-on-good.
+CLAUDE.md that does not import AGENTS.md. Archived repos skip the age check. `--self-test` proves fail-on-bad and pass-on-good.
 
 ## Template (copy verbatim, fill every field)
 
@@ -37,3 +37,16 @@ CLAUDE.md that does not import AGENTS.md. `--self-test` proves fail-on-bad and p
 
 **Rule of thumb.** If you cannot fill `Last verified` with a real check, write what you could
 verify and put the rest in `Why`/`Status` as "unconfirmed". Never date a guess.
+
+## Monorepo rule (Zach, 2026-10-03)
+
+**arcs-v9 is the canonical monorepo.** Private ARCS content belongs here; a dormant repo's content
+is folded in under `runtime/` with an `IMPORTED-FROM.md` naming the source repo and commit, and the
+source repo's intent block flips to `archived` once a `diff -rq` shows nothing is left behind.
+Exception: a distributable package with its own public identity (npm, Homebrew, a plugin
+marketplace) keeps its own repo, because consumers install from it: germinate, rosetta-shell,
+arcs-skills and its plugin repos.
+
+Done so far: `runtime/specs/field-os/specs/` (arcs-field-os, the only copy of the ATG spec) and
+`runtime/memory-export/` (arcs-memory-export). arcs-memory-pipeline is a de-identified extraction,
+not a twin; publishing or archiving it is a separate decision.

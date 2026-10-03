@@ -1,3 +1,13 @@
+<!-- intent:begin -->
+## Intent
+- **Why:** The canonical ARCS monorepo (Zach, 2026-10-03): the product (compass, DEWY receipts, Y-gate), every arcs.care surface, the operator suite, the session/handoff machinery, and the private content folded in from dormant repos (`runtime/specs/field-os/`, `runtime/memory-export/`, each with an IMPORTED-FROM.md).
+- **Done looks like:** See WORLD.md and the backlog in `_QUEUE/induced-backlog.jsonl`; this repo has no single done-state.
+- **Not this:** Not one repo for everything: distributable packages with their own registry or marketplace identity (germinate, rosetta-shell, arcs-skills and its plugins) keep their own public repos. Handoff state lives in CLAUDE.md; intent lives here.
+- **Status:** live (serves arcs.care, app.arcs.care and ~95 other aliases)
+- **Last verified:** 2026-10-03 (Vercel `get_deployment("arcs.care")` returned project `arcs-v9`, READY at `165855f`)
+- **Spec:** none at root (engineering specs live in `runtime/specs/`)
+<!-- intent:end -->
+
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 
@@ -259,7 +269,7 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 | System | Repo | Role |
 |---|---|---|
 | Perplexity MCP | `flashesofbrilliance/perplexity-mcp` | Claude Code search tool (search/reason/chat) |
-| arcs.care | `flashesofbrilliance/arcs-care` | Live public site — separate Vercel project |
+| arcs-care (dormant) | `flashesofbrilliance/arcs-care` | The original arcs.care site + PLG funnel. NOT live: every arcs.care domain is served by this repo's `arcs-v9` Vercel project (verified 2026-10-03). See its AGENTS.md intent block |
 | GIGI substrate | `flashesofbrilliance/gigi` | Local-first fiber-bundle DB — seam at compass/route.ts (TBD P3) |
 | arcs-canon | `flashesofbrilliance/arcs-canon` | Dewey YAML knowledge library |
 | arcs-hq | `flashesofbrilliance/arcs-hq` | TS skills runtime — being archived (P1) |

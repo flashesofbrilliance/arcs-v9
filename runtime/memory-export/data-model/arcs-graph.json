@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "version": "1.0",
+    "last_updated": "2026-04-26",
+    "description": "ARCS Knowledge Graph — nodes are artifacts, edges are DEWY wiki-links and folksonomy relationships. Progressively updated by DEWY macro runs.",
+    "dewy_tag": ["003.1/folksonomy-index", "003.2/memory-export", "003.3/time-filter"],
+    "folksonomy": ["data-model", "graph", "arcs-graph", "nodes", "edges", "dewy"],
+    "decision_receipt": "dr-2026-04-26-001"
+  },
+  "nodes": [
+    {
+      "id": "bootstrap-readme",
+      "path": "bootstrap/README.md",
+      "type": "documentation",
+      "dewey_codes": ["001.1", "004.3", "005.2"],
+      "folksonomy": ["bootstrap", "parametric-ignition", "field-os", "ignition-sequence"],
+      "nci_score": 97,
+      "source_grade": "A",
+      "version": "1.0",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-001"
+    },
+    {
+      "id": "arcs-v83-canon",
+      "path": "bootstrap/canon/ARCS-v8.3-Canon.md",
+      "type": "canon",
+      "dewey_codes": ["001.1", "001.2", "002.1", "003.1"],
+      "folksonomy": ["parametric-ignition", "canon", "l0-l5", "nci-grading", "kintsugi", "decision-receipts", "source-grading"],
+      "nci_score": 98,
+      "source_grade": "A",
+      "version": "8.3.1",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-002"
+    },
+    {
+      "id": "field-os-init",
+      "path": "bootstrap/space/field-os-init.md",
+      "type": "runtime-wrapper",
+      "dewey_codes": ["001.1", "004.1", "004.2", "005.1"],
+      "folksonomy": ["field-os", "ignition", "diamond-protocol", "kairos", "notomation", "drift-sentinel", "question-compass", "v9-rom"],
+      "nci_score": 96,
+      "source_grade": "A",
+      "version": "8.5.1",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-003"
+    },
+    {
+      "id": "macro-dewy",
+      "path": "bootstrap/macros/DEWY.md",
+      "type": "macro",
+      "dewey_codes": ["007.1", "003.1", "001.3"],
+      "folksonomy": ["dewy", "folksonomy", "dewey-decimal", "etymology", "wiki-links", "tagging", "classification", "canon-macro"],
+      "nci_score": 94,
+      "source_grade": "A",
+      "version": "1.0",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-004"
+    },
+    {
+      "id": "operator-20-dewy",
+      "path": "folksonomy/operator-20-dewy.md",
+      "type": "folksonomy-run",
+      "dewey_codes": ["004.3", "006.4", "007.2", "007.3"],
+      "folksonomy": ["operator-20", "3bet-strategy", "irr-maximization", "smart-scoring", "neurodiversity-superpower", "decision-receipts", "energy-tracking", "receipt-002", "kairos-canon", "yoav-axiom"],
+      "nci_score": 92,
+      "source_grade": "A",
+      "version": "1.0",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-005"
+    },
+    {
+      "id": "dewy-index",
+      "path": "folksonomy/DEWY-index.md",
+      "type": "registry",
+      "dewey_codes": ["003.1", "003.2"],
+      "folksonomy": ["dewy-index", "folksonomy", "registry", "canon"],
+      "nci_score": 95,
+      "source_grade": "A",
+      "version": "1.0",
+      "last_updated": "2026-04-26",
+      "dewy_run": "DEWY-006"
+    }
+  ],
+  "edges": [
+    { "source": "bootstrap-readme",  "target": "arcs-v83-canon",   "relationship": "references",    "label": "canon engine" },
+    { "source": "bootstrap-readme",  "target": "field-os-init",    "relationship": "references",    "label": "runtime wrapper" },
+    { "source": "bootstrap-readme",  "target": "macro-dewy",       "relationship": "references",    "label": "post-output macro" },
+    { "source": "field-os-init",     "target": "arcs-v83-canon",   "relationship": "wraps",         "label": "v8.5 wraps v8.3 canon" },
+    { "source": "field-os-init",     "target": "macro-dewy",       "relationship": "includes",      "label": "dewy in v9 ROM ON list" },
+    { "source": "macro-dewy",        "target": "dewy-index",       "relationship": "writes-to",     "label": "every run logs here" },
+    { "source": "macro-dewy",        "target": "arcs-v83-canon",   "relationship": "tags",          "label": "classifies canon artifacts" },
+    { "source": "operator-20-dewy",  "target": "arcs-v83-canon",   "relationship": "cites",         "label": "L0-L5 pipeline ref" },
+    { "source": "operator-20-dewy",  "target": "dewy-index",       "relationship": "registered-in", "label": "DEWY-005" },
+    { "source": "operator-20-dewy",  "target": "macro-dewy",       "relationship": "produced-by",   "label": "DEWY run output" }
+  ],
+  "tag_cloud": {
+    "canon": 3,
+    "field-os": 3,
+    "folksonomy": 4,
+    "decision-receipts": 2,
+    "parametric-ignition": 2,
+    "bootstrap": 2,
+    "dewy": 3,
+    "v9-rom": 2,
+    "kairos": 2,
+    "nci-grading": 2,
+    "l0-l5": 2,
+    "diamond-protocol": 2,
+    "data-model": 1,
+    "3bet-strategy": 1,
+    "irr-maximization": 1
+  },
+  "decision_receipts": [
+    {
+      "id": "dr-2026-04-26-001",
+      "date": "2026-04-26",
+      "question": "Commit bootstrap scaffold + DEWY macro + interactive data model to GitHub",
+      "horizon": "this-quarter",
+      "stakes": "high",
+      "mode": "PLAN",
+      "clarity_mode": "RICH",
+      "macros_used": ["DEWY", "BAR", "KKL"],
+      "true_north": "Ship bootstrap + DEWY + interactive data model in single atomic commit",
+      "rationale": "Monorepo coherence requires single source of truth before further ops build-out. Bootstrap README + canon + field-os + DEWY macro form the minimum viable ignition scaffold.",
+      "outcome": "PENDING"
+    }
+  ]
+}
