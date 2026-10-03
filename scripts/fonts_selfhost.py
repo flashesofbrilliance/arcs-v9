@@ -197,36 +197,44 @@ def ensure_head_basics(src, doctype):
     return src
 
 
+def transform(src, doctype=False, manifest=None):
+    """Self-host one page's fonts, as a string in and a string out. Generators call this on
+    their output so the font block is produced by the generator, never patched in afterward."""
+    manifest = manifest or json.load(open(MANIFEST))
+    names = requested_families(src, manifest)
+    if names:
+        src = PRECONNECT.sub("", src)
+        src = GOOGLE_LINK.sub("", src)
+        src = GOOGLE_IMPORT.sub("", src)
+        src = OLD_FACE.sub("", src)
+        src = OLD_PRELOAD.sub("", src)
+        src = GENERATED.sub("", src)
+        src = add_fallback_names(src, names)
+        body = next(f for f in manifest["families"][names[0]]["faces"]
+                    if f["subset"] == "latin" and f["style"] == "normal")
+        block = (f'<link rel="preload" href="{body["file"]}" as="font" type="font/woff2" crossorigin>\n'
+                 f"<style>\n{BLOCK_START}\n"
+                 + "\n".join(face_css(n, manifest["families"][n]) for n in names)
+                 + f"\n{BLOCK_END}\n</style>\n")
+        # After the page's FIRST stylesheet, never before it: sync_family_tokens.py injects
+        # its token block into the first <style>, and a generated block ahead of it made
+        # every family page look stale (build.html, 2026-10-03). @font-face order is
+        # irrelevant to the cascade, and the preload is still discovered in <head>.
+        first_close = re.search(r"</style>[ \t]*\n?", src, re.I)
+        if first_close:
+            src = src[:first_close.end()] + block + src[first_close.end():]
+        else:
+            src = src.replace("</head>", block + "</head>", 1)
+    src = ensure_head_basics(src, doctype)
+    return src
+
+
 def apply(paths, doctype=False):
     manifest = json.load(open(MANIFEST))
     changed = 0
     for p in paths:
-        src = orig = open(p, encoding="utf-8").read()
-        names = requested_families(src, manifest)
-        if names:
-            src = PRECONNECT.sub("", src)
-            src = GOOGLE_LINK.sub("", src)
-            src = GOOGLE_IMPORT.sub("", src)
-            src = OLD_FACE.sub("", src)
-            src = OLD_PRELOAD.sub("", src)
-            src = GENERATED.sub("", src)
-            src = add_fallback_names(src, names)
-            body = next(f for f in manifest["families"][names[0]]["faces"]
-                        if f["subset"] == "latin" and f["style"] == "normal")
-            block = (f'<link rel="preload" href="{body["file"]}" as="font" type="font/woff2" crossorigin>\n'
-                     f"<style>\n{BLOCK_START}\n"
-                     + "\n".join(face_css(n, manifest["families"][n]) for n in names)
-                     + f"\n{BLOCK_END}\n</style>\n")
-            # After the page's FIRST stylesheet, never before it: sync_family_tokens.py injects
-            # its token block into the first <style>, and a generated block ahead of it made
-            # every family page look stale (build.html, 2026-10-03). @font-face order is
-            # irrelevant to the cascade, and the preload is still discovered in <head>.
-            first_close = re.search(r"</style>[ \t]*\n?", src, re.I)
-            if first_close:
-                src = src[:first_close.end()] + block + src[first_close.end():]
-            else:
-                src = src.replace("</head>", block + "</head>", 1)
-        src = ensure_head_basics(src, doctype)
+        orig = open(p, encoding="utf-8").read()
+        src = transform(orig, doctype, manifest)
         if src != orig:
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(src)
@@ -246,6 +254,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("fetch")
+    sub.add_parser("transform", help="read one page on stdin, write it self-hosted to stdout "
+                                     "(for generators not written in Python)")
     for c in ("apply", "check"):
         s = sub.add_parser(c)
         s.add_argument("pages", nargs="*")
@@ -255,6 +265,9 @@ def main():
     a = ap.parse_args()
     if a.cmd == "fetch":
         return fetch()
+    if a.cmd == "transform":
+        sys.stdout.write(transform(sys.stdin.read()))
+        return 0
     pages = a.pages or sorted(glob.glob(os.path.join(ROOT, "public", "*.html")))
     return apply(pages, a.doctype) if a.cmd == "apply" else check(pages)
 

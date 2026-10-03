@@ -54,7 +54,8 @@ for (const p of PAGES) {
 
     const body = await page.locator("body").innerText()
     expect(body.trim().length, `${p.path} rendered an empty body`).toBeGreaterThan(0)
-    for (const s of p.must) expect(body, `${p.path} missing expected copy: "${s}"`).toContain(s)
+    // innerText applies CSS text-transform, so match copy case-insensitively.
+    for (const s of p.must) expect(body.toLowerCase(), `${p.path} missing expected copy: "${s}"`).toContain(s.toLowerCase())
 
     const html = await page.content()
     for (const w of FORBIDDEN) expect(html, `${p.path} AIR-GAP LEAK: found "${w}"`).not.toContain(w)
