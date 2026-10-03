@@ -12,6 +12,28 @@ set -euo pipefail
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 
+# Cloud sessions run in throwaway containers, so the receipts and snapshot refresh written
+# below are discarded with the container. Writing them there only dirties tracked files and
+# trips the environment's stop-hook ("uncommitted changes") on every turn. In cloud: still run
+# every check and print the readout, then restore each of these files that was clean when the
+# hook started; a file already edited this session (e.g. by /handoff) is left alone. Local
+# machines keep writing them as before, since there they are the real ledger.
+_HOOK_STATE_FILES="_INBOX/pulse.jsonl _INBOX/lattice-drift.jsonl _INBOX/seedbank-drift.jsonl _STATE/pulse.json _STATE/snapshot.json runtime/specs/knowledge-lattice-v1.json"
+_CLEAN_AT_START=""
+if [ "${CLAUDE_CODE_REMOTE:-}" = "true" ]; then
+  for _f in $_HOOK_STATE_FILES; do
+    git -C "$CLAUDE_PROJECT_DIR" ls-files --error-unmatch -- "$_f" >/dev/null 2>&1 \
+      && git -C "$CLAUDE_PROJECT_DIR" diff --quiet HEAD -- "$_f" 2>/dev/null \
+      && _CLEAN_AT_START="$_CLEAN_AT_START $_f"
+  done
+  _restore_hook_state() {
+    for _f in $_CLEAN_AT_START; do
+      git -C "$CLAUDE_PROJECT_DIR" checkout -- "$_f" 2>/dev/null || true
+    done
+  }
+  trap _restore_hook_state EXIT
+fi
+
 # Pulse — the global heartbeat (Phase 0). The wall-clock twin of the git-backed oracle:
 # derives each subsystem's freshness from git commit timestamps (tamper-evident OT layer),
 # runs the pulse<->oracle mutual check, and ALARMS on flatline. This is the fix for the
