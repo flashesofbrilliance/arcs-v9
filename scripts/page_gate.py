@@ -153,22 +153,28 @@ def node_path():
 def render_checks(files):
     if not shutil.which("node"):
         return None, "node not found"
-    np = node_path()
-    if not np:
+    candidates = node_path()
+    if not candidates:
         return None, "playwright not installed (repo or global)"
-    env = dict(os.environ, NODE_PATH=os.pathsep.join(np))
     with tempfile.NamedTemporaryFile("w", suffix=".cjs", delete=False) as fh:
         fh.write(RENDER_JS)
         js = fh.name
+    why = "render failed"
     try:
-        r = subprocess.run(["node", js, json.dumps([os.path.abspath(f) for f in files]),
-                            json.dumps(list(WIDTHS))], capture_output=True, text=True, env=env,
-                           timeout=300)
+        # Each playwright install expects its own browser build. In a cloud session the repo's
+        # copy (after npm ci) has no browser while the global one matches /opt/pw-browsers, so
+        # try every install until one launches.
+        for np in candidates:
+            env = dict(os.environ, NODE_PATH=np)
+            r = subprocess.run(["node", js, json.dumps([os.path.abspath(f) for f in files]),
+                                json.dumps(list(WIDTHS))], capture_output=True, text=True,
+                               env=env, timeout=300)
+            if r.returncode == 0:
+                return json.loads(r.stdout.strip().splitlines()[-1]), None
+            why = (r.stderr.strip().splitlines() or ["render failed"])[0]
     finally:
         os.unlink(js)
-    if r.returncode != 0:
-        return None, (r.stderr.strip().splitlines() or ["render failed"])[-1]
-    return json.loads(r.stdout.strip().splitlines()[-1]), None
+    return None, why
 
 
 def main():

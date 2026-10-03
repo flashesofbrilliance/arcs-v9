@@ -51,7 +51,27 @@ session the repo's packages are usually not installed; the global copy is enough
 5. A new failure class goes into `page_gate.py` with a fail-on-bad and pass-on-good proof
    (AGENTS.md gotcha 15), not into this prose.
 
-## Baseline (2026-10-03, `--static --no-wrap-lint public/*.html`)
+## Fixing what it finds
 
-149 of 181 pass. Errors: doctype 30, charset 23, viewport 5, mojibake 0. Warnings: Google Fonts
-78, en-dash 38.
+- **google-fonts / charset**: `python3 scripts/fonts_selfhost.py apply <page>` self-hosts the
+  page's fonts from `public/fonts/` (preload, metric-matched fallback) and adds the charset.
+  New family: add it to `FAMILIES`, run `fetch`, then `apply`. `check` lists pages still on Google.
+- **doctype on a legacy page**: NOT mechanical. A doctype moves the page from quirks to
+  standards mode; on 2026-10-03 it moved layout on 21 of 30 pages (hero sections 500-680px
+  shorter, the take-home-trap dossier 1,400px taller). Add it with `fonts_selfhost.py apply
+  --doctype <page>`, then compare element positions with and without it at 375 and 1280, and
+  keep it only if nothing moved or a human approves the new layout from screenshots.
+- **viewport**: never add blind. A page built without one may be a desktop-only layout that
+  gets worse on a phone once it has one.
+
+## Baseline
+
+| Date | Pass | doctype | charset | viewport | google-fonts |
+|---|---|---|---|---|---|
+| 2026-10-03 before sweep | 149/181 | 30 | 23 | 5 | 78 |
+| 2026-10-03 after sweep | 158/181 | 21 | 0 | 5 | 0 |
+
+The 21 doctype pages (layout moves in standards mode; review one by one): eight NFTT hero
+posts and the take-home-trap dossier, `forge-cut`, `forge-pattern`, `lewoof-intake`, eight `prl-status-*`,
+`state-of-union`. The 5 viewport pages: `forge-cut`, `forge-pattern`, `julia`, `julia-ext`,
+`lewoof-intake`. Render overflow on fixed-width resume sheets (441px at 375) predates the sweep.

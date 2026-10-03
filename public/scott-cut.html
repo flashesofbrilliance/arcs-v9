@@ -6,10 +6,18 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Scott · The Cut</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFQSURBVHgB7ZdNasMwEIWf7LgOpQabXKw9Ru9QumoP0ZSuuyr0CFkX2l276boUAiGbEJKNnBFWyA8eESmTOAQ/kLEx0nwaP0sjVZLQoCI0rBbgfABcVtaOdx0ISSngcQB8/gFJbANrIL8Enq8riEgdEOD9B7h7pZsetbUZR3OCo+f+TX0/MYD/CV0yaso2K90FxjO+n5gH6tK70zs0LG8AztDZBYLk7QGTzacP4He0cnsaVyZEAIQ3gAl++0KZKLCZjhgb5jsYgJl5mduAAvL2QCJs29P9Czi3p2JLV6UOF9z46e0bGNIKF1vMq9S6Xej7swAm+MMAuKe1vcy2yFIEud0LwOiLdrWyJxusTqwHEsE0BwEcSyyAFizWgyqigvbxaFbt5/vIjJF3PQH0soIhA46n7v3cJTNOQSVZ31GSKe5kxHUIBeHGUu3RDA2rBVgAOtZUSsFNYTQAAAAASUVORK5CYII=">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- wrap-lint-allow: measure-mismatch (intentional two-width: reading-measure body prose beside wider data/grids; not a broken document column) -->
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -17,8 +25,8 @@
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
   --verm: #FF6B35;
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
-  --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
-  --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono: 'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  --sans: 'Inter','Inter Fallback',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   --text-xs: 10px; --text-sm: 12px; --text-md: 14px; --text-base: 16px;
   --text-lg: 18px; --text-xl: 22px; --text-2xl: 32px; --text-3xl: 48px;
   --track-wide: 0.04em; --track-wider: 0.08em;
