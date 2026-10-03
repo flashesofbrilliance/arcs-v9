@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lore · a series by Zach Harris</title>
+<meta name="description" content="Lore: the stories ARCS is built on, each filed with a verdict. A story may be told before it is cited, and each one names the test that would retire it.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://good.arcs.care/series/lore">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Lore: the stories ARCS is built on", "url": "https://good.arcs.care/series/lore", "author": {"@type": "Person", "name": "Zach Harris"}, "hasPart": [{"@type": "Article", "headline": "The Gap", "url": "https://good.arcs.care/series/lore/the-gap"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the Lore series?", "acceptedAnswer": {"@type": "Answer", "text": "Lore is a series of the stories ARCS is built on. Each one is filed with a verdict: true, a durable myth, an old wives' tale, or undecided. An undecided story may be told but not cited, and each entry names the test that would decide it."}}, {"@type": "Question", "name": "Why file a story with a verdict?", "acceptedAnswer": {"@type": "Answer", "text": "Because a story repeated often enough starts to feel like evidence. Filing it with a verdict and a falsifier keeps the telling honest: the story stays on the page, and the verdict changes when the test runs."}}]}]</script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #475569;
+  --dimmed:    #64748b;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* page layer */
+:root { --measure: 680px; --lane: 1040px; --gutter: 48px; --font-sans: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace; }
+* { box-sizing: border-box; }
+html, body { margin: 0; line-height: 1.6; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); font-size: 0.925rem; line-height: 1.6; overflow-wrap: break-word; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+.pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
+header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 500; line-height: 1.35; margin: 32px 0 24px; }
+h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 400; line-height: 1.35; margin: 48px 0 12px; }
+.lede { max-width: var(--measure); font-size: 1.15rem; margin: 0 0 12px; }
+p { max-width: var(--measure); }
+.mono { line-height: 1.6; font-family: var(--font-mono); font-size: 0.925rem; color: #94a3b8; }
+.answer { max-width: var(--measure); background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px; margin: 24px 0; }
+.answer p { max-width: none; margin: 0; }
+ol.entries { list-style: none; padding: 0; margin: 0; }
+.entry { max-width: var(--measure); border-top: 1px solid var(--border); padding: 18px 0; }
+.entry .t { display: block; font-family: var(--font-sans); font-size: 1.15rem; font-weight: 600; line-height: 1.35; margin: 4px 0 6px; text-decoration: none; }
+.entry .t:hover { text-decoration: underline; }
+.entry .t, strong, header span { line-height: 1.5; }
+.entry p { margin: 0; color: var(--text); }
+footer { color: #94a3b8; font-size: 0.925rem; margin-top: 64px; }
+footer .foot { max-width: var(--measure); border-top: 1px solid var(--border); padding-top: 28px; }
+@media (max-width: 600px) { :root { --gutter: 16px; } }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<header class="pad"><span class="mono">good.arcs.care · series</span></header>
+<main class="pad">
+<h1>Lore</h1>
+<p class="lede">The stories ARCS is built on, each filed with a verdict. A story may be told before it is cited, and every entry names the test that would retire it. When the test runs, the verdict changes; the story stays on the page.</p>
+<div class="answer"><p><strong>Short answer.</strong> Lore is a series of the stories ARCS is built on. Each one is filed with a verdict: true, a durable myth, an old wives' tale, or undecided. An undecided story may be told but not cited, and each entry names the test that would decide it.</p></div>
+<h2>The index</h2>
+<ol class="entries">
+<li class="entry"><span class="mono">No. 1 · In progress</span><span class="t">The Exoskeleton</span><p>Why every ARCS instrument maps to an executive-function job, and the test that will say whether it helps a mind finish, not only start.</p></li>
+<li class="entry"><span class="mono">No. 2 · 2026-10 · Verdict undecided</span><a class="t" href="https://good.arcs.care/series/lore/the-gap">The Gap</a><p>What people say, what they do, and the two opposite rules ARCS keeps about the distance between them.</p></li>
+</ol>
+<h2>Questions</h2>
+<p><strong>What is the Lore series?</strong></p>
+<p>Lore is a series of the stories ARCS is built on. Each one is filed with a verdict: true, a durable myth, an old wives' tale, or undecided. An undecided story may be told but not cited, and each entry names the test that would decide it.</p>
+<p><strong>Why file a story with a verdict?</strong></p>
+<p>Because a story repeated often enough starts to feel like evidence. Filing it with a verdict and a falsifier keeps the telling honest: the story stays on the page, and the verdict changes when the test runs.</p>
+<h2>Other series</h2>
+<p>Receipts: <a href="https://good.arcs.care/series/receipts">good.arcs.care/series/receipts</a> · Notes from the Trenches: <a href="https://good.arcs.care/blog/nftt">good.arcs.care/blog/nftt</a></p>
+</main>
+<footer class="pad"><div class="foot">Lore by Zach Harris. Stories filed with their verdicts.</div></footer>
+</body>
+</html>

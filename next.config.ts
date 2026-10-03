@@ -171,6 +171,8 @@ const nextConfig: NextConfig = {
         { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/series/receipts", destination: "/good-series-receipts.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/series/lore", destination: "/good-series-lore.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/series/lore/the-gap", destination: "/good-series-lore-the-gap.html", has: [{ type: "host", value: "good.arcs.care" }] },
         // good.arcs.care catch-all. The negative lookahead MUST also exclude api / _next / _vercel /
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
