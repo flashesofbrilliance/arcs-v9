@@ -223,5 +223,9 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // fonts/ is excluded so self-hosted font files are never rewritten: on a multi-path
+  // host (good.arcs.care, vico.arcs.care) the catch-all `default` page otherwise answered
+  // /fonts/*.woff2 with HTML, and next.config.ts caches /fonts/* as immutable for a year,
+  // so the wrong answer stuck. Found live 2026-10-03.
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|fonts/).*)'],
 }
