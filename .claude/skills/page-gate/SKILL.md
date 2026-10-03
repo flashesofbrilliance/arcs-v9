@@ -70,8 +70,9 @@ session the repo's packages are usually not installed; the global copy is enough
 |---|---|---|---|---|---|
 | 2026-10-03 before sweep | 149/181 | 30 | 23 | 5 | 78 |
 | 2026-10-03 after sweep | 158/181 | 21 | 0 | 5 | 0 |
+| 2026-10-03 after viewport fix | 160/181 | 21 | 0 | 0 | 0 |
 
 The 21 doctype pages (layout moves in standards mode; review one by one): eight NFTT hero
 posts and the take-home-trap dossier, `forge-cut`, `forge-pattern`, `lewoof-intake`, eight `prl-status-*`,
-`state-of-union`. The 5 viewport pages: `forge-cut`, `forge-pattern`, `julia`, `julia-ext`,
-`lewoof-intake`. Render overflow on fixed-width resume sheets (441px at 375) predates the sweep.
+`state-of-union`. Viewport: all pages carry one since 2026-10-03 (the last five were not desktop-only;
+Zach confirmed). Render overflow on fixed-width resume sheets (441px at 375) predates the sweep.
