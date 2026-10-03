@@ -64,8 +64,11 @@ Then, in the new file:
 ```bash
 # 2. route it — add to the 'good' block in src/proxy.ts:
 #    '/blog/nftt/<slug>': '/blog-nftt-<slug>.html', '/blog/nftt/<slug>/full': '/blog-nftt-<slug>.html'
-# 3. index it — add a card to public/blog-nftt-index.html:
-#    new card = "Latest"; demote the previous "Latest" to its number (No. N).
+# 3. index it — the index is GENERATED; never hand-edit public/blog-nftt-index.html:
+#    add the post to POSTS in scripts/nftt_index_build.mjs (href, title, desc),
+#    add {slug, section, view: "compact"} at the top of its section in
+#    scripts/nftt_index_layout.json, then: node scripts/nftt_index_build.mjs
+#    (CI runs `node scripts/nftt_index_build.mjs --check` and fails on a hand edit)
 # 4. run the gates (below), then commit; good.arcs.care deploys from main.
 ```
 

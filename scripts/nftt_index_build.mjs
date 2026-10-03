@@ -15,11 +15,15 @@
  *   2. node scripts/nftt_index_build.mjs        # regenerates public/blog-nftt-index.html
  *   3. commit both files
  *
+ * CHECK: `node scripts/nftt_index_build.mjs --check` renders in memory and exits 1 if the
+ *   committed page differs. A hand edit to public/blog-nftt-index.html belongs in this script.
+ *
  * No em-dashes anywhere (repo gate). No new dependencies (native drag-and-drop, stdlib only).
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -36,60 +40,38 @@ const IMG = {
 
 // ---- POSTS: the content model (single source of truth) -----------------------------------
 const POSTS = {
-  'post-1': { href: '/blog/nftt/post-1', title: `The week my notes started filing themselves`,
-    desc: `A corpus that learned to catalog itself, from cold DM to witnessed law.` },
-  'post-2': { href: '/blog/nftt/post-2', title: `The week my own memory tried to make me lie to a friend`,
-    desc: `A featherlight respark, a memory caught lying by the record, and provenance-led growth.` },
-  'post-3': { href: '/blog/nftt/post-3', title: `The names were already there. We just could not say them yet.`,
-    desc: `Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later.` },
-  'post-4': { href: '/blog/nftt/post-4', title: `The detector's first catch was the document it was built to protect`,
-    desc: `A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.` },
-  'take-home-trap': { href: '/blog/nftt/take-home-trap', title: `With Life, and Without It`,
-    desc: `Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis.` },
-  'confirmed-not-my-bug': { href: '/blog/nftt/confirmed-not-my-bug', title: `Confirmed Not My Bug`,
-    desc: `We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.` },
-  'assets-and-liabilities': { href: '/blog/nftt/assets-and-liabilities', title: `Assets and Liabilities`,
-    desc: `A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself.` },
-  'cheapest-edit-is-a-diff': { href: '/blog/nftt/cheapest-edit-is-a-diff', title: `The Cheapest Edit Is a Diff`,
-    desc: `Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document.` },
-  'the-loop-closes': { href: '/blog/nftt/the-loop-closes', title: `The Loop Closes`,
-    desc: `I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning.` },
-  'the-factory-on-itself': { href: '/blog/nftt/the-factory-on-itself', title: `The Factory on Itself`,
-    desc: `The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement.` },
-  'probably-confirmation-bias': { href: '/blog/nftt/probably-confirmation-bias', title: `Probably Confirmation Bias, Might Delete Later`,
-    desc: `I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.` },
-  'schematic-scaffolds': { href: '/blog/nftt/schematic-scaffolds', title: `The Schematic That Scaffolds In The Missing Pieces`,
-    desc: `I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one.` },
-  'ledger-not-story': { href: '/blog/nftt/ledger-not-story', title: `The Ledger Is Not the Story`,
-    desc: `I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy.` },
-  'pulp-governance': { href: '/blog/nftt/pulp-governance', title: `The Ancestry Check`,
-    desc: `A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question.` },
-  'second-pass': { href: '/blog/nftt/second-pass', title: `The Second Pass`,
-    desc: `An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands.` },
-  'the-instinct-before-it-had-a-name': { href: '/blog/nftt/the-instinct-before-it-had-a-name', title: `The Instinct Before It Had a Name`,
-    desc: `Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people.`,
-    img: IMG.instinct, alt: `A luminous Mobius surface, the instinct seen before it had a name.` },
-  'four-dates-one-thesis-three-confirmations': { href: '/blog/nftt/four-dates-one-thesis-three-confirmations', title: `Four Dates, One Thesis, Three Confirmations`,
-    desc: `A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open.`,
-    img: IMG.closing, alt: `A luminous Mobius figure-eight closing on itself, the prediction loop resolving into receipt.` },
-  'the-pre-mortem-that-asked-to-be-wrong': { href: '/blog/nftt/the-pre-mortem-that-asked-to-be-wrong', title: `The Pre-Mortem That Asked to Be Wrong`,
-    desc: `Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.`,
-    img: IMG.instinct, alt: `A luminous Mobius surface from a new vantage, the same circuit read with the opposite sign.` },
-  'the-same-rigor-applied-to-slang': { href: '/blog/nftt/the-same-rigor-applied-to-slang', title: `The Same Rigor, Applied to Slang`,
-    desc: `Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.`,
-    img: IMG.method, alt: `A luminous Mobius traversal from another orientation, the same instrument turned to a new bench.` },
-  'the-method-that-was-already-built': { href: '/blog/nftt/the-method-that-was-already-built', title: `The Method That Was Already Built`,
-    desc: `Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.`,
-    img: IMG.method, alt: `A luminous Mobius traversal, the method that was already built.` },
-  'closing-the-loop-receipts': { href: '/blog/nftt/closing-the-loop-receipts', title: `Closing the Loop: Receipts on Three Predictions`,
-    desc: `Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record.`,
-    img: IMG.closing, alt: `A luminous Mobius figure-eight drawing tight, the same loop seen as it closes.` },
-  'tuning-into-the-distortion-field': { href: '/blog/nftt/tuning-into-the-distortion-field', title: `Tuning into the Distortion Field`,
-    desc: `A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.`,
-    img: IMG.tuning, alt: `A composite portrait dissolving into a distortion field, force leaving a wave.` },
-  'the-lock-that-was-already-there': { href: '/blog/nftt/the-lock-that-was-already-there', title: `The Lock That Was Already There`,
-    desc: `Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.`,
-    img: IMG.closing, alt: `A luminous Mobius figure-eight drawing tight, the same loop seen as it closes, echoing a lock closing on itself.` },
+  "light-at-thirty-eight-miles-an-hour": { href: "/blog/nftt/light-at-thirty-eight-miles-an-hour", title: "Light at Thirty-Eight Miles an Hour", desc: "A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way." },
+  "the-video-that-said-too-much": { href: "/blog/nftt/the-video-that-said-too-much", title: "The Video That Said Too Much", desc: "I made an explainer for a tool that checks claims before you make them, then held the explainer to the tool's own standard. It caught the video saying the tool does work that only a person does, in 84 of 111 lines." },
+  "notomation": { href: "/blog/nftt/notomation", title: "Notomation", desc: "Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing." },
+  "receipts-or-it-didnt-happen": { href: "/blog/nftt/receipts-or-it-didnt-happen", title: "A Tale of Two Incident Reports", desc: "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen." },
+  "the-cold-reconstruction": { href: "/blog/nftt/the-cold-reconstruction", title: "The Reader Who Wasn't There", desc: "A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark." },
+  "the-control-and-the-experiment": { href: "/blog/nftt/the-control-and-the-experiment", title: "We Gave the Reader Its Memory Back", desc: "The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural." },
+  "post-1": { href: "/blog/nftt/post-1", title: "The week my notes started filing themselves", desc: "A corpus that learned to catalog itself, from cold DM to witnessed law." },
+  "post-2": { href: "/blog/nftt/post-2", title: "The week my own memory tried to make me lie to a friend", desc: "A featherlight respark, a memory caught lying by the record, and provenance-led growth." },
+  "post-3": { href: "/blog/nftt/post-3", title: "The names were already there. We just could not say them yet.", desc: "Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later." },
+  "post-4": { href: "/blog/nftt/post-4", title: "The detector's first catch was the document it was built to protect", desc: "A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon." },
+  "a-draft-is-not-a-verb": { href: "/blog/nftt/a-draft-is-not-a-verb", title: "You Can Train Agency But You Can't Teach Good Judgment (Yet)", desc: "The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, not a bug, and the fix was a guardrail that removes the capability rather than a promise to be careful." },
+  "take-home-trap": { href: "/blog/nftt/take-home-trap", title: "With Life, and Without It", desc: "Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis." },
+  "confirmed-not-my-bug": { href: "/blog/nftt/confirmed-not-my-bug", title: "Confirmed Not My Bug", desc: "We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see." },
+  "assets-and-liabilities": { href: "/blog/nftt/assets-and-liabilities", title: "Assets and Liabilities", desc: "A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself." },
+  "cheapest-edit-is-a-diff": { href: "/blog/nftt/cheapest-edit-is-a-diff", title: "The Cheapest Edit Is a Diff", desc: "Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document." },
+  "the-loop-closes": { href: "/blog/nftt/the-loop-closes", title: "The Loop Closes", desc: "I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning." },
+  "the-factory-on-itself": { href: "/blog/nftt/the-factory-on-itself", title: "The Factory on Itself", desc: "The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement." },
+  "probably-confirmation-bias": { href: "/blog/nftt/probably-confirmation-bias", title: "Probably Confirmation Bias, Might Delete Later", desc: "I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong." },
+  "schematic-scaffolds": { href: "/blog/nftt/schematic-scaffolds", title: "The Schematic That Scaffolds In The Missing Pieces", desc: "I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one." },
+  "ledger-not-story": { href: "/blog/nftt/ledger-not-story", title: "The Ledger Is Not the Story", desc: "I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy." },
+  "pulp-governance": { href: "/blog/nftt/pulp-governance", title: "The Ancestry Check", desc: "A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question." },
+  "second-pass": { href: "/blog/nftt/second-pass", title: "The Second Pass", desc: "An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands." },
+  "the-instinct-before-it-had-a-name": { href: "/blog/nftt/the-instinct-before-it-had-a-name", title: "The Instinct Before It Had a Name", desc: "Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people." },
+  "four-dates-one-thesis-three-confirmations": { href: "/blog/nftt/four-dates-one-thesis-three-confirmations", title: "Four Dates, One Thesis, Three Confirmations", desc: "A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open." },
+  "the-pre-mortem-that-asked-to-be-wrong": { href: "/blog/nftt/the-pre-mortem-that-asked-to-be-wrong", title: "The Pre-Mortem That Asked to Be Wrong", desc: "Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong." },
+  "the-same-rigor-applied-to-slang": { href: "/blog/nftt/the-same-rigor-applied-to-slang", title: "The Same Rigor, Applied to Slang", desc: "Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain." },
+  "the-method-that-was-already-built": { href: "/blog/nftt/the-method-that-was-already-built", title: "The Method That Was Already Built", desc: "Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies." },
+  "closing-the-loop-receipts": { href: "/blog/nftt/closing-the-loop-receipts", title: "Closing the Loop: Receipts on Three Predictions", desc: "Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record." },
+  "tuning-into-the-distortion-field": { href: "/blog/nftt/tuning-into-the-distortion-field", title: "Tuning into the Distortion Field", desc: "A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.", img: "/blog-nftt-tuning-into-the-distortion-field-hero.jpg", alt: "A composite portrait dissolving into a distortion field, force leaving a wave." },
+  "the-question-that-found-the-outage": { href: "/blog/nftt/the-question-that-found-the-outage", title: "The Question That Found the Outage", desc: "A routine question, how do I know this works, uncovered a six-week-old outage no one had reported: a migration that shipped in code but never reached the database. The fix revived a dead feature and turned the whole failure class loud." },
+  "the-lock-that-was-already-there": { href: "/blog/nftt/the-lock-that-was-already-there", title: "The Lock That Was Already There", desc: "Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.", img: "/blog-nftt-closing-the-loop-receipts-hero.jpg", alt: "A luminous Mobius figure-eight drawing tight, the same loop seen as it closes, echoing a lock closing on itself." },
+  "any-stranger-can-be-a-bar-raiser": { href: "/blog/nftt/any-stranger-can-be-a-bar-raiser", title: "Any Stranger Can Be a Bar Raiser", desc: "A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Every gate I owned had passed it. Notes on the review nobody on your team can give you." },
 };
 
 // ---- SECTIONS + default LAYOUT (overridable by nftt_index_layout.json) --------------------
@@ -149,10 +131,9 @@ function featuredCard(p) {
       </div>
     </a>`;
 }
+// Grid cards are text-only (#506): the hero image stays on the featured card alone.
 function gridCard(p) {
-  const img = p.img ? `<div class="card-img"><img src="${p.img}" alt="${esc(p.alt || p.title)}" loading="lazy" width="1280" height="853"></div>` : '';
-  return `<a class="card${p.img ? '' : ' card-noimg'}" href="${p.href}">
-        ${img}
+  return `<a class="card" href="${p.href}">
         <div class="card-body">
           <h3 class="card-t">${esc(p.title)}</h3>
           <p class="card-d">${esc(p.desc)}</p>
@@ -322,6 +303,27 @@ function editorMain() {
 
 // ---- page template -----------------------------------------------------------------------
 const readerHTML = renderReader(SECTIONS, LAYOUT, POSTS);
+// Links to the sibling series; static, so it is not part of the drag-and-drop layout.
+const SERIES_HTML = `  <section class="sec" aria-label="Other series">
+    <div class="sec-h">
+      <span class="sec-tag">Other series</span>
+      <span class="sec-blurb">Same build, a different kind of record.</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="clist">
+      <a class="crow" href="/series/lore">
+        <h3 class="crow-t">Lore</h3>
+        <p class="crow-d">The stories ARCS is built on, each filed with a verdict and the test that would retire it. Newest: The Gap.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/series/receipts">
+        <h3 class="crow-t">Receipts</h3>
+        <p class="crow-d">Dated public predictions, each written with its own falsifier, then re-scored against the primary documents.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+    </div>
+  </section>
+`;
 const embedData = JSON.stringify({ sections: SECTIONS, layout: LAYOUT, posts: POSTS });
 const editorJS = '(' + editorMain.toString() + ')();';
 const OG_IMG = 'https://good.arcs.care' + IMG.tuning;
@@ -376,7 +378,7 @@ const page = `<!DOCTYPE html>
 
   /* featured */
   .feat{display:grid;grid-template-columns:1.12fr .88fr;border:1px solid var(--border);border-radius:18px;overflow:hidden;
-    background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.18));transition:.18s;}
+    background:linear-gradient(165deg,rgba(255,255,255,.025),rgba(0,0,0,.18));transition:.18s;margin-bottom:18px;}
   .feat:hover{border-color:var(--cyan);transform:translateY(-2px);}
   .feat-img{position:relative;min-height:260px;background:var(--surface-2);}
   .feat-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
@@ -467,7 +469,7 @@ const page = `<!DOCTYPE html>
 <main>
   <div class="wrap">
 ${readerHTML}
-  </div>
+${SERIES_HTML}  </div>
 </main>
 <style>
   /* ADR-076 MCP-led-growth demand probe (Stage 0, painted door). Honest framing: the connector
@@ -532,5 +534,19 @@ ${readerHTML}
 </html>
 `;
 
-writeFileSync(OUT, page);
-console.log(`[nftt-index] wrote ${OUT} (${SECTIONS.length} sections, ${LAYOUT.length} posts, ${page.length} bytes)`);
+// Fonts are self-hosted by the shared transform, so this page and every other page get the same
+// preload + metric-matched fallback block from one place (scripts/fonts_selfhost.py).
+const out = execFileSync('python3', [join(__dirname, 'fonts_selfhost.py'), 'transform'],
+  { input: page, encoding: 'utf8' });
+
+if (process.argv.includes('--check')) {
+  const cur = existsSync(OUT) ? readFileSync(OUT, 'utf8') : null;
+  if (cur !== out) {
+    console.error(`[nftt-index] drift: ${OUT} differs from what this script renders`);
+    process.exit(1);
+  }
+  console.log('[nftt-index] check: no drift');
+} else {
+  writeFileSync(OUT, out);
+  console.log(`[nftt-index] wrote ${OUT} (${SECTIONS.length} sections, ${LAYOUT.length} posts, ${out.length} bytes)`);
+}

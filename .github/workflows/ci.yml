@@ -80,6 +80,12 @@ jobs:
         run: python3 scripts/source_trust_emit.py --check
       - name: Every gh_sync backlog row has an issue
         run: python3 scripts/backlog_issue_sync.py --check
+      # Generated public pages: a hand edit to the output instead of the generator fails here
+      # (both had drifted far enough that a rebuild would have reverted live work).
+      - name: good.arcs.care gallery + connector pages match their renderer
+        run: python3 scripts/connector_render.py --check
+      - name: NFTT index matches its builder
+        run: node scripts/nftt_index_build.mjs --check
 
   smoke:
     runs-on: ubuntu-latest
