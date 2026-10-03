@@ -71,9 +71,22 @@ back to you instead of making it.]`
 
 ## IV. The crack, shown not hidden
 
-Here is the uncomfortable part. Of the receipts the system has filed, the ones with an outcome
-closed number **3 of 261** (production database, `Receipt` and `Outcome` tables, counted
-2026-10-03; the handbook's older figure was 2 of 247).
+Here is the uncomfortable part. Of the 261 receipts the system has filed, three carry a logged
+outcome, and only one of those is real. The other two were me testing the form: one says *I close
+the loop*, and the other, less eloquently, says *Blah*. One real closure in 261, counted from the
+production database on 3 October 2026 (`Receipt` and `Outcome` tables; all three are founder-cohort).
+
+The real one is worth showing. In June I asked whether to extend runway six months or take the
+Series A now. The bearing came back: extend only if one investor-legible milestone changes the
+valuation story; otherwise take the round before the market shifts. The conversation with the
+investor went better than expected. The lesson I logged that day: *stop thinking in what else and
+start maximizing shots on deck.* (Deal terms in the outcome row deliberately left out.)
+
+And the loop does close by hand. Three dated public calls on Apple, January to May 2026, each with
+its falsifier written in advance, checked against Apple's own filings, one number owned as wrong
+(`public/blog-nftt-closing-the-loop-receipts.html`). Forty-two retired beliefs on the public belief
+log (`public/belief-log.html`), each with the test that killed it. The closing half works when I do
+it in public, under a deadline. Inside the app, it barely exists yet.
 
 An exoskeleton for executive function should help a mind like mine *finish*, not only *start*.
 Starting is where an engine like mine already has horsepower to spare. If ARCS is brilliant at opening loops and
@@ -88,16 +101,21 @@ This story is filed as **myth, verdict undecided**: told, not yet cited.
 - **What would prove it wrong:** outcome capture stays flat. Concretely, if by
   `[ZACH: date, suggest 2027-01-01]` no cohort reaches the Accountant's own calibration floor of
   **30 closed outcomes** (`operators/arcs_accountant.py`, `CALIBRATION_MIN_N = 30`), the thesis is
-  downgraded from "exoskeleton" to "ignition system," publicly, here.
+  downgraded from "exoskeleton" to "starter motor" (it cranks the engine, it does not keep it running), publicly, here.
 - **What would confirm it:** closures climb to that floor, and the closed receipts show calibration
   (outcome versus conviction) rather than noise.
 
 Either way the entry stays up. The verdict changes; the story does not get rewritten.
 
-## Coda
+## VI. The gap
 
-`[ZACH: the closing image. Suggestion: the exoskeleton is not the point. The point is the day you
-notice you walked the last mile with it switched off.]`
+A coil takes twelve volts and steps them up to tens of thousands. It never touches the cylinder. At
+the tip of the plug there is a gap, less than a millimeter, set on purpose. Close it and nothing
+fires. Open it too wide and the spark cannot jump. The ignition happens only in the gap.
+
+> That is the job: build the charge, hold the gap, never close it. The spark is mine.
+
+_(Coda chosen by Zach 2026-10-03: spark plug. It hands off to Lore entry 2, The Gap.)_
 
 ---
 
@@ -117,7 +135,7 @@ notice you walked the last mile with it switched off.]`
 1. Zach's voice pass on every `[ZACH]` mark. **Ruled 2026-10-03 (Zach): no diagnostic label in
    public, in this entry or any derivative (page, LinkedIn cut, lore row). The essay stays on
    executive function and the "Lambo engine, bike brakes" self-description.**
-2. ~~Re-measure the 2/247 figure~~ done 2026-10-03: 3/261. Re-count on publish day.
+2. ~~Re-measure the 2/247 figure~~ done 2026-10-03: 3/261 logged, 1 substantive (2 were form tests). Re-count on publish day.
 3. Confirm the lore.jsonl id (the file's own check enforces sequence; next is `lore-015` if 14 rows hold).
 4. Then: `good.arcs.care/series/lore` index (clone the `/series/receipts` shape), the entry page,
    `src/proxy.ts` routes, and the repo's gates (`artifact_wrap_lint.py`, width sweep, em-dashes 0).
