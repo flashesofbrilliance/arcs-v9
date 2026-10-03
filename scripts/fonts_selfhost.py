@@ -217,8 +217,15 @@ def apply(paths, doctype=False):
                      f"<style>\n{BLOCK_START}\n"
                      + "\n".join(face_css(n, manifest["families"][n]) for n in names)
                      + f"\n{BLOCK_END}\n</style>\n")
-            src = re.sub(r"(<style[^>]*>)", lambda m: block + m.group(1), src, count=1) \
-                if re.search(r"<style", src, re.I) else src.replace("</head>", block + "</head>", 1)
+            # After the page's FIRST stylesheet, never before it: sync_family_tokens.py injects
+            # its token block into the first <style>, and a generated block ahead of it made
+            # every family page look stale (build.html, 2026-10-03). @font-face order is
+            # irrelevant to the cascade, and the preload is still discovered in <head>.
+            first_close = re.search(r"</style>[ \t]*\n?", src, re.I)
+            if first_close:
+                src = src[:first_close.end()] + block + src[first_close.end():]
+            else:
+                src = src.replace("</head>", block + "</head>", 1)
         src = ensure_head_basics(src, doctype)
         if src != orig:
             with open(p, "w", encoding="utf-8") as fh:
