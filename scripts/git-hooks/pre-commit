@@ -107,6 +107,26 @@ if [ -f scripts/analytics_coverage_gate.py ] && command -v python3 >/dev/null 2>
 fi
 
 # ---------------------------------------------------------------------------
+# page-gate (static): a NEW standalone page must declare <!doctype html>, a utf-8 charset
+# inside the first 1024 bytes, and a viewport, and must carry no baked-in mojibake. Banked
+# 2026-10-03: a _PROPOSALS/ draft cloned from the NFTT master (which has neither doctype nor
+# charset) rendered "No. 2 Â·" on a phone; 30 public pages lack a doctype. ADDED-only, by design
+# (mirrors the wrap-class guard): legacy pages are cleared by the font/charset sweep, not by
+# blocking unrelated edits. Covers _PROPOSALS/ too, which no other HTML guard sees. The wrap
+# lint already runs above for public/ and _ARTIFACTS/, so it is skipped here; run the full gate
+# (render checks included) by hand: python3 scripts/page_gate.py <file>.
+if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' '_PROPOSALS/*.html' '_PROPOSALS/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    if ! echo "$pages" | tr '\n' '\0' | xargs -0 python3 scripts/page_gate.py --static --no-wrap-lint; then
+      echo "✖ commit blocked: a NEW page is missing doctype / charset / viewport or carries mojibake (see above)." >&2
+      echo "  put <!doctype html> and <meta charset=\"utf-8\"> on the first two lines, add the viewport meta, then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # tooltip-link guard: a glossary `.term` tooltip whose click handler preventDefaults
 # without a closest('a') guard silently blocks link navigation when a term sits inside
 # an <a> (banked 2026-09-23). ADDED + MODIFIED, by design: the bug arrives via an edit
