@@ -73,9 +73,9 @@ back to you instead of making it.]`
 
 ## IV. The crack, shown not hidden
 
-Here is the uncomfortable part. Of the receipts the system has filed, the last recorded count of
-ones with an outcome closed is **2 of 247** (figure from the project handbook; re-measure against
-the database before publishing).
+Here is the uncomfortable part. Of the receipts the system has filed, the ones with an outcome
+closed number **3 of 261** (production database, `Receipt` and `Outcome` tables, counted
+2026-10-03; the handbook's older figure was 2 of 247).
 
 An exoskeleton for executive function should help a mind like mine *finish*, not only *start*.
 Starting is where ADHD already has horsepower to spare. If ARCS is brilliant at opening loops and
@@ -117,7 +117,7 @@ notice you walked the last mile with it switched off.]`
 
 ### Open before building the page
 1. Zach's voice pass on every `[ZACH]` mark, and an explicit yes on naming ADHD publicly.
-2. Re-measure the 2/247 figure against the DB.
+2. ~~Re-measure the 2/247 figure~~ done 2026-10-03: 3/261. Re-count on publish day.
 3. Confirm the lore.jsonl id (the file's own check enforces sequence; next is `lore-015` if 14 rows hold).
 4. Then: `good.arcs.care/series/lore` index (clone the `/series/receipts` shape), the entry page,
    `src/proxy.ts` routes, and the repo's gates (`artifact_wrap_lint.py`, width sweep, em-dashes 0).
