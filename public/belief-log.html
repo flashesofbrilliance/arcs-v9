@@ -73,7 +73,9 @@
   .node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid transparent; }
   .node.canon::after { border-color: var(--gold); box-shadow: var(--glow-gold); }
   .node.recent { animation: pulse 2.4s ease-in-out infinite; }
-  .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
+  .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
+  /* Hover-grow only where hover is real: on touch screens :hover sticks to the last-tapped dot. */
+  @media (hover: hover) { .node:hover { transform: translate(-50%,-50%) scale(1.55); z-index: 5; } }
   @keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 6px currentColor; }
     50% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 16px currentColor, 0 0 26px currentColor; } }
   .axis { position: relative; height: 20px; margin: 8px 8px 0 122px; min-width: 510px; }
@@ -260,6 +262,15 @@
     n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
     n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
   });
+  // Touch screens: iOS keeps hover and focus on the last-tapped dot, so neither mouseleave nor
+  // blur fires when you tap elsewhere. Close on any tap outside a dot, and on Escape.
+  function dismissTip(){
+    hideTip();
+    const a = document.activeElement;
+    if (a && a.classList && a.classList.contains("node")) a.blur();
+  }
+  document.addEventListener("pointerdown", e => { if (!(e.target.closest && e.target.closest(".node"))) dismissTip(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") dismissTip(); });
 
   document.getElementById("legend").innerHTML =
     topScopes.map(([s,n]) => `<span class="li"><span class="d" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${(PLAIN[s]||[s])[0]} · ${n}</span>`).join("") +
