@@ -22,6 +22,13 @@ Counter registry: _SEEDS/_oracle.json  e.g. {"adr": 56, "seed": 11, "receipt": 3
   oracle next <ns>           allocate: bump the counter, print the new id. Caller MUST commit
                              _SEEDS/_oracle.json — the commit (and git's non-ff lock) is what
                              makes the allocation authoritative across sessions.
+  oracle next <ns> --dry-run print the id `next` WOULD allocate; writes nothing (no counter,
+                             no pulse beat)
+  oracle --self-test         prove the argument guard in a throwaway dir (never touches ROOT)
+
+Unknown flags and extra arguments are REJECTED (exit 2), never ignored. On 2026-10-03 a
+`next seed --dry-run` was silently treated as a real `next seed`: the counter moved and a
+pulse beat was stamped for an allocation nobody meant to make.
   oracle audit adr           scan _DECISIONS on the working tree: collisions, gaps, next-free
                              (read-only; the authority for reconciling the existing mess)
 
@@ -87,13 +94,18 @@ def peek(ns):
     print(_load().get(ns, 0))
 
 
-def nxt(ns):
+def nxt(ns, dry_run=False):
     d = _load()
     # seed the counter from live truth on first use of the adr namespace
     if ns == "adr" and "adr" not in d:
         hi = max(_adr_numbers() or [0])
         d["adr"] = hi
     new = d.get(ns, 0) + 1
+    if dry_run:
+        # a preview must look without touching: no counter write, no pulse beat
+        print(new)
+        sys.stderr.write(f"oracle: dry run, {ns} would allocate {new}. Nothing written.\n")
+        return
     d[ns] = new
     _save(d)
     # oracle -> pulse strand: an allocation is a beat. Stamp the pulse's `oracle`
@@ -130,25 +142,106 @@ def sync(ns, to=None):
     print(f"oracle: {ns} synced {cur} -> {to}. COMMIT _SEEDS/_oracle.json.")
 
 
+USAGE = "usage: oracle now | peek <ns> | next <ns> [--dry-run] | audit adr | sync <ns> [--to N] | --self-test\n"
+
+# command -> (positional count after the command, flags with no value, flags taking one value)
+SPEC = {
+    "now":   (0, set(), set()),
+    "peek":  (1, set(), set()),
+    "next":  (1, {"--dry-run"}, set()),
+    "audit": (1, set(), set()),
+    "sync":  (1, set(), {"--to"}),
+}
+
+
+def _usage_error(msg):
+    sys.stderr.write(f"oracle: {msg}\n" + USAGE)
+    sys.exit(2)
+
+
+def _parse(args):
+    """Strict parse: every token must be a known positional or flag for this command.
+    Returns (cmd, positionals, flags dict). Exits 2 on anything unrecognized."""
+    cmd, rest = args[0], args[1:]
+    if cmd not in SPEC:
+        _usage_error(f"unknown command {cmd!r}")
+    npos, bools, valued = SPEC[cmd]
+    pos, flags, i = [], {}, 0
+    while i < len(rest):
+        tok = rest[i]
+        if tok in bools:
+            flags[tok] = True
+        elif tok in valued:
+            if i + 1 >= len(rest) or rest[i + 1].startswith("--"):
+                _usage_error(f"{tok} needs a value")
+            flags[tok] = rest[i + 1]
+            i += 1
+        elif tok.startswith("-"):
+            _usage_error(f"unknown flag {tok!r} for {cmd!r} (refusing to ignore it)")
+        else:
+            pos.append(tok)
+        i += 1
+    if len(pos) != npos:
+        _usage_error(f"{cmd!r} takes {npos} argument(s), got {len(pos)}: {pos}")
+    return cmd, pos, flags
+
+
+def self_test():
+    """Run the CLI in a throwaway project dir and assert the guard holds. Never touches ROOT."""
+    import tempfile
+    me = os.path.abspath(__file__)
+    fails = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp)
+        counter = os.path.join(tmp, "_SEEDS", "_oracle.json")
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], env=env, capture_output=True, text=True)
+
+        def check(name, ok):
+            nonlocal fails
+            print(("PASS " if ok else "FAIL ") + name)
+            fails += 0 if ok else 1
+
+        r = run("next", "seed", "--dry-run")
+        check("next --dry-run previews 1", r.returncode == 0 and r.stdout.strip() == "1")
+        check("next --dry-run writes no counter", not os.path.exists(counter))
+        r = run("next", "seed", "--dryrun")
+        check("unknown flag on next exits 2", r.returncode == 2)
+        check("unknown flag writes no counter", not os.path.exists(counter))
+        check("peek with extra arg exits 2", run("peek", "seed", "extra").returncode == 2)
+        check("sync --to with no value exits 2", run("sync", "seed", "--to").returncode == 2)
+        check("sync with unknown flag exits 2", run("sync", "seed", "--to", "5", "--force").returncode == 2)
+        check("unknown command exits 2", run("allocate", "seed").returncode == 2)
+        r = run("next", "seed")
+        check("real next allocates 1", r.returncode == 0 and r.stdout.strip() == "1")
+        check("real next writes the counter", json.load(open(counter)).get("seed") == 1)
+        r = run("next", "seed", "--dry-run")
+        check("dry run after allocation previews 2", r.stdout.strip() == "2")
+        check("dry run leaves counter at 1", json.load(open(counter)).get("seed") == 1)
+    print(f"oracle self-test: {12 - fails}/12")
+    sys.exit(1 if fails else 0)
+
+
 def main():
     args = sys.argv[1:]
     if not args:
         print(__doc__.strip().splitlines()[0]); return
-    cmd = args[0]
+    if args == ["--self-test"]:
+        self_test()
+    cmd, pos, flags = _parse(args)
     if cmd == "now":
         now()
-    elif cmd == "peek" and len(args) > 1:
-        peek(args[1])
-    elif cmd == "next" and len(args) > 1:
-        nxt(args[1])
-    elif cmd == "audit" and len(args) > 1 and args[1] == "adr":
+    elif cmd == "peek":
+        peek(pos[0])
+    elif cmd == "next":
+        nxt(pos[0], dry_run=flags.get("--dry-run", False))
+    elif cmd == "audit":
+        if pos[0] != "adr":
+            _usage_error(f"audit supports only 'adr', got {pos[0]!r}")
         audit_adr()
-    elif cmd == "sync" and len(args) > 1:
-        to = args[args.index("--to") + 1] if "--to" in args else None
-        sync(args[1], to)
-    else:
-        sys.stderr.write("usage: oracle now | peek <ns> | next <ns> | audit adr | sync <ns> [--to N]\n")
-        sys.exit(2)
+    elif cmd == "sync":
+        sync(pos[0], flags.get("--to"))
 
 
 if __name__ == "__main__":

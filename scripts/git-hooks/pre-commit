@@ -630,5 +630,16 @@ if [ -n "$am" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/assumption
     exit 1
   fi
 fi
+
+# oracle argument guard — the oracle must reject unknown flags, never ignore them (2026-10-03:
+# `next seed --dry-run` silently allocated and stamped a pulse beat). Runs when oracle.py is staged;
+# the self-test works in a throwaway dir and never touches _SEEDS/_oracle.json.
+if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/oracle.py --self-test >/dev/null 2>&1; then
+    python3 scripts/oracle.py --self-test >&2 || true
+    echo "✖ pre-commit(oracle-args): oracle self-test failed. fix the argument guard before committing." >&2
+    exit 1
+  fi
+fi
 exit 0
 
