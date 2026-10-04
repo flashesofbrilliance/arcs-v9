@@ -7,10 +7,16 @@
 
 ---
 
-## [v3.75.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
+## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
 - `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).
 - Triggered by the survey landing replacing `/` (waitlist form on the home page). Privacy-review found the old copy claimed "anonymous sessions store nothing" while the form wrote rows.
+
+## [v3.76.0] 2026-10-04 — NFTT bylines date the LinkedIn originals; main's generated-views fixed (PRs #697 `cb0d8772`, #703 `348ae373`, #706 pending)
+
+- **Originals, not "first published":** every NFTT post is a new essay, so bylines date the pieces it was written from ("From the LinkedIn original(s), <dates>"). SSOT `runtime/specs/nftt-originals.json` with quoted evidence; `nftt_published.py` stamps + gates it (self-test 21/21). Six of seven series posts carry it; Tuning cites, not adapts. Dates only where the post states them; a source marked undated stays out.
+- **generated-views:** #695 hand-edited `good.html`; the renderer keyed the honest card by page slug, the distribution row by repo name. `EXTERNAL_PAGES` entries may now name their row. A hand edit to a generated page reddens every PR.
+- Receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH`, `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. Lessons: read provenance before naming it; count what a check ran before trusting its pass.
 
 ## [v3.75.0] 2026-10-04 — Stopped-light research -> 15 isomorphisms + /echo-scan skill + oracle strict-args fix + NFTT essay and companion (PRs #683 `5d64551`, #686 `44b80d1`; handoff renumbered from v3.73.0 after a parallel-session collision)
 
