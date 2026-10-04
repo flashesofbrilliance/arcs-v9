@@ -23,8 +23,9 @@ beat 1.5-8s, total 6-60s, caption <= 14 words, every shot field present, aspects
 
 Usage:
   python3 scripts/video_cut.py check [_QUEUE/video/*.json]
-  python3 scripts/video_cut.py build <spec.json> [--out _PROPOSALS/video]
+  python3 scripts/video_cut.py build <spec.json> [--out _PROPOSALS/video] [--dry-run]
   python3 scripts/video_cut.py --self-test
+`check` and `build --dry-run` are read-only (gates run on temp copies; nothing is written).
 Stdlib only.
 """
 import glob, html, json, os, re, sys, tempfile
@@ -188,20 +189,26 @@ def prompt_pack(s):
     return "\n".join(L)
 
 
-def build(path, out=OUT):
+def build(path, out=OUT, dry_run=False):
     errs = check_file(path)
     if errs:
         print(f"[FAIL] {path}"); [print(f"   - {e}") for e in errs]; return 1
     s = json.load(open(path))
-    os.makedirs(out, exist_ok=True)
+    verb = "would write" if dry_run else "wrote"
+    if not dry_run:
+        os.makedirs(out, exist_ok=True)
     spec_rel = os.path.relpath(os.path.abspath(path), ROOT)
     for a in s["aspects"]:
         fp = os.path.join(out, f"{s['id']}-{ASPECTS[a][2]}.html")
-        open(fp, "w").write(scene(s, a, spec_rel, os.path.relpath(fp, ROOT)))
-        print(f"wrote {os.path.relpath(fp, ROOT)}  ({ASPECTS[a][0]}x{ASPECTS[a][1]})")
+        body = scene(s, a, spec_rel, os.path.relpath(fp, ROOT))
+        if not dry_run:
+            open(fp, "w").write(body)
+        print(f"{verb} {os.path.relpath(fp, ROOT)}  ({ASPECTS[a][0]}x{ASPECTS[a][1]})")
     fp = os.path.join(out, f"{s['id']}-prompts.md")
-    open(fp, "w").write(prompt_pack(s))
-    print(f"wrote {os.path.relpath(fp, ROOT)}")
+    body = prompt_pack(s)
+    if not dry_run:
+        open(fp, "w").write(body)
+    print(f"{verb} {os.path.relpath(fp, ROOT)}")
     return 0
 
 
@@ -215,7 +222,7 @@ def cmd_check(paths):
     return 1 if bad else 0
 
 
-def self_test():
+def _legacy_cases():
     good = sorted(glob.glob(os.path.join(QUEUE, "*.json")))
     assert good, "no video specs to test against"
     assert not check_file(good[0]), f"good fixture should pass: {check_file(good[0])}"
@@ -240,13 +247,89 @@ def self_test():
             fp = os.path.join(d, "t.json"); json.dump(m, open(fp, "w"))
             assert check_file(fp), f"mutation '{name}' should fail"
             print(f"  fail-on-bad ok: {name}")
-    print("video_cut self-test: PASS"); return 0
+    return s
+
+
+
+
+def _snapshot(paths):
+    import hashlib
+    return {p: (hashlib.sha256(open(p, "rb").read()).hexdigest(), os.stat(p).st_mtime_ns)
+            for root in paths for p in sorted(glob.glob(os.path.join(root, "**", "*"), recursive=True))
+            if os.path.isfile(p)}
+
+
+def self_test():
+    """In-process gate cases (kept), then the argv contract as subprocesses on a synthetic spec."""
+    import shutil, subprocess
+    fails = total = 0
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1; fails += 0 if cond else 1
+        print(("  PASS  " if cond else "  FAIL  ") + name)
+
+    try:
+        s = _legacy_cases(); ok("gate cases (fixture passes, 7 mutations fail, fonts, no em-dash)", True)
+    except AssertionError as e:
+        ok(f"gate cases: {e}", False); s = None
+    tmp = tempfile.mkdtemp(prefix="video-cut-selftest-")
+    try:
+        spec = os.path.join(tmp, "spec.json")
+        json.dump(s or {}, open(spec, "w"))
+        out = os.path.join(tmp, "out")
+        me = os.path.abspath(__file__)
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp)
+
+        watch = [tmp, OUT, QUEUE]
+        before = _snapshot(watch)
+        ok("no command exits 2", run().returncode == 2)
+        ok("unknown flag exits 2", run("--dryrun").returncode == 2)
+        ok("unknown subcommand exits 2", run("bild", spec).returncode == 2)
+        ok("check unknown flag exits 2", run("check", spec, "--bogus").returncode == 2)
+        ok("build extra positional exits 2", run("build", spec, "extra", "--out", out).returncode == 2)
+        ok("build unknown flag exits 2", run("build", spec, "--outt", out).returncode == 2)
+        ok("build without spec exits 2", run("build").returncode == 2)
+        ok("--self-test with a subcommand exits 2", run("--self-test", "check").returncode == 2)
+        r = run("check", spec)
+        ok("check passes the synthetic spec", r.returncode == 0 and "[PASS]" in r.stdout)
+        r = run("build", "--dry-run", "--out", out, spec)
+        ok("build --dry-run previews 3 files, any flag order", r.returncode == 0 and r.stdout.count("would write") == 3)
+        ok("read-only modes and bad argv write nothing", _snapshot(watch) == before and not os.path.exists(out))
+        r = run("build", spec, "--out", out)
+        ok("build writes 3 files into --out", r.returncode == 0 and len(os.listdir(out)) == 3)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"video_cut self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="video_cut.py", description="Shot spec -> HTML scene + prompt pack.")
+    ap.add_argument("--self-test", action="store_true", help="gate cases + argv contract in a temp dir")
+    sub = ap.add_subparsers(dest="cmd")
+    c = sub.add_parser("check", help="run the gates (read-only); default: every _QUEUE/video/*.json")
+    c.add_argument("paths", nargs="*")
+    b = sub.add_parser("build", help="gate, then write the scenes + prompt pack")
+    b.add_argument("spec")
+    b.add_argument("--out", default=OUT)
+    b.add_argument("--dry-run", action="store_true", help="gate and list the files, write nothing")
+    return ap
+
+
+def main(argv):
+    ap = build_parser()
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.cmd: ap.error("--self-test takes no subcommand")
+        return self_test()
+    if a.cmd == "check": return cmd_check(a.paths)
+    if a.cmd == "build": return build(a.spec, a.out, a.dry_run)
+    ap.print_help(); return 2
 
 
 if __name__ == "__main__":
-    a = sys.argv[1:]
-    if a == ["--self-test"]: sys.exit(self_test())
-    if a[:1] == ["check"]: sys.exit(cmd_check(a[1:]))
-    if a[:1] == ["build"] and len(a) in (2, 4) and (len(a) == 2 or a[2] == "--out"):
-        sys.exit(build(a[1], a[3] if len(a) == 4 else OUT))
-    print(__doc__); sys.exit(2)
+    sys.exit(main(sys.argv[1:]))
