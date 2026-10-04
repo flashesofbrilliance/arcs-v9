@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stopped Light Field Notes · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tao-waiver: companion research layer of nftt/light-at-thirty-eight-miles-an-hour (same shape as *-dossier); the proverb belongs to the essay, not this depth page -->
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="The research behind Light at Thirty-Eight Miles an Hour: a claim check, the 2026 state of the art in slow light and quantum memory, fifteen labelled isomorphisms to ARCS, and five inventions with kill conditions.">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+/* companion: research depth layer for light-at-thirty-eight-miles-an-hour (2026-10-03).
+   Same lane as the essay; wide tables scroll inside their own frame. */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr)); gap:10px; margin:30px 0 0}
+  .stat{border:1px solid var(--border); border-radius:8px; padding:12px 14px; background:var(--surface)}
+  .stat b{display:block; font-family:var(--mono); font-size:1.25rem; font-weight:500; font-variant-numeric:tabular-nums}
+  .stat span{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--muted); line-height:1.45; display:block; margin-top:4px}
+  nav.toc{display:flex; flex-wrap:wrap; gap:6px 16px; margin:26px 0 0; font-family:var(--mono); font-size:12px}
+  nav.toc a{color:var(--cyan-dim); text-decoration:none} nav.toc a:hover{color:var(--cyan)}
+  h3{font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:30px 0 12px; font-weight:600}
+  .tbl{overflow-x:auto; border:1px solid var(--border); border-radius:8px; margin:20px 0; background:var(--surface)}
+  table{border-collapse:collapse; width:100%; font-size:15px; line-height:1.5}
+  th,td{text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--border)}
+  th{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:500; background:var(--surface-2)}
+  tr:last-child td{border-bottom:0}
+  td.v{font-family:var(--mono); font-size:12px; white-space:nowrap}
+  .ok{color:var(--green)} .warn{color:var(--gold)} .no{color:var(--red)}
+  dl.gloss{display:grid; gap:14px; margin:8px 0 22px}
+  dl.gloss div{border-left:2px solid var(--border-2); padding-left:14px}
+  dt{font-family:var(--mono); font-size:13px; color:var(--cyan); font-weight:500}
+  dd{margin:2px 0 0; color:var(--muted); font-size:17px; line-height:1.6}
+  figure{margin:30px 0; border:1px solid var(--border); border-radius:8px; background:var(--surface); padding:16px}
+  figure svg{display:block; width:100%; height:auto}
+  figcaption{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:10px; line-height:1.55}
+  .filters{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 4px}
+  .filters button{font-family:var(--mono); font-size:12px; letter-spacing:.05em; background:transparent; color:var(--muted); border:1px solid var(--border-2); border-radius:999px; padding:6px 13px; cursor:pointer}
+  .filters button[aria-pressed="true"]{color:var(--bg); background:var(--cyan); border-color:var(--cyan)}
+  .iso{display:grid; gap:10px; margin-top:14px}
+  .card{border:1px solid var(--border); border-radius:8px; padding:14px 16px; background:var(--surface); min-width:0}
+  .card .h{display:flex; flex-wrap:wrap; gap:6px 10px; align-items:baseline; margin-bottom:6px}
+  .card .id{font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .card .t{font-weight:600}
+  .pill{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; border-radius:999px; padding:2px 9px; border:1px solid}
+  .pill.mech{color:var(--green); border-color:color-mix(in srgb,var(--green) 45%,transparent)}
+  .pill.meta{color:var(--gold); border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+  .card p{margin:0; font-size:16.5px; line-height:1.6; color:var(--muted); max-width:none}
+  .card p b{color:var(--text); font-weight:600}
+  .inv .kill{font-family:var(--mono); font-size:12.5px; color:var(--text); border-top:1px solid var(--border); padding-top:10px; margin-top:10px; line-height:1.6}
+  .inv .kill span{color:var(--red); letter-spacing:.08em; text-transform:uppercase; font-size:11px; margin-right:6px}
+  .src{font-family:var(--mono); font-size:12.5px; line-height:1.7; padding-left:18px; color:var(--muted)}
+  .src li{margin-bottom:4px; overflow-wrap:anywhere}
+  .src a{color:var(--cyan-dim)} .src a:hover{color:var(--cyan)}
+  .back{font-family:var(--mono); font-size:12px; letter-spacing:.06em; margin:0 0 6px}
+  .back a{color:var(--cyan-dim); text-decoration:none} .back a:hover{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Go deeper</span>
+  </div>
+
+  <header class="hero">
+    <p class="back"><a href="/blog/nftt/light-at-thirty-eight-miles-an-hour">&#9664; Back to the essay: Light at Thirty-Eight Miles an Hour</a></p>
+    <p class="eyebrow">The research behind the essay</p>
+    <h1>Stopped Light Field Notes</h1>
+    <p class="standfirst">You cannot hold light. You can pour it into matter, hold the matter, and pour it back out, if you do it slowly and protect it from noise while it waits. Most of what ARCS gets wrong about memory is that same sentence.</p>
+    <div class="stats">
+      <div class="stat"><b>17 m/s</b><span>Hau, 1999. About 38 mph</span></div>
+      <div class="stat"><b>~1 hour</b><span>longest coherent optical storage, 2021</span></div>
+      <div class="stat"><b>~90%</b><span>best recall efficiency, 2026</span></div>
+      <div class="stat"><b>14.5 km</b><span>two memories linked, Bell test passed</span></div>
+    </div>
+    <nav class="toc" aria-label="Sections">
+      <a href="#check">Claim check</a><a href="#physics">Physics</a><a href="#sota">State of the art</a><a href="#iso">15 isomorphisms</a><a href="#inv">Inventions</a><a href="#sources">Sources</a>
+    </nav>
+    <p class="byline">Research notes, receipts included · 2026-10-03 · companion to the essay</p>
+  </header>
+
+  <section id="check">
+    <span class="num">I · Claim check</span>
+    <h2>The post that started it, verified</h2>
+    <p class="lead">The source was a LinkedIn post about Lene Vestergaard Hau's work at Harvard. Before any of it was used, each claim went through the test an ARCS receipt does: confirmed only if an independent record says so.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Claim</th><th>Verdict</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>1999: pulse slowed to 17 m/s in ultracold sodium using EIT</td><td class="v ok">confirmed</td><td>Hau, Harris, Dutton, Behroozi, Nature 397, 594</td></tr>
+        <tr><td>About 38 mph, roughly 20 million times slower than light</td><td class="v warn">rounded up</td><td>38.03 mph is right. c divided by 17 is 17.6 million</td></tr>
+        <tr><td>2001: pulse stopped, stored in the atoms, revived</td><td class="v warn">incomplete</td><td>Liu et al., Nature 409, 490. A second team (Phillips, Fleischhauer, Walsworth, Lukin) published the same result the same month, PRL 86, 783</td></tr>
+        <tr><td>Information transferred between atom clouds</td><td class="v ok">confirmed</td><td>Ginsberg, Garner, Hau, Nature 445, 623 (2007). Stored in one condensate, revived from another 160 micrometers away</td></tr>
+        <tr><td>Photons did not literally sit still</td><td class="v ok">confirmed</td><td>The photon is gone. Its amplitude and phase live in a spin wave of the atoms</td></tr>
+        <tr><td>Sources</td><td class="v no">thin</td><td>Shortened links and "Credits: CTTO" (credit to the owner, unnamed)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="physics">
+    <span class="num">II · The physics</span>
+    <h2>Seven ideas, without the jargon wall</h2>
+    <figure>
+      <svg viewBox="0 0 640 170" role="img" aria-labelledby="dialT">
+        <title id="dialT">The polariton dial: control laser strength sets how much of the pulse is light versus atomic spin</title>
+        <defs><linearGradient id="mix" x1="0" x2="1"><stop offset="0" stop-color="#00F0FF"/><stop offset="1" stop-color="#FFD700"/></linearGradient></defs>
+        <rect x="40" y="58" width="560" height="14" rx="7" fill="url(#mix)" opacity=".85"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="12" fill="#9aa8bc">
+          <text x="40" y="44">CONTROL LASER ON</text>
+          <text x="600" y="44" text-anchor="end">CONTROL LASER OFF</text>
+          <text x="40" y="100" fill="#00F0FF">all light</text>
+          <text x="40" y="118">moves at c</text>
+          <text x="320" y="100" text-anchor="middle" fill="#e7ecf3">part light, part spin</text>
+          <text x="320" y="118" text-anchor="middle">17 m/s</text>
+          <text x="600" y="100" text-anchor="end" fill="#FFD700">all spin wave</text>
+          <text x="600" y="118" text-anchor="end">stopped, stored</text>
+          <text x="320" y="156" text-anchor="middle" fill="#9aa8bc">turn the dial slowly (adiabatic) or the information scatters</text>
+        </g>
+        <circle cx="40" cy="65" r="9" fill="#020408" stroke="#00F0FF" stroke-width="2"/>
+        <circle cx="320" cy="65" r="9" fill="#020408" stroke="#e7ecf3" stroke-width="2"/>
+        <circle cx="600" cy="65" r="9" fill="#020408" stroke="#FFD700" stroke-width="2"/>
+      </svg>
+      <figcaption>The dark-state polariton (Fleischhauer and Lukin, 2000). One dial moves a pulse from light to matter and back. ARCS's version: live conversation on the left, committed record on the right.</figcaption>
+    </figure>
+    <dl class="gloss">
+      <div><dt>EIT (electromagnetically induced transparency)</dt><dd>A strong control laser makes an opaque atom cloud transparent to a weak probe beam. The window is narrow, and a narrow window slows the pulse sharply.</dd></div>
+      <div><dt>Adiabatic</dt><dd>Changed slowly compared with the system's own timescale. Fast changes lose information; slow ones transfer it.</dd></div>
+      <div><dt>Coherence time and decoherence</dt><dd>Stored information fades as each atom's phase drifts at its own rate. Storage time depends on protecting phase, not on holding atoms.</dd></div>
+      <div><dt>Spin echo and dynamical decoupling</dt><dd>A well-timed flip pulse makes drifting atoms run the drift backwards and line up again. Repeated flips cancel slow noise.</dd></div>
+      <div><dt>ZEFOZ</dt><dd>A magnetic setting where the stored state is, to first order, insensitive to field noise. Store in a form the noise cannot reach.</dd></div>
+      <div><dt>Atomic frequency comb</dt><dd>The absorption spectrum is carved into evenly spaced teeth before the light arrives. The spacing fixes in advance when the light comes back out.</dd></div>
+      <div><dt>Heralding and repeaters</dt><dd>A memory signals "stored". A repeater links short segments independently, holds each until both ends herald, then joins them in one irreversible step.</dd></div>
+    </dl>
+  </section>
+
+  <section id="sota">
+    <span class="num">III · State of the art</span>
+    <h2>Where the field stands in 2026</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Axis</th><th>Frontier</th><th>Platform</th></tr></thead>
+      <tbody>
+        <tr><td>Storage time</td><td>About 1 hour coherent storage (2021)</td><td>Eu:YSO crystal, cryogenic, ZEFOZ plus decoupling</td></tr>
+        <tr><td>Cold atoms</td><td>Over 1 s in a condensate (Hau lab, 2009)</td><td>Bose-Einstein condensate</td></tr>
+        <tr><td>Room temperature</td><td>About 1 s (2018)</td><td>Warm alkali vapor</td></tr>
+        <tr><td>Efficiency</td><td>About 90% in a cavity (2026); 80% on chip</td><td>Rare-earth crystal</td></tr>
+        <tr><td>Parallel modes</td><td>100 to over 1,000 time slots in one crystal</td><td>Atomic frequency comb</td></tr>
+        <tr><td>Networking</td><td>Memories 14.5 km apart, entangled, Bell violation</td><td>Multiplexed repeater</td></tr>
+        <tr><td>Deployable</td><td>2U rack, room temp, 95% fidelity, 1 ms, 5% efficiency</td><td>Warm rubidium (Qunnect)</td></tr>
+        <tr><td>Light to sound</td><td>Coherent optical RAM in acoustic waves on chip</td><td>Brillouin scattering</td></tr>
+        <tr><td>Photon logic</td><td>Single-photon transistor, gain over 10 (over 1,000 with a cavity)</td><td>Rydberg atoms</td></tr>
+      </tbody>
+    </table></div>
+    <p>No platform wins every axis. The field scores memories as a vector and never adds the numbers up.</p>
+    <h3>Adjacent and orthogonal</h3>
+    <dl class="gloss">
+      <div><dt>Negative time (Toronto, 2024)</dt><dd>The time a transmitted photon spends exciting atoms equals the group delay, which can be negative. Nothing travels faster than light; the pulse is reshaped.</dd></div>
+      <div><dt>Time reflection (CUNY, 2023)</dt><dd>Change a medium abruptly in time and part of a passing wave reflects backwards, with its frequencies converted.</dd></div>
+      <div><dt>Quantum Zeno effect</dt><dd>Measure a system often enough and it stops evolving. The wrong rate can speed decay instead.</dd></div>
+      <div><dt>Memory as a learning resource (Science, 2022)</dt><dd>Storing quantum states and comparing them together can learn from exponentially fewer experiments than measuring each one right away.</dd></div>
+    </dl>
+  </section>
+
+  <section id="iso">
+    <span class="num">IV · Isomorphisms</span>
+    <h2>Fifteen echoes, each labelled</h2>
+    <p>A <em>mechanism</em> is the same rule, so a design lesson can carry over. A <em>metaphor</em> is a useful lens that nothing should be built on.</p>
+    <div class="filters" id="iso-filters" role="group" aria-label="Filter isomorphisms" hidden>
+      <button type="button" id="f-all" data-f="all" aria-pressed="true">All 15</button>
+      <button type="button" id="f-mech" data-f="mech" aria-pressed="false">Mechanism</button>
+      <button type="button" id="f-meta" data-f="meta" aria-pressed="false">Metaphor</button>
+    </div>
+    <div class="iso" id="iso-list">
+      <article class="card" data-k="mech"><div class="h"><span class="id">I1</span><span class="t">Polariton dial</span><span class="pill mech">mechanism</span></div><p>Live conversation is light; the committed record is matter. <b>Write the durable record while the session is live.</b> End-of-session summaries switch the control laser off at once and scatter what matters.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I2</span><span class="t">Revival in a second cloud</span><span class="pill mech">mechanism</span></div><p>The 2007 transfer worked because both clouds shared one laser. <b>Handoffs must carry the bearing and the reason</b>, and the receiving session must read them in the same frame.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I3</span><span class="t">Decoherence, decoupling, ZEFOZ</span><span class="pill mech">mechanism</span></div><p>Claims go stale the way stored phase does. <b>Re-check on a schedule, and cite in a noise-proof form</b>: content hashes and paths, never "latest" or "currently".</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I4</span><span class="t">Spin echo</span><span class="pill mech">mechanism</span></div><p>Parallel sessions drift apart like atoms in different surroundings. <b>Reconcile before the drift is permanent</b>, on a cadence shorter than the drift time.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I5</span><span class="t">Frequency comb</span><span class="pill mech">mechanism</span></div><p>The comb fixes recall time at write time. <b>Every receipt should carry its own recall date</b>, derived from the horizon it already records.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I6</span><span class="t">Memory as a vector</span><span class="pill mech">mechanism</span></div><p><b>Score memory on several axes and never total them.</b> A single number hides the trade-off between lifespan, recall and cost.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I7</span><span class="t">Heralding</span><span class="pill mech">mechanism</span></div><p>Build only on links that announced success. <b>The herald must come from the system that did the write</b>, never inferred by the reader. The session behind the essay broke and then honored this rule.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I8</span><span class="t">Repeater swap</span><span class="pill mech">mechanism</span></div><p>Segments herald independently, then one irreversible step joins them. <b>Do not commit end to end until every segment heralds</b>; declare the one-way door, then fire it once.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I9</span><span class="t">Rydberg blockade</span><span class="pill mech">mechanism</span></div><p>Inside a radius only one excitation can exist. <b>Name the scope where concurrent writes are refused.</b> The numbering oracle already is one.</p></article>
+      <article class="card" data-k="mech"><div class="h"><span class="id">I10</span><span class="t">Quantum Zeno</span><span class="pill mech">mechanism</span></div><p>Measuring too often freezes evolution. <b>Every re-check schedule needs a ceiling as well as a floor.</b> This one is new to ARCS.</p></article>
+      <article class="card" data-k="meta"><div class="h"><span class="id">I11</span><span class="t">Store, then compare</span><span class="pill meta">metaphor</span></div><p>Summarizing each item on arrival is like measuring it: the collapse is permanent. <b>Keep raw spans and compare later.</b> The exponential gain is quantum-only; the direction still holds.</p></article>
+      <article class="card" data-k="meta"><div class="h"><span class="id">I12</span><span class="t">Negative group delay</span><span class="pill meta">metaphor</span></div><p>A reshaped distribution can make an average look impossible. <b>When a dashboard metric reads impossible, look at individual items</b>, not the mean.</p></article>
+      <article class="card" data-k="meta"><div class="h"><span class="id">I13</span><span class="t">Time reflection</span><span class="pill meta">metaphor</span></div><p>An abrupt change in the medium reflects waves already in flight. <b>When a project's ground shifts, flag every open decision in it.</b></p></article>
+      <article class="card" data-k="meta"><div class="h"><span class="id">I14</span><span class="t">Warm vapor ships</span><span class="pill meta">metaphor</span></div><p>The 5% room-temperature memory ships; the cryogenic record stays in the lab. <b>Prefer the tool that runs anywhere.</b></p></article>
+      <article class="card" data-k="meta"><div class="h"><span class="id">I15</span><span class="t">Light into sound</span><span class="pill meta">metaphor</span></div><p>Moving light into slow sound waves extends storage, and refreshing it adds noise. <b>Store in the slow medium</b> (git, not chat) and refresh on a schedule.</p></article>
+    </div>
+  </section>
+
+  <section id="inv">
+    <span class="num">V · Inventions</span>
+    <h2>Five ideas, ranked, each with a kill condition</h2>
+    <p>Each kill condition was written before any build. If the test fails, the idea is withdrawn rather than defended.</p>
+    <div class="iso">
+      <article class="card inv"><div class="h"><span class="id">Rank 1</span><span class="t">A ceiling on re-checks</span></div><p>From the Zeno effect. ARCS's freshness proposal says how often a claim must be re-checked at minimum and sets no maximum. Give every live claim a band: often enough to catch real change, never so often that checks find nothing and freeze the work.</p><p class="kill"><span>Kill if</span>fewer than 20% of past re-checks came back empty.</p></article>
+      <article class="card inv"><div class="h"><span class="id">Rank 2</span><span class="t">Receipts that know when to come back</span></div><p>From the frequency comb. Each receipt already records a horizon. Derive a recall date from it when the receipt is written and fire the debrief then. Today 2 of 247 receipts have a recorded outcome.</p><p class="kill"><span>Kill if</span>30 receipts reach their recall date with no lift over 2 in 247.</p></article>
+      <article class="card inv"><div class="h"><span class="id">Rank 3</span><span class="t">Seven-axis memory scorecard</span></div><p>From the memory scorecard. Score handoffs, memory files, witness notes and the Librarian's picks on recall, accuracy, lifespan, write speed, capacity, false recall and deployability. Report a vector, never a total.</p><p class="kill"><span>Kill if</span>one store wins every axis, since the scorecard then collapses to a single number.</p></article>
+      <article class="card inv"><div class="h"><span class="id">Rank 4</span><span class="t">Handoffs that carry the bearing</span></div><p>From revival in a second cloud. Give a fresh session only the handoff note and ask for the next move and why. Score agreement with the author's bearing, not fact recall.</p><p class="kill"><span>Kill if</span>bearing agreement is already high on 3 recent handoffs.</p></article>
+      <article class="card inv"><div class="h"><span class="id">Rank 5</span><span class="t">Flag in-flight decisions when the ground shifts</span></div><p>From time reflection. When a project's circumstances change abruptly (stakes edited, owner changed, a dependency archived), flag every open receipt in it for review. Needs a registry of projects first.</p><p class="kill"><span>Kill if</span>flagged receipts are rarely changed on review.</p></article>
+    </div>
+    <blockquote>A herald has to come from the memory that holds the thing, at the moment it holds it. A herald that survives its write is a false receipt with a timestamp.</blockquote>
+    <p>The essay tells the rest: how the session that wrote this broke rule I7 with a dry run that was not dry, and refused the false receipt it left behind.</p>
+  </section>
+
+  <section id="sources">
+    <span class="num">VI · Sources</span>
+    <h2>Primary and secondary sources</h2>
+    <ol class="src">
+      <li>Fleischhauer and Lukin, dark-state polaritons, PRL 84, 5094 (2000): <a href="https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.84.5094">aps.org</a></li>
+      <li>Phillips, Fleischhauer, Walsworth, Lukin, storage of light in atomic vapor, PRL 86, 783 (2001): <a href="https://link.aps.org/pdf/10.1103/PhysRevLett.86.783">aps.org</a></li>
+      <li>Ginsberg, Garner, Hau, light revival from a second condensate (2007): <a href="https://www.laserfocusworld.com/test-measurement/research/article/16553016/laser-optical-data-processing-bose-einstein-condensates-enable-light-revival">laserfocusworld.com</a></li>
+      <li>Zhang, Garner, Hau, over 1 s optical memory in a condensate (2009): <a href="https://arxiv.org/abs/0909.3203">arxiv.org/abs/0909.3203</a></li>
+      <li>One-hour coherent storage in an atomic frequency comb (2021): <a href="https://www.nature.com/articles/s41467-021-22706-y">nature.com</a></li>
+      <li>Light storage for one second at room temperature (2018): <a href="https://www.nature.com/articles/s41467-018-04458-4">nature.com</a></li>
+      <li>90% efficient storage in a rare-earth crystal: <a href="https://arxiv.org/pdf/2609.19807">arxiv.org/pdf/2609.19807</a></li>
+      <li>Efficient integrated quantum memory: <a href="https://arxiv.org/pdf/2511.05928">arxiv.org/pdf/2511.05928</a></li>
+      <li>Metropolitan multiplexed quantum repeater: <a href="https://arxiv.org/html/2508.17940">arxiv.org/html/2508.17940</a></li>
+      <li>Field-deployable warm-vapor memory: <a href="https://arxiv.org/pdf/2205.13091">arxiv.org/pdf/2205.13091</a></li>
+      <li>Coherent photonic RAM in sound waves: <a href="https://arxiv.org/abs/2311.06219">arxiv.org/abs/2311.06219</a></li>
+      <li>Rydberg-mediated nonlinear quantum optics: <a href="https://arxiv.org/pdf/2608.02992">arxiv.org/pdf/2608.02992</a></li>
+      <li>Atomic frequency comb with spin-wave storage: <a href="https://arxiv.org/pdf/0908.2309">arxiv.org/pdf/0908.2309</a></li>
+      <li>Negative time: <a href="https://www.scientificamerican.com/article/evidence-of-negative-time-found-in-quantum-physics-experiment/">scientificamerican.com</a></li>
+      <li>Time reflection: <a href="https://asrc.gc.cuny.edu/headlines/2023/03/scientists-demonstrate-time-reflection-of-electromagnetic-waves-in-a-groundbreaking-experiment/">asrc.gc.cuny.edu</a></li>
+      <li>Quantum Zeno effect in a single atom: <a href="https://www.nature.com/articles/s41467-026-74332-1">nature.com</a></li>
+      <li>Quantum advantage in learning from experiments (2022): <a href="https://www.science.org/doi/10.1126/science.abn7293">science.org</a></li>
+    </ol>
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt/light-at-thirty-eight-miles-an-hour">
+      <span class="lbl">Back to the essay</span>
+      Light at Thirty-Eight Miles an Hour &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Research companion. Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+<script>
+(function(){
+  var bar=document.getElementById("iso-filters"), list=document.getElementById("iso-list");
+  if(!bar||!list) return;
+  bar.hidden=false;
+  var btns=bar.querySelectorAll("button");
+  function apply(f){
+    btns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-f")===f)); });
+    list.querySelectorAll(".card").forEach(function(c){ c.hidden=!(f==="all"||c.getAttribute("data-k")===f); });
+  }
+  btns.forEach(function(b){ b.addEventListener("click", function(){ apply(b.getAttribute("data-f")); }); });
+})();
+</script>
+</body>
+</html>
