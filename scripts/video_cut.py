@@ -36,6 +36,7 @@ ROOT = lc.ROOT
 QUEUE = os.path.join(ROOT, "_QUEUE", "video")
 OUT = os.path.join(ROOT, "_PROPOSALS", "video")
 TOKENS = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
+MONO = os.path.join(ROOT, "public", "fonts", "jetbrains-mono-normal-100-800-latin-v1.woff2")
 ASPECTS = {"16:9": (1280, 720, "16x9"), "9:16": (720, 1280, "9x16")}
 SHOT_FIELDS = ("subject", "camera", "motion", "light")
 ACCENTS = ("cyan", "green", "gold", "red")
@@ -102,6 +103,7 @@ SCENE = """<!doctype html>
   Render: node scripts/html_video_render.mjs {self} out.mp4 --w {w} --h {h} --fps 30
 -->
 <style>
+@font-face{{font-family:'JetBrains Mono';font-weight:100 800;src:url('{mono}') format('woff2')}}
 :root{{{vars}}}
 *{{margin:0;padding:0;box-sizing:border-box}}
 html,body{{width:{w}px;height:{h}px;overflow:hidden;background:var(--bg)}}
@@ -152,7 +154,8 @@ def scene(s, aspect, spec_rel, self_rel):
         cell=48 if tall else 64, pad=72 if tall else 96, fs=68 if tall else 64, ts=18 if tall else 16,
         rule_y=int(h * (0.36 if tall else 0.30)), cap_y=int(h * (0.36 if tall else 0.30)) + 28,
         rule_w=160 if tall else 220, tag=html.escape(s.get("tag", "")),
-        beats=json.dumps(beats, ensure_ascii=False))
+        beats=json.dumps(beats, ensure_ascii=False),
+        mono=os.path.relpath(MONO, os.path.dirname(os.path.join(ROOT, self_rel))))
 
 
 def prompt_pack(s):
@@ -213,6 +216,7 @@ def self_test():
     html_out = scene(s, "9:16", "x", "y")
     assert "window.seek" in html_out and tokens()["cyan"] in html_out and "\u2014" not in html_out
     assert "\u2014" not in prompt_pack(s)
+    assert os.path.exists(MONO) and "jetbrains-mono" in html_out, "tag font must load from public/fonts"
     muts = {
         "em-dash": lambda m: m["beats"][0].__setitem__("caption", m["beats"][0]["caption"] + " \u2014 x"),
         "uncited metric": lambda m: m["beats"][1].__setitem__("caption", "It grew 87%."),
