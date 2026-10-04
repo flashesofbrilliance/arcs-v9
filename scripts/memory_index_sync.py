@@ -21,7 +21,10 @@ import argparse, os, re, sys
 
 MEMDIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
 INDEX = os.path.join(MEMDIR, "MEMORY.md")
-BUDGET = 17 * 1024  # soft byte budget for the always-loaded index
+BUDGET = 25 * 1024  # soft byte budget for the always-loaded index (raised from 17*1024 2026-09-17
+                    # to match the global-session-start hook's MEM_BUDGET=25600 and the
+                    # consolidate-memory skill's ~25KB guidance; 262 well-factored topics at one
+                    # index line each legitimately exceed 17KB — see that session's consolidation note)
 AUTO_HEADER = "## Uncurated (auto-catalogued — move into a real section when curating)"
 
 # link targets: anything inside ](...) ending in .md, dots allowed in the name
