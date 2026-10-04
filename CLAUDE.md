@@ -130,7 +130,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - **Sycophancy check**: agreement 3 / dissent 1 (ratio 1.5) → OK: dissent present.
 - **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
 - **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, a deployment id, or a receipt id. Nothing downgraded; the one corrected number is the exhale count above, corrected to git.
-- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Somatic read** (Zach, 2026-10-04): "Feeling more certain than at the start, no sends today."
 - **Disposition**: RELEASED on Zach's "consolidate memory and handoff".
 
 _This block asserts nothing new. Counts, paths, and questions only._
