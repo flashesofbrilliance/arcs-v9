@@ -205,7 +205,9 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
           padding: "8px 10px", background: "rgba(13,17,23,0.96)", border: `1px solid ${border.subtle}`, borderRadius: 5,
           fontFamily: sans, fontSize: 12, lineHeight: 1.5, color: phase === "error" ? signal.red : phase === "limited" ? signal.gold : text.secondary,
           opacity: showHint ? 1 : 0, transform: showHint ? "translateY(0)" : "translateY(-4px)", pointerEvents: showHint ? "auto" : "none",
-          transition: "opacity .15s, transform .15s",
+          // visibility so the faded hint's "What we keep" link leaves the tab order
+          visibility: showHint ? "visible" : "hidden",
+          transition: "opacity .15s, transform .15s, visibility .15s",
         }}
       >
         {phase === "error" ? "That did not go through, and nothing was saved. Try again in a moment."
