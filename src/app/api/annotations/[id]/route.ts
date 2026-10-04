@@ -7,7 +7,9 @@ export const dynamic = "force-dynamic"
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const session = await auth()
-  const userId = session?.user?.id ?? null
+  // Signed-in only: a null userId would match every anonymous row.
+  const userId = session?.user?.id
+  if (!userId) return NextResponse.json({ error: "Sign in required" }, { status: 401 })
 
   const annotation = await prisma.annotation.findUnique({ where: { id } })
   if (!annotation) return NextResponse.json({ error: "Not found" }, { status: 404 })

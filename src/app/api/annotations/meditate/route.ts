@@ -7,7 +7,9 @@ const client = new Anthropic()
 
 export async function POST(req: NextRequest) {
   const session = await auth()
-  const userId = session?.user?.id ?? null
+  // Signed-in only: a null userId would match every anonymous row.
+  const userId = session?.user?.id
+  if (!userId) return NextResponse.json({ error: "Sign in required" }, { status: 401 })
 
   const { receiptId } = await req.json()
   if (!receiptId) return NextResponse.json({ error: "receiptId required" }, { status: 400 })
