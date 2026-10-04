@@ -221,6 +221,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 17. **Merge with `gh pr merge --merge`, never `--squash` or `--rebase`.** A merge commit keeps the branch's own commits and the per-PR boundary that decision receipts cite; a squash or rebase lands as a 1-parent commit and erases both. Branch protection cannot enforce this on the free private plan, so `scripts/squash_merge_detector.py` checks it daily (`.github/workflows/no-squash.yml`, fails red on any merged PR without a merge commit). `scripts/ship_docs.sh` already uses `--merge`.
 
+18. **Capture inbox rule (Zach, 2026-10-04).** Any idea that surfaces mid-turn becomes a `spawn_task` chip or a `/witness` stub inside the same turn; nothing lives only in chat. The single read over every open-loop store is `/loops` (`scripts/open_loops.py`, read-only); same-day captures show under "Captured today, not filed", and a weekday 8:00 spoken digest lands as an Apple Note (scheduled task `arcs-open-loops-morning-note`). Memory `fork-mid-turn-prompts-into-sessions`.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the

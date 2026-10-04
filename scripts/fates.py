@@ -130,13 +130,90 @@ def self_test() -> int:
     return 1 if fails else 0
 
 
+def _snapshot(paths: list[Path]) -> dict:
+    """sha256 + mtime_ns of every file in the watched set (None if absent)."""
+    import hashlib
+    return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) if p.exists() else None
+            for p in paths}
+
+
+def argv_self_test() -> tuple[int, int]:
+    """Copy this script into a temp repo and assert the argv contract via subprocess."""
+    import shutil, subprocess, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="fates-selftest-"))
+    try:
+        (tmp / "scripts").mkdir()
+        specs = tmp / "runtime" / "specs"
+        specs.mkdir(parents=True)
+        me = tmp / "scripts" / "fates.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        reg = specs / "fates.json"
+        lore = specs / "lore.jsonl"
+        reg.write_text(json.dumps({"classes": {"lore": {"field": "binding_verdict", "gate": "t", "fates": ["true"],
+                                                        "non_terminal": ["undecided"], "ledger": "runtime/specs/lore.jsonl",
+                                                        "strictness": "hard"}}}), encoding="utf-8")
+        lore.write_text(json.dumps({"id": "lore-001", "binding_verdict": "true"}) + "\n", encoding="utf-8")
+        watched = [reg, lore]
+        fails = total = 0
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(watched)
+        ok("unknown flag exits 2", run("--chek").returncode == 2)
+        ok("unknown subcommand exits 2", run("chek").returncode == 2)
+        ok("extra positional on check exits 2", run("check", "extra").returncode == 2)
+        ok("extra positional on report exits 2", run("report", "extra").returncode == 2)
+        ok("bad args wrote nothing", _snapshot(watched) == before)
+        ok("check exits 0 on clean ledger", run("check").returncode == 0)
+        ok("bare invocation runs check (exit 0)", run().returncode == 0)
+        ok("check writes nothing", _snapshot(watched) == before)
+        r = run("report")
+        ok("report exits 0 and lists class", r.returncode == 0 and "lore" in r.stdout)
+        ok("report writes nothing", _snapshot(watched) == before)
+        lore.write_text(lore.read_text(encoding="utf-8") + json.dumps({"id": "lore-002", "binding_verdict": "vibes"}) + "\n", encoding="utf-8")
+        before = _snapshot(watched)
+        ok("check exits 1 on a hard miss", run("check").returncode == 1)
+        ok("failing check writes nothing", _snapshot(watched) == before)
+        reg.unlink()
+        ok("missing registry exits 2", run("check").returncode == 2)
+        print(f"fates argv: {total - fails}/{total}")
+        return fails, total
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def parse_args(argv: list[str]):
+    import argparse
+    ap = argparse.ArgumentParser(prog="fates.py", description="The FATE REGISTRY gate (read-only).",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    ap.add_argument("--self-test", action="store_true", help="prove hard/soft miss logic and the argv contract")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("check", help="verify ledgers against the registry (default; exit 1 on a hard miss)")
+    sub.add_parser("report", help="coverage table: class, fates, observed values")
+    return ap, ap.parse_args(argv)
+
+
 def main(argv: list[str]) -> int:
-    if argv[:1] == ["--self-test"]:
-        return self_test()
+    ap, args = parse_args(argv)
+    if args.self_test:
+        if args.cmd:
+            ap.error("--self-test takes no subcommand")
+        rc = self_test()
+        f2, t2 = argv_self_test()
+        t1, f1 = 3, (1 if rc else 0)
+        print(f"fates self-test: {(t1 + t2) - (f1 + f2)}/{t1 + t2}")
+        return 1 if (rc or f2) else 0
     if not REG.exists():
         print("runtime/specs/fates.json missing", file=sys.stderr); return 2
     reg = json.loads(REG.read_text(encoding="utf-8"))
-    if argv[:1] == ["report"]:
+    if args.cmd == "report":
         report(reg); return 0
     h, s = check(reg)
     print(f"fates: {h} hard miss(es), {s} soft miss(es) across {len(reg['classes'])} classes")

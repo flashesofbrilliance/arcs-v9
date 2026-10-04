@@ -199,21 +199,106 @@ def self_test() -> int:
     return 1 if fails else 0
 
 
+def _snapshot(paths: list[Path]) -> dict:
+    """sha256 + mtime_ns of every file in the watched set (None if absent)."""
+    import hashlib
+    return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) if p.exists() else None
+            for p in paths}
+
+
+def argv_self_test() -> int:
+    """Copy this script into a temp repo and assert the argv contract via subprocess."""
+    import shutil, subprocess, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="legend-selftest-"))
+    try:
+        (tmp / "scripts").mkdir()
+        (tmp / "runtime" / "specs").mkdir(parents=True)
+        me = tmp / "scripts" / "legend.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        row = {"term": "CPM", "kind": "acronym", "expansion": "critical path method",
+               "operational_definition": "find the longest chain of dependent steps; it sets the minimum cost",
+               "domain": "ops", "aliases": [], "source": "session:2026-09-27", "first_seen": "2026-09-27", "promoted_to": None}
+        data = tmp / "runtime" / "specs" / "legend.jsonl"
+        render = tmp / "runtime" / "specs" / "LEGEND.md"
+        data.write_text(json.dumps(row) + "\n", encoding="utf-8")
+        render.write_text(render_md([row]), encoding="utf-8")
+        sample = tmp / "sample.txt"
+        sample.write_text("We used CPM and XYZQ today.\n", encoding="utf-8")
+        watched = [data, render, sample]
+        fails = total = 0
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(watched)
+        ok("unknown flag exits 2", run("--chek").returncode == 2)
+        ok("unknown subcommand exits 2", run("chek").returncode == 2)
+        ok("extra positional on check exits 2", run("check", "extra").returncode == 2)
+        ok("extra positional on render exits 2", run("render", "extra").returncode == 2)
+        ok("extra positional on scan exits 2", run("scan", str(sample), "extra").returncode == 2)
+        ok("unknown flag after render exits 2", run("render", "--dry-run").returncode == 2)
+        ok("lookup with no term exits 2", run("lookup").returncode == 2)
+        ok("bad args wrote nothing", _snapshot(watched) == before)
+        ok("check passes on fresh render", run("check").returncode == 0)
+        ok("check writes nothing", _snapshot(watched) == before)
+        r = run("lookup", "cpm")
+        ok("lookup finds row case-insensitively", r.returncode == 0 and "critical path method" in r.stdout)
+        ok("lookup joins multi-word terms", run("lookup", "no", "such").returncode == 1)
+        ok("lookup writes nothing", _snapshot(watched) == before)
+        r = run("scan", str(sample))
+        ok("scan flags missing acronym", r.returncode == 1 and "XYZQ" in r.stdout)
+        ok("scan writes nothing", _snapshot(watched) == before)
+        ok("no args prints usage, exits 0", run().returncode == 0)
+        render.write_text("stale\n", encoding="utf-8")
+        ok("check fails on stale render", run("check").returncode == 1)
+        ok("render rewrites LEGEND.md", run("render").returncode == 0 and render.read_text(encoding="utf-8") == render_md([row]))
+        print(f"legend argv: {total - fails}/{total}")
+        return fails, total
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def parse_args(argv: list[str]):
+    import argparse
+    ap = argparse.ArgumentParser(prog="legend.py", description="The LEGEND: ARCS working dictionary.",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    ap.add_argument("--self-test", action="store_true", help="prove check fails-on-bad, passes-on-good, and the argv contract")
+    sub = ap.add_subparsers(dest="cmd")
+    p = sub.add_parser("lookup", help="print the row (aliases + case-insensitive)")
+    p.add_argument("term", nargs="+")
+    p = sub.add_parser("scan", help="acronyms in a text that the LEGEND lacks (read-only)")
+    p.add_argument("path", help="file path, or - for stdin")
+    sub.add_parser("render", help="regenerate runtime/specs/LEGEND.md (writes)")
+    sub.add_parser("check", help="gate: schema, uniqueness, render freshness (read-only)")
+    return ap, ap.parse_args(argv)
+
+
 def main(argv: list[str]) -> int:
-    if not argv or argv[0] in ("-h", "--help"):
-        print(__doc__); return 0
-    if argv[0] == "--self-test":
-        return self_test()
-    cmd, args = argv[0], argv[1:]
-    if cmd == "lookup" and args:
-        return cmd_lookup(" ".join(args))
-    if cmd == "scan" and args:
-        return cmd_scan(args[0])
-    if cmd == "render":
+    ap, args = parse_args(argv)
+    if args.self_test:
+        if args.cmd:
+            ap.error("--self-test takes no subcommand")
+        rc = self_test()
+        f2, t2 = argv_self_test()
+        t1 = 6
+        f1 = 1 if rc else 0
+        print(f"legend self-test: {(t1 + t2) - (f1 + f2)}/{t1 + t2}")
+        return 1 if (rc or f2) else 0
+    if args.cmd == "lookup":
+        return cmd_lookup(" ".join(args.term))
+    if args.cmd == "scan":
+        return cmd_scan(args.path)
+    if args.cmd == "render":
         return cmd_render()
-    if cmd == "check":
+    if args.cmd == "check":
         return cmd_check()
-    print(__doc__); return 2
+    print(__doc__); return 0
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ import { useVw } from '@/ui/useVw'
 import { useToastDrawer } from '@/ui/ToastDrawerContext'
 import { FOOTER_H } from '@/ui/StickyFooter'
 import { Button } from '@/ui/Button'
+import { CloseButton } from '@/ui/CloseButton'
 
 const TOAST_H = 36
 const STORAGE_KEY = 'arcs-toast-dismissed'
@@ -159,19 +160,13 @@ export function EyebrowToast() {
               }}>▾</span>
             </div>
 
-            {/* Dismiss ✕ */}
-            <button
+            {/* Dismiss */}
+            <CloseButton
+              label="Dismiss data notice"
+              accent={signal.gold}
               onClick={dismiss}
-              aria-label="Dismiss"
-              style={{
-                position: 'absolute', right: 0, top: 0, bottom: 0,
-                minWidth: 44, padding: '0 12px',
-                background: 'none', border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-            >
-              <span style={{ fontFamily: mono, fontSize: 10, color: `${signal.gold}44`, lineHeight: 1 }}>✕</span>
-            </button>
+              style={{ position: 'absolute', right: 'max(4px, env(safe-area-inset-right))', top: '50%', transform: 'translateY(-50%)' }}
+            />
           </div>
 
           {/* ── Frosted glass scrim ── */}

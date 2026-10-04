@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { text, signal, font } from './tokens'
+import { CloseButton } from './CloseButton'
 import { Button } from './Button'
 import { useToastDrawer } from './ToastDrawerContext'
 
@@ -52,7 +53,7 @@ export function StickyFooter({
         <div
           style={{
             position: 'absolute', inset: 0, paddingBottom: 'env(safe-area-inset-bottom)',
-            padding: '0 1.5rem', maxWidth, margin: '0 auto',
+            padding: '0 max(1.5rem, 52px) 0 1.5rem', maxWidth, margin: '0 auto',
             display: 'flex', alignItems: 'center', gap: '1rem',
             opacity: open ? 0 : 1,
             transition: 'opacity 0.3s ease',
@@ -83,20 +84,15 @@ export function StickyFooter({
         <button onClick={() => router.push('/terms')} style={legalLinkStyle}>Terms</button>
       </div>
 
-      {/* X — absolute at right:0, same axis as breadcrumb X; only shown while CTA is up */}
+      {/* Dismiss: same right-edge axis as the data-notice X. The CTA row
+          reserves that 48px lane (paddingRight below) so the two never overlap. */}
       {!dismissed && (
-        <button
+        <CloseButton
+          label="Dismiss sprint offer"
+          accent={signal.gold}
           onClick={() => setDismissed(true)}
-          aria-label="Dismiss"
-          style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0,
-            minWidth: 44, padding: '0 12px',
-            background: 'none', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
-        >
-          <span style={{ fontFamily: font.mono, fontSize: 10, color: `${signal.gold}44`, lineHeight: 1 }}>✕</span>
-        </button>
+          style={{ position: 'absolute', right: 'max(4px, env(safe-area-inset-right))', top: '50%', transform: 'translateY(-50%)', marginTop: 'calc(env(safe-area-inset-bottom) / -2)' }}
+        />
       )}
     </div>
   )

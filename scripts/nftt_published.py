@@ -30,7 +30,7 @@ Usage:
   python3 scripts/nftt_published.py --check       # exit 1 if any routed post lacks a ledger row or stamp
   python3 scripts/nftt_published.py --self-test
 """
-import json, os, re, subprocess, sys
+import argparse, hashlib, json, os, re, shutil, subprocess, sys, tempfile
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -132,11 +132,11 @@ def derive_from_git(slug, line, meta):
     return row
 
 
-def cmd_derive(argv):
+def cmd_derive(now=None):
     posts = load()
     live = routes()
-    if "--now" in argv:
-        slug = argv[argv.index("--now") + 1]
+    if now is not None:
+        slug = now
         if slug not in live:
             sys.exit(f"[nftt-published] no route for '{slug}' in src/proxy.ts; route it first")
         if slug in posts:
@@ -294,19 +294,97 @@ def self_test():
     ok += len(problems({"a": {"published_at": iso}}, live, lambda f: withorig, {})) == 1      # fail-on-bad: orphan
     ok += problems({"a": {"published_at": iso}}, live, lambda f: withorig, {"a": one}) == []  # pass-on-good
     ok += "data-orig" not in stamp_text(withorig, iso, None)            # removable
-    print(f"[nftt-published] self-test {ok}/21")
-    return 0 if ok == 21 else 1
+    ok_cli, n_cli = cli_self_test()
+    ok += ok_cli
+    total = 21 + n_cli
+    print(f"[nftt-published] self-test {ok}/{total}")
+    return 0 if ok == total else 1
+
+
+def cli_self_test():
+    """Run this script as a subprocess from a copy inside a throwaway repo (ROOT follows __file__,
+    so the copy's ROOT is the temp dir). Asserts argv strictness and that look-only modes write nothing."""
+    page = '<title>X</title>\n<body><p class="byline">Field notes</p></body>'
+    iso = "2026-10-03T18:52:22-04:00"
+    results = []
+    with tempfile.TemporaryDirectory() as tmp:
+        for d in ("scripts", os.path.join("runtime", "specs"), "public", "src"):
+            os.makedirs(os.path.join(tmp, d))
+        me = os.path.join(tmp, "scripts", "nftt_published.py")
+        shutil.copy(os.path.abspath(__file__), me)
+        with open(os.path.join(tmp, "src", "proxy.ts"), "w") as f:
+            f.write("'/blog/nftt/a': '/blog-nftt-a.html',\n'/blog/nftt/b': '/blog-nftt-b.html',\n")
+        for slug in ("a", "b"):
+            with open(os.path.join(tmp, "public", f"blog-nftt-{slug}.html"), "w") as f:
+                f.write(page)
+        with open(os.path.join(tmp, "runtime", "specs", "nftt-published.json"), "w") as f:
+            json.dump({"posts": {"a": {"published_at": iso}}}, f)
+        ledger = os.path.join(tmp, "runtime", "specs", "nftt-published.json")
+
+        def snap():
+            out = {}
+            for d, _, fs in os.walk(tmp):
+                for fn in fs:
+                    fp = os.path.join(d, fn)
+                    with open(fp, "rb") as f:
+                        out[fp] = (os.stat(fp).st_mtime_ns, hashlib.sha256(f.read()).hexdigest())
+            return out
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True).returncode
+
+        def case(name, ok):
+            results.append(ok)
+            if not ok:
+                print(f"[nftt-published] FAIL cli: {name}")
+
+        base = snap()
+        case("unknown flag exits 2", run("--bogus") == 2)
+        case("unknown flag on stamp exits 2", run("stamp", "--bogus") == 2)
+        case("extra positional on stamp exits 2", run("stamp", "extra") == 2)
+        case("unknown flag on derive exits 2", run("derive", "--dry-run") == 2)
+        case("extra positional on derive exits 2", run("derive", "--now", "b", "extra") == 2)
+        case("derive --now with no value exits 2", run("derive", "--now") == 2)
+        case("unknown command exits 2", run("publish") == 2)
+        case("no args exits 2", run() == 2)
+        case("--check on unstamped fixture exits 1", run("--check") == 1)
+        case("--check and rejected argv write nothing", snap() == base)
+        case("derive --now b exits 0", run("derive", "--now", "b") == 0)
+        with open(ledger) as f:
+            case("derive --now writes the ledger row", "b" in json.load(f)["posts"])
+        with open(ledger) as f:
+            before = f.read()
+        case("derive --now on a recorded slug refuses", run("derive", "--now", "b") != 0)
+        with open(ledger) as f:
+            case("refused derive leaves the ledger", f.read() == before)
+        case("real stamp exits 0", run("stamp") == 0)
+        after = snap()
+        case("--check after stamp exits 0", run("--check") == 0)
+        case("--check on current fixture writes nothing", snap() == after)
+    return sum(results), len(results)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="nftt_published.py", description="One frozen publish timestamp per NFTT post.")
+    ap.add_argument("--check", action="store_true", help="exit 1 if any routed post lacks a ledger row or stamp (writes nothing)")
+    ap.add_argument("--self-test", action="store_true", help="run the built-in tests (writes only to a temp dir)")
+    sub = ap.add_subparsers(dest="cmd")
+    d = sub.add_parser("derive", help="add ledger rows for routed posts that lack one")
+    d.add_argument("--now", metavar="SLUG", help="new post not yet on main: record now, method=stamped")
+    sub.add_parser("stamp", help="write <time> + article:published_time into posts")
+    args = ap.parse_args(argv)
+    # Precedence kept from the hand parser: --self-test, then --check, then the subcommand.
+    if args.self_test:
+        return self_test()
+    if args.check:
+        return cmd_check()
+    if args.cmd == "derive":
+        return cmd_derive(args.now)
+    if args.cmd == "stamp":
+        return cmd_stamp()
+    print(__doc__)
+    return 2
 
 
 if __name__ == "__main__":
-    a = sys.argv[1:]
-    if "--self-test" in a:
-        sys.exit(self_test())
-    if "--check" in a:
-        sys.exit(cmd_check())
-    if a and a[0] == "derive":
-        sys.exit(cmd_derive(a[1:]))
-    if a and a[0] == "stamp":
-        sys.exit(cmd_stamp())
-    print(__doc__)
-    sys.exit(2)
+    sys.exit(main())
