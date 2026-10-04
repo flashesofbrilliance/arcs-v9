@@ -2,10 +2,16 @@
   "captured_at": "2026-09-15T01:06:34-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "6cffd93",
-    "head_message": "queue: narrow algorethics item to in-scope benchmark (#449)",
-    "in_sync_with_origin": true,
-    "dirty_files": [],
+    "head_sha": "2afe1721",
+    "head_message": "feat(routing): brooks.arcs.care -> admin-gated /warroom/brooks (same shape as ahmed) [NCI:40]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json"
+    ],
     "note": "session worktree branch claude/arcs-e2e-benchmarks-cicd-0369bd = PR #446 head a308e185 (3 commits, unmerged by design)"
   },
   "vercel": {
@@ -44,5 +50,6 @@
   "open_adrs": [],
   "session_summary": "arcs-algorethics taken from broken scaffold to a tested, honest repo (PRs #1-#8 merged: E2E suite, HF + AgentHarm benchmarks, ops CLI, shared invariants, Ed25519 resume with key custody, kabuki deleted); arcs-v9 Edge gate route in PR #446 (keyed, unmerged); in-scope benchmark parked in induced backlog.",
   "next_action": "Zach's three operational moves when ready (apply migration 001 + expose schema, provision ARCS_GATE_KEY/SUPABASE_* on Vercel + Actions, merge PR #446 and dispatch the algorethics workflow), or pick up queue item algorethics-in-scope-benchmark.",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-16T16:18:22Z"
 }
