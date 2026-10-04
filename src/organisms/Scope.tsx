@@ -28,7 +28,8 @@ import { text, signal, font, border } from "@/ui/tokens"
 // pan, Cmd/Ctrl-scroll or pinch to zoom, Option-scroll to dolly, double-click
 // or 0 to reset. Plain scroll always belongs to the page.
 
-const S = 400 // logical height; logical width follows the aspect
+const REF = 400 // geometry is tuned at a 400px-tall field and scales with the real height
+const BAR_H = 38 // the control bar that overlays the bottom edge
 const TAU = Math.PI * 2
 const GRID = 46
 const SUMMIT = { u: 0.06, v: -0.04 }
@@ -179,6 +180,15 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const [coarse, setCoarse] = useState(false)
   const [depth, setDepthUi] = useState(3)
   const [picked, setPicked] = useState<string | null>(null)
+  const [drawer, setDrawer] = useState(false)
+  const [narrow, setNarrow] = useState(false)
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => setNarrow(el.clientWidth < 520))
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
   useEffect(() => { target.current = { fog, clear } }, [fog, clear])
   useEffect(() => { setCoarse(window.matchMedia("(pointer: coarse)").matches) }, [])
 
@@ -252,7 +262,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // The first overlays settle in as droplets, a beat apart.
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
-    const st = { sw: S, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
+    const st = { sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
     const markers: { id: string; x: number; y: number }[] = []
@@ -260,14 +270,15 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const resize = () => {
       const w = wrap.clientWidth
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      // Wide hero on desktop, near-square on a phone.
-      const aspect = w >= 900 ? 2.3 : w >= 600 ? 1.6 : 1.05
+      // A cinematic strip: ~4:1 desktop, ~2.6:1 tablet, 1.5:1 phone. The
+      // canvas draws in CSS pixels so HUD text stays legible at any height.
+      const aspect = w >= 900 ? 4 : w >= 600 ? 2.6 : 1.5
       const h = Math.round(w / aspect)
       canvas.width = Math.round(w * dpr)
       canvas.height = Math.round(h * dpr)
       canvas.style.height = `${h}px`
-      st.scale = (h * dpr) / S
-      st.sw = S * (w / h)
+      st.scale = dpr
+      st.sw = w; st.sh = h
     }
     resize()
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()) })
@@ -277,7 +288,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
     const local = (ev: { clientX: number; clientY: number }) => {
       const r = canvas.getBoundingClientRect()
-      return { x: ((ev.clientX - r.left) / r.width) * st.sw, y: ((ev.clientY - r.top) / r.height) * S }
+      return { x: ((ev.clientX - r.left) / r.width) * st.sw, y: ((ev.clientY - r.top) / r.height) * st.sh }
     }
     const touch = () => { ctl.pausedUntil = Math.max(ctl.pausedUntil, performance.now() + 8000) }
     const panBy = (dx: number, dy: number) => {
@@ -380,10 +391,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ;(Object.keys(cam) as (keyof Cam)[]).forEach((k) => { cam[k] += (tgt.current[k] - cam[k]) * ce })
 
       const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch)
-      const SW = st.sw, MX = SW / 2
-      // A wide canvas gets a longer lens so the field fills the hero.
-      const wide = SW / S > 1.4 ? 1.32 : 1
-      const D = cam.dist, F = 360 * wide * cam.zoom * (cam.dist / 2.7), CX = MX, CY = 214
+      const SW = st.sw, SH = st.sh, MX = SW / 2, U = SH / REF
+      // A wide strip gets a longer lens so the form fills it.
+      const lens = SW / SH > 3 ? 1.28 : SW / SH > 2 ? 1.12 : 1
+      const D = cam.dist, F = 395 * U * lens * cam.zoom * (cam.dist / 2.7), CX = MX, CY = (SH - BAR_H) * 0.6
       const proj = (u: number, h: number, v: number) => {
         const uu = u - cam.pu, vv = v - cam.pv
         const x1 = uu * cy - vv * sy
@@ -414,12 +425,12 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.setTransform(st.scale, 0, 0, st.scale, 0, 0)
       ctx.globalCompositeOperation = "source-over"
       ctx.fillStyle = "#02050a"
-      ctx.fillRect(0, 0, SW, S)
+      ctx.fillRect(0, 0, SW, SH)
       const vg = ctx.createRadialGradient(CX, CY, 40, CX, CY, 290)
       vg.addColorStop(0, rgba(isClear ? signal.green : signal.cyan, 0.035 + clarity * 0.03))
       vg.addColorStop(1, "rgba(0,0,0,0)")
       ctx.fillStyle = vg
-      ctx.fillRect(0, 0, SW, S)
+      ctx.fillRect(0, 0, SW, SH)
 
       // The ground ruling: fixed world spacing, so zooming between coarse and
       // fine makes it interfere with the terraces and the point grid. The
@@ -461,7 +472,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         }
       }
       const nLab = proj(0, 0, -1.18)
-      ctx.font = `700 8px ${font.mono}`
+      ctx.font = `700 9px ${font.mono}`
       ctx.textAlign = "center"; ctx.textBaseline = "middle"
       if (nLab) { ctx.fillStyle = signal.cyan; ctx.fillText("N", nLab.x, nLab.y) }
 
@@ -485,7 +496,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         if (vis < 0.02) continue
         const sc = fogv * p.keep
         const s = proj(p.u + p.ju * 0.09 * sc, p.h + p.jy * 0.5 * sc, p.v + p.jv * 0.09 * sc)
-        if (!s || s.x < -10 || s.x > SW + 10 || s.y < -10 || s.y > S + 10) continue
+        if (!s || s.x < -10 || s.x > SW + 10 || s.y < -10 || s.y > SH + 10) continue
         const depthFade = 1 - Math.min(1, Math.max(0, (s.d - 1.9) / 1.8)) * (0.3 + fogv * 0.3)
         let a = (0.36 + clarity * 0.2 + p.edge * clarity * 0.3) * depthFade * vis
         let x = s.x, y = s.y
@@ -501,17 +512,17 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         }
         const apex = p.k === LEVELS && st.nav > 0.5
         ctx.fillStyle = apex ? rgba(signal.gold, a * 0.9) : rgba(p.wall ? mix(ptColor, "#9fb3c8", 0.35) : ptColor, a)
-        const sz = Math.min(5, atDepth(dep, "size") * (1 + clarity * 0.2) * (2.7 / s.d) * Math.sqrt(cam.zoom))
+        const sz = Math.min(5, atDepth(dep, "size") * (1 + clarity * 0.2) * (2.7 / s.d) * Math.sqrt(cam.zoom) * Math.max(0.75, U))
         // Up high the survey is quantized: 8-bit blocks snap to a coarse raster.
         const q = dep < 1.6 ? 4 : dep < 2.4 ? 2 : 0
         if (q) { x = Math.round(x / q) * q; y = Math.round(y / q) * q }
         ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz)
       }
       if (fogv > 0.05 && !reduced) {
-        const n = Math.round(260 * fogv)
+        const n = Math.min(900, Math.round(260 * fogv * (SW * SH) / 160000))
         for (let i = 0; i < n; i++) {
           ctx.fillStyle = rgba("#9fb3c8", 0.04 + speck() * 0.12 * fogv)
-          ctx.fillRect(speck() * SW, speck() * S, 0.8, 0.8)
+          ctx.fillRect(speck() * SW, speck() * SH, 0.8, 0.8)
         }
       }
       ctx.globalCompositeOperation = "source-over"
@@ -519,7 +530,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // Waypoints. Labels never stack: focused first, then nearest; a label
       // that would collide keeps its marker and drops its text.
       markers.length = 0
-      ctx.font = `600 7.5px ${font.mono}`
+      ctx.font = `600 9px ${font.mono}`
       const placed: { x: number; y: number; w: number; h: number }[] = []
       const order = WAYPOINTS.filter((w) => ctl.overlays.has(w.id)).map((w) => {
         const p = terracePoint(w.k, w.a)
@@ -555,10 +566,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         ctx.fillStyle = rgba(sel ? "#e2e8f0" : col, al * labelA)
         ctx.fillText(w.label.toUpperCase(), tx, top.y)
         if (noteA > 0.05) {
-          ctx.font = `400 7px ${font.sans}`
+          ctx.font = `400 10px ${font.sans}`
           ctx.fillStyle = rgba("#94a3b8", 0.9 * noteA * grow)
           ctx.fillText(w.note, tx, top.y + 10)
-          ctx.font = `600 7.5px ${font.mono}`
+          ctx.font = `600 9px ${font.mono}`
         }
       }
 
@@ -588,7 +599,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // Up high, only the tiers are legible: three names on the bands.
       const tierA = clamp((2.3 - dep) / 0.6, 0, 1)
       if (tierA > 0.02) {
-        ctx.font = `600 8px ${font.mono}`; ctx.textBaseline = "middle"; ctx.textAlign = "left"
+        ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "middle"; ctx.textAlign = "left"
         let prevY = -Infinity
         ;([["later", 5], ["next", 4], ["now", 2]] as [Tier, number][]).forEach(([tier, k]) => {
           const d = HALF - (k - 1) * STEP_W
@@ -610,13 +621,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // HUD: a frame, a heading, depth and clarity. Nothing that does not orient you.
       {
         const fi = clamp(Math.round(dep), 1, 5) - 1, F0 = FATHOMS[fi]
-        ctx.font = `600 7.5px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
+        ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
         ctx.fillStyle = rgba("#94a3b8", 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
         ctx.fillStyle = rgba("#64748b", 0.9)
         ctx.fillText(`${F0.altitude.toUpperCase()} · ${F0.resolution.toUpperCase()}`, 20, 37)
         // Depth gauge on the left, mirroring clarity on the right.
-        const lx = 18, ly0 = 120, ly1 = 300
+        const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
         ctx.strokeStyle = rgba("#94a3b8", 0.3); ctx.lineWidth = 1
         ctx.beginPath(); ctx.moveTo(lx, ly0); ctx.lineTo(lx, ly1); ctx.stroke()
         for (let i = 0; i < 5; i++) {
@@ -632,10 +643,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
       const hud = rgba("#94a3b8", 0.85), dim = rgba("#64748b", 0.9)
       ctx.strokeStyle = rgba("#94a3b8", 0.4); ctx.lineWidth = 1
-      ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, 390, -1, -1], [10, 390, 1, -1]].forEach(([x, y, dx, dy]) => {
+      ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, SH - BAR_H - 8, -1, -1], [10, SH - BAR_H - 8, 1, -1]].forEach(([x, y, dx, dy]) => {
         ctx.beginPath(); ctx.moveTo(x, y + dy * 14); ctx.lineTo(x, y); ctx.lineTo(x + dx * 14, y); ctx.stroke()
       })
-      ctx.font = `600 7.5px ${font.mono}`
+      ctx.font = `600 9px ${font.mono}`
       ctx.textBaseline = "alphabetic"
       const hdg = ((-cam.yaw * 180) / Math.PI % 360 + 360) % 360
       ctx.save()
@@ -654,7 +665,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.textAlign = "center"; ctx.fillStyle = hud
       ctx.fillText(`HDG ${pad(hdg, 3)}`, MX, 52)
 
-      const gx = SW - 18, gy0 = 120, gy1 = 300
+      const gx = SW - 18, gy0 = Math.max(64, SH * 0.26), gy1 = SH - BAR_H - 26
       ctx.strokeStyle = rgba("#94a3b8", 0.3)
       ctx.strokeRect(gx - 2, gy0, 4, gy1 - gy0)
       const fillTop = gy1 - (gy1 - gy0) * clarity
@@ -667,7 +678,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
       if (now - st.hint < 1400) {
         ctx.textAlign = "center"; ctx.fillStyle = rgba("#e2e8f0", 0.9)
-        ctx.fillText("HOLD ⌘ OR CTRL TO CHANGE DEPTH", MX, 372)
+        ctx.fillText("HOLD ⌘ OR CTRL TO CHANGE DEPTH", MX, SH - BAR_H - 14)
       }
 
       if (!reduced) st.raf = requestAnimationFrame(loop)
@@ -707,8 +718,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const label = `A sketch of the ARCS field as stepped terrain. Lower terraces hold what exists now, upper terraces what comes next and later. Showing: ${shown.map((w) => w.label).join(", ") || "nothing"}. ${clear ? "Clear; you stand on the apex." : "Under fog; you wait at the edge."} Arrow keys orbit and tilt, brackets change depth across five fathoms, 0 resets.`
   const mono: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }
 
+  const drawerId = "field-drawer"
+  const bar: React.CSSProperties = { background: "rgba(2,5,10,0.78)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }
+  // The drawer is thinner glass than the bar so the field reads through it.
+  const glass: React.CSSProperties = { background: "rgba(2,5,10,0.58)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)" }
+
   return (
-    <figure style={{ margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
+    <figure style={{ position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
       <div ref={wrapRef} style={{ width: "100%", lineHeight: 0 }}>
         <canvas
           ref={canvasRef}
@@ -721,19 +737,32 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      <div style={{ padding: "0.85rem 1rem", borderTop: `1px solid ${border.subtle}`, display: "grid", gap: "0.55rem" }}>
+      {/* The sketch: a drawer that slides up over the field, never below it. */}
+      <div
+        id={drawerId}
+        role="region"
+        aria-label="A sketch of the field: overlays"
+        style={{
+          ...glass,
+          position: "absolute", left: 0, right: 0, bottom: BAR_H, maxHeight: `calc(100% - ${BAR_H}px)`, overflowY: "auto",
+          padding: "0.8rem 1rem 0.7rem", borderTop: `1px solid ${border.subtle}`, display: "grid", gap: "0.5rem",
+          transform: drawer ? "translateY(0)" : "translateY(calc(100% + 40px))",
+          visibility: drawer ? "visible" : "hidden",
+          transition: drawer ? "transform .32s cubic-bezier(.2,.7,.2,1), visibility 0s" : "transform .26s ease-in, visibility 0s linear .26s",
+        }}
+      >
         <div style={{ ...mono, color: text.dimmed }}>A sketch of the field</div>
         {(["now", "next", "later"] as Tier[]).map((t) => {
           const ids = WAYPOINTS.filter((w) => w.tier === t).map((w) => w.id)
           const allOn = ids.every((id) => overlays.includes(id))
           return (
-            <div key={t} role="group" aria-label={`${TIER_NAME[t]} overlays`} style={{ display: "flex", alignItems: "center", gap: "0.45rem", flexWrap: "wrap" }}>
+            <div key={t} role="group" aria-label={`${TIER_NAME[t]} overlays`} style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexWrap: "wrap" }}>
               <button
                 type="button"
                 aria-pressed={allOn}
                 onClick={() => toggleTier(t)}
                 title={`${allOn ? "Remove" : "Add"} every ${TIER_NAME[t]} overlay`}
-                style={{ ...mono, color: TIER_COLOR[t], width: 52, flexShrink: 0, textAlign: "left", background: "none", border: "none", padding: "4px 0", minHeight: 26, cursor: "pointer", textDecoration: allOn ? "underline" : "none", textUnderlineOffset: 4 }}
+                style={{ ...mono, color: TIER_COLOR[t], width: 50, flexShrink: 0, textAlign: "left", background: "none", border: "none", padding: "4px 0", minHeight: 26, cursor: "pointer", textDecoration: allOn ? "underline" : "none", textUnderlineOffset: 4 }}
               >
                 {TIER_NAME[t]}
               </button>
@@ -749,7 +778,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
                     style={{
                       fontFamily: font.mono, ...font.tier.t2, textTransform: "uppercase", whiteSpace: "nowrap",
                       color: on ? text.primary : TIER_COLOR[t],
-                      background: on ? `${TIER_COLOR[t]}26` : "transparent",
+                      background: on ? `${TIER_COLOR[t]}26` : "rgba(2,5,10,0.4)",
                       border: `1px solid ${TIER_COLOR[t]}${on ? "cc" : "4d"}`,
                       borderRadius: 3, padding: "4px 8px", minHeight: 26, cursor: "pointer",
                       transition: "background-color .15s, border-color .15s, color .15s",
@@ -766,13 +795,17 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           {note}
           {groundHref && <> <a href={groundHref} style={{ color: signal.cyan, textUnderlineOffset: 3 }}>Open {added!.label.toLowerCase()}</a></>}
         </p>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
+          <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
+          <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it" : "Drag to orbit · Shift drag to pan · ⌘ scroll or [ ] for depth · Click a waypoint to fly to it"}
+          </span>
+        </div>
       </div>
 
-      <figcaption style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: "0.35rem 0.75rem", padding: "0.7rem 1rem", borderTop: `1px solid ${border.subtle}` }}>
-        <span style={{ ...mono, color: zoneColor, overflow: "hidden", textOverflow: "ellipsis" }}>Zone · {zone}</span>
-        <span style={{ ...mono, color: text.secondary }}>Visibility {Math.round((1 - fog) * 100)}%</span>
-        <div role="group" aria-label="Depth, five fathoms" style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: "0.35rem", flexWrap: "wrap" }}>
-          <span style={{ ...mono, color: text.dimmed, marginRight: "0.25rem" }}>Depth</span>
+      {/* The bar: depth and the drawer toggle, laid over the field's bottom edge. */}
+      <figcaption style={{ ...bar, position: "absolute", left: 0, right: 0, bottom: 0, height: BAR_H, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem", padding: "0 0.6rem 0 0.75rem", borderTop: `1px solid ${border.subtle}` }}>
+        <div role="group" aria-label="Depth, five fathoms" style={{ display: "flex", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
           {FATHOMS.map((f) => {
             const on = depth === f.n
             return (
@@ -784,20 +817,29 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
                 title={`F${f.n} · ${f.name} · ${f.altitude} · ${f.resolution}`}
                 onClick={() => setDepth(f.n)}
                 style={{
-                  fontFamily: font.mono, ...font.tier.t2, whiteSpace: "nowrap", minHeight: 26, padding: "4px 8px", borderRadius: 3, cursor: "pointer",
-                  color: on ? text.primary : text.secondary, background: on ? "rgba(0,240,255,0.10)" : "transparent",
-                  border: `1px solid ${on ? "rgba(0,240,255,0.55)" : border.subtle}`,
+                  fontFamily: font.mono, ...font.tier.t2, whiteSpace: "nowrap", minHeight: 26, minWidth: narrow ? 26 : 30, padding: narrow ? "3px 3px" : "3px 6px", borderRadius: 3, cursor: "pointer",
+                  color: on ? text.primary : text.secondary, background: on ? "rgba(0,240,255,0.12)" : "transparent",
+                  border: `1px solid ${on ? "rgba(0,240,255,0.55)" : "transparent"}`,
                 }}
               >
                 F{f.n}
               </button>
             )
           })}
-          <span style={{ ...mono, color: text.secondary, marginLeft: "0.35rem" }}>{FATHOMS[depth - 1].name}</span>
+          {!coarse && !narrow && <span style={{ ...mono, color: text.secondary, marginLeft: "0.4rem", overflow: "hidden", textOverflow: "ellipsis" }}>{FATHOMS[depth - 1].name}</span>}
         </div>
-        <span style={{ ...mono, gridColumn: "1 / -1", color: text.dimmed, whiteSpace: "normal", lineHeight: 1.7 }}>
-          {coarse ? "Drag to look around · Tap a waypoint to fly to it" : "Drag to orbit · Shift drag to pan · ⌘ scroll or [ ] to change depth · Click a waypoint to fly to it"}
-        </span>
+        <button
+          type="button"
+          aria-expanded={drawer}
+          aria-controls={drawerId}
+          onClick={() => setDrawer((o) => !o)}
+          style={{ ...mono, display: "inline-flex", alignItems: "center", gap: 8, flexShrink: 0, minHeight: 28, padding: "4px 10px", borderRadius: 3, cursor: "pointer", color: drawer ? text.primary : text.secondary, background: drawer ? "rgba(255,255,255,0.06)" : "transparent", border: `1px solid ${border.subtle}` }}
+        >
+          {narrow ? "Sketch" : "Sketch of the field"}
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" style={{ transform: drawer ? "rotate(180deg)" : "none", transition: "transform .2s" }}>
+            <path d="M1.5 6.5L5 3l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </figcaption>
     </figure>
   )
