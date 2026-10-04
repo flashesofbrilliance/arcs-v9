@@ -7,6 +7,12 @@
 
 ---
 
+## [v3.77.0] 2026-10-04 — "Tribes, Vibes, Lies": handoff merged (PR #691 -> `ac92aaed`), preview page on draft PR #700, both gated
+
+- PR #691 receipt `2026-10-04--handoff-v3.73.0-essay-tribes-vibes-lies-pr691--ZH`. Draft PR #700 (`6d4598d` + merge `056a417`): `public/blog-nftt-tribes-vibes-lies.html`, NFTT template chrome, six inline-SVG figures (three from canon: tao-041/222 loop, WORLD.md zones, tao-227/220/194/045 2x2), two placeholder boxes, `tao-waiver` marker; unrouted, unindexed, unstamped; 9/9 checks green; preview URL noindex.
+- Gate learned: `tao-coverage` pre-commit refuses a new NFTT page without a citing proverb or a declared waiver. Stale-base lesson: `generated-views` was red on the first head because `public/good.html` drift was fixed on main (`c9bb397`) after the branch was cut; reproduce on `origin/main`, then merge main in.
+- Owed by Zach: two worked examples, 2/247 confirmation. Then: `/tao-mint`, route, index, `nftt_published.py` stamp, page-gate, bless, `--merge`, receipt. Essay SSOT remains the Claude Doc.
+
 ## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
 - `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).

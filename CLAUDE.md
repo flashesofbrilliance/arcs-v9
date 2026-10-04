@@ -114,6 +114,72 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.77.0 (2026-10-04)
+
+> **"Tribes, Vibes, Lies" went from a doc to a gated preview page.** PR #691 (the v3.73.0 handoff) merged to
+> main at `ac92aaed` on Zach's "merge it once smoke is green"; receipt
+> `2026-10-04--handoff-v3.73.0-essay-tribes-vibes-lies-pr691--ZH`. Draft PR #700 holds the preview page
+> `public/blog-nftt-tribes-vibes-lies.html` (head `056a417`, 9/9 checks green, mergeable, unrouted,
+> not merged, no receipt owed yet). The essay's source of truth is still the Claude Doc:
+> https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script reads 0 commits, 0 merges (it filters by `git config user.name`, the known blind spot). By hand: 3 session commits (`637a33d`, `6d4598d`, `056a417`), 1 merge to main (`ac92aaed`, PR #691), 1 receipt.
+- **Inhale** (what came in): 0 falsification rows today, 2 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror on the script's count; breathing (both directions) on the hand count.
+- **Sycophancy check**: agreement 10 / dissent 2 (ratio 3.33) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff-2.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a PR number, a path, a URL, or a receipt id. Downgraded: the real-font render of the preview is stated as not checked, not as checked. The 2/247 figure stays unconfirmed.
+- **Somatic read**: `somatic: not asked`. No sends today; the page is unrouted and the doc is private.
+- **Disposition**: RELEASED on Zach's `/handoff`.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- PR #691 (`ac92aaed`): the v3.73.0 handoff block, MEMORY entry, backlog row `essay-tribes-vibes-lies`,
+  session-state file. `fe-smoke` was still running at merge time; it later passed on PR #700's head.
+
+## Open on a branch (not on main)
+- **Draft PR #700**, branch `claude/essay-tribes-vibes-lies-preview`, commits `6d4598d` (page) and
+  `056a417` (merge of main to clear a stale-base `generated-views` failure; `public/good.html` drift was
+  fixed on main by `c9bb397`, not by this PR). One file, 426 lines: the NFTT literary template chrome cloned
+  from `public/blog-nftt-confirmed-not-my-bug.html`, nine sections, a short-version panel, two pull quotes,
+  six inline-SVG figures (prosthetic vs exoskeleton; the Tribes/Vibes/Lies ladder; three dials + one
+  tripwire; the decide/act/receipt/measure loop from tao-041 and tao-222; the four zones from WORLD.md;
+  a 2x2 of tao-227/220/194/045 quoted as minted), two gold dashed placeholder boxes in section VI, and a
+  `<!-- tao-waiver: preview draft ... -->` marker that the `tao-coverage` pre-commit gate required.
+- Vercel preview (noindex): https://arcs-v9-git-claude-essay-tribes-vibes-lies-preview-arcs-care.vercel.app/blog-nftt-tribes-vibes-lies.html
+- Gates run on the page: `scripts/page_gate.py` at 375/790/1280, wrap-lint, div-balance, token-source,
+  component-source, tao-coverage; em-dashes 0; every figure screenshot-checked at 1280, one at 390. Three
+  label collisions under the fallback font were fixed before push. The real-font render was not
+  screenshot-checked (the preview host is not reachable from the container); Zach has the URL.
+- The doc gained, after v3.73.0: three tributaries, the short-version block, two pull quotes, and three
+  canon-sourced widgets (loop, zones, proverb 2x2) in addition to the first three.
+
+## Open (next session)
+1. Zach still owes the two worked examples (one pass with the tripwire moment, one yes that went as
+   expected) and the 2/247 confirmation (doc comment open; re-measure `Outcome` rows).
+2. Leave-draft gates on #700, in order: fill placeholders in the doc and the page; re-measure 2/247;
+   `/tao-mint` a proverb citing `nftt/tribes-vibes-lies` and remove the waiver; route in `src/proxy.ts`;
+   add to `scripts/nftt_index_build.mjs` POSTS + `scripts/nftt_index_layout.json` and rebuild the index;
+   `python3 scripts/nftt_published.py derive --now tribes-vibes-lies` then `stamp`; page-gate; Zach's
+   publish bless; merge with `--merge`; one `decision_receipt` row.
+3. The paid tier the essay promises (COURT/DEEP mode for a 30-person cohort, a per-user 30-outcome
+   calibration curve) is not purchasable; decide the mechanics before the post routes.
+4. Phone-width figures scale to about half size; legible but small. Option: stacked phone layouts for the
+   instrument and proverb figures.
+5. PR #700 watch: subscribed; safety-net check-ins at 04:06Z, 09:02Z, 13:04Z found nothing; a final
+   one is armed for 17:06Z, after which check-ins stop and only a GitHub event or Zach resumes them.
+
+## Lessons (in the record)
+- `tao-coverage` is a pre-commit gate: a new NFTT page needs a proverb citing it or a declared waiver.
+  The first commit attempt was refused; the waiver is honest for a preview and wrong for the real post.
+- A branch cut before a generated-page fix lands reproduces that failure in CI even when the diff is one
+  unrelated file. Reproduce the check on `origin/main` first; if it passes there, merge main in.
+- Fallback fonts run wider than the self-hosted ones; size SVG label boxes for the fallback and the real
+  render only gains margin.
+
 # Handoff — v3.76.0 (2026-10-04)
 
 > **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views
@@ -169,57 +235,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   ci.yml. Count what ran before trusting a pass.
 - A hand edit to a generated page reddens every PR, not only its own: #695's two-line `good.html` change
   failed generated-views on main until the generator learned the row key.
-
-# Handoff — v3.75.0 (2026-10-04)
-
-> **Stopped-light research → ARCS design rules, a nested skill, an oracle fix, and an NFTT essay with a
-> go-deeper companion.** Two PRs merged on Zach's explicit go: #683 (`5d64551`) and #686 (`44b80d1`);
-> receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH` and
-> `2026-10-04--nftt-research-companion-tao284-pr686--ZH`. Both served from the Vercel deployment URL;
-> the pretty good.arcs.care routes are unconfirmed (the cloud egress proxy blocks good.arcs.care).
-
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file. (Script counts 2026-10-04 UTC only; the session spanned 2026-10-03/04 with 8 session commits, 2 merges #683 #686, 2 receipts.)
-- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale) on the 10-04 window; breathing across the full session.
-- **Sycophancy check**: agreement 4 / dissent 3 (ratio 1.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): "live-verified" narrowed to "served from the deployment URL"; the pretty good.arcs.care routes stay unconfirmed (egress block). "Cheapest high-value fix" downgraded to "a one-line hook change". Nothing dropped.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **Research:** `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`: claim check of a
-  LinkedIn post on Hau's stopped light, 2026 state of the art, 15 isomorphisms labelled MECHANISM or
-  METAPHOR, 5 inventions each with a pre-registered kill condition. Top 3 in the induced backlog
-  (`freshness-zeno-ceiling`, `echo-scheduled-receipts`, `memory-seven-axis-scorecard`).
-- **Skill:** `/echo-scan` (`.claude/skills/echo-scan/`), the working form of ROM primitive 5, with a
-  nested `claim-check` module (`references/claim-check.md`) also callable standalone. A fresh-agent run
-  of the module found 7 gaps and a wrong expected verdict in its own eval; all fixed in `c04c21f`.
-- **Oracle fix (`4583555`):** `scripts/oracle.py` matched only argv[0..1], so `next seed --dry-run`
-  allocated for real and stamped a pulse beat. Now strict parse (unknown flag, extra arg, missing value
-  -> exit 2), a real `next <ns> --dry-run`, and `--self-test` 12/12 wired into pre-commit.
-- **NFTT:** "Light at Thirty-Eight Miles an Hour" (the session's own story, including the false herald it
-  refused to commit) + companion `/research` page (go-deeper, tao-waiver as a companion) + `tao-284`.
-- Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
-
-## Open (next session)
-1. Seeds planted this handoff: `seed-pattern-strict-cli-args` (candidate), `seed-skill-echo-scan`, and
-   `seed-gate-hookspath-bootstrap`, germinated the same day: `.claude/hooks/session-start.sh` now arms
-   `core.hooksPath` when unset, so fresh clones run the pre-commit chain.
-2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
-   posts), and Tao backfill for the 4 NFTT posts still uncovered.
-3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
-4. Backlog inventions untouched; each carries its kill condition.
-
-## Lessons (in the record)
-- A preview flag a tool does not recognize turns a look into a touch. 61 of 63 `scripts/*.py` that read
-  argv parse it by hand (38 of those write files); the oracle was one instance of the class.
-- A herald must come from the write it reports. The pulse beat from a reverted allocation was refused;
-  the beat from the real tao-284 allocation was committed.
-- `core.hooksPath` unset in this clone: commits `43a3ff9` and `248036c` ran no gates, and the essay
-  shipped without the tao-coverage check until `08233e4`.
