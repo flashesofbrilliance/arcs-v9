@@ -637,5 +637,14 @@
     "stability": null,
     "gate": "see content",
     "file": "ADR-076-mcp-led-growth-attribution-wedge.md"
+  },
+  {
+    "id": "ADR-084",
+    "title": "ADR-084 — Reliance, not trust: public surfaces say what to rely on them for, and what not",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "STABLE",
+    "gate": "see content",
+    "file": "ADR-084-reliance-not-trust-public-surfaces.md"
   }
 ]

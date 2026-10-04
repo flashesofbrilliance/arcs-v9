@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-03T22:27:00-04:00",
+  "captured_at": "2026-10-04T10:06:18-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ac92aaed",
-    "head_message": "Merge pull request #691 from flashesofbrilliance/claude/essay-tribes-vibes-lies-handoff",
+    "head_sha": "348ae373",
+    "head_message": "Merge pull request #703 from flashesofbrilliance/claude/post-timestamps-notes-trenches-psjapj",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at handoff merge time; handoff renumbered v3.74.0 (parallel session took v3.73.0)"
+    "note": "origin/main at handoff time; PR #706 open on claude/post-timestamps-notes-trenches-psjapj carries this handoff"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-9zuo3cpvr-arcs-care.vercel.app",
+    "latest_deploy_url": "arcs-v9-kpoogd26d-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,9 +19,9 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "verified_sha": "0bfa5877",
-    "note": "latest_deploy = merge of PR #688, verified via Vercel MCP get_deployment (good.arcs.care alias). env_vars_present carried from prior snapshot: NOT re-listed (no vercel CLI in the cloud container).",
-    "deployment_id": "dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw"
+    "verified_sha": "348ae373",
+    "note": "latest prod deploy = merge of PR #703, verified via Vercel MCP get_deployment(good.arcs.care). env_vars_present carried forward, not re-listed (no vercel CLI in the cloud container).",
+    "deployment_id": "dpl_AkF9PpJcJ5Bpoqy7YMxRt3foD3TY"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -37,13 +37,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt row 2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH written this session (Supabase execute_sql). Prisma schema not re-checked this session."
+    "note": "decision_receipt rows this stretch: 2026-10-04--nftt-linkedin-originals-pr697--ZH, 2026-10-04--nftt-method-byline-dedup-pr703--ZH; PR #706 row follows its merge. Prisma schema not re-checked."
   },
   "open_adrs": [
-    "none minted this session"
+    "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "NFTT: publish timestamps on all 32 routed posts from git; the seven PR #411 essays denoted as one serialized thread; index reorganized; PR #688 merged 0bfa5877, receipt 2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH.",
-  "next_action": "Zach reviews the new NFTT wording on good.arcs.care/blog/nftt; then decide LinkedIn first-published dates; fix shavasana_handoff.py author filter.",
+  "session_summary": "NFTT bylines date the LinkedIn originals (six series posts); main generated-views fixed; The Method duplicate date trimmed. PRs #697 cb0d8772, #703 348ae373; #706 pending.",
+  "next_action": "Merge PR #706 when green, live-check Four Dates + The Pre-Mortem, log its receipt; then fix shavasana_handoff.py author filter.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-10-04T02:27:00Z"
+  "git_refreshed_at": "2026-10-04T14:06:18Z"
 }

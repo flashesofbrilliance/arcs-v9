@@ -1,3 +1,121 @@
+# Handoff — v3.74.0 (2026-10-04)
+
+> **NFTT posts carry their publish time; the seven PR #411 essays are denoted as one serialized thread;
+> the NFTT index is reorganized.** PR #688 merged to main at `0bfa5877` on Zach's explicit go; one
+> `decision_receipt` row (`2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`). All 9 PR checks
+> green on head `8e8bab71`; production deploy `dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw` READY and aliased to
+> good.arcs.care (Vercel `get_deployment`).
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script reported 0 commits, 0 merges. Recount by hand from git: 6 commits (`e6b54862`, `d606f62d`, `8923d258`, `53e9c057`, `2cecca39`, `8e8bab71`), 1 merge to main (`0bfa5877`), 1 receipt. The script filters `--author=$(git config user.name)` = "Claude", while this cloud container authors commits as "Zach Harris": a gate blind spot (Open item 5), not a quiet session.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: script read "mirror (inhale, no exhale)" off the miscount; with the recount, breathing (both directions).
+- **Sycophancy check**: agreement 3 / dissent 1 (ratio 1.5) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, a deployment id, or a receipt id. Nothing downgraded; the one corrected number is the exhale count above, corrected to git.
+- **Somatic read** (Zach, 2026-10-04): "Feeling more certain than at the start, no sends today."
+- **Disposition**: RELEASED on Zach's "consolidate memory and handoff".
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Publish timestamps** (`e6b54862`): `scripts/nftt_published.py` derives each routed post's publish time
+  from git, stamps `article:published_time` + a byline `<time data-pub>` into the post, `--check` and
+  `--self-test` (13/13). Ledger `runtime/specs/nftt-published.json`, 32 rows, committed because CI clones
+  shallow. Published = first commit on main's TRUE line containing the route commit (first parents,
+  hopping to the second parent at "Merge ... 'origin/main' into ..." sync merges). `a-draft-is-not-a-verb`
+  is flagged `git-direct-commit`: a commit-time lower bound.
+- **The serialized thread** (`d606f62d`): `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`
+  (`--check`, `--self-test` 8/8). Each of the seven parts gets "The serialized thread · Part N of 7" under
+  the byline and a series panel before `<footer>`; Tuning's hand map is superseded. Order and roles are
+  from Tuning's own map; glosses verbatim from that map or each post's index description.
+- **Index** (`8923d258`, `53e9c057`): series in part order 1 to 7; sections now The serialized thread (7),
+  The Factory on Itself (8), The Cold Reader (3), The Workshop (7), Field Accounts (7); non-series sections
+  newest first. Layout in `scripts/nftt_index_layout.json`; dates and parts read from the two specs.
+- **Doctype** on the 9 NFTT pages that rendered in quirks mode (`d606f62d`, `8923d258`); **lede fix**
+  `.standfirst{max-width:none}` ported from `6f6544ea` to the nine posts it missed (`2cecca39`).
+- Gates: both `--check`s in `.github/workflows/ci.yml` and `scripts/git-hooks/pre-commit`; the
+  `nftt-story-factory` skill gains the stamp + series steps.
+
+## Open (next session)
+1. RESOLVED (Zach, 2026-10-04: "go ahead"): the wording stands as shipped: tagline "One method, seven
+   subjects", section names The Cold Reader / The Workshop, the three blurbs.
+2. RESOLVED (same day, on Zach's ask): bylines carry "From the LinkedIn original(s), <dates>" on six posts
+   (`runtime/specs/nftt-originals.json`). Not "first published": every post is a new essay. Four Dates and
+   The Pre-Mortem got theirs on Zach's confirmation of the platform (PR #411 records the LinkedIn corpus);
+   The Pre-Mortem's fifth source stays out (undated in its export). Tuning has none: it cites, not
+   adapts, an original.
+3. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
+4. The impeccable contrast ratchet did not run in the cloud container (detector absent).
+5. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name`; in cloud sessions
+   that is "Claude" while commits are authored "Zach Harris", so it reads 0. Count by repo/branch, or
+   match both names.
+
+## Lessons (in the record)
+- main's first-parent line is not main's history here: fast-forwarded sync merges put branch commits on
+  it. The first derivation misattributed five posts by a day (`d38b764c`) and one by a branch commit
+  (`8b047f6f`). Hop at the sync merge; check every derived row against the commit it names.
+- The tripwire caught an internal repo path that a CSS comment of this session put into a public page.
+  Generator comments that render into the page are public text.
+- good.arcs.care is blocked by the cloud network policy (proxy 403); live checks go through Vercel
+  `web_fetch_vercel_url` and `get_deployment`.
+
+# Handoff — v3.73.0 (2026-10-04)
+
+> **Essay drafted, not shipped: "Tribes, Vibes, Lies" (subtitle "The Exoskeleton, Not the Oracle"),
+> the long-form demand piece for a paid ARCS tier.** The draft lives in a Claude Doc, not in this
+> repo: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. No code changed, no
+> PR, no deploy, no `decision_receipt` row (nothing was merged or published). This block records
+> the shape of the essay so the next session can carry it to good.arcs.care/blog/nftt/ via
+> `/nftt-story-factory` without re-deriving it.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 2 / dissent 0 (ratio 2.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim names the doc URL, a canon id, or a file path. The '2 closed' count is carried as unconfirmed (it is AGENTS.md's 2026-09-02 figure, not re-measured). Nothing else downgraded.
+- **Somatic read**: `somatic: not asked` (Zach present in chat; question not put). No sends today; the doc is private.
+- **Disposition**: RELEASED on Zach's 'consolidate memory and handoff'. Exhale 0 commits is accurate: the session's output is a Claude Doc, and this handoff commit is the only repo write.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## What exists (in the doc)
+- Nine sections, Zach's first person: confession (247 receipts logged, 2 closed; the valuable calls
+  were passes, which leave no outcome), the shift (answers cheap, compounding judgment scarce),
+  prosthetic vs exoskeleton, the prefrontal map (five jobs x five instruments, labelled a functional
+  analogy, not neuroscience), Tribes/Vibes/Lies as a descent from the read you cannot prove to the
+  read that leaves a receipt, the swipe-left ledger (three dials: good use of time / symmetric value /
+  right time; one tripwire: stated-vs-revealed gap), why it compounds (the gut did not improve, the
+  record did), the invitation (30 people x 30 closed decisions; 30 is the Accountant's n>=30 calibration
+  floor from AGENTS.md, not a scarcity device), and three tributaries.
+- A short-version block under the byline, two pull quotes, six drawn widgets, each intended as a
+  standalone share card: prosthetic vs exoskeleton; the Tribes/Vibes/Lies ladder; dials + tripwire;
+  the decide/act/receipt/measure loop (tao-041, tao-222); the four zones with Y state and render
+  resolution (WORLD.md); a 2x2 of proverbs quoted as minted (tao-227, tao-220, tao-194, tao-045 from
+  `_CANON/tao-proverbs.jsonl`).
+- Two placeholders Zach still owes: the prospect he passed on (what they said, what they did not do,
+  which dial the pull was on, when the tripwire fired) and one yes that went as expected.
+- One open doc comment from Claude asking Zach to confirm the "2 closed" count against the live DB.
+
+## Open (next session)
+1. Zach fills the two placeholders and confirms 2/247 (re-measure `Outcome` rows; the number is from
+   AGENTS.md as of 2026-09-02 and may have moved).
+2. Port to `/nftt-story-factory` (LITERARY theme), em-dashes 0, lede spans the lane, run `page-gate`.
+   Rebuild the three widgets as inline SVG in the post; they are doc widgets today.
+3. Decide the paid-tier mechanics the essay promises: COURT/DEEP mode for the cohort, a 30-outcome
+   calibration curve per user. Neither exists as a purchasable thing; the essay is ahead of the product.
+4. Backlog row `essay-tribes-vibes-lies` added this session carries route/gates.
+
+## Lessons (in the record)
+- A no closes against a counterfactual. Any outcome ledger undercounts the passes, so an essay that
+  sells the loop has to say so up front or a careful reader finds the hole first.
+- "I got better at reading people" is unfalsifiable; "my gut now has a record" is the same claim in a
+  form that survives. Prefer the second form everywhere the brand speaks.
+
 # Handoff — v3.72.0 (2026-09-30)
 
 > **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
