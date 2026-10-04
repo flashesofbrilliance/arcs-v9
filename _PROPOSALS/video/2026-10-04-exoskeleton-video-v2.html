@@ -71,7 +71,19 @@
 </div>
 <script>
 // ---------- deterministic helpers ----------
-const W = 1080, H = 1920, CX = 540, CY = 1050;
+// layout follows the frame: 9:16 stacks captions over the machine; 16:9 puts captions in a left column
+const WIDE = innerWidth > innerHeight;
+const W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920, CX = WIDE ? 1390 : 540, CY = WIDE ? 560 : 1050;
+(function () {
+  const st = document.getElementById('stage'), c = document.getElementById('c');
+  st.style.width = W + 'px'; st.style.height = H + 'px'; c.width = W; c.height = H;
+  if (!WIDE) return;
+  const at = { c1: 300, c2: 380, c3: 380, c4: 330, c5: 300, c6: 830, c7: 150, c8: 720 };
+  for (const [id, top] of Object.entries(at)) { const el = document.getElementById(id);
+    el.style.top = top + 'px'; el.style.left = '110px'; el.style.right = (id === 'c7' || id === 'c8') ? '110px' : '1000px'; el.style.textAlign = 'left'; }
+  const end = { e1: 300, e2: 520, e3: 600 };
+  for (const [id, top] of Object.entries(end)) document.getElementById(id).style.top = top + 'px';
+})();
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
 const lin = (t, a, b) => clamp((t - a) / (b - a));
 const easeOut = (x) => 1 - Math.pow(1 - clamp(x), 3);
@@ -118,7 +130,7 @@ function words(el, t, t0, gap = .12) {   // kinetic type: each word springs up i
 }
 
 window.seek = function (t) {
-  // stage fit (renders at 1080x1920; scale only if the viewport differs)
+  // stage fit (renders at W x H; scale only if the viewport differs)
   const sc = Math.min(innerWidth / W, innerHeight / H), st = document.getElementById('stage');
   st.style.transform = `translate(${(innerWidth - W * sc) / 2}px,${(innerHeight - H * sc) / 2}px) scale(${sc})`;
 
@@ -189,7 +201,7 @@ window.seek = function (t) {
   // ----- the gauge: 30 slots, 1 filled -----
   const gIn = lin(t, 11.9, 12.3) * (1 - lin(t, 14.3, 14.7));
   if (gIn > 0) {
-    ctx.globalAlpha = gIn; const gx = 84, gy = 1500, sw = 26, gap = 4.8;
+    ctx.globalAlpha = gIn; const gx = WIDE ? 110 : 84, gy = WIDE ? 760 : 1500, sw = WIDE ? 20 : 26, gap = 4.8;
     for (let k = 0; k < 30; k++) {
       const on = k === 0 && t > 12.6, x = gx + k * (sw + gap);
       ctx.strokeStyle = 'rgba(148,163,184,.55)'; ctx.lineWidth = 2; ctx.strokeRect(x, gy, sw, 44);
@@ -201,7 +213,7 @@ window.seek = function (t) {
   // ----- the spark gap: what the camera finds inside the gold seed -----
   const gapIn = lin(t, 15.0, 15.4) * (1 - lin(t, 17.9, 18.3));
   if (gapIn > 0) {
-    ctx.globalAlpha = gapIn; const gy = 1040, gw = 200, eh = 70;
+    ctx.globalAlpha = gapIn; const gy = CY, gw = 200, eh = 70;
     ctx.fillStyle = '#334155'; ctx.fillRect(-10, gy - eh, CX - gw / 2 + 10 - 40, eh * 2); ctx.fillRect(CX + gw / 2 + 40, gy - eh, W, eh * 2);
     ctx.fillStyle = '#94a3b8';
     ctx.beginPath(); ctx.moveTo(CX - gw / 2 - 40, gy - eh); ctx.lineTo(CX - gw / 2, gy); ctx.lineTo(CX - gw / 2 - 40, gy + eh); ctx.fill();
