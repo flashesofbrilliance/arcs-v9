@@ -83,19 +83,19 @@ export interface ButtonLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnc
   glyph?: React.ReactNode
 }
 
-export function ButtonLink({ href, variant = 'primary', size = 'md', glyph, children, style, ...rest }: ButtonLinkProps) {
+export function ButtonLink({ href, variant = 'primary', size = 'md', glyph, children, style, onMouseEnter, onMouseLeave, ...rest }: ButtonLinkProps) {
   const [h, setH] = React.useState(false)
   const [p, setP] = React.useState(false)
   const { a, css } = buttonStyle(variant, size, false, h, p, style)
   return (
     <Link
       href={href}
-      onMouseEnter={() => setH(true)}
-      onMouseLeave={() => { setH(false); setP(false) }}
+      {...rest}
+      onMouseEnter={(e) => { setH(true); onMouseEnter?.(e) }}
+      onMouseLeave={(e) => { setH(false); setP(false); onMouseLeave?.(e) }}
       onMouseDown={() => setP(true)}
       onMouseUp={() => setP(false)}
       style={css}
-      {...rest}
     >
       {glyph && <span style={{ fontSize: '1.05em', lineHeight: 1, color: a.sig }}>{glyph}</span>}
       {children}

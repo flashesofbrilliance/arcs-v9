@@ -7,7 +7,7 @@ import { surface, text, signal, font, border } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { Field } from "@/ui/Field"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import { Card } from "@/ui/Card"
 import { AuthControl } from "@/molecules/AuthControl"
 import { Scope } from "@/organisms/Scope"
@@ -94,9 +94,7 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
             We will write to <span style={{ color: signal.cyan, overflowWrap: "anywhere" }}>{email.trim()}</span> when access opens. Until then, the compass is yours to use.
           </p>
           {!home && (
-            <Link href="/dashboard" style={{ textDecoration: "none" }}>
-              <Button variant="green" size="md" glyph="⊕" tabIndex={-1}>Open the compass</Button>
-            </Link>
+            <ButtonLink href="/dashboard" variant="green" size="md" glyph="⊕">Open the compass</ButtonLink>
           )}
         </Card>
       ) : (
@@ -234,11 +232,9 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
             {/* Desktop only: on a phone the hero action is already above the fold
                 and the header has no room for a third control. */}
             {home && !compactHeader && (
-              <Link href="/dashboard" style={{ textDecoration: "none", borderRadius: 4 }} {...lean}>
-                <Button variant="primary" size="sm" glyph="⊕" tabIndex={-1} style={{ height: 30 }}>
-                  Open the compass
-                </Button>
-              </Link>
+              <ButtonLink href="/dashboard" variant="primary" size="sm" glyph="⊕" style={{ height: 30 }} {...lean}>
+                Open the compass
+              </ButtonLink>
             )}
             <AuthControl next="/dashboard" />
           </nav>
@@ -267,9 +263,7 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
           {home ? (
             <>
               <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
-                <Link href="/dashboard" style={{ textDecoration: "none", borderRadius: 6 }} {...lean}>
-                  <Button size="lg" glyph="⊕" tabIndex={-1}>Open the compass</Button>
-                </Link>
+                <ButtonLink href="/dashboard" size="lg" glyph="⊕" {...lean}>Open the compass</ButtonLink>
                 {exampleBriefHref && (
                   <Link href={exampleBriefHref} style={{ ...monoLink, color: text.secondary, textDecoration: "underline", textUnderlineOffset: 4, textDecorationColor: border.subtle }}>
                     See an example brief
