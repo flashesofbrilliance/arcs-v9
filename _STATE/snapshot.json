@@ -1,20 +1,16 @@
 {
-  "captured_at": "2026-09-28T09:54:05-04:00",
+  "captured_at": "2026-10-04T02:33:49+00:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "739373f0",
-    "head_message": "Merge pull request #636 from flashesofbrilliance/claude/conduit-viewer-analytics",
+    "head_sha": "127ddef5",
+    "head_message": "Merge pull request #693 from flashesofbrilliance/claude/linkedin-article-promotion-03463e",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
-    ]
+    "dirty_files": [],
+    "note": "handoff branch cut from origin/main; session merges #683 5d645515, #686 44b80d19"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-ktk2n9u9w-arcs-care.vercel.app",
+    "latest_deploy_url": "arcs-v9-ahwjgf2jb-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -23,8 +19,8 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "verified_sha": "740aa55f",
-    "note": "latest_deploy = merge of PR #591; env list carried from prior snapshot, not re-listed this session"
+    "verified_sha": "44b80d19",
+    "note": "READY + aliased to good.arcs.care at 44b80d1 (PR #686), checked via Vercel MCP get_deployment 2026-10-04; main has since moved (other sessions' PRs); env list carried from prior snapshot, not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -45,8 +41,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Chip rank 7: Librarian.recommend(q, budget) by expected value; Operator 21 rebound latest -> recommend, READY on probe; PR #613 merged 150beb19, receipt 2026-09-28--librarian-recommend-op21-merge--ZH.",
-  "next_action": "Append status to backlog row librarian-recommend-needle when claude/fanout-ranks-2-7 lands on main, close issue #584, then wire unfold.py to recommend.",
+  "session_summary": "Stopped-light research turned into ARCS design rules: /echo-scan skill (nested claim-check), oracle strict-args fix, NFTT essay + go-deeper companion + tao-284; 2 merges, 2 receipts.",
+  "next_action": "Germinate seed-gate-hookspath-bootstrap (set core.hooksPath in session-start.sh) so fresh clones run the pre-commit chain.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-09-29T01:51:36Z"
 }

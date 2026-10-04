@@ -114,6 +114,60 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.73.0 (2026-10-04)
+
+> **Stopped-light research → ARCS design rules, a nested skill, an oracle fix, and an NFTT essay with a
+> go-deeper companion.** Two PRs merged on Zach's explicit go: #683 (`5d64551`) and #686 (`44b80d1`);
+> receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH` and
+> `2026-10-04--nftt-research-companion-tao284-pr686--ZH`. Both served from the Vercel deployment URL;
+> the pretty good.arcs.care routes are unconfirmed (the cloud egress proxy blocks good.arcs.care).
+
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file. (Script counts 2026-10-04 UTC only; the session spanned 2026-10-03/04 with 8 session commits, 2 merges #683 #686, 2 receipts.)
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale) on the 10-04 window; breathing across the full session.
+- **Sycophancy check**: agreement 4 / dissent 3 (ratio 1.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "live-verified" narrowed to "served from the deployment URL"; the pretty good.arcs.care routes stay unconfirmed (egress block). "Cheapest high-value fix" downgraded to "a one-line hook change". Nothing dropped.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Research:** `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`: claim check of a
+  LinkedIn post on Hau's stopped light, 2026 state of the art, 15 isomorphisms labelled MECHANISM or
+  METAPHOR, 5 inventions each with a pre-registered kill condition. Top 3 in the induced backlog
+  (`freshness-zeno-ceiling`, `echo-scheduled-receipts`, `memory-seven-axis-scorecard`).
+- **Skill:** `/echo-scan` (`.claude/skills/echo-scan/`), the working form of ROM primitive 5, with a
+  nested `claim-check` module (`references/claim-check.md`) also callable standalone. A fresh-agent run
+  of the module found 7 gaps and a wrong expected verdict in its own eval; all fixed in `c04c21f`.
+- **Oracle fix (`4583555`):** `scripts/oracle.py` matched only argv[0..1], so `next seed --dry-run`
+  allocated for real and stamped a pulse beat. Now strict parse (unknown flag, extra arg, missing value
+  -> exit 2), a real `next <ns> --dry-run`, and `--self-test` 12/12 wired into pre-commit.
+- **NFTT:** "Light at Thirty-Eight Miles an Hour" (the session's own story, including the false herald it
+  refused to commit) + companion `/research` page (go-deeper, tao-waiver as a companion) + `tao-284`.
+- Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
+
+## Open (next session)
+1. Seeds planted this handoff (candidate): `seed-gate-hookspath-bootstrap`, `seed-pattern-strict-cli-args`,
+   `seed-skill-echo-scan`. The first is a one-line hook change: nothing sets `core.hooksPath`, so
+   every fresh clone skips the whole pre-commit chain.
+2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
+   posts), and Tao backfill for the 4 NFTT posts still uncovered.
+3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
+4. Backlog inventions untouched; each carries its kill condition.
+
+## Lessons (in the record)
+- A preview flag a tool does not recognize turns a look into a touch. 61 of 63 `scripts/*.py` that read
+  argv parse it by hand (38 of those write files); the oracle was one instance of the class.
+- A herald must come from the write it reports. The pulse beat from a reverted allocation was refused;
+  the beat from the real tao-284 allocation was committed.
+- `core.hooksPath` unset in this clone: commits `43a3ff9` and `248036c` ran no gates, and the essay
+  shipped without the tao-coverage check until `08233e4`.
+
 # Handoff — v3.72.0 (2026-09-30)
 
 > **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
@@ -149,58 +203,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   caught it in five places; name a count by the predicate that produced it.
 - CI checks out shallow: any gate that re-derives from deep history must fall back to the committed render.
 - The impeccable pre-commit detector reads DESIGN.md: `--dimmed` fails 4.5:1; muted copy uses text-secondary.
-
-# Handoff — v3.71.0 (2026-09-28)
-
-> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
-> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
-> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
-> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
-- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
-  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
-  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
-  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
-  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
-  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
-  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
-  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
-  F-row demotes its class. `--self-test` 13/13.
-- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
-- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
-  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
-  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
-- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
-  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
-  the query terms: the ouroboros clause visible on day one.
-- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
-
-## Open (next session)
-1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
-   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
-   `150beb19`, and the receipt id when that branch lands; then close issue #584.
-2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
-   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
-3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
-   named as a defeater but no ridgeline file exists on main to read.
-4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
-
-## Lessons (in the record)
-- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
-  registry note as a candidate, not as ground.
-- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
-  its job: the record is drifted-at-birth until the merge lands.
