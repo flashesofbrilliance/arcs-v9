@@ -688,12 +688,13 @@ if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . &&
     exit 1
   fi
 fi
-# argparse batches 1-3 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
+# argparse batches 1-4 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
 # so an unknown flag exits 2 instead of falling through to a write (the oracle --dry-run class).
 # Each carries a --self-test that proves it; run it whenever that script is staged.
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
-         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render; do
+         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
