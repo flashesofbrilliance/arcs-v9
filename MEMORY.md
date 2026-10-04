@@ -7,6 +7,12 @@
 
 ---
 
+## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
+
+- `scripts/video_cut.py`: `_QUEUE/video/<id>.json` -> `_PROPOSALS/video/<id>-<16x9|9x16>.html` (seek(t) scenes for `html_video_render.mjs`, kit tokens, Inter + JetBrains Mono from `public/fonts/`) + `<id>-prompts.md` (per-beat prompts for external video models). Reuses linkedin_cut's gates; self-test 7 mutations. First input `tao-284`.
+- #689's conflict (`connector_render.py`) resolved to main's repo-keyed row. Receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH`, `2026-10-04--video-cut-type-pr709--ZH`.
+- Lessons: fe-smoke page-gates fixed-size scene HTML at 375/790 (scale the stage to the viewport); the Write tool can turn escape sequences into literal em-dashes.
+
 ## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
 - `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).

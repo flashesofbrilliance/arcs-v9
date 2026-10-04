@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { track } from "@vercel/analytics"
 import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
@@ -66,6 +67,13 @@ function DashboardInner() {
   // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
   const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
+  // Outbound posts tag their compass link with ?utm_campaign= so runs from a
+  // post are countable. Allowlisted slug only: it rides an analytics event,
+  // never the receipt, and anonymous runs still persist nothing.
+  const [campaign] = useState(() => {
+    const c = searchParams.get("utm_campaign")
+    return c && /^[a-z0-9-]{1,64}$/.test(c) ? c : null
+  })
   // A public surface can hand off a decision with its window already set
   // (good.arcs.care/fears links each sharpened claim here with ?q=&horizon=).
   // Unknown values fall back to the default; nothing else changes.
@@ -186,6 +194,7 @@ function DashboardInner() {
       if (inboundInlinePrep) {
         try { inlinePrep = JSON.parse(sessionStorage.getItem("arcs_prep_inline") ?? "null") } catch { inlinePrep = null }
       }
+      if (campaign) track("compass_run", { campaign })
       const res = await fetch("/api/compass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

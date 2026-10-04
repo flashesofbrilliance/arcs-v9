@@ -12,4 +12,4 @@ Source: `_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md`, change
 - [ ] Headline: name the outcome (scored, falsifiable calls), not the product. Your wording.
 - [ ] After saving, open your profile logged out (or in a private window) and click both links once to confirm they land.
 
-Not counted yet: Featured clicks show up only as pageviews with `utm_campaign=profile-featured` in Vercel Web Analytics; compass runs from them are uncountable until seed 2 (`seed-service-post-to-compass-funnel`) ships.
+Counting: Featured clicks show up as pageviews with `utm_campaign=profile-featured` in Vercel Web Analytics; compass runs from them are counted as the `compass_run` custom event (property `campaign`) since seed 2 (`seed-service-post-to-compass-funnel`) shipped.
