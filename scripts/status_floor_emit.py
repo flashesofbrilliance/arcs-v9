@@ -16,7 +16,7 @@ stamp date), sv-commits (git rev-list --count HEAD), et-now (the as-of date).
 --check never recounts commits (CI checkouts are shallow). It checks that the three day fields
 agree with the stamped as-of date, and that the as-of date is recent. Stdlib only.
 """
-import datetime as dt, os, re, subprocess, sys, tempfile
+import argparse, datetime as dt, hashlib, os, re, subprocess, sys, tempfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PAGE = os.path.join(ROOT, "public", "status.html")
@@ -76,12 +76,60 @@ def self_test():
     return 0
 
 
+def _snapshot():
+    """sha256 + mtime_ns of the one file the emit mode writes."""
+    if not os.path.exists(PAGE):
+        return None
+    with open(PAGE, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest(), os.stat(PAGE).st_mtime_ns
+
+
+def argv_self_test():
+    """Run the CLI as a subprocess and assert the argv contract: bad args exit 2, --check writes nothing."""
+    me = os.path.abspath(__file__)
+    fails = total = 0
+
+    def run(*a):
+        return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=ROOT)
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if cond else "FAIL ") + name)
+        fails += 0 if cond else 1
+
+    before = _snapshot()
+    ok("unknown flag exits 2", run("--chek").returncode == 2)
+    ok("unknown flag writes nothing", _snapshot() == before)
+    ok("extra positional exits 2", run("extra").returncode == 2)
+    ok("extra positional with --check exits 2", run("--check", "extra").returncode == 2)
+    ok("extra positional writes nothing", _snapshot() == before)
+    r = run("--check")
+    ok("--check exits 0 or 1", r.returncode in (0, 1))
+    ok("--check writes nothing (hash + mtime)", _snapshot() == before)
+    print(f"status_floor_emit self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def parse_args(a):
+    ap = argparse.ArgumentParser(
+        prog="status_floor_emit.py",
+        description="Stamp the no-JS static floor on public/status.html. No flag: restamp as of today (writes).",
+    )
+    # Independent flags, resolved in the original priority order: --self-test > --check.
+    ap.add_argument("--self-test", action="store_true", help="argv contract + stamp/check unit asserts (writes nothing)")
+    ap.add_argument("--check", action="store_true", help="exit 1 if the floor is inconsistent or stale (read-only)")
+    return ap.parse_args(a)
+
+
 def main(a):
-    if "--self-test" in a:
-        return self_test()
+    args = parse_args(a)
+    if args.self_test:
+        rc = argv_self_test()
+        return self_test() or rc
     s = open(PAGE, encoding="utf-8").read()
     today = dt.date.today()
-    if "--check" in a:
+    if args.check:
         errs = check(s, today)
         for e in errs: print(f"✖ status floor: {e}")
         if not errs: print("✓ status floor current")

@@ -20,7 +20,7 @@ Usage:
   python3 scripts/nftt_series.py --check     # exit 1 if any part is missing or stale
   python3 scripts/nftt_series.py --self-test
 """
-import json, os, re, sys
+import argparse, hashlib, json, os, re, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SSOT = os.path.join(ROOT, "runtime", "specs", "nftt-series.json")
@@ -138,17 +138,84 @@ def self_test():
         stamp_text("<footer>", "t", s, "a")
     except ValueError:
         ok += 1                                                          # no byline is loud
-    print(f"[nftt-series] self-test {ok}/8")
-    return 0 if ok == 8 else 1
+    ok_cli, n_cli = cli_self_test()
+    ok += ok_cli
+    total = 8 + n_cli
+    print(f"[nftt-series] self-test {ok}/{total}")
+    return 0 if ok == total else 1
+
+
+def cli_self_test():
+    """Run this script as a subprocess from a copy inside a throwaway repo (ROOT follows __file__,
+    so the copy's ROOT is the temp dir). Asserts argv strictness and that look-only modes write nothing."""
+    s = {"title": "T", "tagline": "one method", "method": "M.", "coda": "C.",
+         "parts": [{"slug": "a", "role": "Origin", "title": "A", "gloss": "ga."},
+                   {"slug": "b", "role": "Range", "title": "B", "gloss": "gb."}]}
+    page = '<p class="byline">Published x</p>\n<section>body</section>\n  <footer>f</footer>'
+    results = []
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "scripts"))
+        os.makedirs(os.path.join(tmp, "runtime", "specs"))
+        os.makedirs(os.path.join(tmp, "public"))
+        me = os.path.join(tmp, "scripts", "nftt_series.py")
+        shutil.copy(os.path.abspath(__file__), me)
+        with open(os.path.join(tmp, "runtime", "specs", "nftt-series.json"), "w") as f:
+            json.dump({"series": {"t": s}}, f)
+        for slug in ("a", "b"):
+            with open(os.path.join(tmp, "public", f"blog-nftt-{slug}.html"), "w") as f:
+                f.write(page)
+
+        def snap():
+            out = {}
+            for d, _, fs in os.walk(tmp):
+                for fn in fs:
+                    fp = os.path.join(d, fn)
+                    with open(fp, "rb") as f:
+                        out[fp] = (os.stat(fp).st_mtime_ns, hashlib.sha256(f.read()).hexdigest())
+            return out
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True).returncode
+
+        def case(name, ok):
+            results.append(ok)
+            if not ok:
+                print(f"[nftt-series] FAIL cli: {name}")
+
+        base = snap()
+        case("unknown flag exits 2", run("--bogus") == 2)
+        case("unknown flag on stamp exits 2", run("stamp", "--bogus") == 2)
+        case("extra positional on stamp exits 2", run("stamp", "extra") == 2)
+        case("unknown command exits 2", run("stomp") == 2)
+        case("no args exits 2", run() == 2)
+        case("--check on stale fixture exits 1", run("--check") == 1)
+        case("--check writes nothing", snap() == base)
+        case("rejected argv writes nothing", snap() == base)
+        case("real stamp exits 0", run("stamp") == 0)
+        after = snap()
+        case("real stamp writes the posts", after != base)
+        case("--check after stamp exits 0", run("--check") == 0)
+        case("--check on current fixture writes nothing", snap() == after)
+    return sum(results), len(results)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="nftt_series.py", description="Denote serialized NFTT posts in every part.")
+    ap.add_argument("--check", action="store_true", help="exit 1 if any part is missing or stale (writes nothing)")
+    ap.add_argument("--self-test", action="store_true", help="run the built-in tests (writes only to a temp dir)")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("stamp", help="write/refresh the blocks in every part")
+    args = ap.parse_args(argv)
+    # Precedence kept from the hand parser: --self-test, then --check, then the subcommand.
+    if args.self_test:
+        return self_test()
+    if args.check:
+        return cmd_check()
+    if args.cmd == "stamp":
+        return cmd_stamp()
+    print(__doc__)
+    return 2
 
 
 if __name__ == "__main__":
-    a = sys.argv[1:]
-    if "--self-test" in a:
-        sys.exit(self_test())
-    if "--check" in a:
-        sys.exit(cmd_check())
-    if a and a[0] == "stamp":
-        sys.exit(cmd_stamp())
-    print(__doc__)
-    sys.exit(2)
+    sys.exit(main())

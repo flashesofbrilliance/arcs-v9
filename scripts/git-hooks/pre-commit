@@ -688,6 +688,18 @@ if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . &&
     exit 1
   fi
 fi
+# argparse batch 1 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
+# so an unknown flag exits 2 instead of falling through to a write (the oracle --dry-run class).
+# Each carries a --self-test that proves it; run it whenever that script is staged.
+for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse; do
+  if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+    if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
+      python3 "scripts/$s.py" --self-test >&2 || true
+      echo "✖ pre-commit(args-$s): scripts/$s.py self-test failed. fix the argument guard before committing." >&2
+      exit 1
+    fi
+  fi
+done
 
 # backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
 if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
@@ -703,5 +715,17 @@ if git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl 2>/dev/null | g
     exit 1
   fi
 fi
-exit 0
 
+# secret scan: gitleaks over the STAGED diff only (fast; history was triaged once, see
+# .gitleaksignore). Complements scripts/leak_check.sh, which catches internal markers on public
+# pages that gitleaks has no rule for; keep both. Skips cleanly when the binary is absent.
+# Output is --redact'ed so a caught secret is never echoed back to the terminal or a log.
+if command -v gitleaks >/dev/null 2>&1; then
+  if ! gitleaks git --pre-commit --staged --redact --no-banner --log-level warn . >&2; then
+    echo "✖ pre-commit(gitleaks): a staged change looks like a secret (value redacted above)." >&2
+    echo "  fix: remove it and ROTATE it if it was real. A verified public key (e.g. Stripe pk_) goes in" >&2
+    echo "  .gitleaksignore by fingerprint with a one-line reason, never by disabling this gate." >&2
+    exit 1
+  fi
+fi
+exit 0
