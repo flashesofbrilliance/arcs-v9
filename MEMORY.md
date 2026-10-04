@@ -7,6 +7,12 @@
 
 ---
 
+## [v3.73.0] 2026-10-04 — Essay drafted: "Tribes, Vibes, Lies" (The Exoskeleton, Not the Oracle), demand piece for a paid tier; lives in a Claude Doc, not shipped
+
+- Doc: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. Nine sections + short-version block + two pull quotes + six drawn share cards (prosthetic vs exoskeleton; Tribes/Vibes/Lies ladder; three dials + one tripwire; the decide/act/receipt/measure loop from tao-041/tao-222; the four zones from WORLD.md; a 2x2 of tao-227/220/194/045 quoted as minted) + three tributaries.
+- Zach's screening instrument, now canon-adjacent: dials = good use of my time / symmetric value / right time; tripwire = stated-vs-revealed gap (tao-220 is the same rule). Quid pro quo is not symmetry: symmetry is measured over the relationship, quid pro quo settles per transaction.
+- Owed: two worked examples (one pass, one yes), re-measure 2/247 against `Outcome`, port via `/nftt-story-factory`, decide what the 30-person cohort actually buys. No commits, no receipt (nothing merged or published). Backlog row `essay-tribes-vibes-lies`.
+
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
 - `operators/arcs_librarian.py` (stdlib, 3.9+): value = p_load_bearing x cost_if_absent(stakes); cost = read_friction + displacement; source-trust tier before backing; unbacked -> `what_unconfirmed` only; ZERO-WEIGHT source -> no backing; `reserve_ratio` + `curation_debt` always; ouroboros demotes classes whose prior picks were falsified. `--self-test` 13/13.

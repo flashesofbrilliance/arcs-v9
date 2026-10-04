@@ -114,6 +114,61 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.73.0 (2026-10-04)
+
+> **Essay drafted, not shipped: "Tribes, Vibes, Lies" (subtitle "The Exoskeleton, Not the Oracle"),
+> the long-form demand piece for a paid ARCS tier.** The draft lives in a Claude Doc, not in this
+> repo: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. No code changed, no
+> PR, no deploy, no `decision_receipt` row (nothing was merged or published). This block records
+> the shape of the essay so the next session can carry it to good.arcs.care/blog/nftt/ via
+> `/nftt-story-factory` without re-deriving it.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 2 / dissent 0 (ratio 2.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim names the doc URL, a canon id, or a file path. The '2 closed' count is carried as unconfirmed (it is AGENTS.md's 2026-09-02 figure, not re-measured). Nothing else downgraded.
+- **Somatic read**: `somatic: not asked` (Zach present in chat; question not put). No sends today; the doc is private.
+- **Disposition**: RELEASED on Zach's 'consolidate memory and handoff'. Exhale 0 commits is accurate: the session's output is a Claude Doc, and this handoff commit is the only repo write.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## What exists (in the doc)
+- Nine sections, Zach's first person: confession (247 receipts logged, 2 closed; the valuable calls
+  were passes, which leave no outcome), the shift (answers cheap, compounding judgment scarce),
+  prosthetic vs exoskeleton, the prefrontal map (five jobs x five instruments, labelled a functional
+  analogy, not neuroscience), Tribes/Vibes/Lies as a descent from the read you cannot prove to the
+  read that leaves a receipt, the swipe-left ledger (three dials: good use of time / symmetric value /
+  right time; one tripwire: stated-vs-revealed gap), why it compounds (the gut did not improve, the
+  record did), the invitation (30 people x 30 closed decisions; 30 is the Accountant's n>=30 calibration
+  floor from AGENTS.md, not a scarcity device), and three tributaries.
+- A short-version block under the byline, two pull quotes, six drawn widgets, each intended as a
+  standalone share card: prosthetic vs exoskeleton; the Tribes/Vibes/Lies ladder; dials + tripwire;
+  the decide/act/receipt/measure loop (tao-041, tao-222); the four zones with Y state and render
+  resolution (WORLD.md); a 2x2 of proverbs quoted as minted (tao-227, tao-220, tao-194, tao-045 from
+  `_CANON/tao-proverbs.jsonl`).
+- Two placeholders Zach still owes: the prospect he passed on (what they said, what they did not do,
+  which dial the pull was on, when the tripwire fired) and one yes that went as expected.
+- One open doc comment from Claude asking Zach to confirm the "2 closed" count against the live DB.
+
+## Open (next session)
+1. Zach fills the two placeholders and confirms 2/247 (re-measure `Outcome` rows; the number is from
+   AGENTS.md as of 2026-09-02 and may have moved).
+2. Port to `/nftt-story-factory` (LITERARY theme), em-dashes 0, lede spans the lane, run `page-gate`.
+   Rebuild the three widgets as inline SVG in the post; they are doc widgets today.
+3. Decide the paid-tier mechanics the essay promises: COURT/DEEP mode for the cohort, a 30-outcome
+   calibration curve per user. Neither exists as a purchasable thing; the essay is ahead of the product.
+4. Backlog row `essay-tribes-vibes-lies` added this session carries route/gates.
+
+## Lessons (in the record)
+- A no closes against a counterfactual. Any outcome ledger undercounts the passes, so an essay that
+  sells the loop has to say so up front or a careful reader finds the hole first.
+- "I got better at reading people" is unfalsifiable; "my gut now has a record" is the same claim in a
+  form that survives. Prefer the second form everywhere the brand speaks.
+
 # Handoff — v3.72.0 (2026-09-30)
 
 > **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
@@ -149,58 +204,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   caught it in five places; name a count by the predicate that produced it.
 - CI checks out shallow: any gate that re-derives from deep history must fall back to the committed render.
 - The impeccable pre-commit detector reads DESIGN.md: `--dimmed` fails 4.5:1; muted copy uses text-secondary.
-
-# Handoff — v3.71.0 (2026-09-28)
-
-> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
-> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
-> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
-> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
-- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
-  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
-  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
-  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
-  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
-  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
-  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
-  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
-  F-row demotes its class. `--self-test` 13/13.
-- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
-- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
-  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
-  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
-- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
-  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
-  the query terms: the ouroboros clause visible on day one.
-- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
-
-## Open (next session)
-1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
-   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
-   `150beb19`, and the receipt id when that branch lands; then close issue #584.
-2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
-   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
-3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
-   named as a defeater but no ridgeline file exists on main to read.
-4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
-
-## Lessons (in the record)
-- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
-  registry note as a candidate, not as ground.
-- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
-  its job: the record is drifted-at-birth until the merge lands.
