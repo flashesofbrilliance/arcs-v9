@@ -40,7 +40,7 @@ The mechanism a neighboring product could not truthfully copy: ARCS **scaffolds 
 ## Capabilities and Constraints
 
 - **Built:** compass pipeline (L0–L5) → DEWY receipt + Y-gate; prep session; cartography brief; guide; history; magic-link auth; anonymous-receipt claim on sign-in.
-- **Not yet built / on roadmap:** ATG tributary expansion, Kairos timing detection, Observatory/replay as an interactive product surface, L6–L7 governance engine, outcome-loop closure, billing gate.
+- **Not yet built / on roadmap:** ATG tributary expansion, Kairos timing detection, Observatory/replay as an interactive product surface, L6–L7 governance engine, calibration from closed outcomes (outcome capture via `/debrief` is built; closure rate is the gap), billing gate.
 - **Terminology** is canonical and load-bearing: DEWY (D/E/W/Y state vector), Y-gate states (GREEN/YELLOW/RED/FORK/SCRATCH/DELTA/PARADOX/DRIFT), Receipt, Brief, Compass, tributaries, NCI, confidence vs conviction (confidence = belief is true; conviction = how stable that confidence is; NCI = coherence of the whole decision, decision-level only, never per-belief).
 - **Technical:** Next.js 16 · Prisma 7 (SQLite dev / Supabase prod) · Auth.js v5 · Anthropic SDK. Inline styles only in components (no Tailwind, no utility classes); sole stylesheet is `globals.css`. No new dependencies without asking. JSON arrays stored as TEXT.
 
