@@ -157,8 +157,10 @@ _This block asserts nothing new. Counts, paths, and questions only._
 ## Open (next session)
 1. Zach has not reviewed the new wording in place: tagline "One method, seven subjects", section names
    The Cold Reader / The Workshop, the three new blurbs.
-2. LinkedIn first-published dates for the series parts: offered, not decided (the method post's byline
-   already carries Jan 30, 2026).
+2. RESOLVED (same day, on Zach's ask): bylines carry "From the LinkedIn original(s), <dates>" for the four
+   posts whose own text dates their LinkedIn source (`runtime/specs/nftt-originals.json`). Not "first
+   published": every post is a new essay. Four Dates (platform unstated), The Pre-Mortem (platform
+   unstated, one source undated) and Tuning (cites, not written from, an original) await Zach.
 3. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
 4. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 5. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name`; in cloud sessions

@@ -1,0 +1,25 @@
+{
+  "_about": "NFTT posts written from earlier pieces of the author's own: the platform and the date each original first appeared. Every NFTT post is a new essay, so this records the ORIGINALS, never a claim that the post itself first ran elsewhere. Only dates the post's own text states are listed, with that text quoted as evidence. Rendered into the byline by scripts/nftt_published.py stamp; checked by --check.",
+  "posts": {
+    "the-instinct-before-it-had-a-name": {
+      "platform": "LinkedIn",
+      "dates": ["2019-02-07", "2025-09-12"],
+      "evidence": "footer: Sourced from two LinkedIn posts by the author: \"Imagineering\" (created 2019-02-06, published 2019-02-07) and \"Desktop From Hell: ...\" (created 2025-09-11, published 2025-09-12)."
+    },
+    "closing-the-loop-receipts": {
+      "platform": "LinkedIn",
+      "dates": ["2026-01-30", "2026-02-19", "2026-05-25"],
+      "evidence": "footer: Source articles, in order: \"$2B Poker Face ...\" Jan 30, 2026; \"The Bloomberg Op-Ed Is Wrong About Tim Cook ...\" Feb 19, 2026; \"Apple's AI Strategy Wasn't Late. The Coverage Was.\" May 25, 2026; each linked at linkedin.com/pulse."
+    },
+    "the-method-that-was-already-built": {
+      "platform": "LinkedIn",
+      "dates": ["2026-01-30"],
+      "evidence": "footer: Source: LinkedIn article \"From 133 to 1 Perfect Fit,\" published Jan 30, 2026, by the same author."
+    },
+    "the-same-rigor-applied-to-slang": {
+      "platform": "LinkedIn",
+      "dates": ["2026-02-05"],
+      "evidence": "footer: Source: \"The Flow State is Dead. The Locked In Era is Born,\" published 2026-02-05, the author's own article; body: \"It is a LinkedIn post, and it reads like one.\""
+    }
+  }
+}
