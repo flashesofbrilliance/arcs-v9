@@ -58,7 +58,7 @@ export async function POST() {
 
     await tx.profileUpload.deleteMany({ where: { userId } })
     if (userEmail) {
-      await tx.lead.deleteMany({ where: { email: userEmail } })
+      await tx.lead.deleteMany({ where: { email: { equals: userEmail, mode: "insensitive" } } })
     }
     // Account + Session rows cascade via schema onDelete: Cascade.
     await tx.user.delete({ where: { id: userId } })

@@ -174,8 +174,10 @@ export function waitlistEmail(bookingUrl: string | null): string {
 ${bookingBlock}`)
 }
 
-export function advisoryEmail(name: string | null, bookingUrl: string | null): string {
-  const greeting = name ? `${name.split(" ")[0]},` : "Thanks,"
+// This mail goes FROM arcs.care TO an address nobody has verified yet, so it
+// carries no requester-supplied text at all (a typed "name" could be a link).
+export function advisoryEmail(bookingUrl: string | null): string {
+  const greeting = "Thanks,"
   const bookingBlock = bookingUrl ? `
         <!-- CTA -->
         <tr>
