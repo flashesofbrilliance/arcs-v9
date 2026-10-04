@@ -74,6 +74,9 @@ Then, in the new file:
 #    python3 scripts/nftt_published.py stamp                 # article:published_time + byline <time>
 #    node scripts/nftt_index_build.mjs                       # the index card shows the date too
 #    (CI + pre-commit run `nftt_published.py --check`: a routed post without a stamp fails)
+#    serialized? if the post joins a series (same method run on a new subject), add it to
+#    the series' parts in runtime/specs/nftt-series.json, then: python3 scripts/nftt_series.py stamp
+#    (writes "Part N of M" + the series panel into EVERY part, so siblings link the new one too)
 # 5. run the gates (below), then commit; good.arcs.care deploys from main.
 ```
 

@@ -1,0 +1,20 @@
+{
+  "_about": "NFTT series: posts serialized isomorphically, one methodological pipeline run on different subjects. Part order and roles are the author's own, from the series map in tuning-into-the-distortion-field (published 2026-09-11, PR #411); the recoil role is that post's own eyebrow; the last three glosses are each post's own index description. Rendered into each post and the index by scripts/nftt_series.py and scripts/nftt_index_build.mjs.",
+  "series": {
+    "serialized-thread": {
+      "title": "The serialized thread",
+      "tagline": "One method, seven subjects",
+      "method": "The discipline that makes the series legible is the same whether the subject is a custody clause or a piece of slang: name the mechanism, then state plainly what would prove you wrong.",
+      "coda": "Each entry states its own falsifier. Read together they are the topography: not one call, but the inference quality across the series.",
+      "parts": [
+        { "slug": "the-instinct-before-it-had-a-name", "role": "Origin", "title": "The Instinct Before It Had a Name", "gloss": "the way of seeing, before the framework had a name." },
+        { "slug": "four-dates-one-thesis-three-confirmations", "role": "The ledger", "title": "Four Dates, One Thesis, Three Confirmations", "gloss": "the Apple calls as a dated Bayesian record." },
+        { "slug": "closing-the-loop-receipts", "role": "Closing it", "title": "Closing the Loop", "gloss": "the same three calls, with the falsifiers and the cherry-pick pre-mortem." },
+        { "slug": "the-method-that-was-already-built", "role": "The method", "title": "The Method That Was Already Built", "gloss": "the pipeline, described in prose eight months early." },
+        { "slug": "the-pre-mortem-that-asked-to-be-wrong", "role": "The range", "title": "The Pre-Mortem That Asked to Be Wrong", "gloss": "institutional-crypto plumbing written as proactive risk disclosure." },
+        { "slug": "the-same-rigor-applied-to-slang", "role": "The range", "title": "The Same Rigor, Applied to Slang", "gloss": "holding a Gen-Z phrase to the identical standard as a custody clause." },
+        { "slug": "tuning-into-the-distortion-field", "role": "The recoil", "title": "Tuning into the Distortion Field", "gloss": "a distortion field is not a spell, it is force, and force leaves a wave." }
+      ]
+    }
+  }
+}

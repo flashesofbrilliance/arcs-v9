@@ -31,6 +31,11 @@ const OUT = join(ROOT, 'public', 'blog-nftt-index.html');
 const LAYOUT_OVERRIDE = join(__dirname, 'nftt_index_layout.json');
 // Publish timestamps: one frozen row per post, derived from git by scripts/nftt_published.py.
 const PUBLISHED = JSON.parse(readFileSync(join(ROOT, 'runtime', 'specs', 'nftt-published.json'), 'utf8')).posts;
+// Serialized parts: slug -> "Part N of M", from the same SSOT scripts/nftt_series.py stamps into the posts.
+const PART = {};
+for (const ser of Object.values(JSON.parse(readFileSync(join(ROOT, 'runtime', 'specs', 'nftt-series.json'), 'utf8')).series)) {
+  ser.parts.forEach((pt, i) => { PART[pt.slug] = `Part ${i + 1} of ${ser.parts.length}`; });
+}
 
 // ---- hero images (only 4 distinct files exist; reused across 7 posts) --------------------
 const IMG = {
@@ -124,7 +129,8 @@ const DATE_FMT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York'
 const slugOf = (p) => p.href.split('/').pop();
 function dateTag(p) {
   const row = PUBLISHED[slugOf(p)];
-  return row ? `<time class="dt" datetime="${row.published_at}">${DATE_FMT.format(new Date(row.published_at))}</time>` : '';
+  const part = PART[slugOf(p)] ? ` &middot; ${PART[slugOf(p)]}` : '';
+  return row ? `<time class="dt" datetime="${row.published_at}">${DATE_FMT.format(new Date(row.published_at))}${part}</time>` : '';
 }
 
 function featuredCard(p) {
