@@ -1,14 +1,24 @@
 {
   "sections": [
     {
-      "id": "apple-ledger",
-      "label": "The Apple Ledger",
-      "blurb": "A serialized prediction loop, read by its recoil."
+      "id": "serialized-thread",
+      "label": "The serialized thread",
+      "blurb": "One method, run on seven subjects."
     },
     {
       "id": "factory",
       "label": "The Factory on Itself",
       "blurb": "The build turning its instruments on its own record."
+    },
+    {
+      "id": "cold-reader",
+      "label": "The Cold Reader",
+      "blurb": "Memory against the committed record."
+    },
+    {
+      "id": "workshop",
+      "label": "The Workshop",
+      "blurb": "Tools and ideas, built and then tested."
     },
     {
       "id": "field",
@@ -19,66 +29,41 @@
   "items": [
     {
       "slug": "the-instinct-before-it-had-a-name",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "four-dates-one-thesis-three-confirmations",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "closing-the-loop-receipts",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "the-method-that-was-already-built",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "the-pre-mortem-that-asked-to-be-wrong",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "the-same-rigor-applied-to-slang",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
       "slug": "tuning-into-the-distortion-field",
-      "section": "apple-ledger",
+      "section": "serialized-thread",
       "view": "grid"
     },
     {
-      "slug": "light-at-thirty-eight-miles-an-hour",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
       "slug": "the-video-that-said-too-much",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "notomation",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "receipts-or-it-didnt-happen",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "the-cold-reconstruction",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "the-control-and-the-experiment",
       "section": "factory",
       "view": "compact"
     },
@@ -93,26 +78,6 @@
       "view": "compact"
     },
     {
-      "slug": "the-factory-on-itself",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "the-loop-closes",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "confirmed-not-my-bug",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
-      "slug": "assets-and-liabilities",
-      "section": "factory",
-      "view": "compact"
-    },
-    {
       "slug": "second-pass",
       "section": "factory",
       "view": "compact"
@@ -123,23 +88,68 @@
       "view": "compact"
     },
     {
-      "slug": "schematic-scaffolds",
+      "slug": "the-factory-on-itself",
       "section": "factory",
       "view": "compact"
     },
     {
-      "slug": "cheapest-edit-is-a-diff",
+      "slug": "assets-and-liabilities",
       "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "confirmed-not-my-bug",
+      "section": "factory",
+      "view": "compact"
+    },
+    {
+      "slug": "receipts-or-it-didnt-happen",
+      "section": "cold-reader",
+      "view": "compact"
+    },
+    {
+      "slug": "the-cold-reconstruction",
+      "section": "cold-reader",
+      "view": "compact"
+    },
+    {
+      "slug": "the-control-and-the-experiment",
+      "section": "cold-reader",
+      "view": "compact"
+    },
+    {
+      "slug": "light-at-thirty-eight-miles-an-hour",
+      "section": "workshop",
+      "view": "compact"
+    },
+    {
+      "slug": "notomation",
+      "section": "workshop",
       "view": "compact"
     },
     {
       "slug": "ledger-not-story",
-      "section": "factory",
+      "section": "workshop",
+      "view": "compact"
+    },
+    {
+      "slug": "schematic-scaffolds",
+      "section": "workshop",
       "view": "compact"
     },
     {
       "slug": "probably-confirmation-bias",
-      "section": "factory",
+      "section": "workshop",
+      "view": "compact"
+    },
+    {
+      "slug": "the-loop-closes",
+      "section": "workshop",
+      "view": "compact"
+    },
+    {
+      "slug": "cheapest-edit-is-a-diff",
+      "section": "workshop",
       "view": "compact"
     },
     {
@@ -158,17 +168,17 @@
       "view": "compact"
     },
     {
+      "slug": "post-4",
+      "section": "field",
+      "view": "compact"
+    },
+    {
       "slug": "post-3",
       "section": "field",
       "view": "compact"
     },
     {
       "slug": "post-2",
-      "section": "field",
-      "view": "compact"
-    },
-    {
-      "slug": "post-4",
       "section": "field",
       "view": "compact"
     },
