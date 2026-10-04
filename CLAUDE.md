@@ -152,7 +152,7 @@ _This block asserts nothing new. Counts, paths, and questions only._
    (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
    series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
    Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
-   `python3 scripts/nftt_contrast_ratchet.py public/blog-nftt-*.html`; over-baseline there means the
+   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
    panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
    (needs Zach's yes); do not `--update-baseline` until the cause is known.
 2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac

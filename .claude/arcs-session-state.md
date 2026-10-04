@@ -8,7 +8,7 @@
 - Wound down every cloud + Remote Control session (asked to push, then archived).
 
 ## Next unblocked action
-1. On the Mac: `python3 scripts/nftt_contrast_ratchet.py public/blog-nftt-*.html` to settle item 3 (version drift vs series-panel regression).
+1. On the Mac: `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments) to settle item 3 (version drift vs series-panel regression).
 2. Zach-only asks from archived sessions: run `receipt-pr724.sql` in Supabase; germinate v0.1.1 tag + signed Release; merge/close PR #725; check PR #715.
 3. Check the pushed branches of the sessions that were running at wind-down before assuming their work landed (list in CLAUDE.md v3.78.0, Open item 4).
 
