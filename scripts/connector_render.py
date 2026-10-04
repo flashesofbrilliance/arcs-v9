@@ -20,6 +20,8 @@ Usage:
   connector_render.py            # render every tool in connectors.json -> public/<repo>.html
   connector_render.py <repo> …   # render only the named tool(s)
   connector_render.py --check    # render in memory; exit 1 if any committed page differs
+  connector_render.py gallery    # render only public/good.html
+  connector_render.py --self-test
                                  # (a hand edit to a generated page belongs in this script)
 
 Stdlib only.
@@ -652,32 +654,107 @@ def render_gallery(ssot, blob):
           f"{len(minor)} also-in-toolkit, {len(soon_cards)} soon]")
 
 
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(
+        prog="connector_render.py",
+        description="Render the ADR-056 connector fleet pages from _SEEDS SSOT.")
+    ap.add_argument("--check", action="store_true",
+                    help="render in memory; exit 1 if any committed page differs (writes nothing)")
+    ap.add_argument("--self-test", action="store_true",
+                    help="run the CLI in a throwaway project dir; never touches ROOT")
+    ap.add_argument("repos", nargs="*",
+                    help="tool(s) to render (default: every standalone tool), or the single word 'gallery'")
+    return ap
+
+
+def self_test():
+    """Run the CLI in a temp CLAUDE_PROJECT_DIR seeded with copies of the SSOT + pages."""
+    import tempfile, shutil, subprocess, hashlib
+    me = os.path.abspath(__file__)
+    fails = 0
+    total = 0
+
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "_SEEDS"))
+        os.makedirs(os.path.join(tmp, "public"))
+        shutil.copy2(DIST, os.path.join(tmp, "_SEEDS", "distribution.jsonl"))
+        shutil.copy2(DATA, os.path.join(tmp, "_SEEDS", "connectors.json"))
+        for n in os.listdir(OUTDIR):
+            if n.endswith(".html"):
+                shutil.copy2(os.path.join(OUTDIR, n), os.path.join(tmp, "public", n))
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp)
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], env=env, cwd=tmp,
+                                  capture_output=True, text=True)
+
+        def snap():
+            out = {}
+            for d, _, fs in os.walk(tmp):
+                for f in fs:
+                    q = os.path.join(d, f)
+                    out[q] = (hashlib.sha256(open(q, "rb").read()).hexdigest(),
+                              os.stat(q).st_mtime_ns)
+            return out
+
+        before = snap()
+        r = run("--check")
+        check("--check runs (exit 0 or 1)", r.returncode in (0, 1))
+        check("--check writes nothing", snap() == before)
+        r = run("gallery", "--check")
+        check("gallery --check runs (exit 0 or 1)", r.returncode in (0, 1))
+        check("gallery --check writes nothing", snap() == before)
+        check("unknown flag exits 2", run("--chek").returncode == 2)
+        check("unknown flag writes nothing", snap() == before)
+        check("unknown repo exits 2", run("no-such-tool").returncode == 2)
+        check("gallery plus extra positional exits 2", run("gallery", "extra").returncode == 2)
+        check("bad args write nothing", snap() == before)
+        r = run("gallery")
+        check("gallery write mode exits 0", r.returncode == 0)
+        check("gallery write mode wrote public/good.html",
+              os.path.exists(os.path.join(tmp, "public", "good.html")))
+    print(f"connector_render self-test: {total - fails}/{total}")
+    sys.exit(1 if fails else 0)
+
+
 def main():
+    global CHECK
+    ap = build_parser()
+    ns = ap.parse_args()
+    if ns.self_test:
+        if ns.check or ns.repos:
+            ap.error("--self-test takes no other arguments")
+        self_test()
     ssot = load_ssot()
     blob = json.load(open(DATA))
     tools = blob["tools"]
-    global CHECK
-    args = sys.argv[1:]
-    if "--check" in args:
-        CHECK = True
-        args = [a for a in args if a != "--check"]
+    CHECK = ns.check
+    args = ns.repos
 
     if args == ["gallery"]:
         render_gallery(ssot, blob)
-        return
+    else:
+        # standalone deep pages: only tools whose group earns one.
+        # Validate every name BEFORE rendering anything, so a typo never half-writes the fleet.
+        want = args or [r for r, d in tools.items()
+                        if d.get("group") in STANDALONE_GROUPS]
+        for repo in want:
+            if repo not in tools:
+                ap.error(f"no copy block for '{repo}' in connectors.json")
+            if repo not in ssot:
+                ap.error(f"'{repo}' not in distribution.jsonl SSOT")
+        for repo in want:
+            render(repo, tools[repo], ssot[repo])
 
-    # standalone deep pages: only tools whose group earns one
-    want = args or [r for r, d in tools.items()
-                    if d.get("group") in STANDALONE_GROUPS]
-    for repo in want:
-        if repo not in tools:
-            raise SystemExit(f"no copy block for '{repo}' in connectors.json")
-        if repo not in ssot:
-            raise SystemExit(f"'{repo}' not in distribution.jsonl SSOT")
-        render(repo, tools[repo], ssot[repo])
-
-    # always refresh the gallery
-    render_gallery(ssot, blob)
+        # always refresh the gallery
+        render_gallery(ssot, blob)
 
     if CHECK:
         for d in DRIFT:

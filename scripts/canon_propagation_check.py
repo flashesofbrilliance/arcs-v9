@@ -17,16 +17,23 @@ canon-collision-escalate). It classifies each declared sync-pair as one of:
               a possible collision / net-new. NEVER auto-written. Becomes a
               stacked yes/no item in the approval queue for /canon-review.
 
-  check        (default) classify all pairs; append a receipt to
+  (no args)    default: classify all pairs; append a receipt to
                _INBOX/canon-propagation.jsonl; (re)write the approval queue
                _INBOX/canon-propagation-queue.json. Writes NO canon files.
   --regenerate additionally APPLY the DEROT (mechanical-mirror) class in place.
                Never touches ESCALATE items. Idempotent: writes a target only when
                it actually changed. The cron runs this ON A DEDICATED BRANCH.
+  --dry-run    classify and print the summary; write NOTHING (no receipt, no queue,
+               no canon file). Not combinable with --regenerate.
+  --self-test  run the CLI in a temp project dir (CLAUDE_PROJECT_DIR and HOME both
+               pointed there) and assert the argument guards hold.
+
+Unknown flags and positional arguments exit 2 (argparse); they used to be ignored
+silently, so a typo like `--dryrun` ran the receipt-writing check.
 
 Stdlib only. Exit 0 always (hook/cron-safe; drift is a receipt, not a failure).
 """
-import json, glob, re, os, sys, datetime
+import argparse, json, glob, re, os, sys, datetime, hashlib, subprocess, tempfile
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 HOME = os.path.expanduser("~")
@@ -214,9 +221,86 @@ def invariant_sync_findings():
 
 # ── main ─────────────────────────────────────────────────────────────
 
-def main():
-    regen = "--regenerate" in sys.argv
-    os.makedirs(INBOX, exist_ok=True)
+def _snapshot(root):
+    """sha256 + mtime of every file under root (self-test write detector)."""
+    snap = {}
+    for dp, _, fns in os.walk(root):
+        for fn in fns:
+            fp = os.path.join(dp, fn)
+            with open(fp, "rb") as fh:
+                snap[fp] = (hashlib.sha256(fh.read()).hexdigest(), os.stat(fp).st_mtime_ns)
+    return snap
+
+
+def self_test():
+    """Run the CLI as a subprocess in a throwaway project + HOME. Never touches ROOT."""
+    me = os.path.abspath(__file__)
+    fails = total = 0
+
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, ".claude"))
+        with open(os.path.join(tmp, ".claude/arcs-canon.md"), "w") as fh:
+            fh.write("| 1 | **NOTOMATION** | x |\n| 2 | **WRITE-LOCK** | y |\n")
+        with open(os.path.join(tmp, "CLAUDE.md"), "w") as fh:
+            fh.write("## ROM Primitives\n1. **NOTOMATION** — x\n")
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp, HOME=tmp)
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], env=env, cwd=tmp,
+                                  capture_output=True, text=True)
+
+        before = _snapshot(tmp)
+        for args, label in ((["--dryrun"], "unknown flag"),
+                            (["check", "extra"], "extra positionals"),
+                            (["extra"], "positional"),
+                            (["--dry-run", "--regenerate"], "--dry-run with --regenerate")):
+            r = run(*args)
+            check(f"{label} exits 2", r.returncode == 2)
+            check(f"{label} writes nothing", _snapshot(tmp) == before)
+        r = run("--dry-run")
+        check("--dry-run exits 0 and reports DRIFT", r.returncode == 0 and "DRIFT" in r.stdout)
+        check("--dry-run writes nothing", _snapshot(tmp) == before)
+        r = run()
+        check("default check exits 0", r.returncode == 0)
+        check("default check writes receipt + queue",
+              os.path.exists(os.path.join(tmp, "_INBOX/canon-propagation.jsonl"))
+              and os.path.exists(os.path.join(tmp, "_INBOX/canon-propagation-queue.json")))
+        with open(os.path.join(tmp, "CLAUDE.md")) as fh:
+            check("default check leaves canon copy untouched", "WRITE-LOCK" not in fh.read())
+        r = run("--regenerate")
+        with open(os.path.join(tmp, "CLAUDE.md")) as fh:
+            check("--regenerate applies the DEROT", r.returncode == 0 and "WRITE-LOCK" in fh.read())
+    print(f"canon_propagation_check self-test: {total - fails}/{total}")
+    sys.exit(1 if fails else 0)
+
+
+def _parse_args(argv):
+    ap = argparse.ArgumentParser(
+        prog="canon_propagation_check.py",
+        description="Classify canon sync-pairs (IN_SYNC / DEROT / ESCALATE / ABSENT).")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--regenerate", action="store_true",
+                      help="also apply the DEROT (mechanical-mirror) class in place")
+    mode.add_argument("--dry-run", action="store_true",
+                      help="classify and print only; write nothing")
+    mode.add_argument("--self-test", action="store_true",
+                      help="run the CLI guard self-test in a temp dir")
+    return ap.parse_args(argv)
+
+
+def main(argv=None):
+    args = _parse_args(sys.argv[1:] if argv is None else argv)
+    if args.self_test:
+        self_test()
+    regen, dry = args.regenerate, args.dry_run
+    if not dry:
+        os.makedirs(INBOX, exist_ok=True)
     findings, queue, applied = [], [], []
 
     for p in PAIRS:
@@ -261,19 +345,24 @@ def main():
     ts = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
     receipt = {"ts": ts, "type": "canon-propagation-receipt", "verdict": verdict,
                "findings": findings, "applied": applied}
-    with open(RECEIPTS, "a", encoding="utf-8") as fh:
-        fh.write(json.dumps(receipt, ensure_ascii=False) + "\n")
-    json.dump({"ts": ts, "verdict": verdict, "items": queue},
-              open(QUEUE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    if not dry:
+        with open(RECEIPTS, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(receipt, ensure_ascii=False) + "\n")
+        with open(QUEUE, "w", encoding="utf-8") as fh:
+            json.dump({"ts": ts, "verdict": verdict, "items": queue},
+                      fh, ensure_ascii=False, indent=2)
 
     print(f"canon-propagation: {verdict} · {len(drifted)} drifted pair(s) · "
           f"{sum(1 for q in queue if q['kind']=='mechanical')} mechanical / "
           f"{sum(1 for q in queue if q['kind']=='judgment')} judgment · "
-          f"queue -> _INBOX/canon-propagation-queue.json")
+          + ("queue not written (--dry-run)" if dry else
+             "queue -> _INBOX/canon-propagation-queue.json"))
     if regen:
         print(f"canon-propagation: --regenerate applied {len(applied)} mechanical de-rot(s)"
               + (f" -> {'; '.join(applied)}" if applied else " (none; mirrors already fresh)")
               + " · judgment items stay in the queue")
+    elif dry:
+        print("canon-propagation: --dry-run, nothing written (no receipt, no queue)")
     else:
         print("canon-propagation: receipt-only (mechanical de-rots staged in queue; "
               "run --regenerate to apply them; judgment items are human-owned)")
