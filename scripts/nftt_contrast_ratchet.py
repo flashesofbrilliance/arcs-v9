@@ -113,17 +113,91 @@ def self_test():
           f"under->{'pass' if under else 'WRONG'}, new-file->{'FAIL' if newfile else 'WRONG'})")
     return 0 if ok else 1
 
+def _snapshot(paths):
+    """sha256 + mtime_ns per file (None if absent)."""
+    import hashlib
+    return {p: (hashlib.sha256(open(p, "rb").read()).hexdigest(), os.stat(p).st_mtime_ns) if os.path.exists(p) else None
+            for p in paths}
+
+
+def argv_self_test():
+    """Copy this script into a temp repo with a stub detector; assert the argv contract via subprocess."""
+    import shutil, tempfile
+    tmp = os.path.realpath(tempfile.mkdtemp(prefix="nftt-ratchet-selftest-"))  # /var -> /private/var: ROOT and cwd must agree
+    fails = total = 0
+    try:
+        os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "public")); os.makedirs(os.path.join(tmp, "_STATE"))
+        me = os.path.join(tmp, "scripts", "nftt_contrast_ratchet.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        stub = os.path.join(tmp, "impeccable-stub")
+        open(stub, "w").write("#!/bin/sh\necho '[{\"antipattern\":\"low-contrast\"},{\"antipattern\":\"low-contrast\"}]'\n")
+        os.chmod(stub, 0o755)
+        page = os.path.join(tmp, "public", "blog-nftt-x.html"); open(page, "w").write("<html></html>")
+        base = os.path.join(tmp, "_STATE", "nftt-contrast-baseline.json")
+        json.dump({"counts": {"public/blog-nftt-x.html": 2}}, open(base, "w"))
+        watched = [page, base]
+        env = dict(os.environ, IMPECCABLE=stub)
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp, env=env)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1; fails += 0 if cond else 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+
+        before = _snapshot(watched)
+        ok("unknown flag exits 2", run("--updat-baseline").returncode == 2)
+        ok("unknown flag beside a file exits 2", run("public/blog-nftt-x.html", "--chek").returncode == 2)
+        ok("--update-baseline with a file arg exits 2", run("--update-baseline", "public/blog-nftt-x.html").returncode == 2)
+        ok("no args exits 2", run().returncode == 2)
+        r = run("public/blog-nftt-x.html")
+        ok("check at baseline passes", r.returncode == 0 and "[pass]" in r.stdout)
+        ok("check mode writes nothing", _snapshot(watched) == before)
+        json.dump({"counts": {"public/blog-nftt-x.html": 1}}, open(base, "w"))
+        ok("check over baseline fails 1", run("public/blog-nftt-x.html").returncode == 1)
+        r = run("--update-baseline")
+        ok("--update-baseline rewrites baseline", r.returncode == 0 and json.load(open(base))["counts"] == {"public/blog-nftt-x.html": 2})
+        env["IMPECCABLE"] = os.path.join(tmp, "absent")
+        ok("absent detector skips with 0", run("public/blog-nftt-x.html").returncode == 0)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    return fails, total
+
+
+def full_self_test():
+    rc = self_test()
+    fails, total = argv_self_test()
+    total += 1; fails += 1 if rc else 0
+    print(f"nftt_contrast_ratchet self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="nftt_contrast_ratchet.py",
+                                 description="Fail only on NEW low-contrast findings above the committed baseline.")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--update-baseline", action="store_true", help="re-snapshot all blog-nftt-*.html counts (writes)")
+    mode.add_argument("--self-test", action="store_true", help="logic + argv contract tests in a temp repo")
+    ap.add_argument("files", nargs="*", help="HTML files to check against the baseline (read-only)")
+    return ap
+
+
 def main(argv):
-    if "--self-test" in argv:
-        return self_test()
+    ap = build_parser()
+    a = ap.parse_args(argv)
+    if (a.update_baseline or a.self_test) and a.files:
+        ap.error("--update-baseline / --self-test take no file arguments")
+    if a.self_test:
+        return full_self_test()
+    if not a.update_baseline and not a.files:
+        ap.error("give one or more files, --update-baseline, or --self-test")
     if not detector_available():
         print(f"[skip] impeccable detector not found ({IMP}) — nftt contrast ratchet not enforced here"); return 0
-    if "--update-baseline" in argv:
+    if a.update_baseline:
         c = update_baseline(); print(f"baseline written: {len(c)} NFTT files -> {BASELINE}"); return 0
-    files = [a for a in argv if not a.startswith("--")]
-    if not files:
-        print("usage: nftt_contrast_ratchet.py <file> [...] | --update-baseline | --self-test"); return 2
-    return check(files)
+    return check(a.files)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

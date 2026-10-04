@@ -29,6 +29,8 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
+import hashlib
 import importlib.util
 import json
 import re
@@ -114,17 +116,70 @@ def self_test() -> int:
     check("self-contained chip with all categories -> FLAWLESS", g["verdict"] == "FLAWLESS", g["reasons"])
     check("session-relative + scratchpath + missing categories -> UNCUT", b["verdict"] == "UNCUT" and len(b["reasons"]) >= 4, b["reasons"][:3])
     check("reasons name the line", any(r.startswith("line ") for r in b["reasons"]))
-    print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
+    total = 3
+    a_fails, a_total = argv_self_test()
+    fails += a_fails; total += a_total
+    print(f"cold_molt_lint self-test: {total - fails}/{total}")
     return 1 if fails else 0
 
 
-def main(argv: list[str]) -> int:
-    if argv[:1] == ["--self-test"]:
+def _snapshot(root: Path) -> dict:
+    return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+            for p in sorted(root.rglob("*")) if p.is_file()}
+
+
+def argv_self_test() -> tuple[int, int]:
+    """Copy this script into a temp repo and assert the argv contract via subprocess."""
+    import shutil, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="cold-molt-selftest-"))
+    fails = total = 0
+    try:
+        (tmp / "scripts").mkdir()
+        me = tmp / "scripts" / "cold_molt_lint.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        chip = tmp / "chip.md"
+        chip.write_text("# Chip\n\n## Ground truth\n- x\n\n## SSOT\n- y\n\n## Routes\n- z\n\n## Gates\n- none\n\n## Corrections\n- none\n\n## Close protocol\n- receipt\n", encoding="utf-8")
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(tmp)
+        ok("argv: unknown flag exits 2", run("chip.md", "--strict").returncode == 2)
+        ok("argv: --self-test with a file exits 2", run("--self-test", "chip.md").returncode == 2)
+        ok("argv: no args exits 2", run().returncode == 2)
+        r = run("chip.md")
+        ok("argv: lint of a clean chip exits 0", r.returncode == 0 and "FLAWLESS" in r.stdout)
+        ok("argv: missing file exits 1, not a traceback", run("nope.md").returncode == 1)
+        ok("argv: lint wrote nothing", _snapshot(tmp) == before)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    return fails, total
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(prog="cold_molt_lint.py",
+                                 description="Lint chip prompts for cold-molt self-containment. Never writes.")
+    ap.add_argument("files", nargs="*", help="chip prompt markdown files")
+    ap.add_argument("--self-test", action="store_true", help="run the built-in self-test")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.files:
+            ap.error("--self-test takes no files")
         return self_test()
-    if not argv:
+    if not a.files:
         print(__doc__); return 2
     worst = 0
-    for f in argv:
+    for f in a.files:
+        if not Path(f).is_file():
+            print(f"✖ {f}: not found")
+            worst = 1
+            continue
         r = lint(Path(f))
         mark = "✓" if r["verdict"] == "FLAWLESS" else "✖"
         print(f"{mark} {f} — {r['verdict']}")
@@ -135,4 +190,4 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
+    raise SystemExit(main())
