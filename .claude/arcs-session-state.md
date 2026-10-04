@@ -1,15 +1,19 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-10-04 · PRs #689 (`6892b016`) and #709 (`8f2f98e2`) MERGED · handoff v3.77.0
+**As of:** 2026-10-04 · handoff v3.78.0 rides PR #728 (`claude/post-timestamps-notes-trenches-psjapj`) · cloud sessions wound down and archived on Zach's ask
 
-## What this session did (v3.77.0)
-- Resolved #689's conflict with main and merged it (exoskeleton video v2 + `scripts/html_video_render.mjs`).
-- Shipped `scripts/video_cut.py`: shot spec -> HTML scene (16:9, 9:16) + prompt pack. Test input `tao-284`.
+## What this session did (v3.78.0)
+- Closed v3.76.0 items 1 (#714), 2 (#718, #721) and 4 (#728, shavasana exhale scoped by branch).
+- Diagnosed item 3 (contrast ratchet): detector is Mac-only; npm `impeccable@4.1.0` disagrees with the baseline on 14/42 NFTT pages.
+- Wound down every cloud + Remote Control session (asked to push, then archived).
 
 ## Next unblocked action
-1. Try one beat of `_PROPOSALS/video/tao-284-herald-prompts.md` in an external video model; compare to the HTML render.
-2. Decide: wire `video_cut.py` + `linkedin_cut.py` self-tests into pre-commit, or leave both manual.
-3. Carried: `shavasana_handoff.py` exhale author filter; `post-1-brief` / `post-1-exec` wrap-lint.
+1. On the Mac: `python3 scripts/nftt_contrast_ratchet.py public/blog-nftt-*.html` to settle item 3 (version drift vs series-panel regression).
+2. Zach-only asks from archived sessions: run `receipt-pr724.sql` in Supabase; germinate v0.1.1 tag + signed Release; merge/close PR #725; check PR #715.
+3. Check the pushed branches of the sessions that were running at wind-down before assuming their work landed (list in CLAUDE.md v3.78.0, Open item 4).
+
+## Also open: v3.77.0 (parallel session)
+See its block in CLAUDE.md; not restated here.
 
 ## Blocking
-NONE
+None in the repo. Item 3 needs a machine with the impeccable launcher.
