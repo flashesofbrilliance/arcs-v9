@@ -211,10 +211,10 @@ def self_test():
     assert not check_file(good[0]), f"good fixture should pass: {check_file(good[0])}"
     s = json.load(open(good[0]))
     html_out = scene(s, "9:16", "x", "y")
-    assert "window.seek" in html_out and tokens()["cyan"] in html_out and "—" not in html_out
-    assert "—" not in prompt_pack(s)
+    assert "window.seek" in html_out and tokens()["cyan"] in html_out and "\u2014" not in html_out
+    assert "\u2014" not in prompt_pack(s)
     muts = {
-        "em-dash": lambda m: m["beats"][0].__setitem__("caption", m["beats"][0]["caption"] + " — x"),
+        "em-dash": lambda m: m["beats"][0].__setitem__("caption", m["beats"][0]["caption"] + " \u2014 x"),
         "uncited metric": lambda m: m["beats"][1].__setitem__("caption", "It grew 87%."),
         "PII": lambda m: m["beats"][1].__setitem__("caption", "write me at a@b.co"),
         "long caption": lambda m: m["beats"][0].__setitem__("caption", "word " * 15),
