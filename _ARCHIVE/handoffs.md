@@ -1,3 +1,39 @@
+# Handoff — v3.72.0 (2026-09-30)
+
+> **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
+> main at `e902a439` on Zach's explicit go; one `decision_receipt` row
+> (`2026-09-30--chronicle-reading-room-tenant--ZH`). The fe-smoke job was red on 5 tests (blacksmith `/`, `/observatory`,
+> growth-ai `/forge`, two smoke `/recoil` gates), the same 5 failing on main run 36668935316; the chronicle
+> tests pass in CI.
+
+## Shipped + on main
+- **Shape (Zach, 2026-09-29):** five books by git epoch (Genesis `471d5739`..`a61d492e`, Exodus ..`445ebf08`,
+  Leviticus ..`1dffaa2e`, Numbers ..`d21c7ee6`, Deuteronomy ..`aef6180a`; Day 0 = `471d5739`, matching
+  status.arcs.care DAY 173) x five fathoms (the profile-scan "Five Fathoms", rendered as a resolution descent:
+  30,000 ft / 8-bit to ground truth / 8K). Each book: a chakra (Muladhara..Vishuddha; Ajna and Sahasrara shown
+  as not yet reached), a canon epigraph (`tao-137`, `tao-150`, `tao-099`, `tao-012`, `tao-028`), and a closing
+  Operator 25 Shavasana. Oxherding was proposed and dropped for chakras.
+- **SSOT:** `runtime/specs/chronicle-books.json` (prose + claims + the written half of each Shavasana). Renderer
+  `scripts/chronicle_render.py` computes every fathom-4 count and the Shavasana mechanical half from git + the
+  falsification ledger, reads epigraph text from `_CANON/tao-proverbs.jsonl` by id, and exits 1 on an em-dash,
+  an unknown tao id, or a non-contiguous boundary. `--check` and `--self-test` (9/9).
+- **Route:** `/api/reading-room/chronicle` (concordance clone) + `outputFileTracingIncludes` entry; manifest
+  `chronicle` built:true. Test `tests/chronicle.spec.ts` (22: one-fathom-at-a-time in every book, 4 widths x 5
+  fathoms, lede spans the lane).
+
+## Open (next session)
+1. Live admin render at app.arcs.care/reading-room/chronicle not verified after deploy.
+2. Somatic reads for all five Shavasanas are pending Zach.
+3. Unproven in the page: first READY deploy date, the ADR-collision cause, 2/247 closed outcomes (re-measure
+   against the DB), the Nov 2025 Book of ARCS.
+4. Concordance route has no `outputFileTracingIncludes` entry; spun off as its own task (running separately).
+
+## Lessons (in the record)
+- A count named "merges" was a count of PR-merge subjects (Numbers 139 vs 214 merge commits). The skeptic pass
+  caught it in five places; name a count by the predicate that produced it.
+- CI checks out shallow: any gate that re-derives from deep history must fall back to the committed render.
+- The impeccable pre-commit detector reads DESIGN.md: `--dimmed` fails 4.5:1; muted copy uses text-secondary.
+
 # Handoff — v3.71.0 (2026-09-28)
 
 > **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget

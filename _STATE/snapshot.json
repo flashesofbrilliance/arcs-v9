@@ -2,17 +2,11 @@
   "captured_at": "2026-10-03T22:27:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "0bfa5877",
-    "head_message": "Merge pull request #688 from flashesofbrilliance/claude/post-timestamps-notes-trenches-psjapj",
+    "head_sha": "ac92aaed",
+    "head_message": "Merge pull request #691 from flashesofbrilliance/claude/essay-tribes-vibes-lies-handoff",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      ".claude/arcs-session-state.md",
-      "CLAUDE.md",
-      "MEMORY.md",
-      "SKILL.md",
-      "_ARCHIVE/handoffs.md"
-    ],
-    "note": "captured before the handoff commit; dirty files are the handoff edits themselves"
+    "dirty_files": [],
+    "note": "origin/main at handoff merge time; handoff renumbered v3.74.0 (parallel session took v3.73.0)"
   },
   "vercel": {
     "project": "arcs-v9",
