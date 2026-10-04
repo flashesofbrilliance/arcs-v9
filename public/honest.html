@@ -102,6 +102,24 @@ section > h2 { font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-botto
 .reasons h3 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
 .reasons p { color: var(--soft); }
 
+/* use cases + reliance (ADR-084) */
+.problem { font-size: clamp(18px, 2vw, 21px); color: var(--text); opacity: 0.88; max-width: none; }
+.uses { margin-top: 8px; }
+.mark-note { margin-top: 24px; }
+.mark-note code { font: 500 13px var(--font-mono); color: var(--cyan); overflow-wrap: anywhere; }
+.rely { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.rely > div { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 22px; }
+.rely h3 { font-size: 19px; font-weight: 600; margin-bottom: 12px; }
+.rely .yes { border-top: 2px solid var(--green); }
+.rely .no { border-top: 2px solid var(--soft); }
+.rely .yes h3 { color: var(--green); }
+.rely ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.rely li { position: relative; padding-left: 20px; color: var(--soft); }
+.rely li::before { position: absolute; left: 0; top: 0; font: 600 14px/1.6 var(--font-mono); }
+.rely .yes li::before { content: "+"; color: var(--green); }
+.rely .no li::before { content: "\2212"; color: var(--soft); }
+.rely li strong { color: var(--text); font-weight: 600; }
+
 /* three answers */
 .qa { display: grid; gap: 0; border-top: 1px solid var(--border); }
 .qa div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--border); }
@@ -234,6 +252,7 @@ footer { margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; g
   .step .stamp { grid-column: 3; grid-row: 1 / span 3; margin: 0; }
   .step .foot { grid-column: 2; }
   .reasons { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .rely { grid-template-columns: minmax(0, 1fr); }
   .qa div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .deep-body, .play-grid { grid-template-columns: minmax(0, 1fr); }
   summary { grid-template-columns: auto minmax(0, 1fr) auto auto; }
@@ -263,7 +282,7 @@ code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-
     <p class="wordmark" aria-label="ARCS Field OS"><span class="wa">ARCS</span><span class="wf">Field OS</span></p>
     <h1>Check it <span>before you say it.</span></h1>
     <p class="lede">Five steps between an idea and a message. Each step gets a stamp: go or stop. If any step says stop, you fix it before anyone hears it.</p>
-    <p class="scope">It checks that every fact says where it came from, that nothing new sneaks in along the way, and that someone really pushed back. It can't tell you whether a claim is true. That part is still yours.</p>
+    <p class="scope">It checks that every fact you mark names a source, that no new marked facts sneak in along the way, and that at least one review disagrees. It can't tell you whether a claim is true. That part is still yours.</p>
   </header>
 
   <ol class="strip" aria-label="The five steps">
@@ -271,12 +290,38 @@ code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-
   </ol>
   <p class="example"><span class="tag-ex">Example run:</span> steps 1 to 3 said go. Step 4 said <strong>stop</strong>, because the short version added "trusted by 50+ teams" and nobody had checked it.</p>
 
-  <section aria-labelledby="why">
-    <h2 id="why">Why bother</h2>
-    <div class="reasons">
-      <div><h3>Nothing sneaks in</h3><p>Each step can only use what the step before it approved. A fact that skipped a check gets caught.</p></div>
-      <div><h3>No yes-men</h3><p>If every reviewer just agrees, the check fails. Someone has to have tried to break it.</p></div>
-      <div><h3>A person hits send</h3><p>The last step can only say "ready." It never sends anything for you.</p></div>
+  <section aria-labelledby="problem">
+    <h2 id="problem">The problem it solves</h2>
+    <p class="problem">What we say tends to run ahead of what we checked. The line that slips through is usually the one that sounds best, like "trusted by 50+ teams" in the run above.</p>
+  </section>
+
+  <section aria-labelledby="uses">
+    <h2 id="uses">Use it when</h2>
+    <div class="reasons uses">
+      <div><h3>An update has numbers in it</h3><p>A board, investor or team update. Mark each figure with where it came from; step 1 stops on any that names no source.</p></div>
+      <div><h3>A claim about a customer</h3><p>A case study or a launch post. Mark a big claim as high stakes and it needs two sources from different sites.</p></div>
+      <div><h3>You summarize an analysis</h3><p>Load a Jupyter notebook. Each sentence in its notes that has a number becomes a fact, matched against the code output that printed that number.</p></div>
+      <div><h3>An AI drafted it for you</h3><p>Mark the facts you would stand behind before you forward it. Any without a source stops at step 1.</p></div>
+      <div><h3>Your docs live in a repo</h3><p>Run it before each commit or in a GitHub check, so an unsourced marked fact fails in the pull request, not in front of a reader.</p></div>
+    </div>
+    <p class="note mark-note">Marking a fact means wrapping the sentence in a tag that names its source: <code>&lt;span class="claim" data-src="https://..."&gt;The fact.&lt;/span&gt;</code>. Anything you don't mark isn't checked.</p>
+  </section>
+
+  <section aria-labelledby="rely">
+    <h2 id="rely">What you can rely on it for, and what you can't</h2>
+    <div class="rely">
+      <div class="yes"><h3>Rely on it for</h3><ul>
+        <li><strong>The same answer every time.</strong> The same input always gets the same stamp.</li>
+        <li><strong>Checks you can read.</strong> Every rule is listed below, with its code.</li>
+        <li><strong>Privacy.</strong> It runs in this page. Nothing you paste is uploaded.</li>
+        <li><strong>A person sends.</strong> The last step can only say "ready."</li>
+      </ul></div>
+      <div class="no"><h3>Not for</h3><ul>
+        <li><strong>Knowing what's true.</strong> It never looks; it checks that you did the steps that would let you find out.</li>
+        <li><strong>Facts you didn't mark.</strong> Plain prose gets no check.</li>
+        <li><strong>Judgment calls.</strong> Each step has a scorecard it leaves blank for you.</li>
+        <li><strong>Objectivity.</strong> The rules are fixed, but a person chose them, and the scorecard floors aren't calibrated yet.</li>
+      </ul></div>
     </div>
   </section>
 
@@ -284,7 +329,7 @@ code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-
     <h2 id="qa">Three questions</h2>
     <dl class="qa">
       <div><dt>Is this the AI's chain of thought?</dt><dd><strong>No.</strong> It checks the finished work, not the thinking. Each step saves a file you can open later.</dd></div>
-      <div><dt>What do I need to run it?</dt><dd><strong>Just Python.</strong> Nothing to install. It runs in a terminal, in code, in GitHub, or before each commit.</dd></div>
+      <div><dt>What do I need to run it?</dt><dd><strong>This page, or Python.</strong> The checks run here in your browser. For a terminal, code, GitHub or a pre-commit hook, clone <a href="https://github.com/flashesofbrilliance/check-it-before-you-say-it">the open-source repo</a>: Python 3.9+, standard library only, nothing to install.</dd></div>
       <div><dt>Who decides the parts a machine can't?</dt><dd><strong>A person.</strong> Each step has a short scorecard. The tool leaves it blank for you.</dd></div>
     </dl>
   </section>
@@ -496,6 +541,7 @@ repos:
 
   <section aria-labelledby="builders">
     <h2 id="builders">For builders</h2>
+    <p class="note" style="margin:-8px 0 18px">The code is MIT-licensed at <a href="https://github.com/flashesofbrilliance/check-it-before-you-say-it">github.com/flashesofbrilliance/check-it-before-you-say-it</a>. The snippets on this page assume it sits at <code>tools/arcs-verb-eval/</code> in your repo.</p>
     <div class="depth">
       <details class="deep"><summary><span class="st-name">All five steps as one GitHub workflow</span><span></span><span></span><span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><div class="deep-body"><div class="full"><div class="code"><button type="button" class="copy">Copy</button><pre><code># .github/workflows/check-before-you-say-it.yml
 name: check-before-you-say-it
@@ -505,6 +551,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: git clone --depth 1 https://github.com/flashesofbrilliance/check-it-before-you-say-it tools/arcs-verb-eval
       - uses: actions/setup-python@v5
         with:
           python-version: &quot;3.12&quot;
@@ -552,7 +599,7 @@ jobs:
 
   <footer>
     <p>Example data from a made-up review, not a real run.</p>
-    <p>arcs-verb-eval &#xb7; Python standard library only &#xb7; tokens from the ARCS recoil-report kit.</p>
+    <p>arcs-verb-eval &#xb7; Python standard library only &#xb7; <a href="https://github.com/flashesofbrilliance/check-it-before-you-say-it">source on GitHub</a> (MIT).</p>
   </footer>
 </main>
 
