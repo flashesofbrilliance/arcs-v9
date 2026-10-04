@@ -64,6 +64,8 @@ export default function DebriefPage() {
   const [learning, setLearning] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState<{ driftState: string } | null>(null)
+  // Closed by its owner, but this viewer is not the owner: the outcome text stays private.
+  const [closedPrivately, setClosedPrivately] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -75,6 +77,7 @@ export default function DebriefPage() {
         setRecap(data.receipt)
         setAccess({ canClose: !!data.canClose, signedIn: !!data.signedIn })
         if (data.outcome) setLogged(data.outcome)
+        else if (data.closed) setClosedPrivately(true)
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
     return () => { cancelled = true }
@@ -152,7 +155,7 @@ export default function DebriefPage() {
   )
 
   // ── Already closed (logged earlier, or just now) ──────────────────────────
-  if (logged || done) {
+  if (logged || done || closedPrivately) {
     const o = logged
     const drift = done?.driftState ?? recap.driftState ?? (o?.matched ? "LANDED" : "DRIFTING")
     const driftColor = drift === "LANDED" ? signal.green : signal.gold
@@ -166,6 +169,10 @@ export default function DebriefPage() {
           {done && !o ? (
             <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>
               The loop is complete. This call now feeds the pattern layer. The next decision starts from clearer ground.
+            </div>
+          ) : closedPrivately && !o ? (
+            <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>
+              Its owner has logged how this call landed. The debrief itself stays with them.
             </div>
           ) : o ? (
             <>

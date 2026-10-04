@@ -59,6 +59,10 @@ export async function GET(
   })
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
 
+  // The outcome text (what / matched / regret / learning) is the owner's private
+  // debrief. Anyone else holding the link learns only that the loop closed.
+  const viewerCanClose = canClose(receipt.userId, userId)
+
   let protecting: string[] = []
   try { protecting = JSON.parse(receipt.protecting) as string[] } catch { protecting = [] }
 
@@ -76,9 +80,10 @@ export async function GET(
       status: receipt.status,
       driftState: receipt.driftState,
     },
-    outcome: receipt.outcome,
+    outcome: viewerCanClose ? receipt.outcome : null,
+    closed: !!receipt.outcome,
     // Tells the page whether to show the close form; the POST enforces the same rule.
-    canClose: canClose(receipt.userId, userId),
+    canClose: viewerCanClose,
     signedIn: !!userId,
   })
 }
