@@ -4,9 +4,10 @@
 //      /receipt/reflect/[id]/thoughts+comments → composable
 "use client"
 
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, border, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, border, font, getWeather, nciColor, contentContainer, doorLabel } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
@@ -97,7 +98,7 @@ export default function ReceiptReflectPage() {
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
           <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
+              <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
               <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
               <button onClick={() => router.push(`/receipt/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Receipt</button>
               <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
@@ -118,7 +119,7 @@ export default function ReceiptReflectPage() {
           {/* Decision — the question, at the top (mirrors the brief pattern) */}
           <div style={{ marginBottom: "1.75rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
             <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
-            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.85 }}>{receipt.decision}</div>
+            <h1 style={{ fontFamily: font.sans, fontSize: "0.9rem", fontWeight: 400, color: text.secondary, lineHeight: 1.85, margin: 0 }}>{receipt.decision}</h1>
           </div>
 
           {/* True North */}
@@ -138,7 +139,7 @@ export default function ReceiptReflectPage() {
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
               {([
                 ["Mode", receipt.mode],
-                ["Door", receipt.doorClass?.replace(/_/g, " ")],
+                ["Door", doorLabel(receipt.doorClass)],
                 ["Coherence", receipt.coherencePct != null ? `${receipt.coherencePct}%` : "—"],
               ] as [string, string][]).map(([k, v]) => (
                 <div key={k}>
@@ -187,7 +188,7 @@ export default function ReceiptReflectPage() {
 
           <div style={{ borderTop: `0.5px solid ${border.subtle}`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
             <Pill label="MODE" value={receipt.mode} color={signal.gold} />
-            <Pill label="DOOR" value={receipt.doorClass?.replace(/_/g, " ")} color={signal.steel} />
+            <Pill label="DOOR" value={doorLabel(receipt.doorClass)} color={signal.steel} />
             {receipt.stakesLevel && <Pill label="STAKES" value={receipt.stakesLevel} color={signal.red} />}
             {receipt.horizon && <Pill label="HORIZON" value={receipt.horizon} color={text.muted} />}
             <Pill label="NCI" value={String(receipt.nciScore)} color={nc} />

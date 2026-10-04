@@ -53,7 +53,7 @@ All JSON arrays stored as TEXT (SQLite). Enums as plain strings.
 ## Design tokens (inline style objects, no CSS framework)
 ```
 bg: #020408 | surface: #0d1117 | border: #1e293b
-text: #e2e8f0 | muted: #475569 | dimmed: #64748b
+text: #e2e8f0 | muted: #7a8699 | dimmed: #8391a7  (AA on bg; raised 2026-10-04)
 cyan: #00F0FF | green: #00FF9D | gold: #FFD700 | red: #FF4D6D
 ```
 

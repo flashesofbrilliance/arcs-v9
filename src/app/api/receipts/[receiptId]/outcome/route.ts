@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { scrubProse } from "@/lib/prose"
 
 export const dynamic = "force-dynamic"
 
@@ -11,6 +12,15 @@ export const dynamic = "force-dynamic"
 // A receipt cannot be closed by the session that created it (§5.1). External
 // signal has to arrive after T₀. In practice the debrief email fires N days
 // later, so v1 does not hard-enforce a session check; ownership is the gate.
+// Ownerless receipts (anonymous runs, the public demo brief) cannot be closed
+// at all in prod: anyone holding the link could otherwise write an outcome
+// into the calibration set. Claiming the receipt on sign-in makes it closable.
+
+// Prod: only the signed-in owner. Dev: open, so the flow can be exercised locally.
+function canClose(ownerId: string | null, userId: string | null): boolean {
+  if (!isProd) return true
+  return !!ownerId && ownerId === userId
+}
 
 const isProd = process.env.NODE_ENV === "production"
 
@@ -25,10 +35,13 @@ export async function GET(
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
   const { receiptId } = await params
+  const session = await auth()
+  const userId = session?.user?.id ?? null
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
     select: {
       id: true,
+      userId: true,
       decision: true,
       trueNorth: true,
       nciScore: true,
@@ -54,7 +67,7 @@ export async function GET(
     receipt: {
       id: receipt.id,
       question: receipt.decision,
-      trueNorth: receipt.trueNorth,
+      trueNorth: scrubProse(receipt.trueNorth),
       nci: receipt.nciScore,
       mode: receipt.mode,
       door: receipt.doorClass,
@@ -64,6 +77,9 @@ export async function GET(
       driftState: receipt.driftState,
     },
     outcome: receipt.outcome,
+    // Tells the page whether to show the close form; the POST enforces the same rule.
+    canClose: canClose(receipt.userId, userId),
+    signedIn: !!userId,
   })
 }
 
@@ -81,10 +97,11 @@ export async function POST(
   })
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
 
-  // Ownership gate (ADR-001, app layer). Owned receipts may only be debriefed
-  // by their owner in prod. Anonymous receipts stay open to the link holder.
-  if (isProd && receipt.userId && receipt.userId !== userId) {
-    return NextResponse.json({ error: "Not your receipt to close" }, { status: 403 })
+  // Ownership gate (ADR-001, app layer). In prod only the signed-in owner may
+  // close a receipt; ownerless receipts are closed to everyone.
+  if (!canClose(receipt.userId, userId)) {
+    const error = receipt.userId ? "Not your receipt to close" : "Sign in and save this receipt before logging how it landed"
+    return NextResponse.json({ error }, { status: 403 })
   }
 
   const body = await req.json().catch(() => ({}))

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { clampText, clampTextArray } from "@/lib/sanitize"
-import { scrubProse } from "@/lib/prose"
+import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 
 export const dynamic = "force-dynamic"
@@ -78,7 +78,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: existing.receipt, tributaries, entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(existing.receipt), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -155,7 +155,7 @@ export async function GET(
       },
     })
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief, receipt, tributaries, entityAnalysis, children })
+    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
   } catch {
     const stored = await prisma.brief.findUnique({ where: { receiptId } })
     const storedEntity = (() => {
@@ -163,6 +163,6 @@ export async function GET(
       catch { return null }
     })()
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: stored, receipt, tributaries, entityAnalysis: storedEntity, children })
+    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
   }
 }

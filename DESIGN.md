@@ -8,8 +8,8 @@ colors:
   border-subtle: "#1e293b"
   text-primary: "#e2e8f0"
   text-secondary: "#94a3b8"
-  text-muted: "#475569"
-  text-dimmed: "#64748b"
+  text-muted: "#7a8699"
+  text-dimmed: "#8391a7"
   true-north-cyan: "#00F0FF"
   coherent-green: "#00FF9D"
   locked-gold: "#FFD700"
@@ -123,7 +123,7 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 - **Border Subtle** (#1e293b): dividers, card strokes.
 - **Text Primary** (#e2e8f0): primary reading.
 - **Text Secondary** (#94a3b8): supporting copy.
-- **Text Dimmed** (#64748b) / **Text Muted** (#475569): metadata and mono labels.
+- **Text Dimmed** (#8391a7) / **Text Muted** (#7a8699): metadata and mono labels. Both clear WCAG AA 4.5:1 on Obsidian, Panel and Elevated (raised 2026-10-04 from #64748b / #475569, which measured 4.31:1 and 2.71:1).
 
 **The Semantic Color Rule.** Color is state, never decoration. Cyan is bearing, green is coherence, gold is locked, red is ruin, violet is conviction-shift, magenta is paradox. If a color would not survive being read as its state, it does not belong on the screen.
 

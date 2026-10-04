@@ -1,15 +1,16 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta, contentContainer, srOnly } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { SectionLabel } from "@/ui/SectionLabel"
 import { Card } from "@/ui/Card"
 import { Badge } from "@/ui/Badge"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import { AuthControl } from "@/molecules/AuthControl"
 
 interface ChildRow {
@@ -66,10 +67,11 @@ export default function HistoryPage() {
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "6rem" }}>
+        <h1 style={srOnly}>Your decision ledger</h1>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-            <Button variant="ghost" size="sm" glyph="⊕" onClick={() => router.push("/dashboard")}>New question</Button>
+            <ButtonLink variant="ghost" size="sm" glyph="⊕" href="/dashboard">New question</ButtonLink>
             <AuthControl next="/history" />
           </div>
         </div>
@@ -83,7 +85,7 @@ export default function HistoryPage() {
             <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
               Your questions, prep, and briefs are saved under your account. One magic link. No password.
             </p>
-            <Button variant="primary" size="md" glyph="→" onClick={() => router.push("/compass?next=/history")}>Sign in</Button>
+            <ButtonLink variant="primary" size="md" glyph="→" href="/compass?next=/history">Sign in</ButtonLink>
           </Card>
         )}
 
@@ -95,7 +97,7 @@ export default function HistoryPage() {
 
         {rows !== null && rows.length === 0 && (
           <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.dimmed, lineHeight: 1.6 }}>
-            No receipts yet. <span style={{ color: signal.cyan, cursor: "pointer" }} onClick={() => router.push("/dashboard")}>Run the compass →</span>
+            No receipts yet. <Link href="/dashboard" style={{ color: signal.cyan, textDecoration: "none" }}>Run the compass →</Link>
           </div>
         )}
 

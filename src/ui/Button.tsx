@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import Link from 'next/link'
 
 // Cards × Badges fusion: semi-opaque dark-glass body + subtle emboss bevel; the
 // gate color lives only in the accents (rim, glyph, label tint, a whisper of
@@ -27,9 +28,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   glyph?: React.ReactNode
 }
 
-export function Button({ variant = 'primary', size = 'md', glyph, disabled, children, style, ...rest }: ButtonProps) {
-  const [h, setH] = React.useState(false)
-  const [p, setP] = React.useState(false)
+function buttonStyle(variant: ButtonVariant, size: 'sm' | 'md' | 'lg', disabled: boolean | undefined, h: boolean, p: boolean, style?: React.CSSProperties): { a: Accent; css: React.CSSProperties } {
   const a = BTN_ACCENT[variant] || BTN_ACCENT.primary
   const sz: React.CSSProperties =
     size === 'lg' ? { fontSize: 12, padding: '13px 23px', borderRadius: 6 }
@@ -39,6 +38,26 @@ export function Button({ variant = 'primary', size = 'md', glyph, disabled, chil
   const hover = `inset 0 1px 0 rgba(255,255,255,.12), inset 0 -2px 7px rgba(0,0,0,.45), 0 0 20px ${a.bloomH}, 0 6px 16px rgba(0,0,0,.5)`
   const press = `inset 0 2px 6px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05), 0 0 10px ${a.bloom}`
   const lit = !disabled && (h || p)
+  return {
+    a,
+    css: {
+      position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5em',
+      fontFamily: "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace", fontWeight: 600, letterSpacing: '0.085em', textTransform: 'uppercase', lineHeight: 1, whiteSpace: 'nowrap',
+      color: a.ink, border: `1px solid ${lit ? a.bdH : a.bd}`, background: GLASS_BODY,
+      boxShadow: disabled ? base : p ? press : h ? hover : base,
+      transform: disabled ? 'none' : p ? 'translateY(1px)' : h ? 'translateY(-1px)' : 'none',
+      cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.42 : 1, filter: disabled ? 'saturate(.55)' : 'none',
+      transition: 'box-shadow .16s, transform .09s, border-color .16s, filter .16s', WebkitFontSmoothing: 'antialiased',
+      textDecoration: 'none',
+      ...sz, ...style,
+    },
+  }
+}
+
+export function Button({ variant = 'primary', size = 'md', glyph, disabled, children, style, ...rest }: ButtonProps) {
+  const [h, setH] = React.useState(false)
+  const [p, setP] = React.useState(false)
+  const { a, css } = buttonStyle(variant, size, disabled, h, p, style)
   return (
     <button
       disabled={disabled}
@@ -46,20 +65,40 @@ export function Button({ variant = 'primary', size = 'md', glyph, disabled, chil
       onMouseLeave={() => { setH(false); setP(false) }}
       onMouseDown={() => setP(true)}
       onMouseUp={() => setP(false)}
-      style={{
-        position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5em',
-        fontFamily: "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace", fontWeight: 600, letterSpacing: '0.085em', textTransform: 'uppercase', lineHeight: 1, whiteSpace: 'nowrap',
-        color: a.ink, border: `1px solid ${lit ? a.bdH : a.bd}`, background: GLASS_BODY,
-        boxShadow: disabled ? base : p ? press : h ? hover : base,
-        transform: disabled ? 'none' : p ? 'translateY(1px)' : h ? 'translateY(-1px)' : 'none',
-        cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.42 : 1, filter: disabled ? 'saturate(.55)' : 'none',
-        transition: 'box-shadow .16s, transform .09s, border-color .16s, filter .16s', WebkitFontSmoothing: 'antialiased',
-        ...sz, ...style,
-      }}
+      style={css}
       {...rest}
     >
       {glyph && <span style={{ fontSize: '1.05em', lineHeight: 1, color: a.sig }}>{glyph}</span>}
       {children}
     </button>
+  )
+}
+
+// Same look as Button, but a real link: use for navigation so it is announced as
+// a link, opens in a new tab on modifier-click, and prefetches like any <Link>.
+export interface ButtonLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+  href: string
+  variant?: ButtonVariant
+  size?: 'sm' | 'md' | 'lg'
+  glyph?: React.ReactNode
+}
+
+export function ButtonLink({ href, variant = 'primary', size = 'md', glyph, children, style, ...rest }: ButtonLinkProps) {
+  const [h, setH] = React.useState(false)
+  const [p, setP] = React.useState(false)
+  const { a, css } = buttonStyle(variant, size, false, h, p, style)
+  return (
+    <Link
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => { setH(false); setP(false) }}
+      onMouseDown={() => setP(true)}
+      onMouseUp={() => setP(false)}
+      style={css}
+      {...rest}
+    >
+      {glyph && <span style={{ fontSize: '1.05em', lineHeight: 1, color: a.sig }}>{glyph}</span>}
+      {children}
+    </Link>
   )
 }
