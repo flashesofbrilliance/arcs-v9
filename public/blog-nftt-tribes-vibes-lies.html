@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tribes, Vibes, Lies · NFTT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Answers are cheap now and judgment that compounds is not. Three ways to read a person, one tripwire, and the loop nobody sells: an essay on building an exoskeleton for the part of you that decides.">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:660px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; overflow-x:clip}
+  body{overflow-x:clip; margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; letter-spacing:.005em; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+  .mono{font-family:var(--mono); overflow-wrap:anywhere}
+
+  .topbar{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--border); padding:12px 0; display:flex; gap:12px; align-items:center}
+  .topbar a{color:var(--dim); text-decoration:none} .topbar a:hover{color:var(--cyan)}
+  .topbar .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .topbar .sp{margin-left:auto}
+
+  header.hero{padding-block:52px 8px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.3rem,7vw,3.6rem); line-height:1.03; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic; margin:0; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:50px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim); display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em; margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px; max-width:var(--measure); text-wrap:pretty}
+  .lead::first-letter{font-weight:600; font-size:3.5em; line-height:.82; float:left; padding:.02em .09em 0 0; color:var(--cyan)}
+  em{font-style:italic}
+
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2); border-radius:10px; padding:20px 22px; margin:38px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px; white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan); font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text); max-width:var(--measure)}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan); text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px; display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px; display:block; margin-bottom:6px}
+
+  footer{margin:60px 0 80px; padding-top:22px; border-top:1px solid var(--border); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--dim); line-height:1.9}
+  footer a{color:var(--muted); text-decoration:none} footer a:hover{color:var(--cyan)}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+  /* figures + preview placeholders (this post) */
+  figure{margin:30px 0; border:1px solid var(--border); border-radius:8px; background:var(--surface); padding:16px}
+  figure svg{display:block; width:100%; height:auto}
+  figcaption{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:10px; line-height:1.55}
+  .placeholder{border:1px dashed var(--gold); border-radius:8px; padding:16px 18px; margin:0 0 22px; font-family:var(--mono); font-size:13px; line-height:1.6; color:var(--muted); max-width:var(--measure)}
+  .placeholder .tag{display:block; color:var(--gold); font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:8px}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<!-- tao-waiver: preview draft, unrouted and unpublished; two worked examples pending Zach. Mint via /tao-mint at publish. -->
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="dot" aria-hidden="true"></span>
+    <a href="/blog/nftt">Notes from the Trenches</a>
+    <span class="sp">Preview · not published</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">The exoskeleton, not the oracle</p>
+    <h1>Tribes, Vibes, Lies</h1>
+    <p class="standfirst">Answers are cheap now. Judgment that compounds is not. Every AI tool on the market sells cheaper answers; this is about the loop nobody sells, and the three ways to read a person, only one of which leaves a receipt.
+    <p class="byline">Draft preview · two worked examples still owed · the only subject here is the author and the record</p>
+  </header>
+
+  <div class="panel">
+    <h4>The short version</h4>
+    <div class="step">
+      <span class="k">247 decisions logged, 2 closed</span><b>The valuable ones were the passes, and a pass leaves no outcome to check.</b>
+      <span class="k">Prosthetic or exoskeleton</span><b>An oracle thinks for you and the muscle fades. A frame holds your belief steady and shows you your form.</b>
+      <span class="k">Tribes, vibes, lies</span><b>Three ways to read a person, in rising order of how much you can trust them. Only the last one leaves a receipt.</b>
+      <span class="k">Thirty people, thirty closed calls</span><b>The first honest curve of your own judgment, sized by the statistics, not by scarcity.</b>
+    </div>
+  </div>
+
+  <section>
+    <span class="num">I · The two decisions I closed are the least interesting ones I made</span>
+    <p class="lead">I built a system to make my decisions learnable. It writes each one down before I act: the question, who else is in the room, the time window, how sure I already am. Then it waits for me to come back and say what happened. After 247 of those receipts, I had closed the loop on exactly two.
+    <p>I am opening with that number because most people in my position would hide it, and because it is the clearest picture I have of what is broken in human judgment. We decide constantly. We almost never go back and check. Not because we are lazy, but because the moment of deciding and the moment of knowing are months apart, and nothing in our lives connects them.
+    <p>But the number is also misleading, and the way it misleads is the point of this essay. The decisions that saved me the most time over the past year do not appear in it at all. They were the ones where I said no. I passed on a client, a prospect, a call. Nothing happened next. There was no project to go right or wrong, so there was never an outcome to log. A no closes against a counterfactual, and nobody can observe a counterfactual.
+    <p>So the honest version of my confession is this: the two loops I closed are the least interesting ones. The most valuable judgment I exercised is structurally invisible to any ledger of outcomes, including the one I built. That is not a bug in my system. It is the hardest problem in learning from your own decisions, and I had to run into it 247 times before I could see it.
+  </section>
+
+  <section>
+    <span class="num">II · Answers got cheap. Judgment that compounds did not.</span>
+    <p>In the past three years the price of a competent answer to almost any question has fallen toward zero. Ask a model how to structure a deal, read a contract, size a market, draft the hard email. You will get something good in seconds. The people who were paid for having answers are finding out that answers were never the scarce part.
+    <p>What stays scarce is judgment, and specifically judgment that gets better over time. Not the ability to decide once. The ability to decide, find out, and decide better the next time. That loop is the only thing that separates a person with twenty years of experience from a person with one year of experience repeated twenty times.
+    <figure>
+      <svg viewBox="0 0 640 300" role="img" aria-labelledby="loopT">
+        <title id="loopT">A decision is not closed until its outcome is measured</title>
+        <defs><marker id="la" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#748699"/></marker></defs>
+        <g fill="none" stroke="#748699" stroke-width="1.25">
+          <path d="M400 60 Q520 60 520 138" marker-end="url(#la)"/>
+          <path d="M520 182 Q520 260 400 260" marker-end="url(#la)"/>
+          <path d="M240 260 Q120 260 120 182" marker-end="url(#la)"/>
+          <path d="M120 138 Q120 60 240 60" marker-end="url(#la)"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+          <rect x="240" y="38" width="160" height="44" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="320" y="56" fill="#e7ecf3" font-weight="600">Decide</text>
+          <text x="320" y="74" fill="#9aa8bc" font-size="11">the recipe</text>
+          <rect x="440" y="138" width="160" height="44" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="520" y="156" fill="#e7ecf3" font-weight="600">Act</text>
+          <text x="520" y="174" fill="#9aa8bc" font-size="11">the discharge</text>
+          <rect x="240" y="238" width="160" height="44" rx="8" fill="rgba(0,240,255,.08)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="320" y="256" fill="#e7ecf3" font-weight="600">Receipt</text>
+          <text x="320" y="274" fill="#9aa8bc" font-size="11">what arrived</text>
+          <rect x="40" y="138" width="160" height="44" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="120" y="156" fill="#e7ecf3" font-weight="600">Measure</text>
+          <text x="120" y="174" fill="#9aa8bc" font-size="11">hand it forward</text>
+          <text x="320" y="152" fill="#748699" font-size="11">a chain of receipts that</text>
+          <text x="320" y="168" fill="#748699" font-size="11">debriefs itself is an atlas</text>
+        </g>
+      </svg>
+      <figcaption>The loop: recipe, discharge, receipt, measured outcome. Tao of ARCS tao-041 and tao-222. Most people run the first two steps and call it a decision; the loop only compounds when the fourth step feeds the first.</figcaption>
+    </figure>
+    <p>Almost nobody runs that loop deliberately. We run it by accident, through memory, and memory is a flattering narrator. It remembers the calls we got right, forgets the ones we got wrong, and quietly rewrites what we believed at the time so that it matches what happened. Ask anyone whether they saw a bad hire coming and they will say yes. Ask them to show you where they wrote that down beforehand and the room goes quiet.
+    <p>So here is the market as I see it. Every tool being built right now sells cheaper answers. Nobody is selling the loop. Nobody is selling a way to find out, in your own record, whether your judgment is actually improving or whether you have just gotten more confident.
+    <blockquote>Nobody is selling the loop.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">III · Prosthetic or exoskeleton</span>
+    <p>There are two ways to build a tool for a human capacity, and they point in opposite directions.
+    <p>A prosthetic replaces the function. You lose a leg, the prosthetic walks for you. It is a gift when the capacity is gone. It is a quiet disaster when the capacity was merely tired. Hand a working muscle a prosthetic and the muscle does what unused muscles do. It fades.
+    <p>An exoskeleton does something else. The muscle still fires. You still do the lifting. The frame adds strength, holds you steady under load, and, if it is well built, shows you your own form while you move. Take it off and you are not weaker than before. Over time you are stronger, because you have been lifting the whole time.
+    <figure>
+      <svg viewBox="0 0 640 150" role="img" aria-labelledby="proT">
+        <title id="proT">The oracle gives an answer. The exoskeleton gives a receipt.</title>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="20" y="20" width="290" height="110" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="165" y="44" text-anchor="middle" fill="#e7ecf3" font-size="13" font-weight="600">Prosthetic (the oracle)</text>
+          <text x="36" y="70" fill="#9aa8bc">Replaces the function</text>
+          <text x="36" y="90" fill="#9aa8bc">Thinks so you do not have to</text>
+          <text x="36" y="110" fill="#9aa8bc">The capacity it replaces fades</text>
+          <rect x="330" y="20" width="290" height="110" rx="8" fill="rgba(0,240,255,.08)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="475" y="44" text-anchor="middle" fill="#e7ecf3" font-size="13" font-weight="600">Exoskeleton (the frame)</text>
+          <text x="346" y="70" fill="#e7ecf3">Adds strength; you still lift</text>
+          <text x="346" y="90" fill="#e7ecf3">Holds your belief steady under load</text>
+          <text x="346" y="110" fill="#e7ecf3">Shows you your own form, on record</text>
+        </g>
+      </svg>
+      <figcaption>Same capacity, opposite designs: one replaces it, one trains it while it works.</figcaption>
+    </figure>
+    <p>Almost every AI tool on the market today is a prosthetic for judgment. It thinks so that you do not have to. It is excellent at that, which is exactly the problem. The capacity it replaces is the one capacity that was going to compound, and a few years from now a lot of capable people are going to notice that they can no longer decide anything without asking first.
+    <p>I am describing a different kind of instrument. One that never tells you what to decide. It makes you write down what you believe before the pressure peaks, holds that belief steady while the room pushes on it, and then shows you, in your own record, whether you were right. An exoskeleton for the part of you that decides.
+    <p>The oracle gives you an answer. The exoskeleton gives you a receipt.
+  </section>
+
+  <section>
+    <span class="num">IV · The part of you that decides has no receipts</span>
+    <p>The front of your brain, behind your forehead, does a handful of jobs that no other part does. It holds a problem in mind. It stops the first impulse long enough to consider a second one. It estimates how sure you really are. It notices when the world did not match the plan. And it replays past episodes so you can learn from them. Those five jobs are what we mean when we say someone has good judgment.
+    <p>They are also the five jobs that fail first under pressure, fatigue, and a persuasive person across the table. The impulse wins. The confidence inflates. The mismatch gets explained away. The replay never happens because the next decision is already here.
+    <p>Every one of those jobs can be done outside your head, on paper, where pressure cannot reach it. That is the whole design. One instrument per job:
+    <div class="panel">
+      <h4>Five jobs, five instruments</h4>
+      <div class="step">
+        <span class="k">Holding the problem</span><b>A receipt: the decision written down before you act, as a fixed coordinate.</b>
+        <span class="k">Stopping the impulse</span><b>A prep step that asks for the strongest argument against your own instinct, before the call.</b>
+        <span class="k">Gauging confidence</span><b>A gate that reads your conviction and returns a state: clear, contested, forked, or red.</b>
+        <span class="k">Catching the miss</span><b>Closing the outcome: did it land, and how much do you regret it.</b>
+        <span class="k">Replaying the episode</span><b>A record you can scrub back through, decision by decision.</b>
+      </div>
+      <p>A functional analogy, not neuroscience. Nothing here claims to optimize a cortex; it claims that each of these jobs can be given a frame to lean on.</p>
+    </div>
+    <p>I want to be precise about what that table claims. I am not going to tell you this optimizes your prefrontal cortex, because I cannot measure that and neither can anyone selling you a supplement. What I can tell you is that these five jobs are the ones your brain is worst at when it matters most, and each of them can be given a frame to lean on.
+    <figure>
+      <svg viewBox="0 0 640 280" role="img" aria-labelledby="zoneT">
+        <title id="zoneT">Fidelity is earned: the render sharpens as the fog retreats</title>
+        <defs><marker id="za" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#748699"/></marker></defs>
+        <path d="M32 24 V264" fill="none" stroke="#748699" stroke-width="1.25" marker-end="url(#za)"/>
+        <text x="20" y="144" font-family="IBM Plex Mono, monospace" font-size="11" fill="#748699" text-anchor="middle" transform="rotate(-90 20 144)">receipts earned</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="56" y="16" width="564" height="56" rx="8" fill="rgba(0,240,255,.03)" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="72" y="38" fill="#e7ecf3" font-size="13" font-weight="600">Outer fog</text>
+          <text x="72" y="58" fill="#9aa8bc" font-size="11">Y: SCRATCH / PARADOX · render: GRAIN</text>
+          <text x="604" y="38" fill="#9aa8bc" text-anchor="end">orient only; do not commit</text>
+          <rect x="56" y="80" width="564" height="56" rx="8" fill="rgba(0,240,255,.08)" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="72" y="102" fill="#e7ecf3" font-size="13" font-weight="600">Pressure band</text>
+          <text x="72" y="122" fill="#9aa8bc" font-size="11">Y: YELLOW / FORK / DELTA · render: DEGRADED</text>
+          <text x="604" y="102" fill="#9aa8bc" text-anchor="end">careful movement; the gate is active</text>
+          <rect x="56" y="144" width="564" height="56" rx="8" fill="rgba(0,240,255,.15)" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="72" y="166" fill="#e7ecf3" font-size="13" font-weight="600">Clarity ridge</text>
+          <text x="72" y="186" fill="#9aa8bc" font-size="11">Y: GREEN · render: SHARP</text>
+          <text x="604" y="166" fill="#e7ecf3" text-anchor="end">move confidently; lock what you earned</text>
+          <rect x="56" y="208" width="564" height="56" rx="8" fill="rgba(0,240,255,.24)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="72" y="230" fill="#e7ecf3" font-size="13" font-weight="600">Superionic nucleus</text>
+          <text x="72" y="250" fill="#e7ecf3" font-size="11">Y: LOCKED · render: SHARP, hard edges</text>
+          <text x="604" y="230" fill="#e7ecf3" text-anchor="end">flow: decisions arrive before questions</text>
+        </g>
+      </svg>
+      <figcaption>The four zones: fog density, gate state and render resolution, from the ARCS world brief. The instrument never renders sharper than the data has earned; a brief written in the fog looks like fog, on purpose.</figcaption>
+    </figure>
+    <p>That is the breadcrumb. If an exoskeleton can hold one of these jobs steady, it can hold all five. And if it can hold all five for one person, the record it produces is something no general purpose model can ever offer, because it is made of your decisions and nobody else's.
+  </section>
+
+  <section>
+    <span class="num">V · Tribes, vibes, lies</span>
+    <p>The decision I make most often is whether to let someone in. A client, a prospect, a call, a collaboration. Over the past year I have made that call more than any other, and it has taught me that there are exactly three ways to read a person, and they come in a fixed order of how much you can trust them.
+    <p><em>Tribes.</em> Who are they with, and who do they keep around. This is the cheapest read and the one most open to bias. It is also where the biggest filter lives. At some point I stopped screening quid pro quo operators one at a time and simply unsubscribed from the whole way of relating. Anyone who keeps a running ledger of favors, and checks it early and out loud, is telling you how the relationship will end.
+    <p><em>Vibes.</em> The gut read in the room. This is real signal, built from more pattern matching than you could ever write down. It is also impossible to defend, to yourself or to anyone else, and it is the first thing you will override when the logo is big enough or the invoice is late enough. A vibe is a hypothesis. Most people treat it as a verdict, in both directions.
+    <p><em>Lies.</em> Not the dramatic kind. The small, ordinary gap between what a person says they will do and what they then do. They said they would send the deck Thursday. They said they would try the thing. They said they would make the intro. Then Thursday came. This is the only one of the three reads that produces a fact you can write down and check. It is also the one that predicts the thing that actually kills engagements, because someone who will not follow through on a small commitment before the money is on the table will not follow through on a large one after.
+    <figure>
+      <svg viewBox="0 0 640 270" role="img" aria-labelledby="ladT">
+        <title id="ladT">Pressure pushes you up the ladder; the frame carries you down</title>
+        <defs>
+          <marker id="ga" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#748699"/></marker>
+          <marker id="ca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00F0FF"/></marker>
+        </defs>
+        <g fill="none" stroke="#748699" stroke-width="1.25">
+          <path d="M320 74 V100" marker-end="url(#ga)"/>
+          <path d="M320 160 V186" marker-end="url(#ga)"/>
+          <path d="M150 246 V14" marker-end="url(#ga)"/>
+        </g>
+        <path d="M490 14 V246" fill="none" stroke="#00F0FF" stroke-width="1.25" marker-end="url(#ca)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
+          <rect x="180" y="14" width="280" height="60" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="320" y="38" fill="#e7ecf3" font-size="14" font-weight="600">Tribes</text>
+          <text x="320" y="58" fill="#9aa8bc">who they are with: cannot be proved</text>
+          <rect x="180" y="100" width="280" height="60" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="320" y="124" fill="#e7ecf3" font-size="14" font-weight="600">Vibes</text>
+          <text x="320" y="144" fill="#9aa8bc">the gut in the room: cannot be defended</text>
+          <rect x="180" y="186" width="280" height="60" rx="8" fill="rgba(0,240,255,.08)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="320" y="210" fill="#e7ecf3" font-size="14" font-weight="600">Lies</text>
+          <text x="320" y="230" fill="#e7ecf3">stated vs revealed: leaves a receipt</text>
+          <text x="138" y="124" fill="#748699" text-anchor="end">pressure</text>
+          <text x="138" y="140" fill="#748699" text-anchor="end">pushes up</text>
+          <text x="502" y="124" fill="#00F0FF" text-anchor="start">the frame</text>
+          <text x="502" y="140" fill="#00F0FF" text-anchor="start">carries down</text>
+        </g>
+      </svg>
+      <figcaption>The three reads as a ladder. The fast reads sit at the top; the one that can be checked sits at the bottom, and pressure always points up.</figcaption>
+    </figure>
+    <p>So the three words are a descent. From the read you cannot prove, to the read you cannot defend, to the one that leaves a receipt. The pressure of a live decision pushes you back up that ladder, toward tribe and vibe, because they are fast. The job of the exoskeleton is to carry you down it before the pressure arrives.
+    <p>One clarification that a sharp reader will want. Screening for symmetric value sounds like quid pro quo. It is the opposite. Quid pro quo settles the ledger every transaction. Symmetry is measured over the whole relationship, and the people you want are the ones who never check the ledger because it has never needed checking.
+  </section>
+
+  <section>
+    <span class="num">VI · The swipe-left ledger</span>
+    <p>A yes costs months to evaluate. A no costs the minutes you spent deciding. Only the yes ever gets a verdict. That asymmetry is why the instrument for saying no has to be written down, because nothing downstream will ever tell you whether it worked.
+    <p>Mine is three dials and one tripwire.
+    <div class="panel">
+      <h4>Three dials, one tripwire</h4>
+      <div class="step">
+        <span class="k">Dial 1 · Was this a good use of my time?</span><b>Asked afterward, every time. It is the loop closer. It is what trains the other two.</b>
+        <span class="k">Dial 2 · Was the value symmetric?</span><b>Not did they pay, not was it interesting. Did value flow both ways, or was I the only one carrying weight.</b>
+        <span class="k">Dial 3 · Is this the right time?</span><b>A good opportunity in the wrong window is still a pass. Most frameworks have no slot for this, so people take good things at bad moments and call the result bad luck.</b>
+        <span class="k">Tripwire · Said one thing, did another</span><b>A thing they said they would do, a thing they then did, and a diff. Trip it and the conversation ends, whatever the dials say.</b>
+      </div>
+    </div>
+    <p>The dials are gradients. They produce a yellow, a lean, a maybe. The tripwire is binary. It is the gap between stated and revealed. I do not have to probe for it. The prospect runs the test on themselves. I only have to write down what they said and check.
+    <figure>
+      <svg viewBox="0 0 640 290" role="img" aria-labelledby="instT">
+        <title id="instT">Three dials lean; one tripwire ends it</title>
+        <defs><marker id="ia" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#748699"/></marker></defs>
+        <g fill="none" stroke="#748699" stroke-width="1.25">
+          <path d="M240 50 H262 V106"/>
+          <path d="M240 162 H262 V106"/>
+          <path d="M240 106 H270" marker-end="url(#ia)"/>
+          <path d="M240 240 H270" marker-end="url(#ia)"/>
+          <path d="M460 106 H472 V170 H482" marker-end="url(#ia)"/>
+          <path d="M460 240 H472 V170"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
+          <text x="130" y="22" fill="#748699">three dials, asked every time</text>
+          <rect x="20" y="30" width="220" height="40" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="130" y="54" fill="#e7ecf3">Was this a good use of my time?</text>
+          <rect x="20" y="86" width="220" height="40" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="130" y="110" fill="#e7ecf3">Was the value symmetric?</text>
+          <rect x="20" y="142" width="220" height="40" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="130" y="166" fill="#e7ecf3">Is this the right time?</text>
+          <text x="130" y="214" fill="#748699">one tripwire, they run it on themselves</text>
+          <rect x="20" y="220" width="220" height="40" rx="8" fill="rgba(255,77,109,.1)" stroke="#FF4D6D" stroke-width="1.5"/>
+          <text x="130" y="244" fill="#e7ecf3" font-weight="600">Said one thing, did another</text>
+          <rect x="270" y="82" width="190" height="48" rx="8" fill="rgba(255,215,0,.08)" stroke="#FFD700" stroke-width="1.5"/>
+          <text x="365" y="102" fill="#e7ecf3" font-weight="600">Gradient</text>
+          <text x="365" y="119" fill="#9aa8bc">a yellow, a lean, a maybe</text>
+          <rect x="270" y="216" width="190" height="48" rx="8" fill="rgba(255,77,109,.1)" stroke="#FF4D6D" stroke-width="1.5"/>
+          <text x="365" y="236" fill="#e7ecf3" font-weight="600">Binary</text>
+          <text x="365" y="253" fill="#9aa8bc">red: the conversation ends</text>
+          <rect x="482" y="146" width="138" height="48" rx="8" fill="rgba(0,240,255,.08)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="551" y="166" fill="#e7ecf3" font-weight="600">The call</text>
+          <text x="551" y="183" fill="#9aa8bc">written down first</text>
+        </g>
+      </svg>
+      <figcaption>The swipe-left instrument: three dials, one tripwire, one call. The dials add up to a lean; the tripwire overrides them all.</figcaption>
+    </figure>
+    <p>Two cases, so this does not stay abstract.
+    <div class="placeholder">
+      <span class="tag">Placeholder · the pass</span>
+      What they said, in their words. What they then did not do. The pull toward yes that was in the room at the time, and which dial it was pulling on. The moment the tripwire fired. Anything learned later that confirmed or contradicted the pass. Two or three paragraphs.
+    </div>
+    <div class="placeholder">
+      <span class="tag">Placeholder · the yes</span>
+      One that cleared all three dials and the tripwire, and went as expected. This one matters as much as the pass, because it proves the instrument is not just a reflex for saying no. One or two paragraphs.
+    </div>
+    <p>Here is what I cannot claim. I cannot prove the passes were right. The counterfactual is gone. What I can show is time recovered, and criteria that held under pressure when a vibe alone would have folded. That is a weaker claim than a win rate and a far more honest one, and I would rather sell you the honest one.
+  </section>
+
+  <section>
+    <span class="num">VII · The gut did not get better. The record did.</span>
+    <p>I believe I have gotten better at reading people who want to take more than they give. Every experienced person believes that about themselves. Almost none of them can prove it, and I have just spent several pages telling you why: the person I passed on cannot show you the damage they would have done, and the version of me from two years ago cannot show you that he would have said yes.
+    <p>So I am not going to make that claim. I am going to make a smaller one that I can actually defend.
+    <p>What improved is not my gut. It is that my gut now has a record. I wrote down that they said they would send it Thursday. Thursday came. The diff got logged. Over enough prospects, the tells stopped being vibes and became a pattern I could point to. A dozen phrasings that preceded a no-show. A particular kind of enthusiasm that never turned into a calendar invite. The skill did not get better in my head. It got better on paper, where I could check it.
+    <p>That is the exoskeleton thesis stated from the inside. The oracle version is: trust me, I can read people now. The exoskeleton version is: I do not have to trust myself, because I kept receipts, and here is what they show.
+    <blockquote>I do not have to trust myself. I kept receipts.</blockquote>
+    <p>And this is why a record of your own decisions compounds in a way no general tool can match. Year three is worth more than year one. Not because the software improved, but because the ledger did, and the ledger is made of your calls, under your pressure, against your criteria. Nobody else has that data. Nobody else can.
+    <figure>
+      <svg viewBox="0 0 640 246" role="img" aria-labelledby="taoT">
+        <title id="taoT">Four lines from the Tao of ARCS the essay stands on</title>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="10" y="12" width="300" height="104" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="26" y="34" fill="#748699" font-size="11">tao-227</text>
+          <text x="26" y="58" fill="#e7ecf3">a decision is a position under</text>
+          <text x="26" y="75" fill="#e7ecf3">pressure, not an event on a</text>
+          <text x="26" y="92" fill="#e7ecf3">timeline.</text>
+          <rect x="330" y="12" width="300" height="104" rx="8" fill="rgba(0,240,255,.08)" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="346" y="34" fill="#748699" font-size="11">tao-220 · the tripwire</text>
+          <text x="346" y="58" fill="#e7ecf3">the path you decided and the path</text>
+          <text x="346" y="75" fill="#e7ecf3">you walked are rarely the same;</text>
+          <text x="346" y="92" fill="#e7ecf3">record what execution actually did,</text>
+          <text x="346" y="109" fill="#e7ecf3">not what the plan chose.</text>
+          <rect x="10" y="130" width="300" height="104" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="26" y="152" fill="#748699" font-size="11">tao-194 · the swipe-left ledger</text>
+          <text x="26" y="176" fill="#e7ecf3">the uncaught window is the true cost.</text>
+          <text x="26" y="193" fill="#e7ecf3">what the fog buried, you paid for</text>
+          <text x="26" y="210" fill="#e7ecf3">in a bearing you never took.</text>
+          <rect x="330" y="130" width="300" height="104" rx="8" fill="none" stroke="#2a3a4d" stroke-width="1.25"/>
+          <text x="346" y="152" fill="#748699" font-size="11">tao-045 · why it compounds</text>
+          <text x="346" y="176" fill="#e7ecf3">every decision leaves a coordinate.</text>
+          <text x="346" y="193" fill="#e7ecf3">the receipt is where it stood, so</text>
+          <text x="346" y="210" fill="#e7ecf3">the next one knows where it stands.</text>
+        </g>
+      </svg>
+      <figcaption>Primary sources: four proverbs from the Tao of ARCS, quoted as minted. These were written as working rules for the system, months before this essay, which is the point: the argument was in the record before it was in the prose.</figcaption>
+    </figure>
+    <p>The reason I cannot prove I got better is the same reason this instrument exists. If I had been keeping the record from day one, the proof would be sitting in it.
+  </section>
+
+  <section>
+    <span class="num">VIII · Thirty people, thirty closed decisions</span>
+    <p>The instrument I have been describing exists. I have been running my own decisions through it for the better part of a year, and it is why I can tell you the number 247 instead of a feeling about how it has been going. What it does not have yet is enough closed loops to say anything about calibration, and I am not going to pretend otherwise.
+    <p>The statistics are blunt about this. Below roughly thirty closed outcomes per group of users, any claim that your judgment matches reality is noise dressed as insight. The system I built refuses to report calibration until that threshold is crossed. It literally returns the word insufficient and the count. I think that refusal is the most honest line of code I have written.
+    <p>So here is what I am looking for. Thirty people who make consequential calls about who to work with, what to pursue, and when. Who are willing to write down what they believe before each one and come back to close the loop on thirty of them. In return you get the full instrument, the heavier review mode for your high-stakes calls, and something nobody has ever been able to hand you: the first honest curve of your own judgment against what actually happened.
+    <p>Bring your own kill criteria. Let the frame hold them for thirty decisions. Then see how often you would have bent them.
+    <p>The cohort is thirty because that is the number that makes the result true, not because scarcity sells. When it fills, it closes, and the next one opens only when the first has its curve.
+    <blockquote>Answers are cheap now. Keep receipts.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">IX · Three tributaries</span>
+    <p>Every compass reading I run ends with three branches instead of a conclusion. This one should too.
+    <p><em>The question under the question.</em> You came here asking how to read people better. The deeper one is: what would you have to write down, today, so that in a year you could prove whether you did? If you cannot name it, you are not learning. You are accumulating confidence.
+    <p><em>The uncomfortable one.</em> The stated-vs-revealed test runs on you too. Go back through the last month of things you told other people you would do. Count the Thursdays that came and went. Whatever that number is, it is the number someone else has written down about you.
+    <p><em>The adjacent one.</em> A pilot does not trust the feeling of level flight. The instruments exist because the inner ear lies most convincingly exactly when the visibility is worst. Judgment under pressure is instrument flying. The question is not whether your gut is good. It is whether you are willing to fly by the panel when the gut and the panel disagree.
+  </section>
+
+  <div class="more">
+    <a href="/blog/nftt">
+      <span class="lbl">More field notes</span>
+      Read the rest of the series &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
+    Every claim here is grounded in the record: the receipts are real, and the unproven parts are marked unproven.
+  </footer>
+</div>
+</body>
+</html>
