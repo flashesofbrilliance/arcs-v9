@@ -108,7 +108,8 @@ SCENE = """<!doctype html>
 @font-face{{font-family:'Inter';font-weight:100 900;src:url('{sans}') format('woff2')}}
 :root{{{vars}}}
 *{{margin:0;padding:0;box-sizing:border-box}}
-html,body{{width:{w}px;height:{h}px;overflow:hidden;background:var(--bg)}}
+html,body{{width:100%;height:100%;overflow:hidden;background:var(--bg)}}
+#stage{{position:absolute;left:0;top:0;width:{w}px;height:{h}px;overflow:hidden;transform-origin:0 0}}
 body{{font-family:'Inter','InstrumentSans','Work Sans',system-ui,sans-serif;color:var(--text)}}
 #grid{{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:{cell}px {cell}px;opacity:.35}}
 #fog{{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 20%,var(--bg) 75%)}}
@@ -118,8 +119,8 @@ body{{font-family:'Inter','InstrumentSans','Work Sans',system-ui,sans-serif;colo
 #bar{{position:absolute;left:0;bottom:0;height:3px;background:var(--border);width:100%}}
 #bar i{{display:block;height:100%;width:0}}
 </style></head><body>
-<div id="grid"></div><div id="fog"></div><div id="rule"></div>
-<div id="cap"></div><div id="tag">{tag}</div><div id="bar"><i></i></div>
+<div id="stage"><div id="grid"></div><div id="fog"></div><div id="rule"></div>
+<div id="cap"></div><div id="tag">{tag}</div><div id="bar"><i></i></div></div>
 <script>
 const BEATS = {beats};
 window.DURATION = BEATS.reduce((a, b) => a + b.d, 0);
@@ -140,6 +141,9 @@ window.seek = function (t) {{
   $('bar').firstElementChild.style.background = c;
   $('bar').firstElementChild.style.width = `${{(t / window.DURATION * 100).toFixed(2)}}%`;
 }};
+// Fit the fixed frame to the viewport: scale 1 at the render size, a preview anywhere else.
+const fit = () => {{ $('stage').style.transform = `scale(${{Math.min(innerWidth / {w}, innerHeight / {h}, 1)}})`; }};
+addEventListener('resize', fit); fit();
 window.seek(0);
 </script></body></html>
 """
