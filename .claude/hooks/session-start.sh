@@ -12,6 +12,15 @@ set -euo pipefail
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 
+# (0) Never block on a prompt (2026-10-04). Desktop-launched sessions run this hook with no
+#     terminal, so a git call that wants an SSH passphrase, a host-key "yes", or an HTTPS login
+#     waits forever and the session never gets past the spinner. Fail fast instead: every git call
+#     below (fetch, the memory timecapsule) inherits these. Existing user values are respected.
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -o BatchMode=yes -o ConnectTimeout=10}"
+export GIT_HTTP_LOW_SPEED_LIMIT="${GIT_HTTP_LOW_SPEED_LIMIT:-1000}"
+export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
+
 # (3) Arm the pre-commit gate chain (seed-gate-hookspath-bootstrap, germinated 2026-10-04).
 #     Fresh clones and every cloud container start with core.hooksPath unset, so the whole
 #     scripts/git-hooks chain silently never ran (2026-10-03: commits 43a3ff9 and 248036c went in

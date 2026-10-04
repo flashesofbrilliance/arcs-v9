@@ -75,7 +75,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh",
+            "timeout": 120
           }
         ]
       }
@@ -86,7 +87,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed — run: npm run db:push (dev) or npm run db:migrate (named migration)\"; fi"
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed \u2014 run: npm run db:push (dev) or npm run db:migrate (named migration)\"; fi"
           }
         ]
       }
