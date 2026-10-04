@@ -209,12 +209,13 @@ _This block asserts nothing new. Counts, paths, and questions only._
   `nftt-story-factory` skill gains the stamp + series steps.
 
 ## Open (next session)
-1. Zach has not reviewed the new wording in place: tagline "One method, seven subjects", section names
-   The Cold Reader / The Workshop, the three new blurbs.
-2. RESOLVED (same day, on Zach's ask): bylines carry "From the LinkedIn original(s), <dates>" for the four
-   posts whose own text dates their LinkedIn source (`runtime/specs/nftt-originals.json`). Not "first
-   published": every post is a new essay. Four Dates (platform unstated), The Pre-Mortem (platform
-   unstated, one source undated) and Tuning (cites, not written from, an original) await Zach.
+1. RESOLVED (Zach, 2026-10-04: "go ahead"): the wording stands as shipped: tagline "One method, seven
+   subjects", section names The Cold Reader / The Workshop, the three blurbs.
+2. RESOLVED (same day, on Zach's ask): bylines carry "From the LinkedIn original(s), <dates>" on six posts
+   (`runtime/specs/nftt-originals.json`). Not "first published": every post is a new essay. Four Dates and
+   The Pre-Mortem got theirs on Zach's confirmation of the platform (PR #411 records the LinkedIn corpus);
+   The Pre-Mortem's fifth source stays out (undated in its export). Tuning has none: it cites, not
+   adapts, an original.
 3. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
 4. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 5. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name`; in cloud sessions
