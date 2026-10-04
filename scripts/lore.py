@@ -184,6 +184,7 @@ def self_test() -> int:
     def check(label, cond, detail=""):
         nonlocal fails
         print(f"  {'PASS' if cond else 'FAIL'}  {label}  {detail}")
+        TOTAL[0] += 1
         fails += 0 if cond else 1
     check("good row passes", validate([good]) == [], validate([good]))
     check("verdict without a test is rejected", validate([dict(good, test_that_decided=None)]) != [])
@@ -194,21 +195,79 @@ def self_test() -> int:
     check("non-monotonic ids rejected (append-only)", validate([dict(good, id="lore-002"), dict(good, id="lore-001")]) != [])
     check("superseded_by must exist", validate([dict(good, superseded_by="lore-099")]) != [])
     check("supersession chain valid", validate([dict(good, superseded_by="lore-002"), dict(good, id="lore-002")]) == [])
+    _cli_self_test(check)
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
+    print(f"lore self-test: {TOTAL[0] - fails}/{TOTAL[0]}")
     return 1 if fails else 0
 
 
+TOTAL = [0]
+
+
+def _cli_self_test(check) -> None:
+    """Copy this script into a temp repo (ROOT follows __file__) and drive the CLI there."""
+    import hashlib, shutil, subprocess, tempfile
+    chk = check  # the caller's check() tallies passes and failures
+
+    with tempfile.TemporaryDirectory() as tmp:
+        t = Path(tmp)
+        (t / "scripts").mkdir()
+        (t / "runtime" / "specs").mkdir(parents=True)
+        me = t / "scripts" / "lore.py"
+        shutil.copy2(__file__, me)
+        if DATA.exists():
+            shutil.copy2(DATA, t / "runtime" / "specs" / "lore.jsonl")
+        if RENDER.exists():
+            shutil.copy2(RENDER, t / "runtime" / "specs" / "LORE.md")
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], cwd=tmp, capture_output=True, text=True)
+
+        def snap():
+            return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                    for p in t.rglob("*") if p.is_file() and "__pycache__" not in p.parts}
+
+        before = snap()
+        chk("cli: check runs (exit 0 or 1)", run("check").returncode in (0, 1))
+        chk("cli: check writes nothing", snap() == before)
+        chk("cli: tell writes nothing", run("tell", "lore-001").returncode in (0, 1) and snap() == before)
+        chk("cli: unknown flag exits 2", run("check", "--force").returncode == 2)
+        chk("cli: extra positional on check exits 2", run("check", "extra").returncode == 2)
+        chk("cli: extra positional on tell exits 2", run("tell", "lore-001", "x").returncode == 2)
+        chk("cli: tell with no id exits 2", run("tell").returncode == 2)
+        chk("cli: unknown command exits 2", run("rendr").returncode == 2)
+        chk("cli: render --dry-run (unknown flag) exits 2", run("render", "--dry-run").returncode == 2)
+        chk("cli: bad args write nothing", snap() == before)
+        chk("cli: no args prints help, exit 0", run().returncode == 0)
+
+
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="lore.py", description="LORE: the book of stories with their verdicts.")
+    ap.add_argument("--self-test", action="store_true", help="unit checks + CLI checks in a temp repo")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("render", help="validate lore.jsonl and WRITE runtime/specs/LORE.md")
+    sub.add_parser("check", help="validate + confirm LORE.md is fresh (read-only)")
+    tl = sub.add_parser("tell", help="print one story (read-only)")
+    tl.add_argument("id")
+    return ap
+
+
 def main(argv: list[str]) -> int:
-    if not argv or argv[0] in ("-h", "--help"):
+    if not argv:
         print(__doc__); return 0
-    if argv[0] == "--self-test":
+    ap = build_parser()
+    ns = ap.parse_args(argv)
+    if ns.self_test:
+        if ns.cmd:
+            ap.error("--self-test takes no subcommand")
         return self_test()
-    if argv[0] == "render":
+    if ns.cmd == "render":
         return cmd_render()
-    if argv[0] == "check":
+    if ns.cmd == "check":
         return cmd_check()
-    if argv[0] == "tell" and len(argv) > 1:
-        return cmd_tell(argv[1])
+    if ns.cmd == "tell":
+        return cmd_tell(ns.id)
     print(__doc__); return 2
 
 

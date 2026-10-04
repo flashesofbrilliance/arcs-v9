@@ -32,12 +32,20 @@ Usage:
   python3 scripts/assumptions.py render     # _STATE/assumptions.md
   python3 scripts/assumptions.py open       # list open rows (the ones a session can test)
   python3 scripts/assumptions.py --self-test
+
+check and open are read-only. Unknown flags and extra arguments exit 2 (argparse).
 """
 from __future__ import annotations
 
+import argparse
+import hashlib
 import json
+import os
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -122,32 +130,107 @@ def self_test() -> int:
     check("held row without decided_ref is rejected", validate([dict(good, status="held", decided_on="2026-09-27")]) != [])
     check("falsified row with ref + date passes", validate([dict(good, status="falsified", decided_on="2026-09-27", decided_ref="F38")]) == [])
     check("non-monotonic ids rejected", validate([dict(good, id="asm-002"), dict(good, id="asm-001")]) != [])
-    print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
+    _cli_self_test(check)
+    total = 5 + _CLI_CASES
+    print(f"assumptions self-test: {total - fails}/{total}")
     return 1 if fails else 0
 
 
+_CLI_CASES = 15
+
+
+def _snapshot(root: Path) -> dict:
+    snap = {}
+    for fp in sorted(root.rglob("*")):
+        if fp.is_file():
+            snap[str(fp)] = (hashlib.sha256(fp.read_bytes()).hexdigest(), fp.stat().st_mtime_ns)
+    return snap
+
+
+def _cli_self_test(check) -> int:
+    """Copy this script into a temp repo (ROOT resolves from __file__) and drive the CLI."""
+    before_fails = [0]
+
+    def c(label, cond):
+        before_fails[0] += 0 if cond else 1
+        check(label, cond)
+
+    row = {"id": "asm-001", "assumption": "x is y", "held_by": "zach", "held_since": "2026-09-27", "depends_on_it": [],
+           "test_that_would_decide": "measure y directly and compare to x", "status": "open", "decided_on": None,
+           "decided_ref": None, "notes": "", "supersedes": None}
+    with tempfile.TemporaryDirectory() as tmp:
+        t = Path(tmp)
+        (t / "scripts").mkdir()
+        (t / "_STATE").mkdir()
+        me = t / "scripts" / "assumptions.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        (t / "_STATE" / "assumptions.jsonl").write_text(json.dumps(row) + "\n", encoding="utf-8")
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], cwd=tmp, capture_output=True, text=True)
+
+        snap = _snapshot(t)
+        for args, label in ((["check", "--bogus"], "unknown flag on check"),
+                            (["--bogus"], "unknown top-level flag"),
+                            (["check", "extra"], "extra positional on check"),
+                            (["render", "extra"], "extra positional on render"),
+                            (["frobnicate"], "unknown command")):
+            c(f"{label} exits 2", run(*args).returncode == 2)
+        c("argument errors write nothing", _snapshot(t) == snap)
+        r = run("check")
+        c("check with no render exits 1 (stale)", r.returncode == 1 and "stale" in r.stderr)
+        c("check writes nothing", _snapshot(t) == snap)
+        r = run("open")
+        c("open lists the open row", r.returncode == 0 and "asm-001" in r.stdout)
+        c("open writes nothing", _snapshot(t) == snap)
+        c("no command exits 2", run().returncode == 2)
+        r = run("render")
+        c("render writes the md", r.returncode == 0 and (t / "_STATE" / "assumptions.md").exists())
+        snap = _snapshot(t)
+        r = run("check")
+        c("check after render exits 0", r.returncode == 0 and "render fresh" in r.stdout)
+        c("check after render writes nothing", _snapshot(t) == snap)
+        (t / "_STATE" / "assumptions.jsonl").write_text(json.dumps(dict(row, test_that_would_decide="")) + "\n", encoding="utf-8")
+        c("render on invalid ledger exits 2", run("render").returncode == 2)
+    return before_fails[0]
+
+
+def _parse_args(argv: list[str]) -> argparse.Namespace:
+    ap = argparse.ArgumentParser(prog="assumptions.py", description="The assumptions ledger.")
+    ap.add_argument("--self-test", action="store_true", help="run the validator + CLI self-test")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("check", help="schema, ids, open-needs-test, decided-needs-ref, render fresh (read-only)")
+    sub.add_parser("render", help="write _STATE/assumptions.md")
+    sub.add_parser("open", help="list open rows (read-only)")
+    args = ap.parse_args(argv)
+    if args.self_test and args.cmd:
+        ap.error("--self-test takes no command")
+    return args
+
+
 def main(argv: list[str]) -> int:
-    if argv[:1] == ["--self-test"]:
+    args = _parse_args(argv)
+    if args.self_test:
         return self_test()
+    if args.cmd is None:
+        print(__doc__); return 2
     rows = load()
-    if argv[:1] == ["render"]:
+    if args.cmd == "render":
         errs = validate(rows)
         if errs:
             print("\n".join("✖ " + e for e in errs), file=sys.stderr); return 2
         RENDER.write_text(render_md(rows), encoding="utf-8"); print(f"rendered {RENDER.relative_to(ROOT)} ({len(rows)} rows)"); return 0
-    if argv[:1] == ["check"]:
+    if args.cmd == "check":
         errs = validate(rows)
         if errs:
             print("\n".join("✖ " + e for e in errs), file=sys.stderr); return 1
         if not RENDER.exists() or RENDER.read_text(encoding="utf-8") != render_md(rows):
             print("✖ _STATE/assumptions.md stale — run: python3 scripts/assumptions.py render", file=sys.stderr); return 1
         print(f"assumptions OK ({len(rows)} rows, render fresh)"); return 0
-    if argv[:1] == ["open"]:
-        for r in rows:
-            if r["status"] == "open":
-                print(f"{r['id']}  {r['assumption']}\n      test: {r['test_that_would_decide']}")
-        return 0
-    print(__doc__); return 2
+    for r in rows:
+        if r["status"] == "open":
+            print(f"{r['id']}  {r['assumption']}\n      test: {r['test_that_would_decide']}")
+    return 0
 
 
 if __name__ == "__main__":
