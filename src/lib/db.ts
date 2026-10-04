@@ -22,7 +22,11 @@ function makePrisma() {
     database: url.pathname.slice(1),
     user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password),
-    ssl: { rejectUnauthorized: false },
+    // SSL is off only for a LOCAL Postgres that asks for it (`prisma dev` hangs
+    // on the SSL handshake). A remote host always gets SSL, whatever the URL says.
+    ssl: url.searchParams.get("sslmode") === "disable" && ["localhost", "127.0.0.1", "::1"].includes(url.hostname)
+      ? false
+      : { rejectUnauthorized: false },
   })
   const adapter = new PrismaPg(pool)
   return new PrismaClient({ adapter })

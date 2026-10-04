@@ -7,6 +7,11 @@
 
 ---
 
+## [v3.72.1] 2026-10-03 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
+
+- `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).
+- Triggered by the survey landing replacing `/` (waitlist form on the home page). Privacy-review found the old copy claimed "anonymous sessions store nothing" while the form wrote rows.
+
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
 - `operators/arcs_librarian.py` (stdlib, 3.9+): value = p_load_bearing x cost_if_absent(stakes); cost = read_friction + displacement; source-trust tier before backing; unbacked -> `what_unconfirmed` only; ZERO-WEIGHT source -> no backing; `reserve_ratio` + `curation_debt` always; ouroboros demotes classes whose prior picks were falsified. `--self-test` 13/13.
