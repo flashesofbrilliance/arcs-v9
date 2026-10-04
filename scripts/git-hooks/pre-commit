@@ -728,4 +728,14 @@ if command -v gitleaks >/dev/null 2>&1; then
     exit 1
   fi
 fi
+
+# open-loops front door (2026-10-04): the SessionStart summary and /loops both read through
+# scripts/open_loops.py, so a broken ranker would silently mislead every session. Self-test when staged.
+if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/open_loops.py --self-test >/dev/null 2>&1; then
+    python3 scripts/open_loops.py --self-test >&2 || true
+    echo "✖ pre-commit(open-loops): self-test failed." >&2
+    exit 1
+  fi
+fi
 exit 0
