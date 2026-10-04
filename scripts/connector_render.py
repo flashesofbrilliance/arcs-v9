@@ -330,7 +330,8 @@ EXTERNAL_PAGES = {
     "honest": {
         "slug": "honest", "group": "web", "name": "check it before you say it",
         "line": "Five steps between an idea and a message, each stamped go or stop by rules you can read. It checks the facts you mark, not whether they are true. Runs in your browser; nothing is uploaded.",
-        "page": "https://honest.arcs.care", "chips": ["web"],
+        "page": "https://honest.arcs.care", "chips": ["web", "clone"],
+        "gh": "https://github.com/flashesofbrilliance/check-it-before-you-say-it",
     },
     "resume-tailor-skill": {
         "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
@@ -532,7 +533,7 @@ def render_gallery(ssot, blob):
                           chips=chips, page=page, gh=gh)
     for repo, ext in EXTERNAL_PAGES.items():
         url = ssot.get(repo, {}).get("url", "")
-        gh = ("https://" + url) if url and not url.startswith("http") else url
+        gh = ext.get("gh") or (("https://" + url) if url and not url.startswith("http") else url)
         meta[repo] = dict(group=ext["group"], name=ext["name"], line=ext["line"],
                           chips=ext.get("chips", ["plugin", "skill"]), page=ext["page"], gh=gh)
 
