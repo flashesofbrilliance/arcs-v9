@@ -1,0 +1,198 @@
+{
+  "_about": "One frozen publish timestamp per routed NFTT post. Written by scripts/nftt_published.py; never hand-edit a recorded row. published_at = first time the route reached origin/main.",
+  "posts": {
+    "post-1": {
+      "published_at": "2026-08-18T16:15:20-04:00",
+      "main_commit": "29531a82",
+      "route_commit": "4c819cad",
+      "method": "git-route-on-main"
+    },
+    "post-2": {
+      "published_at": "2026-08-27T10:20:22-04:00",
+      "main_commit": "bd21b4a9",
+      "route_commit": "e85987b9",
+      "method": "git-route-on-main"
+    },
+    "post-3": {
+      "published_at": "2026-08-28T14:21:02-04:00",
+      "main_commit": "3ce06ec9",
+      "route_commit": "3ce06ec9",
+      "method": "git-route-on-main"
+    },
+    "post-4": {
+      "published_at": "2026-08-30T09:13:08-04:00",
+      "main_commit": "eb68abdc",
+      "route_commit": "00898eba",
+      "method": "git-route-on-main"
+    },
+    "take-home-trap": {
+      "published_at": "2026-09-02T16:37:28-04:00",
+      "main_commit": "57a2effd",
+      "route_commit": "e36e09ae",
+      "method": "git-route-on-main"
+    },
+    "confirmed-not-my-bug": {
+      "published_at": "2026-09-07T00:38:58-04:00",
+      "main_commit": "87b947a3",
+      "route_commit": "87b947a3",
+      "method": "git-route-on-main"
+    },
+    "assets-and-liabilities": {
+      "published_at": "2026-09-07T12:33:29-04:00",
+      "main_commit": "9f3d2d9e",
+      "route_commit": "9f3d2d9e",
+      "method": "git-route-on-main"
+    },
+    "cheapest-edit-is-a-diff": {
+      "published_at": "2026-09-07T12:46:32-04:00",
+      "main_commit": "2748f446",
+      "route_commit": "c5e44225",
+      "method": "git-route-on-main"
+    },
+    "the-loop-closes": {
+      "published_at": "2026-09-07T20:54:45-04:00",
+      "main_commit": "d71e63d8",
+      "route_commit": "2b4b7738",
+      "method": "git-route-on-main"
+    },
+    "the-factory-on-itself": {
+      "published_at": "2026-09-08T11:57:57-04:00",
+      "main_commit": "a1a98f43",
+      "route_commit": "a1a98f43",
+      "method": "git-route-on-main"
+    },
+    "probably-confirmation-bias": {
+      "published_at": "2026-09-08T15:02:03-04:00",
+      "main_commit": "3befe727",
+      "route_commit": "2202da75",
+      "method": "git-route-on-main"
+    },
+    "schematic-scaffolds": {
+      "published_at": "2026-09-08T19:51:13-04:00",
+      "main_commit": "a19db0da",
+      "route_commit": "30133a43",
+      "method": "git-route-on-main"
+    },
+    "ledger-not-story": {
+      "published_at": "2026-09-10T21:20:16-04:00",
+      "main_commit": "52a45f9d",
+      "route_commit": "a93b7538",
+      "method": "git-route-on-main"
+    },
+    "pulp-governance": {
+      "published_at": "2026-09-10T22:09:04-04:00",
+      "main_commit": "cae1bf88",
+      "route_commit": "62aa60ac",
+      "method": "git-route-on-main"
+    },
+    "second-pass": {
+      "published_at": "2026-09-10T23:59:14-04:00",
+      "main_commit": "51fa57ae",
+      "route_commit": "51fa57ae",
+      "method": "git-route-on-main"
+    },
+    "the-instinct-before-it-had-a-name": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "four-dates-one-thesis-three-confirmations": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "the-pre-mortem-that-asked-to-be-wrong": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "the-same-rigor-applied-to-slang": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "the-method-that-was-already-built": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "closing-the-loop-receipts": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "1b5750a4",
+      "method": "git-route-on-main"
+    },
+    "tuning-into-the-distortion-field": {
+      "published_at": "2026-09-11T16:18:15-04:00",
+      "main_commit": "98c66a35",
+      "route_commit": "9318f532",
+      "method": "git-route-on-main"
+    },
+    "the-lock-that-was-already-there": {
+      "published_at": "2026-09-13T13:12:35-04:00",
+      "main_commit": "81b6f7b6",
+      "route_commit": "81b6f7b6",
+      "method": "git-route-on-main"
+    },
+    "the-question-that-found-the-outage": {
+      "published_at": "2026-09-24T03:20:40-04:00",
+      "main_commit": "5da95c9f",
+      "route_commit": "5da95c9f",
+      "method": "git-route-on-main"
+    },
+    "a-draft-is-not-a-verb": {
+      "published_at": "2026-09-24T23:25:03-04:00",
+      "main_commit": "d5be8076",
+      "route_commit": "d5be8076",
+      "method": "git-direct-commit",
+      "note": "commit time, a lower bound: the push to main is not recorded in git"
+    },
+    "the-cold-reconstruction": {
+      "published_at": "2026-09-25T01:53:30-04:00",
+      "main_commit": "87ac486d",
+      "route_commit": "b96182c4",
+      "method": "git-route-on-main"
+    },
+    "the-control-and-the-experiment": {
+      "published_at": "2026-09-25T01:53:30-04:00",
+      "main_commit": "87ac486d",
+      "route_commit": "b96182c4",
+      "method": "git-route-on-main"
+    },
+    "receipts-or-it-didnt-happen": {
+      "published_at": "2026-09-26T00:23:37-04:00",
+      "main_commit": "3e9cf947",
+      "route_commit": "0a636fcb",
+      "method": "git-route-on-main"
+    },
+    "notomation": {
+      "published_at": "2026-09-26T01:58:39-04:00",
+      "main_commit": "c5fa18be",
+      "route_commit": "6c6500d0",
+      "method": "git-route-on-main"
+    },
+    "any-stranger-can-be-a-bar-raiser": {
+      "published_at": "2026-09-30T00:27:37-04:00",
+      "main_commit": "bc97a60c",
+      "route_commit": "ef214766",
+      "method": "git-route-on-main"
+    },
+    "the-video-that-said-too-much": {
+      "published_at": "2026-09-30T09:10:08-04:00",
+      "main_commit": "5c2e13ef",
+      "route_commit": "fe92aa02",
+      "method": "git-route-on-main"
+    },
+    "light-at-thirty-eight-miles-an-hour": {
+      "published_at": "2026-10-03T18:52:22-04:00",
+      "main_commit": "5d645515",
+      "route_commit": "3a484c8a",
+      "method": "git-route-on-main"
+    }
+  }
+}

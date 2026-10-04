@@ -69,7 +69,12 @@ Then, in the new file:
 #    add {slug, section, view: "compact"} at the top of its section in
 #    scripts/nftt_index_layout.json, then: node scripts/nftt_index_build.mjs
 #    (CI runs `node scripts/nftt_index_build.mjs --check` and fails on a hand edit)
-# 4. run the gates (below), then commit; good.arcs.care deploys from main.
+# 4. timestamp it — once blessed and routed, record the publish time and stamp the post:
+#    python3 scripts/nftt_published.py derive --now <slug>   # frozen row in runtime/specs/nftt-published.json
+#    python3 scripts/nftt_published.py stamp                 # article:published_time + byline <time>
+#    node scripts/nftt_index_build.mjs                       # the index card shows the date too
+#    (CI + pre-commit run `nftt_published.py --check`: a routed post without a stamp fails)
+# 5. run the gates (below), then commit; good.arcs.care deploys from main.
 ```
 
 ## Body block grammar (the literary devices — all already in the template CSS)

@@ -29,6 +29,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const OUT = join(ROOT, 'public', 'blog-nftt-index.html');
 const LAYOUT_OVERRIDE = join(__dirname, 'nftt_index_layout.json');
+// Publish timestamps: one frozen row per post, derived from git by scripts/nftt_published.py.
+const PUBLISHED = JSON.parse(readFileSync(join(ROOT, 'runtime', 'specs', 'nftt-published.json'), 'utf8')).posts;
 
 // ---- hero images (only 4 distinct files exist; reused across 7 posts) --------------------
 const IMG = {
@@ -118,13 +120,19 @@ if (existsSync(LAYOUT_OVERRIDE)) {
 // ---- render helpers ----------------------------------------------------------------------
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const READ = 'Read &#8594;';
+const DATE_FMT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric' });
+const slugOf = (p) => p.href.split('/').pop();
+function dateTag(p) {
+  const row = PUBLISHED[slugOf(p)];
+  return row ? `<time class="dt" datetime="${row.published_at}">${DATE_FMT.format(new Date(row.published_at))}</time>` : '';
+}
 
 function featuredCard(p) {
   const img = p.img ? `<img src="${p.img}" alt="${esc(p.alt || p.title)}" loading="lazy" width="1280" height="853">` : '';
   return `<a class="feat" href="${p.href}">
       <div class="feat-img">${img}</div>
       <div class="feat-body">
-        <span class="feat-k">Latest dispatch</span>
+        <span class="feat-k">Latest dispatch</span>${dateTag(p)}
         <h2 class="feat-t">${esc(p.title)}</h2>
         <p class="feat-d">${esc(p.desc)}</p>
         <span class="r">${READ}</span>
@@ -135,6 +143,7 @@ function featuredCard(p) {
 function gridCard(p) {
   return `<a class="card" href="${p.href}">
         <div class="card-body">
+          ${dateTag(p)}
           <h3 class="card-t">${esc(p.title)}</h3>
           <p class="card-d">${esc(p.desc)}</p>
           <span class="r">${READ}</span>
@@ -143,6 +152,7 @@ function gridCard(p) {
 }
 function compactRow(p) {
   return `<a class="crow" href="${p.href}">
+        ${dateTag(p)}
         <h3 class="crow-t">${esc(p.title)}</h3>
         <p class="crow-d">${esc(p.desc)}</p>
         <span class="crow-r">${READ}</span>
@@ -372,6 +382,10 @@ const page = `<!DOCTYPE html>
   .sec-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;}
   .sec-blurb{font-size:13px;color:var(--fg4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .sec-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+
+  /* publish date (from runtime/specs/nftt-published.json) */
+  .dt{display:block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;color:var(--fg4);margin-bottom:8px;}
+  .feat-k + .dt{margin:8px 0 0;}
 
   /* shared read affordance */
   .r{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--cyan);margin-top:14px;display:inline-block;}
