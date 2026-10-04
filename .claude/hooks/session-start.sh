@@ -12,6 +12,30 @@ set -euo pipefail
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 
+# (0) Never block on a prompt (2026-10-04). Desktop-launched sessions run this hook with no
+#     terminal, so a git call that wants an SSH passphrase, a host-key "yes", or an HTTPS login
+#     waits forever and the session never gets past the spinner. Fail fast instead: every git call
+#     below (fetch, the memory timecapsule) inherits these. Existing user values are respected.
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -o BatchMode=yes -o ConnectTimeout=10}"
+export GIT_HTTP_LOW_SPEED_LIMIT="${GIT_HTTP_LOW_SPEED_LIMIT:-1000}"
+export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
+
+# (3) Arm the pre-commit gate chain (seed-gate-hookspath-bootstrap, germinated 2026-10-04).
+#     Fresh clones and every cloud container start with core.hooksPath unset, so the whole
+#     scripts/git-hooks chain silently never ran (2026-10-03: commits 43a3ff9 and 248036c went in
+#     ungated and an NFTT post skipped tao-coverage). Gotcha 12 said "install once" by hand; this
+#     makes it automatic. Idempotent, never overrides a deliberate value, never fails the hook.
+_HP=$(git -C "$CLAUDE_PROJECT_DIR" config --get core.hooksPath 2>/dev/null || true)
+if [ -d "$CLAUDE_PROJECT_DIR/scripts/git-hooks" ]; then
+  if [ -z "$_HP" ]; then
+    git -C "$CLAUDE_PROJECT_DIR" config core.hooksPath scripts/git-hooks 2>/dev/null \
+      && echo "hooks: armed core.hooksPath=scripts/git-hooks (was unset)" || true
+  elif [ "$_HP" != "scripts/git-hooks" ]; then
+    echo "hooks: core.hooksPath=$_HP (not scripts/git-hooks; left as set)"
+  fi
+fi
+
 # Cloud sessions run in throwaway containers, so the receipts and snapshot refresh written
 # below are discarded with the container. Writing them there only dirties tracked files and
 # trips the environment's stop-hook ("uncommitted changes") on every turn. In cloud: still run
