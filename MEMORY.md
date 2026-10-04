@@ -253,7 +253,7 @@
 - **Failure mode banked → lint:** a glossary `.term` wrapped in an `<a>` had its link nav blocked by the
   tooltip click handler's `preventDefault`. Fix = `if(t.closest('a'))return;` guard. Gated by
   `scripts/tooltip_link_lint.py` (fails-on-bad/passes-on-good, wired into pre-commit on added+modified
-  public/_ARTIFACTS HTML). Frustration Gate, AGENTS #15.
+  `public/` and `_ARTIFACTS/` HTML). Frustration Gate, AGENTS #15.
 - **Joe-beats eval** (`_ARTIFACTS/vico-joe-eval/`): 16 beats (12 email + 4 Sep-17 call) graded S against
   the live pages, one honesty asterisk (unverified 0.15 Brier premise, handled by omission). The eval is
   INTERNAL / do-not-send.
