@@ -13,7 +13,8 @@ import { readFileSync } from "node:fs"
 import { z } from "zod"
 import { computeYGate } from "../../src/lib/ygate.ts"
 
-const json = JSON.parse(readFileSync("runtime/specs/dewy-receipt-schema-v1.json", "utf8") // cwd = repo root (no ESM-only URL: Playwright loads tests/ as CJS))
+// cwd = repo root (no ESM-only URL: Playwright loads tests/ as CJS)
+const json = JSON.parse(readFileSync("runtime/specs/dewy-receipt-schema-v1.json", "utf8"))
 const Receipt = z.fromJSONSchema(json)
 const sub = (name: string) => z.fromJSONSchema(json.properties[name])
 const paths = (r: { success: boolean; error?: { issues: { path: PropertyKey[] }[] } }) =>
