@@ -2,11 +2,15 @@
   "captured_at": "2026-09-27T21:59:20-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "cdb1107f",
-    "head_message": "Merge pull request #569 from flashesofbrilliance/claude/lore-book",
-    "in_sync_with_origin": true,
+    "head_sha": "e36084f4",
+    "head_message": "Merge pull request #578 from flashesofbrilliance/claude/op19-accountant",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "(hook noise only: _INBOX/*.jsonl, _STATE/pulse.json, _STATE/snapshot.json)"
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -42,5 +46,6 @@
   ],
   "session_summary": "Falsified an external operator audit by grep and built the organs that make that class detectable: generated operator registry + MCP bridge, LEGEND, LORE, fate registry, source-trust ledger, altitude canary, witness scout, Operator 25 at the handoff door.",
   "next_action": "Merge + receipt PR #570 (fate registry); then Zach rules on the Tao two-books collision and the memory-index curation pass runs against the measured 25,000-char cap.",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-09-28T13:50:38Z"
 }
