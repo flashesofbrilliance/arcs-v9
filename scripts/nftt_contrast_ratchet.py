@@ -27,7 +27,9 @@ Detector launcher: $IMPECCABLE or ~/.claude/skills/impeccable/scripts/impeccable
 """
 import os, sys, json, glob, subprocess
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# realpath on both sides of every relpath: under a symlinked checkout (macOS /var -> /private/var)
+# abspath(__file__) keeps the link while os.getcwd() resolves it, and the baseline key would miss.
+ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 BASELINE = os.path.join(ROOT, "_STATE", "nftt-contrast-baseline.json")
 IMP = os.environ.get("IMPECCABLE") or os.path.expanduser("~/.claude/skills/impeccable/scripts/impeccable")
 
@@ -78,7 +80,7 @@ def check(files):
     base = load_baseline()
     bad = False
     for f in files:
-        rel = os.path.relpath(os.path.abspath(f), ROOT)
+        rel = os.path.relpath(os.path.realpath(f), ROOT)
         n = low_contrast_count(rel)
         if n is None:
             print(f"[WARN] {rel}: detector output unparseable — verify by hand, NOT passing silently"); bad = True; continue
@@ -98,7 +100,7 @@ def self_test():
     # the logic this file owns from the external detector, so the self-test is deterministic + offline.
     import tempfile
     global BASELINE, ROOT, low_contrast_count
-    d = tempfile.mkdtemp(); ROOT = d; BASELINE = os.path.join(d, "baseline.json")
+    d = os.path.realpath(tempfile.mkdtemp()); ROOT = d; BASELINE = os.path.join(d, "baseline.json")
     f = os.path.join(d, "x.html"); open(f, "w").write("<html></html>")
     orig = low_contrast_count
     low_contrast_count = lambda p: 5                                   # pretend the detector sees 5
@@ -158,6 +160,13 @@ def argv_self_test():
         ok("check over baseline fails 1", run("public/blog-nftt-x.html").returncode == 1)
         r = run("--update-baseline")
         ok("--update-baseline rewrites baseline", r.returncode == 0 and json.load(open(base))["counts"] == {"public/blog-nftt-x.html": 2})
+        link = tmp + "-link"; os.symlink(tmp, link)
+        try:
+            r = subprocess.run([sys.executable, os.path.join(link, "scripts", "nftt_contrast_ratchet.py"), "public/blog-nftt-x.html"],
+                               capture_output=True, text=True, cwd=link, env=env)
+            ok("symlinked repo path still hits its baseline key", r.returncode == 0 and "[pass] public/blog-nftt-x.html" in r.stdout)
+        finally:
+            os.unlink(link)
         env["IMPECCABLE"] = os.path.join(tmp, "absent")
         ok("absent detector skips with 0", run("public/blog-nftt-x.html").returncode == 0)
     finally:
