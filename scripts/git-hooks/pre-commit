@@ -688,5 +688,20 @@ if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . &&
     exit 1
   fi
 fi
+
+# backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
+if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/backlog_freshness.py --self-test >/dev/null 2>&1; then
+    python3 scripts/backlog_freshness.py --self-test >&2 || true
+    echo "✖ pre-commit(backlog-freshness): self-test failed." >&2
+    exit 1
+  fi
+fi
+if git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if python3 scripts/backlog_freshness.py --json 2>/dev/null | grep -q '"malformed-review_by"'; then
+    echo "✖ pre-commit(backlog-freshness): a row has a review_by that is not an ISO date (YYYY-MM-DD)." >&2
+    exit 1
+  fi
+fi
 exit 0
 
