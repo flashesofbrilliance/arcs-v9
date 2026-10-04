@@ -22,6 +22,8 @@ Usage:
   python3 scripts/linkedin_cut.py check [_QUEUE/linkedin/*.json]   # gate (default: whole queue)
   python3 scripts/linkedin_cut.py today [--date YYYY-MM-DD]          # print the cut due today
   python3 scripts/linkedin_cut.py --self-test                        # proves fail-on-bad
+Video: the `video` cut type lives in scripts/video_cut.py (shot spec in _QUEUE/video/ -> HTML scene
+for html_video_render.mjs + a per-beat prompt pack); it reuses these gates rather than forking them.
 Stdlib only.
 """
 import glob, json, os, re, subprocess, sys, tempfile, datetime

@@ -120,7 +120,8 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 > check fixed on the way.** PR #697 merged at `cb0d8772` and PR #703 at `348ae373`, both on Zach's
 > explicit asks; receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH` and
 > `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. PR #706 (Four Dates + The Pre-Mortem originals)
-> carries this handoff; its live check and receipt follow its merge.
+> carries this handoff; merged by Zach at `07d580ae`, both bylines live-verified, receipt
+> `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
 
 ### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
 
@@ -153,7 +154,9 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - v3.74.0 open items 1 (wording approved by Zach) and 2 (originals) resolved.
 
 ## Open (next session)
-1. Live check + receipt for PR #706 after it merges (Four Dates, The Pre-Mortem bylines).
+1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
+   `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
+   `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
 2. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
 3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud

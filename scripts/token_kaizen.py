@@ -126,7 +126,22 @@ def last_row() -> dict | None:
     except FileNotFoundError:
         return None
 
-def main():
+def parse_args(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(prog="token_kaizen", description="measure the per-turn floor; APPENDS a row to _STATE/token-kaizen/ledger.jsonl unless --dry-run")
+    ap.add_argument("--record-cut", nargs="+", metavar="ARG",
+                    help="LEVER TARGET [RATIONALE]: record the ONE chosen cut on this row")
+    ap.add_argument("--dry-run", action="store_true", help="print the row, write nothing")
+    ap.add_argument("--self-test", action="store_true", help="run the CLI guard self-test in a temp repo")
+    ns = ap.parse_args(argv)
+    if ns.record_cut is not None and not 2 <= len(ns.record_cut) <= 3:
+        ap.error("--record-cut takes LEVER TARGET [RATIONALE] (2 or 3 values)")
+    return ns
+
+def main(argv=None):
+    ns = parse_args(argv)
+    if ns.self_test:
+        sys.exit(self_test())
     m = measure()
     prev = last_row()
     today = datetime.date.today().isoformat()
@@ -178,17 +193,15 @@ def main():
         "this_cut": None,
     }
 
-    if "--record-cut" in sys.argv:
+    if ns.record_cut:
         # scaffold: token_kaizen.py --record-cut lean-autoloaded-doc AGENTS.md "why"
-        i = sys.argv.index("--record-cut")
-        args = sys.argv[i+1:i+4]
-        if len(args) >= 2:
-            row["this_cut"] = {
-                "lever": args[0], "target": args[1],
-                "rationale": args[2] if len(args) > 2 else "",
-            }
+        a = ns.record_cut
+        row["this_cut"] = {
+            "lever": a[0], "target": a[1],
+            "rationale": a[2] if len(a) > 2 else "",
+        }
 
-    if "--dry-run" in sys.argv:
+    if ns.dry_run:
         print(json.dumps(row, indent=2))
         return
 
@@ -213,6 +226,54 @@ def main():
     for lv in row["candidate_levers"]:
         print(f"    - {lv['lever']}: {lv['target']}  [{lv['measured']}]")
     print(f"  ledger: {LEDGER}")
+
+def self_test() -> int:
+    """Run a copy of the CLI in a throwaway git repo (ROOT = git toplevel of cwd). Never touches the real repo."""
+    import hashlib, shutil, tempfile
+    me = os.path.abspath(__file__)
+    fails = total = 0
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+    def snap(root):
+        out = {}
+        for dp, dns, fs in os.walk(root):
+            if ".git" in dns:
+                dns.remove(".git")
+            for fn in fs:
+                fp = os.path.join(dp, fn); st = os.stat(fp)
+                with open(fp, "rb") as fh:
+                    out[fp] = (hashlib.sha256(fh.read()).hexdigest(), st.st_mtime_ns)
+        return out
+    with tempfile.TemporaryDirectory() as tmp:
+        subprocess.run(["git", "init", "-q", tmp], check=True)
+        for f in AUTOLOADED_DOCS:
+            with open(os.path.join(tmp, f), "w") as fh:
+                fh.write("x" * 400)
+        ledger = os.path.join(tmp, "_STATE", "token-kaizen", "ledger.jsonl")
+        def cli(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True)
+        before = snap(tmp)
+        check("unknown flag exits 2", cli("--dryrun").returncode == 2)
+        check("extra positional exits 2", cli("extra").returncode == 2)
+        check("--record-cut with 1 value exits 2", cli("--record-cut", "lever", "--dry-run").returncode == 2)
+        check("--record-cut with 4 values exits 2", cli("--record-cut", "a", "b", "c", "d").returncode == 2)
+        check("rejected argv writes nothing", snap(tmp) == before)
+        r = cli("--dry-run")
+        check("--dry-run exits 0 and prints a row", r.returncode == 0 and json.loads(r.stdout)["floor"]["docs_tokens_est"] == 300)
+        r = cli("--record-cut", "lean-autoloaded-doc", "AGENTS.md", "why", "--dry-run")
+        cut = json.loads(r.stdout).get("this_cut") if r.returncode == 0 else None
+        check("--record-cut + --dry-run fills this_cut", cut == {"lever": "lean-autoloaded-doc", "target": "AGENTS.md", "rationale": "why"})
+        r = cli("--dry-run", "--record-cut", "lever", "target")
+        cut = json.loads(r.stdout).get("this_cut") if r.returncode == 0 else None
+        check("--dry-run before a 2-value --record-cut keeps rationale empty", cut == {"lever": "lever", "target": "target", "rationale": ""})
+        check("--dry-run writes nothing", snap(tmp) == before and not os.path.exists(ledger))
+        r = cli()
+        check("real run appends one ledger row", r.returncode == 0 and os.path.exists(ledger) and len(open(ledger).read().splitlines()) == 1)
+    print(f"token_kaizen self-test: {total - fails}/{total}")
+    return 1 if fails else 0
 
 if __name__ == "__main__":
     main()

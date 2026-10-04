@@ -44,7 +44,7 @@
    "format": "image",
    "date": "2026-10-12",
    "status": "draft",
-   "card_line": "Three Apple calls. Each one said what would prove it wrong. 3 for 3.",
+   "card_line": "The Falsifier Ledger: three Apple calls, each with what would prove it wrong.",
    "caption": "January: Ternus as heir. February: margin holds above 47 percent. May: Apple routes AI at the OS layer. Every falsifier was published with the call.",
    "first_comment": "The full ledger, including the number I got wrong: https://good.arcs.care/blog/nftt/four-dates-one-thesis-three-confirmations",
    "expected": {
@@ -53,6 +53,42 @@
     "registered_at": "2026-09-29",
     "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
     "close_after_days": 7
+   },
+   "framework_card": {
+    "name": "The Falsifier Ledger",
+    "columns": [
+     "Call",
+     "Dated",
+     "Falsifier (published with the call)",
+     "Outcome"
+    ],
+    "rows": [
+     [
+      "Ternus is Cook's heir",
+      "Jan 30",
+      "No transition ever announced",
+      "Announced Apr 20"
+     ],
+     [
+      "Gross margin holds",
+      "Feb 19",
+      "Q2 FY26 falls materially below 47%",
+      "49.3%"
+     ],
+     [
+      "Apple routes AI at the OS layer",
+      "May 25",
+      "Extensions is a cosmetic menu",
+      "Real framework, Jun 8"
+     ]
+    ],
+    "nci_line": null,
+    "nci_note": "NCI (Net Coherence Index, 0-100) is scored once per ledger, never per call. No NCI was recorded for these calls; Zach supplies one from a real compass run or the line is dropped. Do not invent it.",
+    "footer": "Write the falsifier before the outcome exists."
+   },
+   "ab": {
+    "id": "ab-2026-10-exec-card",
+    "arm": "treatment"
    }
   },
   {
@@ -69,7 +105,7 @@
      "We don't make calls"
     ]
    },
-   "caption": "I did it for three Apple predictions this year, with the falsifier in the same post as the call. Results shape Wednesday's carousel.",
+   "caption": "I did it for three Apple predictions this year, with the falsifier in the same post as the call. Results shape Wednesday's carousel.\n\nWhy I'm asking: I want to know if writing the falsifier down is rare or just unspoken. Wednesday's carousel answers with the split.",
    "expected": {
     "impressions_low": 1000,
     "impressions_high": 4000,
@@ -131,5 +167,19 @@
     "close_after_days": 7
    }
   }
- ]
+ ],
+ "ab_test": {
+  "id": "ab-2026-10-exec-card",
+  "registered_at": "2026-10-04",
+  "judge": "a later session, not the one that wrote this rule",
+  "control": "2026-10-05-apple-openai-ledger exec/image (scorecard line)",
+  "treatment": "2026-10-12-four-dates-receipts exec/image (Falsifier Ledger framework card)",
+  "held_equal": "same weekday, same 9:00 AM ET slot, same hashtag count, link in first comment for both",
+  "metric": "(saves + comments + sends) per 1,000 impressions, read at 72 hours after posting",
+  "win_rule": "treatment wins only if its rate >= 1.5x control AND treatment has >= 5 such events; anything else is no decision (not a loss, not a win)",
+  "not_the_judge": "impressions (reported only)",
+  "confound": "different topics (Apple ledger vs prediction habit); a win earns a second pair, not a rule",
+  "source": "_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md",
+  "result": null
+ }
 }
