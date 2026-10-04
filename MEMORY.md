@@ -7,7 +7,7 @@
 
 ---
 
-## [v3.73.0] 2026-10-04 — Stopped-light research -> 15 isomorphisms + /echo-scan skill + oracle strict-args fix + NFTT essay and companion (PRs #683 `5d64551`, #686 `44b80d1`)
+## [v3.75.0] 2026-10-04 — Stopped-light research -> 15 isomorphisms + /echo-scan skill + oracle strict-args fix + NFTT essay and companion (PRs #683 `5d64551`, #686 `44b80d1`; handoff renumbered from v3.73.0 after a parallel-session collision)
 
 - Research note `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`; 3 backlog rows with kill conditions. `/echo-scan` (nested `claim-check`, standalone-callable) minted and fresh-agent tested.
 - `scripts/oracle.py`: unknown flags/extra args now exit 2; real `next <ns> --dry-run`; `--self-test` 12/12 in pre-commit. Root cause of the session's false herald (a "dry run" that allocated and stamped `_STATE/pulse.json`).
@@ -15,6 +15,19 @@
 - Seeds planted: `seed-gate-hookspath-bootstrap`, `seed-pattern-strict-cli-args` (61/63 argv scripts hand-parse, 38 write), `seed-skill-echo-scan`.
 - Lessons: a preview flag a tool does not recognize turns a look into a touch; a herald must come from the write it reports; `core.hooksPath` is unset in fresh clones, so gates silently skip.
 - Memory consolidation 2026-10-04: v3.53.0 to v3.63.0 (2026-09-04 to 09-15) relocated verbatim to `_ARCHIVE/memory-archive.md`.
+
+## [v3.74.0] 2026-10-04 — NFTT posts dated from git; the serialized thread denoted; index reorganized (PR #688 -> `0bfa5877`)
+
+- **Publish time is a git fact, frozen once:** `scripts/nftt_published.py` + `runtime/specs/nftt-published.json` (32 rows). Published = first commit on main's TRUE line holding the route commit; the line hops to the second parent at "Merge ... 'origin/main' into ..." sync merges, which fast-forwards had put on the first-parent line (it misdated five posts by a day). `a-draft-is-not-a-verb` = commit-time lower bound (direct push). Every post: `article:published_time` + byline `<time data-pub>`.
+- **Series as data:** `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`. The seven PR #411 essays are one isomorphic series (one method, seven subjects); order/roles from Tuning's own map. Index: series 1 to 7; sections The serialized thread / The Factory on Itself / The Cold Reader / The Workshop / Field Accounts.
+- Gates: both `--check`s in CI + pre-commit. Receipt `2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`. Live verified via Vercel (`dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw`); good.arcs.care is proxy-blocked from the cloud container.
+- Lessons: check every git-derived row against the commit it names; generator comments that render into a page are public text (tripwire caught a repo path); `shavasana_handoff.py` misses cloud commits (author filter).
+
+## [v3.73.0] 2026-10-04 — Essay drafted: "Tribes, Vibes, Lies" (The Exoskeleton, Not the Oracle), demand piece for a paid tier; lives in a Claude Doc, not shipped
+
+- Doc: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. Nine sections + short-version block + two pull quotes + six drawn share cards (prosthetic vs exoskeleton; Tribes/Vibes/Lies ladder; three dials + one tripwire; the decide/act/receipt/measure loop from tao-041/tao-222; the four zones from WORLD.md; a 2x2 of tao-227/220/194/045 quoted as minted) + three tributaries.
+- Zach's screening instrument, now canon-adjacent: dials = good use of my time / symmetric value / right time; tripwire = stated-vs-revealed gap (tao-220 is the same rule). Quid pro quo is not symmetry: symmetry is measured over the relationship, quid pro quo settles per transaction.
+- Owed: two worked examples (one pass, one yes), re-measure 2/247 against `Outcome`, port via `/nftt-story-factory`, decide what the 30-person cohort actually buys. No commits, no receipt (nothing merged or published). Backlog row `essay-tribes-vibes-lies`.
 
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
