@@ -114,6 +114,68 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.78.0 (2026-10-04)
+
+> **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
+> ask to stop spending cloud credits.** Same day, v3.76.0's four open items: 1, 2 and 4 closed, 3
+> diagnosed and handed to a Mac run. PRs #714 (`694cec66`), #718 (`0c2365a7`), #721 (`c80bc44a`)
+> merged on Zach's explicit asks with receipts; PR #728 (shavasana fix + this handoff) merges when green.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 17 commits, 8 merges to main (scope: branch claude/post-timestamps-notes-trenches-psjapj), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: manifesto (exhale, no inhale).
+- **Sycophancy check**: agreement 18 / dissent 1 (ratio 9.0) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft draft-handoff-v378.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): THIN is fair; the dissent the keywords miss is in the record: item 3 was NOT fixed and the draft says so; re-baselining the ratchet was refused (it would hide a possible regression); the post-1 renderer was not trusted (a fresh render regressed the pages); running sessions were not archived until asked to push. States of the sessions still running at wind-down are unknown and labelled so. Nothing downgraded.
+- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
+- **Disposition**: RELEASED on Zach's "consolidate this thread ... and handoff" and "merge 728 when green and archive them all".
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **v3.76.0 item 1** (#714): #706 live-checked (Four Dates, The Pre-Mortem bylines via Vercel
+  `web_fetch_vercel_url`); receipts `...-pr706--ZH`, `2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH`.
+- **v3.76.0 item 2** (#718): `post-1-brief` / `post-1-exec` `max-width:68ch` on `<main>` pinned to `680px`
+  (computed width unchanged), same line in `scripts/blog_render.py`. The renderer has drifted behind its
+  outputs (Google Fonts import, no robots/threadkey): edit those pages in place, do not re-render.
+  Receipts `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`, `2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH`.
+- **v3.76.0 item 4** (#728): `scripts/shavasana_handoff.py` exhale counts by session branch (PRs merged
+  today from it + their commits + unmerged commits); on main it matches the git identity on author OR
+  committer. Was 0 in cloud (author "Zach Harris", committer "Claude"); now 17 commits, 8 merges for this
+  branch, other sessions' commits excluded. `--self-test` 8/8.
+
+## Open (next session)
+1. **Contrast ratchet (v3.76.0 item 3), diagnosed, not fixed.** The detector is a Mac-only skill
+   (`~/.claude/skills/impeccable`), so cloud runs skip. npm `impeccable@4.1.0` runs in the container
+   (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
+   series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
+   Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
+   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
+   panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
+   (needs Zach's yes); do not `--update-baseline` until the cause is known.
+2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac
+   worktree `open-loops-quick-wins-6e9066`); create the germinate v0.1.1 tag + approve the signed
+   Release run; merge or close PR #725 (green, "Greeting" session); PR #715 (model-registry drift gate)
+   was open with CI running.
+3. **Unconfirmed from archived sessions:** `compass_run` event in Vercel Web Analytics after #726
+   (one real tagged run); `arcs-field-os-weekly` still scoped to `/Users/zharris/A.R.C.S`; Tao backfill
+   for 4 NFTT posts; Mac worktree session-start spinner hang (run
+   `time CLAUDE_PROJECT_DIR="$PWD" bash -x .claude/hooks/session-start.sh` in a stuck worktree).
+4. **Running when wound down** (asked to commit + push to their own branch, then archived): site audit
+   P1s, false public-repo claim + promise ledger, open-loops front door, #689 conflict + video prompt
+   engine, gitleaks/argparse, waitlist landing page, arc exoskeleton essay, contrast-ratchet symlink
+   baseline. Their pushed branches are the record; check each branch before assuming work landed.
+
+## Lessons (in the record)
+- Counting by author name reads 0 in cloud and everything on the owner's name: scope a session's
+  exhale by its branch, the one thing that is the session's alone.
+- A generator that drifts behind its outputs makes "re-render" a regression; check the diff of a fresh
+  render against the committed page before trusting the generator.
+- Archiving a running session drops its container; ask it to push first, and only archive what is idle.
+  "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
+
 # Handoff — v3.77.0 (2026-10-04)
 
 > **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
@@ -158,61 +220,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
   rendered poster stayed pixel-identical (ffmpeg PSNR inf).
 - The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
-
-# Handoff — v3.76.0 (2026-10-04)
-
-> **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views
-> check fixed on the way.** PR #697 merged at `cb0d8772` and PR #703 at `348ae373`, both on Zach's
-> explicit asks; receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH` and
-> `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. PR #706 (Four Dates + The Pre-Mortem originals)
-> carries this handoff; merged by Zach at `07d580ae`, both bylines live-verified, receipt
-> `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): script reported 0 commits, 0 merges (the author-filter blind spot, Open item 4). Recount from git: 4 session commits (`01a5ddb1`, `c9bb3975`, `fef1912a`, `2930d83a`), 2 merges to main (#697 `cb0d8772`, #703 `348ae373`) with #706 pending, 2 receipts. `febc68b4` and `c9247f18` in the same range are other sessions'.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 5 / dissent 0 (ratio 5.0) → RETURN: agreement with no dissent on record.
-- **Cold re-read (canary on the draft draft-handoff-v376.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the RETURN counts keyword markers; the stretch carries dissent the vocabulary missed, each in the record: Zach's "first published on LinkedIn" was declined as false (PR #697 body); a zero-step local sweep's PASS was caught and re-run (11/11); the generator fix was narrowed after it touched the resume-tailor card; The Pre-Mortem's undated source was not stamped. Every other claim carries a sha, PR, deployment or receipt id. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "run the handoff" despite the RETURN verdict, for the reasons above.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **Originals line** (`01a5ddb1`, #697): bylines read "From the LinkedIn original(s), <dates>" after the
-  publish `<time>`, each date in its own `<time datetime>`. Deliberately not "first published": every
-  NFTT post is a new essay. SSOT `runtime/specs/nftt-originals.json` (platform, ISO dates, evidence);
-  `scripts/nftt_published.py` stamps it, `--check` fails a missing or orphan segment, `--self-test` 21/21.
-  Live-verified on Closing the Loop and The Instinct via Vercel `web_fetch_vercel_url`.
-- **generated-views fix** (`c9bb3975`, #697): main went red at `febc68b4` (#695 hand-edited `good.html`).
-  `connector_render.py` looked the honest card's distribution row up by page key `honest`; the row is
-  keyed `check-it-before-you-say-it`. `EXTERNAL_PAGES` entries may now name their row (`"repo"`); output
-  byte-identical to #695's edit. Shipped inside #697 (session limited to one branch), disclosed on the PR.
-- **The Method byline** (`fef1912a`, #703): the hand-written "Source: a LinkedIn article published Jan 30,
-  2026" dropped as a duplicate of the generated segment; live-verified.
-- **Four Dates + The Pre-Mortem** (`2930d83a`, #706): originals added on Zach's confirmation of the
-  platform (PR #411 records the LinkedIn corpus). The Pre-Mortem's fifth source stays out (undated in its
-  export). Six of seven series posts now carry the line; Tuning has none (it cites, not adapts).
-- v3.74.0 open items 1 (wording approved by Zach) and 2 (originals) resolved.
-
-## Open (next session)
-1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
-   `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
-   `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-2. ~~`post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main~~ RESOLVED 2026-10-04: PR #718
-   merged at `0c2365a7`; `max-width:68ch` on `<main>` pinned to `680px` in both pages and
-   `scripts/blog_render.py`; wrap-lint clean on main; receipt `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`.
-3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
-4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud
-   sessions, commits authored "Zach Harris"), so it reads 0. Count by repo/branch, or match both names.
-
-## Lessons (in the record)
-- A label that sounds right can be false: "first published on LinkedIn" read naturally, but each post's
-  own footer showed a new essay written from LinkedIn originals. Read the provenance before naming it.
-- A check that ran zero steps reported PASS: the first local generated-views sweep parsed 0 steps from
-  ci.yml. Count what ran before trusting a pass.
-- A hand edit to a generated page reddens every PR, not only its own: #695's two-line `good.html` change
-  failed generated-views on main until the generator learned the row key.

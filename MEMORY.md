@@ -3,7 +3,16 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
+> Format: `## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
+
+- `scripts/shavasana_handoff.py` exhale: counted by `git config user.name`, which reads 0 in cloud (author owner, committer Claude); now scoped to the session branch (merged PRs from it + their commits + unmerged), identity fallback on main. `--self-test` 8/8.
+- `post-1-brief` / `post-1-exec`: `max-width:68ch` → `680px` on `<main>`, and in `scripts/blog_render.py`; the renderer lags its outputs, so edit those pages in place.
+- Contrast ratchet: npm `impeccable@4.1.0` runs in cloud but 14/42 NFTT pages read over baseline; cause (version drift vs series-panel regression) to be settled by one Mac run.
+- Wind-down: all cloud + Remote Control sessions asked to push, then archived; open asks for Zach listed in the CLAUDE.md v3.78.0 block.
+
+---
+
+## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
 

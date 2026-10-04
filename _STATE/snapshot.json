@@ -1,12 +1,12 @@
 {
-  "captured_at": "2026-10-04T10:58:05-04:00",
+  "captured_at": "2026-10-04T15:09:47Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f86001f1",
-    "head_message": "Merge pull request #719 from flashesofbrilliance/claude/argparse-batch-2",
+    "head_sha": "91671553",
+    "head_message": "Merge pull request #726 from flashesofbrilliance/claude/compass-run-campaign",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at handoff time; the handoff rides branch claude/handoff-v3.76"
+    "note": "origin/main at handoff time; the handoff rides PR #728 on claude/post-timestamps-notes-trenches-psjapj"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "vercel ls 2026-10-04: latest Production Ready (one newer Canceled). env vars re-listed via vercel env ls production."
+    "note": "Not re-listed this handoff (no Vercel CLI in the cloud container); last values carried from v3.77.0."
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,12 +35,12 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt rows this session: 2026-10-04--exoskeleton-video-v2-pr689--ZH, 2026-10-04--video-cut-type-pr709--ZH. Prisma schema not re-checked."
+    "note": "decision_receipt rows this session (v3.78.0 stretch): 2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH, 2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH, 2026-10-04--post-1-wrap-lint-680px-pr718--ZH, 2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH; #728 receipt follows its merge. Prisma schema not re-checked."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Merged #689 (video v2 + HTML-to-MP4 renderer) and shipped the video cut type (#709): one shot spec to an on-brand HTML scene and an external-model prompt pack.",
+  "session_summary": "Cloud wind-down: all cloud + Remote Control sessions asked to push, then archived. v3.76.0 items 1, 2, 4 closed (#714, #718/#721, #728); item 3 (contrast ratchet) diagnosed, needs one Mac run. Open asks for Zach in CLAUDE.md v3.78.0.",
   "next_action": "Try one tao-284 beat from the prompt pack in an external video model and compare to the HTML render.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-04T14:06:18Z"
