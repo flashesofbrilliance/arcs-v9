@@ -19,7 +19,7 @@ colors:
   paradox-magenta: "#E879F9"
 typography:
   display:
-    fontFamily: "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif"
+    fontFamily: "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif"
     fontSize: "clamp(1.5rem, 4vw, 2.4rem)"
     fontWeight: 500
     lineHeight: 1.2
@@ -131,7 +131,7 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 
 ## Typography
 
-**Display Font:** Iowan Old Style / Palatino (serif) — the canon and oral-history register (proverbs, the Tao, load-bearing quotes).
+**Display Font:** Iowan Old Style / Palatino (serif) — the canon and oral-history register (proverbs, the Tao, load-bearing quotes). Self-hosted fallback: Newsreader (`public/fonts/`), the canon serif of the literary page family (NFTT, Lore) and of rendered video, where the system serifs are absent.
 **Body Font:** Inter (with system-ui fallback) — all prose and reading.
 **Label/Mono Font:** JetBrains Mono (with IBM Plex Mono) — instrument labels, section indices, gauges, metadata.
 
