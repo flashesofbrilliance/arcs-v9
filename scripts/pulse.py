@@ -36,6 +36,7 @@ Usage:
                                   Exit 0 always (hook-safe) unless --strict (then non-zero if any alarm).
   pulse stamp <subsystem>         record proof-of-life NOW (secondary heartbeat for stamp-only organs).
   pulse max <subsystem>           print a subsystem's max_beats (SSOT for the absorbed STALE_DAYS).
+  pulse --self-test               CLI self-test in a throwaway dir (never touches real pulse state).
 
 Stdlib only. Exit 0 on success; non-zero only on misuse or --strict alarm.
 """
@@ -256,21 +257,102 @@ def cmd_check(strict=False):
     return 0
 
 
+def _parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="pulse", description="the global heartbeat (wall-clock twin of oracle)")
+    ap.add_argument("--self-test", action="store_true", help="run the CLI in a throwaway dir; never touches real pulse state")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("now", help="grounded global_beat + ISO timestamp (read-only)")
+    st = sub.add_parser("status", help="the board (read-only)")
+    st.add_argument("--json", action="store_true")
+    ck = sub.add_parser("check", help="mutual guard + flatline scan; WRITES pulse.json + a receipt")
+    ck.add_argument("--strict", action="store_true")
+    sp = sub.add_parser("stamp", help="record proof-of-life now (writes pulse.json)")
+    sp.add_argument("subsystem")
+    mx = sub.add_parser("max", help="print a subsystem's max_beats (read-only)")
+    mx.add_argument("subsystem")
+    return ap
+
+
+def self_test():
+    """Run the CLI as a subprocess with CLAUDE_PROJECT_DIR at a throwaway dir. Never touches real state."""
+    import tempfile, hashlib
+    me = os.path.abspath(__file__)
+    real = os.path.join(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd(), "_STATE", "pulse.json")
+
+    def h(path):
+        return hashlib.sha256(open(path, "rb").read()).hexdigest() if os.path.exists(path) else None
+
+    real_before = h(real)
+    fails = total = 0
+
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+
+    with tempfile.TemporaryDirectory() as tmp:
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp)
+        os.makedirs(os.path.join(tmp, "_STATE"))
+        state = os.path.join(tmp, "_STATE", "pulse.json")
+        with open(state, "w") as f:
+            json.dump({"genesis": "2026-09-08", "global_beat": 0,
+                       "subsystems": {"probe": {"max_beats": 3, "artifacts": []}}}, f)
+
+        def snap():
+            out = {}
+            for dp, _, fs in os.walk(tmp):
+                for fn in fs:
+                    p = os.path.join(dp, fn)
+                    out[os.path.relpath(p, tmp)] = h(p)
+            return out
+
+        def run(*a):
+            return subprocess.run([sys.executable, "-B", me, *a], env=env, cwd=tmp, capture_output=True, text=True)
+
+        base = snap()
+        check("unknown flag exits 2", run("status", "--jsn").returncode == 2)
+        check("unknown top-level flag exits 2", run("--bogus").returncode == 2)
+        check("extra positional exits 2", run("now", "extra").returncode == 2)
+        check("stamp with extra positional exits 2", run("stamp", "probe", "extra").returncode == 2)
+        check("stamp with no subsystem exits 2", run("stamp").returncode == 2)
+        check("unknown command exits 2", run("beat").returncode == 2)
+        check("rejected calls wrote nothing", snap() == base)
+        check("no args prints the doc line, exit 0", run().returncode == 0)
+        r = run("now"); check("now exits 0", r.returncode == 0 and r.stdout.startswith("global_beat"))
+        r = run("status"); check("status exits 0", r.returncode == 0 and "probe" in r.stdout)
+        r = run("status", "--json"); check("status --json is JSON", r.returncode == 0 and "probe" in json.loads(r.stdout)["subsystems"])
+        r = run("max", "probe"); check("max prints budget", r.returncode == 0 and r.stdout.strip() == "3")
+        check("max unknown subsystem exits 2", run("max", "ghost").returncode == 2)
+        check("now/status/max wrote nothing", snap() == base)
+        r = run("stamp", "probe")
+        check("stamp writes last_seen in the temp state", r.returncode == 0 and "last_seen" in json.load(open(state))["subsystems"]["probe"])
+        check("stamp unknown subsystem exits 2", run("stamp", "ghost").returncode == 2)
+    check("real pulse.json untouched", h(real) == real_before)
+    print(f"pulse self-test: {total - fails}/{total}")
+    sys.exit(1 if fails else 0)
+
+
 def main():
     args = sys.argv[1:]
     if not args:
         print(__doc__.strip().splitlines()[0]); return
-    cmd = args[0]
-    if cmd == "now":
+    ns = _parser().parse_args(args)
+    if ns.self_test:
+        if ns.cmd:
+            _parser().error("--self-test takes no command")
+        self_test()
+    if ns.cmd == "now":
         cmd_now()
-    elif cmd == "status":
-        cmd_status(as_json="--json" in args)
-    elif cmd == "check":
-        cmd_check(strict="--strict" in args)
-    elif cmd == "stamp" and len(args) > 1:
-        cmd_stamp(args[1])
-    elif cmd == "max" and len(args) > 1:
-        cmd_max(args[1])
+    elif ns.cmd == "status":
+        cmd_status(as_json=ns.json)
+    elif ns.cmd == "check":
+        cmd_check(strict=ns.strict)
+    elif ns.cmd == "stamp":
+        cmd_stamp(ns.subsystem)
+    elif ns.cmd == "max":
+        cmd_max(ns.subsystem)
     else:
         sys.stderr.write("usage: pulse now | status [--json] | check [--strict] | stamp <subsystem> | max <subsystem>\n")
         sys.exit(2)

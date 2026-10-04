@@ -124,13 +124,30 @@ def _strip(d: dict) -> dict:
     return {k: {kk: vv for kk, vv in v.items() if kk != "suspicion"} for k, v in d["sources"].items()}
 
 
+def _parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="source_trust_emit.py", description="per-source trust as a GENERATED table")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="exit 1 if the generated table is stale (writes nothing)")
+    mode.add_argument("--self-test", action="store_true", help="run the derivation + CLI self-test in a temp dir")
+    sub = ap.add_subparsers(dest="cmd")
+    add = sub.add_parser("add", help="append an event")
+    add.add_argument("source")
+    add.add_argument("outcome")
+    add.add_argument("claim")
+    add.add_argument("ref")
+    return ap
+
+
 def main(argv: list[str]) -> int:
-    if argv[:1] == ["--self-test"]:
+    ap = _parser()
+    args = ap.parse_args(argv)
+    if args.cmd and (args.check or args.self_test):
+        ap.error("add cannot be combined with --check or --self-test")
+    if args.self_test:
         return self_test()
-    if argv[:1] == ["add"]:
-        if len(argv) != 5:
-            print("usage: add <source> <falsified|confirmed> \"<claim>\" \"<ref>\"", file=sys.stderr); return 2
-        ev = {"ts": dt.date.today().isoformat(), "source": argv[1], "outcome": argv[2], "claim": argv[3], "ref": argv[4]}
+    if args.cmd == "add":
+        ev = {"ts": dt.date.today().isoformat(), "source": args.source, "outcome": args.outcome, "claim": args.claim, "ref": args.ref}
         srcs = json.loads(SOURCES.read_text(encoding="utf-8"))["sources"]
         if ev["source"] not in srcs or ev["outcome"] not in ("falsified", "confirmed"):
             print(f"unknown source or outcome; sources: {sorted(srcs)}", file=sys.stderr); return 2
@@ -139,7 +156,7 @@ def main(argv: list[str]) -> int:
         print("appended; now regenerate: python3 scripts/source_trust_emit.py"); return 0
     table = render()
     text = json.dumps(table, indent=2, ensure_ascii=False) + "\n"
-    if argv[:1] == ["--check"]:
+    if args.check:
         if not OUT.exists():
             print("source-trust.json missing", file=sys.stderr); return 1
         cur = json.loads(OUT.read_text(encoding="utf-8"))
@@ -154,6 +171,42 @@ def main(argv: list[str]) -> int:
     return 0
 
 
+def _cli_self_test(check) -> None:
+    """Run a copy of this script inside a throwaway tree (ROOT is script-relative). Never touches the real repo."""
+    import hashlib, shutil, subprocess, tempfile
+
+    def snap(root: Path) -> dict:
+        return {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted(root.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
+
+    with tempfile.TemporaryDirectory() as tmp:
+        t = Path(tmp)
+        (t / "scripts").mkdir(); (t / "_STATE").mkdir(); (t / "runtime" / "specs").mkdir(parents=True)
+        me = t / "scripts" / "source_trust_emit.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        (t / "runtime" / "specs" / "source-trust-sources.json").write_text(json.dumps({"sources": {"s1": {"label": "S", "kind": "agent"}}}), encoding="utf-8")
+        (t / "_STATE" / "source-trust-events.jsonl").write_text(json.dumps({"ts": "2026-09-27", "source": "s1", "outcome": "falsified", "claim": "c", "ref": "r"}) + "\n", encoding="utf-8")
+
+        def run(*a):
+            return subprocess.run([sys.executable, "-B", str(me), *a], capture_output=True, text=True, cwd=tmp)
+
+        before = snap(t)
+        check("CLI: unknown flag exits 2", run("--chek").returncode == 2)
+        check("CLI: extra positional exits 2", run("bogus").returncode == 2)
+        check("CLI: --check with extra positional exits 2", run("--check", "extra").returncode == 2)
+        check("CLI: add with too few args exits 2", run("add", "s1", "falsified").returncode == 2)
+        check("CLI: add with extra arg exits 2", run("add", "s1", "falsified", "c", "r", "x").returncode == 2)
+        check("CLI: add with bad outcome exits 2", run("add", "s1", "maybe", "c", "r").returncode == 2)
+        r = run("--check")
+        check("CLI: --check on a missing table exits 1", r.returncode == 1)
+        check("CLI: rejected calls and --check wrote nothing", snap(t) == before)
+        check("CLI: regenerate exits 0 and writes the table", run().returncode == 0 and (t / "runtime" / "specs" / "source-trust.json").exists())
+        mid = snap(t)
+        r = run("--check")
+        check("CLI: --check on a fresh table exits 0", r.returncode == 0, r.stderr.strip())
+        check("CLI: --check (fresh) wrote nothing", snap(t) == mid)
+
+
 def self_test() -> int:
     today = dt.date(2026, 9, 27)
     srcs = {"sources": {"liar": {"label": "L", "kind": "external"}, "saint": {"label": "S", "kind": "human"},
@@ -162,9 +215,10 @@ def self_test() -> int:
          [{"ts": "2026-09-27", "source": "saint", "outcome": "confirmed", "claim": "y", "ref": "r"}] * 20 + \
          [{"ts": "2026-09-27", "source": "saint", "outcome": "falsified", "claim": "z", "ref": "F2"}]
     t = derive(srcs, ev, today)["sources"]
-    fails = 0
+    fails = total = 0
     def check(label, cond, detail=""):
-        nonlocal fails
+        nonlocal fails, total
+        total += 1
         print(f"  {'PASS' if cond else 'FAIL'}  {label}  {detail}")
         fails += 0 if cond else 1
     check("3 falsifications, 0 confirmations -> ZERO-WEIGHT", t["liar"]["tier"] == "ZERO-WEIGHT", t["liar"])
@@ -180,7 +234,8 @@ def self_test() -> int:
         derive(srcs, [{"ts": "2026-09-27", "source": "ghost", "outcome": "falsified", "claim": "x", "ref": "F1"}], today); check("unknown source rejected", False)
     except SystemExit:
         check("unknown source rejected", True)
-    print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
+    _cli_self_test(check)
+    print(f"source_trust_emit self-test: {total - fails}/{total}")
     return 1 if fails else 0
 
 

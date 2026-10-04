@@ -15,7 +15,7 @@ emits a drift RECEIPT. The human re-authors; the receipt teaches.
 
 Stdlib only. Exit 0 always (hook-safe; a drift is a receipt, not a failure).
 """
-import json, glob, re, sys, datetime, os
+import argparse, hashlib, json, glob, re, subprocess, sys, datetime, os
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 LATTICE = os.path.join(ROOT, "runtime/specs/knowledge-lattice-v1.json")
@@ -82,8 +82,63 @@ def check(data):
     return findings, stale_days
 
 
+def _parse_args(argv=None):
+    ap = argparse.ArgumentParser(prog="lattice_drift_check.py",
+                                 description="Drift detector for the knowledge lattice (receipt-only by default).")
+    ap.add_argument("--regenerate", action="store_true",
+                    help="also patch ONLY the mechanical countables in the lattice JSON (the only write path)")
+    ap.add_argument("--self-test", action="store_true", help="run the CLI guard self-test in a temp dir")
+    return ap.parse_args(argv)
+
+
+def _sha(path):
+    return hashlib.sha256(open(path, "rb").read()).hexdigest() if os.path.exists(path) else None
+
+
+def self_test():
+    """Run the CLI in a throwaway project dir and assert the guard holds. Never touches ROOT."""
+    import tempfile
+    me = os.path.abspath(__file__)
+    fails = total = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp)
+        lat = os.path.join(tmp, "runtime/specs/knowledge-lattice-v1.json")
+        os.makedirs(os.path.dirname(lat))
+        os.makedirs(os.path.join(tmp, "_DECISIONS"))
+        for i in (1, 2, 3):
+            open(os.path.join(tmp, f"_DECISIONS/ADR-00{i}.md"), "w").write("x\n")
+        json.dump({"epoch_source": "e1 = 2020-01-01",
+                   "nodes": [{"id": "adrs", "label": "1 ADRs", "status": "true"}]},
+                  open(lat, "w"))
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], env=env, cwd=tmp, capture_output=True, text=True)
+
+        def check(name, ok):
+            nonlocal fails, total
+            total += 1
+            print(("PASS " if ok else "FAIL ") + name)
+            fails += 0 if ok else 1
+
+        h0 = _sha(lat)
+        check("unknown flag exits 2", run("--regenrate").returncode == 2)
+        check("extra positional exits 2", run("check").returncode == 2)
+        check("rejected args leave lattice untouched", _sha(lat) == h0)
+        r = run()
+        check("default mode exits 0 and reports DRIFT", r.returncode == 0 and "DRIFT" in r.stdout)
+        check("default mode leaves lattice untouched", _sha(lat) == h0)
+        r = run("--regenerate")
+        check("--regenerate patches the ADR count",
+              r.returncode == 0 and json.load(open(lat))["nodes"][0]["label"] == "3 ADRs")
+    print(f"lattice_drift_check self-test: {total - fails}/{total}")
+    sys.exit(1 if fails else 0)
+
+
 def main():
-    regen = "--regenerate" in sys.argv
+    args = _parse_args()
+    if args.self_test:
+        self_test()
+    regen = args.regenerate
     if not os.path.exists(LATTICE):
         print(f"lattice-drift: no lattice at {LATTICE} — skipping")
         return 0
