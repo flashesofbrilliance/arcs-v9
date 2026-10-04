@@ -21,7 +21,11 @@ Usage:
   python3 scripts/sync_family_roster.py            # human report (exit 1 on drift)
   python3 scripts/sync_family_roster.py --check     # CI: quiet on clean, exit 1 on drift
   python3 scripts/sync_family_roster.py --write-json # (re)write public/family-roster.json only
+  python3 scripts/sync_family_roster.py --dry-run   # human report, writes nothing
+  python3 scripts/sync_family_roster.py --self-test # assert the argv contract on synthetic input
 """
+import argparse
+import hashlib
 import json
 import os
 import re
@@ -149,10 +153,91 @@ def audit():
     return r, problems
 
 
-def main():
-    mode = sys.argv[1] if len(sys.argv) > 1 else ""
+def _self_test():
+    import shutil
+    import subprocess
+    import tempfile
+    fails, total = 0, 0
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1
+        if not cond:
+            fails += 1
+        print(f"  {'PASS' if cond else 'FAIL'} {name}")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "scripts"))
+        os.makedirs(os.path.join(tmp, "_SEEDS"))
+        os.makedirs(os.path.join(tmp, "_DECISIONS"))
+        os.makedirs(os.path.join(tmp, "public"))
+        shutil.copy(os.path.abspath(__file__), os.path.join(tmp, "scripts", "sync_family_roster.py"))
+
+        def put(rel, text):
+            with open(os.path.join(tmp, rel), "w", encoding="utf-8") as fh:
+                fh.write(text)
+
+        put("_SEEDS/distribution.jsonl", json.dumps({"repo": "x/germinate", "url": "github.com/x/germinate",
+                                                     "channels": [{"channel": "npm", "live": True}]}) + "\n")
+        put("_SEEDS/index.jsonl", json.dumps({"alias": "echo", "title": "Echo", "url": "u",
+                                              "seed_type": "performer"}) + "\n")
+        put("_DECISIONS/ADR-001-a.md", "x\n")
+        put("next.config.ts", "source: '/:seg(echo)', has: playground.arcs.care\n")
+        link = '<a href="https://github.com/flashesofbrilliance/germinate">g</a>'
+        put("public/good.html", link)
+        put("public/build.html", link + ' playground.arcs.care/echo <span id="sv-adrs">1</span>')
+        put("public/playground.html", "Echo")
+
+        def run(*args):
+            return subprocess.run([sys.executable, os.path.join(tmp, "scripts", "sync_family_roster.py"), *args],
+                                  capture_output=True, text=True)
+
+        def snap():
+            out = {}
+            for d, _, fs in os.walk(tmp):
+                for f in fs:
+                    fp = os.path.join(d, f)
+                    if "__pycache__" in fp:
+                        continue
+                    out[fp] = (hashlib.sha256(open(fp, "rb").read()).hexdigest(), os.stat(fp).st_mtime_ns)
+            return out
+
+        roster = os.path.join(tmp, "public", "family-roster.json")
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("extra positional exits 2", run("extra").returncode == 2)
+        ok("two modes exit 2", run("--check", "--write-json").returncode == 2)
+        for mode in ("--check", "--dry-run"):
+            before = snap()
+            r = run(mode)
+            ok(f"{mode} exits 0 on clean synthetic bank", r.returncode == 0)
+            ok(f"{mode} writes nothing", snap() == before)
+        ok("--dry-run prints clean report", "clean" in run("--dry-run").stdout)
+        ok("--write-json writes the roster", run("--write-json").returncode == 0 and os.path.exists(roster))
+        os.remove(roster)
+        ok("default report writes the roster", run().returncode == 0 and os.path.exists(roster))
+        put("public/good.html", link + ' <a href="https://github.com/flashesofbrilliance/phantom">p</a>')
+        before = snap()
+        r = run("--check")
+        ok("--check exits 1 on drift", r.returncode == 1 and "phantom" in r.stderr)
+        ok("--check on drift writes nothing", snap() == before)
+    print(f"sync_family_roster self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="sync_family_roster.py",
+                                 description="Tripwire: family surfaces vs the _SEEDS bank.")
+    g = ap.add_mutually_exclusive_group()
+    g.add_argument("--check", action="store_true", help="CI: quiet on clean, exit 1 on drift, writes nothing")
+    g.add_argument("--write-json", action="store_true", help="(re)write public/family-roster.json only")
+    g.add_argument("--dry-run", action="store_true", help="human report without writing the roster json")
+    g.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        return _self_test()
+    mode = "--check" if a.check else "--write-json" if a.write_json else ""
     roster, problems = audit()
-    if mode != "--check":
+    if mode == "" and not a.dry_run or mode == "--write-json":
         with open(ROSTER_JSON, "w", encoding="utf-8") as fh:
             json.dump({"generated_by": "scripts/sync_family_roster.py", **roster}, fh, indent=2)
             fh.write("\n")

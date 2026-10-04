@@ -19,8 +19,10 @@ Lexical, not semantic: TF-IDF sees shared vocabulary, not shared ideas. Treat it
 
 Usage: python3 scripts/essay_atlas.py [--eps 0.80] [--min 2] [--sweep] [--json out.json]
        python3 scripts/essay_atlas.py --bundles [--json out.json]   # Op 21 fills each show
+       python3 scripts/essay_atlas.py --self-test
+Read-only unless --json is given (--sweep never writes, even with --json).
 """
-import glob, html, json, math, os, random, re, sys, collections
+import argparse, glob, hashlib, html, json, math, os, random, re, shutil, subprocess, sys, tempfile, collections
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "operators"))
 from arcs_operator20 import DBSCAN  # noqa: E402
@@ -116,10 +118,9 @@ def run(seeds, eps, mn):
 
 
 def main(a):
-    eps = float(a[a.index("--eps") + 1]) if "--eps" in a else 0.80
-    mn = int(a[a.index("--min") + 1]) if "--min" in a else 2
+    eps, mn = a.eps, a.min
     seeds = load()
-    if "--sweep" in a:
+    if a.sweep:
         for e in [0.70, 0.75, 0.80, 0.85, 0.88, 0.90, 0.92]:
             lab, real, band = run(seeds, e, mn)
             k = len({l for l in lab.values() if l != -1}); noise = sum(l == -1 for l in lab.values())
@@ -138,16 +139,107 @@ def main(a):
         print(f"\n## {'NOISE' if l == -1 else 'cluster ' + str(l)}  terms: {', '.join(row['terms'])}")
         for m in row["members"]: print(f"   {m['slug']:<52} hand: {m['hand']}")
     print(f"\nagreement with hand sort {real:.3f} vs shuffled-label 90% band [{band[0]:.3f}, {band[1]:.3f}] -> {out['signal']}")
-    if "--json" in a:
-        json.dump(out, open(a[a.index("--json") + 1], "w"), indent=1)
+    if a.json:
+        with open(a.json, "w") as fh:
+            json.dump(out, fh, indent=1)
     return 0
 
 
-def _entry(a):
-    if "--bundles" in a:
+def _snapshot(root):
+    snap = {}
+    for d, _, fs in os.walk(root):
+        for f in fs:
+            p = os.path.join(d, f)
+            if "__pycache__" in p:
+                continue
+            with open(p, "rb") as fh:
+                snap[os.path.relpath(p, root)] = (hashlib.sha256(fh.read()).hexdigest(), os.stat(p).st_mtime_ns)
+    return snap
+
+
+def _self_test():
+    total = fails = 0
+
+    def ok(name, cond):
+        nonlocal total, fails
+        total += 1
+        if not cond:
+            fails += 1
+        print(f"  {'PASS' if cond else 'FAIL'}  {name}")
+
+    tmp = tempfile.mkdtemp(prefix="essay-atlas-selftest-")
+    try:
+        for d in ("scripts", "operators", "public", os.path.join("runtime", "specs")):
+            os.makedirs(os.path.join(tmp, d))
+        for spec in ("read-friction-tiers.json", "source-trust.json"):  # Librarian config, read-only
+            src = os.path.join(ROOT, "runtime", "specs", spec)
+            if os.path.exists(src):
+                shutil.copy(src, os.path.join(tmp, "runtime", "specs", spec))
+        script = os.path.join(tmp, "scripts", "essay_atlas.py")
+        shutil.copy(os.path.abspath(__file__), script)
+        for mod in ("arcs_operator20.py", "arcs_librarian.py"):
+            shutil.copy(os.path.join(ROOT, "operators", mod), os.path.join(tmp, "operators", mod))
+        bodies = {
+            "nftt-notomation": "ledger diff draft verb ledger diff scaffold",
+            "nftt-ledger-not-story": "ledger diff draft verb ledger story scaffold",
+            "nftt-take-home-trap": "apple filing margin primary document filing apple",
+            "til-zim": "apple filing margin primary document filing zim",
+            "nftt-post-1": "reader cold warm reconstruction memory reader",
+            "nftt-post-2": "reader cold warm reconstruction memory email",
+        }
+        for slug, body in bodies.items():
+            with open(os.path.join(tmp, "public", f"blog-{slug}.html"), "w", encoding="utf-8") as fh:
+                fh.write(f"<html><body><nav>chrome</nav><p>{body}</p></body></html>")
+        out = os.path.join(tmp, "out.json")
+
+        def run(*args):
+            return subprocess.run([sys.executable, script, *args], cwd=tmp, capture_output=True, text=True)
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("unknown flag with --json exits 2 and writes nothing",
+           run("--json", out, "--bogus").returncode == 2 and _snapshot(tmp) == before)
+        ok("extra positional exits 2", run("extra").returncode == 2)
+        ok("--eps without a value exits 2", run("--eps").returncode == 2)
+        ok("--eps non-numeric exits 2", run("--eps", "x").returncode == 2)
+        ok("--self-test with another flag exits 2", run("--self-test", "--sweep").returncode == 2)
+        r = run()
+        ok("default mode exits 0 and reports agreement", r.returncode == 0 and "agreement with hand sort" in r.stdout)
+        ok("default mode writes nothing", _snapshot(tmp) == before)
+        r = run("--sweep", "--json", out)
+        ok("--sweep exits 0 with 7 rows", r.returncode == 0 and r.stdout.count("eps=") == 7)
+        ok("--sweep writes nothing even with --json", _snapshot(tmp) == before and not os.path.exists(out))
+        r = run("--bundles")
+        ok("--bundles exits 0 with 3 shows", r.returncode == 0 and r.stdout.count("\n## ") == 3)
+        ok("--bundles writes nothing", _snapshot(tmp) == before)
+        r = run("--eps", "0.9", "--min", "2", "--json", out)
+        ok("--json writes the cluster report",
+           r.returncode == 0 and os.path.exists(out) and json.load(open(out))["n"] == len(bodies))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"essay_atlas self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def _entry(argv):
+    ap = argparse.ArgumentParser(prog="essay_atlas.py",
+                                 description="Cluster the NFTT + TIL corpus with Op 20 DBSCAN; test the hand-sorted shows.")
+    ap.add_argument("--eps", type=float, default=0.80, help="DBSCAN epsilon (default 0.80)")
+    ap.add_argument("--min", type=int, default=2, help="DBSCAN min_samples (default 2)")
+    ap.add_argument("--sweep", action="store_true", help="print an eps sweep (never writes)")
+    ap.add_argument("--json", metavar="OUT", help="write the report as JSON to OUT")
+    ap.add_argument("--bundles", action="store_true", help="Op 21: fill each show's bundle (ignores --eps/--min/--sweep)")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if len(argv) != 1:
+            ap.error("--self-test takes no other arguments")
+        return _self_test()
+    if a.bundles:
         out = bundles()
-        if "--json" in a:
-            json.dump(out, open(a[a.index("--json") + 1], "w"), indent=1, default=str)
+        if a.json:
+            with open(a.json, "w") as fh:
+                json.dump(out, fh, indent=1, default=str)
         return 0
     return main(a)
 
