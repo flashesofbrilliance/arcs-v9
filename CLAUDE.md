@@ -152,9 +152,9 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
 
 ## Open (next session)
-1. Seeds planted this handoff (candidate): `seed-gate-hookspath-bootstrap`, `seed-pattern-strict-cli-args`,
-   `seed-skill-echo-scan`. The first is a one-line hook change: nothing sets `core.hooksPath`, so
-   every fresh clone skips the whole pre-commit chain.
+1. Seeds planted this handoff: `seed-pattern-strict-cli-args` (candidate), `seed-skill-echo-scan`, and
+   `seed-gate-hookspath-bootstrap`, germinated the same day: `.claude/hooks/session-start.sh` now arms
+   `core.hooksPath` when unset, so fresh clones run the pre-commit chain.
 2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
    posts), and Tao backfill for the 4 NFTT posts still uncovered.
 3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
