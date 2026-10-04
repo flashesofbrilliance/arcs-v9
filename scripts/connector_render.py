@@ -330,7 +330,12 @@ EXTERNAL_PAGES = {
     "honest": {
         "slug": "honest", "group": "web", "name": "check it before you say it",
         "line": "Five steps between an idea and a message, each stamped go or stop by rules you can read. It checks the facts you mark, not whether they are true. Runs in your browser; nothing is uploaded.",
+        # The gallery key is the slug; the SSOT (distribution.jsonl) keys this tool by its
+        # repo name. `ssot` points the url/clone-chip lookup at the real row so a live
+        # public repo surfaces a github link + clone chip (honesty gate: clone only if
+        # the github channel is live:true in the SSOT).
         "page": "https://honest.arcs.care", "chips": ["web"],
+        "ssot": "check-it-before-you-say-it",
     },
     "resume-tailor-skill": {
         "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
@@ -531,10 +536,16 @@ def render_gallery(ssot, blob):
         meta[repo] = dict(group=g, name=repo, line=data.get("gallery_line") or first_sentence(data["desc"]),
                           chips=chips, page=page, gh=gh)
     for repo, ext in EXTERNAL_PAGES.items():
-        url = ssot.get(repo, {}).get("url", "")
+        row = ssot.get(ext.get("ssot", repo), {})
+        url = row.get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
+        chips = list(ext.get("chips", ["plugin", "skill"]))
+        # Non-skill external pages surface a clone chip when (and only when) the resolved
+        # SSOT row has a live:true github channel — same honesty rule as rendered tools.
+        if ext["group"] != "skill" and "github" in live_channels(row) and "clone" not in chips:
+            chips.append("clone")
         meta[repo] = dict(group=ext["group"], name=ext["name"], line=ext["line"],
-                          chips=ext.get("chips", ["plugin", "skill"]), page=ext["page"], gh=gh)
+                          chips=chips, page=ext["page"], gh=gh)
 
     def card_for(repo, variant="full"):
         m = meta[repo]
