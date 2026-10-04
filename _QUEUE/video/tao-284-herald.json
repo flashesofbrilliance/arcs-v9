@@ -1,0 +1,22 @@
+{
+ "id": "tao-284-herald",
+ "title": "A herald has to come from the memory",
+ "source": "_CANON/tao-proverbs.jsonl#tao-284 (from public/blog-nftt-light-at-thirty-eight-miles-an-hour.html)",
+ "thesis": "A herald has to come from the memory that holds the thing, at the moment it holds it. A herald that survives its write is a false receipt with a timestamp.",
+ "tag": "Tao of ARCS · 284",
+ "aspects": ["16:9", "9:16"],
+ "style": "Calm, precise, instrument-like. Dark near-black field, thin cyan and green light, fine grid, slow fog. Restrained, documentary, no spectacle.",
+ "evidence": [],
+ "beats": [
+  {"duration": 3.5, "accent": "cyan", "caption": "A herald has to come from the memory that holds the thing,",
+   "shot": {"subject": "A single point of cyan light suspended inside a dark glass cell, faint grid behind it", "camera": "locked-off medium shot, slow 5 percent push-in", "motion": "the light pulses once, softly, then holds", "light": "low key, the point is the only source"}},
+  {"duration": 3.0, "accent": "green", "caption": "at the moment it holds it.",
+   "shot": {"subject": "The same light, now steady, a thin green line drawn from it toward the edge of frame", "camera": "locked-off, no movement", "motion": "the line extends at an even pace and stops", "light": "light from the line itself, nothing else"}},
+  {"duration": 3.5, "accent": "gold", "caption": "Then the memory lets go.",
+   "shot": {"subject": "The glass cell empties: the point of light fades out while the green line keeps glowing", "camera": "slow pull-back, 10 percent", "motion": "fade of the source, the line stays lit", "light": "dimming to near black around the line"}},
+  {"duration": 4.0, "accent": "red", "caption": "A herald that survives its write",
+   "shot": {"subject": "The green line alone in fog, still glowing, connected to nothing", "camera": "slow lateral drift left to right", "motion": "fog moves across the line, the line does not change", "light": "the line as sole source, cold fog"}},
+  {"duration": 4.0, "accent": "red", "caption": "is a false receipt with a timestamp.",
+   "shot": {"subject": "The line resolves into a thin paper slip with an unreadable printed mark, lying on a dark surface", "camera": "top-down, locked-off", "motion": "a faint red edge-light traces the slip once", "light": "single soft overhead, deep shadow"}}
+ ]
+}
