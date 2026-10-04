@@ -5,7 +5,7 @@
 > what we stopped believing. A story is never deleted when its verdict flips; a new row is
 > added and the old one points forward. `undecided` may be told but not cited.
 
-Rows: 14 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 5
+Rows: 16 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 5 · undecided: 2
 
 ## lore-001 · MYTH · ✖ DURABLE MYTH
 
@@ -160,3 +160,25 @@ Rows: 14 · durable-myth: 5 · inspiration: 3 · old-wives-tale: 1 · true: 5
 - **Test that decided:** The fold SKILL.md ridgeline spec makes left_on_bench mandatory even when empty; the lossless-compression claim in the forensic recoil is bounded to invariants. The metaphor's own rule (origami = no cuts) forces the distinction.
 - **Teaches:** Name the cuts. A compression that claims to be lossless everywhere is hiding its cuts; one that records them can be trusted at the creases.
 - **Date:** 2026-09-27 · **Refs:** `.claude/skills/fold/SKILL.md`, `_STATE/witness/2026-09-27.jsonl`
+
+## lore-015 · MYTH · ? UNDECIDED
+
+**Story.** Every ARCS instrument turns out to carry one executive-function job: receipts hold working memory, the Y gate inhibits, PrepSession plans, the Drift Sentinel self-monitors, handoffs carry the thread between sessions. The claim is that this is load-bearing hardware for a mind that accelerates faster than it brakes: the tools carry the load so the person can do the judgment only they can do, and the rule that the tools never decide (NOTOMATION) is what keeps it an exoskeleton rather than a replacement. The record so far cuts against the claim: 261 receipts opened, one real outcome closed, so the scaffold helps starting far more than finishing.
+
+- **Told where:** _PROPOSALS/2026-10-02-lore-001-the-exoskeleton.md (draft; Lore entry one, not yet published at good.arcs.care/series/lore)
+- **Observation (real):** Every ARCS instrument maps to one executive-function job (receipts=working memory, Y gate=inhibition, PrepSession=planning, Drift Sentinel=self-monitoring, handoffs=shifting).
+- **Mechanism claimed:** Externalizing executive-function load frees the operator's own capacity for the judgment only they can make.
+- **Test that decided:** (none yet; may be told, not cited)
+- **Teaches:** Scaffold the jobs that run out first, never the judgment, and measure the closing half: a scaffold that only helps you start is a starter motor, not an exoskeleton.
+- **Date:** 2026-10-04 · **Refs:** `_PROPOSALS/2026-10-02-lore-001-the-exoskeleton.md`, `operators/arcs_accountant.py`, `_CANON/book-ii/part-ii-rom-axioms.md`
+
+## lore-016 · MYTH · ? UNDECIDED
+
+**Story.** People's behavior predicts better than their words. ARCS reads that gap in others to inform your decisions, and never reads it in you to make decisions for you: only the person whose behavior it is gets to say what it means. When the two collide, ARCS surfaces the gap as an observation, never as a verdict.
+
+- **Told where:** good.arcs.care/series/lore/the-gap (Lore entry two, published 2026-10-03)
+- **Observation (real):** Recoil war rooms weight revealed over stated reads of counterparts; NOTOMATION forbids overruling the operator's own revealed preference.
+- **Mechanism claimed:** Behavior predicts better than words, and only the person whose behavior it is may interpret it.
+- **Test that decided:** (none yet; may be told, not cited)
+- **Teaches:** Read the gap in others to inform a decision; show the gap in yourself as an observation and let the owner write the caption.
+- **Date:** 2026-10-03 · **Refs:** `public/good-series-lore-the-gap.html`, `runtime/recoil/arcs_recoil_canvas.py`, `_CANON/book-ii/part-ii-rom-axioms.md`
