@@ -688,10 +688,12 @@ if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . &&
     exit 1
   fi
 fi
-# argparse batch 1 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
+# argparse batches 1-3 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
 # so an unknown flag exits 2 instead of falling through to a write (the oracle --dry-run class).
 # Each carries a --self-test that proves it; run it whenever that script is staged.
-for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse; do
+for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
+         connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
+         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
@@ -725,6 +727,16 @@ if command -v gitleaks >/dev/null 2>&1; then
     echo "✖ pre-commit(gitleaks): a staged change looks like a secret (value redacted above)." >&2
     echo "  fix: remove it and ROTATE it if it was real. A verified public key (e.g. Stripe pk_) goes in" >&2
     echo "  .gitleaksignore by fingerprint with a one-line reason, never by disabling this gate." >&2
+    exit 1
+  fi
+fi
+
+# open-loops front door (2026-10-04): the SessionStart summary and /loops both read through
+# scripts/open_loops.py, so a broken ranker would silently mislead every session. Self-test when staged.
+if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/open_loops.py --self-test >/dev/null 2>&1; then
+    python3 scripts/open_loops.py --self-test >&2 || true
+    echo "✖ pre-commit(open-loops): self-test failed." >&2
     exit 1
   fi
 fi

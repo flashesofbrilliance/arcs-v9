@@ -12,11 +12,17 @@ Usage:
   python3 export_apollo.py           # top 500 by NCI
   python3 export_apollo.py 1000      # top 1000
   python3 export_apollo.py 500 recent   # top 500 among recent connections only
+  python3 export_apollo.py --dry-run [N] [MODE]   # summary only, writes nothing
+  python3 export_apollo.py --self-test            # argv contract on synthetic data
+
+Input: $CONNECTIONS_CSV (default ./Connections.csv). Output: ../exports/ beside this script.
 """
 
+import argparse
 import csv
 import sys
 import os
+from pathlib import Path
 
 CSV_PATH = os.environ.get("CONNECTIONS_CSV", "Connections.csv")
 OUT_DIR  = os.path.join(os.path.dirname(__file__), "../exports")
@@ -195,19 +201,11 @@ def load(path):
     return out
 
 
-def main():
-    top_n    = int(sys.argv[1]) if len(sys.argv) > 1 else 500
-    mode     = sys.argv[2] if len(sys.argv) > 2 else "all"
-
-    print(f"Loading connections...")
-    contacts = load(CSV_PATH)
-
+def select(contacts, top_n, mode):
     if mode == "recent":
         pool = [c for c in contacts if c["recent"]]
-        label = "recent"
     else:
         pool = contacts
-        label = "all"
 
     # Stratified sampling: take top N/8 per archetype so the export is
     # diverse across archetypes rather than 100% Builder ceiling-collapse.
@@ -226,11 +224,55 @@ def main():
         key=lambda x: -x["nci"]
     )
     top.extend(remainder[:max(0, top_n - len(top))])
-    top = top[:top_n]
+    return top[:top_n]
 
-    os.makedirs(OUT_DIR, exist_ok=True)
+
+def _positive_int(v):
+    try:
+        n = int(v)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not an integer: {v!r}")
+    if n < 1:
+        raise argparse.ArgumentTypeError(f"must be >= 1: {n}")
+    return n
+
+
+def parse_args(argv):
+    ap = argparse.ArgumentParser(prog="export_apollo.py",
+                                 description="Export top-N connections by NCI as an Apollo.io import CSV.",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    ap.add_argument("top_n", nargs="?", type=_positive_int, default=500, help="how many contacts (default 500)")
+    ap.add_argument("mode", nargs="?", choices=["all", "recent"], default="all",
+                    help="all (default) or recent (connected 2023-2026)")
+    ap.add_argument("--dry-run", action="store_true", help="print the summary and target path; write nothing")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic data")
+    return ap.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(sys.argv[1:] if argv is None else argv)
+    if args.self_test:
+        return self_test()
+    top_n, label = args.top_n, args.mode
+
+    print(f"Loading connections...")
+    contacts = load(CSV_PATH)
+    top = select(contacts, top_n, label)
+
     out_path = os.path.join(OUT_DIR, f"apollo_top{top_n}_{label}.csv")
+    if args.dry_run:
+        print(f"  [dry-run] would export {len(top)} contacts → {out_path}")
+        print()
+    else:
+        _write(out_path, top)
+        print(f"  Exported {len(top)} contacts → {out_path}")
+        print()
+    _summary(top, out_path)
+    return 0
 
+
+def _write(out_path, top):
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         # Apollo expected headers for people import
@@ -244,9 +286,8 @@ def main():
                 c["url"], c["primary_arch"], c["nci"], c["year"] or ""
             ])
 
-    print(f"  Exported {len(top)} contacts → {out_path}")
-    print()
 
+def _summary(top, out_path):
     # Summary breakdown
     from collections import Counter
     arch_counts = Counter(c["primary_arch"] for c in top)
@@ -276,5 +317,66 @@ def main():
     print(f"File: {out_path}")
 
 
+def _snapshot(root):
+    import hashlib
+    out = {}
+    for p in sorted(Path(root).rglob("*")):
+        if p.is_file():
+            out[str(p)] = (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+    return out
+
+
+def self_test():
+    """Copy this script into a temp dir and assert the argv contract via subprocess (synthetic data only)."""
+    import shutil, subprocess, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="export-apollo-selftest-"))
+    try:
+        (tmp / "scripts").mkdir()
+        me = tmp / "scripts" / "export_apollo.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        fixture = tmp / "Connections.csv"
+        fixture.write_text(
+            "Notes:\n\"synthetic fixture\"\n\n"
+            "First Name,Last Name,URL,Email Address,Company,Position,Connected On\n"
+            "Alpha,Test,https://example.invalid/a,,Acme,Founder and CEO,01 Jan 2025\n"
+            "Beta,Test,https://example.invalid/b,,Widgets,Software Engineer,02 Feb 2019\n"
+            "Gamma,Test,https://example.invalid/c,,Studio,Product Designer,03 Mar 2024\n",
+            encoding="utf-8")
+        env = dict(os.environ, CONNECTIONS_CSV=str(fixture))
+        fails = total = 0
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp, env=env)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("extra positional exits 2", run("5", "recent", "extra").returncode == 2)
+        ok("unknown mode exits 2", run("5", "recnt").returncode == 2)
+        ok("non-integer N exits 2", run("five").returncode == 2)
+        ok("zero N exits 2", run("0").returncode == 2)
+        r = run("--dry-run", "2", "recent")
+        ok("--dry-run exits 0", r.returncode == 0)
+        ok("--dry-run reports would-export", "[dry-run] would export 2" in r.stdout)
+        ok("--dry-run writes nothing", _snapshot(tmp) == before)
+        r = run("2")
+        out = tmp / "exports" / "apollo_top2_all.csv"
+        ok("write mode exits 0", r.returncode == 0)
+        rows = out.read_text(encoding="utf-8").splitlines() if out.exists() else []
+        ok("write mode writes header + 2 rows", len(rows) == 3 and rows[0].startswith("First Name,"))
+        r = run("5", "recent")
+        rows = (tmp / "exports" / "apollo_top5_recent.csv").read_text(encoding="utf-8").splitlines()
+        ok("recent mode keeps only 2023+ connections", len(rows) == 3)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"export_apollo self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

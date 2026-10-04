@@ -16,6 +16,8 @@ Usage:
   python3 scripts/backlog_issue_sync.py --dry-run  # print what would be created
   python3 scripts/backlog_issue_sync.py --check    # exit 1 if any gh_sync row lacks gh_issue
   python3 scripts/backlog_issue_sync.py board      # air-traffic board: open rows, blockers, 2nd/3rd/4th-order unblocks
+  python3 scripts/backlog_issue_sync.py --self-test  # argv contract in a temp repo with a stubbed gh
+--check, --dry-run and board are read-only: they never write the backlog and never call gh.
 """
 from __future__ import annotations
 
@@ -88,18 +90,39 @@ def board(all_rows: list[dict]) -> None:
         print(f"#{str(r.get('gh_issue') or '-'):<5} {r['id'][:40]:<40} {st:<9} {'; '.join(blockers) or '-'} -> {ds}")
 
 
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="backlog_issue_sync.py",
+                                 description="Mirror gh_sync backlog rows to GitHub issues (create-only).")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="exit 1 if any gh_sync row lacks gh_issue (read-only)")
+    mode.add_argument("--dry-run", action="store_true", help="print what would be created (read-only)")
+    mode.add_argument("--self-test", action="store_true", help="argv contract in a temp repo, stubbed gh")
+    sub = ap.add_subparsers(dest="cmd")
+    sub.add_parser("board", help="air-traffic board (read-only)")
+    return ap
+
+
 def main(argv: list[str]) -> int:
+    ap = build_parser()
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.cmd:
+            ap.error("--self-test takes no subcommand")
+        return self_test()
+    if a.cmd == "board" and (a.check or a.dry_run):
+        ap.error("board takes no --check/--dry-run")
     all_rows = rows()
     by_id = {r["id"]: r for r in all_rows if r.get("id")}
-    if argv[:1] == ["board"]:
+    if a.cmd == "board":
         board(all_rows); return 0
     todo = [r for r in all_rows if r.get("id") and r.get("gh_sync") and not r.get("gh_issue")]
-    if "--check" in argv:
+    if a.check:
         print(f"backlog-sync: {len(todo)} gh_sync row(s) without an issue")
         return 1 if todo else 0
     for r in todo:
         title = f"[backlog] {r['id']}"
-        if "--dry-run" in argv:
+        if a.dry_run:
             print(f"would create: {title}"); continue
         p = subprocess.run(["gh", "issue", "create", "--title", title, "--body", body(r, by_id)], capture_output=True, text=True, cwd=ROOT)
         if p.returncode != 0:
@@ -107,9 +130,65 @@ def main(argv: list[str]) -> int:
         url = p.stdout.strip().splitlines()[-1]
         r["gh_issue"] = int(url.rstrip("/").split("/")[-1]); r["gh_url"] = url
         print(f"created #{r['gh_issue']} for {r['id']}")
-    if "--dry-run" not in argv:
+    if not a.dry_run:
         write(all_rows)
     return 0
+
+
+def _snapshot(paths: list[Path]) -> dict:
+    import hashlib
+    return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) if p.exists() else None
+            for p in paths}
+
+
+def self_test() -> int:
+    """Copy this script into a temp repo, put a recording gh stub first on PATH, assert the argv contract."""
+    import os, shutil, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="backlog-sync-selftest-")).resolve()
+    fails = total = 0
+    try:
+        (tmp / "scripts").mkdir(); (tmp / "_QUEUE").mkdir(); (tmp / "bin").mkdir()
+        me = tmp / "scripts" / "backlog_issue_sync.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        log = tmp / "gh-calls.log"
+        gh = tmp / "bin" / "gh"
+        gh.write_text(f'#!/bin/sh\necho "$@" >> "{log}"\necho https://github.com/x/y/issues/42\n', encoding="utf-8")
+        gh.chmod(0o755)
+        backlog = tmp / "_QUEUE" / "induced-backlog.jsonl"
+        backlog.write_text(json.dumps({"id": "row-a", "gh_sync": True, "status": "OPEN"}) + "\n"
+                           + json.dumps({"id": "row-b", "status": "OPEN", "depends_on": ["row-a"]}) + "\n", encoding="utf-8")
+        env = dict(os.environ, PATH=f"{tmp / 'bin'}{os.pathsep}{os.environ.get('PATH', '')}")
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp, env=env)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1; fails += 0 if cond else 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+
+        before = _snapshot([backlog])
+        ok("unknown flag exits 2", run("--dryrun").returncode == 2)
+        ok("extra positional exits 2", run("board", "extra").returncode == 2)
+        ok("unknown subcommand exits 2", run("bored").returncode == 2)
+        ok("--check with --dry-run exits 2", run("--check", "--dry-run").returncode == 2)
+        ok("board with --check exits 2", run("board", "--check").returncode == 2)
+        r = run("--check")
+        ok("--check exits 1 on an unsynced row", r.returncode == 1 and "1 gh_sync row" in r.stdout)
+        r = run("--dry-run")
+        ok("--dry-run previews the create", r.returncode == 0 and "would create: [backlog] row-a" in r.stdout)
+        r = run("board")
+        ok("board renders", r.returncode == 0 and "row-b" in r.stdout)
+        ok("read-only modes write nothing", _snapshot([backlog]) == before)
+        ok("read-only modes and bad argv call no gh", not log.exists())
+        r = run()
+        rows_after = [json.loads(l) for l in backlog.read_text(encoding="utf-8").splitlines() if l.strip()]
+        ok("real sync (stubbed gh) writes the number back", r.returncode == 0 and rows_after[0].get("gh_issue") == 42)
+        ok("real sync called gh issue create once", log.exists() and log.read_text().count("issue create") == 1)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"backlog_issue_sync self-test: {total - fails}/{total}")
+    return 1 if fails else 0
 
 
 if __name__ == "__main__":

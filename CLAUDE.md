@@ -114,6 +114,51 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.77.0 (2026-10-04)
+
+> **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
+> and a prompt pack.** Two PRs merged on Zach's explicit go: #689 (`6892b016`) and #709 (`8f2f98e2`);
+> receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH` and `2026-10-04--video-cut-type-pr709--ZH`.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script counts the whole repo's day: 91 commits, 16 merges to main. This session by hand: 6 commits (`62492a31`, `da76e4e0`, `87645dbd`, `a226b139`, `9e311959`, `1fe7d3de`) + 1 conflict merge (`48bada1c`), 2 merges to main (#689, #709), 2 receipts.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers (script). By hand: one red check refused (fe-smoke on #709, fixed before merge), one invented caption cut on Zach's ask.
+- **Breath balance**: script read manifesto; with the by-hand inhale, breathing.
+- **Sycophancy check**: agreement 25 / dissent 0 (ratio 25.0) -> RETURN by script; the refused red merge and the cut caption are the session's dissent, not recorded as markers.
+- **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the prompt pack is stated as untried, not as working. Nothing dropped.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **#689 unblocked:** merged origin/main into `claude/greeting-wedifk` (`48bada1c`). The one conflict,
+  `scripts/connector_render.py`, took main's side: main's repo-keyed `EXTERNAL_PAGES` row already gave
+  the honest card its gh URL and clone chip. All checks green, then `--merge`.
+- **Video cut type (`scripts/video_cut.py`):** spec in `_QUEUE/video/<id>.json` (beats: caption,
+  duration, accent, shot = subject/camera/motion/light; aspects 16:9 + 9:16). `build` writes
+  `_PROPOSALS/video/<id>-<16x9|9x16>.html` (the `window.DURATION` + `window.seek(t)` contract of
+  `scripts/html_video_render.mjs`, palette read from `src/ui-kit/recoil-report/_tokens.css`, Inter +
+  JetBrains Mono from `public/fonts/`) and `<id>-prompts.md` (per-beat, per-aspect prompts + one
+  negative prompt; captions kept out because models garble text). Gates reuse `linkedin_cut.py`'s
+  slop_lint, provenance_lint, PII; `--self-test` covers 7 fail-on-bad mutations + font asserts.
+- **First input:** `tao-284`, 4 beats, 14.5s, captions are the proverb's words only (an invented
+  bridge caption was cut on Zach's ask). MP4s rendered locally, not committed.
+
+## Open (next session)
+1. The prompt pack is untried against any external video model: paste one beat, compare to the HTML
+   render. That test decides whether the generative path earns its keep.
+2. `video_cut.py` and `linkedin_cut.py` run in no hook or CI job; wire both or neither.
+3. Carried: `shavasana_handoff.py` exhale author filter; `post-1-brief` / `post-1-exec` wrap-lint.
+
+## Lessons (in the record)
+- `fe-smoke`'s page gate sweeps every changed `_PROPOSALS/*.html` at 375/790. A fixed-size video frame
+  overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
+  rendered poster stayed pixel-identical (ffmpeg PSNR inf).
+- The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
+
 # Handoff — v3.76.0 (2026-10-04)
 
 > **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views
@@ -157,7 +202,9 @@ _This block asserts nothing new. Counts, paths, and questions only._
 1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
    `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
    `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-2. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
+2. ~~`post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main~~ RESOLVED 2026-10-04: PR #718
+   merged at `0c2365a7`; `max-width:68ch` on `<main>` pinned to `680px` in both pages and
+   `scripts/blog_render.py`; wrap-lint clean on main; receipt `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`.
 3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud
    sessions, commits authored "Zach Harris"), so it reads 0. Count by repo/branch, or match both names.
@@ -169,57 +216,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   ci.yml. Count what ran before trusting a pass.
 - A hand edit to a generated page reddens every PR, not only its own: #695's two-line `good.html` change
   failed generated-views on main until the generator learned the row key.
-
-# Handoff — v3.75.0 (2026-10-04)
-
-> **Stopped-light research → ARCS design rules, a nested skill, an oracle fix, and an NFTT essay with a
-> go-deeper companion.** Two PRs merged on Zach's explicit go: #683 (`5d64551`) and #686 (`44b80d1`);
-> receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH` and
-> `2026-10-04--nftt-research-companion-tao284-pr686--ZH`. Both served from the Vercel deployment URL;
-> the pretty good.arcs.care routes are unconfirmed (the cloud egress proxy blocks good.arcs.care).
-
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file. (Script counts 2026-10-04 UTC only; the session spanned 2026-10-03/04 with 8 session commits, 2 merges #683 #686, 2 receipts.)
-- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale) on the 10-04 window; breathing across the full session.
-- **Sycophancy check**: agreement 4 / dissent 3 (ratio 1.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): "live-verified" narrowed to "served from the deployment URL"; the pretty good.arcs.care routes stay unconfirmed (egress block). "Cheapest high-value fix" downgraded to "a one-line hook change". Nothing dropped.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **Research:** `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`: claim check of a
-  LinkedIn post on Hau's stopped light, 2026 state of the art, 15 isomorphisms labelled MECHANISM or
-  METAPHOR, 5 inventions each with a pre-registered kill condition. Top 3 in the induced backlog
-  (`freshness-zeno-ceiling`, `echo-scheduled-receipts`, `memory-seven-axis-scorecard`).
-- **Skill:** `/echo-scan` (`.claude/skills/echo-scan/`), the working form of ROM primitive 5, with a
-  nested `claim-check` module (`references/claim-check.md`) also callable standalone. A fresh-agent run
-  of the module found 7 gaps and a wrong expected verdict in its own eval; all fixed in `c04c21f`.
-- **Oracle fix (`4583555`):** `scripts/oracle.py` matched only argv[0..1], so `next seed --dry-run`
-  allocated for real and stamped a pulse beat. Now strict parse (unknown flag, extra arg, missing value
-  -> exit 2), a real `next <ns> --dry-run`, and `--self-test` 12/12 wired into pre-commit.
-- **NFTT:** "Light at Thirty-Eight Miles an Hour" (the session's own story, including the false herald it
-  refused to commit) + companion `/research` page (go-deeper, tao-waiver as a companion) + `tao-284`.
-- Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
-
-## Open (next session)
-1. Seeds planted this handoff: `seed-pattern-strict-cli-args` (candidate), `seed-skill-echo-scan`, and
-   `seed-gate-hookspath-bootstrap`, germinated the same day: `.claude/hooks/session-start.sh` now arms
-   `core.hooksPath` when unset, so fresh clones run the pre-commit chain.
-2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
-   posts), and Tao backfill for the 4 NFTT posts still uncovered.
-3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
-4. Backlog inventions untouched; each carries its kill condition.
-
-## Lessons (in the record)
-- A preview flag a tool does not recognize turns a look into a touch. 61 of 63 `scripts/*.py` that read
-  argv parse it by hand (38 of those write files); the oracle was one instance of the class.
-- A herald must come from the write it reports. The pulse beat from a reverted allocation was refused;
-  the beat from the real tao-284 allocation was committed.
-- `core.hooksPath` unset in this clone: commits `43a3ff9` and `248036c` ran no gates, and the essay
-  shipped without the tao-coverage check until `08233e4`.
