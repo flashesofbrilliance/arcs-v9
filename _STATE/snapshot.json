@@ -2,14 +2,15 @@
   "captured_at": "2026-09-13T11:07:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "e77b43d",
-    "head_message": "Merge pull request #433 from flashesofbrilliance/fresh-starts",
-    "in_sync_with_origin": true,
+    "head_sha": "8ae82b5d",
+    "head_message": "fix(wrap): kill two lede-width dead gutters on build + growth-ai [NCI:70]",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -45,5 +46,5 @@
   "next_action": "Thread 2 scores the 578 bridge_scan rows with rubric v1.0, then reconcile the H1-H4 denominator.",
   "blocking": "NONE",
   "handoff_version": "v3.61.0",
-  "git_refreshed_at": "2026-09-14T11:13:22Z"
+  "git_refreshed_at": "2026-09-14T20:32:27Z"
 }
