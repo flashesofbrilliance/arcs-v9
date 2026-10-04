@@ -1,20 +1,16 @@
 {
-  "captured_at": "2026-09-28T09:54:05-04:00",
+  "captured_at": "2026-10-03T22:27:00-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "739373f0",
-    "head_message": "Merge pull request #636 from flashesofbrilliance/claude/conduit-viewer-analytics",
+    "head_sha": "ac92aaed",
+    "head_message": "Merge pull request #691 from flashesofbrilliance/claude/essay-tribes-vibes-lies-handoff",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "_INBOX/lattice-drift.jsonl",
-      "_INBOX/pulse.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "_STATE/pulse.json"
-    ]
+    "dirty_files": [],
+    "note": "origin/main at handoff merge time; handoff renumbered v3.74.0 (parallel session took v3.73.0)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-ktk2n9u9w-arcs-care.vercel.app",
+    "latest_deploy_url": "arcs-v9-9zuo3cpvr-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -23,8 +19,9 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "verified_sha": "740aa55f",
-    "note": "latest_deploy = merge of PR #591; env list carried from prior snapshot, not re-listed this session"
+    "verified_sha": "0bfa5877",
+    "note": "latest_deploy = merge of PR #688, verified via Vercel MCP get_deployment (good.arcs.care alias). env_vars_present carried from prior snapshot: NOT re-listed (no vercel CLI in the cloud container).",
+    "deployment_id": "dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,13 +37,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt: no row from this session yet; one follows the merge of PR #586. Funnel read-only pull 2026-09-27: external 10/4/6/0, founder 196/135/3."
+    "note": "decision_receipt row 2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH written this session (Supabase execute_sql). Prisma schema not re-checked this session."
   },
   "open_adrs": [
-    "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
+    "none minted this session"
   ],
-  "session_summary": "Chip rank 7: Librarian.recommend(q, budget) by expected value; Operator 21 rebound latest -> recommend, READY on probe; PR #613 merged 150beb19, receipt 2026-09-28--librarian-recommend-op21-merge--ZH.",
-  "next_action": "Append status to backlog row librarian-recommend-needle when claude/fanout-ranks-2-7 lands on main, close issue #584, then wire unfold.py to recommend.",
+  "session_summary": "NFTT: publish timestamps on all 32 routed posts from git; the seven PR #411 essays denoted as one serialized thread; index reorganized; PR #688 merged 0bfa5877, receipt 2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH.",
+  "next_action": "Zach reviews the new NFTT wording on good.arcs.care/blog/nftt; then decide LinkedIn first-published dates; fix shavasana_handoff.py author filter.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-09-29T01:51:36Z"
+  "git_refreshed_at": "2026-10-04T02:27:00Z"
 }
