@@ -389,7 +389,7 @@ const page = `<!DOCTYPE html>
   .sec-blurb{font-size:13px;color:var(--fg4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .sec-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
 
-  /* publish date (from runtime/specs/nftt-published.json) */
+  /* publish date + series part */
   .dt{display:block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;color:var(--fg4);margin-bottom:8px;}
   .feat-k + .dt{margin:8px 0 0;}
 
