@@ -58,6 +58,7 @@ test("unknown route renders the branded 404", async ({ page }) => {
 
 test("missing brief is a dead end with a way back, not a lone error line", async ({ page }) => {
   await page.goto("/brief/does-not-exist-000", { waitUntil: "networkidle" })
-  await expect(page.locator("h1")).toHaveText("We can't find that brief.")
+  // "can't find" when the DB answers 404; "didn't load" where CI boots without a DB.
+  await expect(page.locator("h1")).toHaveText(/We can't find that brief\.|This brief didn't load\./)
   await expect(page.getByRole("link", { name: /your ledger/i })).toBeVisible()
 })
