@@ -22,8 +22,11 @@ function getAdrList(): Array<{ id: string; label: string }> {
 }
 
 export async function GET(req: NextRequest) {
+  // Signed-in only. With no session, `userId` was null and `where: { userId }`
+  // matched every ANONYMOUS receipt, exposing their decision text to anyone.
   const session = await auth()
-  const userId = session?.user?.id ?? null
+  const userId = session?.user?.id
+  if (!userId) return NextResponse.json({ error: "Sign in to link" }, { status: 401 })
 
   const q = req.nextUrl.searchParams.get("q") ?? ""
   const type = req.nextUrl.searchParams.get("type") ?? "ALL"
@@ -68,7 +71,7 @@ export async function GET(req: NextRequest) {
     }))
   }
 
-  if ((type === "ALL" || type === "WISDOM") && userId) {
+  if (type === "ALL" || type === "WISDOM") {
     const wisdom = await prisma.annotation.findMany({
       where: {
         userId,
