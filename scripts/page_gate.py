@@ -20,8 +20,11 @@ STATIC checks (stdlib, no browser):
 
 RENDER checks (headless Chromium via Playwright; skipped with --static):
   E overflow     document wider than the viewport at 375, 790, 1280
-  W lede         at 1280 the hero lede ends short of its heading's lane. Warning, not error:
-                 index pages put the lede on the 680px measure on purpose (2026-09-29 exception).
+  E lede         at 1280 the hero lede's box ends short of its heading's lane (> 24px). The
+                 narrow lede is invisible to overflow checks and the static lint's 120px
+                 container/measure threshold missed it on 21 NFTT posts (2026-10-04), so it fails.
+                 The one sanctioned exception, text INDEX pages that put the lede on the 680px
+                 measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
 USAGE
   python3 scripts/page_gate.py [--static] [--no-wrap-lint] FILE.html [FILE2.html ...]
@@ -126,7 +129,8 @@ const { chromium } = require('playwright');
           const lane = h.parentElement.getBoundingClientRect();
           const cs = getComputedStyle(h.parentElement);
           const laneRight = lane.right - parseFloat(cs.paddingRight || 0);
-          return { gap: Math.round(laneRight - l.getBoundingClientRect().right) };
+          return { gap: Math.round(laneRight - l.getBoundingClientRect().right),
+                   index: l.getAttribute('data-measure') === 'index' };
         });
       }
       await p.close();
@@ -203,9 +207,10 @@ def main():
                     if px > 0:
                         errs.append(f"overflow: {px}px wider than the viewport at {w}px")
                 lede = d.get("lede")
-                if lede and lede["gap"] > 24:
-                    warns.append(f"lede: ends {lede['gap']}px short of the heading's lane at "
-                                 f"{max(WIDTHS)}px (fine on an index page, else span the lane)")
+                if lede and lede["gap"] > 24 and not lede.get("index"):
+                    errs.append(f"lede: ends {lede['gap']}px short of the heading's lane at "
+                                f"{max(WIDTHS)}px; span the lane (max-width:none), or on a text "
+                                f"index page mark it <p class=\"lede\" data-measure=\"index\">")
 
     failed = 0
     for f, (errs, warns) in results.items():

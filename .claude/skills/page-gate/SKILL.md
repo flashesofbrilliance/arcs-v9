@@ -33,7 +33,7 @@ session the repo's packages are usually not installed; the global copy is enough
 | ERROR | mojibake already in the file | `Â·`, `â€”` mean text was once decoded wrong and saved |
 | ERROR | `artifact_wrap_lint.py` | em-dash, `ch` caps, container/measure mismatch |
 | ERROR | overflow at 375 / 790 / 1280 | horizontal scroll on phones and the 700-1000 band |
-| warn | lede ends short of the heading's lane at 1280 | the standing full-width-lede preference; an INDEX page's 680px measure is the sanctioned exception, so judge it |
+| ERROR | lede ends short of the heading's lane at 1280 (> 24px) | the standing full-width-lede preference; invisible to overflow checks and missed by the static lint's 120px threshold on 21 NFTT posts (2026-10-04). A text INDEX page on the 680px measure opts out on the element: `<p class="lede" data-measure="index">` |
 | warn | en-dash in visible text | fine in a range, otherwise reword |
 | warn | Google Fonts dependency | render-blocking chain and a visible font swap; self-host |
 | warn | public page without `/_vercel/insights` | analytics coverage |
@@ -45,7 +45,8 @@ session the repo's packages are usually not installed; the global copy is enough
 2. Clone a template, then gate it immediately: the NFTT master `public/blog-nftt-take-home-trap.html`
    lacks doctype and charset, so every clone inherits the gap until the master is fixed.
 3. For a bulk edit, take a `--static` baseline first, then gate after; the delta is the receipt.
-4. The pre-commit hook runs the static checks on NEWLY ADDED pages in `public/`, `_ARTIFACTS/`
+4. CI (`fe-smoke` job) runs the FULL gate, render checks included, on every page a pull request
+   adds or changes. The pre-commit hook runs the static checks on NEWLY ADDED pages in `public/`, `_ARTIFACTS/`
    and `_PROPOSALS/` (hooks are active only after `git config core.hooksPath scripts/git-hooks`).
    Legacy pages are not blocked on edit; clear them in a sweep.
 5. A new failure class goes into `page_gate.py` with a fail-on-bad and pass-on-good proof
