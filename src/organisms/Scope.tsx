@@ -28,7 +28,7 @@ import { text, signal, font, border } from "@/ui/tokens"
 // pan, Cmd/Ctrl-scroll or pinch to zoom, Option-scroll to dolly, double-click
 // or 0 to reset. Plain scroll always belongs to the page.
 
-const S = 400
+const S = 400 // logical height; logical width follows the aspect
 const TAU = Math.PI * 2
 const GRID = 46
 const SUMMIT = { u: 0.06, v: -0.04 }
@@ -252,7 +252,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // The first overlays settle in as droplets, a beat apart.
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
-    const st = { fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
+    const st = { sw: S, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
     const markers: { id: string; x: number; y: number }[] = []
@@ -260,10 +260,14 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const resize = () => {
       const w = wrap.clientWidth
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      // Wide hero on desktop, near-square on a phone.
+      const aspect = w >= 900 ? 2.3 : w >= 600 ? 1.6 : 1.05
+      const h = Math.round(w / aspect)
       canvas.width = Math.round(w * dpr)
-      canvas.height = Math.round(w * dpr)
-      canvas.style.height = `${w}px`
-      st.scale = (w * dpr) / S
+      canvas.height = Math.round(h * dpr)
+      canvas.style.height = `${h}px`
+      st.scale = (h * dpr) / S
+      st.sw = S * (w / h)
     }
     resize()
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()) })
@@ -273,7 +277,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
     const local = (ev: { clientX: number; clientY: number }) => {
       const r = canvas.getBoundingClientRect()
-      return { x: ((ev.clientX - r.left) / r.width) * S, y: ((ev.clientY - r.top) / r.height) * S }
+      return { x: ((ev.clientX - r.left) / r.width) * st.sw, y: ((ev.clientY - r.top) / r.height) * S }
     }
     const touch = () => { ctl.pausedUntil = Math.max(ctl.pausedUntil, performance.now() + 8000) }
     const panBy = (dx: number, dy: number) => {
@@ -376,7 +380,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ;(Object.keys(cam) as (keyof Cam)[]).forEach((k) => { cam[k] += (tgt.current[k] - cam[k]) * ce })
 
       const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch)
-      const D = cam.dist, F = 360 * cam.zoom * (cam.dist / 2.7), CX = 200, CY = 214
+      const SW = st.sw, MX = SW / 2
+      // A wide canvas gets a longer lens so the field fills the hero.
+      const wide = SW / S > 1.4 ? 1.32 : 1
+      const D = cam.dist, F = 360 * wide * cam.zoom * (cam.dist / 2.7), CX = MX, CY = 214
       const proj = (u: number, h: number, v: number) => {
         const uu = u - cam.pu, vv = v - cam.pv
         const x1 = uu * cy - vv * sy
@@ -407,12 +414,12 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.setTransform(st.scale, 0, 0, st.scale, 0, 0)
       ctx.globalCompositeOperation = "source-over"
       ctx.fillStyle = "#02050a"
-      ctx.fillRect(0, 0, S, S)
+      ctx.fillRect(0, 0, SW, S)
       const vg = ctx.createRadialGradient(CX, CY, 40, CX, CY, 290)
       vg.addColorStop(0, rgba(isClear ? signal.green : signal.cyan, 0.035 + clarity * 0.03))
       vg.addColorStop(1, "rgba(0,0,0,0)")
       ctx.fillStyle = vg
-      ctx.fillRect(0, 0, S, S)
+      ctx.fillRect(0, 0, SW, S)
 
       // The ground ruling: fixed world spacing, so zooming between coarse and
       // fine makes it interfere with the terraces and the point grid. The
@@ -478,7 +485,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         if (vis < 0.02) continue
         const sc = fogv * p.keep
         const s = proj(p.u + p.ju * 0.09 * sc, p.h + p.jy * 0.5 * sc, p.v + p.jv * 0.09 * sc)
-        if (!s || s.x < -10 || s.x > S + 10 || s.y < -10 || s.y > S + 10) continue
+        if (!s || s.x < -10 || s.x > SW + 10 || s.y < -10 || s.y > S + 10) continue
         const depthFade = 1 - Math.min(1, Math.max(0, (s.d - 1.9) / 1.8)) * (0.3 + fogv * 0.3)
         let a = (0.36 + clarity * 0.2 + p.edge * clarity * 0.3) * depthFade * vis
         let x = s.x, y = s.y
@@ -504,7 +511,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const n = Math.round(260 * fogv)
         for (let i = 0; i < n; i++) {
           ctx.fillStyle = rgba("#9fb3c8", 0.04 + speck() * 0.12 * fogv)
-          ctx.fillRect(speck() * S, speck() * S, 0.8, 0.8)
+          ctx.fillRect(speck() * SW, speck() * S, 0.8, 0.8)
         }
       }
       ctx.globalCompositeOperation = "source-over"
@@ -532,7 +539,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const textW = Math.max(ctx.measureText(w.label.toUpperCase()).width, noteA > 0.05 ? ctx.measureText(w.note).width * 0.92 : 0) + 4
         // Flip a label to the left of its marker rather than run off the
         // field or under the clarity gauge.
-        const flip = top.x + 7 + textW > 368
+        const flip = top.x + 7 + textW > SW - 32
         const tx = flip ? top.x - 7 : top.x + 7
         const box = { x: flip ? top.x - 5 - textW : top.x + 5, y: top.y - 6, w: textW, h: noteA > 0.05 ? 22 : 12 }
         const free = !placed.some((b) => box.x < b.x + b.w && b.x < box.x + box.w && box.y < b.y + b.h && b.y < box.y + box.h)
@@ -592,7 +599,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           }
           if (!bp) return
           const y = Math.max(bp.y, prevY + 18); prevY = y
-          const LX = Math.min(330, bp.x + 26)
+          const LX = Math.min(SW - 70, bp.x + 26)
           ctx.strokeStyle = rgba(TIER_COLOR[tier], 0.45 * tierA); ctx.lineWidth = 0.7
           ctx.beginPath(); ctx.moveTo(bp.x + 3, bp.y); ctx.lineTo(LX - 5, y); ctx.stroke()
           ctx.fillStyle = rgba(TIER_COLOR[tier], tierA)
@@ -625,17 +632,17 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
       const hud = rgba("#94a3b8", 0.85), dim = rgba("#64748b", 0.9)
       ctx.strokeStyle = rgba("#94a3b8", 0.4); ctx.lineWidth = 1
-      ;[[10, 10, 1, 1], [390, 10, -1, 1], [390, 390, -1, -1], [10, 390, 1, -1]].forEach(([x, y, dx, dy]) => {
+      ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, 390, -1, -1], [10, 390, 1, -1]].forEach(([x, y, dx, dy]) => {
         ctx.beginPath(); ctx.moveTo(x, y + dy * 14); ctx.lineTo(x, y); ctx.lineTo(x + dx * 14, y); ctx.stroke()
       })
       ctx.font = `600 7.5px ${font.mono}`
       ctx.textBaseline = "alphabetic"
       const hdg = ((-cam.yaw * 180) / Math.PI % 360 + 360) % 360
       ctx.save()
-      ctx.beginPath(); ctx.rect(130, 14, 140, 22); ctx.clip()
+      ctx.beginPath(); ctx.rect(MX - 70, 14, 140, 22); ctx.clip()
       for (let dgr = -90; dgr <= 90; dgr += 5) {
         const val = Math.round((hdg + dgr) / 5) * 5
-        const x = 200 + (val - hdg) * 1.4
+        const x = MX + (val - hdg) * 1.4
         const major = ((val % 30) + 30) % 30 === 0
         ctx.strokeStyle = rgba("#94a3b8", major ? 0.6 : 0.3)
         ctx.beginPath(); ctx.moveTo(x, 34); ctx.lineTo(x, major ? 27 : 30); ctx.stroke()
@@ -643,11 +650,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       }
       ctx.restore()
       ctx.fillStyle = signal.cyan
-      ctx.beginPath(); ctx.moveTo(200, 37); ctx.lineTo(196.5, 42); ctx.lineTo(203.5, 42); ctx.closePath(); ctx.fill()
+      ctx.beginPath(); ctx.moveTo(MX, 37); ctx.lineTo(MX - 3.5, 42); ctx.lineTo(MX + 3.5, 42); ctx.closePath(); ctx.fill()
       ctx.textAlign = "center"; ctx.fillStyle = hud
-      ctx.fillText(`HDG ${pad(hdg, 3)}`, 200, 52)
+      ctx.fillText(`HDG ${pad(hdg, 3)}`, MX, 52)
 
-      const gx = 382, gy0 = 120, gy1 = 300
+      const gx = SW - 18, gy0 = 120, gy1 = 300
       ctx.strokeStyle = rgba("#94a3b8", 0.3)
       ctx.strokeRect(gx - 2, gy0, 4, gy1 - gy0)
       const fillTop = gy1 - (gy1 - gy0) * clarity
@@ -656,11 +663,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.save(); ctx.translate(gx - 8, (gy0 + gy1) / 2); ctx.rotate(-Math.PI / 2)
       ctx.textAlign = "center"; ctx.fillStyle = dim; ctx.fillText("CLARITY", 0, 0); ctx.restore()
       ctx.textAlign = "right"; ctx.fillStyle = hud
-      ctx.fillText(`${pad(clarity * 100, 2)}%`, 388, gy1 + 13)
+      ctx.fillText(`${pad(clarity * 100, 2)}%`, SW - 12, gy1 + 13)
 
       if (now - st.hint < 1400) {
         ctx.textAlign = "center"; ctx.fillStyle = rgba("#e2e8f0", 0.9)
-        ctx.fillText("HOLD ⌘ OR CTRL TO CHANGE DEPTH", 200, 372)
+        ctx.fillText("HOLD ⌘ OR CTRL TO CHANGE DEPTH", MX, 372)
       }
 
       if (!reduced) st.raf = requestAnimationFrame(loop)

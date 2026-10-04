@@ -173,20 +173,26 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
         </div>
         <Rule style={{ marginBottom: "clamp(2rem, 6vw, 3.5rem)" }} />
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))", gap: "clamp(2rem, 5vw, 3.5rem)", alignItems: "start", marginBottom: "clamp(3rem, 8vw, 5rem)" }}>
-          <div>
-            <h1 style={{ fontFamily: sans, fontSize: "clamp(2rem, 4.6vw, 2.9rem)", fontWeight: 600, lineHeight: 1.08, letterSpacing: "-0.03em", color: text.primary, margin: "0 0 1.25rem", textWrap: "balance" }}>
-              Every hard decision starts in fog.
-            </h1>
-            <p style={{ fontFamily: sans, fontSize: "1.0625rem", lineHeight: 1.7, color: text.secondary, margin: "0 0 2rem", textWrap: "pretty" }}>
-              {home
-                ? "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. It shows you the terrain. The decision stays yours."
-                : "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. The compass is open now. The waitlist is for full-service access as it opens."}
-            </p>
+        {/* One column: the headline names it, the field shows it, the copy
+            says it, then the one move. The lede spans the full lane. */}
+        <section style={{ marginBottom: "clamp(3rem, 8vw, 5rem)" }}>
+          <h1 style={{ fontFamily: sans, fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 600, lineHeight: 1.06, letterSpacing: "-0.03em", color: text.primary, margin: "0 0 clamp(1.25rem, 3vw, 2rem)", textWrap: "balance" }}>
+            Every hard decision starts in fog.
+          </h1>
 
-            {home ? (
-              <>
-              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
+          <div style={{ marginBottom: "clamp(1.5rem, 3vw, 2.25rem)" }}>
+            <Scope fog={fog} clear={phase === "done"} zone={zone.label} zoneColor={zone.color} />
+          </div>
+
+          <p style={{ fontFamily: sans, fontSize: "clamp(1.0625rem, 1.6vw, 1.1875rem)", lineHeight: 1.65, color: text.secondary, margin: "0 0 1.75rem", textWrap: "pretty" }}>
+            {home
+              ? "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. It shows you the terrain. The decision stays yours."
+              : "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. The compass is open now. The waitlist is for full-service access as it opens."}
+          </p>
+
+          {home ? (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
                 <Link href="/dashboard" style={{ textDecoration: "none", borderRadius: 6 }} {...lean}>
                   <Button size="lg" glyph="⊕" tabIndex={-1}>Open the compass</Button>
                 </Link>
@@ -196,13 +202,12 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
                   </Link>
                 )}
               </div>
-              {waitlist}
-              </>
-            ) : waitlist}
-          </div>
-
-          <div style={{ width: "100%", maxWidth: 560, justifySelf: "center" }}><Scope fog={fog} clear={phase === "done"} zone={zone.label} zoneColor={zone.color} /></div>
-        </div>
+              <div style={{ maxWidth: 560 }}>{waitlist}</div>
+            </>
+          ) : (
+            <div style={{ maxWidth: 560 }}>{waitlist}</div>
+          )}
+        </section>
 
         {!home && (
           <>
