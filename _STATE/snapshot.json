@@ -2,9 +2,9 @@
   "captured_at": "2026-09-27T23:03:20-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "498386c6",
-    "head_message": "feat(accountant): external decision funnel instrument + the fears page opens into the compass [NCI:58]",
-    "in_sync_with_origin": true,
+    "head_sha": "d3cd810e",
+    "head_message": "docs(handoff): v3.68.1 Accountant keel chip; v3.67.0 to archive; snapshot + session-state [NCI:52]",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/pulse.jsonl",
@@ -47,5 +47,5 @@
   "session_summary": "Accountant keel chip: measured the external decision funnel from prod (founder split out; external inflow zero for 79 days), found by grep that no live good.arcs.care surface linked to the compass, and routed one move: the /fears kill-clause cards hand the claim into the dashboard with its horizon set.",
   "next_action": "Zach's go on PR #586, then merge + one decision_receipt row + get_deployment check of /fears; re-run scripts/outcome_funnel.py a week after deploy and watch external last_30d.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-09-28T02:51:49Z"
+  "git_refreshed_at": "2026-09-28T13:34:26Z"
 }
