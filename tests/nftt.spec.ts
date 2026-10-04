@@ -45,7 +45,17 @@ for (const file of POSTS) {
       await page.goto(url)
       const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
       expect(over, "horizontal overflow px").toBeLessThanOrEqual(0)
-      await page.screenshot({ path: `test-results/nftt/${file.replace(".html", "")}@${w}.png`, fullPage: true })
+      // The screenshot is the visual record, not the assertion. Chromium's full-page capture
+      // sometimes fails under CI load ("Unable to capture screenshot", 2026-10-04, on pages far
+      // under the 16384px texture limit that capture fine locally): retry that error once.
+      const shot = { path: `test-results/nftt/${file.replace(".html", "")}@${w}.png`, fullPage: true }
+      try {
+        await page.screenshot(shot)
+      } catch (e) {
+        if (!String(e).includes("Unable to capture screenshot")) throw e
+        await page.waitForTimeout(250)
+        await page.screenshot(shot)
+      }
     })
   }
 }
