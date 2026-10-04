@@ -7,10 +7,32 @@
 
 ---
 
-## [v3.72.1] 2026-10-03 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
+## [v3.75.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
 - `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).
 - Triggered by the survey landing replacing `/` (waitlist form on the home page). Privacy-review found the old copy claimed "anonymous sessions store nothing" while the form wrote rows.
+
+## [v3.75.0] 2026-10-04 — Stopped-light research -> 15 isomorphisms + /echo-scan skill + oracle strict-args fix + NFTT essay and companion (PRs #683 `5d64551`, #686 `44b80d1`; handoff renumbered from v3.73.0 after a parallel-session collision)
+
+- Research note `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`; 3 backlog rows with kill conditions. `/echo-scan` (nested `claim-check`, standalone-callable) minted and fresh-agent tested.
+- `scripts/oracle.py`: unknown flags/extra args now exit 2; real `next <ns> --dry-run`; `--self-test` 12/12 in pre-commit. Root cause of the session's false herald (a "dry run" that allocated and stamped `_STATE/pulse.json`).
+- NFTT "Light at Thirty-Eight Miles an Hour" + `/research` companion + `tao-284`. Receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH`, `2026-10-04--nftt-research-companion-tao284-pr686--ZH`.
+- Seeds planted: `seed-gate-hookspath-bootstrap`, `seed-pattern-strict-cli-args` (61/63 argv scripts hand-parse, 38 write), `seed-skill-echo-scan`.
+- Lessons: a preview flag a tool does not recognize turns a look into a touch; a herald must come from the write it reports; `core.hooksPath` is unset in fresh clones, so gates silently skip.
+- Memory consolidation 2026-10-04: v3.53.0 to v3.63.0 (2026-09-04 to 09-15) relocated verbatim to `_ARCHIVE/memory-archive.md`.
+
+## [v3.74.0] 2026-10-04 — NFTT posts dated from git; the serialized thread denoted; index reorganized (PR #688 -> `0bfa5877`)
+
+- **Publish time is a git fact, frozen once:** `scripts/nftt_published.py` + `runtime/specs/nftt-published.json` (32 rows). Published = first commit on main's TRUE line holding the route commit; the line hops to the second parent at "Merge ... 'origin/main' into ..." sync merges, which fast-forwards had put on the first-parent line (it misdated five posts by a day). `a-draft-is-not-a-verb` = commit-time lower bound (direct push). Every post: `article:published_time` + byline `<time data-pub>`.
+- **Series as data:** `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`. The seven PR #411 essays are one isomorphic series (one method, seven subjects); order/roles from Tuning's own map. Index: series 1 to 7; sections The serialized thread / The Factory on Itself / The Cold Reader / The Workshop / Field Accounts.
+- Gates: both `--check`s in CI + pre-commit. Receipt `2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`. Live verified via Vercel (`dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw`); good.arcs.care is proxy-blocked from the cloud container.
+- Lessons: check every git-derived row against the commit it names; generator comments that render into a page are public text (tripwire caught a repo path); `shavasana_handoff.py` misses cloud commits (author filter).
+
+## [v3.73.0] 2026-10-04 — Essay drafted: "Tribes, Vibes, Lies" (The Exoskeleton, Not the Oracle), demand piece for a paid tier; lives in a Claude Doc, not shipped
+
+- Doc: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. Nine sections + short-version block + two pull quotes + six drawn share cards (prosthetic vs exoskeleton; Tribes/Vibes/Lies ladder; three dials + one tripwire; the decide/act/receipt/measure loop from tao-041/tao-222; the four zones from WORLD.md; a 2x2 of tao-227/220/194/045 quoted as minted) + three tributaries.
+- Zach's screening instrument, now canon-adjacent: dials = good use of my time / symmetric value / right time; tripwire = stated-vs-revealed gap (tao-220 is the same rule). Quid pro quo is not symmetry: symmetry is measured over the relationship, quid pro quo settles per transaction.
+- Owed: two worked examples (one pass, one yes), re-measure 2/247 against `Outcome`, port via `/nftt-story-factory`, decide what the 30-person cohort actually buys. No commits, no receipt (nothing merged or published). Backlog row `essay-tribes-vibes-lies`.
 
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
@@ -223,96 +245,3 @@
 - **Joe-beats eval** (`_ARTIFACTS/vico-joe-eval/`): 16 beats (12 email + 4 Sep-17 call) graded S against
   the live pages, one honesty asterisk (unverified 0.15 Brier premise, handled by omission). The eval is
   INTERNAL / do-not-send.
-
-## [v3.63.0] 2026-09-15 — arcs-algorethics: scaffold → tested repo; honest benchmarks; PR #446 held
-
-- **arcs-algorethics PRs #1–#8 merged** (main `a3ae0c3`): E2E suite (boots daemon), HF + AgentHarm
-  benchmarks with nightly history, `arcs ops` CLI, `specs/invariants.json` SSOT + parity gate, ledger
-  renamed `gate_receipts` + preflight, Ed25519-signed resume with operator key custody, unwired
-  scaffolding deleted, README honest inventory.
-- **Numbers:** ethics recall 0, JailBreakV 0/200, AgentHarm 0/176 harmful AND 0/176 benign. Purpose
-  settled: narrow brake on life/vital-care/livelihood one-way doors, not a harm classifier.
-- **arcs-v9:** keyed Edge gate route in PR #446, build green, unmerged by design. Empty Perplexity
-  branch deleted. Queue item `algorethics-in-scope-benchmark` (#449) replaces the drifted "widen" item.
-- **Blockers are credentials, not code:** algorethics schema not exposed (existence unverified);
-  `ARCS_GATE_KEY`/`SUPABASE_*` unset on Vercel + Actions. Supabase MCP here is wrong-org.
-- **Lesson:** assume the spec is stupid first; the Perplexity handoff carried four false premises.
-
-## [v3.62.0] 2026-09-14 — Schriner/Oxenham job-search engagement: full recoil lifecycle + resume correction
-
-- **`schriner.arcs.care`** (recruiter pitch + resume viewer/PDF/ATS) and **`schriner-ext.arcs.care`**
-  (safe external recoil twin, air-gap verified) shipped live via normal PR/merge.
-- **Resume correction shipped live**: technical-cut resume first sent to Joe had dropped real
-  leadership scope; corrected to a three-modes (builder/team-lead/executive-partner) framing and a
-  closed 2010-2016 work-history gap (Selectable Media, IBRShop), sourced from real iCloud PDFs.
-- **Internal recoil receipt** closed post-call at FORK/DIVERGENT; the CEO-identity gate was resolved
-  by independent search after the call, not by the recruiter on it — generalized into
-  `inbound-opportunity-three-gate-smoke-test` memory (verify identity BEFORE the call).
-- **Global memory**: new project memory `project_joe_schriner_oxenham_autopilot_vico`, new feedback
-  memory `technical-cut-resume-must-keep-leadership-scope`, `MEMORY.md` index deduped/tidied.
-- **Open**: Joe-facing fit-note drafted, held pending follow-up call; `resume-tailor` skill repo
-  itself not yet updated with the lesson (deferred to next session).
-
-## [v3.61.0] 2026-09-13 — Bridge employer index live · Triune Stream A/B/C landed · seed bank clean
-
-- **`scripts/bridge_index_scan.py`** (new, stdlib): curated employer lists → public ATS boards → winnable
-  reqs → jobs.arcs.care. 578 rows live as `bridge_scan` UNSCORED across 84 employers; index at
-  `_STATE/job-search/employer-index/`. Ingest skips existing jobids (API upsert would reset scores).
-- **ADR-078/079/080/081 + 041 on main** — the three 2026-08-03 hold branches renumbered through the
-  oracle and merged (#408–#413); `_STATE/worktree-audit-2026-09-11.md` is the patch-id sweep of all 74 worktrees.
-- **`scripts/scout_dossier_ingest.py`** (new): Perplexity dossier gate (validate/map/post). Caught real
-  drift on first use (Parloa lacks `extraction_risk`).
-- **Seed bank**: +4 candidates, 2 orphans receipted, 4 broken locals fixed; drift check OK (41/80).
-- **Receipts**: 8 `decision_receipt` rows this session; AGENTS.md now documents the CHECK enums.
-- Cross-harness: `_STATE/convergence.json` on `fresh-starts` beat 6; Hermes owns JTBD-004, Perplexity JTBD-007.
-- Next: Thread 2 scores the bridge rows; human prune call on 17 worktrees; Workday adapter seed.
-
-## [v3.57.0] 2026-09-07 — Reading Room back-propagation organ (1b gate MET)
-
-- **`scripts/cache_backprop.py`** (new, stdlib): the Metabolic Router's lazy pull-driven repair for a
-  DIRTY `(domain, epoch)` cache slice. `plan` (list dirty) → `packet` (assemble a Curator work-packet:
-  slice nodes + cited provenance AS-IS at HEAD + rubric) → `apply` (write graded statuses back into the
-  digest, stamp only THAT slice fresh). Grading is JUDGMENT and stays external by construction
-  (NOTOMATION) — the script never grades.
-- **Per-slice grade preservation** (the load-bearing fix in `cache_manifest.py`): `stamp`/`check` now
-  carry a prior slice's recorded `graded_at_sha` forward instead of recomputing it from the shared
-  digest file's last commit. Without this, re-grading one epoch falsely frees every sibling epoch that
-  shares the file. Only a *complete* re-grade advances the sha; `--partial` leaves the slice dirty and
-  says so (WITNESS honesty).
-- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding) — 3 real defects found
-  and fixed: (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI: all
-  validation now precedes the write); (2) `--partial` falsely stamped the whole slice fresh; (3) a
-  cleared note outlived a status change. 5 stdlib tests green (`scripts/tests/test_cache_backprop.py`).
-- **1b gate MET**: proved end-to-end — `product/2026-04` dirty → re-graded LIVE → fresh, 19 siblings
-  stay dirty; freshness survived a full re-stamp AND 11 commits of base advance. PR #320 → `343b266`.
-- **Lesson banked**: when many slices share one provenance/digest file, freshness MUST be tracked
-  per-slice in the manifest, never derived from the shared file's git history — the shared file is the
-  wrong granularity and silently over-frees.
-
-## [v3.56.0] 2026-09-07 — wrap-lint MODE 5 safeguard, post-4 s-tier pass, Dealroom research, ADR-076 MCP-led growth
-
-- **wrap-lint MODE 5** (`scripts/artifact_wrap_lint.py`, pre-commit wired, PRs #256/#258/#260): gates the
-  desktop measure/container-mismatch wrap bug that overflow checks miss. `<style>`-only scan, CSS-comment
-  strip, FP-reducer for `max-width:none` overrides, `wrap-lint-allow: measure-mismatch` opt-out for
-  intentional two-width designs. Fixed dossier + 3 ledes; marked wing/scott-cut/observatory. AEO
-  robots/sitemap reachable on good.arcs.care (proxy + next.config both layers).
-- **NFTT post-4 impeccable pass = s-tier, zero edits**; posts 1-3 swept clean. Template gives diamond-cut
-  text handling by construction; 4-width JS test method banked.
-- **Dealroom talent research** (`_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`, PR #273):
-  15 report/viz patterns + MCP-led-growth GTM analysis.
-- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW, demand-probe gated.
-  Drafted as ADR-075; renumbered to 076 after a parallel session's DECIDED **ADR-075 Metabolic Router**
-  merged first (oracle-first: ratified canon keeps the number, unmerged draft renumbers; audit no-dup).
-- Housekeeping: lattice epoch re-pinned e9 (spot-check); iCloud deliverable→Files sync convention; 5 new
-  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms).
-
-## [v3.53.0] 2026-09-04 — The Reading Room: the Almanac, ADR-075 the Metabolic Router, locked build plan
-
-- **Almanac** (`scripts/research_render.py`): 264 full-temporal epoch-tagged nodes read at 3 altitudes
-  (Skim/Scan/Trenches); two-shelf Required Reading (Foundational by canon + Load-bearing by in-degree);
-  per-row export. Local-only. Library taxonomy: Alexandria index / Atlas map / Almanac dated state.
-- **ADR-075** minted through the oracle from a live witness: mechanical fan-out automatable, judgment
-  never; integrity gate = cites exist on origin/main (caught 5 memories describing never-merged gates).
-- **Locked plan** `_SPECS/reading-room-build-plan-v1.md`: spine (Desk+Reader+cache) first, tenants
-  cheap; token-savings-bank levers; CBA ledger. Loop: Desk -> Almanac -> Concordance -> Chronicle -> Lexicon.
-- growth-ai.arcs.care family live; recruithaus `/ammo` gated live; Blacksmith polish; drift swept.

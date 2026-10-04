@@ -86,6 +86,10 @@ jobs:
         run: python3 scripts/connector_render.py --check
       - name: NFTT index matches its builder
         run: node scripts/nftt_index_build.mjs --check
+      - name: Every routed NFTT post carries its publish timestamp
+        run: python3 scripts/nftt_published.py --check
+      - name: Every serialized NFTT part carries its series line + panel
+        run: python3 scripts/nftt_series.py --check
 
   smoke:
     runs-on: ubuntu-latest
