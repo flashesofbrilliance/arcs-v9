@@ -21,7 +21,7 @@
          "on_fail": "The repo visibility changed. If it is now public, restore the public-source copy deliberately and update this promise; do not leave the 'private' wording live."},
         {"type": "grep", "must_not_contain": [
           {"paths": ["src/**/*.tsx", "src/**/*.ts", "_CANON/trust-contract.md"], "pattern": "(?i)(source code stays public|repo(sitory)? is public|source is public|keep the source code public|public source|our open source|forkable|verify in source code|observe in the source code)"},
-          {"paths": ["src/app/trust/page.tsx", "src/app/privacy/page.tsx", "src/app/terms/page.tsx", "src/ui/EyebrowToast.tsx", "_CANON/trust-contract.md"], "pattern": "github\\.com/flashesofbrilliance/arcs-v9"}
+          {"paths": ["src/app/trust/page.tsx", "src/app/privacy/page.tsx", "src/app/terms/page.tsx", "src/ui/EyebrowToast.tsx", "src/app/observatory/page.tsx", "_CANON/trust-contract.md"], "pattern": "github\\.com/flashesofbrilliance/arcs-v9"}
         ]}
       ]
     },

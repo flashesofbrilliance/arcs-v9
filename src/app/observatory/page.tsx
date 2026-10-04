@@ -23,9 +23,9 @@ const OBS_CSS = `
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const C = { cyan:"#00F0FF", green:"#00FF9D", gold:"#FFD700", orange:"#ff9d3c", red:"#FF4D6D", steel:"#94a3b8" }
-const REPO = "https://github.com/flashesofbrilliance/arcs-v9/commit/"
-const REPO_BASE = "https://github.com/flashesofbrilliance/arcs-v9"
-const PROV_LEDGER = `${REPO_BASE}/blob/main/docs/provenance-ledger.md`
+// The arcs-v9 repository is private (2026-10-04), so commit shas, source paths and the
+// provenance ledger render as plain labels, not links a visitor would hit as a 404.
+// runtime/specs/public-promises.json (source-visibility-honest) keeps it that way.
 
 const ALT: Record<string,{name:string;accent:string}> = {
   L5:{name:"EXECUTIVE",  accent:C.green},
@@ -527,7 +527,7 @@ function EventRow({ev,dim,onOpen}:{ev:LedgerItem;dim:boolean;onOpen:(x:LedgerIte
         </span>
         <span style={{fontFamily:"var(--font-sans)",fontSize:14,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{e.label}</span>
       </button>
-      <a href={REPO+e.sha} target="_blank" rel="noopener" style={{color:C.green,fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{e.sha}↗</a>
+      <span title="Commit in the private arcs-v9 repository" style={{color:C.green,fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",alignSelf:"center"}}>{e.sha}</span>
     </div>
   )
 }
@@ -548,7 +548,7 @@ function RiskRow({rk,dim,onOpen}:{rk:LedgerItem;dim:boolean;onOpen:(x:LedgerItem
         </span>
         <span style={{fontFamily:"var(--font-sans)",fontSize:14,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{r.risk}</span>
       </button>
-      {r.sha?<a href={REPO+r.sha} target="_blank" rel="noopener" style={{color:SEV[r.sev],fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{r.sha}↗</a>
+      {r.sha?<span title="Commit in the private arcs-v9 repository" style={{color:SEV[r.sev],fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",alignSelf:"center"}}>{r.sha}</span>
         :<span style={{color:"#707e92",fontSize:10,flex:"0 0 auto",alignSelf:"center"}}>standing</span>}
     </div>
   )
@@ -619,13 +619,6 @@ function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|
 const RISK_BORDER: Record<string,string> = {LOW:"solid",MED:"dashed",HIGH:"solid"}
 const hx=(n:number)=>Math.max(0,Math.min(255,Math.round(n))).toString(16).padStart(2,"0")
 const confBloom=(conf:number)=>hx((conf-30)*0.7)
-function srcHref(src:string){
-  const m=String(src||"").match(/^([\w./-]+\.[A-Za-z]+)(?::(\d+)(?:-(\d+))?)?$/)
-  if(!m)return null
-  let h=`${REPO_BASE}/blob/main/${m[1]}`
-  if(m[2])h+=`#L${m[2]}`+(m[3]?`-L${m[3]}`:"")
-  return h
-}
 
 function ScoreNode({node,onOpen}:{node:Finding;onOpen:(x:Finding)=>void}){
   const [h,setH]=useState(false)
@@ -736,9 +729,9 @@ function Sheet({item,onClose}:{item:SheetItem|null;onClose:()=>void}){
               </div>
               <div style={{display:"flex",alignItems:"center",gap:8,flex:"0 0 auto"}}>
                 {(isEvent||isRisk)&&((item as Event|Risk).sha
-                  ?<a href={REPO+(item as Event|Risk).sha} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.green,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.green}45`,background:`${C.green}10`,textDecoration:"none",whiteSpace:"nowrap"}}>{(item as Event|Risk).sha}<span style={{fontSize:9}}>↗</span></a>
+                  ?<span title="Commit in the private arcs-v9 repository" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.green,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.green}45`,background:`${C.green}10`,whiteSpace:"nowrap"}}>{(item as Event|Risk).sha}</span>
                   :<span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"var(--fg4)",padding:"5px 10px",borderRadius:6,border:"1px solid #243042",whiteSpace:"nowrap"}}>standing</span>)}
-                {isNode&&leadProv&&<a href={PROV_LEDGER} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.cyan,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.cyan}45`,background:`${C.cyan}10`,whiteSpace:"nowrap",textDecoration:"none"}}>prov {leadProv}<span style={{fontSize:9}}>↗</span></a>}
+                {isNode&&leadProv&&<span title="Entry in the provenance ledger (private repository)" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.cyan,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.cyan}45`,background:`${C.cyan}10`,whiteSpace:"nowrap"}}>prov {leadProv}</span>}
                 <button onClick={onClose} style={{width:30,height:30,borderRadius:6,border:"1px solid #243042",background:"linear-gradient(180deg,#11181f,#0a1016)",color:"var(--fg3)",cursor:"pointer",fontFamily:"var(--font-mono)",fontSize:12,display:"inline-flex",alignItems:"center",justifyContent:"center"}}>✕</button>
               </div>
             </div>
@@ -759,9 +752,9 @@ function Sheet({item,onClose}:{item:SheetItem|null;onClose:()=>void}){
                     <tbody>{(item as Finding).prov.map((row,i)=>(
                       <tr key={i}>
                         <td style={tdS}>{row[0]}</td>
-                        <td style={tdS}>{(()=>{const h=srcHref(row[1]);return h?<a href={h} target="_blank" rel="noopener" style={{color:C.green,fontSize:11,wordBreak:"break-word",textDecoration:"none"}}>{row[1]}<span style={{fontSize:9}}>↗</span></a>:<code style={{color:C.green,fontSize:11,wordBreak:"break-word"}}>{row[1]}</code>})()}</td>
+                        <td style={tdS}><code style={{color:C.green,fontSize:11,wordBreak:"break-word"}}>{row[1]}</code></td>
                         <td style={{...tdS,color:C.gold}}>{row[2]}</td>
-                        <td style={tdS}><a href={PROV_LEDGER} target="_blank" rel="noopener" style={{color:"var(--fg3)",textDecoration:"none"}}>{row[3]}<span style={{fontSize:9,color:C.cyan}}> ↗</span></a></td>
+                        <td style={tdS}><span style={{color:"var(--fg3)"}}>{row[3]}</span></td>
                       </tr>
                     ))}</tbody>
                   </table>

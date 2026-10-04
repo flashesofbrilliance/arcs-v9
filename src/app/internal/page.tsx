@@ -142,7 +142,7 @@ export default async function InternalHub() {
                 >
                   <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
                     <h3 style={{ fontSize: 14.5, color: C.text, margin: 0, fontWeight: 650 }}>{c.name}</h3>
-                    <span style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, marginLeft: "auto", whiteSpace: "nowrap" }}>{c.external ? "github ↗" : c.href}</span>
+                    <span style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, marginLeft: "auto", whiteSpace: "nowrap" }}>{c.external ? "github · private repo ↗" : c.href}</span>
                   </div>
                   <p style={para}><b style={label}>What this is</b>{c.what}</p>
                   <p style={{ ...para, margin: 0 }}><b style={label}>How to use it</b>{c.how}</p>
