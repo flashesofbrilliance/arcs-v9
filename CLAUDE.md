@@ -157,7 +157,9 @@ _This block asserts nothing new. Counts, paths, and questions only._
 1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
    `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
    `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-2. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
+2. ~~`post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main~~ RESOLVED 2026-10-04: PR #718
+   merged at `0c2365a7`; `max-width:68ch` on `<main>` pinned to `680px` in both pages and
+   `scripts/blog_render.py`; wrap-lint clean on main; receipt `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`.
 3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud
    sessions, commits authored "Zach Harris"), so it reads 0. Count by repo/branch, or match both names.
