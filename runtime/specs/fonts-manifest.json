@@ -1,0 +1,412 @@
+{
+ "version": "v1",
+ "families": {
+  "Inter": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "100 900",
+     "subset": "latin-ext",
+     "file": "/fonts/inter-normal-100-900-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 85272
+    },
+    {
+     "style": "normal",
+     "weight": "100 900",
+     "subset": "latin",
+     "file": "/fonts/inter-normal-100-900-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 48432
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Arial",
+     "Liberation Sans",
+     "Arimo"
+    ],
+    "size_adjust": "107.12%",
+    "ascent": "90.44%",
+    "descent": "22.52%",
+    "line_gap": "0.00%"
+   }
+  },
+  "JetBrains Mono": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "100 800",
+     "subset": "latin-ext",
+     "file": "/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 15204
+    },
+    {
+     "style": "normal",
+     "weight": "100 800",
+     "subset": "latin",
+     "file": "/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 40480
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Courier New",
+     "Liberation Mono",
+     "Cousine"
+    ],
+    "size_adjust": "99.98%",
+    "ascent": "102.02%",
+    "descent": "30.00%",
+    "line_gap": "0.00%"
+   }
+  },
+  "Newsreader": {
+   "faces": [
+    {
+     "style": "italic",
+     "weight": "200 800",
+     "subset": "latin-ext",
+     "file": "/fonts/newsreader-italic-200-800-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 95412
+    },
+    {
+     "style": "italic",
+     "weight": "200 800",
+     "subset": "latin",
+     "file": "/fonts/newsreader-italic-200-800-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 147060
+    },
+    {
+     "style": "normal",
+     "weight": "200 800",
+     "subset": "latin-ext",
+     "file": "/fonts/newsreader-normal-200-800-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 86628
+    },
+    {
+     "style": "normal",
+     "weight": "200 800",
+     "subset": "latin",
+     "file": "/fonts/newsreader-normal-200-800-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 131848
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Times New Roman",
+     "Liberation Serif",
+     "Tinos"
+    ],
+    "size_adjust": "105.48%",
+    "ascent": "69.68%",
+    "descent": "25.12%",
+    "line_gap": "0.00%"
+   }
+  },
+  "IBM Plex Mono": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 8860
+    },
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-mono-normal-400-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 10052
+    },
+    {
+     "style": "normal",
+     "weight": "500",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 8848
+    },
+    {
+     "style": "normal",
+     "weight": "500",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-mono-normal-500-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 10060
+    },
+    {
+     "style": "normal",
+     "weight": "600",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 8960
+    },
+    {
+     "style": "normal",
+     "weight": "600",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-mono-normal-600-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 10120
+    },
+    {
+     "style": "normal",
+     "weight": "700",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 8748
+    },
+    {
+     "style": "normal",
+     "weight": "700",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-mono-normal-700-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 10128
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Courier New",
+     "Liberation Mono",
+     "Cousine"
+    ],
+    "size_adjust": "99.98%",
+    "ascent": "102.52%",
+    "descent": "27.50%",
+    "line_gap": "0.00%"
+   }
+  },
+  "IBM Plex Sans": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-sans-normal-400-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 25868
+    },
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-sans-normal-400-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 40240
+    },
+    {
+     "style": "normal",
+     "weight": "500",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-sans-normal-500-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 25868
+    },
+    {
+     "style": "normal",
+     "weight": "500",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-sans-normal-500-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 40240
+    },
+    {
+     "style": "normal",
+     "weight": "600",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-sans-normal-600-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 25868
+    },
+    {
+     "style": "normal",
+     "weight": "600",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-sans-normal-600-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 40240
+    },
+    {
+     "style": "normal",
+     "weight": "700",
+     "subset": "latin-ext",
+     "file": "/fonts/ibm-plex-sans-normal-700-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 25868
+    },
+    {
+     "style": "normal",
+     "weight": "700",
+     "subset": "latin",
+     "file": "/fonts/ibm-plex-sans-normal-700-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 40240
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Arial",
+     "Liberation Sans",
+     "Arimo"
+    ],
+    "size_adjust": "101.17%",
+    "ascent": "101.32%",
+    "descent": "27.18%",
+    "line_gap": "0.00%"
+   }
+  },
+  "Work Sans": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "100 900",
+     "subset": "latin-ext",
+     "file": "/fonts/work-sans-normal-100-900-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 35776
+    },
+    {
+     "style": "normal",
+     "weight": "100 900",
+     "subset": "latin",
+     "file": "/fonts/work-sans-normal-100-900-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 50524
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Arial",
+     "Liberation Sans",
+     "Arimo"
+    ],
+    "size_adjust": "111.93%",
+    "ascent": "83.09%",
+    "descent": "21.71%",
+    "line_gap": "0.00%"
+   }
+  },
+  "Nunito Sans": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "200 1000",
+     "subset": "latin-ext",
+     "file": "/fonts/nunito-sans-normal-200-1000-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 43784
+    },
+    {
+     "style": "normal",
+     "weight": "200 1000",
+     "subset": "latin",
+     "file": "/fonts/nunito-sans-normal-200-1000-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 49612
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Arial",
+     "Liberation Sans",
+     "Arimo"
+    ],
+    "size_adjust": "101.39%",
+    "ascent": "99.71%",
+    "descent": "34.82%",
+    "line_gap": "0.00%"
+   }
+  },
+  "Open Sans": {
+   "faces": [
+    {
+     "style": "normal",
+     "weight": "300 800",
+     "subset": "latin-ext",
+     "file": "/fonts/open-sans-normal-300-800-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 30624
+    },
+    {
+     "style": "normal",
+     "weight": "300 800",
+     "subset": "latin",
+     "file": "/fonts/open-sans-normal-300-800-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 42964
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Arial",
+     "Liberation Sans",
+     "Arimo"
+    ],
+    "size_adjust": "105.15%",
+    "ascent": "101.65%",
+    "descent": "27.86%",
+    "line_gap": "0.00%"
+   }
+  },
+  "Instrument Serif": {
+   "faces": [
+    {
+     "style": "italic",
+     "weight": "400",
+     "subset": "latin-ext",
+     "file": "/fonts/instrument-serif-italic-400-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 8444
+    },
+    {
+     "style": "italic",
+     "weight": "400",
+     "subset": "latin",
+     "file": "/fonts/instrument-serif-italic-400-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 15684
+    },
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin-ext",
+     "file": "/fonts/instrument-serif-normal-400-latin-ext-v1.woff2",
+     "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+     "bytes": 7828
+    },
+    {
+     "style": "normal",
+     "weight": "400",
+     "subset": "latin",
+     "file": "/fonts/instrument-serif-normal-400-latin-v1.woff2",
+     "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+     "bytes": 15040
+    }
+   ],
+   "fallback": {
+    "local": [
+     "Times New Roman",
+     "Liberation Serif",
+     "Tinos"
+    ],
+    "size_adjust": "83.94%",
+    "ascent": "117.94%",
+    "descent": "36.93%",
+    "line_gap": "0.00%"
+   }
+  }
+ }
+}

@@ -19,15 +19,34 @@ HONESTY GATE (hard, per the scope brief + ADR-056 air-gap):
 Usage:
   connector_render.py            # render every tool in connectors.json -> public/<repo>.html
   connector_render.py <repo> …   # render only the named tool(s)
+  connector_render.py --check    # render in memory; exit 1 if any committed page differs
+                                 # (a hand edit to a generated page belongs in this script)
 
 Stdlib only.
 """
 import json, os, sys, html
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fonts_selfhost  # noqa: E402  (self-hosted fonts are part of the rendered page)
+
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 DIST = os.path.join(ROOT, "_SEEDS/distribution.jsonl")
 DATA = os.path.join(ROOT, "_SEEDS/connectors.json")
 OUTDIR = os.path.join(ROOT, "public")
+CHECK = False   # --check: compare instead of write
+DRIFT = []
+
+
+def write_page(out, doc):
+    """Every rendered page goes through here: fonts self-hosted, then written (or compared)."""
+    doc = fonts_selfhost.transform(doc)
+    if CHECK:
+        cur = open(out, encoding="utf-8").read() if os.path.exists(out) else None
+        if cur != doc:
+            DRIFT.append(os.path.relpath(out, ROOT))
+        return
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(doc)
 
 # ---- accent themes by group (group = hue family; leaves resume-tailor.html untouched) ----
 # skill = canonical cyan/green (also what the hand-built resume-tailor.html uses)
@@ -70,7 +89,7 @@ CSS = """  :root{
 
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
     background:radial-gradient(900px 420px at 20% -10%,var(--glowA),transparent 60%),radial-gradient(700px 380px at 92% 0,var(--glowB),transparent 55%);}
-  .hero{padding:66px 0 58px;}
+  .hero{padding-block:66px 58px;}
   .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
   .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
   h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:22px;}
@@ -239,6 +258,7 @@ def render(repo, data, row):
 {CSS}
   :root{{{theme_vars(data.get('group','skill'))}}}
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -298,8 +318,7 @@ def render(repo, data, row):
 </html>
 """
     out = os.path.join(OUTDIR, f"{repo}.html")
-    with open(out, "w") as f:
-        f.write(doc)
+    write_page(out, doc)
     chans = ", ".join(f"{c}✓" for c in live if c in data["install"])
     print(f"rendered public/{repo}.html  [{chans}]")
 
@@ -308,6 +327,13 @@ def render(repo, data, row):
 STANDALONE_GROUPS = {"cli", "web"}
 # tools with a hand-built page outside this renderer (do not re-render, but DO index on the gallery)
 EXTERNAL_PAGES = {
+    "honest": {
+        "slug": "honest", "group": "web", "name": "check it before you say it",
+        "line": "Five steps between an idea and a message, each stamped go or stop by rules you can read. It checks the facts you mark, not whether they are true. Runs in your browser; nothing is uploaded.",
+        "page": "https://honest.arcs.care", "chips": ["web"],
+        # its distribution row is keyed by the repo name, not the page slug
+        "repo": "check-it-before-you-say-it",
+    },
     "resume-tailor-skill": {
         "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
         "line": "Tailor a resume and cover letter to a role, graded by how checkable every line is.",
@@ -324,7 +350,7 @@ def first_sentence(s):
     return (s[:i + 1] if i != -1 else s)
 
 
-def _card(name, line, chips, page, gh, group, live=True, variant="full"):
+def _card(name, line, chips, page, gh, group, live=True, variant="full", tag="soon"):
     t = THEMES.get(group, THEMES["skill"])
     accent = f"linear-gradient(90deg,{t['c1']},{t['c2']})"
     dim = "" if live else "opacity:.5;filter:saturate(.35);"
@@ -332,12 +358,12 @@ def _card(name, line, chips, page, gh, group, live=True, variant="full"):
     if live:
         primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
                    else f'<a class="clink" href="{esc(gh)}">github ↗</a>')
-        gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page else ""
+        gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page and gh else ""
         tag = ""
     else:
         primary = f'<a class="clink" href="{esc(gh)}">github ↗</a>'
         gh_link = ""
-        tag = '<span class="soon">soon</span>'
+        tag = f'<span class="soon">{esc(tag)}</span>'
 
     if variant == "compact":
         # secondary tier: denser, no chip row, single link — visually lighter
@@ -365,7 +391,127 @@ def _card(name, line, chips, page, gh, group, live=True, variant="full"):
 
 # Information hierarchy: lead with the fully-baked goods, in this order.
 # Everything else live falls to the secondary "also in the toolkit" tier.
-FEATURED_ORDER = ["resume-tailor-skill", "rosetta-shell", "germinate", "arcs-field-scan"]
+FEATURED_ORDER = ["honest", "resume-tailor-skill", "rosetta-shell", "germinate"]
+
+
+# good.html blocks that are page structure, not per-tool data: kept verbatim here so the
+# renderer reproduces the live page byte for byte (connector_render.py --check enforces it).
+GOOD_HERO = """<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--fg3);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; public goods</span>
+    <h1>Open tools,<br><span class="g">honest by default.</span></h1>
+    <p class="lede">Small, MIT-licensed tools we built for our own work and published as they proved out. The tools are <b>open</b>; the ARCS intelligence that orchestrates them stays private. Nothing here claims an install path that is not live.</p>
+
+    <div class="oneshot" style="margin-top:30px;">
+      <div class="bar">
+        <span class="l">install the family · Claude Code</span>
+        <button class="cp" data-copy="/plugin marketplace add flashesofbrilliance/arcs-skills">copy</button>
+      </div>
+      <pre><code>/plugin marketplace add <span class="v">flashesofbrilliance/arcs-skills</span></code></pre>
+    </div>
+    <p class="note">Five skills in one marketplace: <b>rca</b>, <b>state-sync</b>, <b>token-savings-bank</b>, <b>fix-toolbar-comments</b>, <b>resume-tailor</b>. Or reach for a single tool below. CLI tools also ship on Homebrew (<span class="mono">brew tap flashesofbrilliance/tap</span>) and npm.</p>
+  </div>
+</header>"""
+
+# the series row, the ADR-076 agent-connector demand probe and its analytics events
+GOOD_AFTER_BODY = """<style>
+  /* ADR-076 MCP-led-growth demand probe (Stage 0, painted door). Honest framing: the connector
+     does not exist yet; the CTA click is the interest signal, tracked via Vercel custom events. */
+  .mcp-probe{padding:44px 0;border-bottom:1px solid var(--border);}
+  .mp-card{border:1px solid rgba(0,240,255,.28);border-radius:16px;padding:26px 26px 24px;
+    background:radial-gradient(700px 300px at 12% -30%,rgba(0,240,255,.08),transparent 60%),linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.16));}
+  .mp-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);}
+  .mp-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  .mp-h{font-size:clamp(19px,3vw,25px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-top:12px;color:var(--fg1);text-wrap:balance;}
+  .mp-b{font-size:14.5px;line-height:1.6;color:var(--fg2);margin-top:11px;max-width:none;text-wrap:pretty;} .mp-b b{color:var(--fg1);font-weight:600;}
+  .mp-cta{margin-top:18px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;color:#001014;background:linear-gradient(100deg,var(--cyan),var(--green));border:none;border-radius:10px;padding:12px 20px;cursor:pointer;transition:transform .15s;}
+  .mp-cta:hover{transform:translateY(-1px);}
+  .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
+</style>
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Field notes and series</h2><span class="sub">the writing behind the tools</span></div>
+    <div class="cards">
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Notes from the Trenches</span></div>
+        <p class="cline">Real stories from building ARCS in the open, each with the receipts.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/blog/nftt">read &#8594;</a></div>
+    </div>
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Lore</span></div>
+        <p class="cline">The stories ARCS is built on, each filed with a verdict and the test that would retire it.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/series/lore">read &#8594;</a></div>
+    </div>
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Receipts</span></div>
+        <p class="cline">Dated public predictions, each with its own falsifier, re-scored against the primary documents.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/series/receipts">read &#8594;</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="mcp-probe" aria-label="Connect an agent (demand probe)">
+  <div class="wrap">
+    <div class="mp-card">
+      <div class="mp-eyebrow"><span class="mp-dot"></span>Connect an agent &middot; considering this</div>
+      <h2 class="mp-h">Query the ARCS field notes from your AI tools</h2>
+      <p class="mp-b">We are weighing an ARCS connector for Claude, Cursor, and other agents: ask about anything in the <a href="https://good.arcs.care/blog/nftt" style="color:var(--cyan)">field notes</a> and get an answer that <b>cites its source, not a guess</b>. It does not exist yet. This is a live demand probe, so if you would use it, say so and we will build it.</p>
+      <button class="mp-cta" id="mpCta" type="button">I'd use this &#8594;</button>
+      <p class="mp-done" id="mpDone" hidden>Noted, thank you. Enough signal and we ship the connector. In the meantime the tools above are open at <a href="https://github.com/flashesofbrilliance/arcs-skills">github.com/flashesofbrilliance/arcs-skills</a>.</p>
+    </div>
+  </div>
+</section>
+<script>
+  /* Vercel Web Analytics custom events; guarded so the page is fine if analytics is blocked. */
+  (function(){
+    function ev(name){ try{ window.va && window.va('event', { name: name, data: { surface: 'good' } }); }catch(e){} }
+    var card = document.querySelector('.mcp-probe');
+    if (card && 'IntersectionObserver' in window){
+      var seen = false;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting && !seen){ seen = true; ev('mcp_probe_view'); io.disconnect(); } });
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+    var cta = document.getElementById('mpCta'), done = document.getElementById('mpDone');
+    if (cta){ cta.addEventListener('click', function(){ ev('mcp_probe_interest'); if(done){ done.hidden = false; } cta.disabled = true; cta.style.opacity = '.55'; cta.style.cursor = 'default'; }); }
+  })();
+</script>
+
+"""
+
+GOOD_TAIL = """<footer>
+  <div class="wrap foot">
+    <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://github.com/flashesofbrilliance/arcs-skills">marketplace</a> · <a href="/instruments">instruments</a> · <a href="https://arcs.care">arcs.care</a></span>
+    <span>built by Zach Harris, one operator accountable end to end · proof over promises, sprint or in-house · <a href="https://zachharris.xyz">zachharris.xyz</a></span>
+  </div>
+</footer>
+
+<script>
+/* copy-to-clipboard for install one-liners; data-copy holds the exact command */
+document.querySelectorAll('.cp[data-copy]').forEach(function(b){
+  b.addEventListener('click', function(){
+    navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function(){
+      var t=b.textContent; b.textContent='copied'; setTimeout(function(){b.textContent=t;},1400);
+    }).catch(function(){});
+  });
+});
+</script>
+</body>
+</html>
+"""
 
 
 def render_gallery(ssot, blob):
@@ -375,6 +521,8 @@ def render_gallery(ssot, blob):
     # Build a uniform meta record per live repo (rendered tools + external pages).
     meta = {}  # repo -> {group, name, line, chips, page, gh}
     for repo, data in tools.items():
+        if "gallery_soon" in data:   # has its own page, but listed on the gallery as not ready
+            continue
         g = data.get("group", "skill")
         url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
@@ -382,13 +530,17 @@ def render_gallery(ssot, blob):
         if g == "skill":
             chips = ["skill"] + [c for c in chips if c != "clone"]
         page = f"https://{repo}.arcs.care" if g in STANDALONE_GROUPS else ""
-        meta[repo] = dict(group=g, name=repo, line=first_sentence(data["desc"]),
+        meta[repo] = dict(group=g, name=repo, line=data.get("gallery_line") or first_sentence(data["desc"]),
                           chips=chips, page=page, gh=gh)
     for repo, ext in EXTERNAL_PAGES.items():
-        url = ssot.get(repo, {}).get("url", "")
+        row = ssot.get(ext.get("repo", repo), {})
+        url = row.get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
+        chips = list(ext.get("chips", ["plugin", "skill"]))
+        if "repo" in ext:   # opted in: its live distribution channels add their chips (github -> clone)
+            chips += [c for c in (CHAN_CHIP.get(ch, ch) for ch in live_channels(row)) if c not in chips]
         meta[repo] = dict(group=ext["group"], name=ext["name"], line=ext["line"],
-                          chips=["plugin", "skill"], page=ext["page"], gh=gh)
+                          chips=chips, page=ext["page"], gh=gh)
 
     def card_for(repo, variant="full"):
         m = meta[repo]
@@ -401,10 +553,13 @@ def render_gallery(ssot, blob):
 
     # soon (ready-not-live) — muted cards, github only, no install claim
     soon_cards = []
+    soon = {**{r: dict(d["gallery_soon"], group=d.get("group", "skill"))
+               for r, d in tools.items() if "gallery_soon" in d}, **soon}
     for repo, s in soon.items():
         url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
-        soon_cards.append(_card(repo, s["line"], [s["chan"]], "", gh, s.get("group", "skill"), False))
+        soon_cards.append(_card(repo, s["line"], [s["chan"]], "", gh, s.get("group", "skill"), False,
+                                tag=s.get("tag", "soon")))
 
     def block(label, sub, cards, grid="cards"):
         if not cards:
@@ -416,9 +571,9 @@ def render_gallery(ssot, blob):
             f'    <div class="{grid}">\n' + "\n".join(cards) + "\n    </div>\n  </div>\n</section>")
 
     body = "\n\n".join(x for x in [
-        block("Featured", "fully baked · installable today", featured, "cards featured"),
+        block("Featured", "fully baked · usable today", featured, "cards featured"),
         block("Also in the toolkit", "smaller Claude Code skills · clone and add", minor, "cards minor"),
-        block("Coming soon", "built · not yet published", soon_cards, "cards minor"),
+        block("Coming soon", "repo public · package or build pending", soon_cards, "cards minor"),
     ] if x)
 
     GAL_CSS = """
@@ -475,39 +630,24 @@ def render_gallery(ssot, blob):
 {CSS}
 {GAL_CSS}
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<header>
-  <div class="wrap hero">
-    <span class="kick"><span class="dot"></span>the arcs family · public goods</span>
-    <h1>Open tools, <span class="g">honest by default.</span></h1>
-    <p class="lede">Small, MIT-licensed tools we built for our own work and published as they proved out. The tools are <b>open</b>; the ARCS intelligence that orchestrates them stays private. Nothing here claims an install path that is not live.</p>
-  </div>
-</header>
+{GOOD_HERO}
 
 {body}
 
-<section class="compass-tie">
+{GOOD_AFTER_BODY}<section class="compass-tie">
   <div class="wrap">
     <p class="ct-lede">These open tools feed the <b>ARCS compass</b>: the private intelligence that decides when, and for whom, a thing is ready to fire.</p>
     <a class="ct-link mono" href="https://arcs.care">see the compass →</a>
   </div>
 </section>
 
-<footer>
-  <div class="wrap foot">
-    <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
-    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://arcs.care">arcs.care</a></span>
-  </div>
-</footer>
-
-</body>
-</html>
-"""
+{GOOD_TAIL}"""
     out = os.path.join(OUTDIR, "good.html")
-    with open(out, "w") as f:
-        f.write(doc)
+    write_page(out, doc)
     print(f"rendered public/good.html  [{len(featured)} featured, "
           f"{len(minor)} also-in-toolkit, {len(soon_cards)} soon]")
 
@@ -516,7 +656,11 @@ def main():
     ssot = load_ssot()
     blob = json.load(open(DATA))
     tools = blob["tools"]
+    global CHECK
     args = sys.argv[1:]
+    if "--check" in args:
+        CHECK = True
+        args = [a for a in args if a != "--check"]
 
     if args == ["gallery"]:
         render_gallery(ssot, blob)
@@ -534,6 +678,12 @@ def main():
 
     # always refresh the gallery
     render_gallery(ssot, blob)
+
+    if CHECK:
+        for d in DRIFT:
+            print(f"  drift: {d} differs from what connector_render.py renders")
+        print(f"check: {len(DRIFT)} generated page(s) drifted")
+        sys.exit(1 if DRIFT else 0)
 
 
 if __name__ == "__main__":

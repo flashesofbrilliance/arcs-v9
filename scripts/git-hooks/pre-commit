@@ -86,6 +86,53 @@ if [ -f scripts/nftt_meta_gate.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Generated-page drift gate (2026-10-03): good.arcs.care (+ its connector pages) and the NFTT
+# index are RENDERED pages. Both once drifted far enough that a rebuild would have reverted
+# live work (fixed e9085fd7). CI runs both --check steps, but CI can be down (Actions billing,
+# 2026-09-30..10-03) and then nothing stopped a hand edit to the output. Fires only when a
+# rendered page or one of its inputs is staged. Fix: edit the generator/inputs, re-render,
+# re-stage. Never hand-edit the output.
+gen_good=$(git diff --cached --name-only -- public/good.html public/rosetta-shell.html public/germinate.html public/arcs-field-scan.html scripts/connector_render.py _SEEDS/distribution.jsonl _SEEDS/connectors.json 2>/dev/null || true)
+if [ -n "$gen_good" ] && [ -f scripts/connector_render.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/connector_render.py --check >/dev/null 2>&1; then
+    echo "✖ commit blocked: a good.arcs.care page differs from its renderer." >&2
+    echo "  run 'python3 scripts/connector_render.py --check' to see which; edit the renderer or _SEEDS inputs, re-render, re-stage." >&2
+    exit 1
+  fi
+fi
+gen_nftt=$(git diff --cached --name-only -- public/blog-nftt-index.html scripts/nftt_index_build.mjs scripts/nftt_index_layout.json runtime/specs/nftt-published.json 2>/dev/null || true)
+if [ -n "$gen_nftt" ] && [ -f scripts/nftt_index_build.mjs ] && command -v node >/dev/null 2>&1; then
+  if ! node scripts/nftt_index_build.mjs --check >/dev/null 2>&1; then
+    echo "✖ commit blocked: public/blog-nftt-index.html differs from scripts/nftt_index_build.mjs." >&2
+    echo "  add the post to the builder (or its layout json), run 'node scripts/nftt_index_build.mjs', re-stage." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# NFTT publish-timestamp gate (2026-10-04): every routed /blog/nftt/<slug> post carries
+# its frozen publish time (article:published_time + a byline <time>) from
+# runtime/specs/nftt-published.json. 32 posts shipped undated before anyone asked.
+# Fires when a post, the proxy routes, or the ledger is staged. Fix: nftt_published.py
+# derive (or derive --now <slug> for a new post), then stamp. See scripts/nftt_published.py.
+if [ -f scripts/nftt_published.py ] && command -v python3 >/dev/null 2>&1; then
+  pub=$(git diff --cached --name-only -- 'public/blog-nftt-*.html' src/proxy.ts runtime/specs/nftt-published.json 2>/dev/null || true)
+  if [ -n "$pub" ] && ! python3 scripts/nftt_published.py --check; then
+    echo "✖ commit blocked: an NFTT post is missing its publish timestamp (see above)." >&2
+    exit 1
+  fi
+fi
+# Same trigger shape for serialized parts (runtime/specs/nftt-series.json): a part whose
+# series line or panel drifted from the SSOT blocks. Fix: python3 scripts/nftt_series.py stamp
+if [ -f scripts/nftt_series.py ] && command -v python3 >/dev/null 2>&1; then
+  ser=$(git diff --cached --name-only -- 'public/blog-nftt-*.html' runtime/specs/nftt-series.json 2>/dev/null || true)
+  if [ -n "$ser" ] && ! python3 scripts/nftt_series.py --check; then
+    echo "✖ commit blocked: a serialized NFTT part is missing or stale (see above)." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # analytics-coverage gate (uncovered-new-page class, 2026-09-26): every served
 # public/*.html must carry the Vercel Web Analytics snippet. leak_check.sh asserts
 # this whole-tree, but only MID-CASCADE (after the internal-marker leak gate) with no
@@ -101,6 +148,26 @@ if [ -f scripts/analytics_coverage_gate.py ] && command -v python3 >/dev/null 2>
     if ! echo "$newhtml" | tr '\n' '\0' | xargs -0 python3 scripts/analytics_coverage_gate.py; then
       echo "✖ commit blocked: a NEW public/*.html is missing the Vercel analytics snippet (see above)." >&2
       echo "  add <script defer src=\"/_vercel/insights/script.js\"></script> before </head> (or at EOF), then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# page-gate (static): a NEW standalone page must declare <!doctype html>, a utf-8 charset
+# inside the first 1024 bytes, and a viewport, and must carry no baked-in mojibake. Banked
+# 2026-10-03: a _PROPOSALS/ draft cloned from the NFTT master (which has neither doctype nor
+# charset) rendered "No. 2 Â·" on a phone; 30 public pages lack a doctype. ADDED-only, by design
+# (mirrors the wrap-class guard): legacy pages are cleared by the font/charset sweep, not by
+# blocking unrelated edits. Covers _PROPOSALS/ too, which no other HTML guard sees. The wrap
+# lint already runs above for public/ and _ARTIFACTS/, so it is skipped here; run the full gate
+# (render checks included) by hand: python3 scripts/page_gate.py <file>.
+if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' '_PROPOSALS/*.html' '_PROPOSALS/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    if ! echo "$pages" | tr '\n' '\0' | xargs -0 python3 scripts/page_gate.py --static --no-wrap-lint; then
+      echo "✖ commit blocked: a NEW page is missing doctype / charset / viewport or carries mojibake (see above)." >&2
+      echo "  put <!doctype html> and <meta charset=\"utf-8\"> on the first two lines, add the viewport meta, then re-stage." >&2
       exit 1
     fi
   fi
@@ -607,6 +674,17 @@ if [ -n "$am" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/assumption
   if ! python3 scripts/assumptions.py check >/dev/null 2>&1; then
     python3 scripts/assumptions.py check >&2 || true
     echo "✖ pre-commit(assumptions): ledger fails schema or render is stale. fix: python3 scripts/assumptions.py render && git add _STATE/assumptions.md" >&2
+    exit 1
+  fi
+fi
+
+# oracle argument guard — the oracle must reject unknown flags, never ignore them (2026-10-03:
+# `next seed --dry-run` silently allocated and stamped a pulse beat). Runs when oracle.py is staged;
+# the self-test works in a throwaway dir and never touches _SEEDS/_oracle.json.
+if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/oracle.py --self-test >/dev/null 2>&1; then
+    python3 scripts/oracle.py --self-test >&2 || true
+    echo "✖ pre-commit(oracle-args): oracle self-test failed. fix the argument guard before committing." >&2
     exit 1
   fi
 fi

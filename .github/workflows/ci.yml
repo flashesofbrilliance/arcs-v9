@@ -80,6 +80,16 @@ jobs:
         run: python3 scripts/source_trust_emit.py --check
       - name: Every gh_sync backlog row has an issue
         run: python3 scripts/backlog_issue_sync.py --check
+      # Generated public pages: a hand edit to the output instead of the generator fails here
+      # (both had drifted far enough that a rebuild would have reverted live work).
+      - name: good.arcs.care gallery + connector pages match their renderer
+        run: python3 scripts/connector_render.py --check
+      - name: NFTT index matches its builder
+        run: node scripts/nftt_index_build.mjs --check
+      - name: Every routed NFTT post carries its publish timestamp
+        run: python3 scripts/nftt_published.py --check
+      - name: Every serialized NFTT part carries its series line + panel
+        run: python3 scripts/nftt_series.py --check
 
   smoke:
     runs-on: ubuntu-latest
@@ -198,6 +208,17 @@ jobs:
             sleep 1
           done
           echo "server never came up" && exit 1
+
+      # Every page this PR adds or changes must pass the full page gate, render checks
+      # included (overflow at 375/790/1280, lede spans the heading's lane). Legacy pages
+      # are gated when they are next touched, not all at once.
+      - name: Page gate on changed pages
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.sha }}
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html')
+          if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
+          python3 scripts/page_gate.py $files
 
       - name: FE smoke (Playwright)
         run: npm run test:smoke
