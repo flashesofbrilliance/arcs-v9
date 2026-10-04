@@ -2,10 +2,15 @@
   "captured_at": "2026-09-28T09:35:39-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "0e8ef253",
-    "head_message": "chore(audit): weekly drift audit 2026-09-28 [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": [],
+    "head_sha": "601d186a",
+    "head_message": "feat(receipt): save-nudge v1.1 behind NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 + two recovery fixes [NCI:55]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ],
     "branch": "claude/handoff-v3.69.0"
   },
   "vercel": {
@@ -42,5 +47,5 @@
   "session_summary": "Accountant keel chip: measured the external decision funnel from prod (founder split out; external inflow zero for 79 days), found by grep that no live good.arcs.care surface linked to the compass, and routed one move: the /fears kill-clause cards hand the claim into the dashboard with its horizon set.",
   "next_action": "Zach's go on PR #586, then merge + one decision_receipt row + get_deployment check of /fears; re-run scripts/outcome_funnel.py a week after deploy and watch external last_30d.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-09-28T02:51:49Z"
+  "git_refreshed_at": "2026-09-28T20:25:52Z"
 }
