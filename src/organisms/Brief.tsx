@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather, nciColor, contentContainer } from '@/ui/tokens'
+import { font, signal, border, text, getWeather, nciColor, contentContainer, doorLabel } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Rule } from '@/ui/Rule'
@@ -58,7 +58,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       {/* Decision — the question, at the top (mirrors the receipt pattern) */}
       <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
         <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Decision</div>
-        <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85 }}>{result.question}</div>
+        <h1 style={{ fontFamily: font.sans, fontSize: '0.9rem', fontWeight: 400, color: text.secondary, lineHeight: 1.85, margin: 0 }}>{result.question}</h1>
       </div>
 
       {/* True North */}
@@ -67,10 +67,10 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 2.0 }}>{result.true_north}</div>
       </div>
 
-      {/* Conviction — full-width, right below True North */}
+      {/* NCI — full-width, right below True North */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: '1.75rem', flexWrap: narrow ? 'wrap' : 'nowrap' }}>
         <div style={{ flexShrink: 0 }}>
-          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Conviction</div>
+          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.2rem' }}>NCI</div>
           <div style={{ fontFamily: font.sans, fontSize: '2.25rem', fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{result.nci_score}</div>
           <div style={{ fontFamily: font.mono, fontSize: '0.55rem', color: text.dimmed, marginTop: '0.2rem', letterSpacing: '0.06em' }}>/ 100</div>
         </div>
@@ -78,7 +78,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {([
             ['Mode', result.decision_mode],
-            ['Door', result.door_class?.replace(/_/g, ' ')],
+            ['Door', doorLabel(result.door_class)],
             ['Coherence', result.coherence_pct != null ? `${result.coherence_pct}%` : null],
             ...(r.advisors?.bayesian_risk_pct != null ? [['Bayesian risk', `${r.advisors.bayesian_risk_pct}%`]] : []),
           ].filter(([, v]) => v != null) as [string, string][]).map(([k, v]) => (

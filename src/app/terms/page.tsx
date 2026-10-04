@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import Link from "next/link"
 import { surface, text, signal, font, border } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Rule } from '@/ui/Rule'
@@ -93,7 +93,6 @@ function SectionHeader({ n, title, flag }: { n: string; title: string; flag?: st
 }
 
 export default function TermsPage() {
-  const router = useRouter()
 
   return (
     <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
@@ -101,9 +100,7 @@ export default function TermsPage() {
 
         {/* Nav */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
-          <button onClick={() => router.push('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            <Wordmark section="Terms of Service" />
-          </button>
+          <Wordmark section="Terms of Service" />
         </div>
         <Rule style={{ marginBottom: '2rem' }} />
 
@@ -201,9 +198,9 @@ export default function TermsPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Terms of service v1.0 · effective 2026-06-30</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <button onClick={() => router.push('/trust')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Trust contract</button>
-            <button onClick={() => router.push('/privacy')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Privacy policy</button>
-            <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, padding: 0 }}>Open the compass →</button>
+            <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
+            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy policy</Link>
+            <Link href='/dashboard' style={{ fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, textDecoration: 'none' }}>Open the compass →</Link>
           </div>
         </div>
       </div>

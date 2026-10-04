@@ -7,7 +7,7 @@ import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
 // organisms are presentational; this page owns the live L0–L5 pipeline, prep
@@ -264,9 +264,9 @@ function DashboardInner() {
             </span>
             <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
               <Button variant="ghost" size="sm" onClick={() => setOnboardingNudge(null)}>Dismiss</Button>
-              <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>
+              <ButtonLink variant="primary" size="sm" href="/onboarding">
                 {onboardingNudge.hasPdf ? "Add export" : "Set up profile"}
-              </Button>
+              </ButtonLink>
             </div>
           </div>
         </div>

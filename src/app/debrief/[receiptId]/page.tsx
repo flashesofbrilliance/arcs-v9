@@ -4,12 +4,13 @@
 // receipt: what actually happened. Writes an Outcome, flips status → LOGGED.
 "use client"
 
+import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { surface, text, signal, font, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Card } from "@/ui/Card"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import { SectionLabel } from "@/ui/SectionLabel"
 
 interface ReceiptRecap {
@@ -47,13 +48,14 @@ function daysSince(iso: string): number {
 
 export default function DebriefPage() {
   const params = useParams()
-  const router = useRouter()
   const receiptId = String(params.receiptId)
   const vw = useVw()
 
   const [recap, setRecap] = useState<ReceiptRecap | null>(null)
   const [logged, setLogged] = useState<LoggedOutcome | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // Server says whether this viewer may close the receipt (owner only in prod).
+  const [access, setAccess] = useState<{ canClose: boolean; signedIn: boolean }>({ canClose: false, signedIn: false })
 
   // form state
   const [matched, setMatched] = useState<boolean | null>(null)
@@ -71,6 +73,7 @@ export default function DebriefPage() {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
         setRecap(data.receipt)
+        setAccess({ canClose: !!data.canClose, signedIn: !!data.signedIn })
         if (data.outcome) setLogged(data.outcome)
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
@@ -101,9 +104,9 @@ export default function DebriefPage() {
       {/* breadcrumb */}
       <div style={{ borderBottom: `0.5px solid rgba(255,215,0,0.12)`, background: "rgba(255,215,0,0.03)" }}>
         <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
+          <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
           <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-          <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
+          <Link href={`/brief/${receiptId}`} style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Brief</Link>
           <span style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
           <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.gold, textTransform: "uppercase" }}>◰ Debrief</span>
         </div>
@@ -124,12 +127,12 @@ export default function DebriefPage() {
         The call you logged · {days} day{days === 1 ? "" : "s"} ago
       </div>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>The question</div>
-      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.primary, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</div>
+      <h1 style={{ fontFamily: font.sans, fontSize: "0.95rem", fontWeight: 400, color: text.primary, lineHeight: 1.6, margin: "0 0 1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</h1>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>True North · the bearing we set</div>
       <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: signal.cyan, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.trueNorth}</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem", paddingTop: "0.75rem", borderTop: `0.5px solid ${signal.cyan}1a` }}>
         <div>
-          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Conviction</div>
+          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>NCI</div>
           <div style={{ fontFamily: font.mono, fontSize: "1rem", fontWeight: 700, color: nciColor(recap.nci) }}>{recap.nci}<span style={{ color: text.muted, fontWeight: 400 }}>/100</span></div>
         </div>
         {recap.mode && (
@@ -187,8 +190,30 @@ export default function DebriefPage() {
             </>
           ) : null}
           <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.5rem" }}>
-            <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>View brief</Button>
-            <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>Ledger</Button>
+            <ButtonLink variant="ghost" size="sm" href={`/brief/${receiptId}`}>View brief</ButtonLink>
+            <ButtonLink variant="ghost" size="sm" href="/history">Ledger</ButtonLink>
+          </div>
+        </Card>
+      </>
+    )
+  }
+
+  // ── Not closable by this viewer: say why instead of showing a form that 403s ──
+  if (!access.canClose) {
+    return shell(
+      <>
+        {recapCard}
+        <Card>
+          <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6, marginBottom: "1rem" }}>
+            {access.signedIn
+              ? "Only the person who saved this receipt can log how it landed."
+              : "Sign in as the person who saved this receipt to log how it landed."}
+          </div>
+          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            {!access.signedIn && (
+              <ButtonLink variant="primary" size="sm" href={`/compass?next=${encodeURIComponent(`/debrief/${receiptId}`)}`}>Sign in</ButtonLink>
+            )}
+            <ButtonLink variant="ghost" size="sm" href={`/brief/${receiptId}`}>View brief</ButtonLink>
           </div>
         </Card>
       </>

@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, border, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, border, getWeather, nciColor, contentContainer, doorLabel } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
 import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
@@ -135,9 +135,7 @@ export default function ReceiptPage() {
     return (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column" }}>
         <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem" }}>
-          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <Wordmark section="Decision Receipt" />
-          </button>
+          <Wordmark section="Decision Receipt" />
           <Rule style={{ marginTop: "1rem" }} />
         </div>
         <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
@@ -150,10 +148,10 @@ export default function ReceiptPage() {
             </h1>
             <p style={{ fontFamily: font.sans, fontSize: "0.88rem", color: text.secondary, lineHeight: 1.6, margin: "0 0 1.5rem" }}>{error}</p>
             <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
-              <Button variant="primary" size="sm" onClick={() => router.push("/dashboard")}>Run the compass</Button>
+              <ButtonLink variant="primary" size="sm" href="/dashboard">Run the compass</ButtonLink>
               {isEphemeral
-                ? <Button variant="ghost" size="sm" onClick={() => router.push("/compass?next=/dashboard")}>Sign in to keep bearings</Button>
-                : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Your ledger</Button>}
+                ? <ButtonLink variant="ghost" size="sm" href="/compass?next=/dashboard">Sign in to keep bearings</ButtonLink>
+                : <ButtonLink variant="ghost" size="sm" href="/history">← Your ledger</ButtonLink>}
             </div>
           </div>
         </div>
@@ -221,8 +219,8 @@ export default function ReceiptPage() {
           <Wordmark section="Decision Receipt" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
             {isEphemeral
-              ? <Button variant="ghost" size="sm" onClick={() => router.push("/dashboard")}>← Compass</Button>
-              : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>}
+              ? <ButtonLink variant="ghost" size="sm" href="/dashboard">← Compass</ButtonLink>
+              : <ButtonLink variant="ghost" size="sm" href="/history">← Ledger</ButtonLink>}
             {isEphemeral && <Button variant="ghost" size="sm" onClick={shareOneTime}>{shareCopied ? "One-time link copied ✓" : "Share ↗"}</Button>}
             {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
           </div>
@@ -336,7 +334,7 @@ export default function ReceiptPage() {
           {/* Schema ledger pills */}
           <div style={{ borderTop: `0.5px solid ${signal.steel}22`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
             <Pill label="MODE" value={receipt.mode} color={signal.gold} />
-            <Pill label="DOOR" value={receipt.doorClass?.replace(/_/g, " ")} color={signal.steel} />
+            <Pill label="DOOR" value={doorLabel(receipt.doorClass)} color={signal.steel} />
             {receipt.stakesLevel && <Pill label="STAKES" value={receipt.stakesLevel} color={signal.red} />}
             {receipt.horizon && <Pill label="HORIZON" value={receipt.horizon} color={text.muted} />}
             <Pill label="NCI" value={String(receipt.nciScore)} color={nc} />

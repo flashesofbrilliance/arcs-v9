@@ -34,7 +34,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "ARCS Field OS",
+  // Each route names itself via a sibling layout.tsx (pages are client components);
+  // the template keeps the brand on every tab.
+  title: { default: "ARCS Field OS", template: "%s · ARCS" },
   description: "Navigate to clarity. Make the decision visible.",
   openGraph: {
     title: "ARCS Field OS",

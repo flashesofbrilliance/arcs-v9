@@ -8,7 +8,7 @@
 //
 // All primitives pulled from the arcs.care Surface Audit atomic compositions.
 import React from "react"
-import { signal, text, font, border, nciColor, getWeather } from "@/ui/tokens"
+import { signal, text, font, border, nciColor, getWeather, doorLabel } from "@/ui/tokens"
 import { CoverBlock } from "@/document/patterns/CoverBlock"
 import type { CompassResult } from "@/lib/mockCompass"
 
@@ -53,8 +53,8 @@ function VariantCluster({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
     <div>
       {/* 3-col gauge grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 16 }}>
-        <Gauge label="Conviction" value={String(result.nci_score)} sub="/ 100 NCI" sparkPct={result.nci_score} color={nc} />
-        <Gauge label="Coherence" value={`${coherence}%`} sub={`${result.decision_mode} · ${result.door_class?.replace(/_/g," ")}`} sparkPct={coherence} color={signal.gold} />
+        <Gauge label="NCI" value={String(result.nci_score)} sub="/ 100" sparkPct={result.nci_score} color={nc} />
+        <Gauge label="Coherence" value={`${coherence}%`} sub={`${result.decision_mode} · ${doorLabel(result.door_class)}`} sparkPct={coherence} color={signal.gold} />
         <Gauge label="Y-State" value={w.icon} sub={`${w.label} · ${result.render_resolution}`} color={w.color} />
       </div>
 
@@ -112,7 +112,7 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       </div>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
-        {[result.decision_mode, result.door_class?.replace(/_/g," ")].filter(Boolean).map(t => (
+        {[result.decision_mode, doorLabel(result.door_class)].filter(Boolean).map(t => (
           <span key={t} style={{ display: "inline-flex", alignItems: "center", height: 23, padding: "0 11px", borderRadius: 4, fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: signal.cyan, background: "rgba(0,240,255,.1)", border: `1px solid rgba(0,240,255,.28)` }}>{t}</span>
         ))}
       </div>
@@ -128,7 +128,7 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
 // strip. Uses CTARow for unified button styling across all carousel variants.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   const w = getWeather(result.y_state)
-  const door = result.door_class?.replace(/_/g, " ")
+  const door = doorLabel(result.door_class)
   const meta = [
     `NCI ${result.nci_score} / 100`,
     result.decision_mode && `MODE ${result.decision_mode}`,

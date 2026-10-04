@@ -41,7 +41,7 @@ export default function GlobalError({
               fontSize: "0.75rem",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "#64748b",
+              color: "#8391a7",
             }}
           >
             The instrument lost signal
@@ -89,7 +89,7 @@ export default function GlobalError({
               style={{
                 margin: "1.5rem 0 0",
                 fontSize: "0.7rem",
-                color: "#475569",
+                color: "#7a8699",
                 fontFamily: "ui-monospace, SFMono-Regular, monospace",
               }}
             >

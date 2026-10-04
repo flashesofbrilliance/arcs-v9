@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, Suspense } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
@@ -24,7 +24,6 @@ async function postLead(payload: Record<string, unknown>): Promise<{ ok: boolean
 }
 
 function AdvisoryInner() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const receiptId = searchParams.get("receipt") || undefined
 
@@ -34,23 +33,24 @@ function AdvisoryInner() {
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [booking, setBooking] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!email.trim() || loading) return
     setLoading(true)
+    setError(null)
     const { ok, bookingUrl } = await postLead({ email, name, message, source: "advisory", receiptId })
     setLoading(false)
     if (ok) { setSent(true); setBooking(bookingUrl) }
+    else setError("That didn't go through. Your note is still here; try again in a minute.")
   }
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       <div style={{ maxWidth: 620, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
         <div style={{ paddingBottom: "1rem" }}>
-          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <Wordmark section="Advisory" />
-          </button>
+          <Wordmark section="Advisory" />
         </div>
         <Rule style={{ marginBottom: "2rem" }} />
 
@@ -82,6 +82,9 @@ function AdvisoryInner() {
               <Field label="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
               <Field label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
               <Field as="textarea" rows={3} label="What are you deciding?" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="One or two lines on the decision you're bringing." />
+              {error && (
+                <div role="alert" style={{ fontFamily: font.sans, fontSize: "0.85rem", color: signal.red, lineHeight: 1.5 }}>{error}</div>
+              )}
               <Button type="submit" variant="gold" size="md" disabled={loading || !email.trim()} style={{ width: "100%" }}>
                 {loading ? "Sending…" : "Request a consult"}
               </Button>
