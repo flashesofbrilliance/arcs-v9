@@ -1,3 +1,58 @@
+# Handoff — v3.73.0 (2026-10-04)
+
+> **Essay drafted, not shipped: "Tribes, Vibes, Lies" (subtitle "The Exoskeleton, Not the Oracle"),
+> the long-form demand piece for a paid ARCS tier.** The draft lives in a Claude Doc, not in this
+> repo: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. No code changed, no
+> PR, no deploy, no `decision_receipt` row (nothing was merged or published). This block records
+> the shape of the essay so the next session can carry it to good.arcs.care/blog/nftt/ via
+> `/nftt-story-factory` without re-deriving it.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 2 / dissent 0 (ratio 2.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim names the doc URL, a canon id, or a file path. The '2 closed' count is carried as unconfirmed (it is AGENTS.md's 2026-09-02 figure, not re-measured). Nothing else downgraded.
+- **Somatic read**: `somatic: not asked` (Zach present in chat; question not put). No sends today; the doc is private.
+- **Disposition**: RELEASED on Zach's 'consolidate memory and handoff'. Exhale 0 commits is accurate: the session's output is a Claude Doc, and this handoff commit is the only repo write.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## What exists (in the doc)
+- Nine sections, Zach's first person: confession (247 receipts logged, 2 closed; the valuable calls
+  were passes, which leave no outcome), the shift (answers cheap, compounding judgment scarce),
+  prosthetic vs exoskeleton, the prefrontal map (five jobs x five instruments, labelled a functional
+  analogy, not neuroscience), Tribes/Vibes/Lies as a descent from the read you cannot prove to the
+  read that leaves a receipt, the swipe-left ledger (three dials: good use of time / symmetric value /
+  right time; one tripwire: stated-vs-revealed gap), why it compounds (the gut did not improve, the
+  record did), the invitation (30 people x 30 closed decisions; 30 is the Accountant's n>=30 calibration
+  floor from AGENTS.md, not a scarcity device), and three tributaries.
+- A short-version block under the byline, two pull quotes, six drawn widgets, each intended as a
+  standalone share card: prosthetic vs exoskeleton; the Tribes/Vibes/Lies ladder; dials + tripwire;
+  the decide/act/receipt/measure loop (tao-041, tao-222); the four zones with Y state and render
+  resolution (WORLD.md); a 2x2 of proverbs quoted as minted (tao-227, tao-220, tao-194, tao-045 from
+  `_CANON/tao-proverbs.jsonl`).
+- Two placeholders Zach still owes: the prospect he passed on (what they said, what they did not do,
+  which dial the pull was on, when the tripwire fired) and one yes that went as expected.
+- One open doc comment from Claude asking Zach to confirm the "2 closed" count against the live DB.
+
+## Open (next session)
+1. Zach fills the two placeholders and confirms 2/247 (re-measure `Outcome` rows; the number is from
+   AGENTS.md as of 2026-09-02 and may have moved).
+2. Port to `/nftt-story-factory` (LITERARY theme), em-dashes 0, lede spans the lane, run `page-gate`.
+   Rebuild the three widgets as inline SVG in the post; they are doc widgets today.
+3. Decide the paid-tier mechanics the essay promises: COURT/DEEP mode for the cohort, a 30-outcome
+   calibration curve per user. Neither exists as a purchasable thing; the essay is ahead of the product.
+4. Backlog row `essay-tribes-vibes-lies` added this session carries route/gates.
+
+## Lessons (in the record)
+- A no closes against a counterfactual. Any outcome ledger undercounts the passes, so an essay that
+  sells the loop has to say so up front or a careful reader finds the hole first.
+- "I got better at reading people" is unfalsifiable; "my gut now has a record" is the same claim in a
+  form that survives. Prefer the second form everywhere the brand speaks.
+
 # Handoff — v3.72.0 (2026-09-30)
 
 > **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to

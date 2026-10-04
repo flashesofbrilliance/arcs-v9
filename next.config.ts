@@ -106,6 +106,7 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/joe-war", has: [{ type: "host", value: "joe-war.arcs.care" }] },
+        { source: "/:path((?!fonts/).*)", destination: "/warroom/lyndon-war", has: [{ type: "host", value: "lyndon-war.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/yuri-war", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },

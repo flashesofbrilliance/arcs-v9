@@ -1,22 +1,16 @@
 # ARCS Session State — snapshot for next pickup
 
-**As of:** 2026-10-04 · branch `claude/post-timestamps-notes-trenches-psjapj` · PR #688 MERGED at `0bfa5877` · handoff PR #690 (merged main `ac92aaed` in; renumbered v3.73.0 -> v3.74.0 after the parallel essay session took v3.73.0)
+**As of:** 2026-10-04 · branch `claude/research-field-state-of-art-5fcdnl` · PRs #683 (`5d64551`) and #686 (`44b80d1`) MERGED · handoff v3.75.0
 
-## What this session did (v3.74.0)
-- NFTT publish timestamps on all 32 routed posts, derived from git (`scripts/nftt_published.py`, `runtime/specs/nftt-published.json`).
-- The seven PR #411 essays denoted as one serialized thread (`scripts/nftt_series.py`, `runtime/specs/nftt-series.json`).
-- NFTT index: series ordered 1 to 7; Factory split into Factory / Cold Reader / Workshop; doctype on 9 pages; lede fix ported to 9 posts.
-- Receipt `2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`.
+## What this session did (v3.75.0)
+- Stopped-light / quantum-memory research -> `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md` (15 labelled isomorphisms, 5 inventions with kill conditions, 3 backlog rows).
+- Minted `/echo-scan` with nested `claim-check`; fixed `scripts/oracle.py` strict args + `--dry-run` + self-test in pre-commit.
+- Published NFTT "Light at Thirty-Eight Miles an Hour" + `/research` companion + `tao-284`. Receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH`, `2026-10-04--nftt-research-companion-tao284-pr686--ZH`.
 
 ## Next unblocked action
-1. Zach reviews the new wording on good.arcs.care/blog/nftt (tagline, Cold Reader, Workshop, blurbs).
-2. Decide on LinkedIn first-published dates for the series parts.
-3. Fix `scripts/shavasana_handoff.py` exhale author filter (reads 0 commits in cloud sessions).
-
-## Also open: v3.73.0 (parallel session, "Tribes, Vibes, Lies" essay), carried verbatim
-1. Zach fills the two placeholders in the doc (one pass, one yes) and answers the doc comment on the 2/247 count.
-2. Port via `/nftt-story-factory`; rebuild the six widgets as inline SVG; `page-gate` green; em-dashes 0.
-3. Decide what the 30-person cohort buys before the essay promises it publicly.
+1. `seed-gate-hookspath-bootstrap`: make `.claude/hooks/session-start.sh` set `git config core.hooksPath scripts/git-hooks` when unset (idempotent, never fails the hook).
+2. Suggested-task cards: resync `scripts/nftt_index_build.mjs`; Tao backfill for 4 NFTT posts (needs Zach's yes).
+3. `seed-pattern-strict-cli-args`: audit the 38 write-capable hand-parsed scripts for silent unknown-flag acceptance.
 
 ## Blocking
 NONE.

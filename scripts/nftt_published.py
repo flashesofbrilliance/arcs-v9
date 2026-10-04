@@ -45,6 +45,8 @@ ROUTE_FILES = ["src/proxy.ts", "src/middleware.ts", "middleware.ts", "next.confi
 ROUTE_RE = re.compile(r"'/blog/nftt/([a-z0-9-]+)':\s*'/(blog-nftt-[a-z0-9-]+\.html)'")
 BYLINE_RE = re.compile(r'(<p class="byline"[^>]*>)')
 STAMP_RE = re.compile(r'<time data-pub datetime="[^"]*">[^<]*</time> &middot; ')
+ORIG_RE = re.compile(r'<span data-orig>.*?</span> &middot; ')
+ORIGINALS = os.path.join(ROOT, "runtime", "specs", "nftt-originals.json")
 META_RE = re.compile(r'<meta property="article:published_time" content="[^"]*">\n?')
 
 
@@ -168,19 +170,42 @@ def human(iso):
     return f"{d.strftime('%b')} {d.day}, {d.year} &middot; {hour}:{d.strftime('%M %p')} ET"
 
 
-def stamp_text(html, iso):
-    """Idempotently write the head meta and the byline <time> for one post. Returns new html."""
+def origin_segment(o):
+    """'From the LinkedIn original(s), <dates>' for a post written from earlier pieces; each date in a <time>."""
+    ds = [datetime.strptime(d, "%Y-%m-%d") for d in o["dates"]]
+    same_year = len({d.year for d in ds}) == 1
+    parts = [f'<time datetime="{d:%Y-%m-%d}">{d:%b} {d.day}' + ("" if same_year else f", {d.year}") + "</time>" for d in ds]
+    joined = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+    if same_year:
+        joined += f", {ds[0].year}"
+    label = "original" if len(ds) == 1 else "originals"
+    return f'<span data-orig>From the {o["platform"]} {label}, {joined}</span> &middot; '
+
+
+def stamp_text(html, iso, origin=None):
+    """Idempotently write the head meta, the byline <time>, and (if any) the originals segment. Returns new html."""
     html = META_RE.sub("", html)
     html = html.replace("</title>\n", f'</title>\n<meta property="article:published_time" content="{iso}">\n', 1)
     html = STAMP_RE.sub("", html)
+    html = ORIG_RE.sub("", html)
     tag = f'<time data-pub datetime="{iso}">Published {human(iso)}</time> &middot; '
+    if origin:
+        tag += origin_segment(origin)
     html, n = BYLINE_RE.subn(lambda m: m.group(1) + tag, html, count=1)
     if n == 0:
         raise ValueError("no <p class=\"byline\"> to stamp")
     return html
 
 
-def problems(posts, live, read):
+def load_originals():
+    if not os.path.exists(ORIGINALS):
+        return {}
+    with open(ORIGINALS, encoding="utf-8") as f:
+        return json.load(f)["posts"]
+
+
+def problems(posts, live, read, originals=None):
+    originals = originals or {}
     out = []
     for slug, fname in sorted(live.items()):
         row = posts.get(slug)
@@ -193,6 +218,14 @@ def problems(posts, live, read):
             out.append(f"{fname}: missing/stale article:published_time (run: nftt_published.py stamp)")
         if f'<time data-pub datetime="{iso}">Published {human(iso)}</time>' not in html:
             out.append(f"{fname}: missing/stale byline <time> (run: nftt_published.py stamp)")
+        if slug in originals:
+            if origin_segment(originals[slug]) not in html:
+                out.append(f"{fname}: missing/stale originals segment (run: nftt_published.py stamp)")
+        elif "<span data-orig>" in html:
+            out.append(f"{fname}: carries an originals segment with no row in nftt-originals.json")
+    for slug in originals:
+        if slug not in live:
+            out.append(f"{slug}: in nftt-originals.json but not a routed post")
     return out
 
 
@@ -202,14 +235,14 @@ def _read(fname):
 
 
 def cmd_stamp():
-    posts, live = load(), routes()
+    posts, live, originals = load(), routes(), load_originals()
     for slug, fname in sorted(live.items()):
         if slug not in posts:
             print(f"[nftt-published] skip {slug}: no ledger row")
             continue
         path = os.path.join(ROOT, "public", fname)
         before = _read(fname)
-        after = stamp_text(before, posts[slug]["published_at"])
+        after = stamp_text(before, posts[slug]["published_at"], originals.get(slug))
         if after != before:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(after)
@@ -218,7 +251,7 @@ def cmd_stamp():
 
 
 def cmd_check():
-    bad = problems(load(), routes(), _read)
+    bad = problems(load(), routes(), _read, load_originals())
     for b in bad:
         print(f"[nftt-published] FAIL {b}", file=sys.stderr)
     if bad:
@@ -249,8 +282,20 @@ def self_test():
     ok += bool(SYNC_RE.match("Merge branch 'main' into claude/x"))                      # sync: hop
     ok += not SYNC_RE.match("Merge branch 'claude/x'")                   # merging a branch INTO main is real
     ok += not SYNC_RE.match("Merge pull request #505 from x/y")          # a PR merge is real
-    print(f"[nftt-published] self-test {ok}/13")
-    return 0 if ok == 13 else 1
+    one = {"platform": "LinkedIn", "dates": ["2026-01-30"]}
+    span = {"platform": "LinkedIn", "dates": ["2019-02-07", "2025-09-12"]}
+    three = {"platform": "LinkedIn", "dates": ["2026-01-30", "2026-02-19", "2026-05-25"]}
+    ok += origin_segment(one) == '<span data-orig>From the LinkedIn original, <time datetime="2026-01-30">Jan 30</time>, 2026</span> &middot; '
+    ok += 'Feb 7, 2019</time> and <time datetime="2025-09-12">Sep 12, 2025</time></span>' in origin_segment(span)
+    ok += 'originals, <time datetime="2026-01-30">Jan 30</time>, <time datetime="2026-02-19">Feb 19</time> and <time datetime="2026-05-25">May 25</time>, 2026<' in origin_segment(three)
+    withorig = stamp_text(once, iso, one)
+    ok += stamp_text(withorig, iso, one) == withorig and withorig.count("data-orig") == 1   # idempotent
+    ok += len(problems({"a": {"published_at": iso}}, live, lambda f: once, {"a": one})) == 1  # fail-on-bad: missing
+    ok += len(problems({"a": {"published_at": iso}}, live, lambda f: withorig, {})) == 1      # fail-on-bad: orphan
+    ok += problems({"a": {"published_at": iso}}, live, lambda f: withorig, {"a": one}) == []  # pass-on-good
+    ok += "data-orig" not in stamp_text(withorig, iso, None)            # removable
+    print(f"[nftt-published] self-test {ok}/21")
+    return 0 if ok == 21 else 1
 
 
 if __name__ == "__main__":

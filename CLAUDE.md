@@ -114,6 +114,60 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.75.0 (2026-10-04)
+
+> **Stopped-light research → ARCS design rules, a nested skill, an oracle fix, and an NFTT essay with a
+> go-deeper companion.** Two PRs merged on Zach's explicit go: #683 (`5d64551`) and #686 (`44b80d1`);
+> receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH` and
+> `2026-10-04--nftt-research-companion-tao284-pr686--ZH`. Both served from the Vercel deployment URL;
+> the pretty good.arcs.care routes are unconfirmed (the cloud egress proxy blocks good.arcs.care).
+
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file. (Script counts 2026-10-04 UTC only; the session spanned 2026-10-03/04 with 8 session commits, 2 merges #683 #686, 2 receipts.)
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale) on the 10-04 window; breathing across the full session.
+- **Sycophancy check**: agreement 4 / dissent 3 (ratio 1.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "live-verified" narrowed to "served from the deployment URL"; the pretty good.arcs.care routes stay unconfirmed (egress block). "Cheapest high-value fix" downgraded to "a one-line hook change". Nothing dropped.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Research:** `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`: claim check of a
+  LinkedIn post on Hau's stopped light, 2026 state of the art, 15 isomorphisms labelled MECHANISM or
+  METAPHOR, 5 inventions each with a pre-registered kill condition. Top 3 in the induced backlog
+  (`freshness-zeno-ceiling`, `echo-scheduled-receipts`, `memory-seven-axis-scorecard`).
+- **Skill:** `/echo-scan` (`.claude/skills/echo-scan/`), the working form of ROM primitive 5, with a
+  nested `claim-check` module (`references/claim-check.md`) also callable standalone. A fresh-agent run
+  of the module found 7 gaps and a wrong expected verdict in its own eval; all fixed in `c04c21f`.
+- **Oracle fix (`4583555`):** `scripts/oracle.py` matched only argv[0..1], so `next seed --dry-run`
+  allocated for real and stamped a pulse beat. Now strict parse (unknown flag, extra arg, missing value
+  -> exit 2), a real `next <ns> --dry-run`, and `--self-test` 12/12 wired into pre-commit.
+- **NFTT:** "Light at Thirty-Eight Miles an Hour" (the session's own story, including the false herald it
+  refused to commit) + companion `/research` page (go-deeper, tao-waiver as a companion) + `tao-284`.
+- Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
+
+## Open (next session)
+1. Seeds planted this handoff: `seed-pattern-strict-cli-args` (candidate), `seed-skill-echo-scan`, and
+   `seed-gate-hookspath-bootstrap`, germinated the same day: `.claude/hooks/session-start.sh` now arms
+   `core.hooksPath` when unset, so fresh clones run the pre-commit chain.
+2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
+   posts), and Tao backfill for the 4 NFTT posts still uncovered.
+3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
+4. Backlog inventions untouched; each carries its kill condition.
+
+## Lessons (in the record)
+- A preview flag a tool does not recognize turns a look into a touch. 61 of 63 `scripts/*.py` that read
+  argv parse it by hand (38 of those write files); the oracle was one instance of the class.
+- A herald must come from the write it reports. The pulse beat from a reverted allocation was refused;
+  the beat from the real tao-284 allocation was committed.
+- `core.hooksPath` unset in this clone: commits `43a3ff9` and `248036c` ran no gates, and the essay
+  shipped without the tao-coverage check until `08233e4`.
+
 # Handoff — v3.74.0 (2026-10-04)
 
 > **NFTT posts carry their publish time; the seven PR #411 essays are denoted as one serialized thread;
@@ -157,8 +211,10 @@ _This block asserts nothing new. Counts, paths, and questions only._
 ## Open (next session)
 1. Zach has not reviewed the new wording in place: tagline "One method, seven subjects", section names
    The Cold Reader / The Workshop, the three new blurbs.
-2. LinkedIn first-published dates for the series parts: offered, not decided (the method post's byline
-   already carries Jan 30, 2026).
+2. RESOLVED (same day, on Zach's ask): bylines carry "From the LinkedIn original(s), <dates>" for the four
+   posts whose own text dates their LinkedIn source (`runtime/specs/nftt-originals.json`). Not "first
+   published": every post is a new essay. Four Dates (platform unstated), The Pre-Mortem (platform
+   unstated, one source undated) and Tuning (cites, not written from, an original) await Zach.
 3. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
 4. The impeccable contrast ratchet did not run in the cloud container (detector absent).
 5. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name`; in cloud sessions
@@ -173,58 +229,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   Generator comments that render into the page are public text.
 - good.arcs.care is blocked by the cloud network policy (proxy 403); live checks go through Vercel
   `web_fetch_vercel_url` and `get_deployment`.
-
-# Handoff — v3.73.0 (2026-10-04)
-
-> **Essay drafted, not shipped: "Tribes, Vibes, Lies" (subtitle "The Exoskeleton, Not the Oracle"),
-> the long-form demand piece for a paid ARCS tier.** The draft lives in a Claude Doc, not in this
-> repo: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. No code changed, no
-> PR, no deploy, no `decision_receipt` row (nothing was merged or published). This block records
-> the shape of the essay so the next session can carry it to good.arcs.care/blog/nftt/ via
-> `/nftt-story-factory` without re-deriving it.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 2 / dissent 0 (ratio 2.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim names the doc URL, a canon id, or a file path. The '2 closed' count is carried as unconfirmed (it is AGENTS.md's 2026-09-02 figure, not re-measured). Nothing else downgraded.
-- **Somatic read**: `somatic: not asked` (Zach present in chat; question not put). No sends today; the doc is private.
-- **Disposition**: RELEASED on Zach's 'consolidate memory and handoff'. Exhale 0 commits is accurate: the session's output is a Claude Doc, and this handoff commit is the only repo write.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## What exists (in the doc)
-- Nine sections, Zach's first person: confession (247 receipts logged, 2 closed; the valuable calls
-  were passes, which leave no outcome), the shift (answers cheap, compounding judgment scarce),
-  prosthetic vs exoskeleton, the prefrontal map (five jobs x five instruments, labelled a functional
-  analogy, not neuroscience), Tribes/Vibes/Lies as a descent from the read you cannot prove to the
-  read that leaves a receipt, the swipe-left ledger (three dials: good use of time / symmetric value /
-  right time; one tripwire: stated-vs-revealed gap), why it compounds (the gut did not improve, the
-  record did), the invitation (30 people x 30 closed decisions; 30 is the Accountant's n>=30 calibration
-  floor from AGENTS.md, not a scarcity device), and three tributaries.
-- A short-version block under the byline, two pull quotes, six drawn widgets, each intended as a
-  standalone share card: prosthetic vs exoskeleton; the Tribes/Vibes/Lies ladder; dials + tripwire;
-  the decide/act/receipt/measure loop (tao-041, tao-222); the four zones with Y state and render
-  resolution (WORLD.md); a 2x2 of proverbs quoted as minted (tao-227, tao-220, tao-194, tao-045 from
-  `_CANON/tao-proverbs.jsonl`).
-- Two placeholders Zach still owes: the prospect he passed on (what they said, what they did not do,
-  which dial the pull was on, when the tripwire fired) and one yes that went as expected.
-- One open doc comment from Claude asking Zach to confirm the "2 closed" count against the live DB.
-
-## Open (next session)
-1. Zach fills the two placeholders and confirms 2/247 (re-measure `Outcome` rows; the number is from
-   AGENTS.md as of 2026-09-02 and may have moved).
-2. Port to `/nftt-story-factory` (LITERARY theme), em-dashes 0, lede spans the lane, run `page-gate`.
-   Rebuild the three widgets as inline SVG in the post; they are doc widgets today.
-3. Decide the paid-tier mechanics the essay promises: COURT/DEEP mode for the cohort, a 30-outcome
-   calibration curve per user. Neither exists as a purchasable thing; the essay is ahead of the product.
-4. Backlog row `essay-tribes-vibes-lies` added this session carries route/gates.
-
-## Lessons (in the record)
-- A no closes against a counterfactual. Any outcome ledger undercounts the passes, so an essay that
-  sells the loop has to say so up front or a careful reader finds the hole first.
-- "I got better at reading people" is unfalsifiable; "my gut now has a record" is the same claim in a
-  form that survives. Prefer the second form everywhere the brand speaks.
