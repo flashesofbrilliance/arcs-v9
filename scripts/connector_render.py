@@ -331,6 +331,8 @@ EXTERNAL_PAGES = {
         "slug": "honest", "group": "web", "name": "check it before you say it",
         "line": "Five steps between an idea and a message, each stamped go or stop by rules you can read. It checks the facts you mark, not whether they are true. Runs in your browser; nothing is uploaded.",
         "page": "https://honest.arcs.care", "chips": ["web"],
+        # its distribution row is keyed by the repo name, not the page slug
+        "repo": "check-it-before-you-say-it",
     },
     "resume-tailor-skill": {
         "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
@@ -531,10 +533,14 @@ def render_gallery(ssot, blob):
         meta[repo] = dict(group=g, name=repo, line=data.get("gallery_line") or first_sentence(data["desc"]),
                           chips=chips, page=page, gh=gh)
     for repo, ext in EXTERNAL_PAGES.items():
-        url = ssot.get(repo, {}).get("url", "")
+        row = ssot.get(ext.get("repo", repo), {})
+        url = row.get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
+        chips = list(ext.get("chips", ["plugin", "skill"]))
+        if "repo" in ext:   # opted in: its live distribution channels add their chips (github -> clone)
+            chips += [c for c in (CHAN_CHIP.get(ch, ch) for ch in live_channels(row)) if c not in chips]
         meta[repo] = dict(group=ext["group"], name=ext["name"], line=ext["line"],
-                          chips=ext.get("chips", ["plugin", "skill"]), page=ext["page"], gh=gh)
+                          chips=chips, page=ext["page"], gh=gh)
 
     def card_for(repo, variant="full"):
         m = meta[repo]
