@@ -22,7 +22,7 @@ body{font-family:'InstrumentSans','Work Sans',system-ui,sans-serif;color:var(--t
 <div id="grid"></div><div id="fog"></div><div id="rule"></div>
 <div id="cap"></div><div id="tag">Tao of ARCS · 284</div><div id="bar"><i></i></div>
 <script>
-const BEATS = [{"d": 3.5, "caption": "A herald has to come from the memory that holds the thing,", "accent": "cyan"}, {"d": 3.0, "caption": "at the moment it holds it.", "accent": "green"}, {"d": 3.5, "caption": "Then the memory lets go.", "accent": "gold"}, {"d": 4.0, "caption": "A herald that survives its write", "accent": "red"}, {"d": 4.0, "caption": "is a false receipt with a timestamp.", "accent": "red"}];
+const BEATS = [{"d": 3.5, "caption": "A herald has to come from the memory that holds the thing,", "accent": "cyan"}, {"d": 3.0, "caption": "at the moment it holds it.", "accent": "green"}, {"d": 4.0, "caption": "A herald that survives its write", "accent": "red"}, {"d": 4.0, "caption": "is a false receipt with a timestamp.", "accent": "red"}];
 window.DURATION = BEATS.reduce((a, b) => a + b.d, 0);
 const $ = (id) => document.getElementById(id);
 const ease = (x) => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);

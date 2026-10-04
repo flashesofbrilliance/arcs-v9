@@ -38,21 +38,7 @@ The same light, now steady, a thin green line drawn from it toward the edge of f
 The same light, now steady, a thin green line drawn from it toward the edge of frame. Camera: locked-off, no movement. Motion: the line extends at an even pace and stops. Light: light from the line itself, nothing else. Framing: vertical 9:16, subject centered, safe area top and bottom. Duration 3.0 seconds, one continuous shot. Calm, precise, instrument-like. Dark near-black field, thin cyan and green light, fine grid, slow fog. Restrained, documentary, no spectacle.
 ```
 
-## Beat 3 (3.5s): "Then the memory lets go."
-
-**16:9**
-
-```
-The glass cell empties: the point of light fades out while the green line keeps glowing. Camera: slow pull-back, 10 percent. Motion: fade of the source, the line stays lit. Light: dimming to near black around the line. Framing: horizontal 16:9, subject on the left third, open space right. Duration 3.5 seconds, one continuous shot. Calm, precise, instrument-like. Dark near-black field, thin cyan and green light, fine grid, slow fog. Restrained, documentary, no spectacle.
-```
-
-**9:16**
-
-```
-The glass cell empties: the point of light fades out while the green line keeps glowing. Camera: slow pull-back, 10 percent. Motion: fade of the source, the line stays lit. Light: dimming to near black around the line. Framing: vertical 9:16, subject centered, safe area top and bottom. Duration 3.5 seconds, one continuous shot. Calm, precise, instrument-like. Dark near-black field, thin cyan and green light, fine grid, slow fog. Restrained, documentary, no spectacle.
-```
-
-## Beat 4 (4.0s): "A herald that survives its write"
+## Beat 3 (4.0s): "A herald that survives its write"
 
 **16:9**
 
@@ -66,7 +52,7 @@ The green line alone in fog, still glowing, connected to nothing. Camera: slow l
 The green line alone in fog, still glowing, connected to nothing. Camera: slow lateral drift left to right. Motion: fog moves across the line, the line does not change. Light: the line as sole source, cold fog. Framing: vertical 9:16, subject centered, safe area top and bottom. Duration 4.0 seconds, one continuous shot. Calm, precise, instrument-like. Dark near-black field, thin cyan and green light, fine grid, slow fog. Restrained, documentary, no spectacle.
 ```
 
-## Beat 5 (4.0s): "is a false receipt with a timestamp."
+## Beat 4 (4.0s): "is a false receipt with a timestamp."
 
 **16:9**
 
