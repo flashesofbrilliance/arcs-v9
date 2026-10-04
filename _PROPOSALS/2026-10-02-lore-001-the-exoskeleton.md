@@ -1,5 +1,5 @@
 ---
-status: DRAFT (pending Zach's voice pass)
+status: DRAFT (blanks filled from the record 2026-10-04, no personal story; pending Zach's read)
 series: Lore (good.arcs.care/series/lore, not yet built)
 entry: 1
 lore_class: myth            # a causal story about how the world works; the verdict grades it
@@ -11,8 +11,8 @@ date: 2026-10-02
 
 *Lore, entry one. Why ARCS is built the way it is.*
 
-> Bracketed `[ZACH: ...]` marks are holes only you can fill. Everything else is a draft for you to
-> cut. Every claim about the system cites a file you can open; anything unverified says so.
+> The three holes were filled from the record on 2026-10-04 (Zach: no personal story). Everything
+> here is a draft for Zach to cut. Every claim about the system cites a file; anything unverified says so.
 
 ---
 
@@ -26,9 +26,9 @@ tell us whether it works.
 ## I. Lambo engine, bike brakes
 
 The description I have used for years is a Lambo engine with bike brakes: high acceleration, high
-synthesis, and throttle control as the edge I have never fully owned. `[ZACH: one concrete scene.
-A specific morning, a specific loop you could see yourself in and could not exit. The essay lives
-or dies on this paragraph.]`
+synthesis, and throttle control as the edge I have never fully owned.
+
+The record says it better than a scene could. The system has filed 261 decision receipts: 261 questions opened and given a bearing. One has a real outcome logged against it. Opening is cheap for an engine like this. Closing is where the brakes would have to be.
 
 Executive function is the clinical name for the brakes, the clutch and the dashboard. Psychologists
 usually split it into a handful of jobs: holding things in mind (working memory), not acting on the
@@ -66,8 +66,7 @@ compress, replace, or overrule a revealed preference. The machine explores optio
 commits reality.
 
 That rule is the whole difference between a prosthetic and a replacement. A prosthetic you stop
-noticing. A replacement you stop being. `[ZACH: one line on a moment the scaffold handed a decision
-back to you instead of making it.]`
+noticing. A replacement you stop being. The rule is written down with its own test case. If the compass reads GREEN on a job offer and the person says it feels wrong, the system records the gate as undefined, not GREEN: lived experience outranks the inference. The scaffold is built to hand that decision back. (`_CANON/book-ii/part-ii-rom-axioms.md`.)
 
 ## IV. The crack, shown not hidden
 
@@ -99,7 +98,7 @@ This story is filed as **myth, verdict undecided**: told, not yet cited.
 
 - **The claim:** ARCS scaffolds executive function, including the closing half of the loop.
 - **What would prove it wrong:** outcome capture stays flat. Concretely, if by
-  `[ZACH: date, suggest 2027-01-01]` no cohort reaches the Accountant's own calibration floor of
+  **1 January 2027** no cohort reaches the Accountant's own calibration floor of
   **30 closed outcomes** (`operators/arcs_accountant.py`, `CALIBRATION_MIN_N = 30`), the thesis is
   downgraded from "exoskeleton" to "starter motor" (it cranks the engine, it does not keep it running), publicly, here.
 - **What would confirm it:** closures climb to that floor, and the closed receipts show calibration
@@ -123,7 +122,7 @@ _(Coda chosen by Zach 2026-10-03: spark plug. It hands off to Lore entry 2, The 
 
 ```json
 {"id": "lore-015", "class": "myth",
- "story": "<ZACH's one paragraph, in his words>",
+ "story": "(written impersonally per Zach 2026-10-04; see runtime/specs/lore.jsonl)",
  "told_where": "good.arcs.care/series/lore/the-exoskeleton",
  "observation": "Every ARCS instrument maps to one executive-function job (receipts=working memory, Y gate=inhibition, PrepSession=planning, Drift Sentinel=self-monitoring, handoffs=shifting).",
  "mechanism_claimed": "Externalizing executive-function load frees the operator's own capacity for the judgment only they can make.",
@@ -132,7 +131,8 @@ _(Coda chosen by Zach 2026-10-03: spark plug. It hands off to Lore entry 2, The 
 ```
 
 ### Open before building the page
-1. Zach's voice pass on every `[ZACH]` mark. **Ruled 2026-10-03 (Zach): no diagnostic label in
+1. ~~Fill the `[ZACH]` marks~~ done 2026-10-04 from the record, per Zach: no personal story (record-based
+   opener, the documented GREEN-to-undefined example, deadline 1 January 2027). Zach's read still owed. **Ruled 2026-10-03 (Zach): no diagnostic label in
    public, in this entry or any derivative (page, LinkedIn cut, lore row). The essay stays on
    executive function and the "Lambo engine, bike brakes" self-description.**
 2. ~~Re-measure the 2/247 figure~~ done 2026-10-03: 3/261 logged, 1 substantive (2 were form tests). Re-count on publish day.
