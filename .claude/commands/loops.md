@@ -23,7 +23,7 @@
 4. Captured today, not filed: seeds planted today, `/witness` stubs not promoted
 5. Coming up: one-time scheduled reminders from the snapshot
 
-## Capture inbox rule (proposed, pending Zach)
+## Capture inbox rule (approved by Zach 2026-10-04)
 
 Any idea that surfaces mid-turn becomes a `spawn_task` chip or a `/witness` stub inside the same
 turn. Nothing lives only in chat. Section 4 is where those land the same day.
