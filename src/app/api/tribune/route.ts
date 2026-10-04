@@ -3,6 +3,7 @@
 // Implementation order (ADR-020): (1) this route with the Proactive silence gate,
 // (2) the Tribune migration + Receipt.batonId, (3-5) per-phase generation, lazy/on-demand.
 // Auth required (ADR-016 gate): the caller must own the receipt. Annotates, never mutates.
+import { model } from "@/lib/models";
 import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
@@ -28,9 +29,9 @@ export const dynamic = "force-dynamic"
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 // Anterior/Proactive are short reads → Haiku; Posterior weighs an outcome record → Sonnet.
 const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature: number }> = {
-  anterior: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  proactive: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  posterior: { model: "claude-sonnet-4-6", max_tokens: 2200, temperature: 0.3 },
+  anterior: { model: model("fast"), max_tokens: 1800, temperature: 0.2 },
+  proactive: { model: model("fast"), max_tokens: 1800, temperature: 0.2 },
+  posterior: { model: model("deep"), max_tokens: 2200, temperature: 0.3 },
 }
 
 const CLARITY = new Set<ClarityMode>(["SIMPLE", "RICH", "DEEP"])

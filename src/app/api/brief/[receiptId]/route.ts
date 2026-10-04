@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
@@ -114,7 +115,7 @@ export async function GET(
   // Fire situation framing + entity analysis in parallel
   const calls: Promise<Anthropic.Message>[] = [
     anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+      model: model("deep"),
       max_tokens: 600,
       system: BRIEF_SYSTEM,
       messages: [{ role: "user", content: `${baseContext}\n\nWrite the Situation Framing section.` }],
@@ -124,7 +125,7 @@ export async function GET(
   if (receipt.entity) {
     calls.push(
       anthropic.messages.create({
-        model: "claude-sonnet-4-6",
+        model: model("deep"),
         max_tokens: 512,
         system: ENTITY_SYSTEM,
         messages: [{ role: "user", content: `${baseContext}\n\nGenerate the entity intelligence read for: ${receipt.entity}` }],

@@ -1,0 +1,9 @@
+{
+  "_doc": "Single source of truth for which Claude model each job runs on. Callers name a ROLE; only this file names a model id. Changing a role's model changes product output: do it on Zach's go, after scripts/model_drift_check.py flags a newer model and an eval compares old vs new. Gate: scripts/model_id_gate.py (pre-commit) blocks hardcoded ids elsewhere.",
+  "roles": {
+    "fast": { "model": "claude-haiku-4-5-20251001", "family": "haiku", "used_by": "compass QUICKMOVE/PLAN, tribune anterior/proactive, annotations, jobs score/rescore, operators/arcs_lte" },
+    "deep": { "model": "claude-sonnet-4-6", "family": "sonnet", "used_by": "compass COURT, tribune posterior, brief, jobs cover-letter/edit-from-seed, scripts/slop_eval" },
+    "guide": { "model": "claude-opus-4-5", "family": "opus", "used_by": "guide route (pinned separately from max; kept as found 2026-10-04)" },
+    "max": { "model": "claude-opus-4-7", "family": "opus", "used_by": "scripts/network_scan" }
+  }
+}

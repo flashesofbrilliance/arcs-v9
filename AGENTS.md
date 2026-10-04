@@ -37,7 +37,7 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 
 | Var | Purpose |
 |---|---|
-| `ANTHROPIC_API_KEY` | Claude Sonnet 4.6 — powers compass route |
+| `ANTHROPIC_API_KEY` | Claude API for compass and other routes. Model per job lives ONLY in `runtime/specs/models.json` (roles fast/deep/guide/max; `model_id_gate.py` blocks hardcoded ids, `model_drift_check.py` flags newer models at session start) |
 | `AUTH_SECRET` | Auth.js v5 session signing |
 | `AUTH_RESEND_KEY` | Magic link emails via Resend |
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |

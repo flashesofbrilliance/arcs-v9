@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
@@ -200,7 +201,7 @@ export async function POST(
   const userMsg = `Generate a ${mode} field guide for this decision context:\n\n${context}`
 
   const response = await anthropic.messages.create({
-    model: "claude-opus-4-5",
+    model: model("guide"),
     max_tokens: 3000,
     system: GUIDE_SYSTEM,
     messages: [{ role: "user", content: userMsg }],

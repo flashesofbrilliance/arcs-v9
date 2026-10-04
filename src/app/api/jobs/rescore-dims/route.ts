@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import fs from "node:fs"
 import path from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
 
   const lines = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}\nold strength_leverage: ${r.dims?.strength_leverage ?? "n/a"}\nassessment: ${r.assessment ?? "none"}`).join("\n\n")
   const msg = await anthropic.messages.create({
-    model: "claude-haiku-4-5-20251001", max_tokens: 1200, temperature: 0,
+    model: model("fast"), max_tokens: 1200, temperature: 0,
     system: [{ type: "text", text: systemPrompt(dims), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Re-score these ${rows.length} rows:\n\n${lines}` }],
   })

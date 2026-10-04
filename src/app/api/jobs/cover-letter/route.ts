@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import fs from "node:fs"
 import path from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const msg = await anthropic.messages.create({
-    model: "claude-sonnet-4-6", max_tokens: 2000, temperature: 0.4,
+    model: model("deep"), max_tokens: 2000, temperature: 0.4,
     system: [
       { type: "text", text: SYSTEM },
       { type: "text", text: `REFERENCE COVER (voice + structure model; do not copy its company-specific content):\n${(b.seedCover || seedVoice()).slice(0, 12000)}`, cache_control: { type: "ephemeral" } },

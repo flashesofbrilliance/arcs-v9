@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import Anthropic from "@anthropic-ai/sdk"
 import { clampText, clampInt, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubProseArray } from "@/lib/prose"
@@ -302,9 +303,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
   // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
   const MODEL_MAP = {
-    QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
-    PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
-    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
+    QUICKMOVE: { model: model("fast"), max_tokens: 2048, temperature: 0 },
+    PLAN:      { model: model("fast"), max_tokens: 3072, temperature: 0.3 },
+    COURT:     { model: model("deep"),          max_tokens: 4096, temperature: 0.5 },
   } as const
   const modelConfig = MODEL_MAP[mode]
 

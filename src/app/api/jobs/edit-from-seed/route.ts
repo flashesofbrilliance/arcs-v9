@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { callerFor } from "@/lib/jobs"
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const msg = await anthropic.messages.create({
-    model: "claude-sonnet-4-6", max_tokens: 6000, temperature: 0.2,
+    model: model("deep"), max_tokens: 6000, temperature: 0.2,
     system: [
       { type: "text", text: SYSTEM },
       { type: "text", text: `SEED RESUME HTML (copy find targets from here, verbatim):\n${b.seedResumeHtml.slice(0, 40000)}`, cache_control: { type: "ephemeral" } },

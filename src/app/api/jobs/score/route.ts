@@ -1,3 +1,4 @@
+import { model } from "@/lib/models";
 import fs from "node:fs"
 import path from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
@@ -85,7 +86,7 @@ export async function POST(req: NextRequest) {
   const msg = await anthropic.messages.create({
     // ~200 output tokens per row on average (9 dims + gates + assessment) with real variance; 8 rows at a flat 1600
     // truncated mid-array and came back unparseable, so size the cap to the batch with headroom.
-    model: "claude-haiku-4-5-20251001", max_tokens: Math.max(1600, 300 * rows.length), temperature: 0,
+    model: model("fast"), max_tokens: Math.max(1600, 300 * rows.length), temperature: 0,
     system: [{ type: "text", text: systemPrompt(s), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Score these ${rows.length} postings:\n\n${jds}` }],
   })

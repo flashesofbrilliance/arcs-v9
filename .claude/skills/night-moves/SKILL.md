@@ -118,3 +118,9 @@ action. Inbox-ahead-of-memory = a drift line in the digest ("Robin replied Aug-2
 records Aug-6"), with thread id + date as evidence. Inbound on a CLOSED loop is its own
 high-signal line. Never auto-send, never auto-close - receipt lines only; judgment stays human.
 Tuition: 2026-08-26, three stale-loop misreads corrected only by live inbox reads.
+
+## Model drift (added 2026-10-04)
+
+Run `python3 scripts/model_drift_check.py` (live with `ANTHROPIC_API_KEY`, else skipped). Any
+DRIFT line goes under "What's next" as a question for Zach ("COURT runs Sonnet 4.6; Sonnet 5.5
+is out. Switch after an eval?"). Never edit `runtime/specs/models.json` from the digest.
