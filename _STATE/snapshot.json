@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-04T10:06:18-04:00",
+  "captured_at": "2026-10-04T10:58:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "348ae373",
-    "head_message": "Merge pull request #703 from flashesofbrilliance/claude/post-timestamps-notes-trenches-psjapj",
+    "head_sha": "f86001f1",
+    "head_message": "Merge pull request #719 from flashesofbrilliance/claude/argparse-batch-2",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at handoff time; PR #706 open on claude/post-timestamps-notes-trenches-psjapj carries this handoff"
+    "note": "origin/main at handoff time; the handoff rides branch claude/handoff-v3.76"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-kpoogd26d-arcs-care.vercel.app",
+    "latest_deploy_url": "arcs-v9-qjny41gna-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,9 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "verified_sha": "348ae373",
-    "note": "latest prod deploy = merge of PR #703, verified via Vercel MCP get_deployment(good.arcs.care). env_vars_present carried forward, not re-listed (no vercel CLI in the cloud container).",
-    "deployment_id": "dpl_AkF9PpJcJ5Bpoqy7YMxRt3foD3TY"
+    "note": "vercel ls 2026-10-04: latest Production Ready (one newer Canceled). env vars re-listed via vercel env ls production."
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -37,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt rows this stretch: 2026-10-04--nftt-linkedin-originals-pr697--ZH, 2026-10-04--nftt-method-byline-dedup-pr703--ZH; PR #706 row follows its merge. Prisma schema not re-checked."
+    "note": "decision_receipt rows this session: 2026-10-04--exoskeleton-video-v2-pr689--ZH, 2026-10-04--video-cut-type-pr709--ZH. Prisma schema not re-checked."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "NFTT bylines date the LinkedIn originals (six series posts); main generated-views fixed; The Method duplicate date trimmed. PRs #697 cb0d8772, #703 348ae373; #706 pending.",
-  "next_action": "Merge PR #706 when green, live-check Four Dates + The Pre-Mortem, log its receipt; then fix shavasana_handoff.py author filter.",
+  "session_summary": "Merged #689 (video v2 + HTML-to-MP4 renderer) and shipped the video cut type (#709): one shot spec to an on-brand HTML scene and an external-model prompt pack.",
+  "next_action": "Try one tao-284 beat from the prompt pack in an external video model and compare to the HTML render.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-04T14:06:18Z"
 }
