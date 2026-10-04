@@ -225,12 +225,21 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "2rem clamp(1rem, 4vw, 1.5rem) 5rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", paddingBottom: "1rem" }}>
           <Wordmark section={home ? undefined : "Waitlist"} />
-          <nav aria-label="Account" style={{ display: "flex", alignItems: "center", gap: "0.75rem", minHeight: 30 }}>
+          <nav aria-label="Account" style={{ display: "flex", alignItems: "center", gap: compactHeader ? "0.4rem" : "0.6rem", minHeight: 30 }}>
             {!home && <Link href="/dashboard" style={monoLink}>Open the compass →</Link>}
             {home && (phase === "done" ? onList
               : compactHeader
                 ? <Button variant="ghost" size="sm" aria-expanded={wlOpen} aria-controls="wl-row" onClick={() => setWlOpen((o) => !o)}>Waitlist</Button>
                 : headerField)}
+            {/* Desktop only: on a phone the hero action is already above the fold
+                and the header has no room for a third control. */}
+            {home && !compactHeader && (
+              <Link href="/dashboard" style={{ textDecoration: "none", borderRadius: 4 }} {...lean}>
+                <Button variant="primary" size="sm" glyph="⊕" tabIndex={-1} style={{ height: 30 }}>
+                  Open the compass
+                </Button>
+              </Link>
+            )}
             <AuthControl next="/dashboard" />
           </nav>
         </div>
