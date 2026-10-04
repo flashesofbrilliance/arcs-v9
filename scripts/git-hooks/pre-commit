@@ -623,6 +623,19 @@ if [ -n "$st" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/source_tru
   fi
 fi
 
+# promise gate — every customer-facing promise in runtime/specs/public-promises.json must still
+# be shown where the ledger says AND still be true in code (grep verifiers; gh-api and sql run in
+# CI, not here). Born 2026-10-04: four surfaces said "source code stays public" on a private repo.
+# Fix: correct the code, or change the copy AND its ledger entry in the same commit.
+pg=$(git diff --cached --name-only -- src public _CANON/trust-contract.md runtime/specs/public-promises.json scripts/promise_gate.py 2>/dev/null || true)
+if [ -n "$pg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/promise_gate.py ]; then
+  if ! python3 scripts/promise_gate.py --offline >/dev/null 2>&1; then
+    python3 scripts/promise_gate.py --offline >&2 || true
+    echo "✖ pre-commit(promise-gate): a public promise is broken (see above). fix the code, or update the copy and runtime/specs/public-promises.json together." >&2
+    exit 1
+  fi
+fi
+
 # LORE freshness guard — runtime/specs/LORE.md is GENERATED from lore.jsonl. Verdicts need tests
 # (a verdict without a test is a rumor); ids are append-only; superseded_by must exist.
 lo=$(git diff --cached --name-only -- runtime/specs/lore.jsonl runtime/specs/LORE.md scripts/lore.py 2>/dev/null || true)

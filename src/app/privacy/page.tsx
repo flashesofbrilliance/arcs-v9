@@ -11,7 +11,7 @@ const ALWAYS = [
   { what: 'Input never trains a model', why: 'Anthropic API terms + architectural separation' },
   { what: 'Anonymous compass sessions store nothing', why: 'No auth = no write path to DB for your questions or receipts' },
   { what: 'Delete within 30 days, permanently', why: 'One-way gate: no backups retained after confirmation' },
-  { what: 'Source code stays public', why: 'You can verify our architecture claims yourself' },
+  { what: 'Defects that break these promises are disclosed', why: 'Named on the trust page with the date and the fix, never silently patched' },
   { what: '30 days notice before material policy changes', why: 'You decide whether new terms apply before they do' },
 ]
 
@@ -26,7 +26,7 @@ const SOMETIMES = [
 ]
 
 const NEVER = [
-  { what: 'Sell or share your decision content', proof: 'No third-party data agreements. Verify in source code' },
+  { what: 'Sell or share your decision content', proof: 'No third-party data agreements exist' },
   { what: 'Use your data for advertising or profiling', proof: 'No ad infrastructure exists in the codebase' },
   { what: 'Hold your data hostage to keep you subscribed', proof: 'Delete is always available regardless of subscription' },
   { what: 'Publish content from your sessions without consent', proof: 'Journalism pipeline requires explicit opt-in per session' },
@@ -187,7 +187,7 @@ export default function PrivacyPage() {
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.8, marginTop: '0.5rem' }}>
             <strong style={{ color: text.primary }}>Delete everything:</strong> Email to request full account deletion. 30-day window, one-way gate.<br />
             <strong style={{ color: text.primary }}>Correct your data:</strong> Email to correct stored information.<br />
-            <strong style={{ color: text.primary }}>Question this policy:</strong> If something here conflicts with what you observe in the source code, flag it. We will investigate and correct the discrepancy or the code.<br />
+            <strong style={{ color: text.primary }}>Question this policy:</strong> If something here conflicts with what you observe using ARCS, flag it. We will investigate and correct the discrepancy or the code.<br />
             <strong style={{ color: text.primary }}>Exit without penalty:</strong> No dark patterns, no retention loops, no data held to encourage you to stay.
           </div>
         </div>

@@ -1,7 +1,7 @@
 # ARCS Trust Contract
 
-> **Version:** 1.4
-> **Date:** 2026-10-03
+> **Version:** 1.5
+> **Date:** 2026-10-04
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
 
@@ -34,7 +34,7 @@ If you are signed in, your decision receipt is stored in your account and access
 > **Disclosure (2026-07-13 — repair seam, kept visible on purpose):** From launch until
 > 2026-07-13, a defect stored anonymous receipts server-side, contrary to this section —
 > 48 such receipts existed when it was found. The write path was fixed the same day
-> (commit `8b486e8`; the repository is public, so this is verifiable, not just claimed).
+> (commit `8b486e8`).
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
@@ -66,7 +66,7 @@ ARCS's own modeling work (operator scoring, NCI calibration) uses aggregate, ano
 
 **Export:** Receipts and briefs are viewable and shareable via direct link. Full data export (all receipts, outcomes, and session history in structured format) is on the near-term roadmap and not yet shipped.
 
-**Delete:** You can request deletion of your account and all associated data by emailing [contact]. Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered. Waitlist and advisory rows are removed the same way, on request, whether or not you have an account; deleting an account also removes any waitlist or advisory row with the same email, regardless of capitalisation.
+**Delete:** You can request deletion of your account and all associated data by asking through the inquiry form at [arcs.care/advisory](https://arcs.care/advisory). Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered. Waitlist and advisory rows are removed the same way, on request, whether or not you have an account; deleting an account also removes any waitlist or advisory row with the same email, regardless of capitalisation.
 
 *These are commitments, not aspirations. When export ships, this document will be updated with the exact path.*
 
@@ -74,13 +74,13 @@ ARCS's own modeling work (operator scoring, NCI calibration) uses aggregate, ano
 
 ## 4. Can you run ARCS yourself?
 
-**Yes — partially, today. More fully, soon.**
+**No, not today. Self-hosting is a stated direction, not a shipped feature.**
 
-The arcs-v9 repository is public: [github.com/flashesofbrilliance/arcs-v9](https://github.com/flashesofbrilliance/arcs-v9). The full application stack (Next.js, Prisma, the L0–L5 pipeline, operator logic) is inspectable and forkable. You can read exactly how your question is processed.
+The arcs-v9 repository is private. Earlier versions of this contract said it was public; that was not true, and v1.5 corrects it (see the amendment log). Today you cannot inspect or fork the code that processes your question.
 
-Running it locally requires an Anthropic API key, a Supabase instance, and environment setup — there is no one-click local build yet. A packaged local-first version is a stated product direction. It is not yet shipped.
+A packaged local-first version is a stated product direction. It is not yet shipped, and there is no date for it.
 
-The honest answer is: today, using arcs.care means trusting the hosted infrastructure. The code is open so you can verify what it does. The roadmap points toward self-hostable. If that gap is a dealbreaker right now, that's a fair call — and the repository is there if you want to run your own version in the meantime.
+The honest answer is: today, using arcs.care means trusting the hosted infrastructure. What you can check is what this contract promises and what you observe; when the two disagree, report it and we correct the claim or the code. If that gap is a dealbreaker right now, that's a fair call.
 
 ---
 
@@ -156,6 +156,7 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
+| 1.5 | 2026-10-04 | Public-source claim corrected: the arcs-v9 repository is private (`gh repo view` returned PRIVATE on 2026-10-04). §1 disclosure no longer says the fix is verifiable in a public repo; §3 deletion requests go through the inquiry form at arcs.care/advisory (was an unfilled contact placeholder); §4 rewritten to "not today". Every customer-facing promise now has a verifier in `runtime/specs/public-promises.json`, enforced by `scripts/promise_gate.py`. |
 | 1.4 | 2026-10-03 | §1 amended: "Waitlist and advisory requests" added (what is stored, the internal email alert, Resend as delivery provider, one confirmation per address). §3: waitlist and advisory rows deletable on request, and removed with an account case-insensitively. Accompanies the survey landing on `/`. |
 | 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-049's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
 | 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-049. |

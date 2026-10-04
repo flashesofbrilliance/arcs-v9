@@ -47,15 +47,15 @@ const COVENANT = [
     rows: [
       {
         arcs: "Acknowledge when we don't have something built yet instead of implying we do",
-        you: 'Report discrepancies between what we claim and what you observe in the source code',
+        you: 'Report discrepancies between what we claim and what you observe',
       },
       {
         arcs: 'Not hold you to loyalty we did not earn through demonstrated reciprocity',
         you: "Not claim ARCS guarantees outcomes. The compass navigates, it doesn't decide",
       },
       {
-        arcs: 'Keep the source code public so you can verify our architecture claims yourself',
-        you: 'Not use the public source to build a competing service that extracts from the same community',
+        arcs: 'Disclose any defect that breaks these terms, with the date and the fix',
+        you: 'Not use ARCS to build a competing service that extracts from the same community',
       },
     ],
   },

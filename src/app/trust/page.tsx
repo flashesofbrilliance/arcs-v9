@@ -15,7 +15,7 @@ const CHIPS = [
   chip('lock', 'Storage', 'Nothing stored without sign-in'),
   chip('forbid', 'Training', 'Input never trains a model'),
   chip('user-check', 'Autonomy', 'You decide. ARCS doesn\'t.'),
-  chip('code', 'Source', 'Repo is public and forkable'),
+  chip('code', 'Repairs', 'Defects disclosed, never hidden'),
 ]
 
 const GRADES = [
@@ -72,7 +72,7 @@ export default function TrustPage() {
                 <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
+                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion through the <a href="/advisory" style={{ color: signal.cyan, textDecoration: 'none' }}>inquiry form</a>.
               </span>
             </>,
           },
@@ -85,18 +85,14 @@ export default function TrustPage() {
           {
             n: '§ 03', title: 'Export and delete',
             body: <>
-              <strong style={{ color: text.primary }}>Delete:</strong> request within 30 days, one-way. Receipts are gone, history can't be restored.{' '}
+              <strong style={{ color: text.primary }}>Delete:</strong> ask through the <a href="/advisory" style={{ color: signal.cyan, textDecoration: 'none' }}>inquiry form</a>; done within 30 days, one-way. Receipts are gone, history can't be restored.{' '}
               <strong style={{ color: text.primary }}>Export:</strong> on the roadmap, not yet live. If you need your data before export is built, reach out directly.
             </>,
           },
           {
-            n: '§ 04', title: 'You can run this yourself',
+            n: '§ 04', title: 'Can you run this yourself?',
             body: <>
-              The source is public at{' '}
-              <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener noreferrer" style={{ color: signal.cyan, textDecoration: 'none' }}>
-                github.com/flashesofbrilliance/arcs-v9
-              </a>
-              . Local-first mode is on the roadmap. If you want to run it without any data touching our infrastructure, that path will exist.
+              Not yet. The source is private today, so using arcs.care means trusting the hosted service. Local-first mode is on the roadmap. If you want to run it without any data touching our infrastructure, that path will exist.
             </>,
           },
         ].map((s, i, arr) => (

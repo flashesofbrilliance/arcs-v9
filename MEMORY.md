@@ -7,6 +7,12 @@
 
 ---
 
+## [v3.76.2] 2026-10-04 — Trust contract v1.5: public-source claim corrected; promise ledger + gate
+
+- `gh repo view` returned PRIVATE, but /trust, /privacy, /terms, the EyebrowToast and trust-contract §1/§4 said the source was public (and /trust linked a 404). Zach chose to rewrite the claims, not publish the repo. New wording names what is true: defects disclosed with the fix; self-hosting "not today".
+- §3 deletion now goes through the inquiry form at arcs.care/advisory (the "[contact]" placeholder was never filled; /trust's "inquiry link below" pointed at nothing).
+- `runtime/specs/public-promises.json` lists 13 active promises (repo visibility, waitlist, /privacy DATA_INVENTORY, no ad infra, deletion path) + 1 retired; `scripts/promise_gate.py` checks surface copy + grep / gh-api / sql / manual verifiers. Pre-commit runs `--offline`; CI runs `--self-test` and `--strict`. Run against origin/main it fails 3 promises; on this branch 13/13 hold.
+
 ## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
 - `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).

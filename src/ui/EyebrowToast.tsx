@@ -30,7 +30,7 @@ const CHIPS = [
   { label: 'Storage', body: 'Nothing stored without sign-in' },
   { label: 'Training', body: 'Input never trains a model' },
   { label: 'Autonomy', body: 'You decide. ARCS doesn\'t.' },
-  { label: 'Source', body: 'Repo is public and forkable' },
+  { label: 'Repairs', body: 'Defects disclosed, never hidden' },
 ]
 
 const ROADMAP = [
@@ -58,14 +58,14 @@ const COVENANT_GROUPS = [
   {
     group: 'On the relationship',
     rows: [
-      { arcs: 'Source code stays public. Verify our claims yourself', you: "Don't extract from this community using our open source" },
+      { arcs: 'Name every gap and defect in public, with the fix', you: 'Tell us when what we say and what you see disagree' },
     ],
   },
 ]
 
 const FULL_SECTIONS = [
   { n: '§ 01', head: 'A navigation tool, not an answer machine', body: 'ARCS produces a directional bearing, a conviction grade, and tributaries. It does not make decisions. The bearing is an input to your judgment, not a replacement for it.' },
-  { n: '§ 02', head: 'Two columns. Both matter.', body: 'ARCS commits to directional clarity, honest limits, open source, and data sovereignty. You commit to real questions and honest framing.' },
+  { n: '§ 02', head: 'Two columns. Both matter.', body: 'ARCS commits to directional clarity, honest limits, disclosed repairs, and data sovereignty. You commit to real questions and honest framing.' },
   { n: '§ 03', head: 'Always. Sometimes. Never.', body: 'Input never trains a model. Anonymous sessions store nothing. Delete within 30 days, permanently. No exceptions.' },
   { n: '§ 04', head: "What isn't built yet", body: 'Kairos detection is not live. Data export is on the roadmap. Audit log not built. The trust contract names every gap rather than hiding it.' },
 ]
@@ -80,7 +80,7 @@ const BILL_OF_RIGHTS_SECTIONS = [
   { n: '§ 01', head: 'Right to transparency', body: 'You have the right to understand why you were shown something. You have the right to know if a decision is probabilistic or deterministic.' },
   { n: '§ 02', head: 'Right to deletion', body: 'You have the right to delete everything about you, permanently, instantly, with no conditions and no recourse by us.' },
   { n: '§ 03', head: 'Right to agency', body: 'ARCS produces a bearing, not an answer. You decide. We don\'t.' },
-  { n: '§ 04', head: 'Right to audit', body: 'Source code stays public. You can verify every claim we make about what we do with your data.' },
+  { n: '§ 04', head: 'Right to audit', body: 'You can question every claim we make about what we do with your data. We investigate, then correct the claim or the code.' },
 ]
 
 const MANIFESTO_SECTIONS = [

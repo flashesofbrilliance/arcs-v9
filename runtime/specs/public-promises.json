@@ -1,0 +1,207 @@
+{
+  "schema": "arcs.public-promises.v1",
+  "purpose": "Every customer-facing promise, where it is shown, and the check that proves it is still true. scripts/promise_gate.py fails pre-commit and CI when a check fails. A promise whose copy changes must change here too: each surface entry quotes the text the page must still contain.",
+  "verifier_types": {
+    "grep": "must_contain: [{path, pattern}] regex must match in the file; must_not_contain: [{paths, pattern}] regex must match in none of the globbed files; only_in: [{paths, pattern, allowed}] regex may match only in the allowed files. Patterns are Python regex, multiline, case-sensitive unless flags contains 'i'.",
+    "gh-api": "endpoint + field + expect: `gh api <endpoint> --jq .<field>` must equal expect (case-insensitive). Skipped with --offline or when gh is unavailable, unless --strict (CI).",
+    "sql": "query + expect: run via psql against $PROMISE_DATABASE_URL; skipped when that is unset (CI has no prod DB). Fails only on a real mismatch.",
+    "manual": "verified_on (YYYY-MM-DD) + max_age_days + how: fails when the last human check is older than max_age_days. Re-verify, then bump verified_on."
+  },
+  "promises": [
+    {
+      "id": "source-visibility-honest",
+      "status": "active",
+      "text": "No surface claims the source code is public while the repository is private.",
+      "surfaces": [
+        {"path": "src/app/trust/page.tsx", "contains": "The source is private today"},
+        {"path": "_CANON/trust-contract.md", "contains": "The arcs-v9 repository is private."}
+      ],
+      "verifiers": [
+        {"type": "gh-api", "endpoint": "repos/flashesofbrilliance/arcs-v9", "field": "visibility", "expect": "private",
+         "on_fail": "The repo visibility changed. If it is now public, restore the public-source copy deliberately and update this promise; do not leave the 'private' wording live."},
+        {"type": "grep", "must_not_contain": [
+          {"paths": ["src/**/*.tsx", "src/**/*.ts", "_CANON/trust-contract.md"], "pattern": "(?i)(source code stays public|repo(sitory)? is public|source is public|keep the source code public|public source|our open source|forkable|verify in source code|observe in the source code)"},
+          {"paths": ["src/app/trust/page.tsx", "src/app/privacy/page.tsx", "src/app/terms/page.tsx", "src/ui/EyebrowToast.tsx", "_CANON/trust-contract.md"], "pattern": "github\\.com/flashesofbrilliance/arcs-v9"}
+        ]}
+      ]
+    },
+    {
+      "id": "source-public-retired",
+      "status": "retired",
+      "retired_on": "2026-10-04",
+      "text": "Source code stays public. Verify our claims yourself.",
+      "reason": "False: `gh repo view flashesofbrilliance/arcs-v9 --json visibility` returned PRIVATE on 2026-10-04. Zach chose to rewrite the claims rather than publish the repo. Replaced by source-visibility-honest; trust contract v1.5.",
+      "surfaces": [],
+      "verifiers": []
+    },
+    {
+      "id": "defects-disclosed",
+      "status": "active",
+      "text": "Defects that break these promises are disclosed, with the date and the fix, never silently patched.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "Defects that break these promises are disclosed"},
+        {"path": "src/app/trust/page.tsx", "contains": "Repair seam (2026-07-13), kept visible on purpose"},
+        {"path": "src/ui/EyebrowToast.tsx", "contains": "Defects disclosed, never hidden"}
+      ],
+      "verifiers": [
+        {"type": "grep", "must_contain": [
+          {"path": "_CANON/trust-contract.md", "pattern": "Disclosure \\(2026-07-13 — repair seam, kept visible on purpose\\)"},
+          {"path": "src/app/trust/page.tsx", "pattern": "commit 8b486e8"}
+        ]}
+      ]
+    },
+    {
+      "id": "deletion-request-path",
+      "status": "active",
+      "text": "Deletion is requested through the inquiry form and completed within 30 days.",
+      "surfaces": [
+        {"path": "_CANON/trust-contract.md", "contains": "by asking through the inquiry form at [arcs.care/advisory](https://arcs.care/advisory)"},
+        {"path": "src/app/trust/page.tsx", "contains": "inquiry form</a>; done within 30 days"}
+      ],
+      "verifiers": [
+        {"type": "grep",
+         "must_contain": [{"path": "src/app/advisory/page.tsx", "pattern": "."}],
+         "must_not_contain": [{"paths": ["_CANON/trust-contract.md", "src/app/trust/page.tsx", "src/app/privacy/page.tsx"], "pattern": "\\[contact\\]|inquiry link below"}]},
+        {"type": "manual", "verified_on": "2026-10-04", "max_age_days": 90,
+         "how": "A deletion request submitted through /advisory reaches a person and the account, receipts, outcomes, and lead rows are removed within 30 days. Not yet exercised end to end; re-verify by running one test deletion."}
+      ]
+    },
+    {
+      "id": "waitlist-what-we-keep",
+      "status": "active",
+      "text": "What we keep: your email address and the time you joined, plus the brief that sent you here if there was one.",
+      "surfaces": [
+        {"path": "src/organisms/Landing.tsx", "contains": "Your email address and the time you joined, plus the brief that sent you here if there was one."}
+      ],
+      "verifiers": [
+        {"type": "grep",
+         "must_contain": [{"path": "src/app/api/lead/route.ts", "pattern": "data: \\{ email: addr, name: nm, message: msg, source: src, receiptId: rid \\}"}],
+         "only_in": [{"paths": ["src/**/*.ts", "src/**/*.tsx"], "pattern": "prisma\\.lead\\.create", "allowed": ["src/app/api/lead/route.ts"]}]}
+      ]
+    },
+    {
+      "id": "waitlist-one-confirmation",
+      "status": "active",
+      "text": "One confirmation, delivered through Resend. Joining again does not send another. After that, we write when access opens.",
+      "surfaces": [
+        {"path": "src/organisms/Landing.tsx", "contains": "One confirmation, delivered through Resend, our email provider."},
+        {"path": "src/organisms/Landing.tsx", "contains": "Joining again does not send another. After that, we write when access opens."},
+        {"path": "src/organisms/Landing.tsx", "contains": "One confirmation now, then we write only when access opens."}
+      ],
+      "verifiers": [
+        {"type": "grep",
+         "must_contain": [
+           {"path": "src/app/api/lead/route.ts", "pattern": "if \\(src === \"waitlist\" && prior\\) return ok"},
+           {"path": "src/app/api/lead/route.ts", "pattern": "if \\(!prior\\) after\\("}
+         ],
+         "only_in": [{"paths": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.py", "scripts/**/*.mjs", "scripts/**/*.ts"], "pattern": "api\\.resend\\.com/(emails|broadcasts|audiences|contacts)", "allowed": ["src/app/api/lead/route.ts"]}],
+         "must_not_contain": [{"paths": ["src/**/*.ts", "src/**/*.tsx"], "pattern": "resend\\.(broadcasts|audiences|contacts)\\."}]}
+      ]
+    },
+    {
+      "id": "waitlist-never-sell",
+      "status": "active",
+      "text": "We never sell the list, share it, or add you to a campaign you did not ask for.",
+      "surfaces": [
+        {"path": "src/organisms/Landing.tsx", "contains": "Sell the list, share it, or add you to a campaign you did not ask for."}
+      ],
+      "verifiers": [
+        {"type": "grep", "must_not_contain": [
+          {"paths": ["src/**/*.ts", "src/**/*.tsx"], "pattern": "(?i)(mailchimp|hubspot|sendgrid|klaviyo|convertkit|api\\.resend\\.com/(audiences|contacts|broadcasts))"}
+        ]}
+      ]
+    },
+    {
+      "id": "no-ad-infrastructure",
+      "status": "active",
+      "text": "We never use your data for advertising or profiling: no ad infrastructure exists in the codebase.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "No ad infrastructure exists in the codebase"}
+      ],
+      "verifiers": [
+        {"type": "grep", "must_not_contain": [
+          {"paths": ["src/**/*.ts", "src/**/*.tsx", "public/**/*.html"], "pattern": "(?i)(googletagmanager|doubleclick|google-analytics\\.com|connect\\.facebook\\.net|fbq\\(|snap\\.licdn\\.com|ads-twitter\\.com)"}
+        ]}
+      ]
+    },
+    {
+      "id": "inventory-question-text",
+      "status": "active",
+      "text": "Question text: SESSION ONLY when anonymous, DB when signed in.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'Question text', val: 'SESSION ONLY · anonymous / DB · signed-in' }"}
+      ],
+      "verifiers": [
+        {"type": "grep",
+         "must_contain": [{"path": "src/app/api/compass/route.ts", "pattern": "if \\(userId\\) \\{\\s*\\n\\s*try \\{\\s*\\n\\s*const receiptData"}],
+         "only_in": [{"paths": ["src/**/*.ts", "src/**/*.tsx"], "pattern": "prisma\\.receipt\\.create\\(", "allowed": ["src/app/api/compass/route.ts", "src/app/api/receipts/save/route.ts"]}]}
+      ]
+    },
+    {
+      "id": "inventory-dewy-receipt",
+      "status": "active",
+      "text": "DEWY receipt: DB, signed-in only.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'DEWY receipt (bearing, NCI, Y-gate)', val: 'DB · signed-in only' }"}
+      ],
+      "verifiers": [
+        {"type": "grep", "must_contain": [
+          {"path": "src/app/api/compass/route.ts", "pattern": "if \\(userId\\) \\{\\s*\\n\\s*try \\{\\s*\\n\\s*const receiptData"},
+          {"path": "src/app/api/receipts/save/route.ts", "pattern": "if \\(!userId\\) \\{\\s*\\n\\s*return NextResponse\\.json\\(\\{ error: \"Unauthorized\" \\}, \\{ status: 401 \\}\\)"}
+        ]},
+        {"type": "sql", "query": "select count(*) from \"Receipt\" where \"userId\" is null and \"createdAt\" > '2026-07-14'", "expect": "0",
+         "note": "No anonymous receipt written after the 2026-07-13 fix. The 48 pre-fix rows are disclosed and excluded by date. Last run 2026-10-04 via Supabase MCP on project xbbpiryokswwvcrcutge: 0 after the fix, 48 anonymous in total (matches the disclosure)."}
+      ]
+    },
+    {
+      "id": "inventory-email-address",
+      "status": "active",
+      "text": "Email address: DB, only if you sign in (magic link) or join the waitlist.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'Email address', val: 'DB · only if you sign in (magic link) or join the waitlist' }"}
+      ],
+      "verifiers": [
+        {"type": "manual", "verified_on": "2026-10-04", "max_age_days": 90,
+         "how": "Email is written by the Auth.js PrismaAdapter (src/lib/auth.ts) on magic-link sign-in and by prisma.lead.create in src/app/api/lead/route.ts. Re-check that no other route persists an email field."}
+      ]
+    },
+    {
+      "id": "inventory-lead-row",
+      "status": "active",
+      "text": "Waitlist / advisory request: DB, email, time, optional brief link; advisory adds name and message; not tied to an account.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'Waitlist / advisory request', val: 'DB · email, time, optional brief link; advisory adds name + message · not tied to an account' }"}
+      ],
+      "verifiers": [
+        {"type": "grep", "must_contain": [
+          {"path": "src/app/api/lead/route.ts", "pattern": "data: \\{ email: addr, name: nm, message: msg, source: src, receiptId: rid \\}"}
+        ]}
+      ]
+    },
+    {
+      "id": "inventory-request-metadata",
+      "status": "active",
+      "text": "Request metadata (timestamps, codes): infra logs, 30-day TTL, no decision content.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'Request metadata (timestamps, codes)', val: 'INFRA LOGS · 30d TTL · no decision content' }"}
+      ],
+      "verifiers": [
+        {"type": "manual", "verified_on": "2026-10-04", "max_age_days": 90,
+         "how": "Vercel runtime-log retention for project arcs-v9 is at most 30 days on the current plan, and no route logs question text (grep console.* in src/app/api for body/question fields). Retention not independently re-measured in this pass; date records the ledger seed, not a log-retention audit."}
+      ]
+    },
+    {
+      "id": "inventory-prep-session",
+      "status": "active",
+      "text": "Prep session (stakes, horizon, protecting): DB, signed-in only, linked to receipt.",
+      "surfaces": [
+        {"path": "src/app/privacy/page.tsx", "contains": "{ key: 'Prep session (stakes, horizon, protecting)', val: 'DB · signed-in only · linked to receipt' }"}
+      ],
+      "verifiers": [
+        {"type": "grep",
+         "must_contain": [{"path": "src/app/api/prep/route.ts", "pattern": "if \\(!userId\\) \\{\\s*\\n\\s*return NextResponse\\.json\\(\\{ ok: true, prep_id: null, persisted: false"}],
+         "only_in": [{"paths": ["src/**/*.ts", "src/**/*.tsx"], "pattern": "prisma\\.prepSession\\.create\\(", "allowed": ["src/app/api/prep/route.ts"]}]}
+      ]
+    }
+  ]
+}
