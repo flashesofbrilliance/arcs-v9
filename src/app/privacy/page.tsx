@@ -9,7 +9,7 @@ const sans = font.sans
 
 const ALWAYS = [
   { what: 'Input never trains a model', why: 'Anthropic API terms + architectural separation' },
-  { what: 'Anonymous sessions store nothing', why: 'No auth = no write path to DB' },
+  { what: 'Anonymous compass sessions store nothing', why: 'No auth = no write path to DB for your questions or receipts' },
   { what: 'Delete within 30 days, permanently', why: 'One-way gate: no backups retained after confirmation' },
   { what: 'Source code stays public', why: 'You can verify our architecture claims yourself' },
   { what: '30 days notice before material policy changes', why: 'You decide whether new terms apply before they do' },
@@ -19,6 +19,8 @@ const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
   { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link. Content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
+  { what: 'Waitlist or advisory request stored', trigger: 'Only if you join the waitlist or ask for a consult. Stored in our database, emailed to the ARCS team, confirmation delivered through Resend' },
+  { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion. We notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging, purged after 30 days' },
 ]
@@ -33,7 +35,8 @@ const NEVER = [
 const DATA_INVENTORY = [
   { key: 'Question text', val: 'SESSION ONLY · anonymous / DB · signed-in' },
   { key: 'DEWY receipt (bearing, NCI, Y-gate)', val: 'DB · signed-in only' },
-  { key: 'Email address', val: 'DB · only if provided for magic link' },
+  { key: 'Email address', val: 'DB · only if you sign in (magic link) or join the waitlist' },
+  { key: 'Waitlist / advisory request', val: 'DB · email, time, optional brief link; advisory adds name + message · not tied to an account' },
   { key: 'Request metadata (timestamps, codes)', val: 'INFRA LOGS · 30d TTL · no decision content' },
   { key: 'Prep session (stakes, horizon, protecting)', val: 'DB · signed-in only · linked to receipt' },
 ]
@@ -192,7 +195,7 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.1 · effective 2026-07-19</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.2 · effective 2026-10-03</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <button onClick={() => router.push('/trust')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Trust contract</button>
             <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>

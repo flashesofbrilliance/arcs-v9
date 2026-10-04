@@ -24,7 +24,7 @@ Invariants checked (all stdlib, no network):
 
 Stdlib only. Exit 0 always (hook-safe; a drift is a receipt, not a failure).
 """
-import json, os, sys, datetime, subprocess, shutil
+import argparse, hashlib, json, os, sys, datetime, subprocess, shutil
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 SEEDS = os.path.join(ROOT, "_SEEDS")
@@ -122,8 +122,66 @@ def check():
     return idx, led, findings, stale_days
 
 
+def _parse_args(argv=None):
+    ap = argparse.ArgumentParser(prog="seedbank_drift_check.py",
+                                 description="Drift detector for the _SEEDS bank (receipt-only).")
+    ap.add_argument("--regenerate", action="store_true",
+                    help="stamp regenerated=true into the receipt; never edits _SEEDS files")
+    ap.add_argument("--self-test", action="store_true", help="run the CLI guard self-test in a temp dir")
+    return ap.parse_args(argv)
+
+
+def _sha(path):
+    return hashlib.sha256(open(path, "rb").read()).hexdigest() if os.path.exists(path) else None
+
+
+def self_test():
+    """Run the CLI in a throwaway project dir and assert the guard holds. Never touches ROOT."""
+    import tempfile
+    me = os.path.abspath(__file__)
+    fails = total = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        # empty PATH dir: no `gh`, so the self-test never touches the network
+        nobin = os.path.join(tmp, "nobin")
+        os.makedirs(nobin)
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp, PATH=nobin)
+        seeds = os.path.join(tmp, "_SEEDS")
+        os.makedirs(seeds)
+        idx, led = os.path.join(seeds, "index.jsonl"), os.path.join(seeds, "ledger.jsonl")
+        open(idx, "w").write(json.dumps({"id": "seed-a", "alias": "a"}) + "\n")
+        open(led, "w").write(json.dumps({"seed": "a", "ts": "2020-01-01"}) + "\n")
+        rec = os.path.join(tmp, "_INBOX", "seedbank-drift.jsonl")
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], env=env, cwd=tmp, capture_output=True, text=True)
+
+        def check(name, ok):
+            nonlocal fails, total
+            total += 1
+            print(("PASS " if ok else "FAIL ") + name)
+            fails += 0 if ok else 1
+
+        h0 = (_sha(idx), _sha(led))
+        check("unknown flag exits 2", run("--regenrate").returncode == 2)
+        check("extra positional exits 2", run("check").returncode == 2)
+        check("rejected args write no receipt", not os.path.exists(rec))
+        r = run()
+        check("default mode exits 0 and reports DRIFT", r.returncode == 0 and "DRIFT" in r.stdout)
+        check("default mode leaves _SEEDS untouched", (_sha(idx), _sha(led)) == h0)
+        r = run("--regenerate")
+        check("--regenerate leaves _SEEDS untouched", r.returncode == 0 and (_sha(idx), _sha(led)) == h0)
+        rows = [json.loads(l) for l in open(rec)] if os.path.exists(rec) else []
+        check("receipts appended, regenerated flag stamped",
+              len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
+    print(f"seedbank_drift_check self-test: {total - fails}/{total}")
+    sys.exit(1 if fails else 0)
+
+
 def main():
-    regenerate = "--regenerate" in sys.argv
+    args = _parse_args()
+    if args.self_test:
+        self_test()
+    regenerate = args.regenerate
     idx, led, findings, stale_days = check()
     drifted = [f for f in findings if f.get("drift")]
 

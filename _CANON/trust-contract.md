@@ -1,7 +1,7 @@
 # ARCS Trust Contract
 
-> **Version:** 1.3
-> **Date:** 2026-07-19
+> **Version:** 1.4
+> **Date:** 2026-10-03
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
 
@@ -47,6 +47,9 @@ If you log an outcome (how the decision went), that is stored in your account li
 **System logs:**
 Standard infrastructure logs (request metadata, error traces) are retained for debugging. They do not contain your decision content.
 
+**Waitlist and advisory requests:**
+If you join the waitlist or ask for an advisory consult, the email you give is stored, with the time and, if a brief sent you there, which one. An advisory request also stores the name and message you write. Each new request is emailed to the ARCS team so a person reads it, and your confirmation is delivered through Resend, our email provider. A waitlist address gets one confirmation, then nothing until access opens. These rows are not tied to an account.
+
 ---
 
 ## 2. Does ARCS train on your input?
@@ -63,7 +66,7 @@ ARCS's own modeling work (operator scoring, NCI calibration) uses aggregate, ano
 
 **Export:** Receipts and briefs are viewable and shareable via direct link. Full data export (all receipts, outcomes, and session history in structured format) is on the near-term roadmap and not yet shipped.
 
-**Delete:** You can request deletion of your account and all associated data by emailing [contact]. Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered.
+**Delete:** You can request deletion of your account and all associated data by emailing [contact]. Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered. Waitlist and advisory rows are removed the same way, on request, whether or not you have an account; deleting an account also removes any waitlist or advisory row with the same email, regardless of capitalisation.
 
 *These are commitments, not aspirations. When export ships, this document will be updated with the exact path.*
 
@@ -153,6 +156,7 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
+| 1.4 | 2026-10-03 | §1 amended: "Waitlist and advisory requests" added (what is stored, the internal email alert, Resend as delivery provider, one confirmation per address). §3: waitlist and advisory rows deletable on request, and removed with an account case-insensitively. Accompanies the survey landing on `/`. |
 | 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-049's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
 | 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-049. |
 | 1.1 | 2026-06-23 | Added §8 — answers Zak's "how will you catch people at the fork" question (previously unaddressed; verified against the full June 16–22 feedback checklist, all six original items were already covered §1–§6) |
