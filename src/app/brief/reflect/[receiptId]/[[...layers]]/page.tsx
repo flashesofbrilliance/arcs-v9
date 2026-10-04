@@ -7,6 +7,7 @@
 // and shareable. Base brief (/brief/[id]) has a ◎ Reflect → pill that pushes here.
 "use client"
 
+import { DeadEnd } from "@/molecules/DeadEnd"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
@@ -140,10 +141,16 @@ export default function BriefReflectPage() {
   }
 
   if (error) {
+    // Missing or unreadable record: branded dead end with a way back, not a lone red line.
+    const missing = /not found/i.test(error)
     return (
-      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>
-      </main>
+      <DeadEnd
+        section="Reflect"
+        title={missing ? "We can't find that brief." : "This brief didn't load."}
+        body={missing
+          ? "The link may be mistyped, or the receipt was deleted. Saved receipts live in your ledger."
+          : "Something went wrong on our side. Try again in a minute, or start from the compass."}
+      />
     )
   }
   if (!result) {
