@@ -21,11 +21,16 @@ import argparse, os, re, sys
 
 MEMDIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
 INDEX = os.path.join(MEMDIR, "MEMORY.md")
-BUDGET = 17 * 1024  # soft byte budget for the always-loaded index
+BUDGET = 24 * 1024  # 24576: ~400B under the harness's MEASURED 25,000-char load cap (memory-index-load-cap-observed, 2026-09-27); keep in sync with MEM_BUDGET in ~/.claude/hooks/global-session-start.sh
 AUTO_HEADER = "## Uncurated (auto-catalogued — move into a real section when curating)"
 
-# link targets: anything inside ](...) ending in .md, dots allowed in the name
+# link targets, TWO forms (2026-09-26 compaction made the index bare-slug; 2026-09-27 this script
+# still only read the legacy form and auto-catalogued all 274 already-indexed files into a 63KB
+# Uncurated band, pushing the index past the 25,000-char load cap — the pathology it exists to catch):
+#   legacy  ](slug.md)        LINK_RE
+#   bare    slug or slug.md as a whole token anywhere on a line   (only counts if a real file has that stem)
 LINK_RE = re.compile(r"\]\(([A-Za-z0-9._-]+\.md)\)")
+TOKEN_RE = re.compile(r"(?<![A-Za-z0-9._-])([A-Za-z0-9][A-Za-z0-9._-]*[A-Za-z0-9])(?![A-Za-z0-9._-])")
 DESC_RE = re.compile(r"^description:\s*(.+)$", re.M)
 
 
@@ -42,8 +47,13 @@ def frontmatter_desc(path):
 
 def scan():
     idx = open(INDEX, encoding="utf-8").read()
-    linked = set(LINK_RE.findall(idx))
     on_disk = {f for f in os.listdir(MEMDIR) if f.endswith(".md") and f != "MEMORY.md"}
+    stems = {os.path.splitext(f)[0] for f in on_disk}
+    linked = set(LINK_RE.findall(idx))
+    for tok in TOKEN_RE.findall(idx):                      # bare-slug form
+        stem = tok[:-3] if tok.endswith(".md") else tok
+        if stem in stems:
+            linked.add(stem + ".md")
     orphans = sorted(on_disk - linked)
     dead = sorted(f for f in linked if not os.path.exists(os.path.join(MEMDIR, f)))
     size = len(idx.encode("utf-8"))
@@ -66,6 +76,9 @@ def receipt(orphans, dead, size, appended=None):
 
 
 def append_orphans(idx, orphans):
+    # never append a file that is already linked in any form (guard against the 2026-09-27 duplication)
+    linked_now = scan()[0]
+    orphans = [f for f in orphans if os.path.splitext(f)[0] not in set(TOKEN_RE.findall(linked_now)) and f not in set(LINK_RE.findall(linked_now))]
     lines = []
     for f in orphans:
         desc = frontmatter_desc(os.path.join(MEMDIR, f)) or "(no frontmatter description — write one; it IS the index line)"
