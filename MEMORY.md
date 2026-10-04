@@ -7,6 +7,13 @@
 
 ---
 
+## [v3.78.0] 2026-10-04 — Open-loops sweep: 4 merges, disk rescue, harvest-then-prune of 49 worktrees, 7 forked sessions
+
+- Merged on go: #706 `07d580ae`, #674 `b58ebc49`, #708 `dfad5218` (Welsh/Bloom study, `_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md`); #724 `1d618b04` merged by the exoskeleton session. Receipts filed for all four.
+- Harvest: gitignored handoff trails (+ .env*, dev.db) from 42 worktrees -> `~/arcs-worktree-bundles/handoff-trails/2026-10-04/` (INDEX.txt). Prune: 49 worktrees, bundled + verified, `cruft_sweep.py --base origin/main --capture-dirty`.
+- Lessons: cruft_sweep default base can be a stale local main (pass `--base origin/main`); bundles skip gitignored files (harvest first); check `receipt_id` before inserting a receipt (parallel sessions file them too).
+- Memory: `fork-mid-turn-prompts-into-sessions` (new), `linkedin-promo-post-engagement-playbook` (10-04 numbers + study verdict).
+
 ## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
 
 - `scripts/video_cut.py`: `_QUEUE/video/<id>.json` -> `_PROPOSALS/video/<id>-<16x9|9x16>.html` (seek(t) scenes for `html_video_render.mjs`, kit tokens, Inter + JetBrains Mono from `public/fonts/`) + `<id>-prompts.md` (per-beat prompts for external video models). Reuses linkedin_cut's gates; self-test 7 mutations. First input `tao-284`.

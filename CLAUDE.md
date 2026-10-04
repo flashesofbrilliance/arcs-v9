@@ -114,6 +114,60 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.78.0 (2026-10-04)
+
+> **Open-loops sweep: four merges, a disk rescue, a worktree prune with a lossless harvest, and the
+> session fanned out into seven forked sessions.** Merged on Zach's go: #706 (`07d580ae`), #674
+> (`b58ebc49`), #708 (`dfad5218`); #724 (`1d618b04`) merged by the exoskeleton session. One receipt
+> each in `decision_receipt` (#724's filed by its own session). Oracle handoff=44.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script reported 122 commits, 23 merges to main (whole day, all sessions). This session: 1 authored commit (`a5f734d3` research note, via #708), 3 merges on go (#706, #674, #708), 3 receipts filed.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: manifesto (exhale, no inhale) by the script's day-wide count.
+- **Sycophancy check**: agreement 32 / dissent 0 (ratio 32.0) → RETURN by the script. Dissent this session, not marked in records: refused to merge #689 (conflicting); refused to read the LinkedIn panels as testing the 10-04 playbook; corrected "Opus is good at video" to "writes render code and prompts"; refused to prune prl-chatbot (main checked out); stopped retrying declined DB writes.
+- **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "nothing lost" in the prune narrowed to "branches bundled + gitignored trails harvested"; other gitignored files outside `_STATE`/.env/dev.db were not harvested. Disk "22 GB free" is the df reading at the time, not a stable number.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Merges:** #706 NFTT originals dates; #674 Notomation promo record (first red was runners never
+  starting, then a stale merge ref; `gh pr update-branch` fixed it); #708 Welsh/Bloom study
+  (`_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md`). #689 skipped (conflicted), then
+  landed via its own forked session.
+- **Forked sessions (spawn_task):** night-moves schedule + backfill; backlog `review_by` + grooming;
+  gitleaks + receipt schema test + argparse; honest.arcs.care press run; #689 + video prompt engine;
+  open-loops exoskeleton (`scripts/open_loops.py`, #724); Welsh/Bloom queue changes.
+- **Disk:** 4.6 GB -> 22 GB free. node_modules removed from 19 idle worktrees, npm cache cleared, old
+  Playwright builds removed (kept chromium-1243, firefox-1532, webkit-2311).
+- **Harvest then prune:** gitignored `_STATE/handoff-progress.*` (+ `.env*`, `dev.db`) from 42
+  worktrees copied to `~/arcs-worktree-bundles/handoff-trails/2026-10-04/` (INDEX.txt). Then 49
+  worktrees pruned via `cruft_sweep.py --base origin/main --capture-dirty`, each bundled and
+  verified first. 67 -> 18 worktrees. Exoskeleton session claimed 20 trails on main; 18 unclaimed.
+
+## Open (next session)
+1. Kept for Zach's review (unique work): success-academy-ai-pm-5bf0d9, agent-a34d1c57f995635e7,
+   recursing-brattain-190758, exciting-chandrasekhar-095f02, zen-pasteur-85c635.
+2. `prl-chatbot-sugarcrm-605dbe` has `main` checked out with 341 uncommitted files (from 09-08). Not
+   pruned: `--capture-dirty` would WIP-commit onto local main. Needs a side-branch decision.
+3. Supabase `execute_sql` writes from this session returned "declined" three times after earlier
+   inserts worked. Unexplained; check `/permissions` for a rule on `mcp__supabase__execute_sql`.
+4. ~15 stale conflicting PRs (#43..#531) not triaged; #623 tao batch collides with tao-284.
+5. LinkedIn: today's second Apple post numbers unread; pre-registered A/B (10-05 vs 10-12) pending.
+6. Spotify cache (7.9 GB) is Zach's to clear.
+
+## Lessons (in the record)
+- `cruft_sweep.py survey` with the default base compared against a stale local `main`: every worktree
+  read REVIEW with ~900 "unique" paths. Pass `--base origin/main`.
+- A git bundle does not carry gitignored files. The handoff trails are gitignored, so a prune without
+  a harvest would have deleted the session's working memory. Harvest, then prune.
+- Check the receipt table by `receipt_id` before inserting: a parallel session had already filed
+  #724's receipt under the same id, and a refs-pattern lookup missed it.
+
 # Handoff — v3.77.0 (2026-10-04)
 
 > **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
@@ -158,61 +212,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
   rendered poster stayed pixel-identical (ffmpeg PSNR inf).
 - The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
-
-# Handoff — v3.76.0 (2026-10-04)
-
-> **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views
-> check fixed on the way.** PR #697 merged at `cb0d8772` and PR #703 at `348ae373`, both on Zach's
-> explicit asks; receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH` and
-> `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. PR #706 (Four Dates + The Pre-Mortem originals)
-> carries this handoff; merged by Zach at `07d580ae`, both bylines live-verified, receipt
-> `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): script reported 0 commits, 0 merges (the author-filter blind spot, Open item 4). Recount from git: 4 session commits (`01a5ddb1`, `c9bb3975`, `fef1912a`, `2930d83a`), 2 merges to main (#697 `cb0d8772`, #703 `348ae373`) with #706 pending, 2 receipts. `febc68b4` and `c9247f18` in the same range are other sessions'.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 5 / dissent 0 (ratio 5.0) → RETURN: agreement with no dissent on record.
-- **Cold re-read (canary on the draft draft-handoff-v376.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the RETURN counts keyword markers; the stretch carries dissent the vocabulary missed, each in the record: Zach's "first published on LinkedIn" was declined as false (PR #697 body); a zero-step local sweep's PASS was caught and re-run (11/11); the generator fix was narrowed after it touched the resume-tailor card; The Pre-Mortem's undated source was not stamped. Every other claim carries a sha, PR, deployment or receipt id. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "run the handoff" despite the RETURN verdict, for the reasons above.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **Originals line** (`01a5ddb1`, #697): bylines read "From the LinkedIn original(s), <dates>" after the
-  publish `<time>`, each date in its own `<time datetime>`. Deliberately not "first published": every
-  NFTT post is a new essay. SSOT `runtime/specs/nftt-originals.json` (platform, ISO dates, evidence);
-  `scripts/nftt_published.py` stamps it, `--check` fails a missing or orphan segment, `--self-test` 21/21.
-  Live-verified on Closing the Loop and The Instinct via Vercel `web_fetch_vercel_url`.
-- **generated-views fix** (`c9bb3975`, #697): main went red at `febc68b4` (#695 hand-edited `good.html`).
-  `connector_render.py` looked the honest card's distribution row up by page key `honest`; the row is
-  keyed `check-it-before-you-say-it`. `EXTERNAL_PAGES` entries may now name their row (`"repo"`); output
-  byte-identical to #695's edit. Shipped inside #697 (session limited to one branch), disclosed on the PR.
-- **The Method byline** (`fef1912a`, #703): the hand-written "Source: a LinkedIn article published Jan 30,
-  2026" dropped as a duplicate of the generated segment; live-verified.
-- **Four Dates + The Pre-Mortem** (`2930d83a`, #706): originals added on Zach's confirmation of the
-  platform (PR #411 records the LinkedIn corpus). The Pre-Mortem's fifth source stays out (undated in its
-  export). Six of seven series posts now carry the line; Tuning has none (it cites, not adapts).
-- v3.74.0 open items 1 (wording approved by Zach) and 2 (originals) resolved.
-
-## Open (next session)
-1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
-   `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
-   `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-2. ~~`post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main~~ RESOLVED 2026-10-04: PR #718
-   merged at `0c2365a7`; `max-width:68ch` on `<main>` pinned to `680px` in both pages and
-   `scripts/blog_render.py`; wrap-lint clean on main; receipt `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`.
-3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
-4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud
-   sessions, commits authored "Zach Harris"), so it reads 0. Count by repo/branch, or match both names.
-
-## Lessons (in the record)
-- A label that sounds right can be false: "first published on LinkedIn" read naturally, but each post's
-  own footer showed a new essay written from LinkedIn originals. Read the provenance before naming it.
-- A check that ran zero steps reported PASS: the first local generated-views sweep parsed 0 steps from
-  ci.yml. Count what ran before trusting a pass.
-- A hand edit to a generated page reddens every PR, not only its own: #695's two-line `good.html` change
-  failed generated-views on main until the generator learned the row key.
