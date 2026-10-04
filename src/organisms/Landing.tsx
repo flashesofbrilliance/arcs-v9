@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useVw } from "@/ui/useVw"
 import Link from "next/link"
 import { surface, text, signal, font, border } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
@@ -76,6 +77,11 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
       setPhase("error")
     }
   }
+
+  const vw = useVw()
+  const compactHeader = vw < 680
+  const [wlOpen, setWlOpen] = useState(false)
+  const [wlFocus, setWlFocus] = useState(false)
 
   const lean = { onMouseEnter: () => setLeaning(true), onMouseLeave: () => setLeaning(false), onFocus: () => setLeaning(true), onBlur: () => setLeaning(false) }
 
@@ -161,6 +167,59 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
     </div>
   )
 
+  // Home: the waitlist is a compact capture in the header, beside Sign in.
+  // Its disclosure line shows only while someone is entering an address.
+  const showHint = wlFocus || !!email.trim() || phase === "error" || phase === "limited"
+  const headerField = (
+    <form onSubmit={submit} noValidate style={{ position: "relative", display: "flex", alignItems: "center", gap: 6 }}>
+      <input
+        type="email"
+        name="email"
+        aria-label="Email for the waitlist"
+        aria-describedby="wl-hint"
+        autoComplete="email"
+        inputMode="email"
+        spellCheck={false}
+        autoCapitalize="none"
+        required
+        value={email}
+        onChange={(e) => { setEmail(e.target.value); if (phase !== "sending") setPhase("idle") }}
+        onFocus={() => setWlFocus(true)}
+        onBlur={() => setWlFocus(false)}
+        placeholder="you@example.com"
+        style={{
+          width: compactHeader ? "100%" : 190, minWidth: 0, flex: compactHeader ? "1 1 auto" : "0 0 auto", boxSizing: "border-box", height: 30, padding: "0 10px",
+          fontFamily: sans, fontSize: 13, color: text.primary, caretColor: signal.cyan,
+          background: "#0a0f15", border: `1px solid ${wlFocus ? "#00F0FF66" : border.subtle}`, borderRadius: 4, outline: "none",
+        }}
+      />
+      <Button type="submit" variant="outline-cyan" size="sm" disabled={!valid || phase === "sending"} style={{ height: 30, flexShrink: 0 }}>
+        {phase === "sending" ? "Joining" : "Join waitlist"}
+      </Button>
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>Website<input tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} /></label>
+      </div>
+      <div
+        id="wl-hint"
+        role={phase === "error" || phase === "limited" ? "alert" : undefined}
+        style={{
+          position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 20, width: compactHeader ? "100%" : 300, boxSizing: "border-box",
+          padding: "8px 10px", background: "rgba(13,17,23,0.96)", border: `1px solid ${border.subtle}`, borderRadius: 5,
+          fontFamily: sans, fontSize: 12, lineHeight: 1.5, color: phase === "error" ? signal.red : phase === "limited" ? signal.gold : text.secondary,
+          opacity: showHint ? 1 : 0, transform: showHint ? "translateY(0)" : "translateY(-4px)", pointerEvents: showHint ? "auto" : "none",
+          transition: "opacity .15s, transform .15s",
+        }}
+      >
+        {phase === "error" ? "That did not go through, and nothing was saved. Try again in a moment."
+          : phase === "limited" ? "Too many tries from this connection. Wait a few minutes, then try again."
+          : <>Full-service access opens in stages. One confirmation now, then we write only when access opens. <Link href="/privacy" style={{ color: text.primary, textUnderlineOffset: 3 }}>What we keep</Link></>}
+      </div>
+    </form>
+  )
+  const onList = (
+    <span role="status" style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", color: signal.green, whiteSpace: "nowrap" }}>On the list</span>
+  )
+
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "2rem clamp(1rem, 4vw, 1.5rem) 5rem" }}>
@@ -168,31 +227,37 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
           <Wordmark section={home ? undefined : "Waitlist"} />
           <nav aria-label="Account" style={{ display: "flex", alignItems: "center", gap: "0.75rem", minHeight: 30 }}>
             {!home && <Link href="/dashboard" style={monoLink}>Open the compass →</Link>}
+            {home && (phase === "done" ? onList
+              : compactHeader
+                ? <Button variant="ghost" size="sm" aria-expanded={wlOpen} aria-controls="wl-row" onClick={() => setWlOpen((o) => !o)}>Waitlist</Button>
+                : headerField)}
             <AuthControl next="/dashboard" />
           </nav>
         </div>
+        {home && compactHeader && wlOpen && phase !== "done" && (
+          <div id="wl-row" style={{ paddingBottom: "0.85rem" }}>{headerField}</div>
+        )}
         <Rule style={{ marginBottom: "clamp(2rem, 6vw, 3.5rem)" }} />
 
-        {/* One column: the headline names it, the field shows it, the copy
-            says it, then the one move. The lede spans the full lane. */}
+        {/* One column: the headline names it, the lede says it, the field
+            shows it, then the one move. The lede spans the full lane. */}
         <section style={{ marginBottom: "clamp(3rem, 8vw, 5rem)" }}>
-          <h1 style={{ fontFamily: sans, fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 600, lineHeight: 1.06, letterSpacing: "-0.03em", color: text.primary, margin: "0 0 clamp(1.25rem, 3vw, 2rem)", textWrap: "balance" }}>
+          <h1 style={{ fontFamily: sans, fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 600, lineHeight: 1.06, letterSpacing: "-0.03em", color: text.primary, margin: "0 0 0.9rem", textWrap: "balance" }}>
             Every hard decision starts in fog.
           </h1>
-
-          <div style={{ marginBottom: "clamp(1.5rem, 3vw, 2.25rem)" }}>
-            <Scope fog={fog} clear={phase === "done"} zone={zone.label} zoneColor={zone.color} />
-          </div>
-
-          <p style={{ fontFamily: sans, fontSize: "clamp(1.0625rem, 1.6vw, 1.1875rem)", lineHeight: 1.65, color: text.secondary, margin: "0 0 1.75rem", textWrap: "pretty" }}>
+          <p style={{ fontFamily: sans, fontSize: "clamp(1.0625rem, 1.6vw, 1.1875rem)", lineHeight: 1.6, color: text.secondary, margin: "0 0 clamp(1.25rem, 2.5vw, 1.75rem)", textWrap: "pretty" }}>
             {home
               ? "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. It shows you the terrain. The decision stays yours."
               : "ARCS questions your question first, tests it against what you might be missing, and returns one direction, graded by how much the ground can bear. The compass is open now. The waitlist is for full-service access as it opens."}
           </p>
 
+          <div style={{ marginBottom: "clamp(1.25rem, 2.5vw, 1.75rem)" }}>
+            <Scope fog={fog} clear={phase === "done"} zone={zone.label} zoneColor={zone.color} />
+          </div>
+
           {home ? (
             <>
-              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
                 <Link href="/dashboard" style={{ textDecoration: "none", borderRadius: 6 }} {...lean}>
                   <Button size="lg" glyph="⊕" tabIndex={-1}>Open the compass</Button>
                 </Link>
@@ -202,7 +267,6 @@ export function Landing({ variant, receiptId, exampleBriefHref }: LandingProps) 
                   </Link>
                 )}
               </div>
-              <div style={{ maxWidth: 560 }}>{waitlist}</div>
             </>
           ) : (
             <div style={{ maxWidth: 560 }}>{waitlist}</div>

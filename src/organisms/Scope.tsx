@@ -270,9 +270,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const resize = () => {
       const w = wrap.clientWidth
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      // A cinematic strip: ~4:1 desktop, ~2.6:1 tablet, 1.5:1 phone. The
+      // A wide band: ~3:1 desktop, ~2.1:1 tablet, 1.3:1 phone. The
       // canvas draws in CSS pixels so HUD text stays legible at any height.
-      const aspect = w >= 900 ? 4 : w >= 600 ? 2.6 : 1.5
+      const aspect = w >= 900 ? 3 : w >= 600 ? 2.1 : 1.3
       const h = Math.round(w / aspect)
       canvas.width = Math.round(w * dpr)
       canvas.height = Math.round(h * dpr)
@@ -393,7 +393,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch)
       const SW = st.sw, SH = st.sh, MX = SW / 2, U = SH / REF
       // A wide strip gets a longer lens so the form fills it.
-      const lens = SW / SH > 3 ? 1.28 : SW / SH > 2 ? 1.12 : 1
+      const lens = SW / SH > 2.6 ? 1.22 : SW / SH > 1.8 ? 1.1 : 1
       const D = cam.dist, F = 395 * U * lens * cam.zoom * (cam.dist / 2.7), CX = MX, CY = (SH - BAR_H) * 0.6
       const proj = (u: number, h: number, v: number) => {
         const uu = u - cam.pu, vv = v - cam.pv
