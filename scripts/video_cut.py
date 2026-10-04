@@ -37,6 +37,7 @@ QUEUE = os.path.join(ROOT, "_QUEUE", "video")
 OUT = os.path.join(ROOT, "_PROPOSALS", "video")
 TOKENS = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
 MONO = os.path.join(ROOT, "public", "fonts", "jetbrains-mono-normal-100-800-latin-v1.woff2")
+SANS = os.path.join(ROOT, "public", "fonts", "inter-normal-100-900-latin-v1.woff2")
 ASPECTS = {"16:9": (1280, 720, "16x9"), "9:16": (720, 1280, "9x16")}
 SHOT_FIELDS = ("subject", "camera", "motion", "light")
 ACCENTS = ("cyan", "green", "gold", "red")
@@ -104,10 +105,11 @@ SCENE = """<!doctype html>
 -->
 <style>
 @font-face{{font-family:'JetBrains Mono';font-weight:100 800;src:url('{mono}') format('woff2')}}
+@font-face{{font-family:'Inter';font-weight:100 900;src:url('{sans}') format('woff2')}}
 :root{{{vars}}}
 *{{margin:0;padding:0;box-sizing:border-box}}
 html,body{{width:{w}px;height:{h}px;overflow:hidden;background:var(--bg)}}
-body{{font-family:'InstrumentSans','Work Sans',system-ui,sans-serif;color:var(--text)}}
+body{{font-family:'Inter','InstrumentSans','Work Sans',system-ui,sans-serif;color:var(--text)}}
 #grid{{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:{cell}px {cell}px;opacity:.35}}
 #fog{{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 20%,var(--bg) 75%)}}
 #rule{{position:absolute;left:{pad}px;height:2px;top:{rule_y}px;width:0}}
@@ -155,7 +157,8 @@ def scene(s, aspect, spec_rel, self_rel):
         rule_y=int(h * (0.36 if tall else 0.30)), cap_y=int(h * (0.36 if tall else 0.30)) + 28,
         rule_w=160 if tall else 220, tag=html.escape(s.get("tag", "")),
         beats=json.dumps(beats, ensure_ascii=False),
-        mono=os.path.relpath(MONO, os.path.dirname(os.path.join(ROOT, self_rel))))
+        mono=os.path.relpath(MONO, os.path.dirname(os.path.join(ROOT, self_rel))),
+        sans=os.path.relpath(SANS, os.path.dirname(os.path.join(ROOT, self_rel))))
 
 
 def prompt_pack(s):
@@ -217,6 +220,7 @@ def self_test():
     assert "window.seek" in html_out and tokens()["cyan"] in html_out and "\u2014" not in html_out
     assert "\u2014" not in prompt_pack(s)
     assert os.path.exists(MONO) and "jetbrains-mono" in html_out, "tag font must load from public/fonts"
+    assert os.path.exists(SANS) and "inter-normal" in html_out, "caption font must load from public/fonts"
     muts = {
         "em-dash": lambda m: m["beats"][0].__setitem__("caption", m["beats"][0]["caption"] + " \u2014 x"),
         "uncited metric": lambda m: m["beats"][1].__setitem__("caption", "It grew 87%."),
