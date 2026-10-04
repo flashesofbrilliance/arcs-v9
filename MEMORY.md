@@ -7,6 +7,13 @@
 
 ---
 
+## [v3.73.0] 2026-10-04 — NFTT posts dated from git; the serialized thread denoted; index reorganized (PR #688 -> `0bfa5877`)
+
+- **Publish time is a git fact, frozen once:** `scripts/nftt_published.py` + `runtime/specs/nftt-published.json` (32 rows). Published = first commit on main's TRUE line holding the route commit; the line hops to the second parent at "Merge ... 'origin/main' into ..." sync merges, which fast-forwards had put on the first-parent line (it misdated five posts by a day). `a-draft-is-not-a-verb` = commit-time lower bound (direct push). Every post: `article:published_time` + byline `<time data-pub>`.
+- **Series as data:** `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`. The seven PR #411 essays are one isomorphic series (one method, seven subjects); order/roles from Tuning's own map. Index: series 1 to 7; sections The serialized thread / The Factory on Itself / The Cold Reader / The Workshop / Field Accounts.
+- Gates: both `--check`s in CI + pre-commit. Receipt `2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`. Live verified via Vercel (`dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw`); good.arcs.care is proxy-blocked from the cloud container.
+- Lessons: check every git-derived row against the commit it names; generator comments that render into a page are public text (tripwire caught a repo path); `shavasana_handoff.py` misses cloud commits (author filter).
+
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
 - `operators/arcs_librarian.py` (stdlib, 3.9+): value = p_load_bearing x cost_if_absent(stakes); cost = read_friction + displacement; source-trust tier before backing; unbacked -> `what_unconfirmed` only; ZERO-WEIGHT source -> no backing; `reserve_ratio` + `curation_debt` always; ouroboros demotes classes whose prior picks were falsified. `--self-test` 13/13.

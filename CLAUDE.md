@@ -114,6 +114,66 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.73.0 (2026-10-04)
+
+> **NFTT posts carry their publish time; the seven PR #411 essays are denoted as one serialized thread;
+> the NFTT index is reorganized.** PR #688 merged to main at `0bfa5877` on Zach's explicit go; one
+> `decision_receipt` row (`2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`). All 9 PR checks
+> green on head `8e8bab71`; production deploy `dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw` READY and aliased to
+> good.arcs.care (Vercel `get_deployment`).
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script reported 0 commits, 0 merges. Recount by hand from git: 6 commits (`e6b54862`, `d606f62d`, `8923d258`, `53e9c057`, `2cecca39`, `8e8bab71`), 1 merge to main (`0bfa5877`), 1 receipt. The script filters `--author=$(git config user.name)` = "Claude", while this cloud container authors commits as "Zach Harris": a gate blind spot (Open item 5), not a quiet session.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: script read "mirror (inhale, no exhale)" off the miscount; with the recount, breathing (both directions).
+- **Sycophancy check**: agreement 3 / dissent 1 (ratio 1.5) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, a deployment id, or a receipt id. Nothing downgraded; the one corrected number is the exhale count above, corrected to git.
+- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
+- **Disposition**: RELEASED on Zach's "consolidate memory and handoff".
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Publish timestamps** (`e6b54862`): `scripts/nftt_published.py` derives each routed post's publish time
+  from git, stamps `article:published_time` + a byline `<time data-pub>` into the post, `--check` and
+  `--self-test` (13/13). Ledger `runtime/specs/nftt-published.json`, 32 rows, committed because CI clones
+  shallow. Published = first commit on main's TRUE line containing the route commit (first parents,
+  hopping to the second parent at "Merge ... 'origin/main' into ..." sync merges). `a-draft-is-not-a-verb`
+  is flagged `git-direct-commit`: a commit-time lower bound.
+- **The serialized thread** (`d606f62d`): `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`
+  (`--check`, `--self-test` 8/8). Each of the seven parts gets "The serialized thread · Part N of 7" under
+  the byline and a series panel before `<footer>`; Tuning's hand map is superseded. Order and roles are
+  from Tuning's own map; glosses verbatim from that map or each post's index description.
+- **Index** (`8923d258`, `53e9c057`): series in part order 1 to 7; sections now The serialized thread (7),
+  The Factory on Itself (8), The Cold Reader (3), The Workshop (7), Field Accounts (7); non-series sections
+  newest first. Layout in `scripts/nftt_index_layout.json`; dates and parts read from the two specs.
+- **Doctype** on the 9 NFTT pages that rendered in quirks mode (`d606f62d`, `8923d258`); **lede fix**
+  `.standfirst{max-width:none}` ported from `6f6544ea` to the nine posts it missed (`2cecca39`).
+- Gates: both `--check`s in `.github/workflows/ci.yml` and `scripts/git-hooks/pre-commit`; the
+  `nftt-story-factory` skill gains the stamp + series steps.
+
+## Open (next session)
+1. Zach has not reviewed the new wording in place: tagline "One method, seven subjects", section names
+   The Cold Reader / The Workshop, the three new blurbs.
+2. LinkedIn first-published dates for the series parts: offered, not decided (the method post's byline
+   already carries Jan 30, 2026).
+3. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
+4. The impeccable contrast ratchet did not run in the cloud container (detector absent).
+5. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name`; in cloud sessions
+   that is "Claude" while commits are authored "Zach Harris", so it reads 0. Count by repo/branch, or
+   match both names.
+
+## Lessons (in the record)
+- main's first-parent line is not main's history here: fast-forwarded sync merges put branch commits on
+  it. The first derivation misattributed five posts by a day (`d38b764c`) and one by a branch commit
+  (`8b047f6f`). Hop at the sync merge; check every derived row against the commit it names.
+- The tripwire caught an internal repo path that a CSS comment of this session put into a public page.
+  Generator comments that render into the page are public text.
+- good.arcs.care is blocked by the cloud network policy (proxy 403); live checks go through Vercel
+  `web_fetch_vercel_url` and `get_deployment`.
+
 # Handoff — v3.72.0 (2026-09-30)
 
 > **Reading Room tenant #3 shipped: the Chronicle, "Drishti: a Chronicle of ARCS".** PR #651 merged to
@@ -149,58 +209,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   caught it in five places; name a count by the predicate that produced it.
 - CI checks out shallow: any gate that re-derives from deep history must fall back to the committed render.
 - The impeccable pre-commit detector reads DESIGN.md: `--dimmed` fails 4.5:1; muted copy uses text-secondary.
-
-# Handoff — v3.71.0 (2026-09-28)
-
-> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
-> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
-> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
-> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
-- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
-  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
-  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
-  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
-  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
-  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
-  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
-  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
-  F-row demotes its class. `--self-test` 13/13.
-- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
-- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
-  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
-  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
-- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
-  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
-  the query terms: the ouroboros clause visible on day one.
-- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
-
-## Open (next session)
-1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
-   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
-   `150beb19`, and the receipt id when that branch lands; then close issue #584.
-2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
-   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
-3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
-   named as a defeater but no ridgeline file exists on main to read.
-4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
-
-## Lessons (in the record)
-- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
-  registry note as a candidate, not as ground.
-- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
-  its job: the record is drifted-at-birth until the merge lands.
