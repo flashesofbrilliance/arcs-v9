@@ -114,6 +114,42 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.79.0 (2026-10-04)
+
+> **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
+> (arcs.care home = survey landing, hardened `/api/lead`, trust contract 1.4, /privacy v1.2),
+> receipt `2026-10-04--field-landing-waitlist-pr705--ZH`. PR #737 merged at `85ec7a5d`
+> (annotation + link-search routes 401 without a session), receipt
+> `2026-10-04--privacy-hotfix-annotations-pr737--ZH`. Both on Zach's explicit "merge"; all checks green.
+
+## Shipped + on main
+- **Home** (`src/organisms/Landing.tsx`, `src/organisms/Scope.tsx`): headline, lede, the field (lidar
+  ziggurat, Now overlays on arrival, click-to-add overlays in a drawer, droplet moire, free camera,
+  F1-F5 depth dial on the Chronicle ladder), Open the compass. Waitlist is a compact header capture
+  (desktop field + compass button; phone toggle). Fog clears only after the server writes the row.
+- **`/api/lead`**: rate limit, 8 KB cap, zod, honeypot, case-insensitive dedup, one alert per new
+  address, mail in `after()`, no requester text in mail. Preview E2E: +test alias wrote 1 row (9 -> 10),
+  repeat wrote 0, both mails delivered once.
+- **Privacy hotfix #737**: `?? null` userId had matched every anonymous row; live 401 verified.
+- Shared `CloseButton`; `Field` labels linked.
+
+## Open (next session)
+1. **Privacy PR 2** (from the mirror review): `unstable_cache` keyed on anonymous question
+   (`compass/route.ts` ~229); Blob files not deleted on account delete; `/api/brief` GET returns
+   `userId` + `rawResponse` + `prep.adversarialInput` (default chosen: briefs stay link-readable,
+   strip those fields, disclose); reminders link uses a bare `uid` (sign it); /privacy must name
+   `SAGE_URL`, Vercel Analytics, and "link holders can read a brief".
+2. **Showcase mirror**: `claude/showcase-mirror` @ `4efd18ca` (manifest + `scripts/showcase_project.py`
+   + README). Mechanical gates clean; privacy-review said NOT SAFE (the product bugs above). After PR 2:
+   re-run review, trim job-search schema + `/admin/leads` comment, create `flashesofbrilliance/arcs-field-os`
+   PRIVATE, publish only on Zach's go. **Never flip arcs-v9 public** (third-party data in history).
+3. Other sessions' PRs: #727 promise ledger (conflicting), #735 audit P1 batch.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); alerts use the code fallback.
+
+## Lessons (memory)
+- `null-userid-matches-anonymous-rows`, `publish-review-is-an-audit-of-the-product`,
+  `one-image-one-relationship-sequence-unlocks`.
+
 # Handoff — v3.78.0 (2026-10-04)
 
 > **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
@@ -175,48 +211,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   render against the committed page before trusting the generator.
 - Archiving a running session drops its container; ask it to push first, and only archive what is idle.
   "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
-
-# Handoff — v3.77.0 (2026-10-04)
-
-> **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
-> and a prompt pack.** Two PRs merged on Zach's explicit go: #689 (`6892b016`) and #709 (`8f2f98e2`);
-> receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH` and `2026-10-04--video-cut-type-pr709--ZH`.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): script counts the whole repo's day: 91 commits, 16 merges to main. This session by hand: 6 commits (`62492a31`, `da76e4e0`, `87645dbd`, `a226b139`, `9e311959`, `1fe7d3de`) + 1 conflict merge (`48bada1c`), 2 merges to main (#689, #709), 2 receipts.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers (script). By hand: one red check refused (fe-smoke on #709, fixed before merge), one invented caption cut on Zach's ask.
-- **Breath balance**: script read manifesto; with the by-hand inhale, breathing.
-- **Sycophancy check**: agreement 25 / dissent 0 (ratio 25.0) -> RETURN by script; the refused red merge and the cut caption are the session's dissent, not recorded as markers.
-- **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the prompt pack is stated as untried, not as working. Nothing dropped.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **#689 unblocked:** merged origin/main into `claude/greeting-wedifk` (`48bada1c`). The one conflict,
-  `scripts/connector_render.py`, took main's side: main's repo-keyed `EXTERNAL_PAGES` row already gave
-  the honest card its gh URL and clone chip. All checks green, then `--merge`.
-- **Video cut type (`scripts/video_cut.py`):** spec in `_QUEUE/video/<id>.json` (beats: caption,
-  duration, accent, shot = subject/camera/motion/light; aspects 16:9 + 9:16). `build` writes
-  `_PROPOSALS/video/<id>-<16x9|9x16>.html` (the `window.DURATION` + `window.seek(t)` contract of
-  `scripts/html_video_render.mjs`, palette read from `src/ui-kit/recoil-report/_tokens.css`, Inter +
-  JetBrains Mono from `public/fonts/`) and `<id>-prompts.md` (per-beat, per-aspect prompts + one
-  negative prompt; captions kept out because models garble text). Gates reuse `linkedin_cut.py`'s
-  slop_lint, provenance_lint, PII; `--self-test` covers 7 fail-on-bad mutations + font asserts.
-- **First input:** `tao-284`, 4 beats, 14.5s, captions are the proverb's words only (an invented
-  bridge caption was cut on Zach's ask). MP4s rendered locally, not committed.
-
-## Open (next session)
-1. The prompt pack is untried against any external video model: paste one beat, compare to the HTML
-   render. That test decides whether the generative path earns its keep.
-2. `video_cut.py` and `linkedin_cut.py` run in no hook or CI job; wire both or neither.
-3. Carried: `shavasana_handoff.py` exhale author filter; `post-1-brief` / `post-1-exec` wrap-lint.
-
-## Lessons (in the record)
-- `fe-smoke`'s page gate sweeps every changed `_PROPOSALS/*.html` at 375/790. A fixed-size video frame
-  overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
-  rendered poster stayed pixel-identical (ffmpeg PSNR inf).
-- The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
