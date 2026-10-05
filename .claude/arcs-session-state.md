@@ -13,3 +13,5 @@
 
 ## Blocking
 None in the repo. The Lyndon call is on Joe/Lyndon's schedule.
+
+- Also open (v3.79.1, field landing session): privacy PR 2 (anon question cache, Blob delete on account delete, /api/brief response fields, signed reminders link, processor disclosure), then the showcase mirror re-review on `claude/showcase-mirror`. Never flip arcs-v9 public.

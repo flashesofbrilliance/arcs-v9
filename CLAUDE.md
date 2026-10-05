@@ -166,64 +166,40 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
 - I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
 
-# Handoff — v3.78.0 (2026-10-04)
+# Handoff — v3.79.1 (2026-10-04)
 
-> **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
-> ask to stop spending cloud credits.** Same day, v3.76.0's four open items: 1, 2 and 4 closed, 3
-> diagnosed and handed to a Mac run. PRs #714 (`694cec66`), #718 (`0c2365a7`), #721 (`c80bc44a`)
-> merged on Zach's explicit asks with receipts; PR #728 (shavasana fix + this handoff) merges when green.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 17 commits, 8 merges to main (scope: branch claude/post-timestamps-notes-trenches-psjapj), receipts in digest: 0.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: manifesto (exhale, no inhale).
-- **Sycophancy check**: agreement 18 / dissent 1 (ratio 9.0) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff-v378.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): THIN is fair; the dissent the keywords miss is in the record: item 3 was NOT fixed and the draft says so; re-baselining the ratchet was refused (it would hide a possible regression); the post-1 renderer was not trusted (a fresh render regressed the pages); running sessions were not archived until asked to push. States of the sessions still running at wind-down are unknown and labelled so. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "consolidate this thread ... and handoff" and "merge 728 when green and archive them all".
-
-_This block asserts nothing new. Counts, paths, and questions only._
+> **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
+> (arcs.care home = survey landing, hardened `/api/lead`, trust contract 1.4, /privacy v1.2),
+> receipt `2026-10-04--field-landing-waitlist-pr705--ZH`. PR #737 merged at `85ec7a5d`
+> (annotation + link-search routes 401 without a session), receipt
+> `2026-10-04--privacy-hotfix-annotations-pr737--ZH`. Both on Zach's explicit "merge"; all checks green.
 
 ## Shipped + on main
-- **v3.76.0 item 1** (#714): #706 live-checked (Four Dates, The Pre-Mortem bylines via Vercel
-  `web_fetch_vercel_url`); receipts `...-pr706--ZH`, `2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH`.
-- **v3.76.0 item 2** (#718): `post-1-brief` / `post-1-exec` `max-width:68ch` on `<main>` pinned to `680px`
-  (computed width unchanged), same line in `scripts/blog_render.py`. The renderer has drifted behind its
-  outputs (Google Fonts import, no robots/threadkey): edit those pages in place, do not re-render.
-  Receipts `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`, `2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH`.
-- **v3.76.0 item 4** (#728): `scripts/shavasana_handoff.py` exhale counts by session branch (PRs merged
-  today from it + their commits + unmerged commits); on main it matches the git identity on author OR
-  committer. Was 0 in cloud (author "Zach Harris", committer "Claude"); now 17 commits, 8 merges for this
-  branch, other sessions' commits excluded. `--self-test` 8/8.
+- **Home** (`src/organisms/Landing.tsx`, `src/organisms/Scope.tsx`): headline, lede, the field (lidar
+  ziggurat, Now overlays on arrival, click-to-add overlays in a drawer, droplet moire, free camera,
+  F1-F5 depth dial on the Chronicle ladder), Open the compass. Waitlist is a compact header capture
+  (desktop field + compass button; phone toggle). Fog clears only after the server writes the row.
+- **`/api/lead`**: rate limit, 8 KB cap, zod, honeypot, case-insensitive dedup, one alert per new
+  address, mail in `after()`, no requester text in mail. Preview E2E: +test alias wrote 1 row (9 -> 10),
+  repeat wrote 0, both mails delivered once.
+- **Privacy hotfix #737**: `?? null` userId had matched every anonymous row; live 401 verified.
+- Shared `CloseButton`; `Field` labels linked.
 
 ## Open (next session)
-1. **Contrast ratchet (v3.76.0 item 3), diagnosed, not fixed.** The detector is a Mac-only skill
-   (`~/.claude/skills/impeccable`), so cloud runs skip. npm `impeccable@4.1.0` runs in the container
-   (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
-   series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
-   Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
-   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
-   panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
-   (needs Zach's yes); do not `--update-baseline` until the cause is known.
-2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac
-   worktree `open-loops-quick-wins-6e9066`); create the germinate v0.1.1 tag + approve the signed
-   Release run; merge or close PR #725 (green, "Greeting" session); PR #715 (model-registry drift gate)
-   was open with CI running.
-3. **Unconfirmed from archived sessions:** `compass_run` event in Vercel Web Analytics after #726
-   (one real tagged run); `arcs-field-os-weekly` still scoped to `/Users/zharris/A.R.C.S`; Tao backfill
-   for 4 NFTT posts; Mac worktree session-start spinner hang (run
-   `time CLAUDE_PROJECT_DIR="$PWD" bash -x .claude/hooks/session-start.sh` in a stuck worktree).
-4. **Running when wound down** (asked to commit + push to their own branch, then archived): site audit
-   P1s, false public-repo claim + promise ledger, open-loops front door, #689 conflict + video prompt
-   engine, gitleaks/argparse, waitlist landing page, arc exoskeleton essay, contrast-ratchet symlink
-   baseline. Their pushed branches are the record; check each branch before assuming work landed.
+1. **Privacy PR 2** (from the mirror review): `unstable_cache` keyed on anonymous question
+   (`compass/route.ts` ~229); Blob files not deleted on account delete; `/api/brief` GET returns
+   `userId` + `rawResponse` + `prep.adversarialInput` (default chosen: briefs stay link-readable,
+   strip those fields, disclose); reminders link uses a bare `uid` (sign it); /privacy must name
+   `SAGE_URL`, Vercel Analytics, and "link holders can read a brief".
+2. **Showcase mirror**: `claude/showcase-mirror` @ `4efd18ca` (manifest + `scripts/showcase_project.py`
+   + README). Mechanical gates clean; privacy-review said NOT SAFE (the product bugs above). After PR 2:
+   re-run review, trim job-search schema + `/admin/leads` comment, create `flashesofbrilliance/arcs-field-os`
+   PRIVATE, publish only on Zach's go. **Never flip arcs-v9 public** (third-party data in history).
+3. Other sessions' PRs: #727 promise ledger (conflicting), #735 audit P1 batch.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); alerts use the code fallback.
 
-## Lessons (in the record)
-- Counting by author name reads 0 in cloud and everything on the owner's name: scope a session's
-  exhale by its branch, the one thing that is the session's alone.
-- A generator that drifts behind its outputs makes "re-render" a regression; check the diff of a fresh
-  render against the committed page before trusting the generator.
-- Archiving a running session drops its container; ask it to push first, and only archive what is idle.
-  "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
+## Lessons (memory)
+- `null-userid-matches-anonymous-rows`, `publish-review-is-an-audit-of-the-product`,
+  `one-image-one-relationship-sequence-unlocks`.
+
+||||||| 85ec7a5d
