@@ -8,8 +8,10 @@ import { welcomeEmail } from "@/emails/welcomeEmail"
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   logger: {
-    error(code, ...message) {
-      console.error("[auth:full-error]", code, JSON.stringify(message, null, 2))
+    // Name + message only: the full payload can carry the email address and
+    // the magic-link URL (with its token).
+    error(error) {
+      console.error("[auth:error]", error.name, error.message)
     },
   },
   providers: [
@@ -36,9 +38,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     signIn: "/compass",
   },
   callbacks: {
+    // Database sessions hand this callback the adapter row (sessionToken,
+    // userId) and the full User. Whatever it returns is served as JSON by
+    // /api/auth/session to client JS, so return an allowlist: leaking
+    // sessionToken there defeats the HttpOnly cookie.
     session({ session, user }) {
-      session.user.id = user.id
-      return session
+      return {
+        expires: session.expires,
+        user: { id: user.id, email: user.email, name: user.name ?? null, image: user.image ?? null },
+      } as typeof session
     },
   },
 })
