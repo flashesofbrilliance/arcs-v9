@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Percepta call one-sheet</title>
+<style>
+:root{
+  --bg:#020408; --surface:#0d1117; --border:#1e293b;
+  --text:#e2e8f0; --muted:#7a8699; --dimmed:#8391a7;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+  --measure: 640px; --grid-floor: 220px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;padding:20px 16px 40px;}
+.wrap{max-width:1180px;margin:0 auto;}
+.card ul{max-width:none;}
+.card li{max-width:none;}
+h1{font-size:19px;font-weight:600;letter-spacing:-0.01em;margin:0 0 2px;}
+.sub{color:var(--muted);font-size:12.5px;margin:0 0 18px;max-width:none;text-wrap:pretty;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--grid-floor),1fr));gap:12px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.card h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;display:flex;align-items:center;gap:7px;max-width:none;text-wrap:balance;}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+.dot.red{background:var(--red);} .dot.gold{background:var(--gold);} .dot.green{background:var(--green);} .dot.cyan{background:var(--cyan);} .dot.gray{background:var(--dimmed);}
+ul{margin:0;padding:0;list-style:none;}
+li{font-size:13px;line-height:1.5;padding:6px 0;border-top:1px solid var(--border);max-width:none;text-wrap:pretty;}
+li:first-child{border-top:none;padding-top:0;}
+.need h2{color:var(--red);} .nice h2{color:var(--gold);}
+.always h2{color:var(--green);} .sometimes h2{color:var(--cyan);} .never h2{color:var(--red);}
+.never li{color:var(--text);}
+.top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;}
+.foot{margin-top:18px;font-size:11px;color:var(--dimmed);max-width:none;}
+code{background:#000;border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:12px;color:var(--cyan);}
+@media (max-width:760px){ .top,.bottom{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Percepta EPM &middot; recruiter call one-sheet</h1>
+<p class="sub">Talor Steinberg, Mon 5 Oct, 11:00 ET. Source: runtime/recoil/generated/2026-10-05-steinberg-percepta.json. Grade: PURSUE to next gate, Y-gate YELLOW, req_reality 2.</p>
+
+<div class="top">
+<div class="card need">
+<h2><span class="dot red"></span>Need to ask</h2>
+<ul>
+<li>Retained/exclusive on this req, or sourcing the public posting? What do I get going through you vs. applying direct?</li>
+<li>Who does this EPM report to, how many EPMs today, is this new or a backfill? (names and counts, not vibes)</li>
+<li>Where do they see someone with my background inside $150K&ndash;$400K, and how does equity work? Let him say the number first.</li>
+<li>What are the stages, timeline, and is there a technical/coding exercise? (don't assume the challenge.percepta.ai page applies to EPMs)</li>
+</ul>
+</div>
+<div class="card nice">
+<h2><span class="dot gold"></span>Nice to ask</h2>
+<ul>
+<li>Which workstream would I start in: health outreach, Janus-style finance, Maryland/public sector, supply chain? (lead with health/finance, your real ground)</li>
+<li>How much of the week is at the customer site vs. the NYC office?</li>
+<li>What have candidates who made it through had in common, and what has sunk the ones who did not? (unscripted gate-3 test: an honest gap is also a pass)</li>
+<li>Can I see what you'll say about me before you submit me?</li>
+</ul>
+</div>
+</div>
+
+<div class="grid bottom">
+<div class="card always">
+<h2><span class="dot green"></span>Always</h2>
+<ul>
+<li>Lead founder-first: ARCS built solo, shipped on Claude, before forward-deployed framing.</li>
+<li>Separate employer from client: "at Squat NY I was embedded product+tech lead for a PE-owned behavioral health operator."</li>
+<li>If ARCS outcomes come up: "I log confidence and close it against what happened: 2 of 247 closed, fixing capture is my open problem." Not "I check my claims against outside sources."</li>
+<li>Let band/level come from him before you name anything.</li>
+<li>Close on a work question (which workstream, how much onsite), not on pace or sustainability.</li>
+</ul>
+</div>
+<div class="card sometimes">
+<h2><span class="dot cyan"></span>Sometimes</h2>
+<ul>
+<li>The decisions bridge ("you surface the decisions that drive a business, I log and close them"): once, lightly, only if it comes up naturally. Not a pitch.</li>
+<li>The challenge.percepta.ai finding: raise it live if the moment is natural (values-aligned: "fixing badness when you find it"); otherwise the written note is already drafted and can follow.</li>
+<li>Pace/intensity question: frame as "what does a hard week look like," not as a concern.</li>
+</ul>
+</div>
+<div class="card never">
+<h2><span class="dot red"></span>Never</h2>
+<ul>
+<li>State a comp number first, or anchor one.</li>
+<li>Pitch ARCS as a product/company, or offer a deck/bundle.</li>
+<li>Accept "5 days onsite" as settled without understanding the shape.</li>
+<li>Raise the Palantir suit as a gotcha; claim a Palantir/FDE/consultancy title you don't hold.</li>
+<li>Explore the challenge sandbox further, or send the written disclosure before talking to Talor live about it.</li>
+<li>Repeat the Chenault line from the email thread unprompted.</li>
+</ul>
+</div>
+</div>
+
+<p class="foot">Full detail: percepta-war-internal.html (Pre-Call / Ex-Ante / Forge / Recoil / War Game / Defensibility tabs). Password <code>frfv9nyxsik</code>, or use the ungated copy.</p>
+</div>
+</body>
+</html>

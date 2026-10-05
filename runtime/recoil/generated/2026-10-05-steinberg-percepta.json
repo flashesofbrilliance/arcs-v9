@@ -1,0 +1,888 @@
+{
+ "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt: belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic: measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+ "meta": {
+  "report_id": "2026-10-05-steinberg-percepta",
+  "date": "2026-10-05",
+  "counterpart": "Talor Steinberg (Talor Made Talent, agency recruiter, ~10 months in seat)",
+  "company": "Percepta (General Catalyst transformation company) - Embedded Product Manager (EPM), NYC. Posting: jobs.ashbyhq.com/percepta/8059a187-91f9-43a4-b85f-5253d8e3fc8e",
+  "segments": 5,
+  "gate": {
+   "internal": "frfv9nyxsik"
+  },
+  "provenance": {
+   "audience": "internal",
+   "captured": "Filed 2026-10-05 ~10:35 ET, before the 11:00 ET recruiter call. Sources: the 8-message Gmail thread (Oct 4-5); Talor's LinkedIn PDF; the full Ashby posting via the public Ashby posting API; web diligence 2026-10-05 (General Catalyst launch story, HLTH, MobiHealthNews, Business Wire Janus Henderson release, Claims Journal on Palantir v. Jain). Nothing here is from Percepta itself except the public posting. Updated ~10:50 ET with the four founder LinkedIn profiles (Hirsh Jain, Radha Jain, Thomas Mathew, Athul Paul Jacob) and Hirsh Jain's 21 Apr 2026 essay. Closed 2026-10-05 ~15:05 ET against the Granola transcript (meeting id aa3e62b0-a4b3-4d2f-9069-c35da2f7ff32).",
+   "load_bearing_quote": "much closer to forward-deployed product than a traditional roadmap PM position (Talor, Oct 4)"
+  }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "candidacy",
+  "req_reality": 2,
+  "req_reality_basis": "Unchanged at 2 after the call. JD confirmed, budget now candidate-anchored ($250K-$400K per Zach, forwarded to Neetu by Talor), but no hiring manager named or met. Talor: \"I don't think it is [one hire per role]... there's a lot of other jobs... These are like the priorities for them right now\" and \"I just need to know like a minimum number... so I could send it to the recruiter.\" Talor himself is not Percepta's recruiter of record: \"I'm an independent recruiter and I help my colleague Neetu... Perceptus is her client... I source and screen and then I send it to her and then she sends to the hiring team of Percepta.\" Two layers between Zach and a decision-owner (Talor -> Neetu -> Percepta hiring team), not a mailbox but not retained-Talor either.",
+  "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). 0 no JD/no owner met - 1 verbal shape, no JD or budget - 2 JD posted/cut, budget implied - 3 JD+budget+decision-owner met.",
+  "y_state": "YELLOW",
+  "topology": "CONVERGENT",
+  "nci_prior": 0,
+  "nci_post": 0,
+  "note": "GRADE: real, public, well-shaped role (fit high) sitting on three unresolved facts: (1) is Talor a route to the hiring manager or a mailbox on a public posting, (2) what level the seat is inside a $150K-$400K band, (3) whether 5 days onsite plus an explicit intensity culture clears your standing sustainability gate. Plus one external risk (Palantir litigation) that is context, not a veto. Predicted YELLOW: real interest, unresolved shape and unresolved lifestyle fit. CLOSED 2026-10-05 11:00 ET call: real forward motion (resume sent live, Neetu intro expected Tue/Wed), but still YELLOW. Talor is a sub-screener for Neetu (Percepta's actual recruiting contact), not Percepta's own recruiter. Zach gave a broad comp range ($250K-$400K) after Talor pressed for a minimum number, before any leveling info existed: a partial deviation from the plan's 'let the band come from him first', mitigated by it being a broad range stated as conditional on leveling/equity/benefits."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "The EPM req is real and independent of Talor's message",
+   "evidence": "Public Ashby posting with comp tier; same role on GC portfolio jobs board; sibling EPM postings for Healthcare and Europe",
+   "inference": "OBS",
+   "confidence": [
+    0.9,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "Talor adds a route (a named hiring-manager contact) beyond applying direct",
+   "evidence": "Talor named the real chain live: \"I'm an independent recruiter and I help my colleague Neetu... Perceptus is her client... I source and screen and then I send it to her and then she sends to the hiring team of Percepta.\" Real route, one layer more indirect than hoped.",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.6
+   ],
+   "conviction": "MED",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "The seat's real level and band fall inside Zach's target range",
+   "evidence": "Zach stated a broad $250K-$400K range; Talor still does not know the level or whether there is a bonus. Nothing ties the range to a specific level for Zach's profile yet.",
+   "inference": "EXP",
+   "confidence": [
+    0.45,
+    0.5
+   ],
+   "conviction": "LOW",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "5 days onsite plus Percepta's stated intensity culture clears Zach's sustainability gate",
+   "evidence": "Zach proactively confirmed comfort with 5 days onsite, unprompted, with a specific reason (misses in-office culture, commute as decompression time, embedded consulting needs on-site presence). The onsite sub-question is resolved; the intensity/pace sub-question (survivalist urgency, not a 9-5) was never raised on this call and stays untested.",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.55
+   ],
+   "conviction": "MED",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "Zach's profile clears Percepta's bar for EPM",
+   "evidence": "JD names former founders, engineers, ex-consultants, PMs; Zach has founder-builder (ARCS), embedded delivery (Squat NY, a behavioral health client), regulated finance (Grayscale), HIPAA. BUT all four founders are ex-Palantir or Palantir-adjacent (three FDE lineages), so peers will skew ex-Palantir; competition is deep. Strong domain match to health outreach and asset-manager work. Persona gauntlet: 4 of 4 personas 'maybe', none 'yes'. Call update: Talor's own read was positive (\"you're answering everything super well\", \"I think I know everything I need to know\"), but that is a recruiter-level screen, not Percepta's own bar. Verdict held until a hiring-manager conversation.",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.55
+   ],
+   "conviction": "MED",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P6",
+   "audience": "internal",
+   "claim": "Talor is a sub-screener for Neetu, who holds the actual Percepta recruiting relationship",
+   "evidence": "Stated directly on the call: see Receipt Closed load-bearing quote",
+   "inference": "OBS",
+   "confidence": [
+    0.95,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "CONFIRMED"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "seat_real_and_winnable",
+    "audience": "internal",
+    "label": "Belief: this is a real, winnable, livable seat",
+    "color": "#00F0FF",
+    "points": [
+     0.4,
+     0.55,
+     0.68,
+     0.58,
+     0.63
+    ],
+    "grounding_quote": "cold pitch -> Talor names company and role -> posting verified public -> Palantir suit and culture flags priced in -> call: real two-layer chain confirmed, resume sent live, level still unknown"
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "The values overlap is real, and it is about decisions",
+   "text": "Percepta's product sentence is about surfacing the decisions that drive a business and closing the loop with agents that improve. That is the same object ARCS works on. It is a legitimate bridge for a conversation, but keep it restrained: an EPM who arrives selling their own platform reads as a conflict. Evidence for ARCS stays self-reported and thin (2 of 247 receipts closed)."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "The role is a Palantir-model FDE seat with a PM title",
+   "text": "Percepta is led by an ex-Palantir SVP and sells the Palantir pattern (embed, build in the customer's weeds, outcome over output) on a Claude/Anthropic stack. EPM = the product half of a forward-deployed pod. Your lead proof is Squat NY (embedded, sole product+tech partner) and ARCS (agentic system shipped in production), in that order for this JD, founder-first per the Blacksmith lesson."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "Talor's value is unverified, and that is the first thing to learn",
+   "text": "He is a real person with a real firm, but ~10 months in recruiting and no public tie to Percepta. The posting is open to anyone. Treat the call as a test of whether he is a route or a mailbox; if mailbox, apply direct and keep him as a courtesy."
+  },
+  {
+   "audience": "internal",
+   "plane": "idea",
+   "title": "Over-demonstration is the known failure mode here",
+   "text": "Fanatics and HypeLab both failed at req_reality <= 1 after heavy artifact spend. This one is a 2, but there is still no hiring manager. Spend a tailored resume now; hold any counterpart-facing bundle until a hiring manager exists."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "Fit to the mission is better than fit to the pool",
+   "text": "Health and financial services workstreams are where your evidence is (Squat NY behavioral health, Twill Health HIPAA, Grayscale, Janus-style asset management). The weaker flank is the Palantir-lineage pool you are competing against."
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Waiting on Neetu's intro (expected Tue/Wed, Oct 6-7). No action until the screen happens or she makes contact."
+  },
+  {
+   "audience": "internal",
+   "owner": "Claude",
+   "text": "After the call: run /recoil-close with the Granola/Fathom transcript, score this ex-ante receipt, update P1-P5."
+  },
+  {
+   "audience": "internal",
+   "owner": "Claude",
+   "text": "Only if a hiring manager is named: build a scoped, counterpart-safe bundle (how I would run the first 90 days embedded at one F500 customer), framed as product not a JD, via /recoil-ship. Not before."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Later stage only: ask for the invention-assignment (PIIA) and outside-activities policy before an offer, and carve ARCS and the OSS tools out as prior inventions. Do not raise on the recruiter call."
+  },
+  {
+   "audience": "internal",
+   "owner": "Claude",
+   "text": "Read the Palantir v. Jain preliminary-injunction order itself (CourtListener docket 1:25-cv-08985) before quoting its terms; durations in this file come from a search snippet."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Decide the five resume items in War Game (seven-figure, client sprints on ARCS, two decades, lead order, Grayscale scope) before anything is submitted. Say the word and I will apply them."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "After talking to Talor live about the challenge-site finding, decide whether to still send the written disclosure note (_ARTIFACTS/percepta/disclosure-draft.md) or close the loop verbally."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "DECIDED (2026-10-05): hold the challenge-site disclosure note. Send it only if this candidacy does not progress, framed as a no-strings courtesy flag rather than something tied to a live process."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Optional: ask Talor by email to see his blurb before he submits you (not asked live)."
+  },
+  {
+   "audience": "Claude",
+   "owner": "Claude",
+   "text": "When Neetu or Percepta's hiring team makes contact, run /recoil-prep again for that conversation; this SSOT stays the single source of truth."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "ARCS &#183; War Room",
+   "title": "Talor Steinberg &#183; Percepta (Embedded PM)",
+   "sub": "Closed. Recruiter screen done; real but indirect route confirmed (Talor -> Neetu -> Percepta). Awaiting Neetu intro, Tue/Wed."
+  },
+  "tabs": [
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "TRUE NORTH: one sentence: the disciplined posture for this interaction.",
+    "h2": "True North",
+    "p": [
+     "This is a recruiter screen on a real, public req. Learn the seat's level, who owns it, and whether Talor is a route or a mailbox; give a 90-second founder-first pitch; commit to nothing beyond being submitted after you have seen what he will say about you. No comp number from your side, no artifacts offered, no flattery of the investors (one Chenault line is already on the record). New context: this is a mission-driven Palantir-lineage shop on health, public sector and finance. Lead with where you have evidence there."
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).",
+    "h2": "Context",
+    "rows": [
+     {
+      "k": "Date",
+      "v": "Mon 2026-10-05, 11:00 AM ET, booked by you via Talor's link, confirmed by him 9:47 AM"
+     },
+     {
+      "k": "Register",
+      "v": "Agency recruiter, inbound-cold turned warm in about three hours (you replied 'sounds like a great fit' before any facts). Neutralize now: curious, specific, unhurried."
+     },
+     {
+      "k": "Their goal",
+      "v": "Fill a (likely evergreen) EPM req; fee model unverified (assume contingent). He wants a submittable candidate fast."
+     },
+     {
+      "k": "Your goal",
+      "v": "Four facts: route vs mailbox, hiring manager, level/band, process. Plus a read on the 5-day onsite and intensity culture."
+     },
+     {
+      "k": "Y-Gate",
+      "v": "YELLOW predicted. req_reality = 2."
+     },
+     {
+      "k": "Grade",
+      "v": "Fit HIGH (founder-builder, embedded delivery, regulated finance, HIPAA, agentic systems). Leverage: regex lens says MOAT (0-1, forward-deployed, greenfield) but the pool is brand-heavy and deep, so discount to MODERATE. Winnability: MED. Livability: the open question (5 days onsite, 'not a 9-5', 'survivalist urgency' vs your 996/grind hard gate). Overall: PURSUE to the next gate, with livability as the explicit kill criterion."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.",
+    "h2": "Intel",
+    "intro": "Who they are now, most diagnostic first. Everything public; nothing from Percepta directly.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>Percepta</strong>: General Catalyst (GC, the VC) 'transformation company', launched 1 Oct 2025, wholly owned by GC. CEO and co-founder Hirsh Jain (ex-Palantir SVP; Harvard; Google, Jane Street). Core team named by GC: Thomas Mathew, Athul Paul Jacob, Radha Jain, Michael Rochlin, Costis Daskalakis; 20+ at launch."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>The four founders (LinkedIn):</strong> Hirsh Jain CEO (Palantir SVP 2017-24, Reverie Labs co-founder, Harvard); Thomas Mathew CTO (Palantir forward deployed engineer 2015 then product engineer to 2023, Credal.ai founding engineer, Citadel, Bloomberg); Radha Jain (Palantir forward deployed engineer in federal health, then engineering lead, then AI product engineer; YC S19 founder; Stanford); Athul Paul Jacob Chief AI Officer (MIT PhD in AI, General Catalyst AI Partner). Three of four are Palantir alumni: the culture is the Palantir forward-deployed lineage, in NYC."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>The mission in Hirsh's words:</strong> Detroit as 'a preview'; AI should absorb administrative sprawl so clinicians and public servants return to the core of their jobs. 'Not all work should be automated.' Product: 'models that surface the decisions that drive each business, map them to the places where work gets done, and run agents that do the work and keep improving.' Culture: everyone is a doer and builder; one person plays product, customer and research roles in the same day; in the office every day in NYC, Cambridge and London."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Model</strong>: embeds researchers, engineers and product managers inside large customers (healthcare, manufacturing, energy, supply chain, financial services) and builds with Mosaic, its in-house toolkit for agentic workflows. Partners: Anthropic and AWS (founding), McKinsey, GC portfolio."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Named work (Hirsh essay, 21 Apr 2026):</strong> Medicare/Medicaid chronic-care outreach for hundreds of thousands of patients (decision system plus agents that text, call and book); Maryland permitting and environmental review with Anthropic; voice agents for at-risk patients with Cityblock Health; back and middle office at Janus Henderson (fund creation); resource allocation for a multinational supply chain."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>The seat</strong>: 'lead role with outsized responsibility', from shaping a F500 AI vision to directing researchers and engineers; 'weeks, not years'; builds playbooks; picks which customers Percepta targets. Posted $150K-$400K base + equity. The same EPM role is open for NYC, Healthcare and Europe: the EPM bench is scaling."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Palantir v. Jain</span>: Palantir sued Hirsh and Radha Jain and Joanna Cohen (Dec 2025). On 18 Feb 2026 the court granted a preliminary injunction in part (non-solicit of Palantir employees; confidentiality for Cohen) and denied the bid to stop them working at Percepta. Context for culture and hiring, not a veto. Read the order before citing durations."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Culture tells</span>: values page: 'This isn't a 9-5', 'survivalist urgency', 'Intensity with kindness'. Role is 5 days onsite in NYC. Standing rubric: 996/grind is a hard OUT, so this is the kill criterion to test."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Talor</strong>: founder of Talor Made Talent since Jan 2026 (~10 months), touring musician, recruits eng/product/AI for startups. Real profile, thin recruiting tenure. No public tie to Percepta found. His emails reuse the posting's language; he did add specifics (company, GC link, 'closer to forward-deployed product')."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Name collision</strong>: several unrelated companies are called Percepta. The Glassdoor page under that name looks like a different, older firm. Do not use it for culture or interview signal."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.",
+    "h2": "Questions &amp; landmines",
+    "intro": "Ranked. The first four decide whether this is worth more of your time. 'Look for' = what a real answer sounds like; an honest 'I don't know' also counts as a pass.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "1. 'Is Percepta a retained or exclusive client for you, or are you sourcing against the public posting? What does going through you get me that applying direct does not?' &#183; look for: a named hiring-manager or talent-lead contact, how many people he has placed there."
+     },
+     {
+      "dot": "c",
+      "html": "2. 'Who does this EPM report to, how many EPMs are there today, and is this a new seat or a backfill?' &#183; look for: names and counts. Vague = mailbox."
+     },
+     {
+      "dot": "c",
+      "html": "3. 'The band is $150K to $400K. Where do they see someone with my background, and is the equity Percepta shares or GC?' &#183; look for: a level (not a number from you) and an equity structure. Let him say the number first."
+     },
+     {
+      "dot": "c",
+      "html": "4. 'What are the stages and timeline, and is there any technical or coding exercise for EPMs?' (their posting links a coding challenge) &#183; look for: stage names, who interviews, 3-5 weeks."
+     },
+     {
+      "dot": "",
+      "html": "5. 'The company says everyone is in the office daily in NYC. How much of an EPM's week is at the customer's site or travel instead?' &#183; look for: a real answer. Office-daily is now confirmed by Hirsh's own essay; the open part is customer-site time."
+     },
+     {
+      "dot": "",
+      "html": "6. 'Which workstream would this seat start in: health (Medicare/Cityblock-type outreach), financial services (Janus Henderson), public sector (Maryland), or supply chain?' &#183; look for: health or financial services, where you have real evidence. Say plainly that supply chain and energy are not your ground."
+     },
+     {
+      "dot": "",
+      "html": "7. 'What have the candidates who made it through had in common, and what has sunk the ones who did not?' &#183; unscripted gate-3 question. A specific answer or an honest gap both pass."
+     },
+     {
+      "dot": "",
+      "html": "8. 'Before you submit me, can you send me what you'll say about me?' &#183; look for: willingness. Protects your positioning."
+     },
+     {
+      "dot": "c",
+      "html": "Bridge line, use once and lightly: Hirsh writes about 'the decisions that drive each business'. Your own work is a decision record: each decision is scored when made and closed against its outcome. Offer it as a shared way of thinking, not as a product pitch."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> do not say a comp number. Let the band and level come from him; at req_reality 2 asking is fine, anchoring is not."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> do not pitch ARCS as a product or a company. Lead with it as proof you ship agentic systems yourself. An EPM who is also running their own platform raises an IP and focus question you do not want to open on a recruiter call."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> do not offer artifacts, decks or a bundle. Fanatics and HypeLab both failed after heavy artifact spend at req_reality &lt;= 1. A resume is enough until a hiring manager is named."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> do not accept '5 days onsite' on the call. 'I need to understand the shape first' is enough. Do not raise the Palantir suit as a gotcha; if Talor brings it up, listen."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> do not claim a Palantir, FDE, or consultancy title you do not have. Your matching evidence is Squat NY (embedded, sole product and tech partner) and ARCS (agentic, shipped), in that order."
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "receipt",
+    "audience": "internal",
+    "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.",
+    "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+    "fields": [
+     {
+      "label": "D &#183; Sharpened question",
+      "value": "Is the Percepta EPM seat real, at a level and shape worth a hiring-manager conversation, and is Talor a route to that hiring manager?"
+     },
+     {
+      "label": "E &#183; Entity",
+      "value": "Talor Steinberg (agency recruiter); Percepta (hiring manager unknown; CEO Hirsh Jain); General Catalyst (owner); other candidates (ex-Palantir, founders, ex-consultants)."
+     },
+     {
+      "label": "W &#183; Window",
+      "value": "Today decides whether you get submitted; 1-2 weeks to a hiring-manager screen; 3-5 weeks to an offer if it runs."
+     },
+     {
+      "label": "Hypothesis / expecting to see",
+      "value": "The seat is real and public; Talor is a sourcer on an open posting with an unverified route; level is 'lead' inside a wide band; intensity and 5-day onsite are firm. He can state the process but cannot name the hiring manager."
+     },
+     {
+      "label": "Predicted Y-gate",
+      "value": "YELLOW (req_reality 2). Would move to GREEN only if a hiring manager is named and a level/band for your profile is stated."
+     },
+     {
+      "label": "Pre-committed move",
+      "value": "Ask the four gating questions; give the 90-second founder-first pitch; agree to be submitted only after seeing his blurb; send the tailored resume only; hold any bundle."
+     },
+     {
+      "label": "Belief most likely to update",
+      "value": "P2 (Talor's route value) and P4 (livability: onsite and intensity)."
+     },
+     {
+      "label": "Falsifier",
+      "value": "If Talor cannot name the hiring manager, cannot say whether he is retained, and gives no level for your profile, treat him as a mailbox and apply direct on Ashby. If onsite and intensity are rigid with no flex at 'lead' level, PASS."
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic: you cannot grade your own output.",
+    "h2": "Exhibit 2 &#183; Exogenous Forge",
+    "p": [
+     "Every load-bearing claim here was checked against external sources (Ashby posting API, GC site and portfolio jobs board, HLTH, MobiHealthNews, Business Wire, Claims Journal and a CourtListener docket summary, Talor's own LinkedIn). GROUNDED = a source forces it. INFERENCE = my read, not forced. STRUCK = overreach, corrected. Persona gauntlet ran 2026-10-05 (4 personas, 9 agents, adversarial verify): see rows below. The skeptic checked against a narrow regex evidence ledger; several of its 'unsourced' flags are phrases that appear in Zach's own masters and earlier resumes, so they are self-reported, not invented."
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.",
+    "h2": "Claim adjudication",
+    "columns": [
+     "Claim",
+     "Ruling",
+     "Source force"
+    ],
+    "rows": [
+     [
+      "Percepta is real, GC-owned, launched 1 Oct 2025",
+      "GROUNDED",
+      "GC 'Unveiling Percepta' page, HLTH, MobiHealthNews"
+     ],
+     [
+      "The EPM req is public and one of several (NYC, Healthcare, Europe)",
+      "GROUNDED",
+      "Ashby posting API; GC portfolio jobs board; Ashby sibling postings"
+     ],
+     [
+      "The seat pays 'up to $400K base'",
+      "STRUCK",
+      "$400K is the top of a $150K-$400K band spanning levels. Not a planning number for this seat."
+     ],
+     [
+      "Talor is retained or exclusive on this req",
+      "INFERENCE",
+      "Nothing public shows it; asked in Q1"
+     ],
+     [
+      "Palantir's injunction was granted in part on 18 Feb 2026 and did not block the Jains from working at Percepta",
+      "GROUNDED",
+      "Claims Journal (20 Feb 2026); docket summary. Durations: search snippet only, read the order"
+     ],
+     [
+      "Named Percepta work: Janus Henderson, Cityblock Health, Maryland permitting with Anthropic, Medicare/Medicaid outreach, a multinational supply chain",
+      "GROUNDED",
+      "Hirsh Jain essay on percepta.ai (21 Apr 2026); Business Wire (Janus Henderson, 10 Jun 2026)"
+     ],
+     [
+      "Percepta has 5 employees",
+      "STRUCK",
+      "Aggregator figure; GC stated 20+ at launch in Oct 2025"
+     ],
+     [
+      "Ken Chenault is part of Percepta",
+      "STRUCK",
+      "No source ties him to Percepta; he is a GC chairman. Do not imply it again."
+     ],
+     [
+      "Glassdoor 'Percepta' reviews describe this company",
+      "STRUCK",
+      "Name collision; looks like a different, older firm"
+     ],
+     [
+      "The seat is a Palantir-style forward-deployed pod with a PM title",
+      "INFERENCE",
+      "Leadership lineage plus Talor's words and the JD; not stated by Percepta"
+     ],
+     [
+      "Three of four founders are Palantir alumni",
+      "GROUNDED",
+      "LinkedIn profiles of Hirsh Jain, Thomas Mathew, Radha Jain (Athul Paul Jacob is the MIT researcher)"
+     ],
+     [
+      "Earlier note: 'Janus Henderson is the only customer found'",
+      "STRUCK",
+      "Superseded by Hirsh's essay, which names four more workstreams"
+     ],
+     [
+      "20 percent net-new revenue sits at Grayscale (this file, earlier draft)",
+      "STRUCK",
+      "Masters and prior resumes place it at Children's Tumor Foundation; resume is right, this row was wrong"
+     ],
+     [
+      "'Seven-figure' Squat NY engagement and '$350M ARR' client",
+      "INFERENCE",
+      "In Zach's masters and earlier resumes but self-reported; skeptic found no contract or reference. Expect a reference-check question"
+     ],
+     [
+      "'Client sprints now run on ARCS' (Manana line)",
+      "INFERENCE",
+      "Stated in the private resume skill, so sanctioned by Zach; CEO persona reads it as a conflict signal for Percepta. Judgment call, not an error"
+     ],
+     [
+      "Pitch line 'I check my own claims against outside sources'",
+      "STRUCK",
+      "Ledger tags $350M, $850K and 25 percent margin as self-reported; the line overreaches. Replace (see War Game)"
+     ],
+     [
+      "'Two decades' in the summary",
+      "GROUNDED",
+      "Zach started his career in 2006 (stated 2026-10-05); the earliest role listed on the resume is 2010. The skeptic's 16-year finding was wrong"
+     ],
+     [
+      "'Nearly 500 merged pull requests' as ARCS proof",
+      "INFERENCE",
+      "Documented (497) but measures volume, not use; 3 of 4 personas read it as weak"
+     ],
+     [
+      "Palantir uses planted vulnerabilities / behavioral traps in candidate screens",
+      "STRUCK",
+      "No sourced evidence found for this specific claim; general FDE-interview-intensity reputation is not the same thing. Flagged as unverified if it resurfaces"
+     ],
+     [
+      "Hirsh Jain and Radha Jain are not related (or are related)",
+      "STRUCK",
+      "No public source found either way. One web-search synthesis asserted 'not related' with no traceable citation; not trusted. Marked unconfirmed and not pursued further (not load-bearing for the grade; declined personal-records lookup on named individuals)"
+     ]
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.",
+    "h2": "Receipt closed &#183; ex-ante vs actual",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "YELLOW, req_reality 2. He can state the process but cannot name the hiring manager."
+     },
+     {
+      "k": "Actual",
+      "v": "Confirmed. Talor named Neetu (Percepta's actual recruiting contact) and the real chain: Talor screens, Neetu intros into Percepta's hiring team. No hiring manager named or met. Comp pushed to a broad range ($250K-$400K) before leveling was known. 5-day onsite: Zach proactively confirmed comfort. Coding challenge: Talor believes it is not required for the PM role, unconfirmed. Timeline: Neetu intro expected Tue or Wed (Oct 6-7). Note: Talor self-corrected mid-sentence on who makes contact: \"they're going to email you directly. Actually, no, Neetu will intro you.\" Both versions were said; the second is what he landed on, but hold it loosely, a direct email from the team is also plausible."
+     },
+     {
+      "k": "Fork hit",
+      "v": "Neither the falsifier (mailbox, no route) nor a clean GREEN path. A third, real but indirect fork: a working two-layer recruiting chain (Talor -> Neetu -> Percepta) with genuine forward motion the same day."
+     },
+     {
+      "k": "Load-bearing",
+      "v": "Talor: \"I think I have a good read on you... I think I know everything I need to know\" (immediately followed by sending the resume onward); and \"Perceptus is her client... I'm kind of like her right-hand person.\""
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log &#183; confidence x conviction"
+   },
+   {
+    "tab": "recoil",
+    "type": "worked_example",
+    "audience": "internal",
+    "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
+    "h2": "Belief trajectory",
+    "intro": "{{what moved}}",
+    "close": "{{the honest correction}}"
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
+    "h2": "Kairos, quiet signals &amp; risks",
+    "intro": "Closed after the 11:00 ET call, 2026-10-05.",
+    "items": [
+     {
+      "dot": "g",
+      "html": "<strong>Kairos:</strong> Talor, unprompted, after the Q&A: \"I think I have a good read on you... I think I know everything I need to know,\" then sent the resume to Neetu the same call, same morning."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Quiet signal:</strong> Talor volunteered he is writing his own notes to send alongside the resume, extra advocacy beyond the minimum ask."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Quiet signal (process smell):</strong> Talor pressed hard for a minimum comp number before knowing the level, framed as needed to unstick the recruiter conversation. Worth naming to yourself next time before answering: the ask serves his pipeline speed, not necessarily your leverage."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Risk flag:</span> gave a broad comp range ($250K-$400K) after Talor pressed, before any leveling info existed. A partial deviation from 'let the band come from him first'; mitigated by it being a range, not a number, and explicitly conditioned on leveling, equity and bonus still being unknown."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Risk flag:</span> stated live, with no ledger entry: '14 customer-facing product services' on the ARCS status page. Self-reported only; do not repeat it in a written artifact without sourcing it first."
+     },
+     {
+      "dot": "",
+      "html": "<strong>ARCS-lead choice, held as two live reads (2026-10-05, Zach's own):</strong> deliberate, not accidental. Squat NY is 2019-2020, pre-LLM; the posting asks for hands-on LLM experience, so leading with ARCS (the most recent, most AI-native evidence) answers the actual question better than an older, more-embedded-but-less-AI example. Separately, Hirsh Jain's conflict-of-interest read from the gauntlet still stands: ARCS as an ongoing platform, not just a past credential, is the harder question, and leading with it does not resolve that concern either way. Both reads are held with equal merit, on purpose, not collapsed into one verdict. Carry forward: when ARCS is the lead, state explicitly where it stops and a customer engagement begins."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Not done:</strong> never asked to see Talor's submission blurb before being submitted. Still open; can ask by email."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Not done:</strong> did not raise the challenge.percepta.ai sandbox finding. Only asked the softer, planned question (is the coding challenge required for all roles); Talor believes not, for the PM role, unconfirmed. The drafted written disclosure (_ARTIFACTS/percepta/disclosure-draft.md) is still unsent; decide whether it still goes out now that the call happened without raising it."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Memory-vs-transcript check (2026-10-05):</strong> Zach recalled Talor saying \"interviewing well, which you are\" and a direct \"which you will\" about making the next round. The transcript does not have \"interviewing well, which you are\" anywhere. It does have \"If this goes well, which it will, you'll talk to the recruiter,\" but in context that line is Talor describing the general process, using the data-engineer candidate as the example, not an unambiguous promise to Zach specifically. The real, verified compliments were \"you're answering everything super well\" and \"I think I have a good read on you... I think I know everything I need to know.\" Memory ran slightly more affirmative than the record. Logged so the remembered version does not quietly become the working one."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Memory-vs-transcript check #2 (2026-10-05):</strong> Zach's recollection that \"I'd hear back from the team directly\" is accurate. Talor said exactly that first, then corrected himself in the same breath to \"Neetu will intro you.\" Both were said; the SSOT holds the corrected version as the working plan but treats a direct team email as plausible too, not a surprise if it happens that way instead."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Why he leads with 5-day onsite (Zach's read, grounded):</strong> Talor opens every screen with the onsite question on purpose. His own words right after: \"I sent so many of these emails and they're like, 'oh, I didn't see that.' It literally says it in the email. Or they go, 'what's the comp?'... you didn't see that? It's like in the subject.\" Confirms it is a recurring friction point with other candidates, not confirmed as a hard dealbreaker for any specific one, but a real reason he screens it first."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "kinematics_table",
+    "audience": "internal",
+    "h2": "Kinematic manifold &#183; measured (D1-D3)"
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.",
+    "h2": "The gauntlet",
+    "intro": "Adversarial pass on the opportunity, not the person.",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>BAR (ruin edge):</strong> the exposed edge is your time and focus, not money: 5 days onsite plus an 'intensity' culture against the ARCS build and your own sustainability gate. Second edge: equity in a subsidiary wholly owned by GC, structure unknown. Neither is ruin; both are priced before any further spend."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>LAB &#183; Loki (adversarial):</strong> the pool is deep and brand-heavy (ex-Palantir, McKinsey, founders), you have no FDE or Palantir title, and an agency submission on a public posting adds little. Steel-manned down: the JD names founders and PMs explicitly, and Squat NY plus ARCS map directly to 'embedded' and 'shipped agentic'."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>COURT (constitutional):</strong> NOTOMATION check: this role scaffolds executives' AI decisions, it should not replace theirs; fine. Write-lock: nothing here is a one-way door yet. The one future one-way door is the invention-assignment agreement against ARCS and the OSS tools; surface it at offer stage, not before."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Req-reality check:</strong> 2, not 3. No hiring manager; band spans $150K-$400K. Spend: resume only."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Persona gauntlet verdicts (all 'maybe'):</strong> ex-Palantir hiring manager: embedded proof is one self-reported 2019-2020 engagement, nothing at F500 scale. Hirsh Jain: ARCS reads as a competing decision platform listed as a current role. Talor: cannot explain to a talent lead why a founder-builder is an embedded PM. Claims skeptic: pitch claims outside verification the ledger does not support."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Pitch fix 1:</strong> replace 'I check my own claims against outside sources' with: 'I log my confidence when I make a claim and close it against what happened. So far 2 of 247 are closed, and fixing capture is my open problem.' Say 'built and operated', not 'in production', unless you can state the real user count (not in the files)."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Pitch fix 2:</strong> separate employer from client: 'At Squat New York I was the product and technical lead embedded with a PE-owned behavioral health operator.' Have one embedded story ready with the operator friction you hit and the baseline behind 40/63/23."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Pitch fix 3:</strong> close on a work question ('Which workstream would I start in, and how much of the week is at the customer site?'), not on pace. Keep pace and level for the hiring manager as 'what does a hard week look like for an EPM'. Add one line for Talor: targeting a lead-level seat, range once level is known, no number."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Pitch fix 4:</strong> be ready to say where ARCS stops and a customer deployment begins, and offer a carve-out for it. Disclose early; it is the PIIA point (invention-assignment agreement) in advance."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Resume decisions applied 2026-10-05:</strong> cut 'seven-figure' and 'Client sprints now run on ARCS'; summary now leads with the Squat NY embedded engagement (behavioral health client); dropped the PR-count headline; Grayscale scoped to the investor-facing surfaces with the $7B described as the platform's portfolio. 'Two decades' kept: career started 2006. Refuted by the verifier: 'pace question comes too early in the pitch'."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Challenge-site finding (2026-10-05, post-call prep):</strong> the coding challenge at challenge.percepta.ai (xterm.js terminal over a WebSocket, hosted on Railway) has a sandbox boundary that `cd /` escapes to the host filesystem; sibling session directories for other candidates (player_xxxxx) are visible from there. File-level Unix permissions held: entering those directories returned permission denied. Best guess: ~70/30 unintentional config bug over a deliberate behavioral test, reasoned from the fact that the deeper access-control layer worked correctly (a staged honeypot would either gate nothing or plant something to find) and the stack reads as fast-build, not an elaborate instrument. Action taken: stopped at permission-denied, did not explore further. Holding a disclosure note (routed through Talor, not sent yet) until after talking to him live."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Why it does not change the move either way:</strong> if deliberate, minimal-test-then-report is the intended answer; if a real bug, it is the responsible thing to do regardless. Percepta's own posted values give direct cover: 'Heart in the game... internally, that means fixing badness when you find it' and 'Make the call... make the decision and make the phone call.' Report plainly; do not over-narrate the test-or-not question in the note itself."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.",
+    "h2": "ATG pre-mortem &#183; critical path x their objections",
+    "columns": [
+     "Node",
+     "Their objection (verbatim)",
+     "Failure mode",
+     "Handling"
+    ],
+    "rows": [
+     [
+      "1. Recruiter screen (2026-10-05, closed)",
+      "Resolved live: Talor named Neetu (Percepta's real recruiting contact) and the real chain",
+      "Real two-layer route, not a mailbox, but not a hiring-manager conversation either",
+      "Awaiting Neetu's intro, expected Tue/Wed (Oct 6-7). Bottleneck moves to node 2."
+     ],
+     [
+      "2. Hiring-manager screen",
+      "'Former founders... former engineers... ex-consultants... product managers who want to work on ambitious problems' (posting)",
+      "You read as a generalist builder, not any one of their four profiles",
+      "Lead founder-first: ARCS shipped in production, Squat NY embedded delivery. Name Janus-style finance use cases."
+     ],
+     [
+      "3. Case or technical exercise",
+      "'Hands-on experience with LLMs' and 'a so instead I... person' (posting)",
+      "A cold product or coding exercise you do not prepare for",
+      "Ask for the format in Q4; prepare one agentic workflow walk-through end to end."
+     ],
+     [
+      "4. Onsite loop with leadership",
+      "'Intensity with kindness... survivalist urgency' (values)",
+      "Livability mismatch surfaces late, after you have invested",
+      "Test it early (Q5, and in the HM screen). Your kill criterion is rigid 5-day plus always-on."
+     ],
+     [
+      "5. Offer and level",
+      "'$150K-$400K base + equity, depending on level' (Talor, Oct 4)",
+      "Level set at the low end with a 'lead' scope; equity structure opaque",
+      "Let them name the level; ask equity structure; read the PIIA with ARCS carved out."
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "rosetta",
+    "audience": "internal",
+    "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
+    "h2": "The same model, both directions",
+    "left": "Percepta's words",
+    "right": "Your evidence",
+    "rows": [
+     [
+      "'Surface the decisions that drive each business, map them to where work gets done'",
+      "ARCS compass and Decision Receipts: sharpen the question, record the decision, score it against the outcome. Same object, different layer. (Self-reported, thin sample.)"
+     ],
+     [
+      "Forward-deployed, embedded with the customer",
+      "Squat NY: sole product and tech partner on a seven-figure embedded engagement, discovery to handoff (self-reported)"
+     ],
+     [
+      "Mosaic: rapid agentic workflows",
+      "ARCS: agentic pipeline on Claude with a custom MCP server and human-in-the-loop control"
+     ],
+     [
+      "Strategies executives can believe in",
+      "Decision Receipts: a frozen, scorable decision record. (Honest: 2 of 247 receipts closed so far.)"
+     ],
+     [
+      "Tie impact to top-level business outcomes",
+      "Grayscale: role-based access controls and pre-deployment gates, 35 percent faster release cycle (vetted master). Children's Tumor Foundation: 20 percent net-new revenue from data-driven personalization (vetted master). Correction filed: an earlier draft of this row put the 20 percent at Grayscale."
+     ],
+     [
+      "Reusable playbooks for the next customer",
+      "The operators library and MIT-licensed OSS tools, each with a conformance suite"
+     ],
+     [
+      "Healthcare, supply chain, energy, finance",
+      "Finance (Grayscale, SEC/FINRA) and healthcare (HIPAA digital therapeutics) are real; supply chain and energy are not. Say so."
+     ],
+     [
+      "Not all work should be automated",
+      "NOTOMATION: scaffold judgment, never replace it. A genuine shared stance, quote it back only if it comes up."
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).",
+    "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+    "columns": [
+     "Verb",
+     "Air-gap",
+     "Water-proof",
+     "Fire-proof",
+     "Bomb-proof"
+    ],
+    "rows": [
+     [
+      "Analyze",
+      "Posting pulled via public API, not a summary",
+      "Name collision caught and excluded",
+      "Palantir facts checked against two outlets",
+      "Wrong guess on seat shape just changes the questions"
+     ],
+     [
+      "Assess",
+      "Four-fact test from the three-gate method",
+      "Handles a vague recruiter: apply-direct branch",
+      "Skeptic pass still to run",
+      "A mailbox answer is a clean outcome, not a failure"
+     ],
+     [
+      "Evaluate",
+      "req_reality gate and Y-gate pre-registered",
+      "Works with unknown band",
+      "Falsifier written before the call",
+      "Each answer moves a stated belief"
+     ],
+     [
+      "Synthesize",
+      "Resume built from the evidence ledger only",
+      "One page, ATS text version",
+      "Provenance and slop lints on the resume",
+      "Unsourced claims are listed, not shipped"
+     ],
+     [
+      "Recapitulate",
+      "Ex-ante receipt filed before 11:00",
+      "Scored after against the transcript",
+      "Predicted vs actual is recorded either way",
+      "Being wrong sharpens the next screen"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
+    "h2": "Antifragile core &amp; the lossless test",
+    "p": [
+     "A falsified prior is the highest-information event in this process: if Talor turns out to be a mailbox, you learn it in 10 minutes instead of three weeks, and the branch (apply direct) is already written.",
+     "Lossless test, in their words: 'I have built and operated agentic systems myself. At Squat New York I was the product and technical lead embedded with a PE-owned behavioral health operator. I log my confidence when I make a claim and close it against what happened; so far 2 of 247 are closed, and fixing that is my open problem. Which workstream would I start in, and how much of the week is at the customer site?'"
+    ]
+   }
+  ]
+ }
+}

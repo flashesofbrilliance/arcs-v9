@@ -1,0 +1,17 @@
+{"pattern": "\\$7B", "source": "vetted-master:vico:106,116,139"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat)"}
+{"pattern": "\\$4,500\\s?", "source": "vetted-master:vico:180"}
+{"pattern": "\\$1M", "source": "vetted-master:vico:180"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:vico:142"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:vico:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:vico:165"}
+{"pattern": "\\$2M", "source": "vetted-master:vico:173"}
+{"pattern": "30\\s?(?:%|percent)", "source": "vetted-master:vico:173"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "25\\s?(?:%|percent)", "source": "vetted-master:vico:180 + self-reported 2026-09-28"}
+{"pattern": "500", "source": "documented:gh pr list --state merged = 497 (2026-09-28)"}
+{"pattern": "40\\s?(?:%|percent)", "source": "vetted-master:vico:150 (+40% qualified leads)"}
+{"pattern": "63\\s?(?:%|percent)", "source": "vetted-master:vico:150 (+63% booking success)"}
+{"pattern": "23\\s", "source": "vetted-master:vico:150 (+23 NPS)"}
+{"pattern": "24\\s?months", "source": "vetted-master:vico:173"}
+{"pattern": "\\b10\\b|ten\\b", "source": "vetted-master:vico:139 (10-product launch)"}
