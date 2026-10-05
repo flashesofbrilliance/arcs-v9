@@ -218,11 +218,15 @@ export async function POST(req: NextRequest) {
         }
       : null
 
-  // Fetch parent receipt if enriched re-run
-  const parent = parentReceiptId
-    ? await prisma.receipt.findUnique({
-        where: { id: parentReceiptId },
-        select: { yState: true, nciScore: true, version: true },
+  // Fetch parent receipt if enriched re-run. Scoped to the caller: a parent
+  // that is missing or owned by someone else is dropped (no parent inputs, no
+  // parentId), so a client-supplied id cannot pull another user's yState /
+  // nciScore / version into this run. Anonymous callers never get a parent
+  // (a null userId in the where clause would match every anonymous row).
+  const parent = parentReceiptId && userId
+    ? await prisma.receipt.findFirst({
+        where: { id: parentReceiptId, userId },
+        select: { id: true, yState: true, nciScore: true, version: true },
       })
     : null
 
@@ -404,7 +408,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     const receiptData = {
       userId: userId ?? null,
       prepId: prepRow?.id ?? null,
-      parentId: parentReceiptId ?? null,
+      parentId: parent?.id ?? null,
       sessionId: resolvedSessionId,
       version: sessionVersion,
       // D
