@@ -742,4 +742,17 @@ if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q 
     exit 1
   fi
 fi
+# resume-location guard (2026-10-05): every staged forge resume / ATS file's location line reads
+# exactly "New York Metro" (memory resume-location-new-york-metro-only). Added AND modified files:
+# the class propagates through edit-from-seed, so a touched seed must be clean too.
+if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/forge-*/resume-*.html' '_ARTIFACTS/forge-*/resume-*.txt' 2>/dev/null || true)
+  if [ -n "$rl" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/resume_location_gate.py $rl >&2; then
+      echo "✖ pre-commit(resume-location): fix with 'python3 scripts/resume_location_gate.py --fix', then re-render the PDF." >&2
+      exit 1
+    fi
+  fi
+fi
 exit 0
