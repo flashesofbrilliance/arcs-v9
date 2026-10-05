@@ -163,6 +163,7 @@ const HOME_CAM: Cam = { yaw: 0.6, pitch: 0.66, zoom: 1, dist: 2.7, pu: 0, pv: 0 
 export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boolean; zone: string; zoneColor: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const figRef = useRef<HTMLElement>(null)
   const target = useRef({ fog, clear })
   const tgt = useRef<Cam>({ ...HOME_CAM })
   const control = useRef({
@@ -348,6 +349,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     }
     const onDbl = () => { focusOn(null); setDepth(3) }
     const onKey = (ev: KeyboardEvent) => {
+      // Keys work from anywhere in the figure (the drawer covers the map), never from a text field.
+      const tgtEl = ev.target as HTMLElement
+      if (tgtEl.closest("input, textarea, select, [contenteditable]")) return
+      if (ev.metaKey || ev.ctrlKey || ev.altKey) return
       const t = tgt.current
       let hit = true
       switch (ev.key) {
@@ -371,7 +376,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     canvas.addEventListener("pointerleave", onLeave)
     canvas.addEventListener("wheel", onWheel, { passive: false })
     canvas.addEventListener("dblclick", onDbl)
-    canvas.addEventListener("keydown", onKey)
+    const fig = figRef.current
+    fig?.addEventListener("keydown", onKey)
     canvas.addEventListener("contextmenu", noMenu)
 
     function draw(now: number) {
@@ -701,7 +707,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       canvas.removeEventListener("pointerleave", onLeave)
       canvas.removeEventListener("wheel", onWheel)
       canvas.removeEventListener("dblclick", onDbl)
-      canvas.removeEventListener("keydown", onKey)
+      fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
   }, [focusOn, setDepth])
@@ -724,7 +730,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const glass: React.CSSProperties = { background: "rgba(2,5,10,0.58)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)" }
 
   return (
-    <figure style={{ position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
+    <figure ref={figRef} style={{ position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
       <div ref={wrapRef} style={{ width: "100%", lineHeight: 0 }}>
         <canvas
           ref={canvasRef}
@@ -798,7 +804,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it" : "Drag to orbit · Shift drag to pan · ⌘ scroll or [ ] for depth · Click a waypoint to fly to it"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
