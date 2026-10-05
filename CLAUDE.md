@@ -145,6 +145,10 @@ All inside the consolidated bundle.
 4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
    job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
 5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+6. **Jarrod / Success Academy:** an unsent Gmail DRAFT nudge to Brian Mayer sits in thread `1a0d48867025d2b3`
+   (reply to brian.mayer@automatedindustries.ai). Plan: send Tue 10-06 only if Jarrod is still silent. Zach sends, never Claude.
+7. **Found, not fixed (from closed #777):** the dependency sweep script that /night-moves names was never merged to main,
+   so the digest's section 6 runs by eye; and two separate handoffs were both numbered v3.79.0 (#750 merged, #738).
 
 ## Lessons (in the record)
 - An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
