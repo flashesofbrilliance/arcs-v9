@@ -114,6 +114,37 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.80.0 (2026-10-05)
+
+> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
+> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
+> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
+
+## Shipped + on main
+- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
+  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
+  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
+  `--self-test` 12/12.
+- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
+  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
+  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
+
+## Open (next session)
+1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
+   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
+   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
+   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
+   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
+2. Desktop glow not screenshot-compared against a pre-merge render (low).
+
+## Lessons (in the record)
+- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
+  hold a deliberate state (locked cards) the check never learned.
+- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
+  main's copy before blaming your diff.
+- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
+- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
+
 # Handoff — v3.79.0 (2026-10-05)
 
 > **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
@@ -165,65 +196,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   caught it. Score from transcripts, never summaries.
 - Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
 - I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
-
-# Handoff — v3.78.0 (2026-10-04)
-
-> **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
-> ask to stop spending cloud credits.** Same day, v3.76.0's four open items: 1, 2 and 4 closed, 3
-> diagnosed and handed to a Mac run. PRs #714 (`694cec66`), #718 (`0c2365a7`), #721 (`c80bc44a`)
-> merged on Zach's explicit asks with receipts; PR #728 (shavasana fix + this handoff) merges when green.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 17 commits, 8 merges to main (scope: branch claude/post-timestamps-notes-trenches-psjapj), receipts in digest: 0.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: manifesto (exhale, no inhale).
-- **Sycophancy check**: agreement 18 / dissent 1 (ratio 9.0) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff-v378.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): THIN is fair; the dissent the keywords miss is in the record: item 3 was NOT fixed and the draft says so; re-baselining the ratchet was refused (it would hide a possible regression); the post-1 renderer was not trusted (a fresh render regressed the pages); running sessions were not archived until asked to push. States of the sessions still running at wind-down are unknown and labelled so. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "consolidate this thread ... and handoff" and "merge 728 when green and archive them all".
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **v3.76.0 item 1** (#714): #706 live-checked (Four Dates, The Pre-Mortem bylines via Vercel
-  `web_fetch_vercel_url`); receipts `...-pr706--ZH`, `2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH`.
-- **v3.76.0 item 2** (#718): `post-1-brief` / `post-1-exec` `max-width:68ch` on `<main>` pinned to `680px`
-  (computed width unchanged), same line in `scripts/blog_render.py`. The renderer has drifted behind its
-  outputs (Google Fonts import, no robots/threadkey): edit those pages in place, do not re-render.
-  Receipts `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`, `2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH`.
-- **v3.76.0 item 4** (#728): `scripts/shavasana_handoff.py` exhale counts by session branch (PRs merged
-  today from it + their commits + unmerged commits); on main it matches the git identity on author OR
-  committer. Was 0 in cloud (author "Zach Harris", committer "Claude"); now 17 commits, 8 merges for this
-  branch, other sessions' commits excluded. `--self-test` 8/8.
-
-## Open (next session)
-1. **Contrast ratchet (v3.76.0 item 3), diagnosed, not fixed.** The detector is a Mac-only skill
-   (`~/.claude/skills/impeccable`), so cloud runs skip. npm `impeccable@4.1.0` runs in the container
-   (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
-   series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
-   Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
-   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
-   panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
-   (needs Zach's yes); do not `--update-baseline` until the cause is known.
-2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac
-   worktree `open-loops-quick-wins-6e9066`); create the germinate v0.1.1 tag + approve the signed
-   Release run; merge or close PR #725 (green, "Greeting" session); PR #715 (model-registry drift gate)
-   was open with CI running.
-3. **Unconfirmed from archived sessions:** `compass_run` event in Vercel Web Analytics after #726
-   (one real tagged run); `arcs-field-os-weekly` still scoped to `/Users/zharris/A.R.C.S`; Tao backfill
-   for 4 NFTT posts; Mac worktree session-start spinner hang (run
-   `time CLAUDE_PROJECT_DIR="$PWD" bash -x .claude/hooks/session-start.sh` in a stuck worktree).
-4. **Running when wound down** (asked to commit + push to their own branch, then archived): site audit
-   P1s, false public-repo claim + promise ledger, open-loops front door, #689 conflict + video prompt
-   engine, gitleaks/argparse, waitlist landing page, arc exoskeleton essay, contrast-ratchet symlink
-   baseline. Their pushed branches are the record; check each branch before assuming work landed.
-
-## Lessons (in the record)
-- Counting by author name reads 0 in cloud and everything on the owner's name: scope a session's
-  exhale by its branch, the one thing that is the session's alone.
-- A generator that drifts behind its outputs makes "re-render" a regression; check the diff of a fresh
-  render against the committed page before trusting the generator.
-- Archiving a running session drops its container; ask it to push first, and only archive what is idle.
-  "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.

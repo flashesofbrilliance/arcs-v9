@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-05T13:41:47Z",
+  "captured_at": "2026-10-05T16:10:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "baabdaed",
-    "head_message": "Merge pull request #745 from flashesofbrilliance/claude/family-roster-drift",
+    "head_sha": "a69e9da",
+    "head_message": "Merge pull request #753 from flashesofbrilliance/claude/field-keys",
     "in_sync_with_origin": true,
     "dirty_files": [],
     "note": "origin/main at handoff time; handoff rides claude/handoff-v3.79"
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Closed the Schriner recoil on the 09-30 and 10-02 Vico calls (YELLOW/CONVERGENT, req_reality 2), fixed the recoil password gate for sandboxed previews, refreshed the Lyndon Oh pre-call (PRs #742, #746).",
-  "next_action": "When the Lyndon call is scheduled and held, run /recoil-close on runtime/recoil/generated/2026-10-03-oh-vico.json.",
+  "session_summary": "PR #745: family-roster check accepts locked playground cards, ADR stat 79, build.html glow overflow fixed; kintsugi 77->95 traced to stale main-checkout hooks in 25/27 worktrees.",
+  "next_action": "Land chip task_bd140094 (repoint worktree core.hooksPath to relative scripts/git-hooks) after Zach's yes.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-10-04T14:06:18Z"
+  "git_refreshed_at": "2026-10-05T16:10:47-04:00"
 }
