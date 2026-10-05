@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
+import { parseOutcome, outcomeNote, FATES } from "@/lib/lane-outcome"
 
 export const LANE_STAGES = ["research", "qualify", "apply", "interview", "outcome"] as const
 
@@ -83,9 +84,31 @@ export async function PATCH(req: NextRequest) {
   }
   const job = await prisma.jobOpportunity.findUnique({ where: { jobid } })
   if (!job) return NextResponse.json({ error: "no such job" }, { status: 404 })
-  const updated = await prisma.jobOpportunity.update({
-    where: { jobid },
-    data: { laneStage: stage, laneStatus: body?.laneStatus != null ? String(body.laneStatus) : job.laneStatus, laneMovedAt: new Date() },
+
+  // Moving INTO Outcome closes the row: fate + reason, human only (a receipt cannot
+  // close itself, so the pipeline token is refused here). Moving OUT removes the
+  // LaneOutcome so a reopened row never keeps a stale fate.
+  if (stage === "outcome") {
+    if (caller.kind === "pipeline") return NextResponse.json({ error: "outcomes are human-only; sign in to close a row" }, { status: 403 })
+    const o = parseOutcome(body?.outcome)
+    if ("error" in o) return NextResponse.json({ error: o.error }, { status: 400 })
+    const [updated] = await prisma.$transaction([
+      prisma.jobOpportunity.update({ where: { jobid }, data: { laneStage: "outcome", laneStatus: o.fate, laneMovedAt: new Date() } }),
+      prisma.laneOutcome.upsert({
+        where: { jobid },
+        create: { jobid, fate: FATES[o.fate], predictedComposite: job.composite, actualNote: outcomeNote(o) },
+        update: { fate: FATES[o.fate], predictedComposite: job.composite, actualNote: outcomeNote(o), closedAt: new Date() },
+      }),
+    ])
+    return NextResponse.json({ ok: true, jobid, laneStage: updated.laneStage, laneStatus: updated.laneStatus, outcome: { fate: FATES[o.fate], reason: o.reason } })
+  }
+  const updated = await prisma.$transaction(async (tx) => {
+    const u = await tx.jobOpportunity.update({
+      where: { jobid },
+      data: { laneStage: stage, laneStatus: body?.laneStatus != null ? String(body.laneStatus) : job.laneStatus, laneMovedAt: new Date() },
+    })
+    if (job.laneStage === "outcome" || stage === null) await tx.laneOutcome.deleteMany({ where: { jobid } })
+    return u
   })
   return NextResponse.json({ ok: true, jobid, laneStage: updated.laneStage, laneStatus: updated.laneStatus })
 }

@@ -30,6 +30,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Cost gate for PRs (2026-10-05): paths-ignore above only covers push to main, so docs-only
+  # PRs (handoffs, memory, _STATE) still paid for build + smoke + fe-smoke and queued behind
+  # every parallel session. This job decides once; the heavy jobs skip when nothing outside
+  # the doc globs changed. Plain git, no action deps. leak-check, belief-log and
+  # generated-views are cheap hard gates and stay unconditional. No required status checks
+  # exist (branch protection is unavailable on the free private plan), so a skipped job
+  # cannot block merge; if protection is ever enabled, require leak-check, not smoke.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      code_changed: ${{ steps.diff.outputs.code_changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: diff
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "code_changed=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          files=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
+          echo "$files"
+          code=$(echo "$files" | grep -vE '\.md$|^(_DECISIONS|_STATE|_ARCHIVE|_PATTERNS|_INBOX|\.claude)/' | grep -v '^$' || true)
+          if [ -n "$code" ]; then echo "code_changed=true"; else echo "code_changed=false"; fi | tee -a "$GITHUB_OUTPUT"
+
   # Hard gate — external-surface leak check (J24). Fast, bash-only, no deps, so
   # it runs standalone in parallel with the build. Blocks merge if any
   # prospect-facing public/*.html carries internal text (provenance, model IDs,
@@ -93,6 +117,8 @@ jobs:
 
   smoke:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.code_changed == 'true'
     env:
       # Build-time placeholders — no real secrets, no DB connection at build.
       DATABASE_URL: "postgresql://user:pass@localhost:5432/db"
@@ -150,7 +176,8 @@ jobs:
 
   fe-smoke:
     runs-on: ubuntu-latest
-    needs: smoke
+    needs: [changes, smoke]
+    if: needs.changes.outputs.code_changed == 'true'
     # Real Postgres, not a placeholder URL: ClaimAnonymousReceipts (root
     # layout) fetches /api/auth/session on every page, which goes through the
     # Prisma adapter to the DB — with an unreachable DATABASE_URL every route
@@ -209,6 +236,8 @@ jobs:
           done
           echo "server never came up" && exit 1
 
+      # Forge resumes are fixed 8.5in print pages (always 'overflow' a phone viewport); they are gated by
+      # kintsugi + 2-page + location checks instead.
       # Every page this PR adds or changes must pass the full page gate, render checks
       # included (overflow at 375/790/1280, lede spans the heading's lane). Legacy pages
       # are gated when they are next touched, not all at once.
@@ -216,7 +245,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.sha }}
-          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html')
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html')
           if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
           python3 scripts/page_gate.py $files
 

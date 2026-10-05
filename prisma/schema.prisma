@@ -215,6 +215,23 @@ model Brief {
   situationFraming String // generated prose, stored once
   entityAnalysis   String? // JSON: {role,leverage_theirs,leverage_yours,alignment,alignment_read,signal_to_watch,risk_surface}
   generatedAt      DateTime @default(now())
+  shares           BriefShare[]
+}
+
+// Owner-minted share link for one brief (src/lib/briefShare.ts). The raw token
+// (32 random bytes, base64url) lives only in the URL handed to the owner; we
+// store its SHA-256, so a DB read cannot recreate a working link. Revoked by
+// setting revokedAt; rows are kept so a revocation stays auditable.
+model BriefShare {
+  id        String    @id @default(cuid())
+  briefId   String
+  brief     Brief     @relation(fields: [briefId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  createdBy String // userId of the owner who minted it
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  @@index([briefId])
 }
 
 // Invisible trace log for the SAGE operator pre-screen (see compass/route.ts).

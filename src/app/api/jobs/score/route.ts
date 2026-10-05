@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
+import { extractCultureCues, applyCultureGuard, cultureNote, mergeJdHits, type CultureCues, type CultureHits } from "@/lib/culture-cues"
 
 // POST /api/jobs/score - the JD-read + score worker's model half. LinkedIn JD
 // fetches are blocked from datacenter IPs, so the CALLER fetches each JD as text
@@ -81,7 +82,12 @@ export async function POST(req: NextRequest) {
   const JD_CHARS = Number(s.rubric.jd_chars) || 6000 // spec may widen the JD window (bridge JDs carry a long company preamble)
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-  const jds = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}${r.notes ? `\nCaller notes: ${String(r.notes).slice(0, 400)}` : ""}\n${(r.jd || "").slice(0, JD_CHARS)}`).join("\n\n")
+  // Culture evidence (spec opt-in via rubric.culture_cues): a regex pass over the whole JD, before the model,
+  // so the culture score is anchored to quoted phrases and the guard rail below is mechanical, not judged.
+  const CUES: CultureCues | null = s.rubric.culture_cues ?? null
+  const cultureHits: Record<string, CultureHits> = {}
+  if (CUES) for (const r of rows) cultureHits[r.jobid] = extractCultureCues(r.jd || "", CUES)
+  const jds = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}${r.notes ? `\nCaller notes: ${String(r.notes).slice(0, 400)}` : ""}${CUES ? `\n${cultureNote(cultureHits[r.jobid])}` : ""}\n${(r.jd || "").slice(0, JD_CHARS)}`).join("\n\n")
   const msg = await anthropic.messages.create({
     // ~200 output tokens per row on average (9 dims + gates + assessment) with real variance; 8 rows at a flat 1600
     // truncated mid-array and came back unparseable, so size the cap to the batch with headroom.
@@ -95,28 +101,32 @@ export async function POST(req: NextRequest) {
   catch { return NextResponse.json({ error: "scorer returned unparseable output", stop_reason: msg.stop_reason, tail: txt.slice(-160) }, { status: 502 }) }
 
   const byId = Object.fromEntries(parsed.map((p) => [String(p.jobid), p]))
-  const results: Array<{ jobid: string; composite: number; band: string; dims: Record<string, number>; gates: string[]; assessment: string | null }> = []
+  const results: Array<{ jobid: string; composite: number; band: string; dims: Record<string, number>; gates: string[]; assessment: string | null; culture: CultureHits | null }> = []
   for (const r of rows) {
     const p = byId[r.jobid]; if (!p) continue
+    const hits = CUES ? cultureHits[r.jobid] : null
+    let modelGates: string[] = Array.isArray(p.gates) ? p.gates.filter((g) => typeof g === "string" && (!STRICT || GATE_SET.has(g))) : []
+    if (CUES && hits) { const g = applyCultureGuard(p.dims ?? {}, modelGates, hits, CUES); p.dims = g.dims; modelGates = g.gates }
     let raw = 0; for (const d of dims) raw += (Number(p.dims?.[d.key]) || 0) * d.weight
     const composite = +(raw / MAX).toFixed(3)
     // strict_gates (spec opt-in): only allowlisted gate strings can auto-PASS; the model sometimes invents one.
     // gate_rules (spec opt-in): a model gate stands only if its title/JD regex matches; mechanical_gates add
     // title-driven gates the model never sees. Free-text gate judgment misfired twice in a row (2026-09-13).
-    const gates: string[] = applyGateRules(s.rubric, Array.isArray(p.gates) ? p.gates.filter((g) => typeof g === "string" && (!STRICT || GATE_SET.has(g))) : [], r.title, r.jd || "")
+    const gates: string[] = applyGateRules(s.rubric, modelGates, r.title, r.jd || "")
     const gated = gates.length > 0
     const band = gated ? "PASS" : composite >= B.pursue ? "PURSUE" : composite >= B.consider ? "CONSIDER" : "PASS"
     const dimsJson = JSON.stringify(p.dims), gatesJson = JSON.stringify(gates)
+    const jdHits = hits ? mergeJdHits((await prisma.jobOpportunity.findUnique({ where: { jobid: r.jobid }, select: { jdHits: true } }).catch(() => null))?.jdHits, hits) : undefined
     await prisma.jobOpportunity.update({
       where: { jobid: r.jobid },
-      data: { composite, band, dims: dimsJson, gates: gatesJson, assessment: p.assessment ?? null, compBand: p.comp ?? null, salary: r.salary ?? p.comp ?? undefined, unscoredWhy: null, scoredAt: new Date() },
+      data: { jdHits, composite, band, dims: dimsJson, gates: gatesJson, assessment: p.assessment ?? null, compBand: p.comp ?? null, salary: r.salary ?? p.comp ?? undefined, unscoredWhy: null, scoredAt: new Date() },
     }).catch(() => {})
     await prisma.score.upsert({
       where: { jobid_targetVersion: { jobid: r.jobid, targetVersion: scoreVersion } },
       create: { jobid: r.jobid, targetVersion: scoreVersion, composite, band, dims: dimsJson, gates: gatesJson, assessment: p.assessment ?? null, scoredAt: new Date() },
       update: { composite, band, dims: dimsJson, gates: gatesJson, assessment: p.assessment ?? null, scoredAt: new Date() },
     }).catch(() => {})
-    results.push({ jobid: r.jobid, composite, band, dims: p.dims ?? {}, gates, assessment: p.assessment ?? null })
+    results.push({ jobid: r.jobid, composite, band, dims: p.dims ?? {}, gates, assessment: p.assessment ?? null, culture: hits })
   }
   return NextResponse.json({ scored: results.length, spec: specName, score_version: scoreVersion, results, usage: { input: msg.usage.input_tokens, output: msg.usage.output_tokens, cache_read: msg.usage.cache_read_input_tokens ?? 0 } })
 }

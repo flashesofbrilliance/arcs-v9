@@ -295,7 +295,6 @@ export default function ReceiptPage() {
                 // the follow-up doesn't reference a nonexistent receipt id.
                 const params = new URLSearchParams({ q: prompt })
                 if (!isEphemeral) params.set("parent", receipt.id)
-                if (receipt.sessionId) params.set("sid", receipt.sessionId)
                 router.push(`/dashboard?${params.toString()}`)
               }}
             />

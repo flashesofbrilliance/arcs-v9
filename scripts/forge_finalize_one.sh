@@ -9,6 +9,7 @@ PAGES=$(pdfinfo "$PDF" | awk '/^Pages/{print $2}')
 [ "$PAGES" = "2" ] || { echo "FAIL $S: $PAGES pages"; exit 1; }
 EM=$(grep -c '—' $B/page.html || true); SV=$(grep -ciE '\b(tier|band|composite|pursue)\b' $B/page.html || true)
 [ "$EM" = "0" ] && [ "$SV" = "0" ] || { echo "FAIL $S: em=$EM sv=$SV"; exit 1; }
+python3 scripts/resume_location_gate.py $B/resume-$S*.html $B/resume-$S*.txt || { echo "FAIL $S: location line"; exit 1; }
 PDFB=$(basename "$PDF")
 TXT=$(ls $B/resume-$S-ats.txt 2>/dev/null||ls $B/resume-$S.txt 2>/dev/null|head -1)
 python3 - "$J" "$S" "$PDFB" "$(basename "${TXT:-}")" <<'PY'

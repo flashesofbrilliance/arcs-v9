@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { VercelTelemetry } from "@/components/VercelTelemetry"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import { EyebrowToast } from "@/ui/EyebrowToast"
@@ -70,8 +69,7 @@ export default function RootLayout({
           <VercelToolbarToggle />
           {/* Both inject scripts served by Vercel's edge (/_vercel/*) — off
               Vercel (local prod, CI) those URLs 404 on every page. */}
-          {process.env.VERCEL ? <Analytics /> : null}
-          {process.env.VERCEL ? <SpeedInsights /> : null}
+          {process.env.VERCEL ? <VercelTelemetry /> : null}
         </Providers>
       </body>
     </html>
