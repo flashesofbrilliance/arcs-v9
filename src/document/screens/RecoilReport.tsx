@@ -94,7 +94,7 @@ export interface RecoilReportData {
     title: string
     subtitle: string
     meta: string
-    actions: [string, string]
+    actions: string[] // [] hides the buttons (sources with no honest call to action)
   }
   loadBearingQuote: { text: string; attribution: string }
   callWalk: { label: string; title: string; body: string; peak?: boolean }[]
@@ -145,7 +145,7 @@ function normalizeCover(raw: RecoilReportRaw): RecoilReportData['cover'] {
       title: rc.title,
       subtitle: str(rc.subtitle),
       meta: str(rc.meta),
-      actions: (Array.isArray(rc.actions) ? rc.actions : ['Open Receipt', 'File to Prep Book']) as [string, string],
+      actions: Array.isArray(rc.actions) ? rc.actions.filter((a): a is string => typeof a === 'string') : ['Open Receipt', 'File to Prep Book'],
     }
   }
   // Richer shape: meta.callTitle + cover.{yGate,conviction,stability,nci,headline,subline}
@@ -162,7 +162,7 @@ function normalizeCover(raw: RecoilReportRaw): RecoilReportData['cover'] {
       typeof rc.nci === 'number' ? `NCI ${rc.nci}` : null,
       str(rc.stability) || null,
     ]),
-    actions: ['Open Receipt', 'File to Prep Book'],
+    actions: Array.isArray(rc.actions) ? rc.actions.filter((a): a is string => typeof a === 'string') : ['Open Receipt', 'File to Prep Book'],
   }
 }
 

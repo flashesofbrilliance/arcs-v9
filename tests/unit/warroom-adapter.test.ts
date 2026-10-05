@@ -67,12 +67,13 @@ function ssot(over: Record<string, unknown> = {}) {
 test("cover: header title/sub decoded, y_state badge, meta line", () => {
   const o = adapt(ssot())
   assert.deepEqual(o.cover, {
+    actions: [],
     title: "Pat · Example Co",
     subtitle: "Client & partner",
     badges: ["War Room", "GREEN"],
     meta: "2026-09-15 · 4 segments · client",
   })
-  assert.equal(o.cover?.actions, undefined, "no honest source for actions")
+  // No SSOT field is a call to action: an explicit [] hides the screen's inert defaults.
 })
 
 test("load-bearing quote from meta.provenance, attributed to counterpart + date", () => {
@@ -175,11 +176,12 @@ test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () =
   assert.equal(s.worst?.note, "Bottleneck: 2. Call")
 })
 
-test("no-source props stay undefined; empty or garbage input returns {}", () => {
-  assert.deepEqual(adapt({}), {})
-  assert.deepEqual(adapt(null), {})
-  assert.deepEqual(adapt("not json"), {})
-  assert.deepEqual(adapt([1, 2]), {})
+test("no-source props stay undefined; empty or garbage input yields only the hidden-actions cover", () => {
+  const bare = { cover: { actions: [] } }
+  assert.deepEqual(adapt({}), bare)
+  assert.deepEqual(adapt(null), bare)
+  assert.deepEqual(adapt("not json"), bare)
+  assert.deepEqual(adapt([1, 2]), bare)
 })
 
 test("TEXT-string arrays and objects parse; malformed JSON strings are ignored", () => {
@@ -215,7 +217,7 @@ test("external audience: only nodes tagged `both`; untagged and internal fail cl
   const o = adapt(ssot(), { audience: "external" })
   assert.deepEqual(Object.keys(o).sort(), ["cover", "loadBearingQuote", "signalThreads"])
   assert.deepEqual(o.signalThreads!.map((t) => t.title), ["Shared insight"])
-  assert.deepEqual(o.cover, { meta: "2026-09-15 · 4 segments" }, "untagged header and internal opportunity dropped")
+  assert.deepEqual(o.cover, { actions: [], meta: "2026-09-15 · 4 segments" }, "untagged header and internal opportunity dropped")
   const internalQuote = ssot()
   internalQuote.meta.provenance.audience = "internal"
   assert.equal(adapt(internalQuote, { audience: "external" }).loadBearingQuote, undefined)
