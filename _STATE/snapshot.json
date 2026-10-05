@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-05T17:07:13-04:00",
+  "captured_at": "2026-10-05T17:45:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "602c716",
-    "head_message": "Merge pull request #754 from flashesofbrilliance/claude/job-tracker-arcs-care-integration-904901",
+    "head_sha": "fbc3cece",
+    "head_message": "Merge pull request #795 from flashesofbrilliance/claude/session-token-leak",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at 602c716 after #757 (slice 1 + seeds) and #754 (slice 0) merged 2026-10-05"
+    "note": "#762 7fed78ef, #780 51d97a1c, #766 eec73f51 merged 2026-10-05 without full CI"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-jifs45v8e-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-jwqk04a66-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "verified via Vercel MCP 2026-10-05; env names via vercel env ls"
+    "note": "vercel ls 2026-10-05; env names not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt rows this session (v3.78.0 stretch): 2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH, 2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH, 2026-10-04--post-1-wrap-lint-680px-pr718--ZH, 2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH; #728 receipt follows its merge. Prisma schema not re-checked."
+    "note": "decision_receipt rows this session: 2026-10-05--verb-eval-lens-gates-pr762--ZH, 2026-10-05--court-carveouts-pr780--ZH, 2026-10-05--swipe-admin-only-pr766--ZH. Prisma schema not re-checked."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Job Factory: read job-tracker-pro (Sept 2025 prototype) in full, wrote and gauntleted the spec (claude.ai doc dd89f5d5), shipped slices 0+1 (#754, #757), opened slices 2,3,4,6,7 (#771,#761,#773,#775,#769), found and fixed the morning task stall (Find dead since 2026-09-11).",
-  "next_action": "When GitHub Actions recovers, merge #761 #769 #771 #773 #775 on green CI (resolve #771/#775 JobsBoard conflict), log receipts, then add the autonomy + drift reads to the morning task.",
-  "blocking": "GitHub Actions major outage (since 2026-10-05 19:11 UTC) blocks CI on 5 open PRs; morning task first fixed run may await tool approvals",
-  "git_refreshed_at": "2026-10-05T16:10:47-04:00"
+  "session_summary": "COURT probe now fails undeclared admin-guard carve-outs (#780); #762, #780, #766 merged on Zach's go with CI queued.",
+  "next_action": "Check the first non-cancelled main CI run containing eec73f51; fix forward if red.",
+  "blocking": "NONE",
+  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

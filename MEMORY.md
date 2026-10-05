@@ -5,6 +5,16 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
+
+- `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.
+- Re-check main CI on the first non-cancelled run containing `eec73f51`.
+
+## [v3.82.0] 2026-10-05 — Worktree hooksPath repointed (PR #756); #760 + #756 merged without CI during an Actions outage
+
+- Desktop app writes the main checkout's absolute hooksPath per worktree; `scripts/hookspath_arm.sh` + session-start repoint it. Only worktrees containing `04622e99` self-heal; ordering vs the app untested.
+- GitHub Actions major outage 2026-10-05: re-check the unrun checks on #760 and #756.
+
 ## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
 
 - Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
@@ -21,6 +31,10 @@
 - Schriner SSOT closed YELLOW/CONVERGENT, req_reality 2; P10-P13 added (owner engaged, seat unarchitected, comp floor stated at <=2, Autopilot stalled).
 - `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
 - Lyndon pre-call (`2026-10-03-oh-vico.json`, from #699) refreshed, not rebuilt.
+
+## [v3.79.2] 2026-10-05 — Trust contract 1.5 + privacy v1.3: SAGE, analytics and shared-link disclosure (privacy PR 2)
+
+- Code: anon compass questions never cached; per-user cache key; account delete removes Blob uploads first; /api/brief response drops userId, prep.adversarialInput, raw output beyond reasoning; reminder links HMAC-signed with AUTH_SECRET.
 
 ## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
 
