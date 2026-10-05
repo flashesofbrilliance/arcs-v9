@@ -114,6 +114,37 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.80.0 (2026-10-05)
+
+> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
+> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
+> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
+
+## Shipped + on main
+- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
+  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
+  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
+  `--self-test` 12/12.
+- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
+  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
+  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
+
+## Open (next session)
+1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
+   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
+   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
+   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
+   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
+2. Desktop glow not screenshot-compared against a pre-merge render (low).
+
+## Lessons (in the record)
+- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
+  hold a deliberate state (locked cards) the check never learned.
+- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
+  main's copy before blaming your diff.
+- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
+- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
+
 # Handoff — v3.79.0 (2026-10-05)
 
 > **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
@@ -165,41 +196,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   caught it. Score from transcripts, never summaries.
 - Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
 - I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
-
-# Handoff — v3.79.1 (2026-10-04)
-
-> **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
-> (arcs.care home = survey landing, hardened `/api/lead`, trust contract 1.4, /privacy v1.2),
-> receipt `2026-10-04--field-landing-waitlist-pr705--ZH`. PR #737 merged at `85ec7a5d`
-> (annotation + link-search routes 401 without a session), receipt
-> `2026-10-04--privacy-hotfix-annotations-pr737--ZH`. Both on Zach's explicit "merge"; all checks green.
-
-## Shipped + on main
-- **Home** (`src/organisms/Landing.tsx`, `src/organisms/Scope.tsx`): headline, lede, the field (lidar
-  ziggurat, Now overlays on arrival, click-to-add overlays in a drawer, droplet moire, free camera,
-  F1-F5 depth dial on the Chronicle ladder), Open the compass. Waitlist is a compact header capture
-  (desktop field + compass button; phone toggle). Fog clears only after the server writes the row.
-- **`/api/lead`**: rate limit, 8 KB cap, zod, honeypot, case-insensitive dedup, one alert per new
-  address, mail in `after()`, no requester text in mail. Preview E2E: +test alias wrote 1 row (9 -> 10),
-  repeat wrote 0, both mails delivered once.
-- **Privacy hotfix #737**: `?? null` userId had matched every anonymous row; live 401 verified.
-- Shared `CloseButton`; `Field` labels linked.
-
-## Open (next session)
-1. **Privacy PR 2** (from the mirror review): `unstable_cache` keyed on anonymous question
-   (`compass/route.ts` ~229); Blob files not deleted on account delete; `/api/brief` GET returns
-   `userId` + `rawResponse` + `prep.adversarialInput` (default chosen: briefs stay link-readable,
-   strip those fields, disclose); reminders link uses a bare `uid` (sign it); /privacy must name
-   `SAGE_URL`, Vercel Analytics, and "link holders can read a brief".
-2. **Showcase mirror**: `claude/showcase-mirror` @ `4efd18ca` (manifest + `scripts/showcase_project.py`
-   + README). Mechanical gates clean; privacy-review said NOT SAFE (the product bugs above). After PR 2:
-   re-run review, trim job-search schema + `/admin/leads` comment, create `flashesofbrilliance/arcs-field-os`
-   PRIVATE, publish only on Zach's go. **Never flip arcs-v9 public** (third-party data in history).
-3. Other sessions' PRs: #727 promise ledger (conflicting), #735 audit P1 batch.
-4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); alerts use the code fallback.
-
-## Lessons (memory)
-- `null-userid-matches-anonymous-rows`, `publish-review-is-an-audit-of-the-product`,
-  `one-image-one-relationship-sequence-unlocks`.
-
-||||||| 85ec7a5d
