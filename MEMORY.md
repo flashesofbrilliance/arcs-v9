@@ -27,6 +27,11 @@
 
 ---
 
+## [v3.79.0] 2026-10-04 — Field landing on arcs.care (PR #705 `81db248a`); privacy hotfix (PR #737 `85ec7a5d`)
+
+- Home = survey field + compact header waitlist; `/api/lead` hardened; trust 1.4 / privacy v1.2. Receipts `2026-10-04--field-landing-waitlist-pr705--ZH`, `2026-10-04--privacy-hotfix-annotations-pr737--ZH`.
+- Showcase mirror tooling on `claude/showcase-mirror` (unpublished); its review found the anon-read bug fixed in #737 and four more queued as privacy PR 2.
+
 ## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
 
 - `scripts/video_cut.py`: `_QUEUE/video/<id>.json` -> `_PROPOSALS/video/<id>-<16x9|9x16>.html` (seek(t) scenes for `html_video_render.mjs`, kit tokens, Inter + JetBrains Mono from `public/fonts/`) + `<id>-prompts.md` (per-beat prompts for external video models). Reuses linkedin_cut's gates; self-test 7 mutations. First input `tao-284`.
