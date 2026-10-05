@@ -800,8 +800,8 @@ function presRender() {
   document.getElementById("presnext").textContent = last ? "FINISH ✓" : "NEXT →";
   var kh = document.querySelector(".pres-keyhint");
   if (kh) kh.innerHTML = last
-    ? "<b>→</b> / <b>SPACE</b> RETURNS TO THE PAGE · <b>ESC</b> EXITS"
-    : "<b>←</b> <b>→</b> / <b>SPACE</b> NAVIGATE · <b>ESC</b> EXITS";
+    ? "<b>↑</b> <b>→</b> / <b>SPACE</b> RETURNS TO THE PAGE · <b>ESC</b> EXITS"
+    : "<b>↑</b> <b>→</b> / <b>SPACE</b> FORWARD · <b>↓</b> <b>←</b> BACK · <b>ESC</b> EXITS";
 }
 function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); track("pres_open"); }
 function presExit() { presEl.classList.remove("on"); presEl.classList.remove("idle"); clearTimeout(idleTimer); }
@@ -816,9 +816,9 @@ document.getElementById("presprev").addEventListener("click", function () { pres
 document.getElementById("presnext").addEventListener("click", function () { presStep(1); });
 document.addEventListener("keydown", function (e) {
   if (!presEl.classList.contains("on")) return;
-  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); presStep(1); }
-  else if (e.key === "ArrowLeft") { e.preventDefault(); presStep(-1); }
-  else if (e.key === "Escape") presExit();
+  if (e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === " ") { e.preventDefault(); presStep(1); }
+  else if (e.key === "ArrowLeft" || e.key === "ArrowDown") { e.preventDefault(); presStep(-1); }
+  else if (e.key === "Escape") presExit()
 });
 var swipeX = null;
 presEl.addEventListener("touchstart", function (e) { swipeX = e.changedTouches[0].clientX; }, { passive: true });

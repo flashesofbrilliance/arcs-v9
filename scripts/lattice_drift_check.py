@@ -20,7 +20,19 @@ import json, glob, re, sys, datetime, os
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 LATTICE = os.path.join(ROOT, "runtime/specs/knowledge-lattice-v1.json")
 RECEIPTS = os.path.join(ROOT, "_INBOX/lattice-drift.jsonl")
-STALE_DAYS = 14  # a hand-authored snapshot older than this is a drift signal
+
+
+def _pulse_max(name, fallback):
+    """Freshness budget in beats(=days). The pulse (_STATE/pulse.json) is the SSOT for
+    every subsystem's staleness threshold; this reads it so the constant lives in one place.
+    Falls back to the historical value when pulse is absent (air-gapped / another machine)."""
+    try:
+        return json.load(open(os.path.join(ROOT, "_STATE/pulse.json")))["subsystems"][name]["max_beats"]
+    except Exception:
+        return fallback
+
+
+STALE_DAYS = _pulse_max("lattice-drift", 14)  # SSOT: pulse.json subsystems.lattice-drift.max_beats
 
 
 def repo_adr_count():

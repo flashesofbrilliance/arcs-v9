@@ -31,7 +31,19 @@ SEEDS = os.path.join(ROOT, "_SEEDS")
 INDEX = os.path.join(SEEDS, "index.jsonl")
 LEDGER = os.path.join(SEEDS, "ledger.jsonl")
 RECEIPTS = os.path.join(ROOT, "_INBOX", "seedbank-drift.jsonl")
-STALE_DAYS = 21
+
+
+def _pulse_max(name, fallback):
+    """Freshness budget in beats(=days). The pulse (_STATE/pulse.json) is the SSOT for
+    every subsystem's staleness threshold; falls back to the historical value if pulse is
+    absent (air-gapped / another machine)."""
+    try:
+        return json.load(open(os.path.join(ROOT, "_STATE/pulse.json")))["subsystems"][name]["max_beats"]
+    except Exception:
+        return fallback
+
+
+STALE_DAYS = _pulse_max("seedbank-drift", 21)  # SSOT: pulse.json subsystems.seedbank-drift.max_beats
 
 
 def _load_jsonl(path):

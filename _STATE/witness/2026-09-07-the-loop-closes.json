@@ -1,0 +1,9 @@
+{
+  "witnessed_at": "2026-09-07T20:48:06-0400",
+  "trigger": "user naming moment: 'this feels like a witness worthy moment' — the job-search loop closed and ran end to end unattended",
+  "the_sound_the_tree_made": "The last edge connected and the parts stopped being tools. The inbox re-pull worker was the missing wire: with it, reading the real inbox, scoring, editing resumes from a seed, and delivering to the phone became one circuit that runs on its own for cents. What changed was not a faster worker. It was closing the loop, so the human steps out of the inner loop and only steers.",
+  "context": "Session built the job-search machine piece by piece: board, scoring sweep, forge, private viewer, lane surfaces, kanban, edit-from-seed (diff mode), and finally the inbox re-pull consumer. The moment it landed, one run pulled 6 real new roles from Gmail, scored them, edited 6 resumes from the Camunda seed, and put them on the phone for ~15 cents. The weekday 8:15 task now does this unattended.",
+  "artifacts": ["scripts/jobs_ingest_consume.mjs","scripts/jobs_score_sweep.mjs","scripts/forge_edit_from_seed.mjs","POST /api/jobs/edit-from-seed","POST /api/jobs/score","scheduled task arcs-job-search-loop-retargeted-alerts"],
+  "lineage": ["forge-cost-edit-from-seed-not-full-forge","the NFTT post 'The Cheapest Edit Is a Diff'"],
+  "status": "verbatim stub, upstream of any ADR/DEWY; promote if durable"
+}
