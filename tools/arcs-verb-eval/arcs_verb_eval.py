@@ -272,7 +272,7 @@ def assessment(text: str, upstream: dict | None = None, **_) -> tuple[Run, dict]
                  "claims": [{k: c[k] for k in ("id", "text", "src", "verdict", "severity")} for c in cl]}
 
 
-def evaluation(text: str, upstream: dict | None = None, min_lenses: int = MIN_LENSES, **_) -> tuple[Run, dict]:
+def evaluation(text: str, upstream: dict | None = None, min_lenses: int = MIN_LENSES, stakes: str | None = None, repo=None, **_) -> tuple[Run, dict]:
     run = Run("evaluation")
     min_lenses = int(min_lenses)
     g = json.loads(text)
@@ -291,6 +291,12 @@ def evaluation(text: str, upstream: dict | None = None, min_lenses: int = MIN_LE
         ids = {c["id"] for c in upstream.get("claims", [])}
         dangling = [c.get("id", "?") for c in conds if c.get("claim") and c["claim"] not in ids]
         run.gate("conditions-cite-claims", not dangling, f"{len(conds)} conditions" + (f"; dangling: {', '.join(dangling)}" if dangling else ""))
+    # stakes:high (gauntlet-declared, or config-raised; config can never lower it) runs the
+    # mechanical half of the five teardown lenses: all five present, output contract, one probe each.
+    lens_summary = None
+    if "high" in (str(g.get("stakes", "")).lower(), str(stakes or "").lower()):
+        import arcs_verb_eval_lenses as vl
+        lens_summary = vl.high_stakes(run, g, repo)
     syc = sycophancy(" ".join(f"{l.get('result', '')} {l.get('reason', '')}" for l in lenses), blocking=True)
     run.gate("sycophancy", syc["verdict"] != "RETURN", f"{syc['verdict']} · agreement {syc['agreement']} · dissent {syc['dissent']}")
     run.row("dissent-real", "Strongest dissent is real, not a straw man")
@@ -299,7 +305,10 @@ def evaluation(text: str, upstream: dict | None = None, min_lenses: int = MIN_LE
     run.row("conditions-concrete", "Conditions on the pass are concrete", f"{len(conds)} conditions")
     fate = verdict if run.ok else "fail"
     carried = (upstream or {}).get("claims", [])
-    return run, {"fate": fate, "verdict": verdict, "conditions": conds, "claims": carried, "_syc": syc}
+    out = {"fate": fate, "verdict": verdict, "conditions": conds, "claims": carried, "_syc": syc}
+    if lens_summary is not None:
+        out["lenses"] = lens_summary
+    return run, out
 
 
 def synthesis(text: str, upstream: dict | None = None, public: bool = False, slop: bool = True, slop_lint: str | None = None, slop_args: list | None = None, artifact_path=None, metrics_ledger=None, **_) -> tuple[Run, dict]:
@@ -830,7 +839,10 @@ def main(argv=None) -> int:
         rc = rc or vio.self_test()
         import arcs_verb_eval_judge as vj
         print("\n== judge (offline, fake client) ==")
-        return rc or vj.self_test()
+        rc = rc or vj.self_test()
+        import arcs_verb_eval_lenses as vl
+        print("\n== teardown lenses (stakes:high mechanical half) ==")
+        return rc or vl.self_test()
     cfg = load_config(a.config)
     if a.cmd == "validate":
         errs = validate(json.loads(Path(a.report).read_text()))
