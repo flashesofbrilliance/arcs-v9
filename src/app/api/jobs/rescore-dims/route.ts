@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
-import { MODELS } from "@/lib/claude-models"
+import { MODELS, modelError } from "@/lib/claude-models"
 
 // POST /api/jobs/rescore-dims - one-shot migration worker for the v1.1 -> v1.2
 // rubric split. v1.1 scored a single `strength_leverage` (0-3); v1.2 replaces it
@@ -64,7 +64,8 @@ export async function POST(req: NextRequest) {
     model: MODELS.scorer, max_tokens: 1200, temperature: 0,
     system: [{ type: "text", text: systemPrompt(dims), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Re-score these ${rows.length} rows:\n\n${lines}` }],
-  })
+  }).catch((e: unknown) => modelError(e))
+  if (msg instanceof Response) return msg
   const txt = msg.content.map((c) => ("text" in c ? c.text : "")).join("")
   let parsed: Array<{ jobid: string; rare_combination: number; domain_breadth: number }>
   try { parsed = JSON.parse(txt.slice(txt.indexOf("["), txt.lastIndexOf("]") + 1)) }

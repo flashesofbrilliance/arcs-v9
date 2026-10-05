@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
-import { MODELS } from "@/lib/claude-models"
+import { MODELS, modelError } from "@/lib/claude-models"
 import { extractCultureCues, applyCultureGuard, cultureNote, mergeJdHits, type CultureCues, type CultureHits } from "@/lib/culture-cues"
 
 // POST /api/jobs/score - the JD-read + score worker's model half. LinkedIn JD
@@ -95,7 +95,8 @@ export async function POST(req: NextRequest) {
     model: MODELS.scorer, max_tokens: Math.max(1600, 300 * rows.length), temperature: 0,
     system: [{ type: "text", text: systemPrompt(s), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Score these ${rows.length} postings:\n\n${jds}` }],
-  })
+  }).catch((e: unknown) => modelError(e))
+  if (msg instanceof Response) return msg
   const txt = msg.content.map((c) => ("text" in c ? c.text : "")).join("")
   let parsed: Array<{ jobid: string; dims: Record<string, number>; gates?: string[]; comp?: string | null; assessment?: string }>
   try { parsed = JSON.parse(txt.slice(txt.indexOf("["), txt.lastIndexOf("]") + 1)) }

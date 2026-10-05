@@ -3,7 +3,7 @@ import path from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { callerFor } from "@/lib/jobs"
-import { writerCall } from "@/lib/claude-models"
+import { writerCall, modelError } from "@/lib/claude-models"
 
 // POST /api/jobs/cover-letter — writes a tailored cover letter for one role in
 // Zach's voice, modeled on the platinum reference cover (voice + structure), and
@@ -53,7 +53,8 @@ export async function POST(req: NextRequest) {
       { type: "text", text: `REFERENCE COVER (voice + structure model; do not copy its company-specific content):\n${(b.seedCover || seedVoice()).slice(0, 12000)}`, cache_control: { type: "ephemeral" } },
     ],
     messages: [{ role: "user", content: `Role: ${b.title} @ ${b.company} (jobid ${b.jobid})\n\n--- JD ---\n${b.jd.slice(0, 6000)}\n\n--- Zach's resume text for this role (claims must stay consistent with this) ---\n${(b.resumeText || "").slice(0, 8000)}${qs.length ? `\n\n--- APPLICATION QUESTIONS ---\n${qs.map((q, i) => `${i + 1}. ${q}`).join("\n")}` : ""}\n\nWrite the cover for ${b.company}.` }],
-  })
+  }).catch((e: unknown) => modelError(e))
+  if (r instanceof Response) return r
   if (!r.ok) return NextResponse.json({ error: `writer declined (refusal${r.refusal ? `: ${r.refusal}` : ""})` }, { status: 502 })
   const txt = r.text
   let out
