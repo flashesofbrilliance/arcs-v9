@@ -2,7 +2,7 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ffd33b5",
+    "head_sha": "e719d3f",
     "head_message": "chore(state): refresh snapshot.json git sync fields [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": []
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-29T19:38:32Z",
+  "git_refreshed_at": "2026-10-05T21:39:26Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

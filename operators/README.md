@@ -87,6 +87,34 @@ This directory contains the atomic design components that compose the ARCS decis
 | **INCHWORM+ECHO** | `arcs_inchworm_echo.py` | RC-OPS-001 | Observatory period — findings must be logged and replayed through Observatory across multiple real sessions, with severity grading and named patterns confirmed accurate in hindsight, before promotion to full ROM. See file header and `_PATTERNS/2026-06-23-governance-roadmap.md` task #7. |
 | **PROFILE-SCAN-FOLKSONOMY-TIGHTENING** | `_SPECS/profile-scan-spec-v1.md` (§ "Term collision") | RC-OPS-002 | Hypothesis: term variation across Profile Scan block variants (Thread/Signal/5D/Genome meaning different things per document) is folksonomy edge-weight tightening, not inconsistency to standardize away — per the Folksonomist operator (`arcs_core.py`) and ADR-023's model. **Promotion gate = measured-baseline-stability, NOT a magic number.** The "100+ receipts" in ADR-020/023 is arbitrary (ADR-020 itself says 50 in two places, 100 in a third); the real, non-arbitrary condition is ADR-023's own `g > Gini_baseline(corpus)` where the baseline is a *measured* quantity. Promote when the corpus's measured Gini/Zipf baseline has stabilized (stops moving materially as N grows / CI tight enough) — possibly well under 100 — and only if the terms are then shown to actually be converging, not just accumulating. Corpus this session was n=5; convergence is NOT yet measurable. **Update 2026-07-13: the receipt-corpus Gini baseline now exists** — Gini_baseline(233) = 0.577, still drifting (+0.02/checkpoint, argmax attractor flipped BAR→KAIROS in the last 60 receipts) ⇒ NOT yet stabilized; see ADR-023's 2026-07-13 amendment for method + full table. |
 
+## Composition Boundary — Agentic Harness (external consumer)
+
+`operators/` is the atomic component catalog only. It does not contain
+orchestration, delegation-by-JTBD, RAG/model routing, sealed-environment
+builders, multi-tenant runtime, or artifact rendering (ziggeraut/russian-doll,
+UA/player schema, ticket outputs). Those live in `harness/` at repo root, as
+a separate composition layer that *consumes* operators — it does not extend
+this catalog's taxonomy (meta-operators → atomic elements → pipeline →
+systems → storage).
+
+**Public contract (what `harness/` may depend on):**
+- TODO: enumerate the operator modules exposed as stable harness-facing
+  surface (expected candidates: `arcs_pipeline_v1.py`, `arcs_runtime_service.py`,
+  `arcs_api.py`, `arcs_receipt_core.py`, `arcs_operator_contract.py` — confirm
+  against the harness's JTBD list before finalizing).
+- TODO: state which exports are contract-stable (harness may pin to them)
+  vs. internal (harness must not reach past the declared entry points).
+- TODO: multi-tenant isolation — confirm no operator module holds
+  process-global/module-level mutable state that would leak one tenant's
+  (`user0`) state into a net-new tenant's execution; flag any that do as
+  harness-blocking until refactored or explicitly scoped per-tenant by the
+  caller.
+
+**Not owned here:** JIT compile-from-entry-point, decentralized-interoperable
+ID-based refs, polymorphic surface composition, sealed-env/external-dependency
+integration. See `harness/README.md` (TODO: create on first harness commit)
+for those.
+
 ## Key Relationships
 
 ```
