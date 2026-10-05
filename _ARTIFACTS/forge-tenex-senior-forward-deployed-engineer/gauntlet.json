@@ -1,0 +1,610 @@
+{
+ "counterpart": "Tenex (NYC, ~50 people, production AI for Fortune 500; founder-led; hiring a Senior Forward Deployed Engineer)",
+ "facet_count": 6,
+ "raw_findings": [
+  {
+   "facet": "Tenex founder reading a warm-path cover letter for the Senior FDE seat: would I take the call, what reads as production ownership vs operator talk, where it sounds like every other AI letter",
+   "cracks": [
+    {
+     "severity": "pathogen",
+     "surface": "Evaluations paragraph (full) and short version",
+     "quote": "In ARCS I built evaluations and outcome capture so the models recalibrate from prior decisions",
+     "why_fails": "The JD asks the candidate to 'explain how you evaluated and improved their performance'. A founder will ask 'recalibrate on how many outcomes?' The repo's own record says outcome capture is 2 of 247 receipts closed, and calibration only runs at n>=30 per cohort (otherwise sufficiency=insufficient). So 'recalibrate' describes something designed, not something running. That breaks trust in the first technical follow-up, and Tenex says it rewards honest accounts of where systems failed.",
+     "basis": "AGENTS.md backlog: 'Real P1 gap = capture rate, 2/247 closed'; Accountant (Op 19): 'NCI-vs-outcome calibration only at n>=30 closed per cohort, else sufficiency=insufficient'. JD: 'You've built with LLMs and can explain how you evaluated and improved their performance.' The resume carries the same claim, so the resume also needs the fix.",
+     "fix": "Say what is true, and turn the gap into the honest-failure story they ask for: 'I built the outcome-capture loop ARCS needs to recalibrate. The hard lesson was not the model. Users rarely close the loop: 2 of 247 decisions have outcomes, so I gate calibration until there is enough data rather than tune on noise.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Failure cases claim",
+     "quote": "I learned the failure cases by watching them in production, not in a demo.",
+     "why_fails": "This is the line every AI cover letter now has. It names no failure. Tenex says 'You'll test what works, understand failure cases', and an engineer-founder who reads 'not in a demo' with nothing behind it hears demo-speak.",
+     "basis": "JD: 'You'll test what works, understand failure cases, and build software that people can depend on.' Register brief: claims without production evidence lose them.",
+     "fix": "Name one real break and what you changed: the symptom, the root cause, and the guardrail you added. One sentence of specifics beats the contrast phrase. The outcome-capture gap above is the ready-made example."
+    },
+    {
+     "severity": "crack",
+     "surface": "Paragraphs 3 and 4 (reflecting the JD back)",
+     "quote": "The pairing of a Forward Deployed Engineer with an AI Strategist is the right shape. ... The line I most respect is that tools and evaluations built on one engagement support other teams.",
+     "why_fails": "Two paragraphs grade their job post back to them. A founder reading 300 letters glazes over at 'is the right shape' and 'the line I most respect'. It sounds managed, as if the writer is sizing up the company rather than offering work. The JD is plain and blunt, and these lines are not.",
+     "basis": "JD register: 'You'll own technical delivery for your workstream'; they reward owning outcomes and defending decisions, not praising the brief.",
+     "fix": "Cut to one sentence of observation, then pivot straight to proof: 'Fragmented data and unpredictable model behavior are where I spend my time too. Here is one case.' Then give the case."
+    },
+    {
+     "severity": "crack",
+     "surface": "SEC/FINRA shipping claim",
+     "quote": "I have also shipped under SEC/FINRA and HIPAA",
+     "why_fails": "In the resume, the SEC/FINRA work is Grayscale 'Product Lead, Go-To-Market', which covered positioning, segmentation, and coordinating release gates. There is no engineering there. The HIPAA work is Twill, described as 'market-viability testing' and KPI frameworks. Read next to an FDE application, 'shipped' implies code, and the resume backs launching products, not writing software. This is exactly the 'operator who doesn't write code' signal Tenex screens out.",
+     "basis": "Resume ATS: Grayscale 'Led go-to-market for 10 SEC/FINRA-regulated ... products'; Twill 'market-viability testing ... instrumentation and KPI frameworks'. Memory provenance-gate: every claim must trace to evidence.",
+     "fix": "Rescope it to what the resume supports: 'I have worked inside SEC/FINRA release gates and HIPAA data governance, so compliance constraints shape my architecture from the start.' Do not imply code shipped there."
+    },
+    {
+     "severity": "crack",
+     "surface": "ARCS framing: who depends on it",
+     "quote": "I own every layer: architecture, deployment, evaluations, monitoring, and the support after launch.",
+     "why_fails": "Tenex's first must-have is 'production software that users depended on'. The letter never says who uses ARCS or how many people do. A solo founder platform with no user signal reads as a side project to someone who charges Fortune 500 clients for results. 'LLM-native decision-intelligence platform' is also category jargon that tells them nothing.",
+     "basis": "JD: 'You've built and shipped production software that users depended on, and supported it after launch.' AGENTS.md: 247 receipts in prod, live on arcs.care.",
+     "fix": "Use one plain, sourced number and one plain noun: 'ARCS is live; people have run 247 decisions through it in production.' Confirm the number with the evidence ledger before sending. Drop 'decision-intelligence'."
+    },
+    {
+     "severity": "crack",
+     "surface": "Self-description",
+     "quote": "army of one, two decades across tech, data, and commercial operations",
+     "why_fails": "'Army of one' clashes with a culture that says 'review each other's work, help when a teammate gets stuck ... ask for help'. 'Commercial operations' is the exact operator signal a senior FDE letter should not lead its closing paragraph with. The memory rule on technical cuts says to keep leadership scope, but to frame it as leading engineering, not as a lone operator.",
+     "basis": "JD Working at Tenex: 'People share discoveries, review each other's work ... We expect you to ask for help.' Memory technical-cut-resume-must-keep-leadership-scope.",
+     "fix": "Replace it with: 'Two decades building data and product systems, most recently as the sole engineer on everything ARCS runs.' Cut 'army of one' and 'commercial operations'."
+    },
+    {
+     "severity": "nit",
+     "surface": "Salutation on a warm path",
+     "quote": "Hi Tenex team,",
+     "why_fails": "The facet calls this a warm-path letter, but the letter names no person and no referrer. 'Hi Tenex team' reads as a cold application and wastes the warm path.",
+     "basis": "Facet framing (warm path). No name or referrer appears anywhere in the draft.",
+     "fix": "Address it to the named contact if there is one, and add one line naming who connected you. If there is no warm path, leave it as is."
+    }
+   ],
+   "resonates": [
+    "The opening line, 'I build the system, then I stay on the hook for what happens after it ships', is blunt, owner-shaped, and matches the JD's 'Deploy, troubleshoot, and improve the software after launch'. Keep it.",
+    "The coding-agent paragraph ('decide what an agent can write and what a human has to review') maps straight onto the internal development system section of the JD and is credible. Keep it.",
+    "Squat is the strongest proof: sole technical partner, scoping through QA and handoff, build-versus-buy calls, explaining tradeoffs to the C-suite, raising issues early. It mirrors the JD's must-haves almost word for word, and the resume supports it, including 'wrote and reviewed production code'. Consider moving it up.",
+    "'I write and review production code, I do not just write the deck' heads off the operator objection directly. Keep it, but back it with the ARCS evidence.",
+    "'Where AI belongs and where plain software should stay in control' is real judgment and echoes the JD's 'decide where conventional software or human review is needed'."
+   ],
+   "verdict": "I would probably take the call, mostly because of the Squat engagement and the coding-agent line. But a founder will poke at the letter's weakest claim within the first five minutes, and it collapses: 'models recalibrate from prior decisions' sits against 2 of 247 outcomes closed and a calibration gate set at 30. Fix it by turning that gap into the honest-failure story Tenex explicitly asks for. Cut the two paragraphs that praise the job post back to them. Rescope 'shipped under SEC/FINRA' to what the resume supports. Replace 'army of one / commercial operations' with an engineer framing. That turns this from an AI letter like everyone else's into a clear call."
+  },
+  {
+   "facet": "FDE lead who would manage this hire: does the letter prove senior hands-on code, outright workstream ownership, and client-facing technical voice?",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Whole letter: no stack, language, or concrete system named",
+     "quote": "an LLM-native decision-intelligence platform on Claude with a live MCP server and agentic orchestration. I own every layer: architecture, deployment, evaluations, monitoring",
+     "why_fails": "JD: 'you're a software engineer who works directly with customers. You'll design, write, test, and deploy production software.' A lead screening for a senior IC needs to see what he writes in. The letter never names a language, framework, datastore, or one built component. The resume skills list does not either: no TypeScript, no Next.js, no Postgres. Python sits under 'Analytics and modeling', not engineering. Every noun is a category ('layer', 'orchestration', 'monitoring'), which reads as architecture-speak from someone who does not write code.",
+     "basis": "jd-full.txt 'design, write, test, and deploy production software'; resume ATS skills section has no application-language or framework line; the facet brief says what loses them is 'a senior candidate who reads like an operator who does not write code'.",
+     "fix": "Add one sentence with real nouns: 'ARCS is Next.js and TypeScript on Postgres, with a Python operator layer behind an MCP server. I wrote it, and I review every agent-written diff before it merges.' Add a 'Languages and frameworks' line to the resume skills. Use only stack facts Zach confirms."
+    },
+    {
+     "severity": "break",
+     "surface": "The 'I write code' claim is asserted, not shown, and it reads as defensive",
+     "quote": "I write and review production code, I do not just write the deck.",
+     "why_fails": "Adding 'I do not just write the deck' tells the reader that the deck is the expected prior. A Tenex lead hears an operator protesting. Nothing nearby backs the claim up: no PR, no repo pointer, no hard bug he fixed himself. The github link sits only in the sign-off.",
+     "basis": "Facet brief: what loses them is 'claims without production evidence' and 'reads like an operator who does not write code'. JD: 'You've built and shipped production software that users depended on.'",
+     "fix": "Cut the deck clause. Replace it with one specific engineering act, e.g. 'Last month I found a [specific bug] in [specific component] in production, traced it to [cause], and shipped the fix with a test that fails on the old behavior.' Point the github link at a specific repo or file, or leave the claim to the resume."
+    },
+    {
+     "severity": "crack",
+     "surface": "Customer paragraph leaves out the hands-on line the resume supports",
+     "quote": "I was the sole technical partner on a seven-figure embedded engagement ... I made build-versus-buy calls, explained tradeoffs directly to C-suite and clinical leadership",
+     "why_fails": "The resume's Squat New York entry says 'wrote and reviewed production code, and deployed a retooled headless CMS and overhauled patient-facing experience'. The letter keeps the advisory verbs (calls, explained, raised issues) and drops the building verbs. On client work, the only proof he coded is gone. The only client example is also 2019 to 2020, and the roles since (Grayscale GTM, Twill KPI frameworks, Axon/Verizon assessments) are not engineering. A lead will ask when he last shipped code for a client.",
+     "basis": "Resume ATS Squat New York bullet; jd-full.txt 'You'll be the main technical contact for your workstream'.",
+     "fix": "Add the build line from the resume: 'I designed the architecture, wrote and reviewed the code, and shipped a rebuilt headless CMS and patient-facing experience, then handed back a system their team ran without me.' State the dates plainly rather than leave them for the reader to find."
+    },
+    {
+     "severity": "crack",
+     "surface": "Evaluations claim is vague and has no failure story, which the JD asks for",
+     "quote": "I built evaluations and outcome capture so the models recalibrate from prior decisions, and I learned the failure cases by watching them in production, not in a demo.",
+     "why_fails": "JD: 'You've built with LLMs and can explain how you evaluated and improved their performance' and 'understand failure cases'. The letter says he learned failure cases but names none, which is the demo-speak it rejects. 'Models recalibrate' overstates the resume, which says 'models update scoring weights'. A lead knows a Claude call does not recalibrate, so this reads as hand-waving about how the system works.",
+     "basis": "jd-full.txt evaluation and failure-case lines; resume ATS ARCS bullet 'models update scoring weights from prior decisions'.",
+     "fix": "Name one real failure and one real metric: 'One eval caught [X]: the model [failure]. I added [check/control], and [measured result].' Change 'the models recalibrate' to 'the scoring weights update from recorded outcomes', which matches the resume."
+    },
+    {
+     "severity": "crack",
+     "surface": "'Army of one' and solo ownership cut against the team and review norms",
+     "quote": "On me: army of one, two decades across tech, data, and commercial operations.",
+     "why_fails": "JD: 'People share discoveries, review each other's work, and help when a teammate gets stuck. We expect you to ask for help, explain disagreements'. A lead managing the hire reads 'army of one' and 'every layer owned by me' as a solo founder who has not worked inside someone else's code review. 'Two decades across tech, data, and commercial operations' also leads with breadth over engineering depth, and the JD says years are only part of what they weigh.",
+     "basis": "jd-full.txt 'Working at Tenex' paragraph and 'Years of experience are one part of that.'",
+     "fix": "Cut 'army of one'. Show one collaborative engineering moment, e.g. a reviewed handoff, or a disagreement with a client or teammate that he argued and resolved. Drop the two-decades line or move it after the engineering proof."
+    },
+    {
+     "severity": "nit",
+     "surface": "ARCS ownership is self-directed, not a client workstream, and users are unstated",
+     "quote": "I build the system, then I stay on the hook for what happens after it ships.",
+     "why_fails": "The JD bar is software 'that users depended on, and supported it after launch'. The letter never says who uses ARCS or how many. A lead cannot tell whether ARCS is production with dependents or a solo project. Owning your own product is not proof of owning delivery under a client's acceptance criteria.",
+     "basis": "jd-full.txt 'You've built and shipped production software that users depended on, and supported it after launch.'",
+     "fix": "Add one true, evidenced usage fact (users, receipts, uptime, or a named external user). If none can be evidenced, lean on the Squat client delivery for the 'users depended on' proof and frame ARCS as the agent and evals lab."
+    }
+   ],
+   "resonates": [
+    "The opening line 'I build the system, then I stay on the hook for what happens after it ships' matches 'Deploy, troubleshoot, and improve the software after launch' in the JD. Keep it.",
+    "'I am already the engineer who has to decide what an agent can write and what a human has to review' maps directly onto the JD's coding-agent section and is the strongest senior-engineer signal in the letter.",
+    "'where AI belongs and where plain software should stay in control' echoes the JD's 'decide where conventional software or human review is needed' in their own register.",
+    "The Squat client line (sole technical partner, build-versus-buy, raised issues early) shows the main-technical-contact behavior the JD asks for. It only needs the building verbs restored.",
+    "No generic AI enthusiasm and no em-dashes. The voice is plain and fits Tenex."
+   ],
+   "verdict": "From the lead's chair, this proves judgment and client posture but not senior-level code. It names no language, stack, specific component, or failure case. It drops the resume's only client 'wrote and reviewed production code' line. 'I do not just write the deck' and 'army of one' make him read as an operator protesting that he codes. Fix: add concrete stack nouns and one real engineering act with a failure and a fix, restore the Squat build verbs, and cut the defensive and solo framing. Stack and usage facts must come from Zach and cannot be invented."
+  },
+  {
+   "facet": "Recruiter 30-second screen: does paragraph one earn paragraph two, is seniority legible, any pass triggers",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Opening two sentences",
+     "location": "Para 1",
+     "quote": "I build the system, then I stay on the hook for what happens after it ships. That is the short version of why this role fits.",
+     "why_fails": "A 30-second screener gets a slogan with no title, no years, no company, and no production noun. Seniority and the strongest proof (sole technical partner, seven-figure, $350M-ARR) do not appear until para 5. 'Two decades' sits in the last paragraph. On a fast skim this reads as an unemployed solo founder pitching a side project.",
+     "basis": "JD: 'You've built and shipped production software that users depended on, and supported it after launch.' Resume summary already leads with 'Two decades... sole technical partner on a seven-figure embedded engagement'; the letter buries what the resume leads with.",
+     "fix": "Lead with the evidence in their words: 'Twenty years building and shipping software for customers; most recently the sole technical partner on a seven-figure engagement inside a $350M-ARR behavioral health company, scoping through handoff. Today I build and run ARCS, an LLM platform on Claude, in production.' Keep 'on the hook' as sentence three if you want it."
+    },
+    {
+     "severity": "crack",
+     "surface": "Paragraphs 3 and 4 restate the JD back to Tenex",
+     "location": "'A few things I noticed...' through the evaluations paragraph",
+     "quote": "The pairing of a Forward Deployed Engineer with an AI Strategist is the right shape.",
+     "why_fails": "A recruiter skims past praise of their own posting. 'Is the right shape' and 'The line I most respect' grade Tenex's model instead of showing work, and the PE / camera list is copied from their examples. Two of five body paragraphs carry no new fact about Zach, which makes the letter long for a screen.",
+     "basis": "JD 'Recent work includes: An operating system for a private equity firm... Camera systems across thousands of retail stores' is quoted back near-verbatim. Tenex register: plain, blunt, rewards results, not commentary.",
+     "fix": "Cut 'A few things I noticed' and the AI Strategist paragraph. Keep one sentence of the evaluations paragraph, tied to a concrete ARCS failure (see next crack). Aim for about 180 words in the body."
+    },
+    {
+     "severity": "pathogen",
+     "surface": "Eval / recalibration claim with no named failure, on thin outcome data",
+     "location": "Para 4 and short version",
+     "quote": "In ARCS I built evaluations and outcome capture so the models recalibrate from prior decisions, and I learned the failure cases by watching them in production",
+     "why_fails": "Tenex asks you to 'explain how you evaluated and improved their performance' and to 'understand failure cases'. The letter says failure cases were learned but names none, which is exactly the demo-speak they screen out. The repo's own record also says outcome capture is the open gap (about 2 of 247 receipts closed), so 'models recalibrate from prior decisions' overstates what a technical interviewer will find.",
+     "basis": "JD: 'You've built with LLMs and can explain how you evaluated and improved their performance.' AGENTS.md backlog: 'Real P1 gap = capture rate: 2/247 closed'. Provenance-gate memory: every claim needs evidence behind it.",
+     "fix": "Name one real failure and the fix in a single sentence, and state the eval honestly: e.g. 'My outcome loop is built, but users rarely close it (2 of 247 decisions), so I am working on capture before I trust recalibration.' That honest account is the thing Tenex says it rewards."
+    },
+    {
+     "severity": "crack",
+     "surface": "'Shipped under SEC/FINRA' implies engineering delivery that the resume shows as go-to-market",
+     "location": "Para 5 and short version",
+     "quote": "I have also shipped under SEC/FINRA and HIPAA",
+     "why_fails": "The resume's SEC/FINRA line is a Product Lead, Go-To-Market role ('Led go-to-market for 10 SEC/FINRA-regulated... products'), and HIPAA is 'market-viability testing' at Twill. A screener cross-checking will read 'shipped' as software and find GTM titles, which feeds the 'operator who does not write code' fear.",
+     "basis": "Resume ATS text: 'Grayscale Investments... Product Lead, Go-To-Market' and 'Twill Health... market-viability testing'.",
+     "fix": "'I have also worked inside SEC/FINRA release gates (Grayscale) and HIPAA controls (Twill Health), which fits your finance and healthcare clients.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Seniority undercut by self-description",
+     "location": "Final 'On me' paragraph",
+     "quote": "On me: army of one, two decades across tech, data, and commercial operations.",
+     "why_fails": "For a Senior FDE at a team-heavy firm ('People share discoveries, review each other's work'), 'army of one' reads as a lone operator, and 'commercial operations' pushes the operator reading. The defensive 'I do not just write the deck' raises that doubt instead of settling it, and the resume has no engineering title anywhere.",
+     "basis": "JD 'Working at Tenex' paragraph on reviewing each other's work; technical-cut memory (keep leadership scope legible). Resume titles are Product Lead, Head of Product, Sr. Director, Founder.",
+     "fix": "Drop 'army of one' and the deck line. Move 'two decades' to para 1 and point to proof: 'The code is public at github.com/flashesofbrilliance.'"
+    },
+    {
+     "severity": "nit",
+     "surface": "Dated proof not signaled",
+     "location": "Para 5",
+     "quote": "I was the sole technical partner on a seven-figure embedded engagement inside a $350M-ARR behavioral health company",
+     "why_fails": "The resume dates this engagement 2019 to 2020. A recruiter who notices it is the headline customer proof and is 5+ years old may discount it, but presented without a date it is a small surprise rather than a lie.",
+     "basis": "Resume: 'Squat New York (behavioral health, $350M ARR, post-PE acquisition, 2019 to 2020)'.",
+     "fix": "Optional: pair it with a more recent customer-facing line, or accept it as is and let the resume carry the date."
+    }
+   ],
+   "resonates": [
+    "The seven-figure / $350M-ARR / sole technical partner / C-suite and clinical leadership sentence is the strongest screen signal and maps line for line to 'main technical contact... explain technical options and tradeoffs directly to customers'. Promote it, don't cut it.",
+    "'Deciding what an agent can write and what a human has to review' matches the JD's internal development system language directly and reads as real practice.",
+    "'Raised issues early when requirements had to change' echoes their 'raise issues when requirements or deadlines need to change'.",
+    "Short form-field version is the right length for a screener and already tighter than the full letter.",
+    "No em-dashes, a plain sign-off, and the Manhattan bracket handled honestly."
+   ],
+   "verdict": "Would pass the screen, but only because the resume rescues it. The first paragraph does not earn the second: seniority and the best customer proof are buried in paragraph 5, and two paragraphs praise Tenex's own JD back to them. Fixes before sending: lead with two decades plus the seven-figure sole-technical-partner engagement, cut the 'right shape' commentary, swap the vague eval claim for one honest named failure (outcome capture is about 2 of 247), reword 'shipped under SEC/FINRA' to match the GTM role, and drop 'army of one'."
+  },
+  {
+   "facet": "Tenex FDE who founded a company: overclaim hunt ('army of one', 'I own every layer', evals 'so the models recalibrate'), interview-probe survivability",
+   "cracks": [
+    {
+     "severity": "pathogen",
+     "surface": "Cover letter para 5 + short version",
+     "quote": "In ARCS I built evaluations and outcome capture so the models recalibrate from prior decisions, and I learned the failure cases by watching them in production",
+     "why_fails": "This is the first thing I would probe, because the JD asks for it directly. When I ask how the model recalibrates, what the eval set is, and what n it was calibrated on, the documented answer does not survive. The compass is a Claude prompt pipeline with no trained weights. The repo's own handbook (AGENTS.md, Outcome handler row) says outcome capture is the real P1 gap at 2 of 247 receipts closed, and that 'a receipt can't close itself'. The Accountant operator reports calibration only at n>=30 per cohort, and below that it reports 'insufficiency'. 'Models recalibrate' describes a loop that has not closed. At Tenex, where honest failure accounts are the currency, this reads as demo-speak.",
+     "basis": "JD: 'You've built with LLMs and can explain how you evaluated and improved their performance.' Fact: AGENTS.md backlog table ('Real P1 gap = capture rate, 2/247 closed ... n=2'); Accountant row (calibration only at n>=30, else sufficiency=insufficient). The resume ATS line 'models update scoring weights from prior decisions' carries the same overclaim, so the resume does not support the figure-free claim either.",
+     "fix": "Turn the gap into the proof: 'I built outcome capture so ARCS can score its own calls against what actually happened. The honest result so far: 2 of 247 decisions have closed outcomes, because people do not come back to log them. That capture rate is the real engineering problem, not the model, and I have stopped claiming calibration until there are 30 closed outcomes per cohort.' Fix the resume line the same way."
+    },
+    {
+     "severity": "break",
+     "surface": "Cover letter para 7",
+     "quote": "On me: army of one, two decades across tech, data, and commercial operations.",
+     "why_fails": "'Army of one' is self-mythology, and it works against this team's stated culture. Tenex says it reviews each other's work and expects people to ask for help, and it pairs every FDE with an AI Strategist. A senior hire who calls himself an army of one reads as someone who has not had his code reviewed, which is the exact worry about an operator-turned-builder. Nothing in the resume supports the phrase.",
+     "basis": "JD: 'People share discoveries, review each other's work, and help when a teammate gets stuck. We expect you to ask for help'; 'You'll work alongside AI Strategists'. The phrase appears nowhere in the resume ATS text.",
+     "fix": "Cut 'army of one'. Replace it with something checkable: 'On me: two decades across tech, data, and commercial operations, the last year building and running ARCS solo, which taught me what I miss without a reviewer.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter para 7",
+     "quote": "I write and review production code, I do not just write the deck.",
+     "why_fails": "This line defends against a doubt the reader has not raised yet, and naming the doubt confirms it. The resume makes that doubt real. The titles are Product Lead GTM, Embedded Product Solution Lead, Sr. Director Data Strategy and Head of Product, and only ARCS and one 2019-2020 CMS retool show hands-on code. A founder-engineer will look at github.com/flashesofbrilliance, and the main repo is private (memory: arcs-v9-repo-now-private-status-links-broken). The sign-off links to a GitHub profile that may show almost nothing public.",
+     "basis": "JD: 'you're a software engineer who works directly with customers'. Resume ATS title rows. Memory index: arcs-v9-repo-now-private-status-links-broken; technical-cut-resume-must-keep-leadership-scope.",
+     "fix": "Show it instead of asserting it: name one concrete engineering decision and its tradeoff, such as a Prisma migration incident, or why the compass is a single Claude call instead of the operator library. Check that the GitHub link lands on public code before sending, or swap it for a link that does."
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter para 2",
+     "quote": "an LLM-native decision-intelligence platform on Claude with a live MCP server and agentic orchestration. I own every layer: architecture, deployment, evaluations, monitoring, and the support after launch.",
+     "why_fails": "'Own every layer' is true, because he built ARCS solo. Even so, I would probe two words. First, 'live': the documented MCP server is a local stdio bridge to the operator suite, and AGENTS.md says the operators are 'not currently wired into compass route'. So which MCP server is live, and who calls it? Second, 'support after launch': for whom, and how many users? An empty answer makes 'owning outcomes in production' sound like a sole developer supporting himself.",
+     "basis": "AGENTS.md: Operator MCP bridge is 'stdio MCP server ... Exposes the operator suite to Claude Code'; 'Integration status: Operators ... Not currently wired into compass route'. JD: 'built and shipped production software that users depended on, and supported it after launch.'",
+     "fix": "Name the real surface and give a usage number. For example: 'ARCS runs in production on Vercel and Postgres with N receipts from M users; the MCP server exposes its operator suite to coding agents.' If N and M are small, say so. Tenex rewards that kind of honesty more than an adjective like 'live'."
+    },
+    {
+     "severity": "nit",
+     "surface": "Cover letter para 6 vs resume",
+     "quote": "I was the sole technical partner on a seven-figure embedded engagement",
+     "why_fails": "The resume says 'sole technical contact', and the work was a headless CMS and patient-site retool in 2019-2020, with no AI in it. The cover letter is not wrong. But an interviewer who hears 'sole technical partner' and then 'CMS retool' will feel the framing was inflated by one notch. Asked 'how many engineers wrote code on it?', he needs a clean answer.",
+     "basis": "Resume ATS: 'sole technical contact on a seven-figure embedded engagement ... deployed a retooled headless CMS and overhauled patient-facing experience'.",
+     "fix": "Match the resume wording ('sole technical contact'). Add one phrase about what was actually built (a CMS and patient-facing rebuild) so the engagement reads as concrete instead of grand."
+    }
+   ],
+   "resonates": [
+    "'I delegate to coding agents every day ... I am already the engineer who has to decide what an agent can write and what a human has to review' maps exactly to the JD's internal development system paragraph. It is concrete and true to his daily practice. Keep it.",
+    "'The hard part of production AI is not the model call. It is fragmented data, existing infrastructure, and behavior that is hard to predict' plays the JD's own language back in plain words, without enthusiasm-speak.",
+    "'repeatable judgment about where AI belongs and where plain software should stay in control' is a sharp read of the camera/PE/retail examples and sounds like an engineer.",
+    "The seven-figure engagement paragraph (build-versus-buy, tradeoffs to C-suite and clinical leadership, raising issues early) mirrors the JD's 'main technical contact' duties nearly line for line, and the resume supports it.",
+    "The opening line 'I build the system, then I stay on the hook for what happens after it ships' is plain and outcome-owning. That is Tenex's register.",
+    "Leaving out any figures for ARCS users or revenue is the right instinct. Do not add numbers you cannot defend."
+   ],
+   "verdict": "The letter is mostly in register and gets the JD right. One pathogen would sink the interview: 'evaluations and outcome capture so the models recalibrate'. The repo itself documents 2 of 247 outcomes closed and no calibration below n=30, so the first follow-up question collapses it, and the resume carries the same overclaim ('models update scoring weights'). Rewrite it as an honest account of that capture-rate failure, which is the story Tenex actually rewards. Cut 'army of one', which works against their review-each-other culture. Replace 'I do not just write the deck' with one named engineering tradeoff, and check that the GitHub link shows public code. Pin down what 'live MCP server' and 'support after launch' mean in users. 'Own every layer' and the coding-agents line survive scrutiny. Keep them."
+  },
+  {
+   "facet": "Tenex culture: results not access, fast pace, five days in Manhattan, founders among engineers, blunt register",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Paragraph 5: 'I have also shipped under SEC/FINRA and HIPAA, which fits your finance and healthcare clients.'",
+     "quote": "I have also shipped under SEC/FINRA and HIPAA",
+     "why_fails": "The SEC/FINRA claim rests on the Grayscale role. The resume gives that role as 'Product Lead, Go-To-Market', leading 'go-to-market for 10 SEC/FINRA-regulated digital-asset investment products'. That is launch and positioning work, not shipping software. A Tenex engineer who reads the resume next to the letter sees 'shipped' doing more than the record supports. That is the exact 'operator who does not write code' doubt the letter is trying to clear. Twill (HIPAA) is described as market-viability testing and KPI frameworks, which is also not shipped production code.",
+     "basis": "Resume ATS text: Grayscale 'Product Lead, Go-To-Market ... Led go-to-market for 10 SEC/FINRA-regulated ... products'; Twill 'market-viability testing ... instrumentation and KPI frameworks'. Memory provenance-gate-every-metric-cites-evidence. JD: 'Write and review production code'.",
+     "fix": "Say what was actually done: 'I have worked inside SEC/FINRA release gates at Grayscale and HIPAA data governance at Twill, so regulated delivery is familiar.' Or cut the sentence and let the Squat engagement carry the regulated-domain point."
+    },
+    {
+     "severity": "crack",
+     "surface": "Paragraph 6 self-description",
+     "quote": "army of one, two decades across tech, data, and commercial operations",
+     "why_fails": "The JD names the culture outright: 'People share discoveries, review each other's work, and help when a teammate gets stuck. We expect you to ask for help.' The role is also built around pairing with an AI Strategist. 'Army of one' reads as someone who works alone, which is the opposite. 'Commercial operations' next to 'two decades' also leans toward the operator profile, not the engineer.",
+     "basis": "jd-full.txt 'Working at Tenex' paragraph; 'You'll work alongside AI Strategists'.",
+     "fix": "Cut 'army of one'. Make it concrete: 'Twenty years building data and software systems; for the last year I have built and run ARCS myself, which is why I want a team that reviews each other's work.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "The defensive line in paragraph 6",
+     "quote": "I write and review production code, I do not just write the deck.",
+     "why_fails": "Denying the deck suspicion puts the deck in the reader's head. Blunt readers trust evidence, not denials. Coming right after 'commercial operations', it confirms the worry.",
+     "basis": "Register stated in the task: what loses Tenex is 'a senior candidate who reads like an operator who does not write code'. JD asks you to 'explain how you evaluated and improved their performance'.",
+     "fix": "Replace the denial with something they can check: one sentence on a specific piece of ARCS code (MCP server, Y-gate, eval harness) and a pointer to github.com/flashesofbrilliance."
+    },
+    {
+     "severity": "crack",
+     "surface": "ARCS production claims (paragraphs 2 and 4)",
+     "quote": "I learned the failure cases by watching them in production, not in a demo.",
+     "why_fails": "Tenex charges for results and rewards honest accounts of where systems failed. The letter claims learning from production but names no failure and no scale. The documented outcome-capture rate is very small, so 'models recalibrate from prior decisions' overstates what a reviewer could verify. Naming one real failure would be more convincing in Tenex's register than the general claim.",
+     "basis": "AGENTS.md backlog: Outcome capture 'Real P1 gap = capture rate: 2/247 closed ... n=2'. JD: 'You'll test what works, understand failure cases'.",
+     "fix": "Name one failure plainly, for example: 'Outcome capture is the weak link: two of 247 decisions ever got closed, so the recalibration loop barely has data. Fixing capture, not the model, is the real work.' That reads as owning the outcome."
+    },
+    {
+     "severity": "crack",
+     "surface": "Company-grading sentences in paragraphs 3 and 4",
+     "quote": "The pairing of a Forward Deployed Engineer with an AI Strategist is the right shape.",
+     "why_fails": "'Is the right shape', 'The line I most respect', and 'A few things I noticed that made me want to write' have the candidate rating Tenex's model. A founder-led shop that writes 'It is the role' reads this as flattery and filler, not evidence.",
+     "basis": "JD register: plain declaratives, no self-praise; the stated loss mode is 'generic AI enthusiasm'.",
+     "fix": "Cut the verdicts and keep the substance: 'The hard part of production AI is fragmented data, existing infrastructure, and model behavior you cannot predict, not the model call.' Then go straight to evidence."
+    },
+    {
+     "severity": "crack",
+     "surface": "Missed founder resonance",
+     "quote": "I spend my days building ARCS",
+     "why_fails": "The JD opens with 'One in three of our engineers has founded a company.' The resume lists Zach as ARCS 'Founder'. The letter never says founder, so it misses the culture match that costs the fewest words and that they lead with. It also matters for the equity and joint-venture comp model.",
+     "basis": "jd-full.txt line 1; resume 'ARCS \u00b7 Founder \u00b7 2025 to present'.",
+     "fix": "'I founded ARCS and build it myself: ...' One word, and it lands on their line."
+    },
+    {
+     "severity": "nit",
+     "surface": "Opening and close",
+     "quote": "That is the short version of why this role fits. / Here is the longer one.",
+     "why_fails": "Throat-clearing that a fast-paced, blunt reader skips. 'With gratitude' is warm in a way their register is not.",
+     "basis": "JD: 'The pace is fast'; plain register throughout.",
+     "fix": "Drop the two framing sentences and go from the hook straight to ARCS. Sign off 'Thanks,' or just the name."
+    }
+   ],
+   "resonates": [
+    "Hook 'I build the system, then I stay on the hook for what happens after it ships' matches JD 'Deploy, troubleshoot, and improve the software after launch' and the results-not-access ethos; keep it.",
+    "'deciding what an agent can write and what a human has to review' maps directly onto the JD's internal coding-agent system language; keep it.",
+    "'where AI belongs and where plain software should stay in control' echoes 'decide where conventional software or human review is needed'.",
+    "Squat engagement 'raised issues early when requirements had to change' fits the JD's 'communicate early when something needs to change' and its fast-changing priorities.",
+    "'Happy to go deep on any of it' is short and plain, in their register.",
+    "No em-dashes; the Manhattan bracket is handled honestly as Zach's choice, not a claim."
+   ],
+   "verdict": "The voice is mostly close to Tenex's register, but four things work against their culture. 'Army of one' goes against their review-each-other, ask-for-help team. 'Shipped under SEC/FINRA and HIPAA' overstates GTM and testing roles, and that feeds the operator-not-coder doubt. The production claims name no real failure, though Tenex rewards honest failure accounts. And it never says 'founder', which is the cheapest match with their opening line. Fix those and cut the sentences grading Tenex, and it reads as one of their engineers."
+  },
+  {
+   "facet": "AI-writing tells (binary contrasts, triads, colon reveals, 'Here is the longer one', robotic rhythm, generic company praise)",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Para 1-2 opener",
+     "quote": "That is the short version of why this role fits. Here is the longer one.",
+     "why_fails": "This is the most common LLM cover-letter scaffold: a short version, then a long version. A founder-led team that writes 'It is the role.' reads it as a template in the first two lines and starts skimming.",
+     "basis": "jd-full.txt register is flat declarative; cover file header says it was written by /api/jobs/cover-letter on claude-sonnet-5-5",
+     "fix": "Delete both meta sentences. Open: 'I build the system and stay on the hook after it ships. Right now that system is ARCS, an LLM decision platform on Claude with a live MCP server and agent orchestration.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Para 4 binary contrast",
+     "quote": "The hard part of production AI is not the model call. It is fragmented data, existing infrastructure, and behavior that is hard to predict.",
+     "why_fails": "This is a 'not X, it is Y' reveal followed by a three-item list. The three items are close to the JD's own wording, so Tenex gets its own sentence handed back as insight. The short version repeats the same move.",
+     "basis": "jd-full.txt names fragmented data, existing infrastructure, and unpredictable model behavior",
+     "fix": "Cut the contrast and give one concrete case: 'On the behavioral health engagement, the model was the easy part. The work was getting clean data out of their existing systems.' Use this only if it is true, and check it against the ledger."
+    },
+    {
+     "severity": "crack",
+     "surface": "Para 4 generic praise and a closing aphorism",
+     "quote": "The pairing of a Forward Deployed Engineer with an AI Strategist is the right shape. ... tells me the real product is repeatable judgment about where AI belongs",
+     "why_fails": "A candidate telling a company that its structure is 'the right shape' and what its 'real product' is reads as flattery from someone who has not worked there. 'The real product is...' is a colon-style reveal that ends on an aphorism.",
+     "basis": "Tenex register penalizes generic AI enthusiasm (task brief); JD line 5 already explains the pairing",
+     "fix": "Say what you would do in that pairing: 'I work best next to someone who owns the business call, so I can own the technical one and defend it.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Transition sentence",
+     "quote": "A few things I noticed that made me want to write.",
+     "why_fails": "This is a filler announcement before a list, the same robotic signposting as 'Here is the longer one'. It is also a sentence fragment.",
+     "basis": "Zach's plain-language rule (writing-avoid-emdashes-plain-language memory)",
+     "fix": "Delete it. The next paragraph does not need an introduction."
+    },
+    {
+     "severity": "crack",
+     "surface": "Para 5 contrast and claim drift",
+     "quote": "I learned the failure cases by watching them in production, not in a demo.",
+     "why_fails": "'In production, not in a demo' is a stock binary contrast. 'Watching them' is also vague when Tenex asks for honest accounts of where systems failed. The resume says 'understood failure cases and iterated on model behavior in production' but names no failure. The letter does not name one either.",
+     "basis": "resume ATS line 63; JD and register value honest failure accounts",
+     "fix": "Name one failure in one sentence, e.g. 'Outcome capture closed 2 of 247 receipts, so the recalibration loop had almost nothing to learn from. I am fixing capture, not the model.' Use this only if Zach approves it; the figure is from AGENTS.md."
+    },
+    {
+     "severity": "crack",
+     "surface": "Para 3 and closing triads",
+     "quote": "architecture, deployment, evaluations, monitoring, and the support after launch ... two decades across tech, data, and commercial operations",
+     "why_fails": "There is a list of three to five items in nearly every paragraph: these two, the three hard parts, and 'scoping through QA and handoff'. The steady rhythm is what makes the letter read as machine-written.",
+     "basis": "Facet brief; count of lists in the cover draft",
+     "fix": "Keep the ownership list, because it maps to JD line 5 ('architecture through production performance'), but shorten it to 'I own it from architecture to production'. Cut the 'two decades across...' list."
+    },
+    {
+     "severity": "crack",
+     "surface": "Closing self-description",
+     "quote": "On me: army of one, two decades ... I write and review production code, I do not just write the deck.",
+     "why_fails": "The 'On me:' label is a colon reveal. 'Army of one' is a slogan, and to a team of 50 that works with AI Strategists it can read as someone who does not pair well. 'I do not just write the deck' is another defensive binary that raises the exact doubt Tenex has about operators who do not code.",
+     "basis": "Register: a senior candidate who reads like an operator is a known failure; JD line 5 describes working alongside Strategists",
+     "fix": "'I write and review production code every day; the ARCS repo is the evidence.' Then the New York line."
+    },
+    {
+     "severity": "nit",
+     "surface": "Para 2 credential stacking",
+     "quote": "I am already the engineer who has to decide what an agent can write and what a human has to review.",
+     "why_fails": "This mostly lands because it echoes JD line 45. But 'I am already the engineer who' is a self-positioning formula, and the hook repeats the same sentence a third time.",
+     "basis": "jd-full.txt line 45",
+     "fix": "'Every day I decide what a coding agent writes and what I review by hand.'"
+    }
+   ],
+   "resonates": [
+    "'I build the system, then I stay on the hook for what happens after it ships' is plain, direct and matches JD line 49 ('supported it after launch'). Keep it, without the meta tail.",
+    "The agent-delegation point echoes JD line 45 almost exactly and is a real differentiator. Keep it, said once.",
+    "The behavioral health paragraph is concrete, matches the resume (sole technical partner, seven-figure, $350M-ARR, scoping through QA and handoff) and is the strongest part of the letter. Keep its flat, factual register.",
+    "The sign-off 'Happy to go deep on any of it.' is short and in Zach's voice."
+   ],
+   "verdict": "The facts are sound but the scaffolding gives it away. The 'short version / longer one' frame, the 'A few things I noticed' signpost, two 'not X, it is Y' reveals, the company-praise aphorism and the triad rhythm will read as LLM-written to a team with this blunt a register. Cut the meta sentences and the company praise, swap the contrasts for one named production failure, and drop 'army of one'. The letter gets about 30% shorter with no evidence lost."
+  }
+ ],
+ "synthesis": {
+  "verified": [
+   {
+    "rank": 1,
+    "severity": "pathogen",
+    "surface": "Full letter para 4 (line 19), short version (line 39), and resume ATS lines 37 and 63",
+    "location": "cover-tenex-senior-forward-deployed-engineer.md:19, :39; resume-tenex-...-ats.txt:37, :63",
+    "quote": "In ARCS I built evaluations and outcome capture so the models recalibrate from prior decisions, and I learned the failure cases by watching them in production, not in a demo.",
+    "issue": "The letter says ARCS recalibrates. The repo's own operator report says it does not, and cannot yet. The JD asks candidates to 'explain how you evaluated and improved their performance' (jd line 53), so this is the first thing an engineer-founder will ask about, and the answer collapses it. The line also claims he learned failure cases but names none. That is the demo-speak this letter says it avoids.",
+    "basis": "Verified in _STATE/2026-09-27-accountant-scoreboard.json (generated 2026-09-28): 254 receipts, 3 outcomes, all 3 in the founder cohort. Calibration is 'insufficient' in every cohort: n=3 founder, n=0 external, n=0 anonymous, threshold 30. Its own reason string reads 'a curve at this n would be two or three points dressed as a trend'. AGENTS.md says outcome capture is the 'Real P1 gap' and that the compass is a Claude prompt pipeline, so there are no model weights to recalibrate. Resume line 63 ('models update scoring weights from prior decisions') makes the same overclaim. JD lines 27 and 53 ask for failure cases and for how performance was evaluated. Five of six facets flagged this.",
+    "fix": "Turn the gap into the failure story Tenex says it rewards. For example: 'I built outcome capture so ARCS can score its calls against what actually happened. The honest result: a handful of decisions have closed outcomes, because people rarely come back to log them. So calibration stays switched off until there are 30 closed outcomes per cohort, and the engineering problem I am working on is capture, not the model.' Put the same fix on resume lines 37 and 63, and drop 'so models recalibrate' and 'update scoring weights'. Re-pull the counts live before quoting any number. The facets' '2 of 247' is stale (AGENTS.md, 09-02); the latest scoreboard reads 3 of 254. Cut 'not in a demo' in both versions.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "founder",
+     "FDE lead",
+     "recruiter",
+     "founder-engineer overclaim",
+     "culture",
+     "AI-tells"
+    ]
+   },
+   {
+    "rank": 2,
+    "severity": "pathogen",
+    "surface": "Resume ATS line 27 and the letter's implied user base ('support after launch'); also a guardrail on a facet's proposed fix",
+    "location": "resume-tenex-...-ats.txt:27; cover:13",
+    "quote": "shipped real software that real users depend on, troubleshot it after launch, and kept improving it.",
+    "issue": "The data does not support 'real users depend on' ARCS. Of 254 receipts, 196 are Zach's own (founder cohort), 10 are external, and 48 are anonymous. No outcomes have been logged outside the founder cohort. One facet proposed writing 'people have run 247 decisions through it in production', which would add a new false claim. Tenex's first must-have is 'production software that users depended on' (jd line 49). A founder who asks 'how many users?' and hears that roughly 77% of the usage is the candidate's own will reread every other claim.",
+    "basis": "Cohort counts from _STATE/2026-09-27-accountant-scoreboard.json: founder 196, anonymous 48, external 10, with closed outcomes 3/0/0. jd-full.txt line 49. Memory provenance-gate-every-metric-cites-evidence: never invent a softer claim to fill a gap.",
+    "fix": "Let Squat carry the 'users depended on' bar, since the resume backs a client handoff ('handed back a working system the team could operate without me'). Describe ARCS truthfully: 'ARCS is live in production; I am its heaviest user, and the external usage is still small, which is why I instrument everything.' Rewrite resume line 27 to drop 'real users depend on'. Do not use any 247/254 'people ran decisions' framing.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "founder (as user-count gap)",
+     "founder-engineer overclaim",
+     "FDE lead (nit)",
+     "verifier (cohort split)"
+    ]
+   },
+   {
+    "rank": 3,
+    "severity": "break",
+    "surface": "Para 5 (line 21) and short version (line 41)",
+    "quote": "I have also shipped under SEC/FINRA and HIPAA, which fits your finance and healthcare clients.",
+    "issue": "Next to an engineering application, 'shipped' reads as code. The resume shows go-to-market at Grayscale and market-viability testing and KPI frameworks at Twill. A reader who checks the two side by side finds the operator-not-coder signal Tenex screens out.",
+    "basis": "Resume ATS line 70: Grayscale 'Product Lead, Go-To-Market'; line 72: 'Led go-to-market for 10 SEC/FINRA-regulated ... products'. Line 95: Twill 'market-viability testing ... instrumentation and KPI frameworks'. JD line 15: 'Write and review production code'. Four facets flagged this.",
+    "fix": "'I have worked inside SEC/FINRA release gates at Grayscale and HIPAA data controls at Twill Health, so compliance shapes my architecture from the start.' Make the same change in the short version, or cut the sentence there.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "founder",
+     "recruiter",
+     "culture",
+     "founder-engineer overclaim"
+    ]
+   },
+   {
+    "rank": 4,
+    "severity": "break",
+    "surface": "Closing self-description (line 23)",
+    "quote": "On me: army of one, two decades across tech, data, and commercial operations. I write and review production code, I do not just write the deck.",
+    "issue": "Three problems sit in one line. 'Army of one' contradicts the culture Tenex states and the role's pairing with an AI Strategist. 'Commercial operations' puts the operator profile last, where it lingers. 'I do not just write the deck' raises the very doubt it denies. The resume never uses 'army of one', so the phrase is self-mythology with nothing behind it.",
+    "basis": "JD line 69: 'People share discoveries, review each other's work, and help when a teammate gets stuck. We expect you to ask for help'. JD line 5: 'work alongside AI Strategists'. Phrase absent from the resume ATS text (grep). Memory technical-cut-resume-must-keep-leadership-scope: keep scope, but frame it as leading the build. All six facets flagged this.",
+    "fix": "Cut 'army of one' and the deck clause. Keep 'two decades', since the leadership-scope memory says not to drop it, but recast it: 'Two decades building data and software systems; for the last year I have built and run ARCS on my own, which is exactly why I want a team that reviews each other's work.'",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "founder",
+     "FDE lead",
+     "recruiter",
+     "founder-engineer overclaim",
+     "culture",
+     "AI-tells"
+    ]
+   },
+   {
+    "rank": 5,
+    "severity": "break",
+    "surface": "Para 2 (line 13): the whole letter names no language, stack, or concrete engineering act",
+    "quote": "an LLM-native decision-intelligence platform on Claude with a live MCP server and agentic orchestration. I own every layer: architecture, deployment, evaluations, monitoring",
+    "issue": "Tenex says the FDE 'is a software engineer'. The letter names categories (layer, orchestration, monitoring) but no language, framework, datastore, or a component he wrote. The resume skills list has no application-language line either: Python sits under 'Analytics and modeling'. An FDE lead cannot tell the candidate writes code.",
+    "basis": "JD line 3: 'you're a software engineer who works directly with customers. You'll design, write, test, and deploy production software.' Resume ATS lines 136-150: no TypeScript, Next.js, or Postgres. The repo shows the stack is real: package.json has next ^16.3.6, prisma ^7.10.0, typescript ^5, plus 221 tracked src TS/TSX files and 233 tracked .py files. AGENTS.md: Supabase Postgres in prod, Python operator library.",
+    "fix": "Add one sentence with real nouns, verified from the repo: 'ARCS is Next.js and TypeScript on Postgres (Prisma, Supabase), with a Python operator layer exposed to coding agents over MCP. I wrote it, and I review every agent-written diff before it merges.' Add a 'Languages and frameworks' line to the resume skills. Any 'specific bug I fixed' example must come from Zach and a real commit. Do not invent one.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "FDE lead",
+     "founder-engineer overclaim",
+     "culture"
+    ]
+   },
+   {
+    "rank": 6,
+    "severity": "crack",
+    "surface": "Para 5 customer engagement (line 21)",
+    "quote": "I was the sole technical partner on a seven-figure embedded engagement ... I made build-versus-buy calls, explained tradeoffs directly to C-suite and clinical leadership",
+    "issue": "This is the strongest proof in the letter, and two flaws undercut it. It keeps the advisory verbs and drops the build verbs the resume supports ('wrote and reviewed production code', 'deployed a retooled headless CMS'), and those verbs are the only client-side proof that he codes. It also says 'partner' where the resume says 'contact', a one-notch inflation an interviewer can catch. It is the letter's best evidence, but it sits in paragraph 5 of 7.",
+    "basis": "Resume ATS lines 90-92: 'sole technical contact ... wrote and reviewed production code, and deployed a retooled headless CMS and overhauled patient-facing experience ... handed back a working system the team could operate without me'. JD line 23: 'main technical contact'. Recruiter facet: seniority buried until para 5.",
+    "fix": "Move it up to paragraph 2. Use: 'I was the sole technical contact on a seven-figure embedded engagement inside a $350M-ARR behavioral health company (2019 to 2020): I designed the architecture, wrote and reviewed the code, shipped a rebuilt headless CMS and patient-facing experience, explained tradeoffs to the C-suite and clinical leadership, and handed back a system their team ran without me.' State the dates plainly.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "FDE lead",
+     "recruiter",
+     "founder-engineer overclaim",
+     "founder (move up)"
+    ]
+   },
+   {
+    "rank": 7,
+    "severity": "crack",
+    "surface": "Lines 11, 13, 15, 17, 19 and short version line 39: meta-framing, grading the JD, and 'not X, it is Y' reveals",
+    "quote": "That is the short version of why this role fits. / Here is the longer one. / A few things I noticed that made me want to write. / The pairing of a Forward Deployed Engineer with an AI Strategist is the right shape. / The line I most respect is",
+    "issue": "Roughly two of seven paragraphs rate Tenex's model and repeat their own JD lines back to them as insight. The 'fragmented data, existing infrastructure, ... behavior that is hard to predict' list is close to verbatim from jd line 27, and the PE and camera examples come from lines 31-35. The 'short version / longer one' scaffold and the 'not the model call. It is ...' contrast are stock LLM cover-letter moves. A team that writes in plain declaratives will skim from here. The file header confirms the draft was model-generated (line 4).",
+    "basis": "jd-full.txt lines 27, 31-35, 45. Cover line 4 header: written by /api/jobs/cover-letter on claude-sonnet-5-5. Memory writing-avoid-emdashes-plain-language: short, plain sentences. Four facets flagged this.",
+    "fix": "Delete 'That is the short version...', 'Here is the longer one.', 'A few things I noticed...', 'is the right shape', and 'The line I most respect'. Keep at most one observation tied to his own work: 'Fragmented data and unpredictable model behavior are where my time goes too.' Then go straight to the Squat and ARCS evidence. Expect the body to drop by roughly 30% with no evidence lost.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "founder",
+     "recruiter",
+     "culture",
+     "AI-tells"
+    ]
+   },
+   {
+    "rank": 8,
+    "severity": "crack",
+    "surface": "Para 2 (line 13) and short version (line 37): 'live MCP server'",
+    "quote": "a live MCP server and agentic orchestration",
+    "issue": "'Live' invites the question 'which server, and who calls it?' The ARCS operator MCP server documented in the repo is a local stdio bridge into Claude Code, and AGENTS.md says the operators are 'not currently wired into compass route'. The hosted MCP (perplexity-mcp) is a separate repo. An interviewer who probes 'live' gets an answer smaller than the word.",
+    "basis": "AGENTS.md agents table: Operator MCP bridge is a 'stdio MCP server ... Exposes the operator suite to Claude Code'; Integration status: operators 'Not currently wired into compass route'. Only operators/arcs_mcp_bridge.py and mcp-bridge.sh are tracked; there is no src/app MCP route.",
+    "fix": "Describe exactly what exists: 'an MCP server that exposes its operator library to coding agents.' Drop 'live' unless Zach can point to a hosted endpoint that external clients call.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "founder-engineer overclaim"
+    ]
+   },
+   {
+    "rank": 9,
+    "severity": "crack",
+    "surface": "Para 2 (line 13): the word 'founder' never appears",
+    "quote": "I spend my days building ARCS",
+    "issue": "Tenex's JD opens by saying one in three of their engineers has founded a company, and the resume lists Zach as ARCS Founder. The letter never says so, which misses the cheapest culture match on the page. It also matters for their equity and joint-venture comp model.",
+    "basis": "jd-full.txt line 1; resume ATS line 53 'Founder \u00b7 2025 to present'; JD line 79 equity in products and joint ventures.",
+    "fix": "'I founded ARCS and build it myself.' One word, landing on their opening line.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "culture"
+    ]
+   },
+   {
+    "rank": 10,
+    "severity": "nit",
+    "surface": "Sign-off link (line 29)",
+    "quote": "zachharris.xyz \u00b7 github.com/flashesofbrilliance",
+    "issue": "An engineer-founder will click the GitHub link to check the 'I write production code' claim. The main repo, arcs-v9, has been private since 2026-07-24, so the profile may show little public code. The link would then undercut the claim it is meant to support.",
+    "basis": "Memory arcs-v9-repo-now-private-status-links-broken. The letter's own claim on line 23 invites the check.",
+    "fix": "Before sending, open the profile logged out. If it shows real public code (perplexity-mcp, germinate, or similar), point the link at that repo. If not, drop the GitHub link from the letter and let the resume carry it.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "founder-engineer overclaim",
+     "FDE lead"
+    ]
+   }
+  ],
+  "rejected_overflags": [
+   {
+    "claim": "Salutation 'Hi Tenex team' wastes a warm path; address the named contact and the referrer (founder facet nit)",
+    "why_rejected": "No warm path exists on record: contact.json is {type: unverified, detail: null} and hiring-manager.json is {kind: unknown, text: null}. Writing in a referrer would be invented. 'Hi Tenex team' is correct for a cold application."
+   },
+   {
+    "claim": "'With gratitude' is warmer than Tenex's register; sign off 'Thanks,' or name only (culture facet nit)",
+    "why_rejected": "This is a taste call, not a defect. The writing-avoid-emdashes-plain-language memory records 'With gratitude' as Zach's standing signature (per writing-style-email), and the task brief lists the sign-off as already healed."
+   },
+   {
+    "claim": "Write 'ARCS is live; people have run 247 decisions through it in production' (founder facet fix)",
+    "why_rejected": "As written, this fix is false. The scoreboard shows 196 of 254 receipts are Zach's own founder cohort, 10 external and 48 anonymous. It would create a new fabricated claim, the exact failure the provenance-gate memory forbids. It was rewritten as verified finding #2."
+   },
+   {
+    "claim": "Quote '2 of 247' outcomes verbatim in the letter (several facets' fixes)",
+    "why_rejected": "The direction holds, but the figure is stale. The AGENTS.md line dates from 2026-09-02, and the latest scoreboard (2026-09-28) reads 3 outcomes on 254 receipts. Any figure must be re-pulled live and added to the evidence ledger. The fix in finding #1 is worded so it does not depend on the exact number."
+   },
+   {
+    "claim": "Drop the 'two decades' line entirely (FDE lead facet)",
+    "why_rejected": "This conflicts with the technical-cut-resume-must-keep-leadership-scope memory, which says a hands-on cut must keep scope, and the recruiter facet wants seniority moved forward. 'Army of one' and 'commercial operations' are the problems; tenure is not. Recast it as in finding #4."
+   },
+   {
+    "claim": "'I am already the engineer who...' is a self-positioning AI formula (AI-tells nit)",
+    "why_rejected": "This is a matter of taste. Every facet named the sentence the strongest senior-engineer signal in the letter, and it maps to jd line 45. An optional trim is fine, but it is not a defect."
+   },
+   {
+    "claim": "Use 'Last month I found [specific bug] in [component]...' as the engineering-act fix (FDE lead)",
+    "why_rejected": "The bracketed template invites invention. The idea survives only if Zach supplies a real incident backed by a commit, which is folded into finding #5 with that guard. The letter must not fill the brackets with a plausible story."
+   },
+   {
+    "claim": "The five-days-in-Manhattan bracket is unresolved",
+    "why_rejected": "Already healed by design. It is Zach's choice, and the brief says not to flag it. No facet re-flagged it, and none should."
+   }
+  ],
+  "keep_dont_touch": [
+   "Opening line 'I build the system, then I stay on the hook for what happens after it ships.' It is blunt, owner-shaped, and maps to jd line 21. Keep it, and lose the 'short version' tail that follows.",
+   "'I delegate to coding agents every day ... decide what an agent can write and what a human has to review.' Every facet named it the strongest senior signal, and it maps to jd lines 43-45 and 55. Say it once (the hook footer repeats it).",
+   "'where AI belongs and where plain software should stay in control.' It is real engineering judgment and echoes jd line 45. It can survive the cut of paragraph 3 as a standalone line.",
+   "The Squat engagement: sole technical contact, seven-figure, $350M-ARR, scoping through QA and handoff, build-versus-buy, tradeoffs to the C-suite and clinical leadership, raising issues early. It mirrors jd lines 13, 19 and 23 almost word for word and is resume-backed. Promote it, and restore the build verbs.",
+   "'I own every layer: architecture, deployment, evaluations, monitoring, and the support after launch.' It is true for a solo build and maps to jd line 5. Keep it, anchored with stack nouns.",
+   "'Happy to go deep on any of it.' It is short and in Zach's register.",
+   "No em-dashes, no generic AI enthusiasm, and no ARCS revenue or user figures invented. Keep that restraint.",
+   "The short form-field version's length (~190 words) is right for a screener. Apply the same fixes to it; do not lengthen it.",
+   "'Raised issues early when requirements had to change' echoes jd lines 23 and 61. Keep it."
+  ],
+  "verdict": "HOLD; do not send as is. The letter gets Tenex right in places: the hook, the coding-agent line, and the Squat engagement are strong and in register. But one claim breaks trust in the first technical follow-up. 'Models recalibrate from prior decisions' (in the letter, the short version, and resume lines 37 and 63) runs against ARCS's own operator report: 3 outcomes on 254 receipts, all from Zach's own cohort, with calibration switched off until 30 per cohort. Verification also found a second trust-breaker that sits mostly in the resume. 'Real users depend on' ARCS is not supported, because about 77% of receipts are Zach's own and no external outcomes are logged. One facet's proposed fix would have made that worse. Before send: (1) turn the recalibration claim into the honest capture-rate failure story Tenex asks for, with numbers re-pulled live; (2) let Squat carry 'users depended on' and describe ARCS usage truthfully; (3) change 'shipped under SEC/FINRA and HIPAA' to 'worked inside'; (4) cut 'army of one', 'commercial operations', and the deck denial; (5) add real stack nouns (Next.js, TypeScript, Prisma, Postgres, Python, all verified in the repo), restore the Squat build verbs, and move Squat up; (6) cut the JD-grading paragraphs and the meta scaffold; (7) add 'founded', soften 'live MCP server', and check that the GitHub link shows public code. Fixes 1 to 4 also apply to the resume ATS text. After them, the letter reads as one of Tenex's engineers wrote it, and it is about 30% shorter."
+ }
+}
