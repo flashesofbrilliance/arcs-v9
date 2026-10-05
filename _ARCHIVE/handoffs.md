@@ -1,3 +1,231 @@
+# Handoff — v3.80.0 (2026-10-05)
+
+> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
+> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
+> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
+
+## Shipped + on main
+- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
+  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
+  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
+  `--self-test` 12/12.
+- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
+  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
+  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
+
+## Open (next session)
+1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
+   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
+   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
+   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
+   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
+2. Desktop glow not screenshot-compared against a pre-merge render (low).
+
+## Lessons (in the record)
+- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
+  hold a deliberate state (locked cards) the check never learned.
+- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
+  main's copy before blaming your diff.
+- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
+- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
+
+# Handoff — v3.79.0 (2026-10-05)
+
+> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
+> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
+- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
+- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
+- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
+
+## Shipped + on main
+- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
+  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
+  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
+  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
+  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
+- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
+  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
+  the browser pane. Other gated pages pick it up only on re-render.
+- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
+  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
+  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
+  regenerating from the SSOT (style block identical to main).
+- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+
+## Open (next session)
+1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
+   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
+2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
+   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
+   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
+3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
+4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
+5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
+   PR #725, PR #715); check wound-down sessions' branches.
+
+## Lessons (in the record)
+- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
+  caught it. Score from transcripts, never summaries.
+- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
+- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
+
+# Handoff — v3.79.1 (2026-10-04)
+
+> **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
+> (arcs.care home = survey landing, hardened `/api/lead`, trust contract 1.4, /privacy v1.2),
+> receipt `2026-10-04--field-landing-waitlist-pr705--ZH`. PR #737 merged at `85ec7a5d`
+> (annotation + link-search routes 401 without a session), receipt
+> `2026-10-04--privacy-hotfix-annotations-pr737--ZH`. Both on Zach's explicit "merge"; all checks green.
+
+## Shipped + on main
+- **Home** (`src/organisms/Landing.tsx`, `src/organisms/Scope.tsx`): headline, lede, the field (lidar
+  ziggurat, Now overlays on arrival, click-to-add overlays in a drawer, droplet moire, free camera,
+  F1-F5 depth dial on the Chronicle ladder), Open the compass. Waitlist is a compact header capture
+  (desktop field + compass button; phone toggle). Fog clears only after the server writes the row.
+- **`/api/lead`**: rate limit, 8 KB cap, zod, honeypot, case-insensitive dedup, one alert per new
+  address, mail in `after()`, no requester text in mail. Preview E2E: +test alias wrote 1 row (9 -> 10),
+  repeat wrote 0, both mails delivered once.
+- **Privacy hotfix #737**: `?? null` userId had matched every anonymous row; live 401 verified.
+- Shared `CloseButton`; `Field` labels linked.
+
+## Open (next session)
+1. **Privacy PR 2** (from the mirror review): `unstable_cache` keyed on anonymous question
+   (`compass/route.ts` ~229); Blob files not deleted on account delete; `/api/brief` GET returns
+   `userId` + `rawResponse` + `prep.adversarialInput` (default chosen: briefs stay link-readable,
+   strip those fields, disclose); reminders link uses a bare `uid` (sign it); /privacy must name
+   `SAGE_URL`, Vercel Analytics, and "link holders can read a brief".
+2. **Showcase mirror**: `claude/showcase-mirror` @ `4efd18ca` (manifest + `scripts/showcase_project.py`
+   + README). Mechanical gates clean; privacy-review said NOT SAFE (the product bugs above). After PR 2:
+   re-run review, trim job-search schema + `/admin/leads` comment, create `flashesofbrilliance/arcs-field-os`
+   PRIVATE, publish only on Zach's go. **Never flip arcs-v9 public** (third-party data in history).
+3. Other sessions' PRs: #727 promise ledger (conflicting), #735 audit P1 batch.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); alerts use the code fallback.
+
+## Lessons (memory)
+- `null-userid-matches-anonymous-rows`, `publish-review-is-an-audit-of-the-product`,
+  `one-image-one-relationship-sequence-unlocks`.
+
+||||||| 85ec7a5d
+
+# Handoff — v3.78.0 (2026-10-04)
+
+> **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
+> ask to stop spending cloud credits.** Same day, v3.76.0's four open items: 1, 2 and 4 closed, 3
+> diagnosed and handed to a Mac run. PRs #714 (`694cec66`), #718 (`0c2365a7`), #721 (`c80bc44a`)
+> merged on Zach's explicit asks with receipts; PR #728 (shavasana fix + this handoff) merges when green.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 17 commits, 8 merges to main (scope: branch claude/post-timestamps-notes-trenches-psjapj), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: manifesto (exhale, no inhale).
+- **Sycophancy check**: agreement 18 / dissent 1 (ratio 9.0) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft draft-handoff-v378.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): THIN is fair; the dissent the keywords miss is in the record: item 3 was NOT fixed and the draft says so; re-baselining the ratchet was refused (it would hide a possible regression); the post-1 renderer was not trusted (a fresh render regressed the pages); running sessions were not archived until asked to push. States of the sessions still running at wind-down are unknown and labelled so. Nothing downgraded.
+- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
+- **Disposition**: RELEASED on Zach's "consolidate this thread ... and handoff" and "merge 728 when green and archive them all".
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **v3.76.0 item 1** (#714): #706 live-checked (Four Dates, The Pre-Mortem bylines via Vercel
+  `web_fetch_vercel_url`); receipts `...-pr706--ZH`, `2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH`.
+- **v3.76.0 item 2** (#718): `post-1-brief` / `post-1-exec` `max-width:68ch` on `<main>` pinned to `680px`
+  (computed width unchanged), same line in `scripts/blog_render.py`. The renderer has drifted behind its
+  outputs (Google Fonts import, no robots/threadkey): edit those pages in place, do not re-render.
+  Receipts `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`, `2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH`.
+- **v3.76.0 item 4** (#728): `scripts/shavasana_handoff.py` exhale counts by session branch (PRs merged
+  today from it + their commits + unmerged commits); on main it matches the git identity on author OR
+  committer. Was 0 in cloud (author "Zach Harris", committer "Claude"); now 17 commits, 8 merges for this
+  branch, other sessions' commits excluded. `--self-test` 8/8.
+
+## Open (next session)
+1. **Contrast ratchet (v3.76.0 item 3), diagnosed, not fixed.** The detector is a Mac-only skill
+   (`~/.claude/skills/impeccable`), so cloud runs skip. npm `impeccable@4.1.0` runs in the container
+   (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
+   series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
+   Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
+   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
+   panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
+   (needs Zach's yes); do not `--update-baseline` until the cause is known.
+2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac
+   worktree `open-loops-quick-wins-6e9066`); create the germinate v0.1.1 tag + approve the signed
+   Release run; merge or close PR #725 (green, "Greeting" session); PR #715 (model-registry drift gate)
+   was open with CI running.
+3. **Unconfirmed from archived sessions:** `compass_run` event in Vercel Web Analytics after #726
+   (one real tagged run); `arcs-field-os-weekly` still scoped to `/Users/zharris/A.R.C.S`; Tao backfill
+   for 4 NFTT posts; Mac worktree session-start spinner hang (run
+   `time CLAUDE_PROJECT_DIR="$PWD" bash -x .claude/hooks/session-start.sh` in a stuck worktree).
+4. **Running when wound down** (asked to commit + push to their own branch, then archived): site audit
+   P1s, false public-repo claim + promise ledger, open-loops front door, #689 conflict + video prompt
+   engine, gitleaks/argparse, waitlist landing page, arc exoskeleton essay, contrast-ratchet symlink
+   baseline. Their pushed branches are the record; check each branch before assuming work landed.
+
+## Lessons (in the record)
+- Counting by author name reads 0 in cloud and everything on the owner's name: scope a session's
+  exhale by its branch, the one thing that is the session's alone.
+- A generator that drifts behind its outputs makes "re-render" a regression; check the diff of a fresh
+  render against the committed page before trusting the generator.
+- Archiving a running session drops its container; ask it to push first, and only archive what is idle.
+  "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
+
+# Handoff — v3.77.0 (2026-10-04)
+
+> **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
+> and a prompt pack.** Two PRs merged on Zach's explicit go: #689 (`6892b016`) and #709 (`8f2f98e2`);
+> receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH` and `2026-10-04--video-cut-type-pr709--ZH`.
+
+### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script counts the whole repo's day: 91 commits, 16 merges to main. This session by hand: 6 commits (`62492a31`, `da76e4e0`, `87645dbd`, `a226b139`, `9e311959`, `1fe7d3de`) + 1 conflict merge (`48bada1c`), 2 merges to main (#689, #709), 2 receipts.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers (script). By hand: one red check refused (fe-smoke on #709, fixed before merge), one invented caption cut on Zach's ask.
+- **Breath balance**: script read manifesto; with the by-hand inhale, breathing.
+- **Sycophancy check**: agreement 25 / dissent 0 (ratio 25.0) -> RETURN by script; the refused red merge and the cut caption are the session's dissent, not recorded as markers.
+- **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the prompt pack is stated as untried, not as working. Nothing dropped.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **#689 unblocked:** merged origin/main into `claude/greeting-wedifk` (`48bada1c`). The one conflict,
+  `scripts/connector_render.py`, took main's side: main's repo-keyed `EXTERNAL_PAGES` row already gave
+  the honest card its gh URL and clone chip. All checks green, then `--merge`.
+- **Video cut type (`scripts/video_cut.py`):** spec in `_QUEUE/video/<id>.json` (beats: caption,
+  duration, accent, shot = subject/camera/motion/light; aspects 16:9 + 9:16). `build` writes
+  `_PROPOSALS/video/<id>-<16x9|9x16>.html` (the `window.DURATION` + `window.seek(t)` contract of
+  `scripts/html_video_render.mjs`, palette read from `src/ui-kit/recoil-report/_tokens.css`, Inter +
+  JetBrains Mono from `public/fonts/`) and `<id>-prompts.md` (per-beat, per-aspect prompts + one
+  negative prompt; captions kept out because models garble text). Gates reuse `linkedin_cut.py`'s
+  slop_lint, provenance_lint, PII; `--self-test` covers 7 fail-on-bad mutations + font asserts.
+- **First input:** `tao-284`, 4 beats, 14.5s, captions are the proverb's words only (an invented
+  bridge caption was cut on Zach's ask). MP4s rendered locally, not committed.
+
+## Open (next session)
+1. The prompt pack is untried against any external video model: paste one beat, compare to the HTML
+   render. That test decides whether the generative path earns its keep.
+2. `video_cut.py` and `linkedin_cut.py` run in no hook or CI job; wire both or neither.
+3. Carried: `shavasana_handoff.py` exhale author filter; `post-1-brief` / `post-1-exec` wrap-lint.
+
+## Lessons (in the record)
+- `fe-smoke`'s page gate sweeps every changed `_PROPOSALS/*.html` at 375/790. A fixed-size video frame
+  overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
+  rendered poster stayed pixel-identical (ffmpeg PSNR inf).
+- The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
+
 # Handoff — v3.76.0 (2026-10-04)
 
 > **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views

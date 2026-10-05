@@ -114,116 +114,102 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.79.0 (2026-10-05)
+# Handoff — v3.82.0 (2026-10-05)
 
-> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
-> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
+> **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
+> PR #760 (`6cb36019`, handoff v3.80.0) and PR #756 (`04622e99`, hooksPath repoint) merged on Zach's
+> explicit "without CI". Receipts: `...-pr760--ZH`, `...-pr760-actions-stall-cause--ZH`,
+> `2026-10-05--hookspath-repoint-pr756--ZH`, `...-pr756-manual-two--ZH`, `...-pr756-control-invalid--ZH`.
+
+## Shipped + on main
+- **#756 (chip task_bd140094, session archived):** the desktop app's `configureHooksPath` writes the main
+  checkout's absolute `scripts/git-hooks` into each worktree's `config.worktree` on create and reopen, so
+  worktrees ran the main checkout's stale pre-commit (the kintsugi 77 vs 95 phantom on #745).
+  `scripts/hookspath_arm.sh` repoints to relative `scripts/git-hooks` (`--self-test` PASS, run locally
+  before merge); `session-start.sh` calls it. 28 worktrees repointed by the chip; `cranky-chatelet-990429`
+  and `reverent-edison-589194` repointed by hand.
+- **#760:** handoff v3.80.0; conflict with v3.79.1 resolved (v3.79.1 archived).
+
+## Open (next session)
+1. **App-vs-SessionStart ordering untested.** `sweet-mayer-2ce4fb` was kept absolute as the control but is
+   invalid: its branch predates #756, so its own `session-start.sh` has no repoint. Each worktree runs its
+   own branch's hook, so the fix only works in worktrees containing `04622e99`. Test: start a fresh
+   worktree session (or sync sweet-mayer to main and reopen), then `git config --show-origin core.hooksPath`.
+   Pre-#756 worktrees the app rewrites stay on main-checkout hooks until they pick up main.
+2. **GitHub Actions major outage** (githubstatus, 2026-10-05 ~20:17Z on; 37 runs queued, 0 running).
+   #760 merged with 6 checks never run, #756 with 4. Re-check those runs after the incident resolves.
+   Minutes quota not read (gh token lacks `user` scope).
+3. Carried from v3.80.0: desktop glow at >=1280px not screenshot-compared pre/post #745 (low).
+
+## Lessons (in the record)
+- A fix that lives in `.claude/hooks/` only reaches worktrees whose branch contains it: check
+  `git merge-base --is-ancestor <fix> HEAD` in a control before reading its result as a test.
+- "Merge without CI" on a code change: run the PR's own self-test locally first, and receipt the unrun checks.
+- `archive_session` refused a linked child ("live work") from its running parent repeatedly, even with
+  Remote Control off; the sidebar archive worked.
+- Status pages before quota theories: `githubstatus.com/api/v2/components.json` answered in one call.
+
+# Handoff — v3.81.0 (2026-10-05)
+
+> **Job Factory: the Sept 2025 prototype read in full, a gauntleted spec, two slices merged, five open,
+> and the morning loop found dead since 2026-09-11 and fixed.** Merged on Zach's explicit asks: #757
+> (`1118a1ec`, slice 1 + seeds 5-16) and #754 (`602c7166`, slice 0). Receipts
+> `2026-10-05--job-factory-slice1-culture-evidence-pr757--ZH`, `2026-10-05--lane-kanban-drag-drop-pr754--ZH`.
 
 ### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
 
-- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
-- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
-- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
-- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
-- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, across 7 session branches: ~10 commits, 2 merges to main (#757, #754), 2 receipts, 5 open PRs (#761 #769 #771 #773 #775), 1 scheduled-task prompt rewritten, 1 hung run stopped.
+- **Inhale** (what came in): 0 falsification rows (script). By hand: a 6-facet gauntlet returned 19 verified fixes against my own spec (3 breaks were mine: Ghosted on a timer, gated rows parked, rubric rewritten without receipt); the live dry run falsified half the first-pass culture hits; the morning-task "succeeded" runs were falsified by the watermark.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: script agreement 6 / dissent 0 -> RETURN. Fair as a count, but the dissent is in the record and not keyword-shaped: the gauntlet, the dry run, the 3.5-week stall, and two slices that came back HELD on real data (the Thesis Care letter; 94 of 95 bundles without an evidence ledger).
+- **Cold re-read (canary on the draft handoff-v380.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "the morning task is fixed" is downgraded to "the prompt is fixed"; the first fixed run's outcome is unseen. The cause line names three factors; only the dirty main checkout and the usage limit are evidenced (git state + one transcript), Gmail is not.
 - **Somatic read**: not asked.
 - **Disposition**: RELEASED on Zach's '/handoff'.
 
 _This block asserts nothing new. Counts, paths, and questions only._
 
-> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
-
 ## Shipped + on main
-- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
-  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
-  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
-  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
-  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
-- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
-  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
-  the browser pane. Other gated pages pick it up only on re-render.
-- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
-  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
-  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
-  regenerating from the SSOT (style block identical to main).
-- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+- **Slice 0, Lane kanban** (#754): drag and drop between stages, filter, every row per column (was capped at 4).
+- **Slice 1, culture with evidence** (#757): `rubric.culture_cues` in `runtime/specs/target-role-scan.json`,
+  `src/lib/culture-cues.ts`; quotes stored in `jdHits.culture_pos/neg`, shown on Role Scan; 2+ negative
+  phrases cap culture at 1 and fire the grind gate. Live dry run precision 6/13 then 5/5 after fixing JS
+  `async=true`, "governance boundary", "Transparency in Coverage". Cap never fired on live rows (0 negatives
+  in top 20); backfill rescore not run.
+- **Seeds 5-16** in `_SEEDS/index.jsonl` from a full read of `flashesofbrilliance/job-tracker-pro`:
+  9 candidates (culture-cue lexicon germinated) + 3 anti-seeds (synthetic seed data, protection theater,
+  consentless biometrics).
+- **Spec**: the claude.ai doc "Job Factory: spec, recommendation, plan" (artifact id dd89f5d5) is the only copy. 6-facet gauntlet: 19
+  verified fixes applied; teardown lenses BAR/COURT/KKL/FUN HOUSE/anterior-posterior run by hand (FUN HOUSE on
+  probation: stop building if sends per week do not rise in 3 weeks).
+
+## Open PRs (merge on green CI after the outage)
+| PR | Slice | Note |
+|---|---|---|
+| #761 | 3 outcome fate + reason | was stacked on #754, now standalone; pipeline token 403 on outcome |
+| #769 | 7 prose gate + answers | 1 of 95 bundles has an evidence ledger, so most drafts HOLD on provenance |
+| #771 | 2 Missed + drift + intake stall | conflicts with #775 in `JobsBoard.tsx` Row type + tag line |
+| #773 | 4 autonomy flags | PATCH admin-only; 5 stations locked |
+| #775 | 6 named trust chip + name-leak gate | 57 board rows, 6 companies; 0 of 412 staged files leak a name |
+
+## Morning task (scheduled `arcs-job-search-loop-retargeted-alerts`)
+- Found: no ingest since 2026-09-11. The main checkout sits on another session's dirty branch, so
+  `git pull --ff-only origin main` failed every run; the weekly usage limit killed 9/30 and 10/1; runs still
+  read "succeeded". One run hung 42 h (stopped).
+- Fixed on Zach's yes: dedicated detached worktree `.claude/worktrees/morning-jobs` at origin/main, a
+  loud preflight (`STATUS: FAILED <reason>`), 10-day backlog chunks, Step 7 reads `/api/jobs/drift`.
+- First fixed run `local_c4605b5e` started 2026-10-05 20:53 UTC; outcome not seen (may await tool approvals).
 
 ## Open (next session)
-1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
-   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
-2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
-   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
-   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
-3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
-4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
-5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
-   PR #725, PR #715); check wound-down sessions' branches.
+1. **GitHub Actions major outage** (since 19:11 UTC). A background watcher in this session re-runs CI on the
+   5 PRs once Actions is operational; if the session ended, re-run by hand, merge green with `--merge`, receipt each.
+2. Add the autonomy read (`GET /api/jobs/autonomy`) to the morning task once #773 deploys.
+3. Once #769 and #775 merge, wire #775's name-leak script into #769's prose gate. Champions tab ignores `?company=`.
+4. Backfill culture rescore (top two tiers first); a shared vetted evidence ledger for prose provenance.
+5. Chip running in a separate session: deterministic mechanical halves for the five teardown lenses.
+6. Carried from v3.79.0: Lyndon call + `/recoil-close`; Autopilot 10-13 nudge; Vico funding question.
 
 ## Lessons (in the record)
-- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
-  caught it. Score from transcripts, never summaries.
-- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
-- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
-
-# Handoff — v3.78.0 (2026-10-04)
-
-> **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
-> ask to stop spending cloud credits.** Same day, v3.76.0's four open items: 1, 2 and 4 closed, 3
-> diagnosed and handed to a Mac run. PRs #714 (`694cec66`), #718 (`0c2365a7`), #721 (`c80bc44a`)
-> merged on Zach's explicit asks with receipts; PR #728 (shavasana fix + this handoff) merges when green.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 17 commits, 8 merges to main (scope: branch claude/post-timestamps-notes-trenches-psjapj), receipts in digest: 0.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: manifesto (exhale, no inhale).
-- **Sycophancy check**: agreement 18 / dissent 1 (ratio 9.0) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff-v378.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): THIN is fair; the dissent the keywords miss is in the record: item 3 was NOT fixed and the draft says so; re-baselining the ratchet was refused (it would hide a possible regression); the post-1 renderer was not trusted (a fresh render regressed the pages); running sessions were not archived until asked to push. States of the sessions still running at wind-down are unknown and labelled so. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "consolidate this thread ... and handoff" and "merge 728 when green and archive them all".
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **v3.76.0 item 1** (#714): #706 live-checked (Four Dates, The Pre-Mortem bylines via Vercel
-  `web_fetch_vercel_url`); receipts `...-pr706--ZH`, `2026-10-04--handoff-v3.76-open-item-resolved-pr714--ZH`.
-- **v3.76.0 item 2** (#718): `post-1-brief` / `post-1-exec` `max-width:68ch` on `<main>` pinned to `680px`
-  (computed width unchanged), same line in `scripts/blog_render.py`. The renderer has drifted behind its
-  outputs (Google Fonts import, no robots/threadkey): edit those pages in place, do not re-render.
-  Receipts `2026-10-04--post-1-wrap-lint-680px-pr718--ZH`, `2026-10-04--handoff-v3.76-item2-resolved-pr721--ZH`.
-- **v3.76.0 item 4** (#728): `scripts/shavasana_handoff.py` exhale counts by session branch (PRs merged
-  today from it + their commits + unmerged commits); on main it matches the git identity on author OR
-  committer. Was 0 in cloud (author "Zach Harris", committer "Claude"); now 17 commits, 8 merges for this
-  branch, other sessions' commits excluded. `--self-test` 8/8.
-
-## Open (next session)
-1. **Contrast ratchet (v3.76.0 item 3), diagnosed, not fixed.** The detector is a Mac-only skill
-   (`~/.claude/skills/impeccable`), so cloud runs skip. npm `impeccable@4.1.0` runs in the container
-   (ratchet `--self-test` passes) but puts 14 of 42 NFTT pages over `_STATE/nftt-contrast-baseline.json`,
-   series parts included (four-dates 7→12, pre-mortem 7→12, instinct 7→10, closing-the-loop 12→16).
-   Unknown: detector-version drift or a real regression from the series panel. Next: on the Mac run
-   `python3 scripts/nftt_contrast_ratchet.py` on every NFTT post page (pass the page files as arguments); over-baseline there means the
-   panel, clean means version drift. Wiring npm impeccable into cloud sessions is a new dependency
-   (needs Zach's yes); do not `--update-baseline` until the cause is known.
-2. **Needs Zach (from archived sessions):** run `receipt-pr724.sql` in the Supabase SQL editor (Mac
-   worktree `open-loops-quick-wins-6e9066`); create the germinate v0.1.1 tag + approve the signed
-   Release run; merge or close PR #725 (green, "Greeting" session); PR #715 (model-registry drift gate)
-   was open with CI running.
-3. **Unconfirmed from archived sessions:** `compass_run` event in Vercel Web Analytics after #726
-   (one real tagged run); `arcs-field-os-weekly` still scoped to `/Users/zharris/A.R.C.S`; Tao backfill
-   for 4 NFTT posts; Mac worktree session-start spinner hang (run
-   `time CLAUDE_PROJECT_DIR="$PWD" bash -x .claude/hooks/session-start.sh` in a stuck worktree).
-4. **Running when wound down** (asked to commit + push to their own branch, then archived): site audit
-   P1s, false public-repo claim + promise ledger, open-loops front door, #689 conflict + video prompt
-   engine, gitleaks/argparse, waitlist landing page, arc exoskeleton essay, contrast-ratchet symlink
-   baseline. Their pushed branches are the record; check each branch before assuming work landed.
-
-## Lessons (in the record)
-- Counting by author name reads 0 in cloud and everything on the owner's name: scope a session's
-  exhale by its branch, the one thing that is the session's alone.
-- A generator that drifts behind its outputs makes "re-render" a regression; check the diff of a fresh
-  render against the committed page before trusting the generator.
-- Archiving a running session drops its container; ask it to push first, and only archive what is idle.
-  "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
+- A run that does nothing must not read as a run that worked: the stall hid for 3.5 weeks behind "succeeded".
+- My own journey diagram broke the human line in three places; the gauntlet caught it, not me.
+- A live dry run beat the fixtures: half the first-pass culture hits were false.

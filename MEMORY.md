@@ -3,7 +3,25 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [v3.79.0] 2026-10-05 — Schriner recoil-close on Vico calls; recoil gate fix; Lyndon pre-call refresh (PRs #742 #746)
+> Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
+
+## [v3.82.0] 2026-10-05 — Worktree hooksPath repointed (PR #756); #760 + #756 merged without CI during an Actions outage
+
+- Desktop app writes the main checkout's absolute hooksPath per worktree; `scripts/hookspath_arm.sh` + session-start repoint it. Only worktrees containing `04622e99` self-heal; ordering vs the app untested.
+- GitHub Actions major outage 2026-10-05: re-check the unrun checks on #760 and #756.
+
+## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
+
+- Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
+- Find stalled 2026-09-11: dirty main checkout broke `git pull --ff-only`, runs still read "succeeded"; task now runs in `.claude/worktrees/morning-jobs` with a loud preflight.
+- Seeds 5-16 planted from job-tracker-pro (9 candidates, 3 anti-seeds); culture cap unproven on live rows.
+
+## [v3.80.0] 2026-10-05 — Family-roster drift cleared; build.html glow overflow; stale worktree hooks found (PR #745)
+
+- `sync_family_roster.py` accepts locked (carded, non-linking) performers; ADR stat 79; masthead glow held to gutter below 1280px.
+- Kintsugi "77 -> 95" was a phantom: 25/27 worktrees run the main checkout's stale pre-commit via absolute `core.hooksPath`; chip task_bd140094.
+
+## [v3.79.0] 2026-10-05 — Schriner recoil-close on Vico calls; recoil gate fix; Lyndon pre-call refresh (PRs #742 #746)
 
 - Schriner SSOT closed YELLOW/CONVERGENT, req_reality 2; P10-P13 added (owner engaged, seat unarchitected, comp floor stated at <=2, Autopilot stalled).
 - `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
@@ -21,6 +39,11 @@
 ## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+
+## [v3.79.0] 2026-10-04 — Field landing on arcs.care (PR #705 `81db248a`); privacy hotfix (PR #737 `85ec7a5d`)
+
+- Home = survey field + compact header waitlist; `/api/lead` hardened; trust 1.4 / privacy v1.2. Receipts `2026-10-04--field-landing-waitlist-pr705--ZH`, `2026-10-04--privacy-hotfix-annotations-pr737--ZH`.
+- Showcase mirror tooling on `claude/showcase-mirror` (unpublished); its review found the anon-read bug fixed in #737 and four more queued as privacy PR 2.
 
 ## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
 
