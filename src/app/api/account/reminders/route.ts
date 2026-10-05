@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
+import { verifyReminder } from "@/lib/reminderLink"
 
 // One-click opt-in/opt-out for debrief reminders, clicked straight out of an
-// email (no session required — magic-link users aren't reliably logged in on
-// the device that opens the email). Toggling User.debriefOptIn is a
-// non-destructive preference flip, not a sensitive action, so a bare uid in
-// the URL is an acceptable tradeoff here (same trust posture as the existing
-// debriefUrl/receiptId links elsewhere in this app — see ADR-001).
+// email (no session required: magic-link users aren't reliably signed in on
+// the device that opens the email). The link is signed (src/lib/reminderLink.ts)
+// so a uid alone cannot change anyone's setting.
 export async function GET(req: NextRequest) {
   const uid = req.nextUrl.searchParams.get("uid")
   const action = req.nextUrl.searchParams.get("action")
@@ -16,15 +15,18 @@ export async function GET(req: NextRequest) {
   }
 
   const debriefOptIn = action === "opt-in"
+  const valid = verifyReminder(uid, action, req.nextUrl.searchParams.get("sig"))
   try {
-    await prisma.user.update({ where: { id: uid }, data: { debriefOptIn } })
+    if (valid) await prisma.user.update({ where: { id: uid }, data: { debriefOptIn } })
   } catch {
     // Unknown uid — still show a neutral confirmation rather than leaking
     // whether the id exists.
   }
 
-  const heading = debriefOptIn ? "Reminders turned on" : "Reminders turned off"
-  const body = debriefOptIn
+  const heading = !valid ? "This link is no longer valid" : debriefOptIn ? "Reminders turned on" : "Reminders turned off"
+  const body = !valid
+    ? "Nothing was changed. Use the link in your most recent ARCS email."
+    : debriefOptIn
     ? "You'll get a debrief email for future receipts too, not just the first one."
     : "You won't get any more debrief check-in emails unless you turn them back on."
 

@@ -8,7 +8,7 @@ import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { extractCultureCues, applyCultureGuard, mergeJdHits, type CultureCues } from "../../src/lib/culture-cues.ts"
 
-const CUES: CultureCues = JSON.parse(readFileSync(new URL("../../runtime/specs/target-role-scan.json", import.meta.url), "utf8")).rubric.culture_cues
+const CUES: CultureCues = JSON.parse(readFileSync("runtime/specs/target-role-scan.json", "utf8") /* cwd = repo root; Playwright loads tests/ as CJS, so no import.meta */).rubric.culture_cues
 
 const GRIND = "We are a fast-paced startup. You will wear many hats and act like a rockstar. We work hard, play hard."
 const GOOD = "We offer 16 weeks of parental leave. We are an async-first team. We run blameless postmortems after every incident."
