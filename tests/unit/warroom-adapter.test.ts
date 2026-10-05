@@ -213,6 +213,41 @@ test("preCallIntel: Intel items verbatim as 'Lead-in: body', unlabeled items kee
   assert.equal(adapt(raw, { audience: "external" }).preCallIntel, undefined)
 })
 
+test("Questions & landmines: landmines become riskFlags, everything else preCallQuestions", () => {
+  const base = ssot()
+  const raw = {
+    ...base,
+    page: {
+      ...base.page,
+      blocks: [
+        ...base.page.blocks,
+        { tab: "pre", type: "list", ...internal, h2: "Questions &amp; landmines", items: [
+          { dot: "", html: "Is the req real? &#183; look for: a named owner" },
+          { dot: "", html: "<strong>Close:</strong> offer a written read" },
+          { dot: "", html: "<span style='color:var(--gold)'>Landmine (unresolved):</span> priority unknown" },
+          { dot: "r", html: "<strong>Landmine: comp.</strong> Do not raise it." },
+          { dot: "", html: "Landmines hit: two air-gap breaches" },
+          { dot: "", html: "<span style='color:var(--red)'>Landmine:</span> {{what to avoid}}" },
+        ] },
+      ],
+    },
+  }
+  const o = adapt(raw)
+  assert.deepEqual(o.preCallQuestions, [
+    "Is the req real? \u00b7 look for: a named owner",
+    "Close: offer a written read",
+    "Landmines hit: two air-gap breaches",
+  ])
+  assert.deepEqual(o.riskFlags!.slice(-2).map((f) => [f.variant, f.label, f.body]), [
+    ["warning", "Landmine (unresolved)", "priority unknown"],
+    ["caution", "Landmine: comp.", "Do not raise it."],
+  ])
+  assert.equal(o.riskFlags!.length, 6, "4 gauntlet + 2 landmines; the {{slot}} landmine is absent")
+  const ext = adapt(raw, { audience: "external" })
+  assert.equal(ext.preCallQuestions, undefined)
+  assert.equal(ext.riskFlags, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
