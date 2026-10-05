@@ -30,8 +30,9 @@
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
 //     authored order; label = date in the h2 else meta.date; title = h2 after "Receipt closed";
 //     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
-//   (no source)                                                    → cover.actions,
-//                                                                    scenarios.best, scenarios.base
+//   (no source)                                                    → scenarios.best, scenarios.base
+//   (no source)                                                    → cover.actions = [] (explicit: hides
+//                                                                    the screen's inert default buttons)
 //
 // Unfilled template placeholders ({{...}}) and bare TBD/TODO/PENDING are treated as absent.
 //
@@ -243,6 +244,9 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const yState = text(opportunity.y_state)
   const segments = typeof meta.segments === 'number' ? `${meta.segments} segments` : undefined
   const cover: WarroomRecoilReport['cover'] = {
+    // No SSOT field is a call to action; an empty list hides the screen's
+    // default buttons, which would otherwise render and link nowhere.
+    actions: [],
     ...(title ? { title } : {}),
     ...(text(header.sub) ? { subtitle: text(header.sub) } : {}),
     ...(yState ? { badges: ['War Room', yState] as [string, string] } : {}),
@@ -298,7 +302,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const worst = worstFromPremortem(wargame)
 
   return {
-    ...(Object.keys(cover).length ? { cover } : {}),
+    cover,
     ...(loadBearingQuote ? { loadBearingQuote } : {}),
     ...(callWalk.length ? { callWalk } : {}),
     ...(threads.length ? { signalThreads: threads } : {}),
