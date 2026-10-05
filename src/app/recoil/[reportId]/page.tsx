@@ -18,7 +18,16 @@ function loadReport(reportId: string): RecoilReportRaw | null {
   const file = path.join(process.cwd(), "runtime", "recoil", "generated", `${safe}.json`)
   if (!fs.existsSync(file)) return null
   try {
-    return JSON.parse(fs.readFileSync(file, "utf-8")) as RecoilReportRaw
+    const raw = JSON.parse(fs.readFileSync(file, "utf-8")) as RecoilReportRaw
+    // Strip passcodes server-side: the renderer is a client component, so
+    // anything passed to it is serialized into the page payload.
+    const meta = raw.meta
+    if (meta && typeof meta === "object" && !Array.isArray(meta) && "gate" in meta) {
+      const { gate: _gate, ...rest } = meta as Record<string, unknown>
+      void _gate
+      return { ...raw, meta: rest }
+    }
+    return raw
   } catch {
     return null
   }

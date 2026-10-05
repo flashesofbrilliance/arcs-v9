@@ -1,12 +1,12 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Six vs Czar</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;600&family=Geist+Mono:wght@400;700&display=swap">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root{
   --bg:#020408; --surface:#0d1117; --surface-2:#121820; --border:#1e293b;
-  --text:#e2e8f0; --muted:#475569; --dimmed:#64748b;
+  --text:#e2e8f0; --muted:#7a8699; --dimmed:#8391a7;
   --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
   --green-bg:rgba(0,255,157,0.07); --red-bg:rgba(255,77,109,0.07);
   --r-sm:4px; --r-md:8px;
@@ -15,7 +15,7 @@
   --font-display:'BricolageGrotesque','Bricolage Grotesque','Work Sans',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--text);font-family:var(--font-sans);width:390px}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);width:390px;max-width:100%}
 .card{padding:26px 20px 24px;display:flex;flex-direction:column;gap:18px}
 .status{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--dimmed)}
 .led{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--gold)}

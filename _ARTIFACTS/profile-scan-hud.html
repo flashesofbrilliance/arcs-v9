@@ -2,6 +2,7 @@
 <!-- @arcs-template: scan-hud -->
 <!-- @arcs-mode: operate -->
 <html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <!--
 THESIS: a profile rendered as flight instrumentation · the record IS the telemetry.
 Refuses the resume-webpage scroll of same-size cards; every panel is a gauge with a source.
@@ -17,7 +18,6 @@ FORM: single-file HUD, MUI-grade CSS-custom-property theme, @media print flatten
 light framed sheet (the enhanced resume print). Data: runtime/scan/generated/zach.json.
 -->
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>ARCS Profile Scan · Zach Harris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,8 +34,8 @@ light framed sheet (the enhanced resume print). Data: runtime/scan/generated/zac
 
   /* Text */
   --text:      #e2e8f0;
-  --muted:     #475569;
-  --dimmed:    #64748b;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
 
   /* Signal */
   --cyan:      #00F0FF;
@@ -187,6 +187,8 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   .telemetry{grid-template-columns:repeat(2,1fr);row-gap:18px;}
   .telemetry .cell{border-left:none;padding-left:0;}
   .statuslights{text-align:left;}
+  .sec-hd{flex-wrap:wrap;}
+  .sec-hd .gloss{white-space:normal;}
 }
 
 /* ── PRINT: the sheet · flattens to the light framed document ───────────── */
