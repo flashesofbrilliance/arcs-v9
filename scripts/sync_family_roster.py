@@ -129,9 +129,13 @@ def audit():
     enum = playground_enum()
     if perf_aliases != enum:
         problems.append(f"[playground] bank performers {sorted(perf_aliases)} != routing enum {sorted(enum)}")
-    for p in sorted(perf_aliases):
-        if f"playground.arcs.care/{p}" not in bhtml:
-            problems.append(f"[playground] performer '{p}' in bank but not linked on build.html")
+    # build.html may hold the stage locked ("not yet", #216): a non-linking card titled
+    # after the performer counts; a performer absent in both forms is drift.
+    bplain = bhtml.replace("&#233;", "").replace("é", "")
+    for p in r["playground"]:
+        stem = p["title"].split(" ")[0].replace("é", "")
+        if f"playground.arcs.care/{p['alias']}" not in bhtml and f'<span class="t">{stem}' not in bplain:
+            problems.append(f"[playground] performer '{p['alias']}' in bank but neither linked nor carded on build.html")
     for p in r["playground"]:
         stem = p["title"].split(" ")[0].replace("é", "")
         if stem not in phtml.replace("é", ""):
