@@ -32,6 +32,10 @@
 - `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
 - Lyndon pre-call (`2026-10-03-oh-vico.json`, from #699) refreshed, not rebuilt.
 
+## [v3.79.2] 2026-10-05 — Trust contract 1.5 + privacy v1.3: SAGE, analytics and shared-link disclosure (privacy PR 2)
+
+- Code: anon compass questions never cached; per-user cache key; account delete removes Blob uploads first; /api/brief response drops userId, prep.adversarialInput, raw output beyond reasoning; reminder links HMAC-signed with AUTH_SECRET.
+
 ## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
 
 - `scripts/shavasana_handoff.py` exhale: counted by `git config user.name`, which reads 0 in cloud (author owner, committer Claude); now scoped to the session branch (merged PRs from it + their commits + unmerged), identity fallback on main. `--self-test` 8/8.
