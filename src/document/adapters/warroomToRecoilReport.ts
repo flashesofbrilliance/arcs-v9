@@ -17,7 +17,10 @@
 //   meta.counterpart · meta.date                                   → loadBearingQuote.attribution
 //   insights[] {plane,title,text}                                  → signalThreads[]
 //   beliefs[] {id,verdict,claim,evidence}                          → signalThreads[] (after insights)
-//   next_steps[] {owner,text}                                      → protocol[]
+//   page.blocks[tab=exante, type=receipt] fields                   → protocol[] (first)
+//     Pre-committed move / Falsifier / Kill line; label "Ex-ante", or "Ex-ante (reconstructed)"
+//     when the receipt's h2 says reconstructed/post-hoc (ADR-044: never pass as filed-before)
+//   next_steps[] {owner,text}                                      → protocol[] (after; first one active)
 //   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
 //   page.blocks[tab=recoil, type=list, h2~/kairos/] items          → riskFlags[] (after the gauntlet)
@@ -144,6 +147,23 @@ function flagsFromLists(blocks: Rec[], fallbackLabel: string): RecoilReportData[
   return flags
 }
 
+const EX_ANTE_FIELDS = /^(pre-committed move|falsifier|kill line)$/i
+
+function exAnteSteps(root: Rec, audience: WarroomAudience): RecoilReportData['protocol'] {
+  const steps: RecoilReportData['protocol'] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'exante' || b.type !== 'receipt' || !visible(b, audience)) continue
+    const label = /reconstructed|post-hoc/i.test(text(b.h2) ?? '') ? 'Ex-ante (reconstructed)' : 'Ex-ante'
+    for (const f of parseList(b.fields)) {
+      if (!isRecord(f)) continue
+      const title = text(f.label)
+      const body = text(f.value)
+      if (title && body && EX_ANTE_FIELDS.test(title)) steps.push({ label, title, body })
+    }
+  }
+  return steps
+}
+
 // Each "Receipt closed" block is one call scored against its ex-ante; in
 // multi-call SSOTs they are appended in call order, which is the walk.
 function callWalkFromCloses(root: Rec, audience: WarroomAudience, fallbackDate?: string): RecoilReportData['callWalk'] {
@@ -256,13 +276,16 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     })
   }
 
-  const protocol: RecoilReportData['protocol'] = []
+  // Ex-ante commitments were filed before the call, so they lead; next_steps
+  // are post-call and hold the active step.
+  const protocol: RecoilReportData['protocol'] = exAnteSteps(root, audience)
+  let n = 0
   for (const s of parseList(root.next_steps)) {
     if (!isRecord(s) || !visible(s, audience)) continue
     const body = text(s.text)
     if (!body) continue
-    const n = String(protocol.length + 1).padStart(2, '0')
-    protocol.push({ label: `Next ${n}`, title: text(s.owner) ?? `Step ${n}`, body, ...(protocol.length === 0 ? { active: true } : {}) })
+    const id = String(++n).padStart(2, '0')
+    protocol.push({ label: `Next ${id}`, title: text(s.owner) ?? `Step ${id}`, body, ...(n === 1 ? { active: true } : {}) })
   }
 
   const callWalk = callWalkFromCloses(root, audience, date)
