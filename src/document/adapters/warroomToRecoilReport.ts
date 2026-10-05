@@ -20,6 +20,8 @@
 //   next_steps[] {owner,text}                                      → protocol[]
 //   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
+//   page.blocks[tab=recoil, type=list, h2~/kairos/] items          → riskFlags[] (after the gauntlet)
+//     Risk=warning, Kairos=info, Quiet signal=success; unlabeled items by dot (red/gold/green)
 //   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
 //     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
@@ -108,22 +110,26 @@ function visible(node: unknown, audience: WarroomAudience): boolean {
   return isRecord(node) && node.audience === 'both'
 }
 
-const LENS_VARIANT: [RegExp, AsideVariant][] = [[/^BAR/i, 'warning'], [/LOKI/i, 'caution'], [/^COURT/i, 'info']]
-const DOT_VARIANT: Record<string, AsideVariant> = { red: 'warning', gold: 'caution', g: 'success' }
+const LENS_VARIANT: [RegExp, AsideVariant][] = [
+  [/^BAR/i, 'warning'], [/LOKI/i, 'caution'], [/^COURT/i, 'info'],
+  [/^RISK/i, 'warning'], [/^KAIROS/i, 'info'], [/^QUIET SIGNAL/i, 'success'],
+]
+const DOT_VARIANT: Record<string, AsideVariant> = { red: 'warning', r: 'warning', gold: 'caution', g: 'success', green: 'success' }
 
-// Gauntlet items lead with `<strong>LENS:</strong>`; split that off as the label.
+// List items lead with `<strong>LENS:</strong>` (some files use a coloured
+// `<span>` instead); split that off as the label.
 function splitLens(html: unknown): { label?: string; body?: string } {
   if (typeof html !== 'string') return {}
-  const m = html.match(/^\s*<strong>([^<]+?):?<\/strong>:?\s*([\s\S]*)$/)
+  const m = html.match(/^\s*<(strong|span)\b[^>]*>([^<]+?):?<\/\1>:?\s*([\s\S]*)$/)
   if (!m) return { body: text(html) }
-  return { label: text(m[1]), body: text(m[2]) }
+  return { label: text(m[2]), body: text(m[3]) }
 }
 
 function wargameBlocks(root: Rec, audience: WarroomAudience): Rec[] {
   return parseList(rec(root.page).blocks).filter((b): b is Rec => isRecord(b) && b.tab === 'wargame' && visible(b, audience))
 }
 
-function riskFlagsFromGauntlet(blocks: Rec[]): RecoilReportData['riskFlags'] {
+function flagsFromLists(blocks: Rec[], fallbackLabel: string): RecoilReportData['riskFlags'] {
   const flags: RecoilReportData['riskFlags'] = []
   for (const b of blocks) {
     if (b.type !== 'list') continue
@@ -132,7 +138,7 @@ function riskFlagsFromGauntlet(blocks: Rec[]): RecoilReportData['riskFlags'] {
       const { label, body } = splitLens(item.html)
       if (!body) continue
       const variant = (label ? LENS_VARIANT.find(([re]) => re.test(label))?.[1] : undefined) ?? DOT_VARIANT[String(item.dot)] ?? 'info'
-      flags.push({ variant, label: label ?? 'Gauntlet', body })
+      flags.push({ variant, label: label ?? fallbackLabel, body })
     }
   }
   return flags
@@ -261,7 +267,11 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
 
   const callWalk = callWalkFromCloses(root, audience, date)
   const wargame = wargameBlocks(root, audience)
-  const riskFlags = riskFlagsFromGauntlet(wargame)
+  // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
+  const kairos = parseList(rec(root.page).blocks).filter(
+    (b): b is Rec => isRecord(b) && b.tab === 'recoil' && b.type === 'list' && /kairos/i.test(text(b.h2) ?? '') && visible(b, audience),
+  )
+  const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read')]
   const worst = worstFromPremortem(wargame)
 
   return {

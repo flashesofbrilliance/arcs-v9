@@ -114,6 +114,36 @@ test("riskFlags: gauntlet lens -> label and variant", () => {
   ])
 })
 
+test("riskFlags: recoil-tab Kairos list follows the gauntlet; other recoil lists ignored", () => {
+  const base = ssot()
+  const o = adapt({
+    ...base,
+    page: {
+      ...base.page,
+      blocks: [
+        ...base.page.blocks,
+        {
+          tab: "recoil", type: "list", ...internal, h2: "Kairos, quiet signals &amp; risks",
+          items: [
+            { dot: "", html: "<strong>Kairos:</strong> the window" },
+            { dot: "g", html: "<strong>Quiet signal:</strong> he reads it" },
+            { dot: "", html: "<span style='color:var(--red)'>Risk:</span> comp band" },
+            { dot: "gold", html: "an unlabeled read" },
+          ],
+        },
+        { tab: "recoil", type: "list", ...internal, h2: "Next steps (internal)", items: [{ dot: "", html: "<strong>Send it</strong> now" }] },
+      ],
+    },
+  })
+  assert.deepEqual(o.riskFlags!.slice(4).map((f) => [f.variant, f.label, f.body]), [
+    ["info", "Kairos", "the window"],
+    ["success", "Quiet signal", "he reads it"],
+    ["warning", "Risk", "comp band"],
+    ["caution", "Recoil read", "an unlabeled read"],
+  ])
+  assert.equal(o.riskFlags!.length, 8, "the Next steps list is not a risk source")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
