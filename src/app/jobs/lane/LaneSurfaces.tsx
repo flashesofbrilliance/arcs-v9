@@ -35,7 +35,7 @@ const lab: React.CSSProperties = { fontFamily: mono, fontSize: 11, fontWeight: 7
 export function LaneSurfaces({ data }: { data: LaneData }) {
   const [tab, setTab] = useState<(typeof TABS)[number][0]>("lane")
   return (
-    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 16px 48px", color: fg1, fontFamily: "Inter, system-ui, sans-serif" }}>
+    <div style={{ width: "100%", maxWidth: 1280, margin: "0 auto", boxSizing: "border-box", padding: "24px 16px 48px", color: fg1, fontFamily: "Inter, system-ui, sans-serif" }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "baseline", marginBottom: 16 }}>
         <span style={{ ...lab, color: signal.cyan }}>Compass Lane</span>
         <span style={{ fontFamily: mono, fontSize: 11, color: fg2, letterSpacing: ".08em" }}>· job search · wired</span>
