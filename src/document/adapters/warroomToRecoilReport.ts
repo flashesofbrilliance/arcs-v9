@@ -30,6 +30,8 @@
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
 //     authored order; label = date in the h2 else meta.date; title = h2 after "Receipt closed";
 //     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
+//   page.blocks[tab=pre, type=prose, h2~/^true north/] p[]          → preCallTrueNorth string (Deeper Strata,
+//     first of the pre-call strata); an h2 qualifier such as "(reconstructed post-hoc)" leads the text
 //   page.blocks[tab=pre, type=keyvalue] rows {k,v}                 → preCallContext {k: v} (not a
 //     RecoilReportData prop: RecoilReportFromData's Deeper Strata renders any extra key, verbatim)
 //   page.blocks[tab=pre, type=list, h2~/intel/] items              → preCallIntel string[] (Deeper
@@ -67,6 +69,8 @@ export interface WarroomRecoilReport {
   riskFlags?: RecoilReportData['riskFlags']
   protocol?: RecoilReportData['protocol']
   /** Pre-Call Context rows, rendered by the screen's Deeper Strata section. */
+  /** Pre-Call True North (the bearing), rendered by the screen's Deeper Strata section. */
+  preCallTrueNorth?: string
   preCallContext?: Record<string, string>
   /** Pre-Call Intel items, rendered by the screen's Deeper Strata section. */
   preCallIntel?: string[]
@@ -186,6 +190,21 @@ function exAnteSteps(root: Rec, audience: WarroomAudience): RecoilReportData['pr
     }
   }
   return steps
+}
+
+function preCallTrueNorth(root: Rec, audience: WarroomAudience): string | undefined {
+  const parts: string[] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'pre' || b.type !== 'prose' || !visible(b, audience)) continue
+    const h2 = text(b.h2) ?? ''
+    if (!/^true north/i.test(h2)) continue
+    const body = parseList(b.p).map(text).filter((x): x is string => !!x).join('\n\n')
+    if (!body) continue
+    // Keep the heading's own qualifier so a reconstructed bearing never reads as filed-before.
+    const qualifier = h2.match(/\(([^)]+)\)/)?.[1]
+    parts.push(qualifier ? `(${qualifier}) ${body}` : body)
+  }
+  return parts.length ? parts.join('\n\n') : undefined
 }
 
 function preCallContext(root: Rec, audience: WarroomAudience): Record<string, string> | undefined {
@@ -374,6 +393,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   }
 
   const callWalk = callWalkFromCloses(root, audience, date)
+  const trueNorth = preCallTrueNorth(root, audience)
   const context = preCallContext(root, audience)
   const intel = preCallIntel(root, audience)
   const { questions, landmines } = preCallQuestions(root, audience)
@@ -393,6 +413,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(protocol.length ? { protocol } : {}),
     ...(riskFlags.length ? { riskFlags } : {}),
     ...(worst ? { scenarios: { worst } } : {}),
+    ...(trueNorth ? { preCallTrueNorth: trueNorth } : {}),
     ...(context ? { preCallContext: context } : {}),
     ...(intel ? { preCallIntel: intel } : {}),
     ...(questions.length ? { preCallQuestions: questions } : {}),

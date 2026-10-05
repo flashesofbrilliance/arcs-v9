@@ -248,6 +248,25 @@ test("Questions & landmines: landmines become riskFlags, everything else preCall
   assert.equal(ext.riskFlags, undefined)
 })
 
+test("preCallTrueNorth: True North paragraphs verbatim, qualifier kept, ordered first in strata", () => {
+  const base = ssot()
+  const withProse = (h2: string, p: string[]) => adapt({
+    ...base,
+    page: { ...base.page, blocks: [
+      { tab: "pre", type: "keyvalue", ...internal, h2: "Context", rows: [{ k: "Build", v: "x" }] },
+      { tab: "pre", type: "prose", ...internal, h2, p },
+      { tab: "pre", type: "prose", ...both, h2: "Pre-Call &#183; orient before contact", p: ["method, not a bearing"] },
+    ] },
+  })
+  const o = withProse("True North", ["Land the build.", "Then step back."])
+  assert.equal(o.preCallTrueNorth, "Land the build.\n\nThen step back.")
+  const keys = Object.keys(o)
+  assert.ok(keys.indexOf("preCallTrueNorth") < keys.indexOf("preCallContext"), "bearing renders before context")
+  assert.equal(withProse("True North (reconstructed post-hoc)", ["Reconnect."]).preCallTrueNorth, "(reconstructed post-hoc) Reconnect.")
+  assert.equal(withProse("True North", ["{{one-sentence bearing}}"]).preCallTrueNorth, undefined)
+  assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "prose", ...internal, h2: "True North", p: ["x"] }] } }, { audience: "external" }).preCallTrueNorth, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
