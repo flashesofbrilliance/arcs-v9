@@ -1,3 +1,34 @@
+# Handoff — v3.80.0 (2026-10-05)
+
+> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
+> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
+> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
+
+## Shipped + on main
+- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
+  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
+  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
+  `--self-test` 12/12.
+- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
+  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
+  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
+
+## Open (next session)
+1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
+   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
+   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
+   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
+   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
+2. Desktop glow not screenshot-compared against a pre-merge render (low).
+
+## Lessons (in the record)
+- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
+  hold a deliberate state (locked cards) the check never learned.
+- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
+  main's copy before blaming your diff.
+- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
+- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
+
 # Handoff — v3.79.0 (2026-10-05)
 
 > **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
