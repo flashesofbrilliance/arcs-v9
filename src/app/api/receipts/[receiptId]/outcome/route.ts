@@ -12,17 +12,17 @@ export const dynamic = "force-dynamic"
 // A receipt cannot be closed by the session that created it (§5.1). External
 // signal has to arrive after T₀. In practice the debrief email fires N days
 // later, so v1 does not hard-enforce a session check; ownership is the gate.
-// Ownerless receipts (anonymous runs, the public demo brief) cannot be closed
-// at all in prod: anyone holding the link could otherwise write an outcome
-// into the calibration set. Claiming the receipt on sign-in makes it closable.
+//
+// Owner-only on both verbs (2026-10-05, same rule PR #808 applies to briefs): the
+// receipt id is not a capability. No session, an ownerless receipt, or another
+// account all get the same 404, never 403, so an id never confirms it exists.
+// Ownerless receipts (anonymous runs) become readable and closable once claimed.
 
-// Prod: only the signed-in owner. Dev: open, so the flow can be exercised locally.
-function canClose(ownerId: string | null, userId: string | null): boolean {
-  if (!isProd) return true
-  return !!ownerId && ownerId === userId
+const notFound = () => NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+
+function isOwner(ownerId: string | null, userId: string | null): boolean {
+  return !!userId && ownerId === userId
 }
-
-const isProd = process.env.NODE_ENV === "production"
 
 function clampRegret(v: unknown): number | null {
   const n = typeof v === "number" ? v : Number(v)
@@ -37,6 +37,7 @@ export async function GET(
   const { receiptId } = await params
   const session = await auth()
   const userId = session?.user?.id ?? null
+  if (!userId) return notFound()
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
     select: {
@@ -57,11 +58,7 @@ export async function GET(
       },
     },
   })
-  if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
-
-  // The outcome text (what / matched / regret / learning) is the owner's private
-  // debrief. Anyone else holding the link learns only that the loop closed.
-  const viewerCanClose = canClose(receipt.userId, userId)
+  if (!receipt || !isOwner(receipt.userId, userId)) return notFound()
 
   let protecting: string[] = []
   try { protecting = JSON.parse(receipt.protecting) as string[] } catch { protecting = [] }
@@ -80,11 +77,10 @@ export async function GET(
       status: receipt.status,
       driftState: receipt.driftState,
     },
-    outcome: viewerCanClose ? receipt.outcome : null,
+    outcome: receipt.outcome,
     closed: !!receipt.outcome,
-    // Tells the page whether to show the close form; the POST enforces the same rule.
-    canClose: viewerCanClose,
-    signedIn: !!userId,
+    canClose: true,
+    signedIn: true,
   })
 }
 
@@ -95,19 +91,14 @@ export async function POST(
   const session = await auth()
   const userId = session?.user?.id ?? null
   const { receiptId } = await params
+  if (!userId) return notFound()
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
     select: { id: true, userId: true },
   })
-  if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
-
-  // Ownership gate (ADR-001, app layer). In prod only the signed-in owner may
-  // close a receipt; ownerless receipts are closed to everyone.
-  if (!canClose(receipt.userId, userId)) {
-    const error = receipt.userId ? "Not your receipt to close" : "Sign in and save this receipt before logging how it landed"
-    return NextResponse.json({ error }, { status: 403 })
-  }
+  // Ownership gate (ADR-001, app layer): only the signed-in owner may close it.
+  if (!receipt || !isOwner(receipt.userId, userId)) return notFound()
 
   const body = await req.json().catch(() => ({}))
   const what = typeof body.what === "string" ? body.what.trim() : ""

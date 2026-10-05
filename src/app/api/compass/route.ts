@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk"
+import { reminderUrl } from "@/lib/reminderLink"
 import { clampText, clampInt, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubProseArray } from "@/lib/prose"
 import { Resend } from "resend"
@@ -217,11 +218,15 @@ export async function POST(req: NextRequest) {
         }
       : null
 
-  // Fetch parent receipt if enriched re-run
-  const parent = parentReceiptId
-    ? await prisma.receipt.findUnique({
-        where: { id: parentReceiptId },
-        select: { yState: true, nciScore: true, version: true },
+  // Fetch parent receipt if enriched re-run. Scoped to the caller: a parent
+  // that is missing or owned by someone else is dropped (no parent inputs, no
+  // parentId), so a client-supplied id cannot pull another user's yState /
+  // nciScore / version into this run. Anonymous callers never get a parent
+  // (a null userId in the where clause would match every anonymous row).
+  const parent = parentReceiptId && userId
+    ? await prisma.receipt.findFirst({
+        where: { id: parentReceiptId, userId },
+        select: { id: true, yState: true, nciScore: true, version: true },
       })
     : null
 
@@ -325,11 +330,13 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     messages: [{ role: "user", content: userMsg }],
   })
 
-  const runInference = mode === "COURT"
+  // Anonymous questions are never cached server-side (/trust §1: they live only
+  // in the browser tab). Signed-in results cache per user, never across accounts.
+  const runInference = mode === "COURT" || !userId
     ? () => callClaude(["prompt-caching-2024-07-31"])
     : unstable_cache(
         () => callClaude(["prompt-caching-2024-07-31"]),
-        [modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
+        [userId, modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
         { revalidate: 3600 }
       )
 
@@ -401,7 +408,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     const receiptData = {
       userId: userId ?? null,
       prepId: prepRow?.id ?? null,
-      parentId: parentReceiptId ?? null,
+      parentId: parent?.id ?? null,
       sessionId: resolvedSessionId,
       version: sessionVersion,
       // D
@@ -575,8 +582,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
           token: receipt.id,
           isFirstDebrief,
-          optInUrl: isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-in&uid=${userId}` : undefined,
-          optOutUrl: !isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-out&uid=${userId}` : undefined,
+          optInUrl: isFirstDebrief && userId ? reminderUrl(userId, "opt-in") : undefined,
+          optOutUrl: !isFirstDebrief && userId ? reminderUrl(userId, "opt-out") : undefined,
         })
         resend.emails.send({
           from: "ARCS <noreply@arcs.care>",

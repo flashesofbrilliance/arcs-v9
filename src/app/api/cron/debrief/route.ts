@@ -1,4 +1,5 @@
 import { Resend } from "resend"
+import { reminderUrl } from "@/lib/reminderLink"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { APP_URL } from "@/lib/env"
@@ -103,8 +104,8 @@ export async function GET(req: NextRequest) {
       debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
       token: receipt.id,
       isFirstDebrief,
-      optInUrl: isFirstDebrief ? `${APP_URL}/api/account/reminders?action=opt-in&uid=${receipt.user!.id}` : undefined,
-      optOutUrl: !isFirstDebrief ? `${APP_URL}/api/account/reminders?action=opt-out&uid=${receipt.user!.id}` : undefined,
+      optInUrl: isFirstDebrief ? reminderUrl(receipt.user!.id, "opt-in") : undefined,
+      optOutUrl: !isFirstDebrief ? reminderUrl(receipt.user!.id, "opt-out") : undefined,
     })
 
     try {

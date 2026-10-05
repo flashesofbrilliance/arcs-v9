@@ -705,6 +705,16 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
   fi
 done
 
+# cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
+# .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
+if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/cruft_sweep.py --self-test >/dev/null 2>&1; then
+    python3 scripts/cruft_sweep.py --self-test >&2 || true
+    echo "✖ pre-commit(cruft-sweep): prune would bundle the wrong HEAD. fix before committing." >&2
+    exit 1
+  fi
+fi
+
 # backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
 if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/backlog_freshness.py --self-test >/dev/null 2>&1; then
@@ -740,6 +750,33 @@ if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q 
     python3 scripts/open_loops.py --self-test >&2 || true
     echo "✖ pre-commit(open-loops): self-test failed." >&2
     exit 1
+  fi
+fi
+# resume-location guard (2026-10-05): every staged forge resume / ATS file's location line reads
+# exactly "New York Metro" (memory resume-location-new-york-metro-only). Added AND modified files:
+# the class propagates through edit-from-seed, so a touched seed must be clean too.
+if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/forge-*/resume-*.html' '_ARTIFACTS/forge-*/resume-*.txt' 2>/dev/null || true)
+  if [ -n "$rl" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/resume_location_gate.py $rl >&2; then
+      echo "✖ pre-commit(resume-location): fix with 'python3 scripts/resume_location_gate.py --fix', then re-render the PDF." >&2
+      exit 1
+    fi
+  fi
+fi
+# ---------------------------------------------------------------------------
+# Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
+# guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
+# null as "every anonymous row" and undefined as "no filter". Fires on staged
+# src .ts/.tsx. See scripts/null_userid_gate.py.
+if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  nu=$(git diff --cached --name-only --diff-filter=AM -- 'src/*.ts' 'src/*.tsx' 2>/dev/null || true)
+  if [ -n "$nu" ]; then
+    if ! echo "$nu" | tr '\n' '\0' | xargs -0 python3 scripts/null_userid_gate.py; then
+      echo "✖ commit blocked: unguarded session userId in a where filter (see above)." >&2
+      exit 1
+    fi
   fi
 fi
 exit 0

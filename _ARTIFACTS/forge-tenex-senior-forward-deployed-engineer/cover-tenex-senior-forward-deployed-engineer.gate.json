@@ -1,0 +1,33 @@
+{
+  "draft": "_ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/cover-tenex-senior-forward-deployed-engineer.md",
+  "at": "2026-10-05T21:43:25+00:00",
+  "gates": [
+    {
+      "id": "provenance",
+      "status": "HELD",
+      "detail": "no evidence ledger for this bundle, so its metrics are unchecked: [skip] _ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/cover-tenex-senior-forward-deployed-engineer.md - not enrolled (no evidence.jsonl); 2 metric(s) unchecked"
+    },
+    {
+      "id": "slop-lint",
+      "status": "PASS",
+      "detail": "[PASS] _ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/cover-tenex-senior-forward-deployed-engineer.md"
+    },
+    {
+      "id": "slop-eval",
+      "status": "SKIPPED",
+      "detail": "judgment tier not run (no ANTHROPIC_API_KEY or --no-judge); not counted as checked"
+    },
+    {
+      "id": "honest",
+      "status": "PASS",
+      "detail": "fate parked; failed: none"
+    }
+  ],
+  "verdict": "HELD",
+  "held_by": [
+    "provenance"
+  ],
+  "unchecked": [
+    "slop-eval"
+  ]
+}

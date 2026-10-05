@@ -64,9 +64,11 @@ function DashboardInner() {
   // Anonymous prep arrives via sessionStorage instead of a persisted prepId
   // (trust contract — no auth = no write path; see /prep + /api/prep).
   const [inboundInlinePrep] = useState(() => searchParams.get("prep") === "inline")
-  // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
+  // Tributary follow-up arriving from a brief: ?parent=<receiptId>. The session
+  // thread continues from this browser's own stored id, never from the URL: a
+  // ?sid= link could plant an attacker's id, and /api/receipts/claim would
+  // then hand them every anonymous receipt made under it.
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
-  const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
   // Outbound posts tag their compass link with ?utm_campaign= so runs from a
   // post are countable. Allowlisted slug only: it rides an analytics event,
   // never the receipt, and anonymous runs still persist nothing.
@@ -89,8 +91,12 @@ function DashboardInner() {
   // Session tracking — preserved across tributary follow-ups
   const [sessionId, setSessionId] = useState<string>("")
   const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
-  // Continue the brief's session thread if one arrived; otherwise start fresh.
-  useEffect(() => { setSessionId(inboundSid ?? crypto.randomUUID()) }, [inboundSid])
+  // Continue this browser's session thread on a follow-up; otherwise start fresh.
+  useEffect(() => {
+    let stored: string | null = null
+    try { stored = inboundParent ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
+    setSessionId(stored ?? crypto.randomUUID())
+  }, [inboundParent])
 
   // Animate the L0–L5 step indicator while the pipeline runs
   useEffect(() => {

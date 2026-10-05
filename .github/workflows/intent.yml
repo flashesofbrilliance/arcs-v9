@@ -5,6 +5,10 @@ on:
   pull_request: {}
   schedule: [{ cron: "23 13 * * 1" }]   # weekly: a repo goes stale without any commit
   workflow_dispatch: {}
+concurrency:
+  group: intent-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 jobs:
