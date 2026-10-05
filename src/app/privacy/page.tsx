@@ -20,7 +20,10 @@ const SOMETIMES = [
   { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link. Content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
   { what: 'Waitlist or advisory request stored', trigger: 'Only if you join the waitlist or ask for a consult. Stored in our database, emailed to the ARCS team, confirmation delivered through Resend' },
-  { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
+  { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting and privacy-friendly page analytics), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
+  { what: 'Your question goes to the ARCS scoring service', trigger: 'Each compass run sends the question, horizon and stakes to SAGE, ARCS\'s own scoring pipeline, which returns an advisory signal. It informs the reasoning; it never decides' },
+  { what: 'Anyone with a brief link can read that brief', trigger: 'Brief and receipt links are shareable by design. A link shows the decision and its reading, never your account id or your private prep notes' },
+  { what: 'Usage analytics', trigger: 'Vercel Analytics counts page views and a few actions, such as sharing a brief or saving a receipt, with the receipt id. No cookies, no decision text' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion. We notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging, purged after 30 days' },
 ]
@@ -192,7 +195,7 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.2 · effective 2026-10-03</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.3 · effective 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
             <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
