@@ -1,3 +1,189 @@
+# Handoff — v3.81.0 (2026-10-05)
+
+> **Job Factory: the Sept 2025 prototype read in full, a gauntleted spec, two slices merged, five open,
+> and the morning loop found dead since 2026-09-11 and fixed.** Merged on Zach's explicit asks: #757
+> (`1118a1ec`, slice 1 + seeds 5-16) and #754 (`602c7166`, slice 0). Receipts
+> `2026-10-05--job-factory-slice1-culture-evidence-pr757--ZH`, `2026-10-05--lane-kanban-drag-drop-pr754--ZH`.
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, across 7 session branches: ~10 commits, 2 merges to main (#757, #754), 2 receipts, 5 open PRs (#761 #769 #771 #773 #775), 1 scheduled-task prompt rewritten, 1 hung run stopped.
+- **Inhale** (what came in): 0 falsification rows (script). By hand: a 6-facet gauntlet returned 19 verified fixes against my own spec (3 breaks were mine: Ghosted on a timer, gated rows parked, rubric rewritten without receipt); the live dry run falsified half the first-pass culture hits; the morning-task "succeeded" runs were falsified by the watermark.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: script agreement 6 / dissent 0 -> RETURN. Fair as a count, but the dissent is in the record and not keyword-shaped: the gauntlet, the dry run, the 3.5-week stall, and two slices that came back HELD on real data (the Thesis Care letter; 94 of 95 bundles without an evidence ledger).
+- **Cold re-read (canary on the draft handoff-v380.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "the morning task is fixed" is downgraded to "the prompt is fixed"; the first fixed run's outcome is unseen. The cause line names three factors; only the dirty main checkout and the usage limit are evidenced (git state + one transcript), Gmail is not.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Slice 0, Lane kanban** (#754): drag and drop between stages, filter, every row per column (was capped at 4).
+- **Slice 1, culture with evidence** (#757): `rubric.culture_cues` in `runtime/specs/target-role-scan.json`,
+  `src/lib/culture-cues.ts`; quotes stored in `jdHits.culture_pos/neg`, shown on Role Scan; 2+ negative
+  phrases cap culture at 1 and fire the grind gate. Live dry run precision 6/13 then 5/5 after fixing JS
+  `async=true`, "governance boundary", "Transparency in Coverage". Cap never fired on live rows (0 negatives
+  in top 20); backfill rescore not run.
+- **Seeds 5-16** in `_SEEDS/index.jsonl` from a full read of `flashesofbrilliance/job-tracker-pro`:
+  9 candidates (culture-cue lexicon germinated) + 3 anti-seeds (synthetic seed data, protection theater,
+  consentless biometrics).
+- **Spec**: the claude.ai doc "Job Factory: spec, recommendation, plan" (artifact id dd89f5d5) is the only copy. 6-facet gauntlet: 19
+  verified fixes applied; teardown lenses BAR/COURT/KKL/FUN HOUSE/anterior-posterior run by hand (FUN HOUSE on
+  probation: stop building if sends per week do not rise in 3 weeks).
+
+## Open PRs (merge on green CI after the outage)
+| PR | Slice | Note |
+|---|---|---|
+| #761 | 3 outcome fate + reason | was stacked on #754, now standalone; pipeline token 403 on outcome |
+| #769 | 7 prose gate + answers | 1 of 95 bundles has an evidence ledger, so most drafts HOLD on provenance |
+| #771 | 2 Missed + drift + intake stall | conflicts with #775 in `JobsBoard.tsx` Row type + tag line |
+| #773 | 4 autonomy flags | PATCH admin-only; 5 stations locked |
+| #775 | 6 named trust chip + name-leak gate | 57 board rows, 6 companies; 0 of 412 staged files leak a name |
+
+## Morning task (scheduled `arcs-job-search-loop-retargeted-alerts`)
+- Found: no ingest since 2026-09-11. The main checkout sits on another session's dirty branch, so
+  `git pull --ff-only origin main` failed every run; the weekly usage limit killed 9/30 and 10/1; runs still
+  read "succeeded". One run hung 42 h (stopped).
+- Fixed on Zach's yes: dedicated detached worktree `.claude/worktrees/morning-jobs` at origin/main, a
+  loud preflight (`STATUS: FAILED <reason>`), 10-day backlog chunks, Step 7 reads `/api/jobs/drift`.
+- First fixed run `local_c4605b5e` started 2026-10-05 20:53 UTC; outcome not seen (may await tool approvals).
+
+## Open (next session)
+1. **GitHub Actions major outage** (since 19:11 UTC). A background watcher in this session re-runs CI on the
+   5 PRs once Actions is operational; if the session ended, re-run by hand, merge green with `--merge`, receipt each.
+2. Add the autonomy read (`GET /api/jobs/autonomy`) to the morning task once #773 deploys.
+3. Once #769 and #775 merge, wire #775's name-leak script into #769's prose gate. Champions tab ignores `?company=`.
+4. Backfill culture rescore (top two tiers first); a shared vetted evidence ledger for prose provenance.
+5. Chip running in a separate session: deterministic mechanical halves for the five teardown lenses.
+6. Carried from v3.79.0: Lyndon call + `/recoil-close`; Autopilot 10-13 nudge; Vico funding question.
+
+## Lessons (in the record)
+- A run that does nothing must not read as a run that worked: the stall hid for 3.5 weeks behind "succeeded".
+- My own journey diagram broke the human line in three places; the gauntlet caught it, not me.
+- A live dry run beat the fixtures: half the first-pass culture hits were false.
+
+# Handoff — v3.80.0 (2026-10-05)
+
+> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
+> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
+> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
+
+## Shipped + on main
+- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
+  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
+  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
+  `--self-test` 12/12.
+- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
+  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
+  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
+
+## Open (next session)
+1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
+   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
+   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
+   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
+   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
+2. Desktop glow not screenshot-compared against a pre-merge render (low).
+
+## Lessons (in the record)
+- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
+  hold a deliberate state (locked cards) the check never learned.
+- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
+  main's copy before blaming your diff.
+- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
+- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
+
+# Handoff — v3.79.0 (2026-10-05)
+
+> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
+> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
+- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
+- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
+- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
+
+## Shipped + on main
+- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
+  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
+  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
+  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
+  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
+- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
+  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
+  the browser pane. Other gated pages pick it up only on re-render.
+- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
+  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
+  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
+  regenerating from the SSOT (style block identical to main).
+- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+
+## Open (next session)
+1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
+   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
+2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
+   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
+   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
+3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
+4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
+5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
+   PR #725, PR #715); check wound-down sessions' branches.
+
+## Lessons (in the record)
+- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
+  caught it. Score from transcripts, never summaries.
+- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
+- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
+
+# Handoff — v3.79.1 (2026-10-04)
+
+> **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
+> (arcs.care home = survey landing, hardened `/api/lead`, trust contract 1.4, /privacy v1.2),
+> receipt `2026-10-04--field-landing-waitlist-pr705--ZH`. PR #737 merged at `85ec7a5d`
+> (annotation + link-search routes 401 without a session), receipt
+> `2026-10-04--privacy-hotfix-annotations-pr737--ZH`. Both on Zach's explicit "merge"; all checks green.
+
+## Shipped + on main
+- **Home** (`src/organisms/Landing.tsx`, `src/organisms/Scope.tsx`): headline, lede, the field (lidar
+  ziggurat, Now overlays on arrival, click-to-add overlays in a drawer, droplet moire, free camera,
+  F1-F5 depth dial on the Chronicle ladder), Open the compass. Waitlist is a compact header capture
+  (desktop field + compass button; phone toggle). Fog clears only after the server writes the row.
+- **`/api/lead`**: rate limit, 8 KB cap, zod, honeypot, case-insensitive dedup, one alert per new
+  address, mail in `after()`, no requester text in mail. Preview E2E: +test alias wrote 1 row (9 -> 10),
+  repeat wrote 0, both mails delivered once.
+- **Privacy hotfix #737**: `?? null` userId had matched every anonymous row; live 401 verified.
+- Shared `CloseButton`; `Field` labels linked.
+
+## Open (next session)
+1. **Privacy PR 2** (from the mirror review): `unstable_cache` keyed on anonymous question
+   (`compass/route.ts` ~229); Blob files not deleted on account delete; `/api/brief` GET returns
+   `userId` + `rawResponse` + `prep.adversarialInput` (default chosen: briefs stay link-readable,
+   strip those fields, disclose); reminders link uses a bare `uid` (sign it); /privacy must name
+   `SAGE_URL`, Vercel Analytics, and "link holders can read a brief".
+2. **Showcase mirror**: `claude/showcase-mirror` @ `4efd18ca` (manifest + `scripts/showcase_project.py`
+   + README). Mechanical gates clean; privacy-review said NOT SAFE (the product bugs above). After PR 2:
+   re-run review, trim job-search schema + `/admin/leads` comment, create `flashesofbrilliance/arcs-field-os`
+   PRIVATE, publish only on Zach's go. **Never flip arcs-v9 public** (third-party data in history).
+3. Other sessions' PRs: #727 promise ledger (conflicting), #735 audit P1 batch.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); alerts use the code fallback.
+
+## Lessons (memory)
+- `null-userid-matches-anonymous-rows`, `publish-review-is-an-audit-of-the-product`,
+  `one-image-one-relationship-sequence-unlocks`.
+
+||||||| 85ec7a5d
+
 # Handoff — v3.78.0 (2026-10-04)
 
 > **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
