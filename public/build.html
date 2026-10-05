@@ -101,6 +101,8 @@ a{color:inherit;text-decoration:none}
   background:radial-gradient(780px 380px at 15% -25%,rgba(0,240,255,.11),transparent 60%),
              radial-gradient(640px 340px at 94% -15%,rgba(0,255,157,.075),transparent 55%)}
 .masthead>*{position:relative;z-index:1}
+/* glow sits 60px past the lane; below ~1256px that is past the viewport, so hold it to the 22px gutter */
+@media (max-width:1279px){.masthead::before{left:-22px;right:-22px}}
 .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;
   letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);
   border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px}
