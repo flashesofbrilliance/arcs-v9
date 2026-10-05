@@ -290,6 +290,20 @@ test("Forge claim adjudication: rows become signal threads after beliefs, column
   assert.deepEqual([c[3].label, c[3].note], ["Forge \u00b7 INFERENCE", "cold start GROUNDED; 'test' motive unobserved"])
 })
 
+test("forgeMethod: Forge prose verbatim, half-filled paragraphs drop, audience honoured", () => {
+  const base = ssot()
+  const withForge = (block: Record<string, unknown>) => ({ ...base, page: { ...base.page, blocks: [block] } })
+  const raw = withForge({ tab: "forge", type: "prose", ...internal, h2: "Exhibit 2 &#183; Exogenous Forge", p: [
+    "Every claim run against the transcript. GROUNDED = a line forces it.",
+    "Run against ({{sources}}) by a skeptic.",
+    "Second real paragraph.",
+  ] })
+  assert.equal(adapt(raw).forgeMethod, "Every claim run against the transcript. GROUNDED = a line forces it.\n\nSecond real paragraph.")
+  assert.equal(adapt(raw, { audience: "external" }).forgeMethod, undefined)
+  const shared = withForge({ tab: "forge", type: "prose", ...both, h2: "Forge", p: ["The method crosses the air-gap."] })
+  assert.equal(adapt(shared, { audience: "external" }).forgeMethod, "The method crosses the air-gap.")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
