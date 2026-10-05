@@ -200,11 +200,14 @@ function normalizeSignalThreads(raw: RecoilReportRaw): RecoilReportData['signalT
 
 function normalizeScenarios(raw: RecoilReportRaw): RecoilReportData['scenarios'] {
   const s = raw.scenarios
-  if (isRecord(s) && isRecord(s.best) && isRecord(s.base) && isRecord(s.worst)) {
-    return s as unknown as RecoilReportData['scenarios'] // already flat shape
+  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.' }
+  if (isRecord(s) && (isRecord(s.best) || isRecord(s.base) || isRecord(s.worst))) {
+    // Flat shape; a slot with no source (e.g. a war-room pre-mortem only
+    // yields `worst`) renders the empty placeholder rather than invented copy.
+    const slot = (v: unknown) => (isRecord(v) ? (v as unknown as RecoilReportData['scenarios']['best']) : empty)
+    return { best: slot(s.best), base: slot(s.base), worst: slot(s.worst) }
   }
   const list = Array.isArray(s) ? s.filter(isRecord) : []
-  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.' }
   if (list.length === 0) return { best: empty, base: empty, worst: empty }
   // Preserve authored order (already probability-ranked, highest first, per
   // recoil-modes-v1.md scenario generation) into the fixed 3-slot tab UI.

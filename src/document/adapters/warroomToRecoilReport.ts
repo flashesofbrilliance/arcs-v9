@@ -18,8 +18,14 @@
 //   insights[] {plane,title,text}                                  → signalThreads[]
 //   beliefs[] {id,verdict,claim,evidence}                          → signalThreads[] (after insights)
 //   next_steps[] {owner,text}                                      → protocol[]
+//   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
+//     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
+//   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
+//     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
 //   (no source)                                                    → cover.actions, callWalk,
-//                                                                    scenarios, riskFlags
+//                                                                    scenarios.best, scenarios.base
+//
+// Unfilled template placeholders ({{...}}) are treated as absent.
 //
 // Audience air-gap: every SSOT node is tagged `audience: internal | both`.
 // `{ audience: 'external' }` keeps only nodes explicitly tagged `both`;
@@ -30,6 +36,7 @@
 
 import { T } from '../tokens'
 import type { RecoilReportData } from '../screens/RecoilReport'
+import type { AsideVariant } from '../patterns/AsideBox'
 
 export type WarroomAudience = 'internal' | 'external'
 
@@ -38,7 +45,7 @@ export interface WarroomRecoilReport {
   loadBearingQuote?: RecoilReportData['loadBearingQuote']
   callWalk?: RecoilReportData['callWalk']
   signalThreads?: RecoilReportData['signalThreads']
-  scenarios?: RecoilReportData['scenarios']
+  scenarios?: Partial<RecoilReportData['scenarios']>
   riskFlags?: RecoilReportData['riskFlags']
   protocol?: RecoilReportData['protocol']
 }
@@ -77,12 +84,14 @@ const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"'
 function text(v: unknown): string | undefined {
   if (typeof v !== 'string') return undefined
   const out = v
+    // Redaction spans (text colour == background) mask filler, not content.
+    .replace(/<span[^>]*background:\s*([^;"]+);\s*color:\s*\1[^>]*>[\s\S]*?<\/span>/gi, '')
     .replace(/<[^>]*>/g, '')
     .replace(/&#(\d+);/g, (_, n: string) => String.fromCodePoint(Number(n)))
     .replace(/&#x([0-9a-f]+);/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
     .replace(/&([a-z]+);/gi, (m, n: string) => ENTITIES[n.toLowerCase()] ?? m)
     .trim()
-  return out.length ? out : undefined
+  return out.length && !out.includes('{{') ? out : undefined
 }
 
 function join(parts: (string | undefined)[], sep = ' · '): string | undefined {
@@ -93,6 +102,65 @@ function join(parts: (string | undefined)[], sep = ' · '): string | undefined {
 function visible(node: unknown, audience: WarroomAudience): boolean {
   if (audience === 'internal') return true
   return isRecord(node) && node.audience === 'both'
+}
+
+const LENS_VARIANT: [RegExp, AsideVariant][] = [[/^BAR/i, 'warning'], [/LOKI/i, 'caution'], [/^COURT/i, 'info']]
+const DOT_VARIANT: Record<string, AsideVariant> = { red: 'warning', gold: 'caution', g: 'success' }
+
+// Gauntlet items lead with `<strong>LENS:</strong>`; split that off as the label.
+function splitLens(html: unknown): { label?: string; body?: string } {
+  if (typeof html !== 'string') return {}
+  const m = html.match(/^\s*<strong>([^<]+?):?<\/strong>:?\s*([\s\S]*)$/)
+  if (!m) return { body: text(html) }
+  return { label: text(m[1]), body: text(m[2]) }
+}
+
+function wargameBlocks(root: Rec, audience: WarroomAudience): Rec[] {
+  return parseList(rec(root.page).blocks).filter((b): b is Rec => isRecord(b) && b.tab === 'wargame' && visible(b, audience))
+}
+
+function riskFlagsFromGauntlet(blocks: Rec[]): RecoilReportData['riskFlags'] {
+  const flags: RecoilReportData['riskFlags'] = []
+  for (const b of blocks) {
+    if (b.type !== 'list') continue
+    for (const item of parseList(b.items)) {
+      if (!isRecord(item)) continue
+      const { label, body } = splitLens(item.html)
+      if (!body) continue
+      const variant = (label ? LENS_VARIANT.find(([re]) => re.test(label))?.[1] : undefined) ?? DOT_VARIANT[String(item.dot)] ?? 'info'
+      flags.push({ variant, label: label ?? 'Gauntlet', body })
+    }
+  }
+  return flags
+}
+
+// The pre-mortem assumes the engagement is dead and walks the critical path:
+// that is a worst-case scenario, and the only scenario the war room records.
+function worstFromPremortem(blocks: Rec[]): RecoilReportData['scenarios']['worst'] | undefined {
+  const table = blocks.find((b) => b.type === 'table' && /pre-?mortem/i.test(text(b.h2) ?? ''))
+  if (!table) return undefined
+  const cols = parseList(table.columns).map((c) => text(c) ?? '')
+  const col = (re: RegExp) => cols.findIndex((c) => re.test(c))
+  const iFail = col(/failure/i)
+  const iHandle = col(/handling|gate/i)
+  const lines: string[] = []
+  let bottleneck: string | undefined
+  for (const row of parseList(table.rows)) {
+    const cells = parseList(row)
+    const node = text(cells[0])?.replace(/\s*·?\s*BOTTLENECK.*$/i, '')
+    if (!node) continue
+    const fail = iFail >= 0 ? text(cells[iFail]) : undefined
+    const handle = iHandle >= 0 ? text(cells[iHandle]) : undefined
+    if (!fail && !handle) continue // a bare node number is not a scenario
+    if (/BOTTLENECK/i.test(cells.map((c) => (typeof c === 'string' ? c : '')).join(' '))) bottleneck ??= node
+    lines.push(join([node, fail ? `dies if: ${fail}` : undefined, handle ? `move: ${handle}` : undefined], ', ') ?? node)
+  }
+  if (!lines.length) return undefined
+  return {
+    title: text(table.h2) ?? 'Pre-mortem',
+    body: lines.join(' / '),
+    ...(bottleneck ? { note: `Bottleneck: ${bottleneck}` } : {}),
+  }
 }
 
 const VERDICT_ACCENT: Record<string, string> = { CONFIRMED: T.green, FALSIFIED: T.red, OPEN: T.gold }
@@ -156,10 +224,16 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     protocol.push({ label: `Next ${n}`, title: text(s.owner) ?? `Step ${n}`, body, ...(protocol.length === 0 ? { active: true } : {}) })
   }
 
+  const wargame = wargameBlocks(root, audience)
+  const riskFlags = riskFlagsFromGauntlet(wargame)
+  const worst = worstFromPremortem(wargame)
+
   return {
     ...(Object.keys(cover).length ? { cover } : {}),
     ...(loadBearingQuote ? { loadBearingQuote } : {}),
     ...(threads.length ? { signalThreads: threads } : {}),
     ...(protocol.length ? { protocol } : {}),
+    ...(riskFlags.length ? { riskFlags } : {}),
+    ...(worst ? { scenarios: { worst } } : {}),
   }
 }
