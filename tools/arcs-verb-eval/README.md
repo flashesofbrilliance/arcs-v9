@@ -93,6 +93,23 @@ At Analysis and Synthesis, every money, percent or "N+" figure must match a patt
 
 Every step report matches `schema/report.schema.json`. Check a saved one with `./arcs-verb-eval validate report.json`.
 
+## High-stakes lenses
+
+A gauntlet that declares `"stakes": "high"` (or runs with `--set evaluation.stakes=high`; config can raise stakes, never lower a gauntlet's own) runs the **mechanical half** of the five teardown lenses in `arcs_verb_eval_lenses.py`. Any miss exits 1.
+
+| Gate | Checks |
+|---|---|
+| `lens-all-five` | BAR, COURT, KKL, FUN HOUSE and ANTERIOR/POSTERIOR are all present |
+| `lens-contract` | each lens has `verdict` in survives / survives_with_fix / fails; at least one `evidence` cite as `path:line` that resolves in the repo; every `forces` item names an existing file or `file#heading`; `confirmed` and `untested` are separate lists with no overlap |
+| `lens-dissent` | at least one lens verdict is short of `survives` |
+| `probe-bar` | every locked station in the station-flags JSON refuses Auto |
+| `probe-court` | every `src/app/api/jobs/**/route.ts` that writes a swipe / outcome / rubric model requires an admin session, not the pipeline token |
+| `probe-kkl` | no open-loop deadline (backlog `review_by`, filtered the way `scripts/open_loops.py` filters it) lands inside a plan slice unless the plan acknowledges it |
+| `probe-fun-house` | stop-loss = slices shipped per send over the window, computed from the ledgers; `null` with a reason when a ledger is absent; a lens that claims a different number fails as fabricated |
+| `probe-anterior-posterior` | the prior file was committed, and never edited, before the evidence file's first commit; the posterior may move registered beliefs but not add new ones |
+
+Missing probe config is a failure, not a skip. The probes answer questions with one answer (does the line resolve, was the prior committed first, does the number match the ledger). Whether the ruin path is real stays the 0 to 2 rubric a person scores: a regex that pretends to judge ruin is the protection theater this tool refuses to be. Worked example: `sample/high-stakes/gauntlet.json` (the 2026-10-05 Job Factory teardown, re-run mechanically; it exits 1 today on COURT and ANTERIOR/POSTERIOR).
+
 ## Anti-sycophancy
 
 This is the Operator 25 Shavasana check: it counts agreement markers against dissent markers. It returns RETURN when there are 5 or more agreements and no dissent, and THIN when the ratio is above 4. It is report-only at Analysis, Assessment and Synthesis, and blocks at Evaluation and Recapitulation, where agreement pressure costs the most. The Evaluation gate also has a **dissent floor**: if no lens dissented, it wasn't a real gauntlet.
