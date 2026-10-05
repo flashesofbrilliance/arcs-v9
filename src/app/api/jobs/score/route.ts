@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
+import { MODELS } from "@/lib/claude-models"
 import { extractCultureCues, applyCultureGuard, cultureNote, mergeJdHits, type CultureCues, type CultureHits } from "@/lib/culture-cues"
 
 // POST /api/jobs/score - the JD-read + score worker's model half. LinkedIn JD
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
   const msg = await anthropic.messages.create({
     // ~200 output tokens per row on average (9 dims + gates + assessment) with real variance; 8 rows at a flat 1600
     // truncated mid-array and came back unparseable, so size the cap to the batch with headroom.
-    model: "claude-haiku-4-5-20251001", max_tokens: Math.max(1600, 300 * rows.length), temperature: 0,
+    model: MODELS.scorer, max_tokens: Math.max(1600, 300 * rows.length), temperature: 0,
     system: [{ type: "text", text: systemPrompt(s), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Score these ${rows.length} postings:\n\n${jds}` }],
   })

@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { callerFor } from "@/lib/jobs"
+import { MODELS } from "@/lib/claude-models"
 
 // POST /api/jobs/rescore-dims - one-shot migration worker for the v1.1 -> v1.2
 // rubric split. v1.1 scored a single `strength_leverage` (0-3); v1.2 replaces it
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
 
   const lines = rows.map((r) => `### jobid ${r.jobid} - ${r.title} @ ${r.company}\nold strength_leverage: ${r.dims?.strength_leverage ?? "n/a"}\nassessment: ${r.assessment ?? "none"}`).join("\n\n")
   const msg = await anthropic.messages.create({
-    model: "claude-haiku-4-5-20251001", max_tokens: 1200, temperature: 0,
+    model: MODELS.scorer, max_tokens: 1200, temperature: 0,
     system: [{ type: "text", text: systemPrompt(dims), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: `Re-score these ${rows.length} rows:\n\n${lines}` }],
   })

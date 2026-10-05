@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
+import { writerCall } from "@/lib/claude-models"
 import { callerFor } from "@/lib/jobs"
 
 // POST /api/jobs/edit-from-seed — the token-saving half of the edit-from-seed
@@ -12,7 +13,7 @@ import { callerFor } from "@/lib/jobs"
 // The caller fetches the JD + reads the seed HTML locally and renders the PDF;
 // this route only holds the key and does the model edit. Gated.
 export const dynamic = "force-dynamic"
-export const maxDuration = 60
+export const maxDuration = 120 // Sonnet 5.5 thinks before answering; 60s was tight
 
 type Body = { jobid: string; title: string; company: string; jd: string; seedSlug: string; seedResumeHtml: string }
 
@@ -36,15 +37,16 @@ export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json({ error: "editor unavailable (no key)" }, { status: 503 })
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-  const msg = await anthropic.messages.create({
-    model: "claude-sonnet-4-6", max_tokens: 6000, temperature: 0.2,
+  const r = await writerCall(anthropic, {
+    max_tokens: 16000, effort: "low",
     system: [
       { type: "text", text: SYSTEM },
       { type: "text", text: `SEED RESUME HTML (copy find targets from here, verbatim):\n${b.seedResumeHtml.slice(0, 40000)}`, cache_control: { type: "ephemeral" } },
     ],
     messages: [{ role: "user", content: `NEW role: ${b.title} @ ${b.company} (jobid ${b.jobid}) · seed ${b.seedSlug}\n\n--- NEW JD ---\n${b.jd.slice(0, 6000)}\n\nReturn the patch (edits[]) that re-points the seed to this role.` }],
   })
-  const txt = msg.content.map((c) => ("text" in c ? c.text : "")).join("")
+  if (!r.ok) return NextResponse.json({ error: `editor declined (refusal${r.refusal ? `: ${r.refusal}` : ""})` }, { status: 502 })
+  const txt = r.text
   let out
   try { out = JSON.parse(txt.slice(txt.indexOf("{"), txt.lastIndexOf("}") + 1)) }
   catch { return NextResponse.json({ error: "editor returned unparseable output" }, { status: 502 }) }
@@ -57,5 +59,5 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "editor patch failed air-gap (em-dash or scoring vocab)" }, { status: 502 })
     }
   }
-  return NextResponse.json({ edits, assessment: out.assessment, hiringManager: out.hiringManager, contact: out.contact, usage: { input: msg.usage.input_tokens, output: msg.usage.output_tokens, cache_read: msg.usage.cache_read_input_tokens ?? 0 } })
+  return NextResponse.json({ edits, assessment: out.assessment, hiringManager: out.hiringManager, contact: out.contact, usage: r.usage })
 }
