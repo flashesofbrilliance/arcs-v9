@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-05T16:10:47-04:00",
+  "captured_at": "2026-10-05T17:07:13-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "a69e9da",
-    "head_message": "Merge pull request #753 from flashesofbrilliance/claude/field-keys",
+    "head_sha": "602c716",
+    "head_message": "Merge pull request #754 from flashesofbrilliance/claude/job-tracker-arcs-care-integration-904901",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at handoff time; handoff rides claude/handoff-v3.79"
+    "note": "origin/main at 602c716 after #757 (slice 1 + seeds) and #754 (slice 0) merged 2026-10-05"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-dqt2ds9pf-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-jifs45v8e-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "PR #745: family-roster check accepts locked playground cards, ADR stat 79, build.html glow overflow fixed; kintsugi 77->95 traced to stale main-checkout hooks in 25/27 worktrees.",
-  "next_action": "Land chip task_bd140094 (repoint worktree core.hooksPath to relative scripts/git-hooks) after Zach's yes.",
-  "blocking": "NONE",
+  "session_summary": "Job Factory: read job-tracker-pro (Sept 2025 prototype) in full, wrote and gauntleted the spec (claude.ai doc dd89f5d5), shipped slices 0+1 (#754, #757), opened slices 2,3,4,6,7 (#771,#761,#773,#775,#769), found and fixed the morning task stall (Find dead since 2026-09-11).",
+  "next_action": "When GitHub Actions recovers, merge #761 #769 #771 #773 #775 on green CI (resolve #771/#775 JobsBoard conflict), log receipts, then add the autonomy + drift reads to the morning task.",
+  "blocking": "GitHub Actions major outage (since 2026-10-05 19:11 UTC) blocks CI on 5 open PRs; morning task first fixed run may await tool approvals",
   "git_refreshed_at": "2026-10-05T16:10:47-04:00"
 }
