@@ -4,7 +4,7 @@
 // highest-scoring BUILT bundle in the same shape cluster (the seed), reads that
 // seed's resume HTML locally, fetches the target JD, and posts both to
 // POST /api/jobs/edit-from-seed (holds the key; edits, does not regenerate).
-// It then renders the edited resume to a 2-page PDF + ATS text locally, writes a
+// It swaps in the canonical _PATTERNS/resume-print-base.css, then renders the edited resume to a 2-page PDF + ATS text locally, writes a
 // resume-only bundle, registers it, marks the row built, and mirrors to iCloud.
 // No landing page (resume is the deliverable; a role that advances gets a full
 // forge). ~1/3 the tokens of a full forge.
@@ -88,6 +88,11 @@ async function main() {
     }
     if (applied === 0) { console.error(`  no edits applied (all ${(e.edits||[]).length} find-strings missed the seed) — skipped`); continue }
     if (missed.length) console.log(`  applied ${applied}/${(e.edits||[]).length} edits (${missed.length} find-strings not located)`)
+    // restyle from the canonical print stylesheet, never the seed's copy: seeds carried a
+    // 4.1:1 accent and 7-10px text into every child (kintsugi seam 2026-10-05)
+    const baseCss = fs.readFileSync("_PATTERNS/resume-print-base.css", "utf8")
+    if (/<style>[\s\S]*?<\/style>/.test(html)) html = html.replace(/<style>[\s\S]*?<\/style>/, () => `<style>\n${baseCss}</style>`)
+    else console.error("  seed has no <style> block; canonical stylesheet not applied")
     const d = path.join("_ARTIFACTS", `forge-${slug}`); fs.mkdirSync(d, { recursive: true })
     fs.writeFileSync(path.join(d, `resume-${slug}.html`), html)
     fs.writeFileSync(path.join(d, "jd-full.txt"), jd)

@@ -542,3 +542,27 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   memory says "PM ceremony/buzzword theater"). Real signal, not a false positive: a post about a resume
   reading as AI slop should not carry a stock AI phrase.
 - **Guard:** the kintsugi pre-commit hook already blocks this class on new files; no new gate needed.
+
+## 2026-10-05 · edit-from-seed forge resumes inherit the seed's print grammar (Upside FDE bundle)
+
+- **Break:** `scripts/forge_edit_from_seed.mjs --jobid bridge-upside-4e945c74` built
+  `_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/` from the Tenex FDE seed, and the commit
+  was blocked: 103 findings on a new file (39 tiny-body, 38 undersized-functional, 6 low-contrast
+  `#0089a8` at 4.1:1, 5 all-caps body, 15 DESIGN.md scope). There is no resume generator: 89 of 95
+  forge bundles carry one byte-identical `<style>` block copied seed to child, so every
+  edit-from-seed bundle inherited the debt. Earlier seams here (Vico 09-16, squad 09-24) accepted
+  it with `--no-verify` and named the template as the real fix; this is that fix.
+- **Repair:** one canonical stylesheet, `_PATTERNS/resume-print-base.css`. `--accent`/`--metric`
+  `#0089a8 -> #0e7490` (AA on white), `--faint` `#8a97a4 -> #64727f`, every text role >= 12px (the
+  detector's body floor; 11px still read as tiny body), uppercase kept only on the short section
+  and skill labels (tagline, gloss, fit, target, footer are sentence case now). Spacing and line
+  height tightened so the Upside resume still prints to exactly 2 letter pages. 103 -> 11, and the
+  11 are DESIGN.md scope only (paper sheet vs the app's dark ramp, Inter as primary font).
+- **Guard:** `forge_edit_from_seed.mjs` now swaps the canonical stylesheet in for the seed's
+  `<style>` on every run, so a seed's stale copy can no longer propagate. `.impeccable/config.json`
+  waives only `design-system-color`, `design-system-font-size` and `overused-font` for the glob
+  `_ARTIFACTS/forge-*/resume-*.html` (the same separate-visual-world call the kit pages get per
+  file; a glob here because the family grows by one bundle per run). Contrast, size floors and
+  all-caps stay live, so a regression in the stylesheet still blocks. The 94 older bundles keep
+  their old block (frozen baseline, ratchet WARN on edit); restyle them by applying the stylesheet
+  and re-rendering if they are re-sent.
