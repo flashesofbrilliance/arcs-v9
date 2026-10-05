@@ -191,6 +191,15 @@ _This block asserts nothing new. Counts, paths, and questions only._
 5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
    PR #725, PR #715); check wound-down sessions' branches.
 
+## Addendum (same session, after #750)
+- Receipt follow-up row `2026-10-05--lyndon-precall-refresh-pr746-followup--ZH` appended (original #746 row left unchanged).
+- Night-moves full-day digest for 2026-10-04 in PR #755. The integrity gate caught that I had listed the promise gate (#727)
+  and model-id registry (#715) as shipped; corrected to open PRs. CI jobs were cancelled unacquired during a GitHub Actions
+  incident (status: degraded); re-run queued with a watcher that merges only on all-green. Check #755 state first.
+- Memory `project_jarrod_wolf_success_academy` description refreshed (HM round 1 held 09-29, no reply as of 10-05).
+- Gmail DRAFT (not sent) nudge to Brian Mayer in thread `1a0d48867025d2b3`; plan was to send Tue 10-06 if Jarrod stays silent.
+- Found: `scripts/dependency_sweep.py` (named by /night-moves) was never merged; two handoffs were both numbered v3.79.0 (#738 open).
+
 ## Lessons (in the record)
 - A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
   caught it. Score from transcripts, never summaries.
