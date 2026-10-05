@@ -21,7 +21,9 @@
   ],
   "probes": {
     "BAR": {"stations": "tools/arcs-verb-eval/sample/high-stakes/stations.json"},
-    "COURT": {"routes": "src/app/api/jobs"},
+    "COURT": {"routes": "src/app/api/jobs", "allowed_carveouts": [
+      {"route": "src/app/api/jobs/swipe/route.ts", "term": "evalRow",
+       "why": "Zach 2026-10-05: kept. scripts/jobs_trigger_eval.mjs drives the swipe route with x-jobs-token on throwaway eval-* rows; the pipeline token is accepted only on a jobid starting eval-."}]},
     "KKL": {"plan": "tools/arcs-verb-eval/sample/high-stakes/plan.json"},
     "FUN HOUSE": {"sends_ledger": "_STATE/job-search/sends-ledger.jsonl", "slices_ledger": "_STATE/job-search/slices-ledger.jsonl", "max_slices_per_send": 2},
     "ANTERIOR/POSTERIOR": {"prior": "_STATE/job-search/job-factory-prior.json", "evidence": "_STATE/job-search/job-factory-spec-2026-10-05.md", "posterior": "_STATE/job-search/job-factory-posterior.json"}

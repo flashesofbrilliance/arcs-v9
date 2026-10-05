@@ -49,6 +49,8 @@ WRITE_RE = re.compile(r"prisma\.(?P<model>[A-Za-z]+)\.(create|createMany|upsert|
 MUTATING_RE = re.compile(r"export\s+async\s+function\s+(POST|PUT|PATCH|DELETE)\b")
 ADMIN_RE = re.compile(r"""caller\??\.kind\s*!==?\s*["']admin["']|\brequireAdmin(Session)?\(""")
 DEFAULT_GUARDED_MODELS = r"swipe|outcome|rubric"
+# src/lib/admin.ts doctrine: dev passes through outside production. The only carve-out sanctioned by default.
+DEV_TERM_RE = re.compile(r"""^!\(\s*caller\??\.kind\s*===?\s*["']dev["']\s*&&\s*process\.env\.NODE_ENV\s*!==?\s*["']production["']\s*\)$""")
 
 
 def canon(name: str) -> str | None:
@@ -134,13 +136,74 @@ def probe_bar(root: Path, cfg: dict) -> tuple[bool, str]:
     return not bad, f"{locked}/{len(st)} stations locked" + (f"; locked but Auto allowed: {', '.join(bad)}" if bad else "; every locked station refuses Auto")
 
 
+def _split_and(expr: str) -> list[str]:
+    """Split an expression on top-level && (outside parens, brackets and strings)."""
+    terms, depth, quote, cur, i = [], 0, None, "", 0
+    while i < len(expr):
+        c = expr[i]
+        if quote:
+            cur += c
+            if c == "\\" and i + 1 < len(expr):
+                cur, i = cur + expr[i + 1], i + 1
+            elif c == quote:
+                quote = None
+        elif c in "\"'`":
+            quote, cur = c, cur + c
+        elif c in "([{":
+            depth, cur = depth + 1, cur + c
+        elif c in ")]}":
+            depth, cur = depth - 1, cur + c
+        elif expr.startswith("&&", i) and depth == 0:
+            terms, cur, i = terms + [cur.strip()], "", i + 1
+        else:
+            cur += c
+        i += 1
+    return terms + [cur.strip()] if cur.strip() else terms
+
+
+def admin_guards(src: str) -> list[tuple[str, list[str]]]:
+    """For each `caller.kind !== "admin"` match: the full if (...) condition and its extra && terms (carve-outs)."""
+    out = []
+    for m in ADMIN_RE.finditer(src):
+        if m.group(0).startswith("requireAdmin"):
+            continue
+        k = src.rfind("if", 0, m.start())
+        op = src.find("(", k) if k >= 0 else -1
+        if op < 0 or op > m.start():
+            out.append((m.group(0), []))
+            continue
+        depth, end = 0, None
+        for j in range(op, len(src)):
+            depth += {"(": 1, ")": -1}.get(src[j], 0)
+            if depth == 0:
+                end = j
+                break
+        if end is None or end < m.end():
+            out.append((m.group(0), []))
+            continue
+        cond = " ".join(src[op + 1:end].split())
+        extra = [t for t in _split_and(cond) if not ADMIN_RE.search(t)]
+        out.append((cond, extra))
+    return out
+
+
+def carve_name(term: str) -> str:
+    t = term[1:].strip() if term.startswith("!") else term
+    return t[1:-1].strip() if t.startswith("(") and t.endswith(")") else t
+
+
 def probe_court(root: Path, cfg: dict) -> tuple[bool, str]:
-    """Any route that writes a guarded model (swipe/outcome/rubric) must require an admin session."""
+    """Any route that writes a guarded model (swipe/outcome/rubric) must require an admin session.
+    Every extra && term on the admin guard is a carve-out: the dev-outside-production term is sanctioned by
+    default; any other must be declared in cfg["allowed_carveouts"] ({route, term, why}). The probe asks only
+    whether a carve-out was declared, never whether it is acceptable."""
     base = root / str(cfg.get("routes", "src/app/api/jobs"))
     if not base.is_dir():
         return False, f"routes dir {base.relative_to(root) if base.is_relative_to(root) else base} missing; fail closed"
     guard = re.compile(cfg.get("guarded_models", DEFAULT_GUARDED_MODELS), re.I)
-    hits, bad = [], []
+    declared = {(str(d.get("route", "")), str(d.get("term", ""))): str(d.get("why", ""))
+                for d in cfg.get("allowed_carveouts", []) if isinstance(d, dict)}
+    hits, bad, undeclared, noted = [], [], [], []
     for f in sorted(base.rglob("route.ts")):
         src = f.read_text(errors="replace")
         models = {m["model"] for m in WRITE_RE.finditer(src) if guard.search(m["model"])}
@@ -150,9 +213,29 @@ def probe_court(root: Path, cfg: dict) -> tuple[bool, str]:
         hits.append(rel)
         if not ADMIN_RE.search(src):
             bad.append(f"{rel} ({', '.join(sorted(models))})")
+            continue
+        for _cond, extra in admin_guards(src):
+            for t in extra:
+                if DEV_TERM_RE.match(t):
+                    continue
+                name = carve_name(t)
+                why = declared.get((rel, name))
+                if why is None:
+                    undeclared.append(f"{rel} term `{name}`")
+                else:
+                    noted.append(f"{rel} `{name}` declared: {why or 'no reason given'}")
     if not hits:
         return True, f"no route under {cfg.get('routes', 'src/app/api/jobs')} writes a guarded model"
-    return not bad, f"{len(hits)} guarded-write routes" + (f"; pipeline token or no admin check: {'; '.join(bad)}" if bad else "; all require an admin session")
+    ev = f"{len(hits)} guarded-write routes"
+    if bad:
+        ev += f"; pipeline token or no admin check: {'; '.join(bad)}"
+    if undeclared:
+        ev += f"; undeclared carve-out on the admin guard (declare in probes.COURT.allowed_carveouts): {'; '.join(undeclared)}"
+    if not bad and not undeclared:
+        ev += "; all require an admin session"
+    if noted:
+        ev += f"; carve-outs: {'; '.join(noted)}"
+    return not bad and not undeclared, ev
 
 
 def _open_loops(root: Path):
@@ -328,6 +411,8 @@ def _fixture() -> tuple[Path, dict]:
     files = {
         "spec.md": "# Job Factory\n\n## Stations\n\nForge, Send.\n\n## Stop loss\n\nOne slice per send.\n",
         "src/app/api/jobs/swipe/route.ts": 'export async function POST(req) {\n  const caller = await callerFor(req)\n  if (!caller || caller.kind !== "admin") return deny()\n  await prisma.jobSwipe.upsert({})\n}\n',
+        "src/app/api/jobs/rubric/route.ts": 'export async function POST(req) {\n  const caller = await callerFor(req)\n  const evalRow = caller?.kind === "pipeline" && jobid.startsWith("eval-")\n  if (caller.kind !== "admin" && !(caller.kind === "dev" && process.env.NODE_ENV !== "production") && !evalRow) return deny()\n  await prisma.rubric.upsert({})\n}\n',
+        "src/app/api/jobs/outcome/route.ts": 'export async function POST(req) {\n  const caller = await callerFor(req)\n  if (caller.kind !== "admin" && !(caller.kind === "dev" && process.env.NODE_ENV !== "production")) return deny()\n  await prisma.outcome.upsert({})\n}\n',
         "src/app/api/jobs/score/route.ts": "export async function POST(req) {\n  const caller = await callerFor(req)\n  await prisma.score.upsert({})\n}\n",
         "stations.json": json.dumps({"stations": [{"id": "send", "locked": True, "auto": False}, {"id": "scan", "locked": False, "auto": True}]}),
         "plan.json": json.dumps({"slices": [{"id": "s1", "start": "2026-10-06", "end": "2026-10-10"}], "acknowledged": ["lyndon"]}),
@@ -357,7 +442,8 @@ def _fixture() -> tuple[Path, dict]:
          "lenses": [lens("BAR", "survives_with_fix"), lens("COURT"), lens("KKL"),
                     lens("FUN HOUSE", stop_loss=1.5), lens("ANTERIOR/POSTERIOR", "fails")],
          "probes": {"BAR": {"stations": "stations.json"},
-                    "COURT": {"routes": "src/app/api/jobs"},
+                    "COURT": {"routes": "src/app/api/jobs", "allowed_carveouts": [
+                        {"route": "src/app/api/jobs/rubric/route.ts", "term": "evalRow", "why": "eval-* rows driven by the trigger eval"}]},
                     "KKL": {"plan": "plan.json"},
                     "FUN HOUSE": {"sends_ledger": "ledgers/sends.jsonl", "slices_ledger": "ledgers/slices.jsonl",
                                   "as_of": "2026-10-05", "window_days": 7, "max_slices_per_send": 2},
@@ -396,6 +482,8 @@ BAD = [
     ("lens-dissent", lambda g: [l.update(verdict="survives", result="pass") for l in g["lenses"]]),
     ("probe-bar", lambda g: g["probes"]["BAR"].update(stations="nope.json")),
     ("probe-court", lambda g: g["probes"]["COURT"].update(guarded_models="swipe|score")),
+    ("probe-court", lambda g: g["probes"]["COURT"].pop("allowed_carveouts")),
+    ("probe-court", lambda g: g["probes"]["COURT"].update(allowed_carveouts=[{"route": "src/app/api/jobs/swipe/route.ts", "term": "evalRow", "why": "wrong route"}])),
     ("probe-kkl", lambda g: g["probes"]["KKL"].update(plan="plan-unack.json")),
     ("probe-fun-house", lambda g: _lens(g, "FUN HOUSE").update(stop_loss=0.5)),
     ("probe-fun-house", lambda g: g["probes"]["FUN HOUSE"].update(max_slices_per_send=1)),
@@ -427,6 +515,11 @@ def self_test() -> int:
     for gate, fn in BAD:
         r = run(_mut(good, fn))
         check(gate in r["failed"] and not r["ok"], f"{gate:<26} fires" + ("" if gate in r["failed"] else f"  (failed: {r['failed']})"))
+    court = rep.get("lenses", {}).get("probes", {}).get("COURT", {}).get("evidence", "")
+    check("`evalRow` declared: eval-* rows" in court and "outcome" not in court.split("carve-outs:")[-1],
+          "COURT: declared carve-out named in evidence; dev-outside-production term sanctioned silently")
+    r = run(_mut(good, lambda g: g["probes"]["COURT"].pop("allowed_carveouts")))
+    check("rubric/route.ts term `evalRow`" in r["lenses"]["probes"]["COURT"]["evidence"], "COURT: undeclared carve-out names route and term")
     # stop-loss honesty: a missing ledger yields null with a reason, and a lens claiming a number fails
     nul = _mut(good, lambda g: (g["probes"]["FUN HOUSE"].pop("sends_ledger"), _lens(g, "FUN HOUSE").update(stop_loss=None)))
     r = run(nul)

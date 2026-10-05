@@ -108,6 +108,8 @@ A gauntlet that declares `"stakes": "high"` (or runs with `--set evaluation.stak
 | `probe-fun-house` | stop-loss = slices shipped per send over the window, computed from the ledgers; `null` with a reason when a ledger is absent; a lens that claims a different number fails as fabricated |
 | `probe-anterior-posterior` | the prior file was committed, and never edited, before the evidence file's first commit; the posterior may move registered beliefs but not add new ones |
 
+COURT reads every extra `&& !(...)` / `&& !name` term on the admin guard as a carve-out. The dev-outside-production term (`src/lib/admin.ts` doctrine) is sanctioned by default; any other must be listed in `probes.COURT.allowed_carveouts` as `{route, term, why}` or the probe fails naming the route and term. Declared carve-outs are printed in the evidence. The probe asks only whether a carve-out was declared, never whether it is acceptable.
+
 Missing probe config is a failure, not a skip. The probes answer questions with one answer (does the line resolve, was the prior committed first, does the number match the ledger). Whether the ruin path is real stays the 0 to 2 rubric a person scores: a regex that pretends to judge ruin is the protection theater this tool refuses to be. Worked example: `sample/high-stakes/gauntlet.json` (the 2026-10-05 Job Factory teardown, re-run mechanically; it exits 1 today on COURT and ANTERIOR/POSTERIOR).
 
 ## Anti-sycophancy
