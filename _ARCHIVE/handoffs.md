@@ -1,3 +1,38 @@
+# Handoff — v3.82.0 (2026-10-05)
+
+> **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
+> PR #760 (`6cb36019`, handoff v3.80.0) and PR #756 (`04622e99`, hooksPath repoint) merged on Zach's
+> explicit "without CI". Receipts: `...-pr760--ZH`, `...-pr760-actions-stall-cause--ZH`,
+> `2026-10-05--hookspath-repoint-pr756--ZH`, `...-pr756-manual-two--ZH`, `...-pr756-control-invalid--ZH`.
+
+## Shipped + on main
+- **#756 (chip task_bd140094, session archived):** the desktop app's `configureHooksPath` writes the main
+  checkout's absolute `scripts/git-hooks` into each worktree's `config.worktree` on create and reopen, so
+  worktrees ran the main checkout's stale pre-commit (the kintsugi 77 vs 95 phantom on #745).
+  `scripts/hookspath_arm.sh` repoints to relative `scripts/git-hooks` (`--self-test` PASS, run locally
+  before merge); `session-start.sh` calls it. 28 worktrees repointed by the chip; `cranky-chatelet-990429`
+  and `reverent-edison-589194` repointed by hand.
+- **#760:** handoff v3.80.0; conflict with v3.79.1 resolved (v3.79.1 archived).
+
+## Open (next session)
+1. **App-vs-SessionStart ordering untested.** `sweet-mayer-2ce4fb` was kept absolute as the control but is
+   invalid: its branch predates #756, so its own `session-start.sh` has no repoint. Each worktree runs its
+   own branch's hook, so the fix only works in worktrees containing `04622e99`. Test: start a fresh
+   worktree session (or sync sweet-mayer to main and reopen), then `git config --show-origin core.hooksPath`.
+   Pre-#756 worktrees the app rewrites stay on main-checkout hooks until they pick up main.
+2. **GitHub Actions major outage** (githubstatus, 2026-10-05 ~20:17Z on; 37 runs queued, 0 running).
+   #760 merged with 6 checks never run, #756 with 4. Re-check those runs after the incident resolves.
+   Minutes quota not read (gh token lacks `user` scope).
+3. Carried from v3.80.0: desktop glow at >=1280px not screenshot-compared pre/post #745 (low).
+
+## Lessons (in the record)
+- A fix that lives in `.claude/hooks/` only reaches worktrees whose branch contains it: check
+  `git merge-base --is-ancestor <fix> HEAD` in a control before reading its result as a test.
+- "Merge without CI" on a code change: run the PR's own self-test locally first, and receipt the unrun checks.
+- `archive_session` refused a linked child ("live work") from its running parent repeatedly, even with
+  Remote Control off; the sidebar archive worked.
+- Status pages before quota theories: `githubstatus.com/api/v2/components.json` answered in one call.
+
 # Handoff — v3.81.1 (2026-10-05)
 
 > **The induced backlog gets a freshness clock, and two grooming rounds clear it.** PR #713 merged at
