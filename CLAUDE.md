@@ -114,85 +114,64 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.80.0 (2026-10-05)
+# Handoff — v3.83.0 (2026-10-05)
 
-> **Family-roster drift cleared; PR #745 merged on Zach's go (`baabdaed`).** Three receipts:
-> `2026-10-04--family-roster-drift-pr745--ZH`, `2026-10-05--family-roster-drift-pr745-live-check--ZH`,
-> `2026-10-05--family-roster-drift-pr745-kintsugi-phantom--ZH` (follow-ups appended, original row not edited).
-
-## Shipped + on main
-- **`scripts/sync_family_roster.py`:** the four playground performers were unlinked on purpose in #216
-  (`0801c1d0`, Playground locked "not yet", cards kept, routes live). The check now passes a performer that
-  is linked OR carded on build.html and still fails one absent in both (rename probe exit 1). `--check` 0,
-  `--self-test` 12/12.
-- **`public/build.html`:** ADR stat 78 -> 79 (ADR-084). The masthead glow (`.masthead::before`, 60px past
-  the lane since `ed59a44f`) overflowed 38px at 375/790; held to the 22px gutter below 1280px. Live check:
-  no horizontal overflow at 375/790/1440, desktop glow offset unchanged.
-
-## Open (next session)
-1. **Worktree hooks run the main checkout's stale pre-commit.** 25 of 27 worktrees carry
-   `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` in `config.worktree`; the main checkout is
-   parked on `claude/falsifiable-position-criteria-inltlk`. Its kintsugi gate scores HEAD out-of-tree
-   (pre-`c051d3c7`) and undercounts: build.html read 77 vs a real 95. Chip `task_bd140094` is running in
-   its own session (needs Zach's yes before repointing). Unknown: what writes the absolute path.
-2. Desktop glow not screenshot-compared against a pre-merge render (low).
-
-## Lessons (in the record)
-- A drift check that disagrees with a page: read the page's git log before "fixing" the page; the page may
-  hold a deliberate state (locked cards) the check never learned.
-- A page gate that sweeps only changed pages surfaces old debt on whoever touches the page next: measure
-  main's copy before blaming your diff.
-- `body{overflow-x:clip}` does not stop a mobile layout viewport from widening; contain the element.
-- A ratchet's "HEAD had N" is only as fresh as the hook that computed it: check `git config --show-origin core.hooksPath`.
-
-# Handoff — v3.79.0 (2026-10-05)
-
-> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
-> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
-
-### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
-- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
-- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
-- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
-- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
+> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
+> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
+> `2026-10-05--swipe-admin-only-pr766--ZH`.
 
 ## Shipped + on main
-- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
-  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
-  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
-  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
-  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
-- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
-  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
-  the browser pane. Other gated pages pick it up only on re-render.
-- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
-  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
-  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
-  regenerating from the SSOT (style block identical to main).
-- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
+  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
+  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
+  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
+  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
+  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
+- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
+  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
 
 ## Open (next session)
-1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
-   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
-2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
-   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
-   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
-3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
-4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
-5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
-   PR #725, PR #715); check wound-down sessions' branches.
+1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
+   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
+   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
+   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
+2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
 
 ## Lessons (in the record)
-- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
-  caught it. Score from transcripts, never summaries.
-- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
-- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
+- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
+- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
+
+# Handoff — v3.82.0 (2026-10-05)
+
+> **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
+> PR #760 (`6cb36019`, handoff v3.80.0) and PR #756 (`04622e99`, hooksPath repoint) merged on Zach's
+> explicit "without CI". Receipts: `...-pr760--ZH`, `...-pr760-actions-stall-cause--ZH`,
+> `2026-10-05--hookspath-repoint-pr756--ZH`, `...-pr756-manual-two--ZH`, `...-pr756-control-invalid--ZH`.
+
+## Shipped + on main
+- **#756 (chip task_bd140094, session archived):** the desktop app's `configureHooksPath` writes the main
+  checkout's absolute `scripts/git-hooks` into each worktree's `config.worktree` on create and reopen, so
+  worktrees ran the main checkout's stale pre-commit (the kintsugi 77 vs 95 phantom on #745).
+  `scripts/hookspath_arm.sh` repoints to relative `scripts/git-hooks` (`--self-test` PASS, run locally
+  before merge); `session-start.sh` calls it. 28 worktrees repointed by the chip; `cranky-chatelet-990429`
+  and `reverent-edison-589194` repointed by hand.
+- **#760:** handoff v3.80.0; conflict with v3.79.1 resolved (v3.79.1 archived).
+
+## Open (next session)
+1. **App-vs-SessionStart ordering untested.** `sweet-mayer-2ce4fb` was kept absolute as the control but is
+   invalid: its branch predates #756, so its own `session-start.sh` has no repoint. Each worktree runs its
+   own branch's hook, so the fix only works in worktrees containing `04622e99`. Test: start a fresh
+   worktree session (or sync sweet-mayer to main and reopen), then `git config --show-origin core.hooksPath`.
+   Pre-#756 worktrees the app rewrites stay on main-checkout hooks until they pick up main.
+2. **GitHub Actions major outage** (githubstatus, 2026-10-05 ~20:17Z on; 37 runs queued, 0 running).
+   #760 merged with 6 checks never run, #756 with 4. Re-check those runs after the incident resolves.
+   Minutes quota not read (gh token lacks `user` scope).
+3. Carried from v3.80.0: desktop glow at >=1280px not screenshot-compared pre/post #745 (low).
+
+## Lessons (in the record)
+- A fix that lives in `.claude/hooks/` only reaches worktrees whose branch contains it: check
+  `git merge-base --is-ancestor <fix> HEAD` in a control before reading its result as a test.
+- "Merge without CI" on a code change: run the PR's own self-test locally first, and receipt the unrun checks.
+- `archive_session` refused a linked child ("live work") from its running parent repeatedly, even with
+  Remote Control off; the sidebar archive worked.
+- Status pages before quota theories: `githubstatus.com/api/v2/components.json` answered in one call.

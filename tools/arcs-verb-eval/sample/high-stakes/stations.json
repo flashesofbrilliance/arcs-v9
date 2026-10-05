@@ -1,0 +1,7 @@
+{"note": "Illustrative station flags for the Job Factory gauntlet sample. Not the live config: no station-flags file exists in the repo yet.",
+ "stations": [
+  {"id": "scan",  "locked": false, "auto": true},
+  {"id": "score", "locked": false, "auto": true},
+  {"id": "forge", "locked": true,  "auto": false},
+  {"id": "send",  "locked": true,  "auto": false}
+ ]}

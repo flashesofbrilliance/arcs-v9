@@ -68,7 +68,6 @@ export default function BriefReflectPage() {
   const layerUrlBase = `/brief/reflect/${receiptId}`
 
   const [result, setResult] = useState<CompassResult | null>(null)
-  const [sessionId, setSessionId] = useState<string | null>(null)
   const [depth, setDepth] = useState<number>(0)
   const [parentId, setParentId] = useState<string | null>(null)
   const [framing, setFraming] = useState<string>("")
@@ -85,7 +84,6 @@ export default function BriefReflectPage() {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
-        setSessionId((data.receipt?.sessionId as string) ?? null)
         setDepth(Number(data.receipt?.version ?? 0))
         setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
@@ -122,7 +120,6 @@ export default function BriefReflectPage() {
   function followTributary(prompt: string) {
     track("brief_tributary_followed", { receiptId })
     const p = new URLSearchParams({ q: prompt, parent: receiptId })
-    if (sessionId) p.set("sid", sessionId)
     router.push(`/dashboard?${p.toString()}`)
   }
 

@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { prisma } from "@/lib/db"
+import { loadChampions } from "@/lib/champions"
+import { buildTrustIndex, trustFor } from "@/lib/trust"
 import { callerFor, loadScanSpec } from "@/lib/jobs"
 
 export const dynamic = "force-dynamic"
@@ -18,8 +20,16 @@ export async function GET(req: NextRequest) {
     prisma.jobBoardSetting.findMany(),
   ])
   const spec = loadScanSpec()
+  // Slice 6 named trust: a pointer (champion ids + count) for admin/dev viewers only.
+  // The pipeline token never receives it, and no name ever leaves /api/champions.
+  let withTrust: (typeof rows[number] & { trust?: ReturnType<typeof trustFor> })[] = rows
+  if (caller.kind !== "pipeline") {
+    let idx: ReturnType<typeof buildTrustIndex> | null = null
+    try { idx = buildTrustIndex(loadChampions()) } catch { idx = null } // a missing list means no chips, never an error
+    if (idx) withTrust = rows.map((r) => ({ ...r, trust: trustFor(r.company, idx!) }))
+  }
   return NextResponse.json({
-    rows,
+    rows: withTrust,
     settings: Object.fromEntries(settings.map((s) => [s.key, s.value])),
     spec,
     caller: caller.kind,

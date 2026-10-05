@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { clampText, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
+import { rateLimit, clientIp } from "@/lib/ratelimit"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -42,8 +43,24 @@ function parseEntityAnalysis(raw: string): Record<string, string> | null {
   }
 }
 
+// Anyone holding a brief link can read this response, so it carries only what
+// the brief and receipt pages render: no owner id, no raw model output beyond
+// the reasoning, and never the prep's "strongest argument against" notes.
+// sessionId is a bearer secret: POST /api/receipts/claim moves every anonymous
+// receipt carrying it to the caller's account, so it is returned only to the
+// signed-in owner. Anonymous owners already hold it in localStorage.
+function publicReceipt(r: object | null | undefined, viewerId: string | null) {
+  if (!r) return r
+  const { userId: owner, sessionId, rawResponse, prep, ...rest } = r as Record<string, unknown>
+  const isOwner = viewerId !== null && owner === viewerId
+  let reasoning: unknown = undefined
+  try { reasoning = typeof rawResponse === "string" ? (JSON.parse(rawResponse) as { reasoning?: unknown }).reasoning : undefined } catch { /* malformed: omit */ }
+  const safePrep = prep && typeof prep === "object" ? (({ adversarialInput: _a, userId: _pu, ...p }) => p)(prep as Record<string, unknown>) : prep
+  return { ...rest, ...(isOwner ? { sessionId } : {}), rawResponse: JSON.stringify(reasoning === undefined ? {} : { reasoning }), ...(prep !== undefined ? { prep: safePrep } : {}) }
+}
+
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
   const session = await auth()
@@ -78,7 +95,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(existing.receipt), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -88,6 +105,12 @@ export async function GET(
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
+  }
+  // A cache miss spends model tokens and needs no session, so cap generations
+  // per client. Stored briefs (above) are never limited.
+  const rl = rateLimit(`brief-gen:${clientIp(req)}`, { limit: 20, windowMs: 10 * 60_000 })
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } })
   }
 
   const why = JSON.parse(receipt.whyBullets) as string[]
@@ -155,7 +178,7 @@ export async function GET(
       },
     })
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
   } catch {
     const stored = await prisma.brief.findUnique({ where: { receiptId } })
     const storedEntity = (() => {
@@ -163,6 +186,6 @@ export async function GET(
       catch { return null }
     })()
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
   }
 }
