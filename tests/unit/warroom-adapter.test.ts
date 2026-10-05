@@ -187,6 +187,32 @@ test("preCallContext: Pre-Call keyvalue rows verbatim, duplicates kept, internal
   assert.equal(adapt(raw, { audience: "external" }).preCallContext, undefined)
 })
 
+test("preCallIntel: Intel items verbatim as 'Lead-in: body', unlabeled items keep their body only", () => {
+  const base = ssot()
+  const raw = {
+    ...base,
+    page: {
+      ...base.page,
+      blocks: [
+        ...base.page.blocks,
+        { tab: "pre", type: "list", ...internal, h2: "Intel", items: [
+          { dot: "g", html: "<strong>Todd</strong> : engaged, has edit access" },
+          { dot: "", html: "<strong>Genuine fan.</strong> Reached out unprompted" },
+          { dot: "", html: "Holding company, three brands to ten" },
+          { dot: "", html: "<strong>Owner:</strong> {{who}}" },
+        ] },
+        { tab: "pre", type: "list", ...internal, h2: "Questions &amp; landmines", items: [{ dot: "", html: "not intel" }] },
+      ],
+    },
+  }
+  assert.deepEqual(adapt(raw).preCallIntel, [
+    "Todd: engaged, has edit access",
+    "Genuine fan. Reached out unprompted",
+    "Holding company, three brands to ten",
+  ])
+  assert.equal(adapt(raw, { audience: "external" }).preCallIntel, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
@@ -202,6 +228,11 @@ test("no-source props stay undefined; empty or garbage input yields only the hid
   assert.deepEqual(adapt(null), bare)
   assert.deepEqual(adapt("not json"), bare)
   assert.deepEqual(adapt([1, 2]), bare)
+})
+
+test("entities decode: smart quotes, ellipsis, arrows, accents, numeric refs", () => {
+  const o = adapt(ssot({ meta: { provenance: { ...both, load_bearing_quote: "&ldquo;it&rsquo;s Ma&ntilde;ana&hellip;&rdquo; &rarr; &#8594; &#x2192;" } } }))
+  assert.equal(o.loadBearingQuote?.text, "\u201cit\u2019s Ma\u00f1ana\u2026\u201d \u2192 \u2192 \u2192")
 })
 
 test("TEXT-string arrays and objects parse; malformed JSON strings are ignored", () => {
@@ -261,6 +292,7 @@ test("corpus: every real SSOT adapts without leaks or placeholders", () => {
       assert.ok(!out.includes("{{"), `${f} (${audience}) leaks a template slot`)
       assert.ok(!/"(TBD|TODO|PENDING)"/.test(out), `${f} (${audience}) leaks a TBD marker`)
       assert.ok(!/<\/?[a-z][^>]*>/i.test(out), `${f} (${audience}) leaks an HTML tag`)
+      assert.ok(!/&(#\d+|#x[0-9a-f]+|[a-z]+);/i.test(out), `${f} (${audience}) leaks an undecoded HTML entity`)
       const gate = raw?.meta?.gate
       for (const v of gate && typeof gate === "object" ? Object.values(gate) : []) {
         if (typeof v === "string" && v.length > 4) assert.ok(!out.includes(v), `${f} (${audience}) leaks the gate passcode`)
