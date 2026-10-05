@@ -30,7 +30,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           subject,
           html,
         })
-        if (error) throw new Error(`Resend sendVerificationRequest failed: ${JSON.stringify(error)}`)
+        // Name only: a Resend validation message can echo the recipient address.
+        if (error) throw new Error(`Resend sendVerificationRequest failed: ${error.name}`)
       },
     }),
   ],
@@ -45,7 +46,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     session({ session, user }) {
       return {
         expires: session.expires,
-        user: { id: user.id, email: user.email, name: user.name ?? null, image: user.image ?? null },
+        user: { id: user.id, email: user.email },
       } as typeof session
     },
   },
