@@ -7,6 +7,8 @@ export interface Scenario {
   title?: string
   body: string
   note?: string
+  /** Placeholder with no source data; the stack opens on the first scenario without it. */
+  empty?: boolean
 }
 
 export interface ScenarioStackProps {
@@ -22,7 +24,8 @@ const SCFG: Record<SKey, { label: string; color: string; key: SKey }> = {
 }
 
 export function ScenarioStack({ scenarios }: ScenarioStackProps) {
-  const [active, setActive] = useState<SKey>('best')
+  const first = (['best', 'base', 'worst'] as SKey[]).find(k => !scenarios[k].empty) ?? 'best'
+  const [active, setActive] = useState<SKey>(first)
   const s = scenarios[active]
   const cfg = SCFG[active]
   return (
