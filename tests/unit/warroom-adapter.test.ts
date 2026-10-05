@@ -304,6 +304,21 @@ test("forgeMethod: Forge prose verbatim, half-filled paragraphs drop, audience h
   assert.equal(adapt(shared, { audience: "external" }).forgeMethod, "The method crosses the air-gap.")
 })
 
+test("beliefKinematics: per-series trajectory + D1-D3 (central difference), audience per series", () => {
+  const base = ssot({ kinematic_series: { dt: 1, series: [
+    { key: "a", audience: "internal", label: "Handoff survives", points: [0.5, 0.6, 0.7, 0.75], grounding_quote: "drive where we've landed" },
+    { key: "b", audience: "both", label: "Overlap", points: "[0.6, 0.9]" },
+    { key: "c", audience: "both", label: "Empty", points: [] },
+  ] } })
+  const k = adapt(base).beliefKinematics!
+  // v = [0.1, 0.1, 0.075, 0.05]; a = [0, -0.0125, -0.025, -0.025]; j = [-0.0125, -0.0125, -0.00625, 0]
+  assert.equal(k["Handoff survives"], "0.5 \u2192 0.6 \u2192 0.7 \u2192 0.75 \u00b7 D1 peak/term 0.1 / 0.05 \u00b7 D2 term -0.025 \u00b7 D3 term 0 \u00b7 grounded: drive where we've landed")
+  assert.equal(k["Overlap"], "0.6 \u2192 0.9 \u00b7 D1 peak/term 0.3 / 0.3 \u00b7 D2 term 0 \u00b7 D3 term 0")
+  assert.equal(k.Empty, undefined, "a series with no points is absent")
+  assert.match(k.method, /^n=4 points: D1-D2 valid/)
+  assert.deepEqual(Object.keys(adapt(base, { audience: "external" }).beliefKinematics!), ["Overlap", "method"])
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
