@@ -51,6 +51,8 @@
 //                                                                    warning when "unresolved"; label verbatim)
 //     every other item                                             → preCallQuestions string[] (Deeper Strata,
 //                                                                    same "Lead-in: body" format as Intel)
+//     list `intro` (the call plan)                                 → preCallQuestionsIntro, only when that
+//                                                                    list yielded a question or landmine
 //   (no source)                                                    → scenarios.best, scenarios.base
 //   (no source)                                                    → cover.actions = [] (explicit: hides
 //                                                                    the screen's inert default buttons)
@@ -87,6 +89,8 @@ export interface WarroomRecoilReport {
   preCallIntel?: string[]
   /** Pre-Call questions and scripted moves (landmines go to riskFlags). */
   preCallQuestions?: string[]
+  /** The call plan framing the questions (their list intro), rendered by Deeper Strata. */
+  preCallQuestionsIntro?: string
   /** Forge-tab method prose (substrates + ruling definitions), rendered by Deeper Strata. */
   forgeMethod?: string
   /** Belief trajectories with D1-D3 (the War Game kinematics table), rendered by Deeper Strata. */
@@ -313,10 +317,12 @@ function preCallIntel(root: Rec, audience: WarroomAudience): string[] | undefine
   return out.length ? out : undefined
 }
 
-function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: string[]; landmines: RecoilReportData['riskFlags'] } {
+function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: string[]; landmines: RecoilReportData['riskFlags']; intro?: string } {
   const questions: string[] = []
   const landmines: RecoilReportData['riskFlags'] = []
+  const intros: string[] = []
   for (const b of preCallLists(root, audience, /question|landmine|moves/i)) {
+    const before = questions.length + landmines.length
     for (const item of parseList(b.items)) {
       if (!isRecord(item)) continue
       const { label, body } = splitLens(item.html)
@@ -327,8 +333,11 @@ function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: st
         questions.push(leadIn(label, body))
       }
     }
+    // Same guard as list intros elsewhere: frame only a list that yielded something.
+    const intro = text(b.intro)
+    if (intro && questions.length + landmines.length > before) intros.push(intro)
   }
-  return { questions, landmines }
+  return { questions, landmines, ...(intros.length ? { intro: intros.join('\n\n') } : {}) }
 }
 
 // Each "Receipt closed" block is one call scored against its ex-ante; in
@@ -498,7 +507,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const trueNorth = preCallTrueNorth(root, audience)
   const context = preCallContext(root, audience)
   const intel = preCallIntel(root, audience)
-  const { questions, landmines } = preCallQuestions(root, audience)
+  const { questions, landmines, intro: qIntro } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
   const kinematics = beliefKinematics(root, audience)
   const gIntro = listIntro(wargameBlocks(root, audience))
@@ -523,6 +532,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(context ? { preCallContext: context } : {}),
     ...(intel ? { preCallIntel: intel } : {}),
     ...(questions.length ? { preCallQuestions: questions } : {}),
+    ...(qIntro ? { preCallQuestionsIntro: qIntro } : {}),
     ...(method ? { forgeMethod: method } : {}),
     ...(kinematics ? { beliefKinematics: kinematics } : {}),
     ...(gIntro ? { gauntletIntro: gIntro } : {}),
