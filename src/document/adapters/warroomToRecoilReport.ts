@@ -34,6 +34,7 @@
 //     list `intro` → gauntletIntro string (Deeper Strata), only when that list yielded a flag
 //   page.blocks[tab=recoil, type=list, h2~/kairos/] items          → riskFlags[] (after the gauntlet)
 //     Risk=warning, Kairos=info, Quiet signal=success; unlabeled items by dot (red/gold/green)
+//     list `intro` → kairosIntro string (Deeper Strata), only when that list yielded a flag
 //   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
 //     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
@@ -92,6 +93,8 @@ export interface WarroomRecoilReport {
   beliefKinematics?: Record<string, string>
   /** What the War Game gauntlet targets (its list intro), rendered by Deeper Strata. */
   gauntletIntro?: string
+  /** How the recoil-tab Kairos watch-list was read (its intro), rendered by Deeper Strata. */
+  kairosIntro?: string
 }
 
 type Rec = Record<string, unknown>
@@ -260,11 +263,11 @@ function beliefKinematics(root: Rec, audience: WarroomAudience): Record<string, 
   return { ...out, method: kinematicsNote(n) }
 }
 
-// The intro frames the gauntlet's flags; scaffolds keep the template intro with
+// A list intro frames that list's flags; scaffolds keep the template intro with
 // unfilled items, so an intro is kept only when its own list produced a flag.
-function gauntletIntro(blocks: Rec[]): string | undefined {
+function listIntro(blocks: Rec[]): string | undefined {
   const intros = blocks
-    .filter((b) => b.type === 'list' && flagsFromLists([b], 'Gauntlet').length > 0)
+    .filter((b) => b.type === 'list' && flagsFromLists([b], 'x').length > 0)
     .map((b) => text(b.intro))
     .filter((x): x is string => !!x)
   return intros.length ? intros.join('\n\n') : undefined
@@ -498,13 +501,14 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const { questions, landmines } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
   const kinematics = beliefKinematics(root, audience)
-  const gIntro = gauntletIntro(wargameBlocks(root, audience))
+  const gIntro = listIntro(wargameBlocks(root, audience))
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
     (b): b is Rec => isRecord(b) && b.tab === 'recoil' && b.type === 'list' && /kairos/i.test(text(b.h2) ?? '') && visible(b, audience),
   )
   const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read'), ...landmines]
+  const kIntro = listIntro(kairos)
   const worst = worstFromPremortem(wargame)
 
   return {
@@ -522,5 +526,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(method ? { forgeMethod: method } : {}),
     ...(kinematics ? { beliefKinematics: kinematics } : {}),
     ...(gIntro ? { gauntletIntro: gIntro } : {}),
+    ...(kIntro ? { kairosIntro: kIntro } : {}),
   }
 }
