@@ -22,10 +22,13 @@
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
 //   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
 //     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
-//   (no source)                                                    → cover.actions, callWalk,
+//   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
+//     authored order; label = date in the h2 else meta.date; title = h2 after "Receipt closed";
+//     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
+//   (no source)                                                    → cover.actions,
 //                                                                    scenarios.best, scenarios.base
 //
-// Unfilled template placeholders ({{...}}) are treated as absent.
+// Unfilled template placeholders ({{...}}) and bare TBD/TODO/PENDING are treated as absent.
 //
 // Audience air-gap: every SSOT node is tagged `audience: internal | both`.
 // `{ audience: 'external' }` keeps only nodes explicitly tagged `both`;
@@ -91,7 +94,8 @@ function text(v: unknown): string | undefined {
     .replace(/&#x([0-9a-f]+);/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
     .replace(/&([a-z]+);/gi, (m, n: string) => ENTITIES[n.toLowerCase()] ?? m)
     .trim()
-  return out.length && !out.includes('{{') ? out : undefined
+  // Unfilled template slots ({{...}}) and bare TBD/PENDING markers are absent, not content.
+  return out.length && !out.includes('{{') && !/^(TBD|TODO|PENDING)\.?$/i.test(out) ? out : undefined
 }
 
 function join(parts: (string | undefined)[], sep = ' · '): string | undefined {
@@ -132,6 +136,37 @@ function riskFlagsFromGauntlet(blocks: Rec[]): RecoilReportData['riskFlags'] {
     }
   }
   return flags
+}
+
+// Each "Receipt closed" block is one call scored against its ex-ante; in
+// multi-call SSOTs they are appended in call order, which is the walk.
+function callWalkFromCloses(root: Rec, audience: WarroomAudience, fallbackDate?: string): RecoilReportData['callWalk'] {
+  const steps: RecoilReportData['callWalk'] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'recoil' || b.type !== 'keyvalue' || !visible(b, audience)) continue
+    const h2 = text(b.h2)
+    if (!h2 || !/^receipt closed/i.test(h2)) continue
+    const rows = new Map<string, string>()
+    for (const r of parseList(b.rows)) {
+      if (!isRecord(r)) continue
+      const k = text(r.k)
+      const v = text(r.v)
+      if (k && v) rows.set(k.toLowerCase(), v)
+    }
+    const actual = [...rows].find(([k]) => k.startsWith('actual'))?.[1]
+    const fork = rows.get('fork hit')
+    const body = join([actual, fork ? `Fork hit: ${fork}` : undefined], ' ')
+    if (!body) continue
+    const rest = h2.replace(/^receipt closed\s*[·:,-]?\s*/i, '')
+    const date = rest.match(/\((\d{4}-\d{2}-\d{2})\)/)?.[1] ?? (steps.length === 0 ? fallbackDate : undefined)
+    const title = rest.replace(/\s*\(\d{4}-\d{2}-\d{2}\)\s*/, '').trim()
+    steps.push({
+      label: date ?? `Close ${steps.length + 1}`,
+      title: title ? title[0].toUpperCase() + title.slice(1) : 'Receipt closed',
+      body,
+    })
+  }
+  return steps
 }
 
 // The pre-mortem assumes the engagement is dead and walks the critical path:
@@ -224,6 +259,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     protocol.push({ label: `Next ${n}`, title: text(s.owner) ?? `Step ${n}`, body, ...(protocol.length === 0 ? { active: true } : {}) })
   }
 
+  const callWalk = callWalkFromCloses(root, audience, date)
   const wargame = wargameBlocks(root, audience)
   const riskFlags = riskFlagsFromGauntlet(wargame)
   const worst = worstFromPremortem(wargame)
@@ -231,6 +267,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   return {
     ...(Object.keys(cover).length ? { cover } : {}),
     ...(loadBearingQuote ? { loadBearingQuote } : {}),
+    ...(callWalk.length ? { callWalk } : {}),
     ...(threads.length ? { signalThreads: threads } : {}),
     ...(protocol.length ? { protocol } : {}),
     ...(riskFlags.length ? { riskFlags } : {}),
