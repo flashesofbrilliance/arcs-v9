@@ -198,7 +198,7 @@ _This block asserts nothing new. Counts, paths, and questions only._
   incident (status: degraded); re-run queued with a watcher that merges only on all-green. Check #755 state first.
 - Memory `project_jarrod_wolf_success_academy` description refreshed (HM round 1 held 09-29, no reply as of 10-05).
 - Gmail DRAFT (not sent) nudge to Brian Mayer in thread `1a0d48867025d2b3`; plan was to send Tue 10-06 if Jarrod stays silent.
-- Found: `scripts/dependency_sweep.py` (named by /night-moves) was never merged; two handoffs were both numbered v3.79.0 (#738 open).
+- Found: the dependency sweep script named by /night-moves was never merged; two handoffs were both numbered v3.79.0 (#738 open).
 
 ## Lessons (in the record)
 - A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
