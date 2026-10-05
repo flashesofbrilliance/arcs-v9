@@ -100,9 +100,9 @@ export interface RecoilReportData {
   callWalk: { label: string; title: string; body: string; peak?: boolean }[]
   signalThreads: { label: string; accent: string; title: string; body: string; note?: string }[]
   scenarios: {
-    best: { title: string; body: string; note?: string }
-    base: { title: string; body: string; note?: string }
-    worst: { title: string; body: string; note?: string }
+    best: { title: string; body: string; note?: string; empty?: boolean }
+    base: { title: string; body: string; note?: string; empty?: boolean }
+    worst: { title: string; body: string; note?: string; empty?: boolean }
   }
   riskFlags: { variant: 'warning' | 'caution' | 'info' | 'success'; label: string; body: string }[]
   protocol: { label: string; title: string; body: string; active?: boolean }[]
@@ -200,7 +200,7 @@ function normalizeSignalThreads(raw: RecoilReportRaw): RecoilReportData['signalT
 
 function normalizeScenarios(raw: RecoilReportRaw): RecoilReportData['scenarios'] {
   const s = raw.scenarios
-  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.' }
+  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.', empty: true }
   if (isRecord(s) && (isRecord(s.best) || isRecord(s.base) || isRecord(s.worst))) {
     // Flat shape; a slot with no source (e.g. a war-room pre-mortem only
     // yields `worst`) renders the empty placeholder rather than invented copy.
