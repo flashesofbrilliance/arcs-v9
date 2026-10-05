@@ -1,3 +1,49 @@
+# Handoff — v3.81.1 (2026-10-05)
+
+> **The induced backlog gets a freshness clock, and two grooming rounds clear it.** PR #713 merged at
+> `0b8895bc` on Zach's go, receipt `2026-10-04--backlog-freshness-grooming-pr713--ZH`. PR #759 (3 rows
+> due 2026-10-05) and PR #767 (night-moves digest 2026-10-05) are open, each with a background watcher
+> that merges with `--merge` only when every check passes; receipts follow each merge.
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script reported 0 commits, 0 merges (scoped to the handoff branch). Recount from git: 6 session commits (`d9b44329`, `04944270`, `d590e7a3` merge of main, `eb7a2957`, `725ab350`, `32c80c2e`), 1 merge to main (#713 `0b8895bc`), 1 receipt; #759 and #767 pending.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 3 / dissent 0 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft draft-v381.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): "two grooming rounds clear it" narrowed: the 2026-10-04 rounds cleared it; 3 more came due 2026-10-05 and sit in open #759. Merges of #759/#767 stated as pending, not done. Nothing dropped.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's "run /handoff".
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- Renumbered from v3.81.0 at merge time: a parallel session took v3.81.0 (Job Factory) first. #759 merged `ea3fe735`, #767 merged `f4f2ad33`, receipts logged; gh-actions-billing reopened P1.
+- **`scripts/backlog_freshness.py`** (#713): lists `_QUEUE/induced-backlog.jsonl` rows past `review_by`.
+  Explicit `review_by` wins; else derived from the latest date in the row (P1 7d, P2 or none 21d,
+  P3/P4 45d, HELD/TABLED = trigger date). STARTING/DELEGATED/IN PROGRESS rows with no commit naming the
+  id in 7d are flagged `revert-to-OPEN`. Decides nothing. argparse (exit 2), `--check`, `--json`,
+  `--self-test` 16/16; pre-commit runs the self-test when staged and blocks a malformed `review_by`.
+- **Grooming** (Zach, via multi-select): 2026-10-04 two passes, 30 due rows to 0 of 69 live
+  (promote / renew / compost / supersede; 6 PRL rows HELD under `prl-phase-path-close`).
+- **Weekly task** `~/.claude/scheduled-tasks/arcs-field-os-weekly/SKILL.md` (outside git) gains step 2.3:
+  run the script, report "Backlog past review_by: N", never edit the backlog.
+
+## Open (next session)
+1. Confirm PR #759 and PR #767 merged (background watchers) and log one `decision_receipt` row each.
+2. 2026-10-12: about 13 P1 rows come due at once (the promoted batch); the Monday report should list them.
+3. `arcs-field-os-weekly` still targets `/Users/zharris/A.R.C.S` for everything except step 2.3 (Zach chose
+   to leave it). Step 2.3 has not yet run on a schedule.
+4. `scripts/dependency_sweep.py` is not on main, so /night-moves section 6 was a hand read.
+5. CI runner queue was ~20 deep on 2026-10-05; PR #763 (skip build on docs-only) is the load fix.
+
+## Lessons (in the record)
+- 61 of 89 backlog rows carried no priority; a freshness rule keyed only on priority would have skipped
+  most of the file. Default the missing case explicitly (here P2, 21d).
+- A failed compound command can hide a skipped step: the first `gh pr create` failed because the push in
+  the same command never ran. Check the remote ref before trusting a push.
+
 # Handoff — v3.81.0 (2026-10-05)
 
 > **Job Factory: the Sept 2025 prototype read in full, a gauntleted spec, two slices merged, five open,

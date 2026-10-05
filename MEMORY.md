@@ -15,6 +15,11 @@
 - Desktop app writes the main checkout's absolute hooksPath per worktree; `scripts/hookspath_arm.sh` + session-start repoint it. Only worktrees containing `04622e99` self-heal; ordering vs the app untested.
 - GitHub Actions major outage 2026-10-05: re-check the unrun checks on #760 and #756.
 
+## [v3.81.1] 2026-10-05 — Backlog freshness clock + grooming (PRs #713 #759 #767); gh-actions-billing reopened
+
+- `scripts/backlog_freshness.py`: rows past review_by (explicit or derived P1 7d / P2,none 21d / P3 45d / HELD trigger); stalled STARTING/DELEGATED flagged revert-to-OPEN; decides nothing.
+- 33 rows groomed over 2026-10-04/05; ~13 P1 rows due 2026-10-12. Numbered .1 because a parallel session took v3.81.0.
+
 ## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
 
 - Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
