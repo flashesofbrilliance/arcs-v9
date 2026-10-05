@@ -3,7 +3,13 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
+> Format: `## [v3.79.0] 2026-10-05 — Schriner recoil-close on Vico calls; recoil gate fix; Lyndon pre-call refresh (PRs #742 #746)
+
+- Schriner SSOT closed YELLOW/CONVERGENT, req_reality 2; P10-P13 added (owner engaged, seat unarchitected, comp floor stated at <=2, Autopilot stalled).
+- `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
+- Lyndon pre-call (`2026-10-03-oh-vico.json`, from #699) refreshed, not rebuilt.
+
+## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
 
 - `scripts/shavasana_handoff.py` exhale: counted by `git config user.name`, which reads 0 in cloud (author owner, committer Claude); now scoped to the session branch (merged PRs from it + their commits + unmerged), identity fallback on main. `--self-test` 8/8.
 - `post-1-brief` / `post-1-exec`: `max-width:68ch` → `680px` on `<main>`, and in `scripts/blog_render.py`; the renderer lags its outputs, so edit those pages in place.

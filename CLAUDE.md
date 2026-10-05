@@ -114,6 +114,58 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.79.0 (2026-10-05)
+
+> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
+> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
+- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
+- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
+- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
+
+## Shipped + on main
+- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
+  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
+  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
+  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
+  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
+- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
+  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
+  the browser pane. Other gated pages pick it up only on re-render.
+- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
+  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
+  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
+  regenerating from the SSOT (style block identical to main).
+- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+
+## Open (next session)
+1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
+   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
+2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
+   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
+   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
+3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
+4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
+5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
+   PR #725, PR #715); check wound-down sessions' branches.
+
+## Lessons (in the record)
+- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
+  caught it. Score from transcripts, never summaries.
+- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
+- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
+
 # Handoff — v3.78.0 (2026-10-04)
 
 > **Cloud wind-down: every cloud and Remote Control session consolidated here and archived, on Zach's
@@ -175,48 +227,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
   render against the committed page before trusting the generator.
 - Archiving a running session drops its container; ask it to push first, and only archive what is idle.
   "Bridge" sessions run on the Mac, so their uncommitted work survives on disk.
-
-# Handoff — v3.77.0 (2026-10-04)
-
-> **Exoskeleton video v2 + renderer landed; the video cut type ships: one shot spec to an HTML scene
-> and a prompt pack.** Two PRs merged on Zach's explicit go: #689 (`6892b016`) and #709 (`8f2f98e2`);
-> receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH` and `2026-10-04--video-cut-type-pr709--ZH`.
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): script counts the whole repo's day: 91 commits, 16 merges to main. This session by hand: 6 commits (`62492a31`, `da76e4e0`, `87645dbd`, `a226b139`, `9e311959`, `1fe7d3de`) + 1 conflict merge (`48bada1c`), 2 merges to main (#689, #709), 2 receipts.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers (script). By hand: one red check refused (fe-smoke on #709, fixed before merge), one invented caption cut on Zach's ask.
-- **Breath balance**: script read manifesto; with the by-hand inhale, breathing.
-- **Sycophancy check**: agreement 25 / dissent 0 (ratio 25.0) -> RETURN by script; the refused red merge and the cut caption are the session's dissent, not recorded as markers.
-- **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the prompt pack is stated as untried, not as working. Nothing dropped.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **#689 unblocked:** merged origin/main into `claude/greeting-wedifk` (`48bada1c`). The one conflict,
-  `scripts/connector_render.py`, took main's side: main's repo-keyed `EXTERNAL_PAGES` row already gave
-  the honest card its gh URL and clone chip. All checks green, then `--merge`.
-- **Video cut type (`scripts/video_cut.py`):** spec in `_QUEUE/video/<id>.json` (beats: caption,
-  duration, accent, shot = subject/camera/motion/light; aspects 16:9 + 9:16). `build` writes
-  `_PROPOSALS/video/<id>-<16x9|9x16>.html` (the `window.DURATION` + `window.seek(t)` contract of
-  `scripts/html_video_render.mjs`, palette read from `src/ui-kit/recoil-report/_tokens.css`, Inter +
-  JetBrains Mono from `public/fonts/`) and `<id>-prompts.md` (per-beat, per-aspect prompts + one
-  negative prompt; captions kept out because models garble text). Gates reuse `linkedin_cut.py`'s
-  slop_lint, provenance_lint, PII; `--self-test` covers 7 fail-on-bad mutations + font asserts.
-- **First input:** `tao-284`, 4 beats, 14.5s, captions are the proverb's words only (an invented
-  bridge caption was cut on Zach's ask). MP4s rendered locally, not committed.
-
-## Open (next session)
-1. The prompt pack is untried against any external video model: paste one beat, compare to the HTML
-   render. That test decides whether the generative path earns its keep.
-2. `video_cut.py` and `linkedin_cut.py` run in no hook or CI job; wire both or neither.
-3. Carried: `shavasana_handoff.py` exhale author filter; `post-1-brief` / `post-1-exec` wrap-lint.
-
-## Lessons (in the record)
-- `fe-smoke`'s page gate sweeps every changed `_PROPOSALS/*.html` at 375/790. A fixed-size video frame
-  overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
-  rendered poster stayed pixel-identical (ffmpeg PSNR inf).
-- The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.

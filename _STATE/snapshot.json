@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-04T15:09:47Z",
+  "captured_at": "2026-10-05T13:41:47Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "91671553",
-    "head_message": "Merge pull request #726 from flashesofbrilliance/claude/compass-run-campaign",
+    "head_sha": "baabdaed",
+    "head_message": "Merge pull request #745 from flashesofbrilliance/claude/family-roster-drift",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "origin/main at handoff time; the handoff rides PR #728 on claude/post-timestamps-notes-trenches-psjapj"
+    "note": "origin/main at handoff time; handoff rides claude/handoff-v3.79"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "arcs-v9-qjny41gna-arcs-care.vercel.app",
+    "latest_deploy_url": "arcs-v9-dqt2ds9pf-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "Not re-listed this handoff (no Vercel CLI in the cloud container); last values carried from v3.77.0."
+    "note": "verified via Vercel MCP 2026-10-05; env names via vercel env ls"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Cloud wind-down: all cloud + Remote Control sessions asked to push, then archived. v3.76.0 items 1, 2, 4 closed (#714, #718/#721, #728); item 3 (contrast ratchet) diagnosed, needs one Mac run. Open asks for Zach in CLAUDE.md v3.78.0.",
-  "next_action": "Try one tao-284 beat from the prompt pack in an external video model and compare to the HTML render.",
+  "session_summary": "Closed the Schriner recoil on the 09-30 and 10-02 Vico calls (YELLOW/CONVERGENT, req_reality 2), fixed the recoil password gate for sandboxed previews, refreshed the Lyndon Oh pre-call (PRs #742, #746).",
+  "next_action": "When the Lyndon call is scheduled and held, run /recoil-close on runtime/recoil/generated/2026-10-03-oh-vico.json.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-04T14:06:18Z"
 }
