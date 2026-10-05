@@ -1,10 +1,10 @@
-// culture_cues_dryrun.ts — Job Factory slice 1 proof run. READ-ONLY: lists the
+// culture_cues_dryrun.mts — Job Factory slice 1 proof run. READ-ONLY: lists the
 // culture phrases the scorer would quote for the top-N scored rows, and which
 // rows the guard rail would cap and gate, before any writeback. No model call,
 // no POST. Writes a markdown report for a human to eyeball.
 //
 //   set -a; . ~/.arcs/jobs-pipeline.env; set +a
-//   node --experimental-strip-types scripts/culture_cues_dryrun.ts [--limit 20] [--out path.md]
+//   node --experimental-strip-types scripts/culture_cues_dryrun.mts [--limit 20] [--out path.md]
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs"
 import { dirname } from "node:path"
 import { extractCultureCues, applyCultureGuard, type CultureCues } from "../src/lib/culture-cues.ts"
