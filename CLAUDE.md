@@ -139,6 +139,12 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 2. **GitHub Actions major outage** (githubstatus, 2026-10-05 ~20:17Z on; 37 runs queued, 0 running).
    #760 merged with 6 checks never run, #756 with 4. Re-check those runs after the incident resolves.
    Minutes quota not read (gh token lacks `user` scope).
+   **Addendum (cool-bell session, same day):** the stalled jobs were ALSO billing. The `generated-views`
+   check-run annotation on #756 read "not started because recent account payments have failed or your
+   spending limit needs to be increased". Zach added a card + $10 Actions budget; all 9 #756 checks then
+   ran and passed (after the 21:08Z merge). $10 is thin for ~6 jobs per push: check the budget first when
+   runs sit queued with 0 in progress. Duplicate receipt `2026-10-05--worktree-hookspath-repoint-pr756--ZH`
+   was filed before this session saw v3.82.0; the canonical one is `2026-10-05--hookspath-repoint-pr756--ZH`.
 3. Carried from v3.80.0: desktop glow at >=1280px not screenshot-compared pre/post #745 (low).
 
 ## Lessons (in the record)
