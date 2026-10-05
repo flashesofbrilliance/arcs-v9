@@ -755,4 +755,18 @@ if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1;
     fi
   fi
 fi
+# ---------------------------------------------------------------------------
+# Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
+# guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
+# null as "every anonymous row" and undefined as "no filter". Fires on staged
+# src .ts/.tsx. See scripts/null_userid_gate.py.
+if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  nu=$(git diff --cached --name-only --diff-filter=AM -- 'src/*.ts' 'src/*.tsx' 2>/dev/null || true)
+  if [ -n "$nu" ]; then
+    if ! echo "$nu" | tr '\n' '\0' | xargs -0 python3 scripts/null_userid_gate.py; then
+      echo "✖ commit blocked: unguarded session userId in a where filter (see above)." >&2
+      exit 1
+    fi
+  fi
+fi
 exit 0
