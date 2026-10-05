@@ -319,6 +319,15 @@ test("beliefKinematics: per-series trajectory + D1-D3 (central difference), audi
   assert.deepEqual(Object.keys(adapt(base, { audience: "external" }).beliefKinematics!), ["Overlap", "method"])
 })
 
+test("gauntletIntro: the gauntlet list intro, only when that list produced flags", () => {
+  const base = ssot()
+  const withList = (items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "wargame", type: "list", ...internal, h2: "The gauntlet", intro: "Adversarial pass on the handoff, not on Todd.", items },
+  ] } })
+  assert.equal(withList([{ dot: "", html: "<strong>BAR (ruin):</strong> a botched cutover" }]).gauntletIntro, "Adversarial pass on the handoff, not on Todd.")
+  assert.equal(withList([{ dot: "", html: "<strong>BAR (ruin):</strong> {{the exposed edge}}" }]).gauntletIntro, undefined, "scaffold intro with no real flags is dropped")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
