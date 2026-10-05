@@ -23,5 +23,11 @@ export function isAdminEmail(email: string | null | undefined): boolean {
 }
 
 export function isAdmin(session: Session | null): boolean {
+  // Fail-closed stays fail-closed, but say so: an env (e.g. Vercel Preview)
+  // without ADMIN_EMAILS refuses every viewer, which otherwise reads as a
+  // broken sign-in rather than a missing allowlist.
+  if (process.env.NODE_ENV === "production" && adminEmails().length === 0) {
+    console.warn(`[admin] ADMIN_EMAILS is empty on VERCEL_ENV=${process.env.VERCEL_ENV ?? "unknown"}; every viewer is refused`)
+  }
   return isAdminEmail(session?.user?.email)
 }
