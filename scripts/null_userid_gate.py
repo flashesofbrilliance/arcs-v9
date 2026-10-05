@@ -23,9 +23,12 @@ from pathlib import Path
 ASSIGN = re.compile(r"\buserId\s*=\s*session\?\.user\?\.id\b")
 GUARD = re.compile(r"if\s*\(\s*!\s*userId\b")
 # bare userId used as a filter value: `userId }`, `userId,`, `userId: userId`
-BARE = re.compile(r"\buserId\s*(?:[,}]|:\s*userId\b)")
+BARE = re.compile(r"\buserId\s*(?:[,}\n]|:\s*userId\b(?!\s*\?\s))")
 # a truthiness check on userId: `userId ?` or `&& userId)` / `if (userId)`
-TERNARY = re.compile(r"userId\s*\?|&&\s*userId\b|if\s*\(\s*userId\b")
+TERNARY = re.compile(r"userId\s*\?(?!\?)|&&\s*userId\b|if\s*\(\s*userId\b")
+
+
+FUNC = re.compile(r"^\s*(export\s+)?(async\s+)?function\b|^\s*export\s+const\s+\w+\s*=\s*(async\s*)?\(")
 
 
 def scan(text: str, name: str) -> list[str]:
@@ -33,6 +36,8 @@ def scan(text: str, name: str) -> list[str]:
     lines = text.splitlines()
     armed = False      # a session-derived userId is in scope and unguarded
     for i, line in enumerate(lines, 1):
+        if FUNC.search(line):
+            armed = False  # new handler: a guard in one function never covers the next
         if ASSIGN.search(line):
             armed = True
             continue
@@ -41,7 +46,12 @@ def scan(text: str, name: str) -> list[str]:
         if GUARD.search(line):
             armed = False
             continue
-        if "where" in line and BARE.search(line.split("where", 1)[1]) and not TERNARY.search("\n".join(lines[max(0, i - 3):i])):
+        if "where" not in line:
+            continue
+        # the filter object may span lines: read from `where` up to 6 lines on
+        window = "\n".join([line.split("where", 1)[1]] + lines[i:i + 6])
+        window = window.split(")", 1)[0]  # stop at the end of the call
+        if BARE.search(window) and not TERNARY.search("\n".join(lines[max(0, i - 3):i])):
             out.append(f"{name}:{i}: session userId reaches a where filter with no `if (!userId)` guard")
     return out
 
@@ -50,6 +60,19 @@ BAD = """
 const session = await auth()
 const userId = session?.user?.id ?? null
 const rows = await prisma.receipt.findMany({ where: { userId } })
+export async function POST() {
+  const userId = session?.user?.id ?? undefined
+  await prisma.receipt.findMany({
+    where: {
+      status: "OPEN",
+      userId,
+    },
+  })
+}
+export async function PUT() {
+  const userId = session?.user?.id
+  await prisma.x.findMany({ where: { userId: userId ?? undefined } })
+}
 """
 GOOD = """
 const session = await auth()
@@ -66,8 +89,8 @@ const u = userId ? await prisma.user.findUnique({
 
 def self_test() -> int:
     bad, good = scan(BAD, "bad"), scan(GOOD, "good")
-    ok = len(bad) == 1 and not good
-    print(f"self-test: bad={len(bad)} (want 1) good={len(good)} (want 0) -> {'PASS' if ok else 'FAIL'}")
+    ok = len(bad) == 3 and not good
+    print(f"self-test: bad={len(bad)} (want 3) good={len(good)} (want 0) -> {'PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
 
