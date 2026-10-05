@@ -114,6 +114,44 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.84.0 (2026-10-05)
+
+> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
+> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
+> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
+
+## Done
+- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
+  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
+  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
+  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
+- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
+- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
+- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
+  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
+- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
+
+## WIP preserved (local branches, not pushed)
+`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
+`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
+`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
+`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
+All inside the consolidated bundle.
+
+## Open (next session)
+1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
+2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
+3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
+4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
+   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
+5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+
+## Lessons (in the record)
+- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
+  (pruned `cool-bell` under a live session, restored it from its branch).
+- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
+- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
+
 # Handoff — v3.83.0 (2026-10-05)
 
 > **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
@@ -140,38 +178,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
 - CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
-
-# Handoff — v3.82.0 (2026-10-05)
-
-> **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
-> PR #760 (`6cb36019`, handoff v3.80.0) and PR #756 (`04622e99`, hooksPath repoint) merged on Zach's
-> explicit "without CI". Receipts: `...-pr760--ZH`, `...-pr760-actions-stall-cause--ZH`,
-> `2026-10-05--hookspath-repoint-pr756--ZH`, `...-pr756-manual-two--ZH`, `...-pr756-control-invalid--ZH`.
-
-## Shipped + on main
-- **#756 (chip task_bd140094, session archived):** the desktop app's `configureHooksPath` writes the main
-  checkout's absolute `scripts/git-hooks` into each worktree's `config.worktree` on create and reopen, so
-  worktrees ran the main checkout's stale pre-commit (the kintsugi 77 vs 95 phantom on #745).
-  `scripts/hookspath_arm.sh` repoints to relative `scripts/git-hooks` (`--self-test` PASS, run locally
-  before merge); `session-start.sh` calls it. 28 worktrees repointed by the chip; `cranky-chatelet-990429`
-  and `reverent-edison-589194` repointed by hand.
-- **#760:** handoff v3.80.0; conflict with v3.79.1 resolved (v3.79.1 archived).
-
-## Open (next session)
-1. **App-vs-SessionStart ordering untested.** `sweet-mayer-2ce4fb` was kept absolute as the control but is
-   invalid: its branch predates #756, so its own `session-start.sh` has no repoint. Each worktree runs its
-   own branch's hook, so the fix only works in worktrees containing `04622e99`. Test: start a fresh
-   worktree session (or sync sweet-mayer to main and reopen), then `git config --show-origin core.hooksPath`.
-   Pre-#756 worktrees the app rewrites stay on main-checkout hooks until they pick up main.
-2. **GitHub Actions major outage** (githubstatus, 2026-10-05 ~20:17Z on; 37 runs queued, 0 running).
-   #760 merged with 6 checks never run, #756 with 4. Re-check those runs after the incident resolves.
-   Minutes quota not read (gh token lacks `user` scope).
-3. Carried from v3.80.0: desktop glow at >=1280px not screenshot-compared pre/post #745 (low).
-
-## Lessons (in the record)
-- A fix that lives in `.claude/hooks/` only reaches worktrees whose branch contains it: check
-  `git merge-base --is-ancestor <fix> HEAD` in a control before reading its result as a test.
-- "Merge without CI" on a code change: run the PR's own self-test locally first, and receipt the unrun checks.
-- `archive_session` refused a linked child ("live work") from its running parent repeatedly, even with
-  Remote Control off; the sidebar archive worked.
-- Status pages before quota theories: `githubstatus.com/api/v2/components.json` answered in one call.
