@@ -9,6 +9,7 @@ import { SidelineList } from '../patterns/SidelineList'
 import { ScenarioStack } from '../patterns/ScenarioStack'
 import { AsideBox, type AsideVariant } from '../patterns/AsideBox'
 import { ProcessSteps } from '../patterns/ProcessSteps'
+import { WarRoomReport, isWarRoomShape, stripGate, WARROOM_RENDERED_KEYS } from './WarRoomReport'
 
 export interface RecoilReportProps { data?: Partial<typeof RECOIL_SAMPLE> }
 
@@ -343,14 +344,14 @@ function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: st
   )
 }
 
-function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
+function DeepStrata({ raw, skip = [], idx = '07' }: { raw: RecoilReportRaw; skip?: string[]; idx?: string }) {
   const [open, setOpen] = React.useState(0) // FOCUS mode: only the top stratum open; -1 = all closed
   const strata: { name: string; value: unknown; tag: string }[] = []
   for (const k of STRATA_AUTHORITY) {
     if (raw[k] != null) strata.push({ name: k, value: raw[k], tag: k === 'recapitulation' ? 'CURRENT TRUTH' : 'PROVENANCE' })
   }
   for (const k of Object.keys(raw)) {
-    if (!STRATA_CANONICAL.has(k) && k !== STRATA_SUBSTRATE && !STRATA_AUTHORITY.includes(k) && raw[k] != null) {
+    if (!STRATA_CANONICAL.has(k) && !skip.includes(k) && k !== STRATA_SUBSTRATE && !STRATA_AUTHORITY.includes(k) && raw[k] != null) {
       strata.push({ name: k, value: raw[k], tag: 'PROVENANCE' })
     }
   }
@@ -358,7 +359,7 @@ function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
   if (strata.length === 0) return null
 
   return (
-    <Sec id="r-strata" idx="07" label="Deeper Strata" title="Archaeology of the Ledger" accent={T.gold}>
+    <Sec id="r-strata" idx={idx} label="Deeper Strata" title="Archaeology of the Ledger" accent={T.gold}>
       <div style={{ marginBottom: 14 }}>
         <AsideBox variant="info" label="Dig Protocol">
           Anachronistic tread — the top stratum is current truth; deeper strata are preserved provenance, superseded
@@ -530,7 +531,16 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
   )
 }
 
-export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
+export function RecoilReportFromData({ data }: { data: RecoilReportRaw }) {
+  const raw = stripGate(data) // passcodes never render, in either path
+  if (isWarRoomShape(raw)) {
+    return (
+      <div>
+        <WarRoomReport raw={raw} />
+        <DeepStrata raw={raw} skip={WARROOM_RENDERED_KEYS} idx="S" />
+      </div>
+    )
+  }
   const A = T.cyan
   const d = normalizeRecoilReport(raw)
   const lifecycle = readLifecycle(raw)
