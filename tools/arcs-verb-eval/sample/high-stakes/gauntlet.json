@@ -1,0 +1,31 @@
+{
+  "stakes": "high",
+  "verdict": "fail",
+  "conditions": [],
+  "lenses": [
+    {"name": "BAR", "result": "dissent", "reason": "a locked send station on Auto is a ruin path",
+     "verdict": "survives_with_fix", "evidence": ["tools/arcs-verb-eval/sample/high-stakes/stations.json:6"], "forces": ["tools/arcs-verb-eval/sample/high-stakes/stations.json"],
+     "confirmed": ["send station is locked and refuses Auto in the sample flags"], "untested": ["no live station-flags config exists"]},
+    {"name": "COURT", "result": "fail", "reason": "swipe writes accept the pipeline token, so the pipeline can record a revealed preference",
+     "verdict": "fails", "evidence": ["src/app/api/jobs/swipe/route.ts:16", "src/lib/jobs.ts:18"], "forces": ["src/app/api/jobs/swipe/route.ts"],
+     "confirmed": ["callerFor returns pipeline on a matching x-jobs-token"], "untested": ["whether any scheduled task calls /api/jobs/swipe"]},
+    {"name": "KKL", "result": "pass", "reason": "no open review_by date lands inside slice 1; the nearest close on 2026-10-11",
+     "verdict": "survives", "evidence": ["scripts/open_loops.py:111"], "forces": ["tools/arcs-verb-eval/sample/high-stakes/plan.json"],
+     "confirmed": ["slice 1 window clears the open backlog deadlines"], "untested": ["calendar windows that live outside the backlog"]},
+    {"name": "FUN HOUSE", "result": "dissent", "reason": "no sends ledger, so the stop-loss cannot be computed",
+     "verdict": "survives_with_fix", "stop_loss": null, "evidence": ["tools/arcs-verb-eval/arcs_verb_eval_lenses.py:1"], "forces": ["tools/arcs-verb-eval/README.md#high-stakes-lenses"],
+     "confirmed": [], "untested": ["sends per week", "slices shipped per send"]},
+    {"name": "ANTERIOR/POSTERIOR", "result": "fail", "reason": "the 2026-10-05 teardown had no prior committed before the evidence",
+     "verdict": "fails", "evidence": ["tools/arcs-verb-eval/arcs_verb_eval_lenses.py:1"], "forces": ["tools/arcs-verb-eval/README.md#high-stakes-lenses"],
+     "confirmed": [], "untested": ["every op 21 belief move in the hand teardown"]}
+  ],
+  "probes": {
+    "BAR": {"stations": "tools/arcs-verb-eval/sample/high-stakes/stations.json"},
+    "COURT": {"routes": "src/app/api/jobs", "allowed_carveouts": [
+      {"route": "src/app/api/jobs/swipe/route.ts", "term": "evalRow",
+       "why": "Zach 2026-10-05: kept. scripts/jobs_trigger_eval.mjs drives the swipe route with x-jobs-token on throwaway eval-* rows; the pipeline token is accepted only on a jobid starting eval-."}]},
+    "KKL": {"plan": "tools/arcs-verb-eval/sample/high-stakes/plan.json"},
+    "FUN HOUSE": {"sends_ledger": "_STATE/job-search/sends-ledger.jsonl", "slices_ledger": "_STATE/job-search/slices-ledger.jsonl", "max_slices_per_send": 2},
+    "ANTERIOR/POSTERIOR": {"prior": "_STATE/job-search/job-factory-prior.json", "evidence": "_STATE/job-search/job-factory-spec-2026-10-05.md", "posterior": "_STATE/job-search/job-factory-posterior.json"}
+  }
+}

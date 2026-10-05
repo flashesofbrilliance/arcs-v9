@@ -1,5 +1,5 @@
-# ARCS session state (2026-10-05, v3.80.0)
+# ARCS session state — v3.83.0 (2026-10-05)
 
-- Last shipped: PR #745 (`baabdaed`) family-roster drift + build.html glow overflow. Receipts logged (3 rows).
-- In flight: chip task_bd140094, worktree core.hooksPath unpin (own session, awaiting Zach's yes).
-- Next: /handoff-pickup.
+- HEAD at handoff cut: fbc3cece (origin/main)
+- Done: COURT carve-out probe (#780); #762, #766 merged. Receipts filed for all three.
+- Next: verify main CI (never ran for these merges: Actions backlog). Fix forward if red.
