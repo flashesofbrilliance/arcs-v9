@@ -328,6 +328,16 @@ test("gauntletIntro: the gauntlet list intro, only when that list produced flags
   assert.equal(withList([{ dot: "", html: "<strong>BAR (ruin):</strong> {{the exposed edge}}" }]).gauntletIntro, undefined, "scaffold intro with no real flags is dropped")
 })
 
+test("kairosIntro: the Kairos list intro, only when that list produced flags", () => {
+  const base = ssot()
+  const withList = (intro: string, items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "recoil", type: "list", ...internal, h2: "Kairos, quiet signals &amp; risks", intro, items },
+  ] } })
+  assert.equal(withList("Green = resonance, gold = signal, red = risk.", [{ dot: "red", html: "No dated next step." }]).kairosIntro, "Green = resonance, gold = signal, red = risk.")
+  assert.equal(withList("Post-call read.", [{ dot: "", html: "<strong>Kairos:</strong> {{peak-resonance moment}}" }]).kairosIntro, undefined)
+  assert.equal(withList("{{...}}", [{ dot: "", html: "<strong>Risk:</strong> real risk" }]).kairosIntro, undefined, "unfilled intro is absent")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
