@@ -267,6 +267,29 @@ test("preCallTrueNorth: True North paragraphs verbatim, qualifier kept, ordered 
   assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "prose", ...internal, h2: "True North", p: ["x"] }] } }, { audience: "external" }).preCallTrueNorth, undefined)
 })
 
+test("Forge claim adjudication: rows become signal threads after beliefs, columns found by name", () => {
+  const base = ssot()
+  const forge = (columns: string[], rows: string[][]) => adapt({
+    ...base,
+    page: { ...base.page, blocks: [{ tab: "forge", type: "table", ...internal, h2: "Claim adjudication", columns, rows }] },
+  }).signalThreads!
+  const t = forge(["Claim", "Ruling", "Source force"], [
+    ["Bill gets the mis-routes", "GROUNDED", "'those others will just go to Bill'"],
+    ["Priority is high", "struck", "Never answered"],
+    ["{{claim}}", "GROUNDED", "{{verbatim}}"],
+  ])
+  assert.deepEqual(t.slice(3).map((x) => [x.label, x.title, x.body]), [
+    ["Forge \u00b7 GROUNDED", "Bill gets the mis-routes", "'those others will just go to Bill'"],
+    ["Forge \u00b7 STRUCK", "Priority is high", "Never answered"],
+  ])
+  assert.notEqual(t[3].accent, t[4].accent, "grounded and struck are told apart")
+  // brooks orders Claim, Evidence, Ruling
+  const b = forge(["Claim", "Evidence", "Ruling"], [["He asked for an audit", "'where are you?'", "INFERENCE"]])
+  assert.deepEqual([b[3].label, b[3].body], ["Forge \u00b7 INFERENCE", "'where are you?'"])
+  const c = forge(["Claim", "Ruling", "Why"], [["Cold intro", "INFERENCE (cold start GROUNDED; 'test' motive unobserved)", "x"]])
+  assert.deepEqual([c[3].label, c[3].note], ["Forge \u00b7 INFERENCE", "cold start GROUNDED; 'test' motive unobserved"])
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
