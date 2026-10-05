@@ -25,6 +25,9 @@
 //     GROUNDED green, INFERENCE gold, STRUCK red (struck claims stay visible, marked)
 //   page.blocks[tab=forge, type=prose] p[]                         → forgeMethod string (Deeper Strata):
 //     the substrates and ruling definitions behind the Forge threads, verbatim
+//   kinematic_series {dt, series[]} (the War Game kinematics_table) → beliefKinematics (Deeper Strata):
+//     per series "trajectory · D1 peak/term · D2 term · D3 term · grounded: quote", plus the n-point
+//     caveat; derivatives from ../kinematics (same central difference as WarRoomReport + recoil_brief.py)
 //   next_steps[] {owner,text}                                      → protocol[] (after; first one active)
 //   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
@@ -60,6 +63,7 @@
 // read goes through parseList, which tolerates a stringified array.
 
 import { T } from '../tokens'
+import { derivatives, kinematicsNote } from '../kinematics'
 import type { RecoilReportData } from '../screens/RecoilReport'
 import type { AsideVariant } from '../patterns/AsideBox'
 
@@ -83,6 +87,8 @@ export interface WarroomRecoilReport {
   preCallQuestions?: string[]
   /** Forge-tab method prose (substrates + ruling definitions), rendered by Deeper Strata. */
   forgeMethod?: string
+  /** Belief trajectories with D1-D3 (the War Game kinematics table), rendered by Deeper Strata. */
+  beliefKinematics?: Record<string, string>
 }
 
 type Rec = Record<string, unknown>
@@ -222,6 +228,33 @@ function forgeMethod(root: Rec, audience: WarroomAudience): string | undefined {
     parts.push(...parseList(b.p).map(text).filter((x): x is string => !!x))
   }
   return parts.length ? parts.join('\n\n') : undefined
+}
+
+function beliefKinematics(root: Rec, audience: WarroomAudience): Record<string, string> | undefined {
+  const ks = rec(root.kinematic_series)
+  const dt = typeof ks.dt === 'number' && ks.dt > 0 ? ks.dt : 1
+  const out: Record<string, string> = {}
+  let n = 0
+  for (const x of parseList(ks.series)) {
+    if (!isRecord(x) || !visible(x, audience)) continue
+    const points = parseList(x.points).map(Number).filter((v) => Number.isFinite(v))
+    const label = text(x.label) ?? text(x.key)
+    if (!label || points.length === 0) continue
+    const k = derivatives(points, dt)
+    const quote = text(x.grounding_quote)
+    let key = label
+    for (let i = 2; key in out; i++) key = `${label} (${i})`
+    out[key] = [
+      points.join(' \u2192 '),
+      `D1 peak/term ${k.d1Peak} / ${k.d1Term}`,
+      `D2 term ${k.d2Term}`,
+      `D3 term ${k.d3Term}`,
+      ...(quote ? [`grounded: ${quote}`] : []),
+    ].join(' \u00b7 ')
+    n = Math.max(n, points.length)
+  }
+  if (!Object.keys(out).length) return undefined
+  return { ...out, method: kinematicsNote(n) }
 }
 
 function preCallContext(root: Rec, audience: WarroomAudience): Record<string, string> | undefined {
@@ -451,6 +484,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const intel = preCallIntel(root, audience)
   const { questions, landmines } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
+  const kinematics = beliefKinematics(root, audience)
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
@@ -472,5 +506,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(intel ? { preCallIntel: intel } : {}),
     ...(questions.length ? { preCallQuestions: questions } : {}),
     ...(method ? { forgeMethod: method } : {}),
+    ...(kinematics ? { beliefKinematics: kinematics } : {}),
   }
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import { T } from '../tokens'
 import { Sec, Pill } from '../primitives'
 import { AsideBox } from '../patterns/AsideBox'
+import { derivatives, kinematicsNote } from '../kinematics'
 
 // ─── War-room render path ─────────────────────────────────────────────────
 // The 6-tab war-room SSOTs (recoil-new / recoil-prep / recoil-close; e.g.
@@ -82,12 +83,6 @@ function Card({ h2, accent, children }: { h2?: unknown; accent?: string; childre
 const Intro = ({ v }: { v: unknown }) => (s(v) ? <p style={P}><H html={v} /></p> : null)
 
 // D1-D3 by central difference — same as recoil_brief.py `_grad` (np.gradient, edge_order=1).
-function grad(f: number[], dt: number): number[] {
-  const n = f.length
-  if (n < 2) return f.map(() => 0)
-  return f.map((_, i) => (i === 0 ? (f[1] - f[0]) / dt : i === n - 1 ? (f[n - 1] - f[n - 2]) / dt : (f[i + 1] - f[i - 1]) / (2 * dt)))
-}
-const r3 = (x: number) => Math.round(x * 1000) / 1000
 
 interface Series { key: string; label: string; color: string; points: number[]; quote: string }
 function readSeries(raw: Raw): { dt: number; series: Series[] } {
@@ -235,15 +230,15 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
     case 'kinematics_table': {
       const { dt, series } = readSeries(raw)
       const rows = series.map((x) => {
-        const v = grad(x.points, dt), a = grad(v, dt), j = grad(a, dt)
-        return [x.label, `${r3(Math.max(...v.map(Math.abs)))} / ${r3(v[v.length - 1])}`, String(r3(a[a.length - 1])), String(r3(j[j.length - 1]))]
+        const k = derivatives(x.points, dt)
+        return [x.label, `${k.d1Peak} / ${k.d1Term}`, String(k.d2Term), String(k.d3Term)]
       })
       const n = series[0]?.points.length ?? 0
       return (
         <Card h2={b.h2}>
           <Table head={['signal', 'D1 peak/term', 'D2 term', 'D3 term']} rows={rows} />
           <p style={{ ...P, fontSize: 11, color: T.fg3, marginTop: 10 }}>
-            n={n} points: D1-D2 valid, D3 marginal, D4+ undersampled. Central difference, same as scripts/recoil_brief.py.
+            {kinematicsNote(n)}
           </p>
         </Card>
       )
