@@ -338,6 +338,20 @@ test("kairosIntro: the Kairos list intro, only when that list produced flags", (
   assert.equal(withList("{{...}}", [{ dot: "", html: "<strong>Risk:</strong> real risk" }]).kairosIntro, undefined, "unfilled intro is absent")
 })
 
+test("preCallQuestionsIntro: the call-plan intro, only when its list yielded items; ordered after the questions", () => {
+  const base = ssot()
+  const withList = (intro: string, items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "pre", type: "list", ...internal, h2: "Questions &amp; landmines", intro, items },
+  ] } })
+  const o = withList("Reconstructed from what the call plan implicitly was.", [{ dot: "", html: "Does the thesis still animate him?" }])
+  assert.equal(o.preCallQuestionsIntro, "Reconstructed from what the call plan implicitly was.")
+  const keys = Object.keys(o)
+  assert.equal(keys.indexOf("preCallQuestionsIntro"), keys.indexOf("preCallQuestions") + 1)
+  assert.equal(withList("Landmines only.", [{ dot: "", html: "<span>Landmine:</span> comp" }]).preCallQuestionsIntro, "Landmines only.", "a landmine counts")
+  assert.equal(withList("{{...}}", [{ dot: "", html: "real question?" }]).preCallQuestionsIntro, undefined)
+  assert.equal(withList("Plan.", [{ dot: "", html: "{{question}}" }]).preCallQuestionsIntro, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
