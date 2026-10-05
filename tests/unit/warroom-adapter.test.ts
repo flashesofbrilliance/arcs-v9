@@ -144,6 +144,28 @@ test("riskFlags: recoil-tab Kairos list follows the gauntlet; other recoil lists
   assert.equal(o.riskFlags!.length, 8, "the Next steps list is not a risk source")
 })
 
+test("protocol: ex-ante commitments lead, reconstructed receipts are labelled, next steps stay active", () => {
+  const base = ssot()
+  const receipt = (h2: string) => ({
+    tab: "exante", type: "receipt", ...internal, h2,
+    fields: [
+      { label: "D &#183; Sharpened question", value: "not a step" },
+      { label: "Pre-committed move", value: "Send once, then wait" },
+      { label: "Falsifier", value: "He asks again" },
+      { label: "Kill line", value: "{{unfilled}}" },
+    ],
+  })
+  const withReceipt = (h2: string) => adapt({ ...base, page: { ...base.page, blocks: [...base.page.blocks, receipt(h2)] } }).protocol!
+  assert.deepEqual(withReceipt("Exhibit 1 &#183; Ex-Ante Decision Receipt").map((s) => [s.label, s.title, s.body, !!s.active]), [
+    ["Ex-ante", "Pre-committed move", "Send once, then wait", false],
+    ["Ex-ante", "Falsifier", "He asks again", false],
+    ["Next 01", "Zach", "First step", true],
+    ["Next 02", "Zach", "Second step", false],
+  ])
+  assert.equal(withReceipt("Exhibit 1 (reconstructed - no filed pre-call receipt)")[0].label, "Ex-ante (reconstructed)")
+  assert.equal(withReceipt("Reconstructed pre-call receipt (post-hoc, unscoreable)")[0].label, "Ex-ante (reconstructed)")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
