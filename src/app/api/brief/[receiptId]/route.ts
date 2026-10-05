@@ -68,11 +68,23 @@ export async function GET(
 
   const { receiptId } = await params
 
+  // Owner-only (Zach, 2026-10-05). The receipt id is no longer a capability:
+  // anyone else reaches a brief only through an owner-minted share token
+  // (/api/shared/brief/[token]). Anonymous receipts (userId null) have no owner
+  // to match and are not served here; see src/lib/briefShare.ts. 404, never 403,
+  // so an id never confirms it exists.
+  const notFound = () => NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+  if (!userId) return notFound()
+  const owned = await prisma.receipt.findUnique({ where: { id: receiptId }, select: { userId: true } })
+  if (!owned || owned.userId !== userId) return notFound()
+
   // Serve from store if already generated
   // children = the tributary rounds spawned from this receipt (down-chain nav).
-  // Bounded (≤3 tributaries per node); userId-scoping seam noted for post-RBAC.
+  // Scoped to the owner: compass takes parentReceiptId from the client, so another
+  // account could parent its own receipt here and would otherwise surface in this list.
   const childrenInclude = {
     children: {
+      where: { userId },
       select: { id: true, decision: true, trueNorth: true, yState: true, nciScore: true, version: true, createdAt: true },
       orderBy: { createdAt: "asc" as const },
     },
