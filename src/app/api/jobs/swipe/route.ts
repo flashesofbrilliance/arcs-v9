@@ -13,10 +13,17 @@ export const dynamic = "force-dynamic"
 //   anything past queued               -> run kept
 // A why tag only attaches to a left swipe.
 export async function POST(req: NextRequest) {
+  // A swipe is a revealed preference: only an admin session may record one
+  // (dev passes through outside production, per src/lib/admin.ts). The one
+  // pipeline exception is the throwaway eval-* rows that
+  // scripts/jobs_trigger_eval.mjs creates to drive this route end to end.
   const caller = await callerFor(req)
   if (!caller) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   const body = await req.json().catch(() => null)
   const jobid = String(body?.jobid ?? "")
+  const evalRow = caller.kind === "pipeline" && jobid.startsWith("eval-")
+  if (caller.kind !== "admin" && !(caller.kind === "dev" && process.env.NODE_ENV !== "production") && !evalRow)
+    return NextResponse.json({ error: "Forbidden: swipes require an admin session" }, { status: 403 })
   const direction = body?.direction ?? null
   const why = body?.why ?? null
   if (!jobid) return NextResponse.json({ error: "jobid required" }, { status: 400 })

@@ -42,6 +42,18 @@ function parseEntityAnalysis(raw: string): Record<string, string> | null {
   }
 }
 
+// Anyone holding a brief link can read this response, so it carries only what
+// the brief and receipt pages render: no owner id, no raw model output beyond
+// the reasoning, and never the prep's "strongest argument against" notes.
+function publicReceipt(r: object | null | undefined) {
+  if (!r) return r
+  const { userId: _u, rawResponse, prep, ...rest } = r as Record<string, unknown>
+  let reasoning: unknown = undefined
+  try { reasoning = typeof rawResponse === "string" ? (JSON.parse(rawResponse) as { reasoning?: unknown }).reasoning : undefined } catch { /* malformed: omit */ }
+  const safePrep = prep && typeof prep === "object" ? (({ adversarialInput: _a, userId: _pu, ...p }) => p)(prep as Record<string, unknown>) : prep
+  return { ...rest, rawResponse: JSON.stringify(reasoning === undefined ? {} : { reasoning }), ...(prep !== undefined ? { prep: safePrep } : {}) }
+}
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
@@ -78,7 +90,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(existing.receipt), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt)), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -155,7 +167,7 @@ export async function GET(
       },
     })
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(receipt)), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
   } catch {
     const stored = await prisma.brief.findUnique({ where: { receiptId } })
     const storedEntity = (() => {
@@ -163,6 +175,6 @@ export async function GET(
       catch { return null }
     })()
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: scrubReceiptProse(receipt), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: publicReceipt(scrubReceiptProse(receipt)), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
   }
 }
