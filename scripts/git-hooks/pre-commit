@@ -705,6 +705,16 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
   fi
 done
 
+# cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
+# .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
+if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/cruft_sweep.py --self-test >/dev/null 2>&1; then
+    python3 scripts/cruft_sweep.py --self-test >&2 || true
+    echo "✖ pre-commit(cruft-sweep): prune would bundle the wrong HEAD. fix before committing." >&2
+    exit 1
+  fi
+fi
+
 # backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
 if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/backlog_freshness.py --self-test >/dev/null 2>&1; then

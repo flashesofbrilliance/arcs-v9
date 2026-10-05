@@ -15,7 +15,7 @@ import { writerCall } from "@/lib/claude-models"
 export const dynamic = "force-dynamic"
 export const maxDuration = 120 // Sonnet 5.5 thinks before answering; 60s was tight
 
-type Body = { jobid: string; title: string; company: string; jd: string; seedCover: string; resumeText?: string }
+type Body = { jobid: string; title: string; company: string; jd: string; seedCover: string; resumeText?: string; questions?: string[] }
 
 function seedVoice() {
   // fallback voice notes if no seed passed
@@ -31,8 +31,11 @@ HARD RULES (correctness over polish):
 - Plain language. NO em-dashes anywhere (use commas or periods). No scoring vocabulary (tier, band, composite, pursue). Address the company by name; never invent a hiring manager's name.
 - Ground the 2-3 middle observations in the JD: name the company's actual product, moat, or problem, and connect it to Zach's real experience. Specific beats flattering.
 
+If APPLICATION QUESTIONS are given, also answer each in Zach's voice, 80-160 words, using ONLY claims present in the resume text (a story that is not in the resume text is not told; say less rather than invent). Same hard rules.
+
 Return ONLY JSON:
-{"coverMd":"<full cover, ~300-380 words, greeting to sign-off, plain text paste-ready>","coverShort":"<compressed ~160-190 word version for a form field, same beats>","hook":"<one line: the single sharpest reason-to-call-back this letter makes>"}`
+{"coverMd":"<full cover, ~300-380 words, greeting to sign-off, plain text paste-ready>","coverShort":"<compressed ~160-190 word version for a form field, same beats>","hook":"<one line: the single sharpest reason-to-call-back this letter makes>","answers":[{"question":"<as given>","answer":"<plain text>"}]}
+Omit "answers" (or return []) when no questions are given.`
 
 export async function POST(req: NextRequest) {
   const caller = await callerFor(req)
@@ -41,14 +44,15 @@ export async function POST(req: NextRequest) {
   if (!b?.jobid || !b?.jd) return NextResponse.json({ error: "jobid, jd required" }, { status: 400 })
   if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json({ error: "writer unavailable (no key)" }, { status: 503 })
 
+  const qs = Array.isArray(b.questions) ? b.questions.map((q) => String(q).slice(0, 400)).filter(Boolean).slice(0, 8) : []
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const r = await writerCall(anthropic, {
-    max_tokens: 16000, effort: "medium",
+    max_tokens: 16000 + 350 * qs.length, effort: "medium",
     system: [
       { type: "text", text: SYSTEM },
       { type: "text", text: `REFERENCE COVER (voice + structure model; do not copy its company-specific content):\n${(b.seedCover || seedVoice()).slice(0, 12000)}`, cache_control: { type: "ephemeral" } },
     ],
-    messages: [{ role: "user", content: `Role: ${b.title} @ ${b.company} (jobid ${b.jobid})\n\n--- JD ---\n${b.jd.slice(0, 6000)}\n\n--- Zach's resume text for this role (claims must stay consistent with this) ---\n${(b.resumeText || "").slice(0, 8000)}\n\nWrite the cover for ${b.company}.` }],
+    messages: [{ role: "user", content: `Role: ${b.title} @ ${b.company} (jobid ${b.jobid})\n\n--- JD ---\n${b.jd.slice(0, 6000)}\n\n--- Zach's resume text for this role (claims must stay consistent with this) ---\n${(b.resumeText || "").slice(0, 8000)}${qs.length ? `\n\n--- APPLICATION QUESTIONS ---\n${qs.map((q, i) => `${i + 1}. ${q}`).join("\n")}` : ""}\n\nWrite the cover for ${b.company}.` }],
   })
   if (!r.ok) return NextResponse.json({ error: `writer declined (refusal${r.refusal ? `: ${r.refusal}` : ""})` }, { status: 502 })
   const txt = r.text
@@ -61,5 +65,12 @@ export async function POST(req: NextRequest) {
     if (v.includes("—") || /\b(tier|band|composite|pursue)\b/i.test(v)) return NextResponse.json({ error: "cover failed air-gap (em-dash or scoring vocab)" }, { status: 502 })
     if (/surgery|acl|meniscus|injur/i.test(v)) return NextResponse.json({ error: "cover leaked the personal medical note" }, { status: 502 })
   }
+  const answers = Array.isArray(out.answers) ? out.answers : []
+  for (const a of answers) {
+    const v = String(a?.answer ?? "")
+    if (v.includes("—") || /\b(tier|band|composite|pursue)\b/i.test(v)) return NextResponse.json({ error: "an answer failed air-gap (em-dash or scoring vocab)" }, { status: 502 })
+    if (/surgery|acl|meniscus|injur/i.test(v)) return NextResponse.json({ error: "an answer leaked the personal medical note" }, { status: 502 })
+  }
+  out.answers = answers
   return NextResponse.json({ ...out, usage: r.usage })
 }
