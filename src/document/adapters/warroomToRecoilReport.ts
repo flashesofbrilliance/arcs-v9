@@ -34,6 +34,11 @@
 //     RecoilReportData prop: RecoilReportFromData's Deeper Strata renders any extra key, verbatim)
 //   page.blocks[tab=pre, type=list, h2~/intel/] items              → preCallIntel string[] (Deeper
 //     Strata); "Lead-in: body" when the item has a bold lead-in, else the body alone (no invented keys)
+//   page.blocks[tab=pre, type=list, h2~/question|landmine|moves/]:
+//     items led by "Landmine..."                                   → riskFlags[] (after Kairos; caution,
+//                                                                    warning when "unresolved"; label verbatim)
+//     every other item                                             → preCallQuestions string[] (Deeper Strata,
+//                                                                    same "Lead-in: body" format as Intel)
 //   (no source)                                                    → scenarios.best, scenarios.base
 //   (no source)                                                    → cover.actions = [] (explicit: hides
 //                                                                    the screen's inert default buttons)
@@ -65,6 +70,8 @@ export interface WarroomRecoilReport {
   preCallContext?: Record<string, string>
   /** Pre-Call Intel items, rendered by the screen's Deeper Strata section. */
   preCallIntel?: string[]
+  /** Pre-Call questions and scripted moves (landmines go to riskFlags). */
+  preCallQuestions?: string[]
 }
 
 type Rec = Record<string, unknown>
@@ -198,19 +205,45 @@ function preCallContext(root: Rec, audience: WarroomAudience): Record<string, st
   return Object.keys(out).length ? out : undefined
 }
 
+function preCallLists(root: Rec, audience: WarroomAudience, h2: RegExp): Rec[] {
+  return parseList(rec(root.page).blocks).filter(
+    (b): b is Rec => isRecord(b) && b.tab === 'pre' && b.type === 'list' && h2.test(text(b.h2) ?? '') && visible(b, audience),
+  )
+}
+
+// A lead-in that is already a sentence ("Genuine fan.") runs straight into its body.
+function leadIn(label: string | undefined, body: string): string {
+  return label ? `${label}${/[.!?]$/.test(label) ? ' ' : ': '}${body}` : body
+}
+
 function preCallIntel(root: Rec, audience: WarroomAudience): string[] | undefined {
   const out: string[] = []
-  for (const b of parseList(rec(root.page).blocks)) {
-    if (!isRecord(b) || b.tab !== 'pre' || b.type !== 'list' || !/intel/i.test(text(b.h2) ?? '') || !visible(b, audience)) continue
+  for (const b of preCallLists(root, audience, /intel/i)) {
+    for (const item of parseList(b.items)) {
+      if (!isRecord(item)) continue
+      const { label, body } = splitLens(item.html)
+      if (body) out.push(leadIn(label, body))
+    }
+  }
+  return out.length ? out : undefined
+}
+
+function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: string[]; landmines: RecoilReportData['riskFlags'] } {
+  const questions: string[] = []
+  const landmines: RecoilReportData['riskFlags'] = []
+  for (const b of preCallLists(root, audience, /question|landmine|moves/i)) {
     for (const item of parseList(b.items)) {
       if (!isRecord(item)) continue
       const { label, body } = splitLens(item.html)
       if (!body) continue
-      // A lead-in that is already a sentence ("Genuine fan.") runs straight into its body.
-      out.push(label ? `${label}${/[.!?]$/.test(label) ? ' ' : ': '}${body}` : body)
+      if (label && /^landmine/i.test(label)) {
+        landmines.push({ variant: /unresolved/i.test(label) ? 'warning' : 'caution', label, body })
+      } else {
+        questions.push(leadIn(label, body))
+      }
     }
   }
-  return out.length ? out : undefined
+  return { questions, landmines }
 }
 
 // Each "Receipt closed" block is one call scored against its ex-ante; in
@@ -343,12 +376,13 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const callWalk = callWalkFromCloses(root, audience, date)
   const context = preCallContext(root, audience)
   const intel = preCallIntel(root, audience)
+  const { questions, landmines } = preCallQuestions(root, audience)
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
     (b): b is Rec => isRecord(b) && b.tab === 'recoil' && b.type === 'list' && /kairos/i.test(text(b.h2) ?? '') && visible(b, audience),
   )
-  const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read')]
+  const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read'), ...landmines]
   const worst = worstFromPremortem(wargame)
 
   return {
@@ -361,5 +395,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(worst ? { scenarios: { worst } } : {}),
     ...(context ? { preCallContext: context } : {}),
     ...(intel ? { preCallIntel: intel } : {}),
+    ...(questions.length ? { preCallQuestions: questions } : {}),
   }
 }
