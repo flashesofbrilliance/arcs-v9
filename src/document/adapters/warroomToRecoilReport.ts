@@ -32,6 +32,8 @@
 //     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
 //   page.blocks[tab=pre, type=keyvalue] rows {k,v}                 → preCallContext {k: v} (not a
 //     RecoilReportData prop: RecoilReportFromData's Deeper Strata renders any extra key, verbatim)
+//   page.blocks[tab=pre, type=list, h2~/intel/] items              → preCallIntel string[] (Deeper
+//     Strata); "Lead-in: body" when the item has a bold lead-in, else the body alone (no invented keys)
 //   (no source)                                                    → scenarios.best, scenarios.base
 //   (no source)                                                    → cover.actions = [] (explicit: hides
 //                                                                    the screen's inert default buttons)
@@ -61,6 +63,8 @@ export interface WarroomRecoilReport {
   protocol?: RecoilReportData['protocol']
   /** Pre-Call Context rows, rendered by the screen's Deeper Strata section. */
   preCallContext?: Record<string, string>
+  /** Pre-Call Intel items, rendered by the screen's Deeper Strata section. */
+  preCallIntel?: string[]
 }
 
 type Rec = Record<string, unknown>
@@ -90,7 +94,15 @@ function rec(v: unknown): Rec {
   return isRecord(p) ? p : {}
 }
 
-const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', middot: '·', mdash: '\u2014', ndash: '–', rarr: '→', times: '×' }
+// Every named entity found in the SSOT corpus (the corpus unit test fails on any
+// entity left undecoded, so a new one shows up there first).
+const ENTITIES: Record<string, string> = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', middot: '\u00b7', times: '\u00d7',
+  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026',
+  lsquo: '\u2018', rsquo: '\u2019', ldquo: '\u201c', rdquo: '\u201d',
+  rarr: '\u2192', larr: '\u2190', uarr: '\u2191', darr: '\u2193',
+  ntilde: '\u00f1', eacute: '\u00e9',
+}
 
 // SSOT strings are authored for the HTML war-room renderer: decode entities and
 // strip inline tags so the React screen receives plain text.
@@ -130,7 +142,7 @@ function splitLens(html: unknown): { label?: string; body?: string } {
   if (typeof html !== 'string') return {}
   const m = html.match(/^\s*<(strong|span)\b[^>]*>([^<]+?):?<\/\1>:?\s*([\s\S]*)$/)
   if (!m) return { body: text(html) }
-  return { label: text(m[2]), body: text(m[3]) }
+  return { label: text(m[2])?.replace(/[\s:]+$/, ''), body: text(m[3].replace(/^\s*:\s*/, ''))?.replace(/^[\u2014\u2013-]\s*/, '') }
 }
 
 function wargameBlocks(root: Rec, audience: WarroomAudience): Rec[] {
@@ -184,6 +196,21 @@ function preCallContext(root: Rec, audience: WarroomAudience): Record<string, st
     }
   }
   return Object.keys(out).length ? out : undefined
+}
+
+function preCallIntel(root: Rec, audience: WarroomAudience): string[] | undefined {
+  const out: string[] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'pre' || b.type !== 'list' || !/intel/i.test(text(b.h2) ?? '') || !visible(b, audience)) continue
+    for (const item of parseList(b.items)) {
+      if (!isRecord(item)) continue
+      const { label, body } = splitLens(item.html)
+      if (!body) continue
+      // A lead-in that is already a sentence ("Genuine fan.") runs straight into its body.
+      out.push(label ? `${label}${/[.!?]$/.test(label) ? ' ' : ': '}${body}` : body)
+    }
+  }
+  return out.length ? out : undefined
 }
 
 // Each "Receipt closed" block is one call scored against its ex-ante; in
@@ -315,6 +342,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
 
   const callWalk = callWalkFromCloses(root, audience, date)
   const context = preCallContext(root, audience)
+  const intel = preCallIntel(root, audience)
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
@@ -332,5 +360,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(riskFlags.length ? { riskFlags } : {}),
     ...(worst ? { scenarios: { worst } } : {}),
     ...(context ? { preCallContext: context } : {}),
+    ...(intel ? { preCallIntel: intel } : {}),
   }
 }
