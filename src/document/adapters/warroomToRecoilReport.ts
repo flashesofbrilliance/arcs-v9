@@ -20,6 +20,9 @@
 //   page.blocks[tab=exante, type=receipt] fields                   → protocol[] (first)
 //     Pre-committed move / Falsifier / Kill line; label "Ex-ante", or "Ex-ante (reconstructed)"
 //     when the receipt's h2 says reconstructed/post-hoc (ADR-044: never pass as filed-before)
+//   page.blocks[tab=forge, type=table, h2~/claim/] rows            → signalThreads[] (after beliefs)
+//     columns found by name (claim / ruling / source|why|evidence); label "Forge · RULING";
+//     GROUNDED green, INFERENCE gold, STRUCK red (struck claims stay visible, marked)
 //   next_steps[] {owner,text}                                      → protocol[] (after; first one active)
 //   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
@@ -325,6 +328,40 @@ function worstFromPremortem(blocks: Rec[]): RecoilReportData['scenarios']['worst
   }
 }
 
+const RULING_ACCENT: Record<string, string> = { GROUNDED: T.green, INFERENCE: T.gold, STRUCK: T.red }
+
+function forgeClaims(root: Rec, audience: WarroomAudience): RecoilReportData['signalThreads'] {
+  const threads: RecoilReportData['signalThreads'] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'forge' || b.type !== 'table' || !/claim/i.test(text(b.h2) ?? '') || !visible(b, audience)) continue
+    const cols = parseList(b.columns).map((c) => text(c) ?? '')
+    const col = (re: RegExp) => cols.findIndex((c) => re.test(c))
+    const iClaim = col(/claim/i)
+    const iRuling = col(/ruling/i)
+    const iSource = col(/source|why|evidence/i)
+    if (iClaim < 0 || iRuling < 0) continue
+    for (const row of parseList(b.rows)) {
+      const cells = parseList(row)
+      const claim = text(cells[iClaim])
+      const rulingText = text(cells[iRuling])
+      if (!claim || !rulingText) continue
+      // Some rulings carry commentary ("INFERENCE: a question about fit ..."): the
+      // leading word is the ruling, the rest is kept verbatim as the note.
+      const m = rulingText.match(/^([A-Za-z-]+)[\s:;,.-]*([\s\S]*)$/)
+      const ruling = (m?.[1] ?? rulingText).toUpperCase()
+      const comment = m?.[2]?.replace(/^\(([\s\S]*)\)$/, '$1').trim()
+      threads.push({
+        label: `Forge \u00b7 ${ruling}`,
+        accent: RULING_ACCENT[ruling] ?? T.cyan,
+        title: claim,
+        body: (iSource >= 0 ? text(cells[iSource]) : undefined) ?? '',
+        ...(comment ? { note: comment } : {}),
+      })
+    }
+  }
+  return threads
+}
+
 const VERDICT_ACCENT: Record<string, string> = { CONFIRMED: T.green, FALSIFIED: T.red, OPEN: T.gold }
 
 export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomAudience } = {}): WarroomRecoilReport {
@@ -382,6 +419,8 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
 
   // Ex-ante commitments were filed before the call, so they lead; next_steps
   // are post-call and hold the active step.
+  threads.push(...forgeClaims(root, audience))
+
   const protocol: RecoilReportData['protocol'] = exAnteSteps(root, audience)
   let n = 0
   for (const s of parseList(root.next_steps)) {
