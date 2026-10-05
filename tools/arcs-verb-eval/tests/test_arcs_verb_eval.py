@@ -14,6 +14,10 @@ class SelfTests(unittest.TestCase):
     def test_io_ingest_and_export(self):
         self.assertEqual(vio.self_test(), 0)
 
+    def test_teardown_lenses_fail_on_bad_and_pass_on_good(self):
+        import arcs_verb_eval_lenses as vl
+        self.assertEqual(vl.self_test(), 0)
+
     def test_example_notebook_ingests(self):
         import tempfile
         out = tempfile.mkdtemp()
