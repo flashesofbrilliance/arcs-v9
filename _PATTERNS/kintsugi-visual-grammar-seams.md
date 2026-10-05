@@ -563,6 +563,8 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   waives only `design-system-color`, `design-system-font-size` and `overused-font` for the glob
   `_ARTIFACTS/forge-*/resume-*.html` (the same separate-visual-world call the kit pages get per
   file; a glob here because the family grows by one bundle per run). Contrast, size floors and
-  all-caps stay live, so a regression in the stylesheet still blocks. The 94 older bundles keep
+  all-caps stay live, so a regression in the stylesheet still blocks. CI fe-smoke then caught the
+  fixed 8.5in sheet overflowing 375/790px screens (inherited too); a screen-only <=860px block lets the
+  sheet reflow, print untouched. The 94 older bundles keep
   their old block (frozen baseline, ratchet WARN on edit); restyle them by applying the stylesheet
   and re-rendering if they are re-sent.
