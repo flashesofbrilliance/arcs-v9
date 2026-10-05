@@ -167,6 +167,26 @@ test("protocol: ex-ante commitments lead, reconstructed receipts are labelled, n
   assert.equal(withReceipt("Reconstructed pre-call receipt (post-hoc, unscoreable)")[0].label, "Ex-ante (reconstructed)")
 })
 
+test("preCallContext: Pre-Call keyvalue rows verbatim, duplicates kept, internal stays internal", () => {
+  const base = ssot()
+  const raw = {
+    ...base,
+    page: {
+      ...base.page,
+      blocks: [
+        ...base.page.blocks,
+        { tab: "pre", type: "keyvalue", ...internal, h2: "Context", rows: [
+          { k: "Build", v: "Tidio &#8594; Zapier" }, { k: "Trigger", v: "surgery Friday" },
+          { k: "Trigger", v: "second row" }, { k: "Owner", v: "{{who}}" },
+        ] },
+        { tab: "recoil", type: "keyvalue", ...internal, h2: "Not context", rows: [{ k: "X", v: "y" }] },
+      ],
+    },
+  }
+  assert.deepEqual(adapt(raw).preCallContext, { Build: "Tidio \u2192 Zapier", Trigger: "surgery Friday", "Trigger (2)": "second row" })
+  assert.equal(adapt(raw, { audience: "external" }).preCallContext, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)

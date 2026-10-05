@@ -30,6 +30,8 @@
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
 //     authored order; label = date in the h2 else meta.date; title = h2 after "Receipt closed";
 //     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
+//   page.blocks[tab=pre, type=keyvalue] rows {k,v}                 → preCallContext {k: v} (not a
+//     RecoilReportData prop: RecoilReportFromData's Deeper Strata renders any extra key, verbatim)
 //   (no source)                                                    → scenarios.best, scenarios.base
 //   (no source)                                                    → cover.actions = [] (explicit: hides
 //                                                                    the screen's inert default buttons)
@@ -57,6 +59,8 @@ export interface WarroomRecoilReport {
   scenarios?: Partial<RecoilReportData['scenarios']>
   riskFlags?: RecoilReportData['riskFlags']
   protocol?: RecoilReportData['protocol']
+  /** Pre-Call Context rows, rendered by the screen's Deeper Strata section. */
+  preCallContext?: Record<string, string>
 }
 
 type Rec = Record<string, unknown>
@@ -163,6 +167,23 @@ function exAnteSteps(root: Rec, audience: WarroomAudience): RecoilReportData['pr
     }
   }
   return steps
+}
+
+function preCallContext(root: Rec, audience: WarroomAudience): Record<string, string> | undefined {
+  const out: Record<string, string> = {}
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'pre' || b.type !== 'keyvalue' || !visible(b, audience)) continue
+    for (const r of parseList(b.rows)) {
+      if (!isRecord(r)) continue
+      const k = text(r.k)
+      const v = text(r.v)
+      if (!k || !v) continue
+      let key = k
+      for (let i = 2; key in out; i++) key = `${k} (${i})` // keep every row, never overwrite
+      out[key] = v
+    }
+  }
+  return Object.keys(out).length ? out : undefined
 }
 
 // Each "Receipt closed" block is one call scored against its ex-ante; in
@@ -293,6 +314,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   }
 
   const callWalk = callWalkFromCloses(root, audience, date)
+  const context = preCallContext(root, audience)
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
@@ -309,5 +331,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(protocol.length ? { protocol } : {}),
     ...(riskFlags.length ? { riskFlags } : {}),
     ...(worst ? { scenarios: { worst } } : {}),
+    ...(context ? { preCallContext: context } : {}),
   }
 }
