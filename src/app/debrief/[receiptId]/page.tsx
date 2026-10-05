@@ -54,8 +54,8 @@ export default function DebriefPage() {
   const [recap, setRecap] = useState<ReceiptRecap | null>(null)
   const [logged, setLogged] = useState<LoggedOutcome | null>(null)
   const [error, setError] = useState<string | null>(null)
-  // Server says whether this viewer may close the receipt (owner only in prod).
-  const [access, setAccess] = useState<{ canClose: boolean; signedIn: boolean }>({ canClose: false, signedIn: false })
+  // GET answers 404 for no session, another account, or a missing id alike.
+  const [locked, setLocked] = useState(false)
 
   // form state
   const [matched, setMatched] = useState<boolean | null>(null)
@@ -64,20 +64,17 @@ export default function DebriefPage() {
   const [learning, setLearning] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState<{ driftState: string } | null>(null)
-  // Closed by its owner, but this viewer is not the owner: the outcome text stays private.
-  const [closedPrivately, setClosedPrivately] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     fetch(`/api/receipts/${receiptId}/outcome`)
-      .then(async (r) => ({ ok: r.ok, data: await r.json() }))
-      .then(({ ok, data }) => {
+      .then(async (r) => ({ ok: r.ok, status: r.status, data: await r.json().catch(() => ({})) }))
+      .then(({ ok, status, data }) => {
         if (cancelled) return
+        if (status === 404) { setLocked(true); return }
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
         setRecap(data.receipt)
-        setAccess({ canClose: !!data.canClose, signedIn: !!data.signedIn })
         if (data.outcome) setLogged(data.outcome)
-        else if (data.closed) setClosedPrivately(true)
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
     return () => { cancelled = true }
@@ -118,6 +115,14 @@ export default function DebriefPage() {
     </main>
   )
 
+  if (locked) return shell(
+    <Card>
+      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6, marginBottom: "1rem" }}>
+        This debrief opens only for the account that saved the receipt. Sign in with that email to log how it landed.
+      </div>
+      <ButtonLink variant="primary" size="sm" href={`/compass?next=${encodeURIComponent(`/debrief/${receiptId}`)}`}>Sign in</ButtonLink>
+    </Card>
+  )
   if (error) return shell(<div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>)
   if (!recap) return shell(<div style={{ fontFamily: font.mono, fontSize: "0.75rem", color: text.dimmed, letterSpacing: "0.08em" }}>Loading the call you logged…</div>)
 
@@ -155,7 +160,7 @@ export default function DebriefPage() {
   )
 
   // ── Already closed (logged earlier, or just now) ──────────────────────────
-  if (logged || done || closedPrivately) {
+  if (logged || done) {
     const o = logged
     const drift = done?.driftState ?? recap.driftState ?? (o?.matched ? "LANDED" : "DRIFTING")
     const driftColor = drift === "LANDED" ? signal.green : signal.gold
@@ -169,10 +174,6 @@ export default function DebriefPage() {
           {done && !o ? (
             <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>
               The loop is complete. This call now feeds the pattern layer. The next decision starts from clearer ground.
-            </div>
-          ) : closedPrivately && !o ? (
-            <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>
-              Its owner has logged how this call landed. The debrief itself stays with them.
             </div>
           ) : o ? (
             <>
@@ -199,28 +200,6 @@ export default function DebriefPage() {
           <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.5rem" }}>
             <ButtonLink variant="ghost" size="sm" href={`/brief/${receiptId}`}>View brief</ButtonLink>
             <ButtonLink variant="ghost" size="sm" href="/history">Ledger</ButtonLink>
-          </div>
-        </Card>
-      </>
-    )
-  }
-
-  // ── Not closable by this viewer: say why instead of showing a form that 403s ──
-  if (!access.canClose) {
-    return shell(
-      <>
-        {recapCard}
-        <Card>
-          <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6, marginBottom: "1rem" }}>
-            {access.signedIn
-              ? "Only the person who saved this receipt can log how it landed."
-              : "Sign in as the person who saved this receipt to log how it landed."}
-          </div>
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-            {!access.signedIn && (
-              <ButtonLink variant="primary" size="sm" href={`/compass?next=${encodeURIComponent(`/debrief/${receiptId}`)}`}>Sign in</ButtonLink>
-            )}
-            <ButtonLink variant="ghost" size="sm" href={`/brief/${receiptId}`}>View brief</ButtonLink>
           </div>
         </Card>
       </>
