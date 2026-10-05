@@ -1,5 +1,5 @@
-# ARCS session state (2026-10-05, v3.82.0)
+# ARCS session state — v3.83.0 (2026-10-05)
 
-- Last shipped: PR #756 (`04622e99`) worktree hooksPath repoint; PR #760 (`6cb36019`) handoff v3.80.0. Both merged without CI (Actions outage).
-- Open: app-vs-SessionStart ordering test in a fresh post-#756 worktree; re-check unrun checks after the outage.
-- Next: /handoff-pickup.
+- HEAD at handoff cut: fbc3cece (origin/main)
+- Done: COURT carve-out probe (#780); #762, #766 merged. Receipts filed for all three.
+- Next: verify main CI (never ran for these merges: Actions backlog). Fix forward if red.
