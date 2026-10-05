@@ -286,4 +286,4 @@ if [ -n "$DEADANCHOR" ]; then
 fi
 echo "  ✔ no-dead-anchors — no hollow href=\"#\" on the cellar surface."
 exit 0
-// ci proof
+# ci proof
