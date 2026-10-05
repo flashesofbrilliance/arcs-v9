@@ -1,5 +1,17 @@
-# ARCS session state (2026-10-04, v3.79.0)
+# ARCS Session State — snapshot for next pickup
 
-- Live: arcs.care home = field landing (PR #705 `81db248a`); annotation routes 401 anon (PR #737 `85ec7a5d`).
-- Next: privacy PR 2 (see CLAUDE.md v3.79.0 Open 1), then showcase mirror re-review (Open 2).
-- Do not: flip arcs-v9 public; publish the mirror without a SAFE privacy-review and Zach's go.
+**As of:** 2026-10-05 · handoff v3.79.0 rides `claude/handoff-v3.79` · Schriner/Vico loop
+
+## What this session did (v3.79.0)
+- /recoil-close on Schriner for the 09-30 and 10-02 Vico calls (#742); recoil gate sessionStorage fix (#742).
+- Refreshed the Lyndon Oh pre-call SSOT instead of duplicating it (#746).
+
+## Next unblocked action
+1. Lyndon call: wait for Joe's time; after it, /recoil-close on `runtime/recoil/generated/2026-10-03-oh-vico.json`.
+2. Autopilot: ask Joe once if silent by 2026-10-13.
+3. Carried v3.78.0 items (contrast ratchet on the Mac; Zach-only asks).
+
+## Blocking
+None in the repo. The Lyndon call is on Joe/Lyndon's schedule.
+
+- Also open (v3.79.1, field landing session): privacy PR 2 (anon question cache, Blob delete on account delete, /api/brief response fields, signed reminders link, processor disclosure), then the showcase mirror re-review on `claude/showcase-mirror`. Never flip arcs-v9 public.
