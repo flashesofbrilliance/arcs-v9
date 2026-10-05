@@ -65,7 +65,6 @@ export default function BriefPage() {
 
   const [result, setResult] = useState<CompassResult | null>(null)
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null)
-  const [sessionId, setSessionId] = useState<string | null>(null)
   // Lineage position — depth in the reasoning chain + parent for breadcrumb.
   const [depth, setDepth] = useState<number>(0)
   const [parentId, setParentId] = useState<string | null>(null)
@@ -86,7 +85,6 @@ export default function BriefPage() {
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setReceipt(data.receipt)
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
-        setSessionId((data.receipt?.sessionId as string) ?? null)
         setDepth(Number(data.receipt?.version ?? 0))
         setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
@@ -127,7 +125,6 @@ export default function BriefPage() {
   function followTributary(prompt: string) {
     track("brief_tributary_followed", { receiptId })
     const params = new URLSearchParams({ q: prompt, parent: receiptId })
-    if (sessionId) params.set("sid", sessionId)
     router.push(`/dashboard?${params.toString()}`)
   }
 
