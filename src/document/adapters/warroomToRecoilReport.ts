@@ -23,6 +23,8 @@
 //   page.blocks[tab=forge, type=table, h2~/claim/] rows            → signalThreads[] (after beliefs)
 //     columns found by name (claim / ruling / source|why|evidence); label "Forge · RULING";
 //     GROUNDED green, INFERENCE gold, STRUCK red (struck claims stay visible, marked)
+//   page.blocks[tab=forge, type=prose] p[]                         → forgeMethod string (Deeper Strata):
+//     the substrates and ruling definitions behind the Forge threads, verbatim
 //   next_steps[] {owner,text}                                      → protocol[] (after; first one active)
 //   page.blocks[tab=wargame, type=list] ("The gauntlet") items     → riskFlags[]
 //     <strong>LENS:</strong> prefix → label; BAR=warning, Loki=caution, COURT=info, else by dot
@@ -79,6 +81,8 @@ export interface WarroomRecoilReport {
   preCallIntel?: string[]
   /** Pre-Call questions and scripted moves (landmines go to riskFlags). */
   preCallQuestions?: string[]
+  /** Forge-tab method prose (substrates + ruling definitions), rendered by Deeper Strata. */
+  forgeMethod?: string
 }
 
 type Rec = Record<string, unknown>
@@ -206,6 +210,16 @@ function preCallTrueNorth(root: Rec, audience: WarroomAudience): string | undefi
     // Keep the heading's own qualifier so a reconstructed bearing never reads as filed-before.
     const qualifier = h2.match(/\(([^)]+)\)/)?.[1]
     parts.push(qualifier ? `(${qualifier}) ${body}` : body)
+  }
+  return parts.length ? parts.join('\n\n') : undefined
+}
+
+function forgeMethod(root: Rec, audience: WarroomAudience): string | undefined {
+  const parts: string[] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'forge' || b.type !== 'prose' || !visible(b, audience)) continue
+    // Paragraph-level: a half-filled template paragraph ("{{sources}}") drops whole.
+    parts.push(...parseList(b.p).map(text).filter((x): x is string => !!x))
   }
   return parts.length ? parts.join('\n\n') : undefined
 }
@@ -436,6 +450,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const context = preCallContext(root, audience)
   const intel = preCallIntel(root, audience)
   const { questions, landmines } = preCallQuestions(root, audience)
+  const method = forgeMethod(root, audience)
   const wargame = wargameBlocks(root, audience)
   // The recoil tab's post-call watch-list (Kairos, quiet signals, risks).
   const kairos = parseList(rec(root.page).blocks).filter(
@@ -456,5 +471,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(context ? { preCallContext: context } : {}),
     ...(intel ? { preCallIntel: intel } : {}),
     ...(questions.length ? { preCallQuestions: questions } : {}),
+    ...(method ? { forgeMethod: method } : {}),
   }
 }
