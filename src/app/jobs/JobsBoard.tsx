@@ -9,6 +9,7 @@ import { SectionLabel } from "@/ui/SectionLabel"
 import { Button } from "@/ui/Button"
 import { AuthControl } from "@/molecules/AuthControl"
 import { BoardTabs } from "@/ui/BoardTabs"
+import { REASONS } from "@/lib/lane-outcome"
 import Link from "next/link"
 
 // The Alert Swipe Board, product edition. Same loop as the artifact version
@@ -33,7 +34,7 @@ type Spec = {
 }
 type Payload = { rows: Row[]; settings: Record<string, string>; spec: Spec | null }
 
-const WHY = ["comp", "location", "role shape", "seniority", "culture", "company", "timing", "other"]
+const WHY = REASONS // one reason taxonomy for left swipes and Lane outcomes (src/lib/lane-outcome.ts)
 const ARCH: Record<string, string> = { "forward deployed engineer": "forward deployed", "applied ai engineer": "applied AI", "ai solutions engineer": "AI solutions", "product lead": "product lead", manual: "by hand" }
 const COTYPE: Record<string, string> = { startup: "startup", scaleup: "scale-up", enterprise: "enterprise" }
 const STAGES: Record<string, [string, number]> = { queued: ["generating", 0], gathering: ["gathering", 25], grading: ["grading", 50], rendering: ["rendering", 75], built: ["built, awaiting deploy", 90], live: ["live", 100] }
