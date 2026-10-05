@@ -3,7 +3,15 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [v3.80.0] 2026-10-05 — Family-roster drift cleared; build.html glow overflow; stale worktree hooks found (PR #745)
+> Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
+
+## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
+
+- Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
+- Find stalled 2026-09-11: dirty main checkout broke `git pull --ff-only`, runs still read "succeeded"; task now runs in `.claude/worktrees/morning-jobs` with a loud preflight.
+- Seeds 5-16 planted from job-tracker-pro (9 candidates, 3 anti-seeds); culture cap unproven on live rows.
+
+## [v3.80.0] 2026-10-05 — Family-roster drift cleared; build.html glow overflow; stale worktree hooks found (PR #745)
 
 - `sync_family_roster.py` accepts locked (carded, non-linking) performers; ADR stat 79; masthead glow held to gutter below 1280px.
 - Kintsugi "77 -> 95" was a phantom: 25/27 worktrees run the main checkout's stale pre-commit via absolute `core.hooksPath`; chip task_bd140094.

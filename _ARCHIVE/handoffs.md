@@ -1,3 +1,55 @@
+# Handoff — v3.79.0 (2026-10-05)
+
+> **Schriner recoil closed on the two Vico calls; Lyndon pre-call refreshed; recoil password gate fixed
+> for sandboxed previews.** Two PRs merged on Zach's explicit asks: #742 (`eba6c858`) and #746
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (it scoped to the fresh handoff branch). By hand, branch `claude/great-mendel-96d315`: 5 commits (`343eef2d`, `3c83ff54`, `a20879a7` + 2 conflict merges), 2 merges to main (#742, #746), 2 receipts.
+- **Inhale** (what came in): 2 dissent markers (script). By hand: Zach declined the receipt row update; one false "updated" claim of mine caught and corrected in the open.
+- **Breath balance**: script read mirror; with the by-hand exhale, breathing.
+- **Sycophancy check**: agreement 3 / dissent 2 (ratio 1.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft block.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (Claude, cold re-read): the Forge pass is stated as self-graded; the live check is stated as deploy-level only. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's '/handoff'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+> (`17647913`); receipts `2026-10-04--schriner-recoil-close-pr742--ZH`, `2026-10-04--lyndon-precall-refresh-pr746--ZH`.
+
+## Shipped + on main
+- **/recoil-close, Schriner** (`runtime/recoil/generated/2026-09-14-schriner.json`): only ONE "VICO - Update"
+  call happened (invite 09-25, moved 09-29, held 09-30) plus the 10-02 "VICO debrief."; verbatim Granola
+  transcripts `824f0855` and `8a125b5f`, none in Fathom. Closed YELLOW/CONVERGENT, req_reality 2 (owner engaged,
+  never met; seat unarchitected). Beliefs P10-P13; P12 books Zach's own comp floor at req_reality 2 ("mid-$200s...
+  or even like less"). No ex-ante was filed for either call. Forge adjudication was self-graded, no skeptic.
+- **Recoil gate fix** (`scripts/recoil_brief.py`): the password gate died when sessionStorage was blocked
+  (data: URLs, the desktop app file pane), so no password worked. Storage is now try/catch; verified unlock in
+  the browser pane. Other gated pages pick it up only on re-render.
+- **/recoil-prep, Lyndon**: the prep already existed (#699, `2026-10-03-oh-vico.json`, `lyndon-war.arcs.care`);
+  refreshed it rather than duplicating: comp floor correction, competitor Nick, the seat probe question, a
+  funding-source conflict, Joe's 10-04 scheduling reply. Merge conflict with #744's token resync resolved by
+  regenerating from the SSOT (style block identical to main).
+- Memory `project_joe_schriner_oxenham_autopilot_vico` corrected (the "$200-300K" was Joe's posting, not Zach's).
+
+## Open (next session)
+1. **Lyndon call not yet scheduled** (Joe said he'd reach Lyndon the morning of 10-05). After it: `/recoil-close`
+   on `2026-10-03-oh-vico.json`, which has a real ex-ante to score.
+2. **Receipt for #746 is stale on one field:** it says the live render was not re-checked. Checked since at
+   deploy level only (prod `baabdaed` contains #746; page is admin-gated 404 to anon, rendered page not viewed).
+   Zach declined the in-place row update; append a follow-up row or leave as is, his call.
+3. Vico funding unresolved: pre-seed (10-03 read) vs a Tracxn "$103M over 3 rounds" snippet, likely a name collision.
+4. Autopilot: if Aaron is silent by 2026-10-13, ask Joe once; at ~4 weeks resolve to ghosted.
+5. Carried from v3.78.0: contrast ratchet item 3 on the Mac; Zach-only asks (receipt-pr724.sql, germinate tag,
+   PR #725, PR #715); check wound-down sessions' branches.
+
+## Lessons (in the record)
+- A Granola AI summary had moved a number from the recruiter's mouth to the candidate's; the verbatim re-read
+  caught it. Score from transcripts, never summaries.
+- Run the prep skill against what already exists: a prior session had filed the Lyndon ex-ante 12 hours earlier.
+- I told Zach a receipt was updated before it was. It was not; say "will update", then update, then report.
+
 # Handoff — v3.79.1 (2026-10-04)
 
 > **The field is the front door; a live privacy exposure closed.** PR #705 merged at `81db248a`
