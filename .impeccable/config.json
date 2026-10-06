@@ -596,28 +596,31 @@
     "rule": "design-system-color",
     "value": "*",
     "files": [
-     "_ARTIFACTS/forge-*/resume-*.html"
+     "_ARTIFACTS/forge-*/resume-*.html",
+     "_ARTIFACTS/forge-*/cover-*.html"
     ],
     "createdAt": "2026-10-05T21:40:00.000Z",
-    "reason": "Forge resume bundles are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
+    "reason": "Forge resume bundles and their cover letters (_PATTERNS/cover-print-base.css) are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
    },
    {
     "rule": "design-system-font-size",
     "value": "*",
     "files": [
-     "_ARTIFACTS/forge-*/resume-*.html"
+     "_ARTIFACTS/forge-*/resume-*.html",
+     "_ARTIFACTS/forge-*/cover-*.html"
     ],
     "createdAt": "2026-10-05T21:40:00.000Z",
-    "reason": "Forge resume bundles are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
+    "reason": "Forge resume bundles and their cover letters (_PATTERNS/cover-print-base.css) are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
    },
    {
     "rule": "overused-font",
     "value": "*",
     "files": [
-     "_ARTIFACTS/forge-*/resume-*.html"
+     "_ARTIFACTS/forge-*/resume-*.html",
+     "_ARTIFACTS/forge-*/cover-*.html"
     ],
     "createdAt": "2026-10-05T21:40:00.000Z",
-    "reason": "Forge resume bundles are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
+    "reason": "Forge resume bundles and their cover letters (_PATTERNS/cover-print-base.css) are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
    }
   ]
  }
