@@ -36,6 +36,12 @@ a naive version of this script gets each one WRONG.
  11. Compare against origin/<base>, not the local <base> branch, which lags. A stale local
      main made worktrees cut from origin/main show dozens of "unique" files (2026-10-05).
      `--base` still wins when given a remote-qualified ref; a bare name prefers origin/<name>.
+ 12. A bundle is a backup, not a salvage. Archiving a branch whose commits carry a decision,
+     rule or number that exists nowhere on origin/<base> or in memory buries it where no
+     session will look. Prune runs a SALVAGE PREFLIGHT first: commits not on base by
+     patch-id (`git cherry`), claim-shaped lines added to .md/.json in them, key terms
+     grepped across origin/<base> + the memory dir. Any uncovered claim -> SKIP-SALVAGE
+     unless --force-salvage-ok. Deterministic, capped, no LLM; `salvage` runs it alone.
 
 Verdicts:
   SAFE    - no uncommitted work AND no branch-unique content blobs -> bundle+prune ok
@@ -47,12 +53,14 @@ Usage:
   cruft_sweep.py survey --json              # machine-readable
   cruft_sweep.py inspect <worktree>         # per-file DUP/DIFFERS/UNIQUE for its dirt
   cruft_sweep.py spread --files a,b         # deliver files from main to all worktrees
-  cruft_sweep.py prune <wt> [<wt>...]       # capture->bundle->verify->remove (SAFE only
-                                            #   unless --capture-dirty is passed)
+  cruft_sweep.py prune <wt> [<wt>...]       # salvage->capture->bundle->verify->remove (SAFE
+                                            #   only unless --capture-dirty is passed)
+  cruft_sweep.py salvage <wt> [<wt>...]     # rule 12 preflight alone (report-only)
   cruft_sweep.py --self-test                # frustration gate for rule 9
 Flags: --repo PATH --base main --bundles DIR --protect a,b --capture-dirty --dry-run
+       --memory DIR --force-salvage-ok
 """
-import argparse, json, os, subprocess, sys
+import argparse, json, os, re, subprocess, sys
 
 REGENERABLE = ("_INBOX/", "_STATE/snapshot.json", "public/family-roster.json")
 CONTENT_RE = ("public/", "runtime/recoil/generated/", "_ARTIFACTS/", "src/",
@@ -259,6 +267,98 @@ def resolve_worktree(repo, wt):
     return head, branch, None
 
 
+MEMORY_DIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
+CLAIM_RE = re.compile(r"\b(decid\w*|decision|rule|must|never|always|todo|fixme|adr-\d+|locked|"
+                      r"verdict|threshold|budget)\b|\d{2,}", re.I)
+STOP = set("""about above after again against because before being below between could doesn
+during every first great having other their there these thing those through under until
+where which while would should never always about using without within  into from that this
+with will have been were what when your must rule decision decided""".split())
+MAX_COMMITS, MAX_CLAIMS, MAX_REPORT = 300, 60, 8
+
+
+def claim_terms(line):
+    """Up to 4 distinctive key terms: multi-digit numbers first, then the longest words."""
+    nums = sorted(set(re.findall(r"\b\d{2,}(?:\.\d+)?\b", line)))
+    words = sorted({w for w in re.findall(r"[a-z][a-z0-9_-]{4,}", line.lower()) if w not in STOP},
+                   key=lambda w: (-len(w), w))
+    return (nums + words)[:4]
+
+
+def salvage(repo, base, head, memdir):
+    """Rule 12. Returns (findings, note). A finding is a claim on the branch whose key terms
+    never co-occur in one file on `base` nor in one memory file."""
+    cherry = git(repo, "cherry", base, head).splitlines()
+    shas = [l.split()[1] for l in cherry if l.startswith("+ ")]
+    note = f"{len(shas)} commit(s) not on {base} by patch-id"
+    if len(shas) > MAX_COMMITS:
+        note += f" (checked newest {MAX_COMMITS})"
+        shas = shas[-MAX_COMMITS:]
+    mem = []
+    if memdir and os.path.isdir(memdir):
+        for f in sorted(os.listdir(memdir)):
+            if f.endswith(".md"):
+                with open(os.path.join(memdir, f), errors="replace") as fh:
+                    mem.append(fh.read().lower())
+    seen, findings, checked = set(), [], 0
+    for sha in reversed(shas):  # newest first
+        files = [f for f in git(repo, "diff-tree", "--no-commit-id", "-r", "--name-only",
+                                "--diff-filter=AM", sha).splitlines() if f.endswith((".md", ".json"))]
+        for f in files:
+            for l in git(repo, "show", "--format=", "-U0", sha, "--", f).splitlines():
+                if not l.startswith("+") or l.startswith("+++"):
+                    continue
+                line = l[1:].strip()
+                if len(line) < 20 or line in seen or not CLAIM_RE.search(line):
+                    continue
+                seen.add(line)
+                terms = claim_terms(line)
+                if len(terms) < 2:
+                    continue
+                checked += 1
+                if checked > MAX_CLAIMS:
+                    return findings, note + f"; claim cap {MAX_CLAIMS} reached"
+                args = ["grep", "-q", "-i", "-F", "--all-match"]
+                for t in terms:
+                    args += ["-e", t]
+                on_base = subprocess.run(["git", "-C", repo, *args, base], capture_output=True,
+                                         env=GIT_ENV).returncode == 0
+                if on_base or any(all(t in m for t in terms) for m in mem):
+                    continue
+                findings.append({"sha": sha[:8], "file": f, "claim": line[:200], "terms": terms})
+                if len(findings) >= MAX_REPORT:  # enough to decide SKIP; stop paying for greps
+                    return findings, note + f"; stopped at {MAX_REPORT} unique claims"
+    return findings, note + f"; {checked} claim(s) checked"
+
+
+def emit_salvage_rows(rows):
+    """Machine-readable block for the calling session to file (the script has no tracker access)."""
+    if not rows:
+        return
+    print("--- SALVAGE-ROWS BEGIN (jsonl) ---")
+    for r in rows:
+        print(json.dumps(r, sort_keys=True))
+    print("--- SALVAGE-ROWS END ---")
+
+
+def cmd_salvage(a):
+    rows = []
+    for target in a.targets:
+        wt = os.path.abspath(target if os.path.isdir(target) else os.path.join(a.repo, ".claude/worktrees", target))
+        name = os.path.basename(wt.rstrip("/"))
+        head, br, why = resolve_worktree(a.repo, wt)
+        if why:
+            print(f"REFUSE       {name} ({why})"); continue
+        found, note = salvage(a.repo, a.base, head, a.memory)
+        dirty = real_dirty(wt)
+        print(f"{'UNIQUE' if found else 'COVERED':12} {name} [{br or 'detached'} @ {head[:8]}] {note}"
+              + (f"; {len(dirty)} uncommitted file(s)" if dirty else ""))
+        for f in found[:MAX_REPORT]:
+            print(f"    {f['sha']} {f['file']}: {f['claim']}  terms={','.join(f['terms'])}")
+        rows += [{"worktree": name, "branch": br, **f} for f in found]
+    emit_salvage_rows(rows)
+
+
 def bundle_tips(repo, bundle):
     """{refname: sha} as recorded INSIDE the bundle file."""
     out = git(repo, "bundle", "list-heads", bundle)
@@ -270,6 +370,7 @@ def cmd_prune(a):
     manifest = os.path.join(a.bundles, "MANIFEST.tsv")
     refused = 0
     a.upstream = a.base  # already resolved to origin/<base> in main() (rule 11)
+    salvage_rows = []
     for target in a.targets:
         wt = target if os.path.isdir(target) else os.path.join(a.repo, ".claude/worktrees", target)
         wt = os.path.abspath(wt)
@@ -283,6 +384,14 @@ def cmd_prune(a):
         dirty = real_dirty(wt)
         if dirty and not a.capture_dirty:
             print(f"SKIP-DIRTY   {name} ({len(dirty)} files; pass --capture-dirty to WIP-commit)")
+            continue
+        found, note = salvage(a.repo, a.upstream, head, a.memory)  # rule 12
+        if found and not a.force_salvage_ok:
+            print(f"SKIP-SALVAGE {name} ({len(found)} unique claim(s); {note}; "
+                  f"pass --force-salvage-ok after filing them)")
+            for f in found[:MAX_REPORT]:
+                print(f"    {f['sha']} {f['file']}: {f['claim']}")
+            salvage_rows += [{"worktree": name, "branch": br, **f} for f in found]
             continue
         if a.dry_run:
             print(f"DRY-RUN      {name} [{label} @ {head[:8]}] dirty={len(dirty)}"); continue
@@ -325,6 +434,7 @@ def cmd_prune(a):
         else:
             print(f"SKIP-REMFAIL {name} (bundle kept, worktree intact)")
     subprocess.run(["git", "-C", a.repo, "worktree", "prune"], capture_output=True, env=GIT_ENV)
+    emit_salvage_rows(salvage_rows)
     if refused:
         print(f"{refused} worktree(s) REFUSED - see above", file=sys.stderr)
         sys.exit(2)
@@ -379,11 +489,25 @@ def self_test(script):
         os.makedirs(os.path.join(repo, "src"), exist_ok=True)
         with open(os.path.join(repo, "src", "landed.ts"), "w") as fh:
             fh.write("export const landed = 1\n")
+        os.makedirs(os.path.join(repo, "docs"), exist_ok=True)
+        known = "Decision: the quokka ledger keeps 37 shards behind the marmalade gateway.\n"
+        with open(os.path.join(repo, "docs", "known.md"), "w") as fh:
+            fh.write(known)
         sh(repo, "add", "-A"); sh(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "upstream")
         sh(repo, "update-ref", "refs/remotes/origin/main", "HEAD")
         sh(repo, "checkout", "-q", "main"); sh(repo, "branch", "-q", "-D", "upstream-tmp")
         sh(repo, "worktree", "add", "-q", "-b", "br-fresh", os.path.join(wts, "fresh"), "origin/main")
         sh(repo, "worktree", "add", "-q", "--detach", os.path.join(wts, "loose"), "origin/main")
+        # Rule 12 fixtures: one branch adds a decision found nowhere else, one restates a decision
+        # origin/main already carries (different patch, so `git cherry` still marks it '+').
+        memdir = os.path.join(tmp, "memory"); os.makedirs(memdir)
+        for name, text in (("salv-unique", "Decision: route all kumquat telemetry through the zephyr relay by 2027.\n"),
+                           ("salv-onmain", "Recap. " + known)):
+            p = os.path.join(wts, name)
+            sh(repo, "worktree", "add", "-q", "-b", f"br-{name}", p, "origin/main")
+            with open(os.path.join(p, f"{name}.md"), "w") as fh:
+                fh.write(text)
+            sh(p, "add", "-A"); sh(p, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", name)
         sv = subprocess.run([sys.executable, script, "survey", "--json", "--repo", repo],
                             capture_output=True, text=True, env=GIT_ENV)
         try:
@@ -392,7 +516,7 @@ def self_test(script):
             rows = {}
 
         r = subprocess.run([sys.executable, script, "prune", "good", "detached", "nogit", "landed", "landed-detached",
-                            "--repo", repo, "--bundles", bundles],
+                            "--repo", repo, "--bundles", bundles, "--memory", memdir],
                            capture_output=True, text=True, env=GIT_ENV)
         out = r.stdout + r.stderr
 
@@ -429,6 +553,22 @@ def self_test(script):
               f"survey: worktree cut from origin/main is SAFE despite stale local main "
               f"(got {rows.get('fresh', {}).get('verdict')}, unique={rows.get('fresh', {}).get('unique')})")
         check("loose" in rows, "survey: detached worktree is listed")
+        sr = subprocess.run([sys.executable, script, "prune", "salv-unique", "salv-onmain", "--repo", repo,
+                             "--bundles", bundles, "--memory", memdir], capture_output=True, text=True, env=GIT_ENV)
+        sout = sr.stdout + sr.stderr
+        check("SKIP-SALVAGE salv-unique" in sout and "kumquat" in sout,
+              "salvage: branch with a unique decision is skipped and the claim is named")
+        check(os.path.isdir(os.path.join(wts, "salv-unique")), "salvage: unique branch's worktree left in place")
+        check("SALVAGE-ROWS BEGIN" in sout and '"worktree": "salv-unique"' in sout,
+              "salvage: machine-readable rows block emitted")
+        check("PRUNED       salv-onmain" in sout, "salvage: branch whose content is already on main is pruned")
+        rep = subprocess.run([sys.executable, script, "salvage", "salv-unique", "--repo", repo, "--memory", memdir],
+                             capture_output=True, text=True, env=GIT_ENV).stdout
+        check(rep.startswith("UNIQUE") and os.path.isdir(os.path.join(wts, "salv-unique")),
+              "salvage subcommand: reports UNIQUE and removes nothing")
+        fr = subprocess.run([sys.executable, script, "prune", "salv-unique", "--force-salvage-ok", "--repo", repo,
+                             "--bundles", bundles, "--memory", memdir], capture_output=True, text=True, env=GIT_ENV)
+        check("PRUNED       salv-unique" in fr.stdout, "salvage: --force-salvage-ok overrides the skip")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print(f"self-test: {'FAIL' if fails else 'PASS'} ({len(fails)} failing)")
@@ -437,7 +577,7 @@ def self_test(script):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("cmd", choices=["survey", "inspect", "spread", "prune"], nargs="?", default="survey")
+    p.add_argument("cmd", choices=["survey", "inspect", "spread", "prune", "salvage"], nargs="?", default="survey")
     p.add_argument("targets", nargs="*")
     p.add_argument("--repo", default=os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd()))
     p.add_argument("--base", default="main")
@@ -447,6 +587,8 @@ def main():
     p.add_argument("--json", action="store_true")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--capture-dirty", action="store_true")
+    p.add_argument("--memory", default=MEMORY_DIR, help="memory dir grepped by the salvage preflight")
+    p.add_argument("--force-salvage-ok", action="store_true", help="prune even when salvage finds unique claims")
     p.add_argument("--self-test", action="store_true")
     p.add_argument("--self-test-against", default="", help="run the self-test against another copy")
     a = p.parse_args()
@@ -461,6 +603,9 @@ def main():
     elif a.cmd == "spread":
         if not a.files: sys.exit("spread needs --files a,b,c")
         cmd_spread(a)
+    elif a.cmd == "salvage":
+        if not a.targets: sys.exit("salvage needs worktree name(s)")
+        cmd_salvage(a)
     elif a.cmd == "prune":
         if not a.targets: sys.exit("prune needs worktree name(s)")
         cmd_prune(a)
