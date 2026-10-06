@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { font, signal, text } from '@/ui/tokens'
 import { Card } from '@/ui/Card'
 import { Button } from '@/ui/Button'
@@ -15,10 +15,15 @@ export interface CompassErrorProps {
 }
 
 export function CompassError({ message, onRetry }: CompassErrorProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  // Appears under the action, which can sit below the fold on a phone. Bring it
+  // into view, clear of the fixed footer bar.
+  useEffect(() => { ref.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }) }, [])
   return (
+    <div ref={ref} role="alert" style={{ scrollMarginBottom: 96 }}>
     <Card accent={signal.gold}>
       <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: signal.gold, marginBottom: '0.65rem' }}>
-        ◈ &nbsp;Compass offline · L0 signal lost
+        ◈ &nbsp;Run interrupted
       </div>
       <p style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 1rem' }}>
         {message || 'The terrain dropped out before activation. Your fork is held. Nothing was lost.'}
@@ -29,5 +34,6 @@ export function CompassError({ message, onRetry }: CompassErrorProps) {
         )}
       </div>
     </Card>
+    </div>
   )
 }

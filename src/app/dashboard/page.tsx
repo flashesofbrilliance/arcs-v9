@@ -173,6 +173,10 @@ function DashboardInner() {
     // maxDuration so the server gets its full budget before we give up.
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 65_000)
+    // True once the server itself answered with a refusal (4xx/5xx JSON). Nothing
+    // was persisted then, so the receipt-recovery poll below would only delay the
+    // error by ~15s. It is for transport failures, where the outcome is unknown.
+    let refused = false
     try {
       // Anonymous prep enrichment: read the inline prep handed off by /prep
       // via sessionStorage (nothing was persisted server-side).
@@ -213,7 +217,7 @@ function DashboardInner() {
         setLoading(false)
         return
       }
-      if (!res.ok) throw new Error(data.error ?? "Unknown error")
+      if (!res.ok) { refused = true; throw new Error(data.error ?? "Unknown error") }
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {
         router.push(`/receipt/${data.receipt_id}`)
@@ -235,7 +239,7 @@ function DashboardInner() {
       // client-side failure (timeout / dropped connection). Recover the saved
       // receipt before showing an error — loading stays true through the poll
       // so the UI keeps its "working" state (the bearing may still be landing).
-      const recoveredId = await pollForRecoveredReceipt(reqSessionId, followUp)
+      const recoveredId = refused ? null : await pollForRecoveredReceipt(reqSessionId, followUp)
       if (recoveredId) {
         if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", reqSessionId)
         router.push(`/receipt/${recoveredId}`)
@@ -303,12 +307,6 @@ function DashboardInner() {
         </div>
       )}
 
-      {error && (
-        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
-          <CompassError message={error} onRetry={() => runCompass()} />
-        </div>
-      )}
-
       <CompassForm
         question={question}
         horizon={horizon}
@@ -321,6 +319,7 @@ function DashboardInner() {
         onCalibrate={() => router.push(`/prep?q=${encodeURIComponent(question)}`)}
         onSubmit={() => runCompass()}
         onHistory={() => router.push("/history")}
+        error={error ? <CompassError message={error} onRetry={() => runCompass()} /> : null}
       />
     </main>
   )

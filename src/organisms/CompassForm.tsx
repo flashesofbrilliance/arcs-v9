@@ -39,11 +39,12 @@ export interface CompassFormProps {
   onCalibrate?: () => void
   onSubmit: () => void
   onHistory?: () => void
+  error?: React.ReactNode   // failure notice, rendered under the action so the form never jumps
 }
 
 export function CompassForm({
   question, horizon, stakes, running, step = 0,
-  onQuestionChange, onHorizonChange, onStakesChange, onCalibrate, onSubmit, onHistory,
+  onQuestionChange, onHorizonChange, onStakesChange, onCalibrate, onSubmit, onHistory, error,
 }: CompassFormProps) {
   const vw = useVw()
   function handleSubmit(e: React.FormEvent) {
@@ -63,7 +64,7 @@ export function CompassForm({
       <Rule style={{ marginBottom: '2rem' }} />
 
       <SectionLabel index="01" style={{ marginBottom: '0.9rem' }}>Name what you're actually deciding</SectionLabel>
-      <h1 style={{ fontFamily: font.sans, fontSize: '5.4cqw', whiteSpace: 'nowrap', fontWeight: 600, color: text.primary, margin: '0 0 1.5rem', lineHeight: 1.12, letterSpacing: '-0.02em' }}>
+      <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.5rem, 1.1rem + 2.2cqw, 2.1rem)', textWrap: 'balance', fontWeight: 600, color: text.primary, margin: '0 0 1.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
         What are you really trying to decide?
       </h1>
 
@@ -77,17 +78,20 @@ export function CompassForm({
         {/* Bierut fix III — one bindu per screen. Get True North is the single
             primary action; calibration collapses to a quiet modifier beneath it,
             so the ready user never has to choose which button to press. */}
-        <Button type="submit" variant="primary" size="lg" glyph={running ? '~' : '⊕'} disabled={running || !question.trim()} style={{ width: '100%', marginTop: '1.5rem' }}>
+        <Button type="submit" variant="primary" size="lg" glyph={running ? '~' : '⊕'} disabled={running || !question.trim()} style={{ width: '100%', marginTop: '1.5rem', opacity: running || question.trim() ? undefined : 0.75 }}>
           {running ? 'Reading the terrain…' : <>Get True North&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
         </Button>
 
         {!running && (
           <button type="button"
+            aria-disabled={!question.trim()}
             onClick={() => { if (question.trim()) onCalibrate?.() }}
-            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? text.dimmed : text.dimmed + '55', opacity: question.trim() ? 1 : 0.4 }}>
+            style={{ display: 'block', margin: '0.85rem auto 0', padding: '0.75rem 0.5rem', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? text.dimmed : text.muted }}>
             Add context: stakes, confidence, and what you already know
           </button>
         )}
+
+        {error && <div style={{ marginTop: '1.25rem' }}>{error}</div>}
 
         {running && <PipelineTakeover />}
       </form>
