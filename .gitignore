@@ -112,3 +112,7 @@ _ARTIFACTS/linkedin/
 # risk sweep: local register + cursor (the night-moves digest carries the durable record)
 _STATE/risk-register.jsonl
 _STATE/risk-sweep-cursor
+
+# handoff excavation raw index: regenerate with scripts/handoff_excavate.py + handoff_cluster.py
+_STATE/handoff-excavation/*.jsonl
+!_STATE/handoff-excavation/salvage-ledger.jsonl
