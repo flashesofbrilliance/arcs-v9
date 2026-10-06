@@ -83,6 +83,15 @@ test("compass route: an upstream usage limit reaches the client as calm copy onl
   assert.equal(JSON.parse(body).code, "usage_limit")
 })
 
+// Copy per code is enforced by the type (COPY is Record<ModelErrorCode, string>).
+test("one code list: the classifier emits only shared codes, and fixtures cover them all", async () => {
+  const { MODEL_ERROR_CODES, isModelErrorCode } = await import("../../src/lib/model-error-codes.ts")
+  assert.equal(isModelErrorCode("not_a_code"), false)
+  for (const [, e] of FIXTURES) assert.ok(isModelErrorCode(classifyModelError(e).code))
+  assert.deepEqual(new Set(FIXTURES.map(([, , c]) => c)), new Set(MODEL_ERROR_CODES), "fixtures must cover every shared code")
+  console.error = realErr
+})
+
 test("a skipped alert (missing env) is logged and does not burn the throttle window", () => {
   const env = { ...process.env }
   Object.assign(process.env, { NODE_ENV: "production", AUTH_RESEND_KEY: "k" }); delete process.env.ADMIN_EMAILS

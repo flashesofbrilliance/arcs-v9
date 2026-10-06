@@ -7,6 +7,7 @@ import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
+import { isModelErrorCode } from "@/lib/model-error-codes"
 import { Button, ButtonLink } from "@/ui/Button"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
@@ -203,7 +204,7 @@ function DashboardInner() {
       // A mapped model failure (src/lib/model-error.ts) is a definitive server
       // answer: inference never produced a receipt, so the recovery poll below
       // would only add ~20s of dead time before the card. Show it now.
-      if (!res.ok && typeof data.code === "string" && MODEL_ERROR_CODES.has(data.code)) {
+      if (!res.ok && isModelErrorCode(data.code)) {
         setError(data.error ?? "The compass could not take a bearing this time. Your fork is held. Nothing was lost.")
         setLoading(false)
         return
@@ -314,9 +315,6 @@ function DashboardInner() {
     </main>
   )
 }
-
-// Codes /api/compass returns when the model call itself failed (src/lib/model-error.ts).
-const MODEL_ERROR_CODES = new Set(["usage_limit", "rate_limited", "overloaded", "auth", "network", "upstream_error", "model_error"])
 
 export default function DashboardPage() {
   return (
