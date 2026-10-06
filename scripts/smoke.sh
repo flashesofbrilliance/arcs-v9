@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/smoke.sh — ADR-016 acceptance gate
 # 5 assertions: anonymous compass, session_id returned, receipt userId=null,
-#               history 401 for anon, claim endpoint exists.
+#               history 401 for anon, claim endpoint gone (removed 2026-10-05).
 # Usage: PROD_URL=https://arcs-v9-zachharris-3439s-projects.vercel.app bash scripts/smoke.sh
 
 set -euo pipefail
@@ -56,16 +56,16 @@ else
   assert_fail "history → $HISTORY (expected 401)"
 fi
 
-# ── A5: /api/receipts/claim endpoint exists (returns 401 for anon, not 404) ──
-echo "A5: /api/receipts/claim exists (returns 401 not 404)"
+# ── A5: /api/receipts/claim is removed (404/405): no anonymous adoption path ──
+echo "A5: /api/receipts/claim removed (expects 404 or 405)"
 CLAIM=$(curl -s -o /dev/null -w "%{http_code}" \
   -X PATCH "$BASE/api/receipts/claim" \
   -H "Content-Type: application/json" \
   -d '{"sessionId":"smoke-test"}')
-if [ "$CLAIM" = "401" ]; then
-  assert_pass "claim → 401 (endpoint exists, auth guard correct)"
+if [ "$CLAIM" = "404" ] || [ "$CLAIM" = "405" ]; then
+  assert_pass "claim → $CLAIM (endpoint removed)"
 else
-  assert_fail "claim → $CLAIM (expected 401; 404 = endpoint missing)"
+  assert_fail "claim → $CLAIM (expected 404/405; endpoint should be gone)"
 fi
 
 # ── Summary ───────────────────────────────────────────────────────────────────
