@@ -73,6 +73,9 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # (valid JSONL, orphan seeds, broken local paths, staleness, repo-coverage gap) and
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
+# model drift: flag a newer Claude model per role in src/lib/claude-models.ts (advisory; free
+# GET /v1/models with ANTHROPIC_API_KEY, else silent skip). Never switches a model.
+python3 "$CLAUDE_PROJECT_DIR/scripts/model_drift_check.py" 2>/dev/null || true
 
 # Memory-index inchworm — self-cataloging: orphan files auto-append into an
 # "Uncurated (auto)" band rendered from their own frontmatter description (the

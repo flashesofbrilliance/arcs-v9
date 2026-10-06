@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { modelErrorResponse } from "@/lib/model-error"
+import { MODELS } from "@/lib/claude-models"
 
 const client = new Anthropic()
 
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
   let msg: Anthropic.Message
   try {
   msg = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: MODELS.fast,
     max_tokens: 512,
     temperature: 0,
     system: `You are a belief-diff analyzer. Given a set of annotations made while reading a decision document, identify:

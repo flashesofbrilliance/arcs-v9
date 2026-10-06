@@ -6,6 +6,7 @@ import { modelErrorResponse } from "@/lib/model-error"
 import { z } from "zod"
 import { clampText } from "@/lib/sanitize"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
+import { MODELS } from "@/lib/claude-models"
 
 export const dynamic = "force-dynamic"
 
@@ -235,7 +236,7 @@ export async function POST(
   let response: Anthropic.Message
   try {
     response = await anthropic.messages.create({
-      model: "claude-opus-4-5",
+      model: MODELS.guide,
       max_tokens: 3000,
       system: GUIDE_SYSTEM,
       messages: [{ role: "user", content: userMsg }],

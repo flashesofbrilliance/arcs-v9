@@ -17,8 +17,10 @@ Usage:
 No key present -> prints a notice and exits 0 (advisory layer, never blocks the human).
 """
 import os, re, sys, json, urllib.request, urllib.error
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from arcs_models import model as _model
 
-MODEL = "claude-sonnet-4-6"
+MODEL = _model("deep")
 RUBRIC_PATH = os.path.join(os.path.dirname(__file__), "..", "_PATTERNS", "slop-free-rubric.md")
 
 def strip_to_text(s: str) -> str:

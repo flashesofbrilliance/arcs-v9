@@ -7,6 +7,7 @@ import { clampText, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
+import { MODELS } from "@/lib/claude-models"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -148,7 +149,7 @@ export async function GET(
   // Fire situation framing + entity analysis in parallel
   const calls: Promise<Anthropic.Message>[] = [
     anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+      model: MODELS.deep,
       max_tokens: 600,
       system: BRIEF_SYSTEM,
       messages: [{ role: "user", content: `${baseContext}\n\nWrite the Situation Framing section.` }],
@@ -158,7 +159,7 @@ export async function GET(
   if (receipt.entity) {
     calls.push(
       anthropic.messages.create({
-        model: "claude-sonnet-4-6",
+        model: MODELS.deep,
         max_tokens: 512,
         system: ENTITY_SYSTEM,
         messages: [{ role: "user", content: `${baseContext}\n\nGenerate the entity intelligence read for: ${receipt.entity}` }],

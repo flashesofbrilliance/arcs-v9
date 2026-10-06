@@ -16,6 +16,7 @@ import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
+import { MODELS } from "@/lib/claude-models"
 
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
@@ -326,9 +327,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
   // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
   const MODEL_MAP = {
-    QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
-    PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
-    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
+    QUICKMOVE: { model: MODELS.fast, max_tokens: 2048, temperature: 0 },
+    PLAN:      { model: MODELS.fast, max_tokens: 3072, temperature: 0.3 },
+    COURT:     { model: MODELS.deep, max_tokens: 4096, temperature: 0.5 },
   } as const
   const modelConfig = MODEL_MAP[mode]
 
