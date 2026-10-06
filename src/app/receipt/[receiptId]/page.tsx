@@ -2,18 +2,16 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, border, getWeather, nciColor, contentContainer, doorLabel } from "@/ui/tokens"
+import { surface, text, signal, font, border, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { Button, ButtonLink } from "@/ui/Button"
-import { FatedGrid } from "@/molecules/FatedGrid"
-import { TerrainPaths } from "@/molecules/TerrainPaths"
-import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
 import { TribunePanel } from "@/molecules/TribunePanel"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
-import type { CompassResult } from "@/lib/mockCompass"
+import type { CompassResult, FatedDecomposition, TerrainPath } from "@/lib/mockCompass"
+import { AhmedOrder, resolutionFor } from "@/organisms/AhmedOrder"
 import { encodeShare } from "@/lib/shareLink"
 import { track } from "@vercel/analytics"
 
@@ -35,8 +33,9 @@ interface ReceiptData {
   fated: string
   paths: string
   macroTags: string
-  stakesLevel?: string
-  horizon?: string
+  stakes?: string | null
+  horizon?: string | null
+  renderResolution?: string | null
   version: number
   createdAt: string
   courtVerdict?: string
@@ -102,6 +101,9 @@ export default function ReceiptPage() {
           mode: d.decision_mode ?? "",
           doorClass: d.door_class ?? "",
           yState: d.y_state ?? "",
+          renderResolution: typeof d.render_resolution === "string" ? d.render_resolution : null,
+          horizon: typeof d.horizon === "string" ? d.horizon : null,
+          stakes: typeof d.stakes === "string" ? d.stakes : null,
           fated: JSON.stringify(d.reasoning?.fated ?? {}),
           paths: JSON.stringify(d.reasoning?.paths ?? []),
           macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
@@ -175,8 +177,7 @@ export default function ReceiptPage() {
   const fated = safeParse<Record<string, unknown>>(receipt.fated, {})
   const paths = safeParse<unknown[]>(receipt.paths, [])
   const macroTags = safeParse<string[]>(receipt.macroTags, [])
-  const w = getWeather(receipt.yState)
-  const nc = nciColor(receipt.nciScore)
+  const resolution = resolutionFor(receipt.yState, receipt.renderResolution)
 
   const compassResult: CompassResult = {
     receipt_id: receipt.id,
@@ -189,7 +190,7 @@ export default function ReceiptPage() {
     decision_mode: receipt.mode,
     door_class: receipt.doorClass,
     y_state: receipt.yState,
-    render_resolution: "SHARP",
+    render_resolution: resolution,
     nci_delta: null,
     macro_tags: macroTags,
     tributaries: tributaries ?? [],
@@ -279,77 +280,41 @@ export default function ReceiptPage() {
 
         {/* Body */}
         <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "6rem" }}>
-          {/* Decision — the question, at the top */}
-          <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
-            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.6 }}>{receipt.decision}</div>
-          </div>
-
-          {/* True North */}
-          <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
-            <div style={{ fontFamily: font.sans, fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)", fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>
-              {receipt.trueNorth}
-            </div>
-          </div>
-
-          {/* Conviction — directly below True North */}
-          <div style={{ marginBottom: "2rem" }}>
-            <ConvictionSidebar
-              result={compassResult}
-              onTributary={(prompt) => {
-                // Ephemeral bearings have no persisted row — omit `parent` so
-                // the follow-up doesn't reference a nonexistent receipt id.
-                const params = new URLSearchParams({ q: prompt })
-                if (!isEphemeral) params.set("parent", receipt.id)
-                router.push(`/dashboard?${params.toString()}`)
-              }}
-            />
-          </div>
-
-          {/* Tribune — ADR-020: three-phase annotation, owner-only, persisted receipts only */}
-          {!isEphemeral && (
-            <div style={{ marginBottom: "2rem" }}>
-              <TribunePanel receiptId={receipt.id} />
-            </div>
-          )}
-
-          {/* Why bullets */}
-          {why.length > 0 && (
-            <div style={{ marginBottom: "2rem" }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.75rem" }}>Why This</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                {why.map((bullet, i) => (
-                  <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                    <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: signal.cyan, fontWeight: 700, flexShrink: 0, marginTop: "0.15rem" }}>{String(i + 1).padStart(2, "0")}</span>
-                    <span style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.secondary, lineHeight: 1.6 }}>{bullet}</span>
-                  </div>
-                ))}
+          <AhmedOrder
+            data={{
+              decision: receipt.decision,
+              trueNorth: receipt.trueNorth,
+              yState: receipt.yState,
+              renderResolution: resolution,
+              mode: receipt.mode,
+              doorClass: receipt.doorClass,
+              stakes: receipt.stakes,
+              horizon: receipt.horizon,
+              reasons: why,
+              questions: tributaries ?? [],
+              paths: paths as TerrainPath[],
+              fated: fated as Partial<FatedDecomposition>,
+              courtVerdict: receipt.courtVerdict,
+              nciScore: receipt.nciScore,
+              coherencePct: receipt.coherencePct,
+              macroTags,
+              version: receipt.version,
+              createdAt: receipt.createdAt,
+            }}
+            onQuestion={(prompt) => {
+              // Ephemeral bearings have no persisted row: omit `parent` so
+              // the follow-up doesn't reference a nonexistent receipt id.
+              const params = new URLSearchParams({ q: prompt })
+              if (!isEphemeral) params.set("parent", receipt.id)
+              router.push(`/dashboard?${params.toString()}`)
+            }}
+            after={!isEphemeral ? (
+              // Tribune: ADR-020 three-phase annotation, owner-only, persisted receipts only
+              <div style={{ marginTop: "2.75rem" }}>
+                <TribunePanel receiptId={receipt.id} />
               </div>
-            </div>
-          )}
-
-          {/* FATED · Terrain Paths — single-column stack (Conviction lifted to top) */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2rem" }}>
-            {fated && Object.keys(fated).length > 0 && <FatedGrid fated={fated} />}
-            {paths && paths.length > 0 && (
-              <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
-            )}
-          </div>
-
-          {/* Schema ledger pills */}
-          <div style={{ borderTop: `0.5px solid ${signal.steel}22`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
-            <Pill label="MODE" value={receipt.mode} color={signal.gold} />
-            <Pill label="DOOR" value={doorLabel(receipt.doorClass)} color={signal.steel} />
-            {receipt.stakesLevel && <Pill label="STAKES" value={receipt.stakesLevel} color={signal.red} />}
-            {receipt.horizon && <Pill label="HORIZON" value={receipt.horizon} color={text.muted} />}
-            <Pill label="NCI" value={String(receipt.nciScore)} color={nc} />
-            {receipt.coherencePct != null && <Pill label="COHERENCE" value={`${receipt.coherencePct}%`} color={signal.green} />}
-            {macroTags.map((tag) => <Pill key={tag} label="MACRO" value={tag} color={text.dimmed} />)}
-            <Pill label="Y" value={`${w.icon} ${w.label}`} color={w.color} />
-            <Pill label="L" value={`${receipt.version}`} color={text.dimmed} />
-            <Pill label="DATE" value={new Date(receipt.createdAt).toLocaleDateString()} color={text.dimmed} />
-          </div>
+            ) : null}
+          />
         </div>
       </main>
   )
@@ -360,14 +325,5 @@ export default function ReceiptPage() {
     <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
       {page}
     </ReflectLayer>
-  )
-}
-
-function Pill({ label, value, color }: { label: string; value: string; color: string }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0", border: `0.5px solid ${color}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6rem", fontFamily: "font-mono" }}>
-      <span style={{ background: `${color}18`, padding: "0.2rem 0.4rem", color, fontFamily: "monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
-      <span style={{ padding: "0.2rem 0.5rem", color: "rgb(226,232,240)", fontFamily: "monospace", background: "rgba(13,17,23,0.5)" }}>{value}</span>
-    </div>
   )
 }
