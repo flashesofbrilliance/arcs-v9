@@ -1,3 +1,87 @@
+# Handoff — v3.106.0 (2026-10-06)
+
+> **unfold reads handoff fragments (#899, `4f7fa6ab`, merged with a merge commit, CI green, on Zach's yes).**
+> Receipt `2026-10-06--unfold-reads-fragments-pr899--ZH`.
+
+## Done
+- `scripts/unfold.py`: new `handoff_open(root)` gathers `## Open` items from every unfolded
+  `_HANDOFFS/fragments/*.md` (newest first, via `handoff_fold.fragments`/`parse_fragment`), then the
+  latest CLAUDE.md block. Self-test 14/14; the new fragment case fails under the old CLAUDE.md-only logic.
+- Live check on main with a throwaway fragment: listed first, then v3.102.0's three items; probe deleted.
+- Other readers of the latest CLAUDE.md block: none. `open_loops.py` does not parse it; no live
+  `~/.claude/hooks` reads it (`precompact-handoff.sh.retired-2026-09-04` was a writer, retired);
+  `handoff-pickup.md` already reads fragments (#898).
+
+## Open (next session)
+1. No real fragment has been through `unfold.py` yet (receipt lists it unconfirmed). First `/handoff` fragment closes it.
+2. Deploy of `4f7fa6ab` not verified (Vercel CLI returned nothing this session).
+
+## Lessons (in the record)
+- #898 was merged by its own session mid-train; `merge_train.sh` refused cleanly (state MERGED), then #899 retargeted to main and merged alone.
+
+> Folded from `_HANDOFFS/fragments/20261006T134135Z--claude-handoff-unfold-fragments.md` (branch `claude/handoff-unfold-fragments`, head `4f7fa6ab`).
+
+---
+
+# Handoff — v3.105.0 (2026-10-06)
+
+> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
+> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
+> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
+
+## Shipped (overnight, across sessions)
+#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
+#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
+#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
+#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
+
+## Fixed this session
+- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
+  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
+  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
+- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
+- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
+  migrated a stranded worktree-local memory. Index 1-1 OK.
+
+## Open (all tracked as rows in the artifact's `debt` collection)
+P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
+In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
+legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+
+## Lessons
+- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
+- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
+- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+
+> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+
+---
+
+# Handoff — v3.104.0 (2026-10-06)
+
+> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
+> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
+
+## Done
+- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
+  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
+  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
+- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
+  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
+
+## Open (next session)
+1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
+3. Throttle is per instance; a second instance can send a second email.
+
+## Lessons
+- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
+  `arcs-care/arcs-care` and fails with "Branch not found".
+- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
+
+---
+
+---
+
 # Handoff — v3.103.0 (2026-10-06)
 
 > **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**

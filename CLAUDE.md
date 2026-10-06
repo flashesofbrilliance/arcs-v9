@@ -116,57 +116,39 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.105.0 (2026-10-06)
+# Handoff — v3.108.0 (2026-10-06)
 
-> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
-> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
-> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
+> **Debt tracker triage (Docs Reconciliation artifact, `debt` collection).** No code shipped; decisions + 7 chips.
 
-## Shipped (overnight, across sessions)
-#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
-#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
-#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
-#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
+## Decided by Zach (2026-10-06)
+- ADR-085 stays PROPOSED, write-lock stays opt-in until the step-2 week ends (~10-13). Day-1 data: 8 locked trains vs 33 merges to main. Re-decide acceptance + step 3 (train as only merge path) together.
+- allowScripts: approve all 4. Doc cleanup: measure + salvage only, no moves. Doc gates: advisory in CI now. Old Anthropic keys: audit callers, Zach retires. Main checkout: WIP-commit, push, return to main.
 
-## Fixed this session
-- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
-  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
-  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
-- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
-- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
-  migrated a stranded worktree-local memory. Index 1-1 OK.
-
-## Open (all tracked as rows in the artifact's `debt` collection)
-P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
-In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
-legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+## Tracker
+- Closed: handoff-fragments-pr898 (#898 merged).
+- In progress (chips): repo hygiene PR (eslint ignore, npm test, vercel services, allowScripts) · handoff_fold sort by version · doc gates advisory CI · doc per-file breakdown + salvage (3 rows) · old-key caller audit · main checkout return · PRs #811/#854.
+- Still open, waiting on data/Zach: cache-sweep-stuck (Zach), prisma-8-rc (watch), sharp-render-untested (needs first SHARP receipt).
 
 ## Lessons
-- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
-- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
-- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+- Lock adoption is measurable from `refs/locks/main` history vs first-parent merges on main; use that as the step-2 metric.
 
-> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+> Folded from `_HANDOFFS/fragments/20261006T140710Z--claude-nice-einstein-438d9d.md` (branch `claude/nice-einstein-438d9d`, head `7d495b35`).
 
-# Handoff — v3.104.0 (2026-10-06)
+# Handoff — v3.107.0 (2026-10-06)
 
-> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
-> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
+> **Jobs pipeline token is compared in constant time (#906, merged `0fbcc9e3`, all checks green).**
+> Receipts `2026-10-06--jobs-token-timingsafe-pr906--ZH` (PR) and `--jobs-token-timingsafe-merge-pr906--ZH` (merge).
 
 ## Done
-- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
-  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
-  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
-- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
-  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
+- `src/lib/jobs.ts` `callerFor()`: `token === expected` replaced by `tokensMatch()` (node:crypto `timingSafeEqual`
+  on equal-length Buffers, false on length mismatch). No new deps; `npm run build` passed.
+- Prod verified: `dpl_G6cRZvix...` READY at `f74642f3` (#907), which contains `0fbcc9e3`; serves arcs.care + jobs.arcs.care.
+  Live `GET jobs.arcs.care/api/jobs` with empty / short / long wrong tokens all return 401 (no 500 on length mismatch).
 
 ## Open (next session)
-1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
-3. Throttle is per instance; a second instance can send a second email.
+1. Valid-token path not exercised live (token not in hand); confirm on the next scheduled pipeline run.
 
 ## Lessons
-- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
-  `arcs-care/arcs-care` and fails with "Branch not found".
-- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
+- `timingSafeEqual` throws on unequal lengths: guard length first, then probe prod with a wrong-length token to prove no 500.
 
----
+> Folded from `_HANDOFFS/fragments/20261006T135557Z--claude-jobs-token-timingsafe.md` (branch `claude/jobs-token-timingsafe`, head `d7963b38`).
