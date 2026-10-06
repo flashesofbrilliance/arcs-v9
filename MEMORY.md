@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.101.0] 2026-10-06 - Ahmed order: receipt, brief and ledger share one vocabulary (#880, #885, #890)
+
+- Labels live only in src/lib/vocabulary.ts; layout in src/organisms/AhmedOrder.tsx; spec runtime/specs/ahmed-order-vocabulary.md.
+- Earned fidelity restored on /receipt and /brief (both rendered every receipt SHARP). tao-285 minted as the open-question empty state.
+
 ## [v3.100.0] 2026-10-05 - Debrief reminders disclosed: /privacy v1.5, trust contract 1.8
 
 - Closes the last nit from the showcase privacy review (verdict SAFE on claude/showcase-mirror @ 47b86cd1).

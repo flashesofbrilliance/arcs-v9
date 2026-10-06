@@ -114,6 +114,30 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.101.0 (2026-10-06)
+
+> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
+> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
+> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+
+## Done
+- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
+  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
+  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
+  open-question empty state: no model-written answers.
+- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
+  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
+  375px overflow on long path tags; stakes never rendered.
+
+## Open (next session)
+1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
+2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
+3. Chips running: compass answers for open questions (task_160443dd); receipt view triggers paid brief generation (task_d352230f).
+
+## Lessons (in the record)
+- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
+- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+
 # Handoff — v3.99.0 (2026-10-06)
 
 > **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
@@ -141,29 +165,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
 - A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
-
-# Handoff — v3.98.0 (2026-10-05)
-
-> **Prod deploys now run `prisma migrate deploy` (production only).** #840 (`942b0f46`) + hotfix #857
-> (`f5fab907`), both merged without CI (Actions billing block; Zach's go on #840). Receipts
-> `2026-10-05--vercel-migrate-per-service-pr840--ZH`, `--migration-lock-postgres-pr857--ZH`, `--direct-url-redeploy--ZH`.
-
-## Done
-- **Root cause:** under `experimentalServices`, Vercel ignores a top-level `buildCommand`; each service uses its own.
-  #830's prod log ran plain `npm run build`. Command now lives at `experimentalServices.web.buildCommand`.
-- `scripts/vercel-migrate-deploy.sh`: migrates via `DIRECT_URL` (set on arcs-v9 Production by Zach, session pooler
-  :5432), else rewrites :6543 to :5432; logs host:port; refuses :6543. Preview logs "skipping migrate deploy".
-- **Regression, fixed:** the first real run failed P3019 (`migration_lock.toml` said sqlite). #857 set postgresql.
-  Prod deploys #847/#850 errored in between (~10 min); prod kept serving the last READY build.
-- Prod `_prisma_migrations` = all 22 `prisma/migrations` by sha256 (incl. the hand-applied brief_share, prep_session_owner).
-  Proof log: `migrate target …:5432 · 22 migrations found · No pending migrations to apply`.
-
-## Open (next session)
-1. GitHub Actions billing/spending-limit block: no CI job starts on any PR or main (human).
-2. `experimentalServices` is deprecated in favour of `services` (needs `root`; not migrated).
-3. Two Vercel projects named arcs-care (team + personal `prj_cVMj…`): the personal one caught an env var; delete or relink it.
-
-## Lessons (in the record)
-- A wired-but-never-run step hides every latent bug behind it: the first real run surfaced a months-stale lock file.
-  Watch the FIRST prod log after enabling any deploy-time step.
-- `vercel env ls` names its project in the header line: read it before trusting "it's set".

@@ -1,6 +1,6 @@
-# ARCS session state — v3.98.0 (2026-10-05)
+# ARCS session state — v3.101.0 (2026-10-06)
 
-- Prod builds run `prisma migrate deploy` (production only) via `experimentalServices.web.buildCommand`.
-- Prod migrations in sync with repo (22/22). DIRECT_URL set on arcs-v9 Production.
-- Blocking: GitHub Actions billing block (no CI runs).
-- Next: fix billing; optional `experimentalServices` -> `services` migration.
+- Receipt and brief render through AhmedOrder in the Ahmed order; vocabulary in src/lib/vocabulary.ts.
+- CI is running again (GitHub Actions billing block cleared).
+- Open: SHARP render untested on real data; chips task_160443dd (question answers), task_d352230f (receipt view spends on brief generation).
+- Blocking: NONE
