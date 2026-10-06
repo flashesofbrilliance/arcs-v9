@@ -205,6 +205,7 @@ jobs:
       AUTH_TRUST_HOST: "true"
     steps:
       - uses: actions/checkout@v7
+        with: { fetch-depth: 0 }  # page gate needs the merge-base
 
       - uses: actions/setup-node@v7
         with:
@@ -244,8 +245,11 @@ jobs:
       - name: Page gate on changed pages
         if: github.event_name == 'pull_request'
         run: |
-          git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.sha }}
-          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html')
+          # Three-dot (merge-base) diff against the PR head: only the PR's own changes.
+          # A two-dot diff vs HEAD also picked up every page main changed since the
+          # branch point (PR #802 failed 0/92 on pages it never touched).
+          git fetch --no-tags origin ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html')
           if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
           python3 scripts/page_gate.py $files
 
