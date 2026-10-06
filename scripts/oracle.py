@@ -29,6 +29,12 @@ Counter registry: _SEEDS/_oracle.json  e.g. {"adr": 56, "seed": 11, "receipt": 3
 Unknown flags and extra arguments are REJECTED (exit 2), never ignored. On 2026-10-03 a
 `next seed --dry-run` was silently treated as a real `next seed`: the counter moved and a
 pulse beat was stamped for an allocation nobody meant to make.
+  oracle next handoff        the handoff namespace counts MINOR versions of `# Handoff — v3.N.0`
+                             blocks (scripts/handoff_fold.py molt takes its version from here and
+                             never computes one). Before allocating, the counter is raised to the
+                             highest v3.N.0 already on disk (CLAUDE.md + _ARCHIVE/handoffs.md), so
+                             an off-oracle mint can never be re-issued. 2026-10-06: fold computed
+                             its own highest+1 and v3.101.0 shipped twice (#893, #894).
   oracle audit adr           scan _DECISIONS on the working tree: collisions, gaps, next-free
                              (read-only; the authority for reconciling the existing mess)
 
@@ -72,6 +78,19 @@ def _adr_numbers():
     return nums
 
 
+HANDOFF_TITLE = re.compile(r"^# Handoff — v3\.(\d+)\.\d+ ", re.M)
+
+
+def _handoff_high():
+    """Highest minor N among '# Handoff — v3.N.x' titles in CLAUDE.md and the archive."""
+    hi = 0
+    for rel in ("CLAUDE.md", os.path.join("_ARCHIVE", "handoffs.md")):
+        p = os.path.join(ROOT, rel)
+        if os.path.exists(p):
+            hi = max([hi] + [int(n) for n in HANDOFF_TITLE.findall(open(p, encoding="utf-8").read())])
+    return hi
+
+
 def audit_adr():
     nums = _adr_numbers()
     collisions = {n: files for n, files in nums.items() if len(files) > 1}
@@ -100,6 +119,9 @@ def nxt(ns, dry_run=False):
     if ns == "adr" and "adr" not in d:
         hi = max(_adr_numbers() or [0])
         d["adr"] = hi
+    # handoff: never below what is already on disk (a hand-written block must not be re-issued)
+    if ns == "handoff":
+        d["handoff"] = max(d.get("handoff", 0), _handoff_high())
     new = d.get(ns, 0) + 1
     if dry_run:
         # a preview must look without touching: no counter write, no pulse beat
@@ -132,8 +154,10 @@ def sync(ns, to=None):
     cur = d.get(ns, 0)
     if ns == "adr" and to is None:
         to = max(_adr_numbers() or [0])
+    if ns == "handoff" and to is None:
+        to = _handoff_high()
     if to is None:
-        sys.stderr.write(f"oracle: sync {ns} needs --to N (only adr can self-derive)\n"); sys.exit(2)
+        sys.stderr.write(f"oracle: sync {ns} needs --to N (only adr and handoff can self-derive)\n"); sys.exit(2)
     to = int(to)
     if to < cur:
         sys.stderr.write(f"oracle: refusing to lower {ns} {cur} -> {to} (would re-issue taken ids)\n"); sys.exit(1)
@@ -219,7 +243,13 @@ def self_test():
         r = run("next", "seed", "--dry-run")
         check("dry run after allocation previews 2", r.stdout.strip() == "2")
         check("dry run leaves counter at 1", json.load(open(counter)).get("seed") == 1)
-    print(f"oracle self-test: {12 - fails}/12")
+        open(os.path.join(tmp, "CLAUDE.md"), "w").write("# Handoff — v3.112.0 (2026-10-06)\n\nx\n")
+        json.dump({"handoff": 50}, open(counter, "w"))
+        r = run("next", "handoff")
+        check("handoff next lifts a stale counter past disk (50 -> 113)", r.stdout.strip() == "113")
+        r = run("next", "handoff")
+        check("handoff next is monotonic (114)", r.stdout.strip() == "114")
+    print(f"oracle self-test: {14 - fails}/14")
     sys.exit(1 if fails else 0)
 
 

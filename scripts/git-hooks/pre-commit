@@ -803,19 +803,22 @@ if command -v python3 >/dev/null 2>&1 && [ -f scripts/model_id_gate.py ]; then
   python3 scripts/model_id_gate.py --staged >/dev/null 2>&1 || { python3 scripts/model_id_gate.py --staged || true; exit 1; }
 fi
 # ---------------------------------------------------------------------------
-# handoff-fold guard (2026-10-06): only `scripts/handoff_fold.py fold` may add a
-# "# Handoff — vX.Y.Z" block to CLAUDE.md (ADR-085 part (d)). A fold always deletes
-# the fragments it folds, so a new heading with no staged fragment deletion is a
-# hand-minted version (cf0bf7f1 collided with a concurrent fold this way; v3.104.0 landed
-# below v3.103.0, fixed in #919). Was a warning; now blocks. Sessions
-# write a fragment with `handoff_fold.py new` instead. Override: ARCS_ALLOW_DIRECT_HANDOFF=1.
+# handoff-molt guard (2026-10-06): only `scripts/handoff_fold.py molt` may add a
+# "# Handoff — vX.Y.Z" block to CLAUDE.md (ADR-085 part (d) + amendment A1). A molt always
+# deletes the fragments it molts AND stages _SEEDS/_oracle.json (its version comes from
+# `oracle.py next handoff`), so a new heading missing either is a hand-minted version
+# (cf0bf7f1 collided with a concurrent fold this way; v3.104.0 landed below v3.103.0, fixed
+# in #919). Blocks (#947). Sessions write a fragment with `handoff_fold.py new` instead.
+# Override: ARCS_ALLOW_DIRECT_HANDOFF=1.
 new_handoff=$(git diff --cached -U0 -- CLAUDE.md 2>/dev/null | grep -E '^\+#{1,2} Handoff — v' || true)
 if [ -n "$new_handoff" ] && [ "${ARCS_ALLOW_DIRECT_HANDOFF:-0}" != "1" ]; then
-  folded=$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/*' 2>/dev/null || true)
-  if [ -z "$folded" ]; then
-    echo "✖ pre-commit(handoff-fold-guard): CLAUDE.md gains a handoff heading but no _HANDOFFS/fragments/ file is deleted:" >&2
+  molted=$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/*' 2>/dev/null || true)
+  oracled=$(git diff --cached --name-only -- _SEEDS/_oracle.json 2>/dev/null || true)
+  if [ -z "$molted" ] || [ -z "$oracled" ]; then
+    echo "✖ pre-commit(handoff-molt-guard): CLAUDE.md gains a handoff heading outside a molt commit" >&2
+    echo "  (needs staged _HANDOFFS/fragments/ deletions AND _SEEDS/_oracle.json):" >&2
     echo "$new_handoff" | sed 's/^/    /' >&2
-    echo "  fix: revert the CLAUDE.md edit and run 'python3 scripts/handoff_fold.py new' (fold assigns versions)." >&2
+    echo "  fix: revert the CLAUDE.md edit, write a fragment ('python3 scripts/handoff_fold.py new'), then 'handoff_fold.py molt'." >&2
     exit 1
   fi
 fi

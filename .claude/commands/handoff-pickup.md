@@ -11,9 +11,11 @@ description: Orient at the start of a session from the latest handoff and state 
 
 1. **Reads `_STATE/snapshot.json`** — machine-readable ground truth (env, deploy, DB, git SHA)
 2. Reads `.claude/arcs-session-state.md` — prose sprint state
-3. Reads the latest `## Handoff — vX.Y.Z` block in `CLAUDE.md`, then any **unfolded fragments**
-   (`python3 scripts/handoff_fold.py list`; newest file last). A fragment is newer than every
-   CLAUDE.md block: read the newest one(s) relevant to your branch first (ADR-085 part (d))
+3. Reads the latest `# Handoff — vX.Y.Z` arc in `CLAUDE.md` (the highest version, not the topmost
+   position) and FOLLOWS its `## Cold-start recipe` literally: those are the files, commands and
+   tracker view to load, and its `## Next action` is the one thing to start. Then lists any
+   **unmolted fragments** (`python3 scripts/handoff_fold.py list`; newest last). A fragment is newer
+   than every arc: read the newest one(s) relevant to your branch (ADR-085 part (d) amendment)
 4. Confirms live state matches snapshot: `git log --oneline -1` + `vercel ls arcs-v9 | head -3`
 5. Reads `_QUEUE/PENDING.md` — surfaces READY items
 6. Reports: what's done, what's next, what's blocked, what the live system looks like
@@ -86,8 +88,8 @@ Reads at most 6 files:
 - `_STATE/handoff-progress.{md,jsonl}` (only if the SessionStart hook flagged UNCLAIMED)
 - `_STATE/snapshot.json` (machine state — primary source)
 - `.claude/arcs-session-state.md` (prose sprint state)
-- `CLAUDE.md` (latest handoff block only; blocks are newest-first)
-- `_HANDOFFS/fragments/*.md` (unfolded handoffs, newer than CLAUDE.md; list first, read only the newest relevant)
+- `CLAUDE.md` (latest arc only: its Cold-start recipe + Next action)
+- `_HANDOFFS/fragments/*.md` (unmolted handoffs, newer than CLAUDE.md; list first, read only the newest relevant)
 - `git log --oneline -5`
 - `_QUEUE/PENDING.md` (READY rows only)
 

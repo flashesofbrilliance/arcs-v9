@@ -101,9 +101,11 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 - **CLAUDE.md is a working file, kept lean — not an archive.** It holds durable facts (Project Map,
   ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. Sessions no longer edit
-  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session) and
-  `scripts/handoff_fold.py fold` assigns versions, prepends the blocks here and moves the oldest to
-  `_ARCHIVE/handoffs.md` (ADR-085 part (d), 2026-10-06). Unfolded fragments are newer than any block below.
+  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session, raw
+  material) and `scripts/handoff_fold.py molt` synthesizes ALL fragments into ONE arc block (Goal, What
+  changed, State, Decisions, Open, ONE Next action, Cold-start recipe), versioned by
+  `scripts/oracle.py next handoff`, refusing bookends; overflow moves to `_ARCHIVE/handoffs.md` by version
+  (ADR-085 part (d) + 2026-10-06 amendment). Unmolted fragments are newer than any block below.
 - **History is relocated, never deleted.** Older handoffs live in `_ARCHIVE/handoffs.md` and in git.
   "Never delete prior versions" is honored by archival, not by unbounded append into the hot path.
 - `MEMORY.md` — keep recent entries live; relocate dead history to `_ARCHIVE/memory-archive.md`.

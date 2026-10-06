@@ -173,4 +173,4 @@ Handoff Receipt
 - **Updating MEMORY without checking post-handoff Claude Code commits.** The repo may have moved since your last push.
 - **Generating the one-shot prompt before MEMORY is current.** The prompt references MEMORY — if MEMORY is stale, the prompt is stale.
 - **Skipping the gap table.** Claude Code will start from whatever the prompt says. If the prompt is optimistic about what landed, it will build on a false foundation.
-- **Updating CLAUDE.md handoff section without appending.** Never overwrite. Always append a new versioned section.
+- **Writing a CLAUDE.md handoff block by hand.** Never. Write a fragment (`scripts/handoff_fold.py new`); `molt` numbers it via the oracle and writes the one arc block (ADR-085 (d) amendment).
