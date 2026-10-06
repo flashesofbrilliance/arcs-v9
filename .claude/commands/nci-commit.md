@@ -1,3 +1,8 @@
+---
+description: Score the staged diff against Commit-NCI (ADR-035), then commit with the [NCI:XX] tag
+disable-model-invocation: true
+---
+
 # /nci-commit
 
 > Score the staged diff against Commit-NCI (ADR-035), then commit with the `[NCI:XX]` tag — or
