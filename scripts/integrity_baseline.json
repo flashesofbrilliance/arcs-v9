@@ -1,0 +1,916 @@
+{
+ "_comment": "Grandfathered integrity_gate failures. Only ever shrink this file. Regenerate with --baseline-update.",
+ "ref": "origin/main",
+ "failures": {
+  "AGENTS.md": [
+   "path|operators/.venv",
+   "path|runtime/specs/tool-catalog",
+   "path|src/lib/gigi.ts"
+  ],
+  "MEMORY.md": [
+   "commit|47b86cd1",
+   "commit|caafa7eb"
+  ],
+  "_CANON/index.md": [
+   "path|_DECISIONS/ADR-023"
+  ],
+  "_CANON/living/tao-cellar.md": [
+   "path|_CANON/living/ARCS-Codex-"
+  ],
+  "_CANON/ordinals/README.md": [
+   "commit|2af3c13",
+   "commit|a0507a1"
+  ],
+  "_CANON/trust-contract.md": [
+   "commit|8b486e8"
+  ],
+  "_DECISIONS/ADR-001-auth-gate-strategy.md": [
+   "path|src/app/api/"
+  ],
+  "_DECISIONS/ADR-002-database-split.md": [
+   "commit|11ba2fc",
+   "commit|42852d4"
+  ],
+  "_DECISIONS/ADR-007-prisma-migration-strategy.md": [
+   "path|prisma/migrations/0_init.sql"
+  ],
+  "_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md": [
+   "script|arcs_dewy.py",
+   "script|arcs_dewy_legacy.py"
+  ],
+  "_DECISIONS/ADR-011-ui-import-strategy.md": [
+   "path|src/ui/index.ts",
+   "script|index.ts"
+  ],
+  "_DECISIONS/ADR-013-arcs-care-conversion-architecture.md": [
+   "script|compass-widget.tsx",
+   "script|hero.tsx",
+   "script|lab-offer.tsx"
+  ],
+  "_DECISIONS/ADR-014-arcs-care-ci-cd-governance.md": [
+   "path|.github/workflows/promote.yml",
+   "path|.github/workflows/vercel-ai-fix.yml"
+  ],
+  "_DECISIONS/ADR-015-arcs-care-case-study-content-gate.md": [
+   "commit|4932cdd",
+   "script|compass-widget.tsx",
+   "script|hero.tsx",
+   "script|lab-offer.tsx"
+  ],
+  "_DECISIONS/ADR-016-arcs-v9-auth-model.md": [
+   "commit|663d831",
+   "commit|6a5b856",
+   "commit|d732dad",
+   "path|src/app/api/brief/route.ts",
+   "path|src/app/api/guide/route.ts",
+   "path|src/app/api/receipts/"
+  ],
+  "_DECISIONS/ADR-019-receipt-core-python-boundary.md": [
+   "path|tests/test_receipt_bridge_roundtrip.py",
+   "script|receipt_scanner.py"
+  ],
+  "_DECISIONS/ADR-022-user-schema-emailverified-debt.md": [
+   "commit|d732dad"
+  ],
+  "_DECISIONS/ADR-026-debrief-delivery-fix.md": [
+   "commit|8ded67f",
+   "path|src/app/api/cron/"
+  ],
+  "_DECISIONS/ADR-028-scan-arcs-care-staging.md": [
+   "path|runtime/flows/profile-scan-flow-v0.1.md"
+  ],
+  "_DECISIONS/ADR-030-nested-thread-view.md": [
+   "path|src/molecules/ThreadTree.tsx"
+  ],
+  "_DECISIONS/ADR-031-design-system-reconciliation.md": [
+   "path|src/ui/compass-kit/"
+  ],
+  "_DECISIONS/ADR-033-serialization-pathogen-family.md": [
+   "commit|09bb14b",
+   "commit|345091f",
+   "commit|6dca11c",
+   "commit|9ce0dfc"
+  ],
+  "_DECISIONS/ADR-039-deploy-cost-guardrail-ignored-build-step.md": [
+   "path|public/private"
+  ],
+  "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md": [
+   "commit|eff3d65"
+  ],
+  "_DECISIONS/ADR-045-night-moves-digest-routine.md": [
+   "path|scripts/adr_dewy_watch.py"
+  ],
+  "_DECISIONS/ADR-049-anonymous-receipt-remediation.md": [
+   "commit|8b486e8"
+  ],
+  "_DECISIONS/ADR-056-arcs-tie-in-connector-pattern.md": [
+   "path|docs/adjacencies.md"
+  ],
+  "_DECISIONS/ADR-059-sage-signal-validation-path.md": [
+   "commit|8ded67f",
+   "commit|99dc0b2",
+   "commit|b8e98e5"
+  ],
+  "_DECISIONS/ADR-061-verify-flags-against-full-source.md": [
+   "script|provcheck.py"
+  ],
+  "_DECISIONS/ADR-073-model-routing-adr-audit-default.md": [
+   "script|Adr_audit.py",
+   "script|adr_real_audit_bench.py"
+  ],
+  "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md": [
+   "path|operators/advisors",
+   "script|arcs_kairos_detector.py"
+  ],
+  "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md": [
+   "adr|ADR-082",
+   "path|src/ui-kit/recoil-report/NN-"
+  ],
+  "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md": [
+   "path|_STATE/leases.json",
+   "path|_STATE/lock.json",
+   "path|scripts/git-hooks/pre-commit.d/"
+  ],
+  "_DECISIONS/CANON-COLLISION-tao-two-books.md": [
+   "path|scripts/gen_tao_"
+  ],
+  "_DECISIONS/index.json": [
+   "script|provcheck.py"
+  ],
+  "_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md": [
+   "path|scripts/check-spec-frontmatter.py"
+  ],
+  "_PATTERNS/2026-06-23-s-tier-execution-plan.md": [
+   "path|_CANON/.../ARCS-v9-Chapter-Book-Canon.md"
+  ],
+  "_PATTERNS/2026-07-10-atomic-surface-map.md": [
+   "commit|e802ed7",
+   "path|runtime/specs/artifact-manifest.ts",
+   "path|runtime/specs/artifact-registry.json",
+   "path|runtime/specs/tokens.json",
+   "script|opengraph-image.tsx"
+  ],
+  "_PATTERNS/2026-07-10-formalization-backlog.md": [
+   "commit|e802ed7"
+  ],
+  "_PATTERNS/2026-07-10-landing-page-optimization-master.md": [
+   "path|operators/founders",
+   "path|src/app/brief/[receiptId]/opengraph-image.tsx",
+   "path|src/app/opengraph-image.tsx",
+   "script|opengraph-image.tsx"
+  ],
+  "_PATTERNS/2026-07-11-operator20-archaeology.md": [
+   "adr|ADR-021",
+   "path|operators/README",
+   "path|runtime/specs/ARCS-Vector-Collision-Engine-",
+   "path|runtime/specs/dewy-receipt-schema-v1"
+  ],
+  "_PATTERNS/2026-07-13-dual-audit-reconciliation.md": [
+   "adr|ADR-021"
+  ],
+  "_PATTERNS/2026-07-19-out-of-band-actions.md": [
+   "path|.claude/agents/reviewer.md"
+  ],
+  "_PATTERNS/2026-07-19-tech-debt-batch.md": [
+   "adr|ADR-021",
+   "commit|913ee15",
+   "commit|a8d5030",
+   "path|_ARCHIVE/state/",
+   "path|docs/chore/mechanical"
+  ],
+  "_PATTERNS/2026-07-19-threat-assessment.md": [
+   "path|.github/backlog-index.md"
+  ],
+  "_PATTERNS/2026-08-13-umbrella-dunford-positioning-canvas.md": [
+   "path|_STATE/2026-08-13-oss-family-",
+   "path|docs/adjacencies.md"
+  ],
+  "_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md": [
+   "path|scripts/attribution_provenance_lint.py"
+  ],
+  "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md": [
+   "path|public/blog-nftt-",
+   "path|scripts/VERSION"
+  ],
+  "_PATTERNS/2026-09-26-ui-kit-migration-plan.md": [
+   "commit|98b8013d",
+   "path|public/autopilot",
+   "path|public/blog-nftt-",
+   "path|public/jack-rain",
+   "path|public/schriner",
+   "path|public/squad",
+   "path|public/success-academy",
+   "path|public/vico",
+   "path|runtime/warroom/jack-rain"
+  ],
+  "_PATTERNS/counterpart-artifact-family-blueprint.md": [
+   "path|public/robin"
+  ],
+  "_PATTERNS/drift-audits/2026-07-24.md": [
+   "path|docs/state-only"
+  ],
+  "_PATTERNS/drift-audits/2026-07-27.md": [
+   "path|docs/state-only",
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-08-03.md": [
+   "path|docs/state-only",
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-08-10.md": [
+   "path|docs/state",
+   "path|public/kelly-interview.html",
+   "path|runtime/recoil/generated/2026-08-05-todd-SESSION-HANDOFF.md"
+  ],
+  "_PATTERNS/drift-audits/2026-08-17.md": [
+   "path|docs/state",
+   "path|public/ayesha.html",
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-08-24.md": [
+   "path|prisma/config",
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-08-31.md": [
+   "path|prisma/config",
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-09-07.md": [
+   "path|public/kelly-interview.html"
+  ],
+  "_PATTERNS/drift-audits/2026-09-14.md": [
+   "path|docs/state-only",
+   "path|public/static-serve.py"
+  ],
+  "_PATTERNS/drift-audits/2026-09-21.md": [
+   "path|docs/state/handoff/queue-labeled",
+   "path|prisma/config",
+   "path|public/louisville-brooks-war.html",
+   "path|public/prl-todd-war.html",
+   "path|public/recruithaus-war.html",
+   "path|public/static-serve.py"
+  ],
+  "_PATTERNS/drift-audits/2026-09-28.md": [
+   "path|prisma/config",
+   "path|public/louisville-brooks-war.html",
+   "path|public/prl-todd-war.html",
+   "path|public/recruithaus-war.html"
+  ],
+  "_PATTERNS/drift-audits/2026-10-05.md": [
+   "path|docs/state-only",
+   "path|prisma/config"
+  ],
+  "_PATTERNS/durable-gotchas.md": [
+   "path|_STATE/branch-",
+   "script|vercel.ts"
+  ],
+  "_PATTERNS/forge-pipeline-handoff.md": [
+   "path|runtime/recoil/generated/2026-08-05-daniels-"
+  ],
+  "_PATTERNS/jtbd-orchestration-map.md": [
+   "path|_DECISIONS/ADR-048"
+  ],
+  "_PATTERNS/kintsugi-visual-grammar-seams.md": [
+   "path|_ARTIFACTS/forge-",
+   "path|public/blog-nftt-",
+   "path|public/louisville-brooks-war.html",
+   "path|public/prl-",
+   "path|public/prl-status-"
+  ],
+  "_PATTERNS/ledger.json": [
+   "path|public/arcs_recoil_canvas.py",
+   "path|public/arcs_recoil_philosophy.md",
+   "path|src/app/api/receipts/claim/route.ts",
+   "script|canvas.py"
+  ],
+  "_PATTERNS/receipt-studio-integration-scope.md": [
+   "path|src/app/api/receipts/studio/route.ts"
+  ],
+  "_PATTERNS/sentinel-rebuild-spec.md": [
+   "path|docs/chore/mechanical"
+  ],
+  "_PATTERNS/session-post-mortem-2026-06-03.md": [
+   "commit|d732dad"
+  ],
+  "_SEEDS/ADR-CANDIDATE-2026-09-17-defeasible-context-codec-and-kinematic-freshness.md": [
+   "path|_STATE/witness/2026-09-17.jsonl"
+  ],
+  "_SEEDS/DISTRIBUTION.md": [
+   "path|_SEEDS/DISTRIBUTION"
+  ],
+  "_SEEDS/connectors.json": [
+   "script|rosetta.sh"
+  ],
+  "_SEEDS/distribution.jsonl": [
+   "path|.github/workflows/release.yml"
+  ],
+  "_SEEDS/index.jsonl": [
+   "path|_INBOX/evidence/SCOUT-",
+   "path|_QUEUE/press/",
+   "path|_STATE/witness/2026-09-17.jsonl",
+   "path|docs/RISK_MANAGEMENT.md",
+   "path|docs/company-metadata.json",
+   "path|docs/network-trust.json",
+   "path|runtime/specs/decision-receipt.json",
+   "path|scripts/discovery-pipeline.js",
+   "path|scripts/receipt.py",
+   "path|scripts/validate-environment.js",
+   "path|scripts/worktree_audit.py"
+  ],
+  "_SEEDS/ledger.jsonl": [
+   "path|_INBOX/evidence/SCOUT-",
+   "path|docs/adjacencies.md",
+   "path|runtime/specs/decision-receipt.json",
+   "path|scripts/receipt.py",
+   "path|scripts/worktree_audit.py"
+  ],
+  "_SPECS/compass-lane-spec-v2.md": [
+   "script|application_interference.py",
+   "script|company_momentum.py",
+   "script|job_swipe.py"
+  ],
+  "_SPECS/metabolic-router-v1.md": [
+   "adr|ADR-042",
+   "path|runtime/specs/routing-manifest.json"
+  ],
+  "_SPECS/profile-scan-spec-v1.md": [
+   "path|runtime/flows/profile-scan-flow-v0.1.md"
+  ],
+  "_SPECS/reading-room-build-plan-v1.md": [
+   "adr|ADR-042"
+  ],
+  "_STATE/2026-08-13-cross-session-30d-sweep.md": [
+   "path|_DECISIONS/ADR-048-RESERVED.md"
+  ],
+  "_STATE/2026-08-13-fortnight-retrospective.md": [
+   "adr|ADR-047"
+  ],
+  "_STATE/2026-08-14-milestone-artifact-engine-plan.md": [
+   "path|_ARTIFACTS/milestones/2026-08-13-fortnight",
+   "path|_ARTIFACTS/milestones/GRAMMAR.md"
+  ],
+  "_STATE/2026-08-14-session-decisions.dewy.json": [
+   "path|scripts/gauntlet_logbook.py",
+   "script|provcheck.py"
+  ],
+  "_STATE/2026-08-16-connector-fleet-deploy-checklist.md": [
+   "path|public/fix-toolbar-comments-skill.html",
+   "path|public/rca-skill.html",
+   "path|public/state-sync-skill.html",
+   "path|public/token-savings-bank.html"
+  ],
+  "_STATE/2026-08-17-prl-1-1-session-decisions.dewy.json": [
+   "path|_ARTIFACTS/prl-1-1-evidence/leg1-tidio-flow-map.md"
+  ],
+  "_STATE/2026-08-29-session-decisions.dewy.json": [
+   "script|generate_arcs_operator_data.py"
+  ],
+  "_STATE/2026-09-04-session-decisions.dewy.json": [
+   "adr|ADR-042"
+  ],
+  "_STATE/2026-10-06-doc-reconciliation.json": [
+   "path|.claude/agents/reviewer.md",
+   "path|.claude/commands/dual-bar-raiser-operators-integration.md",
+   "path|.claude/commands/state-pickup.md",
+   "path|.claude/projects/-Users-zharris-arcs-v9/memory/",
+   "path|.github/backlog-index.md",
+   "path|.github/workflows/promote.yml",
+   "path|.github/workflows/vercel-ai-fix.yml",
+   "path|_ARCHIVE/state/",
+   "path|_ARTIFACTS/ahmed-feedback-plan-2026-09-03.md",
+   "path|_ARTIFACTS/mercury-pitch/pitch-memo.md",
+   "path|_ARTIFACTS/milestones/GRAMMAR.md",
+   "path|_ARTIFACTS/prl-roadmap-deck.html",
+   "path|_ARTIFACTS/sentilink-pitch/pitch-memo.md",
+   "path|_CANON/.../ARCS-v9-Chapter-Book-Canon.md",
+   "path|_CANON/book-ii/part-iv-sessions-api.md",
+   "path|_CANON/living/rom.md",
+   "path|_DECISIONS/ADR-001",
+   "path|_DECISIONS/ADR-002",
+   "path|_DECISIONS/ADR-003",
+   "path|_DECISIONS/ADR-004",
+   "path|_DECISIONS/ADR-008",
+   "path|_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
+   "path|_DECISIONS/ADR-035",
+   "path|_DECISIONS/ADR-038-exogenous-forge.md",
+   "path|_DECISIONS/ADR-048",
+   "path|_DECISIONS/ADR-048-RESERVED.md",
+   "path|_DECISIONS/ADR-065",
+   "path|_DECISIONS/ADR-067",
+   "path|_INBOX/linkedin-export.zip",
+   "path|_STATE/artifact-registry.jsonl",
+   "path|_STATE/leases.json",
+   "path|_STATE/lock.json",
+   "path|_STATE/night-moves/2026-09-17.md",
+   "path|_STATE/operator-audit-2026-08-29.md",
+   "path|_STATE/press-run/",
+   "path|_STATE/roadmap.md",
+   "path|_STATE/witness/2026-09-17.jsonl",
+   "path|docs/ARCS-AtomicDesign-ProductionGuide.md",
+   "path|docs/ARCS-Operator17-AdversarialDetective.md",
+   "path|docs/ARCS-Operator20-FolksonmyCultivator.md",
+   "path|docs/PERIODIC-TABLE.md",
+   "path|docs/adjacencies.md",
+   "path|docs/audit-service-interface.md",
+   "path|docs/gotchas.md",
+   "path|docs/operator-audit-experiments.md",
+   "path|docs/operator-audit-thread-state.md",
+   "path|docs/rag-kernel-discovery.md",
+   "path|docs/receipts-standing-rule",
+   "path|docs/resume-tailor-theming-engine-spec.md",
+   "path|docs/task4-grounded-recommendations.md",
+   "path|docs/volunteer-segment-briefs.md",
+   "path|operators/.venv",
+   "path|operators/arcs_shavasana.py",
+   "path|public/ayesha.html",
+   "path|public/danny.html",
+   "path|public/forge-citi-fde.html",
+   "path|public/kelly-interview.html",
+   "path|public/louisville-brooks-war.html",
+   "path|public/manifest.json",
+   "path|public/mui-smoke.html",
+   "path|public/prl-todd-war.html",
+   "path|public/recruithaus-war.html",
+   "path|public/resume-icon-192.png",
+   "path|public/resume-icon-512.png",
+   "path|public/resume-sw.js",
+   "path|public/resume-tailor-icon-192.png",
+   "path|public/resume-tailor-icon-512.png",
+   "path|public/resume-tailor-landing.html",
+   "path|public/resume-tailor-manifest.json",
+   "path|public/resume-tailor-pwa.html",
+   "path|public/resume-tailor-sw.js",
+   "path|public/static-serve.py",
+   "path|runtime/flows/profile-scan-flow-v0.1.md",
+   "path|runtime/recoil/generated/2026-08-05-todd-SESSION-HANDOFF.md",
+   "path|runtime/specs/arcs-v9-engineering-spec.md",
+   "path|runtime/specs/artifact-registry.json",
+   "path|runtime/specs/routing-manifest.json",
+   "path|runtime/specs/tokens.json",
+   "path|scripts/VERSION",
+   "path|scripts/adr_dewy_watch.py",
+   "path|scripts/attribution_provenance_lint.py",
+   "path|scripts/check-spec-frontmatter.py",
+   "path|scripts/cold_reader_gate.py",
+   "path|scripts/dependency_sweep.py",
+   "path|scripts/deploy-smoke.mjs",
+   "path|scripts/orthogonal_echo.py",
+   "path|scripts/pii_leak_gate.py",
+   "path|scripts/sage_efficacy.js",
+   "path|scripts/scan_repo.py",
+   "path|scripts/surface_watch.py",
+   "path|src/app/api/brief/route.ts",
+   "path|src/app/api/guide/route.ts",
+   "path|src/app/api/receipts/studio/route.ts",
+   "path|src/app/brief/[receiptId]/opengraph-image.tsx",
+   "path|src/app/opengraph-image.tsx",
+   "path|src/lib/audit-client.ts",
+   "path|src/lib/audit-translator.ts",
+   "path|src/lib/gigi.ts",
+   "path|src/molecules/ThreadTree.tsx",
+   "path|src/tao/",
+   "path|src/ui/compass-kit/",
+   "path|src/ui/index.ts",
+   "path|tests/test_admissibility.py",
+   "path|tests/test_constitution_versioning.py",
+   "path|tests/test_receipt_bridge_roundtrip.py",
+   "path|tests/test_receipt_replay.py"
+  ],
+  "_STATE/2026-10-06-doc-reconciliation.md": [
+   "path|_ARTIFACTS/mercury-pitch/pitch-memo.md",
+   "path|_ARTIFACTS/sentilink-pitch/pitch-memo.md",
+   "path|_STATE/job-search/forge-inputs/prompt-",
+   "path|runtime/specs/arcs-v9-engineering-spec.md",
+   "path|scripts/doc_reconcile.py"
+  ],
+  "_STATE/believability-ledger/2026-09-02.json": [
+   "commit|000b552c6364",
+   "commit|012eba4013ed",
+   "commit|0185be805ec8",
+   "commit|02f0bce0493e",
+   "commit|03c52b27952d",
+   "commit|04e7f080cf2a",
+   "commit|08fba7c6067d",
+   "commit|09833b793e8c",
+   "commit|0af4c9c18702",
+   "commit|0f24bab705de",
+   "commit|186c56c5b55a",
+   "commit|1afe828724a5",
+   "commit|1f3028b2735a",
+   "commit|2253eca09511",
+   "commit|22cac6ef2f9e",
+   "commit|249957cbcf1b",
+   "commit|24c2ad30f526",
+   "commit|289880445da9",
+   "commit|28b09c72a40e",
+   "commit|2a27d5b92db6",
+   "commit|2b68fac2bb4c",
+   "commit|328e007e47b1",
+   "commit|35e4e981aa6f",
+   "commit|38091486b7de",
+   "commit|38aa0f69e785",
+   "commit|38d9f974132d",
+   "commit|3c511736d3d1",
+   "commit|3d322b4b80c6",
+   "commit|3fac16886db5",
+   "commit|403d1091c41c",
+   "commit|445ce18755bb",
+   "commit|49ce66aef376",
+   "commit|4c6dd9bbde32",
+   "commit|4db431a74a7a",
+   "commit|4f5cb4cc938d",
+   "commit|4ff066d815dc",
+   "commit|501ee5fa3790",
+   "commit|5186b56997bb",
+   "commit|51e590fe725d",
+   "commit|541836ed7831",
+   "commit|57b717c77bc1",
+   "commit|58eb6351e308",
+   "commit|602a6038f1d0",
+   "commit|61095c530aee",
+   "commit|61e7fa664d26",
+   "commit|63a41c06aca7",
+   "commit|663d831eebfb",
+   "commit|684298488ed0",
+   "commit|695afb38f821",
+   "commit|6a5b856063c5",
+   "commit|6d098d65c3fd",
+   "commit|70c4517c2cfb",
+   "commit|71ce4df9359b",
+   "commit|7e795cf4d859",
+   "commit|7fc301f1e385",
+   "commit|7fcebb0973a1",
+   "commit|80530b82adf6",
+   "commit|825e8d38d9d1",
+   "commit|82af8bbb6e51",
+   "commit|833ea864a9e8",
+   "commit|8429f2e15d5f",
+   "commit|87ddff440f45",
+   "commit|8d6ca87a4907",
+   "commit|8d9dcfaf3b7f",
+   "commit|8f9705427cd4",
+   "commit|924fd10c14d4",
+   "commit|935759f37b67",
+   "commit|971538488b54",
+   "commit|9970c3fd68fb",
+   "commit|99dc0b2b4315",
+   "commit|9b25f7815a0f",
+   "commit|9c14b1b7ade1",
+   "commit|9ce3c7fe30ca",
+   "commit|a0f99979ea89",
+   "commit|a266cf14dca3",
+   "commit|a2bc4e4ee7bf",
+   "commit|a339fe80bd74",
+   "commit|a38d7f2acf29",
+   "commit|a41800c0c071",
+   "commit|b1402acc09fc",
+   "commit|b2d00daf2412",
+   "commit|b31d06ecd8af",
+   "commit|b859686fb76c",
+   "commit|bb8a24362d7a",
+   "commit|bf4205a45faf",
+   "commit|c6b7263e9890",
+   "commit|c9c72866ccc0",
+   "commit|c9e0a4cc9687",
+   "commit|cb18c28daa11",
+   "commit|cd827b3fcf2a",
+   "commit|cf26c0c1eb37",
+   "commit|cfbc48333c25",
+   "commit|d138a545a072",
+   "commit|d2b418260036",
+   "commit|d35274de6d84",
+   "commit|d597708e06b8",
+   "commit|d72c6386658e",
+   "commit|d9563657528a",
+   "commit|db64a36a777d",
+   "commit|df37952a7ec4",
+   "commit|e536e339b306",
+   "commit|e66d4de992a6",
+   "commit|e802ed721423",
+   "commit|eaf206d98fb7",
+   "commit|efe4143c0bf8",
+   "commit|eff3d65fe618",
+   "commit|f4eb8dfd16e0",
+   "commit|f57a501778ee",
+   "commit|f722c058a282",
+   "commit|f8554ead2b1a",
+   "commit|fcb3be1c1692",
+   "commit|fd94a781e718",
+   "commit|ff729930f012"
+  ],
+  "_STATE/branch-observatory-cherry-pick.json": [
+   "commit|63a41c0",
+   "commit|81e17a3",
+   "commit|95d752b",
+   "commit|b305306",
+   "commit|d9147db",
+   "commit|e888cc4",
+   "path|_STATE/branch-"
+  ],
+  "_STATE/checkpoint-resume-tailor-pwa-2026-08-28.md": [
+   "path|docs/resume-tailor-theming-engine-spec.md",
+   "path|public/mui-smoke.html",
+   "path|public/resume-tailor-icon-192.png",
+   "path|public/resume-tailor-icon-512.png",
+   "path|public/resume-tailor-landing.html",
+   "path|public/resume-tailor-manifest.json",
+   "path|public/resume-tailor-pwa.html",
+   "path|public/resume-tailor-sw.js",
+   "script|esm.sh"
+  ],
+  "_STATE/cold-start-v3.1.0.md": [
+   "commit|4dbe3d1",
+   "commit|a12f023",
+   "commit|e2474e0"
+  ],
+  "_STATE/compass-kit-phase2-handoff.md": [
+   "path|src/ui/Button",
+   "path|src/ui/compass-kit/"
+  ],
+  "_STATE/consolidated_session_memory-2026-08-29.md": [
+   "path|_STATE/operator-audit-2026-08-29.md",
+   "path|docs/operator-audit-experiments.md",
+   "path|docs/operator-audit-thread-state.md",
+   "path|docs/task4-grounded-recommendations.md",
+   "path|docs/volunteer-segment-briefs.md",
+   "script|audit-client.ts",
+   "script|audit-translator.ts",
+   "script|types.ts",
+   "script|verify_coverage.py"
+  ],
+  "_STATE/convergence.json": [
+   "commit|9f6beb9a",
+   "commit|b0d8b5c1",
+   "path|operators/README",
+   "script|pii_leak_gate.py"
+  ],
+  "_STATE/deceipt-ledger.md": [
+   "path|src/lib/audit-client.ts",
+   "path|src/lib/audit-translator.ts"
+  ],
+  "_STATE/falsification-ledger.jsonl": [
+   "commit|5f7ac6d2",
+   "script|provcheck.py"
+  ],
+  "_STATE/handoff-2026-07-19-status-live.md": [
+   "commit|0e19a69",
+   "commit|b8cba0f"
+  ],
+  "_STATE/handoff-2026-07-19-zero-trust.md": [
+   "commit|0f2e3c8",
+   "commit|1f4b548",
+   "commit|2038fa4",
+   "commit|30c7e4f",
+   "commit|392ca41",
+   "commit|7abac40",
+   "commit|936e1dc",
+   "commit|e44fe02",
+   "commit|f9290a0",
+   "commit|fdcdf31"
+  ],
+  "_STATE/handoff-2026-08-29.md": [
+   "commit|b0d8b5c1",
+   "commit|bff8b050",
+   "path|.claude/commands/dual-bar-raiser-operators-integration.md"
+  ],
+  "_STATE/handoff-2026-09-10.md": [
+   "path|_INBOX/roles/",
+   "path|docs/resume-tailor-theming-engine-spec.md",
+   "path|public/static-serve.py"
+  ],
+  "_STATE/handoff-2026-09-11-cross-harness-pickup.md": [
+   "adr|ADR-021",
+   "commit|b0d8b5c1",
+   "path|_DECISIONS/025",
+   "path|_STATE/roadmap.md"
+  ],
+  "_STATE/handoff-2026-09-11-forge-queue-runbook.md": [
+   "path|_ARTIFACTS/forge-",
+   "path|public/static-serve.py"
+  ],
+  "_STATE/handoff-excavation/salvage-ledger.jsonl": [
+   "commit|abb6aedb",
+   "path|_DECISIONS/ADR-009",
+   "path|public/blog-nftt-tribes-vibes-lies.html",
+   "path|src/app/api/reading-room",
+   "script|vercel.ts"
+  ],
+  "_STATE/handoff-resume-pwa-theming-2026-08-28.md": [
+   "commit|976bfa50",
+   "commit|ab7c73f8",
+   "commit|b2144d9e",
+   "commit|bff8b050",
+   "path|docs/resume-tailor-theming-engine-spec.md",
+   "path|docs/task4-grounded-recommendations.md",
+   "path|public/manifest.json",
+   "path|public/mui-smoke.html",
+   "path|public/resume-icon-192.png",
+   "path|public/resume-icon-512.png",
+   "path|public/resume-sw.js",
+   "path|scripts/deploy-smoke.mjs",
+   "path|src/lib/audit-translator.ts",
+   "script|apply-scott-loop.sh",
+   "script|audit-translator.ts",
+   "script|deploy-smoke.mjs",
+   "script|middleware.ts"
+  ],
+  "_STATE/hermes-operationalization.md": [
+   "path|docs/audit-service-interface.md",
+   "path|docs/monthly-review-template",
+   "path|docs/rag-kernel-discovery.md",
+   "path|src/lib/audit-",
+   "script|audit-translator.ts",
+   "script|validate_translator.py"
+  ],
+  "_STATE/job-search/architect-review-triune-productization.md": [
+   "path|public/resume-tailor-pwa.html",
+   "path|scripts/pii_leak_gate.py"
+  ],
+  "_STATE/job-search/champion-fit-heuristic.md": [
+   "path|scripts/network_scan"
+  ],
+  "_STATE/job-search/forge-inputs/prompt-bjak-tpl-ai-neobank.md": [
+   "path|_ARTIFACTS/forge-bjak-tpl-ai-neobank/"
+  ],
+  "_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json": [
+   "path|operators/arcs_librarian.py@0.1.0"
+  ],
+  "_STATE/linkedin-atlas/2026-09-29-op21-bundles.json": [
+   "path|operators/arcs_librarian.py@0.1.0"
+  ],
+  "_STATE/meta-audit-roadmap-v1.md": [
+   "commit|0aefa82",
+   "commit|117fcf0",
+   "commit|1a4c350",
+   "commit|1ea5e8a",
+   "commit|2b13138",
+   "commit|383e63b",
+   "commit|3f6e536",
+   "commit|403d109",
+   "commit|4af6d5b",
+   "commit|4bf8043",
+   "commit|57d2cfe",
+   "commit|6b3f849",
+   "commit|756432b",
+   "commit|8429f2e",
+   "commit|84e5187",
+   "commit|92c01ea",
+   "commit|9aa5afc",
+   "commit|9de52f7",
+   "commit|b0d8b5c1",
+   "commit|b4df3f2",
+   "commit|b51b1d1",
+   "commit|c3b18cb",
+   "commit|c4c1a71",
+   "commit|caee523",
+   "commit|cbf87b4",
+   "commit|cfbc483",
+   "commit|d939769",
+   "commit|e802ed7",
+   "commit|ebf9978",
+   "commit|f240b7e",
+   "commit|f2ec265",
+   "commit|f443006",
+   "path|_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
+   "path|_DECISIONS/CANON-COLLISION-",
+   "path|operators/sage",
+   "path|public/kelly-interview.html",
+   "path|scripts/cold_reader_gate.py"
+  ],
+  "_STATE/night-moves/2026-08-10.md": [
+   "adr|ADR-043",
+   "commit|13ebf02",
+   "commit|32895cd",
+   "commit|3ba7652",
+   "commit|6a21746",
+   "commit|8d59e14",
+   "commit|96b44bb",
+   "commit|9ddf100",
+   "commit|c4d8e72",
+   "commit|c82a20d",
+   "path|scripts/adr_dewy_watch.py",
+   "path|scripts/surface_watch.py"
+  ],
+  "_STATE/night-moves/2026-08-28.md": [
+   "commit|19214e29",
+   "commit|1e479d12",
+   "commit|55e5d0d0",
+   "commit|5f7ac6d2",
+   "commit|7c5b46f8",
+   "commit|9f2d0f73",
+   "commit|ab7c73f8",
+   "commit|b2144d9e",
+   "commit|f4a2ccbc",
+   "path|operators/dogfood"
+  ],
+  "_STATE/night-moves/2026-09-10.md": [
+   "path|docs/scripts"
+  ],
+  "_STATE/night-moves/2026-09-13.md": [
+   "commit|11ecce41",
+   "commit|ffc9f063",
+   "path|scripts/orthogonal_echo.py"
+  ],
+  "_STATE/night-moves/2026-09-26.md": [
+   "commit|35054fef",
+   "commit|98b8013d",
+   "commit|c7e74489"
+  ],
+  "_STATE/night-moves/2026-09-28.md": [
+   "commit|57b9911a",
+   "commit|9ed1beaa"
+  ],
+  "_STATE/night-moves/2026-09-29.md": [
+   "commit|3c9c2b42"
+  ],
+  "_STATE/night-moves/2026-09-30.md": [
+   "commit|39aef22c"
+  ],
+  "_STATE/night-moves/2026-10-01.md": [
+   "commit|98b84036",
+   "commit|ac11cde4",
+   "path|scripts/dependency_sweep.py"
+  ],
+  "_STATE/night-moves/2026-10-02.md": [
+   "path|scripts/dependency_sweep.py"
+  ],
+  "_STATE/night-moves/2026-10-03.md": [
+   "commit|f41067ec",
+   "path|scripts/dependency_sweep.py",
+   "script|dependency_sweep.py"
+  ],
+  "_STATE/night-moves/2026-10-05.md": [
+   "path|scripts/dependency_sweep.py",
+   "script|dependency_sweep.py"
+  ],
+  "_STATE/orchestration-layer-spec.md": [
+   "path|operators/concepts"
+  ],
+  "_STATE/pickup-trust-contract-privacy.md": [
+   "path|src/app/api"
+  ],
+  "_STATE/tao-implementation-plan-v1.md": [
+   "path|_DECISIONS/ADR-",
+   "path|src/tao/"
+  ],
+  "_STATE/worktree-audit-2026-09-11.json": [
+   "commit|0ec5294",
+   "commit|13af63d",
+   "commit|15ea244",
+   "commit|383b9f9",
+   "commit|38a431e",
+   "commit|3b53a2e",
+   "commit|3bb2673",
+   "commit|41cf48b",
+   "commit|45d6ee0",
+   "commit|481433f",
+   "commit|481433ff",
+   "commit|494c08b",
+   "commit|4f8e48d",
+   "commit|4fc362c",
+   "commit|550ade1",
+   "commit|609b58a",
+   "commit|610de7c",
+   "commit|666040a",
+   "commit|7090ba4",
+   "commit|810d9b5",
+   "commit|834112f",
+   "commit|8c08e12",
+   "commit|8e461ee",
+   "commit|8f098b0",
+   "commit|909c4e7",
+   "commit|916449b",
+   "commit|9e8e541",
+   "commit|9f6beb9",
+   "commit|aa25f2f",
+   "commit|ad449d2",
+   "commit|b44b5b7",
+   "commit|bb5e189",
+   "commit|bdec97b",
+   "commit|be74f33",
+   "commit|c1497c4",
+   "commit|c6e4464",
+   "commit|cdd1ce0",
+   "commit|ce4ac02",
+   "commit|ce7e331",
+   "commit|d0eb415",
+   "commit|de65b6e",
+   "commit|dfc8bc2",
+   "commit|e30d745",
+   "commit|e3645e8",
+   "commit|e51a162",
+   "commit|ed7f75e",
+   "commit|ee356a2",
+   "commit|ef41c89",
+   "commit|f47dca1",
+   "commit|f4a2ccb",
+   "path|docs/receipts-standing-rule",
+   "path|runtime/recoil/generated/2026-07-30-saleh-onedoor.json"
+  ],
+  "_STATE/worktree-audit-2026-09-11.md": [
+   "commit|481433ff",
+   "path|_STATE/handoff-progress",
+   "path|docs/receipts-standing-rule"
+  ]
+ }
+}

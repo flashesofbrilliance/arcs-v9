@@ -202,6 +202,51 @@ def staged_files() -> list[str]:
             if (f.startswith(GATE_GLOBS) or f in ROOT_FILES) and f.endswith((".md", ".json", ".jsonl"))]
 
 
+# ---------------------------------------------------------------- baseline
+# Grandfathered failures: cites that already fail today are recorded per file so the gate can block
+# on NEW failures only. A baselined FAIL is reported as WARN. The baseline is a tracked file, so
+# adding to it is a visible diff; it should only ever shrink (--baseline-update rewrites the
+# entries for the files you pass, dropping cites that were fixed).
+BASELINE_DEFAULT = REPO / "scripts" / "integrity_baseline.json"
+
+
+def load_baseline(path) -> dict:
+    try:
+        return json.loads(Path(path).read_text()).get("failures", {})
+    except (OSError, ValueError):
+        return {}
+
+
+def apply_baseline(reports: list[dict], baseline: dict) -> int:
+    n = 0
+    for r in reports:
+        allowed = set(baseline.get(os.path.relpath(r["file"], REPO), []))
+        for f in r["findings"]:
+            if f["level"] == "FAIL" and f"{f['kind']}|{f['cite']}" in allowed:
+                f["level"] = "WARN"
+                f["note"] = "baselined: " + f["note"]
+                n += 1
+        levels = [f["level"] for f in r["findings"]]
+        r["verdict"] = "FAIL" if "FAIL" in levels else "WARN" if "WARN" in levels else "OK"
+    return n
+
+
+def write_baseline(path, reports: list[dict], ref: str) -> int:
+    cur = load_baseline(path)
+    for r in reports:
+        rel = os.path.relpath(r["file"], REPO)
+        keys = sorted({f"{f['kind']}|{f['cite']}" for f in r["findings"] if f["level"] in ("FAIL",)} |
+                      {f"{f['kind']}|{f['cite']}" for f in r["findings"] if f["note"].startswith("baselined: ")})
+        if keys:
+            cur[rel] = keys
+        else:
+            cur.pop(rel, None)
+    Path(path).write_text(json.dumps({
+        "_comment": "Grandfathered integrity_gate failures. Only ever shrink this file. Regenerate with --baseline-update.",
+        "ref": ref, "failures": dict(sorted(cur.items()))}, indent=1) + "\n")
+    return sum(len(v) for v in cur.values())
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0], formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("files", nargs="*", help="files to gate (repo-relative or absolute)")
@@ -210,6 +255,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--strict", action="store_true", help="treat WARN as failing")
     ap.add_argument("--json", action="store_true", help="emit a JSON receipt instead of the table")
     ap.add_argument("-q", "--quiet", action="store_true", help="print only non-OK findings")
+    ap.add_argument("--baseline", default=str(BASELINE_DEFAULT), help="grandfathered-failures file (default scripts/integrity_baseline.json)")
+    ap.add_argument("--no-baseline", action="store_true", help="ignore the baseline: every failing cite fails")
+    ap.add_argument("--baseline-update", action="store_true", help="rewrite the baseline entries for the files given, then exit 0")
     a = ap.parse_args(argv)
 
     all_staged = set(f for f in sh("diff", "--cached", "--name-only").split("\n") if f)
@@ -235,6 +283,11 @@ def main(argv: list[str] | None = None) -> int:
             continue
         reports.append(gate(str(p), state, self_path=rel))
 
+    if a.baseline_update:
+        total = write_baseline(a.baseline, reports, a.ref)
+        print(f"integrity_gate: baseline now holds {total} grandfathered cite(s) -> {a.baseline}")
+        return 0
+    n_base = 0 if a.no_baseline else apply_baseline(reports, load_baseline(a.baseline))
     worst = "OK"
     for r in reports:
         r["file"] = os.path.relpath(r["file"], REPO)
@@ -253,6 +306,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{icon[r['verdict']]} {r['file']}  — {r['cites']} cites, verdict {r['verdict']}")
         for f in shown:
             print(f"    {icon[f['level']]} {f['kind']:<7} {f['cite']:<48} {f['note']}")
+    if n_base:
+        print(f"integrity_gate: {n_base} baselined failure(s) reported as WARN (see scripts/integrity_baseline.json)")
     tag = "  → DRIFTED-AT-BIRTH: this record cites things that are not on " + a.ref if worst == "FAIL" else ""
     print(f"integrity_gate: {len(reports)} file(s) against {a.ref} → {worst}{tag}")
     return 1 if worst == "FAIL" else 0
