@@ -1,3 +1,102 @@
+# Handoff — v3.108.0 (2026-10-06)
+
+> **Jobs pipeline token is compared in constant time (#906, merged `0fbcc9e3`, all checks green).**
+> Receipts `2026-10-06--jobs-token-timingsafe-pr906--ZH` (PR) and `--jobs-token-timingsafe-merge-pr906--ZH` (merge).
+
+## Done
+- `src/lib/jobs.ts` `callerFor()`: `token === expected` replaced by `tokensMatch()` (node:crypto `timingSafeEqual`
+  on equal-length Buffers, false on length mismatch). No new deps; `npm run build` passed.
+- Prod verified: `dpl_G6cRZvix...` READY at `f74642f3` (#907), which contains `0fbcc9e3`; serves arcs.care + jobs.arcs.care.
+  Live `GET jobs.arcs.care/api/jobs` with empty / short / long wrong tokens all return 401 (no 500 on length mismatch).
+
+## Open (next session)
+1. Valid-token path not exercised live (token not in hand); confirm on the next scheduled pipeline run.
+
+## Lessons
+- `timingSafeEqual` throws on unequal lengths: guard length first, then probe prod with a wrong-length token to prove no 500.
+
+> Folded from `_HANDOFFS/fragments/20261006T135557Z--claude-jobs-token-timingsafe.md` (branch `claude/jobs-token-timingsafe`, head `d7963b38`).
+
+---
+
+# Handoff — v3.107.0 (2026-10-06)
+
+> **unfold reads handoff fragments (#899, `4f7fa6ab`, merged with a merge commit, CI green, on Zach's yes).**
+> Receipt `2026-10-06--unfold-reads-fragments-pr899--ZH`.
+
+## Done
+- `scripts/unfold.py`: new `handoff_open(root)` gathers `## Open` items from every unfolded
+  `_HANDOFFS/fragments/*.md` (newest first, via `handoff_fold.fragments`/`parse_fragment`), then the
+  latest CLAUDE.md block. Self-test 14/14; the new fragment case fails under the old CLAUDE.md-only logic.
+- Live check on main with a throwaway fragment: listed first, then v3.102.0's three items; probe deleted.
+- Other readers of the latest CLAUDE.md block: none. `open_loops.py` does not parse it; no live
+  `~/.claude/hooks` reads it (`precompact-handoff.sh.retired-2026-09-04` was a writer, retired);
+  `handoff-pickup.md` already reads fragments (#898).
+
+## Open (next session)
+1. No real fragment has been through `unfold.py` yet (receipt lists it unconfirmed). First `/handoff` fragment closes it.
+2. Deploy of `4f7fa6ab` not verified (Vercel CLI returned nothing this session).
+
+## Lessons (in the record)
+- #898 was merged by its own session mid-train; `merge_train.sh` refused cleanly (state MERGED), then #899 retargeted to main and merged alone.
+
+> Folded from `_HANDOFFS/fragments/20261006T134135Z--claude-handoff-unfold-fragments.md` (branch `claude/handoff-unfold-fragments`, head `4f7fa6ab`).
+
+---
+
+# Handoff — v3.106.0 (2026-10-06)
+
+> **Job Factory: the morning intake no longer dies on the API cap.** No repo code changed; the change is the scheduled-task
+> prompt outside the repo. Follows v3.103.0 (archived), whose open item 3 this closes.
+
+## Shipped (outside the repo)
+- `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`: preflight (d) model-health now gates ONLY
+  Steps 4-5 (score, forge). On a model 503, Steps 1-3, 6, 7 (Gmail intake, consume, prune, drift) still run and the report
+  opens `STATUS: PARTIAL model gate <code>`; checks (a)-(c) still FAIL the whole run. Verified by re-reading the stored
+  file; not yet exercised by a scheduled run. Backup of the prior prompt in that session's scratchpad.
+
+## Open (next session)
+1. Read the next morning report: first line should be `STATUS: PARTIAL model gate usage_limit` with intake counts.
+2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
+3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
+4. Carried: Upside send (confirm 2 new titles), Tenex send.
+
+---
+
+# Handoff — v3.105.0 (2026-10-06)
+
+> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
+> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
+> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
+
+## Shipped (overnight, across sessions)
+#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
+#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
+#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
+#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
+
+## Fixed this session
+- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
+  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
+  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
+- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
+- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
+  migrated a stranded worktree-local memory. Index 1-1 OK.
+
+## Open (all tracked as rows in the artifact's `debt` collection)
+P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
+In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
+legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+
+## Lessons
+- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
+- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
+- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+
+> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+
+---
+
 # Handoff — v3.103.0 (2026-10-06)
 
 > **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**

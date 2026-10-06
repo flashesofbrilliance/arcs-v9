@@ -116,51 +116,52 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.106.0 (2026-10-06)
+# Handoff — v3.110.0 (2026-10-06)
 
-> **Job Factory: the morning intake no longer dies on the API cap.** No repo code changed; the change is the scheduled-task
-> prompt outside the repo. Follows v3.103.0 (archived), whose open item 3 this closes.
+> **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
+> Receipts (all `--ZH`): `2026-10-05--page-gate-merge-base-pr831`, `--security-review-scope-pr832`,
+> `--secreview-skip-dependabot-pr868`, `--linkedin-queue-scheduled-pr661`, `2026-10-06--sess-013-close-pr896`,
+> `--pl-011-purpose-guard-pr897`, `--eslint10-hold-tweaks-refs-pr903`, `--nftt-claim-batch-pr912`.
 
-## Shipped (outside the repo)
-- `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`: preflight (d) model-health now gates ONLY
-  Steps 4-5 (score, forge). On a model 503, Steps 1-3, 6, 7 (Gmail intake, consume, prune, drift) still run and the report
-  opens `STATUS: PARTIAL model gate <code>`; checks (a)-(c) still FAIL the whole run. Verified by re-reading the stored
-  file; not yet exercised by a scheduled run. Backup of the prior prompt in that session's scratchpad.
+## Shipped (all `--merge`)
+- **#831** fe-smoke page gate diffs `base...head` (merge-base) with fetch-depth 0. Proof: #802's pre-sync head gave 92 pages two-dot, none three-dot; a real page edit still gated.
+- **#832** security review scoped to security paths (another session's PR, merged on Zach's go).
+- **#868** skip claude-security-review when actor is dependabot (no secrets there). `@dependabot rebase` sent to #864 #720 #677 #557.
+- **#661** LinkedIn queue: main merged in, the 2 conflicts kept the PR's scheduled text (Zach's call).
+- **#896** SESS-013 closed: Zach dropped the anon INSERT **and** anon SELECT policies on legacy `public.sessions` in the SQL editor (tool call was declined twice); pg_policies verified only service_role SELECT remains.
+- **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
+- **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
+- **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
+- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch reset to abb6aedb).
 
 ## Open (next session)
-1. Read the next morning report: first line should be `STATUS: PARTIAL model gate usage_limit` with intake counts.
-2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
-3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
-4. Carried: Upside send (confirm 2 new titles), Tenex send.
-
-# Handoff — v3.105.0 (2026-10-06)
-
-> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
-> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
-> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
-
-## Shipped (overnight, across sessions)
-#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
-#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
-#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
-#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
-
-## Fixed this session
-- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
-  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
-  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
-- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
-- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
-  migrated a stranded worktree-local memory. Index 1-1 OK.
-
-## Open (all tracked as rows in the artifact's `debt` collection)
-P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
-In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
-legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
+2. 8 `react-hooks/refs` errors in `src/app` (observatory, JobsBoard, ChampionsBoard): own session running (chip task_7afcd523).
+3. Dependabot PRs #864 #720 #677 #557: confirm the rebases ran and are green; #677 also had stale smoke failures.
+4. Post-merge CI on main for the merges above never observed (in every receipt's unconfirmed list).
 
 ## Lessons
-- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
-- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
-- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+- A billing block can hit one job in an otherwise-running workflow: scan per JOB for 0 steps, not per run.
+- `gh run rerun` replays the old workflow file and merge ref; to pick up a workflow fix on a dependabot PR, ask dependabot to rebase.
+- Check a PR is still open and not rebuilt elsewhere before acting on it (#715 was closed and rebuilt as #882 hours earlier).
+- A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
 
-> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+> Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).
+
+# Handoff — v3.109.0 (2026-10-06)
+
+> **Debt tracker triage (Docs Reconciliation artifact, `debt` collection).** No code shipped; decisions + 7 chips.
+
+## Decided by Zach (2026-10-06)
+- ADR-085 stays PROPOSED, write-lock stays opt-in until the step-2 week ends (~10-13). Day-1 data: 8 locked trains vs 33 merges to main. Re-decide acceptance + step 3 (train as only merge path) together.
+- allowScripts: approve all 4. Doc cleanup: measure + salvage only, no moves. Doc gates: advisory in CI now. Old Anthropic keys: audit callers, Zach retires. Main checkout: WIP-commit, push, return to main.
+
+## Tracker
+- Closed: handoff-fragments-pr898 (#898 merged).
+- In progress (chips): repo hygiene PR (eslint ignore, npm test, vercel services, allowScripts) · handoff_fold sort by version · doc gates advisory CI · doc per-file breakdown + salvage (3 rows) · old-key caller audit · main checkout return · PRs #811/#854.
+- Still open, waiting on data/Zach: cache-sweep-stuck (Zach), prisma-8-rc (watch), sharp-render-untested (needs first SHARP receipt).
+
+## Lessons
+- Lock adoption is measurable from `refs/locks/main` history vs first-parent merges on main; use that as the step-2 metric.
+
+> Folded from `_HANDOFFS/fragments/20261006T140710Z--claude-nice-einstein-438d9d.md` (branch `claude/nice-einstein-438d9d`, head `7d495b35`).
