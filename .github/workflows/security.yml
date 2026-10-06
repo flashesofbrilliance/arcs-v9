@@ -60,8 +60,11 @@ jobs:
   claude-security-review:
     # Same-repo PRs only — never run on forks (prompt-injection surface).
     # A `labeled` event runs only for the `security-review` label (the on-request re-run).
+    # Dependabot runs get no Actions secrets, so ANTHROPIC_API_KEY is empty and the job
+    # always errored (#864 #720 #677); skip it there instead of failing red.
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]' &&
       (github.event.action != 'labeled' || github.event.label.name == 'security-review')
     runs-on: ubuntu-latest
     steps:
