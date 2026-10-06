@@ -1,12 +1,11 @@
 {
-  "captured_at": "2026-10-06T09:20:26-04:00",
+  "captured_at": "2026-10-06T09:21:34-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "83220438",
-    "head_message": "Merge pull request #892 from flashesofbrilliance/claude/upside-previews",
+    "head_sha": "a951667f",
+    "head_message": "Merge pull request #893 from flashesofbrilliance/claude/handoff-pr888",
     "in_sync_with_origin": true,
-    "dirty_files": [],
-    "note": "#888 0aad873d merged without CI (Actions billing block)"
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -41,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "#888: receipt views read via ?generate=0 so viewing never spends model tokens or creates a Brief.",
-  "next_action": "Signed-in prod check of an un-briefed receipt; then clear the GitHub Actions billing block.",
-  "blocking": "GitHub Actions billing block (human)",
+  "session_summary": "Unified receipt, brief and ledger vocabulary in the Ahmed order (#880, #885, #890) with earned-fidelity rendering restored.",
+  "next_action": "Pick up chip task_160443dd (answers for open questions); test SHARP rendering when the first GREEN receipt lands.",
+  "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

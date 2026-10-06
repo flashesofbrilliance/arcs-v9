@@ -1,3 +1,33 @@
+# Handoff — v3.99.0 (2026-10-06)
+
+> **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
+> every tailored resume.** Merged on Zach's asks with receipts: #870 (`1fa411ff`, `2026-10-05--upside-cover-gauntlet-pr870--ZH`)
+> and #886 (`d5652d48`, `2026-10-06--ats-companions-all-pr886--ZH`). Oracle handoff=47.
+
+## Shipped + on main
+- **#870 Upside Staff FDE bundle:** cover letter READY on `jobs_prose_gate.py` (slop-eval unchecked: API cap), gauntlet.json,
+  evidence.jsonl, ex-ante. 6-facet gauntlet fixes: "evaluations designed from the start" was false against git (the eval
+  harness `scripts/brief_eval.mts` landed 2026-09-30), now names the real checks; stack row added; Squat "tech lead /
+  rebuilt end to end" from the vetted master; Grayscale handoff cut; CTF 20% outcome added.
+- **#886 ATS companions:** `scripts/resume_ats_render.py` read only the card layout and silently dropped Experience,
+  Education, pillars and OSS on every forge print-base resume. Now reads both layouts (resume-general content unchanged).
+  87 new `-ats.html/.pdf`, 86 at 2 pages (vico master 3). Pre-commit kintsugi design gate skips pages carrying the
+  renderer's generated ATS header (Zach's call). "leverage" cut from Beacon, Sequence Holdings, Venn.
+- iCloud: `ARCS/resumes/ATS/` holds 96 ATS PDFs; per-role folders carry `-ATS.pdf` too.
+
+## Open (next session)
+1. **Zach to send:** Upside (confirm the new titles "Forward-deployed engineer and AI builder" / "Founder and engineer"
+   first) and Tenex Senior FDE (fill the founder's first name in the note).
+2. Upside page-1/page-2 PNG previews are stale (pre-gauntlet); the PDFs are current.
+3. API workspace cap still blocks every model route (slop-eval, the 11 shortlist resume cuts) until raised or 2026-11-01.
+4. No ATS PDF has been run through a real portal parser; Blacksmith and Vico ATS omit the design-only strengths panel.
+
+## Lessons (in the record)
+- A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
+- A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
+
+---
+
 # Handoff — v3.98.0 (2026-10-05)
 
 > **Prod deploys now run `prisma migrate deploy` (production only).** #840 (`942b0f46`) + hotfix #857

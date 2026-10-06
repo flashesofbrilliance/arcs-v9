@@ -114,6 +114,30 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.102.0 (2026-10-06)
+
+> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
+> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
+> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+
+## Done
+- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
+  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
+  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
+  open-question empty state: no model-written answers.
+- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
+  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
+  375px overflow on long path tags; stakes never rendered.
+
+## Open (next session)
+1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
+2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
+3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+
+## Lessons (in the record)
+- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
+- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+
 # Handoff — v3.101.0 (2026-10-06)
 
 > **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
@@ -130,31 +154,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Open (next session)
 1. Not yet exercised signed-in on prod: open an un-briefed receipt, confirm no Brief row until the click.
 2. GitHub Actions billing block persists (no CI).
-
-# Handoff — v3.99.0 (2026-10-06)
-
-> **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
-> every tailored resume.** Merged on Zach's asks with receipts: #870 (`1fa411ff`, `2026-10-05--upside-cover-gauntlet-pr870--ZH`)
-> and #886 (`d5652d48`, `2026-10-06--ats-companions-all-pr886--ZH`). Oracle handoff=47.
-
-## Shipped + on main
-- **#870 Upside Staff FDE bundle:** cover letter READY on `jobs_prose_gate.py` (slop-eval unchecked: API cap), gauntlet.json,
-  evidence.jsonl, ex-ante. 6-facet gauntlet fixes: "evaluations designed from the start" was false against git (the eval
-  harness `scripts/brief_eval.mts` landed 2026-09-30), now names the real checks; stack row added; Squat "tech lead /
-  rebuilt end to end" from the vetted master; Grayscale handoff cut; CTF 20% outcome added.
-- **#886 ATS companions:** `scripts/resume_ats_render.py` read only the card layout and silently dropped Experience,
-  Education, pillars and OSS on every forge print-base resume. Now reads both layouts (resume-general content unchanged).
-  87 new `-ats.html/.pdf`, 86 at 2 pages (vico master 3). Pre-commit kintsugi design gate skips pages carrying the
-  renderer's generated ATS header (Zach's call). "leverage" cut from Beacon, Sequence Holdings, Venn.
-- iCloud: `ARCS/resumes/ATS/` holds 96 ATS PDFs; per-role folders carry `-ATS.pdf` too.
-
-## Open (next session)
-1. **Zach to send:** Upside (confirm the new titles "Forward-deployed engineer and AI builder" / "Founder and engineer"
-   first) and Tenex Senior FDE (fill the founder's first name in the note).
-2. Upside page-1/page-2 PNG previews are stale (pre-gauntlet); the PDFs are current.
-3. API workspace cap still blocks every model route (slop-eval, the 11 shortlist resume cuts) until raised or 2026-11-01.
-4. No ATS PDF has been run through a real portal parser; Blacksmith and Vico ATS omit the design-only strengths panel.
-
-## Lessons (in the record)
-- A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
-- A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
