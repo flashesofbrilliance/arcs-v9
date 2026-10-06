@@ -38,6 +38,7 @@
 //   page.blocks[tab=recoil, type=list, h2~/kairos/] items          → riskFlags[] (after the gauntlet)
 //     Risk=warning, Kairos=info, Quiet signal=success; unlabeled items by dot (red/gold/green)
 //     list `intro` → kairosIntro string (Deeper Strata), only when that list yielded a flag
+//     list `_doc` (the template's dot legend) → kairosLegend, same guard; explains "Recoil read" flags
 //   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
 //     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
@@ -107,6 +108,8 @@ export interface WarroomRecoilReport {
   gauntletIntro?: string
   /** How the recoil-tab Kairos watch-list was read (its intro), rendered by Deeper Strata. */
   kairosIntro?: string
+  /** The Kairos list's dot legend (template `_doc` line), rendered by Deeper Strata. */
+  kairosLegend?: string
 }
 
 type Rec = Record<string, unknown>
@@ -286,10 +289,10 @@ function beliefKinematics(root: Rec, audience: WarroomAudience): Record<string, 
 
 // A list intro frames that list's flags; scaffolds keep the template intro with
 // unfilled items, so an intro is kept only when its own list produced a flag.
-function listIntro(blocks: Rec[]): string | undefined {
+function listIntro(blocks: Rec[], field = 'intro'): string | undefined {
   const intros = blocks
     .filter((b) => b.type === 'list' && flagsFromLists([b], 'x').length > 0)
-    .map((b) => text(b.intro))
+    .map((b) => text(b[field]))
     .filter((x): x is string => !!x)
   return intros.length ? intros.join('\n\n') : undefined
 }
@@ -546,6 +549,9 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   )
   const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read'), ...landmines]
   const kIntro = listIntro(kairos)
+  // _doc is the template's instruction line (identical in every file that has it), carried
+  // only because it explains the dot colours behind unlabeled "Recoil read" flags.
+  const kLegend = listIntro(kairos, '_doc')
   const worst = worstFromPremortem(wargame)
 
   return {
@@ -567,5 +573,6 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(kinematics ? { beliefKinematics: kinematics } : {}),
     ...(gIntro ? { gauntletIntro: gIntro } : {}),
     ...(kIntro ? { kairosIntro: kIntro } : {}),
+    ...(kLegend ? { kairosLegend: kLegend } : {}),
   }
 }
