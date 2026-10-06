@@ -31,6 +31,10 @@ This prints, for the day: SHIPPED (commits deduped by message), NET-NEW TOOLS
 DECISIONS (ADRs + `.dewy.json` receipts touched), MEMORY (auto-memory files written),
 and FILES (touched paths bucketed by area — the raw signal for the JTBD-shape read).
 
+The RISK block is the deterministic `scripts/risk_sweep.py --day` delta: breaking and non-idempotent
+changes with a heal tier each. Carry it into the digest as a short "Risk delta" line (new count + any
+high-severity item + its heal tier). Do not triage or fix findings in the digest; the register owns them.
+
 Do not re-run git by hand. The script already sweeps `--all` (every branch/worktree
 shares one `.git`) and dedups. Read its output; that IS your source material.
 

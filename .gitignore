@@ -108,3 +108,7 @@ _INBOX/echo-ridgeline-*
 
 # linkedin_render.py output (queue files are the SSOT)
 _ARTIFACTS/linkedin/
+
+# risk sweep: local register + cursor (the night-moves digest carries the durable record)
+_STATE/risk-register.jsonl
+_STATE/risk-sweep-cursor

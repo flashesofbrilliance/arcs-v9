@@ -52,3 +52,7 @@ echo
 echo "## FILES — all paths touched today, by top-level area (for 'JTBD shape')"
 gitlog --name-only --pretty=format: | sed '/^$/d' \
   | awk -F/ '{print $1"/"$2}' | sort | uniq -c | sort -rn | head -25 || true
+echo
+
+echo "## RISK — breaking / non-idempotent changes that landed on origin/main today (read-only)"
+python3 "$(dirname "$0")/risk_sweep.py" --day "$DAY" 2>/dev/null || echo "(risk sweep unavailable)"
