@@ -34,7 +34,7 @@ Embedded with the business, measured on outcomes
 primary
 
 Agentic orchestration and LLMs in production
-: built agentic orchestration on Claude with an MCP server; designed evaluations and outcome-capture loops so models recalibrate from prior decisions; can explain honestly where it worked and where it did not.
+: built agentic orchestration on Claude with an MCP server; designed evaluations and outcome-capture loops so the system can score its calls against what happened, with calibration held back until enough outcomes close; can explain honestly where it worked and where it did not.
 
 strong
 
@@ -60,7 +60,7 @@ Built the
 MCP server and agentic orchestration layer
  that runs pre- and post-decision capture automatically; production AI, not experiments, with evaluations and controls designed from the start.
 
-Designed the outcome-capture and recalibration framework: models update scoring weights from prior decisions, engineering durable context and compounding institutional memory.
+Designed the outcome-capture and recalibration framework: every decision is captured with its prediction so it can be scored against the outcome later, engineering durable context and compounding institutional memory.
 
 Made all build-versus-buy and architecture calls myself; set the patterns the platform grows on; operate the full stack: product development, deployment, go-to-market, and commercial strategy; documented decisions and tradeoffs so the system is supportable beyond me.
 
