@@ -640,9 +640,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   // NOTE (2026-07-13, trust-contract conformance): the anonymous
   // `arcs_session_id` claim cookie is no longer set here - with no anonymous
-  // persistence there is nothing to claim. ClaimAnonymousReceipts.tsx stays
-  // in place (harmless no-op for new sessions) until Phase 2's opt-in save
-  // flow decides its future.
+  // persistence there is nothing to claim. The claim route itself was retired
+  // 2026-10-05; ClaimAnonymousReceipts.tsx now only runs the opt-in save.
 
   return response
 }
