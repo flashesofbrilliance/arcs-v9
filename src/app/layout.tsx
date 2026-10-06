@@ -33,6 +33,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  // Absolute base for OG/Twitter image URLs. Without it Next.js falls back to the
+  // Vercel production domain, which resolved to a client host (prl.arcs.care).
+  metadataBase: new URL("https://app.arcs.care"),
   // Each route names itself via a sibling layout.tsx (pages are client components);
   // the template keeps the brand on every tab.
   title: { default: "ARCS Field OS", template: "%s · ARCS" },
