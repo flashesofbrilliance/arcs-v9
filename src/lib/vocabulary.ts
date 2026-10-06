@@ -67,6 +67,10 @@ export const AHMED_ORDER: Record<AhmedSlot, SlotVocabulary> = {
  *  Shown above True North as its subject line. */
 export const SUBJECT_LABEL = "Decision"
 
+/** The brief writer's two-paragraph framing. Sits after Next moves: context for
+ *  the reader, never above True North (the verdict leads). */
+export const SITUATION_LABEL = "Situation"
+
 export const AHMED_SLOTS: readonly AhmedSlot[] = (Object.keys(AHMED_ORDER) as AhmedSlot[])
   .sort((a, b) => AHMED_ORDER[a].order - AHMED_ORDER[b].order)
 

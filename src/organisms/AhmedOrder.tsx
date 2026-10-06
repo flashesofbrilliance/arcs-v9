@@ -4,7 +4,7 @@ import { font, text, signal, border, getWeather, resStyle, nciColor, doorLabel, 
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
 import { AHMED_ORDER, SUBJECT_LABEL, OPEN_QUESTION_PROMPT, horizonLabel } from '@/lib/vocabulary'
-import type { FatedDecomposition, TerrainPath, Tributary } from '@/lib/mockCompass'
+import type { CourtFinding, FatedDecomposition, TerrainPath, Tributary } from '@/lib/mockCompass'
 
 // The Ahmed order, one layout for receipt and brief:
 // Decision -> True North -> Reasons -> Open questions -> Next moves -> Evidence (folded).
@@ -28,6 +28,8 @@ export interface AhmedOrderData {
   paths: TerrainPath[]
   fated?: Partial<FatedDecomposition> | null
   courtVerdict?: string | null
+  court?: CourtFinding[] | null
+  bayesianRiskPct?: number | null
   nciScore?: number | null
   coherencePct?: number | null
   macroTags?: string[]
@@ -43,7 +45,7 @@ const Y_TO_RESOLUTION: Record<string, string> = {
 export const resolutionFor = (yState: string, stored?: string | null): string =>
   (stored && resStyle[stored] ? stored : Y_TO_RESOLUTION[yState]) ?? 'GRAIN'
 
-const MEASURE = 680 // px: the one body measure for reading text in this layout
+export const MEASURE = 680 // px: the one body measure for reading text in this layout
 
 const sectionGap: React.CSSProperties = { marginTop: '2.75rem' }
 
@@ -159,6 +161,7 @@ export function AhmedOrder({ data, onQuestion, after }: {
           <dl style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.9rem 1.5rem', margin: 0 }}>
             {data.nciScore != null && <Stat k="NCI (decision coherence)" v={`${data.nciScore} / 100`} color={nciColor(data.nciScore)} />}
             {data.coherencePct != null && <Stat k="Question coherence" v={`${data.coherencePct}%`} />}
+            {data.bayesianRiskPct != null && <Stat k="Bayesian risk" v={`${data.bayesianRiskPct}%`} />}
             {data.macroTags && data.macroTags.length > 0 && <Stat k="Checks run" v={data.macroTags.join(' · ')} />}
             {data.version != null && <Stat k="Lineage depth" v={String(data.version)} />}
             {data.createdAt && <Stat k="Recorded" v={new Date(data.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })} />}
@@ -167,6 +170,19 @@ export function AhmedOrder({ data, onQuestion, after }: {
             <div>
               <div style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: signal.gold, marginBottom: '0.35rem' }}>Court verdict</div>
               <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6, margin: 0, maxWidth: MEASURE }}>{data.courtVerdict}</p>
+            </div>
+          )}
+          {data.court && data.court.length > 0 && (
+            <div style={{ maxWidth: MEASURE }}>
+              <div style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: text.dimmed, marginBottom: '0.6rem' }}>Court findings</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {data.court.map((c, i) => (
+                  <li key={i} style={{ display: 'grid', gridTemplateColumns: '4.5rem 1fr', gap: '0.75rem', alignItems: 'baseline' }}>
+                    <span style={{ fontFamily: font.mono, ...font.tier.t3, color: c.verdict === 'PASS' ? signal.green : c.verdict === 'TENSION' ? signal.gold : signal.red }}>{c.verdict}</span>
+                    <span style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.6 }}><strong style={{ color: text.primary, fontWeight: 600 }}>{c.name}</strong>: {c.detail}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
           {fated && <FatedGrid fated={fated} />}
