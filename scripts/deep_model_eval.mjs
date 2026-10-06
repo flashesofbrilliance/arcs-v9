@@ -77,7 +77,7 @@ export function score(raw, stop) {
   return s
 }
 
-async function call(key, body) {
+export async function call(key, body) {
   const t0 = Date.now()
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -186,4 +186,4 @@ async function main(argv) {
   return 0
 }
 
-process.exitCode = await main(process.argv.slice(2))
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) process.exitCode = await main(process.argv.slice(2))
