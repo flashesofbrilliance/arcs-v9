@@ -480,7 +480,7 @@ test("corpus: every real SSOT adapts without leaks or placeholders", () => {
   const dir = path.join(process.cwd(), "runtime", "recoil", "generated")
   let n = 0
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json"))) {
-    let raw: any
+    let raw: Parameters<typeof adapt>[0] & { meta?: { gate?: unknown } }
     try { raw = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")) } catch { continue }
     n++
     for (const audience of ["internal", "external"] as const) {
