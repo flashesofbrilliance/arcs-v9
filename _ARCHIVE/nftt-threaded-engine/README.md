@@ -12,3 +12,15 @@ for five days while describing a format the site no longer served.
 Decision (Zach, 2026-09-07): retire the threaded engine, repoint `nftt-story-factory`
 to the literary standard (template + checklist, no engine). Kept here, not deleted,
 per KINTSUGI / "history relocated, never deleted". Recoverable via git.
+
+## Keepers for the archived story sources (2026-10-06)
+
+Doc reconciliation (PR #937) flagged these as near-duplicates. The live keepers are the blog copies;
+the story files differ only by the retired engine's `---story---` wrapper and sparkline markup (no unique prose).
+
+| Archived story | Keeper |
+|---|---|
+| `stories/self-cataloging-full.story.md` | `_ARTIFACTS/blog/field-notes-self-cataloging-corpus.md` |
+| `stories/self-cataloging-brief.story.md` | `_ARTIFACTS/blog/field-notes-self-cataloging-corpus-diamond-cut.md` |
+| `stories/self-cataloging-exec.story.md` | `_ARTIFACTS/blog/field-notes-self-cataloging-corpus-exec.md` |
+| `stories/germinate-pollinate.story.md` | `_ARTIFACTS/blog/field-notes-germinate-pollinate.md` |
