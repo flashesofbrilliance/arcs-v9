@@ -6,6 +6,10 @@ import { defineConfig } from "@playwright/test"
 // whichever target it's verifying that run.
 export default defineConfig({
   testDir: "./tests",
+  // tests/unit/*.test.ts are node:test files run by `npm run test:unit` with the
+  // `@/` loader (tests/unit/register.mjs). Playwright's default testMatch also
+  // matches *.test.ts and would load them without that loader.
+  testIgnore: "unit/**",
   timeout: 30_000,
   use: {
     baseURL: process.env.SMOKE_BASE_URL ?? "http://localhost:3000",

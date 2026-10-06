@@ -3,6 +3,9 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { z } from "zod"
+import { clampText } from "@/lib/sanitize"
+import { rateLimit, clientIp } from "@/lib/ratelimit"
 
 export const dynamic = "force-dynamic"
 
@@ -152,17 +155,42 @@ function guideShape(guide: {
   }
 }
 
+// A guide is private prep on someone's receipt: only the receipt's owner may
+// read, generate, or log against it. Anonymous receipts (userId null) have no
+// owner to match, so they are reachable only through the dev bypass below.
+// Returns null when allowed, else the response to send (404, never 403, so a
+// receipt id never confirms it exists).
+async function ownerGate(receiptId: string, userId: string | null): Promise<NextResponse | null> {
+  if (!userId && process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  if (!userId) return null // dev only
+  const r = await prisma.receipt.findUnique({ where: { id: receiptId }, select: { userId: true } })
+  if (!r || r.userId !== userId) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+  return null
+}
+
+const GuideBody = z.object({
+  mode: z.enum(["RECON", "ACTIVE", "LEAD"]),
+  entityOverride: z.string().trim().min(1).max(500).optional(),
+})
+
+const StageLogBody = z.object({
+  stageId: z.string().max(16),
+  verdict: z.string().max(64),
+  vibe: z.string().max(500).optional(),
+  completedAt: z.string().max(64),
+})
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   const { receiptId } = await params
+  const denied = await ownerGate(receiptId, userId)
+  if (denied) return denied
   const guide = await prisma.prepGuide.findUnique({
     where: { receiptId },
     include: { receipt: { select: { entity: true, decision: true } } },
@@ -179,12 +207,16 @@ export async function POST(
 ) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   const { receiptId } = await params
-  const { mode, entityOverride } = (await req.json()) as { mode: "RECON" | "ACTIVE" | "LEAD"; entityOverride?: string }
+  const denied = await ownerGate(receiptId, userId)
+  if (denied) return denied
+  const parsedBody = GuideBody.safeParse(await req.json().catch(() => null))
+  if (!parsedBody.success) return NextResponse.json({ error: "Invalid body" }, { status: 400 })
+  const { mode, entityOverride } = parsedBody.data
+  const rl = rateLimit(`guide-gen:${userId ?? "dev"}:${clientIp(req)}`, { limit: 10, windowMs: 10 * 60_000 })
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } })
+  }
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
@@ -195,7 +227,7 @@ export async function POST(
   }
 
   const receiptWithEntity = entityOverride
-    ? { ...receipt, entity: entityOverride }
+    ? { ...receipt, entity: clampText(entityOverride, 500) }
     : receipt
   const context = buildContext(receiptWithEntity)
   const userMsg = `Generate a ${mode} field guide for this decision context:\n\n${context}`
@@ -250,17 +282,12 @@ export async function PATCH(
 ) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   const { receiptId } = await params
-  const { stageId, verdict, vibe, completedAt } = (await req.json()) as {
-    stageId: string
-    verdict: string
-    vibe?: string
-    completedAt: string
-  }
+  const denied = await ownerGate(receiptId, userId)
+  if (denied) return denied
+  const parsedLog = StageLogBody.safeParse(await req.json().catch(() => null))
+  if (!parsedLog.success) return NextResponse.json({ error: "Invalid body" }, { status: 400 })
+  const { stageId, verdict, vibe, completedAt } = parsedLog.data
 
   const existing = await prisma.prepGuide.findUnique({ where: { receiptId } })
   if (!existing) {

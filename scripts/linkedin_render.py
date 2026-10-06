@@ -16,7 +16,8 @@ Gate (exit 1 on any miss):
 Output goes to _ARTIFACTS/linkedin/<queue id>/ (gitignored scratch; the queue file is the SSOT).
 
   python3 scripts/linkedin_render.py [_QUEUE/linkedin/<id>.json ...]   # default: every queue file
-  python3 scripts/linkedin_render.py --self-test                         # proves overflow fails
+  python3 scripts/linkedin_render.py --dry-run [<id>.json ...]           # list what would render, write nothing
+  python3 scripts/linkedin_render.py --self-test                         # proves overflow fails + argv contract
 Stdlib only.
 """
 import glob, html, json, os, re, struct, subprocess, sys, tempfile
@@ -128,23 +129,105 @@ def render(qpath):
     return out, errs
 
 
+def _snapshot(root):
+    import hashlib
+    out = {}
+    for dp, _, fs in os.walk(root):
+        for f in fs:
+            p = os.path.join(dp, f)
+            out[p] = (hashlib.sha256(open(p, "rb").read()).hexdigest(), os.stat(p).st_mtime_ns)
+    return out
+
+
 def self_test():
-    with tempfile.TemporaryDirectory() as d:
-        p = os.path.join(d, "t.html")
-        open(p, "w").write(doc([page("card", "TEST", "ok", "a", "b"),
-                                page("card", "TEST", "overflow " * 400, "a", "b")]))
-        ov = overflow(p)
-        assert ov == [2], f"expected overflow on page 2 only, got {ov}"
-    print("linkedin_render self-test: PASS (overflow detected on the overfull page only)")
+    import shutil
+    fails = total = 0
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1; fails += 0 if cond else 1
+        print(("  PASS  " if cond else "  FAIL  ") + name)
+
+    if os.path.exists(CHROME):
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "t.html")
+            open(p, "w").write(doc([page("card", "TEST", "ok", "a", "b"),
+                                    page("card", "TEST", "overflow " * 400, "a", "b")]))
+            ov = overflow(p)
+            ok(f"overflow detected on the overfull page only (got {ov})", ov == [2])
+    else:
+        print(f"  SKIP  overflow case: Chrome not found at {CHROME}")
+
+    tmp = os.path.realpath(tempfile.mkdtemp(prefix="linkedin-render-selftest-"))
+    try:
+        os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "_QUEUE", "linkedin"))
+        me = os.path.join(tmp, "scripts", "linkedin_render.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        fx = {"id": "synthetic", "show": "Synthetic Show", "index_url": "https://example.test/x",
+              "cuts": [{"altitude": "exec", "card_line": "Synthetic line"},
+                       {"altitude": "operational", "slides": ["one", "two", "three"]}]}
+        json.dump(fx, open(os.path.join(tmp, "_QUEUE", "linkedin", "synthetic.json"), "w"))
+        env = dict(os.environ, CHROME_BIN=os.path.join(tmp, "no-chrome"))
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp, env=env)
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("non-json positional exits 2", run("notes.txt").returncode == 2)
+        ok("--self-test with paths exits 2", run("--self-test", "x.json").returncode == 2)
+        ok("--self-test with --dry-run exits 2", run("--self-test", "--dry-run").returncode == 2)
+        r = run("--dry-run")
+        ok("--dry-run lists the queue (no Chrome needed)",
+           r.returncode == 0 and "synthetic.json" in r.stdout and "3 slides" in r.stdout)
+        r = run("--dry-run", os.path.join("_QUEUE", "linkedin", "synthetic.json"))
+        ok("--dry-run with explicit path", r.returncode == 0 and "would render" in r.stdout)
+        ok("missing Chrome exits 2 before writing", run().returncode == 2)
+        ok("--dry-run and bad argv write nothing", _snapshot(tmp) == before)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"linkedin_render self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def dry_run(paths):
+    for p in paths:
+        q = json.load(open(p))
+        cuts = {c["altitude"]: c for c in q["cuts"]}
+        n = len(cuts["operational"]["slides"])
+        out = os.path.relpath(os.path.join(OUT, q["id"]), ROOT)
+        print(f"[DRY] {os.path.relpath(p, ROOT)} -> would render {out}/card.png, carousel.pdf ({n} slides); nothing written")
     return 0
 
 
+def _json_path(s):
+    import argparse
+    if not s.endswith(".json"):
+        raise argparse.ArgumentTypeError(f"expected a queue .json file, got {s!r}")
+    return s
+
+
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="linkedin_render.py",
+                                 description="Render a gated LinkedIn queue file into card.png + carousel.pdf.")
+    ap.add_argument("paths", nargs="*", type=_json_path, help="queue files (default: every queue file)")
+    ap.add_argument("--dry-run", action="store_true", help="list what would render; write nothing")
+    ap.add_argument("--self-test", action="store_true", help="overflow case + argv contract")
+    return ap
+
+
 def main(a):
-    if "--self-test" in a:
+    ap = build_parser()
+    args = ap.parse_args(a)
+    if args.self_test:
+        if args.paths or args.dry_run: ap.error("--self-test takes no other arguments")
         return self_test()
+    paths = args.paths or sorted(glob.glob(os.path.join(QUEUE, "*.json")))
+    if args.dry_run:
+        return dry_run(paths)
     if not os.path.exists(CHROME):
         print(f"linkedin_render: Chrome not found at {CHROME} (set CHROME_BIN)"); return 2
-    paths = [x for x in a if x.endswith(".json")] or sorted(glob.glob(os.path.join(QUEUE, "*.json")))
     bad = 0
     for p in paths:
         out, errs = render(p)

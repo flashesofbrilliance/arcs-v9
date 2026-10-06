@@ -1,11 +1,102 @@
 #!/usr/bin/env python3
 """Render an ARCS-canon Recoil Report HTML artifact from a generated report JSON.
 Usage: python3 scripts/gen_recoil_artifact.py <reportId> <out.html>
-Self-contained page CONTENT (no doctype/head/body) for publishing as a Claude Artifact."""
-import json, html, sys, math
+Self-contained page CONTENT (no doctype/head/body) for publishing as a Claude Artifact.
 
-reportId = sys.argv[1] if len(sys.argv) > 1 else "2026-07-31-delaney"
-out = sys.argv[2] if len(sys.argv) > 2 else "/tmp/recoil-artifact.html"
+Both positionals are optional (defaults below). The report JSON is read from
+runtime/recoil/generated/<reportId>.json relative to the CURRENT directory.
+  --dry-run    render in memory and report the size; write nothing
+  --self-test  assert the argv contract on a synthetic fixture in a temp dir"""
+import argparse, hashlib, json, html, os, sys, math
+
+DEFAULT_REPORT = "2026-07-31-delaney"
+DEFAULT_OUT = "/tmp/recoil-artifact.html"
+
+FIXTURE = {
+    "cover": {"badges": ["SYNTH"], "title": "Synthetic report", "subtitle": "fixture", "meta": "meta"},
+    "loadBearingQuote": {"text": "a quote", "attribution": "nobody"},
+    "kinematics": {"caption": "cap", "points": [
+        {"t": "0m", "v": 20, "kind": "base"}, {"t": "5m", "v": 80, "kind": "peak", "note": "n"},
+        {"t": "9m", "v": 30, "kind": "park"}]},
+    "bookmarks": [{"kind": "peak", "at": "5m", "label": "L", "why": "W", "quote": "Q"}],
+    "callWalk": [{"label": "1", "title": "T", "body": "B", "peak": True}],
+    "signalThreads": [{"accent": "#C9A227", "label": "S", "title": "T", "body": "B", "note": "N"}],
+    "scenarios": {k: {"title": k, "body": "B"} for k in ("best", "base", "worst")},
+    "riskFlags": [{"variant": "warning", "label": "R", "body": "B"}],
+    "protocol": [{"label": "P1", "title": "T", "body": "B", "active": True}],
+}
+
+
+def _snapshot(root):
+    out = {}
+    for dp, _, fs in os.walk(root):
+        for f in fs:
+            fp = os.path.join(dp, f)
+            with open(fp, "rb") as fh:
+                out[fp] = (hashlib.sha256(fh.read()).hexdigest(), os.stat(fp).st_mtime_ns)
+    return out
+
+
+def _self_test():
+    import shutil, subprocess, tempfile
+    tmp = tempfile.mkdtemp(prefix="gen-recoil-selftest-")
+    fails = total = 0
+    try:
+        me = os.path.join(tmp, "gen_recoil_artifact.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        os.makedirs(os.path.join(tmp, "runtime/recoil/generated"))
+        with open(os.path.join(tmp, "runtime/recoil/generated/synthetic.json"), "w") as fh:
+            json.dump(FIXTURE, fh)
+        dst = os.path.join(tmp, "out.html")
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus", "synthetic", dst).returncode == 2)
+        ok("extra positional exits 2", run("synthetic", dst, "extra").returncode == 2)
+        ok("--self-test with paths exits 2", run("--self-test", "synthetic").returncode == 2)
+        ok("unknown flag wrote nothing", _snapshot(tmp) == before)
+        r = run("--dry-run", "synthetic", dst)
+        ok("--dry-run exits 0", r.returncode == 0 and "would write" in r.stdout)
+        ok("--dry-run writes nothing", _snapshot(tmp) == before and not os.path.exists(dst))
+        ok("missing report exits non-zero", run("--dry-run", "nope", dst).returncode != 0)
+        r = run("synthetic", dst)
+        ok("write mode exits 0 and writes", r.returncode == 0 and os.path.exists(dst))
+        page = open(dst).read() if os.path.exists(dst) else ""
+        ok("output carries title + manifold", "Synthetic report" in page and "<svg" in page)
+        ok("dry-run size matches written size",
+           f" {len(page)} bytes" in run("--dry-run", "synthetic", dst).stdout)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"gen_recoil_artifact self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def _parse(argv):
+    ap = argparse.ArgumentParser(prog="gen_recoil_artifact.py",
+                                 description="Render a Recoil Report HTML artifact from a generated report JSON.")
+    ap.add_argument("reportId", nargs="?", help=f"report id under runtime/recoil/generated/ (default {DEFAULT_REPORT})")
+    ap.add_argument("out", nargs="?", help=f"output .html (default {DEFAULT_OUT})")
+    ap.add_argument("--dry-run", action="store_true", help="render in memory and report; write nothing")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on a synthetic fixture")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.reportId or a.out or a.dry_run:
+            ap.error("--self-test takes no other arguments")
+        sys.exit(_self_test())
+    return a
+
+
+ARGS = _parse(sys.argv[1:] if __name__ == "__main__" else [])
+reportId = ARGS.reportId or DEFAULT_REPORT
+out = ARGS.out or DEFAULT_OUT
 d = json.load(open(f"runtime/recoil/generated/{reportId}.json"))
 E = lambda s: html.escape(str(s))
 sev = {"warning": ("#E34F1C", "WARNING"), "caution": ("#C9A227", "CAUTION"),
@@ -229,5 +320,8 @@ body = f'''
   </div>
 </div>'''
 
-open(out, "w").write(CSS + body)
-print("wrote", out, len(CSS + body), "bytes | em-dashes:", (CSS + body).count("—"))
+if ARGS.dry_run:
+    print("would write", out, len(CSS + body), "bytes | em-dashes:", (CSS + body).count("\u2014"))
+else:
+    open(out, "w").write(CSS + body)
+    print("wrote", out, len(CSS + body), "bytes | em-dashes:", (CSS + body).count("\u2014"))

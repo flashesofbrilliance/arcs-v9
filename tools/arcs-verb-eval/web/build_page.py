@@ -67,8 +67,8 @@ page = f'''<title>Five Verbs by ARCS</title>
   --surface-2: #121820;
   --border:    #1e293b;
   --text:      #e2e8f0;
-  --muted:     #475569;
-  --dimmed:    #64748b;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
   --cyan:      #00F0FF;
   --green:     #00FF9D;
   --gold:      #FFD700;

@@ -3,9 +3,67 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
+> Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
+
+## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
+
+- `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.
+- Re-check main CI on the first non-cancelled run containing `eec73f51`.
+
+## [v3.82.0] 2026-10-05 — Worktree hooksPath repointed (PR #756); #760 + #756 merged without CI during an Actions outage
+
+- Desktop app writes the main checkout's absolute hooksPath per worktree; `scripts/hookspath_arm.sh` + session-start repoint it. Only worktrees containing `04622e99` self-heal; ordering vs the app untested.
+- GitHub Actions major outage 2026-10-05: re-check the unrun checks on #760 and #756.
+
+## [v3.81.1] 2026-10-05 — Backlog freshness clock + grooming (PRs #713 #759 #767); gh-actions-billing reopened
+
+- `scripts/backlog_freshness.py`: rows past review_by (explicit or derived P1 7d / P2,none 21d / P3 45d / HELD trigger); stalled STARTING/DELEGATED flagged revert-to-OPEN; decides nothing.
+- 33 rows groomed over 2026-10-04/05; ~13 P1 rows due 2026-10-12. Numbered .1 because a parallel session took v3.81.0.
+
+## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
+
+- Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
+- Find stalled 2026-09-11: dirty main checkout broke `git pull --ff-only`, runs still read "succeeded"; task now runs in `.claude/worktrees/morning-jobs` with a loud preflight.
+- Seeds 5-16 planted from job-tracker-pro (9 candidates, 3 anti-seeds); culture cap unproven on live rows.
+
+## [v3.80.0] 2026-10-05 — Family-roster drift cleared; build.html glow overflow; stale worktree hooks found (PR #745)
+
+- `sync_family_roster.py` accepts locked (carded, non-linking) performers; ADR stat 79; masthead glow held to gutter below 1280px.
+- Kintsugi "77 -> 95" was a phantom: 25/27 worktrees run the main checkout's stale pre-commit via absolute `core.hooksPath`; chip task_bd140094.
+
+## [v3.79.0] 2026-10-05 — Schriner recoil-close on Vico calls; recoil gate fix; Lyndon pre-call refresh (PRs #742 #746)
+
+- Schriner SSOT closed YELLOW/CONVERGENT, req_reality 2; P10-P13 added (owner engaged, seat unarchitected, comp floor stated at <=2, Autopilot stalled).
+- `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
+- Lyndon pre-call (`2026-10-03-oh-vico.json`, from #699) refreshed, not rebuilt.
+
+## [v3.79.2] 2026-10-05 — Trust contract 1.5 + privacy v1.3: SAGE, analytics and shared-link disclosure (privacy PR 2)
+
+- Code: anon compass questions never cached; per-user cache key; account delete removes Blob uploads first; /api/brief response drops userId, prep.adversarialInput, raw output beyond reasoning; reminder links HMAC-signed with AUTH_SECRET.
+
+## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
+
+- `scripts/shavasana_handoff.py` exhale: counted by `git config user.name`, which reads 0 in cloud (author owner, committer Claude); now scoped to the session branch (merged PRs from it + their commits + unmerged), identity fallback on main. `--self-test` 8/8.
+- `post-1-brief` / `post-1-exec`: `max-width:68ch` → `680px` on `<main>`, and in `scripts/blog_render.py`; the renderer lags its outputs, so edit those pages in place.
+- Contrast ratchet: npm `impeccable@4.1.0` runs in cloud but 14/42 NFTT pages read over baseline; cause (version drift vs series-panel regression) to be settled by one Mac run.
+- Wind-down: all cloud + Remote Control sessions asked to push, then archived; open asks for Zach listed in the CLAUDE.md v3.78.0 block.
 
 ---
+
+## [vX.Y.Z] YYYY-MM-DD — <what changed>`
+
+---
+
+## [v3.79.0] 2026-10-04 — Field landing on arcs.care (PR #705 `81db248a`); privacy hotfix (PR #737 `85ec7a5d`)
+
+- Home = survey field + compact header waitlist; `/api/lead` hardened; trust 1.4 / privacy v1.2. Receipts `2026-10-04--field-landing-waitlist-pr705--ZH`, `2026-10-04--privacy-hotfix-annotations-pr737--ZH`.
+- Showcase mirror tooling on `claude/showcase-mirror` (unpublished); its review found the anon-read bug fixed in #737 and four more queued as privacy PR 2.
+
+## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
+
+- `scripts/video_cut.py`: `_QUEUE/video/<id>.json` -> `_PROPOSALS/video/<id>-<16x9|9x16>.html` (seek(t) scenes for `html_video_render.mjs`, kit tokens, Inter + JetBrains Mono from `public/fonts/`) + `<id>-prompts.md` (per-beat prompts for external video models). Reuses linkedin_cut's gates; self-test 7 mutations. First input `tao-284`.
+- #689's conflict (`connector_render.py`) resolved to main's repo-keyed row. Receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH`, `2026-10-04--video-cut-type-pr709--ZH`.
+- Lessons: fe-smoke page-gates fixed-size scene HTML at 375/790 (scale the stage to the viewport); the Write tool can turn escape sequences into literal em-dashes.
 
 ## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
 
@@ -247,7 +305,7 @@
 - **Failure mode banked → lint:** a glossary `.term` wrapped in an `<a>` had its link nav blocked by the
   tooltip click handler's `preventDefault`. Fix = `if(t.closest('a'))return;` guard. Gated by
   `scripts/tooltip_link_lint.py` (fails-on-bad/passes-on-good, wired into pre-commit on added+modified
-  public/_ARTIFACTS HTML). Frustration Gate, AGENTS #15.
+  `public/` and `_ARTIFACTS/` HTML). Frustration Gate, AGENTS #15.
 - **Joe-beats eval** (`_ARTIFACTS/vico-joe-eval/`): 16 beats (12 email + 4 Sep-17 call) graded S against
   the live pages, one honesty asterisk (unverified 0.15 Brier premise, handled by omission). The eval is
   INTERNAL / do-not-send.

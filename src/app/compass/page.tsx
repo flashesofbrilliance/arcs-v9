@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, Suspense } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { surface, text, signal, font, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
@@ -16,7 +16,6 @@ import { Card } from "@/ui/Card"
 // after authenticating. Page owns the signIn call (head/body, F4).
 
 function CompassInner() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const next = searchParams.get("next") || "/dashboard"
   const shared = searchParams.get("shared") // set when a one-time shared bearing was consumed
@@ -24,24 +23,35 @@ function CompassInner() {
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault()
     if (!email.trim() || loading) return
     setLoading(true)
-    const { signIn } = await import("next-auth/react")
-    await signIn("resend", { email, callbackUrl: next, redirect: false })
-    setSent(true)
-    setLoading(false)
+    setError(null)
+    // Only claim "link sent" when Auth.js says the send succeeded; a failed
+    // send (provider down, bad address, rate limit) must say so, not fake success.
+    try {
+      const { signIn } = await import("next-auth/react")
+      const res = await signIn("resend", { email, callbackUrl: next, redirect: false })
+      if (!res || res.error || !res.ok) {
+        setError("We couldn't send the link. Check the address and try again in a minute.")
+      } else {
+        setSent(true)
+      }
+    } catch {
+      setError("We couldn't reach the sign-in service. Check your connection and try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column" }}>
       {/* Top nav — same 960px container as every other page */}
       <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem" }}>
-        <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-          <Wordmark section="Sign in" />
-        </button>
+        <Wordmark section="Sign in" />
         <Rule style={{ marginTop: "1rem" }} />
       </div>
 
@@ -71,6 +81,9 @@ function CompassInner() {
           ) : (
             <form onSubmit={handleMagicLink} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <Field label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
+              {error && (
+                <div role="alert" style={{ fontFamily: font.sans, fontSize: "0.85rem", color: signal.red, lineHeight: 1.5 }}>{error}</div>
+              )}
               <Button type="submit" variant="primary" size="lg" glyph={loading ? "~" : "→"} disabled={loading || !email.trim()} style={{ width: "100%" }}>
                 {loading ? "Sending…" : "Send magic link"}
               </Button>

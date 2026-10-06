@@ -20,7 +20,7 @@
   },
   "provenance": {
    "audience": "internal",
-   "captured": "Filed 2026-10-03, before the call (date not yet on the calendar). Sources: Granola verbatim transcripts of the Joe x Zach calls on 2026-09-30 (824f0855) and 2026-10-02 'VICO debrief.' (8a125b5f); the Schriner SSOT's 2026-09-17 call record; public/vico.html (the deck Lyndon read); web diligence 2026-10-03 (LinkedIn, PitchBook profile, Feb 2026 launch release, Anthony Vinci interviews). Everything Lyndon 'said' here is Joe's relay, second-hand.",
+   "captured": "Filed 2026-10-03, before the call (date not yet on the calendar). Sources: Granola verbatim transcripts of the Joe x Zach calls on 2026-09-30 (824f0855) and 2026-10-02 'VICO debrief.' (8a125b5f); the Schriner SSOT's 2026-09-17 call record; public/vico.html (the deck Lyndon read); web diligence 2026-10-03 (LinkedIn, PitchBook profile, Feb 2026 launch release, Anthony Vinci interviews). Everything Lyndon 'said' here is Joe's relay, second-hand. Refreshed 2026-10-04 by /recoil-prep: Gmail thread 1a0fdb05fd989ec6 (Joe, 2026-10-04 20:10 ET: \"I'll be in touch with Lyndon early tomorrow morning to set up timing\"); verbatim re-read of the 09-30 comp exchange; web re-check of funding.",
    "load_bearing_quote": "Joe, relaying Lyndon (2026-10-02): \"it looks like the reason that we're really excited is the fact that it looks like Zach could solve some of our current problems.\" Joe, same call: \"I don't know what the problems are.\""
   }
  },
@@ -200,7 +200,7 @@
     "rows": [
      {
       "k": "Date",
-      "v": "TBD. Zach texted Joe his Google Calendar availability on 2026-10-02; not on the calendar as of 2026-10-03"
+      "v": "TBD. Zach emailed Joe 2026-10-04 asking to schedule this week; Joe replied same evening he would contact Lyndon the morning of 2026-10-05 to set timing. Not on the calendar as of 2026-10-04."
      },
      {
       "k": "Register",
@@ -263,6 +263,18 @@
      {
       "dot": "",
       "html": "<strong>Office.</strong> Joe (2026-10-02): \"Lyndon and Anthony are in New York... I think that's their main one. DC is their secondary.\" \"You don't have to travel to DC.\" NYC address still owed by Joe."
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Comp floor already given (correction, 2026-10-04 verbatim re-read).</strong> Joe asked on 09-30 whether Zach would take \"somewhere in the mid-$200s\" with equity; Zach: \"Yeah, or even like less depending on what the cap table looks like.\" Joe therefore holds a number below the ~$300K Lyndon reportedly floated. Assume it may reach Lyndon."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Competition.</strong> Joe (09-30) is also submitting Nick, \"a young gun out of DC\", and always sends multiple profiles. The fight is not just the seat, it is senior-scope vs a cheaper Product Engineer."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Funding conflict (unresolved).</strong> This SSOT's 10-03 read is an undisclosed pre-seed; a Tracxn search snippet (2026-10-04) claims $103M over 3 rounds for \"Vico\", likely a name collision with another Vico. Do not rely on either; ask runway directly."
      }
     ]
    },
@@ -277,6 +289,10 @@
      {
       "dot": "",
       "html": "<strong>Open with his words:</strong> \"Joe said you think I could help with some current problems. Which ones are on fire right now?\" &#183; look for: two or three named, specific problems (a system, a customer, a deadline), not \"scaling\" in the abstract"
+     },
+     {
+      "dot": "",
+      "html": "<strong>The seat probe (req_reality gate question):</strong> \"Does this land in an existing function, or is it something you're still designing?\" &#183; look for: an answer in his own words. Bespoke-and-still-being-designed is the Fanatics/HypeLab shape: keep the next step to a written read on one problem, not a role negotiation"
      },
      {
       "dot": "",
@@ -300,7 +316,7 @@
      },
      {
       "dot": "r",
-      "html": "<strong>Landmine: comp.</strong> Do not raise it. Joe owns the fee and the number. If Lyndon raises it: flexible, people and problem first, Joe has the range. Zach (2026-09-30): \"I'm not going to negotiate against myself.\""
+      "html": "<strong>Landmine: comp.</strong> Do not raise it. Joe owns the fee and the number. If Lyndon raises it: flexible, people and problem first, Joe has the range. Zach (2026-09-30): \"I'm not going to negotiate against myself.\" If he cites a number Joe gave him: do not confirm or restate it. \"I'd rather we figure out what the seat is first; Joe and I can sort the number after.\""
      },
      {
       "dot": "r",

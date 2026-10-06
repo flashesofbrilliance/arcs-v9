@@ -22,6 +22,7 @@ const SYSTEM = `You EDIT an existing tailored resume (the "seed") to fit a NEW r
 HARD RULES (correctness over everything):
 - Keep every factual claim, employer, date, figure, and the archetype headline from the seed EXACTLY. Never invent, inflate, add an employer/title, or add a skill the seed does not already contain. Never claim a job title the candidate did not hold; the headline names an ARCHETYPE, never the new req title.
 - Change ONLY: (a) the target/role reference line, (b) which existing bullets lead and the summary emphasis, (c) light rewording of EXISTING bullets to mirror this JD's language WITHOUT adding new claims.
+- The contact-block location line reads exactly "New York Metro". Never copy the JD's location, work mode, or office cadence (remote, hybrid, on site, a city) into it.
 - No em-dashes. No scoring vocabulary (tier, band, composite, pursue). No counterpart names, comp talk, or hiring-manager names in the resume body.
 
 Return the patch as a list of exact find/replace edits. Each "find" MUST be a verbatim substring copied EXACTLY from the seed HTML (whitespace and tags included) so it can be located by literal match; keep each "find" short and uniquely identifiable. "replace" is the edited text. 3 to 10 edits is typical.

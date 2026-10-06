@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { track } from "@vercel/analytics"
 import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
 // organisms are presentational; this page owns the live L0–L5 pipeline, prep
@@ -63,9 +64,18 @@ function DashboardInner() {
   // Anonymous prep arrives via sessionStorage instead of a persisted prepId
   // (trust contract — no auth = no write path; see /prep + /api/prep).
   const [inboundInlinePrep] = useState(() => searchParams.get("prep") === "inline")
-  // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
+  // Tributary follow-up arriving from a brief: ?parent=<receiptId>. The session
+  // thread continues from this browser's own stored id, never from the URL: a
+  // ?sid= link could plant an attacker's id, and /api/receipts/claim would
+  // then hand them every anonymous receipt made under it.
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
-  const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
+  // Outbound posts tag their compass link with ?utm_campaign= so runs from a
+  // post are countable. Allowlisted slug only: it rides an analytics event,
+  // never the receipt, and anonymous runs still persist nothing.
+  const [campaign] = useState(() => {
+    const c = searchParams.get("utm_campaign")
+    return c && /^[a-z0-9-]{1,64}$/.test(c) ? c : null
+  })
   // A public surface can hand off a decision with its window already set
   // (good.arcs.care/fears links each sharpened claim here with ?q=&horizon=).
   // Unknown values fall back to the default; nothing else changes.
@@ -81,8 +91,12 @@ function DashboardInner() {
   // Session tracking — preserved across tributary follow-ups
   const [sessionId, setSessionId] = useState<string>("")
   const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
-  // Continue the brief's session thread if one arrived; otherwise start fresh.
-  useEffect(() => { setSessionId(inboundSid ?? crypto.randomUUID()) }, [inboundSid])
+  // Continue this browser's session thread on a follow-up; otherwise start fresh.
+  useEffect(() => {
+    let stored: string | null = null
+    try { stored = inboundParent ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
+    setSessionId(stored ?? crypto.randomUUID())
+  }, [inboundParent])
 
   // Animate the L0–L5 step indicator while the pipeline runs
   useEffect(() => {
@@ -186,6 +200,7 @@ function DashboardInner() {
       if (inboundInlinePrep) {
         try { inlinePrep = JSON.parse(sessionStorage.getItem("arcs_prep_inline") ?? "null") } catch { inlinePrep = null }
       }
+      if (campaign) track("compass_run", { campaign })
       const res = await fetch("/api/compass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -255,9 +270,9 @@ function DashboardInner() {
             </span>
             <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
               <Button variant="ghost" size="sm" onClick={() => setOnboardingNudge(null)}>Dismiss</Button>
-              <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>
+              <ButtonLink variant="primary" size="sm" href="/onboarding">
                 {onboardingNudge.hasPdf ? "Add export" : "Set up profile"}
-              </Button>
+              </ButtonLink>
             </div>
           </div>
         </div>

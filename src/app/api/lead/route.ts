@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse, after } from "next/server"
+import { adminEmails } from "@/lib/admin"
 import { prisma } from "@/lib/db"
 import { waitlistEmail, advisoryEmail } from "@/lib/emails"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
@@ -8,7 +9,7 @@ export const dynamic = "force-dynamic"
 
 // Advisory funnel capture. Stores a Lead and fires a best-effort confirmation
 // email (Resend REST, no new dependency). source: "waitlist" | "advisory".
-// Also fires a best-effort internal alert to ADMIN_EMAIL so a submission
+// Also fires a best-effort internal alert to ADMIN_EMAILS so a submission
 // doesn't just sit silently in the DB.
 //
 // Abuse model (2026-10-03 hardening). This route sends mail FROM arcs.care TO
@@ -30,7 +31,6 @@ export const dynamic = "force-dynamic"
 // one needs a unique (source, lower(email)) index plus a single upsert.
 const BOOKING_URL = process.env.NEXT_PUBLIC_CONSULT_BOOKING_URL ?? "https://calendar.app.google/r3eSwEE2HueXUBeC6"
 const FROM = process.env.EMAIL_FROM ?? "ARCS <noreply@arcs.care>"
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "zach.harris@gmail.com"
 
 const MAX_BODY = 8 * 1024
 const RECEIPT_ID = /^[A-Za-z0-9_-]{6,64}$/
@@ -139,6 +139,10 @@ async function sendMail({ key, src, addr, nm, msg, rid }: {
   // keeps it best-effort: a delivery failure logs, the capture already stands.
   await Promise.allSettled([
     send(addr, subject, text, html),
-    send(ADMIN_EMAIL, adminSubject, adminLines.join("\n")),
+    // Internal alert goes to the same allowlist that gates /admin/leads
+    // (ADMIN_EMAILS via src/lib/admin.ts). The old singular ADMIN_EMAIL was never
+    // set in prod, so alerts rode a hardcoded fallback address.
+    ...adminEmails().map((to) => send(to, adminSubject, adminLines.join("\n"))),
   ])
+  if (adminEmails().length === 0) console.error("[lead] ADMIN_EMAILS unset: no internal alert sent")
 }

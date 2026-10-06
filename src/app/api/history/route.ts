@@ -6,8 +6,8 @@ import { flags } from "@/lib/flags"
 export const dynamic = "force-dynamic"
 
 // History GET is gated by the `publicHistory` feature flag (src/lib/flags.ts):
-//   ON  (PLG/demo, default) → ungated: recent receipts returned globally.
-//   OFF (PUBLIC_HISTORY=false, post-RBAC) → per-user isolation (ADR-001).
+//   OFF (default; PUBLIC_HISTORY unset) → per-user isolation (ADR-001).
+//   ON  (PUBLIC_HISTORY=true, demo only) → ungated: recent receipts returned globally.
 export async function GET() {
   let userId: string | null = null
   if (!flags.publicHistory) {
@@ -37,7 +37,8 @@ export async function GET() {
       stakes: true,
       entity: true,
       createdAt: true,
-      sessionId: true,
+      // Bearer secret for /api/receipts/claim: only on the caller's own rows.
+      sessionId: userId !== null,
       brief: { select: { id: true } },
       children: {
         select: {

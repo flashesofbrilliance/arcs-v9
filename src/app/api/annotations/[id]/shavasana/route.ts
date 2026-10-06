@@ -10,7 +10,9 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
-  const userId = session?.user?.id ?? null
+  // Signed-in only: a null userId would match every anonymous row.
+  const userId = session?.user?.id
+  if (!userId) return NextResponse.json({ error: "Sign in required" }, { status: 401 })
 
   const { id } = await params
 

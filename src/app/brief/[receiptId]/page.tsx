@@ -1,6 +1,7 @@
 // Render through the fog to earned clarity.
 "use client"
 
+import { DeadEnd } from "@/molecules/DeadEnd"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
@@ -15,46 +16,13 @@ import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
 import { Button } from "@/ui/Button"
 import type { CompassResult } from "@/lib/mockCompass"
+import { toCompassResult } from "@/lib/briefView"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 
 // Brief surface — the shareable cartography report. Fetches the stored brief +
 // receipt, maps the DB receipt → CompassResult, renders the Brief organism
 // (on-screen) plus the AI situation framing and share row. Page owns data
 // (head/body, F4). Doc-kit print/share view + enrich = follow-up.
-
-function safeParse<T>(v: unknown, fallback: T): T {
-  if (typeof v !== "string") return (v as T) ?? fallback
-  try { return JSON.parse(v) as T } catch { return fallback }
-}
-
-// DB receipt (camelCase, JSON-string fields) → presentational CompassResult
-function toCompassResult(receipt: Record<string, unknown>, tributaries: unknown[]): CompassResult {
-  const raw = safeParse<Record<string, unknown>>(receipt.rawResponse, {})
-  const rawReasoning = (raw.reasoning ?? {}) as Record<string, unknown>
-  return {
-    receipt_id: String(receipt.id ?? ""),
-    question: String(receipt.decision ?? ""),
-    true_north: String(receipt.trueNorth ?? ""),
-    why: safeParse<string[]>(receipt.whyBullets, []),
-    nci_score: Number(receipt.nciScore ?? 50),
-    coherence_pct: (receipt.coherencePct as number) ?? undefined,
-    is_satoshi: Boolean(receipt.isSatoshi),
-    decision_mode: String(receipt.mode ?? ""),
-    door_class: String(receipt.doorClass ?? "TWO_WAY"),
-    y_state: String(receipt.yState ?? "GREEN"),
-    render_resolution: String(receipt.renderResolution ?? "SHARP"),
-    nci_delta: null,
-    macro_tags: safeParse<string[]>(receipt.macroTags, []),
-    tributaries: tributaries as CompassResult["tributaries"],
-    reasoning: {
-      fated: safeParse(receipt.fated, undefined),
-      paths: safeParse(receipt.paths, undefined),
-      court: safeParse(receipt.court, undefined),
-      court_verdict: (receipt.courtVerdict as string) ?? undefined,
-      advisors: (rawReasoning.advisors as CompassResult["reasoning"]["advisors"]) ?? undefined,
-    },
-  } as CompassResult
-}
 
 export default function BriefPage() {
   const params = useParams()
@@ -64,7 +32,6 @@ export default function BriefPage() {
 
   const [result, setResult] = useState<CompassResult | null>(null)
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null)
-  const [sessionId, setSessionId] = useState<string | null>(null)
   // Lineage position — depth in the reasoning chain + parent for breadcrumb.
   const [depth, setDepth] = useState<number>(0)
   const [parentId, setParentId] = useState<string | null>(null)
@@ -73,7 +40,7 @@ export default function BriefPage() {
 
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
-  // null = still checking. The brief itself is public; sharing is gated (PLG hook).
+  // null = still checking. Only the owner reaches this page (the API 404s anyone else).
   const [authed, setAuthed] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -85,7 +52,6 @@ export default function BriefPage() {
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setReceipt(data.receipt)
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
-        setSessionId((data.receipt?.sessionId as string) ?? null)
         setDepth(Number(data.receipt?.version ?? 0))
         setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
@@ -126,11 +92,29 @@ export default function BriefPage() {
   function followTributary(prompt: string) {
     track("brief_tributary_followed", { receiptId })
     const params = new URLSearchParams({ q: prompt, parent: receiptId })
-    if (sessionId) params.set("sid", sessionId)
     router.push(`/dashboard?${params.toString()}`)
   }
 
-  const briefUrl = () => `${window.location.origin}/brief/${receiptId}`
+  // Raw /brief/<id> links are owner-only, so every share goes through a minted
+  // token (POST /api/brief/[id]/share). The token is returned once and kept only in
+  // this page's state; the server stores its hash.
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+  const [shareMsg, setShareMsg] = useState<string | null>(null)
+  async function getShareUrl(): Promise<string | null> {
+    if (shareUrl) return shareUrl
+    const r = await fetch(`/api/brief/${receiptId}/share`, { method: "POST" })
+    const data = await r.json().catch(() => ({}))
+    if (!r.ok || typeof data.path !== "string") { setShareMsg(data.error ?? "Could not create a share link"); return null }
+    const url = `${window.location.origin}${data.path}`
+    setShareUrl(url)
+    return url
+  }
+  async function revokeShares() {
+    const r = await fetch(`/api/brief/${receiptId}/share`, { method: "DELETE" })
+    setShareUrl(null)
+    setShareMsg(r.ok ? "Share links revoked" : "Could not revoke share links")
+    setTimeout(() => setShareMsg(null), 2500)
+  }
 
   // Count every share action, split by channel, so we can see how often briefs
   // get sent on. Page-views on /brief/[receiptId] (auto via <Analytics/>) count
@@ -140,25 +124,37 @@ export default function BriefPage() {
   }
 
   async function copyLink() {
-    await navigator.clipboard.writeText(briefUrl())
+    const url = await getShareUrl()
+    if (!url) return
+    await navigator.clipboard.writeText(url)
     trackShare("copy")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
-  function shareSms() {
+  async function shareSms() {
+    const url = await getShareUrl()
+    if (!url) return
     trackShare("sms")
-    window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${briefUrl()}`)}`)
+    window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${url}`)}`)
   }
-  function shareX() {
+  async function shareX() {
+    const url = await getShareUrl()
+    if (!url) return
     trackShare("x")
-    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(briefUrl())}`)
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(url)}`)
   }
 
   if (error) {
+    // Missing or unreadable record: branded dead end with a way back, not a lone red line.
+    const missing = /not found/i.test(error)
     return (
-      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>
-      </main>
+      <DeadEnd
+        section="Decision Brief"
+        title={missing ? "We can't find that brief." : "This brief didn't load."}
+        body={missing
+          ? "Briefs open only for their owner. If this one is yours, sign in. If someone sent it to you, ask them for a share link."
+          : "Something went wrong on our side. Try again in a minute, or start from the compass."}
+      />
     )
   }
   if (!result) {
@@ -200,6 +196,8 @@ export default function BriefPage() {
               <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
               <Button variant="ghost" size="sm" onClick={shareSms}>SMS</Button>
               <Button variant="ghost" size="sm" onClick={shareX}>Post to X</Button>
+              <Button variant="ghost" size="sm" onClick={revokeShares}>Revoke links</Button>
+              {shareMsg && <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: text.muted }}>{shareMsg}</span>}
             </>
           ) : (
             <Button variant="gold" size="sm" glyph="◈" onClick={() => router.push(`/compass?next=${encodeURIComponent(`/brief/${receiptId}`)}`)}>

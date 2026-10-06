@@ -4,8 +4,13 @@
 Class-not-instance: the template is fixed (FieldOS tokens, thread colors, plain-terms asides);
 each post is a two-second run. Stdlib only, zero LLM in the runtime path.
 
-Usage: python3 scripts/blog_render.py <post.md> <out.html>
+Usage:
+  python3 scripts/blog_render.py <post.md> <out.html>             # render and write
+  python3 scripts/blog_render.py --dry-run <post.md> <out.html>   # render, report size, write nothing
+  python3 scripts/blog_render.py --self-test                      # argv contract on synthetic input
 """
+import argparse
+import hashlib
 import html as h
 import re, sys
 from pathlib import Path
@@ -233,14 +238,85 @@ NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.ca
 </main></body></html>
 """
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print(__doc__); sys.exit(2)
-    src, dst = Path(sys.argv[1]), Path(sys.argv[2])
+def build(src: Path, dst: Path) -> str:
     md = src.read_text()
     title = next((l[2:].strip() for l in md.splitlines() if l.startswith("# ")), src.stem)
     m = re.search(r"^## (.+)$", md, re.M)
     subtitle = m.group(1) if m else ""
-    dst.write_text(PAGE.format(title=h.escape(f"{subtitle} · NFTT"), desc=h.escape(title),
-                               body=render(md), ladder=ladder(dst.name, dst.parent), **TOKENS))
+    return PAGE.format(title=h.escape(f"{subtitle} · NFTT"), desc=h.escape(title),
+                       body=render(md), ladder=ladder(dst.name, dst.parent), **TOKENS)
+
+
+def _snapshot(root: Path) -> dict:
+    return {str(p): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+            for p in sorted(root.rglob("*")) if p.is_file()}
+
+
+def self_test() -> int:
+    """Copy this script into a temp dir and assert the argv contract via subprocess."""
+    import shutil, subprocess, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="blog-render-selftest-"))
+    try:
+        me = tmp / "blog_render.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        src = tmp / "post.md"
+        src.write_text("# Synthetic\n\n## A test title\n\n*A standfirst line.*\n\n## Section\n\nBody text.\n",
+                       encoding="utf-8")
+        dst = tmp / "out.html"
+        fails = total = 0
+
+        def run(*a):
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True, cwd=tmp)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus", str(src), str(dst)).returncode == 2)
+        ok("extra positional exits 2", run(str(src), str(dst), "extra").returncode == 2)
+        ok("missing positional exits 2", run(str(src)).returncode == 2)
+        ok("no args exits 2", run().returncode == 2)
+        r = run("--dry-run", str(src), str(dst))
+        ok("--dry-run exits 0", r.returncode == 0 and "would render" in r.stdout)
+        ok("--dry-run writes nothing", _snapshot(tmp) == before and not dst.exists())
+        r = run(str(src), str(dst))
+        ok("write mode exits 0 and writes", r.returncode == 0 and dst.exists())
+        html_out = dst.read_text(encoding="utf-8") if dst.exists() else ""
+        ok("output carries title + h1", "<title>A test title · NFTT</title>" in html_out and "<h1" in html_out)
+        ok("dry-run size matches written size",
+           f"({dst.stat().st_size} bytes)" in run("--dry-run", str(src), str(dst)).stdout if dst.exists() else False)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"blog_render self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(prog="blog_render.py", description="Render an NFTT markdown post to static HTML.",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    ap.add_argument("src", nargs="?", help="input post.md")
+    ap.add_argument("dst", nargs="?", help="output .html")
+    ap.add_argument("--dry-run", action="store_true", help="render in memory and report; write nothing")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    args = ap.parse_args(sys.argv[1:] if argv is None else argv)
+    if args.self_test:
+        if args.src or args.dst:
+            ap.error("--self-test takes no paths")
+        return self_test()
+    if not (args.src and args.dst):
+        ap.error("both <post.md> and <out.html> are required")
+    src, dst = Path(args.src), Path(args.dst)
+    page = build(src, dst)
+    if args.dry_run:
+        print(f"would render {dst} ({len(page.encode())} bytes)")
+        return 0
+    dst.write_text(page)
     print(f"rendered {dst} ({dst.stat().st_size} bytes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

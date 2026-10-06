@@ -24,9 +24,16 @@ export const border = {
 export const text = {
   primary:   '#e2e8f0',  // Primary readable
   secondary: '#94a3b8',  // Secondary / supporting
-  muted:     '#475569',  // Muted / labels
-  dimmed:    '#64748b',  // Dimmed / metadata
+  muted:     '#7a8699',  // Muted / labels (5.57:1 on bg, AA; was #475569 = 2.71:1)
+  dimmed:    '#8391a7',  // Dimmed / metadata (6.42:1 on bg, AA; was #64748b = 4.31:1)
 } as const
+
+// Visually hidden but read by screen readers (a page heading where the visible
+// design has no title slot). Inline-style equivalent of the usual sr-only class.
+export const srOnly: React.CSSProperties = {
+  position: 'absolute', width: 1, height: 1, padding: 0, margin: -1,
+  overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0,
+}
 
 // ─── Signal colors — mode state and Y-gate rendering ─────────────────────────
 
@@ -196,6 +203,12 @@ export const doorMeta: Record<DoorClass, { label: string; color: string }> = {
   ONE_WAY: { label: 'ONE-WAY DOOR', color: signal.gold },   // irreversible · weigh hard
   TWO_WAY: { label: 'TWO-WAY DOOR', color: signal.green },  // reversible · move
 }
+
+// One display vocabulary for the door class on every surface (was TWO_WAY /
+// TWO WAY / TWO-WAY DOOR depending on the page). An absent value says so
+// rather than defaulting to a door the pipeline never assigned.
+export const doorLabel = (raw: string | null | undefined): string =>
+  raw ? doorMeta[normalizeDoorClass(raw)].label : 'Door not set'
 
 // ── Responsive container grid ──────────────────────────────────────────────
 // contentContainer: brief, receipt, history, dashboard, debrief

@@ -53,7 +53,7 @@ All JSON arrays stored as TEXT (SQLite). Enums as plain strings.
 ## Design tokens (inline style objects, no CSS framework)
 ```
 bg: #020408 | surface: #0d1117 | border: #1e293b
-text: #e2e8f0 | muted: #475569 | dimmed: #64748b
+text: #e2e8f0 | muted: #7a8699 | dimmed: #8391a7  (AA on bg; raised 2026-10-04)
 cyan: #00F0FF | green: #00FF9D | gold: #FFD700 | red: #FF4D6D
 ```
 
@@ -114,112 +114,67 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.76.0 (2026-10-04)
+# Handoff — v3.84.0 (2026-10-05)
 
-> **NFTT bylines date the LinkedIn originals each essay was written from; main's red generated-views
-> check fixed on the way.** PR #697 merged at `cb0d8772` and PR #703 at `348ae373`, both on Zach's
-> explicit asks; receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH` and
-> `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. PR #706 (Four Dates + The Pre-Mortem originals)
-> carries this handoff; merged by Zach at `07d580ae`, both bylines live-verified, receipt
-> `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
+> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
+> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
+> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
 
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+## Done
+- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
+  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
+  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
+  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
+- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
+- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
+- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
+  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
+- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
 
-- **Exhale** (what went out): script reported 0 commits, 0 merges (the author-filter blind spot, Open item 4). Recount from git: 4 session commits (`01a5ddb1`, `c9bb3975`, `fef1912a`, `2930d83a`), 2 merges to main (#697 `cb0d8772`, #703 `348ae373`) with #706 pending, 2 receipts. `febc68b4` and `c9247f18` in the same range are other sessions'.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 5 / dissent 0 (ratio 5.0) → RETURN: agreement with no dissent on record.
-- **Cold re-read (canary on the draft draft-handoff-v376.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): the RETURN counts keyword markers; the stretch carries dissent the vocabulary missed, each in the record: Zach's "first published on LinkedIn" was declined as false (PR #697 body); a zero-step local sweep's PASS was caught and re-run (11/11); the generator fix was narrowed after it touched the resume-tailor card; The Pre-Mortem's undated source was not stamped. Every other claim carries a sha, PR, deployment or receipt id. Nothing downgraded.
-- **Somatic read**: not re-asked; Zach's read earlier this session (v3.74.0): "Feeling more certain than at the start, no sends today."
-- **Disposition**: RELEASED on Zach's "run the handoff" despite the RETURN verdict, for the reasons above.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + on main
-- **Originals line** (`01a5ddb1`, #697): bylines read "From the LinkedIn original(s), <dates>" after the
-  publish `<time>`, each date in its own `<time datetime>`. Deliberately not "first published": every
-  NFTT post is a new essay. SSOT `runtime/specs/nftt-originals.json` (platform, ISO dates, evidence);
-  `scripts/nftt_published.py` stamps it, `--check` fails a missing or orphan segment, `--self-test` 21/21.
-  Live-verified on Closing the Loop and The Instinct via Vercel `web_fetch_vercel_url`.
-- **generated-views fix** (`c9bb3975`, #697): main went red at `febc68b4` (#695 hand-edited `good.html`).
-  `connector_render.py` looked the honest card's distribution row up by page key `honest`; the row is
-  keyed `check-it-before-you-say-it`. `EXTERNAL_PAGES` entries may now name their row (`"repo"`); output
-  byte-identical to #695's edit. Shipped inside #697 (session limited to one branch), disclosed on the PR.
-- **The Method byline** (`fef1912a`, #703): the hand-written "Source: a LinkedIn article published Jan 30,
-  2026" dropped as a duplicate of the generated segment; live-verified.
-- **Four Dates + The Pre-Mortem** (`2930d83a`, #706): originals added on Zach's confirmation of the
-  platform (PR #411 records the LinkedIn corpus). The Pre-Mortem's fifth source stays out (undated in its
-  export). Six of seven series posts now carry the line; Tuning has none (it cites, not adapts).
-- v3.74.0 open items 1 (wording approved by Zach) and 2 (originals) resolved.
+## WIP preserved (local branches, not pushed)
+`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
+`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
+`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
+`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
+All inside the consolidated bundle.
 
 ## Open (next session)
-1. ~~Live check + receipt for PR #706~~ RESOLVED 2026-10-04: merged by Zach at `07d580ae`; deploy
-   `dpl_FDWpWLdVVHHs85FfCBrFcwBZsPsw` aliased to good.arcs.care; both bylines live via Vercel
-   `web_fetch_vercel_url`; receipt `2026-10-04--nftt-originals-fourdates-premortem-handoff-v3.76-pr706--ZH`.
-2. `post-1-brief` / `post-1-exec` (unrouted) still fail wrap-lint on main.
-3. The impeccable contrast ratchet did not run in the cloud container (detector absent).
-4. `scripts/shavasana_handoff.py` exhale counts commits by `git config user.name` ("Claude" in cloud
-   sessions, commits authored "Zach Harris"), so it reads 0. Count by repo/branch, or match both names.
+1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
+2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
+3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
+4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
+   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
+5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
 
 ## Lessons (in the record)
-- A label that sounds right can be false: "first published on LinkedIn" read naturally, but each post's
-  own footer showed a new essay written from LinkedIn originals. Read the provenance before naming it.
-- A check that ran zero steps reported PASS: the first local generated-views sweep parsed 0 steps from
-  ci.yml. Count what ran before trusting a pass.
-- A hand edit to a generated page reddens every PR, not only its own: #695's two-line `good.html` change
-  failed generated-views on main until the generator learned the row key.
+- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
+  (pruned `cool-bell` under a live session, restored it from its branch).
+- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
+- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
 
-# Handoff — v3.75.0 (2026-10-04)
+# Handoff — v3.83.0 (2026-10-05)
 
-> **Stopped-light research → ARCS design rules, a nested skill, an oracle fix, and an NFTT essay with a
-> go-deeper companion.** Two PRs merged on Zach's explicit go: #683 (`5d64551`) and #686 (`44b80d1`);
-> receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH` and
-> `2026-10-04--nftt-research-companion-tao284-pr686--ZH`. Both served from the Vercel deployment URL;
-> the pretty good.arcs.care routes are unconfirmed (the cloud egress proxy blocks good.arcs.care).
-
-
-### Shavasana — handoff pause, 2026-10-04 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main, receipts in digest: no digest file. (Script counts 2026-10-04 UTC only; the session spanned 2026-10-03/04 with 8 session commits, 2 merges #683 #686, 2 receipts.)
-- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale) on the 10-04 window; breathing across the full session.
-- **Sycophancy check**: agreement 4 / dissent 3 (ratio 1.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): "live-verified" narrowed to "served from the deployment URL"; the pretty good.arcs.care routes stay unconfirmed (egress block). "Cheapest high-value fix" downgraded to "a one-line hook change". Nothing dropped.
-- **Somatic read**: not asked.
-- **Disposition**: RELEASED on Zach's '/handoff'.
-
-_This block asserts nothing new. Counts, paths, and questions only._
+> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
+> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
+> `2026-10-05--swipe-admin-only-pr766--ZH`.
 
 ## Shipped + on main
-- **Research:** `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`: claim check of a
-  LinkedIn post on Hau's stopped light, 2026 state of the art, 15 isomorphisms labelled MECHANISM or
-  METAPHOR, 5 inventions each with a pre-registered kill condition. Top 3 in the induced backlog
-  (`freshness-zeno-ceiling`, `echo-scheduled-receipts`, `memory-seven-axis-scorecard`).
-- **Skill:** `/echo-scan` (`.claude/skills/echo-scan/`), the working form of ROM primitive 5, with a
-  nested `claim-check` module (`references/claim-check.md`) also callable standalone. A fresh-agent run
-  of the module found 7 gaps and a wrong expected verdict in its own eval; all fixed in `c04c21f`.
-- **Oracle fix (`4583555`):** `scripts/oracle.py` matched only argv[0..1], so `next seed --dry-run`
-  allocated for real and stamped a pulse beat. Now strict parse (unknown flag, extra arg, missing value
-  -> exit 2), a real `next <ns> --dry-run`, and `--self-test` 12/12 wired into pre-commit.
-- **NFTT:** "Light at Thirty-Eight Miles an Hour" (the session's own story, including the false herald it
-  refused to commit) + companion `/research` page (go-deeper, tao-waiver as a companion) + `tao-284`.
-- Shareable artifact of the research: https://claude.ai/artifact/SgSCnSBsyxjxzUQ3xP1tn8 (private).
+- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
+  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
+  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
+  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
+  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
+  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
+- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
+  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
 
 ## Open (next session)
-1. Seeds planted this handoff: `seed-pattern-strict-cli-args` (candidate), `seed-skill-echo-scan`, and
-   `seed-gate-hookspath-bootstrap`, germinated the same day: `.claude/hooks/session-start.sh` now arms
-   `core.hooksPath` when unset, so fresh clones run the pre-commit chain.
-2. Suggested tasks queued as cards: resync `scripts/nftt_index_build.mjs` (8 posts stale; running it drops
-   posts), and Tao backfill for the 4 NFTT posts still uncovered.
-3. `/echo-scan` full with/without benchmark not run (only claim-check mode exercised).
-4. Backlog inventions untouched; each carries its kill condition.
+1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
+   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
+   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
+   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
+2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
 
 ## Lessons (in the record)
-- A preview flag a tool does not recognize turns a look into a touch. 61 of 63 `scripts/*.py` that read
-  argv parse it by hand (38 of those write files); the oracle was one instance of the class.
-- A herald must come from the write it reports. The pulse beat from a reverted allocation was refused;
-  the beat from the real tao-284 allocation was committed.
-- `core.hooksPath` unset in this clone: commits `43a3ff9` and `248036c` ran no gates, and the essay
-  shipped without the tao-coverage check until `08233e4`.
+- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
+- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.

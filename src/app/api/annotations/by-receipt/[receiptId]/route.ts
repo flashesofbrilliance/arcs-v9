@@ -6,7 +6,9 @@ export const dynamic = "force-dynamic"
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ receiptId: string }> }) {
   const session = await auth()
-  const userId = session?.user?.id ?? null
+  // Signed-in only: a null userId would match every anonymous row.
+  const userId = session?.user?.id
+  if (!userId) return NextResponse.json({ error: "Sign in required" }, { status: 401 })
 
   const { receiptId } = await params
   const annotations = await prisma.annotation.findMany({

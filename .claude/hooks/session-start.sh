@@ -26,15 +26,14 @@ export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
 #     scripts/git-hooks chain silently never ran (2026-10-03: commits 43a3ff9 and 248036c went in
 #     ungated and an NFTT post skipped tao-coverage). Gotcha 12 said "install once" by hand; this
 #     makes it automatic. Idempotent, never overrides a deliberate value, never fails the hook.
-_HP=$(git -C "$CLAUDE_PROJECT_DIR" config --get core.hooksPath 2>/dev/null || true)
-if [ -d "$CLAUDE_PROJECT_DIR/scripts/git-hooks" ]; then
-  if [ -z "$_HP" ]; then
-    git -C "$CLAUDE_PROJECT_DIR" config core.hooksPath scripts/git-hooks 2>/dev/null \
-      && echo "hooks: armed core.hooksPath=scripts/git-hooks (was unset)" || true
-  elif [ "$_HP" != "scripts/git-hooks" ]; then
-    echo "hooks: core.hooksPath=$_HP (not scripts/git-hooks; left as set)"
-  fi
-fi
+#     2026-10-05: the desktop app writes an ABSOLUTE main-checkout hooksPath into every worktree's
+#     config.worktree, so worktrees ran main's (stale) gates. scripts/hookspath_arm.sh repoints that
+#     per-worktree to the relative path (self-test: scripts/hookspath_arm.sh --self-test). Armed for
+#     both the project dir and the session cwd, since a worktree session's cwd is the worktree.
+for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
+  [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
+  [ "$PWD" = "$CLAUDE_PROJECT_DIR" ] && break
+done
 
 # Cloud sessions run in throwaway containers, so the receipts and snapshot refresh written
 # below are discarded with the container. Writing them there only dirties tracked files and

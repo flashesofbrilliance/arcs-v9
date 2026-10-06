@@ -1,5 +1,16 @@
 import type { NextConfig } from "next";
 
+// Shared app icon set (src/app/icon.svg, apple-icon.png, manifest.webmanifest,
+// opengraph-image.png, public/icon-192/512.png). Every host-wide `/:path((?!...).*)`
+// catch-all below would otherwise answer these with its default HTML page, after
+// src/proxy.ts (SHARED_ICON_PATH) already let them through. Added 2026-10-05.
+const SHARED_ICON_EXCLUDE = "icon\\.svg|icon-192\\.png|icon-512\\.png|apple-icon\\.png|manifest\\.webmanifest|opengraph-image\\.png|";
+function withSharedIcons<T extends { source: string }>(rules: T[]): T[] {
+  return rules.map((r) =>
+    r.source.startsWith("/:path((?!") ? { ...r, source: r.source.replace("/:path((?!", "/:path((?!" + SHARED_ICON_EXCLUDE) } : r,
+  );
+}
+
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     // jobs.arcs.care: the rubric + trigger specs are read at request time; the scan HUD is served from _ARTIFACTS.
@@ -64,7 +75,7 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return {
-      beforeFiles: [
+      beforeFiles: withSharedIcons([
         { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
@@ -186,7 +197,7 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/wing.html", has: [{ type: "host", value: "wing.arcs.care" }] },
-      ],
+      ]),
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
         // arcs.care/case-study: neutral (counterpart-agnostic) Ideal Protein case study, forked from conduit-case-study.html 2026-09-28.

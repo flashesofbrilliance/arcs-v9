@@ -688,11 +688,14 @@ if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . &&
     exit 1
   fi
 fi
-# argparse batches 1-2 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
+# argparse batches 1-5 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
 # so an unknown flag exits 2 instead of falling through to a write (the oracle --dry-run class).
 # Each carries a --self-test that proves it; run it whenever that script is staged.
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
-         connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen; do
+         connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
+         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
+         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
@@ -701,6 +704,16 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
     fi
   fi
 done
+
+# cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
+# .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
+if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/cruft_sweep.py --self-test >/dev/null 2>&1; then
+    python3 scripts/cruft_sweep.py --self-test >&2 || true
+    echo "✖ pre-commit(cruft-sweep): prune would bundle the wrong HEAD. fix before committing." >&2
+    exit 1
+  fi
+fi
 
 # backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
 if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
@@ -744,5 +757,32 @@ fi
 # (2026-10-04: ~30 hardcoded ids meant no upgrade was ever noticed or flagged).
 if command -v python3 >/dev/null 2>&1 && [ -f scripts/model_id_gate.py ]; then
   python3 scripts/model_id_gate.py --staged >/dev/null 2>&1 || { python3 scripts/model_id_gate.py --staged || true; exit 1; }
+fi
+# resume-location guard (2026-10-05): every staged forge resume / ATS file's location line reads
+# exactly "New York Metro" (memory resume-location-new-york-metro-only). Added AND modified files:
+# the class propagates through edit-from-seed, so a touched seed must be clean too.
+if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/forge-*/resume-*.html' '_ARTIFACTS/forge-*/resume-*.txt' 2>/dev/null || true)
+  if [ -n "$rl" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/resume_location_gate.py $rl >&2; then
+      echo "✖ pre-commit(resume-location): fix with 'python3 scripts/resume_location_gate.py --fix', then re-render the PDF." >&2
+      exit 1
+    fi
+  fi
+fi
+# ---------------------------------------------------------------------------
+# Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
+# guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
+# null as "every anonymous row" and undefined as "no filter". Fires on staged
+# src .ts/.tsx. See scripts/null_userid_gate.py.
+if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  nu=$(git diff --cached --name-only --diff-filter=AM -- 'src/*.ts' 'src/*.tsx' 2>/dev/null || true)
+  if [ -n "$nu" ]; then
+    if ! echo "$nu" | tr '\n' '\0' | xargs -0 python3 scripts/null_userid_gate.py; then
+      echo "✖ commit blocked: unguarded session userId in a where filter (see above)." >&2
+      exit 1
+    fi
+  fi
 fi
 exit 0

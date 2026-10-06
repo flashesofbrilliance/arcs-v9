@@ -42,14 +42,50 @@ def today() -> str:
     return dt.date.today().isoformat()
 
 
+MAIN_REFS = ("origin/main", "main")
+
+
+def branch_merge_re(branch: str) -> re.Pattern:
+    """A GitHub merge commit subject for a PR from `branch` (any owner)."""
+    return re.compile(rf"^Merge pull request #\d+ from \S+/{re.escape(branch)}$")
+
+
+def matches_identity(row: dict, ident: set[str]) -> bool:
+    """True when the configured git identity is the commit's author OR committer. Cloud sessions
+    commit as committer "Claude" while the author is the repo owner, so author alone reads 0."""
+    return bool(ident & {row["an"], row["ae"], row["cn"], row["ce"]})
+
+
 def exhale(day: str) -> dict:
-    """What went OUT today: commits, merges to main, receipts (from the day's night-moves if present)."""
-    author = sh("git", "config", "user.name") or "Zach"
-    commits = [l for l in sh("git", "log", "--all", f"--since={day} 00:00", f"--author={author}", "--format=%h %s").splitlines() if l]
-    merges = [c for c in commits if c.split(" ", 1)[1].startswith("Merge pull request")]
+    """What went OUT today: commits, merges to main, receipts (from the day's night-moves if present).
+
+    Scoped to this session's BRANCH: PRs merged to main today from it, the commits inside them,
+    and the commits not yet merged. Counting by author name read 0 in cloud sessions (author is the
+    owner, committer is "Claude") and would count every parallel session if matched on the owner.
+    On main itself there is no session branch, so it falls back to the git identity, matched on
+    author or committer."""
+    since = f"--since={day} 00:00"
+    main = next((r for r in MAIN_REFS if sh("git", "rev-parse", "--verify", "-q", r)), "main")
+    branch = sh("git", "rev-parse", "--abbrev-ref", "HEAD")
+    if branch and branch not in ("HEAD", "main"):
+        rx = branch_merge_re(branch)
+        merges = [l for l in sh("git", "log", main, "--first-parent", "--merges", since, "--format=%H %s").splitlines()
+                  if l and rx.match(l.split(" ", 1)[1])]
+        shas = set(sh("git", "rev-list", "--no-merges", since, f"{main}..HEAD").split())
+        for m in merges:
+            sha = m.split(" ", 1)[0]
+            shas |= set(sh("git", "rev-list", "--no-merges", since, f"{sha}^1..{sha}^2").split())
+        n_commits, n_merges, scope = len(shas), len(merges), f"branch {branch}"
+    else:
+        ident = {v for v in (sh("git", "config", "user.name"), sh("git", "config", "user.email")) if v}
+        rows = [dict(zip(("h", "an", "ae", "cn", "ce", "s"), l.split("\t", 5)))
+                for l in sh("git", "log", "--all", since, "--format=%h%x09%an%x09%ae%x09%cn%x09%ce%x09%s").splitlines() if l]
+        mine = [r for r in rows if matches_identity(r, ident)]
+        n_merges = sum(1 for r in mine if r["s"].startswith("Merge pull request"))
+        n_commits, scope = len(mine) - n_merges, "git identity (author or committer)"
     nm = ROOT / "_STATE" / "night-moves" / f"{day}.md"
     receipts = len(re.findall(r"\b\d{4}-\d{2}-\d{2}--[a-z0-9-]+--[A-Z]{2}\b", nm.read_text(encoding="utf-8"))) if nm.exists() else None
-    return {"commits": len(commits), "merges": len(merges), "receipts_in_digest": receipts,
+    return {"commits": n_commits, "merges": n_merges, "scope": scope, "receipts_in_digest": receipts,
             "sends": "not detectable mechanically (Gmail/iMessage are outside git); answer in the somatic read"}
 
 
@@ -100,7 +136,7 @@ def block(day: str, exh: dict, inh: dict, syc: dict, can: dict | None, draft_pat
           "mirror (inhale, no exhale)" if not exh["commits"] and (inh["dissent_markers"] or inh["falsification_rows_today"]) else "breathing (both directions)"
     lines = [f"### Shavasana — handoff pause, {day} (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)",
              "",
-             f"- **Exhale** (what went out): {exh['commits']} commits, {exh['merges']} merges to main, receipts in digest: {exh['receipts_in_digest'] if exh['receipts_in_digest'] is not None else 'no digest file'}.",
+             f"- **Exhale** (what went out): {exh['commits']} commits, {exh['merges']} merges to main (scope: {exh.get('scope', 'unscoped')}), receipts in digest: {exh['receipts_in_digest'] if exh['receipts_in_digest'] is not None else 'no digest file'}.",
              f"- **Inhale** (what came in): {inh['falsification_rows_today']} falsification rows today, {inh['dissent_markers']} dissent markers, {inh['unconfirmed_markers']} unconfirmed markers in the day's records.",
              f"- **Breath balance**: {bal}.",
              f"- **Sycophancy check**: agreement {syc['agreement']} / dissent {syc['dissent']} (ratio {syc['ratio']}) → {syc['verdict']}."]
@@ -137,6 +173,16 @@ def self_test() -> int:
     out = tmp / "block.md"; out.write_text(b, encoding="utf-8")
     c = canary(out)
     check("block itself passes the altitude canary", c is None or c["verdict"] != "NO GROUND RETURN", c)
+    rx = branch_merge_re("claude/x-y")
+    check("branch merge subject matches its own branch",
+          bool(rx.match("Merge pull request #706 from flashesofbrilliance/claude/x-y")), "")
+    check("another branch's merge does not match",
+          not rx.match("Merge pull request #719 from flashesofbrilliance/claude/x-y-2"), "")
+    cloud = {"an": "Zach Harris", "ae": "noreply@anthropic.com", "cn": "Claude", "ce": "noreply@anthropic.com"}
+    check("cloud commit (author owner, committer Claude) matches identity {Claude}",
+          matches_identity(cloud, {"Claude"}), "")
+    check("a GitHub merge by the owner does not match identity {Claude}",
+          not matches_identity({"an": "Zach Harris", "ae": "z@x", "cn": "GitHub", "ce": "noreply@github.com"}, {"Claude"}), "")
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
     return 1 if fails else 0
 

@@ -138,6 +138,14 @@ def checkpoint_loops(ledgers: list[tuple[str, dict]], today: dt.date, here: str 
     return mine, rot
 
 
+def archived_trail_loops(trails: list[tuple[str, dict, bool]], archive: str) -> list:
+    """trails: [(name, last_row, claimed_marker)]. One rolled-up item, counted once, never one per trail."""
+    open_ = [n for n, r, claimed in trails if r and not r.get("handoff_done") and not claimed]
+    if not open_:
+        return []
+    return [_item(f"{len(open_)} archived handoff trails unclaimed", f"compaction pass pending, {archive}", archive, len(open_))]
+
+
 def captured_today(seed_rows: list[dict], witness_rows: list[dict], today: dt.date) -> list:
     out = []
     for s in seed_rows:
@@ -217,6 +225,18 @@ def gather(scheduled: Path | None, today: dt.date, now: dt.datetime) -> dict:
         mine, cp_rot = [], []
         gaps.append(f"worktree ledgers unreadable ({type(e).__name__})")
 
+    # Archived trails from pruned worktrees (2026-10-04). Reads ONLY handoff-progress.jsonl and the
+    # CLAIMED marker; the archive also holds .env* and dev.db copies, which are never opened here.
+    arc_rot = []
+    for arc in sorted(Path.home().glob("arcs-worktree-bundles/handoff-trails/*")):
+        trails = []
+        for wt in sorted(p for p in arc.iterdir() if p.is_dir()):
+            led = wt / "_STATE/handoff-progress.jsonl"
+            if led.is_file():
+                rows = _jsonl(led)
+                trails.append((wt.name, rows[-1] if rows else {}, (wt / "CLAIMED").exists()))
+        arc_rot += archived_trail_loops(trails, str(arc).replace(str(Path.home()), "~"))
+
     seeds = ROOT / "_SEEDS/ledger.jsonl"
     wit = ROOT / f"_STATE/witness/{today}.jsonl"
     cap = captured_today(_jsonl(seeds) if seeds.is_file() else [], _jsonl(wit) if wit.is_file() else [], today)
@@ -237,7 +257,7 @@ def gather(scheduled: Path | None, today: dt.date, now: dt.datetime) -> dict:
         "sections": [
             ["Waiting on your go", go],
             ["Closable in under 15 min", quick],
-            ["Rotting", pr_rot + bl_rot + cp_rot],
+            ["Rotting", pr_rot + bl_rot + cp_rot + arc_rot],
             ["Captured today, not filed", cap],
             ["Coming up", coming_up(sched, now)],
         ],
@@ -349,6 +369,8 @@ def self_test() -> int:
     cap = captured_today([{"ts": "2026-10-04", "event": "planted", "seed": "s"}, {"ts": "2026-10-03", "event": "planted"}],
                          [{"quote": "that's it"}, {"quote": "x", "promoted": "ADR-1"}], today)
     check("captured today", len(cap) == 2)
+    arc = archived_trail_loops([("a", {"ts": "x"}, False), ("b", {"ts": "x"}, True), ("c", {"handoff_done": True}, False), ("d", {}, False)], "~/x")
+    check("archive rolls up to one item, claimed excluded", len(arc) == 1 and arc[0]["text"].startswith("1 "))
 
     now = dt.datetime(2026, 10, 4, 9, tzinfo=dt.timezone.utc)
     up = coming_up([{"taskId": "r1", "fireAt": "2026-10-05T09:00:00Z"}, {"taskId": "r0", "fireAt": "2026-10-01T09:00:00Z"},
