@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.85.0] 2026-10-05 — cruft_sweep prune: own-HEAD bundles (#807) + incremental bundles (#809)
+
+- Prune refuses non-worktrees and tip != HEAD (exit 2); detached heads pinned `refs/cruft-archive/<name>-<sha8>`; bundles `^origin/<base>`.
+- `--self-test` 13 checks, fails on both prior versions; pre-commit runs it when staged. No live prune on the new code yet.
+
 ## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
 
 - `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.

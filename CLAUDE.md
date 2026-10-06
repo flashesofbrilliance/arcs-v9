@@ -114,6 +114,34 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.85.0 (2026-10-05)
+
+> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
+> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
+> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
+
+## Shipped + on main
+- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
+  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
+  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
+  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
+  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
+- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
+  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
+  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
+- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
+  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
+
+## Open (next session)
+1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
+2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
+3. `fe-smoke` was pending at both merges; confirm it went green on main.
+
+## Lessons (in the record)
+- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
+  worktree: prove the GIT_DIR, never trust the path.
+- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
+
 # Handoff — v3.84.0 (2026-10-05)
 
 > **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
@@ -151,30 +179,3 @@ All inside the consolidated bundle.
   (pruned `cool-bell` under a live session, restored it from its branch).
 - The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
 - One red check on every PR is a red main, not N bugs: fix main first, then rerun.
-
-# Handoff — v3.83.0 (2026-10-05)
-
-> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
-> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
-> `2026-10-05--swipe-admin-only-pr766--ZH`.
-
-## Shipped + on main
-- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
-  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
-  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
-  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
-  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
-  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
-- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
-  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
-
-## Open (next session)
-1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
-   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
-   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
-   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
-2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
-
-## Lessons (in the record)
-- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
-- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.

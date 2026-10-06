@@ -1,5 +1,5 @@
-# ARCS session state — v3.83.0 (2026-10-05)
+# ARCS session state — v3.85.0 (2026-10-05)
 
-- HEAD at handoff cut: fbc3cece (origin/main)
-- Done: COURT carve-out probe (#780); #762, #766 merged. Receipts filed for all three.
-- Next: verify main CI (never ran for these merges: Actions backlog). Fix forward if red.
+- HEAD at handoff cut: c18ea2ef (origin/main)
+- Done: cruft_sweep prune safety (#807) and incremental bundles (#809). Receipts filed for both.
+- Next: first live `cruft_sweep.py prune <wt> --dry-run` on the fixed code; confirm fe-smoke green on main.

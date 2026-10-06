@@ -1,3 +1,30 @@
+# Handoff — v3.83.0 (2026-10-05)
+
+> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
+> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
+> `2026-10-05--swipe-admin-only-pr766--ZH`.
+
+## Shipped + on main
+- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
+  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
+  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
+  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
+  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
+  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
+- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
+  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
+
+## Open (next session)
+1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
+   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
+   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
+   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
+2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
+
+## Lessons (in the record)
+- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
+- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
+
 # Handoff — v3.82.0 (2026-10-05)
 
 > **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
