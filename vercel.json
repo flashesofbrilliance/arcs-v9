@@ -13,22 +13,42 @@
         },
         {
           "source": "/",
-          "has": [{ "type": "host", "value": "kelly-interview.arcs.care" }],
+          "has": [
+            {
+              "type": "host",
+              "value": "kelly-interview.arcs.care"
+            }
+          ],
           "destination": "/kelly-interview.html"
         },
         {
           "source": "/teardown",
-          "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
+          "has": [
+            {
+              "type": "host",
+              "value": "todd-call.arcs.care"
+            }
+          ],
           "destination": "/todd-teardown.html"
         },
         {
           "source": "/logictree",
-          "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
+          "has": [
+            {
+              "type": "host",
+              "value": "todd-call.arcs.care"
+            }
+          ],
           "destination": "/todd-logictree.html"
         },
         {
           "source": "/runtime",
-          "has": [{ "type": "host", "value": "julia.arcs.care" }],
+          "has": [
+            {
+              "type": "host",
+              "value": "julia.arcs.care"
+            }
+          ],
           "destination": "/julia-runtime.html"
         }
       ],
@@ -36,7 +56,10 @@
         {
           "source": "/resume.html",
           "headers": [
-            { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            }
           ]
         }
       ]
@@ -45,24 +68,31 @@
       "root": "operators/",
       "entrypoint": "arcs_api:app",
       "functions": {
-        "arcs_api.py": { "maxDuration": 30 }
-      },
-      "routes": [
-        {
-          "src": "^/svc/sage/(.*)$",
-          "transforms": [{ "type": "request.path", "op": "set", "args": "/$1" }]
-        },
-        {
-          "src": "^/svc/sage$",
-          "transforms": [{ "type": "request.path", "op": "set", "args": "/" }]
+        "arcs_api.py": {
+          "maxDuration": 30
         }
-      ]
+      }
     }
   },
   "rewrites": [
-    { "source": "/svc/sage", "destination": { "service": "sage" } },
-    { "source": "/svc/sage/:path*", "destination": { "service": "sage" } },
-    { "source": "/:path*", "destination": { "service": "web" } }
+    {
+      "source": "/svc/sage",
+      "destination": {
+        "service": "sage"
+      }
+    },
+    {
+      "source": "/svc/sage/(.*)",
+      "destination": {
+        "service": "sage"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "web"
+      }
+    }
   ],
   "crons": [
     {
