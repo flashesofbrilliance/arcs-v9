@@ -4,7 +4,7 @@ import { callerFor } from "@/lib/jobs"
 
 export const dynamic = "force-dynamic"
 
-// PATCH /api/jobs/settings  { cap?, clearMissed?, revive?, dismissDrift? } — the forge concurrency cap,
+// PATCH /api/jobs/settings  { cap?, clearMissed?, undoClearMissed?, revive?, dismissDrift? } — the forge concurrency cap,
 // any future board setting goes through the same key/value row.
 export async function PATCH(req: NextRequest) {
   const caller = await callerFor(req)
@@ -20,6 +20,8 @@ export async function PATCH(req: NextRequest) {
   // row back in the live queue; dismissDrift silences the current drift signature.
   const set = async (k: string, v: string) => { await prisma.jobBoardSetting.upsert({ where: { key: k }, create: { key: k, value: v }, update: { value: v } }); written[k] = v }
   if (b.clearMissed === true) await set("missed_cleared_at", new Date().toISOString())
+  // undoClearMissed removes the clear, so every row it hid returns to live or missed by its own dates.
+  if (b.undoClearMissed === true) { await prisma.jobBoardSetting.deleteMany({ where: { key: "missed_cleared_at" } }); written.missed_cleared_at = "" }
   if (typeof b.revive === "string" && b.revive) {
     const cur = await prisma.jobBoardSetting.findUnique({ where: { key: "missed_revived" } })
     let list: string[] = []; try { list = JSON.parse(cur?.value ?? "[]") } catch { list = [] }
