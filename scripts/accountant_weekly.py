@@ -40,13 +40,14 @@ SCHEMA = "arcs-accountant-report/v1"
 # the weekly agent transcribes ~1/3 of the full export. Adapter output is identical.
 LEAN_COLS = ["id", "receiptId", "userId", "user_email_sha256", "created_epoch", "nciScore", "horizon",
              "window", "stakes", "mode", "driftState", "yState", "outcome_id", "outcome_matched",
-             "outcome_regret_score", "outcome_logged_at", "outcome_what_len", "outcome_learning_len"]
+             "outcome_regret_score", "outcome_logged_at", "outcome_what_len", "outcome_learning_len",
+             "provenance", "outcome_synthetic"]
 LEAN_SQL = """
 select json_build_object('cols', json_build_array(%s),
   'rows', json_agg(json_build_array(r.id, r."receiptId", r."userId",
     encode(sha256(convert_to(lower(u.email),'UTF8')),'hex'), extract(epoch from r."createdAt")::bigint,
     r."nciScore", r.horizon, r.window, r.stakes, r.mode, r."driftState", r."yState",
-    o.id, o.matched, o."regretScore", o."loggedAt", length(o.what), length(o.learning))
+    o.id, o.matched, o."regretScore", o."loggedAt", length(o.what), length(o.learning), r.provenance, o.synthetic)
     order by r."createdAt")) as export
 from "Receipt" r
 left join "User" u on u.id = r."userId"

@@ -185,6 +185,8 @@ export async function POST(req: NextRequest) {
     parentReceiptId,
     sessionId,
     clarityMode = "SIMPLE",
+    provenance,
+    resolveBy,
   } = parsedBody.data
 
   if (!question?.trim()) {
@@ -497,10 +499,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       // decision could plausibly have resolved — a 3-year decision is no longer
       // asked "did this land?" seven days out. The cron sweeps far dates into
       // the 30-day Resend window; see cron/debrief/route.ts.
+      // An owner-supplied resolveBy wins over the model's date: it is the real resolve-by.
       reminderDate: reminderDateForWindow(
         activeHorizon,
-        typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null,
+        resolveBy ?? (typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null),
       ),
+      provenance: provenance ?? null,
     }
 
     // Check for undefined values before creating receipt
