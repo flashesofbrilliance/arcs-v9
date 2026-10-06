@@ -1,3 +1,29 @@
+# Handoff — v3.88.0 (2026-10-05)
+
+> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
+> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
+> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
+
+## Shipped + on main
+- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
+  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
+  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
+  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
+  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
+- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
+  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
+  image/svg+xml, image/png, application/manifest+json.
+
+## Open (next session)
+1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
+   is covered, but any `/:path*` style host rule is not) may still swallow icons.
+2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
+3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
+
+## Lessons (in the record)
+- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
+  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
+
 # Handoff — v3.87.0 (2026-10-05)
 
 > **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
