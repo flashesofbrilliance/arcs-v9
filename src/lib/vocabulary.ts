@@ -23,7 +23,7 @@ export interface SlotVocabulary {
 export const AHMED_ORDER: Record<AhmedSlot, SlotVocabulary> = {
   verdict: {
     order: 1,
-    label: "Verdict",
+    label: "True North",
     pageFields: ["trueNorth", "yState", "renderResolution", "mode", "doorClass", "stakes"],
     ledgerColumns: ["question", "mode", "stakes"],
     count: null,
@@ -63,7 +63,8 @@ export const AHMED_ORDER: Record<AhmedSlot, SlotVocabulary> = {
   },
 } as const
 
-/** The decision being made, shown above the verdict as its subject line. */
+/** The decision being made: a call, a bet or a choice (one-way or two-way door).
+ *  Shown above True North as its subject line. */
 export const SUBJECT_LABEL = "Decision"
 
 export const AHMED_SLOTS: readonly AhmedSlot[] = (Object.keys(AHMED_ORDER) as AhmedSlot[])
