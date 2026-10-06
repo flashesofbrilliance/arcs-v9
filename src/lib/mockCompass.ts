@@ -60,6 +60,8 @@ export interface CompassResult {
   decision_mode: string
   y_state: string
   render_resolution: string
+  horizon?: string | null
+  stakes?: string | null
   nci_delta: number | null
   macro_tags: string[]
   tributaries: Tributary[]

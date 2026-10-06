@@ -57,3 +57,11 @@ SHARP verdict today. 266/267 carry exactly 3 `whyBullets`; 70 carry `atgTributar
 The order is structure, not resolution. FORK/YELLOW render the verdict DEGRADED, PARADOX MOIRE,
 SCRATCH/DELTA GRAIN. A verdict slot with fog says so in its own register; it is never sharpened to fit
 the order.
+
+## Brief-only slot (2026-10-06)
+
+The brief is the receipt in the same order plus one section the receipt lacks: **Situation**
+(`Brief.situationFraming`, `SITUATION_LABEL`). It sits after Next moves and before Evidence, so
+True North still leads. Lineage ("Tributary rounds") and the debrief card stay below the layout.
+Before this change the brief never showed the Reasons, rendered True North sharp under a GRAIN
+label, and the debrief card called NCI "Conviction" (NCI is decision coherence, not conviction).
