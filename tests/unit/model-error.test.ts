@@ -104,3 +104,29 @@ test("a skipped alert (missing env) is logged and does not burn the throttle win
     assert.equal(sent.length, 1)
   } finally { process.env = env; console.error = realErr }
 })
+
+test("alert test: sends through the real path, bypasses and does not arm the throttle", async () => {
+  const env = { ...process.env }
+  Object.assign(process.env, { NODE_ENV: "production", ADMIN_EMAILS: "a@example.com", AUTH_RESEND_KEY: "k" })
+  try {
+    const { runAlertTest } = await import("../../src/lib/model-error.ts")
+    reportModelError("compass", { status: 401 })         // a real auth alert arms the window
+    const r = await runAlertTest()                        // the test still sends
+    assert.equal(r.status, "queued"); assert.match(r.delivery ?? "", /^sent/)
+    assert.equal(sent.length, 2)
+    assert.match((sent[1] as { subject: string }).subject, /\[MODEL_OUTAGE\] auth on health\/alert_test/)
+    _resetAlertThrottle(); sent.length = 0
+    await runAlertTest(); reportModelError("compass", { status: 401 })  // test did not arm it
+    assert.equal(sent.length, 2)
+  } finally { process.env = env; console.error = realErr }
+})
+
+test("alert test reports a skip instead of pretending to send", async () => {
+  const env = { ...process.env }
+  Object.assign(process.env, { NODE_ENV: "production", AUTH_RESEND_KEY: "k" }); delete process.env.ADMIN_EMAILS
+  try {
+    const { runAlertTest } = await import("../../src/lib/model-error.ts")
+    const r = await runAlertTest()
+    assert.equal(r.status, "skipped"); assert.equal(r.detail, "no ADMIN_EMAILS"); assert.equal(sent.length, 0)
+  } finally { process.env = env; console.error = realErr }
+})

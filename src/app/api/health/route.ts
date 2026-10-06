@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { isAdmin } from "@/lib/admin"
 import Anthropic from "@anthropic-ai/sdk"
-import { reportModelError, type ModelErrorCode } from "@/lib/model-error"
+import { reportModelError, runAlertTest, type ModelErrorCode } from "@/lib/model-error"
 import { MODELS } from "@/lib/claude-models"
 
 // Admin health / diagnostics endpoint (ADR-006 direction; built 2026-09-24 after
@@ -60,6 +60,12 @@ export async function GET(req: NextRequest) {
 
   if (!(await deepAuthorized(req))) {
     return NextResponse.json({ error: "deep diagnostics require admin or bearer token" }, { status: 401 })
+  }
+
+  // Alert-path check (2026-10-06): sends one real [MODEL_OUTAGE] email to ADMIN_EMAILS
+  // from a synthetic 401, so the early warning is proven without breaking the live key.
+  if (req.nextUrl.searchParams.get("alert_test") === "1") {
+    return NextResponse.json({ alert_test: await runAlertTest(), ts: new Date().toISOString() })
   }
 
   // 1. Per-model schema probe - catches missing columns (the batonId class).

@@ -1,4 +1,5 @@
 import { Resend } from "resend"
+import { after } from "next/server"
 
 // Model-call failures, mapped (2026-10-05). The live compass once rendered the raw
 // Anthropic 400 body ("You have reached your specified API usage limits ...",
@@ -77,23 +78,36 @@ const ALERT_CODES: ReadonlySet<ModelErrorCode> = new Set(["usage_limit", "auth"]
 const ALERT_WINDOW_MS = 6 * 60 * 60_000
 const lastAlert = new Map<ModelErrorCode, number>()
 
-function alertAdmins(route: string, info: ModelErrorInfo, upstream: string, rid: string | null) {
-  if (!ALERT_CODES.has(info.code)) return
+export type AlertOutcome = { status: "not-alerting" | "throttled" | "skipped" | "queued"; detail?: string; delivery?: Promise<string> }
+
+function alertAdmins(route: string, info: ModelErrorInfo, upstream: string, rid: string | null, opts: { bypassThrottle?: boolean } = {}): AlertOutcome {
+  if (!ALERT_CODES.has(info.code)) return { status: "not-alerting" }
   const now = Date.now()
-  if (now - (lastAlert.get(info.code) ?? 0) < ALERT_WINDOW_MS) return
+  if (!opts.bypassThrottle && now - (lastAlert.get(info.code) ?? 0) < ALERT_WINDOW_MS) return { status: "throttled" }
   // Env checks come before the throttle is armed: a misconfigured deploy must not burn
   // the 6h window silently, and every skip is logged so a missing alert is visible.
   const to = (process.env.ADMIN_EMAILS ?? "").split(",").map((s) => s.trim()).filter(Boolean)
   const key = process.env.AUTH_RESEND_KEY
   const skip = !to.length ? "no ADMIN_EMAILS" : !key ? "no AUTH_RESEND_KEY" : process.env.NODE_ENV !== "production" ? "not production" : null
-  if (skip) { console.error(`[MODEL_OUTAGE] alert skipped: ${skip}`); return }
-  lastAlert.set(info.code, now)
-  new Resend(key).emails.send({
+  if (skip) { console.error(`[MODEL_OUTAGE] alert skipped: ${skip}`); return { status: "skipped", detail: skip } }
+  if (!opts.bypassThrottle) lastAlert.set(info.code, now)
+  const delivery = new Resend(key).emails.send({
     from: "ARCS <noreply@arcs.care>",
     to,
     subject: `[MODEL_OUTAGE] ${info.code} on ${route}`,
     text: `The Claude API refused a call from ${route}.\n\ncode: ${info.code}\nupstream_status: ${info.upstreamStatus ?? "none"}\nrequest_id: ${rid ?? "none"}\nupstream: ${upstream.slice(0, 500)}\n\nVisitors see calm copy; the compass stays down until this clears. Next alert for this code in 6h at the earliest (per instance).`,
-  }).catch((err: unknown) => console.error("[MODEL_OUTAGE] alert email failed:", err instanceof Error ? err.message : String(err)))
+  }).then(
+    (r: { data?: { id?: string } | null; error?: { message?: string } | null }) => {
+      if (r?.error) { console.error("[MODEL_OUTAGE] alert email failed:", r.error.message ?? "unknown"); return `failed: ${r.error.message ?? "unknown"}` }
+      console.error(`[MODEL_OUTAGE] alert email sent id=${r?.data?.id ?? "none"}`)
+      return `sent ${r?.data?.id ?? ""}`.trim()
+    },
+    (err: unknown) => { const m = err instanceof Error ? err.message : String(err); console.error("[MODEL_OUTAGE] alert email failed:", m); return `failed: ${m}` },
+  )
+  // Keep the serverless function alive until Resend answers; outside a request
+  // (unit tests) after() throws and the promise simply runs on.
+  try { after(() => delivery.then(() => undefined)) } catch { /* no request scope */ }
+  return { status: "queued", delivery }
 }
 
 // Log the full upstream error server-side, alert if warranted, return the safe info.
@@ -108,6 +122,17 @@ export function reportModelError(route: string, e: unknown): ModelErrorInfo {
   console.error(`[MODEL_OUTAGE] route=${route} code=${info.code} status=${info.upstreamStatus ?? "none"} request_id=${rid ?? "none"} upstream=${JSON.stringify(upstream.slice(0, 1000))}`)
   alertAdmins(route, info, upstream, rid)
   return info
+}
+
+// Admin-triggered end-to-end check of the alert path (/api/health?deep=1&alert_test=1).
+// Feeds a synthetic 401 through the real log + Resend path, bypassing the 6h throttle
+// so a test never blocks (or is blocked by) a real alert, and awaits delivery.
+export async function runAlertTest(): Promise<{ code: ModelErrorCode; status: AlertOutcome["status"]; detail?: string; delivery?: string }> {
+  const synthetic = { status: 401, requestID: "alert-test", error: { error: { type: "authentication_error", message: "ALERT TEST: synthetic 401, not a real outage" } } }
+  const info = classifyModelError(synthetic)
+  console.error(`[MODEL_OUTAGE] route=health/alert_test code=${info.code} status=401 request_id=alert-test upstream="ALERT TEST"`)
+  const out = alertAdmins("health/alert_test", info, "ALERT TEST: synthetic 401, not a real outage", "alert-test", { bypassThrottle: true })
+  return { code: info.code, status: out.status, detail: out.detail, delivery: out.delivery ? await out.delivery : undefined }
 }
 
 // The client payload. Only fields built from our own copy table: no provider text.
