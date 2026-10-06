@@ -296,10 +296,10 @@ def cmd_prune(a):
         # refs/cruft-archive/<name>-<sha8> so the bundle carries THIS worktree's commit (never
         # whatever "HEAD" means in the main repo) and gc can never drop it after removal.
         ref = f"refs/heads/{br}" if br else f"refs/cruft-archive/{name}-{head[:8]}"
-        if not br:
-            git(a.repo, "update-ref", ref, head)
         landed = subprocess.run(["git", "-C", a.repo, "merge-base", "--is-ancestor", head, a.upstream],
                                 capture_output=True, env=GIT_ENV).returncode == 0
+        if not br and not landed:  # a landed commit is already kept reachable by upstream
+            git(a.repo, "update-ref", ref, head)
         bundle = os.path.join(a.bundles, f"{name}.bundle")
         if landed:  # rule 10: already on upstream, nothing to back up
             bfile = f"on-{a.upstream}"
@@ -362,6 +362,7 @@ def self_test(script):
         wts = os.path.join(repo, ".claude", "worktrees")
         cases = {}
         sh(repo, "worktree", "add", "-q", "-b", "br-landed", os.path.join(wts, "landed"))
+        sh(repo, "worktree", "add", "-q", "--detach", os.path.join(wts, "landed-detached"))
         landed_head = sh(repo, "rev-parse", "HEAD")
         for name in ("good", "detached", "nogit"):
             sh(repo, "worktree", "add", "-q", "-b", f"br-{name}", os.path.join(wts, name))
@@ -388,7 +389,7 @@ def self_test(script):
         except ValueError:
             rows = {}
 
-        r = subprocess.run([sys.executable, script, "prune", "good", "detached", "nogit", "landed",
+        r = subprocess.run([sys.executable, script, "prune", "good", "detached", "nogit", "landed", "landed-detached",
                             "--repo", repo, "--bundles", bundles],
                            capture_output=True, text=True, env=GIT_ENV)
         out = r.stdout + r.stderr
@@ -409,6 +410,7 @@ def self_test(script):
         check(f"refs/cruft-archive/detached-{cases['detached'][:8]} {cases['detached']}" in pins,
               "detached: commit pinned under refs/cruft-archive/<name>-<sha8> after prune")
         check(not os.path.exists(os.path.join(bundles, "landed.bundle")), "landed: tip on base, no bundle written")
+        check("refs/cruft-archive/landed-detached-" not in pins, "landed-detached: no redundant pin for a commit on base")
         man = open(os.path.join(bundles, "MANIFEST.tsv")).read() if os.path.exists(os.path.join(bundles, "MANIFEST.tsv")) else ""
         check(f"landed\tbr-landed\t{landed_head[:8]}\ton-" in man, "landed: sha recorded in MANIFEST.tsv")
         check(not os.path.exists(os.path.join(bundles, "nogit.bundle")), "nogit: no bundle written")
