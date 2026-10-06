@@ -6,6 +6,7 @@ import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
+import { CompassBody } from "@/lib/request-schemas"
 import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
@@ -169,7 +170,10 @@ export async function POST(req: NextRequest) {
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: compass open to anonymous users; userId written as null
 
-  const body = await req.json()
+  const parsedBody = CompassBody.safeParse(await req.json().catch(() => null))
+  if (!parsedBody.success) {
+    return NextResponse.json({ error: "invalid request body" }, { status: 400 })
+  }
   const {
     question,
     horizon = "THIS_WEEK",
@@ -179,7 +183,7 @@ export async function POST(req: NextRequest) {
     parentReceiptId,
     sessionId,
     clarityMode = "SIMPLE",
-  } = body
+  } = parsedBody.data
 
   if (!question?.trim()) {
     return NextResponse.json({ error: "question is required" }, { status: 400 })

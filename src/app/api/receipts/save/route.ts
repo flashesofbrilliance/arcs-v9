@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
+import { SaveBody } from "@/lib/request-schemas"
 import { prisma } from "@/lib/db"
 import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
@@ -32,11 +33,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const body = await req.json()
-  const b = body?.bearing
-  if (!b || typeof b !== "object") {
+  const parsedBody = SaveBody.safeParse(await req.json().catch(() => null))
+  if (!parsedBody.success) {
     return NextResponse.json({ error: "bearing is required" }, { status: 400 })
   }
+  const b = parsedBody.data.bearing
 
   const question = typeof b.question === "string" ? b.question.trim() : ""
   const trueNorth = typeof b.true_north === "string" ? b.true_north.trim() : ""
@@ -55,7 +56,14 @@ export async function POST(req: NextRequest) {
     : null
 
   // Server-recomputed gate state — same function the compass route uses.
-  const yGate = computeYGate(b as Parameters<typeof computeYGate>[0], prepCtx, null, 0)
+  // The bearing is client-attested; a mistyped nested field is the caller's
+  // error (400), not a server crash.
+  let yGate: ReturnType<typeof computeYGate>
+  try {
+    yGate = computeYGate(b as Parameters<typeof computeYGate>[0], prepCtx, null, 0)
+  } catch {
+    return NextResponse.json({ error: "bearing is malformed" }, { status: 400 })
+  }
 
   const reasoning = b.reasoning && typeof b.reasoning === "object" ? b.reasoning as Record<string, unknown> : undefined
   const nci = Math.max(0, Math.min(100, Math.round(Number(b.nci_score)) || 50))
