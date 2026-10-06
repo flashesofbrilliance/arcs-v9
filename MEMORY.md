@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.100.0] 2026-10-05 - Debrief reminders disclosed: /privacy v1.5, trust contract 1.8
+
+- Closes the last nit from the showcase privacy review (verdict SAFE on claude/showcase-mirror @ 47b86cd1).
+
 ## [v3.99.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.7
 
 - Disclosed: LinkedIn uploads (private Blob), demand probe (no IP/UA), owner-minted share tokens, calendar/X links, self-serve delete.

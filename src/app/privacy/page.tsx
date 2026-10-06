@@ -19,6 +19,7 @@ const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
   { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link. Content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
+  { what: 'Debrief reminder emails', trigger: 'Signed in, the first time a receipt of yours reaches its horizon you get one check-in email asking how it landed. That is the only one sent without asking. Later ones come only if you turn reminders on, and every reminder carries a one-click link to turn them off' },
   { what: 'Waitlist or advisory request stored', trigger: 'Only if you join the waitlist or ask for a consult. Stored in our database, emailed to the ARCS team, confirmation delivered through Resend' },
   { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting and privacy-friendly page analytics), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
   { what: 'Your question goes to the ARCS scoring service', trigger: 'Each compass run sends the question, horizon and stakes to SAGE, ARCS\'s own scoring pipeline, which returns an advisory signal. It informs the reasoning; it never decides' },
@@ -201,7 +202,7 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.4 · effective 2026-10-05</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.5 · effective 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
             <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
