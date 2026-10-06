@@ -52,7 +52,7 @@ export default function ReceiptReflectPage() {
 
   useEffect(() => {
     let cancelled = false
-    fetch(`/api/brief/${receiptId}`)
+    fetch(`/api/brief/${receiptId}?generate=0`)
       .then(async (r) => ({ ok: r.ok, data: await r.json() }))
       .then(({ ok, data }) => {
         if (cancelled) return
@@ -111,11 +111,9 @@ export default function ReceiptReflectPage() {
               <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
               <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase" }}>◎ Reflect</span>
             </div>
-            {hasBrief && (
-              <button onClick={() => router.push(`/brief/reflect/${receiptId}`)} style={{ background: `${signal.cyan}11`, border: `0.5px solid ${signal.cyan}44`, borderRadius: 4, padding: "0.3rem 0.7rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", color: signal.cyan, textTransform: "uppercase" }}>
-                Brief reflect →
-              </button>
-            )}
+            <button onClick={() => router.push(`/brief/reflect/${receiptId}`)} style={{ background: `${signal.cyan}11`, border: `0.5px solid ${signal.cyan}44`, borderRadius: 4, padding: "0.3rem 0.7rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", color: signal.cyan, textTransform: "uppercase" }}>
+              {hasBrief ? "Brief reflect →" : "Generate brief →"}
+            </button>
           </div>
         </div>
 

@@ -114,6 +114,20 @@ export async function GET(
     include: { prep: true, ...childrenInclude },
   })
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+
+  // Read-only path (?generate=0): receipt views need the receipt + tributaries, not a
+  // brief. Never spend model tokens or create a Brief row the viewer did not ask for.
+  if (req.nextUrl.searchParams.get("generate") === "0") {
+    const tributaries = (() => {
+      try {
+        const raw = receipt.rawResponse ? JSON.parse(receipt.rawResponse) : null
+        return Array.isArray(raw?.tributaries) ? raw.tributaries : []
+      } catch { return [] }
+    })()
+    const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
+    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children) })
+  }
+
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
   }
