@@ -114,7 +114,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.89.0 (2026-10-05)
+# Handoff — v3.92.0 (2026-10-05)
 
 > **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
 > `a69e9daf` (field keys work from the drawer; legend lists every control), receipt
@@ -142,28 +142,26 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
 4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
 
-# Handoff — v3.88.0 (2026-10-05)
+# Handoff — v3.91.0 (2026-10-05)
 
-> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
-> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
-> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
 
 ## Shipped + on main
-- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
-  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
-  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
-  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
-  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
-- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
-  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
-  image/svg+xml, image/png, application/manifest+json.
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
 
 ## Open (next session)
-1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
-   is covered, but any `/:path*` style host rule is not) may still swallow icons.
-2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
-3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
 
 ## Lessons (in the record)
-- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
-  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.

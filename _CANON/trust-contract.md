@@ -1,6 +1,6 @@
 # ARCS Trust Contract
 
-> **Version:** 1.5
+> **Version:** 1.6
 > **Date:** 2026-10-05
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
@@ -38,8 +38,9 @@ If you are signed in, your decision receipt is stored in your account and access
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
-> before 2026-07-13: signing in from the same browser claims your receipts automatically,
-> and a deletion request (via the inquiry link on arcs.care) will be honored.
+> before 2026-07-13: a claim or deletion request (via the inquiry link on arcs.care) will
+> be honored. Automatic claiming on sign-in was retired on 2026-10-05 (v1.6), because a
+> browser's session id alone did not prove who made a receipt.
 
 **Your debrief:**
 If you log an outcome (how the decision went), that is stored in your account linked to the receipt. This data is used to improve ARCS's ability to read terrain accurately over time — specifically, to validate whether the system's confidence grades correspond to real outcomes. It is never shared or sold.

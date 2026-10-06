@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
+import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     data: {
       userId,
       surface: "EPHEMERAL_SAVE",
-      sessionId: typeof b.session_id === "string" && b.session_id ? b.session_id : crypto.randomUUID(),
+      sessionId: await resolveOwnedSessionId(b.session_id, userId),
       version: 0,
       decision: question,
       trueNorth,

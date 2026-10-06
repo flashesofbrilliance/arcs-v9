@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
 
   // Kinematic signals — intra-session only (ADR-020 v1): NCI delta vs the session's seed receipt.
   const seed = await prisma.receipt.findFirst({
-    where: { sessionId: receipt.sessionId, parentId: null },
+    where: { sessionId: receipt.sessionId, parentId: null, userId: receipt.userId },
     orderBy: { createdAt: "asc" },
     select: { nciScore: true },
   })

@@ -5,10 +5,31 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
-## [v3.89.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
+## [v3.92.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
 
-- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (queued task_cf4cfbac). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
+- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (task_cf4cfbac running). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
 - Lesson: a zero-step Actions failure is billing or an outage, not code (memory `ci-zero-steps-means-billing-or-outage`).
+
+## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
+
+- Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).
+- Retired PATCH /api/receipts/claim: a sessionId was never proof of possession, and no anonymous receipt has been persisted since 2026-07-13 (48 legacy rows stay unowned). `_CANON/trust-contract.md` 1.6 and the /trust repair-seam copy now route claim or delete through the inquiry link.
+
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
+
+## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
+
+- Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
+- Anthropic API workspace cap hit 2026-10-05 22:09 UTC (resets 11-01); main suspect claude-security-review on the repo secret (228 runs in Oct), unconfirmed.
+- Tenex Senior FDE application ready in iCloud; 11 shortlist cuts failed on the cap before writing.
+
+## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
+
+- Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.
+- Session callback now returns {expires,user:{id,email}}; `scripts/null_userid_gate.py` on pre-commit.
 
 ## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
 

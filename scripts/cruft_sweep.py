@@ -33,6 +33,9 @@ a naive version of this script gets each one WRONG.
  10. Bundles are INCREMENTAL: `bundle create <f> <ref> ^origin/<base>`. Full-history bundles
      were ~150MB each and 183 of them (11GB) ate all the disk the pruning freed (2026-10-05).
      A tip already on origin/<base> needs no bundle: its sha goes to MANIFEST.tsv only.
+ 11. Compare against origin/<base>, not the local <base> branch, which lags. A stale local
+     main made worktrees cut from origin/main show dozens of "unique" files (2026-10-05).
+     `--base` still wins when given a remote-qualified ref; a bare name prefers origin/<name>.
 
 Verdicts:
   SAFE    - no uncommitted work AND no branch-unique content blobs -> bundle+prune ok
@@ -104,26 +107,30 @@ def worktrees(repo):
             cur = {"path": line.split(" ", 1)[1]}
         elif line.startswith("branch "):
             cur["branch"] = line.split(" ", 1)[1].replace("refs/heads/", "")
-            out.append(cur)
+        elif line == "detached":
+            cur["branch"] = ""  # survey must see detached worktrees too (rule 9)
         elif line == "" and cur.get("path"):
+            if "branch" in cur:
+                out.append(cur)
             cur = {}
+    if "branch" in cur:
+        out.append(cur)
     return out
 
 
 def survey(a):
-    base_blobs = set(content_blobs(a.repo, a.base))
+    base_map = content_blobs(a.repo, a.base)
+    base_blobs = set(base_map)
+    base_paths = {pth for paths in base_map.values() for pth in paths}
     protect = set(x for x in (a.protect or "").split(",") if x)
     rows = []
     for wt in worktrees(a.repo):
-        path, br = wt["path"], wt.get("branch", "")
+        path, br = wt["path"], wt.get("branch") or "(detached)"
         if os.path.realpath(path) == os.path.realpath(a.repo):
             continue
         name = os.path.basename(path)
         try:
             dirty = real_dirty(path)
-            base_paths = set()
-            for paths in content_blobs(a.repo, a.base).values():
-                base_paths.update(paths)
             uniq_paths = []
             for sha, paths in content_blobs(path, "HEAD").items():
                 if sha in base_blobs:
@@ -212,6 +219,15 @@ def cmd_spread(a):
         print(f"{os.path.basename(path):<44} delivered={got} verified={ok}/{len(files)}")
 
 
+def resolve_base(repo, base):
+    """Prefer the remote copy of base (rule 11). The local branch is whatever some worktree
+    last pulled; on 2026-10-05 a stale local `main` made 46 files that origin/main already
+    carried read as "unique" in every worktree cut from origin/main, so SAFE read as REVIEW."""
+    if "/" not in base and git(repo, "rev-parse", "--verify", "-q", f"origin/{base}"):
+        return f"origin/{base}"
+    return base
+
+
 def resolve_worktree(repo, wt):
     """Prove `wt` is a live linked worktree of `repo` and return its OWN head (rule 9).
 
@@ -253,9 +269,7 @@ def cmd_prune(a):
     os.makedirs(a.bundles, exist_ok=True)
     manifest = os.path.join(a.bundles, "MANIFEST.tsv")
     refused = 0
-    # Incremental against the remote copy of base when there is one (rule 10).
-    a.upstream = next((r for r in (f"origin/{a.base}", a.base)
-                       if git(a.repo, "rev-parse", "--verify", "-q", r)), a.base)
+    a.upstream = a.base  # already resolved to origin/<base> in main() (rule 11)
     for target in a.targets:
         wt = target if os.path.isdir(target) else os.path.join(a.repo, ".claude/worktrees", target)
         wt = os.path.abspath(wt)
@@ -282,10 +296,10 @@ def cmd_prune(a):
         # refs/cruft-archive/<name>-<sha8> so the bundle carries THIS worktree's commit (never
         # whatever "HEAD" means in the main repo) and gc can never drop it after removal.
         ref = f"refs/heads/{br}" if br else f"refs/cruft-archive/{name}-{head[:8]}"
-        if not br:
-            git(a.repo, "update-ref", ref, head)
         landed = subprocess.run(["git", "-C", a.repo, "merge-base", "--is-ancestor", head, a.upstream],
                                 capture_output=True, env=GIT_ENV).returncode == 0
+        if not br and not landed:  # a landed commit is already kept reachable by upstream
+            git(a.repo, "update-ref", ref, head)
         bundle = os.path.join(a.bundles, f"{name}.bundle")
         if landed:  # rule 10: already on upstream, nothing to back up
             bfile = f"on-{a.upstream}"
@@ -348,6 +362,7 @@ def self_test(script):
         wts = os.path.join(repo, ".claude", "worktrees")
         cases = {}
         sh(repo, "worktree", "add", "-q", "-b", "br-landed", os.path.join(wts, "landed"))
+        sh(repo, "worktree", "add", "-q", "--detach", os.path.join(wts, "landed-detached"))
         landed_head = sh(repo, "rev-parse", "HEAD")
         for name in ("good", "detached", "nogit"):
             sh(repo, "worktree", "add", "-q", "-b", f"br-{name}", os.path.join(wts, name))
@@ -356,8 +371,25 @@ def self_test(script):
         sh(repo, "branch", "-q", "-D", "br-detached")  # only the detached HEAD holds it now
         os.remove(os.path.join(wts, "nogit", ".git"))
         main_head = commit(repo, "main-moves-on")
+        # Rule 11 fixture: origin/main carries a file the local main lacks; a worktree cut from
+        # origin/main must still survey SAFE, and a detached worktree must appear in the table.
+        sh(repo, "checkout", "-q", "-b", "upstream-tmp")
+        os.makedirs(os.path.join(repo, "src"), exist_ok=True)
+        with open(os.path.join(repo, "src", "landed.ts"), "w") as fh:
+            fh.write("export const landed = 1\n")
+        sh(repo, "add", "-A"); sh(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "upstream")
+        sh(repo, "update-ref", "refs/remotes/origin/main", "HEAD")
+        sh(repo, "checkout", "-q", "main"); sh(repo, "branch", "-q", "-D", "upstream-tmp")
+        sh(repo, "worktree", "add", "-q", "-b", "br-fresh", os.path.join(wts, "fresh"), "origin/main")
+        sh(repo, "worktree", "add", "-q", "--detach", os.path.join(wts, "loose"), "origin/main")
+        sv = subprocess.run([sys.executable, script, "survey", "--json", "--repo", repo],
+                            capture_output=True, text=True, env=GIT_ENV)
+        try:
+            rows = {r["name"]: r for r in json.loads(sv.stdout)}
+        except ValueError:
+            rows = {}
 
-        r = subprocess.run([sys.executable, script, "prune", "good", "detached", "nogit", "landed",
+        r = subprocess.run([sys.executable, script, "prune", "good", "detached", "nogit", "landed", "landed-detached",
                             "--repo", repo, "--bundles", bundles],
                            capture_output=True, text=True, env=GIT_ENV)
         out = r.stdout + r.stderr
@@ -378,12 +410,17 @@ def self_test(script):
         check(f"refs/cruft-archive/detached-{cases['detached'][:8]} {cases['detached']}" in pins,
               "detached: commit pinned under refs/cruft-archive/<name>-<sha8> after prune")
         check(not os.path.exists(os.path.join(bundles, "landed.bundle")), "landed: tip on base, no bundle written")
+        check("refs/cruft-archive/landed-detached-" not in pins, "landed-detached: no redundant pin for a commit on base")
         man = open(os.path.join(bundles, "MANIFEST.tsv")).read() if os.path.exists(os.path.join(bundles, "MANIFEST.tsv")) else ""
         check(f"landed\tbr-landed\t{landed_head[:8]}\ton-" in man, "landed: sha recorded in MANIFEST.tsv")
         check(not os.path.exists(os.path.join(bundles, "nogit.bundle")), "nogit: no bundle written")
         check(os.path.isdir(os.path.join(wts, "nogit")), "nogit: directory left in place")
         check(r.returncode != 0, f"exit nonzero when a worktree is refused (got {r.returncode})")
         check(main_head[:7] not in out, "output never reports main HEAD as a worktree tip")
+        check(rows.get("fresh", {}).get("verdict") == "SAFE",
+              f"survey: worktree cut from origin/main is SAFE despite stale local main "
+              f"(got {rows.get('fresh', {}).get('verdict')}, unique={rows.get('fresh', {}).get('unique')})")
+        check("loose" in rows, "survey: detached worktree is listed")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print(f"self-test: {'FAIL' if fails else 'PASS'} ({len(fails)} failing)")
@@ -409,6 +446,7 @@ def main():
         sys.exit(self_test(os.path.abspath(a.self_test_against or __file__)))
     # repo must be the MAIN checkout for worktree listing
     a.repo = git(a.repo, "rev-parse", "--path-format=absolute", "--git-common-dir").replace("/.git", "") or a.repo
+    a.base = resolve_base(a.repo, a.base)
     if a.cmd == "inspect":
         a.target = a.targets[0] if a.targets else sys.exit("inspect needs a worktree")
         cmd_inspect(a)
