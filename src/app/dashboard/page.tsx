@@ -183,8 +183,8 @@ function DashboardInner() {
   // preview carousel after a run — it navigates straight to the receipt page
   // (skips the friction of an intermediary multi-variant view; the receipt
   // page is now the canonical "see your result" surface, tributaries and all).
-  async function runCompassWith(q: string, followUp: boolean) {
-    if (loading) return
+  async function runCompassWith(q: string, followUp: boolean, retried = false) {
+    if (loading && !retried) return
     setLoading(true)
     setError(null)
     const reqSessionId = followUp ? sessionId : crypto.randomUUID()
@@ -217,6 +217,14 @@ function DashboardInner() {
       })
       clearTimeout(timeout)
       const data = await res.json()
+      // Server refused to extend a thread this account doesn't own (ledger
+      // CMP-018): drop the stale id and re-run once as a fresh thread, before
+      // any inference was spent.
+      if (res.status === 409 && data.code === "session_reassigned" && !retried) {
+        try { localStorage.removeItem("arcs_session_id") } catch { /* storage blocked */ }
+        setSessionId("")
+        return runCompassWith(q, false, true)
+      }
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {
