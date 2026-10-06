@@ -114,6 +114,29 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.97.0 (2026-10-05)
+
+> **cruft_sweep bundle path proven live; manifest rows name only refs that exist (#861, merged without CI on
+> Zach's go).** Receipt `2026-10-05--cruft-manifest-detached-row-pr861--ZH`.
+
+## Shipped + on main
+- **#861 (`e8b9bd17`):** #837 stopped pinning detached heads already on upstream but the MANIFEST.tsv row still
+  named the unpinned `refs/cruft-archive/...` ref. Landed detached rows now read `(detached)`. `--self-test` 18/18
+  (every manifest `refs/...` must exist); the #837 version fails 2.
+- **Bundle path probed on the real repo:** throwaway `cruft-bundle-probe` worktree off origin/main, 1 commit, pruned:
+  576-byte bundle (vs ~150MB full-history), `bundle verify` okay, commit restored from it. Probe branch, bundle and
+  manifest row deleted afterwards. The cool-bell / unruffled-pike manifest rows were hand-fixed to `(detached)`.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** (failed payment or spending limit): no CI on any PR until Zach fixes it.
+   #837, #843, #861 merged with none.
+2. `cool-poitras-4f96e7` is SAFE with its tip on main: prune when convenient (manifest row only, no bundle).
+
+## Lessons (in the record)
+- To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
+  on it: every SAFE candidate with off-main commits was mid-session.
+- A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
+
 # Handoff — v3.96.0 (2026-10-05)
 
 > **Daily gate for Vercel domains pinned to a git branch (#863, `7f637e75`).** Follows v3.93.0 (three retired
@@ -131,27 +154,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 1. **Add repo secret `VERCEL_TOKEN`** (read on team arcs-care, Zach only): until then CI skips the live check with
    a warning.
 2. First scheduled run not yet observed.
-
-# Handoff — v3.95.0 (2026-10-05)
-
-> **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
-> "merge without CI" (Actions billing block). Receipt `2026-10-05--og-metadata-base-pr848--ZH`.
-
-## Shipped + on main
-- **#848:** root `src/app/layout.tsx` had no `metadataBase`, so `og:image`/`twitter:image` on every page
-  resolved to `prl.arcs.care` (Vercel production-domain fallback). Now `https://app.arcs.care`; live on
-  app, www, `/compass`, `/brief/*`. `opengraph-image.png` side panels pure black (seam gone); `crop.py` updated.
-  No `og:url` in the root layout on purpose (it would canonicalize every page to `/`).
-- **Icon sweep (no change needed):** 85 of 92 configured hosts serve icon.svg/apple-icon/manifest correctly;
-  4 retired Fanatics hosts 308 as designed.
-
-## Open (next session)
-1. chase-intro, cj-brief, growth-intel.arcs.care still serve old Fanatics/Growth pages on every path
-   despite the `next.config.ts` retired-host redirect. Background task task_b1e9b3f7 is tracing which
-   Vercel project holds them; domain changes need Zach's yes.
-2. Real LinkedIn/Slack/X unfurl not checked; platforms may cache the old prl.arcs.care image URL.
-3. Per-brief generated OG image was removed by `e5267871` (owner-only briefs); briefs share the root card.
-
-## Lessons (in the record)
-- Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
-  as production into every share card. Grep live `og:image` hosts, not just the tags' presence.

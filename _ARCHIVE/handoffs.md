@@ -1,3 +1,27 @@
+# Handoff — v3.95.0 (2026-10-05)
+
+> **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
+> "merge without CI" (Actions billing block). Receipt `2026-10-05--og-metadata-base-pr848--ZH`.
+
+## Shipped + on main
+- **#848:** root `src/app/layout.tsx` had no `metadataBase`, so `og:image`/`twitter:image` on every page
+  resolved to `prl.arcs.care` (Vercel production-domain fallback). Now `https://app.arcs.care`; live on
+  app, www, `/compass`, `/brief/*`. `opengraph-image.png` side panels pure black (seam gone); `crop.py` updated.
+  No `og:url` in the root layout on purpose (it would canonicalize every page to `/`).
+- **Icon sweep (no change needed):** 85 of 92 configured hosts serve icon.svg/apple-icon/manifest correctly;
+  4 retired Fanatics hosts 308 as designed.
+
+## Open (next session)
+1. chase-intro, cj-brief, growth-intel.arcs.care still serve old Fanatics/Growth pages on every path
+   despite the `next.config.ts` retired-host redirect. Background task task_b1e9b3f7 is tracing which
+   Vercel project holds them; domain changes need Zach's yes.
+2. Real LinkedIn/Slack/X unfurl not checked; platforms may cache the old prl.arcs.care image URL.
+3. Per-brief generated OG image was removed by `e5267871` (owner-only briefs); briefs share the root card.
+
+## Lessons (in the record)
+- Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
+  as production into every share card. Grep live `og:image` hosts, not just the tags' presence.
+
 # Handoff — v3.93.0 (2026-10-05)
 
 > **Three retired hosts un-pinned from a dead preview branch; the redirect now fires.** No code change.
