@@ -19,16 +19,25 @@ export const dynamic = "force-dynamic"
 const PROBES = new Set(["mcp-connector"])
 const ACTIONS = new Set(["view", "interest"])
 const VID_RE = /^[a-z0-9-]{8,64}$/
-const CORS: Record<string, string> = { "Access-Control-Allow-Origin": "*" }
+// Only the probe's own host may call this cross-origin (Zach, 2026-10-05).
+// Same-origin calls need no CORS header; any other origin gets none and the
+// browser blocks the response.
+const ALLOWED_ORIGINS = new Set(["https://good.arcs.care"])
 
-export async function OPTIONS() {
+function corsFor(req: NextRequest): Record<string, string> {
+  const origin = req.headers.get("origin")
+  return origin && ALLOWED_ORIGINS.has(origin) ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : { Vary: "Origin" }
+}
+
+export async function OPTIONS(req: NextRequest) {
   return new NextResponse(null, {
     status: 204,
-    headers: { ...CORS, "Access-Control-Allow-Methods": "POST, GET, OPTIONS", "Access-Control-Allow-Headers": "content-type" },
+    headers: { ...corsFor(req), "Access-Control-Allow-Methods": "POST, GET, OPTIONS", "Access-Control-Allow-Headers": "content-type" },
   })
 }
 
 export async function POST(req: NextRequest) {
+  const CORS = corsFor(req)
   const rl = rateLimit(`probe:${clientIp(req)}`, { limit: 30, windowMs: 60_000 })
   if (!rl.ok) return NextResponse.json({ error: "slow down" }, { status: 429, headers: { ...CORS, "Retry-After": String(rl.retryAfterSec) } })
 
@@ -53,6 +62,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const CORS = corsFor(req)
   const rl = rateLimit(`probe-read:${clientIp(req)}`, { limit: 60, windowMs: 60_000 })
   if (!rl.ok) return NextResponse.json({ error: "slow down" }, { status: 429, headers: CORS })
   const probe = req.nextUrl.searchParams.get("probe") ?? "mcp-connector"
