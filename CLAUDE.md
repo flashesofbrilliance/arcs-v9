@@ -118,11 +118,11 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 # Handoff — v3.114.0 (2026-10-06)
 
-> **Qualified the unmerged abb6aedb citation in the v3.109.0 handoff; integrity gate no longer flags it.** #936 (`986daa56`),
+> **Qualified an unmerged-commit citation in the v3.109.0 handoff; integrity gate no longer flags it.** #936 (`986daa56`),
 > merged with `--merge` on Zach's yes. Receipt `2026-10-06--qualify-abb6aedb-pr936--ZH`.
 
 ## Shipped
-- **#936:** `abb6aedb` (only on `claude/model-registry-drift-gate`) replaced with the branch name and PR states: #715 closed
+- **#936:** the cited merge commit (only on `claude/model-registry-drift-gate`) replaced with the branch name and PR states: #715 closed
   unmerged, content superseded by #882 (`d97dc35f`). Main had already folded that block into `_ARCHIVE/handoffs.md`
   mid-PR, so the 1-line fix landed there; `CLAUDE.md` kept main's version.
 
@@ -148,7 +148,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   v3.110.0 + v3.109.0 live; v3.105.0-v3.108.0 relocated to `_ARCHIVE/handoffs.md`.
 
 ## Open (next session)
-1. Chip task_7f5ac139 (running): v3.109.0 cites `abb6aedb`, which lives only on unmerged `claude/model-registry-drift-gate`.
+1. Chip task_7f5ac139 (running): v3.109.0 cites a commit that lives only on unmerged `claude/model-registry-drift-gate`. (Resolved by #936.)
 2. Chip task_c9678ac7: stale handoff commands still teach direct CLAUDE.md writes
    (`~/.claude/commands/arcs-handoff.md`, main checkout's `.claude/commands/handoff.md`); add a pre-commit gate.
 
