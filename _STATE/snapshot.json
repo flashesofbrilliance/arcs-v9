@@ -1,8 +1,8 @@
 {
-  "captured_at": "2026-10-05T21:00:29-04:00",
+  "captured_at": "2026-10-05T21:02:28-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "340f9498",
+    "head_sha": "9bef38d",
     "head_message": "Merge pull request #827 from flashesofbrilliance/claude/handoff-v3.84",
     "in_sync_with_origin": true,
     "dirty_files": [],
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Replaced the app icon set with the M\u00f6bius mark and made every subdomain serve it (#814, #824). | v3.89.0: preview sign-in fixed (#792), session token leak closed (#795), null-userId gate (#801).",
-  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths. | Separate preview DB; decide on clearing pre-#795 sessions; signed token for /api/account/reminders.",
-  "blocking": "NONE",
+  "session_summary": "Job Factory: slices 2-4 and 6-7 landed, FDE handoff backfill, job routes on Sonnet 5.5 with surfaced model errors, Tenex Senior FDE application staged; Anthropic API cap and GitHub Actions billing limit both hit.",
+  "next_action": "Zach raises the Anthropic workspace cap and GitHub Actions spending limit; then merge #832, re-run the 11 shortlist cuts, commit the Tenex bundles.",
+  "blocking": "Anthropic API workspace usage cap (every model route 503s until raised or 2026-11-01); GitHub Actions billing (no CI starts)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

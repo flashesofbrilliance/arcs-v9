@@ -5,6 +5,12 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
+
+- Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
+- Anthropic API workspace cap hit 2026-10-05 22:09 UTC (resets 11-01); main suspect claude-security-review on the repo secret (228 runs in Oct), unconfirmed.
+- Tenex Senior FDE application ready in iCloud; 11 shortlist cuts failed on the cap before writing.
+
 ## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
 
 - Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.
