@@ -140,27 +140,40 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
   Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
 
-# Handoff — v3.87.0 (2026-10-05)
+# Handoff — v3.89.0 (2026-10-05)
 
-> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
-> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
+> **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with
+> `--merge`: #792 (`8b8519f3`), #795 (`fbc3cece`), #801 (`21cc370c`, merged with fe-smoke red, which was
+> pre-existing on main and fixed by #800/#806). Receipts `2026-10-05--preview-magic-link-pr792--ZH`,
+> `--session-token-leak-pr795--ZH`, `--null-userid-sweep-pr801--ZH`. #803 (brief/guide authz) was the
+> sibling session's, receipt `--brief-guide-authz-pr803--ZH`.
 
 ## Shipped + on main
-- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
-  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
-- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
-  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
-  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
-- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
-- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
-- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
-  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
-  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
+- **Root cause of the preview bounce was `ADMIN_EMAILS` Production-only**, not the link host: Auth.js builds
+  email links from the request host (no AUTH_URL anywhere); `redirectProxyUrl` is OAuth-only in @auth/core
+  0.41.3. `isAdmin()` now warns once when the allowlist is empty in production mode.
+- **`/api/auth/session` no longer serves `sessionToken` + the full User row**: the callback returns
+  `{expires, user:{id,email}}`; auth error logger logs name+message; Resend errors carry the name only.
+- **`scripts/null_userid_gate.py`** + pre-commit: session userId reaching a `where` with no `if (!userId)`
+  guard fails (multi-line, per-handler, `?? undefined`). Sweep found no live instance.
+- Proof method that works on protected previews: `vercel curl <preview>/api/auth/csrf`, POST
+  `signin/resend` with the jar, read the link via Gmail MCP, redeem with the same jar, then sign out.
+
+## Env changes (outside git)
+- `ADMIN_EMAILS` was added to Preview for the proof, then **removed** on Zach's ask. Already-built
+  previews keep the old value until rebuilt. Production `ADMIN_EMAILS` is Sensitive (unreadable).
+- `brew reinstall node` (Homebrew node 26.10.0, vercel CLI 62.2.0; PATH still prefers `~/.local/bin/node`
+  v26.7.0). `agent-browser install` done, doctor 10/10.
 
 ## Open (next session)
-1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
-2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
-3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
+1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
+2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
+3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
+4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
+5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
+   whether #803 covered it before starting.
 
-## Lessons
-- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.
+## Lessons (in the record)
+- `gh pr checks --watch ...; gh pr merge` in one command merges on red: the watch exits on failure and the
+  next command runs. Gate the merge on the rollup conclusions, never on the watch returning.
+- A Sensitive Vercel var pulls as `""`; check the length before copying it anywhere.

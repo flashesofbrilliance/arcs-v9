@@ -1,3 +1,30 @@
+# Handoff — v3.87.0 (2026-10-05)
+
+> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
+> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
+
+## Shipped + on main
+- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
+  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
+- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
+  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
+  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
+- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
+- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
+- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
+  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
+  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
+
+## Open (next session)
+1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
+2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
+3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
+
+## Lessons
+- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.
+
+---
+
 # Handoff — v3.86.0 (2026-10-05)
 
 > **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**

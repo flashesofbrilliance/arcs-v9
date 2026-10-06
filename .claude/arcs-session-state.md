@@ -1,5 +1,5 @@
-# ARCS session state — v3.88.0 (2026-10-05)
+# ARCS session state — v3.89.0 (2026-10-05)
 
-- HEAD at handoff cut: 340f9498 (origin/main)
-- Done: #814 Möbius icon set + manifest + OG; #824 next.config.ts catch-all icon exclusions. Live on good/wing/yuri/recruithaus/app.
-- Next: sweep remaining host rewrites for wildcard shapes that still swallow icon paths; check OG unfurl.
+- HEAD at handoff cut: origin/main + this handoff commit
+- Done: preview magic-link sign-in (#792), session token leak (#795), null-userId sweep + gate (#801). Receipts filed.
+- Next: separate preview database; decide on clearing pre-#795 sessions; reminders ?uid= signed token.
