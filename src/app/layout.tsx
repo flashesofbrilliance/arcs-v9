@@ -39,16 +39,16 @@ export const metadata: Metadata = {
   // Each route names itself via a sibling layout.tsx (pages are client components);
   // the template keeps the brand on every tab.
   title: { default: "ARCS Field OS", template: "%s · ARCS" },
-  description: "Navigate to clarity. Make the decision visible.",
+  description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
   openGraph: {
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
     siteName: "ARCS",
   },
   twitter: {
     card: "summary_large_image",
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
   },
 }
 
