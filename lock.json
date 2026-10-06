@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791292936.311533,
-  "acquired_at_iso": "2026-10-06T13:22:16Z",
-  "expires_at": 1791294736.311533,
-  "holder": "merge-train@zh-m1-2020:44981:/Users/zharris/arcs-v9/.claude/worktrees/charming-elion-9091de",
+  "acquired_at": 1791292961.8305202,
+  "acquired_at_iso": "2026-10-06T13:22:41Z",
+  "expires_at": 1791294761.8305202,
+  "holder": "merge-train@zh-m1-2020:45524:/Users/zharris/arcs-v9/.claude/worktrees/charming-elion-9091de",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 45312,
+  "pid": 45545,
   "reason": "merge train: 889",
-  "released_at_iso": "2026-10-06T13:22:20Z",
-  "seq": 16,
-  "state": "free",
+  "seq": 17,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
