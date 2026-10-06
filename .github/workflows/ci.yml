@@ -92,6 +92,8 @@ jobs:
         with: { fetch-depth: 0 }
       - name: Operator registry matches the periodic table + bindings
         run: python3 scripts/operator_registry_emit.py --check
+      - name: Operator unit tests (stdlib unittest)
+        run: python3 -m unittest discover -s operators/tests
       - name: LEGEND render current
         run: python3 scripts/legend.py check
       - name: LORE render current
@@ -242,7 +244,7 @@ jobs:
           done
           echo "server never came up" && exit 1
 
-      # Forge resumes are fixed 8.5in print pages (always 'overflow' a phone viewport); they are gated by
+      # Forge resumes / covers and _ARTIFACTS/resume-*/ cuts are fixed 8.5in print pages (always 'overflow' a phone viewport); they are gated by
       # kintsugi + 2-page + location checks instead.
       # Every page this PR adds or changes must pass the full page gate, render checks
       # included (overflow at 375/790/1280, lede spans the heading's lane). Legacy pages
@@ -254,7 +256,7 @@ jobs:
           # A two-dot diff vs HEAD also picked up every page main changed since the
           # branch point (PR #802 failed 0/92 on pages it never touched).
           git fetch --no-tags origin ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
-          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html')
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html' ':(exclude)_ARTIFACTS/forge-*/cover-*.html' ':(exclude)_ARTIFACTS/resume-*/*.html')
           if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
           python3 scripts/page_gate.py $files
 

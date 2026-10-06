@@ -76,6 +76,13 @@
     .card{background:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;border-top:1px solid var(--line2);padding-top:6px;}
     *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   }
+  /* screen-only reflow (2026-10-05): the 8.5in sheet overflowed 375/790px screens; print untouched */
+  @media screen and (max-width:860px){
+    body{padding:0;}
+    .sheet{width:auto;max-width:100%;min-height:0;padding:24px 16px;box-shadow:none;}
+    header{flex-wrap:wrap;} .contact{text-align:left;}
+    .sheet *{white-space:normal;overflow-wrap:anywhere;}
+  }
 </style>
 </head>
 <body>
@@ -88,7 +95,7 @@
       <div class="target">CTO / Engineering Manager &middot; Regulated Fintech</div>
     </div>
     <div class="contact">
-      New York City (on-site)<br><b>zach.harris@gmail.com</b><br>
+      New York Metro<br><b>zach.harris@gmail.com</b><br>
       <a href="https://linkedin.com/in/zharris" style="color:inherit;">linkedin.com/in/<b>zharris</b></a><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a><br><a href="https://status.arcs.care" style="color:var(--accent);text-decoration:none;">status.arcs.care</a>
     </div>
   </header>

@@ -712,6 +712,15 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
   fi
 done
 
+# operator unit tests (2026-10-06): run operators/tests when an operator module or its tests are staged.
+if git diff --cached --name-only -- 'operators/*.py' 'operators/tests/*.py' 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 -m unittest discover -s operators/tests >/dev/null 2>&1; then
+    python3 -m unittest discover -s operators/tests >&2 || true
+    echo "✖ pre-commit(operator-tests): operators/tests failed. fix before committing." >&2
+    exit 1
+  fi
+fi
+
 # cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
 # .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
 if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
@@ -767,11 +776,11 @@ if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q 
     exit 1
   fi
 fi
-# resume-location guard (2026-10-05): every staged forge resume / ATS file's location line reads
+# resume-location guard (2026-10-05): every staged resume / cover / ATS file's location line reads
 # exactly "New York Metro" (memory resume-location-new-york-metro-only). Added AND modified files:
 # the class propagates through edit-from-seed, so a touched seed must be clean too.
 if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then
-  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/forge-*/resume-*.html' '_ARTIFACTS/forge-*/resume-*.txt' 2>/dev/null || true)
+  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' 'public/*resume*' 'public/*cover*' 2>/dev/null || true)
   if [ -n "$rl" ]; then
     # shellcheck disable=SC2086
     if ! python3 scripts/resume_location_gate.py $rl >&2; then
@@ -795,25 +804,30 @@ if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; the
   fi
 fi
 # ---------------------------------------------------------------------------
-# handoff-direct-edit warning (non-blocking): a staged CLAUDE.md that ADDS a
-# '# Handoff — v' title line without a staged fragment deletion means the block
-# was written by hand, not via `scripts/handoff_fold.py fold` (ADR-085 (d)).
-# Hand-written blocks collide on version and can land out of order (v3.104.0
-# below v3.103.0, fixed by hand in #919). fold also deletes the fragment it
-# folded, so a deletion under _HANDOFFS/fragments/ marks a legitimate fold.
-if git diff --cached --name-only -- CLAUDE.md | grep -qx CLAUDE.md; then
-  if git diff --cached -U0 -- CLAUDE.md | grep -q '^+# Handoff — v' \
-     && [ -z "$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/' 2>/dev/null)" ]; then
-    echo "⚠ pre-commit(handoff-fold): CLAUDE.md gains a '# Handoff — v' block but no fragment was folded." >&2
-    echo "  write a fragment instead: scripts/handoff_fold.py new < body.md, then scripts/handoff_fold.py fold" >&2
-  fi
-fi
-
-# ---------------------------------------------------------------------------
 # model-id guard (2026-10-05): Claude model ids live only in src/lib/claude-models.ts; callers
 # name a role (MODELS.<role>; Python via scripts/arcs_models.py). ~20 hardcoded ids meant no
 # upgrade was ever noticed. Fires on staged src/ scripts/ operators/ code. See scripts/model_id_gate.py.
 if command -v python3 >/dev/null 2>&1 && [ -f scripts/model_id_gate.py ]; then
   python3 scripts/model_id_gate.py --staged >/dev/null 2>&1 || { python3 scripts/model_id_gate.py --staged || true; exit 1; }
+fi
+# ---------------------------------------------------------------------------
+# handoff-molt guard (2026-10-06): only `scripts/handoff_fold.py molt` may add a
+# "# Handoff — vX.Y.Z" block to CLAUDE.md (ADR-085 part (d) + amendment A1). A molt always
+# deletes the fragments it molts AND stages _SEEDS/_oracle.json (its version comes from
+# `oracle.py next handoff`), so a new heading missing either is a hand-minted version
+# (cf0bf7f1 collided with a concurrent fold this way; v3.104.0 landed below v3.103.0, fixed
+# in #919). Blocks (#947). Sessions write a fragment with `handoff_fold.py new` instead.
+# Override: ARCS_ALLOW_DIRECT_HANDOFF=1.
+new_handoff=$(git diff --cached -U0 -- CLAUDE.md 2>/dev/null | grep -E '^\+#{1,2} Handoff — v' || true)
+if [ -n "$new_handoff" ] && [ "${ARCS_ALLOW_DIRECT_HANDOFF:-0}" != "1" ]; then
+  molted=$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/*' 2>/dev/null || true)
+  oracled=$(git diff --cached --name-only -- _SEEDS/_oracle.json 2>/dev/null || true)
+  if [ -z "$molted" ] || [ -z "$oracled" ]; then
+    echo "✖ pre-commit(handoff-molt-guard): CLAUDE.md gains a handoff heading outside a molt commit" >&2
+    echo "  (needs staged _HANDOFFS/fragments/ deletions AND _SEEDS/_oracle.json):" >&2
+    echo "$new_handoff" | sed 's/^/    /' >&2
+    echo "  fix: revert the CLAUDE.md edit, write a fragment ('python3 scripts/handoff_fold.py new'), then 'handoff_fold.py molt'." >&2
+    exit 1
+  fi
 fi
 exit 0

@@ -1,3 +1,7 @@
+---
+description: From a website and bio PDF, produce a private pre-call brief and an external gift teardown
+---
+
 # /teardown
 
 > Given a person's website + a bio/LinkedIn PDF, produces two gauntlet-hardened artifacts: a

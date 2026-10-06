@@ -160,7 +160,11 @@ class RunResponse(BaseModel):
 # App
 # ---------------------------------------------------------------------------
 
+# GA Vercel services forward the original path (/svc/sage/...) to this service. Starlette
+# strips root_path from the route path when it is a prefix, so routes stay mounted at /api/*.
+# experimentalServices did this mount automatically via routePrefix; local runs keep "".
 app = FastAPI(
+    root_path="/svc/sage" if os.environ.get("VERCEL") else "",
     title="ARCS v9 Runtime API",
     version="9.0.0",
     description="Decision intelligence backend for Question Compass and Zoetrope UI.",

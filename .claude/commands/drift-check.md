@@ -1,3 +1,7 @@
+---
+description: Run the ARCS drift audit on demand (read-only report, no commits)
+---
+
 # /drift-check
 
 > Run the ARCS drift audit on demand (instead of waiting for the 04:00 UTC sentinel). Read-only:
