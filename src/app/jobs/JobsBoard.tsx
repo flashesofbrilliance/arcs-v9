@@ -156,7 +156,7 @@ export function JobsBoard() {
   const [data, setData] = useState<Payload | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [f, setF] = useState({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })
-  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
+  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage" | "date"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [adding, setAdding] = useState(false)
   const [weights, setWeights] = useState<Record<string, number> | null>(null)
@@ -240,6 +240,7 @@ export function JobsBoard() {
       const ma = stateOf(a) === "missed" ? 1 : 0, mb = stateOf(b) === "missed" ? 1 : 0
       if (ma !== mb) return ma - mb // Missed rows sink below live rows, whatever the sort
       const d = sort.dir === "asc" ? 1 : -1
+      if (sort.key === "date") return d * a.firstSeen.localeCompare(b.firstSeen) || (b.composite ?? 0) - (a.composite ?? 0)
       if (sort.key === "company") return d * a.company.localeCompare(b.company) || (b.composite ?? 0) - (a.composite ?? 0)
       if (sort.key === "leverage") return d * (leverageScore(a) - leverageScore(b)) || (b.composite ?? 0) - (a.composite ?? 0)
       return d * ((a.composite ?? 0) - (b.composite ?? 0)) || a.company.localeCompare(b.company)
@@ -320,7 +321,7 @@ export function JobsBoard() {
     </>)
   }
 
-  const th = (label: string, key?: "score" | "company" | "leverage") => (
+  const th = (label: string, key?: "score" | "company" | "leverage" | "date") => (
     <th style={{ ...smallLabel, textAlign: "left", padding: "8px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}`, whiteSpace: "nowrap", position: "sticky", top: 0 }}>
       {key ? <button onClick={() => setSort((s) => s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: key === "score" ? "desc" : "asc" })} style={{ background: "none", border: 0, padding: 0, color: sort.key === key ? fg1 : "inherit", cursor: "pointer", font: "inherit", letterSpacing: "inherit", textTransform: "inherit" }}>{label}{sort.key === key ? (sort.dir === "desc" ? " ▾" : " ▴") : ""}</button> : label}
     </th>
@@ -352,11 +353,12 @@ export function JobsBoard() {
         </header>
         {err && <div style={{ padding: 12, border: `1px solid ${signal.red}55`, borderRadius: 4, color: fg1, marginBottom: 12 }}>{err} {err.includes("Sign in") && <a href="/compass?next=/jobs" style={{ color: signal.cyan }}>Sign in</a>}</div>}
 
-        {(drift.fire || missedCount > 0) && (
+        {(drift.fire || missedCount > 0 || !!boardSettings.missed_cleared_at) && (
           <div role="status" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 12px", marginBottom: 12, border: `1px solid ${border.subtle}`, borderLeft: `2px solid ${signal.gold}`, borderRadius: 4, background: surface.panel, fontSize: 13, color: fg2 }}>
             {drift.fire && <span style={{ flex: "1 1 360px", color: fg1 }}>{drift.line} <Link href="/jobs/lane" style={{ color: signal.cyan }}>Sources</Link></span>}
             {drift.fire && drift.signature && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { dismissDrift: drift.signature })} style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Dismiss until it changes</button>}
             {missedCount > 0 && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { clearMissed: true })} title="Marks them not reviewed. Never a left swipe; no preference is recorded." style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Clear the Missed pile ({missedCount})</button>}
+            {boardSettings.missed_cleared_at && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { undoClearMissed: true })} title="Puts every row hidden by the last clear back in the queue. No swipes are touched." style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Undo clear</button>}
           </div>
         )}
         {/* toolbar */}
@@ -367,7 +369,7 @@ export function JobsBoard() {
           <select aria-label="Saved search" value={f.arch} onChange={(e) => setF({ ...f, arch: e.target.value })} style={ctl}><option value="all">Any search</option>{Object.entries(ARCH).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Company type" value={f.co} onChange={(e) => setF({ ...f, co: e.target.value })} style={ctl}><option value="all">Any company</option>{Object.entries(COTYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Tag" value={f.tag} onChange={(e) => setF({ ...f, tag: e.target.value })} style={ctl} title="Filter by a computed tag: Moat / Sleeper (leverage & hidden-fit), or role-shape flavor"><option value="all">Any tag</option>{TAG_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}</select>
-          <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option></select>
+          <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company" | "date"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option><option value="date">Sort: Newest listed</option></select>
           <input type="search" placeholder="Search role or company" aria-label="Search" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} style={{ ...ctl, flex: "1 1 160px", minWidth: 160 }} />
           <label style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: fg3, flexBasis: phone ? "100%" : undefined }}>Seen <input type="date" aria-label="Seen from" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /> to <input type="date" aria-label="Seen to" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /></label>
           <span style={{ flex: 1 }} />
