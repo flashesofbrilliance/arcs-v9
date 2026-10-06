@@ -82,3 +82,16 @@ test("compass route: an upstream usage limit reaches the client as calm copy onl
   assertClean(body)
   assert.equal(JSON.parse(body).code, "usage_limit")
 })
+
+test("a skipped alert (missing env) is logged and does not burn the throttle window", () => {
+  const env = { ...process.env }
+  Object.assign(process.env, { NODE_ENV: "production", AUTH_RESEND_KEY: "k" }); delete process.env.ADMIN_EMAILS
+  try {
+    reportModelError("compass", usageLimit)
+    assert.equal(sent.length, 0)
+    assert.ok(errs.some((l) => l.includes("[MODEL_OUTAGE] alert skipped: no ADMIN_EMAILS")), errs.join("\n"))
+    process.env.ADMIN_EMAILS = "a@example.com"
+    reportModelError("compass", usageLimit)
+    assert.equal(sent.length, 1)
+  } finally { process.env = env; console.error = realErr }
+})
