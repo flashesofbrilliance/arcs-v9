@@ -35,7 +35,7 @@ Nothing below was rewritten after the fact.
 
 ### IV · What each hypothesis scored
 
-Prior is what I believed before testing. Final is where it ended. Only the hypotheses that moved most, or that carry the story, are in this table; the full log has more rows.
+Prior is what I believed before testing. Final is where it ended. Only the hypotheses that moved most, or that carry the story, are in this table; the full log runs H1 to H36.
 
 | ID | Hypothesis | Prior | Final | Deciding test | Evidence | Verdict |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -64,7 +64,7 @@ This is the best-supported story. It is still inference.
 
 Bitcoin led USDC supply by about one day in January and the relationship reversed in February, when the Feb 5 volatility spike came with USDC inflows. January supply followed crowded-long appetite. February supply behaved like a safe haven.
 
-**Leg two, Jan 22 to 31.** On Jan 23 Binance launched a holding-rewards campaign for World Liberty Financial's USD1 stablecoin: $40M of WLFI tokens to USD1 holders on Binance, Jan 23 to Feb 20 (secondary reporting). USD1 supply went from $3.17B to $4.93B in three days, with $1.12B on Jan 23 alone. From Jan 22 to Jan 31 USD1 gained $1.89B while USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). That is about 43% to 53% of the second leg. The Jan 30 liquidation day (about $1.71B, secondary) and the Warsh Fed chair nomination, also Jan 30, sit inside this window. I did not score the nomination: no hypothesis row exists for it, and I have not re-verified the date outside my own session notes, so treat it as a co-occurring event, not a tested cause.
+**Leg two, Jan 22 to 31.** On Jan 23 Binance launched a holding-rewards campaign for World Liberty Financial's USD1 stablecoin: $40M of WLFI tokens to USD1 holders on Binance, Jan 23 to Feb 20 (secondary reporting). USD1 supply went from $3.17B to $4.93B in three days, with $1.12B on Jan 23 alone. From Jan 22 to Jan 31 USD1 gained $1.89B while USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). That is about 43% to 53% of the second leg. The Jan 30 liquidations (about $1.71B, secondary) and the Warsh nomination for Fed chair, also named Jan 30, fall in the same window. I scored the nomination as a liquidity shock (H34, 0.05 to 0.10): it hit risk assets more than the stablecoin float, USDC moved only -$0.24B on Jan 30 and +$0.07B on Jan 31, and the Jan 29 drop came before the announcement.
 
 **The V-shape.** Peak to trough, January 2026 was -9.2% over 14 days, and USDC regained 95% of its prior peak 12 days after the trough. Other episodes in the same series:
 
@@ -159,6 +159,6 @@ The first call scored lowest and moved fastest once I read the primary text. The
 
 **Secondary, marked as such:** Binance USD1 campaign reports · January liquidation totals · CertiK January 2026 report via Cointelegraph · Tether attestation coverage.
 
-**Companion records in the repo:** the scorecard `crypto-defi-predictions-closing-the-loop-2026-10-06.md` and the belief log `usdc-jan-2026-belief-log-2026-10-06.md` (H1 to H27).
+**Companion records in the repo:** the scorecard `crypto-defi-predictions-closing-the-loop-2026-10-06.md` and the belief log `usdc-jan-2026-belief-log-2026-10-06.md` (H1 to H36).
 
 *Field account, 2026. One question, two legs, one test that cannot be run yet.*

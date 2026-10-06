@@ -16,3 +16,4 @@
 {"pattern": "\\$0\\.25B", "source": "data:DefiLlama tokenized gold supply Jan 15 to 31 (belief log H21)", "note": ""}
 {"pattern": "10%", "source": "belief log header: credence = probability a factor was a material contributor (more than about 10%) to the January move", "note": "a definition of the credence threshold, not a measurement"}
 {"pattern": "over\\s+14", "source": "data:DefiLlama USDC Jan 2026 peak to trough, 14 days down (belief log section D)", "note": ""}
+{"pattern": "\\$0\\.24B|\\$0\\.07B", "source": "belief log H34 (origin/main): USDC -$0.24B Jan 30, +$0.07B Jan 31 (DefiLlama daily)", "note": ""}
