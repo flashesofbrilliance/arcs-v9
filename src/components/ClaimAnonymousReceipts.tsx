@@ -30,10 +30,19 @@ export function ClaimAnonymousReceipts() {
     const stored = localStorage.getItem("arcs_session_id") ?? readCookie("arcs_session_id")
     // Phase 2 opt-in save (ADR-049): a bearing stashed by the ephemeral
     // receipt page's "Sign in & save" button, waiting for authentication.
-    const rawPending = localStorage.getItem("arcs_pending_save")
-    if (!stored && !rawPending) return
-
     const PENDING_TTL_MS = 7 * 86400000
+    let rawPending = localStorage.getItem("arcs_pending_save")
+    // The stash holds decision text. Expire it on any page load past the TTL,
+    // signed in or not, so a visitor who never signs in does not keep it forever.
+    if (rawPending) {
+      let savedAt = 0
+      try { savedAt = JSON.parse(rawPending)?.savedAt ?? 0 } catch { savedAt = 0 }
+      if (Date.now() - savedAt >= PENDING_TTL_MS) {
+        localStorage.removeItem("arcs_pending_save")
+        rawPending = null
+      }
+    }
+    if (!stored && !rawPending) return
 
     fetch("/api/auth/session")
       .then((r) => r.json())

@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.90.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.6
+
+- Disclosed: LinkedIn uploads (private Blob), demand probe (no IP/UA), owner-minted share tokens, calendar/X links, self-serve delete.
+- Code: save stash strips prep adversarialInput and expires at 7d signed-out; re-upload deletes the replaced blob; debrief footer always signed opt-out (dead /unsubscribe gone).
+
 ## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
 
 - Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.

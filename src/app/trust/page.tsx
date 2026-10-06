@@ -64,7 +64,7 @@ export default function TrustPage() {
           {
             n: '§ 01', title: 'What we store and what we don\'t',
             body: <>
-              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it. Want to keep one? Sign in and save it. The write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content, only request metadata (timestamps, response codes).
+              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it, unless you choose to keep one. Want to keep one? Sign in and save it: we hold the bearing in your browser's local storage (not on our servers, and without your private prep notes) until you finish signing in, then clear it; unclaimed, it expires after 7 days. The write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content, only request metadata (timestamps, response codes).
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
                 <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
@@ -82,7 +82,7 @@ export default function TrustPage() {
           {
             n: '§ 03', title: 'Export and delete',
             body: <>
-              <strong style={{ color: text.primary }}>Delete:</strong> request within 30 days, one-way. Receipts are gone, history can't be restored.{' '}
+              <strong style={{ color: text.primary }}>Delete:</strong> signed in, delete your account yourself, immediately (POST /api/account/delete), or request it and we do it within 30 days. One-way: receipts and uploaded files are gone, history can't be restored.{' '}
               <strong style={{ color: text.primary }}>Export:</strong> on the roadmap, not yet live. If you need your data before export is built, reach out directly.
             </>,
           },
@@ -182,7 +182,7 @@ export default function TrustPage() {
         {/* Footer links */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.3 · last updated 2026-07-19</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.6 · last updated 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy policy</Link>
             <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>

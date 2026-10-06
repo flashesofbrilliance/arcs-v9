@@ -22,7 +22,10 @@ const SOMETIMES = [
   { what: 'Waitlist or advisory request stored', trigger: 'Only if you join the waitlist or ask for a consult. Stored in our database, emailed to the ARCS team, confirmation delivered through Resend' },
   { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting and privacy-friendly page analytics), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
   { what: 'Your question goes to the ARCS scoring service', trigger: 'Each compass run sends the question, horizon and stakes to SAGE, ARCS\'s own scoring pipeline, which returns an advisory signal. It informs the reasoning; it never decides' },
-  { what: 'Anyone with a brief link can read that brief', trigger: 'Brief and receipt links are shareable by design. A link shows the decision and its reading, never your account id or your private prep notes' },
+  { what: 'Anyone with a share link you made can read that brief', trigger: 'A signed-in brief is visible only to you until you mint a share link. The link carries a random token in its fragment; we store only a hash of it, and you can revoke it. A shared view shows the decision and its reading, never your account id or your private prep notes' },
+  { what: 'Decision text in a link you open', trigger: 'Only if you click "add to calendar" or "share on X". Those buttons put the decision or its bearing into a Google Calendar or X link, so it reaches Google or X under their own terms. Nothing is sent until you click' },
+  { what: 'LinkedIn files you upload', trigger: 'Only if you upload them during onboarding. Your profile PDF and data export ZIP are stored as private files in Vercel Blob, linked to your account, and deleted when you delete your account. Nothing reads them yet' },
+  { what: 'Demand-probe clicks on good.arcs.care', trigger: 'If you view or click "I\'d use this" on a probe, we store the probe name, the action, the page and a random id your browser keeps so a repeat click counts once. No IP, no user agent, no account. Used only to decide whether to build the feature (ADR-076). Kept until that decision is made, then deleted' },
   { what: 'Usage analytics', trigger: 'Vercel Analytics counts page views and a few actions, such as sharing a brief or saving a receipt, with the receipt id. No cookies, no decision text' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion. We notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging, purged after 30 days' },
@@ -36,12 +39,15 @@ const NEVER = [
 ]
 
 const DATA_INVENTORY = [
-  { key: 'Question text', val: 'SESSION ONLY · anonymous / DB · signed-in' },
+  { key: 'Question text', val: 'BROWSER ONLY · anonymous (tab; up to 7 days in local storage if you choose to save, cleared on sign-in) / DB · signed-in' },
   { key: 'DEWY receipt (bearing, NCI, Y-gate)', val: 'DB · signed-in only' },
   { key: 'Email address', val: 'DB · only if you sign in (magic link) or join the waitlist' },
   { key: 'Waitlist / advisory request', val: 'DB · email, time, optional brief link; advisory adds name + message · not tied to an account' },
   { key: 'Request metadata (timestamps, codes)', val: 'INFRA LOGS · 30d TTL · no decision content' },
   { key: 'Prep session (stakes, horizon, protecting)', val: 'DB · signed-in only · linked to receipt' },
+  { key: 'Brief share links', val: 'DB · token hash, brief, creator, revoked time · signed-in owners only' },
+  { key: 'LinkedIn profile PDF / export ZIP', val: 'VERCEL BLOB (private) · only if you upload · deleted with your account' },
+  { key: 'Demand probe (probe, action, page, random browser id)', val: 'DB · no IP, no user agent, no account · deleted once the build decision is made' },
 ]
 
 function SectionHeader({ n, title }: { n: string; title: string }) {
@@ -185,7 +191,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '2rem' }}>
           <SectionHeader n="§ 04 · Your rights" title="What you can do, right now" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.8, marginTop: '0.5rem' }}>
-            <strong style={{ color: text.primary }}>Delete everything:</strong> Email to request full account deletion. 30-day window, one-way gate.<br />
+            <strong style={{ color: text.primary }}>Delete everything:</strong> Signed in, you can delete your account yourself, immediately (POST /api/account/delete; a settings button is coming). It removes your receipts, outcomes, uploaded files and personal data. Or email us and we do it within 30 days. One-way gate.<br />
             <strong style={{ color: text.primary }}>Correct your data:</strong> Email to correct stored information.<br />
             <strong style={{ color: text.primary }}>Question this policy:</strong> If something here conflicts with what you observe in the source code, flag it. We will investigate and correct the discrepancy or the code.<br />
             <strong style={{ color: text.primary }}>Exit without penalty:</strong> No dark patterns, no retention loops, no data held to encourage you to stay.
@@ -195,7 +201,7 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.3 · effective 2026-10-05</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.4 · effective 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
             <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
