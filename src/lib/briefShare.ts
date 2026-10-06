@@ -6,8 +6,8 @@
 // Anonymous (userId null) receipts have no owner and so no way to mint: since the
 // trust-contract change, anonymous compass runs are never persisted, and their
 // sharing path is the stateless fragment link `/brief/share#...` (ADR-037,
-// src/lib/shareLink.ts). Legacy anonymous rows become reachable only after their
-// browser claims them on sign-in (POST /api/receipts/claim), which makes them owned.
+// src/lib/shareLink.ts). Legacy anonymous rows (pre-2026-07-13) have no owner and
+// are not shareable; the claim endpoint that could adopt them was removed 2026-10-05.
 
 import { createHash, randomBytes } from "node:crypto"
 

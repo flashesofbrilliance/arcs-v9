@@ -46,9 +46,8 @@ function parseEntityAnalysis(raw: string): Record<string, string> | null {
 // Anyone holding a brief link can read this response, so it carries only what
 // the brief and receipt pages render: no owner id, no raw model output beyond
 // the reasoning, and never the prep's "strongest argument against" notes.
-// sessionId is a bearer secret: POST /api/receipts/claim moves every anonymous
-// receipt carrying it to the caller's account, so it is returned only to the
-// signed-in owner. Anonymous owners already hold it in localStorage.
+// sessionId (the thread id) is returned only to the signed-in owner; the
+// anonymous claim endpoint that made it a bearer secret was removed 2026-10-05.
 function publicReceipt(r: object | null | undefined, viewerId: string | null) {
   if (!r) return r
   const { userId: owner, sessionId, rawResponse, prep, ...rest } = r as Record<string, unknown>
