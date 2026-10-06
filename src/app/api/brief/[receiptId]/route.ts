@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { modelErrorResponse } from "@/lib/model-error"
 import { clampText, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
@@ -165,7 +166,9 @@ export async function GET(
     )
   }
 
-  const results = await Promise.all(calls)
+  let results: Anthropic.Message[]
+  try { results = await Promise.all(calls) }
+  catch (e) { return modelErrorResponse("brief", e) }
   const situationFraming = scrubProse(results[0].content[0].type === "text" ? results[0].content[0].text.trim() : "")
   const entityAnalysis = receipt.entity && results[1]
     ? parseEntityAnalysis(results[1].content[0].type === "text" ? results[1].content[0].text : "")

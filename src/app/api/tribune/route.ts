@@ -9,6 +9,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { clampText } from "@/lib/sanitize"
+import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import {
   PHASES,
   buildTribunePrompt,
@@ -162,8 +163,9 @@ export async function POST(req: NextRequest) {
     if (msg.stop_reason === "max_tokens") return NextResponse.json({ error: "Model response truncated" }, { status: 502 })
     content = parseTribuneContent(raw, phase)
   } catch (err) {
-    const m = err instanceof Error ? err.message : String(err)
-    return NextResponse.json({ error: err instanceof SyntaxError ? "Model returned non-JSON response" : m }, { status: 502 })
+    if (err instanceof SyntaxError) return NextResponse.json({ error: "Model returned non-JSON response" }, { status: 502 })
+    const info = reportModelError("tribune", err)
+    return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
   }
 
   const row = await prisma.tribune.upsert({

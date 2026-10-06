@@ -11,6 +11,7 @@ import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
+import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
@@ -363,13 +364,13 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     t2 = Date.now()
 
     if (!message.content || message.content.length === 0) {
-      return NextResponse.json({ error: "Claude returned empty response", raw }, { status: 502 })
+      return NextResponse.json({ error: "Claude returned empty response" }, { status: 502 })
     }
 
     raw = message.content[0].type === "text" ? message.content[0].text : ""
 
     if (!raw || raw.trim().length === 0) {
-      return NextResponse.json({ error: "Claude returned empty text content", raw }, { status: 502 })
+      return NextResponse.json({ error: "Claude returned empty text content" }, { status: 502 })
     }
 
     // Truncation guard: a response cut off at max_tokens yields invalid JSON, which
@@ -378,7 +379,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     // nci_by_lens/nci_grade fields marginally increased output size.
     if (message.stop_reason === "max_tokens") {
       return NextResponse.json(
-        { error: "Model response truncated at max_tokens - retry, or use a lower mode / shorter question", raw },
+        { error: "Model response truncated at max_tokens - retry, or use a lower mode / shorter question" },
         { status: 502 },
       )
     }
@@ -398,9 +399,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     if (err instanceof SyntaxError) {
-      return NextResponse.json({ error: "Model returned non-JSON response", raw }, { status: 502 })
+      // Name only: a SyntaxError message quotes a slice of the model reply (decision content, /trust:67).
+      console.error(`[MODEL_OUTAGE] route=compass code=non_json err=${err.name}`)
+      return NextResponse.json({ error: "The bearing came back garbled. Re-run the compass. Your fork is held. Nothing was lost.", code: "model_error", retryable: true }, { status: 502 })
     }
-    return NextResponse.json({ error: msg }, { status: 500 })
+    const info = reportModelError("compass", err)
+    return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
   }
 
   // Compute Y gate

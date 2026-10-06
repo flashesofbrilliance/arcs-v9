@@ -237,7 +237,12 @@ function DashboardInner() {
       setError(
         aborted
           ? "This is taking longer than usual. Your bearing may still be landing. Check History in a moment, or re-run."
-          : err instanceof Error ? err.message : "Something went wrong",
+          // Server errors arrive as calm, mapped copy (src/lib/model-error.ts). A
+          // transport failure (TypeError: "Failed to fetch" / "Load failed") is
+          // the browser's own text, and a non-JSON body (SyntaxError) is a parser's;
+          // neither is shown raw. Only our own thrown Error(data.error) passes through.
+          : err instanceof Error && err.name === "Error" ? err.message
+          : "The signal dropped mid-run. Re-run in a moment. Your fork is held. Nothing was lost.",
       )
       setLoading(false)
     }
