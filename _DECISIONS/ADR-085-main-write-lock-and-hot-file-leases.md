@@ -233,7 +233,7 @@ Nothing in this PR crosses it.
    the escape hatch) and add the warn-tier `lease check` to the pre-commit runner. Separate PR, its
    own receipt.
 4. **Kairos cadence.** Wire the (b) policy into the scheduled train runner.
-5. **Structural removal.** pre-commit.d split (one PR, mechanical move, byte-identical gate bodies);
+5. **Structural removal.** (Handoff fragments: `scripts/handoff_fold.py`, opened 2026-10-06; pre-commit.d split still to do.) pre-commit.d split (one PR, mechanical move, byte-identical gate bodies);
    handoff fragments + fold step (one PR). After these, drop CLAUDE.md and pre-commit from the lease
    list.
 6. **Block-tier promotion.** Only for a path that collided while warned, one path at a time.
