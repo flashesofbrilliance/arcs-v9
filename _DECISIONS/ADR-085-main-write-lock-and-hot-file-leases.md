@@ -224,7 +224,7 @@ Nothing in this PR crosses it.
 
 ## Migration plan
 
-1. **Probe the remote (needs Zach's yes).** Push one state commit to a throwaway ref
+1. **Probe the remote. DONE 2026-10-06, passed (red-team #9).** Push one state commit to a throwaway ref
    (`refs/locks-probe/x`) on GitHub, confirm it is accepted and invisible in the UI, delete it.
    If refused, standardize on `--prefix refs/heads/locks/`.
 2. **Opt-in trains.** Use `merge_train.sh --lock` for every manual train for one week. Log every
@@ -274,7 +274,7 @@ blocker. Findings and responses:
 | 6 | minor | Lease paths compared after `normpath` only: absolute or subdirectory-relative paths never matched | **Fixed.** Paths resolved to repo-root relative (from cwd when inside the repo, else from the repo root); outside-repo paths refused. Self-test (4c) |
 | 7 | minor | Push refused with no competing write surfaced as "unreachable" (exit 5), so warn-tier would fail open on a ruleset rejection | **Fixed.** New exit 6 |
 | 8 | minor | Safety argument overstated: lock history is rewritable by a forcing writer | **Fixed (ADR).** Scoped to main; audit trail called best-effort |
-| 9 | open | GitHub acceptance and visibility of `refs/locks/*` unverified | **Open.** Migration step 1, needs Zach's yes to push one probe ref |
+| 9 | closed | GitHub acceptance and visibility of `refs/locks/*` unverified | **Verified 2026-10-06 (migration step 1, on Zach's yes).** Pushed one state commit to `refs/locks-probe/x` on origin: accepted (`[new reference]`), listed by `ls-remote` and `git/refs`, absent from the branches API (0 matches); a second write from a stale parent was refused `non-fast-forward`; ref deleted, `ls-remote` empty after. `refs/locks/` is the default prefix; the `refs/heads/locks/` fallback is not needed |
 
 Re-run after fixes: `write_lock.py --self-test` ALL PASS (twice), `merge_train.sh --self-test` ALL
 PASS.
