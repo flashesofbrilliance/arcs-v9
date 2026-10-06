@@ -114,66 +114,96 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.88.0 (2026-10-05)
+# Handoff — v3.91.0 (2026-10-05)
 
-> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
-> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
-> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
-
-## Shipped + on main
-- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
-  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
-  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
-  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
-  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
-- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
-  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
-  image/svg+xml, image/png, application/manifest+json.
-
-## Open (next session)
-1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
-   is covered, but any `/:path*` style host rule is not) may still swallow icons.
-2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
-3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
-
-## Lessons (in the record)
-- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
-  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
-
-# Handoff — v3.89.0 (2026-10-05)
-
-> **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with
-> `--merge`: #792 (`8b8519f3`), #795 (`fbc3cece`), #801 (`21cc370c`, merged with fe-smoke red, which was
-> pre-existing on main and fixed by #800/#806). Receipts `2026-10-05--preview-magic-link-pr792--ZH`,
-> `--session-token-leak-pr795--ZH`, `--null-userid-sweep-pr801--ZH`. #803 (brief/guide authz) was the
-> sibling session's, receipt `--brief-guide-authz-pr803--ZH`.
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
 
 ## Shipped + on main
-- **Root cause of the preview bounce was `ADMIN_EMAILS` Production-only**, not the link host: Auth.js builds
-  email links from the request host (no AUTH_URL anywhere); `redirectProxyUrl` is OAuth-only in @auth/core
-  0.41.3. `isAdmin()` now warns once when the allowlist is empty in production mode.
-- **`/api/auth/session` no longer serves `sessionToken` + the full User row**: the callback returns
-  `{expires, user:{id,email}}`; auth error logger logs name+message; Resend errors carry the name only.
-- **`scripts/null_userid_gate.py`** + pre-commit: session userId reaching a `where` with no `if (!userId)`
-  guard fails (multi-line, per-handler, `?? undefined`). Sweep found no live instance.
-- Proof method that works on protected previews: `vercel curl <preview>/api/auth/csrf`, POST
-  `signin/resend` with the jar, read the link via Gmail MCP, redeem with the same jar, then sign out.
-
-## Env changes (outside git)
-- `ADMIN_EMAILS` was added to Preview for the proof, then **removed** on Zach's ask. Already-built
-  previews keep the old value until rebuilt. Production `ADMIN_EMAILS` is Sensitive (unreadable).
-- `brew reinstall node` (Homebrew node 26.10.0, vercel CLI 62.2.0; PATH still prefers `~/.local/bin/node`
-  v26.7.0). `agent-browser install` done, doctor 10/10.
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
 
 ## Open (next session)
-1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
-2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
-3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
-4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
-5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
-   whether #803 covered it before starting.
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
 
 ## Lessons (in the record)
-- `gh pr checks --watch ...; gh pr merge` in one command merges on red: the watch exits on failure and the
-  next command runs. Gate the merge on the rollup conclusions, never on the watch returning.
-- A Sensitive Vercel var pulls as `""`; check the length before copying it anywhere.
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
+
+# Handoff — v3.90.0 (2026-10-05)
+
+> **Job Factory session, second half: slices 2-4, 6-7 landed, the FDE handoff, the job routes on current
+> models, a Tenex application ready to send, and three spending limits hit in one evening.** Merged on Zach's
+> asks with receipts: #782 (`36d42cf0`), #784 (`a60b02f9`), #789 (`495d8221`). A parallel merge-train session
+> merged #761 #769 #771 #773 #775 with its own receipts. Oracle handoff=45 (v3.88.0 and v3.89.0 were taken by parallel sessions today).
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (scoped to the fresh handoff branch). By hand this half-session: 3 merges by me (#782 #784 #789) with receipts, 5 more by a parallel merge-train (receipted), 1 open PR (#832), 1 scheduled-task prompt revised (and one bad write restored within a minute), 1 Tenex application staged for Zach.
+- **Inhale** (what came in): 1 dissent marker, 2 unconfirmed markers (script). By hand: a 6-facet gauntlet HELD the Tenex letter v1 (two trust-breakers also in the resume); Zach corrected the GitHub-link drop; three spending limits falsified "the line is running".
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 3 (ratio 4.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft handoff-v389.md)**: GROUNDED after adding merge SHAs and receipt ids (first pass: NO GROUND RETURN on "Shipped + on main").
+- **Attachment release** (Claude, cold re-read): "the security review drained the API cap" is held as the main suspect, not a finding, until the Console shows usage by key; the 11 failed cuts are recorded as not written, not as pending work done.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's 'run handoff while CI waits'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Slices 2, 3, 4, 6, 7** (#771 `ca742146`, #761 `367b528f`, #773 `567b224c`, #775 `5ae9a6b2`, #769 `38f8aab6`; receipts `2026-10-05--pr<N>-merge-train--ZH`): Missed state + backlog drift + intake-stall signal; Lane
+  close-form with fate + reason; autonomy flags with 5 locked stations; named-trust chip + name-leak script;
+  prose gate (provenance strict, slop lint/eval, honest) + application answers.
+- **#784 FDE handoff** (`a60b02f9`, receipt `2026-10-05--fde-handoff-pr784--ZH`): bridge-scan's routing gate "score under target-role-scan" was never executed; 52 rows sat
+  PASS. Backfill ran (45/52 handed off, 22 PURSUE; Upside 0.966 PASS -> 0.889 PURSUE). Role Scan SRC line now
+  names the real scorer.
+- **#789 job routes** (`495d8221`, receipt `2026-10-05--job-routes-model-migration-pr789--ZH`): writer routes on `claude-sonnet-5-5` (no temperature, effort low/medium, `fallbacks:"default"`),
+  scorers on the `claude-haiku-4-5` alias, `modelError()` returns 503 + the API's message + a code, new
+  `GET /api/jobs/model-health`. Live-proven on the PR preview before the cap hit.
+- **#782** (`36d42cf0`, receipt `2026-10-05--lane-full-width-pr782--ZH`): Lane root `width:100%` (flex-column body had shrunk it to 699px; 3 of 5 stages per row).
+- **Morning task** (scheduled, outside repo; file `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`, verified `grep -c model-health` = 1): preflight (d) now calls `/api/jobs/model-health`; usage_limit = FAIL
+  reported verbatim, never retried.
+
+## Spending limits hit (all three are Zach's decisions)
+1. **Anthropic API workspace cap** (`wrkspc_01LPHV...`): every model route in production 503s until it is raised or
+   resets 2026-11-01. Main suspect: `claude-security-review` (228 runs in Oct, 197 on 10-04/05) on the
+   `ANTHROPIC_API_KEY` repo secret. Unconfirmed that the GitHub secret shares the workspace: Console usage-by-key
+   settles it. Production routes themselves were small (3-day logs, mostly cached/Haiku; `/api/guide` is Opus 4.5).
+2. **GitHub Actions billing**: jobs no longer start ("recent account payments have failed or your spending limit
+   needs to be increased"). No PR can go green until Billing & plans is fixed.
+3. Claude plan weekly limit hit earlier (killed the 9/30, 10/01 morning runs); separate meter, not the API key.
+
+## Update after the handoff (same session)
+- **#846** (`d7171ca9`, receipt `2026-10-05--tenex-bundles-upside-overclaims-pr846--ZH`): Tenex founder note filed beside the
+  Senior application; stale `evidence.PROPOSED.jsonl` removed; Upside resume's two gauntlet-falsified lines fixed. The Tenex
+  Senior bundle itself landed in `8c2d61fe` (location-fix session). Open item 3 below is done except the send (Zach's).
+
+## Open (next session)
+1. **#832** (security review once per PR, path-scoped; ~87% fewer runs measured on October) is OPEN, not merged:
+   CI cannot start (GitHub billing). Merge when green per Zach, or on local verification if he says so.
+2. **11 resume cuts** for the shortlist's open FDE rows failed on the API cap before writing anything; script at
+   the session scratchpad `cut_all.sh` pattern: `forge_edit_from_seed.mjs --jobid <id>` then the location +
+   overclaim fixes. Shortlist: `_STATE/job-search/missed-shortlist-2026-10-05.md` (uncommitted; regenerate if lost).
+3. **Tenex Senior FDE application is READY for Zach to send** (resume + cover letter + founder note, all in iCloud
+   `ARCS/resumes/tenex-senior-forward-deployed-engineer/`). Local bundle uncommitted on branch
+   `claude/forge-tenex-senior`; commit it now that #791's seed-style fix is on main.
+4. Chips running/filed: 31 resumes "Fully remote (US)" -> "New York Metro" (task_f0cd3f02, running); preview
+   magic-link sign-in (task_ca922c90, running); deterministic teardown lenses (task_f1b1f738, ended: check its PR).
+5. Migrate the remaining old models (brief, compass, guide on Opus 4.5, tribune, annotations, slop_eval,
+   network_scan); stale local `@anthropic-ai/sdk` 0.100.1 vs `^0.128`.
+6. Slice 5 held behind its tripwire (queue must run dry two weeks; 484 rows Missed today).
+
+## Lessons (in the record)
+- A spending cap hides as a 500. Surface the upstream error with a code, and preflight the API before a run.
+- CI that runs an agent on every push is a production cost line; scope it to the paths it can protect.
+- I passed a placeholder (`@@FILE@@`) as a scheduled-task prompt and restored it within a minute: write the full
+  text, then verify the stored file, every time.
+- Memory said the GitHub profile was linkable; I dropped the link anyway before checking. Read memory first.

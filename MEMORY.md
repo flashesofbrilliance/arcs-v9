@@ -5,10 +5,26 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
-## [v3.90.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.6
+## [v3.92.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.7
 
 - Disclosed: LinkedIn uploads (private Blob), demand probe (no IP/UA), owner-minted share tokens, calendar/X links, self-serve delete.
 - Code: save stash strips prep adversarialInput and expires at 7d signed-out; re-upload deletes the replaced blob; debrief footer always signed opt-out (dead /unsubscribe gone).
+
+## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
+
+- Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).
+- Retired PATCH /api/receipts/claim: a sessionId was never proof of possession, and no anonymous receipt has been persisted since 2026-07-13 (48 legacy rows stay unowned). `_CANON/trust-contract.md` 1.6 and the /trust repair-seam copy now route claim or delete through the inquiry link.
+
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
+
+## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
+
+- Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
+- Anthropic API workspace cap hit 2026-10-05 22:09 UTC (resets 11-01); main suspect claude-security-review on the repo secret (228 runs in Oct), unconfirmed.
+- Tenex Senior FDE application ready in iCloud; 11 shortlist cuts failed on the cap before writing.
 
 ## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
 

@@ -190,6 +190,15 @@ export async function POST(req: NextRequest) {
 
   // Resolve session ID: reuse the client's only if the thread is the caller's.
   const resolvedSessionId = await resolveOwnedSessionId(sessionId, userId)
+  // Re-minted (foreign or malformed thread id): stop before inference so the
+  // client can drop its stale id and re-run fresh. Persisting under a new id
+  // the client never saw would break its timeout-recovery poll (ledger CMP-018).
+  if (typeof sessionId === "string" && sessionId && resolvedSessionId !== sessionId) {
+    return NextResponse.json(
+      { error: "This decision thread isn't yours to extend. Starting a fresh one.", code: "session_reassigned", session_id: resolvedSessionId },
+      { status: 409 },
+    )
+  }
 
   // Fetch prep session if provided (signed-in flow persists prep rows).
   // Scoped to the caller: a prep row owned by someone else, or any prepId
@@ -640,9 +649,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   // NOTE (2026-07-13, trust-contract conformance): the anonymous
   // `arcs_session_id` claim cookie is no longer set here - with no anonymous
-  // persistence there is nothing to claim. ClaimAnonymousReceipts.tsx stays
-  // in place (harmless no-op for new sessions) until Phase 2's opt-in save
-  // flow decides its future.
+  // persistence there is nothing to claim. The claim route itself was retired
+  // 2026-10-05; ClaimAnonymousReceipts.tsx now only runs the opt-in save.
 
   return response
 }

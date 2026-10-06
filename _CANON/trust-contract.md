@@ -1,6 +1,6 @@
 # ARCS Trust Contract
 
-> **Version:** 1.6
+> **Version:** 1.7
 > **Date:** 2026-10-05
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
@@ -38,8 +38,9 @@ If you are signed in, your decision receipt is stored in your account and access
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
-> before 2026-07-13: signing in from the same browser claims your receipts automatically,
-> and a deletion request (via the inquiry link on arcs.care) will be honored.
+> before 2026-07-13: a claim or deletion request (via the inquiry link on arcs.care) will
+> be honored. Automatic claiming on sign-in was retired on 2026-10-05 (v1.6), because a
+> browser's session id alone did not prove who made a receipt.
 
 **Your debrief:**
 If you log an outcome (how the decision went), that is stored in your account linked to the receipt. This data is used to improve ARCS's ability to read terrain accurately over time — specifically, to validate whether the system's confidence grades correspond to real outcomes. It is never shared or sold.
@@ -171,7 +172,8 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
-| 1.6 | 2026-10-05 | §1: anonymous save stash disclosed (browser local storage, prep notes stripped, 7-day expiry); "Shared links" corrected to owner-minted, hash-stored, revocable share tokens; added "Links that leave ARCS" (calendar, X), "LinkedIn uploads" (private Vercel Blob, deleted with the account) and "Demand probes" (no IP or user agent, deleted after the ADR-076 decision). §3: self-serve deletion endpoint. Mirrors /privacy v1.4. |
+| 1.7 | 2026-10-05 | §1: anonymous save stash disclosed (browser local storage, prep notes stripped, 7-day expiry); "Shared links" corrected to owner-minted, hash-stored, revocable share tokens; added "Links that leave ARCS" (calendar, X), "LinkedIn uploads" (private Vercel Blob, deleted with the account) and "Demand probes" (no IP or user agent, deleted after the ADR-076 decision). §3: self-serve deletion endpoint. Mirrors /privacy v1.4. |
+| 1.6 | 2026-10-05 | §1 repair seam: the browser claim path for pre-2026-07-13 anonymous receipts was retired (a session id never proved possession); claim or delete now goes through the inquiry link. (Row added retroactively with 1.7; the 1.6 bump landed without one.) |
 | 1.5 | 2026-10-05 | §1: "Who else touches your question" (SAGE scoring service, cookieless analytics, no server cache of anonymous questions) and "Shared links" (link holders read the decision; never the account id or prep notes). §3 practice: account deletion now removes uploaded files from storage. |
 | 1.4 | 2026-10-03 | §1 amended: "Waitlist and advisory requests" added (what is stored, the internal email alert, Resend as delivery provider, one confirmation per address). §3: waitlist and advisory rows deletable on request, and removed with an account case-insensitively. Accompanies the survey landing on `/`. |
 | 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-049's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
