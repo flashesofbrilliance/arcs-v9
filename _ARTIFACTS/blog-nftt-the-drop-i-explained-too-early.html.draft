@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>The Drop I Explained Too Early · NFTT</title>
+<meta name="description" content="USDC supply fell about $5.7B to $6.6B in two weeks of January 2026, and my published explanation did not survive the first test. The tests, the scores, and the one test I cannot run.">
+<meta name="robots" content="index">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .cover{display:block; width:100%; height:auto; border-radius:12px;
+    border:1px solid var(--border); margin:6px 0 4px; background:var(--surface-2)}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  /* the one loop: the spine this whole account runs on */
+  .loopspine{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); margin:22px 0 0; padding-top:16px; border-top:1px solid var(--border);
+    display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+  .loopspine b{color:var(--cyan); font-weight:600; letter-spacing:.14em}
+  .loopspine i{color:var(--border-2); font-style:normal}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true" style="background:var(--cyan)"></span>
+    <span>Field Account</span>
+    <span>Sources Linked</span>
+    <span class="sp"><b style="color:var(--cyan)">Record: open on purpose</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // A calibration receipt, part two</p>
+    <h1>The Drop I <em>Explained Too Early</em></h1>
+    <p class="standfirst">USD Coin (USDC), Circle's dollar stablecoin, lost about $5.7B to $6.6B of supply in two weeks of January 2026. I had an explanation within days. It did not survive the first test, and what replaced it is still partly inference.</p>
+    <p class="byline">Draft for review, not published &middot; Companion to the LinkedIn follow-up &middot; Every figure sits in a sibling evidence ledger</p>
+    <p class="loopspine" aria-label="The loop: write the prior, run the test, correct in public"><b>write the prior</b> <i>&rarr;</i> <b>run the test</b> <i>&rarr;</i> <b>correct in public</b></p>
+  </header>
+
+  <section>
+    <span class="num">I &middot; The sentence I wrote before the data</span>
+    <p class="lead">On Feb 1 and Feb 2, 2026, two of my pieces said the January outflow was institutions dumping stablecoins after a Securities and Exchange Commission (SEC) staff statement on Jan 28. It read like a clean story: a regulator speaks, a large holder sells, supply falls. I gave it a credence of 0.55 when I started testing it, the highest of any explanation on my list.</p>
+    <p>The first test took one afternoon. I read the statement twice, with a word search. It names no Treasury bills, no liquid staking tokens and no wrappers. The explanation I had published had nothing to stand on, and its credence fell from 0.55 to 0.15 on that read alone. Once I measured the December baseline and the recovery, it fell to 0.05.</p>
+  </section>
+
+  <section>
+    <span class="num">II &middot; Fifteen days, two legs</span>
+    <p>USDC, bitcoin and Solana all peaked on Jan 15 and 16. Supply turned with the crypto cycle at its high, not with a headline.</p>
+    <p>The first leg ran from Jan 15 to Jan 22, about $3.1B down. Its sharpest day was Jan 20: Greenland tariff threats, record Japanese government bond yields, about $1.09B of liquidations (secondary reporting) and USDC down $1.9B, one of its two largest daily drops in the DefiLlama series. Hyperliquid's bitcoin funding rate flipped from about +11% to -8% annualized that day, the signature of crowded longs unwinding. The yen strengthened about 3% from Jan 20 to Jan 29. A cluster, not a cause: the evidence is timing.</p>
+    <p>The second leg ran from Jan 22 to Jan 31. Binance announced a holding-rewards campaign for USD1, World Liberty Financial's stablecoin, on Jan 23: $40M of WLFI tokens to USD1 holders on Binance, Jan 23 to Feb 20 (secondary reporting). USD1 supply went from $3.17B to $4.93B in three days, $1.12B of it on Jan 23. From Jan 22 to Jan 31 USD1 gained $1.89B while USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). That is about 43% to 53% of the leg. The Jan 30 liquidations (about $1.71B, secondary) and the Warsh nomination for Fed chair, also dated Jan 30, fall in the same window. I did not score the nomination; no hypothesis row exists for it, and I have not re-checked its date outside my own session notes.</p>
+  </section>
+
+  <section>
+    <span class="num">III &middot; The ledger</span>
+    <h2>Priors written down, then moved by tests</h2>
+
+    <div class="panel">
+      <h4>Belief log &middot; prior to final credence &middot; the rows that carry the story</h4>
+      <p style="margin:0 0 14px">A credence is my subjective probability that a factor contributed more than about 10% of the move. Credences overlap and do not sum to one.</p>
+      <div class="step">
+        <span class="k">H1 &middot; Regulation-forced selling</span><b>0.55 to 0.05. Falsifier: the statement names the assets. <span style="color:var(--cyan)">PREMISE FAILED</span></b>
+        <span class="k">H2 &middot; Deleveraging</span><b>0.20 to 0.50. Falsifier: drops with no liquidation event. <span style="color:var(--cyan)">BEST FIT, INFERENCE</span></b>
+        <span class="k">H27 &middot; Binance USD1 campaign</span><b>0.05 to 0.40. Falsifier: USD1 flat on Jan 23 to 25. <span style="color:var(--cyan)">STRONG TIMING, MECHANISM UNSHOWN</span></b>
+        <span class="k">H3 &middot; Macro risk-off</span><b>0.15 to 0.35. Falsifier: the drop precedes the shocks. <span style="color:var(--cyan)">PLAUSIBLE, OVERLAPS H2</span></b>
+        <span class="k">H4 &middot; Tokenized Treasuries</span><b>0.10 to 0.20. About $0.8B moved, mostly one fund. <span style="color:var(--cyan)">REAL BUT SMALL</span></b>
+        <span class="k">H7 &middot; Measurement</span><b>0.05 to 0.15. DefiLlama and CoinGecko differ by about $1B on some days. <span style="color:var(--cyan)">LIVE</span></b>
+      </div>
+      <p>The one explanation I had published started highest and ended lowest. The one I had barely considered, the exchange campaign, moved the most.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IV &middot; Shape as evidence</span>
+    <p>Peak to trough, January was -9.2% over 14 days, and USDC regained 95% of its prior peak 12 days after the low. March 2023, the Silicon Valley Bank episode, was -26.9% over 39 days with no recovery in the window. November 2025, the Stream collapse, was -2.9%. A fast V is how a demand-for-liquidity episode looks; a trust shock does not rebound that way. The shape favors the deleveraging and macro readings and argues against forced institutional selling.</p>
+  </section>
+
+  <section>
+    <span class="num">V &middot; The tests that came back empty</span>
+    <p>Empty is a result. Each of these had a falsifier written in advance, and none found its effect: the SEC text (names no assets); the Oct 10 cascade (it hit USDe, and USDC rose afterward); a Solana rotation (Solana lost about $2.25B of USDC too); the Iran war (it began Feb 28, six weeks after the largest drops); sanctions (the Jan 30 designation targeted USDT on Tron, a day later); foreign selling of Treasuries (foreigners were net buyers, $63.5B); credit stress (spreads near year lows); custodian gating (no notice found); hacks (about $370M in January, mostly not USDC); consumer confidence (best month of the year); collateral repricing (DAI plus USDS flat at $10.9B while ether fell); tokenized gold (about $0.25B, with gold at a record); hedge fund shorts (cash and bill margined, USDC margin is locked and not burned); the Circle lockup expiry (equity proceeds are dollars); Gemini and Genesis fallout (the SEC dismissed its Gemini case on Jan 23, pointing the wrong way); reserve diversification (the dollar's share did not fall); and the weekly correlations, which never cleared a multiple-comparison bar across more than a dozen tests.</p>
+    <p>One test was untestable, not empty: the European Union's DAC8 tax-reporting rules. There is no redemption data to run it against.</p>
+  </section>
+
+  <section>
+    <span class="num">VI &middot; Three corrections</span>
+    <p>My Flippening piece set the falsifier at USDC returning to about $80B. The real December level was $75B to $77B, USDC closed 2025 at $75.3B, and it was back to $75.2B by Feb 28. My own falsifier fired, and my first draft of part one missed it by reading a September snapshot.</p>
+    <p>The central premise of two pieces failed on a read of the primary text. That is row H1 above.</p>
+    <p>And the headline number is a range because two sources disagree, and the daily points in one of them are 00:00 UTC snapshots, a day off from events. Part of the size of the move may be measurement.</p>
+  </section>
+
+  <section>
+    <span class="num">VII &middot; Pre-mortem: the Convex Skeptic</span>
+    <div class="panel">
+      <h4>Pre-mortem &middot; the Convex Skeptic vs. the record</h4>
+      <div class="step">
+        <span class="k">Skeptic says</span><b>You are fitting a story to a V-shape.</b>
+        <span class="k">Record shows</span><b>Two legs fit the timing, and neither is stated as cause. The data that would decide it is not public.</b>
+        <span class="k">Skeptic says</span><b>A rewards campaign is not a redemption.</b>
+        <span class="k">Record shows</span><b>Correct. It is the one thing I could not show. The 43% to 53% is an overlap in size, not a funding trace.</b>
+        <span class="k">Skeptic says</span><b>Your credences are made up.</b>
+        <span class="k">Record shows</span><b>They are subjective, and the log says so. What can be checked is the order of the tests and the falsifiers written first.</b>
+      </div>
+      <p>Silence counts as evidence in this method only for required, routine disclosures. A 10-K that reports year-end figures says nothing about January by omission, so I treat its silence as no information.</p>
+    </div>
+    <p>Several stories about political and commercial conflicts of interest touch this period: a pardon tied to a Binance founder, a loan tied to a cabinet official and Tether, an adviser's holdings, a lawsuit against the Internal Revenue Service. They are alleged or disputed, and for each I found no flow link to USDC supply. They are not in the account above.</p>
+    <blockquote>Silence is evidence only where someone was required to speak.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">VIII &middot; What would settle it</span>
+    <p>The deciding question is whether the USD1 mints were funded by USDC redemptions. Circle does not publish who redeemed, and a coin in a cold wallet or a frozen vault is still in circulation; supply falls only when someone redeems with the issuer. Two things could answer it: a list of USDC burns by entity from a paid on-chain analytics vendor, and Binance conversion data for the campaign window. Until then the account stays at two legs and one open thread, which is where the record puts it.</p>
+    <p>This is analysis, not investment advice.</p>
+  </section>
+
+  <footer>
+    <b>Source articles:</b><br>
+    <a href="https://www.linkedin.com/pulse/flippening-gonna-happen-zach-harris-p8zye" style="color:var(--cyan)">"Flippening, Not Gonna Happen"</a> &middot; Feb 1, 2026<br>
+    <a href="https://www.linkedin.com/pulse/custody-collateral-anatomy-20b-systemic-blind-spot-zach-harris-ruove" style="color:var(--cyan)">"Custody Collateral: Anatomy of a $10B Systemic Blind Spot"</a> &middot; Feb 2, 2026<br>
+    <br>
+    <b>Resolution sources:</b><br>
+    <a href="https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826" style="color:var(--cyan)">SEC staff statement on tokenized securities, Jan 28, 2026</a><br>
+    <a href="https://home.treasury.gov/news/press-releases/sb0418" style="color:var(--cyan)">Treasury TIC data, January 2026</a><br>
+    <a href="https://stablecoins.llama.fi/stablecoincharts/all?stablecoin=2" style="color:var(--cyan)">DefiLlama stablecoin supply</a> &middot; CoinGecko daily series &middot; FRED series<br>
+    Secondary, marked as such: Binance USD1 campaign reports, January liquidation totals, CertiK January 2026 report.<br>
+    <br>
+    <b>Field account, 2026.</b> One question, two legs, one test that cannot be run yet. Nothing here was checked by the author alone.
+  </footer>
+</div>
+<script defer src="/_vercel/insights/script.js"></script>
