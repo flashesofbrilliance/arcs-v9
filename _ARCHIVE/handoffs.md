@@ -5881,3 +5881,22 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
   on it: every SAFE candidate with off-main commits was mid-session.
 - A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
+
+
+# Handoff — v3.101.0 (2026-10-06)
+
+> **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
+> Receipt `2026-10-06--receipt-view-no-brief-gen-pr888--ZH`.
+
+## Done
+- Bug: `/receipt/[id]` and `/receipt/reflect/[id]` loaded via `GET /api/brief/[id]`, which on a cache miss made
+  1-2 Sonnet calls and stored a Brief row the viewer never asked for.
+- Fix: opt-in `?generate=0` on that route returns receipt + tributaries + children with `brief: null`, no model
+  call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
+- Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
+  "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
+- Verified signed-in on prod (Comet): un-briefed receipt renders, button reads "Generate brief", only
+  `?generate=0` is requested, Brief rows stay 0.
+
+## Open (next session)
+1. GitHub Actions billing block persists (no CI).
