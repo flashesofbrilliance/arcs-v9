@@ -1,10 +1,10 @@
 ---
 version: v0
-status: PROPOSED (design only, nothing built, not scheduled)
+status: PROPOSED (first slice built and self-tested, not scheduled, capture is manual)
 date: 2026-10-06
 seed: extends seed-gate-kinematic-adaptive-freshness (candidate), Part B of _SEEDS/ADR-CANDIDATE-2026-09-17-defeasible-context-codec-and-kinematic-freshness.md
 governed_by: ROM primitive 1 (NOTOMATION), ROM primitive 6 (KINTSUGI immune system), memory lesson-banked-when-it-can-stop-you
-script: scripts/bank_event.py (does not exist yet)
+script: scripts/bank_event.py (first slice: record, scan, list, self-test)
 ---
 
 # Bank-event propagation v0: when a lesson is banked, it moves backward and forward
@@ -117,6 +117,8 @@ Capture stays at the edge, where the session has the context. The engine has no 
 - **One-way doors.** An event that touches a write-locked item requires the write-lock
   declaration before any guard is wired.
 - **Concurrency.** Append-only JSONL, re-fetch before write (shared-anchor-append rule).
+- **Mentions.** `--exclude GLOB` (stored on the event) skips files that only quote the claim.
+  Citation of the event id is also per event: a file citing event A is still flagged for event B.
 
 ## Reuse map
 
@@ -159,21 +161,30 @@ rules.
 - **Double counting with canon propagation.** Canon facts keep their own path; a bank event
   that defeats a canon fact links to the canon queue instead of re-flagging it.
 
-## First slice (smallest thing that proves the loop)
+## First slice (built 2026-10-06)
 
-`scripts/bank_event.py record | scan | list | --self-test`, stdlib only.
+`scripts/bank_event.py record | scan | list | --self-test`, stdlib only. `--self-test` runs
+14 checks in a throwaway git repo in under a second and never touches the real state:
 
-Acceptance:
-1. `record` on a throwaway repo with one planted stale claim finds it, marks it unverified,
-   and writes one dependent row. A second `record` of the same event writes 0 rows.
-2. A matcher over the hit cap is refused without `--broad`.
-3. A file that cites the event id is not flagged.
-4. Removing the stale text resolves the dependent to moot on the next `scan`.
-5. An event with no guard and no reason shows under `list --unbanked`.
-6. The self-test runs in under 5 seconds and never touches the real register.
+1. `record` finds a planted stale claim and writes one unverified dependent; a second `record`
+   writes 0 rows.
+2. A matcher over the hit cap is refused without `--broad`, and with `--broad` becomes one
+   summary row.
+3. A file that cites the event id is not flagged for that event.
+4. A mention-only file is flagged until excluded, and `--exclude` keeps it out of a new event.
+5. Removing the stale text resolves the dependent to moot on the next `scan`.
+6. An event with no guard and no reason lists as UNBANKED; a guarded one does not.
+7. `--guard` together with `--no-guard-reason` is rejected.
+8. The real state file is untouched.
 
-A real replay as the first proof: bank the "gate described as manual, actually pre-commit"
-lesson with a `risk-rule` guard, and confirm the scan reports its blind spots honestly.
+**Real replay (2026-10-06, against this repo and the memory directory).** The lesson "a gate
+described as manual is actually pre-commit" matched exactly 1 place: this spec's own
+measurement table. That is a false positive of the mention-versus-assertion kind, and it is
+why `--exclude` exists. With the spec excluded the event found 0 dependents and listed as
+UNBANKED. A broad matcher (`\bgate\b`) hit 935 places and was refused at the cap of 25.
+
+**Not built:** capture hooks, the night-moves digest line, the guard graduation counters,
+Operator 21, and any scan of the artifact database.
 
 ## Decisions needed from Zach
 
