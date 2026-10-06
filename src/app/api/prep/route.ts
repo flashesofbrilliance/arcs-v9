@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { PrepBody } from "@/lib/request-schemas"
 
 export const dynamic = "force-dynamic"
 
@@ -9,17 +10,20 @@ export async function POST(req: NextRequest) {
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: prep open to anonymous users
 
-  const body = await req.json()
-  const { stakes, horizon, protecting = [], confidence, entity, adversarialInput, outcomeHorizon } = body
+  const parsed = PrepBody.safeParse(await req.json().catch(() => null))
+  if (!parsed.success) {
+    return NextResponse.json({ error: "invalid prep body" }, { status: 400 })
+  }
+  const { stakes, horizon, protecting, confidence, entity, adversarialInput, outcomeHorizon } = parsed.data
 
   const fields = {
     stakes: stakes ?? null,
     horizon: horizon ?? null,
-    protecting: Array.isArray(protecting) ? protecting : [],
-    confidence: typeof confidence === "number" ? confidence : null,
-    entity: entity?.trim() || null,
-    adversarialInput: adversarialInput?.trim() || null,
-    outcomeHorizon: outcomeHorizon?.trim() || null,
+    protecting: protecting ?? [],
+    confidence: confidence ?? null,
+    entity,
+    adversarialInput,
+    outcomeHorizon,
   }
 
   // Trust-contract conformance (/trust §1, /privacy "no auth = no write
