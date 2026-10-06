@@ -26,6 +26,8 @@
 //     GROUNDED green, INFERENCE gold, STRUCK red (struck claims stay visible, marked)
 //   page.blocks[tab=forge, type=prose] p[]                         → forgeMethod string (Deeper Strata):
 //     the substrates and ruling definitions behind the Forge threads, verbatim
+//   page.blocks[tab=recoil, type=worked_example] intro + close     → beliefTrajectory string (Deeper Strata,
+//     just before the numbers): what moved, then the honest correction; the chart itself is beliefKinematics
 //   kinematic_series {dt, series[]} (the War Game kinematics_table) → beliefKinematics (Deeper Strata):
 //     per series "trajectory · D1 peak/term · D2 term · D3 term · grounded: quote", plus the n-point
 //     caveat; derivatives from ../kinematics (same central difference as WarRoomReport + recoil_brief.py)
@@ -97,6 +99,8 @@ export interface WarroomRecoilReport {
   preCallQuestionsIntro?: string
   /** Forge-tab method prose (substrates + ruling definitions), rendered by Deeper Strata. */
   forgeMethod?: string
+  /** The Recoil tab's worked example: what moved + the honest correction, rendered by Deeper Strata. */
+  beliefTrajectory?: string
   /** Belief trajectories with D1-D3 (the War Game kinematics table), rendered by Deeper Strata. */
   beliefKinematics?: Record<string, string>
   /** What the War Game gauntlet targets (its list intro), rendered by Deeper Strata. */
@@ -240,6 +244,15 @@ function forgeMethod(root: Rec, audience: WarroomAudience): string | undefined {
     if (!isRecord(b) || b.tab !== 'forge' || b.type !== 'prose' || !visible(b, audience)) continue
     // Paragraph-level: a half-filled template paragraph ("{{sources}}") drops whole.
     parts.push(...parseList(b.p).map(text).filter((x): x is string => !!x))
+  }
+  return parts.length ? parts.join('\n\n') : undefined
+}
+
+function beliefTrajectory(root: Rec, audience: WarroomAudience): string | undefined {
+  const parts: string[] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'recoil' || b.type !== 'worked_example' || !visible(b, audience)) continue
+    for (const v of [text(b.intro), text(b.close)]) if (v) parts.push(v)
   }
   return parts.length ? parts.join('\n\n') : undefined
 }
@@ -523,6 +536,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const { items: intel, intro: iIntro } = preCallIntel(root, audience)
   const { questions, landmines, intro: qIntro } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
+  const trajectory = beliefTrajectory(root, audience)
   const kinematics = beliefKinematics(root, audience)
   const gIntro = listIntro(wargameBlocks(root, audience))
   const wargame = wargameBlocks(root, audience)
@@ -549,6 +563,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(questions.length ? { preCallQuestions: questions } : {}),
     ...(qIntro ? { preCallQuestionsIntro: qIntro } : {}),
     ...(method ? { forgeMethod: method } : {}),
+    ...(trajectory ? { beliefTrajectory: trajectory } : {}),
     ...(kinematics ? { beliefKinematics: kinematics } : {}),
     ...(gIntro ? { gauntletIntro: gIntro } : {}),
     ...(kIntro ? { kairosIntro: kIntro } : {}),

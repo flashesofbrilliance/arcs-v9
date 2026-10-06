@@ -1,17 +1,17 @@
 {
-  "captured_at": "2026-10-05T21:15:04-04:00",
+  "captured_at": "2026-10-05T21:17:41-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f5fab907",
-    "head_message": "Merge pull request #857 from flashesofbrilliance/claude/migration-lock-postgres",
+    "head_sha": "01fb29d2",
+    "head_message": "Merge pull request #859 from flashesofbrilliance/claude/cmp020-zod-bodies",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "v3.93.0: Vercel domain config only, no code"
+    "note": "#848 996b0418 merged without CI (billing block)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-jc067o73j-arcs-care.vercel.app",
-    "latest_deploy_status": "Ready",
+    "latest_deploy_url": "https://arcs-v9-pb18iiy3t-arcs-care.vercel.app",
+    "latest_deploy_status": "Building",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "vercel ls 2026-10-05 21:06 (latest Ready is a preview)"
+    "note": "env names not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt row this session: 2026-10-05--retired-hosts-unpin-branch--ZH"
+    "note": "decision_receipt this session: 2026-10-05--og-metadata-base-pr848--ZH"
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Un-pinned chase-intro/cj-brief/growth-intel.arcs.care from a deleted preview branch so the retired-host 308 fires.",
-  "next_action": "Run chip task_e4237d76 (Vercel branch-pin gate), or the open items in v3.92.0.",
-  "blocking": "NONE",
+  "session_summary": "Pinned OG/Twitter image URLs to app.arcs.care (were prl.arcs.care) and swept icon serving across 92 hosts.",
+  "next_action": "Resolve the 3 retired Fanatics hosts still serving old pages (task_b1e9b3f7) once Zach approves a domain change.",
+  "blocking": "GitHub Actions billing block (jobs not started)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
