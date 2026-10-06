@@ -1,3 +1,7 @@
+---
+description: Cold-reader FAQ coverage eval: score whether a README or public artifact answers what an adopter asks
+---
+
 # /faq-eval
 
 > Cold-reader ATG-FAQ coverage eval for a README (or any public-facing artifact). Simulates a

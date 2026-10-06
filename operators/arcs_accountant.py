@@ -23,7 +23,8 @@ WHAT IT REFUSES
     reported as `not_computed`, not as 0.
 
 COHORTS (first-class dimension, per the 2026-09-24 correction that retired "2/247")
-  founder | external | anonymous (no userId; cannot be attributed to either). The operator
+  test | real (owner-declared Receipt.provenance, wins) | founder | external | anonymous
+  (no userId; cannot be attributed to either). Only `real` is the calibration set that counts. The operator
   does not decide cohort membership; the adapter (operators/prod_receipt_to_accountant.py)
   stamps `cohort` on each receipt from the export. An unstamped receipt lands in
   `unattributed` and is reported, never silently folded into a cohort.
@@ -59,7 +60,7 @@ CALIBRATION_MIN_N = 30
 
 RECEIPT_FATES = {"OPEN": "non_terminal", "LOGGED": "terminal", "EXPIRED": "terminal"}
 DRIFT_FATES = ("LANDED", "DRIFTING")
-KNOWN_COHORTS = ("founder", "external", "anonymous")
+KNOWN_COHORTS = ("founder", "external", "anonymous", "test", "real")
 
 
 # ── report shape ────────────────────────────────────────────────────────────

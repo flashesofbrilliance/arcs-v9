@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Docs Reconciliation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: one lane. Summary first, then tech debt, then the groups table, then drift and gates side by side, then the model. */
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance: Inter for reading, JetBrains Mono for instruments, rounded scale 3/6/10, type ramp 0.925rem body, 1.15rem headline, 0.6875rem labels (11px floor). */
+:root{
+  color-scheme:dark;
+  --font-sans:system-ui,-apple-system,'Inter',sans-serif;
+  --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+  --font-display:system-ui,-apple-system,'Inter',sans-serif;
+  --r-sm:3px; --r-md:6px;
+}
+html{background:var(--bg)}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:400 0.925rem/1.6 var(--font-sans);padding-block:28px 56px;padding-inline:16px}
+.lane{max-width:960px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
+h1{font:600 clamp(1.5rem,4vw,2.4rem)/1.2 var(--font-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h2{font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);margin:0 0 12px}
+p{margin:0}
+.lede{color:var(--dimmed);margin-top:8px}
+.mono{font-family:var(--font-mono)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 16px;min-width:0}
+.tile b{display:block;font:500 1.15rem/1.25 var(--font-mono);font-variant-numeric:tabular-nums}
+.tile span{display:block;color:var(--dimmed);margin-top:4px}
+.share{display:flex;height:12px;border-radius:var(--r-sm);overflow:hidden;gap:2px;margin-bottom:12px}
+.share i{display:block;min-width:2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 24px;color:var(--dimmed)}
+.legend em{font-style:normal;font-family:var(--font-mono);color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+.cA{--c:var(--green)}.cB{--c:var(--cyan)}.cC{--c:var(--gold)}.cD{--c:var(--red)}
+.bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.bar button{background:var(--bg);border:1px solid var(--border);color:var(--dimmed);font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer}
+.bar button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan)}
+.bar button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.scroll{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);padding:4px}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);text-align:left;padding:12px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right}
+.name{font-weight:600}
+.path{display:block;color:var(--dimmed);font:400 0.925rem/1.6 var(--font-mono);margin-top:4px;overflow-wrap:anywhere}
+.cls{display:inline-block;font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--c,var(--border));color:var(--c,var(--text));white-space:nowrap}
+.rate{display:flex;align-items:center;gap:8px;min-width:120px}
+.rate .t{flex:1;height:6px;background:var(--border);border-radius:var(--r-sm);overflow:hidden}
+.rate .t i{display:block;height:100%;background:var(--red)}
+.rate span{font:400 0.925rem/1.6 var(--font-mono);color:var(--dimmed);white-space:nowrap}
+.treat{color:var(--dimmed)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px}
+.list{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface)}
+.row{padding:12px 16px;border-bottom:1px solid var(--border);min-width:0}
+.row:last-child{border-bottom:0}
+.row .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.row .why{color:var(--dimmed);margin-top:4px}
+.badge{font:700 0.6875rem/1.4 var(--font-mono);padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--border);color:var(--dimmed);white-space:nowrap;text-transform:uppercase;letter-spacing:.14em}
+.badge.ci{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.badge.advisory,.badge.session-start{color:var(--gold);border-color:var(--gold);background:var(--gold-bg)}
+.badge.manual{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+.sev{display:inline-block;font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--c);color:var(--c);white-space:nowrap}
+.sP1{--c:var(--red)}.sP2{--c:var(--gold)}.sP3{--c:var(--dimmed)}
+.st{font:700 0.6875rem/1.4 var(--font-mono);color:var(--dimmed);text-transform:uppercase;letter-spacing:.14em;white-space:nowrap}
+.st.open{color:var(--text)}.st.in-progress{color:var(--cyan)}.st.decision{color:var(--gold)}.st.done{color:var(--green)}
+tr.done td{opacity:.6}
+.model{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.model div{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 16px;min-width:0}
+.model b{display:block;font-weight:600;margin-bottom:4px}
+.model p{color:var(--dimmed)}
+.model .src{display:block;margin-top:8px;font:700 0.6875rem/1.4 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed)}
+.empty{color:var(--dimmed);padding:16px}
+.foot{color:var(--dimmed)}
+@media (prefers-reduced-motion:no-preference){.rate .t i{transition:width .3s}}
+</style>
+
+</head><body>
+<main class="lane">
+  <header>
+    <h1>Docs Reconciliation</h1>
+    <p class="lede" id="lede">Where the docs drift, which gates already watch them, and what a rolling review should cover first.</p>
+  </header>
+
+  <section aria-labelledby="h-sum">
+    <h2 id="h-sum">Summary</h2>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section aria-labelledby="h-debt">
+    <h2 id="h-debt">Tech debt</h2>
+    <div class="bar" id="debtbar" role="group" aria-label="Filter tech debt">
+      <button type="button" data-f="active" aria-pressed="true">Active</button>
+      <button type="button" data-f="decision" aria-pressed="false">Needs a decision</button>
+      <button type="button" data-f="done" aria-pressed="false">Done</button>
+      <button type="button" data-f="all" aria-pressed="false">All</button>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr><th>Item</th><th>Severity</th><th>Status</th><th>Owner</th><th>Next step</th></tr></thead>
+      <tbody id="debt"></tbody>
+    </table></div>
+  </section>
+
+  <section aria-labelledby="h-share">
+    <h2 id="h-share">Doc classes (estimated by group)</h2>
+    <div class="share" id="share" role="img" aria-label="Share of docs by class"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section aria-labelledby="h-groups">
+    <h2 id="h-groups">Doc groups</h2>
+    <div class="bar" id="groupbar" role="group" aria-label="Sort groups">
+      <button type="button" data-sort="rate" aria-pressed="true">Broken-ref rate</button>
+      <button type="button" data-sort="refs" aria-pressed="false">Broken refs</button>
+      <button type="button" data-sort="files" aria-pressed="false">Files</button>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr><th>Group</th><th class="n">Files</th><th class="n">Lines</th><th>Class</th><th>Last touched</th><th>Broken refs</th><th>Treatment</th></tr></thead>
+      <tbody id="groups"></tbody>
+    </table></div>
+  </section>
+
+  <div class="two">
+    <section aria-labelledby="h-drift">
+      <h2 id="h-drift">Most drift</h2>
+      <div class="list" id="drift"></div>
+    </section>
+    <section aria-labelledby="h-gates">
+      <h2 id="h-gates">Existing gates</h2>
+      <div class="list" id="gates"></div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-model">
+    <h2 id="h-model">Reconciliation states</h2>
+    <div class="model">
+      <div><b>Fresh</b><p>Reviewed inside its horizon and no defeater has fired.</p><span class="src">review date</span></div>
+      <div><b>Unverified</b><p>Past its horizon, or a cited path changed or vanished. Stays visible and flagged.</p><span class="src">git-derived</span></div>
+      <div><b>Superseded</b><p>A successor is named. Checkable by following the pointer.</p><span class="src">superseded_by</span></div>
+      <div><b>Moot</b><p>Still true, no longer matters because the surface was retired. Resolves to archive, not to wrong. Git shows it; the belief log is a hint.</p><span class="src">git-derived</span></div>
+      <div><b>Archived</b><p>A dated point-in-time record. Needs a marker, not upkeep.</p><span class="src">marker</span></div>
+    </div>
+    <p class="foot" style="margin-top:12px">The review queue is rolling and capped per week so it never becomes a backlog.</p>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script>
+(function(){
+  var S={groups:[],drift:[],gates:[],debt:[],meta:null,sort:"rate",filter:"active"};
+  var TREAT={A:"Gate: emit --check",B:"Gate: cited-path check",C:"Review horizon plus defeater",D:"Archive marker"};
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function $(id){return document.getElementById(id)}
+  function clsKey(c){return String(c||"").charAt(0)||"D"}
+  function fmt(n){return n==null?"n/a":Number(n).toLocaleString("en-US")}
+  function rate(g){return g.refsTotal?g.refsBroken/g.refsTotal:null}
+
+  function renderDebt(){
+    var f=S.filter, rows=S.debt.filter(function(d){
+      var s=d.status||"open";
+      if(f==="all")return true;
+      if(f==="done")return s==="done";
+      if(f==="decision")return s==="decision";
+      return s!=="done";
+    });
+    var sev={P1:0,P2:1,P3:2}, st={decision:0,open:1,"in-progress":2,done:3};
+    rows.sort(function(a,b){return ((sev[a.severity]??3)-(sev[b.severity]??3))||((st[a.status]??1)-(st[b.status]??1))||String(a.title).localeCompare(String(b.title))});
+    $("debt").innerHTML=rows.length?rows.map(function(d){
+      var s=d.status||"open";
+      return '<tr class="'+esc(s)+'"><td><span class="name">'+esc(d.title)+'</span>'+(d.detail?'<span class="path">'+esc(d.detail)+'</span>':'')+'</td>'
+        +'<td><span class="sev s'+esc(d.severity||"P3")+'">'+esc(d.severity||"P3")+'</span></td>'
+        +'<td><span class="st '+esc(s)+'">'+esc(s)+'</span></td>'
+        +'<td class="treat">'+esc(d.owner)+'</td>'
+        +'<td class="treat">'+esc(d.next)+(d.ref?'<span class="path">'+esc(d.ref)+'</span>':'')+'</td></tr>';
+    }).join(""):'<tr><td colspan="5" class="empty">'+(S.debt.length?'Nothing in this view.':'No tech debt rows yet.')+'</td></tr>';
+  }
+
+  function render(){
+    var gs=S.groups.slice();
+    var files=0,lines=0,broken=0,total=0;
+    gs.forEach(function(g){files+=g.files||0;lines+=g.lines||0;broken+=g.refsBroken||0;total+=g.refsTotal||0});
+    var wired=S.gates.filter(function(g){return g.wired==="ci"||g.wired==="advisory"}).length;
+    var openDebt=S.debt.filter(function(d){return (d.status||"open")!=="done"}).length;
+    var p1=S.debt.filter(function(d){return d.severity==="P1"&&(d.status||"open")!=="done"}).length;
+    var tiles=[];
+    if(S.debt.length){tiles.push([String(openDebt),"open tech debt items"],[String(p1),"open P1 items"])}
+    if(gs.length){tiles.push([fmt(files),"markdown and data files in groups"],[fmt(lines),"lines"],[fmt(broken)+" / "+fmt(total),"cited paths that do not exist"],[wired+" of "+S.gates.length,"gates running in CI"])}
+    $("tiles").innerHTML=tiles.length?tiles.map(function(t){return '<div class="tile"><b>'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></div>'}).join(""):'<div class="empty">No inventory rows yet. They appear here when the first pass is written.</div>';
+
+    var m=S.meta;
+    if(m){
+      $("lede").textContent=m.scope||$("lede").textContent;
+      var sh=m.shares||{},keys=["A","B","C","D"],names={A:"Generated",B:"Checkable by grep",C:"Needs judgment",D:"Stale or archive"};
+      $("share").innerHTML=keys.map(function(k){return '<i class="c'+k+'" style="flex:'+(sh[k]||0)+';background:var(--c)"></i>'}).join("");
+      $("legend").innerHTML=keys.map(function(k){return '<span class="c'+k+'"><span class="dot" style="background:var(--c)"></span>'+names[k]+' <em>'+(sh[k]||0)+'%</em></span>'}).join("");
+      $("foot").textContent="Measured "+(m.measuredAt||"")+". "+(m.caveat||"");
+    }
+
+    renderDebt();
+
+    var sorters={
+      rate:function(a,b){return (rate(b)||-1)-(rate(a)||-1)},
+      refs:function(a,b){return (b.refsBroken||0)-(a.refsBroken||0)},
+      files:function(a,b){return (b.files||0)-(a.files||0)}
+    };
+    gs.sort(sorters[S.sort]);
+    $("groups").innerHTML=gs.length?gs.map(function(g){
+      var r=rate(g),k=clsKey(g.cls);
+      return '<tr><td><span class="name">'+esc(g.name)+'</span><span class="path">'+esc(g.path)+'</span></td>'
+        +'<td class="n">'+fmt(g.files)+'</td><td class="n">'+fmt(g.lines)+'</td>'
+        +'<td><span class="cls c'+k+'">'+esc(g.cls)+'</span></td>'
+        +'<td class="mono" style="color:var(--dimmed)">'+esc(g.touched)+(g.old?'<br>'+g.old+' older than 90d':'')+'</td>'
+        +'<td>'+(r==null?'<span class="mono" style="color:var(--dimmed)">n/a</span>':'<div class="rate"><div class="t"><i style="width:'+Math.round(r*100)+'%"></i></div><span>'+g.refsBroken+'/'+g.refsTotal+'</span></div>')+'</td>'
+        +'<td class="treat">'+esc(TREAT[k])+'</td></tr>';
+    }).join(""):'<tr><td colspan="7" class="empty">No groups yet.</td></tr>';
+
+    var d=S.drift.slice().sort(function(a,b){return (a.rank||99)-(b.rank||99)});
+    $("drift").innerHTML=d.length?d.map(function(x){
+      return '<div class="row"><div class="top"><span class="path" style="margin:0;color:var(--text)">'+esc(x.path)+'</span><span class="mono" style="color:var(--red);white-space:nowrap">'+x.broken+'/'+x.total+'</span></div>'+(x.note?'<div class="why">'+esc(x.note)+'</div>':'')+'</div>';
+    }).join(""):'<div class="empty">No drift rows yet.</div>';
+
+    var order={manual:0,"session-start":1,advisory:2,ci:3};
+    var ga=S.gates.slice().sort(function(a,b){return (order[a.wired]||0)-(order[b.wired]||0)});
+    $("gates").innerHTML=ga.length?ga.map(function(x){
+      return '<div class="row"><div class="top"><span class="name">'+esc(x.name)+'</span><span class="badge '+esc(x.wired)+'">'+esc(x.wired)+'</span></div><div class="why">'+esc(x.covers)+'</div></div>';
+    }).join(""):'<div class="empty">No gate rows yet.</div>';
+  }
+
+  $("groupbar").addEventListener("click",function(e){
+    var b=e.target.closest("button[data-sort]");if(!b)return;
+    S.sort=b.getAttribute("data-sort");
+    $("groupbar").querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    render();
+  });
+  $("debtbar").addEventListener("click",function(e){
+    var b=e.target.closest("button[data-f]");if(!b)return;
+    S.filter=b.getAttribute("data-f");
+    $("debtbar").querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    renderDebt();
+  });
+
+  render();
+
+  var c=window.claude;
+  if(!c||!c.use){return}
+  c.use("db").then(function(db){
+    if(!db){$("foot").textContent="Live data is not available in this view.";return}
+    function sub(name,key){
+      db.collection(name).onSnapshot(function(s){S[key]=s.docs.map(function(d){return d.data()});render()},function(){});
+    }
+    sub("groups","groups");sub("drift","drift");sub("gates","gates");sub("debt","debt");
+    db.doc("meta/summary").onSnapshot(function(s){S.meta=s.exists?s.data():null;render()},function(){});
+  });
+})();
+</script>
+</body></html>

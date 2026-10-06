@@ -1,3 +1,7 @@
+---
+description: One read-only view over every open-loop store (backlog, chips, witness stubs, captures)
+---
+
 # /loops: one front door for every open loop
 
 > Zach (2026-10-04): "my memory goes faster than my mind can index." Capture is not the gap; ARCS

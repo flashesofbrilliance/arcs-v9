@@ -14,8 +14,7 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-@WORLD.md
-@CLAUDE.md
+Loaded together with CLAUDE.md and WORLD.md (CLAUDE.md imports this file; no back-import, to avoid a cycle).
 
 ---
 
@@ -219,7 +218,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 16. **Operator numbering is the periodic table, nothing else.** `operators/docs/PERIODIC-TABLE.md` is the only enumeration (1-15 atoms · 16-21 boardroom · 22-25 chorus · 26-28 super-admin; Folksonomy=20, Librarian=21). An external "audit" (2026-09-27) invented a 1-19 map and bound it to files that do not implement those operators (`kryptonite_scorer.py` as Accountant, `audit_service/` as Librarian, `core/governance.py` as Immune). Never hand-write an operator→file map: regenerate `operators/OPERATOR-REGISTRY.json` with `python3 scripts/operator_registry_emit.py` (refuses to emit any binding whose symbol it cannot grep; `--probe` import-tests with `operators/.venv`; `--check` is on pre-commit). `core/governance.py` + `core/operators.py` import `loguru`/`pandas` that are not declared anywhere: they are dead until someone owns that dep decision.
 
-17. **Merge with `gh pr merge --merge`, never `--squash` or `--rebase`.** A merge commit keeps the branch's own commits and the per-PR boundary that decision receipts cite; a squash or rebase lands as a 1-parent commit and erases both. Branch protection cannot enforce this on the free private plan, so `scripts/squash_merge_detector.py` checks it daily (`.github/workflows/no-squash.yml`, fails red on any merged PR without a merge commit). `scripts/ship_docs.sh` already uses `--merge`.
+17. **Merge with `gh pr merge --merge`, never `--squash` or `--rebase`.** A merge commit keeps the branch's own commits and the per-PR boundary that decision receipts cite; a squash or rebase lands as a 1-parent commit and erases both. Enforced since 2026-10-06 by the repo's merge-method setting (works on any plan, unlike branch protection): `allow_squash_merge` and `allow_rebase_merge` are `false`, so GitHub refuses a squash or rebase in the UI and the API (check: `gh api repos/flashesofbrilliance/arcs-v9 --jq '{squash:.allow_squash_merge,rebase:.allow_rebase_merge}'`). As a backstop, `scripts/squash_merge_detector.py` still checks daily (`.github/workflows/no-squash.yml`, fails red on any merged PR without a merge commit). `scripts/ship_docs.sh` already uses `--merge`.
 
 18. **Capture inbox rule (Zach, 2026-10-04).** Any idea that surfaces mid-turn becomes a `spawn_task` chip or a `/witness` stub inside the same turn; nothing lives only in chat. The single read over every open-loop store is `/loops` (`scripts/open_loops.py`, read-only); same-day captures show under "Captured today, not filed", and a weekday 8:00 spoken digest lands as an Apple Note (scheduled task `arcs-open-loops-morning-note`). Memory `fork-mid-turn-prompts-into-sessions`.
 
@@ -239,25 +238,6 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 > `PLAN`, `COURT`}. Anything else is rejected by a CHECK constraint (`QUARTER`/`MEDIUM` failed once).
 > `what_confirmed`, `what_unconfirmed`, `refs` are `text[]`; `event_at` is timestamptz.
 >
-> Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
-> or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
-> the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its
-> table was never applied. The first two receipts (rubric v1.3 ship, NFTT PR #394) landed 2026-09-11
-> with `receipt_id`s `2026-09-10--rubric-v1.3-ship--ZH` and `2026-09-10--nftt-ledger-pr--ZH`.
-
----
-
-## Receipts or it didn't happen
-
-Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
-`decision_receipt` table (Supabase project `xbbpiryokswwvcrcutge`, ARCS_v9), in the fixed form:
-`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at`
-(+ `source_repo`, `refs[]`). Matched by any verifier against real git/GitHub/Vercel state —
-anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
-
-An action without a logged receipt is not considered complete, regardless of whether the underlying
-merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
-
 > Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
 > or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
 > the receipt form — the tool as-shipped grades *sessions* (jtbd/effort/NCI), not ship events, and its

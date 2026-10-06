@@ -26,6 +26,6 @@ jobs:
   ratchet:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Informativeness ratchet
         run: python3 operators/audit_service/informativeness_gate.py

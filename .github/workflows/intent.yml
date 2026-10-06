@@ -1,8 +1,10 @@
 name: intent
 # Checks this repo's AGENTS.md intent block. Rule + script: flashesofbrilliance/arcs-skills.
 on:
-  push: { branches: [main] }
-  pull_request: {}
+  # Cost gate (2026-10-06): 48 of the last 100 runs were this check, mostly on PRs that never touch
+  # AGENTS.md. The weekly schedule below still catches a repo going stale with no commit.
+  push: { branches: [main], paths: ["AGENTS.md", ".github/workflows/intent.yml"] }
+  pull_request: { paths: ["AGENTS.md", ".github/workflows/intent.yml"] }
   schedule: [{ cron: "23 13 * * 1" }]   # weekly: a repo goes stale without any commit
   workflow_dispatch: {}
 concurrency:
@@ -13,4 +15,5 @@ permissions:
   contents: read
 jobs:
   intent:
+    if: github.event.pull_request.draft != true
     uses: flashesofbrilliance/arcs-skills/.github/workflows/intent-lint.yml@main

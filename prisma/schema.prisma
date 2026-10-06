@@ -199,7 +199,10 @@ model Receipt {
   createdAt     DateTime  @default(now())
   reviewDate    DateTime?
   status        String    @default("OPEN") // OPEN | LOGGED | EXPIRED
-  reminderDate  String? // ISO date string — when to send outcome follow-up email
+  reminderDate  String? // ISO date string — when to send outcome follow-up email (doubles as resolve-by)
+  // provenance: "test" | "real" | null (legacy/untagged). Set by the owner only; never guessed.
+  // The Accountant splits cohorts on it so test receipts cannot pollute the real calibration set.
+  provenance    String?
   debriefSentAt DateTime? // set once the debrief email is sent/scheduled; prevents double-send between compass-time scheduling and the long-horizon cron (ADR-026)
 
   @@index([userId])
@@ -445,6 +448,9 @@ model Outcome {
   regretScore Int
   learning    String?
   loggedAt    DateTime @default(now())
+  // synthetic: plumbing-probe outcomes on provenance="test" receipts only. Excluded from every
+  // cohort by the Accountant adapter; deletable with WHERE synthetic = true.
+  synthetic   Boolean  @default(false)
 }
 
 // ── ADR-020 Tribune Intelligence Layer ─────────────────────────────────────

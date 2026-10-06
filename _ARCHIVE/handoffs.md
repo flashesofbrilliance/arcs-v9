@@ -1,3 +1,70 @@
+# Handoff — v3.113.0 (2026-10-06)
+
+> **Handoff fold #921 merged (`78c6e949`): four fragments folded to v3.107.0-v3.110.0; two follow-up chips spawned.**
+> Receipts `2026-10-06--handoff-fragment-pr914--ZH`, `2026-10-06--handoff-fold-pr921--ZH`.
+
+## Done
+- #914 (`9bf8ca27`): fragment for the #906 constant-time jobs token session (that block folded as v3.108.0, now archived).
+- #921: first fold collided with a hand-written v3.106.0 on main (cf0bf7f1 / #923); reset to origin/main and re-folded.
+  v3.110.0 + v3.109.0 live; v3.105.0-v3.108.0 relocated to `_ARCHIVE/handoffs.md`.
+
+## Open (next session)
+1. Chip task_7f5ac139 (running): v3.109.0 cites a commit that lives only on unmerged `claude/model-registry-drift-gate`. (Resolved by #936.)
+2. Chip task_c9678ac7: stale handoff commands still teach direct CLAUDE.md writes
+   (`~/.claude/commands/arcs-handoff.md`, main checkout's `.claude/commands/handoff.md`); add a pre-commit gate.
+
+## Lessons
+- `/handoff` can load a stale command copy: check it says "fragment" before following it.
+- A fold PR goes stale fast when other sessions merge handoffs; re-fold on fresh main instead of resolving CLAUDE.md conflicts by hand.
+
+> Folded from `_HANDOFFS/fragments/20261006T142126Z--claude-handoff-fold-followup.md` (branch `claude/handoff-fold-followup`, head `1c62a544`).
+
+---
+
+# Handoff — v3.112.0 (2026-10-06)
+
+> **Job Factory: a one-time check is scheduled for the first morning run under the split model gate.** No repo code
+> changed. Follows v3.106.0 (archived).
+
+## Scheduled (outside the repo)
+- Task `check-morning-jobs-report-2026-10-07` fires 2026-10-07 09:47 ET (read-only): task run outcome, the report's first
+  line verbatim (expected `STATUS: PARTIAL model gate usage_limit: intake ran, scoring and forges skipped`), intake watermark
+  vs 2026-10-05T23:30:12Z. A test run was started 2026-10-06 to pre-approve its tools; it should find no 10-07 report yet.
+
+## Open (next session)
+1. Read the 10-07 check result; if intake did not run, the split in the morning-task prompt failed.
+2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
+3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
+4. Upside titles CONFIRMED by Zach 2026-10-06; Upside is ready for him to send. Tenex send still his: founder first name is NOT in the bundle or public sources; Zach to supply it. Name collision: TENEX.AI (Florida cybersecurity, CEO Eric Foster) is a different company from Tenex Labs (jobs.ashbyhq.com/tenexlabs); never fill the name from a search.
+
+---
+
+# Handoff — v3.111.0 (2026-10-06)
+
+> **Security-review gate stops failing re-runs red; a real API error still fails.** #909 (`6a29d549`), merged with
+> `--merge` on Zach's yes. Receipt `2026-10-06--security-gate-dedupe-skip-pr909--ZH`.
+
+## Shipped
+- **#909:** `scripts/security_review_gate.sh` reads the action's `results-file` output (its scan step sets it first,
+  so empty = scan never started) plus the cache-restored `.claudecode-marker/marker.json`. Empty + marker for this PR
+  = `::notice` "already scanned at <sha>" and pass; empty + no marker = fail; scan ran = all #881 checks unchanged.
+  Live proof: run 37474229559 (fresh, outcome=success, passed) and 37476233291 (skipped, notice, passed).
+- The scan on #909 found 2 real bugs in the first draft, both fixed: a committed marker.json could fake a pass (now
+  only an untracked marker whose `pr_number` matches), and marker fields went into a workflow command (now hex/digits only).
+
+## Open (next session)
+1. Broken-key path not run live (secret untouched); covered by the action code plus run 37400262799.
+2. The `security-review` label never rescans (cache key is per PR): chip task_d4f6708c is running in its own session
+   (`run-every-commit` on labeled; costs API budget, needs Zach's yes).
+
+## Lessons
+- Read a composite action's outputs for the signal: an output set on the first line of a step is a step-ran flag.
+- Run the security scan on a change to the security gate: it caught the bypass in this one.
+
+> Folded from `_HANDOFFS/fragments/20261006T140855Z--claude-handoff-security-gate.md` (branch `claude/handoff-security-gate`, head `6a29d549`).
+
+---
+
 # Handoff — v3.109.0 (2026-10-06)
 
 > **Debt tracker triage (Docs Reconciliation artifact, `debt` collection).** No code shipped; decisions + 7 chips.
@@ -6095,3 +6162,36 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
 
 ---
+
+
+# Handoff — v3.110.0 (2026-10-06)
+
+> **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
+> Receipts (all `--ZH`): `2026-10-05--page-gate-merge-base-pr831`, `--security-review-scope-pr832`,
+> `--secreview-skip-dependabot-pr868`, `--linkedin-queue-scheduled-pr661`, `2026-10-06--sess-013-close-pr896`,
+> `--pl-011-purpose-guard-pr897`, `--eslint10-hold-tweaks-refs-pr903`, `--nftt-claim-batch-pr912`.
+
+## Shipped (all `--merge`)
+- **#831** fe-smoke page gate diffs `base...head` (merge-base) with fetch-depth 0. Proof: #802's pre-sync head gave 92 pages two-dot, none three-dot; a real page edit still gated.
+- **#832** security review scoped to security paths (another session's PR, merged on Zach's go).
+- **#868** skip claude-security-review when actor is dependabot (no secrets there). `@dependabot rebase` sent to #864 #720 #677 #557.
+- **#661** LinkedIn queue: main merged in, the 2 conflicts kept the PR's scheduled text (Zach's call).
+- **#896** SESS-013 closed: Zach dropped the anon INSERT **and** anon SELECT policies on legacy `public.sessions` in the SQL editor (tool call was declined twice); pg_policies verified only service_role SELECT remains.
+- **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
+- **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
+- **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
+- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch `claude/model-registry-drift-gate` reset to its own merge-of-main tip, never merged: its PR #715 closed without merge, content superseded by #882, merged as d97dc35f).
+
+## Open (next session)
+1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
+2. 8 `react-hooks/refs` errors in `src/app` (observatory, JobsBoard, ChampionsBoard): own session running (chip task_7afcd523).
+3. Dependabot PRs #864 #720 #677 #557: confirm the rebases ran and are green; #677 also had stale smoke failures.
+4. Post-merge CI on main for the merges above never observed (in every receipt's unconfirmed list).
+
+## Lessons
+- A billing block can hit one job in an otherwise-running workflow: scan per JOB for 0 steps, not per run.
+- `gh run rerun` replays the old workflow file and merge ref; to pick up a workflow fix on a dependabot PR, ask dependabot to rebase.
+- Check a PR is still open and not rebuilt elsewhere before acting on it (#715 was closed and rebuilt as #882 hours earlier).
+- A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
+
+> Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).

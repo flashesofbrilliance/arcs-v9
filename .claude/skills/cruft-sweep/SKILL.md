@@ -54,6 +54,26 @@ python3 scripts/cruft_sweep.py prune <wt> --capture-dirty   # WIP-commits dirt f
 so nothing is lost, then bundles, verifies, and removes. Branch refs are kept as a second
 backup. Restore: `git worktree add <path> <branch>` or `git clone <bundle>`.
 
+**Salvage preflight (rule 12, runs inside every prune)**
+```bash
+python3 scripts/cruft_sweep.py salvage <wt>...                # report-only
+python3 scripts/cruft_sweep.py prune <wt> --force-salvage-ok  # after filing what it found
+```
+A bundle is a backup nobody reads. Before bundling, prune finds the branch's commits not on
+origin/main by patch-id (`git cherry`), pulls claim-shaped lines (decisions, rules, numbers,
+TODOs) added to `.md`/`.json` files in them, and greps up to 4 key terms per claim across
+origin/main and the memory dir (`--memory`, default the arcs-v9 project memory). A claim whose
+terms never co-occur in one file is UNIQUE, and the worktree is `SKIP-SALVAGE`d with the
+claims printed. Capped (300 commits, 60 claims, stops at 8 finds), deterministic, no LLM, so
+it over-flags prose (cover letters read as unique): judge the list, then file or force.
+Uncommitted files stay governed by `--capture-dirty`.
+
+**Filing the finds.** The script has no tracker or artifact access, so there is no
+`--file-tracker` flag. It prints a `--- SALVAGE-ROWS BEGIN (jsonl) ---` ... `END` block, one
+JSON row per claim (`worktree, branch, sha, file, claim, terms`). The calling session files
+those rows (tech-debt tracker via ArtifactData, memory, or backlog), then reruns prune with
+`--force-salvage-ok`.
+
 ## Guardrails
 - **Human authorization per prune batch.** Survey and inspect freely; never remove worktrees
   without an explicit go. NOTOMATION: the sweep induces the decision, it does not make it.

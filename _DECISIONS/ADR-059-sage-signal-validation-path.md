@@ -18,14 +18,14 @@
 - `operators/arcs_api.py` — SAGE pipeline + `_STAKES_SIGNALS` proxy signal
 - `src/app/api/compass/route.ts` — SAGE integration point
 - `Receipt` + `Outcome` Supabase tables — the closed-loop data source
-- `scripts/sage_efficacy.js` — efficacy validation tooling (currently structurally blocked)
+- `scripts/sage_efficacy.mjs` — efficacy validation tooling (currently structurally blocked)
 
 ---
 
 ## W — Window
 
 **Horizon:** QUARTER
-**Revisit trigger:** `Outcome` row count clears MIN_SAMPLE=20 per SAGE-fired/not-fired cohort, as enforced by `sage_efficacy.js`. At that point, re-open Option A and evaluate text-derived signal against real match-rate/regret deltas.
+**Revisit trigger:** `Outcome` row count clears MIN_SAMPLE=20 per SAGE-fired/not-fired cohort, as enforced by `sage_efficacy.mjs`. At that point, re-open Option A and evaluate text-derived signal against real match-rate/regret deltas.
 
 ---
 
@@ -44,7 +44,7 @@ The signal feeding the pipeline is synthetic: `_STAKES_SIGNALS` maps stakes/hori
 | `Outcome` | 1 |
 | `User` | 2 |
 
-184 Receipts, 1 Outcome = **0.5% close-loop rate**. `sage_efficacy.js` is gated at MIN_SAMPLE=20 per cohort against Outcome rows joined with SageTrace. At current rate, this gate is structurally far away.
+184 Receipts, 1 Outcome = **0.5% close-loop rate**. `sage_efficacy.mjs` is gated at MIN_SAMPLE=20 per cohort against Outcome rows joined with SageTrace. At current rate, this gate is structurally far away.
 
 **Post-draft ground-check (2026-06-22):** The 0.5% close-loop rate is not a missing-UX problem. `src/app/debrief/[receiptId]/page.tsx` is fully built: matched/what/regret/learning form, receipt recap card, wired to a scheduled debrief email. The bottleneck is a broken delivery pipeline:
 - `reminderDate` only sets from `parsed.reminder_iso`, which only exists when a PrepSession includes `outcomeHorizon`. Compass without a PrepSession never gets a debrief email.
@@ -104,7 +104,7 @@ Option A is not wrong in principle; it’s wrong in sequence. Re-scope as: *buil
 ## Consequences
 
 - **ADR-026** covers the debrief delivery fix: eligibility extension (all receipts, not just prep-originated), long-horizon scheduler for the 30-day Resend ceiling, and in-app fallback surface. **Not a UX build — the UX already exists.**
-- **Option A deferred** — explicitly not abandoned; re-open when `sage_efficacy.js` produces a result
+- **Option A deferred** — explicitly not abandoned; re-open when `sage_efficacy.mjs` produces a result
 - **SAGE advisory status preserved** — no regression
 - **LAB/BAR surface work deferred** — `_extract_sage_fields()` expansion blocked until Option A is validated
 - **Architecture Decision 1 (soft/hard NCI gate)** — deferred; revisit in ADR-059 re-open

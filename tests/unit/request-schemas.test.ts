@@ -45,3 +45,10 @@ test('save: bearing needs string question and true_north, keeps other fields', (
 test('compass: an oversized sessionId still parses (re-minted later, not a 400)', () => {
   assert.ok(CompassBody.safeParse({ question: 'q', sessionId: 'x'.repeat(500) }).success)
 })
+
+test("CompassBody accepts owner provenance + resolveBy, rejects junk", async () => {
+  const { CompassBody } = await import("../../src/lib/request-schemas.ts")
+  assert.equal(CompassBody.safeParse({ question: "q", provenance: "real", resolveBy: "2026-12-01" }).success, true)
+  assert.equal(CompassBody.safeParse({ question: "q", provenance: "fake" }).success, false)
+  assert.equal(CompassBody.safeParse({ question: "q", resolveBy: "next week" }).success, false)
+})

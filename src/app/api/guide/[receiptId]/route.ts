@@ -233,19 +233,26 @@ export async function POST(
   const context = buildContext(receiptWithEntity)
   const userMsg = `Generate a ${mode} field guide for this decision context:\n\n${context}`
 
-  let response: Anthropic.Message
+  // guide is Sonnet 5.5 (2026-10-06, off Opus 4.5): thinking counts toward max_tokens, so the cap
+  // leaves room above the ~3k-token JSON; send no temperature; text is joined from text blocks only
+  // (content[0] can be a thinking block); a refusal or truncation is an error, never parsed.
+  let response: Anthropic.Beta.Messages.BetaMessage
   try {
-    response = await anthropic.messages.create({
+    response = await anthropic.beta.messages.create({
       model: MODELS.guide,
-      max_tokens: 3000,
+      max_tokens: 8192,
+      output_config: { effort: "medium" },
       system: GUIDE_SYSTEM,
       messages: [{ role: "user", content: userMsg }],
     })
   } catch (e) {
     return modelErrorResponse("guide", e)
   }
+  if (response.stop_reason === "refusal" || response.stop_reason === "max_tokens") {
+    return NextResponse.json({ error: response.stop_reason === "refusal" ? "Guide request declined by the model" : "Guide response truncated - retry" }, { status: 502 })
+  }
 
-  const raw = response.content[0].type === "text" ? response.content[0].text : ""
+  const raw = response.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
   const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
   const parsed = JSON.parse(cleaned) as {
     guide_title: string

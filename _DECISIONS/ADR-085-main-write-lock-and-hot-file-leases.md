@@ -278,3 +278,54 @@ blocker. Findings and responses:
 
 Re-run after fixes: `write_lock.py --self-test` ALL PASS (twice), `merge_train.sh --self-test` ALL
 PASS.
+
+---
+
+## Amendment A1 to part (d): fragments are material, molt is the arc
+
+> **Status:** PROPOSED (amends part (d) only; the rest of ADR-085 is unchanged)
+> **Date:** 2026-10-06
+> **Author:** Claude Opus 5.5, from Zach's 2026-10-06 note: handoffs are "more bookends than handoffs,
+> folds and memory shards than cohesive end-to-end arcs that can cold molt."
+
+### Problem (measured)
+- 134 commits matching "handoff" on origin/main in 3 days.
+- `fold` computed its own version (highest+1) instead of using the oracle, so v3.101.0 was minted
+  twice (#893, #894).
+- `fold` archived by position, not version: a v3.104.0 written by hand below v3.103.0 made the fold
+  archive the newer block (hand-fixed in #919).
+- Each fragment still became its own CLAUDE.md block: a shard per session, rarely with a recipe a
+  session with no context could resume from.
+
+### Decision
+1. **Oracle numbering.** `scripts/oracle.py` gains a `handoff` namespace (the MINOR of `v3.N.0`), held by
+   the same git non-fast-forward lock as adr/seed. Before allocating, the counter is raised to the
+   highest version already in `CLAUDE.md` + `_ARCHIVE/handoffs.md`, so a hand-written block is never
+   re-issued. `handoff_fold.py` never computes a version.
+2. **Fragments are raw material.** `handoff_fold.py new` stays one cheap append-only file per session,
+   with a headed schema (Changed, State, Decisions, Open, Next action, Cold-start; optional Goal).
+   A missing section WARNS, never blocks.
+3. **Molt is the arc.** `handoff_fold.py molt` synthesizes ALL unmolted fragments into ONE block with
+   fixed sections: Goal / true north; What changed (PRs + receipt ids); Current state; Decisions made;
+   Open decisions (waiting on Zach); ONE Next action; Cold-start recipe. Debt is linked to the tracker
+   (artifact `AvE1T5TMQD164GPFGetHvm`, `debt` collection), not restated. Synthesis is deterministic
+   assembly plus an optional human/LLM summary passed via `--input`; the script calls no paid API.
+   Live blocks are sorted by version before overflow is archived. `fold` remains as a deprecated alias.
+4. **Gate.** Molt refuses a block with no Goal, no PR/receipt in What changed (a bookend), not exactly
+   one Next action, or no Cold-start recipe, and refuses BEFORE allocating a number. Pre-commit WARNS on
+   any added `# Handoff — v` line in CLAUDE.md unless the commit also stages fragment deletions and
+   `_SEEDS/_oracle.json` (the signature of a molt commit).
+
+### Evidence
+`python3 scripts/handoff_fold.py --self-test` (fail-on-bad and pass-on-good, AGENTS.md gotcha #15):
+bookend refused with no writes and no number burned; two Next actions refused; a full arc accepted as
+one block from two fragments; an out-of-order v3.101.0 above v3.102.0 is the one archived; oracle race
+in real git clones (two molts both allocate v3.111.0, the first push wins, the second is non-ff
+rejected, resets and re-molts to v3.112.0). `python3 scripts/oracle.py --self-test` covers the stale
+counter (50) lifted past disk (v3.112.0 -> 113).
+
+### Consequences
+- Fewer, longer handoff commits: one molt per arc, not one block per session.
+- A molt after a rejected push is cheap (fragments are files); the cost is one re-run.
+- The existing `handoff` counter in `_SEEDS/_oracle.json` (50, provenance unknown) is superseded on the
+  first allocation by the disk high-water; it is never lowered.

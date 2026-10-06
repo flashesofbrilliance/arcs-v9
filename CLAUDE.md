@@ -85,6 +85,12 @@ rewrite). The full interactive Next.js page IS committed on main at `src/app/obs
 Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
+- **Invoke the `token-savings-bank` skill** (user-level, `~/.claude/skills/token-savings-bank`) before any
+  fan-out (subagents, chips, parallel sessions), bulk edit, or long resumable task, and whenever you notice
+  waste (top-tier model on mechanical work, a subagent for a one-grep question, re-deriving state). It governs
+  Claude Code session tokens, which count against the subscription limit (the weekly cap stalled the morning
+  jobs task 2026-09-30/10-01). API spend is separate: prompt caching, Batch API, and Haiku roles in
+  `src/lib/claude-models.ts`.
 - Do NOT read files you already know from this map.
 - Do NOT explore node_modules unless looking up a specific API.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
@@ -101,9 +107,11 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 - **CLAUDE.md is a working file, kept lean — not an archive.** It holds durable facts (Project Map,
   ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. Sessions no longer edit
-  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session) and
-  `scripts/handoff_fold.py fold` assigns versions, prepends the blocks here and moves the oldest to
-  `_ARCHIVE/handoffs.md` (ADR-085 part (d), 2026-10-06). Unfolded fragments are newer than any block below.
+  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session, raw
+  material) and `scripts/handoff_fold.py molt` synthesizes ALL fragments into ONE arc block (Goal, What
+  changed, State, Decisions, Open, ONE Next action, Cold-start recipe), versioned by
+  `scripts/oracle.py next handoff`, refusing bookends; overflow moves to `_ARCHIVE/handoffs.md` by version
+  (ADR-085 part (d) + 2026-10-06 amendment). Unmolted fragments are newer than any block below.
 - **History is relocated, never deleted.** Older handoffs live in `_ARCHIVE/handoffs.md` and in git.
   "Never delete prior versions" is honored by archival, not by unbounded append into the hot path.
 - `MEMORY.md` — keep recent entries live; relocate dead history to `_ARCHIVE/memory-archive.md`.
@@ -116,58 +124,112 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.111.0 (2026-10-06)
+# Handoff — v3.115.0 (2026-10-06)
 
-> **Security-review gate stops failing re-runs red; a real API error still fails.** #909 (`6a29d549`), merged with
-> `--merge` on Zach's yes. Receipt `2026-10-06--security-gate-dedupe-skip-pr909--ZH`.
+> Two sessions. One shipped the Question Compass UX and lint cleanup (#887, #918; ESLint 174 errors to 0, deploys READY) but got no CI verdict because GitHub Actions is billing-blocked. The other audited every caller still holding an old capped-org Anthropic key (read-only, fingerprints and free probes) and handed Zach the move list (#958).
+
+## Goal / true north
+Keep the paid surfaces honest on 2026-10-06: Anthropic spend on the one new key, Question Compass shipped clean with CI verdicts.
+
+## What changed
+- Compared key fingerprints (sha256 prefix, never values) against the new key and sent a 1-token probe (capped org answers "usage limit" for free).
+- On the new key: arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9 secret. Morning jobs task goes through the site, so also new.
+- On the old capped org (probed): `arcs-v9/.env` (scripts that load `.env` still spend there), `~/.hermes/.env`, `arcs-care-local/.env.local` + `~/.vercel/.env.preview.local`.
+- Old by date (set May 2026, not probed): Vercel arcs-care, arcs, arcs-decision-receipts; GitHub arcs-care secret.
+- None in scheduled tasks, `~/.arcs/jobs-pipeline.env`, or shell rc; no local n8n.
+- **#887:** receipt Y-gate verdict under True North, headings, AA contrast on the dashboard, 16px inputs (no iOS zoom), a wrapping dashboard heading,
+   server refusals skip the 15s receipt-recovery poll and the error is `role="alert"` under the button. Lint: `public/**` ignored, 64 JSX entities
+   escaped, hook-rule errors fixed in 5 files, `tests/unit` `any` removed, `sage_efficacy` and the PRL parser test moved to `.mjs`.
+   Rebased onto main twice (main kept moving; the pre-commit kintsugi gate blocks a local merge commit that carries main's resume HTML).
+- **#918:** True North statement is the `h1` in `AhmedOrder` (receipt and brief share it).
+- **Deploy:** production deployments of `68024c46` and `8ff408e7` are READY, aliased to `app.arcs.care`.
+
+## Current state
+- Anthropic: new key in arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9. Old capped org still in `arcs-v9/.env`, `~/.hermes/.env`, `arcs-care-local/.env.local`, Vercel arcs-care/arcs/arcs-decision-receipts, GitHub arcs-care secret.
+- Compass: `68024c46` and `8ff408e7` READY on app.arcs.care; local Playwright 302 passed; no CI verdict (Actions blocked).
+
+## Decisions made
+- Zach owns all key moves and revocations; tracker row `old-anthropic-account` is status decision, owner Zach.
+- #887 and #918 merged with `--merge` on Zach's yes.
+
+## Open decisions (waiting on Zach)
+1. Zach: move or delete the old-org keys above, then revoke the old keys in the old org console.
+
+## Open (other)
+1. question-compass and the stale `~/arcs` clone hold working keys that are not the new key; org unknown (check in console).
+2. Cloud n8n not checked; `~/.bash_history` holds 2 capped-org keys in plain text (harmless once revoked).
+3. GitHub Actions billing or spending limit is blocking runs again (human). No PR or main commit has a CI verdict until it is fixed.
+4. Receipt row for #918 needs the two corrections above if the table should match (a project-scoped Supabase connector worked for UPDATEs in an earlier session).
+5. Not done from the audit: sub-44px touch targets, sub-12px mono labels, 51 ESLint warnings.
+6. (Fixed 2026-10-06: ADR-026 and ADR-059 now cite `scripts/sage_efficacy.mjs`.)
+
+## Next action
+Zach: unblock GitHub Actions billing, then move or delete the old-org Anthropic keys and revoke them in the old org console.
+
+## Cold-start recipe
+- Tracker: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (rows `old-anthropic-account`).
+- Key check without exposure: memory `anthropic-key-three-homes-verify-without-exposing` (sha256 prefix compare; 1-token probe, capped org replies "usage limit").
+- Receipts: `2026-10-06--old-anthropic-key-caller-audit--ZH`, `2026-10-06--compass-ux-lint-cleanup-pr887--ZH`, `2026-10-06--receipt-h1-pr918--ZH`.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261006T143343Z--claude-handoff-anthropic-key-audit.md
+> **Old Anthropic org key audit (read-only): 8 places still use the capped account; Zach moves and revokes.** Receipt
+> `2026-10-06--old-anthropic-key-caller-audit--ZH`. Docs Reconciliation row `old-anthropic-account` set to v3, status decision, owner Zach.
+
+### Notes: lead of 20261006T143350Z--claude-handoff-compass-lint.md
+### Shavasana — handoff pause, 2026-10-06 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-compass-lint), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 5 / dissent 2 (ratio 1.67) → OK: dissent present.
+- **Cold re-read (canary on the draft handoff-draft.md)**: GROUNDED; no ground return: none; thin air: none.
+
+
+- **Attachment release** (judgment): every claim re-read cold. The deploy and local-suite claims are measured (deployment IDs, run counts); the
+  receipt corrections are stated as stale-but-unwritten, not as fixed. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: release.
+
+> **Question Compass smoke test and audit shipped: UX fixes plus repo-wide ESLint 174 errors to 0 (#887, `68024c46`), then the receipt h1 (#918, `8ff408e7`).**
+> Both merged with `--merge` on Zach's yes. Receipts `2026-10-06--compass-ux-lint-cleanup-pr887--ZH` and `2026-10-06--receipt-h1-pr918--ZH`.
+
+### Notes: Lessons
+- `arcs-v9/.env` and `.env.local` held different keys: Next reads `.env.local` first, so the site looked fixed while scripts kept the old key.
+- A capped-org probe costs nothing and names the org; a fingerprint match only proves "same as new key".
+
+### Notes: Corrections to the receipts (the Supabase UPDATE was declined, so they live here)
+Receipt `2026-10-06--receipt-h1-pr918--ZH` still lists `fe-smoke` as pending and the deploy as unverified. Both are stale:
+- Deploy of `8ff408e7` is READY (dpl_Gwh3BNDHhRjZcwRcRjYAS9BAtQLw), `app.arcs.care/dashboard` returned 200.
+- `fe-smoke` never produced a CI verdict. The PR run hung 16+ minutes, main's runs on `8ff408e7` were cancelled by `cancel-in-progress`,
+  and later runs refused to start (GitHub Actions payment or spending-limit block).
+- The only evidence is local: the full Playwright suite on a production build of main `48c44214` (includes `8ff408e7`) ran 302 passed, 3 skipped, 0 failed.
+- Not confirmed: the live production receipt page `h1` was not viewed.
+
+### Notes: Lessons
+- A local production server needs `AUTH_TRUST_HOST=true` or `/api/auth/session` returns 500 and the smoke console-error tests fail for a reason that is not the code.
+- `npm run test:smoke` runs all of `tests/`, and one spec rewrites `_ARTIFACTS/atlas/atlas-almanac.html`; restore it before committing.
+
+> Molted from `_HANDOFFS/fragments/20261006T143343Z--claude-handoff-anthropic-key-audit.md` (branch `claude/handoff-anthropic-key-audit`, head `b04f43d5`); `_HANDOFFS/fragments/20261006T143350Z--claude-handoff-compass-lint.md` (branch `claude/handoff-compass-lint`, head `b04f43d5`).
+
+# Handoff — v3.114.0 (2026-10-06)
+
+> **Qualified an unmerged-commit citation in the v3.109.0 handoff; integrity gate no longer flags it.** #936 (`986daa56`),
+> merged with `--merge` on Zach's yes. Receipt `2026-10-06--qualify-abb6aedb-pr936--ZH`.
 
 ## Shipped
-- **#909:** `scripts/security_review_gate.sh` reads the action's `results-file` output (its scan step sets it first,
-  so empty = scan never started) plus the cache-restored `.claudecode-marker/marker.json`. Empty + marker for this PR
-  = `::notice` "already scanned at <sha>" and pass; empty + no marker = fail; scan ran = all #881 checks unchanged.
-  Live proof: run 37474229559 (fresh, outcome=success, passed) and 37476233291 (skipped, notice, passed).
-- The scan on #909 found 2 real bugs in the first draft, both fixed: a committed marker.json could fake a pass (now
-  only an untracked marker whose `pr_number` matches), and marker fields went into a workflow command (now hex/digits only).
+- **#936:** the cited merge commit (only on `claude/model-registry-drift-gate`) replaced with the branch name and PR states: #715 closed
+  unmerged, content superseded by #882 (`d97dc35f`). Main had already folded that block into `_ARCHIVE/handoffs.md`
+  mid-PR, so the 1-line fix landed there; `CLAUDE.md` kept main's version.
 
 ## Open (next session)
-1. Broken-key path not run live (secret untouched); covered by the action code plus run 37400262799.
-2. The `security-review` label never rescans (cache key is per PR): chip task_d4f6708c is running in its own session
-   (`run-every-commit` on labeled; costs API budget, needs Zach's yes).
+1. `_ARCHIVE/handoffs.md` still fails integrity_gate on other pre-existing citations (merge commit used `--no-verify`).
+2. Post-merge CI on main for #936 not observed.
 
 ## Lessons
-- Read a composite action's outputs for the signal: an output set on the first line of a step is a step-ran flag.
-- Run the security scan on a change to the security gate: it caught the bypass in this one.
+- integrity_gate fails any cited SHA not on main regardless of surrounding prose: drop unmerged SHAs, cite the branch/PR.
+- The default `mcp__supabase__execute_sql` declined UPDATEs even after Zach allowed it; the project-scoped Supabase
+  connector (`project_id` xbbpiryokswwvcrcutge) worked.
 
-> Folded from `_HANDOFFS/fragments/20261006T140855Z--claude-handoff-security-gate.md` (branch `claude/handoff-security-gate`, head `6a29d549`).
-
-# Handoff — v3.110.0 (2026-10-06)
-
-> **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
-> Receipts (all `--ZH`): `2026-10-05--page-gate-merge-base-pr831`, `--security-review-scope-pr832`,
-> `--secreview-skip-dependabot-pr868`, `--linkedin-queue-scheduled-pr661`, `2026-10-06--sess-013-close-pr896`,
-> `--pl-011-purpose-guard-pr897`, `--eslint10-hold-tweaks-refs-pr903`, `--nftt-claim-batch-pr912`.
-
-## Shipped (all `--merge`)
-- **#831** fe-smoke page gate diffs `base...head` (merge-base) with fetch-depth 0. Proof: #802's pre-sync head gave 92 pages two-dot, none three-dot; a real page edit still gated.
-- **#832** security review scoped to security paths (another session's PR, merged on Zach's go).
-- **#868** skip claude-security-review when actor is dependabot (no secrets there). `@dependabot rebase` sent to #864 #720 #677 #557.
-- **#661** LinkedIn queue: main merged in, the 2 conflicts kept the PR's scheduled text (Zach's call).
-- **#896** SESS-013 closed: Zach dropped the anon INSERT **and** anon SELECT policies on legacy `public.sessions` in the SQL editor (tool call was declined twice); pg_policies verified only service_role SELECT remains.
-- **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
-- **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
-- **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
-- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch reset to abb6aedb).
-
-## Open (next session)
-1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
-2. 8 `react-hooks/refs` errors in `src/app` (observatory, JobsBoard, ChampionsBoard): own session running (chip task_7afcd523).
-3. Dependabot PRs #864 #720 #677 #557: confirm the rebases ran and are green; #677 also had stale smoke failures.
-4. Post-merge CI on main for the merges above never observed (in every receipt's unconfirmed list).
-
-## Lessons
-- A billing block can hit one job in an otherwise-running workflow: scan per JOB for 0 steps, not per run.
-- `gh run rerun` replays the old workflow file and merge ref; to pick up a workflow fix on a dependabot PR, ask dependabot to rebase.
-- Check a PR is still open and not rebuilt elsewhere before acting on it (#715 was closed and rebuilt as #882 hours earlier).
-- A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
-
-> Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).
+> Folded from `_HANDOFFS/fragments/20261006T142446Z--claude-qualify-abb6aedb.md` (branch `claude/qualify-abb6aedb`, head `986daa56`).
