@@ -181,6 +181,11 @@ _This block asserts nothing new. Counts, paths, and questions only._
    needs to be increased"). No PR can go green until Billing & plans is fixed.
 3. Claude plan weekly limit hit earlier (killed the 9/30, 10/01 morning runs); separate meter, not the API key.
 
+## Update after the handoff (same session)
+- **#846** (`d7171ca9`, receipt `2026-10-05--tenex-bundles-upside-overclaims-pr846--ZH`): Tenex founder note filed beside the
+  Senior application; stale `evidence.PROPOSED.jsonl` removed; Upside resume's two gauntlet-falsified lines fixed. The Tenex
+  Senior bundle itself landed in `8c2d61fe` (location-fix session). Open item 3 below is done except the send (Zach's).
+
 ## Open (next session)
 1. **#832** (security review once per PR, path-scoped; ~87% fewer runs measured on October) is OPEN, not merged:
    CI cannot start (GitHub billing). Merge when green per Zach, or on local verification if he says so.
