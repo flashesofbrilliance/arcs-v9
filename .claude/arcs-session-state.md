@@ -1,6 +1,7 @@
-# ARCS session state — v3.101.0 (2026-10-06)
+# ARCS session state — v3.102.0 (2026-10-06)
 
-- Receipt and brief render through AhmedOrder in the Ahmed order; vocabulary in src/lib/vocabulary.ts.
-- CI is running again (GitHub Actions billing block cleared).
-- Open: SHARP render untested on real data; chips task_160443dd (question answers), task_d352230f (receipt view spends on brief generation).
+- Receipt and brief render through AhmedOrder in the Ahmed order (#880, #885, #890); vocabulary in src/lib/vocabulary.ts.
+- #888 merged: receipt views read via `/api/brief/[id]?generate=0`; no model spend on view.
+- CI runs again (all three Ahmed PRs merged green).
+- Open: SHARP render untested on real data (no GREEN/RED/LOCKED receipt); chip task_160443dd (question answers).
 - Blocking: NONE
