@@ -114,6 +114,24 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.96.0 (2026-10-05)
+
+> **Daily gate for Vercel domains pinned to a git branch (#863, `7f637e75`).** Follows v3.93.0 (three retired
+> hosts were frozen on a deleted preview branch). Receipt `2026-10-05--vercel-branch-pin-gate-pr863--ZH`.
+
+## Shipped + on main
+- `scripts/vercel_branch_pin_gate.py`: lists every project in team arcs-care, fails on any domain with `gitBranch`
+  set unless listed in `scripts/vercel_branch_pin_allowlist.txt` (empty). Auth: `VERCEL_TOKEN`, else the logged-in
+  `vercel` CLI. `--self-test` proves clean-pass / planted-fail / allowlist-pass; a detector mutation exits 1.
+  Live: 0 pinned of 130 domains across 23 projects.
+- `.github/workflows/vercel-branch-pin.yml`: daily 12:23 UTC; self-test, then the live check.
+- Duplicate chip session (task_e4237d76) stopped before pushing and archived.
+
+## Open (next session)
+1. **Add repo secret `VERCEL_TOKEN`** (read on team arcs-care, Zach only): until then CI skips the live check with
+   a warning.
+2. First scheduled run not yet observed.
+
 # Handoff — v3.95.0 (2026-10-05)
 
 > **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
@@ -137,31 +155,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
   as production into every share card. Grep live `og:image` hosts, not just the tags' presence.
-
-# Handoff — v3.94.0 (2026-10-05)
-
-> **Compass IDOR series closed: parent, prep and session ids scoped to the caller; anonymous claim route retired.**
-> Oracle handoff=46. Receipts `2026-10-05--compass-parent-owner-scope-pr813--ZH`, `...-compass-prep-owner-scope-pr830--ZH`,
-> `...-compass-session-owner-scope-pr836--ZH`, `...-retire-receipts-claim-pr847--ZH`, `...-smoke-claim-retired-pr853--ZH`.
-
-## Shipped + live (verified on `arcs-v9-r6l4w9055`)
-- **#813** (`52ece6a2`): compass parent lookup is `findFirst({id, userId})`, signed-in only; foreign/missing drops parent inputs and `parentId`.
-- **#830** (`d9f8af71`): `PrepSession.userId` (nullable + index, migration `20261005010000_prep_session_owner`), set by `/api/prep`,
-  compass prep lookup scoped to owner, account delete removes owned preps. Migration was applied by hand (Supabase SQL +
-  `_prisma_migrations` row, file sha256) because Vercel skipped `buildCommand`; #840/#857 (other session) now run
-  `migrate deploy` on prod and fixed P3019 (`migration_lock.toml` said sqlite).
-- **#836** (`843f5bee`, taken over from chip session): `src/lib/session-owner.ts` reuses a client sessionId only if no
-  receipt in the thread is foreign or unowned; wired in compass, receipts/save, tribune seed.
-- **#847** (`50ae66cb`): `PATCH /api/receipts/claim` retired (sessionId was never proof of possession; 48 legacy unowned rows,
-  none since 2026-07-13). Callers removed; `/trust` copy + `_CANON/trust-contract.md` v1.6. Live: route 404s.
-- **#853** (`a2aeedd8`): smoke.sh A5 now requires the claim route to 404/405. #849 (chip duplicate) closed.
-
-## Open (next session)
-1. 48 legacy anonymous receipt owners were not told claiming moved to the inquiry link (low).
-2. sessionId check-then-write race on a known id (very low, receipted only).
-3. GitHub Actions: none of these merges had a completed CI run (billing block, then queued). Check the first green main run after `a2aeedd8`.
-
-## Lessons
-- A chip you spawn can be started while you do the same work: check `git branch -r` / open PRs before writing, and message the session to stand down.
-- A user-facing promise (`/trust`, trust contract) can depend on a route; privacy-review catches it, ciso-review does not.
-- Deleting a route needs a grep of `scripts/` too: smoke.sh A5 asserted the claim route existed.
