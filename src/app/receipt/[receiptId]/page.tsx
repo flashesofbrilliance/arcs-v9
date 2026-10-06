@@ -120,7 +120,7 @@ export default function ReceiptPage() {
       return
     }
     let cancelled = false
-    fetch(`/api/brief/${receiptId}`)
+    fetch(`/api/brief/${receiptId}?generate=0`)
       .then(async (r) => ({ ok: r.ok, data: await r.json() }))
       .then(({ ok, data }) => {
         if (cancelled) return
@@ -223,7 +223,7 @@ export default function ReceiptPage() {
               ? <ButtonLink variant="ghost" size="sm" href="/dashboard">← Compass</ButtonLink>
               : <ButtonLink variant="ghost" size="sm" href="/history">← Ledger</ButtonLink>}
             {isEphemeral && <Button variant="ghost" size="sm" onClick={shareOneTime}>{shareCopied ? "One-time link copied ✓" : "Share ↗"}</Button>}
-            {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
+            {!isEphemeral && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>{hasBrief ? "Brief →" : "Generate brief →"}</Button>}
           </div>
         </div>
         <div style={{ ...contentContainer(vw), paddingBottom: "1.5rem" }}>
