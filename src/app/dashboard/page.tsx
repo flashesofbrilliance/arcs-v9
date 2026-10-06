@@ -84,25 +84,16 @@ function DashboardInner() {
   })
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [loading, setLoading] = useState(false)
-  const [step, setStep] = useState(0)
   const [error, setError] = useState<string | null>(null)
 
   // Session tracking — preserved across tributary follow-ups
-  const [sessionId, setSessionId] = useState<string>("")
-  const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
-  // Continue this browser's session thread on a follow-up; otherwise start fresh.
-  useEffect(() => {
+  const [sessionId, setSessionId] = useState<string>(() => {
     let stored: string | null = null
-    try { stored = inboundParent ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
-    setSessionId(stored ?? crypto.randomUUID())
-  }, [inboundParent])
-
-  // Animate the L0–L5 step indicator while the pipeline runs
-  useEffect(() => {
-    if (!loading) { setStep(0); return }
-    const t = setInterval(() => setStep((s) => (s < 5 ? s + 1 : s)), 650)
-    return () => clearInterval(t)
-  }, [loading])
+    try { stored = inboundParent && typeof window !== "undefined" ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
+    return stored ?? crypto.randomUUID()
+  })
+  const [parentReceiptId] = useState<string | null>(inboundParent)
+  // Continue this browser's session thread on a follow-up; otherwise start fresh.
 
   // ADR-029: nudge a logged-in user who hasn't uploaded or skipped the
   // onboarding profile step yet. 401 (anonymous) is the common case — fail
@@ -312,7 +303,6 @@ function DashboardInner() {
         horizon={horizon}
         stakes={stakes}
         running={loading}
-        step={step}
         onQuestionChange={setQuestion}
         onHorizonChange={(v) => setHorizon(v as Horizon)}
         onStakesChange={(v) => setStakes(v as Stakes)}

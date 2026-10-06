@@ -32,7 +32,6 @@ export interface CompassFormProps {
   horizon: string
   stakes: string
   running?: boolean
-  step?: number
   onQuestionChange: (value: string) => void
   onHorizonChange: (value: string) => void
   onStakesChange: (value: string) => void
@@ -43,7 +42,7 @@ export interface CompassFormProps {
 }
 
 export function CompassForm({
-  question, horizon, stakes, running, step = 0,
+  question, horizon, stakes, running,
   onQuestionChange, onHorizonChange, onStakesChange, onCalibrate, onSubmit, onHistory, error,
 }: CompassFormProps) {
   const vw = useVw()
@@ -63,7 +62,7 @@ export function CompassForm({
       </div>
       <Rule style={{ marginBottom: '2rem' }} />
 
-      <SectionLabel index="01" style={{ marginBottom: '0.9rem' }}>Name what you're actually deciding</SectionLabel>
+      <SectionLabel index="01" style={{ marginBottom: '0.9rem' }}>Name what you&apos;re actually deciding</SectionLabel>
       <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.5rem, 1.1rem + 2.2cqw, 2.1rem)', textWrap: 'balance', fontWeight: 600, color: text.primary, margin: '0 0 1.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
         What are you really trying to decide?
       </h1>

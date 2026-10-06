@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { surface, text, signal, font, border, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
@@ -42,6 +42,63 @@ interface ReceiptData {
   sessionId: string
 }
 
+const noopSubscribe = () => () => {}
+
+// Ephemeral anonymous bearing stash. Recovery (spec _SPECS/receipt-save-nudge-v1.md
+// §6.2): the bearing may be one storage layer over, not lost. "Sign in & save"
+// copies it to localStorage (arcs_pending_save, keyed by this eph id) before the
+// magic-link tab hop. If the visitor comes back to this URL in a tab whose
+// sessionStorage is gone, render from that stash. Never re-run the compass to
+// "recover" (client-fetch-failure-is-not-persistence-failure).
+function readEphemeralRaw(receiptId: string): string | null {
+  let raw: string | null = null
+  try { raw = sessionStorage.getItem(`arcs_eph_${receiptId}`) } catch { /* storage blocked */ }
+  if (raw) return raw
+  try {
+    const pending = JSON.parse(localStorage.getItem("arcs_pending_save") ?? "null")
+    if (pending?.ephId === receiptId && pending?.bearing && Date.now() - (pending.savedAt ?? 0) < 7 * 86400000) {
+      return JSON.stringify(pending.bearing)
+    }
+  } catch { /* fall through to the honest error */ }
+  return null
+}
+
+function parseEphemeral(receiptId: string, raw: string | null): { receipt: ReceiptData | null; tributaries: CompassResult["tributaries"]; error: string | null } {
+  if (!raw) {
+    return { receipt: null, tributaries: [], error: "This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts." }
+  }
+  try {
+    const d = JSON.parse(raw)
+    return {
+      receipt: {
+        id: receiptId,
+        decision: d.question ?? "",
+        trueNorth: d.true_north ?? "",
+        whyBullets: JSON.stringify(d.why ?? []),
+        nciScore: Number(d.nci_score ?? 0),
+        coherencePct: typeof d.coherence_pct === "number" ? d.coherence_pct : undefined,
+        mode: d.decision_mode ?? "",
+        doorClass: d.door_class ?? "",
+        yState: d.y_state ?? "",
+        renderResolution: typeof d.render_resolution === "string" ? d.render_resolution : null,
+        horizon: typeof d.horizon === "string" ? d.horizon : null,
+        stakes: typeof d.stakes === "string" ? d.stakes : null,
+        fated: JSON.stringify(d.reasoning?.fated ?? {}),
+        paths: JSON.stringify(d.reasoning?.paths ?? []),
+        macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
+        version: 0,
+        createdAt: new Date().toISOString(),
+        courtVerdict: typeof d.reasoning?.court_verdict === "string" ? d.reasoning.court_verdict : undefined,
+        sessionId: d.session_id ?? "",
+      },
+      tributaries: Array.isArray(d.tributaries) ? d.tributaries : [],
+      error: null,
+    }
+  } catch {
+    return { receipt: null, tributaries: [], error: "Could not read this browser-local bearing." }
+  }
+}
+
 export default function ReceiptPage() {
   const params = useParams()
   const router = useRouter()
@@ -53,79 +110,46 @@ export default function ReceiptPage() {
   // compass response in sessionStorage under this minted `eph_` id.
   const isEphemeral = receiptId.startsWith("eph_")
 
-  const [receipt, setReceipt] = useState<ReceiptData | null>(null)
+  const [fetched, setFetched] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [fetchError, setError] = useState<string | null>(null)
   // /api/brief/[receiptId] already recovers tributaries from the receipt's
   // stored rawResponse (see that route) — just wasn't read here before.
-  const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
+  const [fetchedTributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
   const [shareCopied, setShareCopied] = useState(false)
   // Save-nudge v1.1 (spec _SPECS/receipt-save-nudge-v1.md §6.3), dark by
   // default: OFF renders the July 2026 banner unchanged. Dismiss is scoped to
   // this one bearing (sessionStorage, keyed by eph id) and never carries to the
   // next run; each new bearing is a new consent moment.
   const saveNudgeV11 = process.env.NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 === "true"
-  const [saveDismissed, setSaveDismissed] = useState(false)
+  // Lazy read: only consulted once a receipt has rendered (client-side), so the
+  // server/client initial values never meet in markup.
+  const [saveDismissed, setSaveDismissed] = useState(() => {
+    try { return typeof window !== "undefined" && !!sessionStorage.getItem(`arcs_eph_dismiss_${receiptId}`) } catch { return false }
+  })
+
+  // Ephemeral bearings are derived, not fetched: read the browser-local stash
+  // through an external-store subscription (server snapshot = undefined, so the
+  // first paint is the loader and hydration never mismatches).
+  const ephRaw = useSyncExternalStore(
+    noopSubscribe,
+    () => (isEphemeral ? readEphemeralRaw(receiptId) : undefined),
+    () => undefined,
+  )
+  const eph = useMemo(() => (isEphemeral && ephRaw !== undefined ? parseEphemeral(receiptId, ephRaw) : null), [isEphemeral, ephRaw, receiptId])
+  const receipt = isEphemeral ? eph?.receipt ?? null : fetched
+  const error = isEphemeral ? eph?.error ?? null : fetchError
+  const tributaries = isEphemeral ? eph?.tributaries ?? [] : fetchedTributaries
 
   useEffect(() => {
-    if (isEphemeral) {
-      try { if (sessionStorage.getItem(`arcs_eph_dismiss_${receiptId}`)) setSaveDismissed(true) } catch {}
-      let raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
-      if (!raw) {
-        // Recovery (spec _SPECS/receipt-save-nudge-v1.md §6.2): the bearing
-        // may be one storage layer over, not lost. "Sign in & save" copies it
-        // to localStorage (arcs_pending_save, keyed by this eph id) before the
-        // magic-link tab hop. If the visitor comes back to this URL in a tab
-        // whose sessionStorage is gone, render from that stash. Never re-run
-        // the compass to "recover" (client-fetch-failure-is-not-persistence-failure).
-        try {
-          const pending = JSON.parse(localStorage.getItem("arcs_pending_save") ?? "null")
-          if (pending?.ephId === receiptId && pending?.bearing && Date.now() - (pending.savedAt ?? 0) < 7 * 86400000) {
-            raw = JSON.stringify(pending.bearing)
-          }
-        } catch { /* fall through to the honest error */ }
-      }
-      if (!raw) {
-        setError("This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
-        return
-      }
-      try {
-        const d = JSON.parse(raw)
-        setReceipt({
-          id: receiptId,
-          decision: d.question ?? "",
-          trueNorth: d.true_north ?? "",
-          whyBullets: JSON.stringify(d.why ?? []),
-          nciScore: Number(d.nci_score ?? 0),
-          coherencePct: typeof d.coherence_pct === "number" ? d.coherence_pct : undefined,
-          mode: d.decision_mode ?? "",
-          doorClass: d.door_class ?? "",
-          yState: d.y_state ?? "",
-          renderResolution: typeof d.render_resolution === "string" ? d.render_resolution : null,
-          horizon: typeof d.horizon === "string" ? d.horizon : null,
-          stakes: typeof d.stakes === "string" ? d.stakes : null,
-          fated: JSON.stringify(d.reasoning?.fated ?? {}),
-          paths: JSON.stringify(d.reasoning?.paths ?? []),
-          macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
-          version: 0,
-          createdAt: new Date().toISOString(),
-          courtVerdict: typeof d.reasoning?.court_verdict === "string" ? d.reasoning.court_verdict : undefined,
-          sessionId: d.session_id ?? "",
-        })
-        setTributaries(Array.isArray(d.tributaries) ? d.tributaries : [])
-        setHasBrief(false)
-      } catch {
-        setError("Could not read this browser-local bearing.")
-      }
-      return
-    }
+    if (isEphemeral) return
     let cancelled = false
     fetch(`/api/brief/${receiptId}?generate=0`)
       .then(async (r) => ({ ok: r.ok, data: await r.json() }))
       .then(({ ok, data }) => {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
-        setReceipt(data.receipt as ReceiptData)
+        setFetched(data.receipt as ReceiptData)
         setHasBrief(!!data.brief)
         setTributaries(Array.isArray(data.tributaries) ? data.tributaries : [])
       })
