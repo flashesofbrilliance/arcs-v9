@@ -360,19 +360,23 @@ def render_html(data, audience):
     if tabbed:
         # keep only tabs that have at least one visible block for this audience
         tabs = [tb for tb in page["tabs"] if any(b.get("tab") == tb["id"] for b in vblocks)]
-        btns = "".join(f'<button class="tab-btn{" active" if k==0 else ""}" onclick="switchTab(\'{tb["id"]}\')">{tb["label"]}</button>' for k, tb in enumerate(tabs))
+        btns = "".join(f'<button class="tab-btn{" active" if k==0 else ""}" onclick="switchTab(\'{tb["id"]}\',this)">{tb["label"]}</button>' for k, tb in enumerate(tabs))
         out.append(f'<div class="tabs">{btns}</div>')
         for k, tb in enumerate(tabs):
             panes = "".join(_render_block(b, data, audience, series, insights, prov) for b in vblocks if b.get("tab") == tb["id"])
-            out.append(f'<div id="pane-{tb["id"]}" class="tab-pane{" active" if k==0 else ""}">{panes}</div>')
+            out.append(f'<div id="pane-{tb["id"]}" class="tab-pane{" active" if k==0 else ""}" data-label="{tb["label"]}">{panes}</div>')
     else:
         for b in vblocks:
             out.append(_render_block(b, data, audience, series, insights, prov))
     out.append("</div>")
     if tabbed:
-        out.append("<script>function switchTab(id){document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});"
+        # No-JS fallback (sandboxed viewers, scripts off): stack every pane, hide the dead tab bar.
+        out.append("<noscript><style>.tabs{display:none}.tab-pane{display:flex!important}"
+                   ".tab-pane::before{content:attr(data-label);font-size:12px;letter-spacing:.12em;text-transform:uppercase;"
+                   "color:var(--dimmed);border-top:1px solid var(--border);padding-top:18px;margin-top:10px}</style></noscript>")
+        out.append("<script>function switchTab(id,btn){document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});"
                    "document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});"
-                   "document.getElementById('pane-'+id).classList.add('active');event.currentTarget.classList.add('active');}</script>")
+                   "document.getElementById('pane-'+id).classList.add('active');btn.classList.add('active');}</script>")
     if gate_pw:
         key = f'{data["meta"]["report_id"]}-{audience}-auth'
         out.append("<script>(function(){var K='" + key + "',P='" + gate_pw + "';"

@@ -77,11 +77,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      # MODEL (2026-10-06): with claude-model unset the action falls back to claude-opus-4-1
+      # ($15/$75 per MTok), the costliest model on the bill. The id comes from the one registry
+      # (src/lib/claude-models.ts, role `security`), never hardcoded here.
+      - name: Resolve review model from the registry
+        id: model
+        run: echo "id=$(python3 -c 'import sys; sys.path.insert(0, "scripts"); from arcs_models import model; print(model("security"))')" >> "$GITHUB_OUTPUT"
+
       - name: Claude Code security review
         id: review
         uses: anthropics/claude-code-security-review@main
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude-model: ${{ steps.model.outputs.id }}
+          # Generated, archived and static trees hold no reviewable server code; skip them so the
+          # agent does not spend turns reading them.
+          exclude-directories: "_ARCHIVE,_ARTIFACTS,_STATE,_HANDOFFS,public,runtime/memory-export"
           comment-pr: true
           # 'true' only on the explicit `security-review` label (job `if:` filters other labels).
           run-every-commit: ${{ github.event.action == 'labeled' }}

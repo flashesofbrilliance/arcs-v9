@@ -739,6 +739,14 @@ if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | g
     exit 1
   fi
 fi
+# backlog ripeness: self-test when the script is staged (gh stubbed, no network).
+if git diff --cached --name-only -- scripts/backlog_ripeness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/backlog_ripeness.py --self-test >/dev/null 2>&1; then
+    python3 scripts/backlog_ripeness.py --self-test >&2 || true
+    echo "✖ pre-commit(backlog-ripeness): self-test failed." >&2
+    exit 1
+  fi
+fi
 if git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
   if python3 scripts/backlog_freshness.py --json 2>/dev/null | grep -q '"malformed-review_by"'; then
     echo "✖ pre-commit(backlog-freshness): a row has a review_by that is not an ISO date (YYYY-MM-DD)." >&2

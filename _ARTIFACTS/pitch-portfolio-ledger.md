@@ -74,7 +74,7 @@ scientist — honesty boundary below).
   experience or thin? If thin, do not lean on it. Same for any public-sector-procurement claim (he has
   none known → frame FedRAMP/procurement as "the path I'd hire/partner for," not "done before").
 - Regulated-financial-services fluency (Grayscale $7B SEC/FINRA, HIPAA health) is REAL and load-bearing.
-| 4. Draft (quality+honesty gate) | **PASS** → `_ARTIFACTS/sentilink-pitch/pitch-memo.md` | **PASS** → `_ARTIFACTS/mercury-pitch/pitch-memo.md` | — | both advance to stamp |
+| 4. Draft (quality+honesty gate) | **PASS** → `_ARTIFACTS/sentilink-bundle/pitch-memo.md` (draft copy archived to `_ARCHIVE/sentilink-pitch/`) | **PASS** → `_ARTIFACTS/mercury-bundle/pitch-memo.md` (draft copy archived to `_ARCHIVE/mercury-pitch/`) | — | both advance to stamp |
 | 5. Prototype / surface (≤1, gated) | **rendering** → wing stamp @ sentilink (local) | ready → same wing stamp @ mercury | — | SentiLink first, Mercury on same rails |
 
 ### Gate 4 · P2 Mercury — honesty/quality self-audit

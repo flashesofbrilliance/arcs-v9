@@ -85,6 +85,12 @@ rewrite). The full interactive Next.js page IS committed on main at `src/app/obs
 Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
+- **Invoke the `token-savings-bank` skill** (user-level, `~/.claude/skills/token-savings-bank`) before any
+  fan-out (subagents, chips, parallel sessions), bulk edit, or long resumable task, and whenever you notice
+  waste (top-tier model on mechanical work, a subagent for a one-grep question, re-deriving state). It governs
+  Claude Code session tokens, which count against the subscription limit (the weekly cap stalled the morning
+  jobs task 2026-09-30/10-01). API spend is separate: prompt caching, Batch API, and Haiku roles in
+  `src/lib/claude-models.ts`.
 - Do NOT read files you already know from this map.
 - Do NOT explore node_modules unless looking up a specific API.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
@@ -118,6 +124,95 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.115.0 (2026-10-06)
+
+> Two sessions. One shipped the Question Compass UX and lint cleanup (#887, #918; ESLint 174 errors to 0, deploys READY) but got no CI verdict because GitHub Actions is billing-blocked. The other audited every caller still holding an old capped-org Anthropic key (read-only, fingerprints and free probes) and handed Zach the move list (#958).
+
+## Goal / true north
+Keep the paid surfaces honest on 2026-10-06: Anthropic spend on the one new key, Question Compass shipped clean with CI verdicts.
+
+## What changed
+- Compared key fingerprints (sha256 prefix, never values) against the new key and sent a 1-token probe (capped org answers "usage limit" for free).
+- On the new key: arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9 secret. Morning jobs task goes through the site, so also new.
+- On the old capped org (probed): `arcs-v9/.env` (scripts that load `.env` still spend there), `~/.hermes/.env`, `arcs-care-local/.env.local` + `~/.vercel/.env.preview.local`.
+- Old by date (set May 2026, not probed): Vercel arcs-care, arcs, arcs-decision-receipts; GitHub arcs-care secret.
+- None in scheduled tasks, `~/.arcs/jobs-pipeline.env`, or shell rc; no local n8n.
+- **#887:** receipt Y-gate verdict under True North, headings, AA contrast on the dashboard, 16px inputs (no iOS zoom), a wrapping dashboard heading,
+   server refusals skip the 15s receipt-recovery poll and the error is `role="alert"` under the button. Lint: `public/**` ignored, 64 JSX entities
+   escaped, hook-rule errors fixed in 5 files, `tests/unit` `any` removed, `sage_efficacy.js` and the PRL parser test moved to `.mjs`.
+   Rebased onto main twice (main kept moving; the pre-commit kintsugi gate blocks a local merge commit that carries main's resume HTML).
+- **#918:** True North statement is the `h1` in `AhmedOrder` (receipt and brief share it).
+- **Deploy:** production deployments of `68024c46` and `8ff408e7` are READY, aliased to `app.arcs.care`.
+
+## Current state
+- Anthropic: new key in arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9. Old capped org still in `arcs-v9/.env`, `~/.hermes/.env`, `arcs-care-local/.env.local`, Vercel arcs-care/arcs/arcs-decision-receipts, GitHub arcs-care secret.
+- Compass: `68024c46` and `8ff408e7` READY on app.arcs.care; local Playwright 302 passed; no CI verdict (Actions blocked).
+
+## Decisions made
+- Zach owns all key moves and revocations; tracker row `old-anthropic-account` is status decision, owner Zach.
+- #887 and #918 merged with `--merge` on Zach's yes.
+
+## Open decisions (waiting on Zach)
+1. Zach: move or delete the old-org keys above, then revoke the old keys in the old org console.
+
+## Open (other)
+1. question-compass and the stale `~/arcs` clone hold working keys that are not the new key; org unknown (check in console).
+2. Cloud n8n not checked; `~/.bash_history` holds 2 capped-org keys in plain text (harmless once revoked).
+3. GitHub Actions billing or spending limit is blocking runs again (human). No PR or main commit has a CI verdict until it is fixed.
+4. Receipt row for #918 needs the two corrections above if the table should match (a project-scoped Supabase connector worked for UPDATEs in an earlier session).
+5. Not done from the audit: sub-44px touch targets, sub-12px mono labels, 51 ESLint warnings.
+6. `ADR-026` and `ADR-059` still cite `scripts/sage_efficacy.js` (now `.mjs`).
+
+## Next action
+Zach: unblock GitHub Actions billing, then move or delete the old-org Anthropic keys and revoke them in the old org console.
+
+## Cold-start recipe
+- Tracker: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (rows `old-anthropic-account`).
+- Key check without exposure: memory `anthropic-key-three-homes-verify-without-exposing` (sha256 prefix compare; 1-token probe, capped org replies "usage limit").
+- Receipts: `2026-10-06--old-anthropic-key-caller-audit--ZH`, `2026-10-06--compass-ux-lint-cleanup-pr887--ZH`, `2026-10-06--receipt-h1-pr918--ZH`.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261006T143343Z--claude-handoff-anthropic-key-audit.md
+> **Old Anthropic org key audit (read-only): 8 places still use the capped account; Zach moves and revokes.** Receipt
+> `2026-10-06--old-anthropic-key-caller-audit--ZH`. Docs Reconciliation row `old-anthropic-account` set to v3, status decision, owner Zach.
+
+### Notes: lead of 20261006T143350Z--claude-handoff-compass-lint.md
+### Shavasana — handoff pause, 2026-10-06 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-compass-lint), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 5 / dissent 2 (ratio 1.67) → OK: dissent present.
+- **Cold re-read (canary on the draft handoff-draft.md)**: GROUNDED; no ground return: none; thin air: none.
+
+
+- **Attachment release** (judgment): every claim re-read cold. The deploy and local-suite claims are measured (deployment IDs, run counts); the
+  receipt corrections are stated as stale-but-unwritten, not as fixed. Nothing downgraded.
+- **Somatic read**: not asked.
+- **Disposition**: release.
+
+> **Question Compass smoke test and audit shipped: UX fixes plus repo-wide ESLint 174 errors to 0 (#887, `68024c46`), then the receipt h1 (#918, `8ff408e7`).**
+> Both merged with `--merge` on Zach's yes. Receipts `2026-10-06--compass-ux-lint-cleanup-pr887--ZH` and `2026-10-06--receipt-h1-pr918--ZH`.
+
+### Notes: Lessons
+- `arcs-v9/.env` and `.env.local` held different keys: Next reads `.env.local` first, so the site looked fixed while scripts kept the old key.
+- A capped-org probe costs nothing and names the org; a fingerprint match only proves "same as new key".
+
+### Notes: Corrections to the receipts (the Supabase UPDATE was declined, so they live here)
+Receipt `2026-10-06--receipt-h1-pr918--ZH` still lists `fe-smoke` as pending and the deploy as unverified. Both are stale:
+- Deploy of `8ff408e7` is READY (dpl_Gwh3BNDHhRjZcwRcRjYAS9BAtQLw), `app.arcs.care/dashboard` returned 200.
+- `fe-smoke` never produced a CI verdict. The PR run hung 16+ minutes, main's runs on `8ff408e7` were cancelled by `cancel-in-progress`,
+  and later runs refused to start (GitHub Actions payment or spending-limit block).
+- The only evidence is local: the full Playwright suite on a production build of main `48c44214` (includes `8ff408e7`) ran 302 passed, 3 skipped, 0 failed.
+- Not confirmed: the live production receipt page `h1` was not viewed.
+
+### Notes: Lessons
+- A local production server needs `AUTH_TRUST_HOST=true` or `/api/auth/session` returns 500 and the smoke console-error tests fail for a reason that is not the code.
+- `npm run test:smoke` runs all of `tests/`, and one spec rewrites `_ARTIFACTS/atlas/atlas-almanac.html`; restore it before committing.
+
+> Molted from `_HANDOFFS/fragments/20261006T143343Z--claude-handoff-anthropic-key-audit.md` (branch `claude/handoff-anthropic-key-audit`, head `b04f43d5`); `_HANDOFFS/fragments/20261006T143350Z--claude-handoff-compass-lint.md` (branch `claude/handoff-compass-lint`, head `b04f43d5`).
+
 # Handoff — v3.114.0 (2026-10-06)
 
 > **Qualified an unmerged-commit citation in the v3.109.0 handoff; integrity gate no longer flags it.** #936 (`986daa56`),
@@ -138,24 +233,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   connector (`project_id` xbbpiryokswwvcrcutge) worked.
 
 > Folded from `_HANDOFFS/fragments/20261006T142446Z--claude-qualify-abb6aedb.md` (branch `claude/qualify-abb6aedb`, head `986daa56`).
-
-# Handoff — v3.113.0 (2026-10-06)
-
-> **Handoff fold #921 merged (`78c6e949`): four fragments folded to v3.107.0-v3.110.0; two follow-up chips spawned.**
-> Receipts `2026-10-06--handoff-fragment-pr914--ZH`, `2026-10-06--handoff-fold-pr921--ZH`.
-
-## Done
-- #914 (`9bf8ca27`): fragment for the #906 constant-time jobs token session (that block folded as v3.108.0, now archived).
-- #921: first fold collided with a hand-written v3.106.0 on main (cf0bf7f1 / #923); reset to origin/main and re-folded.
-  v3.110.0 + v3.109.0 live; v3.105.0-v3.108.0 relocated to `_ARCHIVE/handoffs.md`.
-
-## Open (next session)
-1. Chip task_7f5ac139 (running): v3.109.0 cites a commit that lives only on unmerged `claude/model-registry-drift-gate`. (Resolved by #936.)
-2. Chip task_c9678ac7: stale handoff commands still teach direct CLAUDE.md writes
-   (`~/.claude/commands/arcs-handoff.md`, main checkout's `.claude/commands/handoff.md`); add a pre-commit gate.
-
-## Lessons
-- `/handoff` can load a stale command copy: check it says "fragment" before following it.
-- A fold PR goes stale fast when other sessions merge handoffs; re-fold on fresh main instead of resolving CLAUDE.md conflicts by hand.
-
-> Folded from `_HANDOFFS/fragments/20261006T142126Z--claude-handoff-fold-followup.md` (branch `claude/handoff-fold-followup`, head `1c62a544`).
