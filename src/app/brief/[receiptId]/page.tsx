@@ -66,21 +66,10 @@ export default function BriefPage() {
     let cancelled = false
     fetch("/api/auth/session")
       .then((r) => r.json())
-      .then(async (s) => {
+      .then((s) => {
         if (cancelled) return
         const isAuthed = !!s?.user?.id
         setAuthed(isAuthed)
-        if (isAuthed && typeof window !== "undefined") {
-          const stored = localStorage.getItem("arcs_session_id")
-          if (stored) {
-            const r = await fetch("/api/receipts/claim", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ sessionId: stored }),
-            })
-            if (r.ok) localStorage.removeItem("arcs_session_id")
-          }
-        }
       })
       .catch(() => { if (!cancelled) setAuthed(false) })
     return () => { cancelled = true }
