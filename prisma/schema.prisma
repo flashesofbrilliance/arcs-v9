@@ -65,8 +65,11 @@ model PrepSession {
   entity           String? // named party — populates brief stakeholder rows
   adversarialInput String? // "Strongest case against your instinct"
   outcomeHorizon   String? // natural language: "when do you expect the shoe to drop?"
+  userId           String? // owner; compass only loads a prep row for its owner. Null on pre-2026-10-05 rows
   createdAt        DateTime  @default(now())
   receipts         Receipt[]
+
+  @@index([userId])
 }
 
 model Receipt {

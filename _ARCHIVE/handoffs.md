@@ -1,3 +1,596 @@
+# Handoff — v3.109.0 (2026-10-06)
+
+> **Debt tracker triage (Docs Reconciliation artifact, `debt` collection).** No code shipped; decisions + 7 chips.
+
+## Decided by Zach (2026-10-06)
+- ADR-085 stays PROPOSED, write-lock stays opt-in until the step-2 week ends (~10-13). Day-1 data: 8 locked trains vs 33 merges to main. Re-decide acceptance + step 3 (train as only merge path) together.
+- allowScripts: approve all 4. Doc cleanup: measure + salvage only, no moves. Doc gates: advisory in CI now. Old Anthropic keys: audit callers, Zach retires. Main checkout: WIP-commit, push, return to main.
+
+## Tracker
+- Closed: handoff-fragments-pr898 (#898 merged).
+- In progress (chips): repo hygiene PR (eslint ignore, npm test, vercel services, allowScripts) · handoff_fold sort by version · doc gates advisory CI · doc per-file breakdown + salvage (3 rows) · old-key caller audit · main checkout return · PRs #811/#854.
+- Still open, waiting on data/Zach: cache-sweep-stuck (Zach), prisma-8-rc (watch), sharp-render-untested (needs first SHARP receipt).
+
+## Lessons
+- Lock adoption is measurable from `refs/locks/main` history vs first-parent merges on main; use that as the step-2 metric.
+
+> Folded from `_HANDOFFS/fragments/20261006T140710Z--claude-nice-einstein-438d9d.md` (branch `claude/nice-einstein-438d9d`, head `7d495b35`).
+
+---
+
+# Handoff — v3.108.0 (2026-10-06)
+
+> **Jobs pipeline token is compared in constant time (#906, merged `0fbcc9e3`, all checks green).**
+> Receipts `2026-10-06--jobs-token-timingsafe-pr906--ZH` (PR) and `--jobs-token-timingsafe-merge-pr906--ZH` (merge).
+
+## Done
+- `src/lib/jobs.ts` `callerFor()`: `token === expected` replaced by `tokensMatch()` (node:crypto `timingSafeEqual`
+  on equal-length Buffers, false on length mismatch). No new deps; `npm run build` passed.
+- Prod verified: `dpl_G6cRZvix...` READY at `f74642f3` (#907), which contains `0fbcc9e3`; serves arcs.care + jobs.arcs.care.
+  Live `GET jobs.arcs.care/api/jobs` with empty / short / long wrong tokens all return 401 (no 500 on length mismatch).
+
+## Open (next session)
+1. Valid-token path not exercised live (token not in hand); confirm on the next scheduled pipeline run.
+
+## Lessons
+- `timingSafeEqual` throws on unequal lengths: guard length first, then probe prod with a wrong-length token to prove no 500.
+
+> Folded from `_HANDOFFS/fragments/20261006T135557Z--claude-jobs-token-timingsafe.md` (branch `claude/jobs-token-timingsafe`, head `d7963b38`).
+
+---
+
+# Handoff — v3.107.0 (2026-10-06)
+
+> **unfold reads handoff fragments (#899, `4f7fa6ab`, merged with a merge commit, CI green, on Zach's yes).**
+> Receipt `2026-10-06--unfold-reads-fragments-pr899--ZH`.
+
+## Done
+- `scripts/unfold.py`: new `handoff_open(root)` gathers `## Open` items from every unfolded
+  `_HANDOFFS/fragments/*.md` (newest first, via `handoff_fold.fragments`/`parse_fragment`), then the
+  latest CLAUDE.md block. Self-test 14/14; the new fragment case fails under the old CLAUDE.md-only logic.
+- Live check on main with a throwaway fragment: listed first, then v3.102.0's three items; probe deleted.
+- Other readers of the latest CLAUDE.md block: none. `open_loops.py` does not parse it; no live
+  `~/.claude/hooks` reads it (`precompact-handoff.sh.retired-2026-09-04` was a writer, retired);
+  `handoff-pickup.md` already reads fragments (#898).
+
+## Open (next session)
+1. No real fragment has been through `unfold.py` yet (receipt lists it unconfirmed). First `/handoff` fragment closes it.
+2. Deploy of `4f7fa6ab` not verified (Vercel CLI returned nothing this session).
+
+## Lessons (in the record)
+- #898 was merged by its own session mid-train; `merge_train.sh` refused cleanly (state MERGED), then #899 retargeted to main and merged alone.
+
+> Folded from `_HANDOFFS/fragments/20261006T134135Z--claude-handoff-unfold-fragments.md` (branch `claude/handoff-unfold-fragments`, head `4f7fa6ab`).
+
+---
+
+# Handoff — v3.106.0 (2026-10-06)
+
+> **Job Factory: the morning intake no longer dies on the API cap.** No repo code changed; the change is the scheduled-task
+> prompt outside the repo. Follows v3.103.0 (archived), whose open item 3 this closes.
+
+## Shipped (outside the repo)
+- `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`: preflight (d) model-health now gates ONLY
+  Steps 4-5 (score, forge). On a model 503, Steps 1-3, 6, 7 (Gmail intake, consume, prune, drift) still run and the report
+  opens `STATUS: PARTIAL model gate <code>`; checks (a)-(c) still FAIL the whole run. Verified by re-reading the stored
+  file; not yet exercised by a scheduled run. Backup of the prior prompt in that session's scratchpad.
+
+## Open (next session)
+1. Read the next morning report: first line should be `STATUS: PARTIAL model gate usage_limit` with intake counts.
+2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
+3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
+4. Carried: Upside send (confirm 2 new titles), Tenex send.
+
+---
+
+# Handoff — v3.105.0 (2026-10-06)
+
+> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
+> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
+> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
+
+## Shipped (overnight, across sessions)
+#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
+#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
+#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
+#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
+
+## Fixed this session
+- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
+  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
+  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
+- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
+- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
+  migrated a stranded worktree-local memory. Index 1-1 OK.
+
+## Open (all tracked as rows in the artifact's `debt` collection)
+P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
+In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
+legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+
+## Lessons
+- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
+- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
+- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+
+> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+
+---
+
+# Handoff — v3.103.0 (2026-10-06)
+
+> **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**
+> Merged on Zach's asks with receipts: #892 (`bcee855e`, Upside previews, `2026-10-06--upside-previews-pr892--ZH`) and #895
+> (`df3d79b9`, `2026-10-06--jobs-date-sort-undo-clear-pr895--ZH`). Oracle handoff=48.
+
+## Shipped + on main
+- **#895:** Zach cleared the Missed pile by accident. The clear only writes `missed_cleared_at` (one clear ever,
+  2026-10-06T01:12Z); `PATCH /api/jobs/settings {undoClearMissed:true}` deletes it, and the banner shows an **Undo clear**
+  button. New **Sort: Newest listed** (firstSeen desc). claude-security-review could not run (API cap); local ciso-review
+  PASS posted on the PR. Live at df3d79b9 (verified via get_deployment + API, not the signed-in page).
+- **Intake (production data, no PR):** request `cmuvmiqhi...` consumed: 95 alert emails 09-11 -> 10-05, 422 unique,
+  46 dupes, **376 new rows UNSCORED**; watermark now 2026-10-05T23:30:12Z. Board 1,205 rows.
+
+## Open (next session)
+1. **Zach:** sign in and click **Undo clear** (677 scored rows still hidden; my direct DB delete was declined).
+2. **Score the 376 new rows** with `node scripts/jobs_score_sweep.mjs` once the API cap lifts (or 2026-11-01).
+3. Morning task still fails preflight on the API cap; intake (Gmail + consume) needs no model, so it could be split out
+   of the preflight gate.
+4. Chip filed: constant-time compare for the pipeline token in `src/lib/jobs.ts` (task_301be2ed).
+5. Carried: Upside send (confirm 2 new titles), Tenex send.
+
+## Lessons (in the record)
+- A "stale queue" can be a dead intake: the freshest unswiped row was 12 days old because no mail had been read since 09-11.
+- A background agent can stop on "waiting on batches" without writing its output; check the file before trusting the notice.
+
+# Handoff — v3.102.0 (2026-10-06)
+
+> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
+> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
+> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+
+## Done
+- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
+  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
+  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
+  open-question empty state: no model-written answers.
+- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
+  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
+  375px overflow on long path tags; stakes never rendered.
+
+## Open (next session)
+1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
+2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
+3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+
+## Lessons (in the record)
+- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
+- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+
+---
+
+# Handoff — v3.99.0 (2026-10-06)
+
+> **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
+> every tailored resume.** Merged on Zach's asks with receipts: #870 (`1fa411ff`, `2026-10-05--upside-cover-gauntlet-pr870--ZH`)
+> and #886 (`d5652d48`, `2026-10-06--ats-companions-all-pr886--ZH`). Oracle handoff=47.
+
+## Shipped + on main
+- **#870 Upside Staff FDE bundle:** cover letter READY on `jobs_prose_gate.py` (slop-eval unchecked: API cap), gauntlet.json,
+  evidence.jsonl, ex-ante. 6-facet gauntlet fixes: "evaluations designed from the start" was false against git (the eval
+  harness `scripts/brief_eval.mts` landed 2026-09-30), now names the real checks; stack row added; Squat "tech lead /
+  rebuilt end to end" from the vetted master; Grayscale handoff cut; CTF 20% outcome added.
+- **#886 ATS companions:** `scripts/resume_ats_render.py` read only the card layout and silently dropped Experience,
+  Education, pillars and OSS on every forge print-base resume. Now reads both layouts (resume-general content unchanged).
+  87 new `-ats.html/.pdf`, 86 at 2 pages (vico master 3). Pre-commit kintsugi design gate skips pages carrying the
+  renderer's generated ATS header (Zach's call). "leverage" cut from Beacon, Sequence Holdings, Venn.
+- iCloud: `ARCS/resumes/ATS/` holds 96 ATS PDFs; per-role folders carry `-ATS.pdf` too.
+
+## Open (next session)
+1. **Zach to send:** Upside (confirm the new titles "Forward-deployed engineer and AI builder" / "Founder and engineer"
+   first) and Tenex Senior FDE (fill the founder's first name in the note).
+2. Upside page-1/page-2 PNG previews are stale (pre-gauntlet); the PDFs are current.
+3. API workspace cap still blocks every model route (slop-eval, the 11 shortlist resume cuts) until raised or 2026-11-01.
+4. No ATS PDF has been run through a real portal parser; Blacksmith and Vico ATS omit the design-only strengths panel.
+
+## Lessons (in the record)
+- A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
+- A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
+
+---
+
+# Handoff — v3.98.0 (2026-10-05)
+
+> **Prod deploys now run `prisma migrate deploy` (production only).** #840 (`942b0f46`) + hotfix #857
+> (`f5fab907`), both merged without CI (Actions billing block; Zach's go on #840). Receipts
+> `2026-10-05--vercel-migrate-per-service-pr840--ZH`, `--migration-lock-postgres-pr857--ZH`, `--direct-url-redeploy--ZH`.
+
+## Done
+- **Root cause:** under `experimentalServices`, Vercel ignores a top-level `buildCommand`; each service uses its own.
+  #830's prod log ran plain `npm run build`. Command now lives at `experimentalServices.web.buildCommand`.
+- `scripts/vercel-migrate-deploy.sh`: migrates via `DIRECT_URL` (set on arcs-v9 Production by Zach, session pooler
+  :5432), else rewrites :6543 to :5432; logs host:port; refuses :6543. Preview logs "skipping migrate deploy".
+- **Regression, fixed:** the first real run failed P3019 (`migration_lock.toml` said sqlite). #857 set postgresql.
+  Prod deploys #847/#850 errored in between (~10 min); prod kept serving the last READY build.
+- Prod `_prisma_migrations` = all 22 `prisma/migrations` by sha256 (incl. the hand-applied brief_share, prep_session_owner).
+  Proof log: `migrate target …:5432 · 22 migrations found · No pending migrations to apply`.
+
+## Open (next session)
+1. GitHub Actions billing/spending-limit block: no CI job starts on any PR or main (human).
+2. `experimentalServices` is deprecated in favour of `services` (needs `root`; not migrated).
+3. Two Vercel projects named arcs-care (team + personal `prj_cVMj…`): the personal one caught an env var; delete or relink it.
+
+## Lessons (in the record)
+- A wired-but-never-run step hides every latent bug behind it: the first real run surfaced a months-stale lock file.
+  Watch the FIRST prod log after enabling any deploy-time step.
+- `vercel env ls` names its project in the header line: read it before trusting "it's set".
+
+# Handoff — v3.96.0 (2026-10-05)
+
+> **Daily gate for Vercel domains pinned to a git branch (#863, `7f637e75`).** Follows v3.93.0 (three retired
+> hosts were frozen on a deleted preview branch). Receipt `2026-10-05--vercel-branch-pin-gate-pr863--ZH`.
+
+## Shipped + on main
+- `scripts/vercel_branch_pin_gate.py`: lists every project in team arcs-care, fails on any domain with `gitBranch`
+  set unless listed in `scripts/vercel_branch_pin_allowlist.txt` (empty). Auth: `VERCEL_TOKEN`, else the logged-in
+  `vercel` CLI. `--self-test` proves clean-pass / planted-fail / allowlist-pass; a detector mutation exits 1.
+  Live: 0 pinned of 130 domains across 23 projects.
+- `.github/workflows/vercel-branch-pin.yml`: daily 12:23 UTC; self-test, then the live check.
+- Duplicate chip session (task_e4237d76) stopped before pushing and archived.
+
+## Open (next session)
+1. **Add repo secret `VERCEL_TOKEN`** (read on team arcs-care, Zach only): until then CI skips the live check with
+   a warning.
+2. First scheduled run not yet observed.
+
+# Handoff — v3.95.0 (2026-10-05)
+
+> **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
+> "merge without CI" (Actions billing block). Receipt `2026-10-05--og-metadata-base-pr848--ZH`.
+
+## Shipped + on main
+- **#848:** root `src/app/layout.tsx` had no `metadataBase`, so `og:image`/`twitter:image` on every page
+  resolved to `prl.arcs.care` (Vercel production-domain fallback). Now `https://app.arcs.care`; live on
+  app, www, `/compass`, `/brief/*`. `opengraph-image.png` side panels pure black (seam gone); `crop.py` updated.
+  No `og:url` in the root layout on purpose (it would canonicalize every page to `/`).
+- **Icon sweep (no change needed):** 85 of 92 configured hosts serve icon.svg/apple-icon/manifest correctly;
+  4 retired Fanatics hosts 308 as designed.
+
+## Open (next session)
+1. chase-intro, cj-brief, growth-intel.arcs.care still serve old Fanatics/Growth pages on every path
+   despite the `next.config.ts` retired-host redirect. Background task task_b1e9b3f7 is tracing which
+   Vercel project holds them; domain changes need Zach's yes.
+2. Real LinkedIn/Slack/X unfurl not checked; platforms may cache the old prl.arcs.care image URL.
+3. Per-brief generated OG image was removed by `e5267871` (owner-only briefs); briefs share the root card.
+
+## Lessons (in the record)
+- Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
+  as production into every share card. Grep live `og:image` hosts, not just the tags' presence.
+
+# Handoff — v3.93.0 (2026-10-05)
+
+> **Three retired hosts un-pinned from a dead preview branch; the redirect now fires.** No code change.
+> Receipt `2026-10-05--retired-hosts-unpin-branch--ZH`.
+
+## Done (live Vercel config, on Zach's go)
+- chase-intro, cj-brief, growth-intel.arcs.care were attached to arcs-v9 with `gitBranch=claude/brave-chebyshev-cd6452`
+  (branch gone from origin), so they served that branch's last preview build, never production, and the
+  `retiredFanaticsHosts` 308 in `next.config.ts` could not fire. PATCH `gitBranch: null` on each; live curl of
+  `/` and `/icon.svg` now 308 -> https://arcs.care/ on all three.
+- Sweep: 0 branch pins across all 8 projects owning arcs.care domains (111 domains).
+
+## Open (next session)
+1. Chip task_e4237d76 (not built yet): a daily Vercel branch-pin gate script (fail on any unlisted `gitBranch` pin).
+
+## Lessons
+- `get_deployment(<host>)` does not reveal a branch-pinned domain; `list_project_domains` -> `gitBranch` does.
+
+# Handoff — v3.92.0 (2026-10-05)
+
+> **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
+> `a69e9daf` (field keys work from the drawer; legend lists every control), receipt
+> `2026-10-05--field-keys-legend-pr753--ZH`. PR #770 merged `75418715` (no server cache of anonymous
+> questions; account delete removes Blob uploads; `/api/brief` drops userId, prep.adversarialInput and
+> raw output beyond reasoning; HMAC-signed reminder links in `src/lib/reminderLink.ts`; /privacy v1.3,
+> trust contract 1.5), live-verified, receipt `2026-10-05--privacy-pr2-pr770--ZH`. PR #738 (handoff
+> v3.79.1) merged `8ec8b6e9` on Zach's override with CI queued, receipt `2026-10-05--handoff-v3.79.1-pr738--ZH`.
+
+## CI incident (2026-10-05)
+- Actions billing/spending-limit block (jobs failed with zero steps), then a GitHub Actions major outage
+  (84 runs queued, 0 in progress). Zach fixed billing and raised the limit. At his request this session
+  re-ran 7 billing-killed runs on other branches; PR #763's session then asked that cross-session
+  re-runs not happen unasked. Memory `ci-zero-steps-means-billing-or-outage`.
+
+## Open (next session)
+1. **task_cf4cfbac (queued chip): privacy disclosure PR, then mirror re-review.** The second mirror review
+   was NOT SAFE only on disclosure: LinkedIn uploads, `/api/probe` + DemandSignal (localStorage vid, open
+   CORS), brief sharing is now owner-only + tokens (`BriefShare`, `src/lib/briefShare.ts`; /privacy row
+   from #770 is stale), `arcs_pending_save` localStorage stash, dead `/unsubscribe` link, calendar/X links
+   carry decision text, self-serve delete not mentioned.
+2. **Showcase mirror**: `claude/showcase-mirror` @ `caafa7eb` (save/claim/email/probe paths added,
+   job-search models dropped, schema validates). Add `briefShare.ts` + `api/shared/**`. Never create or
+   publish `arcs-field-os` without Zach's go; never make arcs-v9 public.
+3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
+
+# Handoff — v3.90.0 (2026-10-05)
+
+> **Job Factory session, second half: slices 2-4, 6-7 landed, the FDE handoff, the job routes on current
+> models, a Tenex application ready to send, and three spending limits hit in one evening.** Merged on Zach's
+> asks with receipts: #782 (`36d42cf0`), #784 (`a60b02f9`), #789 (`495d8221`). A parallel merge-train session
+> merged #761 #769 #771 #773 #775 with its own receipts. Oracle handoff=45 (v3.88.0 and v3.89.0 were taken by parallel sessions today).
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (scoped to the fresh handoff branch). By hand this half-session: 3 merges by me (#782 #784 #789) with receipts, 5 more by a parallel merge-train (receipted), 1 open PR (#832), 1 scheduled-task prompt revised (and one bad write restored within a minute), 1 Tenex application staged for Zach.
+- **Inhale** (what came in): 1 dissent marker, 2 unconfirmed markers (script). By hand: a 6-facet gauntlet HELD the Tenex letter v1 (two trust-breakers also in the resume); Zach corrected the GitHub-link drop; three spending limits falsified "the line is running".
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 3 (ratio 4.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft handoff-v389.md)**: GROUNDED after adding merge SHAs and receipt ids (first pass: NO GROUND RETURN on "Shipped + on main").
+- **Attachment release** (Claude, cold re-read): "the security review drained the API cap" is held as the main suspect, not a finding, until the Console shows usage by key; the 11 failed cuts are recorded as not written, not as pending work done.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's 'run handoff while CI waits'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Slices 2, 3, 4, 6, 7** (#771 `ca742146`, #761 `367b528f`, #773 `567b224c`, #775 `5ae9a6b2`, #769 `38f8aab6`; receipts `2026-10-05--pr<N>-merge-train--ZH`): Missed state + backlog drift + intake-stall signal; Lane
+  close-form with fate + reason; autonomy flags with 5 locked stations; named-trust chip + name-leak script;
+  prose gate (provenance strict, slop lint/eval, honest) + application answers.
+- **#784 FDE handoff** (`a60b02f9`, receipt `2026-10-05--fde-handoff-pr784--ZH`): bridge-scan's routing gate "score under target-role-scan" was never executed; 52 rows sat
+  PASS. Backfill ran (45/52 handed off, 22 PURSUE; Upside 0.966 PASS -> 0.889 PURSUE). Role Scan SRC line now
+  names the real scorer.
+- **#789 job routes** (`495d8221`, receipt `2026-10-05--job-routes-model-migration-pr789--ZH`): writer routes on `claude-sonnet-5-5` (no temperature, effort low/medium, `fallbacks:"default"`),
+  scorers on the `claude-haiku-4-5` alias, `modelError()` returns 503 + the API's message + a code, new
+  `GET /api/jobs/model-health`. Live-proven on the PR preview before the cap hit.
+- **#782** (`36d42cf0`, receipt `2026-10-05--lane-full-width-pr782--ZH`): Lane root `width:100%` (flex-column body had shrunk it to 699px; 3 of 5 stages per row).
+- **Morning task** (scheduled, outside repo; file `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`, verified `grep -c model-health` = 1): preflight (d) now calls `/api/jobs/model-health`; usage_limit = FAIL
+  reported verbatim, never retried.
+
+## Spending limits hit (all three are Zach's decisions)
+1. **Anthropic API workspace cap** (`wrkspc_01LPHV...`): every model route in production 503s until it is raised or
+   resets 2026-11-01. Main suspect: `claude-security-review` (228 runs in Oct, 197 on 10-04/05) on the
+   `ANTHROPIC_API_KEY` repo secret. Unconfirmed that the GitHub secret shares the workspace: Console usage-by-key
+   settles it. Production routes themselves were small (3-day logs, mostly cached/Haiku; `/api/guide` is Opus 4.5).
+2. **GitHub Actions billing**: jobs no longer start ("recent account payments have failed or your spending limit
+   needs to be increased"). No PR can go green until Billing & plans is fixed.
+3. Claude plan weekly limit hit earlier (killed the 9/30, 10/01 morning runs); separate meter, not the API key.
+
+## Update after the handoff (same session)
+- **#846** (`d7171ca9`, receipt `2026-10-05--tenex-bundles-upside-overclaims-pr846--ZH`): Tenex founder note filed beside the
+  Senior application; stale `evidence.PROPOSED.jsonl` removed; Upside resume's two gauntlet-falsified lines fixed. The Tenex
+  Senior bundle itself landed in `8c2d61fe` (location-fix session). Open item 3 below is done except the send (Zach's).
+
+## Open (next session)
+1. **#832** (security review once per PR, path-scoped; ~87% fewer runs measured on October) is OPEN, not merged:
+   CI cannot start (GitHub billing). Merge when green per Zach, or on local verification if he says so.
+2. **11 resume cuts** for the shortlist's open FDE rows failed on the API cap before writing anything; script at
+   the session scratchpad `cut_all.sh` pattern: `forge_edit_from_seed.mjs --jobid <id>` then the location +
+   overclaim fixes. Shortlist: `_STATE/job-search/missed-shortlist-2026-10-05.md` (uncommitted; regenerate if lost).
+3. **Tenex Senior FDE application is READY for Zach to send** (resume + cover letter + founder note, all in iCloud
+   `ARCS/resumes/tenex-senior-forward-deployed-engineer/`). Local bundle uncommitted on branch
+   `claude/forge-tenex-senior`; commit it now that #791's seed-style fix is on main.
+4. Chips running/filed: 31 resumes "Fully remote (US)" -> "New York Metro" (task_f0cd3f02, running); preview
+   magic-link sign-in (task_ca922c90, running); deterministic teardown lenses (task_f1b1f738, ended: check its PR).
+5. Migrate the remaining old models (brief, compass, guide on Opus 4.5, tribune, annotations, slop_eval,
+   network_scan); stale local `@anthropic-ai/sdk` 0.100.1 vs `^0.128`.
+6. Slice 5 held behind its tripwire (queue must run dry two weeks; 484 rows Missed today).
+
+## Lessons (in the record)
+- A spending cap hides as a 500. Surface the upstream error with a code, and preflight the API before a run.
+- CI that runs an agent on every push is a production cost line; scope it to the paths it can protect.
+- I passed a placeholder (`@@FILE@@`) as a scheduled-task prompt and restored it within a minute: write the full
+  text, then verify the stored file, every time.
+- Memory said the GitHub profile was linkable; I dropped the link anyway before checking. Read memory first.
+
+# Handoff — v3.89.0 (2026-10-05)
+
+> **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with
+> `--merge`: #792 (`8b8519f3`), #795 (`fbc3cece`), #801 (`21cc370c`, merged with fe-smoke red, which was
+> pre-existing on main and fixed by #800/#806). Receipts `2026-10-05--preview-magic-link-pr792--ZH`,
+> `--session-token-leak-pr795--ZH`, `--null-userid-sweep-pr801--ZH`. #803 (brief/guide authz) was the
+> sibling session's, receipt `--brief-guide-authz-pr803--ZH`.
+
+## Shipped + on main
+- **Root cause of the preview bounce was `ADMIN_EMAILS` Production-only**, not the link host: Auth.js builds
+  email links from the request host (no AUTH_URL anywhere); `redirectProxyUrl` is OAuth-only in @auth/core
+  0.41.3. `isAdmin()` now warns once when the allowlist is empty in production mode.
+- **`/api/auth/session` no longer serves `sessionToken` + the full User row**: the callback returns
+  `{expires, user:{id,email}}`; auth error logger logs name+message; Resend errors carry the name only.
+- **`scripts/null_userid_gate.py`** + pre-commit: session userId reaching a `where` with no `if (!userId)`
+  guard fails (multi-line, per-handler, `?? undefined`). Sweep found no live instance.
+- Proof method that works on protected previews: `vercel curl <preview>/api/auth/csrf`, POST
+  `signin/resend` with the jar, read the link via Gmail MCP, redeem with the same jar, then sign out.
+
+## Env changes (outside git)
+- `ADMIN_EMAILS` was added to Preview for the proof, then **removed** on Zach's ask. Already-built
+  previews keep the old value until rebuilt. Production `ADMIN_EMAILS` is Sensitive (unreadable).
+- `brew reinstall node` (Homebrew node 26.10.0, vercel CLI 62.2.0; PATH still prefers `~/.local/bin/node`
+  v26.7.0). `agent-browser install` done, doctor 10/10.
+
+## Open (next session)
+1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
+2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
+   - **Correction (2026-10-06):** tried and dropped. A free Supabase project `arcs-v9-preview` was built (schema matched prod's 358 Prisma columns), then deleted on Zach's call: hand-applied migrations, idle pausing and a second DB to keep in sync outweighed the gain. Previews stay on the prod DB; the guard is an empty Preview `ADMIN_EMAILS` (admin pages refuse every viewer), re-added only for a short QA session.
+3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
+4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
+5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
+   whether #803 covered it before starting.
+
+## Lessons (in the record)
+- `gh pr checks --watch ...; gh pr merge` in one command merges on red: the watch exits on failure and the
+  next command runs. Gate the merge on the rollup conclusions, never on the watch returning.
+- A Sensitive Vercel var pulls as `""`; check the length before copying it anywhere.
+
+# Handoff — v3.88.0 (2026-10-05)
+
+> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
+> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
+> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
+
+## Shipped + on main
+- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
+  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
+  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
+  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
+  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
+- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
+  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
+  image/svg+xml, image/png, application/manifest+json.
+
+## Open (next session)
+1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
+   is covered, but any `/:path*` style host rule is not) may still swallow icons.
+2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
+3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
+
+## Lessons (in the record)
+- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
+  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
+
+# Handoff — v3.87.0 (2026-10-05)
+
+> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
+> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
+
+## Shipped + on main
+- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
+  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
+- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
+  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
+  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
+- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
+- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
+- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
+  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
+  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
+
+## Open (next session)
+1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
+2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
+3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
+
+## Lessons
+- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.
+
+---
+
+# Handoff — v3.86.0 (2026-10-05)
+
+> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
+> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
+> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
+
+## Shipped + on main
+- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
+  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
+  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
+  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
+  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
+- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
+  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
+  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
+- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
+  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
+
+## Open (next session)
+1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
+2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
+3. `fe-smoke` was pending at both merges; confirm it went green on main.
+
+## Lessons (in the record)
+- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
+  worktree: prove the GIT_DIR, never trust the path.
+- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
+
+# Handoff — v3.85.0 (2026-10-05)
+
+> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
+> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
+> `2026-10-05--handoff-v3.83-pr797--ZH`.
+
+## Shipped + on main
+- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
+  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
+  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
+  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
+- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
+  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
+
+## Open (next session)
+1. intent workflow on `974f6adb` not checked (low).
+2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
+
+## Lessons (in the record)
+- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
+  before chasing the test. Plain `npm run test:unit` passed on the same commit.
+- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
+
+# Handoff — v3.84.0 (2026-10-05)
+
+> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
+> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
+> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
+
+## Done
+- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
+  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
+  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
+  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
+- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
+- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
+- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
+  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
+- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
+
+## WIP preserved (local branches, not pushed)
+`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
+`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
+`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
+`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
+All inside the consolidated bundle.
+
+## Open (next session)
+1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
+2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
+3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
+4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
+   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
+5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+
+## Lessons (in the record)
+- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
+  (pruned `cool-bell` under a live session, restored it from its branch).
+- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
+- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
+
+# Handoff — v3.83.0 (2026-10-05)
+
+> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
+> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
+> `2026-10-05--swipe-admin-only-pr766--ZH`.
+
+## Shipped + on main
+- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
+  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
+  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
+  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
+  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
+  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
+- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
+  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
+
+## Open (next session)
+1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
+   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
+   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
+   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
+2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
+
+## Lessons (in the record)
+- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
+- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
+
 # Handoff — v3.82.0 (2026-10-05)
 
 > **Stale worktree hooks fixed at the source; two PRs merged without CI during a GitHub Actions outage.**
@@ -5383,3 +5976,122 @@ _This block asserts nothing new. Counts, paths, and questions only._
   overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
   rendered poster stayed pixel-identical (ffmpeg PSNR inf).
 - The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
+
+# Handoff — v3.91.0 (2026-10-05)
+
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
+
+## Shipped + on main
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
+
+## Lessons (in the record)
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
+
+# Handoff — v3.94.0 (2026-10-05)
+
+> **Compass IDOR series closed: parent, prep and session ids scoped to the caller; anonymous claim route retired.**
+> Oracle handoff=46. Receipts `2026-10-05--compass-parent-owner-scope-pr813--ZH`, `...-compass-prep-owner-scope-pr830--ZH`,
+> `...-compass-session-owner-scope-pr836--ZH`, `...-retire-receipts-claim-pr847--ZH`, `...-smoke-claim-retired-pr853--ZH`.
+
+## Shipped + live (verified on `arcs-v9-r6l4w9055`)
+- **#813** (`52ece6a2`): compass parent lookup is `findFirst({id, userId})`, signed-in only; foreign/missing drops parent inputs and `parentId`.
+- **#830** (`d9f8af71`): `PrepSession.userId` (nullable + index, migration `20261005010000_prep_session_owner`), set by `/api/prep`,
+  compass prep lookup scoped to owner, account delete removes owned preps. Migration was applied by hand (Supabase SQL +
+  `_prisma_migrations` row, file sha256) because Vercel skipped `buildCommand`; #840/#857 (other session) now run
+  `migrate deploy` on prod and fixed P3019 (`migration_lock.toml` said sqlite).
+- **#836** (`843f5bee`, taken over from chip session): `src/lib/session-owner.ts` reuses a client sessionId only if no
+  receipt in the thread is foreign or unowned; wired in compass, receipts/save, tribune seed.
+- **#847** (`50ae66cb`): `PATCH /api/receipts/claim` retired (sessionId was never proof of possession; 48 legacy unowned rows,
+  none since 2026-07-13). Callers removed; `/trust` copy + `_CANON/trust-contract.md` v1.6. Live: route 404s.
+- **#853** (`a2aeedd8`): smoke.sh A5 now requires the claim route to 404/405. #849 (chip duplicate) closed.
+
+## Open (next session)
+1. 48 legacy anonymous receipt owners were not told claiming moved to the inquiry link (low).
+2. sessionId check-then-write race on a known id (very low, receipted only).
+3. GitHub Actions: none of these merges had a completed CI run (billing block, then queued). Check the first green main run after `a2aeedd8`.
+
+## Lessons
+- A chip you spawn can be started while you do the same work: check `git branch -r` / open PRs before writing, and message the session to stand down.
+- A user-facing promise (`/trust`, trust contract) can depend on a route; privacy-review catches it, ciso-review does not.
+- Deleting a route needs a grep of `scripts/` too: smoke.sh A5 asserted the claim route existed.
+
+
+# Handoff — v3.97.0 (2026-10-05)
+
+> **cruft_sweep bundle path proven live; manifest rows name only refs that exist (#861, merged without CI on
+> Zach's go).** Receipt `2026-10-05--cruft-manifest-detached-row-pr861--ZH`.
+
+## Shipped + on main
+- **#861 (`e8b9bd17`):** #837 stopped pinning detached heads already on upstream but the MANIFEST.tsv row still
+  named the unpinned `refs/cruft-archive/...` ref. Landed detached rows now read `(detached)`. `--self-test` 18/18
+  (every manifest `refs/...` must exist); the #837 version fails 2.
+- **Bundle path probed on the real repo:** throwaway `cruft-bundle-probe` worktree off origin/main, 1 commit, pruned:
+  576-byte bundle (vs ~150MB full-history), `bundle verify` okay, commit restored from it. Probe branch, bundle and
+  manifest row deleted afterwards. The cool-bell / unruffled-pike manifest rows were hand-fixed to `(detached)`.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** (failed payment or spending limit): no CI on any PR until Zach fixes it.
+   #837, #843, #861 merged with none.
+2. `cool-poitras-4f96e7` is SAFE with its tip on main: prune when convenient (manifest row only, no bundle).
+
+## Lessons (in the record)
+- To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
+  on it: every SAFE candidate with off-main commits was mid-session.
+- A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
+
+
+# Handoff — v3.101.0 (2026-10-06)
+
+> **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
+> Receipt `2026-10-06--receipt-view-no-brief-gen-pr888--ZH`.
+
+## Done
+- Bug: `/receipt/[id]` and `/receipt/reflect/[id]` loaded via `GET /api/brief/[id]`, which on a cache miss made
+  1-2 Sonnet calls and stored a Brief row the viewer never asked for.
+- Fix: opt-in `?generate=0` on that route returns receipt + tributaries + children with `brief: null`, no model
+  call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
+- Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
+  "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
+- Verified signed-in on prod (Comet): un-briefed receipt renders, button reads "Generate brief", only
+  `?generate=0` is requested, Brief rows stay 0.
+
+## Open (next session)
+1. GitHub Actions billing block persists (no CI).
+
+
+# Handoff — v3.104.0 (2026-10-06)
+
+> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
+> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
+
+## Done
+- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
+  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
+  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
+- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
+  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
+
+## Open (next session)
+1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
+3. Throttle is per instance; a second instance can send a second email.
+
+## Lessons
+- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
+  `arcs-care/arcs-care` and fails with "Branch not found".
+- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
+
+---

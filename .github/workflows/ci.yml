@@ -135,11 +135,11 @@ jobs:
       - name: Install
         run: npm ci
 
-      # Advisory: the repo carries pre-existing lint debt, so lint reports but
-      # does not block. Tighten to a hard gate once the backlog is cleared.
-      - name: Lint (advisory)
+      # Hard gate: lint debt cleared 2026-10-06 (0 errors repo-wide; warnings
+      # do not fail). Static prototypes and scan fixtures are ignored in
+      # eslint.config.mjs.
+      - name: Lint
         run: npm run lint
-        continue-on-error: true
 
       # Advisory: canon-vs-code drift check (state-sync). Grep-based, narrow
       # assertions only — see scripts/state_sync_check.py. Never blocks; the
@@ -159,6 +159,11 @@ jobs:
       # from returning to src/ (closes ledger LINT-006).
       - name: className / Tailwind guard
         run: python3 scripts/classname_guard.py
+
+      # Hard gate: trust contract section 2 + privacy analytics claim (closes ledger PL-011).
+      # Only Anthropic may see input; track() payloads carry allowlisted ids/enums, never text.
+      - name: Purpose-limitation guard
+        run: python3 scripts/purpose_guard.py
 
       # Hard gate — enforcement-parity ledger (ADR-034): audit findings must
       # exit via a mechanism or dated waiver within their severity SLA.
@@ -205,6 +210,7 @@ jobs:
       AUTH_TRUST_HOST: "true"
     steps:
       - uses: actions/checkout@v7
+        with: { fetch-depth: 0 }  # page gate needs the merge-base
 
       - uses: actions/setup-node@v7
         with:
@@ -244,8 +250,11 @@ jobs:
       - name: Page gate on changed pages
         if: github.event_name == 'pull_request'
         run: |
-          git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.sha }}
-          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html' ':(exclude)_ARTIFACTS/forge-*/cover-*.html' ':(exclude)_ARTIFACTS/resume-*/*.html')
+          # Three-dot (merge-base) diff against the PR head: only the PR's own changes.
+          # A two-dot diff vs HEAD also picked up every page main changed since the
+          # branch point (PR #802 failed 0/92 on pages it never touched).
+          git fetch --no-tags origin ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html' ':(exclude)_ARTIFACTS/forge-*/cover-*.html' ':(exclude)_ARTIFACTS/resume-*/*.html')
           if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
           python3 scripts/page_gate.py $files
 

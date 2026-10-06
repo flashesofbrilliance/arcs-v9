@@ -38,6 +38,11 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
   const { jobid } = await params
   if (!(await pageViewerAllowed())) redirect(`/compass?next=/jobs/${jobid}`)
   const row = await prisma.jobOpportunity.findUnique({ where: { jobid }, include: { swipe: true, forge: true } })
+  // The rubric that actually produced the row's current score: the latest Score row's
+  // targetVersion ("1.3" = target-role-scan, "bridge-1.x" = bridge-scan). Before 2026-10-05
+  // this line always claimed target-role-scan, even for bridge-scored rows.
+  const lastScore = row ? await prisma.score.findFirst({ where: { jobid }, orderBy: { scoredAt: "desc" }, select: { targetVersion: true } }) : null
+  const scoredBy = lastScore?.targetVersion?.startsWith("bridge") ? `runtime/specs/bridge-scan.json ${lastScore.targetVersion}` : `runtime/specs/target-role-scan.json v${lastScore?.targetVersion ?? "?"}`
   if (!row) notFound()
   const spec = loadScanSpec()
   const trig = loadTriggerSpec()
@@ -94,7 +99,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
                 <div style={{ fontFamily: mono, fontSize: 8.5, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
               </div>))}
           </div>
-          <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · runtime/specs/target-role-scan.json v{spec?.version ?? "?"} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
+          <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · {scoredBy} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
         </header>
 
         {/* 01 comparator: what the posting asks vs what the record shows, per differentiator */}

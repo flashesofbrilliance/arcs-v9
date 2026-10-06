@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Exoskeleton · video v3 source</title>
+<!--
+  Lore No. 1, video v3: kinetic typography. The words are the picture; each word moves the way it means.
+  9:16 and 16:9 from one source (layout follows the frame shape). Silent, captions-first, 20s.
+  Rendered by scripts/html_video_render.mjs: window.DURATION + window.seek(t), every frame a pure
+  function of t. DESIGN.md voices: sans = statements, mono = instruments, serif = canon only.
+-->
+<style>
+  @font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;src:url('../../public/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2')}
+  @font-face{font-family:'Inter';font-weight:100 900;src:url('../../public/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2')}
+  @font-face{font-family:'JetBrains Mono';font-weight:100 800;src:url('../../public/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2')}
+  :root{--obsidian:#020408;--text:#e2e8f0;--secondary:#94a3b8;--cyan:#00F0FF;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Newsreader',serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:var(--obsidian);overflow:hidden}
+  #stage{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;background:var(--obsidian)}
+  #tint{position:absolute;inset:0;opacity:0}
+  .beat{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:flex-start}
+  .fit{display:inline-block;white-space:nowrap;font-family:var(--sans);font-weight:900;line-height:.86;letter-spacing:-.045em;color:var(--text);transform-origin:0 60%;will-change:transform,opacity;font-variant-numeric:tabular-nums}
+  .fit span{display:inline-block;will-change:transform}
+  .lab{font-family:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);will-change:opacity}
+  .src{font-family:var(--mono);font-weight:400;letter-spacing:.02em;color:var(--secondary)}
+  .canon{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--cyan);white-space:nowrap;display:inline-block;transform-origin:0 60%}
+  .gold{color:var(--gold)} .red{color:var(--red)} .cyan{color:var(--cyan)}
+  .streak{position:absolute;height:5px;background:var(--cyan);border-radius:3px;opacity:.55}
+  #rule{position:absolute;width:8px;background:var(--cyan)}
+  .tick{display:inline-block;margin-right:6px;border:2px solid rgba(148,163,184,.5)}
+  .tick.on{background:var(--gold);border-color:var(--gold)}
+  #spark{position:absolute;overflow:visible;pointer-events:none}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+  #vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(0,0,0,.5) 100%)}
+  #grain{position:absolute;pointer-events:none;opacity:.05;mix-blend-mode:screen;image-rendering:pixelated}
+  .end{position:absolute;left:0;right:0;text-align:center;opacity:0}
+  .wordmark{font-family:var(--mono);font-weight:800;letter-spacing:.3em;margin-left:.3em;color:var(--text)}
+  .wordmark b{color:var(--cyan);font-weight:800}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="tint"></div>
+
+  <div class="beat" id="b1">
+    <div class="lab" id="b1top">Decision receipts</div>
+    <div class="fit" id="b1n" data-hp=".34" data-hw=".52">261</div>
+    <div class="lab" id="b1lab">Started</div>
+  </div>
+
+  <div class="beat" id="b2">
+    <div class="fit" id="b2a" data-hp=".22" data-hw=".34">Lambo</div>
+    <div class="fit" id="b2b" data-hp=".22" data-hw=".34">engine.</div>
+  </div>
+
+  <div class="beat" id="b3">
+    <div class="fit red" id="b3a" data-hp=".22" data-hw=".34">Bike</div>
+    <div class="fit red" id="b3b" data-hp=".22" data-hw=".34">brakes.</div>
+  </div>
+
+  <div class="beat" id="b4">
+    <div class="lab cyan" id="b4lab">The exoskeleton</div>
+    <div class="fit" id="s0" data-hp=".1" data-hw=".13">Receipts</div>
+    <div class="fit" id="s1" data-hp=".1" data-hw=".13">Y gate</div>
+    <div class="fit" id="s2" data-hp=".1" data-hw=".13">PrepSession</div>
+    <div class="fit" id="s3" data-hp=".1" data-hw=".13">Drift Sentinel</div>
+    <div class="fit" id="s4" data-hp=".1" data-hw=".13">Handoffs</div>
+  </div>
+
+  <div class="beat" id="b5">
+    <div class="fit" id="b5a" data-hp=".12" data-hw=".17">Starter motor,</div>
+    <div class="lab" id="b5or">or</div>
+    <div class="fit gold" id="b5b" data-hp=".12" data-hw=".17">exoskeleton?</div>
+  </div>
+
+  <div class="beat" id="b6">
+    <div class="fit" id="b6n" data-hp=".3" data-hw=".46"><span class="gold">1</span><span style="color:var(--secondary)">/30</span></div>
+    <div id="ticks"></div>
+    <div class="lab" id="b6lab">Closed outcomes</div>
+    <div class="lab gold" id="b6due">Verdict due 1 Jan 2027</div>
+  </div>
+
+  <div class="beat" id="b7">
+    <div class="fit" id="b7a" data-hp=".15" data-hw=".22">Build the</div>
+    <div class="fit cyan" id="b7b" data-hp=".15" data-hw=".22"><span>c</span><span>h</span><span>a</span><span>r</span><span>g</span><span>e</span><span>.</span></div>
+  </div>
+
+  <div class="beat" id="b8">
+    <div class="lab" id="b8lab">Hold the</div>
+    <div class="fit" id="b8g" data-hp=".34" data-hw=".5" data-w=".62"><span id="gG">G</span><span id="gA">A</span><span id="gP">P</span></div>
+  </div>
+
+  <div class="beat" id="b9">
+    <div class="canon" id="b9c">The spark is mine.</div>
+  </div>
+
+  <div class="end" id="e1"><div class="wordmark" id="wm"><b>A</b>RCS</div></div>
+  <div class="end" id="e2"><div class="lab" style="color:var(--text)">Lore · No. 1 · The Exoskeleton</div></div>
+  <div class="end" id="e3"><div class="src cyan" id="url">good.arcs.care/series/lore</div></div>
+
+  <svg id="spark"><polyline id="bolt" fill="none" stroke="#fff" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <div id="flash"></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="256" height="256"></canvas>
+</div>
+<script>
+// ---------- layout follows the frame shape ----------
+const WIDE = innerWidth > innerHeight;
+const W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920, PAD = WIDE ? 150 : 76, LAB = WIDE ? 30 : 34;
+const $ = (id) => document.getElementById(id);
+const stage = $('stage');
+stage.style.width = W + 'px'; stage.style.height = H + 'px';
+document.querySelectorAll('.beat').forEach((b) => { b.style.padding = `0 ${PAD}px`; });
+document.querySelectorAll('.lab').forEach((l) => { l.style.fontSize = LAB + 'px'; });
+
+// ---------- deterministic helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const easeIn = (x) => Math.pow(clamp(x), 3);
+const easeInOut = (x) => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const spring = (d, k = 10, w = 14) => d <= 0 ? 0 : 1 - Math.exp(-k * d) * Math.cos(w * d);
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+// ---------- fit every headline to the lane (after fonts load) ----------
+let fitted = false;
+function fitAll() {
+  const maxW = W - 2 * PAD, beats = [...document.querySelectorAll('.beat')];
+  beats.forEach((bt) => { bt.style.display = 'flex'; bt.style.visibility = 'hidden'; });   // measurable while fitting
+  document.querySelectorAll('.fit,.canon').forEach((el) => {
+    el.style.fontSize = '100px';
+    const w = el.offsetWidth, cap = H * parseFloat(el.dataset[WIDE ? 'hw' : 'hp'] || (WIDE ? .14 : .1));
+    el.style.fontSize = Math.min(100 * maxW * parseFloat(el.dataset.w || 1) / w, cap) + 'px';
+  });
+  beats.forEach((bt) => { bt.style.display = 'none'; bt.style.visibility = ''; });
+  fitted = document.fonts.status === 'loaded';
+}
+
+// ---------- static furniture ----------
+const ticks = $('ticks');
+for (let k = 0; k < 30; k++) { const d = document.createElement('i'); d.className = 'tick' + (k === 0 ? ' on' : '');
+  const s = WIDE ? 36 : 22; d.style.width = s + 'px'; d.style.height = (s * 1.6) + 'px'; d.style.marginRight = (WIDE ? 8 : 6) + 'px'; ticks.appendChild(d); }
+ticks.style.margin = (WIDE ? 34 : 40) + 'px 0 26px';
+const STREAKS = Array.from({ length: 9 }, (_, i) => { const r = rng(40 + i), d = document.createElement('div'); d.className = 'streak';
+  stage.insertBefore(d, $('b2')); return { el: d, y: H * (0.12 + 0.76 * r()), len: 260 + 520 * r(), delay: 0.5 * r() }; });
+const rule = document.createElement('div'); rule.id = 'rule'; stage.insertBefore(rule, $('b4'));
+(function () { const g = $('grain').getContext('2d'), img = g.createImageData(256, 256), r = rng(7);
+  for (let i = 0; i < img.data.length; i += 4) { const v = r() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+  g.putImageData(img, 0, 0); const el = $('grain'); el.style.width = (W + 128) + 'px'; el.style.height = (H + 128) + 'px'; el.style.left = el.style.top = '-64px'; })();
+$('wm').style.fontSize = (WIDE ? 150 : 140) + 'px';
+$('url').style.fontSize = (WIDE ? 32 : 34) + 'px';
+const endTop = WIDE ? [330, 540, 610] : [760, 960, 1040];
+['e1', 'e2', 'e3'].forEach((id, i) => { $(id).style.top = endTop[i] + 'px'; });
+
+// ---------- motion vocabulary ----------
+function beat(id, t, a, b) {             // hard cut in, quick punch-out at the end
+  const el = $(id), on = t >= a && t < b; el.style.display = on ? 'flex' : 'none';
+  if (on) { const o = lin(t, b - .12, b); el.style.opacity = String(1 - o); el.style.transform = `scale(${1 + .06 * o})`; }
+  return on;
+}
+function slam(el, t, t0, from = 1.7) {   // drops onto the page from above the glass
+  const d = t - t0; if (d < 0) { el.style.opacity = '0'; return 0; }
+  const s = spring(d, 13, 17); el.style.opacity = String(clamp(d / .05));
+  el.style.transform = `scale(${from - (from - 1) * s})`; return s;
+}
+function rise(el, t, t0, dist = 50) {
+  const d = t - t0, s = spring(d, 11, 13); el.style.opacity = String(clamp(d / .1));
+  el.style.transform = `translateY(${(1 - s) * dist}px)`;
+}
+
+window.DURATION = 20.0;
+
+window.seek = function (t) {
+  if (!fitted) fitAll();
+  const sc = Math.min(innerWidth / W, innerHeight / H);
+  stage.style.transform = `translate(${(innerWidth - W * sc) / 2}px,${(innerHeight - H * sc) / 2}px) scale(${sc})`;
+  const tint = $('tint'); tint.style.opacity = '0';
+  let shx = 0, shy = 0;
+
+  // 1 · 261 started, 1 finished: the count collapses, the survivor turns gold
+  if (beat('b1', t, 0, 2.95)) {
+    rise($('b1top'), t, .1);
+    const n = $('b1n'), s = slam(n, t, .18, 1.9);
+    const p = easeIn(lin(t, 1.05, 2.05)), v = Math.max(1, Math.round(261 - 260 * p));
+    n.textContent = String(v);
+    const done = t >= 2.05, pop = spring(t - 2.05, 9, 12);
+    n.style.color = done ? '#FFD700' : '#e2e8f0';
+    if (done) n.style.transform = `scale(${1 + .18 * pop - .18 * clamp(pop)})`;
+    if (t > 1.05 && !done) n.style.transform = `translateY(${Math.sin(t * 90) * 3}px)`;
+    const lab = $('b1lab'); lab.textContent = done ? 'Finished' : 'Started';
+    lab.style.color = done ? '#FFD700' : '#94a3b8'; rise(lab, t, done ? 2.05 : .45, 24);
+  }
+
+  // 2 · Lambo engine: streaks in at speed, skewed, past the speed lines
+  if (beat('b2', t, 2.95, 4.55)) {
+    [['b2a', 3.0], ['b2b', 3.16]].forEach(([id, t0]) => { const el = $(id), d = t - t0, s = spring(d, 9, 10);
+      el.style.opacity = d < 0 ? '0' : '1'; el.style.transform = `translateX(${(1 - s) * W * 1.1}px) skewX(${(1 - s) * -24}deg)`; });
+    STREAKS.forEach((k) => { const p = lin(t, 2.95 + k.delay, 3.55 + k.delay);
+      k.el.style.display = p > 0 && p < 1 ? 'block' : 'none'; k.el.style.width = k.len + 'px'; k.el.style.top = k.y + 'px';
+      k.el.style.left = (W - (W + k.len * 2) * easeIn(p) * 1.0 + k.len * 0) + 'px'; });
+  } else STREAKS.forEach((k) => { k.el.style.display = 'none'; });
+
+  // 3 · Bike brakes: arrives fast, hits the stop, squashes, shakes; the frame flushes red
+  if (beat('b3', t, 4.55, 6.15)) {
+    [['b3a', 4.58], ['b3b', 4.66]].forEach(([id, t0]) => { const el = $(id), d = t - t0, hit = .2;
+      el.style.transformOrigin = '100% 60%';
+      if (d < 0) { el.style.opacity = '0'; return; }
+      el.style.opacity = '1';
+      if (d < hit) el.style.transform = `translateX(${-(1 - easeIn(d / hit)) * W}px)`;
+      else { const e = d - hit; el.style.transform = `scaleX(${1 - .22 * Math.exp(-7 * e) * Math.cos(22 * e)})`; } });
+    const hitT = 4.86;
+    if (t > hitT) { const k = Math.exp(-(t - hitT) * 6); shx = Math.sin(t * 97) * 18 * k; shy = Math.cos(t * 83) * 12 * k;
+      tint.style.background = '#FF4D6D'; tint.style.opacity = String(.28 * Math.exp(-(t - hitT) * 4)); }
+  }
+
+  // 4 · The exoskeleton: five struts drop into a stack; a cyan spine grows beside them
+  const S0 = 6.45, SD = .52;
+  if (beat('b4', t, 6.2, 10.0)) {
+    rise($('b4lab'), t, 6.22, 24);
+    for (let k = 0; k < 5; k++) { const el = $('s' + k), t0 = S0 + k * SD; slam(el, t, t0, 1.45);
+      const lit = t >= t0 && (k === 4 || t < t0 + SD); const locked = t > 9.15;
+      el.style.color = locked ? '#00F0FF' : lit ? '#e2e8f0' : 'rgba(148,163,184,.55)'; }
+    const b = $('b4').getBoundingClientRect(), f = $('s0').getBoundingClientRect(), l = $('s4').getBoundingClientRect();
+    const scl = sc, top = (f.top - b.top) / scl, bot = (l.bottom - b.top) / scl;
+    const g = easeOut(lin(t, S0, S0 + 5 * SD)); rule.style.display = 'block';
+    rule.style.left = (PAD - (WIDE ? 44 : 30)) + 'px'; rule.style.top = top + 'px'; rule.style.height = Math.max(0, (bot - top) * g) + 'px';
+    rule.style.opacity = t > 9.15 ? '1' : '.75';
+  } else rule.style.display = 'none';
+
+  // 5 · Starter motor, or exoskeleton?
+  if (beat('b5', t, 10.0, 11.95)) { slam($('b5a'), t, 10.05, 1.4); rise($('b5or'), t, 10.55, 20); slam($('b5b'), t, 10.85, 1.6); }
+
+  // 6 · 1/30: the gauge, and the date it answers by
+  if (beat('b6', t, 11.95, 13.65)) {
+    slam($('b6n'), t, 12.0, 1.5);
+    [...ticks.children].forEach((d, k) => { const a = lin(t, 12.25 + k * .012, 12.35 + k * .012); d.style.opacity = String(a); });
+    rise($('b6lab'), t, 12.45, 20); rise($('b6due'), t, 12.7, 20);
+  }
+
+  // 7 · Build the charge: the word fills with voltage until it can barely hold still
+  if (beat('b7', t, 13.65, 14.95)) {
+    slam($('b7a'), t, 13.68, 1.3); slam($('b7b'), t, 13.82, 1.3);
+    const amp = 1 + 16 * easeIn(lin(t, 13.9, 14.9));
+    [...$('b7b').children].forEach((sp, i) => { sp.style.transform = `translate(${Math.sin(t * 61 + i * 2.3) * amp}px,${Math.cos(t * 53 + i * 1.7) * amp}px)`; });
+  }
+
+  // 8 · Hold the gap: GAP splits; a spark jumps the opening
+  const bolt = $('bolt'), spark = $('spark'); spark.style.display = 'none';
+  if (beat('b8', t, 14.95, 16.4)) {
+    rise($('b8lab'), t, 14.97, 20); const g = $('b8g'); slam(g, t, 15.02, 1.25);
+    const open = easeOut(lin(t, 15.35, 15.7)) * (WIDE ? 240 : 170);
+    $('gG').style.transform = `translateX(${-open * .25}px)`; $('gA').style.transform = `translateX(${-open * .25}px)`;
+    $('gP').style.transform = `translateX(${open * .75}px)`;
+    if (t > 15.6) {
+      const st = stage.getBoundingClientRect(), a = $('gA').getBoundingClientRect(), p = $('gP').getBoundingClientRect();
+      const x1 = (a.right - st.left) / sc + 6, x2 = (p.left - st.left) / sc - 6, ym = ((a.top + a.bottom) / 2 - st.top) / sc;
+      const live = t > 16.0 || Math.sin(t * 47) > 0; if (live && x2 > x1) {
+        const n = 7, amp = t > 16.0 ? 70 : 40, pts = [];
+        for (let i = 0; i <= n; i++) pts.push(`${x1 + (x2 - x1) * i / n},${ym + (i === 0 || i === n ? 0 : Math.sin(t * 43 + i * 2.2) * amp * (.4 + .6 * Math.abs(Math.sin(i * 1.7 + t * 11))))}`);
+        spark.style.display = 'block'; spark.setAttribute('width', W); spark.setAttribute('height', H); spark.style.left = spark.style.top = '0';
+        bolt.setAttribute('points', pts.join(' ')); bolt.setAttribute('stroke-width', t > 16.0 ? 12 : 6);
+        bolt.style.filter = 'drop-shadow(0 0 18px #00F0FF) drop-shadow(0 0 40px #00F0FF)';
+      }
+    }
+  }
+  $('flash').style.opacity = String(t > 16.35 ? .9 * Math.exp(-(t - 16.35) * 6) : 0);
+
+  // 9 · The spark is mine. (canon voice)
+  if (beat('b9', t, 16.4, 18.3)) { const c = $('b9c'), s = spring(t - 16.55, 7, 9);
+    c.style.opacity = String(clamp((t - 16.55) / .25)); c.style.transform = `scale(${.94 + .06 * s})`; }
+
+  // end card
+  [['e1', 18.35], ['e2', 18.6], ['e3', 18.8]].forEach(([id, a]) => { const el = $(id), s = spring(t - a, 9, 12);
+    el.style.opacity = String(clamp((t - a) / .3)); el.style.transform = `translateY(${(1 - s) * 30}px)`; });
+
+  stage.querySelectorAll('.beat').forEach((b) => { if (b.style.display === 'flex') b.style.translate = `${shx}px ${shy}px`; });
+  const r = rng(Math.round(t * 30) + 11)();
+  $('grain').style.transform = `translate(${-Math.floor(r * 64)}px,${-Math.floor((r * 977) % 64)}px)`;
+};
+document.fonts.ready.then(() => { fitted = false; window.seek(0); });
+window.seek(0);
+</script>
+</body>
+</html>

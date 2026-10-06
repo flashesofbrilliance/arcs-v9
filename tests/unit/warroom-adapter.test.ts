@@ -366,6 +366,49 @@ test("preCallIntelIntro: the Intel list intro, only when its list yielded items;
   assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "list", ...internal, h2: "Intel", intro: "x", items: [{ html: "y" }] }] } }, { audience: "external" }).preCallIntelIntro, undefined)
 })
 
+test("beliefTrajectory: Recoil-tab worked example intro + close, before the kinematics; other tabs ignored", () => {
+  const base = ssot({ kinematic_series: { dt: 1, series: [{ key: "a", audience: "internal", label: "L", points: [0.5, 0.6] }] } })
+  const withBlocks = (blocks: unknown[]) => adapt({ ...base, page: { ...base.page, blocks } })
+  const o = withBlocks([
+    { tab: "recoil", type: "worked_example", ...internal, h2: "Belief trajectory", intro: "Handoff-survivability climbed.", close: "Net: the mechanics are GREEN." },
+    { tab: "brief", type: "worked_example", ...both, h2: "What moved", intro: "external copy", close: "x" },
+  ])
+  assert.equal(o.beliefTrajectory, "Handoff-survivability climbed.\n\nNet: the mechanics are GREEN.")
+  const keys = Object.keys(o)
+  assert.equal(keys.indexOf("beliefTrajectory") + 1, keys.indexOf("beliefKinematics"), "the read sits right before the numbers")
+  assert.equal(withBlocks([{ tab: "recoil", type: "worked_example", ...internal, intro: "{{what moved}}", close: "{{the honest correction}}" }]).beliefTrajectory, undefined)
+  assert.equal(withBlocks([{ tab: "recoil", type: "worked_example", ...internal, intro: "Pending outreach to Jack.", close: "Pending." }]).beliefTrajectory, "Pending outreach to Jack.", "bare 'Pending.' is absent; a sentence saying pending is kept")
+})
+
+test("belief log: confidence before -> after and conviction ride on the belief thread note", () => {
+  const withBelief = (b: Record<string, unknown>) => adapt(ssot({ beliefs: [{ ...internal, id: "P1", verdict: "FALSIFIED", claim: "A claim", evidence: "e", ...b }] })).signalThreads!.find((t) => t.title === "A claim")!
+  assert.equal(withBelief({ inference: "EXP", confidence: [0.7, 0.25], conviction: "HIGH" }).note, "Inference: EXP \u00b7 confidence 0.7 \u2192 0.25 \u00b7 conviction HIGH")
+  assert.equal(withBelief({ confidence: "[0.5, 0.85]", conviction: "settled" }).note, "confidence 0.5 \u2192 0.85 \u00b7 conviction settled", "TEXT-string pair parses")
+  assert.equal(withBelief({ confidence: [0.5], conviction: "{{level}}" }).note, undefined, "malformed pair and slot are absent")
+})
+
+test("kairosLegend: the Kairos list _doc dot legend, only when that list produced flags", () => {
+  const base = ssot()
+  const withList = (items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "recoil", type: "list", ...internal, h2: "Kairos, quiet signals &amp; risks", intro: "Post-call read.", _doc: "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.", items },
+  ] } })
+  assert.equal(withList([{ dot: "red", html: "No dated next step." }]).kairosLegend, "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.")
+  assert.equal(withList([{ dot: "", html: "<strong>Kairos:</strong> {{peak-resonance moment}}" }]).kairosLegend, undefined, "scaffold with no real flags")
+})
+
+test("receiptCloses: every receipt-close row verbatim, keyed like its call-walk step", () => {
+  const o = adapt(ssot({ page: { blocks: [
+    { tab: "recoil", type: "keyvalue", ...internal, h2: "Receipt closed &#183; ex-ante vs actual", rows: [
+      { k: "Predicted (reconstructed)", v: "Short call; GREEN" }, { k: "Actual", v: "It landed." },
+      { k: "Fork hit", v: "Upgrade." }, { k: "Load-bearing", v: "'drive where we've landed'" }, { k: "Ex-ante misses", v: "TBD" },
+    ] },
+  ] } }))
+  assert.deepEqual(o.receiptCloses, { "2026-09-15 \u00b7 Ex-ante vs actual": {
+    "Predicted (reconstructed)": "Short call; GREEN", Actual: "It landed.", "Fork hit": "Upgrade.", "Load-bearing": "'drive where we've landed'",
+  } })
+  assert.equal(o.callWalk![0].body, "It landed. Fork hit: Upgrade.", "call walk stays concise")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
@@ -437,7 +480,7 @@ test("corpus: every real SSOT adapts without leaks or placeholders", () => {
   const dir = path.join(process.cwd(), "runtime", "recoil", "generated")
   let n = 0
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json"))) {
-    let raw: any
+    let raw: Parameters<typeof adapt>[0] & { meta?: { gate?: unknown } }
     try { raw = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")) } catch { continue }
     n++
     for (const audience of ["internal", "external"] as const) {

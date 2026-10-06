@@ -9,7 +9,11 @@
 2. Audits the current session (commits pushed, files created, decisions made)
 3. Updates `MEMORY.md` with a new versioned entry at the top
 4. Updates `SKILL.md` changelog if any new capabilities were added
-5. Appends a new `## Handoff — vX.Y.Z` block to `CLAUDE.md` **and relocates the oldest live block to `_ARCHIVE/handoffs.md` so at most 2 stay live** (policy 2026-07-19)
+5. Writes a **handoff fragment** (`_HANDOFFS/fragments/<utc-ts>--<branch>.md`, one new file per session) via
+   `scripts/handoff_fold.py new`. It does NOT edit `CLAUDE.md` and does NOT pick a version number.
+   A later `handoff_fold.py fold` (one session, ideally holding the main write-lock) assigns versions,
+   prepends the blocks to `CLAUDE.md` and relocates overflow to `_ARCHIVE/handoffs.md` so at most 2
+   stay live (ADR-085 part (d), 2026-10-06; replaces direct CLAUDE.md edits, which collided as #893/#894)
 6. Writes `.claude/arcs-session-state.md` with the current sprint snapshot
 7. Commits `_STATE/snapshot.json` alongside the session commit
 8. Outputs a one-shot pickup prompt the next session can use immediately
@@ -112,7 +116,22 @@ git history. Mask first, write second. If a prior note already spells one out, m
 
 ## Step 1 — Prose handoff (existing protocol)
 
-See: `.claude/arcs-handoff-agent.md`
+See: `.claude/arcs-handoff-agent.md` for what goes in the block. Where it goes changed (ADR-085):
+
+```bash
+# body = the block WITHOUT its "# Handoff — vX.Y.Z (date)" title line (fold assigns the version)
+python3 scripts/handoff_fold.py new < /path/to/draft-handoff-body.md   # prints the fragment path
+git add _HANDOFFS/fragments/ && git commit ...                           # commit it with the session
+```
+
+Never write the block into `CLAUDE.md` yourself and never pick a `vX.Y.Z`: two sessions doing that
+within a minute is the collision this replaces. To fold (any one session, at a quiet moment, with
+`python3 scripts/write_lock.py lock acquire` held if other sessions are active):
+
+```bash
+python3 scripts/handoff_fold.py fold --dry-run && python3 scripts/handoff_fold.py fold
+git add CLAUDE.md _ARCHIVE/handoffs.md _HANDOFFS/fragments/ && git commit -m "docs(handoff): fold N fragments"
+```
 
 ## Token budget
 
@@ -120,7 +139,7 @@ Reads at most 6 files:
 - `_STATE/snapshot.json` (to write)
 - `MEMORY.md` (to prepend new entry)
 - `SKILL.md` (to check changelog)
-- `CLAUDE.md` (to append handoff block)
+- `_HANDOFFS/fragments/` (to write this session's fragment; CLAUDE.md is not edited)
 - `.claude/arcs-session-state.md` (to overwrite)
 - `git log --oneline -10` (to confirm SHAs)
 

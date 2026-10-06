@@ -278,7 +278,7 @@ export default function RecoilPage() {
           <SectionAnchor id="decision" />
           <SectionHead label="D — Decision" />
           <p style={{ fontSize: "0.9rem", lineHeight: 1.7, color: t.text, marginBottom: "0.75rem", ...res }}>
-            Should I invest further time in Figma's interview process given the no-AI coding assessment constraint, my active pipeline, and the confirmed role shape?
+            Should I invest further time in Figma&apos;s interview process given the no-AI coding assessment constraint, my active pipeline, and the confirmed role shape?
           </p>
           <p style={{ fontSize: "0.75rem", color: t.dimmed, fontStyle: "italic", marginBottom: "2rem" }}>
             Atomic form: Proceed, hold, or redirect — and at what cost?
@@ -331,7 +331,7 @@ export default function RecoilPage() {
             <strong style={{ color: t.text, ...res }}>What moved the gate down:</strong> No-AI assessment is a genuine blocker. Role sits formally in data science — strategic latitude may be bounded. Recruiter openly uncertain about path forward. Two active alternatives at stronger pipeline stages.
           </p>
           <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "2rem" }}>
-            <strong style={{ color: t.text, ...res }}>What held it from RED:</strong> the HM's proactive sourcing is a real signal. Recruiter committed to HM consult + alt role exploration.
+            <strong style={{ color: t.text, ...res }}>What held it from RED:</strong> the HM&apos;s proactive sourcing is a real signal. Recruiter committed to HM consult + alt role exploration.
           </p>
 
           {/* ── Signal Delta ──────────────────────────────────────────────── */}
@@ -368,10 +368,10 @@ export default function RecoilPage() {
               <span style={{ fontSize: "0.7rem", color: t.dimmed }}>Zero-cost option preservation</span>
             </div>
             <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.7, marginBottom: "1rem", ...res }}>
-              The bet on the table: 8–15 hours in Figma's assessment + case study pipeline vs. redirecting energy to Deloitte/JPMorgan which are further along and frictionless.
+              The bet on the table: 8–15 hours in Figma&apos;s assessment + case study pipeline vs. redirecting energy to Deloitte/JPMorgan which are further along and frictionless.
             </p>
             <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "1.25rem" }}>
-              Do not invest assessment bandwidth until recruiter returns with HM's position on coding assessment flexibility and whether alternative roles exist outside data science.
+              Do not invest assessment bandwidth until recruiter returns with HM&apos;s position on coding assessment flexibility and whether alternative roles exist outside data science.
             </p>
             <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: "1rem" }}>
               <div style={{ fontSize: "0.58rem", letterSpacing: "0.12em", color: t.muted, textTransform: "uppercase", marginBottom: "0.625rem" }}>Unlock conditions</div>
@@ -393,7 +393,7 @@ export default function RecoilPage() {
             {CONFIDENCE.map((c, i) => <ConfidenceBar key={i} {...c} />)}
             <AsideBox color={t.red}>
               <p style={{ fontSize: "0.72rem", color: t.red, lineHeight: 1.5 }}>
-                40% confidence on "time well-spent vs. alternatives" is below the HOLD threshold. The bet does not clear the survivability bar at current information state.
+                40% confidence on &quot;time well-spent vs. alternatives&quot; is below the HOLD threshold. The bet does not clear the survivability bar at current information state.
               </p>
             </AsideBox>
           </div>
@@ -422,13 +422,13 @@ export default function RecoilPage() {
           <SectionAnchor id="analysis" />
           <SectionHead label="Recoil Analysis" />
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
-            The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface worth engaging. the HM's proactive LinkedIn sourcing is not noise; it means the fit signal is real from the hiring side.
+            The call confirmed the role shape hypothesis almost exactly. The &quot;Code&quot; org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface worth engaging. the HM&apos;s proactive LinkedIn sourcing is not noise; it means the fit signal is real from the hiring side.
           </p>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
             The process friction is the only genuine blocker. The recruiter acknowledged it directly:
           </p>
           <QuoteBlock>
-            "We're at this crossroads where we don't allow AI tools in the interview process and yet we talk to so many people who say this is my everyday."
+            &quot;We&apos;re at this crossroads where we don&apos;t allow AI tools in the interview process and yet we talk to so many people who say this is my everyday.&quot;
           </QuoteBlock>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
             That sentence means the policy is in transition — not a fixed wall. The risk is investing 8–15 hours in a traditional coding assessment that produces a false negative for both sides.
@@ -438,7 +438,7 @@ export default function RecoilPage() {
           </p>
           <AsideBox color={t.gold}>
             <p style={{ fontSize: "0.82rem", color: t.gold, lineHeight: 1.65, fontWeight: 500 }}>
-              At 40% confidence on "time well-spent vs. alternatives," the answer is HOLD. Not reject, not proceed. Wait for the information that changes the probability tree.
+              At 40% confidence on &quot;time well-spent vs. alternatives,&quot; the answer is HOLD. Not reject, not proceed. Wait for the information that changes the probability tree.
             </p>
           </AsideBox>
           <div style={{ height: "2rem" }} />

@@ -2720,6 +2720,17 @@
       "minted": "2026-10-04",
       "text": "A herald has to come from the memory that holds the thing, at the moment it holds it. A herald that survives its write is a false receipt with a timestamp.",
       "canon_ref": "_CANON/tao-proverbs.jsonl#tao-284"
+    },
+    {
+      "id": "tao-285",
+      "movement": null,
+      "aspect": "D",
+      "verb": "synthesize",
+      "source": "runtime/specs/ahmed-order-vocabulary.md",
+      "minted": "2026-10-06",
+      "text": "The compass can ask. Only the one who walks can answer.",
+      "gloss": "the open-question slot stays open for the person deciding; the compass sequences, it never answers for you.",
+      "canon_ref": "_CANON/tao-proverbs.jsonl#tao-285"
     }
   ]
 }

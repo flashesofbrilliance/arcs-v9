@@ -2,10 +2,12 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { modelErrorResponse } from "@/lib/model-error"
 import { clampText, clampTextArray } from "@/lib/sanitize"
 import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
+import { MODELS } from "@/lib/claude-models"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -46,9 +48,7 @@ function parseEntityAnalysis(raw: string): Record<string, string> | null {
 // Anyone holding a brief link can read this response, so it carries only what
 // the brief and receipt pages render: no owner id, no raw model output beyond
 // the reasoning, and never the prep's "strongest argument against" notes.
-// sessionId is a bearer secret: POST /api/receipts/claim moves every anonymous
-// receipt carrying it to the caller's account, so it is returned only to the
-// signed-in owner. Anonymous owners already hold it in localStorage.
+// sessionId (the thread id) is returned only to the signed-in owner.
 function publicReceipt(r: object | null | undefined, viewerId: string | null) {
   if (!r) return r
   const { userId: owner, sessionId, rawResponse, prep, ...rest } = r as Record<string, unknown>
@@ -115,6 +115,20 @@ export async function GET(
     include: { prep: true, ...childrenInclude },
   })
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+
+  // Read-only path (?generate=0): receipt views need the receipt + tributaries, not a
+  // brief. Never spend model tokens or create a Brief row the viewer did not ask for.
+  if (req.nextUrl.searchParams.get("generate") === "0") {
+    const tributaries = (() => {
+      try {
+        const raw = receipt.rawResponse ? JSON.parse(receipt.rawResponse) : null
+        return Array.isArray(raw?.tributaries) ? raw.tributaries : []
+      } catch { return [] }
+    })()
+    const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
+    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children) })
+  }
+
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
   }
@@ -147,10 +161,13 @@ export async function GET(
   ].filter(Boolean).join("\n")
 
   // Fire situation framing + entity analysis in parallel
-  const calls: Promise<Anthropic.Message>[] = [
-    anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 600,
+  // deep is Sonnet 5.5: thinking counts toward max_tokens, so the caps leave room for it
+  // (the visible text is still ~600/~512 tokens) and effort stays low for short prose.
+  const calls: Promise<Anthropic.Beta.Messages.BetaMessage>[] = [
+    anthropic.beta.messages.create({
+      model: MODELS.deep,
+      max_tokens: 2048,
+      output_config: { effort: "low" },
       system: BRIEF_SYSTEM,
       messages: [{ role: "user", content: `${baseContext}\n\nWrite the Situation Framing section.` }],
     }),
@@ -158,19 +175,22 @@ export async function GET(
 
   if (receipt.entity) {
     calls.push(
-      anthropic.messages.create({
-        model: "claude-sonnet-4-6",
-        max_tokens: 512,
+      anthropic.beta.messages.create({
+        model: MODELS.deep,
+        max_tokens: 2048,
+        output_config: { effort: "low" },
         system: ENTITY_SYSTEM,
         messages: [{ role: "user", content: `${baseContext}\n\nGenerate the entity intelligence read for: ${receipt.entity}` }],
       })
     )
   }
 
-  const results = await Promise.all(calls)
-  const situationFraming = scrubProse(results[0].content[0].type === "text" ? results[0].content[0].text.trim() : "")
+  let results: Anthropic.Beta.Messages.BetaMessage[]
+  try { results = await Promise.all(calls) }
+  catch (e) { return modelErrorResponse("brief", e) }
+  const situationFraming = scrubProse(results[0].content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("").trim())
   const entityAnalysis = receipt.entity && results[1]
-    ? parseEntityAnalysis(results[1].content[0].type === "text" ? results[1].content[0].text : "")
+    ? parseEntityAnalysis(results[1].content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join(""))
     : null
 
   // Parse tributaries from rawResponse

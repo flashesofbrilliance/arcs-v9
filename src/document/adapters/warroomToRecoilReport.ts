@@ -17,6 +17,7 @@
 //   meta.counterpart · meta.date                                   → loadBearingQuote.attribution
 //   insights[] {plane,title,text}                                  → signalThreads[]
 //   beliefs[] {id,verdict,claim,evidence}                          → signalThreads[] (after insights)
+//     + the belief log's inference / confidence [before, after] / conviction → thread note
 //   page.blocks[tab=exante, type=receipt] fields                   → protocol[] (first)
 //     Pre-committed move / Falsifier / Kill line; label "Ex-ante", or "Ex-ante (reconstructed)"
 //     when the receipt's h2 says reconstructed/post-hoc (ADR-044: never pass as filed-before)
@@ -25,6 +26,8 @@
 //     GROUNDED green, INFERENCE gold, STRUCK red (struck claims stay visible, marked)
 //   page.blocks[tab=forge, type=prose] p[]                         → forgeMethod string (Deeper Strata):
 //     the substrates and ruling definitions behind the Forge threads, verbatim
+//   page.blocks[tab=recoil, type=worked_example] intro + close     → beliefTrajectory string (Deeper Strata,
+//     just before the numbers): what moved, then the honest correction; the chart itself is beliefKinematics
 //   kinematic_series {dt, series[]} (the War Game kinematics_table) → beliefKinematics (Deeper Strata):
 //     per series "trajectory · D1 peak/term · D2 term · D3 term · grounded: quote", plus the n-point
 //     caveat; derivatives from ../kinematics (same central difference as WarRoomReport + recoil_brief.py)
@@ -35,11 +38,14 @@
 //   page.blocks[tab=recoil, type=list, h2~/kairos/] items          → riskFlags[] (after the gauntlet)
 //     Risk=warning, Kairos=info, Quiet signal=success; unlabeled items by dot (red/gold/green)
 //     list `intro` → kairosIntro string (Deeper Strata), only when that list yielded a flag
+//     list `_doc` (the template's dot legend) → kairosLegend, same guard; explains "Recoil read" flags
 //   page.blocks[tab=wargame, type=table] (ATG pre-mortem) rows     → scenarios.worst
 //     ("assume dead": node, failure mode, handling; BOTTLENECK row → note)
 //   page.blocks[tab=recoil, type=keyvalue] ("Receipt closed ...")  → callWalk[] (one step per close,
 //     authored order; label = date in the h2 else meta.date; title = h2 after "Receipt closed";
 //     body = Actual + Fork hit rows; peak never set: the SSOT does not rank closes)
+//     every row verbatim (Predicted [reconstructed], Actual, Fork hit, Load-bearing, ...) → receiptCloses
+//     (Deeper Strata), keyed "<label> · <title>" like the matching call-walk step
 //   page.blocks[tab=pre, type=prose, h2~/^true north/] p[]          → preCallTrueNorth string (Deeper Strata,
 //     first of the pre-call strata); an h2 qualifier such as "(reconstructed post-hoc)" leads the text
 //   page.blocks[tab=pre, type=keyvalue] rows {k,v}                 → preCallContext {k: v} (not a
@@ -96,12 +102,18 @@ export interface WarroomRecoilReport {
   preCallQuestionsIntro?: string
   /** Forge-tab method prose (substrates + ruling definitions), rendered by Deeper Strata. */
   forgeMethod?: string
+  /** Every row of each Recoil-tab receipt close, verbatim, rendered by Deeper Strata. */
+  receiptCloses?: Record<string, Record<string, string>>
+  /** The Recoil tab's worked example: what moved + the honest correction, rendered by Deeper Strata. */
+  beliefTrajectory?: string
   /** Belief trajectories with D1-D3 (the War Game kinematics table), rendered by Deeper Strata. */
   beliefKinematics?: Record<string, string>
   /** What the War Game gauntlet targets (its list intro), rendered by Deeper Strata. */
   gauntletIntro?: string
   /** How the recoil-tab Kairos watch-list was read (its intro), rendered by Deeper Strata. */
   kairosIntro?: string
+  /** The Kairos list's dot legend (template `_doc` line), rendered by Deeper Strata. */
+  kairosLegend?: string
 }
 
 type Rec = Record<string, unknown>
@@ -243,6 +255,15 @@ function forgeMethod(root: Rec, audience: WarroomAudience): string | undefined {
   return parts.length ? parts.join('\n\n') : undefined
 }
 
+function beliefTrajectory(root: Rec, audience: WarroomAudience): string | undefined {
+  const parts: string[] = []
+  for (const b of parseList(rec(root.page).blocks)) {
+    if (!isRecord(b) || b.tab !== 'recoil' || b.type !== 'worked_example' || !visible(b, audience)) continue
+    for (const v of [text(b.intro), text(b.close)]) if (v) parts.push(v)
+  }
+  return parts.length ? parts.join('\n\n') : undefined
+}
+
 function beliefKinematics(root: Rec, audience: WarroomAudience): Record<string, string> | undefined {
   const ks = rec(root.kinematic_series)
   const dt = typeof ks.dt === 'number' && ks.dt > 0 ? ks.dt : 1
@@ -272,10 +293,10 @@ function beliefKinematics(root: Rec, audience: WarroomAudience): Record<string, 
 
 // A list intro frames that list's flags; scaffolds keep the template intro with
 // unfilled items, so an intro is kept only when its own list produced a flag.
-function listIntro(blocks: Rec[]): string | undefined {
+function listIntro(blocks: Rec[], field = 'intro'): string | undefined {
   const intros = blocks
     .filter((b) => b.type === 'list' && flagsFromLists([b], 'x').length > 0)
-    .map((b) => text(b.intro))
+    .map((b) => text(b[field]))
     .filter((x): x is string => !!x)
   return intros.length ? intros.join('\n\n') : undefined
 }
@@ -349,18 +370,24 @@ function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: st
 
 // Each "Receipt closed" block is one call scored against its ex-ante; in
 // multi-call SSOTs they are appended in call order, which is the walk.
-function callWalkFromCloses(root: Rec, audience: WarroomAudience, fallbackDate?: string): RecoilReportData['callWalk'] {
+function callWalkFromCloses(root: Rec, audience: WarroomAudience, fallbackDate?: string): { steps: RecoilReportData['callWalk']; closes: Record<string, Record<string, string>> } {
   const steps: RecoilReportData['callWalk'] = []
+  const closes: Record<string, Record<string, string>> = {}
   for (const b of parseList(rec(root.page).blocks)) {
     if (!isRecord(b) || b.tab !== 'recoil' || b.type !== 'keyvalue' || !visible(b, audience)) continue
     const h2 = text(b.h2)
     if (!h2 || !/^receipt closed/i.test(h2)) continue
     const rows = new Map<string, string>()
+    const verbatim: Record<string, string> = {}
     for (const r of parseList(b.rows)) {
       if (!isRecord(r)) continue
       const k = text(r.k)
       const v = text(r.v)
-      if (k && v) rows.set(k.toLowerCase(), v)
+      if (!k || !v) continue
+      rows.set(k.toLowerCase(), v)
+      let key = k
+      for (let i = 2; key in verbatim; i++) key = `${k} (${i})`
+      verbatim[key] = v
     }
     const actual = [...rows].find(([k]) => k.startsWith('actual'))?.[1]
     const fork = rows.get('fork hit')
@@ -369,13 +396,15 @@ function callWalkFromCloses(root: Rec, audience: WarroomAudience, fallbackDate?:
     const rest = h2.replace(/^receipt closed\s*[·:,-]?\s*/i, '')
     const date = rest.match(/\((\d{4}-\d{2}-\d{2})\)/)?.[1] ?? (steps.length === 0 ? fallbackDate : undefined)
     const title = rest.replace(/\s*\(\d{4}-\d{2}-\d{2}\)\s*/, '').trim()
-    steps.push({
+    const step = {
       label: date ?? `Close ${steps.length + 1}`,
       title: title ? title[0].toUpperCase() + title.slice(1) : 'Receipt closed',
       body,
-    })
+    }
+    steps.push(step)
+    closes[`${step.label} \u00b7 ${step.title}`] = verbatim
   }
-  return steps
+  return { steps, closes }
 }
 
 // The pre-mortem assumes the engagement is dead and walks the critical path:
@@ -487,12 +516,18 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     const claim = text(b.claim)
     if (!claim) continue
     const verdict = text(b.verdict)
+    // The Recoil-tab belief log renders confidence as "before -> after" and conviction;
+    // carry the same reads on the thread so the log is not lost.
+    const conf = parseList(b.confidence).map(Number)
+    const confidence = conf.length === 2 && conf.every(Number.isFinite) ? `confidence ${conf[0]} \u2192 ${conf[1]}` : undefined
+    const conviction = text(b.conviction)
+    const note = join([text(b.inference) ? `Inference: ${text(b.inference)}` : undefined, confidence, conviction ? `conviction ${conviction}` : undefined])
     threads.push({
       label: join([text(b.id), verdict]) ?? 'Belief',
       accent: (verdict && VERDICT_ACCENT[verdict.toUpperCase()]) ?? T.cyan,
       title: claim,
       body: text(b.evidence) ?? '',
-      ...(text(b.inference) ? { note: `Inference: ${text(b.inference)}` } : {}),
+      ...(note ? { note } : {}),
     })
   }
 
@@ -510,12 +545,13 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     protocol.push({ label: `Next ${id}`, title: text(s.owner) ?? `Step ${id}`, body, ...(n === 1 ? { active: true } : {}) })
   }
 
-  const callWalk = callWalkFromCloses(root, audience, date)
+  const { steps: callWalk, closes } = callWalkFromCloses(root, audience, date)
   const trueNorth = preCallTrueNorth(root, audience)
   const context = preCallContext(root, audience)
   const { items: intel, intro: iIntro } = preCallIntel(root, audience)
   const { questions, landmines, intro: qIntro } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
+  const trajectory = beliefTrajectory(root, audience)
   const kinematics = beliefKinematics(root, audience)
   const gIntro = listIntro(wargameBlocks(root, audience))
   const wargame = wargameBlocks(root, audience)
@@ -525,6 +561,9 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   )
   const riskFlags = [...flagsFromLists(wargame, 'Gauntlet'), ...flagsFromLists(kairos, 'Recoil read'), ...landmines]
   const kIntro = listIntro(kairos)
+  // _doc is the template's instruction line (identical in every file that has it), carried
+  // only because it explains the dot colours behind unlabeled "Recoil read" flags.
+  const kLegend = listIntro(kairos, '_doc')
   const worst = worstFromPremortem(wargame)
 
   return {
@@ -542,8 +581,11 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(questions.length ? { preCallQuestions: questions } : {}),
     ...(qIntro ? { preCallQuestionsIntro: qIntro } : {}),
     ...(method ? { forgeMethod: method } : {}),
+    ...(Object.keys(closes).length ? { receiptCloses: closes } : {}),
+    ...(trajectory ? { beliefTrajectory: trajectory } : {}),
     ...(kinematics ? { beliefKinematics: kinematics } : {}),
     ...(gIntro ? { gauntletIntro: gIntro } : {}),
     ...(kIntro ? { kairosIntro: kIntro } : {}),
+    ...(kLegend ? { kairosLegend: kLegend } : {}),
   }
 }

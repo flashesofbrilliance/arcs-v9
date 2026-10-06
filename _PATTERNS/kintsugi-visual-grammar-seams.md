@@ -568,6 +568,15 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   sheet reflow, print untouched. The 94 older bundles keep
   their old block (frozen baseline, ratchet WARN on edit); restyle them by applying the stylesheet
   and re-rendering if they are re-sent.
+- **Follow-up (2026-10-05, same day):** restyled all 89 files carrying the standard block (82
+  `resume-*.html` plus 7 `-ats.html` that are really the styled source: 5 render to `resume-<slug>.pdf`,
+  2 are copies). Every PDF stayed at 2 pages, every file scores 0 findings, iCloud re-mirrored where a
+  folder exists. Left alone on purpose: 3 true ATS renders (aircall, morgan-stanley, norm-ai: Arial,
+  black on white) and 3 custom resumes (people-in-ai, radar, recruithaus: extra classes the canonical
+  sheet does not style).
+- **Follow-up 2:** the 3 custom resumes now carry the canonical sheet plus an in-file variant block
+  (flat pillars, `.adv`/`.oss` grids at 12px, forced `.pb` print break; skill and section labels in
+  sentence case because theirs run 32 to 36 chars). Still 3 pages by design, 0 findings.
 
 ### Seam: forge cover letters (2026-10-05, bridge bundles)
 - **Break:** the forge-render cover sheet v1.0 (one identical `<style>` in all 20 bridge covers)

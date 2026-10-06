@@ -53,6 +53,14 @@ input, button, textarea, select {
   color: inherit;
 }
 
+/* Placeholder text: the UA default (#757575) is 4.1:1 on the instrument wells.
+   Pseudo-elements cannot be reached from inline styles. #8391a7 = text.dimmed. */
+input::placeholder,
+textarea::placeholder {
+  color: #8391a7;
+  opacity: 1;
+}
+
 button {
   background: none;
   border: 0;

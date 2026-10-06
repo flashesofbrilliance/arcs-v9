@@ -5,6 +5,91 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.104.0] 2026-10-06 - [MODEL_OUTAGE] alert proven end to end; throttle fix (#902)
+
+- Alert throttle armed only after env checks; skips logged. Preview E2E with branch-scoped fake key: one email, calm copy.
+
+## [v3.102.0] 2026-10-06 - Ahmed order: receipt, brief and ledger share one vocabulary (#880, #885, #890)
+
+- Labels live only in src/lib/vocabulary.ts; layout in src/organisms/AhmedOrder.tsx; spec runtime/specs/ahmed-order-vocabulary.md.
+- Earned fidelity restored on /receipt and /brief (both rendered every receipt SHARP). tao-285 minted as the open-question empty state.
+
+## [v3.101.0] 2026-10-06 - Receipt views no longer generate briefs (#888)
+
+- `GET /api/brief/[id]?generate=0` is a read-only path; receipt + reflect pages use it; "Generate brief →" makes spend explicit.
+
+## [v3.100.0] 2026-10-05 - Debrief reminders disclosed: /privacy v1.5, trust contract 1.8
+
+- Closes the last nit from the showcase privacy review (verdict SAFE on claude/showcase-mirror @ 47b86cd1).
+
+## [v3.99.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.7
+
+- Disclosed: LinkedIn uploads (private Blob), demand probe (no IP/UA), owner-minted share tokens, calendar/X links, self-serve delete.
+- Code: save stash strips prep adversarialInput and expires at 7d signed-out; re-upload deletes the replaced blob; debrief footer always signed opt-out (dead /unsubscribe gone).
+
+## [v3.98.0] 2026-10-05 — prod migrate deploy wired per-service (#840) + lock-file hotfix (#857)
+
+- Top-level buildCommand is ignored under experimentalServices; moved to web.buildCommand. DIRECT_URL set (session pooler).
+- First run hit P3019 (sqlite migration_lock); #857 fixed. Prod migrations = repo, 22/22.
+
+## [v3.97.0] 2026-10-05 — cruft_sweep bundle path proven live (576B probe bundle); manifest names only real refs (#861, no CI)
+
+- Probe worktree pruned to a 576-byte incremental bundle that verifies and restores. Landed detached rows read `(detached)`.
+- GitHub Actions still blocked by billing.
+
+## [v3.95.0] 2026-10-05 — OG cards pinned to app.arcs.care (#848); icon sweep clean
+
+- No `metadataBase` had every share card pointing at prl.arcs.care; fixed. 3 retired Fanatics hosts still serve old pages (task_b1e9b3f7).
+
+## [v3.94.0] 2026-10-05 — Compass IDOR series live; claim route retired; prod migrate deploy restored
+
+- #813 #830 #836 #847 #853 merged and live (see CLAUDE.md v3.94.0). PrepSession.userId migration hand-applied, then #840/#857 restored prod `migrate deploy`.
+- `_CANON/trust-contract.md` 1.6: legacy anonymous receipts are claimed or deleted via the inquiry link only.
+
+## [v3.92.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
+
+- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (task_cf4cfbac running). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
+- Lesson: a zero-step Actions failure is billing or an outage, not code (memory `ci-zero-steps-means-billing-or-outage`).
+
+## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
+
+- Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).
+- Retired PATCH /api/receipts/claim: a sessionId was never proof of possession, and no anonymous receipt has been persisted since 2026-07-13 (48 legacy rows stay unowned). `_CANON/trust-contract.md` 1.6 and the /trust repair-seam copy now route claim or delete through the inquiry link.
+
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
+
+## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
+
+- Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
+- Anthropic API workspace cap hit 2026-10-05 22:09 UTC (resets 11-01); main suspect claude-security-review on the repo secret (228 runs in Oct), unconfirmed.
+- Tenex Senior FDE application ready in iCloud; 11 shortlist cuts failed on the cap before writing.
+
+## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
+
+- Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.
+- Session callback now returns {expires,user:{id,email}}; `scripts/null_userid_gate.py` on pre-commit.
+
+## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
+
+- Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.
+
+## [v3.87.0] 2026-10-05 — owner-only briefs + revocable share tokens (#808)
+
+- `/brief/[id]` owner-only (404); share via `/shared/brief#<token>`, SHA-256 stored, revocable; raw-id links dead.
+- Prod migration via Supabase SQL + hand-written `_prisma_migrations` rows (sensitive DATABASE_URL blocks the CLI).
+
+## [v3.86.0] 2026-10-05 — cruft_sweep prune: own-HEAD bundles (#807) + incremental bundles (#809)
+
+- Prune refuses non-worktrees and tip != HEAD (exit 2); detached heads pinned `refs/cruft-archive/<name>-<sha8>`; bundles `^origin/<base>`.
+- `--self-test` 13 checks, fails on both prior versions; pre-commit runs it when staged. No live prune on the new code yet.
+
+## [v3.85.0] 2026-10-05 — Main CI green: Playwright ignores tests/unit (#806)
+
+- fe-smoke failed because Playwright loaded node:test files without the `@/` loader; `testIgnore: "unit/**"` fixed it. Main run 37384172495 all green.
+
 ## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
 
 - `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.

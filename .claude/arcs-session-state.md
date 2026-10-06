@@ -1,5 +1,4 @@
-# ARCS session state — v3.83.0 (2026-10-05)
+# Session state — v3.104.0 (2026-10-06)
 
-- HEAD at handoff cut: fbc3cece (origin/main)
-- Done: COURT carve-out probe (#780); #762, #766 merged. Receipts filed for all three.
-- Next: verify main CI (never ran for these merges: Actions backlog). Fix forward if red.
+Last: [MODEL_OUTAGE] alert E2E proven, throttle fix #902 merged (92373396), prod READY.
+Next: Preview alerting decision; usage_limit live path.

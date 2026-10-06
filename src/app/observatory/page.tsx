@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react"
 
 // ── CSS variables + keyframes injected once ───────────────────────────────────
 const OBS_CSS = `
@@ -555,20 +555,19 @@ function RiskRow({rk,dim,onOpen}:{rk:LedgerItem;dim:boolean;onOpen:(x:LedgerItem
 }
 
 function Ledger({view,visibleCount,query,onOpen}:{view:string;visibleCount:number;query:string;onOpen:(x:LedgerItem)=>void}){
-  let lastKey:string|null=null
   const rows=LEDGER.filter(x=>matchQ(x as unknown as Record<string,unknown>,query))
   if(rows.length===0)return(
     <div style={{padding:"18px 11px",fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",textAlign:"center"}}>
-      No milestones match <span style={{color:C.cyan}}>"{query}"</span>.
+      No milestones match <span style={{color:C.cyan}}>&quot;{query}&quot;</span>.
     </div>
   )
   return(
     <div style={{display:"flex",flexDirection:"column",gap:4}}>
-      {rows.map(x=>{
+      {rows.map((x,ri)=>{
         const i=LEDGER.indexOf(x)
-        const keys=groupKeys(x.date)
-        const key=keys[view as keyof typeof keys]
-        const showHeader=key!==lastKey; lastKey=key
+        const keyOf=(d:string)=>{const k=groupKeys(d);return k[view as keyof typeof k]}
+        const key=keyOf(x.date)
+        const showHeader=ri===0||key!==keyOf(rows[ri-1].date)
         const dim=i>=visibleCount
         return(
           <div key={x.id}>
@@ -585,7 +584,8 @@ function Ledger({view,visibleCount,query,onOpen}:{view:string;visibleCount:numbe
 
 function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|number;setReplay:(v:"all"|number)=>void;view:string;query:string;face:string;focus:string;onOpen:(x:LedgerItem)=>void}){
   const [playing,setPlaying]=useState(false)
-  const replayRef=useRef(replay); replayRef.current=replay
+  const replayRef=useRef(replay)
+  useLayoutEffect(()=>{replayRef.current=replay})
   useEffect(()=>{
     if(!playing)return
     const steps=stepIndices(focus)
@@ -1057,11 +1057,16 @@ export default function ObservatoryPage(){
     return()=>{document.body.style.background=""}
   },[tweaks.atmosphere])
 
-  const replayRef=useRef(replay); replayRef.current=replay
-  const sheetRef=useRef(sheet); sheetRef.current=sheet
-  const modeRef=useRef(mode); modeRef.current=mode
-  const focusRef=useRef(focus); focusRef.current=focus
-  const riskSelRef=useRef(riskSel); riskSelRef.current=riskSel
+  const replayRef=useRef(replay)
+  const sheetRef=useRef(sheet)
+  const modeRef=useRef(mode)
+  const focusRef=useRef(focus)
+  const riskSelRef=useRef(riskSel)
+  // Mirror latest state into refs after commit, before effects/handlers read them.
+  useLayoutEffect(()=>{
+    replayRef.current=replay;sheetRef.current=sheet;modeRef.current=mode
+    focusRef.current=focus;riskSelRef.current=riskSel
+  })
 
   useEffect(()=>{
     const FOCUS_SEQ=["all","L5","L4","L3","L2","L1"]

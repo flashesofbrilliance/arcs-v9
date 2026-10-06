@@ -646,5 +646,14 @@
     "stability": "STABLE",
     "gate": "see content",
     "file": "ADR-084-reliance-not-trust-public-surfaces.md"
+  },
+  {
+    "id": "ADR-085",
+    "title": "ADR-085 — Serialize the collision points, not the sessions: a main write-lock and hot-file leases on git refs",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "STABLE",
+    "gate": "see content",
+    "file": "ADR-085-main-write-lock-and-hot-file-leases.md"
   }
 ]

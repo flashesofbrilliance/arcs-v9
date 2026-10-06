@@ -2,7 +2,7 @@ Zach Harris · Resume · Staff Forward Deployed Engineer, GTM Platform · Upside
 
 Zach Harris
 
-Forward-deployed product and AI builder · agentic systems in production
+Forward-deployed engineer and AI builder · agentic systems in production
 
 Target · Staff Forward Deployed Engineer, GTM Platform · Upside
 
@@ -24,17 +24,17 @@ What I bring to this role
 mapped to the posting
 
 Zero-to-one AI-native platform ownership
-: built ARCS from scratch, defining architecture, choosing tools, and setting the patterns the system grows on; every layer owned and operated by me in production, not a prototype handed off to someone else.
+: built ARCS from scratch and run it in production; chose the architecture and tools and set the patterns it grows on.
 
 primary
 
 Embedded with the business, measured on outcomes
-: sole technology partner from scoping through QA and handoff inside a $350M-ARR behavioral health company; learned how the work actually got done, made architecture calls, and stayed accountable through production rather than tickets closed.
+: sole product and technology partner from scoping through QA and handoff inside a $350M-ARR behavioral health company; learned how the work actually got done, made architecture calls, and stayed accountable through production.
 
 primary
 
 Agentic orchestration and LLMs in production
-: built agentic orchestration on Claude with an MCP server; designed evaluations and outcome-capture loops so models recalibrate from prior decisions; can explain honestly where it worked and where it did not.
+: built agentic orchestration on Claude with an MCP server; every model response shape-checked, truncation-guarded and gated before it is saved, a prompt eval harness on fixed cases, and outcome-capture loops so the system can score its calls against what happened, with calibration held back until enough outcomes close; can explain honestly where it worked and where it did not.
 
 strong
 
@@ -50,17 +50,17 @@ newest first
 ARCS 
 · Decision Intelligence Platform
 
-Founder · 2025 to present
+Founder and engineer · 2025 to present
 
 Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an 
 AI-native analysis pipeline on Claude
-, and compounding feedback loops; every layer owned and operated by me in production.
+, and compounding feedback loops; built in TypeScript and Next.js on Postgres with a Python operator layer; every layer owned and operated by me in production.
 
 Built the 
 MCP server and agentic orchestration layer
- that runs pre- and post-decision capture automatically; production AI, not experiments, with evaluations and controls designed from the start.
+ that runs pre- and post-decision capture automatically, in production. Every model response is shape-checked, guarded against truncation, and passed through a rules-based gate before it is saved, and I built an eval harness that scores a new prompt against the current one on the same fixed cases before it ships.
 
-Designed the outcome-capture and recalibration framework: models update scoring weights from prior decisions, engineering durable context and compounding institutional memory.
+Designed the outcome-capture framework: every decision is captured with its prediction so it can be scored against the outcome later, engineering durable context and compounding institutional memory.
 
 Made all build-versus-buy and architecture calls myself; set the patterns the platform grows on; operate the full stack: product development, deployment, go-to-market, and commercial strategy; documented decisions and tradeoffs so the system is supportable beyond me.
 
@@ -73,11 +73,9 @@ Led go-to-market for
 10 SEC/FINRA-regulated digital-asset investment products
  (
 $7B AUM
-): positioning, segmentation, and adoption inside regulated controls and governance; embedded with revenue and operations teams to translate how they actually worked into requirements the platform could be built against.
+): positioning, segmentation, and adoption inside regulated controls and governance; embedded with revenue and operations teams to learn how they actually worked and shaped the launches around it.
 
-Coordinated product, engineering, legal, risk, and compliance through regulated release gates; anchored decisions to business outcomes rather than output.
-
-Translated regulatory and revenue-team requirements into product direction the teams could build and iterate against.
+Coordinated product, engineering, legal, risk, and compliance through regulated release gates for all 10 launches.
 
 Embedded and advisory engagements 
 · health, gov, consumer, telecom
@@ -87,9 +85,9 @@ Embedded Product   Solution Lead · 2019 to 2024
 Squat New York
  (behavioral health, 
 $350M ARR
-, post-PE acquisition, 2019 to 2020): sole technology partner on a 
+, post-PE acquisition, 2019 to 2020): sole product and technology partner and tech lead on a 
 seven-figure embedded engagement
- from scoping through QA and handoff. Framed the problem, owned the technical direction, made architecture calls, and stayed accountable through production; retooled a headless CMS and overhauled the patient-facing experience; partnered directly with C-suite and clinical leadership; handed back a working system the team could change without me.
+ from scoping through QA and handoff. Framed the problem, owned the technical direction, made architecture calls, and stayed accountable through production; rebuilt the front-end and back-end platform end to end, including the headless CMS and the patient-facing experience; partnered directly with C-suite and clinical leadership; handed back a working system the team could change without me.
 
 Twill Health
  (HIPAA digital health, 2021 to 2023): market-viability testing for 
@@ -127,11 +125,13 @@ Designed the first commercial partnerships with Twitter and Facebook (behavioral
 $850K+
  in year one.
 
-Platform load simulation and reliability engineering ahead of the WTA Finals: capacity decisions from data, not guesses.
+Ran platform load simulation ahead of the WTA Finals and set capacity from the results.
 
 Skills
 
-what I use, not what I have heard of
+Languages and stack
+
+TypeScript · React · Next.js · Node.js · Python (FastAPI) · SQL · Prisma · Postgres
 
 AI and agent systems
 

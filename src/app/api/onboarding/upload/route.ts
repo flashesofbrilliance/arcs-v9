@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { put } from "@vercel/blob"
+import { put, del } from "@vercel/blob"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 
@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
     exportZip ? put(`profile-uploads/${userId}/export.zip`, exportZip, { access: "private", addRandomSuffix: true }) : null,
   ])
 
+  // Blob paths carry a random suffix, so a re-upload writes a new file. Remember
+  // the old pointers and delete them once the new ones are recorded; otherwise
+  // the replaced file is orphaned and account deletion (which deletes only the
+  // URLs on ProfileUpload) can never reach it.
+  const prior = await prisma.profileUpload.findUnique({ where: { userId }, select: { pdfUrl: true, exportUrl: true } })
+
   const upload = await prisma.profileUpload.upsert({
     where: { userId },
     create: {
@@ -66,6 +72,11 @@ export async function POST(req: NextRequest) {
       skipped: false,
     },
   })
+
+  const replaced = [pdfBlob ? prior?.pdfUrl : null, exportBlob ? prior?.exportUrl : null].filter((u): u is string => !!u)
+  if (replaced.length) {
+    await del(replaced).catch((e) => console.error("[onboarding/upload] replaced-blob delete failed:", e instanceof Error ? e.name : "unknown"))
+  }
 
   return NextResponse.json({ ok: true, hasPdf: !!upload.pdfUrl, hasExport: !!upload.exportUrl })
 }

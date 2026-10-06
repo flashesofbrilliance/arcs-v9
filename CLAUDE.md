@@ -100,8 +100,10 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 > `_PATTERNS/2026-07-19-token-efficiency-audit.md`.
 
 - **CLAUDE.md is a working file, kept lean — not an archive.** It holds durable facts (Project Map,
-  ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. When a new handoff
-  lands, move the oldest live one into `_ARCHIVE/handoffs.md`.
+  ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. Sessions no longer edit
+  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session) and
+  `scripts/handoff_fold.py fold` assigns versions, prepends the blocks here and moves the oldest to
+  `_ARCHIVE/handoffs.md` (ADR-085 part (d), 2026-10-06). Unfolded fragments are newer than any block below.
 - **History is relocated, never deleted.** Older handoffs live in `_ARCHIVE/handoffs.md` and in git.
   "Never delete prior versions" is honored by archival, not by unbounded append into the hot path.
 - `MEMORY.md` — keep recent entries live; relocate dead history to `_ARCHIVE/memory-archive.md`.
@@ -114,67 +116,58 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.84.0 (2026-10-05)
+# Handoff — v3.111.0 (2026-10-06)
 
-> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
-> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
-> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
+> **Security-review gate stops failing re-runs red; a real API error still fails.** #909 (`6a29d549`), merged with
+> `--merge` on Zach's yes. Receipt `2026-10-06--security-gate-dedupe-skip-pr909--ZH`.
 
-## Done
-- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
-  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
-  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
-  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
-- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
-- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
-- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
-  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
-- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
-
-## WIP preserved (local branches, not pushed)
-`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
-`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
-`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
-`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
-All inside the consolidated bundle.
+## Shipped
+- **#909:** `scripts/security_review_gate.sh` reads the action's `results-file` output (its scan step sets it first,
+  so empty = scan never started) plus the cache-restored `.claudecode-marker/marker.json`. Empty + marker for this PR
+  = `::notice` "already scanned at <sha>" and pass; empty + no marker = fail; scan ran = all #881 checks unchanged.
+  Live proof: run 37474229559 (fresh, outcome=success, passed) and 37476233291 (skipped, notice, passed).
+- The scan on #909 found 2 real bugs in the first draft, both fixed: a committed marker.json could fake a pass (now
+  only an untracked marker whose `pr_number` matches), and marker fields went into a workflow command (now hex/digits only).
 
 ## Open (next session)
-1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
-2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
-3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
-4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
-   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
-5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+1. Broken-key path not run live (secret untouched); covered by the action code plus run 37400262799.
+2. The `security-review` label never rescans (cache key is per PR): chip task_d4f6708c is running in its own session
+   (`run-every-commit` on labeled; costs API budget, needs Zach's yes).
 
-## Lessons (in the record)
-- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
-  (pruned `cool-bell` under a live session, restored it from its branch).
-- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
-- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
+## Lessons
+- Read a composite action's outputs for the signal: an output set on the first line of a step is a step-ran flag.
+- Run the security scan on a change to the security gate: it caught the bypass in this one.
 
-# Handoff — v3.83.0 (2026-10-05)
+> Folded from `_HANDOFFS/fragments/20261006T140855Z--claude-handoff-security-gate.md` (branch `claude/handoff-security-gate`, head `6a29d549`).
 
-> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
-> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
-> `2026-10-05--swipe-admin-only-pr766--ZH`.
+# Handoff — v3.110.0 (2026-10-06)
 
-## Shipped + on main
-- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
-  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
-  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
-  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
-  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
-  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
-- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
-  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
+> **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
+> Receipts (all `--ZH`): `2026-10-05--page-gate-merge-base-pr831`, `--security-review-scope-pr832`,
+> `--secreview-skip-dependabot-pr868`, `--linkedin-queue-scheduled-pr661`, `2026-10-06--sess-013-close-pr896`,
+> `--pl-011-purpose-guard-pr897`, `--eslint10-hold-tweaks-refs-pr903`, `--nftt-claim-batch-pr912`.
+
+## Shipped (all `--merge`)
+- **#831** fe-smoke page gate diffs `base...head` (merge-base) with fetch-depth 0. Proof: #802's pre-sync head gave 92 pages two-dot, none three-dot; a real page edit still gated.
+- **#832** security review scoped to security paths (another session's PR, merged on Zach's go).
+- **#868** skip claude-security-review when actor is dependabot (no secrets there). `@dependabot rebase` sent to #864 #720 #677 #557.
+- **#661** LinkedIn queue: main merged in, the 2 conflicts kept the PR's scheduled text (Zach's call).
+- **#896** SESS-013 closed: Zach dropped the anon INSERT **and** anon SELECT policies on legacy `public.sessions` in the SQL editor (tool call was declined twice); pg_policies verified only service_role SELECT remains.
+- **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
+- **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
+- **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
+- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch reset to abb6aedb).
 
 ## Open (next session)
-1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
-   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
-   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
-   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
-2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
+1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
+2. 8 `react-hooks/refs` errors in `src/app` (observatory, JobsBoard, ChampionsBoard): own session running (chip task_7afcd523).
+3. Dependabot PRs #864 #720 #677 #557: confirm the rebases ran and are green; #677 also had stale smoke failures.
+4. Post-merge CI on main for the merges above never observed (in every receipt's unconfirmed list).
 
-## Lessons (in the record)
-- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
-- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
+## Lessons
+- A billing block can hit one job in an otherwise-running workflow: scan per JOB for 0 steps, not per run.
+- `gh run rerun` replays the old workflow file and merge ref; to pick up a workflow fix on a dependabot PR, ask dependabot to rebase.
+- Check a PR is still open and not rebuilt elsewhere before acting on it (#715 was closed and rebuilt as #882 hours earlier).
+- A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
+
+> Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).

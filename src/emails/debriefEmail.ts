@@ -36,9 +36,10 @@ export interface DebriefEmailOpts {
   // isFirstDebrief is true — there's nothing to opt into on a repeat send,
   // the user already opted in to get it.
   optInUrl?: string
-  // One-click link that flips User.debriefOptIn back to false. Only relevant
-  // (and only rendered) on a non-first send — that's the only case where the
-  // user is actively subscribed to anything.
+  // Signed one-click link (src/lib/reminderLink.ts) that flips
+  // User.debriefOptIn to false. Callers pass it on every send so the footer
+  // always carries a working opt-out; when it is absent (no AUTH_SECRET) the
+  // footer omits the link rather than pointing at a route that does not exist.
   optOutUrl?: string
 }
 
@@ -100,7 +101,7 @@ Did it land where the compass pointed?
 Log how it landed →
 ${debriefUrl}
 ${showOptIn ? `
-This is the only check-in we send without asking first. Want future ones like\nit? Turn on reminders →\n${opts.optInUrl}\n` : ''}
+This is the only check-in we send without asking first. Want future ones like\nit? Turn on reminders →\n${opts.optInUrl}\n` : ''}${opts.optOutUrl ? `\nTurn off reminders: ${opts.optOutUrl}\n` : ''}
 —
 ARCS Field OS · render through the fog to earned clarity`
 
@@ -178,7 +179,7 @@ ${darkLockHead(C)}</head>
       </td></tr>
 
       <tr><td style="padding:16px 4px 0 4px;font-family:${C.mono};font-size:10px;letter-spacing:0.6px;color:#334155;">
-        arcs.care · <a href="${opts.optOutUrl ?? 'https://app.arcs.care/unsubscribe'}" style="color:#334155;text-decoration:underline;">${opts.optOutUrl ? 'turn off reminders' : 'unsubscribe'}</a>
+        arcs.care${opts.optOutUrl ? ` · <a href="${opts.optOutUrl}" style="color:#334155;text-decoration:underline;">turn off reminders</a>` : ''}
       </td></tr>
 
     </table>

@@ -6,6 +6,10 @@
 // Fonts: custom webfonts don't load reliably in email, so the hero falls back to
 // Georgia (serif) and body to a system sans — the cockpit register still reads.
 
+// No unsubscribe link: this is the magic-link sign-in mail, sent only on
+// request, often before any User row (and so any uid) exists. The footer says
+// how to ignore it instead. (A dead /unsubscribe link sat here until 2026-10-05.)
+
 import { darkLockHead } from './darkLock'
 
 export interface WelcomeEmailOpts {
@@ -77,7 +81,7 @@ ${darkLockHead(C)}</head>
       </td></tr>
 
       <tr><td style="padding:16px 4px 0 4px;font-family:${C.mono};font-size:10px;letter-spacing:0.6px;color:#334155;">
-        arcs.care · <a href="https://app.arcs.care/unsubscribe" style="color:#334155;text-decoration:underline;">unsubscribe</a>
+        arcs.care · a sign-in link was requested for this address. Didn't ask? Ignore this email; nothing changes.
       </td></tr>
 
     </table>

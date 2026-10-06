@@ -4,9 +4,10 @@
 # ARCS-aware, manual gate); this is the automated CI-time layer they don't cover.
 #
 # ⚠ SECURITY GATES (do not remove):
-#   1. The action is NOT hardened against prompt injection. This repo is PUBLIC,
-#      so the job below is guarded to run ONLY on same-repo PRs (never on forks),
-#      via the `if:` on the job. Do not loosen that guard.
+#   1. The action is NOT hardened against prompt injection. The job below is
+#      guarded to run ONLY on same-repo PRs (never on forks), via the `if:` on the
+#      job. Do not loosen that guard. (The repo went private 2026-07-24; the guard
+#      stays, it costs nothing.)
 #   2. Requires an `ANTHROPIC_API_KEY` in repo → Settings → Secrets and variables →
 #      Actions. Until that secret exists, the job no-ops on the auth step — safe.
 #   3. Also set repo → Settings → Actions → "Require approval for all outside
@@ -16,11 +17,36 @@
 # (https://github.com/anthropics/claude-code-security-review) — pinned to a tag
 # rather than @main once you've confirmed the version you want.
 
+# COST SCOPE (2026-10-05): this action spends the ANTHROPIC_API_KEY secret, and each
+# run is an agentic review (many model calls). On 10-04/10-05 it ran 197 times, most
+# on docs/_STATE/_ARTIFACTS PRs with nothing to review, alongside the day production
+# hit its API usage cap. Two limits, both cheap to reverse:
+#   1. Paths: only PRs touching code where a vulnerability can live (API routes,
+#      auth/admin/session, the proxy, schema/migrations, env + deploy config,
+#      dependencies, workflows). A PR touching none of these never runs it.
+#   2. Once per PR: on opened / reopened / ready_for_review, NOT on every push.
+#      To review again after new commits, add the label `security-review`.
 name: security-review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened, ready_for_review, labeled]
+    paths:
+      - "src/app/api/**"
+      - "src/proxy.ts"
+      - "src/middleware.ts"
+      - "src/lib/auth*"
+      - "src/lib/admin*"
+      - "src/lib/jobs.ts"
+      - "src/lib/env.ts"
+      - "src/lib/db.ts"
+      - "src/lib/*gate*"
+      - "prisma/**"
+      - "next.config.*"
+      - "vercel.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/**"
 
 concurrency:
   group: security-review-${{ github.ref }}
@@ -33,7 +59,13 @@ permissions:
 jobs:
   claude-security-review:
     # Same-repo PRs only — never run on forks (prompt-injection surface).
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # A `labeled` event runs only for the `security-review` label (the on-request re-run).
+    # Dependabot runs get no Actions secrets, so ANTHROPIC_API_KEY is empty and the job
+    # always errored (#864 #720 #677); skip it there instead of failing red.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event.action != 'labeled' || github.event.label.name == 'security-review')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -42,7 +74,35 @@ jobs:
           fetch-depth: 0
 
       - name: Claude Code security review
+        id: review
         uses: anthropics/claude-code-security-review@main
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           comment-pr: true
+
+      # FALSE-PASS GATE (2026-10-05): the action above concludes `success` with
+      # findings_count=0 even when Claude Code never reviewed anything. Since ~22:10 UTC
+      # the API key hit "You have reached your specified API usage limits" (resets
+      # 2026-11-01); run 37400262799 logged Stdout {"is_error":true,"api_error_status":400,
+      # "total_cost_usd":0} and still went green. The action copies its results JSON to
+      # the workspace root; this step fails the job when that file carries `.error` or
+      # the CLI output shows is_error / api_error_status. A red check is honest; a green
+      # one that never ran is not. Proof: scripts/security_review_gate.sh exits 1 on that
+      # run's artifact and 0 on a clean results file.
+      #
+      # Separate, non-fatal: the log also prints "Ignoring 56 permissions.allow entries
+      # from .claude/settings.json: this workspace has not been trusted". That is the CLI
+      # declining repo-local permissions in an untrusted CI checkout (correct for a
+      # prompt-injection surface); it did not cause the failure. Do not "fix" it by
+      # pre-accepting trust in /home/runner/.claude.json.
+      - name: Fail if the security review did not actually run
+      #
+      # Re-runs (2026-10-06): the action dedupes by PR via its run-history cache and skips the
+      # scan, leaving no results file; that went red on run 37470888306. The gate now reads the
+      # action's `results-file` output (empty iff its scan step never started) plus the restored
+      # marker, and passes a dedupe skip with a notice. A scan that ran still fails on any error.
+        if: always()
+        env:
+          SCAN_RESULTS_OUTPUT: ${{ steps.review.outputs.results-file }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: ./scripts/security_review_gate.sh
