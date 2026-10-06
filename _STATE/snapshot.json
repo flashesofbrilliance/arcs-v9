@@ -2,10 +2,15 @@
   "captured_at": "2026-10-06T09:56:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "d7963b38",
-    "head_message": "Merge pull request #913 from flashesofbrilliance/claude/handoff-orchestration-day2",
+    "head_sha": "c18ac6eb",
+    "head_message": "Merge pull request #938 from flashesofbrilliance/claude/handoff-fold-followup",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -43,5 +48,5 @@
   "session_summary": "Proved the [MODEL_OUTAGE] admin alert end to end on a branch-scoped preview and fixed its silent-throttle bug (#902).",
   "next_action": "Decide whether previews should alert (ADMIN_EMAILS on Preview) and exercise the usage_limit path.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
+  "git_refreshed_at": "2026-10-06T14:28:48Z"
 }
