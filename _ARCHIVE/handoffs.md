@@ -1,3 +1,21 @@
+# Handoff — v3.93.0 (2026-10-05)
+
+> **Three retired hosts un-pinned from a dead preview branch; the redirect now fires.** No code change.
+> Receipt `2026-10-05--retired-hosts-unpin-branch--ZH`.
+
+## Done (live Vercel config, on Zach's go)
+- chase-intro, cj-brief, growth-intel.arcs.care were attached to arcs-v9 with `gitBranch=claude/brave-chebyshev-cd6452`
+  (branch gone from origin), so they served that branch's last preview build, never production, and the
+  `retiredFanaticsHosts` 308 in `next.config.ts` could not fire. PATCH `gitBranch: null` on each; live curl of
+  `/` and `/icon.svg` now 308 -> https://arcs.care/ on all three.
+- Sweep: 0 branch pins across all 8 projects owning arcs.care domains (111 domains).
+
+## Open (next session)
+1. Chip task_e4237d76 (not built yet): a daily Vercel branch-pin gate script (fail on any unlisted `gitBranch` pin).
+
+## Lessons
+- `get_deployment(<host>)` does not reveal a branch-pinned domain; `list_project_domains` -> `gitBranch` does.
+
 # Handoff — v3.92.0 (2026-10-05)
 
 > **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged

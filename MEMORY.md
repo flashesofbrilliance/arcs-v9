@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.95.0] 2026-10-05 — OG cards pinned to app.arcs.care (#848); icon sweep clean
+
+- No `metadataBase` had every share card pointing at prl.arcs.care; fixed. 3 retired Fanatics hosts still serve old pages (task_b1e9b3f7).
+
 ## [v3.94.0] 2026-10-05 — Compass IDOR series live; claim route retired; prod migrate deploy restored
 
 - #813 #830 #836 #847 #853 merged and live (see CLAUDE.md v3.94.0). PrepSession.userId migration hand-applied, then #840/#857 restored prod `migrate deploy`.
