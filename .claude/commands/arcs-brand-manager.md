@@ -1,3 +1,7 @@
+---
+description: ARCS brand manager: apply ARCS brand colors, type and voice to any ARCS-branded artifact
+---
+
 # /arcs-brand-manager
 
 > Forked from Anthropic's `brand-guidelines` skill, adapted into an ARCS-specific brand

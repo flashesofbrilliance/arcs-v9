@@ -1,3 +1,8 @@
+---
+description: Run the ARCS end-of-session handoff protocol (writes a handoff fragment)
+disable-model-invocation: true
+---
+
 # /handoff
 
 > Runs the ARCS handoff protocol. Execute this at the END of every session before closing.

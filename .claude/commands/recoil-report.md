@@ -1,3 +1,8 @@
+---
+description: Build, deploy and smoke-test a Recoil Report from a Granola call transcript
+disable-model-invocation: true
+---
+
 # /recoil-report
 
 > Generates an ARCS Recoil Report from a Granola call transcript, builds it into a deployed
