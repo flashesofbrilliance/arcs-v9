@@ -150,7 +150,8 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
 - Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
   "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
+- Verified signed-in on prod (Comet): un-briefed receipt renders, button reads "Generate brief", only
+  `?generate=0` is requested, Brief rows stay 0.
 
 ## Open (next session)
-1. Not yet exercised signed-in on prod: open an un-briefed receipt, confirm no Brief row until the click.
-2. GitHub Actions billing block persists (no CI).
+1. GitHub Actions billing block persists (no CI).
