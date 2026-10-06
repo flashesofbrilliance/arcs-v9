@@ -9,12 +9,30 @@
 #
 # Usage: security_review_gate.sh [results.json] [error.log]
 #   defaults: $GITHUB_WORKSPACE/claudecode-results.json, $GITHUB_WORKSPACE/claudecode-error.log
-#   (the action copies both to the workspace root). Exit 0 = scan ran; exit 1 = it did not.
+#   (the action copies both to the workspace root). Exit 0 = scan ran (or was deduped);
+#   exit 1 = it did not.
+#
+# Dedupe skip (2026-10-06): the action keeps a run-history cache (.claudecode-marker/marker.json,
+# restored by its "Check ClaudeCode run history" step) and SKIPS its scan step when this PR was
+# already scanned. A skipped scan writes no results file, so a re-run went red (run 37470888306).
+# The signal is the action's own `results-file` output: its scan step sets it as its first line,
+# so it is empty iff that step never started. Pass it in as SCAN_RESULTS_OUTPUT. Empty output +
+# marker present = intentional dedupe skip (pass with a notice). Empty output + no marker = fail.
+# Non-empty output = the scan ran, and every check below still applies (API errors stay red).
 set -u
 ws="${GITHUB_WORKSPACE:-.}"
 results="${1:-$ws/claudecode-results.json}"
 errlog="${2:-$ws/claudecode-error.log}"
 fail() { echo "::error title=Security review did not run::$1"; exit 1; }
+marker="${MARKER_FILE:-$ws/.claudecode-marker/marker.json}"
+
+if [ "${SCAN_RESULTS_OUTPUT+set}" = set ] && [ -z "$SCAN_RESULTS_OUTPUT" ]; then
+  [ -f "$marker" ] || fail "scan step was skipped but no run-history marker exists; cannot tell why."
+  prev_sha="$(jq -r '.sha // "unknown"' "$marker" 2>/dev/null || echo unknown)"
+  prev_run="$(jq -r '.run_id // "unknown"' "$marker" 2>/dev/null || echo unknown)"
+  echo "::notice title=Security review skipped (already scanned)::this PR was already scanned at ${prev_sha} (run ${prev_run}); the action's run-history dedupe skipped it."
+  exit 0
+fi
 
 [ -s "$results" ] || fail "no results file at $results; the scan produced nothing."
 jq -e . "$results" >/dev/null 2>&1 || fail "results file is not valid JSON."
