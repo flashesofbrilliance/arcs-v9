@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-07-22T19:30:00Z",
+  "captured_at": "2026-10-06T01:15:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "e719d3f",
-    "head_message": "chore(state): refresh snapshot.json git sync fields [NCI:SKIP]",
-    "in_sync_with_origin": false,
+    "head_sha": "8ef0145",
+    "head_message": "docs(operators): add Composition Boundary placeholder for agentic harness [NCI:40]",
+    "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
@@ -53,9 +53,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Ahmed Elsamadisi / Polyform AI reconnect: built forge-hardened pre-call brief (ahmed.arcs.care), ran the call, then closed the full decision loop across 6 tabs \u2014 ex-ante receipt, Exogenous Forge (ROM#6) pressure-test via claims-skeptic, post-call Recoil (Granola transcript e8648395) with belief-update ledger, quantified Belief Log v2 (confidence x conviction, NOT per-belief NCI), War Game (kinematic manifold now MEASURED via arcs_kinematics.py v1.3 \u2014 D1-D3 valid, D5-D12 honestly labeled coherence-zone, not fabricated), and Defensibility (5-verb x 4-proofing + Activity-Schema Rosetta). Built a SANITIZED counterpart-facing twin (ahmed-ext.arcs.care) through several depth iterations, then stripped it competitor-safe (architecture-not-weights). Mechanized the air gap: SSOT JSON (runtime/recoil/generated/2026-07-22-elsamadisi.json) + scripts/recoil_brief.py CLI that computes kinematics reproducibly and projects internal-vs-external by dropping audience-tagged fields (external run drops 14 fields w/ redaction report). Banked 2 memories (confidence/conviction/NCI defs; internal-external air-gap 3-rule).",
-  "next_action": "Ahmed: Zach to set the pilot price (a number, once a customer is picked) + name one Polyform customer, then send ahmed-ext.arcs.care (draft note ready, both LinkedIn + email variants, in this session's transcript). Optional next build: render the ahmed HTML pages FROM the SSOT JSON so editing = editing data (full loop closure; not done this session).",
-  "blocking": "NONE (waiting on Zach's send decision + price, not blocked internally)",
+  "session_summary": "Resolved the operators/ vs. agentic-harness canon-structure question (scope/README-contract/file-placement, three sub-decisions in one). Recommendation: operators/ stays engine-only (atomic-design taxonomy, harness is a consumer not a primitive); README gets a composition contract, not a file listing; harness gets its own root dir (harness/, not yet created) decided now so the first harness commit doesn't land inside operators/ by default. Applied as a 'Composition Boundary \u2014 Agentic Harness' placeholder section in operators/README.md with a TODO-filled public-dependency contract (stable vs. internal exports, multi-tenant/user0-isolation check). Also closed out several stop-hook-triggered mechanical snapshot.json head-sync commits across the session.",
+  "next_action": "When the agentic harness's file shape firms up, create harness/ at repo root and fill the three TODOs in operators/README.md's Composition Boundary section (enumerate the stable harness-facing operator surface; mark contract-stable vs. internal exports; confirm no operator module holds process-global mutable state that would leak across tenants).",
+  "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-10-05T21:39:26Z",
+  "git_refreshed_at": "2026-10-06T01:15:00Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

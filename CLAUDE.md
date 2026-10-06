@@ -101,46 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.20.0 (2026-08-01)
-
-> **For Claude Code:** active pickup point. Louisville build is DONE and the email is SENT.
-> Default posture now is STOP, not continue. Read [[deploy-antipattern-grep-verified-ui]].
-
-## What shipped (2026-08-01) — Louisville universe complete + follow-up sent
-
-Full three-surface family, self-hosted on arcs.care (main @ `47b5700`):
-- **L1** louisville.arcs.care (pitch suite) → **L2** /omakase (the evening, 9 courses) →
-  **L3** /omakase/atom ("The Seed, Told Whole", 7 chapters). Host-agnostic rewrites; also
-  omakase.arcs.care. Navigable both directions; leak_check orphan-gate enforces it.
-- Tea house: 序 foreword (acknowledgement, not thank-you), Justin's milled live receipt +
-  JSON download, seal-before-October CTA. Scroll+arrows (present mode removed).
-- Evening: tea offered after dessert (the one open door), receipt in the take-home box.
-- Suite eggs distilled to 🧧 + 🧾. Broker figures milled; canon-manifest pulled off public
-  (RUIN leak, earlier commit); seed sentence consonant across surfaces.
-- **Email SENT** to Justin, subject "One evening" (Zach edited a variant + sent). Deep-listen
-  golden thread = "Lonely Mouth Social Club" P.S. (kuchisabishii). **Justin accepted the
-  LinkedIn invite within minutes.**
-
-`leak_check.sh` now carries ~13 gates, each a scar from a real incident this session
-(withholding-vocab, decoded-payload, dead-anchor, orphan, seed-sentence, etc.).
-
-## Open / next
-
-1. **Louisville: let it breathe.** No follow-up assigned. If Justin replies / proposes a time,
-   /recoil-close the ex-ante at the session. Do NOT pursue or self-assign polish.
-2. Prior untouched: Todd Hotes Zapier (blocked on Tidio plan), Ahmed ext send, showcase mirror.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. New load-bearing memory: [[deploy-antipattern-grep-verified-ui]] (screenshot
-before push; stop when done; don't build verification machinery for what one look answers).
-
----
-
 # Handoff — v3.21.0 (2026-08-01)
 
 > **For Claude Code:** active pickup point. Short, surgical session: closed a Vercel
@@ -220,3 +180,58 @@ NONE.
 
 `/handoff-pickup`. New: ADR-039 (deploy cost guardrail). The ignored-build-step exclude list is
 path-based — add a path when a new non-shipping file class enters the repo.
+
+---
+
+# Handoff — v3.22.0 (2026-10-06)
+
+> **For Claude Code:** active pickup point. Short, canon-structure session: resolved where the
+> forthcoming agentic harness layer lives relative to `operators/`. No code changes, no
+> counterpart work.
+
+## What shipped (2026-10-06)
+
+**Operators/ vs. agentic-harness scope question resolved + placeholder landed.**
+
+- The question bundled three sub-decisions: (1) does `operators/` stay engine-only or become
+  engine+harness, (2) does the README get a file listing or a composition contract, (3) does
+  harness code live under `operators/`, in a separate root dir, or split by file type.
+- **Recommendation (applied):** `operators/` stays the atomic-design component catalog only —
+  the harness is a *consumer* of operators, not a kind of operator, and folding it in would add
+  a non-atomic sixth category to a taxonomy whose axis is "what primitive does this file give
+  you." README gets a **composition contract** (what the harness may depend on), not a file
+  listing — the catalog declares its own public surface, it doesn't describe its consumers.
+  File placement: a **new root dir, `harness/`**, decided now (even though empty) so the first
+  harness commit doesn't land inside `operators/` by gravity and recreate the merged-scope
+  outcome by accident.
+- **Applied:** `operators/README.md` — new "Composition Boundary — Agentic Harness" section
+  (before "Key Relationships") stating the boundary + a TODO-filled public-dependency contract:
+  which operator modules the harness may rely on, which exports are contract-stable vs.
+  internal-only, and a multi-tenant isolation check (no operator module may hold module-level
+  mutable state that leaks one tenant's — `user0`'s — execution into a net-new tenant's).
+  Commit `8ef0145`.
+- Rejected: folding harness files into `operators/` (blurs the atomic-design README); a bare
+  one-line cross-ref with no stated contract (no teeth — harness would silently depend on
+  operator internals with nothing flagging it on refactor); splitting files by
+  engine-facing-vs-harness-facing piece (no stable test for which bucket a given file is in).
+
+## Open / next
+
+1. **Create `harness/` at repo root** when the agentic harness's file shape firms up (JTBD
+   orchestration, RAG/model routing, sealed-env builder, ziggeraut/russian-doll rendering,
+   JIT compile-from-entry-point, decentralized ID refs, multi-tenant runtime).
+2. **Fill the three TODOs** in `operators/README.md`'s Composition Boundary section at that
+   point: enumerate the stable harness-facing operator surface, mark contract-stable vs.
+   internal exports, confirm no operator module holds tenant-leaking module-level state.
+3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); ADR-040
+   calendar-mechanism decision (needs ≥20 real debrief opportunities to measure against); Todd
+   Hotes Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. The harness/operators boundary is now fixed — don't re-litigate scope if a
+harness commit shows up; just check it against the stated contract and fill the TODOs.

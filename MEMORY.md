@@ -6,6 +6,25 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.12.0] 2026-10-06 — operators/ vs. agentic-harness canon-structure resolved
+
+Not a code session — a repo-organization decision for work not yet written.
+
+- **Question:** when the forthcoming agentic harness layer (JTBD orchestration, RAG/model
+  routing, sealed-env builder, multi-tenant runtime, ziggeraut/russian-doll rendering, JIT
+  compile-from-entry-point) is ready, does it integrate into `operators/`, and at what level?
+- **Decision:** `operators/` stays the atomic-design component catalog only (harness is a
+  consumer, not a primitive — folding it in adds a non-atomic sixth category). README gets a
+  composition contract (what the harness may depend on), not a file listing. Harness code gets
+  its own root dir, `harness/`, named now even though empty, so the first harness commit doesn't
+  land in `operators/` by default.
+- **Applied:** `operators/README.md` → new "Composition Boundary — Agentic Harness" section with
+  a TODO-filled public-dependency contract (stable vs. internal operator exports; multi-tenant
+  state-leak check for `user0` vs. net-new tenants). Commit `8ef0145`.
+- Load-bearing for future sessions: do not re-debate operators/-vs-harness scope when harness
+  code actually shows up — check it against the stated contract and fill in the TODOs instead.
+
+---
 ## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
 
 First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).
