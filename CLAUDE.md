@@ -114,6 +114,23 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.101.0 (2026-10-06)
+
+> **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
+> Receipt `2026-10-06--receipt-view-no-brief-gen-pr888--ZH`.
+
+## Done
+- Bug: `/receipt/[id]` and `/receipt/reflect/[id]` loaded via `GET /api/brief/[id]`, which on a cache miss made
+  1-2 Sonnet calls and stored a Brief row the viewer never asked for.
+- Fix: opt-in `?generate=0` on that route returns receipt + tributaries + children with `brief: null`, no model
+  call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
+- Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
+  "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
+
+## Open (next session)
+1. Not yet exercised signed-in on prod: open an un-briefed receipt, confirm no Brief row until the click.
+2. GitHub Actions billing block persists (no CI).
+
 # Handoff — v3.99.0 (2026-10-06)
 
 > **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
@@ -141,29 +158,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
 - A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
-
-# Handoff — v3.98.0 (2026-10-05)
-
-> **Prod deploys now run `prisma migrate deploy` (production only).** #840 (`942b0f46`) + hotfix #857
-> (`f5fab907`), both merged without CI (Actions billing block; Zach's go on #840). Receipts
-> `2026-10-05--vercel-migrate-per-service-pr840--ZH`, `--migration-lock-postgres-pr857--ZH`, `--direct-url-redeploy--ZH`.
-
-## Done
-- **Root cause:** under `experimentalServices`, Vercel ignores a top-level `buildCommand`; each service uses its own.
-  #830's prod log ran plain `npm run build`. Command now lives at `experimentalServices.web.buildCommand`.
-- `scripts/vercel-migrate-deploy.sh`: migrates via `DIRECT_URL` (set on arcs-v9 Production by Zach, session pooler
-  :5432), else rewrites :6543 to :5432; logs host:port; refuses :6543. Preview logs "skipping migrate deploy".
-- **Regression, fixed:** the first real run failed P3019 (`migration_lock.toml` said sqlite). #857 set postgresql.
-  Prod deploys #847/#850 errored in between (~10 min); prod kept serving the last READY build.
-- Prod `_prisma_migrations` = all 22 `prisma/migrations` by sha256 (incl. the hand-applied brief_share, prep_session_owner).
-  Proof log: `migrate target …:5432 · 22 migrations found · No pending migrations to apply`.
-
-## Open (next session)
-1. GitHub Actions billing/spending-limit block: no CI job starts on any PR or main (human).
-2. `experimentalServices` is deprecated in favour of `services` (needs `root`; not migrated).
-3. Two Vercel projects named arcs-care (team + personal `prj_cVMj…`): the personal one caught an env var; delete or relink it.
-
-## Lessons (in the record)
-- A wired-but-never-run step hides every latent bug behind it: the first real run surfaced a months-stale lock file.
-  Watch the FIRST prod log after enabling any deploy-time step.
-- `vercel env ls` names its project in the header line: read it before trusting "it's set".

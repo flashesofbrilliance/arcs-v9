@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-05T21:31:02-04:00",
+  "captured_at": "2026-10-06T09:20:26-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "6f21057d",
-    "head_message": "Merge pull request #865 from flashesofbrilliance/claude/warroom-kairos-legend",
+    "head_sha": "83220438",
+    "head_message": "Merge pull request #892 from flashesofbrilliance/claude/upside-previews",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#840 942b0f46 + #857 f5fab907 merged without CI (Actions billing block)"
+    "note": "#888 0aad873d merged without CI (Actions billing block)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-9gjzmupa3-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-em6laj1ql-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -41,8 +41,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Wired prisma migrate deploy into prod builds via experimentalServices.web.buildCommand, fixed P3019 lock file, added DIRECT_URL.",
-  "next_action": "Unblock GitHub Actions billing; then consider experimentalServices -> services migration.",
+  "session_summary": "#888: receipt views read via ?generate=0 so viewing never spends model tokens or creates a Brief.",
+  "next_action": "Signed-in prod check of an un-briefed receipt; then clear the GitHub Actions billing block.",
   "blocking": "GitHub Actions billing block (human)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

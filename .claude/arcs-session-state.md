@@ -1,6 +1,6 @@
-# ARCS session state — v3.98.0 (2026-10-05)
+# ARCS session state — v3.101.0 (2026-10-06)
 
-- Prod builds run `prisma migrate deploy` (production only) via `experimentalServices.web.buildCommand`.
-- Prod migrations in sync with repo (22/22). DIRECT_URL set on arcs-v9 Production.
+- #888 merged (`0aad873d`): receipt views read via `/api/brief/[id]?generate=0`; no model spend on view.
+- Prod READY at 0aad873d (dpl_3Zt2HsFfPxEJ3pXhdtgtDNspd8Sh).
 - Blocking: GitHub Actions billing block (no CI runs).
-- Next: fix billing; optional `experimentalServices` -> `services` migration.
+- Next: signed-in prod check of an un-briefed receipt.
