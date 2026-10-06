@@ -37,7 +37,7 @@ export async function GET() {
       stakes: true,
       entity: true,
       createdAt: true,
-      // Bearer secret for /api/receipts/claim: only on the caller's own rows.
+      // Thread id: only on the caller's own rows.
       sessionId: userId !== null,
       brief: { select: { id: true } },
       children: {

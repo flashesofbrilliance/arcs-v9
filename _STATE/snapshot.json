@@ -1,16 +1,16 @@
 {
-  "captured_at": "2026-10-05T18:17:12-04:00",
+  "captured_at": "2026-10-05T21:06:15-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fbc3cece",
-    "head_message": "Merge pull request #795 from flashesofbrilliance/claude/session-token-leak",
+    "head_sha": "942b0f46",
+    "head_message": "Merge pull request #840 from flashesofbrilliance/claude/vercel-migrate-per-service",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#762 7fed78ef, #780 51d97a1c, #766 eec73f51 merged 2026-10-05 without full CI"
+    "note": "#837 9bef38d7 merged 2026-10-05 without CI (Actions blocked by billing)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-jwqk04a66-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-jc067o73j-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "vercel ls 2026-10-05; env names not re-listed this session"
+    "note": "vercel ls 2026-10-05 21:06 (latest Ready is a preview)"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt rows this session: 2026-10-05--verb-eval-lens-gates-pr762--ZH, 2026-10-05--court-carveouts-pr780--ZH, 2026-10-05--swipe-admin-only-pr766--ZH. Prisma schema not re-checked."
+    "note": "decision_receipt row this session: 2026-10-05--cruft-survey-origin-base-pr837--ZH. Prisma schema not re-checked."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Orchestration session: pruned 33 worktrees, archived 50+ sessions, closed 21 PRs, merge train landed 16 PRs, consolidated 11 GB of backups to 45 MB; free disk 11 GB -> 23 GB.",
-  "next_action": "Check #771 conflict session, cruft_sweep incremental-bundle PR, and favicon comparison; decide #796, #715, dependabot majors.",
-  "blocking": "NONE",
+  "session_summary": "cruft_sweep survey now compares against origin/<base> and lists detached worktrees (#837); first live prune on the fixed code.",
+  "next_action": "Fix GitHub billing so Actions runs, then exercise a real incremental bundle on a SAFE worktree with its own commits.",
+  "blocking": "GitHub Actions billing (human)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

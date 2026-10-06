@@ -66,8 +66,7 @@ function DashboardInner() {
   const [inboundInlinePrep] = useState(() => searchParams.get("prep") === "inline")
   // Tributary follow-up arriving from a brief: ?parent=<receiptId>. The session
   // thread continues from this browser's own stored id, never from the URL: a
-  // ?sid= link could plant an attacker's id, and /api/receipts/claim would
-  // then hand them every anonymous receipt made under it.
+  // ?sid= link could plant someone else's thread id.
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
   // Outbound posts tag their compass link with ?utm_campaign= so runs from a
   // post are countable. Allowlisted slug only: it rides an analytics event,
@@ -104,25 +103,6 @@ function DashboardInner() {
     const t = setInterval(() => setStep((s) => (s < 5 ? s + 1 : s)), 650)
     return () => clearInterval(t)
   }, [loading])
-
-  // ADR-016: claim any pre-auth anonymous receipts once authenticated
-  useEffect(() => {
-    if (typeof window === "undefined") return
-    const stored = localStorage.getItem("arcs_session_id")
-    if (!stored) return
-    fetch("/api/auth/session")
-      .then((r) => r.json())
-      .then((s) => {
-        if (!s?.user?.id) return
-        return fetch("/api/receipts/claim", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId: stored }),
-        })
-      })
-      .then((r) => { if (r?.ok) localStorage.removeItem("arcs_session_id") })
-      .catch(() => {})
-  }, [])
 
   // ADR-029: nudge a logged-in user who hasn't uploaded or skipped the
   // onboarding profile step yet. 401 (anonymous) is the common case — fail
@@ -183,8 +163,8 @@ function DashboardInner() {
   // preview carousel after a run — it navigates straight to the receipt page
   // (skips the friction of an intermediary multi-variant view; the receipt
   // page is now the canonical "see your result" surface, tributaries and all).
-  async function runCompassWith(q: string, followUp: boolean) {
-    if (loading) return
+  async function runCompassWith(q: string, followUp: boolean, retried = false) {
+    if (loading && !retried) return
     setLoading(true)
     setError(null)
     const reqSessionId = followUp ? sessionId : crypto.randomUUID()
@@ -217,6 +197,14 @@ function DashboardInner() {
       })
       clearTimeout(timeout)
       const data = await res.json()
+      // Server refused to extend a thread this account doesn't own (ledger
+      // CMP-018): drop the stale id and re-run once as a fresh thread, before
+      // any inference was spent.
+      if (res.status === 409 && data.code === "session_reassigned" && !retried) {
+        try { localStorage.removeItem("arcs_session_id") } catch { /* storage blocked */ }
+        setSessionId("")
+        return runCompassWith(q, false, true)
+      }
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {

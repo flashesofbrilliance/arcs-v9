@@ -114,67 +114,54 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.84.0 (2026-10-05)
+# Handoff — v3.92.0 (2026-10-05)
 
-> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
-> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
-> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
+> **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
+> `a69e9daf` (field keys work from the drawer; legend lists every control), receipt
+> `2026-10-05--field-keys-legend-pr753--ZH`. PR #770 merged `75418715` (no server cache of anonymous
+> questions; account delete removes Blob uploads; `/api/brief` drops userId, prep.adversarialInput and
+> raw output beyond reasoning; HMAC-signed reminder links in `src/lib/reminderLink.ts`; /privacy v1.3,
+> trust contract 1.5), live-verified, receipt `2026-10-05--privacy-pr2-pr770--ZH`. PR #738 (handoff
+> v3.79.1) merged `8ec8b6e9` on Zach's override with CI queued, receipt `2026-10-05--handoff-v3.79.1-pr738--ZH`.
 
-## Done
-- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
-  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
-  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
-  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
-- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
-- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
-- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
-  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
-- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
-
-## WIP preserved (local branches, not pushed)
-`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
-`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
-`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
-`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
-All inside the consolidated bundle.
+## CI incident (2026-10-05)
+- Actions billing/spending-limit block (jobs failed with zero steps), then a GitHub Actions major outage
+  (84 runs queued, 0 in progress). Zach fixed billing and raised the limit. At his request this session
+  re-ran 7 billing-killed runs on other branches; PR #763's session then asked that cross-session
+  re-runs not happen unasked. Memory `ci-zero-steps-means-billing-or-outage`.
 
 ## Open (next session)
-1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
-2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
-3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
-4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
-   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
-5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+1. **task_cf4cfbac (queued chip): privacy disclosure PR, then mirror re-review.** The second mirror review
+   was NOT SAFE only on disclosure: LinkedIn uploads, `/api/probe` + DemandSignal (localStorage vid, open
+   CORS), brief sharing is now owner-only + tokens (`BriefShare`, `src/lib/briefShare.ts`; /privacy row
+   from #770 is stale), `arcs_pending_save` localStorage stash, dead `/unsubscribe` link, calendar/X links
+   carry decision text, self-serve delete not mentioned.
+2. **Showcase mirror**: `claude/showcase-mirror` @ `caafa7eb` (save/claim/email/probe paths added,
+   job-search models dropped, schema validates). Add `briefShare.ts` + `api/shared/**`. Never create or
+   publish `arcs-field-os` without Zach's go; never make arcs-v9 public.
+3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
 
-## Lessons (in the record)
-- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
-  (pruned `cool-bell` under a live session, restored it from its branch).
-- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
-- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
+# Handoff — v3.91.0 (2026-10-05)
 
-# Handoff — v3.83.0 (2026-10-05)
-
-> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
-> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
-> `2026-10-05--swipe-admin-only-pr766--ZH`.
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
 
 ## Shipped + on main
-- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
-  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
-  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
-  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
-  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
-  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
-- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
-  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
 
 ## Open (next session)
-1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
-   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
-   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
-   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
-2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
 
 ## Lessons (in the record)
-- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
-- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
