@@ -161,10 +161,13 @@ export async function GET(
   ].filter(Boolean).join("\n")
 
   // Fire situation framing + entity analysis in parallel
-  const calls: Promise<Anthropic.Message>[] = [
-    anthropic.messages.create({
+  // deep is Sonnet 5.5: thinking counts toward max_tokens, so the caps leave room for it
+  // (the visible text is still ~600/~512 tokens) and effort stays low for short prose.
+  const calls: Promise<Anthropic.Beta.Messages.BetaMessage>[] = [
+    anthropic.beta.messages.create({
       model: MODELS.deep,
-      max_tokens: 600,
+      max_tokens: 2048,
+      output_config: { effort: "low" },
       system: BRIEF_SYSTEM,
       messages: [{ role: "user", content: `${baseContext}\n\nWrite the Situation Framing section.` }],
     }),
@@ -172,21 +175,22 @@ export async function GET(
 
   if (receipt.entity) {
     calls.push(
-      anthropic.messages.create({
+      anthropic.beta.messages.create({
         model: MODELS.deep,
-        max_tokens: 512,
+        max_tokens: 2048,
+        output_config: { effort: "low" },
         system: ENTITY_SYSTEM,
         messages: [{ role: "user", content: `${baseContext}\n\nGenerate the entity intelligence read for: ${receipt.entity}` }],
       })
     )
   }
 
-  let results: Anthropic.Message[]
+  let results: Anthropic.Beta.Messages.BetaMessage[]
   try { results = await Promise.all(calls) }
   catch (e) { return modelErrorResponse("brief", e) }
-  const situationFraming = scrubProse(results[0].content[0].type === "text" ? results[0].content[0].text.trim() : "")
+  const situationFraming = scrubProse(results[0].content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("").trim())
   const entityAnalysis = receipt.entity && results[1]
-    ? parseEntityAnalysis(results[1].content[0].type === "text" ? results[1].content[0].text : "")
+    ? parseEntityAnalysis(results[1].content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join(""))
     : null
 
   // Parse tributaries from rawResponse

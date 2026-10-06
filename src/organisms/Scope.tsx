@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
 
 // The field. A sketch of ARCS as terrain: a lidar point cloud of the atlas
@@ -160,6 +160,14 @@ const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x))
 type Cam = { yaw: number; pitch: number; zoom: number; dist: number; pu: number; pv: number }
 const HOME_CAM: Cam = { yaw: 0.6, pitch: 0.66, zoom: 1, dist: 2.7, pu: 0, pv: 0 }
 
+// Primary pointer type, as an external store so it tracks hybrid devices live and
+// the server render (no matchMedia) agrees with the first client paint.
+function subscribeCoarse(cb: () => void) {
+  const mq = window.matchMedia("(pointer: coarse)")
+  mq.addEventListener("change", cb)
+  return () => mq.removeEventListener("change", cb)
+}
+
 export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boolean; zone: string; zoneColor: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -178,7 +186,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
   const [ring, setRing] = useState(false)
-  const [coarse, setCoarse] = useState(false)
+  const coarse = useSyncExternalStore(subscribeCoarse, () => window.matchMedia("(pointer: coarse)").matches, () => false)
   const [depth, setDepthUi] = useState(3)
   const [picked, setPicked] = useState<string | null>(null)
   const [drawer, setDrawer] = useState(false)
@@ -191,7 +199,6 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     return () => ro.disconnect()
   }, [])
   useEffect(() => { target.current = { fog, clear } }, [fog, clear])
-  useEffect(() => { setCoarse(window.matchMedia("(pointer: coarse)").matches) }, [])
 
   // One dial: altitude and fidelity together. Integers snap, scroll is continuous.
   const setDepth = useCallback((n: number) => {

@@ -1,3 +1,55 @@
+# Handoff — v3.103.0 (2026-10-06)
+
+> **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**
+> Merged on Zach's asks with receipts: #892 (`bcee855e`, Upside previews, `2026-10-06--upside-previews-pr892--ZH`) and #895
+> (`df3d79b9`, `2026-10-06--jobs-date-sort-undo-clear-pr895--ZH`). Oracle handoff=48.
+
+## Shipped + on main
+- **#895:** Zach cleared the Missed pile by accident. The clear only writes `missed_cleared_at` (one clear ever,
+  2026-10-06T01:12Z); `PATCH /api/jobs/settings {undoClearMissed:true}` deletes it, and the banner shows an **Undo clear**
+  button. New **Sort: Newest listed** (firstSeen desc). claude-security-review could not run (API cap); local ciso-review
+  PASS posted on the PR. Live at df3d79b9 (verified via get_deployment + API, not the signed-in page).
+- **Intake (production data, no PR):** request `cmuvmiqhi...` consumed: 95 alert emails 09-11 -> 10-05, 422 unique,
+  46 dupes, **376 new rows UNSCORED**; watermark now 2026-10-05T23:30:12Z. Board 1,205 rows.
+
+## Open (next session)
+1. **Zach:** sign in and click **Undo clear** (677 scored rows still hidden; my direct DB delete was declined).
+2. **Score the 376 new rows** with `node scripts/jobs_score_sweep.mjs` once the API cap lifts (or 2026-11-01).
+3. Morning task still fails preflight on the API cap; intake (Gmail + consume) needs no model, so it could be split out
+   of the preflight gate.
+4. Chip filed: constant-time compare for the pipeline token in `src/lib/jobs.ts` (task_301be2ed).
+5. Carried: Upside send (confirm 2 new titles), Tenex send.
+
+## Lessons (in the record)
+- A "stale queue" can be a dead intake: the freshest unswiped row was 12 days old because no mail had been read since 09-11.
+- A background agent can stop on "waiting on batches" without writing its output; check the file before trusting the notice.
+
+# Handoff — v3.102.0 (2026-10-06)
+
+> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
+> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
+> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+
+## Done
+- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
+  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
+  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
+  open-question empty state: no model-written answers.
+- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
+  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
+  375px overflow on long path tags; stakes never rendered.
+
+## Open (next session)
+1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
+2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
+3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+
+## Lessons (in the record)
+- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
+- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+
+---
+
 # Handoff — v3.99.0 (2026-10-06)
 
 > **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
@@ -5881,3 +5933,22 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
   on it: every SAFE candidate with off-main commits was mid-session.
 - A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
+
+
+# Handoff — v3.101.0 (2026-10-06)
+
+> **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
+> Receipt `2026-10-06--receipt-view-no-brief-gen-pr888--ZH`.
+
+## Done
+- Bug: `/receipt/[id]` and `/receipt/reflect/[id]` loaded via `GET /api/brief/[id]`, which on a cache miss made
+  1-2 Sonnet calls and stored a Brief row the viewer never asked for.
+- Fix: opt-in `?generate=0` on that route returns receipt + tributaries + children with `brief: null`, no model
+  call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
+- Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
+  "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
+- Verified signed-in on prod (Comet): un-briefed receipt renders, button reads "Generate brief", only
+  `?generate=0` is requested, Brief rows stay 0.
+
+## Open (next session)
+1. GitHub Actions billing block persists (no CI).

@@ -25,7 +25,7 @@ export function Field({ label, as = 'input', type = 'text', required, value, onC
   const isSelect = as === 'select'
   const glow = f && !isSelect // horizon (select) gets a clean focus line, no glow
   const well: React.CSSProperties = {
-    width: '100%', boxSizing: 'border-box', color: text.primary, fontSize: 14, padding: '10px 12px', outline: 'none', fontFamily: font.sans,
+    width: '100%', boxSizing: 'border-box', color: text.primary, fontSize: 16, padding: '10px 12px', outline: 'none', fontFamily: font.sans,
     borderRadius: 5, border: `1px solid ${f ? (isSelect ? '#3a4a5e' : '#00F0FF66') : '#1c2736'}`,
     background: 'linear-gradient(180deg, #090d12, #0c1219)',
     boxShadow: glow ? 'inset 0 2px 5px rgba(0,0,0,.55), inset 0 -9px 14px -9px rgba(0,240,255,.34), 0 0 0 1px #00F0FF3a'

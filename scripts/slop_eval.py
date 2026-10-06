@@ -54,7 +54,8 @@ def call_claude(text):
         return None, "no ANTHROPIC_API_KEY in env"
     body = json.dumps({
         "model": os.environ.get("SLOP_EVAL_MODEL", MODEL),
-        "max_tokens": 1024,
+        "max_tokens": 4096,  # deep = Sonnet 5.5: thinking counts toward max_tokens
+        "output_config": {"effort": "low"},
         "messages": [{"role": "user", "content": PROMPT % (rubric_text(), text[:20000])}],
     }).encode()
     req = urllib.request.Request(

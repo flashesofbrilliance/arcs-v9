@@ -116,44 +116,57 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.102.0 (2026-10-06)
+# Handoff — v3.105.0 (2026-10-06)
 
-> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
-> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
-> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
+> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
+> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
+
+## Shipped (overnight, across sessions)
+#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
+#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
+#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
+#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
+
+## Fixed this session
+- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
+  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
+  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
+- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
+- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
+  migrated a stranded worktree-local memory. Index 1-1 OK.
+
+## Open (all tracked as rows in the artifact's `debt` collection)
+P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
+In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
+legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+
+## Lessons
+- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
+- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
+- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+
+> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
+
+# Handoff — v3.104.0 (2026-10-06)
+
+> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
+> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
 
 ## Done
-- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
-  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
-  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
-  open-question empty state: no model-written answers.
-- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
-  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
-  375px overflow on long path tags; stakes never rendered.
+- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
+  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
+  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
+- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
+  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
 
 ## Open (next session)
-1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
-2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
-3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
+3. Throttle is per instance; a second instance can send a second email.
 
-## Lessons (in the record)
-- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
-- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+## Lessons
+- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
+  `arcs-care/arcs-care` and fails with "Branch not found".
+- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
 
-# Handoff — v3.101.0 (2026-10-06)
-
-> **Viewing a receipt no longer spends model tokens (#888, `0aad873d`, merged without CI on Zach's go).**
-> Receipt `2026-10-06--receipt-view-no-brief-gen-pr888--ZH`.
-
-## Done
-- Bug: `/receipt/[id]` and `/receipt/reflect/[id]` loaded via `GET /api/brief/[id]`, which on a cache miss made
-  1-2 Sonnet calls and stored a Brief row the viewer never asked for.
-- Fix: opt-in `?generate=0` on that route returns receipt + tributaries + children with `brief: null`, no model
-  call, no rate-limit charge, no row. Default path unchanged (brief page still generates). No schema change.
-- Both receipt pages use the flag; their brief button always shows on persisted receipts, reading
-  "Generate brief →" when none exists. Prod `dpl_3Zt2…` READY at `0aad873d` serving arcs.care.
-- Verified signed-in on prod (Comet): un-briefed receipt renders, button reads "Generate brief", only
-  `?generate=0` is requested, Brief rows stay 0.
-
-## Open (next session)
-1. GitHub Actions billing block persists (no CI).
+---

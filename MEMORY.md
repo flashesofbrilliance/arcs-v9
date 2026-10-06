@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.104.0] 2026-10-06 - [MODEL_OUTAGE] alert proven end to end; throttle fix (#902)
+
+- Alert throttle armed only after env checks; skips logged. Preview E2E with branch-scoped fake key: one email, calm copy.
+
 ## [v3.102.0] 2026-10-06 - Ahmed order: receipt, brief and ledger share one vocabulary (#880, #885, #890)
 
 - Labels live only in src/lib/vocabulary.ts; layout in src/organisms/AhmedOrder.tsx; spec runtime/specs/ahmed-order-vocabulary.md.

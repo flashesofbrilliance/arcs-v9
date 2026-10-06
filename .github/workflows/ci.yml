@@ -135,11 +135,11 @@ jobs:
       - name: Install
         run: npm ci
 
-      # Advisory: the repo carries pre-existing lint debt, so lint reports but
-      # does not block. Tighten to a hard gate once the backlog is cleared.
-      - name: Lint (advisory)
+      # Hard gate: lint debt cleared 2026-10-06 (0 errors repo-wide; warnings
+      # do not fail). Static prototypes and scan fixtures are ignored in
+      # eslint.config.mjs.
+      - name: Lint
         run: npm run lint
-        continue-on-error: true
 
       # Advisory: canon-vs-code drift check (state-sync). Grep-based, narrow
       # assertions only — see scripts/state_sync_check.py. Never blocks; the

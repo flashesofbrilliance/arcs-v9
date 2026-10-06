@@ -152,7 +152,7 @@ export function ProfileScanZach({ depth = 'deep' }: { depth?: ScanDepth } = {}) 
 
       <Sec id="z-assertion" idx="04" label="Key Assertion" title="The Enrichment Theorem" accent={A}>
         <QuoteBlock accent={A} attribution="ARCS Profile Scan — Zach Harris, Thread Analysis">
-          The headline view and the full export are not the same document at different resolutions — the export contains entire signal classes (the authored corpus, full endorsement depth, the platform's own inferences) that the headline never surfaces at all.
+          The headline view and the full export are not the same document at different resolutions — the export contains entire signal classes (the authored corpus, full endorsement depth, the platform&apos;s own inferences) that the headline never surfaces at all.
         </QuoteBlock>
       </Sec>
     </div>

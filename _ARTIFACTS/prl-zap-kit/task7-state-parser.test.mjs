@@ -1,8 +1,9 @@
 // Plain-node test runner for task7-state-parser.js. No dependencies.
-// Run: node task7-state-parser.test.js
+// Run: node task7-state-parser.test.mjs
 // Exits nonzero on any failure.
 
-var parser = require('./task7-state-parser.js');
+// The parser is a dual browser/CommonJS file (Zapier code step), so import its module.exports as the default.
+import parser from './task7-state-parser.js';
 var parseState = parser.parseState;
 var parseName = parser.parseName;
 var processInputs = parser.processInputs;

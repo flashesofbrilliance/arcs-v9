@@ -305,7 +305,6 @@ export default function DesignTestPage() {
         <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
           <CompassForm
             question="" horizon={mHorizon} stakes={mStakes}
-            step={3}
             onQuestionChange={() => {}} onHorizonChange={setMHorizon} onStakesChange={setMStakes}
             onCalibrate={() => {}} onSubmit={() => {}}
           />

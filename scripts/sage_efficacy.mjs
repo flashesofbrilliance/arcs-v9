@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// scripts/sage_efficacy.js — with-SAGE vs without-SAGE decision quality study
+// scripts/sage_efficacy.mjs — with-SAGE vs without-SAGE decision quality study
 //
 // Compares Outcome.matched rate and Outcome.regretScore between receipts where
 // the SAGE operator pre-screen fired vs receipts where it didn't (unset,
@@ -16,11 +16,15 @@
 // This script never needs write access; using the app's own write-capable
 // DATABASE_URL for a read-only analysis is unnecessary exposure.
 //
-// Usage: node scripts/sage_efficacy.js [--min-sample=20]
+// Usage: node scripts/sage_efficacy.mjs [--min-sample=20]
 
-const { Pool } = require("pg")
-const fs = require("fs")
-const path = require("path")
+import pg from "pg"
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
+const { Pool } = pg
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const MIN_SAMPLE = Number(
   (process.argv.find((a) => a.startsWith("--min-sample=")) || "").split("=")[1] || 20

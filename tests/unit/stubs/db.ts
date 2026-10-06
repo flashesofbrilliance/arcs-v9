@@ -10,7 +10,7 @@ const model = (name: string) =>
       return op.startsWith("findMany") ? [] : op === "count" ? 0 : null
     },
   })
-export const prisma: any = new Proxy({}, {
+export const prisma = new Proxy({} as Record<string, unknown>, {
   get: (_t, name: string) => (name.startsWith("$") ? async () => [] : model(name)),
 })
 export default prisma

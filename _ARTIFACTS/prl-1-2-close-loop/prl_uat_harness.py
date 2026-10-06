@@ -17,10 +17,10 @@ already define.
 Field rules and their provenance:
   - first_name / last_name: split on the FIRST space only; a title/suffix stays attached to
     whichever side the split lands it on (not guessed away). This is the EXACT `parseName`
-    contract proven by `_ARTIFACTS/prl-zap-kit/task7-state-parser.test.js` (e.g. 'Mary Jane
+    contract proven by `_ARTIFACTS/prl-zap-kit/task7-state-parser.test.mjs` (e.g. 'Mary Jane
     Watson' -> first='Mary', last='Jane Watson'; single name -> last=''). Checked as an exact
     match against the fixture's `expected.first_name` / `expected.last_name`.
-  - location_c / state_parse_failed / ambiguous: reuses `task7-state-parser.test.js`'s
+  - location_c / state_parse_failed / ambiguous: reuses `task7-state-parser.test.mjs`'s
     `parseState`/`processInputs` output contract verbatim (same field names, same fallback
     behavior) rather than inventing a new state-parse check:
       * `state_code` is ALWAYS a valid 2-letter code — it falls back to "CA"

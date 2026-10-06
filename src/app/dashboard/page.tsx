@@ -7,6 +7,7 @@ import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
+import { isModelErrorCode } from "@/lib/model-error-codes"
 import { Button, ButtonLink } from "@/ui/Button"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
@@ -84,25 +85,16 @@ function DashboardInner() {
   })
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [loading, setLoading] = useState(false)
-  const [step, setStep] = useState(0)
   const [error, setError] = useState<string | null>(null)
 
   // Session tracking — preserved across tributary follow-ups
-  const [sessionId, setSessionId] = useState<string>("")
-  const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
-  // Continue this browser's session thread on a follow-up; otherwise start fresh.
-  useEffect(() => {
+  const [sessionId, setSessionId] = useState<string>(() => {
     let stored: string | null = null
-    try { stored = inboundParent ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
-    setSessionId(stored ?? crypto.randomUUID())
-  }, [inboundParent])
-
-  // Animate the L0–L5 step indicator while the pipeline runs
-  useEffect(() => {
-    if (!loading) { setStep(0); return }
-    const t = setInterval(() => setStep((s) => (s < 5 ? s + 1 : s)), 650)
-    return () => clearInterval(t)
-  }, [loading])
+    try { stored = inboundParent && typeof window !== "undefined" ? localStorage.getItem("arcs_session_id") : null } catch { /* storage blocked */ }
+    return stored ?? crypto.randomUUID()
+  })
+  const [parentReceiptId] = useState<string | null>(inboundParent)
+  // Continue this browser's session thread on a follow-up; otherwise start fresh.
 
   // ADR-029: nudge a logged-in user who hasn't uploaded or skipped the
   // onboarding profile step yet. 401 (anonymous) is the common case — fail
@@ -173,6 +165,10 @@ function DashboardInner() {
     // maxDuration so the server gets its full budget before we give up.
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 65_000)
+    // True once the server itself answered with a refusal (4xx/5xx JSON). Nothing
+    // was persisted then, so the receipt-recovery poll below would only delay the
+    // error by ~15s. It is for transport failures, where the outcome is unknown.
+    let refused = false
     try {
       // Anonymous prep enrichment: read the inline prep handed off by /prep
       // via sessionStorage (nothing was persisted server-side).
@@ -205,7 +201,15 @@ function DashboardInner() {
         setSessionId("")
         return runCompassWith(q, false, true)
       }
-      if (!res.ok) throw new Error(data.error ?? "Unknown error")
+      // A mapped model failure (src/lib/model-error.ts) is a definitive server
+      // answer: inference never produced a receipt, so the recovery poll below
+      // would only add ~20s of dead time before the card. Show it now.
+      if (!res.ok && isModelErrorCode(data.code)) {
+        setError(data.error ?? "The compass could not take a bearing this time. Your fork is held. Nothing was lost.")
+        setLoading(false)
+        return
+      }
+      if (!res.ok) { refused = true; throw new Error(data.error ?? "Unknown error") }
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {
         router.push(`/receipt/${data.receipt_id}`)
@@ -227,7 +231,7 @@ function DashboardInner() {
       // client-side failure (timeout / dropped connection). Recover the saved
       // receipt before showing an error — loading stays true through the poll
       // so the UI keeps its "working" state (the bearing may still be landing).
-      const recoveredId = await pollForRecoveredReceipt(reqSessionId, followUp)
+      const recoveredId = refused ? null : await pollForRecoveredReceipt(reqSessionId, followUp)
       if (recoveredId) {
         if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", reqSessionId)
         router.push(`/receipt/${recoveredId}`)
@@ -295,24 +299,18 @@ function DashboardInner() {
         </div>
       )}
 
-      {error && (
-        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
-          <CompassError message={error} onRetry={() => runCompass()} />
-        </div>
-      )}
-
       <CompassForm
         question={question}
         horizon={horizon}
         stakes={stakes}
         running={loading}
-        step={step}
         onQuestionChange={setQuestion}
         onHorizonChange={(v) => setHorizon(v as Horizon)}
         onStakesChange={(v) => setStakes(v as Stakes)}
         onCalibrate={() => router.push(`/prep?q=${encodeURIComponent(question)}`)}
         onSubmit={() => runCompass()}
         onHistory={() => router.push("/history")}
+        error={error ? <CompassError message={error} onRetry={() => runCompass()} /> : null}
       />
     </main>
   )

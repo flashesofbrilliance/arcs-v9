@@ -1,15 +1,15 @@
 {
-  "captured_at": "2026-10-06T09:41:35-04:00",
+  "captured_at": "2026-10-06T09:56:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "4f7fa6ab",
-    "head_message": "Merge pull request #899 from flashesofbrilliance/claude/unfold-reads-fragments",
+    "head_sha": "d7963b38",
+    "head_message": "Merge pull request #913 from flashesofbrilliance/claude/handoff-orchestration-day2",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-em6laj1ql-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-cpt4u5r5l-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -19,7 +19,7 @@
       "DIRECT_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "deploy of 4f7fa6ab NOT verified this session (vercel ls returned nothing); last known Ready deploy kept"
+    "note": "serving arcs.care; build log shows migrate deploy: No pending migrations"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "unfold.py now gathers Open items from unfolded _HANDOFFS/fragments (newest first) before the latest CLAUDE.md handoff block (#899).",
-  "next_action": "Run handoff_fold.py fold once fragments accumulate; confirm unfold picks up the first real fragment.",
+  "session_summary": "Proved the [MODEL_OUTAGE] admin alert end to end on a branch-scoped preview and fixed its silent-throttle bug (#902).",
+  "next_action": "Decide whether previews should alert (ADMIN_EMAILS on Preview) and exercise the usage_limit path.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
