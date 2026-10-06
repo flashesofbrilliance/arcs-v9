@@ -5,10 +5,15 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
-## [v3.90.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
+## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
 
 - Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).
 - Retired PATCH /api/receipts/claim: a sessionId was never proof of possession, and no anonymous receipt has been persisted since 2026-07-13 (48 legacy rows stay unowned). `_CANON/trust-contract.md` 1.6 and the /trust repair-seam copy now route claim or delete through the inquiry link.
+
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
 
 ## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
 

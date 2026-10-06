@@ -114,6 +114,30 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.91.0 (2026-10-05)
+
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
+
+## Shipped + on main
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
+
+## Lessons (in the record)
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
+
 # Handoff — v3.90.0 (2026-10-05)
 
 > **Job Factory session, second half: slices 2-4, 6-7 landed, the FDE handoff, the job routes on current
@@ -178,41 +202,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - I passed a placeholder (`@@FILE@@`) as a scheduled-task prompt and restored it within a minute: write the full
   text, then verify the stored file, every time.
 - Memory said the GitHub profile was linkable; I dropped the link anyway before checking. Read memory first.
-
-# Handoff — v3.89.0 (2026-10-05)
-
-> **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with
-> `--merge`: #792 (`8b8519f3`), #795 (`fbc3cece`), #801 (`21cc370c`, merged with fe-smoke red, which was
-> pre-existing on main and fixed by #800/#806). Receipts `2026-10-05--preview-magic-link-pr792--ZH`,
-> `--session-token-leak-pr795--ZH`, `--null-userid-sweep-pr801--ZH`. #803 (brief/guide authz) was the
-> sibling session's, receipt `--brief-guide-authz-pr803--ZH`.
-
-## Shipped + on main
-- **Root cause of the preview bounce was `ADMIN_EMAILS` Production-only**, not the link host: Auth.js builds
-  email links from the request host (no AUTH_URL anywhere); `redirectProxyUrl` is OAuth-only in @auth/core
-  0.41.3. `isAdmin()` now warns once when the allowlist is empty in production mode.
-- **`/api/auth/session` no longer serves `sessionToken` + the full User row**: the callback returns
-  `{expires, user:{id,email}}`; auth error logger logs name+message; Resend errors carry the name only.
-- **`scripts/null_userid_gate.py`** + pre-commit: session userId reaching a `where` with no `if (!userId)`
-  guard fails (multi-line, per-handler, `?? undefined`). Sweep found no live instance.
-- Proof method that works on protected previews: `vercel curl <preview>/api/auth/csrf`, POST
-  `signin/resend` with the jar, read the link via Gmail MCP, redeem with the same jar, then sign out.
-
-## Env changes (outside git)
-- `ADMIN_EMAILS` was added to Preview for the proof, then **removed** on Zach's ask. Already-built
-  previews keep the old value until rebuilt. Production `ADMIN_EMAILS` is Sensitive (unreadable).
-- `brew reinstall node` (Homebrew node 26.10.0, vercel CLI 62.2.0; PATH still prefers `~/.local/bin/node`
-  v26.7.0). `agent-browser install` done, doctor 10/10.
-
-## Open (next session)
-1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
-2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
-3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
-4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
-5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
-   whether #803 covered it before starting.
-
-## Lessons (in the record)
-- `gh pr checks --watch ...; gh pr merge` in one command merges on red: the watch exits on failure and the
-  next command runs. Gate the merge on the rollup conclusions, never on the watch returning.
-- A Sensitive Vercel var pulls as `""`; check the length before copying it anywhere.
