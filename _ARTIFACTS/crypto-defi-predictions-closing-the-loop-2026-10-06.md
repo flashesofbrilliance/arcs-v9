@@ -329,6 +329,23 @@ FRED VIX close and Deribit DVOL (the BTC implied-volatility index) pulled direct
 - Isomorphism: VIX and DVOL are fast flow variables (half-life about one day); USDC supply is a slow stock that integrates shocks (about 12 days to rebuild after the January dip). Crowded-carry unwinds in low-volatility regimes (Volmageddon-style, the yen unwind of August 2024) show the same shape: quiet vol, a crowded position (Hyperliquid funding about 11% annualised), a short pulse, a slow rebuild. USDC float works like cash on the sidelines: it rises into stress, falls when leverage is being put on or unwound.
 - Cboe's only link is as VIX administrator; no Cboe product or disclosure ties directly to USDC. This is an analogy supported by the numbers above, not a mechanism.
 
+## 12-month net issuance and CBDC competition (2026-10-06)
+
+rwa.xyz's longer net-flow periods, the Fund Flows metric and CSV export are behind login ("Log in to unlock controls"); not accessed. Substitute: DefiLlama month-end supply changes, $B.
+
+| Asset | Oct | Nov | Dec | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep+5d | 12 months |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| USDC | +1.9 | +0.6 | -0.8 | -5.2 | +5.2 | +1.9 | +0.1 | -1.4 | -2.4 | -1.4 | +1.6 | +0.6 | +0.7 |
+| USDT | +8.5 | +1.2 | +2.4 | -1.9 | -1.7 | +0.7 | +5.3 | -1.6 | -3.5 | -1.1 | -0.1 | +0.9 | +9.3 |
+| USDe | -5.4 | -2.2 | -0.9 | +0.2 | -0.4 | -0.2 | -2.0 | +0.6 | -0.1 | -0.6 | +0.2 | +0.8 | -9.8 |
+| 13 coins | +7.6 | +1.0 | +0.7 | -3.5 | +4.6 | +5.2 | +3.9 | -1.5 | -7.3 | -4.2 | +2.9 | +2.4 | +11.6 |
+
+- Other 12-month changes: USDS +2.4, USDG +2.4, USD1 +1.8, RLUSD +1.7, USYC +1.7, USDY +1.5, PYUSD +0.5, DAI -0.3, BUIDL -0.2, USDf -0.1.
+- January is USDC's worst month of the year ($-5.2B at month-end), but June ($-7.3B across the 13 coins) and July ($-4.2B) were larger and slower contractions. The biggest 12-month contraction is USDe (-$9.8B).
+- CBDCs (search-sourced): digital euro: Council position Mar 19, 2026, ECON committee 43 to 14 on Jun 23, plenary mandate to negotiate Jul 9, legislation aimed for end of 2026, ECB ready to issue in 2029. China's e-CNY became interest-bearing deposit money on Jan 1, 2026. UK: Bank of England decision on a digital pound due late 2026. US: no retail CBDC in progress; the Anti-CBDC Surveillance State Act was attached to the House NDAA effort in 2025 (final status not confirmed).
+- Circle exposure: CBDCs threaten EURC (euro stablecoin, about EUR 310M at end of 2025) more than USDC. Closer competitive threats are bank deposit tokens and the Clearing House network (launch targeted for H1 2027), the GENIUS and CLARITY yield rules, and distribution cost: $410.4M of $701M Q2 revenue and reserve income (58.5%) went to distribution and transaction costs, with a reserve return rate of 3.5%, down 66 bp.
+- Timing: none of the CBDC milestones falls in January except China's Jan 1 change, which does not involve USDC.
+
 ## Corrections I would own publicly
 
 - The Jan 28 SEC statement does not classify tokenized T-bills or wstETH. Two pieces say it does.
