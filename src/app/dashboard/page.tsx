@@ -205,6 +205,14 @@ function DashboardInner() {
         setSessionId("")
         return runCompassWith(q, false, true)
       }
+      // A mapped model failure (src/lib/model-error.ts) is a definitive server
+      // answer: inference never produced a receipt, so the recovery poll below
+      // would only add ~20s of dead time before the card. Show it now.
+      if (!res.ok && typeof data.code === "string" && MODEL_ERROR_CODES.has(data.code)) {
+        setError(data.error ?? "The compass could not take a bearing this time. Your fork is held. Nothing was lost.")
+        setLoading(false)
+        return
+      }
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {
@@ -317,6 +325,9 @@ function DashboardInner() {
     </main>
   )
 }
+
+// Codes /api/compass returns when the model call itself failed (src/lib/model-error.ts).
+const MODEL_ERROR_CODES = new Set(["usage_limit", "rate_limited", "overloaded", "auth", "network", "upstream_error", "model_error"])
 
 export default function DashboardPage() {
   return (
