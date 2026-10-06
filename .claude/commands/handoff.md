@@ -1,3 +1,8 @@
+---
+description: Run the ARCS end-of-session handoff protocol (writes a handoff fragment)
+disable-model-invocation: true
+---
+
 # /handoff
 
 > Runs the ARCS handoff protocol. Execute this at the END of every session before closing.
@@ -11,9 +16,9 @@
 4. Updates `SKILL.md` changelog if any new capabilities were added
 5. Writes a **handoff fragment** (`_HANDOFFS/fragments/<utc-ts>--<branch>.md`, one new file per session) via
    `scripts/handoff_fold.py new`. It does NOT edit `CLAUDE.md` and does NOT pick a version number.
-   A later `handoff_fold.py fold` (one session, ideally holding the main write-lock) assigns versions,
-   prepends the blocks to `CLAUDE.md` and relocates overflow to `_ARCHIVE/handoffs.md` so at most 2
-   stay live (ADR-085 part (d), 2026-10-06; replaces direct CLAUDE.md edits, which collided as #893/#894)
+   Fragments are raw material. A later `handoff_fold.py molt` (one session, ideally holding the main
+   write-lock) synthesizes ALL fragments into ONE arc block, numbered by `oracle.py next handoff`
+   (ADR-085 part (d) amendment, 2026-10-06)
 6. Writes `.claude/arcs-session-state.md` with the current sprint snapshot
 7. Commits `_STATE/snapshot.json` alongside the session commit
 8. Outputs a one-shot pickup prompt the next session can use immediately
@@ -114,24 +119,43 @@ Mask to `prefix****` form and label what it was:
 A dead secret quoted in a handoff note becomes the cleanest-surviving copy of that token in
 git history. Mask first, write second. If a prior note already spells one out, mask it in passing.
 
-## Step 1 — Prose handoff (existing protocol)
+## Step 1 — Write the fragment (headed sections)
 
-See: `.claude/arcs-handoff-agent.md` for what goes in the block. Where it goes changed (ADR-085):
+The fragment schema (`scripts/handoff_fold.py` docstring; `new` WARNS on a missing section, never blocks):
 
-```bash
-# body = the block WITHOUT its "# Handoff — vX.Y.Z (date)" title line (fold assigns the version)
-python3 scripts/handoff_fold.py new < /path/to/draft-handoff-body.md   # prints the fragment path
-git add _HANDOFFS/fragments/ && git commit ...                           # commit it with the session
+```markdown
+> one-paragraph lead: what this session did
+## Goal          the arc's true north (optional per fragment; molt needs one somewhere)
+## Changed       - #NNN merged (`sha`); receipt 2026-10-06--slug--ZH   <- PRs/receipt ids, or it is a bookend
+## State         what is true now
+## Decisions     - decision made, and why
+## Open          1. Zach: <decision waiting on him>   2. <other open item>
+## Next action   ONE action
+## Cold-start    exactly how a no-context session resumes: files, commands, tracker view
 ```
 
-Never write the block into `CLAUDE.md` yourself and never pick a `vX.Y.Z`: two sessions doing that
-within a minute is the collision this replaces. To fold (any one session, at a quiet moment, with
-`python3 scripts/write_lock.py lock acquire` held if other sessions are active):
+Debt is NOT restated: link the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection).
 
 ```bash
-python3 scripts/handoff_fold.py fold --dry-run && python3 scripts/handoff_fold.py fold
-git add CLAUDE.md _ARCHIVE/handoffs.md _HANDOFFS/fragments/ && git commit -m "docs(handoff): fold N fragments"
+python3 scripts/handoff_fold.py new < /path/to/fragment.md   # prints the fragment path
+git add _HANDOFFS/fragments/ && git commit ...                  # commit it with the session
 ```
+
+Never write a `# Handoff — vX.Y.Z` block into `CLAUDE.md` yourself and never pick a version
+(pre-commit warns). To molt (any one session, at a quiet moment, holding
+`python3 scripts/write_lock.py lock acquire` if other sessions are active):
+
+```bash
+python3 scripts/handoff_fold.py list
+# optional: a short arc summary / overrides in the same headings, plus ## Summary
+python3 scripts/handoff_fold.py molt --input summary.md --dry-run
+python3 scripts/handoff_fold.py molt --input summary.md
+git add CLAUDE.md _ARCHIVE/handoffs.md _HANDOFFS/fragments/ _SEEDS/_oracle.json && git commit -m "docs(handoff): molt N fragments into vX"
+```
+
+Molt REFUSES a bookend: no Goal, no PR/receipt in What changed, not exactly one Next action, or no
+Cold-start recipe. On a non-ff push rejection someone took the number: `git fetch && git reset --hard
+origin/main`, re-write your fragment(s), molt again. `fold` is a deprecated alias of `molt`.
 
 ## Token budget
 
@@ -176,7 +200,7 @@ Next session start: /handoff-pickup
 ## Step Ω — Claim the ledger (run LAST)
 
 Mark the progressive trail as folded so the next session's global SessionStart hook does not
-flag it as an UNCLAIMED checkpoint, then clear the prose deltas (they now live in CLAUDE.md):
+flag it as an UNCLAIMED checkpoint, then clear the prose deltas (they now live in the fragment):
 
 ```bash
 python3 -c "import json,datetime; print(json.dumps({'ts':datetime.datetime.now().astimezone().isoformat(timespec='seconds'),'event':'handoff','handoff_done':True,'head':'$(git rev-parse --short HEAD)'}))" >> _STATE/handoff-progress.jsonl

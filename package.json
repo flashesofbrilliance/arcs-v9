@@ -14,13 +14,14 @@
     "db:generate": "npx prisma generate",
     "db:reset": "npx prisma migrate reset --force",
     "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close",
+    "test": "npm run lint && npm run test:unit",
     "test:smoke": "playwright test",
     "test:unit": "node --experimental-strip-types --import ./tests/unit/register.mjs --test tests/unit/*.test.ts",
     "test:almanac": "playwright test tests/almanac.spec.ts",
     "test:nftt": "playwright test tests/nftt.spec.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.128.0",
+    "@anthropic-ai/sdk": "^0.131.0",
     "@auth/prisma-adapter": "^2.11.3",
     "@auth/supabase-adapter": "^1.11.3",
     "@hookform/resolvers": "^5.9.1",
@@ -33,14 +34,14 @@
     "@vercel/blob": "^2.8.0",
     "@vercel/speed-insights": "^2.0.0",
     "better-sqlite3": "^12.8.0",
-    "dotenv": "^18.0.4",
-    "next": "^16.3.6",
+    "dotenv": "^18.0.5",
+    "next": "^16.3.8",
     "next-auth": "^5.0.0-beta.32",
-    "pg": "^8.23.0",
+    "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-hook-form": "^7.89.0",
-    "resend": "^6.30.0",
+    "resend": "^6.32.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -51,8 +52,14 @@
     "@types/react-dom": "^19",
     "@vercel/toolbar": "^0.2.7",
     "eslint": "^9",
-    "eslint-config-next": "16.3.6",
+    "eslint-config-next": "16.3.8",
     "prisma": "^7.10.0",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.10.0": true,
+    "better-sqlite3@12.10.0": true,
+    "prisma@7.10.0": true,
+    "unrs-resolver@1.12.2": true
   }
 }

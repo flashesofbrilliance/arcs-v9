@@ -108,3 +108,11 @@ _INBOX/echo-ridgeline-*
 
 # linkedin_render.py output (queue files are the SSOT)
 _ARTIFACTS/linkedin/
+
+# risk sweep: local register + cursor (the night-moves digest carries the durable record)
+_STATE/risk-register.jsonl
+_STATE/risk-sweep-cursor
+
+# bank-event propagation: local append-only state (spec: runtime/specs/bank-event-propagation-v0.md)
+_STATE/bank-events.jsonl
+_STATE/bank-dependents.jsonl

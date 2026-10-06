@@ -7,7 +7,8 @@ import { Resend } from "resend"
 // under one grep-able tag, [MODEL_OUTAGE]. Never a retry loop here: a usage limit
 // is a spending decision.
 
-export type ModelErrorCode = "usage_limit" | "rate_limited" | "overloaded" | "auth" | "network" | "upstream_error" | "model_error"
+import type { ModelErrorCode } from "@/lib/model-error-codes"
+export type { ModelErrorCode }
 
 export interface ModelErrorInfo {
   code: ModelErrorCode

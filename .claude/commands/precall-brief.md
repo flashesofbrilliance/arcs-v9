@@ -1,3 +1,7 @@
+---
+description: Pre-meeting brief: find the counterpart inputs from the calendar, then run the teardown pipeline
+---
+
 # /precall-brief
 
 > Pre-meeting trigger companion to `/teardown`. Where `/teardown` needs a website URL and a

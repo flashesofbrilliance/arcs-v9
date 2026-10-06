@@ -7,6 +7,7 @@ import { surface, text, contentContainer, border, signal } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
+import { compassFailure } from "@/lib/compass-response"
 import { Button, ButtonLink } from "@/ui/Button"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
@@ -167,7 +168,6 @@ function DashboardInner() {
     // True once the server itself answered with a refusal (4xx/5xx JSON). Nothing
     // was persisted then, so the receipt-recovery poll below would only delay the
     // error by ~15s. It is for transport failures, where the outcome is unknown.
-    let refused = false
     try {
       // Anonymous prep enrichment: read the inline prep handed off by /prep
       // via sessionStorage (nothing was persisted server-side).
@@ -203,12 +203,13 @@ function DashboardInner() {
       // A mapped model failure (src/lib/model-error.ts) is a definitive server
       // answer: inference never produced a receipt, so the recovery poll below
       // would only add ~20s of dead time before the card. Show it now.
-      if (!res.ok && typeof data.code === "string" && MODEL_ERROR_CODES.has(data.code)) {
-        setError(data.error ?? "The compass could not take a bearing this time. Your fork is held. Nothing was lost.")
+      // Any HTTP answer is definitive (src/lib/compass-response.ts): no recovery poll.
+      const failure = compassFailure(res.ok, data)
+      if (failure) {
+        setError(failure.message)
         setLoading(false)
         return
       }
-      if (!res.ok) { refused = true; throw new Error(data.error ?? "Unknown error") }
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
       if (data.receipt_id) {
         router.push(`/receipt/${data.receipt_id}`)
@@ -230,7 +231,7 @@ function DashboardInner() {
       // client-side failure (timeout / dropped connection). Recover the saved
       // receipt before showing an error — loading stays true through the poll
       // so the UI keeps its "working" state (the bearing may still be landing).
-      const recoveredId = refused ? null : await pollForRecoveredReceipt(reqSessionId, followUp)
+      const recoveredId = await pollForRecoveredReceipt(reqSessionId, followUp)
       if (recoveredId) {
         if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", reqSessionId)
         router.push(`/receipt/${recoveredId}`)
@@ -240,11 +241,9 @@ function DashboardInner() {
       setError(
         aborted
           ? "This is taking longer than usual. Your bearing may still be landing. Check History in a moment, or re-run."
-          // Server errors arrive as calm, mapped copy (src/lib/model-error.ts). A
-          // transport failure (TypeError: "Failed to fetch" / "Load failed") is
-          // the browser's own text, and a non-JSON body (SyntaxError) is a parser's;
-          // neither is shown raw. Only our own thrown Error(data.error) passes through.
-          : err instanceof Error && err.name === "Error" ? err.message
+          // Only transport failures land here (HTTP answers settle above). A
+          // TypeError ("Failed to fetch" / "Load failed") is the browser's text and
+          // a non-JSON body (SyntaxError) is a parser's: neither is shown raw.
           : "The signal dropped mid-run. Re-run in a moment. Your fork is held. Nothing was lost.",
       )
       setLoading(false)
@@ -314,9 +313,6 @@ function DashboardInner() {
     </main>
   )
 }
-
-// Codes /api/compass returns when the model call itself failed (src/lib/model-error.ts).
-const MODEL_ERROR_CODES = new Set(["usage_limit", "rate_limited", "overloaded", "auth", "network", "upstream_error", "model_error"])
 
 export default function DashboardPage() {
   return (

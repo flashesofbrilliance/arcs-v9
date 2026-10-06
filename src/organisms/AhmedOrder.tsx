@@ -49,11 +49,13 @@ export const MEASURE = 680 // px: the one body measure for reading text in this 
 
 const sectionGap: React.CSSProperties = { marginTop: '2.75rem' }
 
-function SlotHeading({ children, color = text.muted, id }: { children: React.ReactNode; color?: string; id?: string }) {
+// `as="div"` keeps the slot label out of the heading outline: the verdict slot's
+// statement is the page's h1, so a label h2 before it would invert the order.
+function SlotHeading({ children, color = text.muted, id, as: Tag = 'h2' }: { children: React.ReactNode; color?: string; id?: string; as?: 'h2' | 'div' }) {
   return (
-    <h2 id={id} style={{ fontFamily: font.mono, ...font.tier.t6, textTransform: 'uppercase', color, margin: '0 0 0.9rem' }}>
+    <Tag id={id} style={{ fontFamily: font.mono, ...font.tier.t6, textTransform: 'uppercase', color, margin: '0 0 0.9rem' }}>
       {children}
-    </h2>
+    </Tag>
   )
 }
 
@@ -88,10 +90,10 @@ export function AhmedOrder({ data, onQuestion, after }: {
 
       {/* 1 · True North, at the resolution it earned */}
       <section aria-labelledby="slot-verdict">
-        <SlotHeading id="slot-verdict" color={signal.cyan}>{AHMED_ORDER.verdict.label}</SlotHeading>
-        <p style={{ fontFamily: font.sans, fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)', lineHeight: 1.35, color: text.primary, margin: 0, textWrap: 'pretty', ...rs, fontWeight: Math.max(Number(rs.fontWeight ?? 400), 400) + 100 }}>
+        <SlotHeading id="slot-verdict" color={signal.cyan} as="div">{AHMED_ORDER.verdict.label}</SlotHeading>
+        <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)', lineHeight: 1.35, color: text.primary, margin: 0, textWrap: 'pretty', ...rs, fontWeight: Math.max(Number(rs.fontWeight ?? 400), 400) + 100 }}>
           {data.trueNorth}
-        </p>
+        </h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.4rem 1.25rem', marginTop: '0.9rem' }}>
           <span style={{ fontFamily: font.mono, ...font.tier.t4, textTransform: 'uppercase', color: weather.color, whiteSpace: 'nowrap' }}>
             {weather.icon} {weather.label} · {res === 'SHARP' ? 'sharp' : `rendered ${res.toLowerCase()}`}
