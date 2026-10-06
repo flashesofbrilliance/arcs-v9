@@ -1,49 +1,97 @@
 {
-  "ignoreCommand": "bash scripts/vercel-ignore-build.sh",
-  "experimentalServices": {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
     "web": {
-      "entrypoint": ".",
-      "routePrefix": "/",
-      "buildCommand": "bash scripts/vercel-migrate-deploy.sh && npm run build"
+      "root": ".",
+      "framework": "nextjs",
+      "ignoreCommand": "bash scripts/vercel-ignore-build.sh",
+      "buildCommand": "bash scripts/vercel-migrate-deploy.sh && npm run build",
+      "rewrites": [
+        {
+          "source": "/resume",
+          "destination": "/resume.html"
+        },
+        {
+          "source": "/",
+          "has": [
+            {
+              "type": "host",
+              "value": "kelly-interview.arcs.care"
+            }
+          ],
+          "destination": "/kelly-interview.html"
+        },
+        {
+          "source": "/teardown",
+          "has": [
+            {
+              "type": "host",
+              "value": "todd-call.arcs.care"
+            }
+          ],
+          "destination": "/todd-teardown.html"
+        },
+        {
+          "source": "/logictree",
+          "has": [
+            {
+              "type": "host",
+              "value": "todd-call.arcs.care"
+            }
+          ],
+          "destination": "/todd-logictree.html"
+        },
+        {
+          "source": "/runtime",
+          "has": [
+            {
+              "type": "host",
+              "value": "julia.arcs.care"
+            }
+          ],
+          "destination": "/julia-runtime.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "/resume.html",
+          "headers": [
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            }
+          ]
+        }
+      ]
     },
     "sage": {
-      "entrypoint": "operators/arcs_api.py",
-      "routePrefix": "/svc/sage",
-      "maxDuration": 30
+      "root": "operators/",
+      "entrypoint": "arcs_api:app",
+      "functions": {
+        "arcs_api.py": {
+          "maxDuration": 30
+        }
+      }
     }
   },
   "rewrites": [
     {
-      "source": "/resume",
-      "destination": "/resume.html"
+      "source": "/svc/sage",
+      "destination": {
+        "service": "sage"
+      }
     },
     {
-      "source": "/",
-      "has": [{ "type": "host", "value": "kelly-interview.arcs.care" }],
-      "destination": "/kelly-interview.html"
+      "source": "/svc/sage/(.*)",
+      "destination": {
+        "service": "sage"
+      }
     },
     {
-      "source": "/teardown",
-      "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
-      "destination": "/todd-teardown.html"
-    },
-    {
-      "source": "/logictree",
-      "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
-      "destination": "/todd-logictree.html"
-    },
-    {
-      "source": "/runtime",
-      "has": [{ "type": "host", "value": "julia.arcs.care" }],
-      "destination": "/julia-runtime.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/resume.html",
-      "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
-      ]
+      "source": "/(.*)",
+      "destination": {
+        "service": "web"
+      }
     }
   ],
   "crons": [
