@@ -29,10 +29,11 @@ export const dynamic = "force-dynamic"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 // Anterior/Proactive are short reads → Haiku; Posterior weighs an outcome record → Sonnet.
-const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature: number }> = {
+// posterior runs deep (Sonnet 5.5): no temperature, thinking counts toward max_tokens.
+const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature?: number; effort?: "low" | "medium" }> = {
   anterior: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
   proactive: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
-  posterior: { model: MODELS.deep, max_tokens: 2200, temperature: 0.3 },
+  posterior: { model: MODELS.deep, max_tokens: 4096, effort: "low" },
 }
 
 const CLARITY = new Set<ClarityMode>(["SIMPLE", "RICH", "DEEP"])
@@ -154,12 +155,13 @@ export async function POST(req: NextRequest) {
     const msg = await anthropic.beta.messages.create({
       model: cfg.model,
       max_tokens: cfg.max_tokens,
-      temperature: cfg.temperature,
+      ...(cfg.temperature !== undefined ? { temperature: cfg.temperature } : {}),
+      ...(cfg.effort ? { output_config: { effort: cfg.effort } } : {}),
       betas: ["prompt-caching-2024-07-31"],
       system: [{ type: "text" as const, text: prompt.system, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: prompt.user }],
     })
-    const raw = msg.content[0]?.type === "text" ? msg.content[0].text : ""
+    const raw = msg.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
     if (!raw.trim()) return NextResponse.json({ error: "Model returned empty response" }, { status: 502 })
     if (msg.stop_reason === "max_tokens") return NextResponse.json({ error: "Model response truncated" }, { status: 502 })
     content = parseTribuneContent(raw, phase)

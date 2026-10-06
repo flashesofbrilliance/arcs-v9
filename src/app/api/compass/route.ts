@@ -326,11 +326,14 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
   // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
-  const MODEL_MAP = {
+  // COURT runs Sonnet 5.5 (deep): a non-default temperature is a 400 there, and adaptive
+  // thinking counts toward max_tokens, so it gets 8192 and depth via effort (eval 2026-10-06:
+  // 20/20 valid, median 17s vs 44s on 4.6, under the 60s maxDuration).
+  const MODEL_MAP: Record<"QUICKMOVE" | "PLAN" | "COURT", { model: string; max_tokens: number; temperature?: number; effort?: "low" | "medium" }> = {
     QUICKMOVE: { model: MODELS.fast, max_tokens: 2048, temperature: 0 },
     PLAN:      { model: MODELS.fast, max_tokens: 3072, temperature: 0.3 },
-    COURT:     { model: MODELS.deep, max_tokens: 4096, temperature: 0.5 },
-  } as const
+    COURT:     { model: MODELS.deep, max_tokens: 8192, effort: "medium" },
+  }
   const modelConfig = MODEL_MAP[mode]
 
   const t1 = Date.now()
@@ -344,7 +347,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   const callClaude = (betas: string[]) => anthropic.beta.messages.create({
     model: modelConfig.model,
     max_tokens: modelConfig.max_tokens,
-    temperature: modelConfig.temperature,
+    ...(modelConfig.temperature !== undefined ? { temperature: modelConfig.temperature } : {}),
+    ...(modelConfig.effort ? { output_config: { effort: modelConfig.effort } } : {}),
     betas,
     system: [{ type: "text" as const, text: SYSTEM, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: userMsg }],
@@ -368,7 +372,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       return NextResponse.json({ error: "Claude returned empty response" }, { status: 502 })
     }
 
-    raw = message.content[0].type === "text" ? message.content[0].text : ""
+    // Thinking blocks may precede the text on deep (Sonnet 5.5): read text blocks only.
+    raw = message.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
 
     if (!raw || raw.trim().length === 0) {
       return NextResponse.json({ error: "Claude returned empty text content" }, { status: 502 })

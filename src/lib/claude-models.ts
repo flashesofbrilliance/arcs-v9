@@ -18,7 +18,8 @@ export const MODELS = {
   writer: "claude-sonnet-5-5", // cover letters, application answers, resume edits
   scorer: "claude-haiku-4-5",  // JD scoring + dim rescoring (temperature 0 is still allowed on Haiku)
   fast: "claude-haiku-4-5",    // compass QUICKMOVE/PLAN, tribune anterior/proactive, annotations, health probe, operators/arcs_lte
-  deep: "claude-sonnet-4-6",   // compass COURT, tribune posterior, brief, scripts/slop_eval (kept as found; not yet evaluated on 5.5)
+  deep: "claude-sonnet-5-5",   // compass COURT, tribune posterior, brief, scripts/slop_eval (2026-10-06, off 4.6 after scripts/deep_model_eval.mjs).
+                               // Same 5.5 rules as writer: send no temperature, set depth with output_config.effort.
   guide: "claude-opus-4-5",    // guide route (kept as found)
   max: "claude-opus-4-7",      // scripts/network_scan
 } as const
