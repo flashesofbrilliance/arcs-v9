@@ -78,3 +78,22 @@ jobs:
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           comment-pr: true
+
+      # FALSE-PASS GATE (2026-10-05): the action above concludes `success` with
+      # findings_count=0 even when Claude Code never reviewed anything. Since ~22:10 UTC
+      # the API key hit "You have reached your specified API usage limits" (resets
+      # 2026-11-01); run 37400262799 logged Stdout {"is_error":true,"api_error_status":400,
+      # "total_cost_usd":0} and still went green. The action copies its results JSON to
+      # the workspace root; this step fails the job when that file carries `.error` or
+      # the CLI output shows is_error / api_error_status. A red check is honest; a green
+      # one that never ran is not. Proof: scripts/security_review_gate.sh exits 1 on that
+      # run's artifact and 0 on a clean results file.
+      #
+      # Separate, non-fatal: the log also prints "Ignoring 56 permissions.allow entries
+      # from .claude/settings.json: this workspace has not been trusted". That is the CLI
+      # declining repo-local permissions in an untrusted CI checkout (correct for a
+      # prompt-injection surface); it did not cause the failure. Do not "fix" it by
+      # pre-accepting trust in /home/runner/.claude.json.
+      - name: Fail if the security review did not actually run
+        if: always()
+        run: ./scripts/security_review_gate.sh
