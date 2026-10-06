@@ -188,8 +188,8 @@ export default function TermsPage() {
         <div style={{ marginBottom: '2rem' }}>
           <SectionHeader n="§ 04 · Sovereignty clause" title="You own your expertise. ARCS doesn't." />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75, marginTop: '0.5rem' }}>
-            Your professional judgment, your decision logic, your frameworks for solving problems. These are yours before, during, and after using ARCS. ARCS facilitates reasoning; it doesn't claim ownership of the insight that emerges. Receipts stored in your account are records of your thinking process.{' '}
-            <strong style={{ color: text.primary }}>They're yours.</strong>
+            Your professional judgment, your decision logic, your frameworks for solving problems. These are yours before, during, and after using ARCS. ARCS facilitates reasoning; it doesn&apos;t claim ownership of the insight that emerges. Receipts stored in your account are records of your thinking process.{' '}
+            <strong style={{ color: text.primary }}>They&apos;re yours.</strong>
           </div>
         </div>
 

@@ -7,7 +7,7 @@
 // the viewer's own compass round, unlinked from the owner's receipt.
 // Never pass location.hash to analytics or logs.
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
 import { DeadEnd } from "@/molecules/DeadEnd"
 import { Brief } from "@/organisms/Brief"
@@ -16,16 +16,24 @@ import { surface, text } from "@/ui/tokens"
 import { toCompassResult } from "@/lib/briefView"
 import type { CompassResult } from "@/lib/mockCompass"
 
+function subscribeHash(cb: () => void) {
+  window.addEventListener("hashchange", cb)
+  return () => window.removeEventListener("hashchange", cb)
+}
+
 export default function TokenSharedBriefPage() {
   const router = useRouter()
   const [result, setResult] = useState<CompassResult | null>(null)
   const [framing, setFraming] = useState("")
-  const [missing, setMissing] = useState(false)
+  const [failed, setFailed] = useState(false)
+  // The share token lives in the URL fragment. Read it as an external store
+  // (server snapshot null) so no state is set synchronously in an effect.
+  const token = useSyncExternalStore(subscribeHash, () => window.location.hash.replace(/^#/, "").trim(), () => null)
+  const missing = token === "" || failed
 
   useEffect(() => {
+    if (!token) return
     let cancelled = false
-    const token = window.location.hash.replace(/^#/, "").trim()
-    if (!token) { setMissing(true); return }
     fetch("/api/shared/brief", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,14 +42,14 @@ export default function TokenSharedBriefPage() {
       .then(async (r) => ({ ok: r.ok, data: await r.json().catch(() => ({})) }))
       .then(({ ok, data }) => {
         if (cancelled) return
-        if (!ok || !data.receipt) { setMissing(true); return }
+        if (!ok || !data.receipt) { setFailed(true); return }
         const rawResponse = JSON.stringify({ reasoning: data.advisors ? { advisors: data.advisors } : {} })
         setResult(toCompassResult({ ...data.receipt, rawResponse }, data.tributaries ?? []))
         setFraming(data.brief?.situationFraming ?? "")
       })
-      .catch(() => { if (!cancelled) setMissing(true) })
+      .catch(() => { if (!cancelled) setFailed(true) })
     return () => { cancelled = true }
-  }, [])
+  }, [token])
 
   if (missing) {
     return (

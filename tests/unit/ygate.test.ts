@@ -5,7 +5,7 @@ import assert from "node:assert/strict"
 import { computeYGate } from "../../src/lib/ygate.ts"
 
 const path = (id: string, status = "open") => ({ id, title: id, detail: "", tag: "", status })
-const conds = (r: ReturnType<typeof computeYGate>) => JSON.parse(r.yConditions).map((c: any) => c.dim)
+const conds = (r: ReturnType<typeof computeYGate>) => JSON.parse(r.yConditions).map((c: { dim: number }) => c.dim)
 
 test("clean high-NCI run: GREEN / HIGH / STABLE / SHARP / LOCKED", () => {
   const r = computeYGate({ nci_score: 80 }, null, null)

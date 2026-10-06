@@ -75,7 +75,7 @@ test("compass route: an upstream usage limit reaches the client as calm copy onl
   process.env.ANTHROPIC_API_KEY ??= "test-key"
   failNext(usageLimit)
   const req = new Request("http://t/api/compass", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question: "Should I take the job?" }) })
-  const res = await POST(req as any)
+  const res = await POST(req as never)
   console.error = realErr
   assert.equal(res.status, 503)
   const body = await res.text()

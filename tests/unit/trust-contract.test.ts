@@ -18,7 +18,7 @@ beforeEach(() => { calls.length = 0; sent.length = 0; setSession(null) })
 
 test("anonymous /api/prep writes nothing", async () => {
   const { POST } = await import("../../src/app/api/prep/route.ts")
-  const res = await POST(post("http://t/api/prep", { stakes: "HIGH", horizon: "TODAY", confidence: 3 }) as any)
+  const res = await POST(post("http://t/api/prep", { stakes: "HIGH", horizon: "TODAY", confidence: 3 }) as never)
   const json = await res.json()
   assert.equal(json.persisted, false)
   assert.equal(json.prep_id, null)
@@ -27,7 +27,7 @@ test("anonymous /api/prep writes nothing", async () => {
 
 test("anonymous /api/compass writes nothing and sends no email", async () => {
   const { POST } = await import("../../src/app/api/compass/route.ts")
-  const res = await POST(post("http://t/api/compass", { question: "Should I take the job?", prep: { stakes: "HIGH" } }) as any)
+  const res = await POST(post("http://t/api/compass", { question: "Should I take the job?", prep: { stakes: "HIGH" } }) as never)
   assert.equal(res.status, 200, await res.clone().text())
   const json = await res.json()
   assert.equal(json.receipt_id ?? null, null)
@@ -39,6 +39,6 @@ test("anonymous /api/compass writes nothing and sends no email", async () => {
 test("control: signed-in /api/prep DOES write (stub detects writes)", async () => {
   setSession({ user: { id: "u1", email: "u1@example.com" } })
   const { POST } = await import("../../src/app/api/prep/route.ts")
-  await POST(post("http://t/api/prep", { stakes: "LOW" }) as any)
+  await POST(post("http://t/api/prep", { stakes: "LOW" }) as never)
   assert.ok(writes().some(w => w.model === "prepSession" && w.op === "create"))
 })

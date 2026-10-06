@@ -11,7 +11,7 @@
 // If analytics config ever switches to full-URL capture, this page's fragment would leak;
 // keep this page path-only and never pass location.hash to any tracker.
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
 import { Brief } from "@/organisms/Brief"
 import { Button } from "@/ui/Button"
@@ -22,35 +22,38 @@ import { decodeShare, shareSeenKey } from "@/lib/shareLink"
 import type { CompassResult } from "@/lib/mockCompass"
 import { track } from "@vercel/analytics"
 
+function subscribeHash(cb: () => void) {
+  window.addEventListener("hashchange", cb)
+  return () => window.removeEventListener("hashchange", cb)
+}
+
 export default function SharedBriefPage() {
   const router = useRouter()
   const vw = useVw()
-  const [status, setStatus] = useState<"loading" | "ready">("loading")
-  const [result, setResult] = useState<CompassResult | null>(null)
+  // The bearing rides in the URL fragment. Read it as an external store (server
+  // snapshot null = loader), so no state is set synchronously in an effect.
+  const hash = useSyncExternalStore(subscribeHash, () => window.location.hash || "", () => null)
+  const encoded = hash ? hash.replace(/^#/, "").trim() : ""
+  const decoded = useMemo<CompassResult | null>(() => (encoded ? decodeShare(hash ?? "") : null), [encoded, hash])
+  // Whether this link was already opened on this device, captured once at load
+  // (before the effect below marks it seen).
+  const [seenAtLoad] = useState(() => {
+    if (typeof window === "undefined") return false
+    try { return localStorage.getItem(shareSeenKey(window.location.hash.replace(/^#/, "").trim())) === "1" } catch { return false }
+  })
+  const result = decoded && !seenAtLoad ? decoded : null
 
   useEffect(() => {
-    const hash = window.location.hash || ""
-    const encoded = hash.replace(/^#/, "").trim()
-    const decoded = encoded ? decodeShare(hash) : null
-
+    if (hash === null) return
     // Invalid/empty payload, or already opened once on this device → onramp.
-    if (!decoded) {
+    if (!decoded || seenAtLoad) {
       router.replace("/compass?shared=1")
       return
     }
-    const key = shareSeenKey(encoded)
-    let seen = false
-    try { seen = localStorage.getItem(key) === "1" } catch { seen = false }
-    if (seen) {
-      router.replace("/compass?shared=1")
-      return
-    }
-    try { localStorage.setItem(key, "1") } catch { /* private mode — still render this once */ }
-    setResult(decoded)
-    setStatus("ready")
-  }, [router])
+    try { localStorage.setItem(shareSeenKey(encoded), "1") } catch { /* private mode — still render this once */ }
+  }, [router, hash, decoded, seenAtLoad, encoded])
 
-  if (status === "loading" || !result) {
+  if (!result) {
     return (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
         <SequenceLoader title="Recomposing shared bearing…" stages={[{ name: "DECODE" }, { name: "RENDER" }]} footer="Rendering from the link. Nothing is fetched from a server." />

@@ -676,7 +676,7 @@ export function ReflectLayer({
                             {TYPE_ICON[cur.type]} {cur.type} · {new Date(cur.createdAt).toLocaleDateString()}
                           </div>
                           <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.5)", lineHeight: 1.55 }}>
-                            "{cur.anchorText}"
+                            &quot;{cur.anchorText}&quot;
                           </div>
                           <div style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.65, marginBottom: 10 }}>{cur.body}</div>
 
@@ -764,7 +764,7 @@ export function ReflectLayer({
                           {a.body}
                         </div>
                         <div style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.45)", lineHeight: 1.45, marginTop: 4 }}>
-                          "{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          &quot;{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}&quot; · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                         {/* Collapsed kernel preview */}
                         {!isOpen && cleanKernel && (
@@ -950,7 +950,7 @@ export function ReflectLayer({
             fontFamily: font.mono, fontSize: 8,
             color: "rgba(71,85,105,.5)", lineHeight: 1.4,
           }}>
-            "{selectionPicker.anchorText.slice(0, 48)}{selectionPicker.anchorText.length > 48 ? "…" : ""}"
+            &quot;{selectionPicker.anchorText.slice(0, 48)}{selectionPicker.anchorText.length > 48 ? "…" : ""}&quot;
           </div>
 
           {/* 3×2 picker grid */}
@@ -1016,7 +1016,7 @@ export function ReflectLayer({
             {TYPE_ICON[activeInstrument]} {activeInstrument}
           </div>
           <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(148,163,184,.6)", borderLeft: `.5px solid ${TYPE_COLOR[activeInstrument]}30`, paddingLeft: 8, marginBottom: 10, lineHeight: 1.5 }}>
-            "{draft.anchorText.slice(0, 70)}{draft.anchorText.length > 70 ? "…" : ""}"
+            &quot;{draft.anchorText.slice(0, 70)}{draft.anchorText.length > 70 ? "…" : ""}&quot;
           </div>
 
           {activeInstrument === "REACTION" ? (
@@ -1109,7 +1109,7 @@ export function ReflectLayer({
               })()}
             </div>
             <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 9, marginBottom: 10, fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
-              "{expandedChip.annotation.anchorText}"
+              &quot;{expandedChip.annotation.anchorText}&quot;
             </div>
             <div style={{ fontSize: 11, color: text.primary, lineHeight: 1.65, marginBottom: 14 }}>
               {expandedChip.annotation.body}

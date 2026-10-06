@@ -267,7 +267,7 @@ export async function POST(req: NextRequest) {
   // any client-facing route. Exists only for the with/without-SAGE efficacy
   // study once enough paired Outcomes accumulate (see scripts/sage_efficacy.py).
   let sageBlock = ""
-  let sageTraceData: { fired: boolean; signal: string | null; failureReason: string | null; latencyMs: number | null } = {
+  const sageTraceData: { fired: boolean; signal: string | null; failureReason: string | null; latencyMs: number | null } = {
     fired: false,
     signal: null,
     failureReason: process.env.SAGE_URL ? null : "SAGE_URL unset",
