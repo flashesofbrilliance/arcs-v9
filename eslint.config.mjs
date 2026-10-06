@@ -16,6 +16,9 @@ const eslintConfig = defineConfig([
     // components are script-tag globals and carry no build, so React lint rules
     // misreport them. Not part of the Next.js app.
     "public/**",
+    // Deliberately malicious / benign sample repos used as inputs to the
+    // sbom-payload-scan skill's evals. They must stay byte-for-byte as authored.
+    ".claude/skills/sbom-payload-scan/evals/fixtures/**",
   ]),
 ]);
 

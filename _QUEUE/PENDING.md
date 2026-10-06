@@ -30,7 +30,7 @@
 | 023 | Observability as superionic goal lattice | `runtime/specs/lattice-pressure-rom.json`, `scripts/lattice_sim.py` | GATED — blocked until 100+ receipts give a measurable real-corpus Zipf baseline (184 receipts exist; gate is on baseline measurement, not just count — not yet run) | QUARTER | HIGH |
 | 024 | Resume / arcs-care architecture gates | — | DECIDED | — | — |
 | 025a | ARCS go-live: provisional public launch logic | `app.arcs.care` anonymous compass + public brief | DRAFT — PROVISIONAL, 30-day signal review window (launched 2026-06-12, review ~2026-07-12) | WEEK | — |
-| 025b | SAGE signal validation path | `operators/arcs_api.py`, `scripts/sage_efficacy.js` | DECIDED — gated on Outcome data reaching MIN_SAMPLE=20/cohort; unblocked by ADR-026 | QUARTER | — |
+| 025b | SAGE signal validation path | `operators/arcs_api.py`, `scripts/sage_efficacy.mjs` | DECIDED — gated on Outcome data reaching MIN_SAMPLE=20/cohort; unblocked by ADR-026 | QUARTER | — |
 | 026 | Debrief delivery fix (eligibility + long-horizon cron) | `src/app/api/compass/route.ts`, `src/app/api/cron/debrief/route.ts` | DONE — steps 1–2 merged `a2bc4e4`; step 3 (verify Outcome accumulation) and step 4 (in-app `/history` fallback) still open | QUARTER | HIGH |
 
 **Known queue issues (not yet fixed, flagging rather than silently resolving):**

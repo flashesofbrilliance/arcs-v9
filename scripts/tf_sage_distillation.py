@@ -11,7 +11,7 @@ produce ground-truth labels. There is no real-world Outcome data involved.
 WHAT THIS IS NOT: a model of real decision quality. It learns the existing
 threshold math (STRONG_SIGNAL_VELOCITY_THRESHOLD etc.), not anything new
 about whether SAGE's signal actually predicts good decisions. That question
-belongs to scripts/sage_efficacy.js, which is correctly gated until real
+belongs to scripts/sage_efficacy.mjs, which is correctly gated until real
 Outcomes accumulate — this script has no such gate because synthetic data
 is unlimited, but the lack of a gate does not make the result more true.
 
