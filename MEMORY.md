@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.86.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
+
+- Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.
+
 ## [v3.85.0] 2026-10-05 — Main CI green: Playwright ignores tests/unit (#806)
 
 - fe-smoke failed because Playwright loaded node:test files without the `@/` loader; `testIgnore: "unit/**"` fixed it. Main run 37384172495 all green.

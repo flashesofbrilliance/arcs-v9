@@ -1,17 +1,17 @@
 {
-  "captured_at": "2026-10-05T20:53:11-04:00",
+  "captured_at": "2026-10-05T20:54:24-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "c18ea2ef",
-    "head_message": "Merge pull request #824 from flashesofbrilliance/claude/icon-rewrite-backstop",
+    "head_sha": "340f9498",
+    "head_message": "Merge pull request #827 from flashesofbrilliance/claude/handoff-v3.84",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#806 1fbc6f80 merged; main CI green at 974f6adb (run 37384172495)"
+    "note": "#814 d2a38a54 + #824 c18ea2ef merged"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-jwqk04a66-arcs-care.vercel.app",
-    "latest_deploy_status": "Ready",
+    "latest_deploy_url": "https://arcs-v9-ajzuz8nos-arcs-care.vercel.app",
+    "latest_deploy_status": "Building",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt rows this session: 2026-10-05--verb-eval-lens-gates-pr762--ZH, 2026-10-05--court-carveouts-pr780--ZH, 2026-10-05--swipe-admin-only-pr766--ZH. Prisma schema not re-checked."
+    "note": "decision_receipt rows this session: 2026-10-05--mobius-icon-set-pr814--ZH, 2026-10-05--icon-rewrite-backstop-pr824--ZH"
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Fixed red main CI (Playwright loaded node:test unit files, #806); main green covering #762 #780 #766 #797 #806.",
-  "next_action": "Nothing blocking; optional: check intent on 974f6adb, extend probe_court carve-out parsing to requireAdmin(.",
+  "session_summary": "Replaced the app icon set with the Möbius mark and made every subdomain serve it (#814, #824).",
+  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
