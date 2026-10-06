@@ -130,7 +130,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 1. Read the 10-07 check result; if intake did not run, the split in the morning-task prompt failed.
 2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
 3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
-4. Upside titles CONFIRMED by Zach 2026-10-06; Upside is ready for him to send. Tenex send still his.
+4. Upside titles CONFIRMED by Zach 2026-10-06; Upside is ready for him to send. Tenex send still his: founder first name is NOT in the bundle or public sources; Zach to supply it. Name collision: TENEX.AI (Florida cybersecurity, CEO Eric Foster) is a different company from Tenex Labs (jobs.ashbyhq.com/tenexlabs); never fill the name from a search.
 
 # Handoff — v3.111.0 (2026-10-06)
 
