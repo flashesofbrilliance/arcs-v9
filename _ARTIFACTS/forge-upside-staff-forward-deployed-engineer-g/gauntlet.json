@@ -1,0 +1,641 @@
+{
+ "counterpart": "Upside (brick-and-mortar commerce platform; hiring the first engineer on a new internal AI-native GTM platform inside Revenue Operations, reporting to the Sr. Director of Revenue Operations)",
+ "facet_count": 6,
+ "raw_findings": [
+  {
+   "facet": "Sr. Director of Revenue Operations (hiring manager): embed with revenue teams, own technical direction alone, anchor to business outcomes",
+   "cracks": [
+    {
+     "severity": "crack",
+     "surface": "Cover letter, para 2, Squat New York sentence",
+     "quote": "I was the sole technology partner on a seven-figure embedded engagement",
+     "why_fails": "The resume summary says \"sole product-and-technology partner\". The letter drops \"product\", so the claim reads more technical than the resume supports. A hiring manager who checks the two documents side by side will see the claim was edited up.",
+     "basis": "Resume ATS summary: \"served as the sole product-and-technology partner on a seven-figure embedded engagement\". The experience bullet says \"sole technology partner\", so the resume contradicts itself. Gauntlet rule: flag any claim the resume text does not support consistently.",
+     "fix": "Use one phrase everywhere. Either change the summary to \"sole technology partner\" to match the bullet and the letter, or change the letter to \"sole product-and-technology partner\". The honest version is probably the longer one."
+    },
+    {
+     "severity": "break",
+     "surface": "Cover letter, para 2, Grayscale sentence (also the short version)",
+     "quote": "At Grayscale I embedded with revenue and operations teams to learn how they actually worked, then turned that into requirements the platform could be built against.",
+     "why_fails": "This is the only evidence the letter gives of working with revenue teams, and it ends with Zach handing requirements to other people to build. That is a PM or operator handoff. The posting asks him to sit with revenue teams and then build what changes their work. To a RevOps director, this reads as \"an operator who does not write code\".",
+     "basis": "JD: \"Embed with revenue teams to learn their workflows firsthand, then design and ship systems that meaningfully change how that work gets done.\" Resume: the Grayscale title is \"Product Lead, Go-To-Market\".",
+     "fix": "Keep the embedding and end the sentence with a result, not a requirements doc. For example: \"...then shaped the release and adoption work across 10 products.\" Better still, move the build claim to a place Zach actually built: \"At ARCS I am both the person who learns the workflow and the one who ships the change.\""
+    },
+    {
+     "severity": "break",
+     "surface": "Cover letter as a whole: no business outcome",
+     "quote": "stayed accountable through production",
+     "why_fails": "The posting measures this role on outcomes, and the letter names none. Squat gives scope (seven figures, $350M ARR) but never says what the work changed for the business. ARCS gives no usage or users. The resume does have outcomes the letter skips: 20% net-new revenue, $850K+ year one, and 2 of 3 product lines decided on the instrumentation.",
+     "basis": "JD: \"Anchor your work to business outcomes. Success here is measured in what the platform unlocks for the business, not in tickets closed.\" Resume: \"Drove a 20% increase in net-new revenue\"; \"$850K+ in year one\".",
+     "fix": "Add one sentence with an outcome the resume already supports. For example: \"At the Children's Tumor Foundation I built the first data layer the fundraising and operations teams had, and net-new revenue rose 20%.\" Or say what Squat could do after the handoff that it could not do before."
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter, para 2 opener",
+     "quote": "That is the job I have done from the outside, more than once.",
+     "why_fails": "\"From the outside\" tells an internal-platform manager that Zach is a consultant who leaves after the engagement. That cuts against \"your users are internal\" and \"the team that follows you can build on your work\", and it raises the question of whether he will stay.",
+     "basis": "JD: \"The difference here is that your users are internal\"; \"Document decisions and tradeoffs clearly so the team that follows you can build on your work.\"",
+     "fix": "Recast the outside view as the skill: \"I have done this job embedded inside other companies, and each time I left behind a system the team could change without me.\" That last clause is resume copy: \"handed back a working system the team could change without me.\""
+    },
+    {
+     "severity": "crack",
+     "surface": "Letter's ARCS stack vs the resume Skills section",
+     "quote": "TypeScript and Next.js on Postgres, a Python operator layer",
+     "why_fails": "The letter names TypeScript and Next.js, and the posting names React, TypeScript and Python. The resume Skills section lists no TypeScript, React, Next.js or Postgres. A manager screening for \"writes code\" will find nothing on the resume to back up the letter's best engineering signal.",
+     "basis": "JD: \"Our current prototypes lean on React, TypeScript, and Python.\" Resume Skills: only \"SQL \u00b7 Python \u00b7 R\" plus Claude/MCP. Gauntlet rule: flag any claim the resume text does not support.",
+     "fix": "Add a Skills row to the resume: \"Build: TypeScript \u00b7 Next.js \u00b7 React \u00b7 Postgres \u00b7 Python \u00b7 Vercel\". Or name the stack in the ARCS bullet. That way the letter's claim is on the resume."
+    },
+    {
+     "severity": "nit",
+     "surface": "Cover letter, closing line",
+     "quote": "Two decades across data, product and go-to-market.",
+     "why_fails": "Ending on data, product and go-to-market, with no engineering, leaves the operator impression as the last thing the reader sees, right after the strongest builder paragraph.",
+     "basis": "Register note: what loses them is \"a candidate who reads as an operator who does not write code\".",
+     "fix": "Drop it, or change it to \"Two decades building data and product systems for go-to-market teams.\""
+    },
+    {
+     "severity": "nit",
+     "surface": "Letter does not cover security, infrastructure or stakeholder alignment",
+     "why_fails": "The posting asks him to work with security and infrastructure partners and to bring stakeholders along. The letter mentions neither. The Grayscale release gates (legal, risk, compliance) are on the resume and would fit here.",
+     "basis": "JD: \"Work with our security and infrastructure partners to make sure what you build is sound and supportable\"; \"bring stakeholders along as you go\". Resume: \"Coordinated product, engineering, legal, risk, and compliance through regulated release gates.\"",
+     "fix": "Add one clause: \"and I am used to shipping through legal, risk and compliance gates, not around them.\""
+    }
+   ],
+   "resonates": [
+    "The opening line, \"I build the system, then I stay on the hook for what it changes in the business\", fits the posting's outcome-first register. Keep it.",
+    "The evals paragraph lands with a RevOps director: what the revenue team does after the system answers, and how you find out. Calibration is held off until enough outcomes close, which is honest. Do not cut it.",
+    "ARCS is described with real nouns (TypeScript, Next.js, Postgres, a Python operator layer over MCP), and it mentions build-versus-buy calls and written decisions for the next engineer. This directly matches the posting's \"own technical direction\" and \"document decisions and tradeoffs\".",
+    "The letter does not lean on Salesforce, which fits the posting's note that the role is about building what comes after those tools."
+   ],
+   "verdict": "The letter shows he can own technical direction alone, through ARCS and Squat, and the evals paragraph is the strongest part. It is weakest on the two things this manager is hired to deliver. The only revenue-team evidence (Grayscale) ends with requirements handed to someone else, and the letter names no business outcome even though the resume has 20% and $850K+ figures available. Fix the Grayscale sentence, add one outcome, add TypeScript/React to the resume Skills, and make the \"sole technology partner\" wording match across both documents. After that it reads as a builder who works embedded, not as an operator."
+  },
+  {
+   "facet": "Staff engineer running the technical loop: does the letter prove he writes and ships code at staff level, makes architecture calls, and runs LLMs in production with evaluation?",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "cover letter, paragraph 2 (Squat + Grayscale) and closing line",
+     "quote": "turned that into requirements the platform could be built against ... Two decades across data, product and go-to-market.",
+     "why_fails": "The two proof points about past work are framed as partner, direction and requirements work, and the career summary names data, product and GTM but never engineering. The posting asks for 'Staff-level engineering experience' and 'a history of owning systems end to end'. The register brief names 'an operator who does not write code' as what loses them. Nothing before the ARCS paragraph says he wrote the code himself.",
+     "basis": "JD: 'Staff-level engineering experience \u2014 roughly 8 years or comparable depth'; resume titles are Product Lead, Embedded Product Solution Lead, Sr. Director, Head of Product. None is an engineering title.",
+     "fix": "Say plainly what he wrote himself at Squat, as the resume supports it (he retooled the headless CMS and overhauled the patient-facing experience). Cut the Grayscale requirements sentence or reduce it to one clause. Change the closer to something like 'Two decades across data, product and go-to-market, and for the last stretch I have been the one writing the code.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "cover letter, ARCS paragraph vs resume Skills",
+     "quote": "TypeScript and Next.js on Postgres, a Python operator layer that coding agents reach through an MCP server",
+     "why_fails": "The stack nouns in the letter are not in the resume. The resume Skills section lists Claude, MCP, SQL, Python and R, but not TypeScript, Next.js, React or Postgres, and the ARCS bullets name no language. An interviewer holding both documents sees the letter claim a stack the resume does not list. That is exactly the stack the posting names: 'React, TypeScript, and Python'.",
+     "basis": "Resume ATS text: grep finds no TypeScript, Next.js or Postgres. JD: 'Our current prototypes lean on React, TypeScript, and Python'.",
+     "fix": "Add 'TypeScript \u00b7 Next.js \u00b7 Postgres' to the resume's AI and agent systems skills line, or put the stack into the first ARCS bullet so the two documents match."
+    },
+    {
+     "severity": "crack",
+     "surface": "cover letter, evals paragraph",
+     "quote": "The honest lesson from ARCS is the one I would bring to your evals. I built outcome capture so ARCS could score its calls",
+     "why_fails": "The posting asks for 'output evaluation, and iterating toward reliability' on LLM output. The letter answers with outcome capture, which only scores downstream business results, and admits that loop is starved for data. The resume says he 'designed evaluations', but the letter gives no example of evaluating model output: no test set, no grading, no failure he found and fixed. A staff engineer would ask 'what is your eval harness for the Claude output itself?' and the letter gives him nothing to go on.",
+     "basis": "JD: 'Real experience building with LLMs and AI APIs in production, including prompt design, output evaluation, and iterating toward reliability'. Resume: 'designed evaluations and outcome-capture loops'.",
+     "fix": "Add one concrete sentence on evaluating model output that the repo can back up, for example how compass output is checked against a schema and a gate, with one failure it caught. Keep the outcome-capture lesson after it as the business-side point."
+    },
+    {
+     "severity": "nit",
+     "surface": "resume summary vs letter",
+     "quote": "sole product-and-technology partner (resume) / sole technology partner (letter, resume Experience)",
+     "why_fails": "The same Squat role is described two different ways. A reader probing the claim will ask which it was. 'product-and-technology' makes it read more like a PM role.",
+     "fix": "Use 'sole technology partner' in all three places.",
+     "basis": "Resume ATS summary paragraph vs Experience bullet."
+    }
+   ],
+   "resonates": [
+    "The ARCS paragraph uses real nouns (TypeScript, Next.js, Postgres, a Python operator layer over MCP) and claims ownership of the build-versus-buy calls, which answers 'Own technical direction'.",
+    "The paragraph on documenting decisions and tradeoffs for the next engineer lines up with the posting's ask almost word for word, without echoing it back.",
+    "The honest admission that calibration is held off until enough outcomes close reads as real production experience, not AI enthusiasm. Keep it.",
+    "The closing question, 'what does the revenue team do after the system answers', shows the curiosity about the business side that the posting requires."
+   ],
+   "verdict": "The architecture calls and the founder build come through, but a staff engineer would still ask 'does he write the code?' The Squat and Grayscale proof points read as partner and requirements work, and the closer leaves engineering out. The letter's stack (TypeScript, Next.js, Postgres) is missing from the resume, and the evals paragraph covers business outcomes, not evaluation of model output. The two highest-leverage fixes are a plain first-person statement of the code he wrote at Squat and adding the stack to the resume. All three fixes are small."
+  },
+  {
+   "facet": "In-house recruiter 30-second screen (first paragraph, seniority/fit legibility, pass triggers)",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "Resume header + every job title",
+     "quote": "Forward-deployed product and AI builder ... Product Lead, Go-To-Market ... Embedded Product / Solution Lead ... Head of Product",
+     "why_fails": "A recruiter's keyword pass for 'Staff ... Engineer' finds no engineer title or engineer self-label anywhere. The resume reads as a product/GTM operator, which is the profile the posting screens out ('Staff-level engineering experience ... owning systems end to end').",
+     "basis": "JD: 'Staff-level engineering experience, roughly 8 years or comparable depth built through another path with a history of owning systems end to end'. The register brief names 'an operator who does not write code' as the thing that loses them.",
+     "fix": "Change the headline to say engineer and building, e.g. 'Forward-deployed engineer and AI builder \u00b7 agentic systems in production'. For ARCS, write 'Founder and engineer'. Then use the summary to say 'comparable depth through another path' in plain words, e.g. 'I write and ship the code myself.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Resume Skills section vs cover letter stack",
+     "quote": "Cover: 'TypeScript and Next.js on Postgres, a Python operator layer'. Resume AI/agent skills: 'Claude \u00b7 MCP servers \u00b7 agentic AI pipelines ... Glean \u00b7 GitHub'",
+     "why_fails": "The posting names React, TypeScript and Python. The cover letter claims TypeScript, Next.js and Postgres, but the resume ATS text never mentions TypeScript, Next.js, React or Postgres. A screener matching keywords against the resume finds no front-end or application stack, and the cover makes a claim the resume does not support.",
+     "basis": "JD: 'Our current prototypes lean on React, TypeScript, and Python'. Task instruction: flag any claim the resume text does not support.",
+     "fix": "Add a 'Languages and stack' row to Skills: TypeScript \u00b7 Next.js (React) \u00b7 Python \u00b7 Postgres \u00b7 SQL. Name the same stack once in the ARCS bullet, e.g. 'built in TypeScript/Next.js on Postgres with a Python operator layer exposed over MCP'."
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover paragraph 1 and closing",
+     "quote": "I build the system, then I stay on the hook for what it changes in the business. ... Two decades across data, product and go-to-market.",
+     "why_fails": "The opener gives no role noun, no seniority and no proof. The only line that sizes the candidate puts 'data, product and go-to-market' first and leaves out engineering. Thirty seconds in, the recruiter has filed him as a GTM or product person.",
+     "basis": "JD sizes the role as 'first engineering hire' and 'Staff-level engineering'. The register brief warns against reading as an operator.",
+     "fix": "Rewrite the opener to carry the proof: 'I am an engineer who embeds with the business: I built ARCS, an AI-native platform on Claude with an MCP server and agentic orchestration, and run it in production.' Change the seniority line to 'Two decades building across engineering, data and go-to-market.'"
+    },
+    {
+     "severity": "nit",
+     "surface": "Cover paragraph 2, Grayscale sentence",
+     "quote": "turned that into requirements the platform could be built against",
+     "why_fails": "This is a requirements-writer claim (a PM verb). Placed next to Squat, it makes the second proof point read as handing work to engineers rather than building it.",
+     "basis": "JD: 'a bias toward shipping something real'; 'measured on outcomes rather than output'.",
+     "fix": "Keep Grayscale only as proof of revenue-team fluency ('embedded with revenue and operations teams on 10 regulated product launches'). Move the build proof to ARCS and Squat."
+    },
+    {
+     "severity": "nit",
+     "surface": "Cover vs resume wording on Squat",
+     "quote": "Cover: 'sole technology partner'. Resume summary: 'sole product-and-technology partner'",
+     "why_fails": "The two documents describe the same role two ways. A careful screener notices, and the resume's version again puts product first.",
+     "basis": "Resume ATS text vs cover text",
+     "fix": "Use 'sole technology partner' in both."
+    }
+   ],
+   "resonates": [
+    "The Squat line ($350M ARR, seven-figure, sole technology partner, scoping through production, handed back a working system) is the strongest 30-second proof of forward-deployed fit. Keep it in paragraph 2.",
+    "The 'What I bring' block mapped to the posting makes fit legible at a glance. Its labels echo the posting's own words ('measured on outcomes', 'zero-to-one').",
+    "The documentation line ('write down the decisions and tradeoffs so the next engineer can build on them') matches the posting almost word for word.",
+    "The outcome-capture lesson is specific and honest instead of generic AI enthusiasm. It also answers the posting's 'output evaluation' and 'iterating toward reliability'.",
+    "New York Metro is stated, and there is no salary or location friction."
+   ],
+   "verdict": "The first paragraph does not carry the read on its own. Paragraph 2 (Squat) and the posting-mapped block do. The main pass trigger is legibility. The headline, every job title and the cover's seniority line describe a product/GTM operator, and the resume never names TypeScript, React, Next.js or Postgres, the stack the posting names. Fix the headline and ARCS title to say engineer, add a stack row to Skills, and put the build proof in the opening line. After that, the Staff-level 'comparable depth through another path' story holds up in a 30-second screen."
+  },
+  {
+   "facet": "A revenue team member who would use what he builds: would he sit with us, learn our workflow, and build something we actually use, or build for himself?",
+   "cracks": [
+    {
+     "severity": "crack",
+     "surface": "Cover letter para 2 (Squat example) + short version",
+     "quote": "retooled their headless CMS and patient-facing experience",
+     "why_fails": "This is the lead proof of 'the job I have done from the outside', but the users were patients and clinical leadership, not a revenue or operations team running a daily workflow. A rep reads it and sees a CMS and website project, not someone who sat beside people like me and changed how our day works. It also proves delivery, not adoption.",
+     "basis": "JD: 'You'll sit with revenue teams, understand how they actually work, and build the systems that change it' and 'your users are internal: the teams that acquire merchants, serve partners, and drive Upside's revenue.' Resume Squat line supports the CMS/patient-facing claim only.",
+     "fix": "Keep Squat for ownership and accountability, but follow it with one line about internal users who ran what he built. The resume already supports Twill: 'instrumentation and KPI frameworks ... designed so clinical operations teams could run them without ongoing engineering support', or CTF: 'the first intelligence layer' for marketing, fundraising and clinical ops teams. Something like: 'At Twill Health I built the KPI frameworks so the clinical operations team could run them without me.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter para 2 Grayscale sentence; resume Grayscale bullet 1",
+     "quote": "then turned that into requirements the platform could be built against",
+     "why_fails": "From where a revenue user sits, 'requirements' means he learned our workflow and then handed it to someone else to build. That is the operator-who-does-not-code read the posting warns against, and it sits in the one sentence that claims he embedded with revenue teams. 'The platform' is also never named, so I cannot tell what was built or whether anyone used it.",
+     "basis": "JD: 'Embed with revenue teams to learn their workflows firsthand, then design and ship systems' and 'a bias toward shipping something real'. The register brief says a candidate who reads as an operator who does not write code loses them. Resume Grayscale role is 'Product Lead, Go-To-Market', and no bullet says he built anything there.",
+     "fix": "Resume: 'embedded with revenue and operations teams to learn how they actually worked and shaped the product around it' (drop the undefined 'the platform'). Cover: keep Grayscale as the place he learned the revenue side, and let ARCS carry the claim that he builds. Do not write 'requirements' next to 'embedded'."
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter para 3 and 4 (ARCS)",
+     "quote": "I founded ARCS and build it myself",
+     "why_fails": "Everything he builds himself in the letter is ARCS, a decision-intelligence product he started. The letter never names an outside user or a workflow it took over. The outcome-capture lesson ('people rarely come back to log how a decision turned out') is good, but it shows a system nobody feeds without a nudge. To a rep that is the exact fear: one more tool I have to remember to update. It reads as building for himself unless the next line says what he would change.",
+     "basis": "JD: 'Anchor your work to business outcomes. Success here is measured in what the platform unlocks for the business'. Resume ARCS bullets list capture, MCP and orchestration with no user or adoption count.",
+     "fix": "Keep the lesson. Turn its last sentence toward the user: 'So the first thing I would build for your teams captures the outcome inside work they already do, not as a form they come back to fill in.' Do not invent user counts."
+    },
+    {
+     "severity": "crack",
+     "surface": "Cover letter overall (missing first-weeks picture)",
+     "why_fails": "No sentence describes the actual embed: shadowing a rep, watching a merchant onboarding or a partner renewal, finding the step people hate. 'Genuine interest in the business side' is asserted ('more than once') but never shown with Upside's own nouns (merchants, partners, revenue teams). A user wants to see that he would show up at my desk.",
+     "basis": "JD: 'Genuine interest in the business side ... curiosity about how they work is a real requirement of this role'; 'the teams that acquire merchants, serve partners'.",
+     "fix": "Add one plain sentence: 'I would start by sitting with the people acquiring merchants and serving partners, finding the step they redo by hand in legacy tools, and shipping something small they use that week.' This is a plan, not a claim, so it needs no evidence."
+    },
+    {
+     "severity": "nit",
+     "surface": "Resume 'What I bring' row 4 and CTF entry",
+     "quote": "Salesforce Lightning modernization",
+     "why_fails": "CTF is the strongest example of internal revenue-adjacent users (fundraising is revenue), yet the visible noun is a Salesforce upgrade. The posting says the role builds what comes after Salesforce, not deep Salesforce work.",
+     "basis": "JD: 'this role is about building what comes after those tools, not integrating deeply with them'.",
+     "fix": "Lead the CTF bullet with the users and the result: 'built the first intelligence layer marketing, fundraising and clinical ops teams had; drove a 20% increase in net-new revenue', with Salesforce kept as a minor detail."
+    },
+    {
+     "severity": "nit",
+     "surface": "Resume Grayscale bullets 1 and 3",
+     "quote": "Translated regulatory and revenue-team requirements into product direction the teams could build and iterate against.",
+     "why_fails": "Bullet 3 says the same thing as the end of bullet 1. Repeating the 'requirements' idea makes him read more like an operator.",
+     "basis": "Resume ATS text, Grayscale section.",
+     "fix": "Cut bullet 3, or swap in a concrete outcome if the evidence ledger has one."
+    }
+   ],
+   "resonates": [
+    "Opening line 'I build the system, then I stay on the hook for what it changes in the business' matches 'measured on outcomes rather than output'. Keep it.",
+    "The honest ARCS lesson that people do not come back to log outcomes, and the question 'what does the revenue team do after the system answers, and how do you find out'. That is the thing a revenue user worries about most. Keep it and point it forward.",
+    "Writing down decisions and tradeoffs 'so the next engineer can build on them' maps directly to the posting's documentation line.",
+    "Squat's 'handed back a working system the team could change without me' and Twill's 'clinical operations teams could run them without ongoing engineering support' are exactly the adoption evidence a user wants. Twill is underused in the cover.",
+    "Real stack nouns (TypeScript, Next.js, Postgres, Python, MCP) answer the 'does he write code' doubt."
+   ],
+   "verdict": "From a revenue user's seat this is close but leans the wrong way. He clearly ships and owns things, but every embed story ends in requirements or a patient-facing site, and every build story is his own product. Two resume lines need fixing: Grayscale bullet 1's 'requirements the platform could be built against' (and the duplicate bullet 3), and the CTF lead with Salesforce. In the cover, swap or add a Twill/CTF line about internal teams who ran what he built, add one sentence on sitting with merchant and partner teams in the first weeks, and turn the outcome-capture lesson toward capturing outcomes inside existing work. No pathogens. The provenance of the figures holds."
+  },
+  {
+   "facet": "Overclaim and mismatch: Squat as proof of an internal GTM platform, ARCS as a solo production system, and 'from the outside, more than once'",
+   "cracks": [
+    {
+     "severity": "break",
+     "surface": "cover letter para 2 (full + short version)",
+     "location": "cover-upside-staff-forward-deployed-engineer-g.md, para 2",
+     "quote": "That is the job I have done from the outside, more than once.",
+     "why_fails": "The two examples that follow do not show the job the posting describes: 'a substrate for agentic orchestration... for our go-to-market teams' whose 'users are internal'. Squat was a headless CMS retool and a patient-facing experience, so the users were external patients, not revenue teams. Grayscale was a GTM product-lead role that produced requirements, not a system that was built. 'More than once' rests on one build with a mismatched audience plus one requirements job. A Sr. Director of RevOps will see the gap at once, and it makes the letter look like an operator dressing up.",
+     "basis": "JD: 'your users are internal: the teams that acquire merchants, serve partners, and drive Upside's revenue'; 'build the systems that change it'. Resume ATS: Squat = 'retooled a headless CMS and overhauled the patient-facing experience'; Grayscale = 'translate how they actually worked into requirements the platform could be built against'.",
+     "fix": "Drop the 'same job' claim and name the shared pattern instead: 'The shape is one I know: embed, learn how the work actually runs, own the build through production. At Squat New York I did that as the sole technology partner on a seven-figure engagement... At Grayscale I sat with revenue and operations teams and turned their workflows into requirements.' Remove 'more than once'. Let ARCS carry the AI-native platform proof."
+    },
+    {
+     "severity": "crack",
+     "surface": "cover letter para 3 vs resume text",
+     "location": "cover para 3 'TypeScript and Next.js on Postgres'; resume Skills block",
+     "quote": "TypeScript and Next.js on Postgres, a Python operator layer",
+     "why_fails": "The resume text never mentions TypeScript, Next.js, React or Postgres. Its Skills list gives SQL, Python, R, Tableau and warehouses, which reads as an analyst stack. The posting says 'Our current prototypes lean on React, TypeScript, and Python', and the main thing that loses this reader is 'an operator who does not write code'. A letter claiming a stack that the attached resume does not show breaks the grep rule this family was held to. It also hands a screener the exact doubt they are looking for.",
+     "basis": "JD: 'Our current prototypes lean on React, TypeScript, and Python'; facet register: loses them = 'reads as an operator who does not write code'. Resume ATS Skills: 'SQL \u00b7 Python \u00b7 R \u00b7 Tableau...'; AI line: 'Claude \u00b7 MCP servers \u00b7 ... \u00b7 Glean \u00b7 GitHub'. No TypeScript/Next.js/Postgres anywhere.",
+     "fix": "This is the first of the two resume lines to fix. Add the build stack to the resume. In the ARCS bullet: 'Built the MCP server and agentic orchestration layer (TypeScript, Next.js, Postgres; Python operator layer)...'. In Skills, add a 'Build' row: 'TypeScript \u00b7 Next.js \u00b7 React \u00b7 Python \u00b7 Postgres \u00b7 Prisma \u00b7 Vercel'. Only list what the repo stack actually shows."
+    },
+    {
+     "severity": "crack",
+     "surface": "resume ARCS bullets + 'What I bring'",
+     "location": "resume ARCS 'running in production with evaluations and controls designed from the start'; 'designed evaluations and outcome-capture loops'",
+     "quote": "running in production with evaluations and controls designed from the start",
+     "why_fails": "The posting asks for 'output evaluation, and iterating toward reliability'. 'Evaluations and controls designed from the start' is a generic claim with no noun behind it: no eval, no test set, no number. The rest of the family is careful, since the letter says plainly that calibration is off for lack of outcomes. Next to that, this resume line reads as padding, and a staff engineer reviewer will ask 'which evals?'. The documented outcome-capture rate is very low (AGENTS.md: 2 of 247 receipts closed), so the evaluation story is real but thin. Implying a mature eval harness is an overclaim.",
+     "basis": "JD: 'Real experience building with LLMs and AI APIs in production, including prompt design, output evaluation, and iterating toward reliability'. Memory provenance-gate-every-metric-cites-evidence (every claim needs evidence). Repo AGENTS.md: outcome capture '2/247 closed'.",
+     "fix": "This is the second resume line to fix. Replace it with something concrete and honest: 'Built the MCP server and agentic orchestration layer that runs pre- and post-decision capture automatically, in production; structured-output validation and gate checks on every model call, with outcome scoring held back until enough decisions close.' Name only the checks that actually exist in the code."
+    },
+    {
+     "severity": "crack",
+     "surface": "resume Squat line vs summary",
+     "location": "resume summary 'sole product-and-technology partner' vs Experience 'sole technology partner'; role title 'Embedded Product / Solution Lead'",
+     "quote": "sole product-and-technology partner",
+     "why_fails": "The same engagement is described two ways, and the job title says Product/Solution Lead. Nothing says Zach wrote the code: 'retooled a headless CMS' is ambiguous about whether he built it or directed it. For a role that hires an engineer, this ambiguity reads as 'led a vendor engagement'.",
+     "basis": "JD: 'Staff-level engineering experience... a history of owning systems end to end'. Memory technical-cut-resume-must-keep-leadership-scope (keep scope, but the technical cut must still read as building).",
+     "fix": "Use 'sole technology partner' in both places. If Zach wrote code at Squat, say so with a verb (built/implemented). If he did not, do not let the letter suggest he did: change 'retooled their headless CMS' to 'led the retooling of'."
+    },
+    {
+     "severity": "nit",
+     "surface": "cover letter close",
+     "location": "cover para 5",
+     "quote": "Two decades across data, product and go-to-market.",
+     "why_fails": "This wording differs from the resume ('tech, data, and commercial operations'), and it puts weight on non-engineering tenure exactly where the reader is checking 'roughly 8 years' of engineering depth.",
+     "basis": "JD: 'Staff-level engineering experience, roughly 8 years or comparable depth built through another path'.",
+     "fix": "'Two decades building with data and software for revenue, operations and product teams. I am in New York Metro.' Or cut it, since the resume carries tenure."
+    }
+   ],
+   "resonates": [
+    "Opening line 'I build the system, then I stay on the hook for what it changes in the business' matches 'measured on outcomes rather than output' in their own register.",
+    "The ARCS honest lesson (outcome capture built, calibration held off because people rarely log outcomes) is concrete, undersold and exactly 'iterating toward reliability'. The closing question 'what does the revenue team do after the system answers' is the strongest line for a RevOps director. Keep it.",
+    "'write down the decisions and tradeoffs so the next engineer can build on them' maps to their 'Document decisions and tradeoffs'.",
+    "ARCS is named with real nouns (Python operator layer, MCP server, agentic orchestration on Claude) and has true sole ownership of build-versus-buy calls, which is real zero-to-one evidence for the 'first engineer' and 'choose the tools' asks.",
+    "Squat specifics ($350M ARR, seven-figure, scoping through QA and handoff, 'handed back a working system the team could change without me') are concrete and resonate with 'supportable' and 'the team that follows you'."
+   ],
+   "verdict": "The main overclaim is in the cover: 'the job I have done from the outside, more than once'. Squat's users were patients and Grayscale produced requirements, not a platform, so this reads as an operator stretching. Reframe it as a pattern and let ARCS carry the platform proof. The two resume lines to fix: (1) add the actual build stack (TypeScript, Next.js, React, Postgres) to the ARCS bullet and Skills, because the letter claims it and the resume does not show it, which is the 'does not write code' trap; (2) replace 'evaluations and controls designed from the start' with the concrete checks that exist in the code, with outcome scoring stated as held back. Unify the Squat role wording. The honest calibration lesson and the outcome-first opener are strong; do not cut them."
+  },
+  {
+   "facet": "AI-writing tells: binary contrasts, triads, colon reveals, robotic rhythm, generic company praise, slogan openers",
+   "cracks": [
+    {
+     "severity": "crack",
+     "surface": "cover letter, paragraph 3 (full) and short version",
+     "location": "cover-upside-staff-forward-deployed-engineer-g.md, paragraph 3",
+     "quote": "write down the decisions and tradeoffs so the next engineer can build on them, which is the habit your posting asks for.",
+     "why_fails": "This tells the reader his own posting back to him. That is the same move the Tenex gauntlet removed as 'grading the posting', and here it has come back. It also reads as a model pointing out that it matched a requirement.",
+     "basis": "The JD says 'Document decisions and tradeoffs clearly so the team that follows you can build on your work'. The ALREADY HEALED list includes 'no grading the posting back'.",
+     "fix": "End the sentence at 'so the next engineer can build on them.' and cut the tail clause."
+    },
+    {
+     "severity": "crack",
+     "surface": "resume, What I bring row 2, and the Grayscale bullet",
+     "location": "resume ATS: 'Embedded with the business, measured on outcomes' row; Grayscale bullet 2",
+     "quote": "stayed accountable through production rather than tickets closed. / anchored decisions to business outcomes rather than output.",
+     "why_fails": "These are 'X rather than Y' contrasts that repeat the posting's wording word for word ('measured on outcomes rather than output', 'not in tickets closed'). The reader will see their own phrases copied back. The Grayscale line also says nothing that can be checked.",
+     "basis": "The JD says 'measured on outcomes rather than output' and 'not in tickets closed'.",
+     "fix": "Row 2: '...made the architecture calls, and stayed accountable through production.' Grayscale: replace it with something concrete, or cut it. For example: 'Coordinated product, engineering, legal, risk, and compliance through regulated release gates for all 10 launches.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "resume, What I bring row 1 (one of the two resume lines to fix)",
+     "location": "resume ATS: 'Zero-to-one AI-native platform ownership' row",
+     "quote": "every layer owned and operated by me in production, not a prototype handed off to someone else.",
+     "why_fails": "This sets up a straw man ('not a prototype handed off') in a stock AI-writing shape. The phrase 'every layer owned and operated by me in production' also appears again, word for word, in the ARCS bullet, so the page sounds like a template.",
+     "basis": "Upside wants 'a bias toward shipping something real' and 'claims without production evidence' lose them. A contrast is not evidence. Concrete nouns are.",
+     "fix": "'built ARCS from scratch and run it in production: TypeScript and Next.js on Postgres, a Python operator layer, an MCP server; I made the architecture and tool calls and set the patterns it grows on.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "resume, Skills header and WTA bullet (the second resume line to fix)",
+     "location": "resume ATS: Skills subtitle; WTA bullet 3",
+     "quote": "what I use, not what I have heard of / capacity decisions from data, not guesses.",
+     "why_fails": "Both are slogan-style 'X, not Y' tags. Two more on one page makes the pattern obvious, and a technical reader takes it as filler.",
+     "basis": "The posting's register is plain and outcome-first ('measured on outcomes', 'shipping something real'). The writing-avoid-emdashes-plain-language memory asks for plain language.",
+     "fix": "Skills subtitle: cut it. WTA: 'Ran platform load simulation ahead of the WTA Finals and set capacity from the results.'"
+    },
+    {
+     "severity": "crack",
+     "surface": "cover letter opener and short version opener",
+     "location": "cover paragraph 1",
+     "quote": "I build the system, then I stay on the hook for what it changes in the business.",
+     "why_fails": "This is a slogan used as an opening line. It is a tagline, not a fact, and it is the first thing the reader sees.",
+     "basis": "The register brief lists 'generic AI enthusiasm' and claims without evidence as things that lose Upside. The JD leads with concrete work ('Build the first version...').",
+     "fix": "Open on the fact: 'You are hiring the first engineer on a platform meant to replace the legacy tooling your GTM teams work in today. I have done that job from the outside, more than once.'"
+    },
+    {
+     "severity": "nit",
+     "surface": "cover paragraph 2, and the resume summary",
+     "location": "cover para 2; resume summary",
+     "quote": "I framed the problem, owned the technical direction, made the architecture calls, retooled... / frame the problem, choose the architecture, build the system, and keep iterating",
+     "why_fails": "Each is a run of parallel verbs that reads as rhythm, not record. The resume version also restates the JD's bullets.",
+     "basis": "The JD bullets say 'make the architecture calls, choose the tools' and 'keep iterating as AI capabilities change'.",
+     "fix": "Cover: 'I owned the technical direction and the architecture, retooled their headless CMS and patient-facing experience, and stayed on it through production.' Resume summary: 'I work end to end, from framing the problem through running what I built.'"
+    },
+    {
+     "severity": "nit",
+     "surface": "cover paragraph 4",
+     "location": "cover para 4",
+     "quote": "The model was not the hard part.",
+     "why_fails": "This is a short setup line before the reveal. It is a mild AI tell, but the content after it is strong.",
+     "basis": "Plain-language memory.",
+     "fix": "Merge it into the next sentence: 'The hard part was not the model: people rarely come back to log how a decision turned out...' Or just drop the sentence."
+    }
+   ],
+   "resonates": [
+    "Cover para 4's honest lesson ('people rarely come back to log how a decision turned out, so I keep calibration switched off') is specific, admits a limit, and connects to Upside's question about what the revenue team does after the system answers. Keep it.",
+    "The real nouns for ARCS (TypeScript, Next.js, Postgres, Python operator layer, MCP) read as written by an engineer. Move them onto the resume too.",
+    "The Squat New York sentence with the $350M ARR, seven figures, and 'scoping through QA and handoff' is concrete and makes the 'embedded with the business' case without slogans.",
+    "'Happy to go deep on any of it.' is a plain close in Zach's voice."
+   ],
+   "verdict": "The substance holds, but the family is full of 'X, not Y' / 'rather than Y' contrasts. Four are on the resume, and two copy the posting's own phrases ('rather than output', 'tickets closed'). The cover opens with a slogan and has a tail clause ('which is the habit your posting asks for') that brings back the healed 'grading the posting' problem. The two resume lines to fix are What I bring row 1 ('not a prototype handed off') and the slogan tags (Skills subtitle and the WTA 'not guesses'). Cut the contrasts and state the facts."
+  }
+ ],
+ "synthesis": {
+  "verified": [
+   {
+    "rank": 1,
+    "severity": "pathogen",
+    "surface": "Resume, ARCS bullet 2 (one of the two lines just fixed)",
+    "location": "resume-upside-staff-forward-deployed-engineer-g-ats.txt:104-106 (and the .html twin)",
+    "quote": "running in production with evaluations and controls designed from the start",
+    "issue": "The rewrite removed 'production AI, not experiments' but kept a timing claim the repo history contradicts. The deterministic Y-gate was in the compass route on day one (a61d492e, 2026-05-18). The truncation guard landed 2026-07-19 (a108deb7). The first prompt eval harness, scripts/brief_eval.mts, landed 2026-09-30 (d1761107). Evaluations were not there from the start. The line also names no actual eval, and the posting asks for 'output evaluation, and iterating toward reliability'. A staff engineer who asks 'which evals, since when?' gets an answer that does not match the resume.",
+    "basis": "JD: 'Real experience building with LLMs and AI APIs in production, including prompt design, output evaluation, and iterating toward reliability'. git log on src/app/api/compass/route.ts and scripts/brief_eval.mts. Memory provenance-gate-every-metric-cites-evidence: never ship a softer claim that cannot be traced. The cover's evals paragraph covers outcome capture only, so neither document shows evaluation of the model's own output.",
+    "fix": "Resume ARCS bullet 2: 'Built the MCP server and agentic orchestration layer that runs pre- and post-decision capture automatically, in production. Every model response is shape-checked, guarded against truncation, and passed through a rules-based gate before it is saved, and I built an eval harness that scores a new prompt against the current one on the same fixed cases before it ships.' Cover, evals paragraph: open with one model-side sentence, e.g. 'On the model side, every response is checked and gated before it is saved, and new prompts are scored against the current one on fixed cases before they ship.' Then keep the outcome-capture lesson as the business-side point. Add a shortened version of the same clause to the short form. Do not claim a caught-failure anecdote unless Zach confirms the harness, and not a person, caught it.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Overclaim and mismatch",
+     "Staff engineer technical loop"
+    ]
+   },
+   {
+    "rank": 2,
+    "severity": "break",
+    "surface": "Resume Skills section and ARCS bullet 1 (the second resume line to fix)",
+    "location": "resume ATS Skills block lines 181-191; ARCS bullet 1 line 100",
+    "quote": "Claude \u00b7 MCP servers \u00b7 agentic AI pipelines and orchestration \u00b7 prompt engineering \u00b7 agent testing \u00b7 Glean \u00b7 GitHub / SQL \u00b7 Python \u00b7 R \u00b7 Tableau",
+    "issue": "The cover's best engineering signal is 'TypeScript and Next.js on Postgres, a Python operator layer'. The resume never mentions TypeScript, React, Next.js or Postgres, and the Skills section reads as an analyst stack (SQL, R, Tableau). The posting says its prototypes 'lean on React, TypeScript, and Python', and reading as 'an operator who does not write code' is what loses this reader. The cover makes a claim the attached resume does not support, which breaks the rule that every cover claim is backed by the resume.",
+    "basis": "grep of the ATS text: 0 hits for TypeScript, Next.js, React or Postgres. The vetted master _ARTIFACTS/resume-vico/resume-vico-product-engineer.html Skills line reads 'Languages & Stack TypeScript \u00b7 React \u00b7 Next.js \u00b7 Tailwind \u00b7 Node.js \u00b7 Python (FastAPI) \u00b7 SQL \u00b7 Prisma'. The repo runs Postgres in production (AGENTS.md).",
+    "fix": "Add a first Skills row, 'Languages and stack: TypeScript \u00b7 React \u00b7 Next.js \u00b7 Node.js \u00b7 Python (FastAPI) \u00b7 SQL \u00b7 Prisma \u00b7 Postgres', taken from the vetted master. Do not copy Tailwind: it was removed from the repo on 2026-07-11. In ARCS bullet 1, name the stack once: '...an AI-native analysis pipeline on Claude, built in TypeScript and Next.js on Postgres with a Python operator layer; every layer owned and operated by me in production.' Then re-render the HTML and PDF from the same SSOT.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager",
+     "Staff engineer technical loop",
+     "In-house recruiter",
+     "Revenue team member",
+     "Overclaim and mismatch",
+     "AI-writing tells"
+    ]
+   },
+   {
+    "rank": 3,
+    "severity": "break",
+    "surface": "Cover para 2 Squat sentence (and short version); resume Squat line",
+    "location": "cover line 26; resume ATS line 137",
+    "quote": "retooled their headless CMS and patient-facing experience",
+    "issue": "Nothing before the ARCS paragraph says Zach wrote the code himself. 'Retooled' is vague about whether he built the work or directed it, and the role sits under 'Embedded Product / Solution Lead'. The vetted master says more and is better sourced: Squat title 'Head of Product Innovation & Tech Lead' and 'rebuilt the front-end and back-end platform end to end'. The Upside cut dropped the build verb, which is the gap a technical-cut resume should not open.",
+    "basis": "JD: 'Staff-level engineering experience, roughly 8 years or comparable depth built through another path with a history of owning systems end to end'. Vetted master Squat entry. Memory technical-cut-resume-must-keep-leadership-scope: run a completeness pass against the full master before finalizing.",
+    "fix": "Resume Squat line: 'sole product and technology partner and tech lead on a seven-figure embedded engagement from scoping through QA and handoff: rebuilt the front-end and back-end platform end to end, ...; handed back a working system the team could change without me.' Cover: 'I owned the technical direction and the architecture, rebuilt their front-end and back-end platform end to end, and stayed accountable through production.' Do not bring in the vetted master's +40% / +63% / +23 NPS figures unless they are added to evidence.jsonl with vetted-master citations first.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Staff engineer technical loop",
+     "Overclaim and mismatch",
+     "In-house recruiter"
+    ]
+   },
+   {
+    "rank": 4,
+    "severity": "break",
+    "surface": "Cover para 2 Grayscale sentence (and short version); resume Grayscale bullets 1 and 3",
+    "location": "cover line 26; resume ATS lines 121 and 125",
+    "quote": "At Grayscale I embedded with revenue and operations teams to learn how they actually worked, then turned that into requirements the platform could be built against.",
+    "issue": "This is the letter's only evidence of working with revenue teams, and it ends with requirements handed to someone else. That is a PM handoff, which matches the 'operator who does not write code' profile. 'The platform' is never defined. On the resume, bullet 3 ('Translated regulatory and revenue-team requirements into product direction the teams could build and iterate against') repeats bullet 1's ending, so the requirements framing shows up twice.",
+    "basis": "JD: 'Embed with revenue teams to learn their workflows firsthand, then design and ship systems that meaningfully change how that work gets done'; 'a bias toward shipping something real'. Resume Grayscale title: 'Product Lead, Go-To-Market'.",
+    "fix": "Cover: keep Grayscale for revenue-side fluency only and drop the handoff: 'At Grayscale I sat with revenue and operations teams across 10 regulated launches and learned how that work actually runs.' Let Squat and ARCS carry the build claims. Resume bullet 1: end at '...embedded with revenue and operations teams to learn how they actually worked and shaped the launches around it.' Cut bullet 3. Do NOT restore the vetted master's Grayscale build claims (RBAC, 'owned the investor-facing platform'): 'SEC/FINRA not claimed as shipped code' is a healed item.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager",
+     "Staff engineer technical loop",
+     "In-house recruiter",
+     "Revenue team member",
+     "Overclaim and mismatch"
+    ]
+   },
+   {
+    "rank": 5,
+    "severity": "crack",
+    "surface": "Cover para 2 opener (and short version)",
+    "location": "cover line 26; short version line 44",
+    "quote": "That is the job I have done from the outside, more than once.",
+    "issue": "The examples that follow do not support 'the job'. The posting's users are internal revenue teams. Squat's work was a patient-facing experience, and Grayscale produced requirements. 'More than once' rests on one build with a different audience plus one requirements role. 'From the outside' also tells an internal-platform manager that he is a consultant who leaves.",
+    "basis": "JD: 'your users are internal: the teams that acquire merchants, serve partners, and drive Upside's revenue'; 'so the team that follows you can build on your work'. Resume Squat: 'overhauled the patient-facing experience'.",
+    "fix": "Replace it with the pattern, not a claim of sameness: 'I have done the embedded half of this before: learn how the work actually runs, own the build, and leave a system the team can change without me.' The last clause is resume copy. In the short version, change 'is the job I have done from the outside' to 'is close to work I have done embedded'.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Overclaim and mismatch",
+     "Sr. Director RevOps hiring manager"
+    ]
+   },
+   {
+    "rank": 6,
+    "severity": "crack",
+    "surface": "Cover letter as a whole",
+    "location": "cover paras 2-5",
+    "quote": "stayed accountable through production",
+    "issue": "The posting measures the role on outcomes, and the letter names none. Squat gives scope ($350M ARR, seven figures) but no result, and ARCS gives no usage figures. The resume already has outcomes the ledger backs: '20% increase in net-new revenue' (CTF) and Twill's KPI frameworks 'designed so clinical operations teams could run them without ongoing engineering support', which is internal-user adoption.",
+    "basis": "JD: 'Anchor your work to business outcomes. Success here is measured in what the platform unlocks for the business, not in tickets closed.' evidence.jsonl cites 20% to vetted-master:resume-vico-product-engineer.html:157.",
+    "fix": "Add one sentence after Grayscale: 'At the Children's Tumor Foundation I built the first data layer the fundraising, marketing and clinical teams had, and net-new revenue rose 20%.' Optionally add the Twill clause for internal users who ran what he built. Use no new numbers.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager",
+     "Revenue team member"
+    ]
+   },
+   {
+    "rank": 7,
+    "severity": "crack",
+    "surface": "Cover para 3 (ARCS)",
+    "location": "cover line 28",
+    "quote": "write down the decisions and tradeoffs so the next engineer can build on them, which is the habit your posting asks for.",
+    "issue": "This is a regression of a healed item ('no grading the posting back'). The tail clause points out that he matched a requirement, which reads as a model scoring itself.",
+    "basis": "ALREADY HEALED list: 'no grading the posting back'. JD: 'Document decisions and tradeoffs clearly so the team that follows you can build on your work.'",
+    "fix": "End the sentence at '...so the next engineer can build on them.'",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "AI-writing tells"
+    ]
+   },
+   {
+    "rank": 8,
+    "severity": "crack",
+    "surface": "Squat role wording across cover and resume",
+    "location": "cover line 26 + short version; resume Experience line 135 vs summary line 65",
+    "quote": "sole technology partner (cover, resume Experience) / sole product-and-technology partner (resume summary)",
+    "issue": "The same engagement is described two ways. The source favours the longer form: the vetted master and the evidence.jsonl 'seven-figure' entry both quote 'Sole product and technology partner'. The cover and the Experience bullet dropped 'product', so they read more technical than the source supports. A careful reader holding both documents will see the mismatch.",
+    "basis": "evidence.jsonl seven-figure entry: source 'vetted-master:resume-vico-product-engineer.html:149 (\"Sole product and technology partner on a seven-figure embedded engagement\")'.",
+    "fix": "Use 'sole product and technology partner' in all three places (cover, short version, resume Experience). Item 3's 'and tech lead' (also from the vetted master) carries the engineering signal honestly.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager",
+     "Staff engineer technical loop",
+     "In-house recruiter",
+     "Overclaim and mismatch"
+    ]
+   },
+   {
+    "rank": 9,
+    "severity": "crack",
+    "surface": "Resume 'What I bring' row 2 and Grayscale bullet 2",
+    "location": "resume ATS lines 77 and 123",
+    "quote": "stayed accountable through production rather than tickets closed. / anchored decisions to business outcomes rather than output.",
+    "issue": "Two 'X rather than Y' lines copy the posting's own phrases ('measured on outcomes rather than output', 'not in tickets closed'). The hiring manager wrote those phrases and will recognise them. The Grayscale one says nothing that can be checked.",
+    "basis": "JD: 'measured on outcomes rather than output'; 'not in tickets closed'.",
+    "fix": "Row 2: end at '...made architecture calls, and stayed accountable through production.' Grayscale bullet 2: 'Coordinated product, engineering, legal, risk, and compliance through regulated release gates for all 10 launches.'",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "AI-writing tells"
+    ]
+   },
+   {
+    "rank": 10,
+    "severity": "crack",
+    "surface": "Resume headline and ARCS title",
+    "location": "resume ATS line 50 and line 98",
+    "quote": "Forward-deployed product and AI builder \u00b7 agentic systems in production / Founder \u00b7 2025 to present",
+    "issue": "On a 30-second keyword pass for a Staff Engineer opening, no engineer label appears anywhere on the page. The headline leads with 'product', and every title is Product, Solution or Director. The posting allows 'comparable depth built through another path', but only if the page says he builds.",
+    "basis": "JD: 'Staff-level engineering experience, roughly 8 years or comparable depth built through another path'. The vetted master is itself a product-engineer cut, and the ARCS code is real.",
+    "fix": "Headline: 'Forward-deployed engineer and AI builder \u00b7 agentic systems in production'. ARCS title: 'Founder and engineer \u00b7 2025 to present'. Leave past titles alone, except for the vetted 'tech lead' wording on Squat (item 3).",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "In-house recruiter",
+     "Staff engineer technical loop"
+    ]
+   },
+   {
+    "rank": 11,
+    "severity": "nit",
+    "surface": "Cover closing line",
+    "location": "cover line 32",
+    "quote": "Two decades across data, product and go-to-market.",
+    "issue": "This differs from the resume's own wording ('tech, data, and commercial operations'). It also leaves engineering out of the last thing the reader sees, right after the strongest builder paragraph.",
+    "basis": "Resume summary line 65. JD's 'roughly 8 years' engineering-depth screen.",
+    "fix": "Match the resume: 'Two decades across tech, data and commercial operations. I am in New York Metro.' Or cut it, since the resume carries tenure.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager",
+     "Staff engineer technical loop",
+     "In-house recruiter",
+     "Overclaim and mismatch"
+    ]
+   },
+   {
+    "rank": 12,
+    "severity": "nit",
+    "surface": "Resume 'What I bring' row 1 vs ARCS bullet 1",
+    "location": "resume ATS lines 72 and 102",
+    "quote": "every layer owned and operated by me in production, not a prototype handed off to someone else.",
+    "issue": "This is a straw-man contrast in a stock AI-writing shape. 'Every layer owned and operated by me in production' also appears word for word in ARCS bullet 1, so the page sounds like a template.",
+    "basis": "Register: 'claims without production evidence' lose them, and a contrast is not evidence. Duplicate confirmed in the ATS text.",
+    "fix": "Row 1: 'built ARCS from scratch and run it in production; chose the architecture and tools and set the patterns it grows on.' The stack nouns go in ARCS bullet 1 (item 2), so the phrase appears only once.",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "AI-writing tells"
+    ]
+   },
+   {
+    "rank": 13,
+    "severity": "nit",
+    "surface": "Resume Skills subtitle and WTA bullet 3",
+    "location": "resume ATS lines 179 and 175",
+    "quote": "what I use, not what I have heard of / capacity decisions from data, not guesses.",
+    "issue": "These are two more slogan-style 'X, not Y' tags. Together with items 9 and 12 they make the pattern obvious to a technical reader.",
+    "basis": "Memory writing-avoid-emdashes-plain-language (plain language). The posting's plain register.",
+    "fix": "Cut the Skills subtitle. WTA: 'Ran platform load simulation ahead of the WTA Finals and set capacity from the results.'",
+    "confidence": "high",
+    "facets_that_flagged": [
+     "AI-writing tells"
+    ]
+   },
+   {
+    "rank": 14,
+    "severity": "nit",
+    "surface": "Cover para 4 ending (evals lesson)",
+    "location": "cover line 30",
+    "quote": "what does the revenue team do after the system answers, and how do you find out.",
+    "issue": "The lesson is strong, but it stops at the problem. To a revenue user, a system nobody feeds without a nudge is the main fear. Nothing in the letter uses Upside's own nouns (merchants, partners) or describes how he would start.",
+    "basis": "JD: 'Genuine interest in the business side ... curiosity about how they work is a real requirement'; 'the teams that acquire merchants, serve partners'.",
+    "fix": "Add one forward sentence. It is a plan, so it needs no evidence: 'So I would start by sitting with the people acquiring merchants and serving partners, and build the first thing so the outcome gets captured inside work they already do, not in a form they have to come back to.'",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "Revenue team member"
+    ]
+   },
+   {
+    "rank": 15,
+    "severity": "nit",
+    "surface": "Cover (missing security, infrastructure and stakeholder signal)",
+    "location": "cover paras 2-3",
+    "quote": "",
+    "issue": "The posting asks him to work with security and infrastructure partners and to bring stakeholders along. The letter is silent, although the resume has the regulated release-gate line.",
+    "basis": "JD: 'Work with our security and infrastructure partners to make sure what you build is sound and supportable'; 'bring stakeholders along as you go'. Resume: 'Coordinated product, engineering, legal, risk, and compliance through regulated release gates.'",
+    "fix": "Optional clause on the Grayscale sentence: '...and took those launches through legal, risk and compliance gates.' Do not say 'shipped': the Grayscale work is not claimed as shipped code.",
+    "confidence": "medium",
+    "facets_that_flagged": [
+     "Sr. Director RevOps hiring manager"
+    ]
+   }
+  ],
+  "rejected_overflags": [
+   {
+    "claim": "Squat wording: use 'sole technology partner' in all three places (prescribed by the hiring-manager, staff-engineer and recruiter facets)",
+    "why_rejected": "The mismatch is real (kept as rank 8), but this fix goes the wrong way. The vetted master and the evidence.jsonl seven-figure entry both quote 'Sole product and technology partner'. Standardising on the shorter form would spread the edited-up wording to the summary. The honest form is the longer one."
+   },
+   {
+    "claim": "Cut the opener 'I build the system, then I stay on the hook for what it changes in the business' as a slogan (AI-writing-tells facet)",
+    "why_rejected": "This is a matter of taste, not a defect. Three other facets name it as the line that best fits 'measured on outcomes rather than output'. The proposed replacement ('I have done that job from the outside, more than once') would also bring back the rank 5 overclaim."
+   },
+   {
+    "claim": "CTF entry and 'What I bring' row 4 lead with 'Salesforce Lightning modernization', against 'building what comes after those tools' (revenue-team facet)",
+    "why_rejected": "The location is wrong: 'What I bring' row 4 does not mention Salesforce. The basis is also misread: the JD lists 'Understanding of CRM and revenue data models, Salesforce, HubSpot' as a nice-to-have. A parenthetical Salesforce mention in the CTF data-layer bullet shows that understanding and is not a deep-integration pitch."
+   },
+   {
+    "claim": "The evals overclaim is shown by the outcome-capture rate of 2 of 247 closed receipts (overclaim facet basis)",
+    "why_rejected": "Outcome capture and the held-off calibration are already disclosed honestly in the cover and resume (a healed item). The eval line survives on a different basis: git history shows the eval harness landed 2026-09-30, months after 'from the start' (rank 1)."
+   },
+   {
+    "claim": "'The model was not the hard part.' is a reveal-setup AI tell",
+    "why_rejected": "It is a plain, short sentence in Zach's voice, and the content after it is the strongest part of the letter. The facet rated it a mild nit, and the change would be taste, not a fix."
+   },
+   {
+    "claim": "Parallel verb runs in cover para 2 and the resume summary read as rhythm, not record",
+    "why_rejected": "Each verb in the cover run is a checkable act backed by the resume. The rank 3 edit (swapping 'retooled' for the vetted 'rebuilt the front-end and back-end platform end to end') already shortens the run. Rewriting further would be taste."
+   },
+   {
+    "claim": "Squat proves delivery but not adoption, so swap Squat out (revenue-team facet)",
+    "why_rejected": "Squat stays: the resume line 'handed back a working system the team could change without me' is adoption evidence, and the facets name Squat as the strongest forward-deployed proof. The useful part (add internal-user evidence such as Twill or CTF) is folded into rank 6."
+   }
+  ],
+  "keep_dont_touch": [
+   "Opening line 'I build the system, then I stay on the hook for what it changes in the business': it fits 'measured on outcomes rather than output' in the posting's own register.",
+   "The honest ARCS lesson (outcome capture built, people rarely log outcomes, calibration held off until enough close) and the question 'what does the revenue team do after the system answers, and how do you find out'. This is the strongest line for a RevOps director. Only add a forward sentence (rank 14); do not soften it.",
+   "ARCS described with real nouns in the cover (TypeScript, Next.js, Postgres, a Python operator layer reached by coding agents through an MCP server, agentic orchestration on Claude) plus sole ownership of build-versus-buy calls. Mirror these on the resume; do not trim them from the cover.",
+   "'write down the decisions and tradeoffs so the next engineer can build on them' (only the posting-grading tail goes).",
+   "Squat specifics: $350M ARR, seven-figure, scoping through QA and handoff, and the resume line 'handed back a working system the team could change without me'.",
+   "Twill: 'designed so clinical operations teams could run them without ongoing engineering support'. This is internal-user adoption evidence; use more of it, not less.",
+   "The two lines just fixed hold with no regression: 'recalibration' is gone from the outcome-capture bullet, and 'production AI, not experiments' is gone from ARCS bullet 2. Only the 'designed from the start' remnant needs work (rank 1).",
+   "Grayscale stays framed as GTM, not shipped code. Do not restore the vetted master's RBAC or 'owned the investor-facing platform' claims; 'SEC/FINRA not claimed as shipped code' is healed.",
+   "No Salesforce-integration pitch anywhere in the cover; New York Metro stated; 'Happy to go deep on any of it.' as the plain close.",
+   "Provenance of $350M, $7B, seven-figure, 20%, $850K+ and 120ms: ledger-cited. Do not add the vetted master's Squat +40%/+63%/+23 NPS figures without first adding ledger lines."
+  ],
+  "verdict": "The family is close and honest at its core. The ARCS paragraph and the calibration lesson are the parts that would land with a warm, technical reader who dislikes hype. One pathogen survived the last pass. The rewritten ARCS bullet 2 still says 'evaluations and controls designed from the start', but git history puts the first prompt eval harness (scripts/brief_eval.mts) on 2026-09-30, months after the 2026-05-18 compass route. That makes ARCS bullet 2 one of the two resume lines to fix. Replace it with the concrete, real checks: shape and truncation guards plus the rules-based gate on every model call, and an eval harness that scores a new prompt against the current one on fixed cases. The other line is the Skills/ARCS stack: the cover claims TypeScript, Next.js and Postgres, and the resume never says so. Add the vetted master's 'Languages and stack' row (without Tailwind) and name the stack in ARCS bullet 1. Next in cost is engineer legibility. Restore the vetted 'tech lead / rebuilt the front-end and back-end platform end to end' at Squat. Stop the Grayscale sentence from ending in a requirements handoff. Drop 'from the outside, more than once'. Add the 20% CTF outcome. Cut the 'which is the habit your posting asks for' regression. Standardise Squat on the vetted 'sole product and technology partner', not the shorter form the facets proposed. The remaining items are small register cleanups ('rather than' posting echoes, slogan tags). Apply the same edits to the short version, then re-render the resume HTML and PDF from the ATS SSOT and re-run provenance_lint and slop_lint before the honest gate is released."
+ }
+}
