@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-06T09:33:23-04:00",
+  "captured_at": "2026-10-06T09:41:35-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "df3d79b9",
-    "head_message": "Merge pull request #895 from flashesofbrilliance/claude/jobs-date-sort-undo-clear",
+    "head_sha": "4f7fa6ab",
+    "head_message": "Merge pull request #899 from flashesofbrilliance/claude/unfold-reads-fragments",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -19,7 +19,7 @@
       "DIRECT_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "serving arcs.care; build log shows migrate deploy: No pending migrations"
+    "note": "deploy of 4f7fa6ab NOT verified this session (vercel ls returned nothing); last known Ready deploy kept"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "#888 shipped and verified signed-in on prod: receipt views never spend model tokens or create a Brief.",
-  "next_action": "Clear the GitHub Actions billing block (human).",
+  "session_summary": "unfold.py now gathers Open items from unfolded _HANDOFFS/fragments (newest first) before the latest CLAUDE.md handoff block (#899).",
+  "next_action": "Run handoff_fold.py fold once fragments accumulate; confirm unfold picks up the first real fragment.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
