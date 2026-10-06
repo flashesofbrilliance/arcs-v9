@@ -6113,7 +6113,7 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
 - **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
 - **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
-- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch reset to abb6aedb).
+- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch `claude/model-registry-drift-gate` reset to its own merge-of-main tip, never merged: its PR #715 closed without merge, content superseded by #882, merged as d97dc35f).
 
 ## Open (next session)
 1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
