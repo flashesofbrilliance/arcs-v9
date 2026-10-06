@@ -91,7 +91,7 @@
       "filed": "2026-07-18",
       "severity": "low",
       "summary": "Legacy arcs-care 'sessions' table has an anon INSERT policy (WITH CHECK true) — open write surface on an inactive product; last remaining advisor WARN. Decide: drop the legacy arcs-care tables (sessions/waitlist) or tighten the policy.",
-      "exit": { "type": "open" }
+      "exit": {"type": "guard", "ref": "Supabase xbbpiryokswwvcrcutge: dropped anon/authenticated INSERT and SELECT policies on public.sessions; RLS now leaves only service_role SELECT (verified via pg_policies)", "date": "2026-10-06"}
     },
     {
       "id": "IP-014",
