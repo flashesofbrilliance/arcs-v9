@@ -366,6 +366,13 @@ test("preCallIntelIntro: the Intel list intro, only when its list yielded items;
   assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "list", ...internal, h2: "Intel", intro: "x", items: [{ html: "y" }] }] } }, { audience: "external" }).preCallIntelIntro, undefined)
 })
 
+test("belief log: confidence before -> after and conviction ride on the belief thread note", () => {
+  const withBelief = (b: Record<string, unknown>) => adapt(ssot({ beliefs: [{ ...internal, id: "P1", verdict: "FALSIFIED", claim: "A claim", evidence: "e", ...b }] })).signalThreads!.find((t) => t.title === "A claim")!
+  assert.equal(withBelief({ inference: "EXP", confidence: [0.7, 0.25], conviction: "HIGH" }).note, "Inference: EXP \u00b7 confidence 0.7 \u2192 0.25 \u00b7 conviction HIGH")
+  assert.equal(withBelief({ confidence: "[0.5, 0.85]", conviction: "settled" }).note, "confidence 0.5 \u2192 0.85 \u00b7 conviction settled", "TEXT-string pair parses")
+  assert.equal(withBelief({ confidence: [0.5], conviction: "{{level}}" }).note, undefined, "malformed pair and slot are absent")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
