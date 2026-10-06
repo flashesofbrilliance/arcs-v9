@@ -5660,3 +5660,27 @@ _This block asserts nothing new. Counts, paths, and questions only._
   overflows there; scaling the stage to the viewport (scale 1 at render size) passed it, and the
   rendered poster stayed pixel-identical (ffmpeg PSNR inf).
 - The Write tool turned `"—"` escapes into literal em-dashes in the fixtures; grep after writing.
+
+# Handoff — v3.91.0 (2026-10-05)
+
+> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
+> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
+
+## Shipped + on main
+- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
+  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
+  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
+  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
+- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
+  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
+  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
+   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
+2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
+
+## Lessons (in the record)
+- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
+  found the redundant pins.
+- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.

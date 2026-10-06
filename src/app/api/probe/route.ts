@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
+import { auth } from "@/lib/auth"
+import { isAdmin } from "@/lib/admin"
 
 export const dynamic = "force-dynamic"
 
@@ -15,8 +17,17 @@ export const dynamic = "force-dynamic"
 //
 // Privacy: no IP or user agent is stored. `vid` is a random id the page keeps in
 // localStorage; it exists only so repeat clicks from one browser count once.
+//
+// Retention (/privacy, _CANON/trust-contract.md): rows are deleted once the
+// ADR-076 build decision is made. To mark a probe decided, move it from PROBES
+// to DECIDED_PROBES in a commit that cites the decision receipt. From then on
+// POST refuses new rows, and an admin DELETE /api/probe?probe=<id> purges them
+// (prod: dev passes through per src/lib/admin.ts). A probe that is not decided
+// cannot be purged, so a stray call never erases a live tally.
 
 const PROBES = new Set(["mcp-connector"])
+const DECIDED_PROBES = new Set<string>([])
+
 const ACTIONS = new Set(["view", "interest"])
 const VID_RE = /^[a-z0-9-]{8,64}$/
 // Only the probe's own host may call this cross-origin (Zach, 2026-10-05).
@@ -32,7 +43,7 @@ function corsFor(req: NextRequest): Record<string, string> {
 export async function OPTIONS(req: NextRequest) {
   return new NextResponse(null, {
     status: 204,
-    headers: { ...corsFor(req), "Access-Control-Allow-Methods": "POST, GET, OPTIONS", "Access-Control-Allow-Headers": "content-type" },
+    headers: { ...corsFor(req), "Access-Control-Allow-Methods": "POST, GET, DELETE, OPTIONS", "Access-Control-Allow-Headers": "content-type" },
   })
 }
 
@@ -79,4 +90,16 @@ export async function GET(req: NextRequest) {
     { probe, views, interest, interestVisitors: interestVisitors.length, first: first?.createdAt ?? null, last: last?.createdAt ?? null },
     { headers: { ...CORS, "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } },
   )
+}
+
+export async function DELETE(req: NextRequest) {
+  if (process.env.NODE_ENV === "production" && !isAdmin(await auth())) {
+    return NextResponse.json({ error: "not found" }, { status: 404 })
+  }
+  const probe = req.nextUrl.searchParams.get("probe") ?? ""
+  if (!DECIDED_PROBES.has(probe)) {
+    return NextResponse.json({ error: "probe is not marked decided; purge refused" }, { status: 409 })
+  }
+  const { count } = await prisma.demandSignal.deleteMany({ where: { probe } })
+  return NextResponse.json({ probe, deleted: count })
 }

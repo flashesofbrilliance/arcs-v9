@@ -1,12 +1,12 @@
 {
-  "captured_at": "2026-10-05T21:06:15-04:00",
+  "captured_at": "2026-10-05T21:15:04-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "942b0f46",
-    "head_message": "Merge pull request #840 from flashesofbrilliance/claude/vercel-migrate-per-service",
+    "head_sha": "f5fab907",
+    "head_message": "Merge pull request #857 from flashesofbrilliance/claude/migration-lock-postgres",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#837 9bef38d7 merged 2026-10-05 without CI (Actions blocked by billing)"
+    "note": "v3.93.0: Vercel domain config only, no code"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt row this session: 2026-10-05--cruft-survey-origin-base-pr837--ZH. Prisma schema not re-checked."
+    "note": "decision_receipt row this session: 2026-10-05--retired-hosts-unpin-branch--ZH"
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "cruft_sweep survey now compares against origin/<base> and lists detached worktrees (#837); first live prune on the fixed code.",
-  "next_action": "Fix GitHub billing so Actions runs, then exercise a real incremental bundle on a SAFE worktree with its own commits.",
-  "blocking": "GitHub Actions billing (human)",
+  "session_summary": "Un-pinned chase-intro/cj-brief/growth-intel.arcs.care from a deleted preview branch so the retired-host 308 fires.",
+  "next_action": "Run chip task_e4237d76 (Vercel branch-pin gate), or the open items in v3.92.0.",
+  "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
