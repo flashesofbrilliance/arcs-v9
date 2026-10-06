@@ -116,6 +116,30 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.111.0 (2026-10-06)
+
+> **Security-review gate stops failing re-runs red; a real API error still fails.** #909 (`6a29d549`), merged with
+> `--merge` on Zach's yes. Receipt `2026-10-06--security-gate-dedupe-skip-pr909--ZH`.
+
+## Shipped
+- **#909:** `scripts/security_review_gate.sh` reads the action's `results-file` output (its scan step sets it first,
+  so empty = scan never started) plus the cache-restored `.claudecode-marker/marker.json`. Empty + marker for this PR
+  = `::notice` "already scanned at <sha>" and pass; empty + no marker = fail; scan ran = all #881 checks unchanged.
+  Live proof: run 37474229559 (fresh, outcome=success, passed) and 37476233291 (skipped, notice, passed).
+- The scan on #909 found 2 real bugs in the first draft, both fixed: a committed marker.json could fake a pass (now
+  only an untracked marker whose `pr_number` matches), and marker fields went into a workflow command (now hex/digits only).
+
+## Open (next session)
+1. Broken-key path not run live (secret untouched); covered by the action code plus run 37400262799.
+2. The `security-review` label never rescans (cache key is per PR): chip task_d4f6708c is running in its own session
+   (`run-every-commit` on labeled; costs API budget, needs Zach's yes).
+
+## Lessons
+- Read a composite action's outputs for the signal: an output set on the first line of a step is a step-ran flag.
+- Run the security scan on a change to the security gate: it caught the bypass in this one.
+
+> Folded from `_HANDOFFS/fragments/20261006T140855Z--claude-handoff-security-gate.md` (branch `claude/handoff-security-gate`, head `6a29d549`).
+
 # Handoff — v3.110.0 (2026-10-06)
 
 > **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
@@ -147,21 +171,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
 
 > Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).
-
-# Handoff — v3.109.0 (2026-10-06)
-
-> **Debt tracker triage (Docs Reconciliation artifact, `debt` collection).** No code shipped; decisions + 7 chips.
-
-## Decided by Zach (2026-10-06)
-- ADR-085 stays PROPOSED, write-lock stays opt-in until the step-2 week ends (~10-13). Day-1 data: 8 locked trains vs 33 merges to main. Re-decide acceptance + step 3 (train as only merge path) together.
-- allowScripts: approve all 4. Doc cleanup: measure + salvage only, no moves. Doc gates: advisory in CI now. Old Anthropic keys: audit callers, Zach retires. Main checkout: WIP-commit, push, return to main.
-
-## Tracker
-- Closed: handoff-fragments-pr898 (#898 merged).
-- In progress (chips): repo hygiene PR (eslint ignore, npm test, vercel services, allowScripts) · handoff_fold sort by version · doc gates advisory CI · doc per-file breakdown + salvage (3 rows) · old-key caller audit · main checkout return · PRs #811/#854.
-- Still open, waiting on data/Zach: cache-sweep-stuck (Zach), prisma-8-rc (watch), sharp-render-untested (needs first SHARP receipt).
-
-## Lessons
-- Lock adoption is measurable from `refs/locks/main` history vs first-parent merges on main; use that as the step-2 metric.
-
-> Folded from `_HANDOFFS/fragments/20261006T140710Z--claude-nice-einstein-438d9d.md` (branch `claude/nice-einstein-438d9d`, head `7d495b35`).
