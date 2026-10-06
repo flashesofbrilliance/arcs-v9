@@ -396,6 +396,19 @@ test("kairosLegend: the Kairos list _doc dot legend, only when that list produce
   assert.equal(withList([{ dot: "", html: "<strong>Kairos:</strong> {{peak-resonance moment}}" }]).kairosLegend, undefined, "scaffold with no real flags")
 })
 
+test("receiptCloses: every receipt-close row verbatim, keyed like its call-walk step", () => {
+  const o = adapt(ssot({ page: { blocks: [
+    { tab: "recoil", type: "keyvalue", ...internal, h2: "Receipt closed &#183; ex-ante vs actual", rows: [
+      { k: "Predicted (reconstructed)", v: "Short call; GREEN" }, { k: "Actual", v: "It landed." },
+      { k: "Fork hit", v: "Upgrade." }, { k: "Load-bearing", v: "'drive where we've landed'" }, { k: "Ex-ante misses", v: "TBD" },
+    ] },
+  ] } }))
+  assert.deepEqual(o.receiptCloses, { "2026-09-15 \u00b7 Ex-ante vs actual": {
+    "Predicted (reconstructed)": "Short call; GREEN", Actual: "It landed.", "Fork hit": "Upgrade.", "Load-bearing": "'drive where we've landed'",
+  } })
+  assert.equal(o.callWalk![0].body, "It landed. Fork hit: Upgrade.", "call walk stays concise")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
