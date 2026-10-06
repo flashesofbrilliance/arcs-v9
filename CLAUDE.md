@@ -100,8 +100,10 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 > `_PATTERNS/2026-07-19-token-efficiency-audit.md`.
 
 - **CLAUDE.md is a working file, kept lean — not an archive.** It holds durable facts (Project Map,
-  ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. When a new handoff
-  lands, move the oldest live one into `_ARCHIVE/handoffs.md`.
+  ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. Sessions no longer edit
+  this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session) and
+  `scripts/handoff_fold.py fold` assigns versions, prepends the blocks here and moves the oldest to
+  `_ARCHIVE/handoffs.md` (ADR-085 part (d), 2026-10-06). Unfolded fragments are newer than any block below.
 - **History is relocated, never deleted.** Older handoffs live in `_ARCHIVE/handoffs.md` and in git.
   "Never delete prior versions" is honored by archival, not by unbounded append into the hot path.
 - `MEMORY.md` — keep recent entries live; relocate dead history to `_ARCHIVE/memory-archive.md`.
