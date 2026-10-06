@@ -387,6 +387,15 @@ test("belief log: confidence before -> after and conviction ride on the belief t
   assert.equal(withBelief({ confidence: [0.5], conviction: "{{level}}" }).note, undefined, "malformed pair and slot are absent")
 })
 
+test("kairosLegend: the Kairos list _doc dot legend, only when that list produced flags", () => {
+  const base = ssot()
+  const withList = (items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "recoil", type: "list", ...internal, h2: "Kairos, quiet signals &amp; risks", intro: "Post-call read.", _doc: "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.", items },
+  ] } })
+  assert.equal(withList([{ dot: "red", html: "No dated next step." }]).kairosLegend, "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.")
+  assert.equal(withList([{ dot: "", html: "<strong>Kairos:</strong> {{peak-resonance moment}}" }]).kairosLegend, undefined, "scaffold with no real flags")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)
