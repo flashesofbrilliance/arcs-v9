@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.89.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
+
+- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (queued task_cf4cfbac). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
+- Lesson: a zero-step Actions failure is billing or an outage, not code (memory `ci-zero-steps-means-billing-or-outage`).
+
 ## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
 
 - Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.

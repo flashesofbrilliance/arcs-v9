@@ -114,6 +114,34 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.89.0 (2026-10-05)
+
+> **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
+> `a69e9daf` (field keys work from the drawer; legend lists every control), receipt
+> `2026-10-05--field-keys-legend-pr753--ZH`. PR #770 merged `75418715` (no server cache of anonymous
+> questions; account delete removes Blob uploads; `/api/brief` drops userId, prep.adversarialInput and
+> raw output beyond reasoning; HMAC-signed reminder links in `src/lib/reminderLink.ts`; /privacy v1.3,
+> trust contract 1.5), live-verified, receipt `2026-10-05--privacy-pr2-pr770--ZH`. PR #738 (handoff
+> v3.79.1) merged `8ec8b6e9` on Zach's override with CI queued, receipt `2026-10-05--handoff-v3.79.1-pr738--ZH`.
+
+## CI incident (2026-10-05)
+- Actions billing/spending-limit block (jobs failed with zero steps), then a GitHub Actions major outage
+  (84 runs queued, 0 in progress). Zach fixed billing and raised the limit. At his request this session
+  re-ran 7 billing-killed runs on other branches; PR #763's session then asked that cross-session
+  re-runs not happen unasked. Memory `ci-zero-steps-means-billing-or-outage`.
+
+## Open (next session)
+1. **task_cf4cfbac (queued chip): privacy disclosure PR, then mirror re-review.** The second mirror review
+   was NOT SAFE only on disclosure: LinkedIn uploads, `/api/probe` + DemandSignal (localStorage vid, open
+   CORS), brief sharing is now owner-only + tokens (`BriefShare`, `src/lib/briefShare.ts`; /privacy row
+   from #770 is stale), `arcs_pending_save` localStorage stash, dead `/unsubscribe` link, calendar/X links
+   carry decision text, self-serve delete not mentioned.
+2. **Showcase mirror**: `claude/showcase-mirror` @ `caafa7eb` (save/claim/email/probe paths added,
+   job-search models dropped, schema validates). Add `briefShare.ts` + `api/shared/**`. Never create or
+   publish `arcs-field-os` without Zach's go; never make arcs-v9 public.
+3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
+
 # Handoff — v3.88.0 (2026-10-05)
 
 > **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
@@ -139,28 +167,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
   Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
-
-# Handoff — v3.87.0 (2026-10-05)
-
-> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
-> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
-
-## Shipped + on main
-- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
-  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
-- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
-  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
-  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
-- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
-- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
-- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
-  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
-  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
-
-## Open (next session)
-1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
-2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
-3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
-
-## Lessons
-- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.

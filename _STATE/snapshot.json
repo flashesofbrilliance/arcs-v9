@@ -1,47 +1,30 @@
 {
-  "captured_at": "2026-10-05T20:54:24-04:00",
+  "captured_at": "2026-10-05T21:00:48-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "340f9498",
-    "head_message": "Merge pull request #827 from flashesofbrilliance/claude/handoff-v3.84",
+    "head_sha": "053082ea",
+    "head_message": "handoff v3.89.0 (pending commit)",
     "in_sync_with_origin": true,
-    "dirty_files": [],
-    "note": "#814 d2a38a54 + #824 c18ea2ef merged"
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-ajzuz8nos-arcs-care.vercel.app",
-    "latest_deploy_status": "Building",
+    "latest_deploy_url": "https://app.arcs.care",
+    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
-      "ANTHROPIC_API_KEY"
-    ],
-    "note": "vercel ls 2026-10-05; env names not re-listed this session"
+      "ANTHROPIC_API_KEY",
+      "ADMIN_EMAILS",
+      "SAGE_URL"
+    ]
   },
   "database": {
-    "project_ref": "xbbpiryokswwvcrcutge",
-    "role": "arcs_app",
-    "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
-    "port": 6543,
-    "schema_confirmed": [
-      "User",
-      "Receipt",
-      "PrepSession",
-      "Brief",
-      "Account",
-      "Session",
-      "VerificationToken"
-    ],
-    "note": "decision_receipt rows this session: 2026-10-05--mobius-icon-set-pr814--ZH, 2026-10-05--icon-rewrite-backstop-pr824--ZH"
+    "project_ref": "xbbpiryokswwvcrcutge"
   },
-  "open_adrs": [
-    "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
-  ],
-  "session_summary": "Replaced the app icon set with the Möbius mark and made every subdomain serve it (#814, #824).",
-  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths.",
-  "blocking": "NONE",
-  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
+  "session_summary": "Shipped privacy PR 2 (#770) and field keyboard/legend fix (#753), live-verified; mirror review now blocked only on disclosure copy.",
+  "next_action": "Start task_cf4cfbac: privacy disclosure PR (uploads, probe, token sharing, pending-save stash, unsubscribe link), then re-run the showcase mirror review.",
+  "blocking": "NONE"
 }
