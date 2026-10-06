@@ -113,6 +113,10 @@
       "severity": "low",
       "summary": "In-memory per-instance throttle Map on the studio route (and its louisville precedent) is bounded only by instance lifetime x unique IPs — a rotating-IP scraper can grow it. SRE review finding F3, 2026-08-07.",
       "exit": { "type": "guard", "ref": "Both anon routes now opportunistically evict expired entries when hits.size>5000: src/app/api/receipts/studio/[tenant]/route.ts and src/app/api/louisville/receipts/route.ts throttled(). Bounded.", "date": "2026-08-07" }
-    }
+    },
+    {"id": "CMP-017", "filed": "2026-10-05", "severity": "medium", "summary": "Historical prepId IDOR exposure (pre-#830): receipts may link a prep owned by another user. One-off SQL to find receipts whose prepId's prep is linked to receipts of >1 userId; null links and review as possible exposure. CISO review on #830, 2026-10-05.", "exit": {"type": "open"}},
+    {"id": "CMP-018", "filed": "2026-10-05", "severity": "low", "summary": "Dashboard recovery poll (src/app/dashboard/page.tsx ~242) polls with the sent session id; if /api/compass re-minted it (foreign thread), the saved receipt is not found and the stale id is re-stored. Clear arcs_session_id when server id differs, or 409 before inference. CISO review, 2026-10-05.", "exit": {"type": "open"}},
+    {"id": "CMP-019", "filed": "2026-10-05", "severity": "medium", "summary": "src/app/api/receipts/claim/route.ts lets any signed-in user holding a session id claim every unowned legacy row in that thread. Bind to a server-issued HttpOnly token or retire once legacy rows are gone. CISO review, 2026-10-05.", "exit": {"type": "open"}},
+    {"id": "CMP-020", "filed": "2026-10-05", "severity": "low", "summary": "/api/compass, /api/receipts/save, /api/prep parse bodies by hand (no Zod); non-string entity in /api/prep 500s on .trim(). Add safeParse with length caps like the guide route. CISO review, 2026-10-05.", "exit": {"type": "open"}}
   ]
 }
