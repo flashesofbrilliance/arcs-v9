@@ -55,6 +55,8 @@ export async function POST() {
     if (prepIds.length) {
       await tx.prepSession.deleteMany({ where: { id: { in: prepIds } } })
     }
+    // Owned prep rows never linked to a receipt (prep saved, compass not run).
+    await tx.prepSession.deleteMany({ where: { userId } })
     await tx.annotation.deleteMany({ where: { userId } })
 
     const signals = await tx.scanSignal.findMany({

@@ -3,6 +3,7 @@ import path from "node:path"
 import { NextResponse, type NextRequest } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { callerFor } from "@/lib/jobs"
+import { writerCall, modelError } from "@/lib/claude-models"
 
 // POST /api/jobs/cover-letter — writes a tailored cover letter for one role in
 // Zach's voice, modeled on the platinum reference cover (voice + structure), and
@@ -12,7 +13,7 @@ import { callerFor } from "@/lib/jobs"
 // Short output (~350 + ~180 words) so no timeout. The caller fetches the JD and
 // reads the reference cover locally and posts them. Gated.
 export const dynamic = "force-dynamic"
-export const maxDuration = 60
+export const maxDuration = 120 // Sonnet 5.5 thinks before answering; 60s was tight
 
 type Body = { jobid: string; title: string; company: string; jd: string; seedCover: string; resumeText?: string; questions?: string[] }
 
@@ -45,15 +46,17 @@ export async function POST(req: NextRequest) {
 
   const qs = Array.isArray(b.questions) ? b.questions.map((q) => String(q).slice(0, 400)).filter(Boolean).slice(0, 8) : []
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-  const msg = await anthropic.messages.create({
-    model: "claude-sonnet-4-6", max_tokens: qs.length ? 2000 + 350 * qs.length : 2000, temperature: 0.4,
+  const r = await writerCall(anthropic, {
+    max_tokens: 16000 + 350 * qs.length, effort: "medium",
     system: [
       { type: "text", text: SYSTEM },
       { type: "text", text: `REFERENCE COVER (voice + structure model; do not copy its company-specific content):\n${(b.seedCover || seedVoice()).slice(0, 12000)}`, cache_control: { type: "ephemeral" } },
     ],
     messages: [{ role: "user", content: `Role: ${b.title} @ ${b.company} (jobid ${b.jobid})\n\n--- JD ---\n${b.jd.slice(0, 6000)}\n\n--- Zach's resume text for this role (claims must stay consistent with this) ---\n${(b.resumeText || "").slice(0, 8000)}${qs.length ? `\n\n--- APPLICATION QUESTIONS ---\n${qs.map((q, i) => `${i + 1}. ${q}`).join("\n")}` : ""}\n\nWrite the cover for ${b.company}.` }],
-  })
-  const txt = msg.content.map((c) => ("text" in c ? c.text : "")).join("")
+  }).catch((e: unknown) => modelError(e))
+  if (r instanceof Response) return r
+  if (!r.ok) return NextResponse.json({ error: `writer declined (refusal${r.refusal ? `: ${r.refusal}` : ""})` }, { status: 502 })
+  const txt = r.text
   let out
   try { out = JSON.parse(txt.slice(txt.indexOf("{"), txt.lastIndexOf("}") + 1)) }
   catch { return NextResponse.json({ error: "writer returned unparseable output" }, { status: 502 }) }
@@ -70,5 +73,5 @@ export async function POST(req: NextRequest) {
     if (/surgery|acl|meniscus|injur/i.test(v)) return NextResponse.json({ error: "an answer leaked the personal medical note" }, { status: 502 })
   }
   out.answers = answers
-  return NextResponse.json({ ...out, usage: { input: msg.usage.input_tokens, output: msg.usage.output_tokens, cache_read: msg.usage.cache_read_input_tokens ?? 0 } })
+  return NextResponse.json({ ...out, usage: r.usage })
 }

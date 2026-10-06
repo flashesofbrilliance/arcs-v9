@@ -1,5 +1,5 @@
-# ARCS session state — v3.85.0 (2026-10-05)
+# ARCS session state — v3.88.0 (2026-10-05)
 
-- HEAD at handoff cut: c18ea2ef (origin/main)
-- Done: #806 Playwright ignores tests/unit; main CI green (run 37384172495). Earlier: #762 #780 #766 #797.
-- Next: nothing blocking. Optional: intent on 974f6adb; requireAdmin( carve-out parsing.
+- HEAD at handoff cut: 340f9498 (origin/main)
+- Done: #814 Möbius icon set + manifest + OG; #824 next.config.ts catch-all icon exclusions. Live on good/wing/yuri/recruithaus/app.
+- Next: sweep remaining host rewrites for wildcard shapes that still swallow icon paths; check OG unfurl.

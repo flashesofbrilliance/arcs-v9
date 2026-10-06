@@ -16,6 +16,13 @@
 //   node scripts/jobs_bridge_sweep.mjs --all                   # re-score every bridge row (re-runnable)
 //   node scripts/jobs_bridge_sweep.mjs --report                # rank what is already scored, no fetch/model
 //   node scripts/jobs_bridge_sweep.mjs --jobid bridge-x-1234   # re-score one row
+//   node scripts/jobs_bridge_sweep.mjs --fde-handoff           # score routing-gated rows under target-role-scan
+//
+// FDE handoff (2026-10-05): the bridge rubric mechanically gates FDE/engineer titles
+// "score under target-role-scan", which sets band PASS on the BRIDGE score. Nothing
+// ever did that second scoring, so 52 rows (13 at 0.70+, Upside 0.966 among them) sat
+// labelled PASS with no FDE score. Every bridge run now hands routing-gated rows to
+// the FDE rubric in the same run; --fde-handoff does it for rows already gated.
 // Env: JOBS_PIPELINE_TOKEN, JOBS_BASE (default https://jobs.arcs.care).
 
 import fs from "node:fs"
@@ -23,7 +30,7 @@ import path from "node:path"
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? true) : d }
 const has = (k) => process.argv.includes(k)
-const DRY = has("--dry-run"), PROOF = has("--proof"), ALL = has("--all"), REPORT = has("--report")
+const DRY = has("--dry-run"), PROOF = has("--proof"), ALL = has("--all"), REPORT = has("--report"), HANDOFF = has("--fde-handoff")
 const LIMIT = Number(arg("--limit", 0)) || 0
 const BATCH = Number(arg("--batch", 8))
 const TOP = Number(arg("--top", 20))
@@ -35,6 +42,9 @@ const H = { "x-jobs-token": TOKEN, "content-type": "application/json" }
 const SPEC = "bridge-scan"
 const specFile = JSON.parse(fs.readFileSync(path.join(process.cwd(), "runtime", "specs", "bridge-scan.json"), "utf8"))
 const COMP_READ = specFile.rubric.competition_read
+// The routing gate: a mechanical gate whose name says which rubric should score the row instead.
+const ROUTE_GATE = Object.keys(specFile.rubric.mechanical_gates || {}).find((g) => /score under target-role-scan/.test(g))
+const routed = (r) => ROUTE_GATE && parse(r.gates, []).includes(ROUTE_GATE)
 const UA = { "user-agent": "Mozilla/5.0 (jobs.arcs.care bridge sweep)" }
 const sleep = (ms) => new Promise((z) => setTimeout(z, ms))
 const parse = (s, fb) => { try { return typeof s === "string" ? JSON.parse(s) : (s ?? fb) } catch { return fb } }
@@ -102,8 +112,8 @@ async function fetchJD(row) {
 }
 
 // --- scoring -------------------------------------------------------------------
-async function score(batch) {
-  const resp = await fetch(`${BASE}/api/jobs/score`, { method: "POST", headers: H, body: JSON.stringify({ spec: SPEC, rows: batch }) })
+async function score(batch, spec = SPEC) {
+  const resp = await fetch(`${BASE}/api/jobs/score`, { method: "POST", headers: H, body: JSON.stringify({ spec, rows: batch }) })
   if (!resp.ok) throw new Error(`score ${resp.status}: ${await resp.text()}`)
   return resp.json()
 }
@@ -151,6 +161,7 @@ async function main() {
   const { rows } = await (await fetch(`${BASE}/api/jobs`, { headers: H })).json()
   const bridge = rows.filter((r) => r.source === "bridge_scan")
   if (REPORT) return printRank(bridge, TOP)
+  if (HANDOFF) return handoff(ONLY ? bridge.filter((r) => r.jobid === ONLY) : bridge.filter(routed))
   let todo = ONLY ? bridge.filter((r) => r.jobid === ONLY) : ALL ? bridge : bridge.filter((r) => r.band === "UNSCORED")
   if (LIMIT) todo = todo.slice(0, LIMIT)
   console.log(`bridge rows: ${bridge.length} · to score: ${todo.length}${DRY ? " (DRY)" : ""}`)
@@ -174,5 +185,27 @@ async function main() {
   }
   console.log(`\nDONE. scored ${scored}. tokens in=${inTok} out=${outTok} cache_read=${cacheRead}`)
   printRank(out, TOP)
+  // Same-run handoff: anything the bridge rubric just routed goes to the FDE rubric now,
+  // so a routing gate is never left standing as a PASS verdict.
+  const toHand = out.filter((r) => (r.gates || []).includes(ROUTE_GATE))
+  if (toHand.length) await handoff(toHand)
+}
+
+// Score routing-gated bridge rows under the default FDE rubric (target-role-scan). The
+// score route writes composite/band/dims/gates/jdHits and a Score row keyed by that
+// spec's version; the bridge Score row ("bridge-1.x") is kept as the record.
+async function handoff(rows) {
+  console.log(`\nFDE HANDOFF: ${rows.length} routing-gated row(s) -> target-role-scan${DRY ? " (DRY)" : ""}`)
+  for (const r of rows) { if (!r.jd) { const j = await fetchJD(r); if (j) Object.assign(r, j); await sleep(250) } }
+  const ok = rows.filter((r) => r.jd), miss = rows.filter((r) => !r.jd)
+  miss.forEach((r) => console.log(`  no-fetch ${r.jobid} ${r.url} (stays gated; fix the fetch, never hand-score)`))
+  if (DRY) { console.log(`DRY: would hand off ${ok.length}, ${miss.length} unfetchable`); return }
+  let n = 0; const res = []
+  for (let i = 0; i < ok.length; i += BATCH) {
+    const batch = ok.slice(i, i + BATCH).map((r) => ({ jobid: r.jobid, title: r.title, company: r.company, jd: r.jd, salary: r.salary ?? null }))
+    try { const d = await score(batch, "target-role-scan"); n += d.scored; res.push(...d.results) } catch (e) { console.error(`handoff batch ${i}: ${e.message}`) }
+  }
+  console.log(`handed off ${n}/${rows.length}`)
+  res.sort((a, b) => b.composite - a.composite).forEach((x) => { const r = rows.find((y) => y.jobid === x.jobid); console.log(`  ${x.composite.toFixed(3)} ${x.band.padEnd(8)} ${r?.company} - ${r?.title}${x.gates.length ? `  [gate: ${x.gates.join("; ")}]` : ""}`) })
 }
 main().catch((e) => { console.error(e); process.exit(1) })

@@ -42,3 +42,6 @@ ddcbbbbebeda3719a261c1cd407feb92999aaa53:_ARTIFACTS/prl-roadmap-deck.html:generi
 df53c86a9418797ec28de68e4d3bae07944cb872:public/prl-chatbot.html:generic-api-key:295
 df53c86a9418797ec28de68e4d3bae07944cb872:public/todd-call.html:generic-api-key:295
 e0a1e018d8ad83914296a3c439345b6c9c317e27:_ARTIFACTS/arcs-conviction-ledger.html:generic-api-key:131
+# 2026-10-05: Upside's public Ashby job page embeds its own Datadog RUM browser IDs (ddRumApplicationId, ddRumClientToken 'pub...'), public-by-design client tokens owned by the employer, scraped into jd-full.txt; not an ARCS secret.
+_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:165
+_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:274

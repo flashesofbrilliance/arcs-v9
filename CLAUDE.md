@@ -114,63 +114,53 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.85.0 (2026-10-05)
+# Handoff — v3.88.0 (2026-10-05)
 
-> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
-> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
-> `2026-10-05--handoff-v3.83-pr797--ZH`.
+> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
+> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
+> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
 
 ## Shipped + on main
-- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
-  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
-  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
-  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
-- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
-  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
+- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
+  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
+  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
+  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
+  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
+- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
+  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
+  image/svg+xml, image/png, application/manifest+json.
 
 ## Open (next session)
-1. intent workflow on `974f6adb` not checked (low).
-2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
+1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
+   is covered, but any `/:path*` style host rule is not) may still swallow icons.
+2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
+3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
 
 ## Lessons (in the record)
-- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
-  before chasing the test. Plain `npm run test:unit` passed on the same commit.
-- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
+- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
+  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
 
-# Handoff — v3.84.0 (2026-10-05)
+# Handoff — v3.87.0 (2026-10-05)
 
-> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
-> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
-> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
+> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
+> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
 
-## Done
-- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
-  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
-  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
-  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
-- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
-- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
-- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
-  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
-- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
-
-## WIP preserved (local branches, not pushed)
-`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
-`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
-`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
-`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
-All inside the consolidated bundle.
+## Shipped + on main
+- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
+  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
+- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
+  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
+  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
+- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
+- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
+- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
+  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
+  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
 
 ## Open (next session)
-1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
-2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
-3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
-4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
-   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
-5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
+1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
+2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
+3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
 
-## Lessons (in the record)
-- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
-  (pruned `cool-bell` under a live session, restored it from its branch).
-- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
-- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
+## Lessons
+- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.

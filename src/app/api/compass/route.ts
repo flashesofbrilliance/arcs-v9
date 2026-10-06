@@ -191,9 +191,13 @@ export async function POST(req: NextRequest) {
   // Resolve session ID: reuse the client's only if the thread is the caller's.
   const resolvedSessionId = await resolveOwnedSessionId(sessionId, userId)
 
-  // Fetch prep session if provided (signed-in flow persists prep rows)
-  const prepRow = prepId
-    ? await prisma.prepSession.findUnique({ where: { id: prepId } })
+  // Fetch prep session if provided (signed-in flow persists prep rows).
+  // Scoped to the caller: a prep row owned by someone else, or any prepId
+  // from an anonymous caller (a null userId would match every unowned row),
+  // is dropped, so a client-supplied id cannot pull another user's stakes /
+  // protecting / adversarialInput into this run.
+  const prepRow = prepId && userId
+    ? await prisma.prepSession.findFirst({ where: { id: prepId, userId } })
     : null
 
   // Unified prep context. Anonymous clients pass prep inline in the request
