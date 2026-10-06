@@ -8,7 +8,7 @@
 
 ## D — The Decision
 
-**Sharp question:** What is the minimum set of delivery repairs needed to route real users to the already-built debrief UX, so that `Outcome` rows accumulate and `sage_efficacy.js` can eventually produce a result?
+**Sharp question:** What is the minimum set of delivery repairs needed to route real users to the already-built debrief UX, so that `Outcome` rows accumulate and `sage_efficacy.mjs` can eventually produce a result?
 
 ---
 
@@ -26,7 +26,7 @@
 ## W — Window
 
 **Horizon:** QUARTER
-**Revisit trigger:** `sage_efficacy.js` produces a result — both cohorts (sage_fired=true, sage_fired=false) each have ≥20 Outcome rows. At that point, re-open ADR-059 Option A (text-derived signal).
+**Revisit trigger:** `sage_efficacy.mjs` produces a result — both cohorts (sage_fired=true, sage_fired=false) each have ≥20 Outcome rows. At that point, re-open ADR-059 Option A (text-derived signal).
 
 ---
 
@@ -99,12 +99,12 @@ Debrief is purely email-triggered. A user who misses or ignores the email has no
 **Build sequence:**
 1. **Eligibility extension** — set `reminderDate = now() + 7 days` at receipt creation when no `outcomeHorizon` is provided; backfill existing receipts with no `reminderDate` (or accept they’re permanently ineligible)
 2. **Long-horizon scheduler** — Vercel cron (daily or weekly) that queries receipts where `reminderDate` is within the next 30 days and no Outcome exists; queues Resend sends for any not yet sent. Replaces the single-shot schedule-at-creation pattern for long-horizon receipts.
-3. **Verify delivery** — after steps 1–2, confirm Outcome rows start accumulating; run `sage_efficacy.js` check as a canary (will still be GATED but “n” should start climbing)
+3. **Verify delivery** — after steps 1–2, confirm Outcome rows start accumulating; run `sage_efficacy.mjs` check as a canary (will still be GATED but “n” should start climbing)
 4. **Option C follow-on** — once delivery is confirmed working, add “Open debriefs” to `/history`; receipts with no Outcome row surface a “How did it go?” CTA
 
-**Architecture Decision 1 (soft/hard NCI gate):** Remains deferred. Re-evaluate when `sage_efficacy.js` produces a result.
+**Architecture Decision 1 (soft/hard NCI gate):** Remains deferred. Re-evaluate when `sage_efficacy.mjs` produces a result.
 
-**Implementation pointer:** New issue required — `[FIX] Debrief delivery pipeline (ADR-026)`. Build sequence steps 1–3 are the acceptance criteria for unblocking `sage_efficacy.js`.
+**Implementation pointer:** New issue required — `[FIX] Debrief delivery pipeline (ADR-026)`. Build sequence steps 1–3 are the acceptance criteria for unblocking `sage_efficacy.mjs`.
 
 ---
 

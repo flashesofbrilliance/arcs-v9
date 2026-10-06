@@ -139,7 +139,7 @@ Keep the paid surfaces honest on 2026-10-06: Anthropic spend on the one new key,
 - None in scheduled tasks, `~/.arcs/jobs-pipeline.env`, or shell rc; no local n8n.
 - **#887:** receipt Y-gate verdict under True North, headings, AA contrast on the dashboard, 16px inputs (no iOS zoom), a wrapping dashboard heading,
    server refusals skip the 15s receipt-recovery poll and the error is `role="alert"` under the button. Lint: `public/**` ignored, 64 JSX entities
-   escaped, hook-rule errors fixed in 5 files, `tests/unit` `any` removed, `sage_efficacy.js` and the PRL parser test moved to `.mjs`.
+   escaped, hook-rule errors fixed in 5 files, `tests/unit` `any` removed, `sage_efficacy` and the PRL parser test moved to `.mjs`.
    Rebased onto main twice (main kept moving; the pre-commit kintsugi gate blocks a local merge commit that carries main's resume HTML).
 - **#918:** True North statement is the `h1` in `AhmedOrder` (receipt and brief share it).
 - **Deploy:** production deployments of `68024c46` and `8ff408e7` are READY, aliased to `app.arcs.care`.
@@ -161,7 +161,7 @@ Keep the paid surfaces honest on 2026-10-06: Anthropic spend on the one new key,
 3. GitHub Actions billing or spending limit is blocking runs again (human). No PR or main commit has a CI verdict until it is fixed.
 4. Receipt row for #918 needs the two corrections above if the table should match (a project-scoped Supabase connector worked for UPDATEs in an earlier session).
 5. Not done from the audit: sub-44px touch targets, sub-12px mono labels, 51 ESLint warnings.
-6. `ADR-026` and `ADR-059` still cite `scripts/sage_efficacy.js` (now `.mjs`).
+6. (Fixed 2026-10-06: ADR-026 and ADR-059 now cite `scripts/sage_efficacy.mjs`.)
 
 ## Next action
 Zach: unblock GitHub Actions billing, then move or delete the old-org Anthropic keys and revoke them in the old org console.
