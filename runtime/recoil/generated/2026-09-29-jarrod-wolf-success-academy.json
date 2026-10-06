@@ -1,0 +1,474 @@
+{
+ "meta": {
+  "report_id": "2026-09-29-jarrod-wolf-success-academy",
+  "date": "2026-09-29",
+  "counterpart": "Jarrod Wolf",
+  "company": "Success Academy",
+  "segments": 5,
+  "provenance": {
+   "audience": "internal",
+   "captured": "Granola transcript 7ea41de8, video call 2026-09-29 3:30 to ~4:00 PM EDT (~30 min, Jarrod hard stop at 4)",
+   "load_bearing_quote": "You can build a website, you have a GitHub, scanned your GitHub, it's fine, like all good there, but the process piece is what I want to understand a bit more."
+  }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "candidacy",
+  "req_reality": "3",
+  "req_reality_basis": "JD posted (req 5426118008, $225-250K) + decision owner met: \"I'll talk to Brian, I'll talk to my boss. We'll either have you do one more interview, or come on site\"",
+  "y_state": "YELLOW",
+  "topology": "CONVERGENT",
+  "nci_prior": 0,
+  "nci_post": 0,
+  "note": "HM met, req real. Close named two advancing paths and no outcome hedge; decision pends his boss + Brian (Thu, else Mon/Tue)."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "Jarrod screens for ship-real-AI and doubts PM ceremony; lead with discovery (Brian's coaching)",
+   "evidence": "\"tooling ... it's fine, like all good there, but the process piece is what I want to understand\"",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.8
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE (with a twist: build is assumed; process is the test)"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "ARCS proof would reach the HM",
+   "evidence": "He ran Question Compass on 'Should I hire Zach Harris?' and said he went through the GitHub. Route unknown: no evidence Brian forwarded success-academy.arcs.care (analytics API 404, runtime logs timed out; prod DB holds no anonymous runs by design)",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.95
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE (ARCS reached him; the page route is unverified)"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "The conventional resume reads cleanly",
+   "evidence": "\"were you full-time at Grayscale ... Mañana, full-time or contract? ... I was so confused\"",
+   "inference": "EXP",
+   "confidence": [
+    0.75,
+    0.35
+   ],
+   "conviction": "MED",
+   "verdict": "FALSIFIED (consulting vs full-time structure is illegible)"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "Why-now answer lands with a many-times founder",
+   "evidence": "Z answered isolation / office / food halls; J: \"No, no, it's a good one.\" Later: \"I'm really big on the zero to one\"",
+   "inference": "IMP",
+   "confidence": [
+    0.6,
+    0.7
+   ],
+   "conviction": "MED",
+   "verdict": "LANDED (candid answer read as genuine; zero-to-one framing is a bonus next round)"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "Role level (Leader vs IC) will clarify on the call",
+   "evidence": "Not discussed; call ended at a hard stop",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.5
+   ],
+   "conviction": "LOW",
+   "verdict": "UNRESOLVED"
+  },
+  {
+   "id": "N1",
+   "audience": "internal",
+   "claim": "The GitHub is being read closely under an AI-slop bar",
+   "evidence": "J asked about 'BlindSat'; Z: \"I need to go through the repo honestly\"",
+   "inference": "IMP",
+   "confidence": [
+    0.0,
+    0.7
+   ],
+   "conviction": "MED",
+   "verdict": "NEW (risk)"
+  },
+  {
+   "id": "N2",
+   "audience": "internal",
+   "claim": "Mechanism-level answer fit a zero-to-one founder listener",
+   "evidence": "He had said 'startup founder many times over' (beat 7); after the answer he pulled on ARCS GTM and said 'kind of what Brian did ... keep going'. The on-screen reference-check recommendation is still an open door",
+   "inference": "EXP",
+   "confidence": [
+    0.0,
+    0.75
+   ],
+   "conviction": "MED",
+   "verdict": "NEW (fit the listener; product-level one-liner is for his boss)"
+  },
+  {
+   "id": "N3",
+   "audience": "internal",
+   "claim": "The close signals intent to advance, pending his boss",
+   "evidence": "Closing hedge scan: both named paths advance ('either ... one more interview, or come on site'); the only conditional is about timing ('if you don't hear from me on Thursday ... Monday or Tuesday'); no outcome hedges ('we'll see', 'other candidates', 'keep you posted') and no rejection path named. Limit: he has not yet talked to his boss or Brian",
+   "inference": "EXP",
+   "confidence": [
+    0.55,
+    0.7
+   ],
+   "conviction": "MED",
+   "verdict": "UPGRADE"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "advance",
+    "audience": "internal",
+    "label": "P(advance to next round)",
+    "color": "#00F0FF",
+    "points": [
+     0.55,
+     0.62,
+     0.5,
+     0.58,
+     0.7
+    ],
+    "grounding_quote": "We'll either have you do one more interview, or come on site"
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "He used the product on you",
+   "text": "Running Compass on 'Should I hire Zach Harris?' is buyer-intent evidence for ARCS and a live demo he chose himself. The result he saw is unknown; that is the biggest gap in this record."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "Brian's product echo",
+   "text": "\"It's kind of what Brian did with one of his products\" (Lattice). Could read as familiarity or as derivative. Worth knowing before round 2."
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "References on request only (Zach's call: they want credible builders fast; don't add process to their process). Note leads with process, since that's his stated test."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "If references are requested: use Ideal Protein / Squat New York people (not under NDA; ties to the shareable case study). Grayscale is off the table (confidentiality agreement). Suggested pair: one client-side leader + one engineer."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Thank-you note (draft only): one crisp process story (Grayscale 4 workstreams, 2-week sprints, compliance as co-design partner) in 5 lines, plus a reframe of why-now as zero-to-one inside an institution."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Fix resume legibility: one line under the consulting practice saying fixed-term engagements (Grayscale = 1-year contract)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Re-read BlindSat (and anything else public in the GitHub) so every repo item is ownable in one sentence."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "If no word by Tue 2026-10-06, check in with Brian (not Jarrod)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Round-2 prep: ask role level, team shape, the boss's criteria, and what Compass told him."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "ARCS &#183; War Room",
+   "title": "Jarrod Wolf &#183; Success Academy",
+   "sub": "AI Product Manager, HM round 1. Closed 2026-09-29."
+  },
+  "tabs": [
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "True North",
+    "p": [
+     "Kintsugi seam: no /recoil-prep ran for this call, so no Pre-Call tab was filed before contact. Positioning on record (memory, 2026-09-26): PM-first, discovery-led, builder to founder to operator."
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Exhibit 1 &#183; Ex-Ante (reconstructed, NOT filed pre-call)",
+    "rows": [
+     {
+      "k": "Status",
+      "v": "No ex-ante receipt existed. The priors below come from the 2026-09-26 positioning notes, not a timestamped prediction. Scored as priors, never as a hit rate."
+     },
+     {
+      "k": "D &#183; Question",
+      "v": "Does round 1 with the HM advance to round 2?"
+     },
+     {
+      "k": "Implied hypothesis",
+      "v": "Discovery-led PM story clears a founder HM allergic to ceremony"
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Exhibit 2 &#183; Exogenous Forge",
+    "p": [
+     "11 load-bearing claims routed through an independent skeptic (recoil-reason agent, quotes only). 2 grounded, 6 inference, 3 struck."
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "h2": "Adjudication",
+    "rows": [
+     [
+      "J did diligence incl. running ARCS on the hire",
+      "INFERENCE",
+      "Scanned GitHub, ran Compass on the hire, asked for a walkthrough ('deep' not forced)"
+     ],
+     [
+      "Open question is process, not tech",
+      "GROUNDED",
+      "q3 verbatim; whether the answer closed it is unknown"
+     ],
+     [
+      "Call advanced Zach",
+      "INFERENCE (re-forge)",
+      "Intent to advance grounded by the unhedged close; the decision still pends his boss"
+     ],
+     [
+      "Resume structure confused him",
+      "INFERENCE",
+      "Confusion grounded; 'cost time' not"
+     ],
+     [
+      "Why-now misaligned with his zero-to-one value",
+      "STRUCK (re-forge)",
+      "He said 'No, no, it's a good one'; first pass omitted it"
+     ],
+     [
+      "Naming Brian's coaching is a risk",
+      "INFERENCE",
+      "Plausible; no reaction on record"
+     ],
+     [
+      "Z over-talked, squeezing questions",
+      "INFERENCE",
+      "Monologue self-flagged; J's hard stop also a cause"
+     ],
+     [
+      "Decision not his alone",
+      "GROUNDED",
+      "'I'll talk to Brian, I'll talk to my boss'"
+     ],
+     [
+      "Vague repo answer dented credibility",
+      "INFERENCE",
+      "Real risk under slop bar; no reaction on record"
+     ],
+     [
+      "Rapport strong",
+      "STRUCK",
+      "Warm small talk happened; warmth is not fit evidence"
+     ],
+     [
+      "Role level clarified",
+      "STRUCK",
+      "Still open"
+     ]
+    ],
+    "columns": [
+     "Claim",
+     "Verdict",
+     "Corrected"
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Receipt closed",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "Advance on discovery-led PM story (reconstructed prior)"
+     },
+     {
+      "k": "Actual",
+      "v": "Tech bar cleared in his words; process probed; next step conditional; decision Thu or Mon/Tue"
+     },
+     {
+      "k": "Fork hit",
+      "v": "YELLOW: advocate-ish, decision pending, req confirmed"
+     },
+     {
+      "k": "Load-bearing quote",
+      "v": "\"the process piece is what I want to understand a bit more\""
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Kairos, quiet signals, risk flags",
+    "intro": "",
+    "items": [
+     {
+      "dot": "g",
+      "html": "<strong>Signal:</strong> he ran Compass on hiring you and screen-shared it"
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Missed kairos (beat 12):</strong> he read out 'request a structured reference check'; Z explained features instead of offering references. He handed over the objection; answer it next touch."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Warmth, mutual:</strong> he opened personal threads 3 times, the last (Kyoto pagoda) after his own hard stop"
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Quiet:</strong> 'Very helpful' after the process answer; he then asked about ARCS go-to-market (founder curiosity)"
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Risk:</span> said aloud that Brian coached around the AI-slop bar"
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Risk:</span> could not speak to BlindSat in own repo"
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Risk:</span> one long monologue (self-flagged); one candidate question"
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "h2": "ATG pre-mortem (dead in 90 days)",
+    "rows": [
+     [
+      "J + boss debrief",
+      "'Consultant, not an employee' (resume confusion + why-now)",
+      "Zach: thank-you note reframe  &#8592; BOTTLENECK"
+     ],
+     [
+      "Brian relay",
+      "Coaching disclosure awkward",
+      "Brian"
+     ],
+     [
+      "Round 2 / onsite",
+      "Process depth, repo ownership",
+      "Zach: prep"
+     ],
+     [
+      "Offer",
+      "Level mismatch (Leader vs IC)",
+      "Open"
+     ]
+    ],
+    "columns": [
+     "Node",
+     "Their objection",
+     "Court"
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Gauntlet",
+    "intro": "",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>BAR:</strong> no ruin edge; a loss here is recoverable"
+     },
+     {
+      "dot": "",
+      "html": "<strong>LAB Loki:</strong> 'Very helpful' and 'stay tuned' are stock phrases; treat as neutral"
+     },
+     {
+      "dot": "",
+      "html": "<strong>COURT:</strong> not needed; two-way door"
+     }
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Rosetta",
+    "p": [
+     "His register: founder-operator, zero-to-one, low patience for theory. Translate ARCS as 'how I run premortems and kill bad bets before eng spends a sprint', and the move to Success Academy as 'zero-to-one again, with runway and a mission'."
+    ]
+   }
+  ]
+ }
+}
