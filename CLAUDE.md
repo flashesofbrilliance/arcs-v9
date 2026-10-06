@@ -114,6 +114,29 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.96.0 (2026-10-05)
+
+> **cruft_sweep bundle path proven live; manifest rows name only refs that exist (#861, merged without CI on
+> Zach's go).** Receipt `2026-10-05--cruft-manifest-detached-row-pr861--ZH`.
+
+## Shipped + on main
+- **#861 (`e8b9bd17`):** #837 stopped pinning detached heads already on upstream but the MANIFEST.tsv row still
+  named the unpinned `refs/cruft-archive/...` ref. Landed detached rows now read `(detached)`. `--self-test` 18/18
+  (every manifest `refs/...` must exist); the #837 version fails 2.
+- **Bundle path probed on the real repo:** throwaway `cruft-bundle-probe` worktree off origin/main, 1 commit, pruned:
+  576-byte bundle (vs ~150MB full-history), `bundle verify` okay, commit restored from it. Probe branch, bundle and
+  manifest row deleted afterwards. The cool-bell / unruffled-pike manifest rows were hand-fixed to `(detached)`.
+
+## Open (next session)
+1. **GitHub Actions blocked by billing** (failed payment or spending limit): no CI on any PR until Zach fixes it.
+   #837, #843, #861 merged with none.
+2. `cool-poitras-4f96e7` is SAFE with its tip on main: prune when convenient (manifest row only, no bundle).
+
+## Lessons (in the record)
+- To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
+  on it: every SAFE candidate with off-main commits was mid-session.
+- A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
+
 # Handoff — v3.95.0 (2026-10-05)
 
 > **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
@@ -137,31 +160,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Lessons (in the record)
 - Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
   as production into every share card. Grep live `og:image` hosts, not just the tags' presence.
-
-# Handoff — v3.94.0 (2026-10-05)
-
-> **Compass IDOR series closed: parent, prep and session ids scoped to the caller; anonymous claim route retired.**
-> Oracle handoff=46. Receipts `2026-10-05--compass-parent-owner-scope-pr813--ZH`, `...-compass-prep-owner-scope-pr830--ZH`,
-> `...-compass-session-owner-scope-pr836--ZH`, `...-retire-receipts-claim-pr847--ZH`, `...-smoke-claim-retired-pr853--ZH`.
-
-## Shipped + live (verified on `arcs-v9-r6l4w9055`)
-- **#813** (`52ece6a2`): compass parent lookup is `findFirst({id, userId})`, signed-in only; foreign/missing drops parent inputs and `parentId`.
-- **#830** (`d9f8af71`): `PrepSession.userId` (nullable + index, migration `20261005010000_prep_session_owner`), set by `/api/prep`,
-  compass prep lookup scoped to owner, account delete removes owned preps. Migration was applied by hand (Supabase SQL +
-  `_prisma_migrations` row, file sha256) because Vercel skipped `buildCommand`; #840/#857 (other session) now run
-  `migrate deploy` on prod and fixed P3019 (`migration_lock.toml` said sqlite).
-- **#836** (`843f5bee`, taken over from chip session): `src/lib/session-owner.ts` reuses a client sessionId only if no
-  receipt in the thread is foreign or unowned; wired in compass, receipts/save, tribune seed.
-- **#847** (`50ae66cb`): `PATCH /api/receipts/claim` retired (sessionId was never proof of possession; 48 legacy unowned rows,
-  none since 2026-07-13). Callers removed; `/trust` copy + `_CANON/trust-contract.md` v1.6. Live: route 404s.
-- **#853** (`a2aeedd8`): smoke.sh A5 now requires the claim route to 404/405. #849 (chip duplicate) closed.
-
-## Open (next session)
-1. 48 legacy anonymous receipt owners were not told claiming moved to the inquiry link (low).
-2. sessionId check-then-write race on a known id (very low, receipted only).
-3. GitHub Actions: none of these merges had a completed CI run (billing block, then queued). Check the first green main run after `a2aeedd8`.
-
-## Lessons
-- A chip you spawn can be started while you do the same work: check `git branch -r` / open PRs before writing, and message the session to stand down.
-- A user-facing promise (`/trust`, trust contract) can depend on a route; privacy-review catches it, ciso-review does not.
-- Deleting a route needs a grep of `scripts/` too: smoke.sh A5 asserted the claim route existed.
