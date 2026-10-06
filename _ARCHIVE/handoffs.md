@@ -1,3 +1,41 @@
+# Handoff — v3.89.0 (2026-10-05)
+
+> **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with
+> `--merge`: #792 (`8b8519f3`), #795 (`fbc3cece`), #801 (`21cc370c`, merged with fe-smoke red, which was
+> pre-existing on main and fixed by #800/#806). Receipts `2026-10-05--preview-magic-link-pr792--ZH`,
+> `--session-token-leak-pr795--ZH`, `--null-userid-sweep-pr801--ZH`. #803 (brief/guide authz) was the
+> sibling session's, receipt `--brief-guide-authz-pr803--ZH`.
+
+## Shipped + on main
+- **Root cause of the preview bounce was `ADMIN_EMAILS` Production-only**, not the link host: Auth.js builds
+  email links from the request host (no AUTH_URL anywhere); `redirectProxyUrl` is OAuth-only in @auth/core
+  0.41.3. `isAdmin()` now warns once when the allowlist is empty in production mode.
+- **`/api/auth/session` no longer serves `sessionToken` + the full User row**: the callback returns
+  `{expires, user:{id,email}}`; auth error logger logs name+message; Resend errors carry the name only.
+- **`scripts/null_userid_gate.py`** + pre-commit: session userId reaching a `where` with no `if (!userId)`
+  guard fails (multi-line, per-handler, `?? undefined`). Sweep found no live instance.
+- Proof method that works on protected previews: `vercel curl <preview>/api/auth/csrf`, POST
+  `signin/resend` with the jar, read the link via Gmail MCP, redeem with the same jar, then sign out.
+
+## Env changes (outside git)
+- `ADMIN_EMAILS` was added to Preview for the proof, then **removed** on Zach's ask. Already-built
+  previews keep the old value until rebuilt. Production `ADMIN_EMAILS` is Sensitive (unreadable).
+- `brew reinstall node` (Homebrew node 26.10.0, vercel CLI 62.2.0; PATH still prefers `~/.local/bin/node`
+  v26.7.0). `agent-browser install` done, doctor 10/10.
+
+## Open (next session)
+1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
+2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
+3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
+4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
+5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
+   whether #803 covered it before starting.
+
+## Lessons (in the record)
+- `gh pr checks --watch ...; gh pr merge` in one command merges on red: the watch exits on failure and the
+  next command runs. Gate the merge on the rollup conclusions, never on the watch returning.
+- A Sensitive Vercel var pulls as `""`; check the length before copying it anywhere.
+
 # Handoff — v3.88.0 (2026-10-05)
 
 > **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)

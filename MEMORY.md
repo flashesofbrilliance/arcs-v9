@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
+
 ## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
 
 - Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
