@@ -123,7 +123,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 ## Shipped + on main
 - **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
   (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
-  `public/icon-192/512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
+  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
   (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
   `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
 - **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
