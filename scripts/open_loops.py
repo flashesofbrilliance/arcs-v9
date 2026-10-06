@@ -8,6 +8,8 @@ with a count of the rest, because the point is less load, not a bigger list:
   2. Closable in <15 min    open backlog rows whose cost_prior is <= 15 min
   3. Rotting                backlog past review_by (or untouched > 21d), unclaimed handoff
                             checkpoints > 7d, conflicting PRs > 14d
+  3b. Ripe or secretly done backlog rows whose trigger fired, deps cleared, or status already
+                            cites a merged PR (scripts/backlog_ripeness.py)
   4. Captured today         seeds planted and /witness stubs from today, not yet filed
   5. Coming up              scheduled one-time reminders (from --scheduled JSON; the scheduled
                             task store has no on-disk fire times, so the /loops command passes
@@ -218,6 +220,17 @@ def gather(scheduled: Path | None, today: dt.date, now: dt.datetime) -> dict:
     quick, bl_rot = backlog_loops(_jsonl(bl), today) if bl.is_file() else ([], [])
     if not bl.is_file():
         gaps.append("backlog missing")
+    ripe = []
+    if bl.is_file():
+        try:  # ripeness: trigger fired / depends_on cleared / status already says it landed
+            sys.path.insert(0, str(ROOT / "scripts"))
+            import backlog_ripeness as br
+            for f in br.run(_jsonl(bl), today):
+                if f["verdict"] in ("SECRETLY-DONE", "RIPE", "BLOCKED"):
+                    ripe.append(_item(f["id"], f"{f['verdict']}: {f['evidence'][:80]}", f["id"],
+                                      {"SECRETLY-DONE": 3, "RIPE": 2, "BLOCKED": 1}[f["verdict"]]))
+        except Exception as e:  # noqa: BLE001
+            gaps.append(f"backlog ripeness unreadable ({type(e).__name__})")
 
     try:
         mine, cp_rot = checkpoint_loops(_worktree_ledgers(), today, ROOT.name)
@@ -258,6 +271,7 @@ def gather(scheduled: Path | None, today: dt.date, now: dt.datetime) -> dict:
             ["Waiting on your go", go],
             ["Closable in under 15 min", quick],
             ["Rotting", pr_rot + bl_rot + cp_rot + arc_rot],
+            ["Ripe or secretly done", ripe],
             ["Captured today, not filed", cap],
             ["Coming up", coming_up(sched, now)],
         ],
@@ -307,6 +321,7 @@ def render_spoken(d: dict) -> str:
         "Waiting on your go": "{n} things are waiting on your yes. The first is {t}.",
         "Closable in under 15 min": "{n} could close in under fifteen minutes. The quickest is {t}.",
         "Rotting": "{n} are going stale. The oldest is {t}.",
+        "Ripe or secretly done": "{n} backlog rows are ripe, done, or blocked. First up is {t}.",
         "Captured today, not filed": "You caught {n} ideas today that have no home yet, starting with {t}.",
         "Coming up": "Coming up: {t}.",
     }
