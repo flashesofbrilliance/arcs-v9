@@ -95,7 +95,7 @@ single-source-of-truth ADR. Accepted at QUARTER horizon — duplication is visib
 
 **Polarity:** GREEN
 **Conviction:** HIGH
-**Stability:** STABLE
+**Stability:** REVISIT
 
 **Loki test:** Inline styles don't compose well at scale — 500-line style objects accumulate fast.
 A typed variant system (cva/class-variance-authority) with Tailwind would be more maintainable if
