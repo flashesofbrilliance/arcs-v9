@@ -353,6 +353,16 @@ rwa.xyz's longer net-flow periods, the Fund Flows metric and CSV export are behi
 - Gemini and Genesis: SEC dismissed its case against Gemini on Jan 23, 2026 (100% in-kind return of Earn assets); Genesis creditors were repaid in kind in 2024 ($4.9B plan); DCG paid $38M to the SEC in Jan 2025; no 2026 adverse ruling found. It points toward loosening during the outflow week.
 - Private placements and year-end windows: non-traded BDCs hold a 5% quarterly tender cap; many were at or above it for Q4 2025; BCRED requests hit about 7.9% in Q1 and about 10% in Q2; Blue Owl funds saw 40.7% and 21.9% requests; crypto hedge funds were down about 23% in 2025 and bitcoin ETFs saw record November outflows ($3.79B). Annual fund redemption on Dec 31 with 30 to 90 days' notice and 30 to 60 days to pay would put payouts in mid-January to early March (typical structure, not sourced for named funds). A plausible but untested January channel.
 
+## Collateral repricing: ETH drawdown and collateral-backed stablecoins (2026-10-06)
+
+CoinGecko ETH daily closes (365-day window) and DefiLlama supply.
+
+- ETH: 12-month high $4,526 (Oct 9, 2025) to a low of $1,566 on Jun 26, 2026 (-65.4%); the August 2025 record is outside the window. $3,352 (Jan 15), $2,703 (Jan 31, -19.4%), $2,143 (Feb 5), $1,824 (Feb 6, -14.9% on the day, the worst day of the window), then $1,931 (Feb 28). Other worst days: Oct 11 (-12.1%), Jun 6 (-10.5%), Feb 1 (-9.3%).
+- Collateral-backed stablecoins: DAI plus USDS $10.3B (Dec 31), $10.9B (Jan 15), $10.9B (Jan 31), $11.8B (Feb 28); USDe $6.3B, $6.5B, $6.5B, $6.0B. No burn-down through a 19% then 46% collateral fall.
+- Daily correlation of ETH return with supply change: DAI plus USDS +0.08 (n=363; January +0.32, n=31); USDe +0.18 (n=363; January +0.26).
+- Mechanics: liquidations repay debt but do not burn USDC; USDC borrowed on Aave goes back to the pool and stays in circulation. Burns of DAI and USDS happen on vault repayment, and none showed up in January. Aave processed $429M of liquidations from Jan 31 to Feb 5, small against the stock of collateral.
+- Not found: any securitization of crypto collateral against stablecoins (crypto CLOs) in 2026 filings or press.
+
 ## Corrections I would own publicly
 
 - The Jan 28 SEC statement does not classify tokenized T-bills or wstETH. Two pieces say it does.
