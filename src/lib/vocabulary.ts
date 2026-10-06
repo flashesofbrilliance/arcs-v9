@@ -87,3 +87,6 @@ export function horizonLabel(h: string | null | undefined): string | null {
   if (!h) return null
   return HORIZON_LABELS[h.trim().toUpperCase()] ?? null
 }
+
+/** Empty state under an open question with no answer yet. Canon tao-285. */
+export const OPEN_QUESTION_PROMPT = "The compass can ask. Only the one who walks can answer."

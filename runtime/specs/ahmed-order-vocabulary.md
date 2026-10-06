@@ -33,6 +33,7 @@ SHARP verdict today. 266/267 carry exactly 3 `whyBullets`; 70 carry `atgTributar
 - **C1:** the label is **True North**; "Verdict" is the slot name only.
 - **C2:** **DEWY** covers all three (meta receipt, product decision record, ledger ship event); the meaning is conditional on the situation. No rename.
 - **C5:** horizon displays in plain English ("Today", "This Week", "This Quarter", "This Year", "1 to 3 Years") via `horizonLabel()`, whichever enum spelling it arrives in.
+- **C4:** open questions render without a model-written answer; the empty state is canon proverb **tao-285**, "The compass can ask. Only the one who walks can answer." (`OPEN_QUESTION_PROMPT`).
 - **C3:** a **Decision** is a call, a bet or a choice; some are one-way doors, some two-way.
 
 ## Collisions as raised (kept for the record; `_CANON` untouched)
