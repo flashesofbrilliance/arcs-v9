@@ -346,6 +346,13 @@ rwa.xyz's longer net-flow periods, the Fund Flows metric and CSV export are behi
 - Circle exposure: CBDCs threaten EURC (euro stablecoin, about EUR 310M at end of 2025) more than USDC. Closer competitive threats are bank deposit tokens and the Clearing House network (launch targeted for H1 2027), the GENIUS and CLARITY yield rules, and distribution cost: $410.4M of $701M Q2 revenue and reserve income (58.5%) went to distribution and transaction costs, with a reserve return rate of 3.5%, down 66 bp.
 - Timing: none of the CBDC milestones falls in January except China's Jan 1 change, which does not involve USDC.
 
+## China, reserves, Gemini and private placements (2026-10-06, search-sourced)
+
+- China and the digital yuan: e-CNY interest-bearing from Jan 1, 2026; 3.4B transactions worth about 16.7T yuan ($2.4T); mBridge (China, Hong Kong, Thailand, UAE, Saudi Arabia) above $55B cumulative with the digital yuan above 95% (US News, Jan 16); Shanghai international operations center since Sept 2025; 26 institutions signed Jun 16. A wholesale and public-sector settlement push aimed at reducing dollar and SWIFT dependence; no USDC link found.
+- Reserve currency: IMF COFER dollar share about 56.4% (Q4 2025), about 57.1% (Q1 2026, about half from valuation), about 56.7% (Q2 2026). Central bank gold buying in H1 2026: Poland 82t, Uzbekistan 41t, China 40t, Kazakhstan 27t; 74% of surveyed central banks expect lower dollar holdings in five years. Diversification favours gold more than the renminbi, and it is gradual.
+- Gemini and Genesis: SEC dismissed its case against Gemini on Jan 23, 2026 (100% in-kind return of Earn assets); Genesis creditors were repaid in kind in 2024 ($4.9B plan); DCG paid $38M to the SEC in Jan 2025; no 2026 adverse ruling found. It points toward loosening during the outflow week.
+- Private placements and year-end windows: non-traded BDCs hold a 5% quarterly tender cap; many were at or above it for Q4 2025; BCRED requests hit about 7.9% in Q1 and about 10% in Q2; Blue Owl funds saw 40.7% and 21.9% requests; crypto hedge funds were down about 23% in 2025 and bitcoin ETFs saw record November outflows ($3.79B). Annual fund redemption on Dec 31 with 30 to 90 days' notice and 30 to 60 days to pay would put payouts in mid-January to early March (typical structure, not sourced for named funds). A plausible but untested January channel.
+
 ## Corrections I would own publicly
 
 - The Jan 28 SEC statement does not classify tokenized T-bills or wstETH. Two pieces say it does.

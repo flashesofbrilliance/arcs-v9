@@ -27,6 +27,10 @@ How to read this: a credence is my subjective probability that a factor was a ma
 | H17 | Consumer liquidity and confidence | 0.05 | 0.02 | UMich sentiment, saving rate in January | Confidence collapse in January | D | Rejected (best month of year) |
 | H20 | Hedge fund shorts or basis trades collateralized in stablecoins | 0.10 | 0.07 | CFTC leveraged-fund positions; margin type; Hyperliquid funding | Shorts hold USDC and redeem it | P, D | CME shorts are cash and bill margined; USDC margin is locked, not burned; funding flip on Jan 20 supports the long-unwind reading of H2 |
 | H21 | Rebalance into gold or tokenized gold | 0.10 | 0.04 | Tokenized gold supply, Jan 15 to 31 | Large tokenized gold mints | D | About $0.25B, and gold was at its record, not at a discount |
+| H22 | Year-end private fund and BDC redemption payouts landing in January | 0.10 | 0.12 | BDC tender caps; crypto fund performance; typical notice and payout lags | A payout schedule that misses mid to late January | S | Plausible, untested: BDC requests ran near or above the 5% cap in Q4 2025, crypto hedge funds fell about 23% in 2025 |
+| H23 | Gemini or Genesis ruling and settlement fallout | 0.05 | 0.02 | Case dates | A 2026 adverse ruling | S | Rejected: SEC dismissed its Gemini case on Jan 23, 2026 (pro-industry); Genesis repaid in kind in 2024 |
+| H24 | CBDC and e-CNY pushes (digital euro, interest-bearing e-CNY from Jan 1, mBridge) | 0.05 | 0.01 | Timing and scope | A USD-denominated effect | S | Rejected for USDC; matters for EURC and long-run settlement |
+| H25 | Reserve-currency diversification away from the dollar | 0.10 | 0.03 | IMF COFER, central bank gold buying | A fall in the dollar share around January | S | Rejected: dollar share about 56.4% (Q4 2025) to about 57% (Q1 2026), diversification favours gold |
 | H19 | Circle IPO lockup expiry let institutional holders exit | 0.10 | 0.03 | Lockup dates against supply; equity versus stablecoin mechanics | A tie between equity sales and USDC burns | S | Rejected: equity proceeds are dollars, and the date is six weeks early |
 | H18 | Rate incentive (bill yield vs 0% on USDC) | 0.20 | 0.08 for January, 0.35 for the drift since March | Weekly yield-change correlation (-0.25, n=47) | Zero relationship | D | Not January; plausible drift |
 
@@ -85,6 +89,11 @@ DefiLlama USDC supply, peak to trough, then days to regain 95% of the prior peak
 
 | Date | What | What it could reveal | Status |
 |---|---|---|---|
+| Dec 31, 2025 | Typical annual redemption date for private and crypto funds (notice 30 to 90 days earlier, payouts 30 to 60 days after, so mid-January to early March); not sourced for specific funds | Redemption payouts in the January window | Plausible, untested |
+| Jan 1, 2026 | China's e-CNY becomes interest-bearing; Jan 16: mBridge reported above $55B cumulative | Digital yuan push | No USDC link found |
+| Jan 23, 2026 | SEC dismisses its Gemini case | Regulatory loosening during the outflow week | Opposite direction |
+| Mar 19, Jun 23 and Jul 9, 2026; end of 2026 | Digital euro: Council position, ECON vote, plenary mandate, legislation target | EURC exposure | Open |
+| Late 2026 | Bank of England digital pound decision | Sterling rail | Open |
 | Aug 13 and Dec 2, 2025 | Circle IPO lockup: JPMorgan-led early release of 11.5M shares (Aug 13); standard 180-day expiry Dec 2 | Insider and institutional equity selling (tens of millions of dollars in the 90 days before) | Checked: equity flow, not USDC mint or burn |
 | Jan 1, 2026 | EU DAC8 applies; platforms must collect tax IDs | Whether EU users were forced to redeem | Dated, effect untested |
 | About Mar 1, 2026 | Earliest 60-day block on non-compliant EU accounts | Same | Derived from the rule, S |
@@ -98,6 +107,15 @@ DefiLlama USDC supply, peak to trough, then days to regain 95% of the prior peak
 | Jan 18, 2027 | GENIUS effective date (stated as January 2027 by one source) | Compliance cutoff for issuers | S |
 | Sep 30, 2027 | First DAC8 reporting exchange | Total reportable EU flows | Future |
 | Not published | Circle redeemer counterparties | The direct answer | Does not exist publicly |
+
+## H. Additions after the first commit
+
+- 12-month net issuance (DefiLlama, month-end): USDC +$0.7B over 12 months, January -$5.2B its worst month; 13 major coins -$3.5B in January but -$7.3B in June and -$4.2B in July; USDe -$9.8B; USDT +$9.3B. January was a sharp USDC event; the larger contractions were slower and later.
+- rwa.xyz (page and charts read directly; history and longer periods are login-gated): tokenized Treasuries $14.88B (-6.3% in 30 days), 30-day net flows USDC -$871M, BUIDL -$569M, USYC -$224M against USDe +$617M and USDS +$432M; custodians (BitGo, Anchorage, Paxos) now issue about $7B of stablecoins; pockets of stress in municipal credit and specialty finance. Relevant to H4 (rotation into tokenized Treasuries did not hold for September) and to the institutional-contraction reading of H18.
+- Tokenized gold (H21): $0.25B in the Jan 15 to 31 window; short positioning (H20): CME leveraged-fund shorts rose about 3.1K contracts into Jan 20, a basis trade; Hyperliquid BTC funding flipped from about +11% to -8% on Jan 20.
+- Bitcoin and volatility: January daily correlation of bitcoin returns with USDC change +0.28 to +0.60 depending on source; VIX pulse Jan 20; DVOL about 40 in January and 82.6 on Feb 5 with USDC +$2.0B on Feb 6.
+- China and reserves (H24, H25): e-CNY interest-bearing from Jan 1, 2026; 3.4B transactions worth about 16.7T yuan; mBridge cumulative above $55B with the digital yuan above 95%; Shanghai international operations center since Sept 2025 and 26 institutions signed Jun 16. IMF COFER dollar share about 56.4% (Q4 2025), about 57.1% (Q1 2026, about half valuation), about 56.7% (Q2 2026). Central banks bought gold: Poland 82t, Uzbekistan 41t, China 40t, Kazakhstan 27t in H1; 74% of surveyed central banks expect a lower dollar share in five years. Diversification favours gold more than the renminbi.
+- China as a Treasury seller (Feb to Jul 2026, -$77B) is a separate, later event from January.
 
 ## F. What would move beliefs next (cheapest first)
 
