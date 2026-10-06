@@ -86,6 +86,11 @@ def split_blocks(text):
     return pre, blocks
 
 
+def block_version(block):
+    """-> (major, minor, patch) parsed from a block's '# Handoff — vX.Y.Z' title."""
+    return tuple(map(int, TITLE.match(block).groups()[:3]))
+
+
 def fold(root, dry, keep):
     cm, arch, _ = paths(root)
     frags = fragments(root)
@@ -105,7 +110,9 @@ def fold(root, dry, keep):
         src = f"\n\n> Folded from `{os.path.relpath(p, root)}` (branch `{meta.get('branch', '?')}`, head `{meta.get('head', '?')}`)."
         new_blocks.append(f"# Handoff — v{major}.{minor}.0 ({date})\n\n{body}{src}")
         print(f"fold: {os.path.relpath(p, root)} -> v{major}.{minor}.0")
-    blocks = list(reversed(new_blocks)) + blocks          # newest first
+    # Newest first BY VERSION, not by position: a hand-edited CLAUDE.md can carry blocks out of
+    # order (v3.104.0 below v3.103.0), and archiving positionally then relocated the newer one.
+    blocks = sorted(list(reversed(new_blocks)) + blocks, key=block_version, reverse=True)
     live, overflow = blocks[:keep], blocks[keep:]
     out = pre + "\n\n".join(live) + "\n"
     if dry:
@@ -208,6 +215,21 @@ def self_test():
         g("checkout", "-q", "frag-a")
         check(g("merge", "-q", "--no-edit", "frag-b").returncode == 0, "fragments: second session merges CLEAN")
         check(len(fragments(G)) == 2, "both fragments present after merge")
+
+        print("(6b) out-of-order live blocks: overflow is chosen by version, not position")
+        O = os.path.join(T, "ooo"); os.makedirs(os.path.join(O, "_ARCHIVE"))
+        open(os.path.join(O, "CLAUDE.md"), "w").write(
+            "# P\n\n# Handoff — v3.103.0 (2026-10-06)\n\nB103\n\n# Handoff — v3.104.0 (2026-10-06)\n\nB104\n")
+        open(os.path.join(O, "_ARCHIVE", "handoffs.md"), "w").write("")
+        ro = lambda *a, inp=None: subprocess.run([sys.executable, me, *a], input=inp, capture_output=True, text=True,
+                                                 env=dict(os.environ, CLAUDE_PROJECT_DIR=O))
+        ro("new", "--branch", "claude/gamma", inp="gamma body\n")
+        r = ro("fold")
+        live = [l for l in open(os.path.join(O, "CLAUDE.md")).read().splitlines() if l.startswith("# Handoff")]
+        arch_o = open(os.path.join(O, "_ARCHIVE", "handoffs.md")).read()
+        check(r.returncode == 0 and [l.split(" (")[0] for l in live] == ["# Handoff — v3.105.0", "# Handoff — v3.104.0"],
+              f"live = v3.105, v3.104 (newest by version): {live}")
+        check("B103" in arch_o and "B104" not in arch_o, "v3.103.0 archived, v3.104.0 kept")
 
         print("(7) usage guard")
         check(run("bogus").returncode == 2, "unknown command exit 2")
