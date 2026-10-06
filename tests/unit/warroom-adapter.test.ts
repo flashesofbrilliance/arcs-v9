@@ -380,6 +380,13 @@ test("beliefTrajectory: Recoil-tab worked example intro + close, before the kine
   assert.equal(withBlocks([{ tab: "recoil", type: "worked_example", ...internal, intro: "Pending outreach to Jack.", close: "Pending." }]).beliefTrajectory, "Pending outreach to Jack.", "bare 'Pending.' is absent; a sentence saying pending is kept")
 })
 
+test("belief log: confidence before -> after and conviction ride on the belief thread note", () => {
+  const withBelief = (b: Record<string, unknown>) => adapt(ssot({ beliefs: [{ ...internal, id: "P1", verdict: "FALSIFIED", claim: "A claim", evidence: "e", ...b }] })).signalThreads!.find((t) => t.title === "A claim")!
+  assert.equal(withBelief({ inference: "EXP", confidence: [0.7, 0.25], conviction: "HIGH" }).note, "Inference: EXP \u00b7 confidence 0.7 \u2192 0.25 \u00b7 conviction HIGH")
+  assert.equal(withBelief({ confidence: "[0.5, 0.85]", conviction: "settled" }).note, "confidence 0.5 \u2192 0.85 \u00b7 conviction settled", "TEXT-string pair parses")
+  assert.equal(withBelief({ confidence: [0.5], conviction: "{{level}}" }).note, undefined, "malformed pair and slot are absent")
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)

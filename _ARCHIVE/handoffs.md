@@ -1,3 +1,73 @@
+# Handoff — v3.90.0 (2026-10-05)
+
+> **Job Factory session, second half: slices 2-4, 6-7 landed, the FDE handoff, the job routes on current
+> models, a Tenex application ready to send, and three spending limits hit in one evening.** Merged on Zach's
+> asks with receipts: #782 (`36d42cf0`), #784 (`a60b02f9`), #789 (`495d8221`). A parallel merge-train session
+> merged #761 #769 #771 #773 #775 with its own receipts. Oracle handoff=45 (v3.88.0 and v3.89.0 were taken by parallel sessions today).
+
+### Shavasana — handoff pause, 2026-10-05 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): script read 0 (scoped to the fresh handoff branch). By hand this half-session: 3 merges by me (#782 #784 #789) with receipts, 5 more by a parallel merge-train (receipted), 1 open PR (#832), 1 scheduled-task prompt revised (and one bad write restored within a minute), 1 Tenex application staged for Zach.
+- **Inhale** (what came in): 1 dissent marker, 2 unconfirmed markers (script). By hand: a 6-facet gauntlet HELD the Tenex letter v1 (two trust-breakers also in the resume); Zach corrected the GitHub-link drop; three spending limits falsified "the line is running".
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 16 / dissent 3 (ratio 4.0) -> OK: dissent present.
+- **Cold re-read (canary on the draft handoff-v389.md)**: GROUNDED after adding merge SHAs and receipt ids (first pass: NO GROUND RETURN on "Shipped + on main").
+- **Attachment release** (Claude, cold re-read): "the security review drained the API cap" is held as the main suspect, not a finding, until the Console shows usage by key; the 11 failed cuts are recorded as not written, not as pending work done.
+- **Somatic read**: not asked.
+- **Disposition**: RELEASED on Zach's 'run handoff while CI waits'.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+## Shipped + on main
+- **Slices 2, 3, 4, 6, 7** (#771 `ca742146`, #761 `367b528f`, #773 `567b224c`, #775 `5ae9a6b2`, #769 `38f8aab6`; receipts `2026-10-05--pr<N>-merge-train--ZH`): Missed state + backlog drift + intake-stall signal; Lane
+  close-form with fate + reason; autonomy flags with 5 locked stations; named-trust chip + name-leak script;
+  prose gate (provenance strict, slop lint/eval, honest) + application answers.
+- **#784 FDE handoff** (`a60b02f9`, receipt `2026-10-05--fde-handoff-pr784--ZH`): bridge-scan's routing gate "score under target-role-scan" was never executed; 52 rows sat
+  PASS. Backfill ran (45/52 handed off, 22 PURSUE; Upside 0.966 PASS -> 0.889 PURSUE). Role Scan SRC line now
+  names the real scorer.
+- **#789 job routes** (`495d8221`, receipt `2026-10-05--job-routes-model-migration-pr789--ZH`): writer routes on `claude-sonnet-5-5` (no temperature, effort low/medium, `fallbacks:"default"`),
+  scorers on the `claude-haiku-4-5` alias, `modelError()` returns 503 + the API's message + a code, new
+  `GET /api/jobs/model-health`. Live-proven on the PR preview before the cap hit.
+- **#782** (`36d42cf0`, receipt `2026-10-05--lane-full-width-pr782--ZH`): Lane root `width:100%` (flex-column body had shrunk it to 699px; 3 of 5 stages per row).
+- **Morning task** (scheduled, outside repo; file `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`, verified `grep -c model-health` = 1): preflight (d) now calls `/api/jobs/model-health`; usage_limit = FAIL
+  reported verbatim, never retried.
+
+## Spending limits hit (all three are Zach's decisions)
+1. **Anthropic API workspace cap** (`wrkspc_01LPHV...`): every model route in production 503s until it is raised or
+   resets 2026-11-01. Main suspect: `claude-security-review` (228 runs in Oct, 197 on 10-04/05) on the
+   `ANTHROPIC_API_KEY` repo secret. Unconfirmed that the GitHub secret shares the workspace: Console usage-by-key
+   settles it. Production routes themselves were small (3-day logs, mostly cached/Haiku; `/api/guide` is Opus 4.5).
+2. **GitHub Actions billing**: jobs no longer start ("recent account payments have failed or your spending limit
+   needs to be increased"). No PR can go green until Billing & plans is fixed.
+3. Claude plan weekly limit hit earlier (killed the 9/30, 10/01 morning runs); separate meter, not the API key.
+
+## Update after the handoff (same session)
+- **#846** (`d7171ca9`, receipt `2026-10-05--tenex-bundles-upside-overclaims-pr846--ZH`): Tenex founder note filed beside the
+  Senior application; stale `evidence.PROPOSED.jsonl` removed; Upside resume's two gauntlet-falsified lines fixed. The Tenex
+  Senior bundle itself landed in `8c2d61fe` (location-fix session). Open item 3 below is done except the send (Zach's).
+
+## Open (next session)
+1. **#832** (security review once per PR, path-scoped; ~87% fewer runs measured on October) is OPEN, not merged:
+   CI cannot start (GitHub billing). Merge when green per Zach, or on local verification if he says so.
+2. **11 resume cuts** for the shortlist's open FDE rows failed on the API cap before writing anything; script at
+   the session scratchpad `cut_all.sh` pattern: `forge_edit_from_seed.mjs --jobid <id>` then the location +
+   overclaim fixes. Shortlist: `_STATE/job-search/missed-shortlist-2026-10-05.md` (uncommitted; regenerate if lost).
+3. **Tenex Senior FDE application is READY for Zach to send** (resume + cover letter + founder note, all in iCloud
+   `ARCS/resumes/tenex-senior-forward-deployed-engineer/`). Local bundle uncommitted on branch
+   `claude/forge-tenex-senior`; commit it now that #791's seed-style fix is on main.
+4. Chips running/filed: 31 resumes "Fully remote (US)" -> "New York Metro" (task_f0cd3f02, running); preview
+   magic-link sign-in (task_ca922c90, running); deterministic teardown lenses (task_f1b1f738, ended: check its PR).
+5. Migrate the remaining old models (brief, compass, guide on Opus 4.5, tribune, annotations, slop_eval,
+   network_scan); stale local `@anthropic-ai/sdk` 0.100.1 vs `^0.128`.
+6. Slice 5 held behind its tripwire (queue must run dry two weeks; 484 rows Missed today).
+
+## Lessons (in the record)
+- A spending cap hides as a 500. Surface the upstream error with a code, and preflight the API before a run.
+- CI that runs an agent on every push is a production cost line; scope it to the paths it can protect.
+- I passed a placeholder (`@@FILE@@`) as a scheduled-task prompt and restored it within a minute: write the full
+  text, then verify the stored file, every time.
+- Memory said the GitHub profile was linkable; I dropped the link anyway before checking. Read memory first.
+
 # Handoff — v3.89.0 (2026-10-05)
 
 > **Preview magic-link sign-in works; two auth leaks closed; null-userId gate added.** Merged with

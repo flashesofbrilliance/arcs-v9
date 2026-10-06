@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.92.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
+
+- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (task_cf4cfbac running). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
+- Lesson: a zero-step Actions failure is billing or an outage, not code (memory `ci-zero-steps-means-billing-or-outage`).
+
 ## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
 
 - Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).

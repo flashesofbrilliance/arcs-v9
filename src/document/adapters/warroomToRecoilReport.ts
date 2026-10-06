@@ -17,6 +17,7 @@
 //   meta.counterpart · meta.date                                   → loadBearingQuote.attribution
 //   insights[] {plane,title,text}                                  → signalThreads[]
 //   beliefs[] {id,verdict,claim,evidence}                          → signalThreads[] (after insights)
+//     + the belief log's inference / confidence [before, after] / conviction → thread note
 //   page.blocks[tab=exante, type=receipt] fields                   → protocol[] (first)
 //     Pre-committed move / Falsifier / Kill line; label "Ex-ante", or "Ex-ante (reconstructed)"
 //     when the receipt's h2 says reconstructed/post-hoc (ADR-044: never pass as filed-before)
@@ -500,12 +501,18 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     const claim = text(b.claim)
     if (!claim) continue
     const verdict = text(b.verdict)
+    // The Recoil-tab belief log renders confidence as "before -> after" and conviction;
+    // carry the same reads on the thread so the log is not lost.
+    const conf = parseList(b.confidence).map(Number)
+    const confidence = conf.length === 2 && conf.every(Number.isFinite) ? `confidence ${conf[0]} \u2192 ${conf[1]}` : undefined
+    const conviction = text(b.conviction)
+    const note = join([text(b.inference) ? `Inference: ${text(b.inference)}` : undefined, confidence, conviction ? `conviction ${conviction}` : undefined])
     threads.push({
       label: join([text(b.id), verdict]) ?? 'Belief',
       accent: (verdict && VERDICT_ACCENT[verdict.toUpperCase()]) ?? T.cyan,
       title: claim,
       body: text(b.evidence) ?? '',
-      ...(text(b.inference) ? { note: `Inference: ${text(b.inference)}` } : {}),
+      ...(note ? { note } : {}),
     })
   }
 
